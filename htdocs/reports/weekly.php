@@ -81,10 +81,15 @@ if (!empty($_REQUEST["developer"])) {
 
     // order issues by time spent on them
     if (isset($_REQUEST['show_per_issue'])) {
-        $sort_function = create_function('$a,$b', 'if ($a["it_spent"] == $b["it_spent"]) {return 0;} return ($a["it_spent"] < $b["it_spent"]) ? 1 : -1;');
-        @usort($data['issues']['closed'], $sort_function);
-        @usort($data['issues']['other'], $sort_function);
-        @usort($data['issues']['not_mine'], $sort_function);
+        $sort_function = function ($a, $b) {
+            if ($a["it_spent"] == $b["it_spent"]) {
+                return 0;
+            }
+            return ($a["it_spent"] < $b["it_spent"]) ? 1 : -1;
+        };
+        usort($data['issues']['closed'], $sort_function);
+        usort($data['issues']['other'], $sort_function);
+        usort($data['issues']['not_mine'], $sort_function);
     }
     $tpl->assign("data", $data);
 }

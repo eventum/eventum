@@ -271,9 +271,11 @@ class History
                     $data['other'][] = $row;
                 }
             }
-            $sort_function = create_function('$a,$b', 'return strcasecmp(@$a["customer_name"], @$b["customer_name"]);');
-            @usort($data['closed'], $sort_function);
-            @usort($data['other'], $sort_function);
+            $sort_function = function ($a, $b) {
+                return strcasecmp($a["customer_name"], $b["customer_name"]);
+            };
+            usort($data['closed'], $sort_function);
+            usort($data['other'], $sort_function);
         }
 
         return $data;

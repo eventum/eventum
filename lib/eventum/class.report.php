@@ -699,13 +699,17 @@ class Report
                 $crm = CRM::getInstance($prj_id);
                 $crm->processListIssuesResult($res);
                 if ($group_by == "issue") {
-                    usort($res, create_function('$a,$b', 'if ($a["customer_title"] < $b["customer_title"]) {
-                        return -1;
-                    } elseif ($a["customer_title"] > $b["customer_title"]) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }'));
+                    usort($res,
+                        function ($a, $b) {
+                            if ($a["customer_title"] < $b["customer_title"]) {
+                                return -1;
+                            } elseif ($a["customer_title"] > $b["customer_title"]) {
+                                return 1;
+                            } else {
+                                return 0;
+                            }
+                        }
+                    );
                 }
             }
             for ($i = 0; $i < count($res); $i++) {
