@@ -2,8 +2,8 @@
 Installation Process
 ====================
 
-Eventum needs PHP >= 5.1.2 (http://www.php.net/) for smooth operation, PHP >=
-5.2.0 is recommended version.
+Eventum needs PHP >= 5.3.3 (http://www.php.net/) for smooth operation, PHP >=
+5.5.0 is recommended version.
 
 Additionally you should enable following PHP Core extensions:
  - date (builtin)
@@ -25,7 +25,6 @@ that it needs to work properly:
 - JpGraph 1.5.3 (last GPL version)
 - Smarty 3.x (http://smarty.net)
 - PEAR packages (see lib/pear/README for details)
-- dynCalendar.js (http://www.phpguru.org/dyncalendar.html)
 - A few other small javascript libraries
 
 Anyway, all you should have to do is place the Eventum files in a directory,

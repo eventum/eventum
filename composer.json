@@ -72,7 +72,7 @@
 		"pear-pear.php.net/PEAR": "*",
 		"pear-pear.php.net/Text_Diff": "*",
 		"pear-pear.php.net/XML_RPC": "*",
-		"php": ">=5.1.2",
+		"php": ">=5.3.3",
 		"php-gettext/php-gettext": "1.0.*",
 		"roave/security-advisories": "dev-master",
 		"smarty-gettext/smarty-gettext": "~1.0",
