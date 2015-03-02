@@ -577,7 +577,7 @@ class Notification
             $diffs[] = '+' . ev_gettext('Percent complete') . ': ' . $new['percent_complete'];
         }
         if (isset($new["description"]) && $old["iss_description"] != $new["description"]) {
-            $old['iss_description'] = explode("\n", $old['iss_description']);
+            $old['iss_description'] = explode("\n", $old['iss_original_description']);
             $new['description'] = explode("\n", $new['description']);
             $diff = new Text_Diff($old["iss_description"], $new["description"]);
             $renderer = new Text_Diff_Renderer_unified();
