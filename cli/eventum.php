@@ -194,6 +194,11 @@ try {
                     }
                     Command_Line::sendDraft($client, $auth, $issue_id, $argv[3]);
                     break;
+                case 'custom-fields':
+                case 'cf':
+                    // display custom fields
+                    Command_Line::printIssueCustomFields($client, $auth, $issue_id);
+                    break;
 
                 case 'redeem':
                     // marking an issue as redeemed

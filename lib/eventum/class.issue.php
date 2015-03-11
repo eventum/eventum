@@ -3062,7 +3062,8 @@ class Issue
         $res['products'] = Product::getProductsByIssue($res['iss_id']);
 
         $returns[$issue_id] = $res;
-
+        // returns custom fields in an array
+	$res["customfields"] = Custom_Field::getListByIssue($res['iss_prj_id'],$res['iss_id']);
         return $res;
     }
 

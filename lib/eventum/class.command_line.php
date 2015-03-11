@@ -567,6 +567,53 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     }
 
     /**
+     * Method used to print the custom fields for a given issue.
+     *
+     * @param   RemoteApi $client The connection resource
+     * @param   array $auth Array of authentication information (email, password)
+     * @param   integer $issue_id The issue ID
+     */
+    public static function printIssueCustomFields($client, $auth, $issue_id)
+    {
+        $details = self::checkIssuePermissions($client, $auth, $issue_id);
+
+        $msg = '';
+        if (!empty($details["quarantine"]["iqu_status"])) {
+            $msg .= "        WARNING: Issue is currently quarantined!";
+            if (!empty($details["quarantine"]["iqu_expiration"])) {
+                $msg .= " Quarantine expires in " . $details["quarantine"]["time_till_expiration"];
+            }
+            $msg .= "\n";
+        }
+        $msg .= "        Issue #: $issue_id
+        Summary: " . $details['iss_summary'] . "
+         Status: " . $details['sta_title'] . "
+     Assignment: " . $details['assignments'] . "
+ Auth. Repliers: " . @implode(', ', $details['authorized_names']) . "
+       Reporter: " . $details['reporter'];
+        if (@isset($details['customer'])) {
+            $msg .= "
+       Customer: " . @$details['customer']['name'] . "
+  Support Level: " . @$details['contract']['support_level'] . "
+Support Options: " . @$details['contract']['options_display'] . "
+          Phone: " . $details['iss_contact_phone'] . "
+       Timezone: " . $details['iss_contact_timezone'] . "
+Account Manager: " . @$details['customer']['account_manager_name'];
+        }
+        $msg .= "
+  Last Response: " . $details['iss_last_response_date'] . "
+   Last Updated: " . $details['iss_updated_date'] . "\n\n";
+// start custom fields management
+        if (!empty($details["customfields"])) {
+          foreach($details["customfields"] as $customfield) {
+            $msg .= str_pad($customfield["fld_title"],15,' ',STR_PAD_LEFT) . ": " . 
+              $customfield["value"] ."\n";
+          }
+        }
+             
+        echo $msg;
+    }
+    /**
      * Method used to print the list of open issues.
      *
      * @param   RemoteApi $client The connection resource
@@ -1236,8 +1283,8 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     {
         $usage = array();
         $usage[] = array(
-            "command"   =>  "<ticket_number>",
-            "help"      =>  "View general details of an existing issue."
+            "command"   =>  "<ticket_number> [custom-fields]",
+            "help"      =>  "View general details of an existing issue, with optional custom fields."
         );
         $usage[] = array(
             "command"   =>  "<ticket_number> assign <developer_email> [--safe]",
