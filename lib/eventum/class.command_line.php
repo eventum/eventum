@@ -576,41 +576,15 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     public static function printIssueCustomFields($client, $auth, $issue_id)
     {
         $details = self::checkIssuePermissions($client, $auth, $issue_id);
-
         $msg = '';
-        if (!empty($details["quarantine"]["iqu_status"])) {
-            $msg .= "        WARNING: Issue is currently quarantined!";
-            if (!empty($details["quarantine"]["iqu_expiration"])) {
-                $msg .= " Quarantine expires in " . $details["quarantine"]["time_till_expiration"];
-            }
-            $msg .= "\n";
-        }
-        $msg .= "        Issue #: $issue_id
-        Summary: " . $details['iss_summary'] . "
-         Status: " . $details['sta_title'] . "
-     Assignment: " . $details['assignments'] . "
- Auth. Repliers: " . @implode(', ', $details['authorized_names']) . "
-       Reporter: " . $details['reporter'];
-        if (@isset($details['customer'])) {
-            $msg .= "
-       Customer: " . @$details['customer']['name'] . "
-  Support Level: " . @$details['contract']['support_level'] . "
-Support Options: " . @$details['contract']['options_display'] . "
-          Phone: " . $details['iss_contact_phone'] . "
-       Timezone: " . $details['iss_contact_timezone'] . "
-Account Manager: " . @$details['customer']['account_manager_name'];
-        }
-        $msg .= "
-  Last Response: " . $details['iss_last_response_date'] . "
-   Last Updated: " . $details['iss_updated_date'] . "\n\n";
-// start custom fields management
-        if (!empty($details["customfields"])) {
-          foreach($details["customfields"] as $customfield) {
-            $msg .= str_pad($customfield["fld_title"],15,' ',STR_PAD_LEFT) . ": " . 
-              $customfield["value"] ."\n";
+        // start custom fields management
+        if (!empty($details["custom_fields"])) {
+          foreach($details["custom_fields"] as $custom_field) {
+            $msg .= str_pad($custom_field["fld_title"],15,' ',STR_PAD_LEFT) . ": " . 
+              $custom_field["value"] ."\n";
           }
         }
-             
+
         echo $msg;
     }
     /**
@@ -1283,8 +1257,12 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     {
         $usage = array();
         $usage[] = array(
-            "command"   =>  "<ticket_number> [custom-fields]",
-            "help"      =>  "View general details of an existing issue, with optional custom fields."
+            "command"   =>  "<ticket_number> [--full]",
+            "help"      =>  "View general details of an existing issue. --full displays also custom fields."
+        );       
+        $usage[] = array(
+            "command"   =>  array("<ticket_number> custom-fields", "<ticket_number> cf"),
+            "help"      =>  "List custom fields associated with the given issue.",
         );
         $usage[] = array(
             "command"   =>  "<ticket_number> assign <developer_email> [--safe]",

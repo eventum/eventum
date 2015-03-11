@@ -194,6 +194,11 @@ try {
                     }
                     Command_Line::sendDraft($client, $auth, $issue_id, $argv[3]);
                     break;
+                case '--full':
+                    // Display Issue Details + Issue Custom Fields
+                    Command_Line::printIssueDetails($client, $auth, $issue_id);
+                    Command_Line::printIssueCustomFields($client, $auth, $issue_id);
+                    break;
                 case 'custom-fields':
                 case 'cf':
                     // display custom fields

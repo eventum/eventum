@@ -208,7 +208,10 @@ class RemoteApi
 
         // remove some naughty fields
         unset($res['iss_original_description']);
-
+        
+        // returns custom fields in an array
+	$res["custom_fields"] = Custom_Field::getListByIssue($res['iss_prj_id'],$res['iss_id']);
+        
         return $res;
     }
 
