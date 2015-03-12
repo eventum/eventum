@@ -567,6 +567,27 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     }
 
     /**
+     * Method used to print the custom fields for a given issue.
+     *
+     * @param   RemoteApi $client The connection resource
+     * @param   array $auth Array of authentication information (email, password)
+     * @param   integer $issue_id The issue ID
+     */
+    public static function printIssueCustomFields($client, $auth, $issue_id)
+    {
+        $details = self::checkIssuePermissions($client, $auth, $issue_id);
+        $msg = '';
+        // start custom fields management
+        if (!empty($details["custom_fields"])) {
+          foreach($details["custom_fields"] as $custom_field) {
+            $msg .= str_pad($custom_field["fld_title"],15,' ',STR_PAD_LEFT) . ": " . 
+              $custom_field["value"] ."\n";
+          }
+        }
+
+        echo $msg;
+    }
+    /**
      * Method used to print the list of open issues.
      *
      * @param   RemoteApi $client The connection resource
@@ -1236,8 +1257,12 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     {
         $usage = array();
         $usage[] = array(
-            "command"   =>  "<ticket_number>",
-            "help"      =>  "View general details of an existing issue."
+            "command"   =>  "<ticket_number> [--full]",
+            "help"      =>  "View general details of an existing issue. --full displays also custom fields."
+        );       
+        $usage[] = array(
+            "command"   =>  array("<ticket_number> custom-fields", "<ticket_number> cf"),
+            "help"      =>  "List custom fields associated with the given issue.",
         );
         $usage[] = array(
             "command"   =>  "<ticket_number> assign <developer_email> [--safe]",

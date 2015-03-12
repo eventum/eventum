@@ -3062,7 +3062,7 @@ class Issue
         $res['products'] = Product::getProductsByIssue($res['iss_id']);
 
         $returns[$issue_id] = $res;
-
+       
         return $res;
     }
 
