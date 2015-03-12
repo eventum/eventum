@@ -22,7 +22,7 @@ $().ready(function() {
 //-->
 </script>
 {/literal}
-<form id="login_form" onSubmit="return checkFormSubmission(this, 'validateForm');" method="post" action="login.php">
+<form id="login_form" method="post" action="login.php" class="validate" data-validation-function="validateForm">
 <input type="hidden" name="cat" value="login">
 <input type="hidden" name="url" value="{$smarty.request.url|default     :''}">
 

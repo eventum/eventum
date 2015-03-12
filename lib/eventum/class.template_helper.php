@@ -153,6 +153,7 @@ class Template_Helper
                 return null;
             }
             $hash = file_get_contents($file);
+
             return substr($hash, 0, 7);
         }
 

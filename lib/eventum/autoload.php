@@ -33,7 +33,8 @@ class Eventum_Autoload
     private static $excludes = array('.', '..', '.svn', 'CVS');
     private static $classes;
 
-    protected static function getMap() {
+    protected static function getMap()
+    {
         $baseDir = APP_INC_PATH;
         $pearDir = APP_PEAR_PATH;
 

@@ -282,7 +282,7 @@ class Mail_Queue
      */
     private function _getList($status, $limit)
     {
-        $limit = (int)$limit;
+        $limit = (int) $limit;
         $sql = "SELECT
                     maq_id id
                  FROM
@@ -324,7 +324,7 @@ class Mail_Queue
                  ORDER BY
                     MIN(maq_id) ASC";
 
-        $limit = (int)$limit;
+        $limit = (int) $limit;
         if ($limit) {
             $sql .= " LIMIT 0, $limit";
         }

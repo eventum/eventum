@@ -53,7 +53,7 @@ class Issue
         $params = array($issue_id);
         if ($check_project) {
             $stmt .= " AND
-                    iss_prj_id = ";
+                    iss_prj_id = ?";
             $params[] = Auth::getCurrentProject();
         }
         try {
@@ -3062,7 +3062,7 @@ class Issue
         $res['products'] = Product::getProductsByIssue($res['iss_id']);
 
         $returns[$issue_id] = $res;
-
+       
         return $res;
     }
 

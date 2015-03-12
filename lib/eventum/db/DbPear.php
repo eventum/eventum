@@ -89,6 +89,7 @@ class DbPear implements DbInterface
         $query = $this->quoteSql($query, $params);
         $res = $this->db->getOne($query, $params);
         $this->assertError($res);
+
         return $res;
     }
 
@@ -105,16 +106,19 @@ class DbPear implements DbInterface
         $query = $this->quoteSql($query, $params);
         $res = $this->db->getAssoc($query, $force_array, $params, $fetchmode, $group);
         $this->assertError($res);
+
         return $res;
     }
 
     /**
      * @see DB_common::getAssoc
      */
-    public function fetchAssoc($query, $params = array(), $fetchmode = DB_FETCHMODE_DEFAULT) {
+    public function fetchAssoc($query, $params = array(), $fetchmode = DB_FETCHMODE_DEFAULT)
+    {
         $query = $this->quoteSql($query, $params);
         $res = $this->db->getAssoc($query, false, $params, $fetchmode, false);
         $this->assertError($res);
+
         return $res;
     }
 
@@ -131,26 +135,31 @@ class DbPear implements DbInterface
         $query = $this->quoteSql($query, $params);
         $res = $this->db->query($query, $params);
         $this->assertError($res);
+
         return $res;
     }
 
     /**
      * @see DB_common::getAll
      */
-    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC) {
+    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
+    {
         $query = $this->quoteSql($query, $params);
         $res = $this->db->getAll($query, $params, $fetchmode);
         $this->assertError($res);
+
         return $res;
     }
 
     /**
      * @see DB_common::getRow
      */
-    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC) {
+    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
+    {
         $query = $this->quoteSql($query, $params);
         $res = $this->db->getRow($query, $params, $fetchmode);
         $this->assertError($res);
+
         return $res;
     }
 
@@ -163,6 +172,7 @@ class DbPear implements DbInterface
         $query = $this->quoteSql($query, $params);
         $res = $this->db->getCol($query, $col, $params);
         $this->assertError($res);
+
         return $res;
     }
 
@@ -181,6 +191,7 @@ class DbPear implements DbInterface
     {
         $res = $this->db->quoteIdentifier($str);
         $this->assertError($res);
+
         return $res;
     }
 
@@ -191,6 +202,7 @@ class DbPear implements DbInterface
     {
         $res = $this->db->escapeSimple($str);
         $this->assertError($res);
+
         return $res;
     }
 
@@ -198,6 +210,7 @@ class DbPear implements DbInterface
     {
         $res = $this->db->affectedRows();
         $this->assertError($res);
+
         return $res;
     }
 
@@ -235,7 +248,7 @@ class DbPear implements DbInterface
         if (!isset($trace[$depth])) {
             return null;
         }
-        $caller = (object )$trace[$depth];
+        $caller = (object) $trace[$depth];
         if (!isset($caller->file)) {
             return null;
         }

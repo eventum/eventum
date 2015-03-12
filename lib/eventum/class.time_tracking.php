@@ -400,7 +400,11 @@ class Time_Tracking
             }
             $total_time_spent += $res[$i]["ttr_time_spent"];
         }
-        usort($total_time_by_user, create_function('$a,$b', 'return $a["time_spent"]<$b["time_spent"];'));
+        usort($total_time_by_user,
+            function ($a, $b) {
+                return $a["time_spent"] < $b["time_spent"];
+            }
+        );
         foreach ($total_time_by_user as &$item) {
             $item['time_spent'] = Misc::getFormattedTime($item['time_spent']);
         }
@@ -597,7 +601,6 @@ class Time_Tracking
                     ttr_created_date BETWEEN ? AND ?
                  GROUP BY
                     ttc_title";
-
 
         $params = array(Auth::getCurrentProject(), $usr_id, $start, $end);
 

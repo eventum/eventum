@@ -8,19 +8,22 @@
 <!--
 function validateForm(f)
 {
-    var field1 = getFormElement(f, 'field', 0);
-    var field2 = getFormElement(f, 'field', 1);
-    if ((!field1.checked) && (!field2.checked)) {
-        errors[errors.length] = new Option('{/literal}{t escape=js}Field{/t}{literal}', 'field');
+    if ((!Validation.hasOneChecked('field'))) {
+        Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Field{/t}{literal}', 'field');
     }
-    if (isWhitespace(f.value.value)) {
-        errors[errors.length] = new Option('{/literal}{t escape=js}Value{/t}{literal}', 'value');
+    if (Validation.isWhitespace(f.value.value)) {
+        Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Value{/t}{literal}', 'value');
     }
 }
+$.ready(function() {
+    $('form[name=customer_lookup_form]').submit(function() {
+        return Validation.checkFormSubmission($($('form[name=customer_lookup_form]')), validateForm);
+    });
+})
 //-->
 </script>
 {/literal}
-<form name="customer_lookup_form" method="post" action="{$smarty.server.PHP_SELF}" onSubmit="javascript:return checkFormSubmission(this, 'validateForm');">
+<form name="customer_lookup_form" method="post" action="{$smarty.server.PHP_SELF}">
 <input type="hidden" name="cat" value="lookup">
 <input type="hidden" name="issue_id" value="{$smarty.get.issue_id}">
 <table align="center" width="100%" cellpadding="3">

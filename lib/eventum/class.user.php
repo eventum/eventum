@@ -96,6 +96,7 @@ class User
         } catch (DbException $e) {
             return '';
         }
+
         return $res;
     }
 
@@ -119,6 +120,7 @@ class User
         } catch (DbException $e) {
             return '';
         }
+
         return $res;
     }
 
@@ -280,6 +282,7 @@ class User
         if ($hash != $check_hash) {
             return -3;
         }
+
         return 1;
     }
 
@@ -614,6 +617,7 @@ class User
                 return $role_id;
             }
         }
+
         return null;
     }
 
@@ -650,6 +654,7 @@ class User
         }
 
         $returns[$usr_id][$prj_id] = $res;
+
         return $res;
     }
 
@@ -922,7 +927,7 @@ class User
             }
         }
 
-        $usr_ids = (array)$usr_ids;
+        $usr_ids = (array) $usr_ids;
         $items = DB_Helper::buildList($usr_ids);
         $stmt = "UPDATE
                     {{%user}}
@@ -1061,7 +1066,6 @@ class User
             'usr_full_name' => $data["full_name"],
             'usr_email' => $data["email"],
         );
-
 
         if (isset($data["grp_id"])) {
             $params['usr_grp_id'] = !empty($data["grp_id"]) ? $data["grp_id"] : null;
@@ -1345,6 +1349,7 @@ class User
         } catch (DbException $e) {
             return "";
         }
+
         return $res;
     }
 

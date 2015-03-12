@@ -380,6 +380,7 @@ class Auth
         }
 
         $usr_id = self::getAuthBackend()->getUserIDByLogin($login);
+
         return $usr_id > 0;
     }
 

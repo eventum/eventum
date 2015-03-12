@@ -128,8 +128,8 @@ class TracScm extends SCM
 
 $dbfile = 'trac.db';
 if (!file_exists($dbfile)) {
-	error_log("'$dbfile' does not exist");
-	exit(1);
+    error_log("'$dbfile' does not exist");
+    exit(1);
 }
 $db = new PDO("sqlite:$dbfile");
 $repository_id = getRepositoryId();

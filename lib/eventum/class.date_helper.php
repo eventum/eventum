@@ -178,10 +178,9 @@ class Date_Helper
     }
 
     /**
-     * Method used to get the current date in the GMT timezone in an
-     * iso8601 compliant format.
-     *
-     * NOTE: $timezone param is deprecated as input is always GMT and result is also always GMT
+     * Method used to get the current date and time in an
+     * iso8601 compliant format. If no timezone is specified it will
+     * use the users preferred timezone.
      *
      * @return  string $ts The current GMT date
      * @param   int|DateTime|string $ts
@@ -333,9 +332,7 @@ class Date_Helper
      * Method used to convert the user date (that is in a specific timezone) to
      * a GMT date.
      *
-     * This method is locale sensitive, returns localized timestamp
-     *
-     * @param   string $ts The date in use timezone
+     * @param   string $ts The date in users timezone
      * @return  string The date in the GMT timezone
      */
     public static function convertDateGMT($ts)
@@ -343,7 +340,7 @@ class Date_Helper
         $date = self::getDateTime($ts);
         $date->setTimezone(new DateTimeZone('GMT'));
 
-        return self::formatLocalized($date, '%Y-%m-%d %H:%M:%S');
+        return $date->format('Y-m-d H:i:s');
     }
 
     /**
@@ -351,6 +348,7 @@ class Date_Helper
      *
      * @param   integer $timestamp The user based date
      * @return  string The date in the GMT timezone
+     * @deprecated convertDateGMT can do exactly the same
      */
     public static function convertDateGMTByTS($timestamp)
     {
@@ -457,6 +455,7 @@ class Date_Helper
         if (!isset($tz)) {
             date_default_timezone_set($current_tz);
         }
+
         return $res;
     }
 }

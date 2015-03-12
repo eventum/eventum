@@ -200,6 +200,7 @@ abstract class Customer
         if (empty($res)) {
             return array();
         }
+
         return $res;
     }
 }

@@ -577,7 +577,7 @@ class Notification
             $diffs[] = '+' . ev_gettext('Percent complete') . ': ' . $new['percent_complete'];
         }
         if (isset($new["description"]) && $old["iss_description"] != $new["description"]) {
-            $old['iss_description'] = explode("\n", $old['iss_description']);
+            $old['iss_description'] = explode("\n", $old['iss_original_description']);
             $new['description'] = explode("\n", $new['description']);
             $diff = new Text_Diff($old["iss_description"], $new["description"]);
             $renderer = new Text_Diff_Renderer_unified();
@@ -1294,7 +1294,6 @@ class Notification
             $params['ino_target_usr_id']= $usr_id;
         }
 
-
         $stmt = "INSERT INTO {{%irc_notice}} SET ". DB_Helper::buildSet($params);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -1785,6 +1784,7 @@ class Notification
         }
 
         self::remove($res);
+
         return true;
     }
 

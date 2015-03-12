@@ -342,7 +342,7 @@ class Link_Filter
     {
         // link eventum issue ids
         $patterns = array(
-            array('/issue:?\s\#?(?P<issue_id>\d+)/i', array(__CLASS__, 'LinkFilter_issues')),
+            array('/(issue)? \#?(?P<issue_id>\d+)/i', array(__CLASS__, 'LinkFilter_issues')),
         );
 
         return $patterns;
@@ -399,13 +399,13 @@ class Link_Filter
     {
         // check if the issue is still open
         if (Issue::isClosed($matches['issue_id'])) {
-            $class = 'closed_link';
+            $class = 'closed';
         } else {
-            $class = 'link';
+            $class = '';
         }
         $issue_title = Issue::getTitle($matches['issue_id']);
         $link_title = htmlspecialchars("issue {$matches['issue_id']} - {$issue_title}");
 
-        return "<a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$matches[0]}</a>";
+        return " <a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$matches[0]}</a>";
     }
 }
