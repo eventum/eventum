@@ -533,7 +533,7 @@ class Command_Line
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public static function printIssueDetails($client, $auth, $issue_id)
+    public static function printIssueDetails($client, $auth, $issue_id, $full=false)
     {
         $details = self::checkIssuePermissions($client, $auth, $issue_id);
 
@@ -564,6 +564,10 @@ Account Manager: " . @$details['customer']['account_manager_name'];
   Last Response: " . $details['iss_last_response_date'] . "
    Last Updated: " . $details['iss_updated_date'] . "\n";
         echo $msg;
+
+        if ($full) {
+            self::printIssueCustomFields($client, $auth, $issue_id, $details);
+        }
     }
 
     /**
@@ -572,15 +576,18 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
+     * @param   array $details
      */
-    public static function printIssueCustomFields($client, $auth, $issue_id)
+    public static function printIssueCustomFields($client, $auth, $issue_id, $details=null)
     {
-        $details = self::checkIssuePermissions($client, $auth, $issue_id);
+        if (is_null($details)) {
+            $details = self::checkIssuePermissions($client, $auth, $issue_id);
+        }
         $msg = '';
         // start custom fields management
         if (!empty($details["custom_fields"])) {
           foreach($details["custom_fields"] as $custom_field) {
-            $msg .= str_pad($custom_field["fld_title"],15,' ',STR_PAD_LEFT) . ": " . 
+            $msg .= str_pad($custom_field["fld_title"],15,' ',STR_PAD_LEFT) . ": " .
               $custom_field["value"] ."\n";
           }
         }
@@ -1259,7 +1266,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         $usage[] = array(
             "command"   =>  "<ticket_number> [--full]",
             "help"      =>  "View general details of an existing issue. --full displays also custom fields."
-        );       
+        );
         $usage[] = array(
             "command"   =>  array("<ticket_number> custom-fields", "<ticket_number> cf"),
             "help"      =>  "List custom fields associated with the given issue.",
