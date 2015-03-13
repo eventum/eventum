@@ -196,8 +196,7 @@ try {
                     break;
                 case '--full':
                     // Display Issue Details + Issue Custom Fields
-                    Command_Line::printIssueDetails($client, $auth, $issue_id);
-                    Command_Line::printIssueCustomFields($client, $auth, $issue_id);
+                    Command_Line::printIssueDetails($client, $auth, $issue_id, true);
                     break;
                 case 'custom-fields':
                 case 'cf':
