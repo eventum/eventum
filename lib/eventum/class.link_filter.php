@@ -342,7 +342,7 @@ class Link_Filter
     {
         // link eventum issue ids
         $patterns = array(
-            array('/(issue)? \#?(?P<issue_id>\d+)/i', array(__CLASS__, 'LinkFilter_issues')),
+            array('/(issue)? \#(?P<issue_id>\d+)/i', array(__CLASS__, 'LinkFilter_issues')),
         );
 
         return $patterns;
