@@ -119,4 +119,41 @@ class Mail_HelperTest extends PHPUnit_Framework_TestCase
         $res = Mail_Helper::RemoveExcessRe($subject);
         $this->assertEquals($exp, $res, 'RIF/rif prefix');
     }
+
+    public function testGetAddressInfo()
+    {
+        $data = array(
+            array(
+                "input" =>  'Test User <test@example.com>',
+                "sender_name"   =>  '"Test User"',
+                "email" =>  "test@example.com",
+            ),
+            array(
+                "input" =>  '"Test User" <test@example.com>',
+                "sender_name"   =>  '"Test User"',
+                "email" =>  "test@example.com",
+            ),
+            array(
+                "input" =>  '<test@example.com>',
+                "sender_name"   =>  '',
+                "email" =>  "test@example.com",
+            ),
+            array(
+                "input" =>  'test@example.com',
+                "sender_name"   =>  '',
+                "email" =>  "test@example.com",
+            ),
+            array(
+                "input" =>  '"Test User <test@example.com>" <test@example.com>',
+                "sender_name"   =>  '"Test User <test@example.com>"',
+                "email" =>  "test@example.com",
+            ),
+        );
+
+        foreach ($data as $row) {
+            $res = Mail_Helper::getAddressInfo($row['input']);
+
+            $this->assertEquals($row['sender_name'], $res['sender_name'], $row['input']);
+        }
+    }
 }
