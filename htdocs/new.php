@@ -165,7 +165,7 @@ if (isset($_GET['clone_iss_id']) && Access::canCloneIssue($_REQUEST['clone_iss_i
         'priority'  =>  $clone_details['iss_pri_id'],
         'users' =>  $clone_details['assigned_users'],
         'summary'   =>  $clone_details['iss_summary'],
-        'description'   =>  $clone_details['iss_description'],
+        'description'   =>  $clone_details['iss_original_description'],
         'expected_resolution_date'   =>  $clone_details['iss_expected_resolution_date'],
         'estimated_dev_time'   =>  $clone_details['iss_dev_time'],
         'private'   =>  $clone_details['iss_private'],
