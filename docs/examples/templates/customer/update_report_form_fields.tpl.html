@@ -1,0 +1,14 @@
+{#
+        This template is included at the bottom of the update form and can be used to display extra information
+        or edit additional fields. These fields will not be automatically handled by Issue::update() but need to be
+        handled in the Workflow::handleIssueUpdated() method
+#}
+<div class="issue_field_display">
+    <div class="background">
+        <div class="label">{t}Favorite Color{/t}</div>
+        <div class="display">
+            <label><input type="radio" name="fav_color" value="blue" {if $issue.fav_color}checked{/if}>{t}Blue{/t}</label>
+            <label><input type="radio" name="fav_color" value="red" {if not $issue.fav_color}checked{/if}>{t}Red{/t}</label>
+        </div>
+    </div>
+</div>

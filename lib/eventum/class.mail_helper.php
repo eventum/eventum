@@ -172,7 +172,7 @@ class Mail_Helper
                 $address = stripslashes(trim($address));
                 // is the address in the format 'name' <address> ?
                 if ((strstr($address, "'")) || (strstr($address, "."))) {
-                    $bracket_pos = strpos($address, '<');
+                    $bracket_pos = strrpos($address, '<');
                     if ($bracket_pos != 0) {
                         $bracket_pos = $bracket_pos - 1;
                     }
@@ -180,7 +180,7 @@ class Mail_Helper
                     if (!empty($first_part)) {
                         $first_part = '"' . str_replace('"', '\"', preg_replace("/(^\")|(\"$)/", '', $first_part)) . '"';
                     }
-                    $second_part = substr($address, strpos($address, '<'));
+                    $second_part = substr($address, strrpos($address, '<'));
                     $address = $first_part . ' ' . $second_part;
                     // if the address was already in the format "'name'" <address>, then this code
                     // will end up adding even more double quotes, so let's remove any excess
