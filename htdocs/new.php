@@ -183,6 +183,14 @@ if (isset($_GET['clone_iss_id']) && Access::canCloneIssue($_REQUEST['clone_iss_i
         }
     }
     $tpl->assign('defaults', $defaults);
+    if (isset($clone_details['customer']) && isset($clone_details['contact'])) {
+        $tpl->assign(array(
+                'customer_id' => $clone_details['iss_customer_id'],
+                'contact_id'  => $clone_details['iss_customer_contact_id'],
+                "customer"    => $clone_details['customer'],
+                "contact"     => $clone_details['contact'],
+        ));
+    }
 } else {
     $tpl->assign('defaults', $_REQUEST);
 }
