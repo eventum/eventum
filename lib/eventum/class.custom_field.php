@@ -1296,7 +1296,7 @@ class Custom_Field
                     {{%issue_custom_field}}
                  WHERE
                     icf_fld_id IN (" . DB_Helper::buildList($fld_id) . ")";
-        $params = $fld_id;
+        $params = array($fld_id);
         if (count($issues) > 0) {
             $stmt .= " AND icf_iss_id IN(" . DB_Helper::buildList($issues) . ")";
             $params = array_merge($params, $issues);

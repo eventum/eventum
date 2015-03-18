@@ -155,4 +155,36 @@ if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
     ));
 }
 
+if (isset($_GET['clone_iss_id']) && Access::canCloneIssue($_REQUEST['clone_iss_id'], $usr_id)) {
+    $clone_details = Issue::getDetails($_REQUEST['clone_iss_id']);
+    $defaults = array(
+        'clone_iss_id'  =>  $_GET['clone_iss_id'],
+        'category'  =>  $clone_details['iss_prc_id'],
+        'group'  =>  $clone_details['iss_grp_id'],
+        'severity'  =>  $clone_details['iss_sev_id'],
+        'priority'  =>  $clone_details['iss_pri_id'],
+        'users' =>  $clone_details['assigned_users'],
+        'summary'   =>  $clone_details['iss_summary'],
+        'description'   =>  $clone_details['iss_description'],
+        'expected_resolution_date'   =>  $clone_details['iss_expected_resolution_date'],
+        'estimated_dev_time'   =>  $clone_details['iss_dev_time'],
+        'private'   =>  $clone_details['iss_private'],
+    );
+    if (count($clone_details['products']) > 0) {
+        $defaults['product'] = $clone_details['products'][0]['pro_id'];
+        $defaults['product_version'] = $clone_details['products'][0]['version'];
+    }
+    $defaults['custom_fields'] = array();
+    foreach (Custom_Field::getListByIssue($prj_id, $_REQUEST['clone_iss_id']) as $field) {
+        if (isset($field['selected_cfo_id'])) {
+            $defaults['custom_fields'][$field['fld_id']] = $field['selected_cfo_id'];
+        } else {
+            $defaults['custom_fields'][$field['fld_id']] = $field['value'];
+        }
+    }
+    $tpl->assign('defaults', $defaults);
+} else {
+    $tpl->assign('defaults', $_REQUEST);
+}
+
 $tpl->displayTemplate();

@@ -26,22 +26,28 @@
     {if $custom_fields[i].fld_type == 'text'}
     <input id="custom_field_{$custom_fields[i].fld_id}" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="50"
            {if $tab_index|default:'' != ''}tabindex="{$tabindex++}"{/if}
-           value="{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value|default:''}">
+           value="{$defaults.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value|default:''}">
     {elseif $custom_fields[i].fld_type == 'integer'}
     <input id="custom_field_{$custom_fields[i].fld_id}" type="text" name="custom_fields[{$custom_fields[i].fld_id}]" maxlength="255" size="10"
            {if $tab_index|default:'' != ''}tabindex="{$tabindex++}"{/if}
-           value="{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value|default:''}">
+           value="{$defaults.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value|default:''}">
     {elseif $custom_fields[i].fld_type == 'textarea'}
     <textarea id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_fields[i].fld_id}]" rows="10" cols="60"
-              {if $tab_index|default:'' != ''}tabindex="{$tabindex++}"{/if}>{$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value|default:''}</textarea>
+              {if $tab_index|default:'' != ''}tabindex="{$tabindex++}"{/if}>{$defaults.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value|default:''}</textarea>
     {elseif $custom_fields[i].fld_type == 'date'}
-    <input type="text" id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_field_id}]" size="12" class="date_picker" value="{$custom_fields[i].value|default:$custom_fields[i].default_value|default:''}">
+    <input type="text" id="custom_field_{$custom_fields[i].fld_id}" name="custom_fields[{$custom_field_id}]" size="12" class="date_picker"
+           value="{$defaults.custom_fields[$fld_id]|default:$custom_fields[i].value|default:$custom_fields[i].default_value|default:''}">
     {include file="error_icon.tpl.html" field="custom_fields[$custom_field_id]"}
     {elseif $custom_fields[i].fld_type == 'checkbox'}
+      {if $defaults.custom_fields[$fld_id]|default:'' != ''}
+        {assign var="selected_cfo_ids" value=$defaults.custom_fields[$fld_id]}
+      {else}
+        {assign var="selected_cfo_ids" value=$custom_fields[i].selected_cfo_id|default:''}
+      {/if}
       <ul class="custom_field_checkbox" id="custom_field_{$custom_fields[i].fld_id}">
       {foreach $custom_fields[i].field_options as $key => $display}
           <li><label><input type="checkbox" name="custom_fields[{$custom_field_id}][]" value="{$key}"
-                  {if isset($custom_fields[i].selected_cfo_id) && in_array($key, $custom_fields[i].selected_cfo_id)}checked{/if} />{$display}</label></li>
+                  {if in_array($key, $selected_cfo_ids)}checked{/if} />{$display}</label></li>
       {/foreach}
       </ul>
     {else}
@@ -53,7 +59,7 @@
       {if $tab_index|default:'' != ''}tabindex="{$tabindex++}"{/if}>
 
       {if $custom_fields[i].fld_type != 'multiple'}<option value="">{t}Please choose an option{/t}</option>{/if}
-      {html_options options=$custom_fields[i].field_options selected=$smarty.request.custom_fields[$fld_id]|default:$custom_fields[i].selected_cfo_id|default:$custom_fields[i].default_value|default:''}
+      {html_options options=$custom_fields[i].field_options selected=$defaults.custom_fields[$fld_id]|default:$custom_fields[i].selected_cfo_id|default:$custom_fields[i].default_value|default:''}
     </select><br/>
     {/if}
     {if $custom_fields[i].lookup_method|default:'' != ''}

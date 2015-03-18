@@ -2196,6 +2196,12 @@ class Issue
         $info = User::getNameEmail($usr_id);
         // log the creation of the issue
         History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_opened'), 'Issue opened by ' . User::getFullName(Auth::getUserID()));
+        if (isset($_POST['clone_iss_id']) && Access::canCloneIssue($_POST['clone_iss_id'], Auth::getUserID())) {
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_cloned_from'),
+                'Issue cloned from #' . $_POST['clone_iss_id']);
+            History::add($_POST['clone_iss_id'], Auth::getUserID(), History::getTypeID('issue_cloned_to'),
+                'Issue cloned to #' . $issue_id);
+        }
 
         $emails = array();
         if (CRM::hasCustomerIntegration($prj_id)) {
@@ -3062,7 +3068,7 @@ class Issue
         $res['products'] = Product::getProductsByIssue($res['iss_id']);
 
         $returns[$issue_id] = $res;
-       
+
         return $res;
     }
 

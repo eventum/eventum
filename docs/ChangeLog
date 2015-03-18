@@ -6,6 +6,7 @@ Eventum Issue Tracking System
 - Optionally send reminders to a different IRC channel (Bryan)
 - Fix broken Workflow::handleSCMCheckins call from 3.0.0pre1 (Elan Ruusamäe, GH#15)
 - Display custom fields in CLI (Joffrey, GH#39)
+- Add Clone Issue functionality (Bryan)
 
 2015-02-03, Version 3.0.0 pre1
 - Make Custom Fields Weekly Report honor Project ID (Raul Raat, GH#6)

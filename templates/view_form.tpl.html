@@ -41,8 +41,11 @@
     <div class="title">
         <b>{t}Issue Overview{/t}</b> (ID: <a href="{$core.rel_url}view.php?id={$issue.iss_id}" title="{t}view issue details{/t}">{$issue.iss_id}</a>)
         <div id="issue_menu">
+            {if $issue_access.clone_issue}
+            [ <a title="{t}Clone this issue{/t}" href="new.php?clone_iss_id={$issue_id}">{t}Clone Issue{/t}</a> ]
+            {/if}
             {if $core.current_role > $core.roles.customer}
-            [ <a class="link" title="{t}Edit the Reporter for this issue{/t}" href="edit_reporter.php?iss_id={$issue_id}">{t}Edit Reporter{/t}</a> ]
+            [ <a title="{t}Edit the Reporter for this issue{/t}" href="edit_reporter.php?iss_id={$issue_id}">{t}Edit Reporter{/t}</a> ]
             [ <a title="{t}edit the authorized repliers list for this issue{/t}" href="authorized_replier.php?iss_id={$issue_id}" class="open_ar">{t}Edit Authorized Replier List{/t}</a> ]
             [ <a title="{t}edit the notification list for this issue{/t}" href="notification.php?iss_id={$issue_id}" class="open_nl">{t}Edit Notification List{/t}</a> ]
             {/if}
