@@ -2201,6 +2201,7 @@ class Issue
                 'Issue cloned from #' . $_POST['clone_iss_id']);
             History::add($_POST['clone_iss_id'], Auth::getUserID(), History::getTypeID('issue_cloned_to'),
                 'Issue cloned to #' . $issue_id);
+            self::addAssociation($issue_id, $_POST['clone_iss_id'], $usr_id, true);
         }
 
         $emails = array();
