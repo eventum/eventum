@@ -4,7 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright 2011, Elan Ruusamäe <glen@delfi.ee>                        |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // +----------------------------------------------------------------------+
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
@@ -36,7 +36,7 @@ class Mail_HelperTest extends PHPUnit_Framework_TestCase
         $headers = '';
         $body = 'body';
         $msgid = Mail_Helper::getMessageID($headers, $body);
-        $exp = '<eventum\.md5\.[0-9a-z]+\.[0-9a-z]+@'.APP_HOSTNAME.'>';
+        $exp = '<eventum\.md5\.[0-9a-z]+\.[0-9a-z]+@' . APP_HOSTNAME . '>';
         $this->assertRegExp($exp, $msgid, 'Missing msg-id header');
 
         $exp = '<msgid>';
@@ -120,40 +120,44 @@ class Mail_HelperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $res, 'RIF/rif prefix');
     }
 
-    public function testGetAddressInfo()
+    /**
+     * @dataProvider testGetAddressInfo_data
+     */
+    public function testGetAddressInfo($input, $sender_name, $email)
     {
-        $data = array(
-            array(
-                "input" =>  'Test User <test@example.com>',
-                "sender_name"   =>  '"Test User"',
-                "email" =>  "test@example.com",
+        $res = Mail_Helper::getAddressInfo($input);
+        $this->assertEquals($sender_name, $res['sender_name']);
+        $this->assertEquals($email, $res['email']);
+    }
+
+    public function testGetAddressInfo_data()
+    {
+        return array(
+            0 => array(
+                'Test User <test@example.com>',
+                '"Test User"',
+                "test@example.com",
             ),
-            array(
-                "input" =>  '"Test User" <test@example.com>',
-                "sender_name"   =>  '"Test User"',
-                "email" =>  "test@example.com",
+            1 => array(
+                '"Test User" <test@example.com>',
+                '"Test User"',
+                "test@example.com",
             ),
-            array(
-                "input" =>  '<test@example.com>',
-                "sender_name"   =>  '',
-                "email" =>  "test@example.com",
+            2 => array(
+                '<test@example.com>',
+                '',
+                "test@example.com",
             ),
-            array(
-                "input" =>  'test@example.com',
-                "sender_name"   =>  '',
-                "email" =>  "test@example.com",
+            3 => array(
+                'test@example.com',
+                '',
+                "test@example.com",
             ),
-            array(
-                "input" =>  '"Test User <test@example.com>" <test@example.com>',
-                "sender_name"   =>  '"Test User <test@example.com>"',
-                "email" =>  "test@example.com",
+            4 => array(
+                '"Test User <test@example.com>" <test@example.com>',
+                '"Test User <test@example.com>"',
+                "test@example.com",
             ),
         );
-
-        foreach ($data as $row) {
-            $res = Mail_Helper::getAddressInfo($row['input']);
-
-            $this->assertEquals($row['sender_name'], $res['sender_name'], $row['input']);
-        }
     }
 }
