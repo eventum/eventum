@@ -1030,6 +1030,9 @@ class Notification
             }
         }
 
+        // get notification list members
+        $emails = array_merge($emails, self::getSubscribedEmails($issue_id));
+
         // get any additional emails
         $emails = array_merge($emails, Workflow::getAdditionalEmailAddresses($prj_id, $issue_id, 'new_issue'));
 
