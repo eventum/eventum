@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -208,10 +208,10 @@ class RemoteApi
 
         // remove some naughty fields
         unset($res['iss_original_description']);
-        
+
         // returns custom fields in an array
-	$res["custom_fields"] = Custom_Field::getListByIssue($res['iss_prj_id'],$res['iss_id']);
-        
+        $res["custom_fields"] = Custom_Field::getListByIssue($res['iss_prj_id'],$res['iss_id']);
+
         return $res;
     }
 

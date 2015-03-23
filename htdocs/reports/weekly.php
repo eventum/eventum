@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -85,6 +85,7 @@ if (!empty($_REQUEST["developer"])) {
             if ($a["it_spent"] == $b["it_spent"]) {
                 return 0;
             }
+
             return ($a["it_spent"] < $b["it_spent"]) ? 1 : -1;
         };
         usort($data['issues']['closed'], $sort_function);
