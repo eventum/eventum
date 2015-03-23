@@ -64,7 +64,7 @@ class Notification
      * subscribed to a notification type for a given issue.
      *
      * @param   integer $issue_id The issue ID
-     * @param   string $type The notification type
+     * @param bool|string $type The notification type
      * @return  array The list of email addresses
      */
     public static function getSubscribedEmails($issue_id, $type = false)
@@ -103,6 +103,61 @@ class Notification
         }
 
         return $res;
+    }
+
+    /**
+     * Method used to get the list of names and email addresses currently
+     * subscribed to a notification type for a given issue.
+     *
+     * @param   integer $issue_id The issue ID
+     * @param bool|string $type The notification type
+     * @return  array The list of email addresses
+     */
+    public static function getSubscribedNameEmails($issue_id, $type = false)
+    {
+        $stmt = "SELECT
+                    usr_full_name,
+                    CASE WHEN usr_id <> 0 THEN usr_email ELSE sub_email END AS email
+                 FROM
+                    (
+                    {{%subscription}}";
+        $params = array();
+        if ($type != false) {
+            $stmt .= ",
+                    {{%subscription_type}}";
+        }
+        $stmt .= "
+                    )
+                 LEFT JOIN
+                    {{%user}}
+                 ON
+                    usr_id=sub_usr_id
+                 WHERE";
+        if ($type != false) {
+            $stmt .= "
+                    sbt_sub_id=sub_id AND
+                    sbt_type=? AND";
+            $params[] = $type;
+        }
+        $stmt .= "
+                    sub_iss_id=?";
+        $params[] = $issue_id;
+
+        try {
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
+        } catch (DbException $e) {
+            return "";
+        }
+        $data = array();
+        foreach ($res as $row) {
+            if (!empty($row['usr_full_name'])) {
+                $data[] = Mail_Helper::getFormattedName($row['usr_full_name'], $row['email']);
+            } else {
+                $data[] = $row['email'];
+            }
+        }
+
+        return $data;
     }
 
     /**
@@ -1031,7 +1086,7 @@ class Notification
         }
 
         // get notification list members
-        $emails = array_merge($emails, self::getSubscribedEmails($issue_id));
+        $emails = array_merge($emails, self::getSubscribedNameEmails($issue_id));
 
         // get any additional emails
         $emails = array_merge($emails, Workflow::getAdditionalEmailAddresses($prj_id, $issue_id, 'new_issue'));

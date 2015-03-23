@@ -13,7 +13,7 @@
          {t escape=no}Priority{/t}: {$issue.pri_title}
       {t escape=no}Description{/t}:
 ----------------------------------------------------------------------
-{$issue.iss_description}
+{$issue.iss_original_description}
 ----------------------------------------------------------------------
 
 {textformat style="email"}

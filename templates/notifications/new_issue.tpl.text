@@ -18,7 +18,7 @@
 {$data.iss_original_description}
 ----------------------------------------------------------------------
 
-{if $data.custom_fields|@count > 0}
+{if $data.custom_fields|default:'' != '' and $data.custom_fields|@count > 0}
 {t escape=no}Issue Details{/t}
 
 ----------------------------------------------------------------------
