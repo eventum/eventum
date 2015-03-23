@@ -14,7 +14,7 @@
          {t escape=no}Priority{/t}: {$data.pri_title}
       {t escape=no}Description{/t}:
 ----------------------------------------------------------------------
-{$data.iss_description}
+{$data.iss_original_description}
 ----------------------------------------------------------------------
 
 
