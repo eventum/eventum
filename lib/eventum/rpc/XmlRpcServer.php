@@ -225,11 +225,7 @@ class XmlRpcServer
                 list($email, $password) = $this->getAuthParams($params);
 
                 $usr_id = User::getUserIDByEmail($email, true);
-                // FIXME: The role check shouldn't be hardcoded for project 1
-                $prj_id = 1;
-                if (!Auth::isCorrectPassword($email, $password)
-                    || (User::getRoleByUser($usr_id, $prj_id) <= User::getRoleID('Customer'))
-                ) {
+                if (!Auth::isCorrectPassword($email, $password)) {
                     throw new RemoteApiException(
                         "Authentication failed for $email.\nYour email/password is invalid or you do not have the proper role."
                     );

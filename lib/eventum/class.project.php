@@ -902,6 +902,7 @@ class Project
                  WHERE
                     prj_id=pru_prj_id AND
                     pru_usr_id=? AND
+                    pru_role > ? AND
                     prj_remote_invocation='enabled'";
         if ($only_customer_projects) {
             $stmt .= " AND prj_customer_backend <> '' AND prj_customer_backend IS NOT NULL ";
@@ -910,7 +911,7 @@ class Project
                  ORDER BY
                     prj_title";
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($usr_id));
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($usr_id, User::ROLE_CUSTOMER));
         } catch (DbException $e) {
             return "";
         }

@@ -168,7 +168,7 @@ class RemoteApi
 
         $res = Project::getRemoteAssocListByUser($usr_id, $only_customer_projects);
         if (empty($res)) {
-            throw new RemoteApiException("You are not assigned to any projects at this moment");
+            throw new RemoteApiException("You are not assigned to any projects at this moment or you lack the proper role");
         }
 
         $structs = array();
