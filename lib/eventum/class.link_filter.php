@@ -279,7 +279,7 @@ class Link_Filter
         $filters = array_merge(self::getFilters(), self::getFiltersByProject($prj_id), Workflow::getLinkFilters($prj_id));
         foreach ((array) $filters as $filter) {
             list($pattern, $replacement) = $filter;
-            // if replacement may be a callback, provided by workflow
+            // replacement may be a callback, provided by workflow
             if (is_callable($replacement)) {
                 $text = preg_replace_callback($pattern, $replacement, $text);
             } else {
@@ -338,7 +338,7 @@ class Link_Filter
      *
      * @return  array An array of patterns and replacements
      */
-    private static function getFilters()
+    public static function getFilters()
     {
         // link eventum issue ids
         $patterns = array(
