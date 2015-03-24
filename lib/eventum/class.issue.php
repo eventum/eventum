@@ -3833,7 +3833,7 @@ class Issue
             }
         }
         $clone_variables = array(
-            'default'   =>  $defaults,
+            'defaults'   =>  $defaults,
         );
         if (isset($clone_details['customer']) && isset($clone_details['contact'])) {
             $clone_variables += array(
