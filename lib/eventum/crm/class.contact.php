@@ -77,9 +77,9 @@ abstract class Contact
      * @param string  $contact_id
      * @throws ContactNotFoundException
      */
-    public function __construct(CRM &$crm, $contact_id)
+    public function __construct(CRM $crm, $contact_id)
     {
-        $this->crm = &$crm;
+        $this->crm = $crm;
         $this->connection = &$crm->getConnection();
         $this->contact_id = $contact_id;
 

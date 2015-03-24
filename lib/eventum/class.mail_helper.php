@@ -649,7 +649,7 @@ class Mail_Helper
         }
 
         $params = self::getSMTPSettings($address);
-        $mail =& Mail::factory('smtp', $params);
+        $mail = Mail::factory('smtp', $params);
         $res = $mail->send($address, $headers, $body);
         if (PEAR::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
@@ -675,7 +675,7 @@ class Mail_Helper
     public static function prepareHeaders($headers)
     {
         $params = self::getSMTPSettings();
-        $mail =& Mail::factory('smtp', $params);
+        $mail = Mail::factory('smtp', $params);
 
         return $mail->prepareHeaders($headers);
     }

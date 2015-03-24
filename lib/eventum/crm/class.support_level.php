@@ -27,9 +27,9 @@ abstract class Support_Level
 
     protected $maximum_response_time;
 
-    public function __construct(CRM &$crm, $level_id)
+    public function __construct(CRM $crm, $level_id)
     {
-        $this->crm =& $crm;
+        $this->crm = $crm;
         $this->connection =& $crm->getConnection();
         $this->level_id = $level_id;
 

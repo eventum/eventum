@@ -56,9 +56,9 @@ abstract class Customer
      * @throws CustomerNotFoundException
      * @see Customer::load();
      */
-    public function __construct(CRM &$crm, $customer_id)
+    public function __construct(CRM $crm, $customer_id)
     {
-        $this->crm =& $crm;
+        $this->crm = $crm;
         $this->connection =& $crm->getConnection();
         $this->customer_id = $customer_id;
 
