@@ -329,6 +329,32 @@ class Access
         return self::canUpdateIssue($issue_id, $usr_id);
     }
 
+    public static function canCloneIssue($issue_id, $usr_id)
+    {
+        if (!self::canAccessIssue($issue_id, $usr_id)) {
+            return false;
+        }
+
+        $prj_id = Issue::getProjectID($issue_id);
+        $workflow = Workflow::canCloneIssue($prj_id, $issue_id, $usr_id);
+        if (!is_null($workflow)) {
+            return $workflow;
+        }
+
+        if (User::isPartner($usr_id)) {
+            $partner = Partner::canUserAccessIssueSection($usr_id, 'clone_issue');
+            if (is_bool($partner)) {
+                return $partner;
+            }
+        }
+
+        if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID("Standard User")) {
+            return true;
+        }
+
+        return false;
+    }
+
     public static function getIssueAccessArray($issue_id, $usr_id)
     {
         return array(
@@ -345,6 +371,7 @@ class Access
             'change_status' =>  self::canChangeStatus($issue_id, $usr_id),
             'convert_note'  =>  self::canConvertNote($issue_id, $usr_id),
             'update'    =>  self::canUpdateIssue($issue_id, $usr_id),
+            'clone_issue'   =>  self::canCloneIssue($issue_id, $usr_id),
         );
     }
 

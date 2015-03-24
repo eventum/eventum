@@ -543,6 +543,7 @@ class Workflow
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
      * @param   string $email The email address to check
+     * @param $structure
      * @return  boolean True if the note should be added, false otherwise
      */
     public static function canSendNote($prj_id, $issue_id, $email, $structure)
@@ -553,6 +554,24 @@ class Workflow
         $backend =& Workflow::_getBackend($prj_id);
 
         return $backend->canSendNote($prj_id, $issue_id, $email, $structure);
+    }
+
+    /**
+     * Called to check if an email address that does not have an eventum account can send notes to an issue.
+     *
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The issue ID
+     * @param   string $usr_id The ID of the user
+     * @return  boolean True if the issue can be cloned, false otherwise
+     */
+    public static function canCloneIssue($prj_id, $issue_id, $usr_id)
+    {
+        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+        $backend =& Workflow::_getBackend($prj_id);
+
+        return $backend->canCloneIssue($prj_id, $issue_id, $usr_id);
     }
 
     /**

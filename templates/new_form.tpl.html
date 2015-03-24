@@ -21,6 +21,9 @@
 <input type="hidden" name="customer" value="{$customer_id|default:''}" id="customer_id">
 <input type="hidden" name="contact" value="{$contact_id|default:''}">
 <input type="hidden" name="attached_emails" value="{$attached_emails|default:''}">
+{if $defaults.clone_iss_id|default:'' != ''}
+    <input type="hidden" name="clone_iss_id" value="{$defaults.clone_iss_id}" />
+{/if}
 {if $core.current_role < $field_display_settings.assignment}
     <input type="hidden" name="assignment[]" value="">
 {/if}
@@ -56,7 +59,7 @@
       <td>
         <select id="category" name="category" tabindex="{$tabindex++}">
           <option value="-1">{t}Please choose a category{/t}</option>
-          {html_options options=$cats selected=$smarty.post.category|default:''}
+          {html_options options=$cats selected=$defaults.category|default:''}
         </select>
         {include file="error_icon.tpl.html" field="category"}
       </td>
@@ -71,7 +74,7 @@
         <select id="severity" name="severity" tabindex="{$tabindex++}">
           <option value="-1">{t}Please choose a severity{/t}</option>
           {foreach from=$severities item=severity}
-          <option value="{$severity.sev_id}" {if $severity.sev_id == $smarty.post.severity|default:''}selected{/if}
+          <option value="{$severity.sev_id}" {if $severity.sev_id == $defaults.severity|default:''}selected{/if}
             data-desc="{$severity.sev_description|escape}">{$severity.sev_title|escape}</option>
           {/foreach}
         </select>
@@ -87,8 +90,8 @@
       </th>
       <td>
         {* Figure out default priority *}
-        {if $smarty.request.priority|default:'' != '' && $new_issue_id == ''}
-          {assign var="priority" value=$smarty.request.priority}
+        {if $defaults.priority|default:'' != '' && $new_issue_id == ''}
+          {assign var="priority" value=$defaults.priority}
         {else}
           {assign var="priority" value=3}
         {/if}
@@ -107,7 +110,7 @@
       </th>
       <td>
         {if $new_issue_id == ''}
-            {assign var='selected_users' value=$smarty.request.users|default:''}
+            {assign var='selected_users' value=$defaults.users|default:''}
         {/if}
         <select id="assignment" name="users[]" multiple size="3" tabindex="{$tabindex++}"
                 data-allow-unassigned="{$allow_unassigned_issues}"
@@ -126,7 +129,7 @@
       </th>
       <td>
         {if $new_issue_id == ''}
-            {assign var='selected_group' value=$smarty.post.group|default:''}
+            {assign var='selected_group' value=$defaults.group|default:''}
         {/if}
         <select name="group" tabindex="{$tabindex++}">
             <option value=""></option>
@@ -143,7 +146,7 @@
       </th>
       <td>
         {if $new_issue_id == ''}
-            {assign var='selected_release' value=$smarty.request.release|default:''}
+            {assign var='selected_release' value=$defaults.release|default:''}
         {/if}
         <select name="release" tabindex="{$tabindex++}">
           <option value="0">{t}un-scheduled{/t}</option>
@@ -160,7 +163,7 @@
         {if $new_issue_id != ''}
             {assign var='issue_summary' value=''}
         {elseif $issue_summary|default:'' == ''}
-            {assign var='issue_summary' value=$smarty.request.summary|default:''}
+            {assign var='issue_summary' value=$defaults.summary|default:''}
         {/if}
         <input type="text" name="summary" size="50" tabindex="{$tabindex++}" value="{$issue_summary|default:''|escape:"html"}">
         {include file="error_icon.tpl.html" field="summary"}
@@ -174,7 +177,7 @@
         {if $new_issue_id != ''}
             {assign var='issue_description' value=''}
         {elseif $issue_description|default:'' == ''}
-            {assign var='issue_description' value=$smarty.request.description|default:''}
+            {assign var='issue_description' value=$defaults.description|default:''}
         {/if}
         <textarea name="description" rows="10" tabindex="{$tabindex++}" style="width: 97%">{$issue_description|default:''}</textarea>
         {include file="error_icon.tpl.html" field="description"}
@@ -189,7 +192,7 @@
         </th>
 
         <td>
-          <input type="text" name="expected_resolution_date" id="expected_resolution" value="" class="date_picker">
+          <input type="text" name="expected_resolution_date" id="expected_resolution" value="{$defaults.expected_resolution_date|default:''}" class="date_picker">
         </td>
       </tr>
     {/if}
@@ -201,7 +204,7 @@
       </th>
       <td>
         {if $new_issue_id == ''}
-            {assign var='estimated_dev_time' value=$smarty.post.estimated_dev_time|default:''}
+            {assign var='estimated_dev_time' value=$defaults.estimated_dev_time|default:''}
         {/if}
         <input type="text" name="estimated_dev_time" size="10" tabindex="{$tabindex++}" value="{$estimated_dev_time}">
         {include file="error_icon.tpl.html" field="estimated_dev_time"} <span>({t}in hours{/t})</span>
@@ -218,7 +221,7 @@
         <select class="default" id="product" name="product" tabindex="{$tabindex++}">
             <option value="-1"></option>
           {foreach from=$products item=product}
-          <option value="{$product.pro_id}" {if $product.pro_id == $smarty.post.product|default:''}selected{/if}
+          <option value="{$product.pro_id}" {if $product.pro_id == $defaults.product|default:''}selected{/if}
             data-desc="{$product.pro_version_howto|escape}">{$product.pro_title|escape}</option>
           {/foreach}
         </select>
@@ -230,7 +233,7 @@
         {t}Product Version{/t}
       </th>
       <td>
-        <input type="text" name="product_version" value="{$smarty.post.product_version|default:''}" size="40" />
+        <input type="text" name="product_version" value="{$defaults.product_version|default:''}" size="40" />
         <span id="product_version_howto"></span>
         {include file="error_icon.tpl.html" field="product_version"}
       </td>
@@ -242,9 +245,9 @@
         <nobr>{t}Private{/t}: &nbsp;</nobr>
       </th>
       <td>
-        <label><input type="radio" name="private" value="1" {if $smarty.request.private|default:''}checked{/if} tabindex="{$tabindex++}">
+        <label><input type="radio" name="private" value="1" {if $defaults.private|default:''}checked{/if} tabindex="{$tabindex++}">
         {t}Yes{/t}</label>
-        <label><input type="radio" name="private" value="0" {if not $smarty.request.private|default:''}checked{/if} tabindex="{$tabindex++}">
+        <label><input type="radio" name="private" value="0" {if not $defaults.private|default:''}checked{/if} tabindex="{$tabindex++}">
         {t}No{/t}</label>
         {include file="error_icon.tpl.html" field="private"}
       </td>

@@ -155,4 +155,10 @@ if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
     ));
 }
 
+if (isset($_GET['clone_iss_id']) && Access::canCloneIssue($_GET['clone_iss_id'], $usr_id)) {
+    $tpl->assign(Issue::getCloneIssueTemplateVariables($_GET['clone_iss_id']));
+} else {
+    $tpl->assign('defaults', $_REQUEST);
+}
+
 $tpl->displayTemplate();

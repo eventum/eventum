@@ -598,6 +598,14 @@ class Abstract_Workflow_Backend
     }
 
     /**
+     * Returns if a user can clone an issue. Return null to use default rules.
+     */
+    public function canCloneIssue($prj_id, $issue_id, $usr_id)
+    {
+        return null;
+    }
+
+    /**
      * Returns the ID of the group that is "active" right now.
      */
     public function getActiveGroup($prj_id)
