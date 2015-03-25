@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -159,19 +159,22 @@ if (!empty($issue_id)) {
 if ((!@empty($_GET["ema_id"])) || (!@empty($_POST["ema_id"]))) {
     @$tpl->assign("ema_id", $_GET["ema_id"] ? $_GET["ema_id"] : $_POST["ema_id"]);
 }
-$tpl->assign("from", User::getFromHeader($usr_id));
-
-// list of users to display in the lookup field in the To: and Cc: fields
-$t = Project::getAddressBook($prj_id, $issue_id);
-$tpl->assign("assoc_users", $t);
-$tpl->assign("assoc_emails", array_keys($t));
-
-$tpl->assign("canned_responses", Email_Response::getAssocList($prj_id));
-$tpl->assign("js_canned_responses", Email_Response::getAssocListBodies($prj_id));
 
 $user_prefs = Prefs::get($usr_id);
-$tpl->assign("current_user_prefs", $user_prefs);
-$tpl->assign('issue_access', Access::getIssueAccessArray($issue_id, $usr_id));
+// list of users to display in the lookup field in the To: and Cc: fields
+$t = Project::getAddressBook($prj_id, $issue_id);
+
+$tpl->assign(array(
+    "from" => User::getFromHeader($usr_id),
+    "assoc_users" => $t,
+    "assoc_emails" => array_keys($t),
+    "canned_responses" => Email_Response::getAssocList($prj_id),
+    "js_canned_responses" => Email_Response::getAssocListBodies($prj_id),
+    "current_user_prefs" => $user_prefs,
+    'issue_access' => Access::getIssueAccessArray($issue_id, $usr_id),
+    "max_attachment_size" => Attachment::getMaxAttachmentSize(),
+    "max_attachment_bytes" => Attachment::getMaxAttachmentSize(true),
+));
 
 // don't add signature if it already exists. Note: This won't handle multiple user duplicate sigs.
 if ((@!empty($draft['emd_body'])) && ($user_prefs["auto_append_email_sig"] == 1) &&
