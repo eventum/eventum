@@ -130,6 +130,7 @@ $tpl->assign(array(
     "releases"               => Release::getAssocList($prj_id),
     "custom_fields"          => Custom_Field::getListByProject($prj_id, 'report_form'),
     "max_attachment_size"    => Attachment::getMaxAttachmentSize(),
+    "max_attachment_bytes"   => Attachment::getMaxAttachmentSize(true),
     "field_display_settings" => Project::getFieldDisplaySettings($prj_id),
     "groups"                 => Group::getAssocList($prj_id),
     "products"               => Product::getList(false),

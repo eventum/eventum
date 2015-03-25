@@ -1,6 +1,10 @@
 {extends "base.tpl.html"}
 {block "title"}#{$issue_id} - Upload File{/block}
 
+{block "javascripts" append}
+  {include file="include/dropzone.tpl.html" form="dropzone" param="dropfile"}
+{/block}
+
 {block "content"}
 {if $core.current_role > $core.roles.viewer}
 {if $upload_file_result|default:'' != ''}
@@ -31,12 +35,6 @@
     {/if}
 {else}
 <script type="text/javascript">
-var max_attachment_size = {$max_attachment_bytes / 1024 / 1024};
-var rel_url = {$core.rel_url|json_encode};
-
-// Disable auto discover for all elements:
-Dropzone.autoDiscover = {empty($smarty.get.legacy)|intval};
-
 function validateUpload(f)
 {
     var field1 = getFormElement(f, 'attachment[]', 0);
@@ -48,39 +46,6 @@ function validateUpload(f)
     }
     return true;
 }
-
-// "dropzone" is the camelized version of the HTML element's ID
-Dropzone.options.dropzone = {
-  // The name that will be used to transfer the file
-  paramName: "dropfile[]",
-
-  url: rel_url + "ajax/upload.php?file=dropfile",
-
-  // In MB
-  maxFilesize: 20,
-
-  init: function() {
-    var $iaf_ids = $('#iaf_ids');
-    this.on("success", function(file, data) {
-      if (data.error) {
-        alert(data.message);
-        return;
-      }
-      if (!data.iaf_id) {
-        alert('File not uploaded!');
-        return;
-      }
-      var current = $iaf_ids.val();
-      var iaf_ids = current ? current.split(/,/) : [];
-      $iaf_ids.val(iaf_ids.concat(data.iaf_id).join(','));
-    });
-
-    this.on("sending", function(file, xhr, formData) {
-      // Will send the filesize along with the file as POST data.
-      formData.append("filesize", file.size);
-    });
-  }
-};
 </script>
 
   <form name="attachment_form" class="dropzone" id="dropzone" action="file_upload.php" method="post" enctype="multipart/form-data" onSubmit="return checkFormSubmission(this, 'validateUpload');">
