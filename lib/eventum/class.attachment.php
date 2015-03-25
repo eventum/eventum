@@ -119,7 +119,7 @@ class Attachment
             $params[] = $usr_id;
         }
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt);
+            $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
