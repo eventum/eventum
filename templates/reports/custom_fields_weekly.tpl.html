@@ -109,11 +109,11 @@
     </table>
 </form>
 <script type="text/javascript">
-    var options = new Array();
-    var option_to_fld_id = new Array();
+    var options = [];
+    var option_to_fld_id = [];
     {foreach from=$options key=fld_id item=option_list name=option_list}
     option_to_fld_id[{$smarty.foreach.option_list.iteration-1}] = {$fld_id};
-    options[{$smarty.foreach.option_list.iteration-1}] = new Array();
+    options[{$smarty.foreach.option_list.iteration-1}] = [];
     {foreach from=$option_list key=cfo_id item=cfo_value name=option}
     options[{$smarty.foreach.option_list.iteration-1}][{$smarty.foreach.option.iteration-1}] = new Option({$cfo_value|json_encode}, {$cfo_id|json_encode});
     {/foreach}

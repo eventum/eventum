@@ -17,7 +17,7 @@ function validate(f)
 }
 function addSelection(f, from, to)
 {
-    var selected = new Array();
+    var selected = [];
     var field = getFormElement(f, from);
     selected = getSelectedItems(field);
     addOptions(f, to, selected);

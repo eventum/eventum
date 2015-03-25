@@ -71,7 +71,7 @@ function fixSpelling()
 function buildSuggestionBox()
 {
 {/literal}
-    var suggestions = new Array();
+    var suggestions = [];
     {foreach key=word item=suggestions from=$spell_check.suggestions}
     suggestions.push(new Option("{$word}", "{section name=i loop=$suggestions}{$suggestions[i]}{if not $smarty.section.i.last},{/if}{/section}"));
     {/foreach}

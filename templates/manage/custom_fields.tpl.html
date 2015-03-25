@@ -175,7 +175,7 @@
       $('input[name=update_button]').click(updateFieldOption);
   });
   {/literal}
-  var selected_projects = new Array();
+  var selected_projects = [];
   {if $info.project|default:'' != '' && $info.project|@count > 0}
   {foreach from=$info.projects item=prj_id}
   selected_projects[selected_projects.length] = new Option("{$project_list[$prj_id]}", {$prj_id});

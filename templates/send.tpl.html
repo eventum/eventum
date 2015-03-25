@@ -61,13 +61,13 @@ $(function() {
 });
 
 {if $core.current_role > $core.roles.customer && not $core.is_current_user_partner}
-var contact_list = new Array();
+var contact_list = [];
 {section name="i" loop=$assoc_emails}
 contact_list[contact_list.length] = '{$assoc_emails[i]|escape:javascript}';
 {/section}
 {/if}
 
-var email_responses = new Array();
+var email_responses = [];
 {section name="i" loop=$js_canned_responses}
 email_responses[{$js_canned_responses[i].ere_id}] = "{$js_canned_responses[i].ere_response_body}";
 {/section}

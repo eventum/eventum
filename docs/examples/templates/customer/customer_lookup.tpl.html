@@ -68,15 +68,15 @@ $.ready(function() {
 {if $results != ''}
 <script type="text/javascript">
 <!--
-var customer_contacts = new Array();
+var customer_contacts = [];
 {section name="i" loop=$results}
-customer_contacts[{$results[i].customer_id}] = new Array();
+customer_contacts[{$results[i].customer_id}] = [];
 {section name="y" loop=$results[i].contacts}
 customer_contacts[{$results[i].customer_id}].push({$results[i].contacts[y].contact_id});
 {/section}
 {/section}
 
-var contacts = new Array();
+var contacts = [];
 {section name="i" loop=$results}
 {section name="y" loop=$results[i].contacts}
 contacts[{$results[i].contacts[y].contact_id}] = '"{$results[i].contacts[y].first_name|replace:"'":"\\'"} {$results[i].contacts[y].last_name|replace:"'":"\\'"}" <{$results[i].contacts[y].email}>';
