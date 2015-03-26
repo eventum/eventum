@@ -109,7 +109,7 @@ if (@$_GET['cat'] == 'view_draft') {
         // if we are not replying to an existing message, just get the first email account you can find...
         $_GET['ema_id'] = Email_Account::getEmailAccount();
     }
-    $tpl->bulkAssign(array(
+    $tpl->assign(array(
         "draft_id"        => $_GET['id'],
         "email"           => $email,
         "parent_email_id" => $draft['emd_sup_id'],
@@ -125,7 +125,7 @@ if (@$_GET['cat'] == 'view_draft') {
         $email = Support::getEmailDetails($_GET["ema_id"], $_GET["id"]);
         $header = Misc::formatReplyPreamble($email["timestamp"], $email["sup_from"]);
         $email['seb_body'] = $header . Misc::formatReply($email['seb_body']);
-        $tpl->bulkAssign(array(
+        $tpl->assign(array(
             "email"           => $email,
             "parent_email_id" => $_GET["id"]
         ));
@@ -139,7 +139,7 @@ if (@$_GET["cat"] == 'reply') {
         $header = Misc::formatReplyPreamble($details['created_date_ts'], $details['reporter']);
         $details['seb_body'] = $header . Misc::formatReply($details['description']);
         $details['sup_from'] = Mail_Helper::getFormattedName($details['reporter'], $details['reporter_email']);
-        $tpl->bulkAssign(array(
+        $tpl->assign(array(
             "email"           => $details,
             "parent_email_id" => 0,
             "extra_title"     => "Issue #" . $_GET['issue_id'] . ": Reply"

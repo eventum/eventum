@@ -337,7 +337,7 @@ class User
 
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/visitor_account.tpl.text');
-        $tpl->bulkAssign(array(
+        $tpl->assign(array(
             "app_title"   => Misc::getToolCaption(),
             "email"     =>  $_POST['email'],
             'hash'      =>  $hash
@@ -368,7 +368,7 @@ class User
 
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/password_confirmation.tpl.text');
-        $tpl->bulkAssign(array(
+        $tpl->assign(array(
             "app_title" => Misc::getToolCaption(),
             "user"      =>  $info,
             'hash'      =>  $hash

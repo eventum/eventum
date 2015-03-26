@@ -43,7 +43,7 @@ if (!Issue::canAccess($issue_id, Auth::getUserID())) {
 
 $email = Support::getEmailDetails($_GET["ema_id"], $_GET["id"]);
 $email['seb_body'] = str_replace("&amp;nbsp;", "&nbsp;", $email['seb_body']);
-$tpl->bulkAssign(array(
+$tpl->assign(array(
     "email"           => $email,
     "issue_id"        => $issue_id,
     // TRANSLATORS: $1 - issue_id, $2 - email subject, $3 - email_id

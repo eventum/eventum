@@ -893,7 +893,7 @@ class Notification
         // open text template
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/' . $type . '.tpl.text');
-        $tpl->bulkAssign(array(
+        $tpl->assign(array(
             "app_title"    => Misc::getToolCaption(),
             "data"         => $data,
             "current_user" => User::getFullName(Auth::getUserID()),
@@ -1166,7 +1166,7 @@ class Notification
             // open text template
             $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
-            $tpl->bulkAssign(array(
+            $tpl->assign(array(
                 "app_title"   => Misc::getToolCaption(),
                 "data"        => $data,
                 "sender_name" => Mail_Helper::getName($sender),
@@ -1254,7 +1254,7 @@ class Notification
                 // open text template
                 $tpl = new Template_Helper();
                 $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
-                $tpl->bulkAssign(array(
+                $tpl->assign(array(
                     "data"        => $data,
                     "sender_name" => Mail_Helper::getName($recipient),
                     "app_title"   => Misc::getToolCaption(),
@@ -1376,7 +1376,7 @@ class Notification
         // open text template
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/updated_account.tpl.text');
-        $tpl->bulkAssign(array(
+        $tpl->assign(array(
             "app_title"    => Misc::getToolCaption(),
             "user"         => $info
         ));
@@ -1411,7 +1411,7 @@ class Notification
         // open text template
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/updated_password.tpl.text');
-        $tpl->bulkAssign(array(
+        $tpl->assign(array(
             "app_title"    => Misc::getToolCaption(),
             "user"         => $info
         ));
@@ -1446,7 +1446,7 @@ class Notification
         // open text template
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/new_user.tpl.text');
-        $tpl->bulkAssign(array(
+        $tpl->assign(array(
             "app_title"    => Misc::getToolCaption(),
             "user"         => $info
         ));
@@ -1483,7 +1483,7 @@ class Notification
             // open text template
             $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/' . $type . '.tpl.text');
-            $tpl->bulkAssign(array(
+            $tpl->assign(array(
                 "app_title"    => Misc::getToolCaption(),
                 "issue"        => $issue,
                 "data"         => $data
@@ -1539,7 +1539,7 @@ class Notification
         // open text template
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/assigned.tpl.text');
-        $tpl->bulkAssign(array(
+        $tpl->assign(array(
             "app_title"    => Misc::getToolCaption(),
             "issue"        => $issue,
             "current_user" => User::getFullName(Auth::getUserID())
@@ -1571,7 +1571,7 @@ class Notification
         // open text template
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/account_details.tpl.text');
-        $tpl->bulkAssign(array(
+        $tpl->assign(array(
             "app_title"    => Misc::getToolCaption(),
             "user"         => $info
         ));

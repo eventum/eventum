@@ -731,7 +731,7 @@ class Reminder_Action
             }
             $tpl = new Template_Helper();
             $tpl->setTemplate('reminders/' . $type . '_alert.tpl.text');
-            $tpl->bulkAssign(array(
+            $tpl->assign(array(
                 "data"                     => $data,
                 "reminder"                 => $reminder,
                 "action"                   => $action,
@@ -768,7 +768,7 @@ class Reminder_Action
         if (count($to) > 0) {
             $tpl = new Template_Helper();
             $tpl->setTemplate('reminders/alert_no_recipients.tpl.text');
-            $tpl->bulkAssign(array(
+            $tpl->assign(array(
                 "type"                     => $type,
                 "data"                     => $data,
                 "reminder"                 => $reminder,

@@ -437,7 +437,7 @@ class Support
         // open text template
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/bounced_email.tpl.text');
-        $tpl->bulkAssign(array(
+        $tpl->assign(array(
             'error_code'        => $error[0],
             'error_message'     => $error[1],
             'date'              => $message->date,

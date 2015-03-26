@@ -99,6 +99,7 @@ class Template_Helper
      * Assigns variables to specific placeholders on the target template
      *
      * @param  array $array Array with the PLACEHOLDER=>VALUE pairs to be assigned
+     * @deprecated use assign() instead
      */
     public function bulkAssign($array)
     {
