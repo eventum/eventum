@@ -29,13 +29,17 @@
 
 require_once dirname(__FILE__) . '/../init.php';
 
+$usr_id = Auth::getUserID();
+$prj_id = Auth::getCurrentProject();
+
 $tpl = new Template_Helper();
 $tpl->setTemplate("view_email.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $issue_id = Support::getIssueFromEmail($_GET["id"]);
 
-if (!Issue::canAccess($issue_id, Auth::getUserID())) {
+if (($issue_id != 0 && !Issue::canAccess($issue_id, $usr_id)) ||
+    (User::getRoleByUser($usr_id, $prj_id) < User::ROLE_USER)) {
     $tpl->setTemplate("permission_denied.tpl.html");
     $tpl->displayTemplate();
     exit;
