@@ -159,7 +159,7 @@ $().ready(function() {
 //-->
 </script>
 {/literal}
-<form class="validate dropzone" data-validation-function='validateForm' id="send_email_form" name="send_email_form" method="post" action="{$smarty.server.PHP_SELF}" enctype="multipart/form-data">
+<form class="validate dropzone" data-validation-function='validateForm' id="send_email_form" name="send_email_form" method="post" enctype="multipart/form-data">
 <input type="hidden" name="cat" value="send_email">
 <input type="hidden" name="parent_id" value="{$parent_email_id|default:''}">
 <input type="hidden" name="ema_id" value="{$ema_id|default:''}">

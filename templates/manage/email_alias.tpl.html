@@ -37,7 +37,7 @@ function removeEmails()
 {/literal}
        <h3>{t}Email Aliases for {$username|escape:"html"}{/t}</h3>
 
-        <form id="save_form" method="post" action="{$smarty.server.PHP_SELF}">
+        <form id="save_form" method="post">
         <input type="hidden" name="cat" value="save">
         <input type="hidden" name="id" value="{$id}">
       <table class="bordered">
@@ -58,7 +58,7 @@ function removeEmails()
       </table>
 	  </form>
 
-            <form method="post" id="delete_form" action="{$smarty.server.PHP_SELF}">
+            <form method="post" id="delete_form">
             <input type="hidden" name="cat" value="remove">
             <input type="hidden" name="id" value="{$id}">
       <table class="bordered grid">

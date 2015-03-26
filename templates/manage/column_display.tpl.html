@@ -7,7 +7,7 @@
     <a href="{$core.rel_url}manage/projects.php">{t}Manage Projects{/t}</a>
     </span>
 {else}
-<form name="column_display_form" method="post" action="{$smarty.server.PHP_SELF}">
+<form name="column_display_form" method="post">
     <input type="hidden" name="cat" value="save">
     <input type="hidden" name="page" value="{$page}">
     <input type="hidden" name="prj_id" value="{$prj_id}">

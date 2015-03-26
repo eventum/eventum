@@ -69,7 +69,7 @@
 </script>
 {/literal}
 
-<form class="validate" data-validation-function='validateForm' id="post_note_form" name="post_note_form" method="post" action="{$smarty.server.PHP_SELF}">
+<form class="validate" data-validation-function='validateForm' id="post_note_form" name="post_note_form" method="post">
     <input type="hidden" name="cat" value="post_note">
     <input type="hidden" name="parent_id" value="{$parent_note_id|default:''}">
     <input type="hidden" name="issue_id" value="{$issue_id}">

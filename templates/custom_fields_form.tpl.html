@@ -39,7 +39,7 @@ function validateForm(f)
 </script>
 {/literal}
 <script type="text/javascript" src="{$core.rel_url}js/dynamic_custom_field.js.php?iss_id={$smarty.get.issue_id}"></script>
-<form name="custom_field_form" class="validate" method="post" action="{$smarty.server.PHP_SELF}" data-validation-function='validateForm'>
+<form name="custom_field_form" class="validate" method="post" data-validation-function='validateForm'>
 <input type="hidden" name="cat" value="update_values">
 <input type="hidden" name="issue_id" value="{$smarty.get.issue_id}">
   <table class="bordered">

@@ -48,7 +48,7 @@ function checkDelete()
       });
 </script>
 {/literal}
-<form id="link_filter_form" method="post" action="{$smarty.server.PHP_SELF}">
+<form id="link_filter_form" method="post">
 {if $smarty.get.cat|default:'' == 'edit'}
 <input type="hidden" name="cat" value="update">
 <input type="hidden" name="id" value="{$smarty.get.id|default:''|intval}">
@@ -123,7 +123,7 @@ function checkDelete()
     </table>
     </form>
 
-        <form id="delete_form" method="post" action="{$smarty.server.PHP_SELF}">
+        <form id="delete_form" method="post">
         <table class="bordered grid">
             <tr class="title">
                 <th colspan="6">

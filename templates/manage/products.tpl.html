@@ -39,7 +39,7 @@
     });
 </script>
 {/literal}
-<form id="product_form" method="post" action="{$smarty.server.PHP_SELF}">
+<form id="product_form" method="post">
     {if $smarty.get.cat|default:'' == 'edit'}
     <input type="hidden" name="cat" value="update">
     <input type="hidden" name="id" value="{$smarty.get.id|intval|default:''}">
@@ -110,7 +110,7 @@
     </table>
 </form>
 
-<form id="delete_product" method="post" action="{$smarty.server.PHP_SELF}">
+<form id="delete_product" method="post">
     <table class="bordered grid">
         <tr class="title">
             <th colspan="5">
