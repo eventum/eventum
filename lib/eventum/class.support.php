@@ -1936,10 +1936,10 @@ class Support
      * @param   string $cc The extra recipients of this message
      * @param   string $body The message body
      * @param   string $in_reply_to The message-id that we are replying to
-     * @param   array $attachments Array with attachment information
+     * @param   array $iaf_ids Array with attachment file id-s
      * @return  string The full email
      */
-    public static function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $attachments = null)
+    public static function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $iaf_ids = null)
     {
         // hack needed to get the full headers of this web-based email
         $mail = new Mail_Helper();
@@ -1968,15 +1968,14 @@ class Support
         if ($in_reply_to) {
             $mail->setHeaders(array("In-Reply-To" => $in_reply_to));
         }
-        if ($attachments) {
-            for ($i = 0; $i < count($attachments['name']); $i++) {
-                if (!empty($attachments["name"][$i])) {
-                    $mail->addAttachment($attachments["name"][$i],
-                                         file_get_contents($attachments["tmp_name"][$i]),
-                                         $attachments["type"][$i]);
-                }
+
+        if ($iaf_ids) {
+            foreach ($iaf_ids as $iaf_id) {
+                $attachment = Attachment::getDetails($iaf_id);
+                $mail->addAttachment($attachment['iaf_filename'], $attachment['iaf_file'], $attachment['iaf_filetype']);
             }
         }
+
         $cc = trim($cc);
         if (!empty($cc)) {
             $cc = str_replace(",", ";", $cc);
@@ -2099,10 +2098,24 @@ class Support
         $internal_only = false;
         $message_id = Mail_Helper::generateMessageID();
 
+        // process any files being uploaded
+        // from ajax upload, attachment file ids
+        $iaf_ids = !empty($_POST['iaf_ids']) ? explode(',', $_POST['iaf_ids']) : null;
+        // if no iaf_ids passed, perhaps it's old style upload
+        // TODO: verify that the uploaded file(s) owner is same as attachment owner.
+        if (!$iaf_ids && isset($_FILES['attachment'])) {
+            $iaf_ids = Attachment::addFiles($_FILES['attachment']);
+        }
+        if ($iaf_ids) {
+            // FIXME: is it correct to use sender from post data?
+            $usr_id = $sender_usr_id ?: Auth::getUserID();
+            Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, false, 'Attachment originated from outgoing email');
+        }
+
         // TODO: $_FILES["attachment"] not handled by ajax upload
         // hack needed to get the full headers of this web-based email
         $full_email = self::buildFullHeaders($issue_id, $message_id, $_POST["from"], $_POST["to"], $_POST["cc"], $_POST["subject"],
-            $_POST["message"], $in_reply_to, @$_FILES["attachment"]);
+            $_POST["message"], $in_reply_to, $iaf_ids);
 
         // email blocking should only be done if this is an email about an associated issue
         if (!empty($_POST['issue_id'])) {
@@ -2212,20 +2225,6 @@ class Support
                     $t['customer_id'] = $customer_id;
                 }
             }
-        }
-
-        // process any files being uploaded
-        // from ajax upload, attachment file ids
-        $iaf_ids = !empty($_POST['iaf_ids']) ? explode(',', $_POST['iaf_ids']) : null;
-        // if no iaf_ids passed, perhaps it's old style upload
-        // TODO: verify that the uploaded file(s) owner is same as attachment owner.
-        if (!$iaf_ids && isset($_FILES['attachment'])) {
-            $iaf_ids = Attachment::addFiles($_FILES['attachment']);
-        }
-        if ($iaf_ids) {
-            // FIXME: is it correct to use sender from post data?
-            $usr_id = $sender_usr_id ?: Auth::getUserID();
-            Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, false, 'Attachment originated from outgoing email');
         }
 
         $t['has_attachment'] = $iaf_ids ? 1 : 0;
