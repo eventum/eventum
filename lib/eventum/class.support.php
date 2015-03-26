@@ -2488,11 +2488,8 @@ class Support
         }
 
         // handle auto creating issues (if needed)
-        // FIXME: parameter $to missing!
-        $should_create_array = self::createIssueFromEmail($info, $headers, $email['seb_body'], $email['timestamp'], $email['sup_from'], $email['sup_subject']);
-        // FIXME $should_create_issue, $associate_email unused
-        $should_create_issue = $should_create_array['should_create_issue'];
-        $associate_email = $should_create_array['associate_email'];
+        $should_create_array = self::createIssueFromEmail($info, $headers, $email['seb_body'], $email['timestamp'],
+            $email['sup_from'], $email['sup_subject'], $email['sup_to'], $email['sup_cc']);
         $issue_id = $should_create_array['issue_id'];
         $customer_id = $should_create_array['customer_id'];
 
@@ -2520,6 +2517,7 @@ class Support
         }
 
         $row = array(
+            'sup_id'         => $email['sup_id'],
             'customer_id'    => $customer_id,
             'issue_id'       => $issue_id,
             'ema_id'         => $new_ema_id,
