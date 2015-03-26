@@ -8,6 +8,7 @@ Eventum Issue Tracking System
 - Display custom fields in CLI (Joffrey, GH#39)
 - Notify the Notification List when creating an issue (Bryan)
 - Add Clone Issue functionality (Bryan, GH#41)
+- Add AJAX upload via dropzone library (Elan Ruusamäe, GH#25)
 
 2015-02-03, Version 3.0.0 pre1
 - Make Custom Fields Weekly Report honor Project ID (Raul Raat, GH#6)
