@@ -8,13 +8,13 @@
     {
         if (Eventum.getField('issue_auto_creation').filter(':checked').val() == 'enabled') {
             var field = Eventum.getField('options[category]');
-            if (field.length && !Validation.hasOneChecked(field)) {
+            if (field.length && !Validation.hasOneSelected(field)) {
                 Validation.selectField('options[category]');
                 alert('{/literal}{t escape=js}Please choose the default category.{/t}{literal}');
                 return false;
             }
             var field = Eventum.getField('options[priority]');
-            if (field.length && !Validation.hasOneChecked(field)) {
+            if (field.length && !Validation.hasOneSelected(field)) {
                 Validation.selectField('options[priority]');
                 alert('{/literal}{t escape=js}Please choose the default priority.{/t}{literal}');
                 return false;
