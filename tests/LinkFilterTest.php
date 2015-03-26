@@ -32,11 +32,11 @@ class LinkFilterTest extends PHPUnit_Framework_TestCase
             ),
             1 => array(
                 'Issue: 1',
-                '; <a title="issue 1.*" class="" href="view.php\?id=1">issue #1</a>;'
+                '; <a title="issue 1.*" class="" href="view.php\?id=1">Issue: 1</a>;'
             ),
             2 => array(
                 'issue 1',
-                '; <a title="issue 1.*" class="" href="view.php\?id=1">issue #1</a>;'
+                '; <a title="issue 1.*" class="" href="view.php\?id=1">issue 1</a>;'
             ),
         );
     }
