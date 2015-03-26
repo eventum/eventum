@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -21,30 +21,58 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate("file_upload.tpl.html");
-
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
-$usr_id = Auth::getUserID();
-$issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
 
-if (@$_POST["cat"] == "upload_file") {
-    $res = Attachment::attach($usr_id, $_POST['status']);
+$usr_id = Auth::getUserID();
+
+$tpl = new Template_Helper();
+$tpl->setTemplate('file_upload.tpl.html');
+
+$issue_id = isset($_POST['issue_id']) ? $_POST['issue_id'] : $_GET['iss_id'];
+$cat = isset($_POST['cat']) ? $_POST['cat'] : null;
+
+// handle uploads
+if ($cat == 'upload_file') {
+    // attachment status (public or internal)
+    $status = isset($_POST['status']) ? $_POST['status'] : null;
+    $internal_only = $status == 'internal';
+    // from ajax upload, attachment file ids
+    $iaf_ids = !empty($_POST['iaf_ids']) ? explode(',', $_POST['iaf_ids']) : null;
+    // description for attachments
+    $file_description = isset($_POST['file_description']) ? $_POST['file_description'] : null;
+
+    // if no iaf_ids passed, perhaps it's old style upload
+    // TODO: verify that the uploaded file(s) owner is same as attachment owner.
+    if (!$iaf_ids && isset($_FILES["attachment"])) {
+        $iaf_ids = Attachment::addFiles($_FILES["attachment"]);
+    }
+
+    try {
+        Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description);
+        $res = 1;
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        error_log($e->getTraceAsString());
+        $res = -1;
+    }
+
     $tpl->assign("upload_file_result", $res);
 }
 
 $tpl->assign(array(
-    "issue_id"           => $issue_id,
+    "issue_id" => $issue_id,
     "current_user_prefs" => Prefs::get(Auth::getUserID()),
-    "max_attachment_size"    => Attachment::getMaxAttachmentSize()
+    "max_attachment_size" => Attachment::getMaxAttachmentSize(),
+    "max_attachment_bytes" => Attachment::getMaxAttachmentSize(true),
 ));
 
 $tpl->displayTemplate();

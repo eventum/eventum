@@ -1,0 +1,37 @@
+<script type="text/javascript">
+// Disable auto discover for all elements:
+Dropzone.autoDiscover = {empty($smarty.get.legacy)|intval};
+
+// "reportForm" is the camelized version of the HTML element's ID
+Dropzone.options.{$form} = {
+  // The name that will be used to transfer the file
+  paramName: "{$param}[]",
+
+  url: "{$core.rel_url}ajax/upload.php?file={$param}",
+
+  // In MB
+  maxFilesize: {$max_attachment_bytes / 1024 / 1024},
+
+  init: function() {
+    var $iaf_ids = $('#iaf_ids');
+    this.on("success", function(file, data) {
+      if (data.error) {
+        alert(data.error);
+        return;
+      }
+      if (!data.iaf_id) {
+        alert('File not uploaded!');
+        return;
+      }
+      var current = $iaf_ids.val();
+      var iaf_ids = current ? current.split(/,/) : [];
+      $iaf_ids.val(iaf_ids.concat(data.iaf_id).join(','));
+    });
+
+    this.on("sending", function(file, xhr, formData) {
+      // Will send the filesize along with the file as POST data.
+      formData.append("filesize", file.size);
+    });
+  }
+};
+</script>
