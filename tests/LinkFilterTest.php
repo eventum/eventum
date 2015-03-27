@@ -2,6 +2,13 @@
 
 class LinkFilterTest extends PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        if (getenv('TRAVIS')) {
+            $this->markTestSkipped("No DB tests in Travis");
+        }
+    }
+
     /**
      * @dataProvider testIssueLinking_data
      * @see          Link_Filter::proccessText
