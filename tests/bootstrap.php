@@ -4,7 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright 2011, Elan Ruusamäe <glen@delfi.ee>                        |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // +----------------------------------------------------------------------+
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
@@ -46,7 +46,7 @@ define('APP_DEFAULT_ASSIGNED_EMAILS', true);
 define('APP_DEFAULT_NEW_EMAILS', false);
 define('APP_DEFAULT_COPY_OF_OWN_ACTION', 0);
 
-require_once APP_PATH . '/vendor/autoload-dist.php';
+require_once APP_PATH . '/autoload.php';
 
 require_once APP_INC_PATH . '/gettext.php';
 

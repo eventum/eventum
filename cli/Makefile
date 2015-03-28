@@ -12,8 +12,8 @@ eventum.phar:
 	 install -d build/cli build/lib/eventum build/vendor
 	 cp -p *.php eventumrc build/cli
 	 cp -p *.json *.json.dist build
-	 cp -a ../lib/eventum/*  build/lib/eventum
-	 cp -a ../vendor/autoload-dist.php  build/vendor
+	 cp -a ../lib/eventum/* build/lib/eventum
+	 cp -a ../autoload.php build
 	 cd build && $(composer) install --prefer-dist
 	 cd build && $(php) -d phar.readonly=0 $(box) build -v
 	 mv -f build/cli/eventum.phar .

@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -66,7 +66,7 @@ if (defined('APP_PEAR_PATH')) {
         get_include_path()
     );
 }
-require_once APP_PATH . '/vendor/autoload-dist.php';
+require_once APP_PATH . '/autoload.php';
 require_once 'File/Util.php';
 
 list($warnings, $errors) = checkRequirements();
