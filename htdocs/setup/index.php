@@ -345,7 +345,7 @@ function getFirstWeekday()
 {
     // this works on Linux
     // http://stackoverflow.com/questions/727471/how-do-i-get-the-first-day-of-the-week-for-the-current-locale-php-l8n
-    $weekday = system('locale first_weekday');
+    $weekday = exec('locale first_weekday');
     if ($weekday) {
         // Returns Monday=2, but we need 1 for Monday
         // see http://man7.org/linux/man-pages/man5/locale.5.html
