@@ -259,12 +259,15 @@ $().ready(function() {
         <div class="dz-message">
           {t}Drop files here or click to upload.{/t}<br/><br/>
 
+          <div class="dropzone-previews"></div>
+
           <div class="fallback">
             <input type="file" name="attachment[]" size="30"/>
           </div>
+
           <input type="hidden" name="iaf_ids" id="iaf_ids" value="">
 
-          <span><i>{t 1=$max_attachment_size}Note: The current maximum allowed upload file size is %1{/t}</i></span>
+          <div><i>{t 1=$max_attachment_size}Note: The current maximum allowed upload file size is %1{/t}</i></div>
         </div>
       </td>
     </tr>

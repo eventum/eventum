@@ -12,8 +12,19 @@ Dropzone.options.{$form} = {
   // In MB
   maxFilesize: {$max_attachment_bytes / 1024 / 1024},
 
-  // this will add remove link to file previews
-  addRemoveLinks: true,
+  previewTemplate:
+  '<li class="dz-file-preview">' +
+  '<div class="dz-details">' +
+    '<div class="dz-filename">' +
+      '<span data-dz-name></span> ' +
+      '(<span data-dz-size></span>) ' +
+      '<span>[ <a class="dz-remove" href="javascript:undefined" data-dz-remove>remove</a></span> ] ' +
+    '</div>' +
+  '</div>' +
+  '<div class="dz-error-message"><span data-dz-errormessage></span></div> ' +
+  '</li>',
+
+  previewsContainer: '.dropzone-previews',
 
   init: function() {
     var $iaf_ids = $('#iaf_ids');
