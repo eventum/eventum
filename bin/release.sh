@@ -121,6 +121,7 @@ if [ -n "$composer" ]; then
 	rm -r vendor/robloach/component-installer
 	rm -r vendor/components
 	rm -r vendor/malsup/form
+	rm -r vendor/enyo/dropzone
 	install -d vendor/kriswallsmith/assetic/src
 	touch vendor/kriswallsmith/assetic/src/functions.php
 	# cleanup components
@@ -133,6 +134,7 @@ if [ -n "$composer" ]; then
 	mv htdocs/components/jquery-ui/themes/{.base,base}
 	rm -r htdocs/components/jquery-ui/ui/minified
 	rm -r htdocs/components/jquery-ui/ui/i18n
+	rm htdocs/components/dropzone/index.js
 
 	# and old code in repo
 	rm -r htdocs/js/jquery
