@@ -104,6 +104,7 @@ if [ -n "$composer" ]; then
 	rm -r vendor/php-gettext/php-gettext/{tests,examples}
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
 	rm -r vendor/bin
+	rm -r vendor/pear-pear.php.net/PEAR/bin
 
 	# smarty: use -f, as dist and src packages differ
 	# smarty src
