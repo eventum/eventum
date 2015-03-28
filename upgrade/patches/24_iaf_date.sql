@@ -6,6 +6,6 @@ alter table {{%issue_attachment_file}}
 
 # fill initial timestamp based on eventum_issue_attachment timestamp
 update {{%issue_attachment_file}} iaf
-    join eventum_issue_attachment iat on iaf.iaf_iat_id=iat.iat_id
+    join {{%issue_attachment}} iat on iaf.iaf_iat_id=iat.iat_id
     set iaf_created_date=iat_created_date
 where iaf_created_date='0000-00-00 00:00:00';
