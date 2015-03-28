@@ -12,25 +12,63 @@ Dropzone.options.{$form} = {
   // In MB
   maxFilesize: {$max_attachment_bytes / 1024 / 1024},
 
+  // this will add remove link to file previews
+  addRemoveLinks: true,
+
   init: function() {
     var $iaf_ids = $('#iaf_ids');
+    var iaf_ids = {
+      // add id to iaf_ids list
+      add: function(id) {
+        var current = $iaf_ids.val();
+        var ids = current ? current.split(/,/) : [];
+        $iaf_ids.val(ids.concat(id).join(','));
+      },
+
+      // remove id to iaf_ids list
+      remove: function (id) {
+        var current = $iaf_ids.val();
+        var ids = current ? current.split(/,/) : [];
+        // NOTE:  id needs to be string, not int
+        var index = $.inArray(id + "", ids);
+
+        // sanity check to avoid removing last item
+        if (index == -1) {
+          alert('Attachment File Id ', id, ' not found');
+          return;
+        }
+
+        ids.splice(index, 1);
+        $iaf_ids.val(ids.join(','));
+      }
+    };
+
     this.on("success", function(file, data) {
       if (data.error) {
         alert(data.error);
         return;
       }
+
       if (!data.iaf_id) {
         alert('File not uploaded!');
         return;
       }
-      var current = $iaf_ids.val();
-      var iaf_ids = current ? current.split(/,/) : [];
-      $iaf_ids.val(iaf_ids.concat(data.iaf_id).join(','));
+
+      // add uploaded id to list (it's an array actually)
+
+      iaf_ids.add(data.iaf_id);
+      // store value for remove action
+      file.iaf_id = data.iaf_id[0];
     });
 
     this.on("sending", function(file, xhr, formData) {
       // Will send the filesize along with the file as POST data.
       formData.append("filesize", file.size);
+    });
+
+    this.on("removedfile", function(file) {
+      console.log(file);
+      iaf_ids.remove(file.iaf_id);
     });
   }
 };
