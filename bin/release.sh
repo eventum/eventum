@@ -90,7 +90,10 @@ if [ -n "$composer" ]; then
 	# composer hack, see .travis.yml
 	sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
 	$composer install --prefer-dist --no-dev --ignore-platform-reqs
-	$composer licenses --no-dev --no-ansi >> docs/DEPENDENCIES.md
+	$composer licenses --no-dev --no-ansi > deps
+	# avoid composer warning in resulting doc file
+	grep Warning: deps && exit 1
+	cat deps > docs/DEPENDENCIES.md && rm deps
 fi
 
 # update to include checksums of js/css files
