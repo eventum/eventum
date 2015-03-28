@@ -1415,7 +1415,7 @@ class Support
      * @param   integer $associated_note_id The note ID that these attachments should be associated with
      * @return  void
      */
-    public static function extractAttachments($issue_id, $input, $internal_only = false, $associated_note_id = false)
+    public static function extractAttachments($issue_id, $input, $internal_only = false, $associated_note_id = null)
     {
         if (!is_object($input)) {
             $input = Mime_Helper::decode($input, true, true);
@@ -1454,12 +1454,21 @@ class Support
                 $history_log = ev_gettext("Attachment originated from a note");
             }
 
-            $attachment_id = Attachment::add($issue_id, $usr_id, $history_log, $internal_only, $unknown_user, $associated_note_id);
+            $iaf_ids = array();
             foreach ($attachments as &$attachment) {
                 $attach = Workflow::shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment);
-                if ($attach) {
-                    Attachment::addFile($attachment_id, $attachment['filename'], $attachment['filetype'], $attachment['blob']);
+                if (!$attach) {
+                    continue;
                 }
+                $iaf_id = Attachment::addFile(0, $attachment['filename'], $attachment['filetype'], $attachment['blob']);
+                if (!$iaf_id) {
+                    continue;
+                }
+                $iaf_ids[] = $iaf_id;
+            }
+
+            if ($iaf_ids) {
+                Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $history_log, $unknown_user, $associated_note_id);
             }
 
             // mark the note as having attachments (poor man's caching system)
