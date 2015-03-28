@@ -8,12 +8,10 @@ body#stats {
 
 /* Setup Page */
 body#setup {
-    font-size: 0.75em;
     line-height: 1.25em;
 }
 
 body#setup td {
-    font-size: 0.8em;
     vertical-align: text-top;
 }
 /* END Setup Page */
