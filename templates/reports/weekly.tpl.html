@@ -53,6 +53,9 @@ $().ready(function() {
             {t}Start{/t}:
           </td>
           <td width="200">
+            {if empty($start_date)}
+              {assign var="start_date" value=time()}
+            {/if}
             {html_select_date time=$start_date prefix="" field_array="start" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" day_value_format="%02d" all_extra="class='default'"}
           </td>
         </tr>
@@ -61,6 +64,9 @@ $().ready(function() {
             {t}End{/t}:
           </td>
           <td width="200">
+            {if empty($end_date)}
+              {assign var="end_date" value=time()}
+            {/if}
             {html_select_date time=$end_date prefix="" field_array="end" start_year="-2" end_year="+1" field_order="YMD" month_format="%b" day_value_format="%02d" all_extra="class='default'"}
           </td>
         </tr>
