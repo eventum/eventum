@@ -341,8 +341,11 @@ class Link_Filter
     public static function getFilters()
     {
         // link eventum issue ids
+        $base_url = APP_BASE_URL;
         $patterns = array(
-            array('/issue:?\s\#?(?P<issue_id>\d+)/i', array(__CLASS__, 'LinkFilter_issues')),
+            array('/(?P<match>issue:?\s\#?(?P<issue_id>\d+))/i', array(__CLASS__, 'LinkFilter_issues')),
+            # lookbehind here avoid matching "open http:// in new window" and href="http://"
+            array("#(?<!open |href=\"){$base_url}view\.php\?id=(?P<issue_id>\d+)#", array(__CLASS__, 'LinkFilter_issues')),
         );
 
         return $patterns;
@@ -397,15 +400,19 @@ class Link_Filter
      */
     public static function LinkFilter_issues($matches)
     {
+        $issue_id = $matches['issue_id'];
         // check if the issue is still open
-        if (Issue::isClosed($matches['issue_id'])) {
+        if (Issue::isClosed($issue_id)) {
             $class = 'closed';
         } else {
             $class = '';
         }
-        $issue_title = Issue::getTitle($matches['issue_id']);
-        $link_title = htmlspecialchars("issue {$matches['issue_id']} - {$issue_title}");
+        $issue_title = Issue::getTitle($issue_id);
+        $link_title = htmlspecialchars("issue {$issue_id} - {$issue_title}");
 
-        return " <a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$matches[0]}</a>";
+        // use named capture 'match' if present
+        $match = isset($matches['match']) ? $matches['match'] : "issue {$issue_id}";
+
+        return " <a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$match}</a>";
     }
 }
