@@ -500,9 +500,11 @@ class Auth
     public static function getCurrentProjectName()
     {
         $proj_id = self::getCurrentProject();
-        if (!empty($proj_id)) {
+        if ($proj_id) {
             return Project::getName($proj_id);
         }
+        // FIXME: throw instead?
+        return null;
     }
 
     /**

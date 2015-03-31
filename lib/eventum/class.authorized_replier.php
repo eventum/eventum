@@ -94,7 +94,7 @@ class Authorized_Replier
     /**
      * Removes the specified authorized replier
      *
-     * @param   integer $iur_id The id of the authorized replier
+     * @param   integer $iur_ids The id of the authorized replier
      * @return int
      */
     public static function removeRepliers($iur_ids)
