@@ -2369,69 +2369,63 @@ class Issue
         }
 
         // add new issue
-        $stmt = "INSERT INTO {{%issue}} ".
-                "SET ".
-                    "iss_prj_id=" . $prj_id . ",";
+        $params = array(
+            'iss_usr_id' => $data['reporter'],
+            'iss_created_date' => Date_Helper::getCurrentDateGMT(),
+            'iss_last_public_action_date' => Date_Helper::getCurrentDateGMT(),
+            'iss_last_public_action_type' => 'created',
+            'iss_summary' => $data['summary'],
+            'iss_description' => $data['description'],
+            'iss_dev_time' => $data['estimated_dev_time'],
+            'iss_root_message_id' => $data['msg_id'],
+            'iss_prj_id' => $prj_id,
+        );
+
         if (!empty($data['group'])) {
-            $stmt .= "iss_grp_id=" . Misc::escapeInteger($data['group']) . ",\n";
+            $params['iss_grp_id'] = $data['group'];
         }
         if (!empty($data['category'])) {
-            $stmt .= "iss_prc_id=". Misc::escapeInteger($data['category']) . ",\n";
+            $params['iss_prc_id'] = $data['category'];
         }
         if (!empty($data['release'])) {
-            $stmt .= "iss_pre_id=". Misc::escapeInteger($data['release']) . ",\n";
+            $params['iss_pre_id'] = $data['release'];
         }
         if (!empty($data['priority'])) {
-            $stmt .= "iss_pri_id=". Misc::escapeInteger($data['priority']) . ",";
+            $params['iss_pri_id'] = $data['priority'];
         }
         if (!empty($data['severity'])) {
-            $stmt .= "iss_sev_id=". Misc::escapeInteger($data['severity']) . ",";
+            $params['iss_sev_id'] = $data['severity'];
         }
-
         if (!empty($data["expected_resolution_date"])) {
-            $stmt .= "iss_expected_resolution_date='". Misc::escapeString($data["expected_resolution_date"]) . "',";
+            $params['iss_expected_resolution_date'] = $data["expected_resolution_date"];
         }
-
-        $stmt .= "iss_usr_id=". Misc::escapeInteger($data['reporter']) .",";
 
         $initial_status = Project::getInitialStatus($prj_id);
         if (!empty($initial_status)) {
-            $stmt .= "iss_sta_id=" . Misc::escapeInteger($initial_status) . ",";
+            $params['iss_sta_id'] = $initial_status;
         }
 
         if (CRM::hasCustomerIntegration($prj_id)) {
-            $stmt .= "
-                    iss_customer_id='". Misc::escapeString($data['customer']) . "',";
+            $params['iss_customer_id'] = $data['customer'];
             if (!empty($data['contract'])) {
-            $stmt .= "
-                    iss_customer_contract_id='". Misc::escapeString($data['contract']) . "',";
+               $params['iss_customer_contract_id'] = $data['contract'];
             }
-            $stmt .= "
-                    iss_customer_contact_id='". Misc::escapeString($data['contact']) . "',
-                    iss_contact_person_lname='". Misc::escapeString($data['contact_person_lname']) . "',
-                    iss_contact_person_fname='". Misc::escapeString($data['contact_person_fname']) . "',
-                    iss_contact_email='". Misc::escapeString($data['contact_email']) . "',
-                    iss_contact_phone='". Misc::escapeString($data['contact_phone']) . "',
-                    iss_contact_timezone='". Misc::escapeString($data['contact_timezone']) . "',";
+            $params['iss_customer_contact_id'] = $data['contact'];
+            $params['iss_contact_person_lname'] = $data['contact_person_lname'];
+            $params['iss_contact_person_fname'] = $data['contact_person_fname'];
+            $params['iss_contact_email'] = $data['contact_email'];
+            $params['iss_contact_phone'] = $data['contact_phone'];
+            $params['iss_contact_timezone'] = $data['contact_timezone'];
         }
 
-        $stmt .= "
-                    iss_created_date='". Date_Helper::getCurrentDateGMT() . "',
-                    iss_last_public_action_date='" . Date_Helper::getCurrentDateGMT() . "',
-                    iss_last_public_action_type='created',
-                    iss_summary='" . Misc::escapeString($data['summary']) . "',
-                    iss_description='" . Misc::escapeString($data['description']) . "',
-                    iss_dev_time='" . Misc::escapeString($data['estimated_dev_time']) . "',";
-            if (!empty($data['contact'])) {
-                $stmt .= "
-                    iss_private=" . Misc::escapeInteger($data['private']) . " ,";
-            }
-        $stmt .= "
-                    iss_root_message_id='". Misc::escapeString($data['msg_id']) ."'
-        ";
+        if (!empty($data['contact'])) {
+            $params['iss_private'] = $data['private'];
+        }
+
+        $stmt = "INSERT INTO {{%issue}} SET " . DB_Helper::buildSet($params);
 
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
