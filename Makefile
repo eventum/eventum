@@ -63,23 +63,11 @@ install-scm:
 	install -p scm/eventum-svn-hook.php $(DESTDIR)$(sbindir)/eventum-svn-hook
 
 # install extra libraries for eventum
-install-libs: install-pear install-jpgraph install-gettext install-smarty
-
-install-pear:
-	install -d $(DESTDIR)$(datadir)/lib
-	cp -a lib/pear $(DESTDIR)$(datadir)/lib
+install-libs: install-jpgraph
 
 install-jpgraph:
 	install -d $(DESTDIR)$(datadir)/lib
 	cp -a lib/jpgraph $(DESTDIR)$(datadir)/lib
-
-install-gettext:
-	install -d $(DESTDIR)$(datadir)/lib
-	cp -a lib/php-gettext $(DESTDIR)$(datadir)/lib
-
-install-smarty:
-	install -d $(DESTDIR)$(datadir)/lib
-	cp -a lib/Smarty $(DESTDIR)$(datadir)/lib
 
 install-localization:
 	$(MAKE) -C localization install
