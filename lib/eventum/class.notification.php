@@ -992,7 +992,7 @@ class Notification
             }
             $mail->send($from, $email, $full_subject, true, $issue_id, $notify_type, $sender_usr_id, $type_id);
 
-            $_EVENTUM_LAST_NOTIFIED_LIST[$issue_id][] = $emails;
+            $_EVENTUM_LAST_NOTIFIED_LIST[$issue_id][] = $email;
         }
 
         // restore correct language
