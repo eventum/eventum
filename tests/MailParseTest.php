@@ -17,16 +17,14 @@ class MailParseTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testBug684922() {
+    public function testBug684922()
+    {
         $file = __DIR__ . '/data/bug684922.txt';
         $message = file_get_contents($file);
         $this->assertNotEmpty($message);
 
-		return;
-//        $return = Routing::route_emails($message);
-
         $structure = Mime_Helper::decode($message, true, true);
         $message_body = $structure->body;
-        var_dump($structure);
+        $this->assertEquals("", $message_body);
     }
 }

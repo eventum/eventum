@@ -310,7 +310,7 @@ class Mime_Helper
      *
      * @author Elan Ruusamäe <glen@delfi.ee>
      * @see    Zend_Mime_Decode::decodeQuotedPrintable
-     * @param  string encoded string
+     * @param  string $string encoded string
      * @return string The decoded string in APP_CHARSET encoding
      */
     public static function decodeQuotedPrintable($string)
