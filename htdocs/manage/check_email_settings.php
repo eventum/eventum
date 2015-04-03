@@ -34,20 +34,15 @@ $tpl->setTemplate("get_emails.tpl.html");
 
 Auth::checkAuthentication(APP_COOKIE, null, true);
 
-$tpl->displayTemplate();
-flush();
-
-echo "<span class='default'>";
-
 // we need the IMAP extension for this to work
 if (!function_exists('imap_open')) {
-    echo "<b>Error: Eventum requires the IMAP extension in order to connect to IMAP/POP3 servers.<br /><br />";
-    echo "Please refer to the PHP manual for more details about how to enable the IMAP extension.</b>";
+    $tpl->assign("error", "imap_extension_missing");
 } else {
     // check if the hostname is just an IP based one
     if ((!preg_match("/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/", $_POST["hostname"])) &&
             (gethostbyname($_POST["hostname"]) == $_POST["hostname"])) {
-        echo "<b>The provided hostname could not be resolved. Please check your information and try again.</b>";
+        $tpl->assign("error", "hostname_resolv_error");
+
     } else {
         $account = array(
             "ema_hostname" => $_POST["hostname"],
@@ -59,18 +54,11 @@ if (!function_exists('imap_open')) {
         );
         $mbox = Support::connectEmailServer($account);
         if (!$mbox) {
-            echo "<b>Could not connect to the server with the provided information.</b>";
+            $tpl->assign("error", "could_not_connect");
         } else {
-            echo "<b>Thank you, the connection to the email server was created successfully.</b>";
+            $tpl->assign("error", "no_error");
         }
     }
 }
-?>
 
-<br /><br />
-<a class="link" href="javascript:window.close();">Close Window</a>
-
-</span>
-
-</body>
-</html>
+$tpl->displayTemplate();
