@@ -167,8 +167,6 @@ class Issue
     {
         static $returns;
 
-        $issue_id = Misc::escapeInteger($issue_id);
-
         if (!empty($returns[$issue_id])) {
             return $returns[$issue_id];
         }
@@ -226,8 +224,6 @@ class Issue
     {
         static $returns;
 
-        $issue_id = Misc::escapeInteger($issue_id);
-
         if (!empty($returns[$issue_id])) {
             return $returns[$issue_id];
         }
@@ -259,8 +255,6 @@ class Issue
     {
         static $returns;
 
-        $issue_id = Misc::escapeInteger($issue_id);
-
         if (!empty($returns[$issue_id])) {
             return $returns[$issue_id];
         }
@@ -291,8 +285,6 @@ class Issue
      */
     public function setContractID($issue_id, $contract_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-
         $old_contract_id = self::getContractID($issue_id);
 
         $stmt = "UPDATE
@@ -322,8 +314,6 @@ class Issue
     public function getContactID($issue_id)
     {
         static $returns;
-
-        $issue_id = Misc::escapeInteger($issue_id);
 
         if (!empty($returns[$issue_id])) {
             return $returns[$issue_id];
@@ -414,9 +404,6 @@ class Issue
      */
     public static function setStatus($issue_id, $status_id, $notify = false)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $status_id = Misc::escapeInteger($status_id);
-
         $workflow = Workflow::preStatusChange(self::getProjectID($issue_id), $issue_id, $status_id, $notify);
         if ($workflow !== true) {
             return $workflow;
@@ -495,9 +482,6 @@ class Issue
      */
     public function setRelease($issue_id, $pre_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $pre_id = Misc::escapeInteger($pre_id);
-
         if ($pre_id != self::getRelease($issue_id)) {
             $sql = "UPDATE
                         {{%issue}}
@@ -549,9 +533,6 @@ class Issue
      */
     public static function setPriority($issue_id, $pri_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $pri_id = Misc::escapeInteger($pri_id);
-
         if ($pri_id != self::getPriority($issue_id)) {
             $sql = "UPDATE
                         {{%issue}}
@@ -598,14 +579,11 @@ class Issue
      * Method used to set the severity of an issue
      *
      * @param   integer $issue_id The ID of the issue
-     * @param   integer $pri_id The ID of the severity to set this issue too
+     * @param   integer $sev_id The ID of the severity to set this issue to
      * @return  integer 1 if the update worked, -1 otherwise
      */
     public static function setSeverity($issue_id, $sev_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $sev_id = Misc::escapeInteger($sev_id);
-
         if ($sev_id != self::getSeverity($issue_id)) {
             $sql = "UPDATE
                         {{%issue}}
@@ -656,18 +634,17 @@ class Issue
      */
     public static function setExpectedResolutionDate($issue_id, $expected_resolution_date)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $expected_resolution_date = Misc::escapeString($expected_resolution_date);
         $current = self::getExpectedResolutionDate($issue_id);
         if ($expected_resolution_date != $current) {
+            $expected_resolution_date = $expected_resolution_date ?: null;
             $sql = "UPDATE
                         {{%issue}}
                     SET
-                        iss_expected_resolution_date = " . (empty($expected_resolution_date) ? "null" : " '$expected_resolution_date'") . "
+                        iss_expected_resolution_date = ?
                     WHERE
                         iss_id = ?";
             try {
-                DB_Helper::getInstance()->query($sql, array($issue_id));
+                DB_Helper::getInstance()->query($sql, array($expected_resolution_date, $issue_id));
             } catch (DbException $e) {
                 return -1;
             }
@@ -715,9 +692,6 @@ class Issue
      */
     public function setCategory($issue_id, $prc_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $prc_id = Misc::escapeInteger($prc_id);
-
         if ($prc_id != self::getPriority($issue_id)) {
             $sql = "UPDATE
                         {{%issue}}
@@ -772,10 +746,8 @@ class Issue
      */
     public static function getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id)
     {
-        $prj_id = Misc::escapeInteger($prj_id);
-        $status_id = Misc::escapeInteger($status_id);
         $projects = Project::getRemoteAssocListByUser($usr_id);
-        if (@count($projects) == 0) {
+        if (count($projects) == 0) {
             return '';
         }
 
@@ -793,21 +765,27 @@ class Issue
                  ON
                     isu_iss_id=iss_id
                  WHERE ";
+        $params = array();
+
         if (!empty($status_id)) {
-            $stmt .= " sta_id=$status_id AND ";
+            $stmt .= " sta_id=? AND ";
+            $params[] = $status_id;
         }
+
         $stmt .= "
-                    iss_prj_id=$prj_id AND
+                    iss_prj_id=? AND
                     sta_id=iss_sta_id AND
                     sta_is_closed=0";
+        $params[] = $prj_id;
         if ($show_all_issues == false) {
             $stmt .= " AND
-                    isu_usr_id=$usr_id";
+                    isu_usr_id=?";
+            $params[] = $usr_id;
         }
         $stmt .= "\nGROUP BY
                         iss_id";
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return '';
         }
@@ -847,10 +825,8 @@ class Issue
             return '';
         }
 
-        $issue_id = Misc::escapeInteger($issue_id);
-
         // TRANSLATORS: %1 = issue_id, %2 = issue summary
-        $res['reply_subject'] = ev_gettext('Re: [#%1$s] %2$s', $issue_id, $res["sup_subject"]);
+        $res['reply_subject'] = ev_gettext('Re: [#%1$s] %2$s', (int)$issue_id, $res["sup_subject"]);
         $res['created_date_ts'] = Date_Helper::getUnixTimestamp($res['iss_created_date'], 'GMT');
 
         return $res;
@@ -952,36 +928,46 @@ class Issue
      */
     public function updateDuplicates($issue_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-
         $ids = self::getDuplicateList($issue_id);
         if ($ids == '') {
             return -1;
         }
-        $ids = @array_keys($ids);
+        $ids = array_keys($ids);
         $stmt = "UPDATE
                     {{%issue}}
                  SET
-                    iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
-                    iss_last_internal_action_date='" . Date_Helper::getCurrentDateGMT() . "',
+                    iss_updated_date=?,
+                    iss_last_internal_action_date=?,
                     iss_last_internal_action_type='updated',
-                    iss_prc_id=" . Misc::escapeInteger($_POST["category"]) . ",";
+                    iss_prc_id=?,";
+        $params = array(
+            Date_Helper::getCurrentDateGMT(),
+            Date_Helper::getCurrentDateGMT(),
+            $_POST["category"],
+        );
+
         if (@$_POST["keep"] == "no") {
-            $stmt .= "iss_pre_id=" . Misc::escapeInteger($_POST["release"]) . ",";
+            $stmt .= "iss_pre_id=?,";
+            $params[] = $_POST["release"];
         }
         $stmt .= "
-                    iss_pri_id=" . Misc::escapeInteger($_POST["priority"]) . ",
-                    iss_sta_id=" . Misc::escapeInteger($_POST["status"]) . ",
-                    iss_res_id=" . Misc::escapeInteger($_POST["resolution"]) . "
+                    iss_pri_id=?,
+                    iss_sta_id=?,
+                    iss_res_id=?
                  WHERE
-                    iss_id IN (" . implode(", ", $ids) . ")";
+                    iss_id IN (" . DB_Helper::buildList($ids). ")";
+        $params[] = $_POST["priority"];
+        $params[] = $_POST["status"];
+        $params[] = $_POST["resolution"];
+        $params = array_merge($params, $ids);
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
 
         // record the change
+        $issue_id = (int)$issue_id;
         for ($i = 0; $i < count($ids); $i++) {
             History::add($ids[$i], Auth::getUserID(), History::getTypeID('duplicate_update'),
                 "The details for issue #$issue_id were updated by " . User::getFullName(Auth::getUserID()) . " and the changes propagated to the duplicated issues.");
@@ -1000,7 +986,7 @@ class Issue
     public function getDuplicateList($issue_id)
     {
         $res = self::getDuplicateDetailsList($issue_id);
-        if (@count($res) == 0) {
+        if (count($res) == 0) {
             return '';
         }
 
@@ -1057,7 +1043,6 @@ class Issue
      */
     public static function clearDuplicateStatus($issue_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         $stmt = "UPDATE
                     {{%issue}}
                  SET
@@ -1088,7 +1073,6 @@ class Issue
      */
     public static function markAsDuplicate($issue_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
         if (!self::exists($issue_id)) {
             return -1;
         }
@@ -1116,8 +1100,8 @@ class Issue
             Note::insert(Auth::getUserID(), $issue_id);
         }
         // record the change
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_added'),
-                "Issue marked as a duplicate of issue #" . $_POST["duplicated_issue"] . " by " . User::getFullName(Auth::getUserID()));
+        $summary = "Issue marked as a duplicate of issue #" . $_POST["duplicated_issue"] . " by " . User::getFullName(Auth::getUserID());
+        History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_added'), $summary);
 
         return 1;
     }

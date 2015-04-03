@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -292,7 +292,7 @@ class Note
      * @param   boolean $send_notification Whether to send a notification about this note or not
      * @return  integer the new note id if the insert worked, -1 or -2 otherwise
      */
-    public static function insert($usr_id, $issue_id, $unknown_user = false, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
+    public static function insert($usr_id, $issue_id, $unknown_user = null, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
     {
         $prj_id = Issue::getProjectID($issue_id);
 
@@ -311,7 +311,7 @@ class Note
         // add the poster to the list of people to be subscribed to the notification list
         // only if there is no 'unknown user' and the note is not blocked
         $note_cc[] = $usr_id;
-        if (($unknown_user == false) && ($is_blocked == false)) {
+        if (!$unknown_user && !$is_blocked) {
             for ($i = 0; $i < count($note_cc); $i++) {
                 Notification::subscribeUser($usr_id, $issue_id, $note_cc[$i], Notification::getDefaultActions($issue_id, User::getEmail($usr_id), 'note'));
             }
