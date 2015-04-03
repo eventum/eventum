@@ -139,7 +139,7 @@ function custom_field_set_new_options(controller, keep_target_value, target_fld_
                 // submit form via ajax trying to get data
                 $('#report_form').ajaxSubmit({
                     'type':   'GET',
-                    'url':  'rpc/get_custom_field_dynamic_options.php',
+                    'url':  'ajax/get_custom_field_dynamic_options.php',
                     'dataType': 'json',
                     'data': {
                         'fld_id':   details[i].target_field_id
