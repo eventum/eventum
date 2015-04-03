@@ -55,7 +55,7 @@ class Email_Account
             $res = (string) $res;
         }
 
-        return @unserialize($res);
+        return unserialize($res);
     }
 
     /**

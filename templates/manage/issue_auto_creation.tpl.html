@@ -115,7 +115,7 @@
             </th>
             <td>
                 <select name="options[users][]" multiple size="3" tabindex="4">
-                    {html_options options=$users selected=$options.users}
+                    {html_options options=$users selected=$options.users|default:-1}
                 </select>
                 {include file="error_icon.tpl.html" field="options[users][]"}
             </td>
