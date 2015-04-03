@@ -60,5 +60,5 @@ try {
     error_log($e->getTraceAsString());
 }
 
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=UTF-8');
 echo json_encode($res);
