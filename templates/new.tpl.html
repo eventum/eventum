@@ -3,6 +3,7 @@
 {block "page_classes"}CustomField GrowingFileField{/block}
 
 {block "javascripts" append}
+  <script type="text/javascript" src="{$core.rel_url}js/dynamic_custom_field.js.php?form_type=report_form"></script>
   {include file="include/dropzone.tpl.html" form="reportForm" param="dropfile"}
 {/block}
 

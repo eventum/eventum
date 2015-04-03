@@ -2,6 +2,10 @@
 {block "title"}#{$issue_id} - Custom Fields{/block}
 {block "page_id"}custom_fields_popup{/block}
 
+{block "javascripts" append}
+  <script type="text/javascript" src="{$core.rel_url}js/dynamic_custom_field.js.php?iss_id={$smarty.get.issue_id}"></script>
+{/block}
+
 {block "content"}
 {if $update_result|default:'' != ''}
   <br />
@@ -38,7 +42,6 @@ function validateForm(f)
 //-->
 </script>
 
-<script type="text/javascript" src="{$core.rel_url}js/dynamic_custom_field.js.php?iss_id={$smarty.get.issue_id}"></script>
 <form name="custom_field_form" class="validate" method="post" data-validation-function='validateForm'>
 <input type="hidden" name="cat" value="update_values">
 <input type="hidden" name="issue_id" value="{$smarty.get.issue_id}">
