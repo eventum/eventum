@@ -843,12 +843,6 @@ class Mail_Helper
     {
         list($text_headers, $body) = Mime_Helper::splitHeaderBody($full_email);
 
-        if ($type == 'note') {
-            $class = 'Note';
-        } else {
-            $class = 'Support';
-        }
-
         $msg_id = self::getMessageID($text_headers, $body);
 
         // check if the In-Reply-To header exists and if so, does it relate to a message stored in Eventum
@@ -857,7 +851,11 @@ class Mail_Helper
         $reference_issue_id = false;
         if (!empty($reference_msg_id)) {
             // check if referenced msg id is associated with this issue
-            $reference_issue_id = call_user_func(array($class, 'getIssueByMessageID'), $reference_msg_id);
+            if ($type == 'note') {
+                $reference_issue_id = Note::getIssueByMessageID($reference_msg_id);
+            } else {
+                $reference_issue_id = Support::getIssueByMessageID($reference_msg_id);
+            }
         }
 
         if ((empty($reference_msg_id)) || ($reference_issue_id != $issue_id)) {
