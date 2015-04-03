@@ -199,11 +199,11 @@ class Routing
                     unset($ccs[$i]);
                 }
             }
-            @$structure->headers['cc'] = join(', ', $ccs);
+            $structure->headers['cc'] = join(', ', $ccs);
         }
 
         // Remove excess Re's
-        @$structure->headers['subject'] = Mail_Helper::removeExcessRe(@$structure->headers['subject'], true);
+        $structure->headers['subject'] = Mail_Helper::removeExcessRe(@$structure->headers['subject'], true);
 
         $t = array(
             'issue_id'       => $issue_id,
