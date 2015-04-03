@@ -8,29 +8,29 @@
   var rma_id = '{$rma_id}';
   var cat = '{$smarty.request.cat|default:''}';
   var id = '{$smarty.request.id|default:''}';
-  {literal}
+
   function validateForm()
   {
       if (Eventum.getField('field').val() == -1) {
-          Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Field{/t}{literal}', 'field');
+          Validation.errors[Validation.errors.length] = new Option('{t escape=js}Field{/t}', 'field');
       }
       if (Eventum.getField('operator').val() == -1) {
-          Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Operator{/t}{literal}', 'operator');
+          Validation.errors[Validation.errors.length] = new Option('{t escape=js}Operator{/t}', 'operator');
       }
       var comp_field = Eventum.getField('comparison_field');
       var val_field = Eventum.getField('value');
       if (comp_field.length == 1) {
           if (comp_field.val() == -1 && Validation.isWhitespace(val_field.val())) {
-            Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Comparison Field{/t}{literal}', 'comparison_field');
+            Validation.errors[Validation.errors.length] = new Option('{t escape=js}Comparison Field{/t}', 'comparison_field');
           }
       } else {
           if (val_field[0].type == 'select-one') {
               if (val_field.val() == -1) {
-                  Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Value{/t}{literal}', 'value');
+                  Validation.errors[Validation.errors.length] = new Option('{t escape=js}Value{/t}', 'value');
               }
           } else if (val_field[0].type == 'text') {
               if (Validation.isWhitespace(val_field.val())) {
-                  Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Value{/t}{literal}', 'value');
+                  Validation.errors[Validation.errors.length] = new Option('{t escape=js}Value{/t}', 'value');
               }
           }
       }
@@ -59,10 +59,10 @@
   function checkDelete()
   {
       if (!Validation.hasOneChecked('items[]')) {
-          alert('{/literal}{t escape=js}Please select at least one of the conditions.{/t}{literal}');
+          alert('{t escape=js}Please select at least one of the conditions.{/t}');
           return false;
       }
-      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
+      if (!confirm('{t escape=js}This action will remove the selected entries.{/t}')) {
           return false;
       } else {
           return true;
@@ -81,7 +81,7 @@
   });
   //-->
   </script>
-  {/literal}
+
   <form id="reminder_form" name="reminder_form" method="post">
   <input type="hidden" name="rem_id" value="{$rem_id}">
   <input type="hidden" name="rma_id" value="{$rma_id}">

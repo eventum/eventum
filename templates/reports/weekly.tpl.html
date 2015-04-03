@@ -3,7 +3,7 @@
 
 {block "report_content"}
 <script type="text/javascript">
-{literal}
+
 function changeType() {
     if ($('input[name=report_type]:checked').val() == 'range') {
         $('#week_row').hide();
@@ -14,7 +14,7 @@ function changeType() {
     }
 }
 $().ready(function() {
-{/literal}
+
     changeType();
     $('input[name=report_type]').click(changeType);
 });

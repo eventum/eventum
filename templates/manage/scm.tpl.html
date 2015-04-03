@@ -1,13 +1,13 @@
 {extends "manage/manage.tpl.html"}
 
 {block "manage_content"}
-{literal}
+
 <script type="text/javascript">
 <!--
 function validateForm()
 {
     if (!Validation.hasOneChecked('scm_integration'))  {
-        alert('{/literal}{t escape=js}Please choose whether the SCM integration feature should be enabled or not.{/t}{literal}');
+        alert('{t escape=js}Please choose whether the SCM integration feature should be enabled or not.{/t}');
         return false;
     }
 
@@ -35,7 +35,7 @@ $(function() {
 });
 //-->
 </script>
-{/literal}
+
 <form id="general_setup_form" method="post">
 <input type="hidden" name="cat" value="update">
   <table class="bordered">

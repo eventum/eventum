@@ -3,13 +3,13 @@
 {block title}{t 1=$smarty.get.iss_id|intval}Issue #%1 - Edit Reporter{/t}{/block}
 
 {block "content"}
-{literal}
+
 <script type="text/javascript">
     <!--
     function validate()
     {
         if (!Validation.isEmail(Eventum.getField('email').val())) {
-            alert('{/literal}{t escape=js}Please enter a valid email address.{/t}{literal}');
+            alert('{t escape=js}Please enter a valid email address.{/t}');
             Validation.selectField('email');
             return false;
         }
@@ -17,7 +17,7 @@
     }
     //-->
 </script>
-{/literal}
+
 <form name="reporter_form" onSubmit="return validate();" method="post">
     <input type="hidden" name="cat" value="update">
     <input type="hidden" name="issue_id" value="{$issue_id|intval}">

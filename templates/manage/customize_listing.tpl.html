@@ -5,7 +5,7 @@
   <!--
   var url = '{$smarty.server.PHP_SELF}';
   var psd_id = {$smarty.get.id|intval|default:''};
-  {literal}
+
   function retrieveStatuses(f)
   {
       if (psd_id == '') {
@@ -18,7 +18,7 @@
   function validateForm(f)
   {
       if (getSelectedOption(f, 'project') == '-1') {
-          alert('{/literal}{t escape=js}Please choose the project that you wish to customize.{/t}{literal}');
+          alert('{t escape=js}Please choose the project that you wish to customize.{/t}');
           selectField(f, 'project');
           return false;
       }
@@ -27,10 +27,10 @@
   function checkDelete(f)
   {
       if (!Validation.hasOneChecked('items[]')) {
-          alert('{/literal}{t escape=js}Please select at least one of the customizations.{/t}{literal}');
+          alert('{t escape=js}Please select at least one of the customizations.{/t}');
           return false;
       }
-      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
+      if (!confirm('{t escape=js}This action will remove the selected entries.{/t}')) {
           return false;
       } else {
           return true;
@@ -44,7 +44,7 @@
   });
   //-->
   </script>
-{/literal}
+
 
 
 <form id="customize_form" method="post">

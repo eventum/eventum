@@ -1,19 +1,19 @@
 {extends "manage/manage.tpl.html"}
 
 {block "manage_content"}
-  {literal}
+
   <script type="text/javascript">
   <!--
   function validateForm()
   {
       if (Validation.isFieldWhitespace('title')) {
-          Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Title{/t}{literal}', 'title');
+          Validation.errors[Validation.errors.length] = new Option('{t escape=js}Title{/t}', 'title');
       }
       if (Eventum.getField('type').val() == -1) {
-          Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Action Type{/t}{literal}', 'type');
+          Validation.errors[Validation.errors.length] = new Option('{t escape=js}Action Type{/t}', 'type');
       }
       if (Validation.isFieldWhitespace('rank')) {
-          Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Rank{/t}{literal}', 'rank');
+          Validation.errors[Validation.errors.length] = new Option('{t escape=js}Rank{/t}', 'rank');
       }
       // hack to make the multiple select box actually submit something
       Eventum.selectAllOptions('user_list[]');
@@ -49,10 +49,10 @@
       function checkDelete()
       {
           if (!Validation.hasOneChecked('items[]')) {
-              alert('{/literal}{t escape=js}Please select at least one of the actions.{/t}{literal}');
+              alert('{t escape=js}Please select at least one of the actions.{/t}');
               return false;
           }
-          if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
+          if (!confirm('{t escape=js}This action will remove the selected entries.{/t}')) {
               return false;
           } else {
               return true;
@@ -72,7 +72,7 @@
   });
   //-->
   </script>
-  {/literal}
+
   <form id="reminder_form" method="post">
   <input type="hidden" name="rem_id" value="{$rem_id}">
   {if $smarty.get.cat|default:'' == 'edit'}

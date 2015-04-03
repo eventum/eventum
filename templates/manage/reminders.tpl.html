@@ -5,7 +5,7 @@
   <!--
   var url = '{$smarty.server.PHP_SELF}';
   var rem_id = {$smarty.get.id|intval|default:''};
-  {literal}
+
   function populateIssueComboBox()
   {
       if (rem_id == '') {
@@ -50,45 +50,45 @@
   {
       if (Eventum.getField('project').val() == -1) {
           Validation.selectField('project')
-          alert('{/literal}{t escape=js}Please choose a project that will be associated with this reminder.{/t}{literal}');
+          alert('{t escape=js}Please choose a project that will be associated with this reminder.{/t}');
           return false;
       }
       if (Validation.isFieldWhitespace('title')) {
           Validation.selectField('title');
-          alert('{/literal}{t escape=js}Please enter the title for this reminder.{/t}{literal}');
+          alert('{t escape=js}Please enter the title for this reminder.{/t}');
           return false;
       }
       if (Validation.isFieldWhitespace('rank')) {
           Validation.selectField('rank');
-          alert('{/literal}{t escape=js}Please enter the rank for this reminder.{/t}{literal}');
+          alert('{t escape=js}Please enter the rank for this reminder.{/t}');
           return false;
       }
 
       var reminder_type = $('[name=reminder_type]:checked').val();
 
       if ((reminder_type == 'issue') && (!Validation.hasOneSelected('issues[]'))) {
-          alert('{/literal}{t escape=js}Please enter the issue IDs that will be associated with this reminder.{/t}{literal}');
+          alert('{t escape=js}Please enter the issue IDs that will be associated with this reminder.{/t}');
           return false;
       }
       if ((reminder_type == 'support_level') && (!Validation.hasOneSelected('support_levels[]'))) {
-          alert('{/literal}{t escape=js}Please choose the support levels that will be associated with this reminder.{/t}{literal}');
+          alert('{t escape=js}Please choose the support levels that will be associated with this reminder.{/t}');
           return false;
       }
       if ((reminder_type == 'customer') && (!Validation.hasOneSelected('customers[]'))) {
-          alert('{/literal}{t escape=js}Please choose the customers that will be associated with this reminder.{/t}{literal}');
+          alert('{t escape=js}Please choose the customers that will be associated with this reminder.{/t}');
           return false;
       }
 
       if (($('[name=check_priority]:checked').length > 0) && (!Validation.hasOneSelected('priorities[]'))) {
-          alert('{/literal}{t escape=js}Please choose the priorities that will be associated with this reminder.{/t}{literal}');
+          alert('{t escape=js}Please choose the priorities that will be associated with this reminder.{/t}');
           return false;
       }
       if (($('[name=check_product]:checked').length > 0) && (!Validation.hasOneSelected('products[]'))) {
-          alert('{/literal}{t escape=js}Please choose the products that will be associated with this reminder.{/t}{literal}');
+          alert('{t escape=js}Please choose the products that will be associated with this reminder.{/t}');
           return false;
       }
       if (($('[name=check_severity]:checked').length > 0) && (!Validation.hasOneSelected('severities[]'))) {
-          alert('{/literal}{t escape=js}Please choose the severities that will be associated with this reminder.{/t}{literal}');
+          alert('{t escape=js}Please choose the severities that will be associated with this reminder.{/t}');
           return false;
       }
       return true;
@@ -96,10 +96,10 @@
   function checkDelete()
   {
       if (!Validation.hasOneChecked('items[]')) {
-          alert('{/literal}{t escape=js}Please select at least one of the reminders.{/t}{literal}');
+          alert('{t escape=js}Please select at least one of the reminders.{/t}');
           return false;
       }
-      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
+      if (!confirm('{t escape=js}This action will remove the selected entries.{/t}')) {
           return false;
       } else {
           return true;
@@ -124,7 +124,7 @@
   });
   //-->
   </script>
-  {/literal}
+
   <form id="reminder_form" method="post">
   {if $smarty.get.cat|default:'' == 'edit'}
   <input type="hidden" name="cat" value="update">

@@ -3,13 +3,13 @@
 {block title}#{$issue_id} - Authorized Replier List{/block}
 
 {block "content"}
-{literal}
+
 <script type="text/javascript">
 <!--
 function validate(f)
 {
     if (isWhitespace(f.email.value)) {
-        alert('{/literal}{t escape=js}Please enter a valid email address.{/t}{literal}');
+        alert('{t escape=js}Please enter a valid email address.{/t}');
         selectField(f, 'email');
         return false;
     }
@@ -35,10 +35,10 @@ function removeOption(f, field_name)
 function checkDelete(f)
 {
     if (!hasOneChecked(f, 'items[]')) {
-        alert('{/literal}{t escape=js}Please select at least one of the authorized repliers.{/t}{literal}');
+        alert('{t escape=js}Please select at least one of the authorized repliers.{/t}');
         return false;
     }
-    if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
+    if (!confirm('{t escape=js}This action will remove the selected entries.{/t}')) {
         return false;
     } else {
         return true;
@@ -46,7 +46,7 @@ function checkDelete(f)
 }
 //-->
 </script>
-{/literal}
+
 {if $core.current_role > $core.roles.reporter}
 <form name="replier_form" onSubmit="return validate(this);" method="post">
 {if $smarty.get.cat|default:'' == 'edit'}

@@ -5,7 +5,7 @@
 <!--
 var url = '{$smarty.server.PHP_SELF}';
 var cam_id = {$smarty.get.id|default:''|intval};
-{literal}
+
 function populateCustomerComboBox()
 {
   if (cam_id == '') {
@@ -18,10 +18,10 @@ function populateCustomerComboBox()
 function checkDelete()
 {
   if (!Validation.hasOneChecked('items[]')) {
-      alert('{/literal}{t escape=js}Please select at least one of the account managers.{/t}{literal}');
+      alert('{t escape=js}Please select at least one of the account managers.{/t}');
       return false;
   }
-  if (!confirm('{/literal}{t escape=js}This action will remove the selected account managers.{/t}{literal}')) {
+  if (!confirm('{t escape=js}This action will remove the selected account managers.{/t}')) {
       return false;
   } else {
       return true;
@@ -37,7 +37,7 @@ function checkDelete()
   });
 //-->
 </script>
-{/literal}
+
 <form name="manager_form" method="post">
 {if $smarty.get.cat|default:'' == 'edit'}
 <input type="hidden" name="cat" value="update">

@@ -4,7 +4,7 @@
 <script type="text/javascript">
 <!--
 var url = '{$smarty.server.PHP_SELF}';
-{literal}
+
 function populateUserComboBox()
 {
   url += '?prj_id=' + Eventum.getField('project').val();
@@ -13,7 +13,7 @@ function populateUserComboBox()
 function validateForm()
 {
   if (!Validation.hasOneSelected('users[]')) {
-      alert('{/literal}{t escape=js}Please assign the appropriate users for this round robin entry.{/t}{literal}');
+      alert('{t escape=js}Please assign the appropriate users for this round robin entry.{/t}');
       Validation.selectField('users[]');
       return false;
   }
@@ -22,10 +22,10 @@ function validateForm()
 function checkDelete()
 {
   if (!Validation.hasOneChecked('items[]')) {
-      alert('{/literal}{t escape=js}Please select at least one of the round robin entries.{/t}{literal}');
+      alert('{t escape=js}Please select at least one of the round robin entries.{/t}');
       return false;
   }
-  if (!confirm('{/literal}{t escape=js}This action will permanently remove the selected round robin entries.{/t}{literal}')) {
+  if (!confirm('{t escape=js}This action will permanently remove the selected round robin entries.{/t}')) {
       return false;
   } else {
       return true;
@@ -41,7 +41,7 @@ function checkDelete()
   });
 //-->
 </script>
-{/literal}
+
 <form id="round_robin_form"  method="post">
 {if $smarty.get.cat|default:'' == 'edit'}
 <input type="hidden" name="cat" value="update">

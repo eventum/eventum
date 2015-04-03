@@ -3,11 +3,11 @@
 <script type="text/javascript">
 <!--
 var url = '{$smarty.server.PHP_SELF}?cat=associate&';
-{literal}
+
 function removeEmails(f)
 {
     if (!hasOneChecked(f, 'emails[]')) {
-        alert('{/literal}{t escape=js}Please choose which entries need to be removed.{/t}{literal}');
+        alert('{t escape=js}Please choose which entries need to be removed.{/t}');
         return false;
     }
     // loop through all of the form elements and build a dynamic url
@@ -20,7 +20,7 @@ function removeEmails(f)
 }
 //-->
 </script>
-{/literal}
+
       <table class="bordered medium">
         <tr class="title">
           <th colspan="3">

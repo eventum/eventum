@@ -1,9 +1,9 @@
-{literal}
+
 <script type="text/javascript">
 <!--
 function deletePhoneEntry(phone_id)
 {
-    if (!confirm('{/literal}{t escape=js}This action will permanently delete the specified phone support entry.{/t}{literal}')) {
+    if (!confirm('{t escape=js}This action will permanently delete the specified phone support entry.{/t}')) {
         return false;
     } else {
         var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -14,15 +14,15 @@ function deletePhoneEntry(phone_id)
 function addPhoneCall()
 {
     var features = 'width=850,height=450,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    {/literal}
+
     var issue_id = {$smarty.get.id|intval};
     var popupWin = window.open('phone_calls.php?iss_id=' + issue_id, 'phone_calls_' + issue_id, features);
-    {literal}
+
     popupWin.focus();
 }
 //-->
 </script>
-{/literal}
+
 <div class="issue_section bordered internal" id="phone_calls">
     <div class="title">
         {t}Phone Calls{/t} ({$phone_entries|@count})

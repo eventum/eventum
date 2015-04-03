@@ -23,7 +23,7 @@ dynamic_options[i].groups = [];
         {/foreach}
     {/foreach}
 {/foreach}
-{literal}
+
 function custom_field_get_details_by_controller(controller_id)
 {
     var details = [];
@@ -69,7 +69,7 @@ function prompt_choose_controller_first(e) {
     var target_id = e.data;
     var details = custom_field_get_details_by_target(target_id);
 
-    alert('{/literal}{t escape=js}Please choose{/t} ' + details.controlling_field_name + ' {t}first{/t}{literal}');
+    alert('{t escape=js}Please choose{/t} ' + details.controlling_field_name + ' {t}first{/t}');
 
     target_field.blur();
     return false;
@@ -188,4 +188,4 @@ function custom_field_change_visibility(target, show)
         $(target.parentNode.parentNode).show();
     }
 }
-{/literal}
+

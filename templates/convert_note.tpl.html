@@ -35,14 +35,14 @@
         {else}
         var convert_email_warning = "{t escape=js}WARNING: Converting this note to an email will send the email to all users listed in this issue's notification list.{/t}";
         {/if}
-            {literal}
+
             function validateForm()
             {
                 if (Eventum.getField('target').filter(':checked').val() == 'email' && (!confirm(convert_email_warning))) {
                     return false;
                 }
                 if (Eventum.getField('target').filter(':checked').val() == 'draft' &&
-                        (!confirm('{/literal}{t escape=js}WARNING: By converting this blocked message to a draft any attachments this message may have will be lost.{/t}{literal}'))) {
+                        (!confirm('{t escape=js}WARNING: By converting this blocked message to a draft any attachments this message may have will be lost.{/t}'))) {
                     return false;
                 }
                 return true;
@@ -59,7 +59,7 @@
             });
     //-->
 </script>
-{/literal}
+
 <form id="convert_note_form" method="post" action="convert_note.php">
     <input type="hidden" name="cat" value="convert">
     <input type="hidden" name="note_id" value="{$note_id}">

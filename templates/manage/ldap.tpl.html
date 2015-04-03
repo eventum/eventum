@@ -2,29 +2,29 @@
 
 {block "manage_content"}
 {if $core.auth_backend == 'ldap_auth_backend'}
-{literal}
+
 <script type="text/javascript">
     <!--
     function validateForm()
     {
         if (Validation.isFieldWhitespace('host')) {
-            alert('{/literal}{t escape=js}Please enter the LDAP Host.{/t}{literal}');
+            alert('{t escape=js}Please enter the LDAP Host.{/t}');
             Validation.selectField('host');
             return false;
         }
         var field = Eventum.getField('port');
         if (Validation.isWhitespace(field.val()) || (!Validation.isNumberOnly(field.val()))) {
-            alert('{/literal}{t escape=js}Please enter the LDAP port.{/t}{literal}');
+            alert('{t escape=js}Please enter the LDAP port.{/t}');
             Validation.selectField('port');
             return false;
         }
         if (Validation.isFieldWhitespace('basedn')) {
-            alert('{/literal}{t escape=js}Please enter the base dn.{/t}{literal}');
+            alert('{t escape=js}Please enter the base dn.{/t}');
             Validation.selectField('basedn');
             return false;
         }
         if (Validation.isFieldWhitespace('userdn')) {
-            alert('{/literal}{t escape=js}Please enter the user dn.{/t}{literal}');
+            alert('{t escape=js}Please enter the user dn.{/t}');
             Validation.selectField('userdn');
             return false;
         }
@@ -37,7 +37,7 @@
 
     //-->
 </script>
-{/literal}
+
 <form id="ldap_form" method="post">
     <input type="hidden" name="cat" value="update">
     <table class="bordered">

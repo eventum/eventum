@@ -22,13 +22,13 @@
 </script>
 {else}
 <br />
-{literal}
+
 <script type="text/javascript">
     <!--
     function validateForm()
     {
         if (!Validation.hasOneChecked('item[]')) {
-            alert('{/literal}{t escape=js}Please choose which emails need to be restored.{/t}{literal}');
+            alert('{t escape=js}Please choose which emails need to be restored.{/t}');
             return false;
         }
         return true;
@@ -36,10 +36,10 @@
     function removeEmails()
     {
         if (!Validation.hasOneChecked('item[]')) {
-            alert('{/literal}{t escape=js}Please choose which emails need to be permanently removed.{/t}{literal}');
+            alert('{t escape=js}Please choose which emails need to be permanently removed.{/t}');
             return false;
         }
-        if (!confirm('{/literal}{t escape=js}WARNING: This action will permanently remove the selected emails from your email account.{/t}{literal}')) {
+        if (!confirm('{t escape=js}WARNING: This action will permanently remove the selected emails from your email account.{/t}')) {
             return false;
         } else {
             var f = $('#removed_emails')[0];
@@ -54,7 +54,7 @@
     });
     //-->
 </script>
-{/literal}
+
 <form method="post" id="removed_emails">
     <input type="hidden" name="cat" value="restore">
     <table class="bordered grid">

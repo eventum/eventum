@@ -1,7 +1,7 @@
 {extends "manage/manage.tpl.html"}
 
 {block "manage_content"}
-{literal}
+
 <script type="text/javascript">
 <!--
 function validateForm() {
@@ -9,7 +9,7 @@ function validateForm() {
 
   field1 = Eventum.getField('diskcheck[status]').filter(":checked").val();
   if (field1 == 'enabled' && Validation.isFieldWhitespace("diskcheck[partition]")) {
-    alert('{/literal}{t escape=js}Please fill proper partition path{/t}{literal}');
+    alert('{t escape=js}Please fill proper partition path{/t}');
     Validation.selectField('diskcheck[partition]');
     return false;
   }
@@ -36,7 +36,7 @@ function disableDiskcheckFields()
   });
 //-->
 </script>
-{/literal}
+
 <form name="monitor_setup_form" onSubmit="return validateForm(this);" method="post">
 <input type="hidden" name="cat" value="update">
   <table class="bordered">

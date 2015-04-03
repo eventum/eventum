@@ -3,21 +3,21 @@
 {block "title"}Custom Fields Weekly{/block}
 
 {block "report_content"}
-{literal}
+
 <script type="text/javascript">
     <!--
     function validateForm(f)
     {
         if (getSelectedOption(f, 'custom_field') == -1) {
             selectField(f, 'custom_field');
-            alert('{/literal}{t escape=js}Please select the custom field that you would like to generate a report against.{/t}{literal}');
+            alert('{t escape=js}Please select the custom field that you would like to generate a report against.{/t}');
             return false;
         }
         return true;
     }
     //-->
 </script>
-{/literal}
+
 
 <form name="custom_fields_report" method="post" onSubmit="return validateForm(this);">
     <input type="hidden" name="cat" value="generate">
@@ -119,7 +119,7 @@
     {/foreach}
         {/foreach}
 
-            {literal}
+
             var options_field = document.forms['custom_fields_report'].elements['custom_options[]'];
             function setOptions(fld_id, auto_select)
             {
@@ -150,19 +150,19 @@
                     $('#end_row').hide();
                 }
             }
-            {/literal}
+
                 changeType('{$report_type}');
 
                 setOptions('{$custom_field}', false);
                 {if $custom_options|@count > 0}
                 {foreach from=$custom_options key=option_index item=option}
-                {literal}
+
                 for (var i = 0; i < options_field.options.length; i++) {
-                    if (options_field.options[i].value == {/literal}{$option|json_encode}{literal}) {
+                    if (options_field.options[i].value == {$option|json_encode}) {
                     options_field.options[i].selected = true;
                 }
             }
-            {/literal}
+
                 {/foreach}
                     {/if}
 </script>

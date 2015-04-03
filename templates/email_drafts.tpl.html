@@ -1,5 +1,5 @@
 
-{literal}
+
 <script type="text/javascript">
 <!--
 function viewDraft(draft_id, issue_id)
@@ -23,12 +23,12 @@ function showAllDrafts(thisBox)
     } else {
         showValue = 0;
     }
-    $.cookie('show_all_drafts', showValue, {expires: Eventum.expires});
+    $.cookie('show_all_drafts', showValue, { expires: Eventum.expires });
     document.location.href = document.location.href;
 }
 //-->
 </script>
-{/literal}
+
 {if $smarty.request.show_all_drafts|default:0 == 1}
   {assign var="draft_col_count" value="7"}
 {else}

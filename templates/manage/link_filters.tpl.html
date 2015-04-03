@@ -1,27 +1,27 @@
 {extends "manage/manage.tpl.html"}
 
 {block "manage_content"}
-{literal}
+
 <script type="text/javascript">
 function validateForm()
 {
     if (Validation.isFieldWhitespace('pattern')) {
-        alert('{/literal}{t escape=js}Please enter a pattern.{/t}{literal}');
+        alert('{t escape=js}Please enter a pattern.{/t}');
         Validation.selectField('pattern');
         return false;
     }
     if (Validation.isFieldWhitespace('replacement')) {
-        alert('{/literal}{t escape=js}Please enter a replacement value.{/t}{literal}');
+        alert('{t escape=js}Please enter a replacement value.{/t}');
         Validation.selectField('replacement');
         return false;
     }
     if (!Validation.hasOneSelected('projects[]')) {
-        alert('{/literal}{t escape=js}Please select projects this link filter should be active for.{/t}{literal}');
+        alert('{t escape=js}Please select projects this link filter should be active for.{/t}');
         Validation.selectField('projects[]');
         return false;
     }
     if (!Validation.hasOneSelected('usr_role')) {
-        alert('{/literal}{t escape=js}Please select the minimum user role that should be able to see this link filter.{/t}{literal}');
+        alert('{t escape=js}Please select the minimum user role that should be able to see this link filter.{/t}');
         Validation.selectField('usr_role');
         return false;
     }
@@ -31,10 +31,10 @@ function validateForm()
 function checkDelete()
 {
     if (!Validation.hasOneChecked('items[]')) {
-      alert('{/literal}{t escape=js}Please select at least one link filter.{/t}{literal}');
+      alert('{t escape=js}Please select at least one link filter.{/t}');
       return false;
     }
-    if (!confirm('{/literal}{t escape=js}WARNING: This action will remove the selected link filters permanently.{/t}{literal}\n{/literal}{t}Please click OK to confirm.{/t}{literal}')) {
+    if (!confirm('{t escape=js}WARNING: This action will remove the selected link filters permanently.{/t}\n{t}Please click OK to confirm.{/t}')) {
       return false;
     } else {
       return true;
@@ -47,7 +47,7 @@ function checkDelete()
           $('#delete_form').submit(checkDelete);
       });
 </script>
-{/literal}
+
 <form id="link_filter_form" method="post">
 {if $smarty.get.cat|default:'' == 'edit'}
 <input type="hidden" name="cat" value="update">

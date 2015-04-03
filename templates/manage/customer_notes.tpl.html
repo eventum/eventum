@@ -5,7 +5,7 @@
 <!--
 var url = '{$smarty.server.PHP_SELF}';
 var cno_id = {$smarty.get.id|intval|default:''};
-{literal}
+
 function populateCustomerComboBox()
 {
   if (cno_id == '') {
@@ -18,7 +18,7 @@ function populateCustomerComboBox()
 function validateForm()
 {
   if (Eventum.getField('customer').val() == '') {
-      alert('{/literal}{t escape=js}Please choose the customer for this new note.{/t}{literal}');
+      alert('{t escape=js}Please choose the customer for this new note.{/t}');
       Validation.selectField('customer');
       return false;
   }
@@ -27,10 +27,10 @@ function validateForm()
 function checkDelete()
 {
   if (!Validation.hasOneChecked('items[]')) {
-      alert('{/literal}{t escape=js}Please select at least one of the notes.{/t}{literal}');
+      alert('{t escape=js}Please select at least one of the notes.{/t}');
       return false;
   }
-  if (!confirm('{/literal}{t escape=js}This action will permanently remove the selected entries.{/t}{literal}')) {
+  if (!confirm('{t escape=js}This action will permanently remove the selected entries.{/t}')) {
       return false;
   } else {
       return true;
@@ -46,7 +46,7 @@ function checkDelete()
   });
 //-->
 </script>
-{/literal}
+
 <form name="release_form" onSubmit="return validateForm(this);" method="post">
 {if $smarty.get.cat|default:'' == 'edit'}
 <input type="hidden" name="cat" value="update">

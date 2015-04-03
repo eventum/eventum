@@ -1,19 +1,19 @@
 {extends "manage/manage.tpl.html"}
 
 {block "manage_content"}
-{literal}
+
 <script type="text/javascript">
     <!--
     function validateForm()
     {
         if (Validation.isFieldWhitespace('title')) {
             Validation.selectField('title');
-            alert('{/literal}{t escape=js}Please enter the title of this severity{/t}{literal}');
+            alert('{t escape=js}Please enter the title of this severity{/t}');
             return false;
         }
         if (Validation.isFieldWhitespace('rank')) {
             Validation.selectField('rank');
-            alert('{/literal}{t escape=js}Please enter the rank of this severity{/t}{literal}');
+            alert('{t escape=js}Please enter the rank of this severity{/t}');
             return false;
         }
         return true;
@@ -21,10 +21,10 @@
     function checkDelete()
     {
         if (!Validation.hasOneChecked('items[]')) {
-            alert('{/literal}{t escape=js}Please select at least one of the severities.{/t}{literal}');
+            alert('{t escape=js}Please select at least one of the severities.{/t}');
             return false;
         }
-        if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
+        if (!confirm('{t escape=js}This action will remove the selected entries.{/t}')) {
             return false;
         } else {
             return true;
@@ -38,7 +38,7 @@
     });
     //-->
 </script>
-{/literal}
+
 <form id="severity_form" method="post">
     <input type="hidden" name="prj_id" value="{$project.prj_id}">
     {if $smarty.get.cat|default:'' == 'edit'}

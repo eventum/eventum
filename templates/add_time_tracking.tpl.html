@@ -29,7 +29,7 @@
     </center>
     {/if}
 {else}
-{literal}
+
 <script type="text/javascript">
 <!--
 
@@ -37,33 +37,33 @@ function validateTimeForm()
 {
     if (Validation.isFieldWhitespace('summary')) {
         Validation.selectField('summary');
-        alert('{/literal}{t escape=js}Please enter the summary for this new time tracking entry.{/t}{literal}');
+        alert('{t escape=js}Please enter the summary for this new time tracking entry.{/t}');
         return false;
     }
     if (Eventum.getField('category').val() == '') {
         Validation.selectField('category');
-        alert('{/literal}{t escape=js}Please choose the time tracking category for this new entry.{/t}{literal}');
+        alert('{t escape=js}Please choose the time tracking category for this new entry.{/t}');
         return false;
     }
     if ((Validation.isFieldWhitespace('time_spent') || (!Validation.isNumberOnly(Eventum.getField('time_spent').val())))) {
         Validation.selectField('time_spent');
-        alert('{/literal}{t escape=js}Please enter integers (or floating point numbers) on the time spent field.{/t}{literal}');
+        alert('{t escape=js}Please enter integers (or floating point numbers) on the time spent field.{/t}');
         return false;
     }
     if (!Validation.isValidDate('date')) {
-        alert('{/literal}{t escape=js}Please select a valid date of work.{/t}{literal}');
+        alert('{t escape=js}Please select a valid date of work.{/t}');
         return false;
     }
 
 	var now = new Date();
 	var d1 = makeDate(f, 'date');
 	if (d1 > now) {
-		alert('{/literal}{t}Start time in the future.{/t}{literal}');
+		alert('{t}Start time in the future.{/t}');
 		return false;
 	}
 	var d2 = makeDate(f, 'date2');
 	if (d2 > now) {
-		alert('{/literal}{t}End time in the future.{/t}{literal}');
+		alert('{t}End time in the future.{/t}');
 		return false;
 	}
 	return true;
@@ -77,7 +77,7 @@ $().ready(function() {
 });
 //-->
 </script>
-{/literal}
+
       <form id="add_time_form" method="post">
       <input type="hidden" name="cat" value="add_time">
       <input type="hidden" name="issue_id" value="{$issue_id}">

@@ -1,90 +1,90 @@
 {extends "manage/manage.tpl.html"}
 
 {block "manage_content"}
-  {literal}
+
   <script type="text/javascript">
   <!--
   function validateForm()
   {
       if (Validation.isFieldWhitespace('smtp[from]')) {
-          alert('{/literal}{t escape=js}Please enter the sender address that will be used for all outgoing notification emails.{/t}{literal}');
+          alert('{t escape=js}Please enter the sender address that will be used for all outgoing notification emails.{/t}');
           Validation.selectField('smtp[from]');
           return false;
       }
       if (Validation.isFieldWhitespace('smtp[host]')) {
-          alert('{/literal}{t escape=js}Please enter the SMTP server hostname.{/t}{literal}');
+          alert('{t escape=js}Please enter the SMTP server hostname.{/t}');
           Validation.selectField('smtp[host]');
           return false;
       }
       if ((Validation.isFieldWhitespace('smtp[port]')) || (!Validation.isNumberOnly(Eventum.getField('smtp[port]').val()))) {
-          alert('{/literal}{t escape=js}Please enter the SMTP server port number.{/t}{literal}');
+          alert('{t escape=js}Please enter the SMTP server port number.{/t}');
           Validation.selectField('smtp[port]');
           return false;
       }
       if (!Validation.hasOneChecked('smtp[auth]')) {
-          alert('{/literal}{t escape=js}Please indicate whether the SMTP server requires authentication or not.{/t}{literal}');
+          alert('{t escape=js}Please indicate whether the SMTP server requires authentication or not.{/t}');
           return false;
       }
       if (Eventum.getField('smtp[auth]').first().is(':checked')) {
           if (Validation.isFieldWhitespace('smtp[username]')) {
-              alert('{/literal}{t escape=js}Please enter the SMTP server username.{/t}{literal}');
+              alert('{t escape=js}Please enter the SMTP server username.{/t}');
               Validation.selectField('smtp[username]');
               return false;
           }
           if (Validation.isFieldWhitespace('smtp[password]')) {
-              alert('{/literal}{t escape=js}Please enter the SMTP server password.{/t}{literal}');
+              alert('{t escape=js}Please enter the SMTP server password.{/t}');
               Validation.selectField('smtp[password]');
               return false;
           }
       }
       if (Eventum.getField('smtp[save_outgoing_email]').is(':checked') && (!Validation.isEmail(Eventum.getField('smtp[save_address]').val()))) {
-          alert('{/literal}{t escape=js}Please enter the email address of where copies of outgoing emails should be sent to.{/t}{literal}');
+          alert('{t escape=js}Please enter the email address of where copies of outgoing emails should be sent to.{/t}');
           Validation.selectField('smtp[save_address]');
           return false;
       }
       if (!Validation.hasOneChecked('open_signup'))  {
-          alert('{/literal}{t escape=js}Please choose whether the system should allow visitors to signup for new accounts or not.{/t}{literal}');
+          alert('{t escape=js}Please choose whether the system should allow visitors to signup for new accounts or not.{/t}');
           return false;
       }
       if (Eventum.getField('open_signup').first().is(':checked')) {
           if (!Validation.hasOneSelected('accounts_projects[]')) {
-              alert('{/literal}{t escape=js}Please select the assigned projects for users that create their own accounts.{/t}{literal}');
+              alert('{t escape=js}Please select the assigned projects for users that create their own accounts.{/t}');
               Validation.selectField('accounts_projects[]');
               return false;
           }
       }
       if (Eventum.getField('email_routing[status]').first().is(':checked')) {
           if (Validation.isFieldWhitespace('email_routing[address_prefix]')) {
-              alert('{/literal}{t escape=js}Please enter the email address prefix for the email routing interface.{/t}{literal}');
+              alert('{t escape=js}Please enter the email address prefix for the email routing interface.{/t}');
               Validation.selectField('email_routing[address_prefix]');
               return false;
           }
           if (Validation.isFieldWhitespace('email_routing[address_host]')) {
-              alert('{/literal}{t escape=js}Please enter the email address hostname for the email routing interface.{/t}{literal}');
+              alert('{t escape=js}Please enter the email address hostname for the email routing interface.{/t}');
               Validation.selectField('email_routing[address_host]');
               return false;
           }
       }
       if (Eventum.getField('note_routing[status]').first().is(':checked')) {
           if (Validation.isFieldWhitespace('note_routing[address_prefix]')) {
-              alert('{/literal}{t escape=js}Please enter the email address prefix for the note routing interface.{/t}{literal}');
+              alert('{t escape=js}Please enter the email address prefix for the note routing interface.{/t}');
               Validation.selectField('note_routing[address_prefix]');
               return false;
           }
           if (Validation.isFieldWhitespace('note_routing[address_host]')) {
-              alert('{/literal}{t escape=js}Please enter the email address hostname for the note routing interface.{/t}{literal}');
+              alert('{t escape=js}Please enter the email address hostname for the note routing interface.{/t}');
               Validation.selectField('note_routing[address_host]');
               return false;
           }
       }
       if (Eventum.getField('draft_routing[status]').first().is(':checked')) {
           if (Validation.isFieldWhitespace('draft_routing[address_prefix]')) {
-              alert('{/literal}{t escape=js}Please enter the email address prefix for the draft routing interface.{/t}{literal}');
+              alert('{t escape=js}Please enter the email address prefix for the draft routing interface.{/t}');
               Validation.selectField('draft_routing[address_prefix]');
               return false;
           }
           if (Validation.isFieldWhitespace('draft_routing[address_host]')) {
-              alert('{/literal}{t escape=js}Please enter the email address hostname for the draft routing interface.{/t}{literal}');
+              alert('{t escape=js}Please enter the email address hostname for the draft routing interface.{/t}');
               Validation.selectField('draft_routing[address_host]');
               return false;
           }
@@ -220,7 +220,7 @@ $().ready(function() {
 });
   //-->
   </script>
-  {/literal}
+
   <form id="general_setup_form" method="post">
   <input type="hidden" name="cat" value="update">
         <table class="bordered">

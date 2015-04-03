@@ -1,18 +1,18 @@
-{literal}
+
 <script type="text/javascript">
     <!--
     function selectPartners()
     {
         var features = 'width=550,height=250,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        {/literal}
+
             var issue_id = {$smarty.get.id|intval};
         var popupWin = window.open('partners.php?iss_id=' + issue_id, 'partners_' + issue_id, features);
-        {literal}
+
         popupWin.focus();
     }
     //-->
 </script>
-{/literal}
+
 <div class="issue_section bordered" id="partners">
     <div class="title">
         {t}Partners{/t}

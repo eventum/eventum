@@ -8,7 +8,7 @@
 var page_url = '{$smarty.server.PHP_SELF}';
 var current_page = '{$list_info.current_page}';
 var last_page = '{$list_info.last_page}';
-{literal}
+
 function hideClosed(hide_closed)
 {
     if (hide_closed.checked) {
@@ -19,7 +19,7 @@ function hideClosed(hide_closed)
 }
 //-->
 </script>
-{/literal}
+
 
 {if $core.current_role == $core.roles.customer}
   {include file="`$core.crm_template_path`/customer_report.tpl.html"}
