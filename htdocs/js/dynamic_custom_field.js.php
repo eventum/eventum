@@ -17,6 +17,7 @@ foreach ($fields as $field) {
     }
 }
 
+header('Content-Type: text/javascript; charset=UTF-8');
 $tpl = new Template_Helper();
 $tpl->setTemplate("js/dynamic_custom_field.tpl.js");
 $tpl->assign("fields", $data);
