@@ -52,7 +52,7 @@
 		"ext-imap": "*",
 		"ext-json": "*",
 		"ext-mbstring": "*",
-		"ext-mysql": "*",
+		"ext-mysqli": "*",
 		"ext-pcre": "*",
 		"ext-session": "*",
 		"ext-spl": "*",
