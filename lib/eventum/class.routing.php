@@ -233,7 +233,7 @@ class Routing
             }
         }
         if (empty($t['customer_id'])) {
-            $t['customer_id'] = "NULL";
+            $t['customer_id'] = null;
         }
 
         if (Support::blockEmailIfNeeded($t)) {
@@ -262,7 +262,7 @@ class Routing
                 $usr_id = APP_SYSTEM_USER_ID;
             }
             // mark this issue as updated
-            if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL')) {
+            if ((!empty($t['customer_id'])) && ($t['customer_id'] != null)) {
                 Issue::markAsUpdated($issue_id, 'customer action');
             } else {
                 if ((!empty($usr_id)) && ($usr_id != APP_SYSTEM_USER_ID) &&

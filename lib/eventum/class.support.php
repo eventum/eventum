@@ -526,7 +526,7 @@ class Support
             return;
         }
 
-        // route emails if neccassary
+        // route emails if necessary
         if ($info['ema_use_routing'] == 1) {
             $setup = Setup::load();
 
@@ -637,8 +637,9 @@ class Support
             // the following items are not inserted, but useful in some methods
             'headers'        => @$structure->headers
         );
-        $should_create_array = self::createIssueFromEmail(
-            $info, $headers, $message_body, $t['date'], $sender_email, Mime_Helper::decodeQuotedPrintable( @$structure->headers['subject']), $t['to'], $t['cc']);
+
+        $subject = Mime_Helper::decodeQuotedPrintable(@$structure->headers['subject']);
+        $should_create_array = self::createIssueFromEmail($info, $headers, $message_body, $t['date'], $sender_email, $subject, $t['to'], $t['cc']);
         $should_create_issue = $should_create_array['should_create_issue'];
 
         if (!empty($should_create_array['issue_id'])) {
@@ -1052,7 +1053,7 @@ class Support
             $row["customer_id"] = User::getCustomerID($usr_id);
         }
         if (empty($row['customer_id'])) {
-            $row['customer_id'] = "NULL";
+            $row['customer_id'] = null;
         }
 
         // try to get the parent ID
@@ -2327,7 +2328,7 @@ class Support
      * @param   string $message_id The message ID
      * @return  integer The issue ID
      */
-    public function getIssueByMessageID($message_id)
+    public static function getIssueByMessageID($message_id)
     {
         if (!$message_id) {
             return false;
