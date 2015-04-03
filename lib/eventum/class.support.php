@@ -1075,7 +1075,7 @@ class Support
             'sup_from' => $row["from"],
             'sup_to' => $row["to"],
             'sup_cc' => $row["cc"],
-            'sup_subject' => $row["subject"],
+            'sup_subject' => $row["subject"] ?: '',
             'sup_has_attachment' => $row["has_attachment"],
         );
 
@@ -1088,7 +1088,6 @@ class Support
         }
 
         $stmt = "INSERT INTO {{%support_email}} SET " . DB_Helper::buildSet($params);
-
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
