@@ -79,7 +79,7 @@ return Symfony\CS\Config\Config::create()
 			'-align_equals',
 			'-concat_with_spaces',
 			'ereg_to_preg',
-			'header_comment',
+			'-header_comment',
 			'long_array_syntax',
 			'multiline_spaces_before_semicolon',
 			'newline_after_open_tag',
