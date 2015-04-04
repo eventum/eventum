@@ -2377,7 +2377,7 @@ class Support
      * @param   string $msg_id The message ID
      * @return  string The message id of the parent email or false
      */
-    public function getParentMessageIDbyMessageID($msg_id)
+    public static function getParentMessageIDbyMessageID($msg_id)
     {
         $sql = "SELECT
                     parent.sup_message_id

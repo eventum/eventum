@@ -920,11 +920,11 @@ class Mail_Helper
     {
         $references[] = $msg_id;
         if ($type == 'note') {
-            $class = 'Note';
+            $parent_msg_id = Note::getParentMessageIDbyMessageID($msg_id);
         } else {
-            $class = 'Support';
+            $parent_msg_id = Support::getParentMessageIDbyMessageID($msg_id);
         }
-        $parent_msg_id = call_user_func(array($class, 'getParentMessageIDbyMessageID'), $msg_id);
+
         if (!empty($parent_msg_id)) {
             self::_getReferences($parent_msg_id, $type, $references);
         }

@@ -727,7 +727,7 @@ class Note
      * @param   string $message_id The message ID
      * @return  string The message id of the parent note or false
      */
-    public function getParentMessageIDbyMessageID($message_id)
+    public static function getParentMessageIDbyMessageID($message_id)
     {
         if (!$message_id) {
             return false;
