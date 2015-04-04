@@ -80,56 +80,64 @@ function getAuthData()
 
 /**
  * Authorize request.
- * @return string authorized username (email). exits program if failed
  * TODO: translations
  * TODO: ip based control
  */
 function authorizeRequest()
 {
-    $authData = getAuthData();
-    if ($authData === null) {
-        sendAuthenticateHeader();
-        echo 'Error: You are required to authenticate in order to access the requested RSS feed.';
-        exit;
-    }
+    // try current auth cookie
+    $usr_id = Auth::getUserID();
+    if (!$usr_id) {
+        // otherwise setup HTTP Auth headers
+        $authData = getAuthData();
+        if ($authData === null) {
+            sendAuthenticateHeader();
+            echo 'Error: You are required to authenticate in order to access the requested RSS feed.';
+            exit;
+        }
 
-    list($authUser, $authPassword) = $authData;
-    $usr_id = User::getUserIDByEmail($authUser);
+        list($authUser, $authPassword) = $authData;
 
-    // check the authentication
-    if (Validation::isWhitespace($authUser)) {
-        sendAuthenticateHeader();
-        echo 'Error: Please provide your email address.';
-        exit;
-    }
-    if (Validation::isWhitespace($authPassword)) {
-        sendAuthenticateHeader();
-        echo 'Error: Please provide your password.';
-        exit;
-    }
-    // check if user exists
-    if (!Auth::userExists($authUser)) {
-        sendAuthenticateHeader();
-        echo 'Error: The user specified does not exist.';
-        exit;
-    }
-    // check if the password matches
-    if (!Auth::isCorrectPassword($authUser, $authPassword)) {
-        sendAuthenticateHeader();
-        echo 'Error: The provided email address/password combo is not correct.';
-        exit;
-    }
-    // check if this user did already confirm his account
-    if (Auth::isPendingUser($authUser)) {
-        sendAuthenticateHeader();
-        echo 'Error: The provided user still needs to have its account confirmed.';
-        exit;
-    }
-    // check if this user is really an active one
-    if (!Auth::isActiveUser($authUser)) {
-        sendAuthenticateHeader();
-        echo 'Error: The provided user is currently set as an inactive user.';
-        exit;
+        // check the authentication
+        if (Validation::isWhitespace($authUser)) {
+            sendAuthenticateHeader();
+            echo 'Error: Please provide your email address.';
+            exit;
+        }
+        if (Validation::isWhitespace($authPassword)) {
+            sendAuthenticateHeader();
+            echo 'Error: Please provide your password.';
+            exit;
+        }
+
+        // check if user exists
+        if (!Auth::userExists($authUser)) {
+            sendAuthenticateHeader();
+            echo 'Error: The user specified does not exist.';
+            exit;
+        }
+        // check if the password matches
+        if (!Auth::isCorrectPassword($authUser, $authPassword)) {
+            sendAuthenticateHeader();
+            echo 'Error: The provided email address/password combo is not correct.';
+            exit;
+        }
+        // check if this user did already confirm his account
+        if (Auth::isPendingUser($authUser)) {
+            sendAuthenticateHeader();
+            echo 'Error: The provided user still needs to have its account confirmed.';
+            exit;
+        }
+
+        // check if this user is really an active one
+        if (!Auth::isActiveUser($authUser)) {
+            sendAuthenticateHeader();
+            echo 'Error: The provided user is currently set as an inactive user.';
+            exit;
+        }
+
+        $usr_id = User::getUserIDByEmail($authUser);
+        Auth::createFakeCookie($usr_id);
     }
 
     // check if the required parameter 'custom_id' is really being passed
@@ -138,26 +146,16 @@ function authorizeRequest()
         exit;
     }
 
-    $usr_id = User::getUserIDByEmail($authUser);
     // check if the passed 'custom_id' parameter is associated with the usr_id
     if ((!Filter::isGlobal($_GET['custom_id'])) && (!Filter::isOwner($_GET['custom_id'], $usr_id))) {
         rssError('Error: The provided custom filter ID is not associated with the given email address.');
         exit;
     }
-
-    return $authUser;
 }
 
-$filter = Filter::getDetails(@$_GET["custom_id"], false);
+authorizeRequest();
 
-// try current auth cookie
-$usr_id = Auth::getUserID();
-if (!$usr_id) {
-    // otherwise setup HTTP Auth headers
-    $authUser = authorizeRequest();
-    $usr_id = User::getUserIDByEmail($authUser);
-    Auth::createFakeCookie($usr_id, $filter['cst_prj_id']);
-}
+$filter = Filter::getDetails($_GET["custom_id"], false);
 
 $tpl = new Template_Helper();
 $tpl->setTemplate("rss.tpl.xml");
