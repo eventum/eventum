@@ -14,7 +14,7 @@ matrix:
     - php: 7.0
 
 cache:
-  - apt
+  apt: true
   directories:
     - $HOME/.composer/cache
 
