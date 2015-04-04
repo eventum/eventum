@@ -26,6 +26,9 @@ composer.phar:
 php-cs-fixer.phar:
 	curl -sS http://get.sensiolabs.org/php-cs-fixer.phar -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
 
+pear-fix: composer.lock php-cs-fixer.phar
+	./php-cs-fixer.phar fix vendor/pear-pear.php.net --fixers=php4_constructor --verbose
+
 composer.lock:
 	composer install
 
