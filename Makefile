@@ -23,6 +23,9 @@ box.phar:
 composer.phar:
 	curl -sS https://getcomposer.org/installer | php
 
+php-cs-fixer.phar:
+	curl -sS http://get.sensiolabs.org/get/php-cs-fixer.phar  -o $@.tmp && mv $@.tmp $@
+
 composer.lock:
 	composer install
 

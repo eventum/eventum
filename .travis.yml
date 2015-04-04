@@ -20,6 +20,7 @@ before_install:
   - dpkg --list | grep language-pack
   - php -i
   - locale -a
+  - make php-cs-fixer.phar
 
 install:
 # workaround https://github.com/composer/composer/issues/2757#issuecomment-48731474
