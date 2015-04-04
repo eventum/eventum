@@ -29,7 +29,7 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-ini_set("memory_limit", '1024M');
+ini_set('memory_limit', '1024M');
 
 require_once dirname(__FILE__).'/../init.php';
 

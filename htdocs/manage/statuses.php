@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,40 +31,40 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/statuses.tpl.html");
+$tpl->setTemplate('manage/statuses.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
-    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
+    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
 }
 
-if (@$_POST["cat"] == "new") {
+if (@$_POST['cat'] == 'new') {
     $res = Status::insert();
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the status was added successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to add the status.'), Misc::MSG_ERROR),
             -2  =>  array(ev_gettext('Please enter the title for this status.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "update") {
+} elseif (@$_POST['cat'] == 'update') {
     $res = Status::update();
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the status was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to add the status.'), Misc::MSG_ERROR),
             -2  =>  array(ev_gettext('Please enter the title for this status.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "delete") {
+} elseif (@$_POST['cat'] == 'delete') {
     Status::remove();
 }
 
-if (@$_GET["cat"] == "edit") {
-    $tpl->assign("info", Status::getDetails($_GET["id"]));
+if (@$_GET['cat'] == 'edit') {
+    $tpl->assign('info', Status::getDetails($_GET['id']));
 }
 
-$tpl->assign("list", Status::getList());
-$tpl->assign("project_list", Project::getAll());
+$tpl->assign('list', Status::getList());
+$tpl->assign('project_list', Project::getAll());
 
 $tpl->displayTemplate();

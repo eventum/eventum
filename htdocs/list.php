@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,7 +31,7 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("list.tpl.html");
+$tpl->setTemplate('list.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 $usr_id = Auth::getUserID();
@@ -53,7 +54,7 @@ if (isset($_REQUEST['view'])) {
         $profile = Search_Profile::getProfile($usr_id, $prj_id, 'issue');
         Search_Profile::remove($usr_id, $prj_id, 'issue');
         Auth::redirect("list.php?users=$usr_id&hide_closed=1&rows=$rows&sort_by=" .
-                $profile['sort_by'] . "&sort_order=" . $profile['sort_order']);
+                $profile['sort_by'] . '&sort_order=' . $profile['sort_order']);
     } elseif (($_REQUEST['view'] == 'customer') && (isset($_REQUEST['customer_id']))) {
         $options_override = array(
             'customer_id'   =>  Misc::escapeString($_REQUEST['customer_id']),
@@ -74,20 +75,20 @@ if (isset($_REQUEST['view'])) {
         $_REQUEST['nosave'] = 1;
         $profile = Search_Profile::getProfile($usr_id, $prj_id, 'issue');
         Search_Profile::remove($usr_id, $prj_id, 'issue');
-        Auth::redirect("list.php?customer_id=" . Misc::escapeString($_REQUEST['customer_id']) .
+        Auth::redirect('list.php?customer_id=' . Misc::escapeString($_REQUEST['customer_id']) .
                 "&hide_closed=1&rows=$rows&sort_by=" . $profile['sort_by'] .
-                "&sort_order=" . $profile['sort_order'] . "&nosave=1");
+                '&sort_order=' . $profile['sort_order'] . '&nosave=1');
     } elseif (($_REQUEST['view'] == 'reporter') && (isset($_REQUEST['reporter_id']))) {
         $profile = Search_Profile::getProfile($usr_id, $prj_id, 'issue');
-        Auth::redirect("list.php?reporter=" . Misc::escapeInteger($_REQUEST['reporter_id']) .
+        Auth::redirect('list.php?reporter=' . Misc::escapeInteger($_REQUEST['reporter_id']) .
                 "&hide_closed=1&rows=$rows&sort_by=" . $profile['sort_by'] .
-                "&sort_order=" . $profile['sort_order'] . "&nosave=1");
+                '&sort_order=' . $profile['sort_order'] . '&nosave=1');
     } elseif ($_REQUEST['view'] == 'clear') {
         Search_Profile::remove($usr_id, $prj_id, 'issue');
-        Auth::redirect("list.php");
+        Auth::redirect('list.php');
     } elseif ($_REQUEST['view'] == 'clearandfilter') {
         Search_Profile::remove($usr_id, $prj_id, 'issue');
-        Auth::redirect("list.php?" . str_replace('view=clearandfilter&', '', $_SERVER['QUERY_STRING']));
+        Auth::redirect('list.php?' . str_replace('view=clearandfilter&', '', $_SERVER['QUERY_STRING']));
     }
 }
 
@@ -99,59 +100,59 @@ if (!empty($_REQUEST['nosave'])) {
 
 $options += $options_override;
 $options = array_merge($options, $options_override);
-$tpl->assign("options", $options);
-$tpl->assign("sorting", Search::getSortingInfo($options));
+$tpl->assign('options', $options);
+$tpl->assign('sorting', Search::getSortingInfo($options));
 
 // generate options for assign list. If there are groups and user is above a customer, include groups
 $groups = Group::getAssocList($prj_id);
 $users = Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer'));
 $assign_options = array(
-    ""      =>  ev_gettext("Any"),
-    "-1"    =>  ev_gettext("un-assigned"),
-    "-2"    =>  ev_gettext("myself and un-assigned")
+    ''      =>  ev_gettext('Any'),
+    '-1'    =>  ev_gettext('un-assigned'),
+    '-2'    =>  ev_gettext('myself and un-assigned')
 );
 if (Auth::isAnonUser()) {
-    unset($assign_options["-2"]);
+    unset($assign_options['-2']);
 } elseif (User::getGroupID($usr_id)) {
     $assign_options['-3'] = ev_gettext('myself and my group');
     $assign_options['-4'] = ev_gettext('myself, un-assigned and my group');
 }
-if ((count($groups) > 0) && (Auth::getCurrentRole() > User::getRoleID("Customer"))) {
+if ((count($groups) > 0) && (Auth::getCurrentRole() > User::getRoleID('Customer'))) {
     foreach ($groups as $grp_id => $grp_name) {
-        $assign_options["grp:$grp_id"] = ev_gettext("Group") . ": " . $grp_name;
+        $assign_options["grp:$grp_id"] = ev_gettext('Group') . ': ' . $grp_name;
     }
 }
 $assign_options += $users;
 
 $list = Search::getListing($prj_id, $options, $pagerRow, $rows);
-$tpl->assign("list", $list["list"]);
-$tpl->assign("list_info", $list["info"]);
-$tpl->assign("csv_data", base64_encode(@$list["csv"]));
-$tpl->assign("match_modes", Search::getMatchModes());
-$tpl->assign("supports_excerpts", Search::doesBackendSupportExcerpts());
+$tpl->assign('list', $list['list']);
+$tpl->assign('list_info', $list['info']);
+$tpl->assign('csv_data', base64_encode(@$list['csv']));
+$tpl->assign('match_modes', Search::getMatchModes());
+$tpl->assign('supports_excerpts', Search::doesBackendSupportExcerpts());
 
-$tpl->assign("columns", Display_Column::getColumnsToDisplay($prj_id, 'list_issues'));
-$tpl->assign("priorities", Priority::getAssocList($prj_id));
-$tpl->assign("severities", Severity::getAssocList($prj_id));
-$tpl->assign("status", Status::getAssocStatusList($prj_id));
-$tpl->assign("assign_options", $assign_options);
-$tpl->assign("custom", Filter::getAssocList($prj_id));
-$tpl->assign("csts", Filter::getListing(true));
-$tpl->assign("active_filters", Filter::getActiveFilters($options));
-$tpl->assign("categories", Category::getAssocList($prj_id));
-$tpl->assign("releases", Release::getAssocList($prj_id, true));
-$tpl->assign("reporters", Project::getReporters($prj_id));
+$tpl->assign('columns', Display_Column::getColumnsToDisplay($prj_id, 'list_issues'));
+$tpl->assign('priorities', Priority::getAssocList($prj_id));
+$tpl->assign('severities', Severity::getAssocList($prj_id));
+$tpl->assign('status', Status::getAssocStatusList($prj_id));
+$tpl->assign('assign_options', $assign_options);
+$tpl->assign('custom', Filter::getAssocList($prj_id));
+$tpl->assign('csts', Filter::getListing(true));
+$tpl->assign('active_filters', Filter::getActiveFilters($options));
+$tpl->assign('categories', Category::getAssocList($prj_id));
+$tpl->assign('releases', Release::getAssocList($prj_id, true));
+$tpl->assign('reporters', Project::getReporters($prj_id));
 $tpl->assign(array(
-    "products"      => Product::getAssocList(false)
+    'products'      => Product::getAssocList(false)
 ));
 
 $prefs = Prefs::get($usr_id);
-$tpl->assign("refresh_rate", $prefs['list_refresh_rate'] * 60);
-$tpl->assign("refresh_page", "list.php");
+$tpl->assign('refresh_rate', $prefs['list_refresh_rate'] * 60);
+$tpl->assign('refresh_page', 'list.php');
 
 // items needed for bulk update tool
-if (Auth::getCurrentRole() > User::getRoleID("Developer")) {
-    $tpl->assign("users", $users);
+if (Auth::getCurrentRole() > User::getRoleID('Developer')) {
+    $tpl->assign('users', $users);
 
     if (Workflow::hasWorkflowIntegration($prj_id)) {
         $open_statuses = Workflow::getAllowedStatuses($prj_id);
@@ -159,9 +160,9 @@ if (Auth::getCurrentRole() > User::getRoleID("Developer")) {
         $open_statuses = Status::getAssocStatusList($prj_id, false);
     }
 
-    $tpl->assign("open_status", $open_statuses);
-    $tpl->assign("closed_status", Status::getClosedAssocList($prj_id));
-    $tpl->assign("available_releases", Release::getAssocList($prj_id));
+    $tpl->assign('open_status', $open_statuses);
+    $tpl->assign('closed_status', Status::getClosedAssocList($prj_id));
+    $tpl->assign('available_releases', Release::getAssocList($prj_id));
 }
 
 $tpl->displayTemplate();

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -42,19 +43,19 @@ class Phone_Support
      */
     public static function insertCategory()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%project_phone_category}}
                  (
                     phc_prj_id,
                     phc_title
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST["prj_id"], $_POST["title"]));
+            DB_Helper::getInstance()->query($stmt, array($_POST['prj_id'], $_POST['title']));
         } catch (DbException $e) {
             return -1;
         }
@@ -71,18 +72,18 @@ class Phone_Support
      */
     public static function updateCategory()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%project_phone_category}}
                  SET
                     phc_title=?
                  WHERE
                     phc_prj_id=? AND
-                    phc_id=?";
+                    phc_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST["title"], $_POST["prj_id"], $_POST["id"]));
+            DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['prj_id'], $_POST['id']));
         } catch (DbException $e) {
             return -1;
         }
@@ -98,7 +99,7 @@ class Phone_Support
      */
     public static function removeCategory()
     {
-        $items = $_POST["items"];
+        $items = $_POST['items'];
         $itemlist = DB_Helper::buildList($items);
 
         $stmt = "DELETE FROM
@@ -122,16 +123,16 @@ class Phone_Support
      */
     public static function getCategoryDetails($phc_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%project_phone_category}}
                  WHERE
-                    phc_id=?";
+                    phc_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($phc_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -146,7 +147,7 @@ class Phone_Support
      */
     public static function getCategoryList($prj_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     phc_id,
                     phc_title
                  FROM
@@ -154,11 +155,11 @@ class Phone_Support
                  WHERE
                     phc_prj_id=?
                  ORDER BY
-                    phc_title ASC";
+                    phc_title ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -173,7 +174,7 @@ class Phone_Support
      */
     public static function getCategoryAssocList($prj_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     phc_id,
                     phc_title
                  FROM
@@ -181,11 +182,11 @@ class Phone_Support
                  WHERE
                     phc_prj_id=?
                  ORDER BY
-                    phc_id ASC";
+                    phc_id ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -199,16 +200,16 @@ class Phone_Support
      */
     public static function getDetails($phs_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%phone_support}}
                  WHERE
-                    phs_id=?";
+                    phs_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($phs_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -223,7 +224,7 @@ class Phone_Support
      */
     public static function getListing($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     {{%phone_support}}.*,
                     usr_full_name,
                     phc_title,
@@ -240,17 +241,17 @@ class Phone_Support
                     phs_usr_id=usr_id AND
                     phs_iss_id=?
                  ORDER BY
-                    phs_created_date ASC";
+                    phs_created_date ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]["phs_description"] = Misc::activateLinks(nl2br(htmlspecialchars($res[$i]["phs_description"])));
-            $res[$i]["phs_description"] = Link_Filter::processText($res[$i]['iss_prj_id'], $res[$i]["phs_description"]);
-            $res[$i]["phs_created_date"] = Date_Helper::getFormattedDate($res[$i]["phs_created_date"]);
+            $res[$i]['phs_description'] = Misc::activateLinks(nl2br(htmlspecialchars($res[$i]['phs_description'])));
+            $res[$i]['phs_description'] = Link_Filter::processText($res[$i]['iss_prj_id'], $res[$i]['phs_description']);
+            $res[$i]['phs_created_date'] = Date_Helper::getFormattedDate($res[$i]['phs_created_date']);
         }
 
         return $res;
@@ -267,12 +268,12 @@ class Phone_Support
         $usr_id = Auth::getUserID();
         // format the date from the form
         $created_date = sprintf('%04d-%02d-%02d %02d:%02d:%02d',
-            $_POST["date"]["Year"], $_POST["date"]["Month"],
-            $_POST["date"]["Day"], $_POST["date"]["Hour"],
-            $_POST["date"]["Minute"], 0);
+            $_POST['date']['Year'], $_POST['date']['Month'],
+            $_POST['date']['Day'], $_POST['date']['Hour'],
+            $_POST['date']['Minute'], 0);
         // convert the date to GMT timezone
-        $created_date = Date_Helper::convertDateGMT($created_date . " " . Date_Helper::getPreferredTimezone());
-        $stmt = "INSERT INTO
+        $created_date = Date_Helper::convertDateGMT($created_date . ' ' . Date_Helper::getPreferredTimezone());
+        $stmt = 'INSERT INTO
                     {{%phone_support}}
                  (
                     phs_iss_id,
@@ -291,20 +292,20 @@ class Phone_Support
                     ?, ?, ?, ?, ?,
                     ?, ?, ?, ?, ?,
                     ?, ?
-                 )";
+                 )';
         $params = array(
-            $_POST["issue_id"],
+            $_POST['issue_id'],
             $usr_id,
-            $_POST["phone_category"],
+            $_POST['phone_category'],
             $created_date,
-            $_POST["type"],
-            $_POST["phone_number"],
-            $_POST["description"],
-            $_POST["phone_type"],
-            $_POST["from_lname"],
-            $_POST["from_fname"],
-            $_POST["to_lname"],
-            $_POST["to_fname"],
+            $_POST['type'],
+            $_POST['phone_number'],
+            $_POST['description'],
+            $_POST['phone_type'],
+            $_POST['from_lname'],
+            $_POST['from_fname'],
+            $_POST['to_lname'],
+            $_POST['to_fname'],
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -317,16 +318,16 @@ class Phone_Support
         $prj_id = Auth::getCurrentProject();
         $_POST['category'] = Time_Tracking::getCategoryID($prj_id, 'Telephone Discussion');
         $_POST['time_spent'] = $_POST['call_length'];
-        $_POST['summary'] = ev_gettext("Time entry inserted from phone call.");
+        $_POST['summary'] = ev_gettext('Time entry inserted from phone call.');
         Time_Tracking::insertEntry();
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     max(ttr_id)
                  FROM
                     {{%time_tracking}}
                  WHERE
                     ttr_iss_id = ? AND
-                    ttr_usr_id = ?";
-        $ttr_id = DB_Helper::getInstance()->getOne($stmt, array($_POST["issue_id"], $usr_id));
+                    ttr_usr_id = ?';
+        $ttr_id = DB_Helper::getInstance()->getOne($stmt, array($_POST['issue_id'], $usr_id));
 
         Issue::markAsUpdated($_POST['issue_id'], 'phone call');
         // need to save a history entry for this
@@ -336,12 +337,12 @@ class Phone_Support
 
         // update phone record with time tracking ID.
         if ((!empty($phs_id)) && (!empty($ttr_id))) {
-            $stmt = "UPDATE
+            $stmt = 'UPDATE
                         {{%phone_support}}
                      SET
                         phs_ttr_id = ?
                      WHERE
-                        phs_id = ?";
+                        phs_id = ?';
             try {
                 DB_Helper::getInstance()->query($stmt, array($ttr_id, $phs_id));
             } catch (DbException $e) {
@@ -361,36 +362,36 @@ class Phone_Support
      */
     public static function remove($phone_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     phs_iss_id,
                     phs_ttr_id,
                     phs_usr_id
                  FROM
                     {{%phone_support}}
                  WHERE
-                    phs_id=?";
+                    phs_id=?';
         $details = DB_Helper::getInstance()->getRow($stmt, array($phone_id));
         if ($details['phs_usr_id'] != Auth::getUserID()) {
             return -2;
         }
 
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%phone_support}}
                  WHERE
-                    phs_id=?";
+                    phs_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($phone_id));
         } catch (DbException $e) {
             return -1;
         }
 
-        Issue::markAsUpdated($details["phs_iss_id"]);
+        Issue::markAsUpdated($details['phs_iss_id']);
         // need to save a history entry for this
         $summary = ev_gettext('Phone Support entry removed by %1$s', User::getFullName(Auth::getUserID()));
-        History::add($details["phs_iss_id"], Auth::getUserID(), History::getTypeID('phone_entry_removed'), $summary);
+        History::add($details['phs_iss_id'], Auth::getUserID(), History::getTypeID('phone_entry_removed'), $summary);
 
-        if (!empty($details["phs_ttr_id"])) {
-            $time_result = Time_Tracking::removeEntry($details["phs_ttr_id"], $details['phs_usr_id']);
+        if (!empty($details['phs_ttr_id'])) {
+            $time_result = Time_Tracking::removeEntry($details['phs_ttr_id'], $details['phs_usr_id']);
             if ($time_result == 1) {
                 return 2;
             }
@@ -435,7 +436,7 @@ class Phone_Support
      */
     public static function getCountByUser($usr_id, $start, $end)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(phs_id)
                  FROM
                     {{%phone_support}},
@@ -444,12 +445,12 @@ class Phone_Support
                     phs_iss_id = iss_id AND
                     iss_prj_id = ? AND
                     phs_created_date BETWEEN ? AND ? AND
-                    phs_usr_id = ?";
+                    phs_usr_id = ?';
         $params = array(Auth::getCurrentProject(), $start, $end, $usr_id);
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;

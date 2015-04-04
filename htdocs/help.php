@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,19 +31,19 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("help/index.tpl.html");
+$tpl->setTemplate('help/index.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
-if ((empty($_GET["topic"])) || (!Help::topicExists($_GET["topic"]))) {
+if ((empty($_GET['topic'])) || (!Help::topicExists($_GET['topic']))) {
     $topic = 'main';
 } else {
-    $topic = $_GET["topic"];
+    $topic = $_GET['topic'];
 }
-$tpl->assign("topic", $topic);
-$tpl->assign("links", Help::getNavigationLinks($topic));
-if ($topic != "main") {
-    $tpl->assign("child_links", Help::getChildLinks($topic));
+$tpl->assign('topic', $topic);
+$tpl->assign('links', Help::getNavigationLinks($topic));
+if ($topic != 'main') {
+    $tpl->assign('child_links', Help::getChildLinks($topic));
 }
 
 $tpl->displayTemplate();

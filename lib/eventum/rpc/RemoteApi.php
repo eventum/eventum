@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -46,15 +47,15 @@ class RemoteApi
     {
         if ($email) {
             $cookie = array(
-                "email" => $email
+                'email' => $email
             );
             $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
         }
 
         if ($project) {
             $cookie = array(
-                "prj_id"   => $project,
-                "remember" => false
+                'prj_id'   => $project,
+                'remember' => false
             );
             $_COOKIE[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
         }
@@ -69,16 +70,16 @@ class RemoteApi
     {
         $res = Project::getRemoteAssocList();
         if (empty($res)) {
-            throw new RemoteApiException("There are currently no projects setup for remote invocation");
+            throw new RemoteApiException('There are currently no projects setup for remote invocation');
         }
         // check if this project allows remote invocation
         if (!in_array($prj_id, array_keys($res))) {
-            throw new RemoteApiException("This project does not allow remote invocation");
+            throw new RemoteApiException('This project does not allow remote invocation');
         }
 
         $res = Project::getAddressBookAssocList($prj_id);
         if (empty($res)) {
-            throw new RemoteApiException("There are currently no users associated with the given project");
+            throw new RemoteApiException('There are currently no users associated with the given project');
         }
 
         return $res;
@@ -99,11 +100,11 @@ class RemoteApi
         }
 
         return array(
-            "summary"          => $details['iss_summary'],
-            "customer"         => @$details['customer_info']['customer_name'],
-            "status"           => @$details['sta_title'],
-            "assignments"      => @$details["assignments"],
-            "authorized_names" => @implode(', ', $details['authorized_names']),
+            'summary'          => $details['iss_summary'],
+            'customer'         => @$details['customer_info']['customer_name'],
+            'status'           => @$details['sta_title'],
+            'assignments'      => @$details['assignments'],
+            'authorized_names' => @implode(', ', $details['authorized_names']),
         );
     }
 
@@ -123,7 +124,7 @@ class RemoteApi
         $results = Issue::getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id);
 
         if (empty($results)) {
-            throw new RemoteApiException("There are currently no open issues");
+            throw new RemoteApiException('There are currently no open issues');
         }
 
         $structs = array();
@@ -168,14 +169,14 @@ class RemoteApi
 
         $res = Project::getRemoteAssocListByUser($usr_id, $only_customer_projects);
         if (empty($res)) {
-            throw new RemoteApiException("You are not assigned to any projects at this moment or you lack the proper role");
+            throw new RemoteApiException('You are not assigned to any projects at this moment or you lack the proper role');
         }
 
         $structs = array();
         foreach ($res as $prj_id => $prj_title) {
             $structs[] = array(
-                "id"    => $prj_id,
-                "title" => $prj_title,
+                'id'    => $prj_id,
+                'title' => $prj_title,
             );
         }
 
@@ -210,7 +211,7 @@ class RemoteApi
         unset($res['iss_original_description']);
 
         // returns custom fields in an array
-        $res["custom_fields"] = Custom_Field::getListByIssue($res['iss_prj_id'], $res['iss_id']);
+        $res['custom_fields'] = Custom_Field::getListByIssue($res['iss_prj_id'], $res['iss_id']);
 
         return $res;
     }
@@ -225,7 +226,7 @@ class RemoteApi
         $prj_id = Issue::getProjectID($issue_id);
         $res = Time_Tracking::getAssocCategories($prj_id);
         if (empty($res)) {
-            throw new RemoteApiException("No time tracking categories could be found");
+            throw new RemoteApiException('No time tracking categories could be found');
         }
 
         return $res;
@@ -245,7 +246,7 @@ class RemoteApi
 
         $res = Time_Tracking::recordRemoteEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent);
         if ($res == -1) {
-            throw new RemoteApiException("Could not record the time tracking entry");
+            throw new RemoteApiException('Could not record the time tracking entry');
         }
 
         return 'OK';
@@ -316,7 +317,7 @@ class RemoteApi
         // check if issue currently is un-assigned
         $current_assignees = Issue::getAssignedUsers($issue_id);
         if (count($current_assignees) > 0) {
-            throw new RemoteApiException("Issue is currently assigned to " . implode(',', $current_assignees));
+            throw new RemoteApiException('Issue is currently assigned to ' . implode(',', $current_assignees));
         }
 
         $usr_id = Auth::getUserID();
@@ -335,7 +336,7 @@ class RemoteApi
             throw new RemoteApiException("Could not assign issue #$issue_id to $email");
         }
 
-        $res = Issue::setRemoteStatus($issue_id, $usr_id, "Assigned");
+        $res = Issue::setRemoteStatus($issue_id, $usr_id, 'Assigned');
         if ($res == -1) {
             throw new RemoteApiException("Could not set status for issue #$issue_id");
         }
@@ -391,7 +392,7 @@ class RemoteApi
 
         $res = Attachment::getList($issue_id);
         if (empty($res)) {
-            throw new RemoteApiException("No files could be found");
+            throw new RemoteApiException('No files could be found');
         }
 
         return $res;
@@ -406,7 +407,7 @@ class RemoteApi
     {
         $res = Attachment::getDetails($file_id);
         if (empty($res)) {
-            throw new RemoteApiException("The requested file could not be found");
+            throw new RemoteApiException('The requested file could not be found');
         }
 
         return $res;
@@ -529,7 +530,7 @@ class RemoteApi
 
         if (is_array($emails)) {
             foreach ($emails as &$email) {
-                unset($email["seb_body"]);
+                unset($email['seb_body']);
             }
         }
 
@@ -564,7 +565,7 @@ class RemoteApi
 
         // get requested email
         if (count($email) < 1 || !is_array($email)) {
-            throw new RemoteApiException("Email #" . $email_id . " does not exist for issue #$issue_id");
+            throw new RemoteApiException('Email #' . $email_id . " does not exist for issue #$issue_id");
         }
 
         return $email;
@@ -594,7 +595,7 @@ class RemoteApi
         $note = Note::getNoteBySequence($issue_id, $note_id);
 
         if (count($note) < 1 || !is_array($note)) {
-            throw new RemoteApiException("Note #" . $note_id . " does not exist for issue #$issue_id");
+            throw new RemoteApiException('Note #' . $note_id . " does not exist for issue #$issue_id");
         }
 
         return $note;
@@ -614,7 +615,7 @@ class RemoteApi
 
         $res = Note::convertNote($note_id, $target, $authorize_sender);
         if (empty($res)) {
-            throw new RemoteApiException("Error converting note");
+            throw new RemoteApiException('Error converting note');
         }
 
         return 'OK';
@@ -634,12 +635,12 @@ class RemoteApi
         $assignees = Issue::getAssignedUserIDs($issue_id);
         if (count($assignees) > 0) {
             if (in_array($usr_id, $assignees)) {
-                return "yes";
+                return 'yes';
             } else {
-                return "no";
+                return 'no';
             }
         } else {
-            return "yes";
+            return 'yes';
         }
     }
 
@@ -662,12 +663,12 @@ class RemoteApi
 
         // figure out the correct week
         if ((empty($start)) || (empty($end))) {
-            $start = date("U") - (Date_Helper::DAY * (date("w") - 1));
+            $start = date('U') - (Date_Helper::DAY * (date('w') - 1));
             if ($week > 0) {
                 $start = ($start - (Date_Helper::WEEK * $week));
             }
-            $end = date("Y-m-d", ($start + (Date_Helper::DAY * 6)));
-            $start = date("Y-m-d", $start);
+            $end = date('Y-m-d', ($start + (Date_Helper::DAY * 6)));
+            $start = date('Y-m-d', $start);
         }
 
         if ($separate_closed) {
@@ -676,7 +677,7 @@ class RemoteApi
             $_POST['separate_closed'] = true;
         }
         $tpl = new Template_Helper();
-        $tpl->setTemplate("reports/weekly_data.tpl.html");
+        $tpl->setTemplate('reports/weekly_data.tpl.html');
         $tpl->assign(array(
             'report_type' => 'weekly',
             'data' => Report::getWeeklyReport($usr_id, $start, $end, $separate_closed)
@@ -708,15 +709,15 @@ class RemoteApi
         // TODO: is the email printing neccessary?
         $email = User::getEmail($usr_id);
 
-        if ($action == "in") {
+        if ($action == 'in') {
             $res = User::clockIn($usr_id);
-        } elseif ($action == "out") {
+        } elseif ($action == 'out') {
             $res = User::clockOut($usr_id);
         } else {
             if (User::isClockedIn($usr_id)) {
-                $msg = "is clocked in";
+                $msg = 'is clocked in';
             } else {
-                $msg = "is clocked out";
+                $msg = 'is clocked out';
             }
 
             return "$email $msg.\n";
@@ -752,12 +753,12 @@ class RemoteApi
         $draft = Draft::getDraftBySequence($issue_id, $draft_id);
 
         if ((count($draft) < 1) || (!is_array($draft))) {
-            throw new RemoteApiException("Draft #" . $draft_id . " does not exist for issue #$issue_id");
+            throw new RemoteApiException('Draft #' . $draft_id . " does not exist for issue #$issue_id");
         }
         if (empty($draft['to'])) {
-            $draft['to'] = "Notification List";
+            $draft['to'] = 'Notification List';
         }
-        $draft['cc'] = @implode(", ", $draft['cc']);
+        $draft['cc'] = @implode(', ', $draft['cc']);
 
         return $draft;
     }
@@ -774,15 +775,15 @@ class RemoteApi
         self::createFakeCookie(false, Issue::getProjectID($issue_id));
 
         if (count($draft) < 1 || !is_array($draft)) {
-            throw new RemoteApiException("Draft #" . $draft_id . " does not exist for issue #$issue_id");
+            throw new RemoteApiException('Draft #' . $draft_id . " does not exist for issue #$issue_id");
         }
 
-        $res = Draft::send($draft["emd_id"]);
+        $res = Draft::send($draft['emd_id']);
         if ($res == 1) {
             return "Draft #{$draft_id} sent successfully.\n";
         }
 
-        throw new RemoteApiException("Error sending Draft #" . $draft_id . "\n");
+        throw new RemoteApiException('Error sending Draft #' . $draft_id . "\n");
     }
 
     /**
@@ -827,7 +828,7 @@ class RemoteApi
         foreach ($types as $type_id) {
             $res = $contract->redeemIncident($issue_id, $type_id);
             if ($res == -1) {
-                throw new RemoteApiException("An error occured trying to mark issue as redeemed.");
+                throw new RemoteApiException('An error occured trying to mark issue as redeemed.');
             }
         }
 
@@ -874,7 +875,7 @@ class RemoteApi
         foreach ($types as $type_id) {
             $res = $contract->unRedeemIncident($issue_id, $type_id);
             if ($res == -1) {
-                throw new RemoteApiException("An error occured trying to mark issue as unredeemed.");
+                throw new RemoteApiException('An error occured trying to mark issue as unredeemed.');
             }
         }
 
@@ -932,7 +933,7 @@ class RemoteApi
 
         $msg = $email . "\t" . $command . "\n";
 
-        $fp = @fopen(APP_CLI_LOG, "a");
+        $fp = @fopen(APP_CLI_LOG, 'a');
         @fwrite($fp, $msg);
         @fclose($fp);
 

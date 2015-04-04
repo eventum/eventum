@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -32,17 +33,17 @@ require_once dirname(__FILE__) . '/../../init.php';
 try {
     // check if logged in. if not, just give error
     if (!Auth::hasValidCookie(APP_COOKIE)) {
-        throw new BadFunctionCallException(ev_gettext("Must be logged in"));
+        throw new BadFunctionCallException(ev_gettext('Must be logged in'));
     }
 
     if (!isset($_GET['file'])) {
         // TRANSLATORS: this is technical error and should not be displayed to end users
-        throw new InvalidArgumentException(ev_gettext("No file argument"));
+        throw new InvalidArgumentException(ev_gettext('No file argument'));
     }
 
     $file = (string) $_GET['file'];
     if (!isset($_FILES[$file])) {
-        throw new InvalidArgumentException(ev_gettext("No files uploaded"));
+        throw new InvalidArgumentException(ev_gettext('No files uploaded'));
     }
 
     $iaf_id = Attachment::addFiles($_FILES[$file]);

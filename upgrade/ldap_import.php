@@ -34,7 +34,7 @@ class LDAP_Wrapper extends LDAP_Auth_Backend
 
         if (PEAR::isError($search)) {
             $entry = $search;
-            error_log($entry->getCode(). ": ". $entry->getMessage());
+            error_log($entry->getCode(). ': '. $entry->getMessage());
 
             return null;
         }
@@ -63,7 +63,7 @@ class LDAP_Wrapper extends LDAP_Auth_Backend
 }
 
 if (APP_AUTH_BACKEND != 'ldap_auth_backend') {
-    error_log("You should enable and configure LDAP backend first");
+    error_log('You should enable and configure LDAP backend first');
     exit(1);
 }
 

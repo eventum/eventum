@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -186,25 +187,25 @@ class Round_Robin
     public function markNextAssignee($prj_id, $usr_id)
     {
         $prr_id = self::getID($prj_id);
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%round_robin_user}}
                  SET
                     rru_next=0
                  WHERE
-                    rru_prr_id=?";
+                    rru_prr_id=?';
         try {
             $res = DB_Helper::getInstance()->query($stmt, array($prr_id));
         } catch (DbException $e) {
             return false;
         }
 
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%round_robin_user}}
                  SET
                     rru_next=1
                  WHERE
                     rru_usr_id=? AND
-                    rru_prr_id=?";
+                    rru_prr_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($usr_id, $prr_id));
         } catch (DbException $e) {
@@ -222,16 +223,16 @@ class Round_Robin
      */
     public function getID($prj_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     prr_id
                  FROM
                     {{%project_round_robin}}
                  WHERE
-                    prr_prj_id=?";
+                    prr_prj_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -246,7 +247,7 @@ class Round_Robin
      */
     public function getUsersByProject($prj_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     usr_id,
                     rru_next,
                     prr_blackout_start,
@@ -260,7 +261,7 @@ class Round_Robin
                     prr_id=rru_prr_id AND
                     rru_usr_id=usr_id
                  ORDER BY
-                    usr_id ASC";
+                    usr_id ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
@@ -296,7 +297,7 @@ class Round_Robin
     {
         $blackout_start = $_POST['blackout_start']['Hour'] . ':' . $_POST['blackout_start']['Minute'] . ':00';
         $blackout_end = $_POST['blackout_end']['Hour'] . ':' . $_POST['blackout_end']['Minute'] . ':00';
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%project_round_robin}}
                  (
                     prr_prj_id,
@@ -304,9 +305,9 @@ class Round_Robin
                     prr_blackout_end
                  ) VALUES (
                     ?, ?, ?
-                 )";
+                 )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST["project"], $blackout_start, $blackout_end));
+            DB_Helper::getInstance()->query($stmt, array($_POST['project'], $blackout_start, $blackout_end));
         } catch (DbException $e) {
             return -1;
         }
@@ -329,7 +330,7 @@ class Round_Robin
      */
     public function addUserAssociation($prr_id, $usr_id)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%round_robin_user}}
                  (
                     rru_prr_id,
@@ -337,7 +338,7 @@ class Round_Robin
                     rru_next
                  ) VALUES (
                     ?, ?, ?
-                 )";
+                 )';
         try {
             DB_Helper::getInstance()->query($stmt, array($prr_id, $usr_id, 0));
         } catch (DbException $e) {
@@ -355,7 +356,7 @@ class Round_Robin
      */
     public static function getList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     prr_id,
                     prj_title
                  FROM
@@ -364,16 +365,16 @@ class Round_Robin
                  WHERE
                     prr_prj_id=prj_id
                  ORDER BY
-                    prj_title ASC";
+                    prj_title ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         // get the list of associated users
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['users'] = implode(", ", array_values(self::getAssociatedUsers($res[$i]['prr_id'])));
+            $res[$i]['users'] = implode(', ', array_values(self::getAssociatedUsers($res[$i]['prr_id'])));
         }
 
         return $res;
@@ -388,7 +389,7 @@ class Round_Robin
      */
     public function getAssociatedUsers($prr_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     usr_id,
                     usr_full_name
                  FROM
@@ -398,7 +399,7 @@ class Round_Robin
                     rru_usr_id=usr_id AND
                     rru_prr_id=?
                  ORDER BY
-                    usr_id ASC";
+                    usr_id ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prr_id));
         } catch (DbException $e) {
@@ -416,16 +417,16 @@ class Round_Robin
      */
     public static function getDetails($prr_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%project_round_robin}}
                  WHERE
-                    prr_id=?";
+                    prr_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($prr_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         // get all of the user associations here as well
@@ -443,16 +444,16 @@ class Round_Robin
     {
         $blackout_start = $_POST['blackout_start']['Hour'] . ':' . $_POST['blackout_start']['Minute'] . ':00';
         $blackout_end = $_POST['blackout_end']['Hour'] . ':' . $_POST['blackout_end']['Minute'] . ':00';
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%project_round_robin}}
                  SET
                     prr_prj_id=?,
                     prr_blackout_start=?,
                     prr_blackout_end=?
                  WHERE
-                    prr_id=?";
+                    prr_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST["project"], $blackout_start, $blackout_end, $_POST["id"]));
+            DB_Helper::getInstance()->query($stmt, array($_POST['project'], $blackout_start, $blackout_end, $_POST['id']));
         } catch (DbException $e) {
             return -1;
         }
@@ -499,7 +500,7 @@ class Round_Robin
      */
     public static function remove()
     {
-        $items = $_POST["items"];
+        $items = $_POST['items'];
         $itemlist = DB_Helper::buildList($items);
 
         $stmt = "DELETE FROM

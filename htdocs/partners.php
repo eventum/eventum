@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -28,30 +29,30 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("select_partners.tpl.html");
+$tpl->setTemplate('select_partners.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
-$issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
+$issue_id = @$_POST['issue_id'] ? $_POST['issue_id'] : $_GET['iss_id'];
 
-if ((!Access::canViewDrafts($issue_id, Auth::getUserID())) || (Auth::getCurrentRole() <= User::getRoleID("Standard User"))) {
+if ((!Access::canViewDrafts($issue_id, Auth::getUserID())) || (Auth::getCurrentRole() <= User::getRoleID('Standard User'))) {
     $tpl = new Template_Helper();
-    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;
 }
 $prj_id = Issue::getProjectID($issue_id);
 
-if (@$_POST["cat"] == "update") {
+if (@$_POST['cat'] == 'update') {
     $res = Partner::selectPartnersForIssue($_POST['issue_id'], @$_POST['partners']);
-    $tpl->assign("update_result", $res);
+    $tpl->assign('update_result', $res);
 }
 
 $tpl->assign(array(
-    "issue_id"           => $issue_id,
+    'issue_id'           => $issue_id,
     'enabled_partners'   => Partner::getPartnersByProject($prj_id),
     'partners'           => Partner::getPartnersByIssue($issue_id),
-    "current_user_prefs" => Prefs::get(Auth::getUserID())
+    'current_user_prefs' => Prefs::get(Auth::getUserID())
 ));
 
 $tpl->displayTemplate();

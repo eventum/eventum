@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -36,9 +37,9 @@ if (!Auth::hasValidCookie(APP_COOKIE)) {
 
 // Render OpenSearch description document (OSDD), http://www.opensearch.org/
 
-header("Content-Type: text/xml; charset=" . APP_CHARSET);
+header('Content-Type: text/xml; charset=' . APP_CHARSET);
 
 $tpl = new Template_Helper();
-$tpl->assign("app_charset", APP_CHARSET);
-$tpl->setTemplate("opensearch.tpl.xml");
+$tpl->assign('app_charset', APP_CHARSET);
+$tpl->setTemplate('opensearch.tpl.xml');
 $tpl->displayTemplate();

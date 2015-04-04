@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -43,16 +44,16 @@ class Resolution
      */
     public static function getTitle($res_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     res_title
                  FROM
                     {{%resolution}}
                  WHERE
-                    res_id=?";
+                    res_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($res_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -66,16 +67,16 @@ class Resolution
      */
     public static function getID($title)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     res_id
                  FROM
                     {{%resolution}}
                  WHERE
-                    res_title=?";
+                    res_title=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($title));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -89,7 +90,7 @@ class Resolution
      */
     public static function remove()
     {
-        $items = $_POST["items"];
+        $items = $_POST['items'];
         $itemlist = DB_Helper::buildList($items);
         // gotta fix the issues before removing the resolution
         $stmt = "UPDATE
@@ -125,18 +126,18 @@ class Resolution
      */
     public static function update()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%resolution}}
                  SET
                     res_title=?,
                     res_rank=?
                  WHERE
-                    res_id=?";
+                    res_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST["title"], $_POST['rank'], $_POST["id"]));
+            DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['rank'], $_POST['id']));
         } catch (DbException $e) {
             return -1;
         }
@@ -152,16 +153,16 @@ class Resolution
      */
     public static function getDetails($res_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%resolution}}
                  WHERE
-                    res_id=?";
+                    res_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($res_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -174,7 +175,7 @@ class Resolution
      */
     public static function getList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     res_id,
                     res_rank,
                     res_title
@@ -182,11 +183,11 @@ class Resolution
                     {{%resolution}}
                  ORDER BY
                     res_rank ASC,
-                    res_title ASC";
+                    res_title ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -200,18 +201,18 @@ class Resolution
      */
     public static function getAssocList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     res_id,
                     res_title
                  FROM
                     {{%resolution}}
                  ORDER BY
                     res_rank ASC,
-                    res_title ASC";
+                    res_title ASC';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -225,10 +226,10 @@ class Resolution
      */
     public static function insert()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%resolution}}
                  (
                     res_title,
@@ -236,8 +237,8 @@ class Resolution
                     res_created_date
                  ) VALUES (
                     ?, ?, ?
-                 )";
-        $params = array($_POST["title"], $_POST['rank'], Date_Helper::getCurrentDateGMT());
+                 )';
+        $params = array($_POST['title'], $_POST['rank'], Date_Helper::getCurrentDateGMT());
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {

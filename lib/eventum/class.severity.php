@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -66,26 +67,26 @@ class Severity
             // switch the rankings here...
             $index = array_search($new_rank, $ranks);
             $replaced_sev_id = $ids[$index];
-            $sql = "UPDATE
+            $sql = 'UPDATE
                         {{%project_severity}}
                      SET
                         sev_rank=?
                      WHERE
                         sev_prj_id=? AND
-                        sev_id=?";
+                        sev_id=?';
             try {
                 DB_Helper::getInstance()->query($sql, array($ranking[$sev_id], $prj_id, $replaced_sev_id));
             } catch (DbException $e) {
                 return array();
             }
         }
-        $sql = "UPDATE
+        $sql = 'UPDATE
                     {{%project_severity}}
                  SET
                     sev_rank=?
                  WHERE
                     sev_prj_id=? AND
-                    sev_id=?";
+                    sev_id=?';
         try {
             DB_Helper::getInstance()->query($sql, array($new_rank, $prj_id, $sev_id));
         } catch (DbException $e) {
@@ -104,7 +105,7 @@ class Severity
      */
     private static function _getRanking($prj_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     sev_id,
                     sev_rank
                  FROM
@@ -112,7 +113,7 @@ class Severity
                  WHERE
                     sev_prj_id=?
                  ORDER BY
-                    sev_rank ASC";
+                    sev_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($sql, array($prj_id));
         } catch (DbException $e) {
@@ -130,16 +131,16 @@ class Severity
      */
     public static function getDetails($sev_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     *
                  FROM
                     {{%project_severity}}
                  WHERE
-                    sev_id=?";
+                    sev_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($sql, array($sev_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -205,14 +206,14 @@ class Severity
         if (Validation::isWhitespace($title)) {
             return -2;
         }
-        $sql = "UPDATE
+        $sql = 'UPDATE
                     {{%project_severity}}
                  SET
                     sev_title=?,
                     sev_description=?,
                     sev_rank=?
                  WHERE
-                    sev_id=?";
+                    sev_id=?';
         try {
             DB_Helper::getInstance()->query($sql, array($title, $description, $rank, $sev_id));
         } catch (DbException $e) {
@@ -232,13 +233,13 @@ class Severity
         if (Validation::isWhitespace($title)) {
             return -2;
         }
-        $sql = "INSERT INTO
+        $sql = 'INSERT INTO
                     {{%project_severity}}
                  SET
                     sev_prj_id = ?,
                     sev_title=?,
                     sev_description=?,
-                    sev_rank=?";
+                    sev_rank=?';
         try {
             DB_Helper::getInstance()->query($sql, array($prj_id, $title, $description, $rank));
         } catch (DbException $e) {
@@ -257,7 +258,7 @@ class Severity
      */
     public static function getList($prj_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     sev_id,
                     sev_title,
                     sev_rank,
@@ -267,7 +268,7 @@ class Severity
                  WHERE
                     sev_prj_id=?
                  ORDER BY
-                    sev_rank ASC";
+                    sev_rank ASC';
 
         try {
             $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
@@ -286,12 +287,12 @@ class Severity
      */
     public static function getTitle($sev_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     sev_title
                  FROM
                     {{%project_severity}}
                  WHERE
-                    sev_id=?";
+                    sev_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($sev_id));
         } catch (DbException $e) {
@@ -316,7 +317,7 @@ class Severity
             return $list[$prj_id];
         }
 
-        $sql = "SELECT
+        $sql = 'SELECT
                     sev_id,
                     sev_title
                  FROM
@@ -324,7 +325,7 @@ class Severity
                  WHERE
                     sev_prj_id=?
                  ORDER BY
-                    sev_rank ASC";
+                    sev_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($sql, array($prj_id));
         } catch (DbException $e) {
@@ -346,13 +347,13 @@ class Severity
      */
     public static function getID($prj_id, $sev_title)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     sev_id
                  FROM
                     {{%project_severity}}
                  WHERE
                     sev_prj_id=?
-					AND sev_title = ?";
+					AND sev_title = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($prj_id, $sev_title));
         } catch (DbException $e) {

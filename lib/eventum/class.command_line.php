@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -49,7 +50,7 @@ class Command_Line
             foreach ($list as $key => $value) {
                 $prompt .= sprintf(" [%s] => %s\n", $key, $value);
             }
-            $prompt .= "Please enter the resolution";
+            $prompt .= 'Please enter the resolution';
             $resolution_id = CLI_Misc::prompt($prompt, false);
             $available_ids = array_keys($list);
             if (!in_array($resolution_id, $available_ids)) {
@@ -86,7 +87,7 @@ class Command_Line
             foreach ($list as $key => $value) {
                 $prompt .= sprintf(" [%s] => %s\n", $key, $value);
             }
-            $prompt .= "Please enter the status";
+            $prompt .= 'Please enter the status';
             $status = CLI_Misc::prompt($prompt, false);
             $lowercase_keys = array_map('strtolower', array_keys($list));
             $lowercase_values = array_map('strtolower', array_values($list));
@@ -133,7 +134,7 @@ class Command_Line
         $resolution_id = self::promptResolutionSelection($client);
 
         // ask whether to send a notification email about this action or not (defaults to yes)
-        $msg = "Would you like to send a notification email about this issue being closed? [y/n]";
+        $msg = 'Would you like to send a notification email about this issue being closed? [y/n]';
         $ret = CLI_Misc::prompt($msg, false);
         if (strtolower($ret) == 'y') {
             $send_notification = true;
@@ -142,7 +143,7 @@ class Command_Line
         }
 
         // prompt for internal note
-        $prompt = "Please enter a reason for closing this issue (one line only)";
+        $prompt = 'Please enter a reason for closing this issue (one line only)';
         $note = CLI_Misc::prompt($prompt, false);
 
         $result = $client->closeIssue($auth[0], $auth[1], $issue_id, $new_status, (int) $resolution_id, $send_notification, $note);
@@ -190,7 +191,7 @@ class Command_Line
             // contacts now...
             if (count($customer['contract']['contacts']) > 0) {
                 foreach ($customer['contract']['contacts'] as $contact) {
-                    $out[] = "                   " . $contact['name'] . ' - ' . $contact['email'] .
+                    $out[] = '                   ' . $contact['name'] . ' - ' . $contact['email'] .
                         (empty($contact['phone']) ? '' : (' - ' . $contact['phone']));
                 }
             }
@@ -208,7 +209,7 @@ class Command_Line
      */
     public static function getEnvironmentSettings()
     {
-        $rcfile = getenv('HOME') . "/.eventumrc";
+        $rcfile = getenv('HOME') . '/.eventumrc';
 
         $email = '';
         $password = '';
@@ -263,12 +264,12 @@ class Command_Line
         $i = 1;
         foreach ($list as $attachment) {
             echo "--------------------------------------------------------------\n";
-            echo " Attachment sent by " . $attachment['usr_full_name'] . " on " . $attachment['iat_created_date'] . "\n";
+            echo ' Attachment sent by ' . $attachment['usr_full_name'] . ' on ' . $attachment['iat_created_date'] . "\n";
             foreach ($attachment['files'] as $file) {
-                echo "  [$i] => " . $file['iaf_filename'] . " (" . $file['iaf_filesize'] . ")\n";
+                echo "  [$i] => " . $file['iaf_filename'] . ' (' . $file['iaf_filesize'] . ")\n";
                 $i++;
             }
-            echo " Description: " . $attachment['iat_description'] . "\n";
+            echo ' Description: ' . $attachment['iat_description'] . "\n";
         }
     }
 
@@ -313,10 +314,10 @@ class Command_Line
             if (strtolower($ret) == 'y') {
                 unlink($details['iaf_filename']);
                 if (file_exists($details['iaf_filename'])) {
-                    self::quit("No permission to remove the file");
+                    self::quit('No permission to remove the file');
                 }
             } else {
-                self::quit("Download halted");
+                self::quit('Download halted');
             }
         }
         $fp = fopen($details['iaf_filename'], 'w');
@@ -390,7 +391,7 @@ class Command_Line
     {
         // check if the given email address is indeed an email
         if (!strstr($developer, '@')) {
-            self::quit("The third argument for this command needs to be a valid email address");
+            self::quit('The third argument for this command needs to be a valid email address');
         }
         $details = self::checkIssuePermissions($client, $auth, $issue_id);
 
@@ -434,7 +435,7 @@ class Command_Line
     {
         // check if the given email address is indeed an email
         if (!strstr($new_replier, '@')) {
-            self::quit("The third argument for this command needs to be a valid email address");
+            self::quit('The third argument for this command needs to be a valid email address');
         }
         $details = self::checkIssuePermissions($client, $auth, $issue_id);
 
@@ -509,13 +510,13 @@ class Command_Line
         foreach ($cats as $id => $title) {
             $prompt .= sprintf(" [%s] => %s\n", $id, $title);
         }
-        $prompt .= "Please enter the number of the time tracking category";
+        $prompt .= 'Please enter the number of the time tracking category';
         $cat_id = CLI_Misc::prompt($prompt, false);
         if (!in_array($cat_id, array_keys($cats))) {
             self::quit("The selected time tracking category number didn't match any existing category");
         }
 
-        $prompt = "Please enter a quick summary of what you worked on";
+        $prompt = 'Please enter a quick summary of what you worked on';
         $summary = CLI_Misc::prompt($prompt, false);
 
         $result = $client->recordTimeWorked($auth[0], $auth[1], $issue_id, (int) $cat_id, $summary, $time_spent);
@@ -538,31 +539,31 @@ class Command_Line
         $details = self::checkIssuePermissions($client, $auth, $issue_id);
 
         $msg = '';
-        if (!empty($details["quarantine"]["iqu_status"])) {
-            $msg .= "        WARNING: Issue is currently quarantined!";
-            if (!empty($details["quarantine"]["iqu_expiration"])) {
-                $msg .= " Quarantine expires in " . $details["quarantine"]["time_till_expiration"];
+        if (!empty($details['quarantine']['iqu_status'])) {
+            $msg .= '        WARNING: Issue is currently quarantined!';
+            if (!empty($details['quarantine']['iqu_expiration'])) {
+                $msg .= ' Quarantine expires in ' . $details['quarantine']['time_till_expiration'];
             }
             $msg .= "\n";
         }
         $msg .= "        Issue #: $issue_id
-        Summary: " . $details['iss_summary'] . "
-         Status: " . $details['sta_title'] . "
-     Assignment: " . $details['assignments'] . "
- Auth. Repliers: " . @implode(', ', $details['authorized_names']) . "
-       Reporter: " . $details['reporter'];
+        Summary: " . $details['iss_summary'] . '
+         Status: ' . $details['sta_title'] . '
+     Assignment: ' . $details['assignments'] . '
+ Auth. Repliers: ' . @implode(', ', $details['authorized_names']) . '
+       Reporter: ' . $details['reporter'];
         if (@isset($details['customer'])) {
-            $msg .= "
-       Customer: " . @$details['customer']['name'] . "
-  Support Level: " . @$details['contract']['support_level'] . "
-Support Options: " . @$details['contract']['options_display'] . "
-          Phone: " . $details['iss_contact_phone'] . "
-       Timezone: " . $details['iss_contact_timezone'] . "
-Account Manager: " . @$details['customer']['account_manager_name'];
+            $msg .= '
+       Customer: ' . @$details['customer']['name'] . '
+  Support Level: ' . @$details['contract']['support_level'] . '
+Support Options: ' . @$details['contract']['options_display'] . '
+          Phone: ' . $details['iss_contact_phone'] . '
+       Timezone: ' . $details['iss_contact_timezone'] . '
+Account Manager: ' . @$details['customer']['account_manager_name'];
         }
-        $msg .= "
-  Last Response: " . $details['iss_last_response_date'] . "
-   Last Updated: " . $details['iss_updated_date'] . "\n";
+        $msg .= '
+  Last Response: ' . $details['iss_last_response_date'] . '
+   Last Updated: ' . $details['iss_updated_date'] . "\n";
         echo $msg;
 
         if ($full) {
@@ -585,10 +586,10 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
         $msg = '';
         // start custom fields management
-        if (!empty($details["custom_fields"])) {
-            foreach ($details["custom_fields"] as $custom_field) {
-                $msg .= str_pad($custom_field["fld_title"], 15, ' ', STR_PAD_LEFT) . ": " .
-              $custom_field["value"] ."\n";
+        if (!empty($details['custom_fields'])) {
+            foreach ($details['custom_fields'] as $custom_field) {
+                $msg .= str_pad($custom_field['fld_title'], 15, ' ', STR_PAD_LEFT) . ': ' .
+              $custom_field['value'] ."\n";
             }
         }
 
@@ -631,11 +632,11 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
 
         foreach ($issues as $issue) {
-            echo "- #" . $issue['issue_id'] . " - " . $issue['summary'] . " (" . $issue['status'] . ")";
+            echo '- #' . $issue['issue_id'] . ' - ' . $issue['summary'] . ' (' . $issue['status'] . ')';
             if (!empty($issue['assigned_users'])) {
-                echo " - (" . $issue['assigned_users'] . ")";
+                echo ' - (' . $issue['assigned_users'] . ')';
             } else {
-                echo " - (unassigned)";
+                echo ' - (unassigned)';
             }
             echo "\n";
         }
@@ -676,7 +677,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
             for ($i = 0; $i < $nprojects; $i++) {
                 $prompt .= sprintf(" [%s] => %s\n", $projects[$i]['id'], $projects[$i]['title']);
             }
-            $prompt .= "Please enter the number of the project";
+            $prompt .= 'Please enter the number of the project';
             $project_id = CLI_Misc::prompt($prompt, false);
             $found = 0;
             for ($i = 0; $i < $nprojects; $i++) {
@@ -749,29 +750,29 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
 
         foreach ($emails as $id => &$email) {
-            $email["id"] = $id;
+            $email['id'] = $id;
         }
 
         $format = array(
-            "id" => array(
-                "width" => 3,
-                "title" => "ID"
+            'id' => array(
+                'width' => 3,
+                'title' => 'ID'
             ),
-            "sup_date" => array(
-                "width" => 30,
-                "title" => "Date"
+            'sup_date' => array(
+                'width' => 30,
+                'title' => 'Date'
             ),
-            "sup_from" => array(
-                "width" => 24,
-                "title" => "From"
+            'sup_from' => array(
+                'width' => 24,
+                'title' => 'From'
             ),
-            "sup_cc" => array(
-                "width" => 24,
-                "title" => "CC"
+            'sup_cc' => array(
+                'width' => 24,
+                'title' => 'CC'
             ),
-            "sup_subject" => array(
-                "width" => 30,
-                "title" => "Subject"
+            'sup_subject' => array(
+                'width' => 30,
+                'title' => 'Subject'
             )
         );
 
@@ -794,17 +795,17 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         $email = $client->getEmail($auth[0], $auth[1], $issue_id, (int) $email_id);
 
         if ($display_full) {
-            echo $email["seb_full_email"];
+            echo $email['seb_full_email'];
         } else {
-            echo sprintf("%15s: %s\n", "Date", $email["sup_date"]);
-            echo sprintf("%15s: %s\n", "From", $email["sup_from"]);
-            echo sprintf("%15s: %s\n", "To", $email["sup_to"]);
-            echo sprintf("%15s: %s\n", "CC", $email["sup_cc"]);
-            echo sprintf("%15s: %s\n", "Attachments?", (($email["sup_has_attachment"] == 1) ? 'yes' : 'no'));
-            echo sprintf("%15s: %s\n", "Subject", $email["sup_subject"]);
+            echo sprintf("%15s: %s\n", 'Date', $email['sup_date']);
+            echo sprintf("%15s: %s\n", 'From', $email['sup_from']);
+            echo sprintf("%15s: %s\n", 'To', $email['sup_to']);
+            echo sprintf("%15s: %s\n", 'CC', $email['sup_cc']);
+            echo sprintf("%15s: %s\n", 'Attachments?', (($email['sup_has_attachment'] == 1) ? 'yes' : 'no'));
+            echo sprintf("%15s: %s\n", 'Subject', $email['sup_subject']);
             echo "------------------------------------------------------------------------\n";
-            echo $email["message"];
-            if (substr($email["message"], -1) != "\n") {
+            echo $email['message'];
+            if (substr($email['message'], -1) != "\n") {
                 echo "\n";
             }
         }
@@ -824,10 +825,10 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         $notes = $client->getNoteListing($auth[0], $auth[1], $issue_id);
 
         foreach ($notes as $i => &$note) {
-            if ($note["has_blocked_message"] == 1) {
-                $note["not_title"] = '(BLOCKED) ' . $note["not_title"];
+            if ($note['has_blocked_message'] == 1) {
+                $note['not_title'] = '(BLOCKED) ' . $note['not_title'];
             }
-            $note["id"] = ($i+1);
+            $note['id'] = ($i+1);
         }
 
         if (count($notes) < 1) {
@@ -836,21 +837,21 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
 
         $format = array(
-            "id" => array(
-                "width" => 3,
-                "title" => "ID"
+            'id' => array(
+                'width' => 3,
+                'title' => 'ID'
             ),
-            "usr_full_name" => array(
-                "width" => 24,
-                "title" => "User"
+            'usr_full_name' => array(
+                'width' => 24,
+                'title' => 'User'
             ),
-            "not_title" => array(
-                "width" => 50,
-                "title" => "Title"
+            'not_title' => array(
+                'width' => 50,
+                'title' => 'Title'
             ),
-            "not_created_date" => array(
-                "width" => 30,
-                "title" => "Date"
+            'not_created_date' => array(
+                'width' => 30,
+                'title' => 'Date'
             )
         );
 
@@ -870,11 +871,11 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         self::checkIssuePermissions($client, $auth, $issue_id);
 
         $note = self::getNote($client, $auth, $issue_id, $note_id);
-        echo sprintf("%15s: %s\n", "Date", $note["not_created_date"]);
-        echo sprintf("%15s: %s\n", "From", $note["not_from"]);
-        echo sprintf("%15s: %s\n", "Title", $note["not_title"]);
+        echo sprintf("%15s: %s\n", 'Date', $note['not_created_date']);
+        echo sprintf("%15s: %s\n", 'From', $note['not_from']);
+        echo sprintf("%15s: %s\n", 'Title', $note['not_title']);
         echo "------------------------------------------------------------------------\n";
-        echo $note["not_note"];
+        echo $note['not_note'];
     }
 
     /**
@@ -911,12 +912,12 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         $note_details = self::getNote($client, $auth, $issue_id, (int) $note_id);
         if (count($note_details) < 2) {
             self::quit("Note #$note_id does not exist for issue #$issue_id");
-        } elseif ($note_details["has_blocked_message"] != 1) {
+        } elseif ($note_details['has_blocked_message'] != 1) {
             self::quit("Note #$note_id does not have a blocked message attached so cannot be converted");
         }
 
-        $message = $client->convertNote($auth[0], $auth[1], $issue_id, (int) $note_details["not_id"], $target, $authorize_sender);
-        if ($message == "OK") {
+        $message = $client->convertNote($auth[0], $auth[1], $issue_id, (int) $note_details['not_id'], $target, $authorize_sender);
+        if ($message == 'OK') {
             echo "OK - Note successfully converted to $target\n";
         }
     }
@@ -969,29 +970,29 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         }
 
         foreach ($drafts as $i => &$draft) {
-            $draft["id"] = ($i + 1);
+            $draft['id'] = ($i + 1);
         }
 
         $format = array(
-            "id" => array(
-                "width" => 3,
-                "title" => "ID"
+            'id' => array(
+                'width' => 3,
+                'title' => 'ID'
             ),
-            "from" => array(
-                "width" => 24,
-                "title" => "From"
+            'from' => array(
+                'width' => 24,
+                'title' => 'From'
             ),
-            "to" => array(
-                "width" => 24,
-                "title" => "To"
+            'to' => array(
+                'width' => 24,
+                'title' => 'To'
             ),
-            "emd_subject" => array(
-                "width" => 30,
-                "title" => "Title"
+            'emd_subject' => array(
+                'width' => 30,
+                'title' => 'Title'
             ),
-            "emd_updated_date" => array(
-                "width" => 30,
-                "title" => "Date"
+            'emd_updated_date' => array(
+                'width' => 30,
+                'title' => 'Date'
             )
         );
 
@@ -1011,15 +1012,15 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         self::checkIssuePermissions($client, $auth, $issue_id);
 
         $draft = self::getDraft($client, $auth, $issue_id, $draft_id);
-        echo sprintf("%15s: %s\n", "Date", $draft["emd_updated_date"]);
-        echo sprintf("%15s: %s\n", "From", $draft["from"]);
-        echo sprintf("%15s: %s\n", "To", $draft["to"]);
+        echo sprintf("%15s: %s\n", 'Date', $draft['emd_updated_date']);
+        echo sprintf("%15s: %s\n", 'From', $draft['from']);
+        echo sprintf("%15s: %s\n", 'To', $draft['to']);
         if (!empty($draft['cc'])) {
-            echo sprintf("%15s: %s\n", "Cc", $draft["cc"]);
+            echo sprintf("%15s: %s\n", 'Cc', $draft['cc']);
         }
-        echo sprintf("%15s: %s\n", "Title", $draft["emd_subject"]);
+        echo sprintf("%15s: %s\n", 'Title', $draft['emd_subject']);
         echo "------------------------------------------------------------------------\n";
-        echo $draft["emd_body"];
+        echo $draft['emd_body'];
     }
 
     /**
@@ -1104,15 +1105,15 @@ Account Manager: " . @$details['customer']['account_manager_name'];
 
         if (count($types) < 1) {
             if ($redeemed_only) {
-                self::quit("No incident types have been redeemed for this issue");
+                self::quit('No incident types have been redeemed for this issue');
             } else {
-                self::quit("All incident types have already been redeemed for this issue");
+                self::quit('All incident types have already been redeemed for this issue');
             }
         }
 
-        $prompt = "Please enter a comma seperated list of incident types to ";
+        $prompt = 'Please enter a comma seperated list of incident types to ';
         if ($redeemed_only) {
-            $prompt .= "un";
+            $prompt .= 'un';
         }
         $prompt .= "redeem for this issue.\n";
         foreach ($types as $id => $data) {
@@ -1121,7 +1122,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         $requested_types = CLI_Misc::prompt($prompt, false);
         $requested_types = explode(',', $requested_types);
         if (count($requested_types) < 1) {
-            self::quit("Please enter a comma seperated list of issue types");
+            self::quit('Please enter a comma seperated list of issue types');
         }
 
         $type_keys = array_keys($types);
@@ -1146,15 +1147,15 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         $firstRow = '';
         $secondRow = '';
         foreach ($format as $column) {
-            $firstRow .= sprintf("%-" . $column["width"] . "s", $column["title"]) . " ";
-            $secondRow .= sprintf("%-'-" . $column["width"] . "s", "") . " ";
+            $firstRow .= sprintf('%-' . $column['width'] . 's', $column['title']) . ' ';
+            $secondRow .= sprintf("%-'-" . $column['width'] . 's', '') . ' ';
         }
         echo $firstRow . "\n" . $secondRow . "\n";
         // print out data
         $ndata = count($data);
         for ($i = 0; $i < $ndata; $i++) {
             foreach ($format as $key => $column) {
-                echo sprintf("%-" . $column["width"] . "s", substr($data[$i][$key], 0, $column["width"])) . " ";
+                echo sprintf('%-' . $column['width'] . 's', substr($data[$i][$key], 0, $column['width'])) . ' ';
             }
             echo "\n";
         }
@@ -1183,21 +1184,21 @@ Account Manager: " . @$details['customer']['account_manager_name'];
             case 'cn':
                 $note_details = self::getNote($client, $auth, $issue_id, $args[3]);
                 $msg = "These are the current details for issue #$issue_id, note #" . $args[3] . ":\n" .
-                        "   Date: " . $note_details["not_created_date"] . "\n" .
-                        "   From: " . $note_details["not_from"] . "\n" .
-                        "  Title: " . $note_details["not_title"] . "\n" .
-                        "Are you sure you want to convert this note into a " . $args[4] . "?";
+                        '   Date: ' . $note_details['not_created_date'] . "\n" .
+                        '   From: ' . $note_details['not_from'] . "\n" .
+                        '  Title: ' . $note_details['not_title'] . "\n" .
+                        'Are you sure you want to convert this note into a ' . $args[4] . '?';
                 break;
             default:
                 $msg = "These are the current details for issue #$issue_id:\n" .
-                        "         Summary: " . $details['summary'] . "\n";
+                        '         Summary: ' . $details['summary'] . "\n";
                 if (@!empty($details['customer'])) {
-                    $msg .= "        Customer: " . $details['customer'] . "\n";
+                    $msg .= '        Customer: ' . $details['customer'] . "\n";
                 }
-                $msg .= "          Status: " . $details['status'] . "\n" .
-                        "      Assignment: " . $details["assignments"] . "\n" .
-                        "  Auth. Repliers: " . $details["authorized_names"] . "\n" .
-                        "Are you sure you want to change this issue?";
+                $msg .= '          Status: ' . $details['status'] . "\n" .
+                        '      Assignment: ' . $details['assignments'] . "\n" .
+                        '  Auth. Repliers: ' . $details['authorized_names'] . "\n" .
+                        'Are you sure you want to change this issue?';
         }
 
         $ret = CLI_Misc::prompt($msg, 'y');
@@ -1217,7 +1218,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     {
         $is_valid = $client->isValidLogin($email, $password);
         if ($is_valid != 'yes') {
-            self::quit("Login information could not be authenticated");
+            self::quit('Login information could not be authenticated');
         }
     }
 
@@ -1266,135 +1267,135 @@ Account Manager: " . @$details['customer']['account_manager_name'];
     {
         $usage = array();
         $usage[] = array(
-            "command"   =>  "<ticket_number> [--full]",
-            "help"      =>  "View general details of an existing issue. --full displays also custom fields."
+            'command'   =>  '<ticket_number> [--full]',
+            'help'      =>  'View general details of an existing issue. --full displays also custom fields.'
         );
         $usage[] = array(
-            "command"   =>  array("<ticket_number> custom-fields", "<ticket_number> cf"),
-            "help"      =>  "List custom fields associated with the given issue.",
+            'command'   =>  array('<ticket_number> custom-fields', '<ticket_number> cf'),
+            'help'      =>  'List custom fields associated with the given issue.',
         );
         $usage[] = array(
-            "command"   =>  "<ticket_number> assign <developer_email> [--safe]",
-            "help"      =>  "Assign an issue to another developer."
+            'command'   =>  '<ticket_number> assign <developer_email> [--safe]',
+            'help'      =>  'Assign an issue to another developer.'
         );
         $usage[] = array(
-            "command"   =>  "<ticket_number> take [--safe]",
-            "help"      =>  "Assign an issue to yourself and change status to 'Assigned'."
+            'command'   =>  '<ticket_number> take [--safe]',
+            'help'      =>  "Assign an issue to yourself and change status to 'Assigned'."
         );
         $usage[] = array(
-            "command"   =>  array("<ticket_number> add-replier <user_email> [--safe]","<ticket_number> ar <user_email> [--safe]"),
-            "help"      =>  "Adds the specified user to the list of authorized repliers."
+            'command'   =>  array('<ticket_number> add-replier <user_email> [--safe]','<ticket_number> ar <user_email> [--safe]'),
+            'help'      =>  'Adds the specified user to the list of authorized repliers.'
         );
         $usage[] = array(
-            "command"   =>  "<ticket_number> set-status <status> [--safe]",
-            "help"      =>  "Sets the status of an issue to the desired value. If you are not sure
+            'command'   =>  '<ticket_number> set-status <status> [--safe]',
+            'help'      =>  "Sets the status of an issue to the desired value. If you are not sure
      about the available statuses, use command 'list-status' described below."
         );
         $usage[] = array(
-            "command"   =>  "<ticket_number> add-time <time_worked> [--safe]",
-            "help"      =>  "Records time worked to the time tracking tool of the given issue."
+            'command'   =>  '<ticket_number> add-time <time_worked> [--safe]',
+            'help'      =>  'Records time worked to the time tracking tool of the given issue.'
         );
         $usage[] = array(
-            "command"   =>  "<ticket_number> close [--safe]",
-            "help"      =>  "Marks an issue as closed."
+            'command'   =>  '<ticket_number> close [--safe]',
+            'help'      =>  'Marks an issue as closed.'
         );
         $usage[] = array(
-            "command"   =>  array("<ticket_number> list-files", "<ticket_number> lf"),
-            "help"      =>  "List available attachments associated with the given issue.",
+            'command'   =>  array('<ticket_number> list-files', '<ticket_number> lf'),
+            'help'      =>  'List available attachments associated with the given issue.',
         );
         $usage[] = array(
-            "command"   =>  array("<ticket_number> get-file <file_number>", "<ticket_number> gf <file_number>"),
-            "help"      =>  "Download a specific file from the given issue."
+            'command'   =>  array('<ticket_number> get-file <file_number>', '<ticket_number> gf <file_number>'),
+            'help'      =>  'Download a specific file from the given issue.'
         );
         $usage[] = array(
-            "command"   =>  array("<ticket_number> list-emails","<ticket_number> le"),
-            "help"      =>  "Lists emails from the given issue."
+            'command'   =>  array('<ticket_number> list-emails','<ticket_number> le'),
+            'help'      =>  'Lists emails from the given issue.'
         );
         $usage[] = array(
-            "command"   =>  array("<ticket_number> get-email <email_number> [--full]","<ticket_number> ge <email_number> [--full]"),
-            "help"      =>  "Displays a specific email for the issue. If the optional --full parameter
+            'command'   =>  array('<ticket_number> get-email <email_number> [--full]','<ticket_number> ge <email_number> [--full]'),
+            'help'      =>  'Displays a specific email for the issue. If the optional --full parameter
      is specified, the full email including headers and attachments will be
-     displayed."
+     displayed.'
         );
         $usage[] = array(
-            "command"   =>  array("<ticket_number> list-notes","<ticket_number> ln"),
-            "help"      =>  "Lists notes from the given issue."
+            'command'   =>  array('<ticket_number> list-notes','<ticket_number> ln'),
+            'help'      =>  'Lists notes from the given issue.'
         );
         $usage[] = array(
-            "command"   =>  array("<ticket_number> get-note <note_number> [--full]","<ticket_number> gn <note_number>"),
-            "help"      =>  "Displays a specific note for the issue."
+            'command'   =>  array('<ticket_number> get-note <note_number> [--full]','<ticket_number> gn <note_number>'),
+            'help'      =>  'Displays a specific note for the issue.'
         );
         $usage[] = array(
-            "command"   =>  array("<ticket_number> convert-note <note_number> draft|email [authorize] [--safe]","<ticket_number> cn <note_number> draft|email [authorize] [--safe]"),
-            "help"      =>  "Converts the specified note to a draft or an email.
+            'command'   =>  array('<ticket_number> convert-note <note_number> draft|email [authorize] [--safe]','<ticket_number> cn <note_number> draft|email [authorize] [--safe]'),
+            'help'      =>  "Converts the specified note to a draft or an email.
     Use optional argument 'authorize' to add sender to authorized repliers list."
         );
         $usage[] = array(
-            "command"   =>  array("<ticket_number> list-drafts","<ticket_number> ld"),
-            "help"      =>  "Lists drafts from the given issue."
+            'command'   =>  array('<ticket_number> list-drafts','<ticket_number> ld'),
+            'help'      =>  'Lists drafts from the given issue.'
         );
         $usage[] = array(
-            "command"   =>  array("<ticket_number> get-draft <draft_number>","<ticket_number> gd <draft_number>"),
-            "help"      =>  "Displays a specific draft for the issue."
+            'command'   =>  array('<ticket_number> get-draft <draft_number>','<ticket_number> gd <draft_number>'),
+            'help'      =>  'Displays a specific draft for the issue.'
         );
         $usage[] = array(
-            "command"   =>  array("<ticket_number> send-draft <draft_number>","<ticket_number> sd <draft_number>"),
-            "help"      =>  "Converts a draft to an email and sends it out."
+            'command'   =>  array('<ticket_number> send-draft <draft_number>','<ticket_number> sd <draft_number>'),
+            'help'      =>  'Converts a draft to an email and sends it out.'
         );
         $usage[] = array(
-            "command"   =>  array("<ticket_number> redeem"),
-            "help"      =>  "Marks an issue as redeemed incident."
+            'command'   =>  array('<ticket_number> redeem'),
+            'help'      =>  'Marks an issue as redeemed incident.'
         );
         $usage[] = array(
-            "command"   =>  array("<ticket_number> unredeem"),
-            "help"      =>  "Un-marks an issue as redeemed incident."
+            'command'   =>  array('<ticket_number> unredeem'),
+            'help'      =>  'Un-marks an issue as redeemed incident.'
         );
         $usage[] = array(
-            "command"   =>  "developers",
-            "help"      =>  "List all available developers' email addresses."
+            'command'   =>  'developers',
+            'help'      =>  "List all available developers' email addresses."
         );
         $usage[] = array(
-            "command"   =>  "open-issues [<status>] [my]",
-            "help"      =>  "List all issues that are not set to a status with a 'closed' context. Use
+            'command'   =>  'open-issues [<status>] [my]',
+            'help'      =>  "List all issues that are not set to a status with a 'closed' context. Use
      optional argument 'my' if you just wish to see issues assigned to you."
         );
         $usage[] = array(
-            "command"   =>  "list-status",
-            "help"      =>  "List all available statuses in the system."
+            'command'   =>  'list-status',
+            'help'      =>  'List all available statuses in the system.'
         );
         $usage[] = array(
-            "command"   =>  "customer email|support|customer <value>",
-            "help"      =>  "Looks up a customer's record information."
+            'command'   =>  'customer email|support|customer <value>',
+            'help'      =>  "Looks up a customer's record information."
         );
         $usage[] = array(
-            "command"   =>  array("weekly-report ([<week>] [--separate-closed])|([<start>] [<end>] [--separate-closed])", "wr ([<week>])|([<start>] [<end>] [--separate-closed])"),
-            "help"      =>  "Fetches the weekly report. Week is specified as an integer with 0 representing
+            'command'   =>  array('weekly-report ([<week>] [--separate-closed])|([<start>] [<end>] [--separate-closed])', 'wr ([<week>])|([<start>] [<end>] [--separate-closed])'),
+            'help'      =>  "Fetches the weekly report. Week is specified as an integer with 0 representing
      the current week, -1 the previous week and so on. If the week is omitted it defaults
      to the current week. Alternately, a date range can be set. Dates should be in the format 'YYYY-MM-DD'."
         );
         $usage[] = array(
-            "command"   =>  "clock [in|out]",
-            "help"      =>  "Clocks you in or out of the system. When clocked out, no reminders will be sent to your account.
-     If the in|out parameter is left off, your current status is displayed."
+            'command'   =>  'clock [in|out]',
+            'help'      =>  'Clocks you in or out of the system. When clocked out, no reminders will be sent to your account.
+     If the in|out parameter is left off, your current status is displayed.'
         );
         $script = basename($script);
-        $usage_text = "";
-        $explanation = "";
+        $usage_text = '';
+        $explanation = '';
         foreach ($usage as $command_num => $this_command) {
-            $item_num = sprintf("%2d.) ", ($command_num+1));
+            $item_num = sprintf('%2d.) ', ($command_num+1));
             $usage_text .= $item_num . "$script ";
-            if (is_array($this_command["command"])) {
-                $ncommands = count($this_command["command"]);
+            if (is_array($this_command['command'])) {
+                $ncommands = count($this_command['command']);
                 for ($i = 0; $i < $ncommands; $i++) {
                     if ($i != 0) {
                         $usage_text .= "     $script ";
                     }
-                    $usage_text .= $this_command["command"][$i] . "\n";
+                    $usage_text .= $this_command['command'][$i] . "\n";
                 }
             } else {
-                $usage_text .= $this_command["command"] . "\n";
+                $usage_text .= $this_command['command'] . "\n";
             }
-            $explanation .= $item_num . $this_command["help"] . "\n\n";
+            $explanation .= $item_num . $this_command['help'] . "\n\n";
         }
         echo "
 General Usage:

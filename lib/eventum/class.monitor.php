@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -69,7 +70,7 @@ class Monitor
     {
         // TODO: optimize this
         // TODO: should we check it per project?
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(*)
                  FROM
                     (
@@ -81,7 +82,7 @@ class Monitor
                     ON
                         sup_iss_id = iss_id
                     WHERE sup_removed=0 AND sup_ema_id=ema_id AND sup_iss_id = 0
-        ";
+        ';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt);
         } catch (DbException $e) {
@@ -197,78 +198,78 @@ class Monitor
     public static function checkDatabase()
     {
         $required_tables = array(
-            "custom_field",
-            "custom_field_option",
-            "custom_filter",
-            "customer_account_manager",
-            "customer_note",
-            "email_account",
-            "email_draft",
-            "email_draft_recipient",
-            "email_response",
-            "faq",
-            "faq_support_level",
-            "group",
-            "history_type",
-            "irc_notice",
-            "issue",
-            "issue_association",
-            "issue_attachment",
-            "issue_attachment_file",
-            "issue_checkin",
-            "issue_custom_field",
-            "issue_history",
-            "issue_quarantine",
-            "issue_requirement",
-            "issue_user",
-            "issue_user_replier",
-            "mail_queue",
-            "mail_queue_log",
-            "news",
-            "note",
-            "phone_support",
-            "project",
-            "project_category",
-            "project_custom_field",
-            "project_email_response",
-            "project_group",
-            "project_news",
-            "project_phone_category",
-            "project_priority",
-            "project_release",
-            "project_round_robin",
-            "project_status",
-            "project_status_date",
-            "project_user",
-            "reminder_action",
-            "reminder_action_list",
-            "reminder_action_type",
-            "reminder_field",
-            "reminder_history",
-            "reminder_level",
-            "reminder_level_condition",
-            "reminder_operator",
-            "reminder_priority",
-            "reminder_requirement",
-            "reminder_triggered_action",
-            "resolution",
-            "round_robin_user",
-            "search_profile",
-            "status",
-            "subscription",
-            "subscription_type",
-            "support_email",
-            "support_email_body",
-            "time_tracking",
-            "time_tracking_category",
-            "user"
+            'custom_field',
+            'custom_field_option',
+            'custom_filter',
+            'customer_account_manager',
+            'customer_note',
+            'email_account',
+            'email_draft',
+            'email_draft_recipient',
+            'email_response',
+            'faq',
+            'faq_support_level',
+            'group',
+            'history_type',
+            'irc_notice',
+            'issue',
+            'issue_association',
+            'issue_attachment',
+            'issue_attachment_file',
+            'issue_checkin',
+            'issue_custom_field',
+            'issue_history',
+            'issue_quarantine',
+            'issue_requirement',
+            'issue_user',
+            'issue_user_replier',
+            'mail_queue',
+            'mail_queue_log',
+            'news',
+            'note',
+            'phone_support',
+            'project',
+            'project_category',
+            'project_custom_field',
+            'project_email_response',
+            'project_group',
+            'project_news',
+            'project_phone_category',
+            'project_priority',
+            'project_release',
+            'project_round_robin',
+            'project_status',
+            'project_status_date',
+            'project_user',
+            'reminder_action',
+            'reminder_action_list',
+            'reminder_action_type',
+            'reminder_field',
+            'reminder_history',
+            'reminder_level',
+            'reminder_level_condition',
+            'reminder_operator',
+            'reminder_priority',
+            'reminder_requirement',
+            'reminder_triggered_action',
+            'resolution',
+            'round_robin_user',
+            'search_profile',
+            'status',
+            'subscription',
+            'subscription_type',
+            'support_email',
+            'support_email_body',
+            'time_tracking',
+            'time_tracking_category',
+            'user'
         );
 
         // add the table prefix to all of the required tables
         $required_tables = Misc::array_map_deep($required_tables, array(__CLASS__, 'add_table_prefix'));
 
         // check if all of the required tables are really there
-        $stmt = "SHOW TABLES";
+        $stmt = 'SHOW TABLES';
         $table_list = DB_Helper::getInstance()->getColumn($stmt);
         $errors = 0;
         foreach ($required_tables as $table) {
@@ -290,7 +291,7 @@ class Monitor
     {
         // check if any bot.php process is still running (lame, but oh well)
         ob_start();
-        passthru("ps -ef | grep [e]ventum-irc-bot");
+        passthru('ps -ef | grep [e]ventum-irc-bot');
         $contents = ob_get_contents();
         ob_end_clean();
         $lines = explode("\n", $contents);
@@ -344,6 +345,6 @@ class Monitor
      */
     private static function getOctalPerms($file)
     {
-        return substr(sprintf("%o", fileperms($file)), -3);
+        return substr(sprintf('%o', fileperms($file)), -3);
     }
 }

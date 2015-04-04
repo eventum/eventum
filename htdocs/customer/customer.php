@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -29,13 +30,13 @@
  * This file is used to call various customer pages that are outside of the web
  * root.
  */
-require_once "../../init.php";
+require_once '../../init.php';
 
 $prj_id = Auth::getCurrentProject();
 $page = $_REQUEST['page'];
 
 if (!CRM::hasCustomerIntegration($prj_id)) {
-    echo "No customer integration for specified project.";
+    echo 'No customer integration for specified project.';
     exit;
 }
 $crm = CRM::getInstance($prj_id);

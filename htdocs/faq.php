@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,7 +31,7 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("faq.tpl.html");
+$tpl->setTemplate('faq.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
@@ -55,16 +56,16 @@ if (!CRM::hasCustomerIntegration($prj_id)) {
         }
     }
 }
-$tpl->assign("faqs", FAQ::getListBySupportLevel($support_level_ids));
+$tpl->assign('faqs', FAQ::getListBySupportLevel($support_level_ids));
 
-if (!empty($_GET["id"])) {
+if (!empty($_GET['id'])) {
     $t = FAQ::getDetails($_GET['id']);
     // check if this customer should have access to this FAQ entry or not
     if ((count($support_level_ids) > 0) && (count(array_intersect($support_level_ids, $t['support_levels'])) < 1)) {
         $tpl->assign('faq', -1);
     } else {
-        $t['faq_created_date'] = Date_Helper::getFormattedDate($t["faq_created_date"]);
-        $tpl->assign("faq", $t);
+        $t['faq_created_date'] = Date_Helper::getFormattedDate($t['faq_created_date']);
+        $tpl->assign('faq', $t);
     }
 }
 

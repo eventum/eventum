@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -45,7 +46,7 @@ class Auth
     {
         static $private_key = null;
         if ($private_key === null) {
-            require_once APP_CONFIG_PATH . "/private_key.php";
+            require_once APP_CONFIG_PATH . '/private_key.php';
         }
 
         return $private_key;
@@ -87,9 +88,9 @@ class Auth
             $cookie_name = APP_COOKIE;
         }
         if ($failed_url == null) {
-            $failed_url = APP_RELATIVE_URL . "index.php?err=5";
+            $failed_url = APP_RELATIVE_URL . 'index.php?err=5';
         }
-        $failed_url .= "&url=" . urlencode($_SERVER['REQUEST_URI']);
+        $failed_url .= '&url=' . urlencode($_SERVER['REQUEST_URI']);
         if (!isset($_COOKIE[$cookie_name])) {
             if (APP_ANON_USER) {
                 $anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
@@ -110,7 +111,7 @@ class Auth
                     } else {
                         header('WWW-Authenticate: Basic realm="Eventum"');
                         header('HTTP/1.0 401 Unauthorized');
-                        echo "Login Failed";
+                        echo 'Login Failed';
 
                         return;
                     }
@@ -125,13 +126,13 @@ class Auth
             self::removeCookie($cookie_name);
             self::redirect($failed_url, $is_popup);
         }
-        if (self::isPendingUser($cookie["email"])) {
+        if (self::isPendingUser($cookie['email'])) {
             self::removeCookie($cookie_name);
-            self::redirect("index.php?err=9", $is_popup);
+            self::redirect('index.php?err=9', $is_popup);
         }
-        if (!self::isActiveUser($cookie["email"])) {
+        if (!self::isActiveUser($cookie['email'])) {
             self::removeCookie($cookie_name);
-            self::redirect("index.php?err=7", $is_popup);
+            self::redirect('index.php?err=7', $is_popup);
         }
 
         $usr_id = self::getUserID();
@@ -147,7 +148,7 @@ class Auth
         $prj_id = self::getCurrentProject();
         if (empty($prj_id)) {
             // redirect to select project page
-            self::redirect(APP_RELATIVE_URL . "select_project.php?url=" . urlencode($_SERVER['REQUEST_URI']), $is_popup);
+            self::redirect(APP_RELATIVE_URL . 'select_project.php?url=' . urlencode($_SERVER['REQUEST_URI']), $is_popup);
         }
         // check the expiration date for a 'Customer' type user
         $contact_id = User::getCustomerContactID($usr_id);
@@ -159,14 +160,14 @@ class Auth
         // auto switch project
         if (isset($_GET['switch_prj_id'])) {
             self::setCurrentProject($_GET['switch_prj_id'], false);
-            self::redirect($_SERVER['PHP_SELF'] . '?' . str_replace("switch_prj_id=" . $_GET['switch_prj_id'], "", $_SERVER['QUERY_STRING']));
+            self::redirect($_SERVER['PHP_SELF'] . '?' . str_replace('switch_prj_id=' . $_GET['switch_prj_id'], '', $_SERVER['QUERY_STRING']));
         }
 
         // if the current session is still valid, then renew the expiration
         self::createLoginCookie($cookie_name, $cookie['email'], $cookie['permanent']);
         // renew the project cookie as well
         $prj_cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
-        self::setCurrentProject($prj_id, $prj_cookie["remember"]);
+        self::setCurrentProject($prj_id, $prj_cookie['remember']);
     }
 
     /**
@@ -288,11 +289,11 @@ class Auth
      */
     public static function isValidCookie($cookie)
     {
-        if ((empty($cookie["email"])) || (empty($cookie["hash"])) ||
-               ($cookie["hash"] != md5(self::privateKey() . $cookie["login_time"] . $cookie["email"]))) {
+        if ((empty($cookie['email'])) || (empty($cookie['hash'])) ||
+               ($cookie['hash'] != md5(self::privateKey() . $cookie['login_time'] . $cookie['email']))) {
             return false;
         } else {
-            $usr_id = User::getUserIDByEmail(@$cookie["email"]);
+            $usr_id = User::getUserIDByEmail(@$cookie['email']);
             if (empty($usr_id)) {
                 return false;
             } else {
@@ -313,10 +314,10 @@ class Auth
     {
         $time = time();
         $cookie = array(
-            "email"      => $email,
-            "login_time" => $time,
-            "permanent"  => $permanent,
-            "hash"       => md5(self::privateKey() . $time . $email),
+            'email'      => $email,
+            'login_time' => $time,
+            'permanent'  => $permanent,
+            'hash'       => md5(self::privateKey() . $time . $email),
         );
         $cookie = base64_encode(serialize($cookie));
         self::setCookie($cookie_name, $cookie, $permanent ? APP_COOKIE_EXPIRE : 0);
@@ -481,15 +482,15 @@ class Auth
             return isset($cookie['prj_id']) ? (int) $cookie['prj_id'] : null;
         }
 
-        if ($projects != null && !in_array($cookie["prj_id"], array_keys($projects))) {
+        if ($projects != null && !in_array($cookie['prj_id'], array_keys($projects))) {
             if ($redirect) {
-                self::redirect("select_project.php");
+                self::redirect('select_project.php');
             } else {
                 return false;
             }
         }
 
-        return $cookie["prj_id"];
+        return $cookie['prj_id'];
     }
 
     /**
@@ -531,9 +532,9 @@ class Auth
      */
     public static function getCurrentCustomerID($redirect = true)
     {
-        $customer_id = Session::get("current_customer_id");
+        $customer_id = Session::get('current_customer_id');
         if (empty($customer_id) && $redirect == true) {
-            self::redirect(APP_RELATIVE_URL . "select_customer.php");
+            self::redirect(APP_RELATIVE_URL . 'select_customer.php');
         } else {
             return $customer_id;
         }
@@ -541,7 +542,7 @@ class Auth
 
     public static function setCurrentCustomerID($customer_id)
     {
-        Session::set("current_customer_id", $customer_id);
+        Session::set('current_customer_id', $customer_id);
     }
 
     /**
@@ -565,8 +566,8 @@ class Auth
     public static function setCurrentProject($prj_id, $remember)
     {
         $cookie = array(
-            "prj_id"   => $prj_id,
-            "remember" => $remember
+            'prj_id'   => $prj_id,
+            'remember' => $remember
         );
         $cookie = base64_encode(serialize($cookie));
         self::setCookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE);
@@ -585,15 +586,15 @@ class Auth
 
         $time = time();
         $cookie = array(
-            "email" => $user_details['usr_email'],
-            "login_time"    =>  $time,
-            "hash"       => md5(self::privateKey() . $time . $user_details['usr_email']),
+            'email' => $user_details['usr_email'],
+            'login_time'    =>  $time,
+            'hash'       => md5(self::privateKey() . $time . $user_details['usr_email']),
         );
         $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
         if ($prj_id) {
             $cookie = array(
-                "prj_id"   => $prj_id,
-                "remember" => false
+                'prj_id'   => $prj_id,
+                'remember' => false
             );
         }
         $_COOKIE[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
@@ -627,10 +628,10 @@ class Auth
             $class = APP_AUTH_BACKEND;
 
             // legacy: allow lowercase variants
-            if (strtolower($class) == "mysql_auth_backend") {
-                $class = "Mysql_Auth_Backend";
-            } elseif (strtolower($class) == "ldap_auth_backend") {
-                $class = "LDAP_Auth_Backend";
+            if (strtolower($class) == 'mysql_auth_backend') {
+                $class = 'Mysql_Auth_Backend';
+            } elseif (strtolower($class) == 'ldap_auth_backend') {
+                $class = 'LDAP_Auth_Backend';
             }
 
             try {
@@ -641,7 +642,7 @@ class Auth
                 Error_Handler::logError($message);
 
                 if (APP_AUTH_BACKEND_ALLOW_FALLBACK != true) {
-                    die("Unable to use auth backend: " . $class);
+                    die('Unable to use auth backend: ' . $class);
                 }
 
                 $instance = self::getFallBackAuthBackend();

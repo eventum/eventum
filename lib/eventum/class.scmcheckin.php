@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -67,18 +68,18 @@ class ScmCheckin
      */
     private function parseURL($url, $checkin)
     {
-        $url = str_replace('{MODULE}', $checkin["isc_module"], $url);
-        $url = str_replace('{FILE}', $checkin["isc_filename"], $url);
-        $url = str_replace('{OLD_VERSION}', $checkin["isc_old_version"], $url);
-        $url = str_replace('{NEW_VERSION}', $checkin["isc_new_version"], $url);
+        $url = str_replace('{MODULE}', $checkin['isc_module'], $url);
+        $url = str_replace('{FILE}', $checkin['isc_filename'], $url);
+        $url = str_replace('{OLD_VERSION}', $checkin['isc_old_version'], $url);
+        $url = str_replace('{NEW_VERSION}', $checkin['isc_new_version'], $url);
 
         // the current version to look log from
         if ($checkin['added']) {
-            $url = str_replace('{VERSION}', $checkin["isc_new_version"], $url);
+            $url = str_replace('{VERSION}', $checkin['isc_new_version'], $url);
         } elseif ($checkin['removed']) {
-            $url = str_replace('{VERSION}', $checkin["isc_old_version"], $url);
+            $url = str_replace('{VERSION}', $checkin['isc_old_version'], $url);
         } else {
-            $url = str_replace('{VERSION}', $checkin["isc_new_version"], $url);
+            $url = str_replace('{VERSION}', $checkin['isc_new_version'], $url);
         }
 
         return $url;

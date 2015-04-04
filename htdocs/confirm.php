@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,24 +31,24 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("confirm.tpl.html");
+$tpl->setTemplate('confirm.tpl.html');
 
 if (@$_GET['cat'] == 'newuser') {
-    $res = @User::checkHash($_GET["email"], $_GET["hash"]);
+    $res = @User::checkHash($_GET['email'], $_GET['hash']);
     if ($res == 1) {
-        User::confirmVisitorAccount($_GET["email"]);
+        User::confirmVisitorAccount($_GET['email']);
         // redirect user to login form with pretty message
-        Auth::redirect('index.php?err=8&email=' . $_GET["email"]);
+        Auth::redirect('index.php?err=8&email=' . $_GET['email']);
         exit;
     }
-    $tpl->assign("confirm_result", $res);
+    $tpl->assign('confirm_result', $res);
 } elseif (@$_GET['cat'] == 'password') {
-    $res = @User::checkHash($_GET["email"], $_GET["hash"]);
+    $res = @User::checkHash($_GET['email'], $_GET['hash']);
     if ($res == 1) {
-        User::confirmNewPassword($_GET["email"]);
-        $tpl->assign("email", $_GET["email"]);
+        User::confirmNewPassword($_GET['email']);
+        $tpl->assign('email', $_GET['email']);
     }
-    $tpl->assign("confirm_result", $res);
+    $tpl->assign('confirm_result', $res);
 }
 
 $tpl->displayTemplate();

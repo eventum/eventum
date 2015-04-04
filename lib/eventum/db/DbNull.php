@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -32,7 +33,6 @@
  */
 class DbNull implements DbInterface
 {
-
     public function __construct(array $config)
     {
     }

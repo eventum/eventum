@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,24 +31,24 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("reports/stalled_issues.tpl.html");
+$tpl->setTemplate('reports/stalled_issues.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 if (!Access::canAccessReports(Auth::getUserID())) {
-    echo "Invalid role";
+    echo 'Invalid role';
     exit;
 }
 
 $prj_id = Auth::getCurrentProject();
 
 if (count(@$_REQUEST['before']) < 1) {
-    $before = date("Y-m-d", (time()-Date_Helper::MONTH));
+    $before = date('Y-m-d', (time()-Date_Helper::MONTH));
 } else {
     $before = implode('-', $_REQUEST['before']);
 }
 if (count(@$_REQUEST['after']) < 1) {
-    $after = date("Y-m-d", (time()-Date_Helper::YEAR));
+    $after = date('Y-m-d', (time()-Date_Helper::YEAR));
 } else {
     $after = implode('-', $_REQUEST['after']);
 }
@@ -59,22 +60,22 @@ $data = Report::getStalledIssuesByUser($prj_id, @$_REQUEST['developers'], @$_REQ
 
 $groups = Group::getAssocList($prj_id);
 $assign_options = array();
-if ((count($groups) > 0) && (Auth::getCurrentRole() > User::getRoleID("Customer"))) {
+if ((count($groups) > 0) && (Auth::getCurrentRole() > User::getRoleID('Customer'))) {
     foreach ($groups as $grp_id => $grp_name) {
-        $assign_options["grp:$grp_id"] = "Group: " . $grp_name;
+        $assign_options["grp:$grp_id"] = 'Group: ' . $grp_name;
     }
 }
 $assign_options += Project::getUserAssocList($prj_id, 'active', User::getRoleID('Standard User'));
 
 $tpl->assign(array(
-    "users" =>  $assign_options,
-    "before_date"   =>  $before,
-    "after_date"   =>  $after,
-    "data"  =>  $data,
-    "developers"    => @$_REQUEST['developers'],
-    "status_list"   =>  Status::getAssocStatusList($prj_id),
-    "status"        =>  @$_REQUEST['status'],
-    "sort_order"    =>  $_REQUEST['sort_order']
+    'users' =>  $assign_options,
+    'before_date'   =>  $before,
+    'after_date'   =>  $after,
+    'data'  =>  $data,
+    'developers'    => @$_REQUEST['developers'],
+    'status_list'   =>  Status::getAssocStatusList($prj_id),
+    'status'        =>  @$_REQUEST['status'],
+    'sort_order'    =>  $_REQUEST['sort_order']
 ));
 
 $tpl->displayTemplate();

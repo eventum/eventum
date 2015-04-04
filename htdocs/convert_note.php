@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,7 +31,7 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("convert_note.tpl.html");
+$tpl->setTemplate('convert_note.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $usr_id = Auth::getUserID();
@@ -40,22 +41,22 @@ $note = Note::getDetails($note_id);
 $issue_id = $note['not_iss_id'];
 
 if ((User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) < User::getRoleID('Standard User')) || (!Access::canConvertNote($issue_id, Auth::getUserID()))) {
-    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;
 }
 
 if (@$_POST['cat'] == 'convert') {
-    if (@$_POST["add_authorized_replier"] == 1) {
+    if (@$_POST['add_authorized_replier'] == 1) {
         $authorize_sender = true;
     } else {
         $authorize_sender = false;
     }
-    $tpl->assign("convert_result", Note::convertNote($_POST['note_id'], $_POST['target'], $authorize_sender));
+    $tpl->assign('convert_result', Note::convertNote($_POST['note_id'], $_POST['target'], $authorize_sender));
 } else {
-    $tpl->assign("note_id", $_GET['id']);
+    $tpl->assign('note_id', $_GET['id']);
 }
 
-$tpl->assign("current_user_prefs", Prefs::get(Auth::getUserID()));
+$tpl->assign('current_user_prefs', Prefs::get(Auth::getUserID()));
 $tpl->assign('issue_id', $issue_id);
 $tpl->displayTemplate();

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,32 +31,32 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("get_emails.tpl.html");
+$tpl->setTemplate('get_emails.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, null, true);
 
 // we need the IMAP extension for this to work
 if (!function_exists('imap_open')) {
-    $tpl->assign("error", "imap_extension_missing");
+    $tpl->assign('error', 'imap_extension_missing');
 } else {
     // check if the hostname is just an IP based one
-    if ((!preg_match("/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/", $_POST["hostname"])) &&
-            (gethostbyname($_POST["hostname"]) == $_POST["hostname"])) {
-        $tpl->assign("error", "hostname_resolv_error");
+    if ((!preg_match("/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/", $_POST['hostname'])) &&
+            (gethostbyname($_POST['hostname']) == $_POST['hostname'])) {
+        $tpl->assign('error', 'hostname_resolv_error');
     } else {
         $account = array(
-            "ema_hostname" => $_POST["hostname"],
-            "ema_port"     => $_POST["port"],
-            "ema_type"     => $_POST["type"],
-            "ema_folder"   => $_POST["folder"],
-            "ema_username" => $_POST["username"],
-            "ema_password" => $_POST["password"]
+            'ema_hostname' => $_POST['hostname'],
+            'ema_port'     => $_POST['port'],
+            'ema_type'     => $_POST['type'],
+            'ema_folder'   => $_POST['folder'],
+            'ema_username' => $_POST['username'],
+            'ema_password' => $_POST['password']
         );
         $mbox = Support::connectEmailServer($account);
         if (!$mbox) {
-            $tpl->assign("error", "could_not_connect");
+            $tpl->assign('error', 'could_not_connect');
         } else {
-            $tpl->assign("error", "no_error");
+            $tpl->assign('error', 'no_error');
         }
     }
 }

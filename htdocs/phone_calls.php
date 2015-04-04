@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,30 +31,30 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("add_phone_entry.tpl.html");
+$tpl->setTemplate('add_phone_entry.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
-$issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
+$issue_id = @$_POST['issue_id'] ? $_POST['issue_id'] : $_GET['iss_id'];
 
-if ((!Issue::canAccess($issue_id, Auth::getUserID())) || (Auth::getCurrentRole() <= User::getRoleID("Customer"))) {
+if ((!Issue::canAccess($issue_id, Auth::getUserID())) || (Auth::getCurrentRole() <= User::getRoleID('Customer'))) {
     $tpl = new Template_Helper();
-    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;
 }
 
-if (@$_POST["cat"] == "add_phone") {
+if (@$_POST['cat'] == 'add_phone') {
     $res = Phone_Support::insert();
-    $tpl->assign("add_phone_result", $res);
+    $tpl->assign('add_phone_result', $res);
 }
 
 $prj_id = Issue::getProjectID($issue_id);
 $usr_id = Auth::getUserID();
 
 $tpl->assign(array(
-    "issue_id"           => $issue_id,
-    "phone_categories"   => Phone_Support::getCategoryAssocList($prj_id),
+    'issue_id'           => $issue_id,
+    'phone_categories'   => Phone_Support::getCategoryAssocList($prj_id),
     'current_user_prefs' => Prefs::get($usr_id)
 ));
 

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -45,14 +46,14 @@ class Email_Response
      */
     public function addProjectAssociation($ere_id, $prj_id)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%project_email_response}}
                  (
                     per_ere_id,
                     per_prj_id
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         DB_Helper::getInstance()->query($stmt, array($ere_id, $prj_id));
     }
 
@@ -63,19 +64,19 @@ class Email_Response
      */
     public static function insert()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%email_response}}
                  (
                     ere_title,
                     ere_response_body
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST["title"], $_POST["response_body"]));
+            DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['response_body']));
         } catch (DbException $e) {
             return -1;
         }
@@ -96,11 +97,11 @@ class Email_Response
      */
     public static function remove()
     {
-        $items = $_POST["items"];
-        $stmt = "DELETE FROM
+        $items = $_POST['items'];
+        $stmt = 'DELETE FROM
                     {{%email_response}}
                  WHERE
-                    ere_id IN (" . DB_Helper::buildList($items) . ")";
+                    ere_id IN (' . DB_Helper::buildList($items) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
@@ -126,13 +127,13 @@ class Email_Response
             $ere_id = array($ere_id);
         }
 
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%project_email_response}}
                  WHERE
-                    per_ere_id IN (" . DB_Helper::buildList($ere_id) . ")";
+                    per_ere_id IN (' . DB_Helper::buildList($ere_id) . ')';
         $params = $ere_id;
         if ($prj_id) {
-            $stmt .= " AND per_prj_id=?";
+            $stmt .= ' AND per_prj_id=?';
             $params[] = $prj_id;
         }
         try {
@@ -151,18 +152,18 @@ class Email_Response
      */
     public static function update()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%email_response}}
                  SET
                     ere_title=?,
                     ere_response_body=?
                  WHERE
-                    ere_id=?";
+                    ere_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST["title"], $_POST["response_body"], $_POST["id"]));
+            DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['response_body'], $_POST['id']));
         } catch (DbException $e) {
             return -1;
         }
@@ -185,16 +186,16 @@ class Email_Response
      */
     public static function getDetails($ere_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%email_response}}
                  WHERE
-                    ere_id=?";
+                    ere_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($ere_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         // get all of the project associations here as well
@@ -212,7 +213,7 @@ class Email_Response
      */
     public function getAssociatedProjects($ere_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     prj_id,
                     prj_title
                  FROM
@@ -220,7 +221,7 @@ class Email_Response
                     {{%project_email_response}}
                  WHERE
                     prj_id=per_prj_id AND
-                    per_ere_id=?";
+                    per_ere_id=?';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($ere_id));
         } catch (DbException $e) {
@@ -238,22 +239,22 @@ class Email_Response
      */
     public static function getList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     ere_id,
                     ere_title
                  FROM
                     {{%email_response}}
                  ORDER BY
-                    ere_title ASC";
+                    ere_title ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         // get the list of associated projects
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['projects'] = implode(", ", array_values(self::getAssociatedProjects($res[$i]['ere_id'])));
+            $res[$i]['projects'] = implode(', ', array_values(self::getAssociatedProjects($res[$i]['ere_id'])));
         }
 
         return $res;
@@ -268,7 +269,7 @@ class Email_Response
      */
     public static function getAssocList($prj_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     ere_id,
                     ere_title
                  FROM
@@ -278,11 +279,11 @@ class Email_Response
                     per_ere_id=ere_id AND
                     per_prj_id=?
                  ORDER BY
-                    ere_title ASC";
+                    ere_title ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -297,7 +298,7 @@ class Email_Response
      */
     public static function getAssocListBodies($prj_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     ere_id,
                     ere_response_body
                  FROM
@@ -305,11 +306,11 @@ class Email_Response
                     {{%project_email_response}}
                  WHERE
                     per_ere_id=ere_id AND
-                    per_prj_id=?";
+                    per_prj_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         // fix the newlines in the response bodies so javascript doesn't die

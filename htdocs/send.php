@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,18 +31,18 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("send.tpl.html");
+$tpl->setTemplate('send.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
 
-@$issue_id = $_GET["issue_id"] ? $_GET["issue_id"] : $_POST["issue_id"];
-$tpl->assign("issue_id", $issue_id);
+@$issue_id = $_GET['issue_id'] ? $_GET['issue_id'] : $_POST['issue_id'];
+$tpl->assign('issue_id', $issue_id);
 
 if (!Issue::canAccess($issue_id, $usr_id)) {
-    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;
 }
@@ -54,15 +55,15 @@ if (!empty($issue_id)) {
     $_POST['to'] = '';
 }
 
-if (@$_POST["cat"] == "send_email") {
+if (@$_POST['cat'] == 'send_email') {
     $res = Support::sendEmail($_POST['parent_id']);
-    $tpl->assign("send_result", $res);
+    $tpl->assign('send_result', $res);
     if (Access::canChangeStatus($issue_id, $usr_id) && isset($_POST['new_status']) &&
         !empty($_POST['new_status'])) {
         $res = Issue::setStatus($issue_id, $_POST['new_status']);
         if ($res != -1) {
             $new_status = Status::getStatusTitle($_POST['new_status']);
-            History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to '$new_status' by " . User::getFullName($usr_id) . " when sending an email");
+            History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to '$new_status' by " . User::getFullName($usr_id) . ' when sending an email');
         }
     }
     // remove the existing email draft, if appropriate
@@ -76,16 +77,16 @@ if (@$_POST["cat"] == "send_email") {
         $_POST['summary'] = 'Time entry inserted when sending outgoing email.';
         Time_Tracking::insertEntry();
     }
-} elseif (@$_POST["cat"] == "save_draft") {
-    $res = Draft::saveEmail($issue_id, $_POST["to"], $_POST["cc"], $_POST["subject"], $_POST["message"], $_POST["parent_id"]);
-    $tpl->assign("draft_result", $res);
-} elseif (@$_POST["cat"] == "update_draft") {
-    $res = Draft::update($issue_id, $_POST["draft_id"], $_POST["to"], $_POST["cc"], $_POST["subject"], $_POST["message"], $_POST["parent_id"]);
-    $tpl->assign("draft_result", $res);
+} elseif (@$_POST['cat'] == 'save_draft') {
+    $res = Draft::saveEmail($issue_id, $_POST['to'], $_POST['cc'], $_POST['subject'], $_POST['message'], $_POST['parent_id']);
+    $tpl->assign('draft_result', $res);
+} elseif (@$_POST['cat'] == 'update_draft') {
+    $res = Draft::update($issue_id, $_POST['draft_id'], $_POST['to'], $_POST['cc'], $_POST['subject'], $_POST['message'], $_POST['parent_id']);
+    $tpl->assign('draft_result', $res);
 }
 
 // enter the time tracking entry about this new email
-if ((@$_POST["cat"] == "save_draft") || (@$_POST["cat"] == "update_draft")) {
+if ((@$_POST['cat'] == 'save_draft') || (@$_POST['cat'] == 'update_draft')) {
     if (!empty($_POST['time_spent'])) {
         $_POST['issue_id'] = $issue_id;
         $_POST['category'] = Time_Tracking::getCategoryID($prj_id, 'Email Discussion');
@@ -110,54 +111,54 @@ if (@$_GET['cat'] == 'view_draft') {
         $_GET['ema_id'] = Email_Account::getEmailAccount();
     }
     $tpl->assign(array(
-        "draft_id"        => $_GET['id'],
-        "email"           => $email,
-        "parent_email_id" => $draft['emd_sup_id'],
-        "draft_status"    => $draft['emd_status']
+        'draft_id'        => $_GET['id'],
+        'email'           => $email,
+        'parent_email_id' => $draft['emd_sup_id'],
+        'draft_status'    => $draft['emd_status']
     ));
     if ($draft['emd_status'] != 'pending') {
-        $tpl->assign("read_only", 1);
+        $tpl->assign('read_only', 1);
     }
 } elseif (@$_GET['cat'] == 'create_draft') {
-    $tpl->assign("hide_email_buttons", "yes");
+    $tpl->assign('hide_email_buttons', 'yes');
 } else {
-    if (!@empty($_GET["id"])) {
-        $email = Support::getEmailDetails($_GET["ema_id"], $_GET["id"]);
-        $header = Misc::formatReplyPreamble($email["timestamp"], $email["sup_from"]);
+    if (!@empty($_GET['id'])) {
+        $email = Support::getEmailDetails($_GET['ema_id'], $_GET['id']);
+        $header = Misc::formatReplyPreamble($email['timestamp'], $email['sup_from']);
         $email['seb_body'] = $header . Misc::formatReply($email['seb_body']);
         $tpl->assign(array(
-            "email"           => $email,
-            "parent_email_id" => $_GET["id"]
+            'email'           => $email,
+            'parent_email_id' => $_GET['id']
         ));
     }
 }
 
 // special handling when someone tries to 'reply' to an issue
-if (@$_GET["cat"] == 'reply') {
+if (@$_GET['cat'] == 'reply') {
     $details = Issue::getReplyDetails($_GET['issue_id']);
     if ($details != '') {
         $header = Misc::formatReplyPreamble($details['created_date_ts'], $details['reporter']);
         $details['seb_body'] = $header . Misc::formatReply($details['description']);
         $details['sup_from'] = Mail_Helper::getFormattedName($details['reporter'], $details['reporter_email']);
         $tpl->assign(array(
-            "email"           => $details,
-            "parent_email_id" => 0,
-            "extra_title"     => "Issue #" . $_GET['issue_id'] . ": Reply"
+            'email'           => $details,
+            'parent_email_id' => 0,
+            'extra_title'     => 'Issue #' . $_GET['issue_id'] . ': Reply'
         ));
     }
 }
 
 if (!empty($issue_id)) {
     // list the available statuses
-    $tpl->assign("statuses", Status::getAssocStatusList($prj_id, false));
-    $tpl->assign("current_issue_status", Issue::getStatusID($issue_id));
+    $tpl->assign('statuses', Status::getAssocStatusList($prj_id, false));
+    $tpl->assign('current_issue_status', Issue::getStatusID($issue_id));
     // set if the current user is allowed to send emails on this issue or not
     $sender_details = User::getDetails($usr_id);
-    $tpl->assign("can_send_email", Support::isAllowedToEmail($issue_id, $sender_details["usr_email"]));
+    $tpl->assign('can_send_email', Support::isAllowedToEmail($issue_id, $sender_details['usr_email']));
     $tpl->assign('subscribers', Notification::getSubscribers($issue_id, 'emails'));
 }
-if ((!@empty($_GET["ema_id"])) || (!@empty($_POST["ema_id"]))) {
-    @$tpl->assign("ema_id", $_GET["ema_id"] ? $_GET["ema_id"] : $_POST["ema_id"]);
+if ((!@empty($_GET['ema_id'])) || (!@empty($_POST['ema_id']))) {
+    @$tpl->assign('ema_id', $_GET['ema_id'] ? $_GET['ema_id'] : $_POST['ema_id']);
 }
 
 $user_prefs = Prefs::get($usr_id);
@@ -165,20 +166,20 @@ $user_prefs = Prefs::get($usr_id);
 $t = Project::getAddressBook($prj_id, $issue_id);
 
 $tpl->assign(array(
-    "from" => User::getFromHeader($usr_id),
-    "assoc_users" => $t,
-    "assoc_emails" => array_keys($t),
-    "canned_responses" => Email_Response::getAssocList($prj_id),
-    "js_canned_responses" => Email_Response::getAssocListBodies($prj_id),
-    "current_user_prefs" => $user_prefs,
+    'from' => User::getFromHeader($usr_id),
+    'assoc_users' => $t,
+    'assoc_emails' => array_keys($t),
+    'canned_responses' => Email_Response::getAssocList($prj_id),
+    'js_canned_responses' => Email_Response::getAssocListBodies($prj_id),
+    'current_user_prefs' => $user_prefs,
     'issue_access' => Access::getIssueAccessArray($issue_id, $usr_id),
-    "max_attachment_size" => Attachment::getMaxAttachmentSize(),
-    "max_attachment_bytes" => Attachment::getMaxAttachmentSize(true),
+    'max_attachment_size' => Attachment::getMaxAttachmentSize(),
+    'max_attachment_bytes' => Attachment::getMaxAttachmentSize(true),
 ));
 
 // don't add signature if it already exists. Note: This won't handle multiple user duplicate sigs.
-if ((@!empty($draft['emd_body'])) && ($user_prefs["auto_append_email_sig"] == 1) &&
-        (strpos($draft['emd_body'], $user_prefs["email_signature"]) !== false)) {
+if ((@!empty($draft['emd_body'])) && ($user_prefs['auto_append_email_sig'] == 1) &&
+        (strpos($draft['emd_body'], $user_prefs['email_signature']) !== false)) {
     $tpl->assign('body_has_sig_already', 1);
 }
 

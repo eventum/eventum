@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -71,7 +72,7 @@ class Display_Column
             unset($data['custom_fields']);
         }
         // remove customer field if user has a role of customer
-        if ($current_role == User::getRoleID("Customer")) {
+        if ($current_role == User::getRoleID('Customer')) {
             unset($data['iss_customer_id']);
         }
 
@@ -114,7 +115,7 @@ class Display_Column
             return $returns[$prj_id][$page];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     ctd_field,
                     ctd_min_role,
                     ctd_rank
@@ -124,7 +125,7 @@ class Display_Column
                     ctd_prj_id = ? AND
                     ctd_page = ?
                 ORDER BY
-                    ctd_rank";
+                    ctd_rank';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id, $page), DB_FETCHMODE_ASSOC);
         } catch (DbException $e) {
@@ -164,70 +165,70 @@ class Display_Column
     public static function getAllColumns($page)
     {
         $columns = array(
-            "list_issues"   =>  array(
-                "pri_rank"    =>  array(
-                    "title" =>  ev_gettext("Priority")
+            'list_issues'   =>  array(
+                'pri_rank'    =>  array(
+                    'title' =>  ev_gettext('Priority')
                 ),
-                "sev_rank"    =>  array(
-                    "title" =>  ev_gettext("Severity")
+                'sev_rank'    =>  array(
+                    'title' =>  ev_gettext('Severity')
                 ),
-                "iss_id"    =>  array(
-                    "title" =>  ev_gettext("Issue ID")
+                'iss_id'    =>  array(
+                    'title' =>  ev_gettext('Issue ID')
                 ),
-                "usr_full_name" =>  array(
-                    "title" =>  ev_gettext("Reporter")
+                'usr_full_name' =>  array(
+                    'title' =>  ev_gettext('Reporter')
                 ),
-                "iss_created_date"    =>  array(
-                    "title" =>  ev_gettext("Created Date")
+                'iss_created_date'    =>  array(
+                    'title' =>  ev_gettext('Created Date')
                 ),
-                "grp_name"    =>  array(
-                    "title" =>  ev_gettext("Group")
+                'grp_name'    =>  array(
+                    'title' =>  ev_gettext('Group')
                 ),
-                "assigned"  =>  array(
-                    "title" =>  ev_gettext("Assigned")
+                'assigned'  =>  array(
+                    'title' =>  ev_gettext('Assigned')
                 ),
-                "time_spent"    =>  array(
-                    "title" =>  ev_gettext("Time Spent")
+                'time_spent'    =>  array(
+                    'title' =>  ev_gettext('Time Spent')
                 ),
-                "iss_percent_complete"    =>  array(
-                    "title" =>  ev_gettext("% Complete"),
-                    "default_role"  =>  9
+                'iss_percent_complete'    =>  array(
+                    'title' =>  ev_gettext('% Complete'),
+                    'default_role'  =>  9
                 ),
-                "iss_dev_time"    =>  array(
-                    "title" =>  ev_gettext("Est Dev Time"),
-                    "default_role"  =>  9
+                'iss_dev_time'    =>  array(
+                    'title' =>  ev_gettext('Est Dev Time'),
+                    'default_role'  =>  9
                 ),
-                "prc_title"     =>  array(
-                    "title" =>  ev_gettext("Category")
+                'prc_title'     =>  array(
+                    'title' =>  ev_gettext('Category')
                 ),
-                "pre_title" =>  array(
-                    "title" =>  ev_gettext("Release")
+                'pre_title' =>  array(
+                    'title' =>  ev_gettext('Release')
                 ),
-                "iss_customer_id"   =>  array(
-                    "title" =>  ev_gettext("Customer")
+                'iss_customer_id'   =>  array(
+                    'title' =>  ev_gettext('Customer')
                 ),
-                "support_level" =>  array(
-                    "title" =>  ev_gettext("Support Level")
+                'support_level' =>  array(
+                    'title' =>  ev_gettext('Support Level')
                 ),
-                "sta_rank"    =>  array(
-                    "title" =>  ev_gettext("Status")
+                'sta_rank'    =>  array(
+                    'title' =>  ev_gettext('Status')
                 ),
-                "sta_change_date"   =>  array(
-                    "title" =>  ev_gettext("Status Change Date")
+                'sta_change_date'   =>  array(
+                    'title' =>  ev_gettext('Status Change Date')
                 ),
-                "last_action_date"  =>  array(
-                    "title" =>  ev_gettext("Last Action Date")
+                'last_action_date'  =>  array(
+                    'title' =>  ev_gettext('Last Action Date')
                 ),
-                "custom_fields" =>  array(
-                    "title" =>  ev_gettext("Custom Fields")
+                'custom_fields' =>  array(
+                    'title' =>  ev_gettext('Custom Fields')
                 ),
-                "iss_summary"   =>  array(
-                    "title" =>  ev_gettext("Summary"),
-                    "align" =>  "left",
-                    "width" =>  '30%'
+                'iss_summary'   =>  array(
+                    'title' =>  ev_gettext('Summary'),
+                    'align' =>  'left',
+                    'width' =>  '30%'
                 ),
-                "iss_expected_resolution_date"  =>  array(
-                    "title" =>  ev_gettext("Expected Resolution Date")
+                'iss_expected_resolution_date'  =>  array(
+                    'title' =>  ev_gettext('Expected Resolution Date')
                 )
             )
         );
@@ -249,11 +250,11 @@ class Display_Column
         asort($ranks);
 
         // delete current entries
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%columns_to_display}}
                 WHERE
                     ctd_prj_id = ? AND
-                    ctd_page = ?";
+                    ctd_page = ?';
         try {
             DB_Helper::getInstance()->query($stmt, array($prj_id, $page));
         } catch (DbException $e) {
@@ -262,14 +263,14 @@ class Display_Column
 
         $rank = 1;
         foreach ($ranks as $field_name => $requested_rank) {
-            $sql = "INSERT INTO
+            $sql = 'INSERT INTO
                         {{%columns_to_display}}
                     SET
                         ctd_prj_id = ?,
                         ctd_page = ?,
                         ctd_field = ?,
                         ctd_min_role = ?,
-                        ctd_rank = ?";
+                        ctd_rank = ?';
             $params = array($prj_id, $page, $field_name, $_REQUEST['min_role'][$field_name], $rank);
             try {
                 DB_Helper::getInstance()->query($sql, $params);
@@ -299,14 +300,14 @@ class Display_Column
             } else {
                 $min_role = 1;
             }
-            $stmt = "INSERT INTO
+            $stmt = 'INSERT INTO
                         {{%columns_to_display}}
                      SET
                         ctd_prj_id = ?,
                         ctd_page = ?,
                         ctd_field = ?,
                         ctd_min_role = ,
-                        ctd_rank = ?";
+                        ctd_rank = ?';
             $params = array($prj_id, $page, $field_name, $min_role, $rank);
             try {
                 DB_Helper::getInstance()->query($stmt, $params);

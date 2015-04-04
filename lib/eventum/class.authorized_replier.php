@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -44,8 +45,8 @@ class Authorized_Replier
     {
         // split into users and others (those with email address but no real user accounts)
         $repliers = array(
-            "users" =>  array(),
-            "other" =>  array()
+            'users' =>  array(),
+            'other' =>  array()
         );
 
         $stmt = "SELECT
@@ -75,15 +76,15 @@ class Authorized_Replier
         $names = array();
         if (count($res) > 0) {
             foreach ($res as $row) {
-                if ($row["iur_usr_id"] == APP_SYSTEM_USER_ID) {
-                    $repliers["other"][] = $row;
+                if ($row['iur_usr_id'] == APP_SYSTEM_USER_ID) {
+                    $repliers['other'][] = $row;
                 } else {
-                    $repliers["users"][] = $row;
+                    $repliers['users'][] = $row;
                 }
                 $names[] = $row['replier'];
             }
         }
-        $repliers["all"]  = array_merge($repliers["users"], $repliers["other"]);
+        $repliers['all']  = array_merge($repliers['users'], $repliers['other']);
 
         return array(
             $names,
@@ -160,7 +161,7 @@ class Authorized_Replier
                 return self::addUser($issue_id, $usr_id, $add_history);
             }
 
-            $stmt = "INSERT INTO
+            $stmt = 'INSERT INTO
                         {{%issue_user_replier}}
                      (
                         iur_iss_id,
@@ -168,7 +169,7 @@ class Authorized_Replier
                         iur_email
                      ) VALUES (
                         ?, ?, ?
-                     )";
+                     )';
             try {
                 DB_Helper::getInstance()->query($stmt, array($issue_id, APP_SYSTEM_USER_ID, $email));
             } catch (DbException $e) {
@@ -195,18 +196,18 @@ class Authorized_Replier
     public static function addUser($issue_id, $usr_id, $add_history = true)
     {
         // don't add customers to this list. They should already be able to send
-        if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) == User::getRoleID("Customer")) {
+        if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) == User::getRoleID('Customer')) {
             return -2;
         }
 
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%issue_user_replier}}
                  (
                     iur_iss_id,
                     iur_usr_id
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         try {
             DB_Helper::getInstance()->query($stmt, array($issue_id, $usr_id));
         } catch (DbException $e) {
@@ -246,13 +247,13 @@ class Authorized_Replier
             // after the email address was added to authorized repliers list.
         }
         // not a real user
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(*) AS total
                  FROM
                     {{%issue_user_replier}}
                  WHERE
                     iur_iss_id=? AND
-                    iur_email=?";
+                    iur_email=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id, $email));
         } catch (DbException $e) {
@@ -275,17 +276,17 @@ class Authorized_Replier
      */
     public static function isUserAuthorizedReplier($issue_id, $usr_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     count(iur_id)
                  FROM
                     {{%issue_user_replier}}
                  WHERE
                     iur_iss_id = ? AND
-                    iur_usr_id = ?";
+                    iur_usr_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id, $usr_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         if ($res > 0) {
@@ -315,7 +316,7 @@ class Authorized_Replier
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($iur_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -330,7 +331,7 @@ class Authorized_Replier
      */
     public function getReplierIDByEmail($issue_id, $email)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iur_id
                  FROM
                     {{%issue_user_replier}}
@@ -340,7 +341,7 @@ class Authorized_Replier
                         iur_usr_id = usr_id
                  WHERE
                     iur_iss_id = ? AND
-                    (iur_email = ? OR usr_email = ?)";
+                    (iur_email = ? OR usr_email = ?)';
 
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id, $email, $email));
@@ -365,7 +366,7 @@ class Authorized_Replier
         if ($res != -1) {
             // save a history entry about this...
             History::add($issue_id, $usr_id, History::getTypeID('remote_replier_added'),
-                            $replier . " remotely added to authorized repliers by " . User::getFullName($usr_id));
+                            $replier . ' remotely added to authorized repliers by ' . User::getFullName($usr_id));
         }
 
         return $res;

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,29 +31,29 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("add_time_tracking.tpl.html");
+$tpl->setTemplate('add_time_tracking.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
-$issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
+$issue_id = @$_POST['issue_id'] ? $_POST['issue_id'] : $_GET['iss_id'];
 
-if ((!Issue::canAccess($issue_id, Auth::getUserID())) || (Auth::getCurrentRole() <= User::getRoleID("Customer"))) {
+if ((!Issue::canAccess($issue_id, Auth::getUserID())) || (Auth::getCurrentRole() <= User::getRoleID('Customer'))) {
     $tpl = new Template_Helper();
-    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;
 }
 
-if (@$_POST["cat"] == "add_time") {
+if (@$_POST['cat'] == 'add_time') {
     $res = Time_Tracking::insertEntry();
-    $tpl->assign("time_add_result", $res);
+    $tpl->assign('time_add_result', $res);
 }
 
 $prj_id = Auth::getCurrentProject();
 $tpl->assign(array(
-    "issue_id"           => $issue_id,
-    "time_categories"    => Time_Tracking::getAssocCategories($prj_id),
-    "current_user_prefs" => Prefs::get(Auth::getUserID())
+    'issue_id'           => $issue_id,
+    'time_categories'    => Time_Tracking::getAssocCategories($prj_id),
+    'current_user_prefs' => Prefs::get(Auth::getUserID())
 ));
 
 $tpl->displayTemplate();

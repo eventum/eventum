@@ -67,7 +67,7 @@ return Symfony\CS\Config\Config::create()
 		'return',
 			'single_array_no_trailing_comma',
 			'single_blank_line_before_namespace',
-			'-single_quote',
+			'single_quote',
 			'spaces_before_semicolon',
 		'spaces_cast',
 		'standardize_not_equal',

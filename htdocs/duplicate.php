@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,12 +31,12 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("duplicate.tpl.html");
+$tpl->setTemplate('duplicate.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
-if (@$_POST["cat"] == "mark") {
-    Misc::mapMessages(Issue::markAsDuplicate($_POST["issue_id"]), array(
+if (@$_POST['cat'] == 'mark') {
+    Misc::mapMessages(Issue::markAsDuplicate($_POST['issue_id']), array(
             1   =>  array(ev_gettext('Thank you, the issue was marked as a duplicate successfully'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('Sorry, an error happened while trying to run your query.'), Misc::MSG_ERROR),
     ));

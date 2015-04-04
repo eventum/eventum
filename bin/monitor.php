@@ -100,6 +100,6 @@ if ($errors) {
 }
 
 if (!$quiet) {
-    echo ev_gettext("OK: No errors found"), "\n";
+    echo ev_gettext('OK: No errors found'), "\n";
 }
 exit(STATE_OK);

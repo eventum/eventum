@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,43 +31,43 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("view_note.tpl.html");
+$tpl->setTemplate('view_note.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $usr_id = Auth::getUserID();
 
-$note_id = $_GET["id"];
+$note_id = $_GET['id'];
 $note = Note::getDetails($note_id);
 
 if ($note == '') {
-    $tpl->assign("note", '');
+    $tpl->assign('note', '');
     $tpl->displayTemplate();
     exit;
 } else {
-    $note["message"] = $note["not_note"];
+    $note['message'] = $note['not_note'];
     $issue_id = Note::getIssueID($note_id);
     $usr_id = Auth::getUserID();
 }
 
 if ((User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) < User::getRoleID('Standard User')) || (!Access::canViewInternalNotes($issue_id, Auth::getUserID()))) {
-    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;
 }
 
-$note = Note::getDetails($_GET["id"]);
-$note["message"] = $note["not_note"];
+$note = Note::getDetails($_GET['id']);
+$note['message'] = $note['not_note'];
 
-$issue_id = Note::getIssueID($_GET["id"]);
+$issue_id = Note::getIssueID($_GET['id']);
 $tpl->assign(array(
-    "note"        => $note,
-    "issue_id"    => $issue_id,
-    'extra_title' => "Note #" . Note::getNoteSequenceNumber($issue_id, $note_id) . ": " . $note['not_title'],
+    'note'        => $note,
+    'issue_id'    => $issue_id,
+    'extra_title' => 'Note #' . Note::getNoteSequenceNumber($issue_id, $note_id) . ': ' . $note['not_title'],
     'recipients'  => Mail_Queue::getMessageRecipients('notes', $note_id),
 ));
 
 if (!empty($issue_id)) {
-    $sides = Note::getSideLinks($issue_id, $_GET["id"]);
+    $sides = Note::getSideLinks($issue_id, $_GET['id']);
     $tpl->assign(array(
         'previous' => $sides['previous'],
         'next'     => $sides['next']

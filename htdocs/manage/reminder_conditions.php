@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,7 +31,7 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/reminder_conditions.tpl.html");
+$tpl->setTemplate('manage/reminder_conditions.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
@@ -39,37 +40,37 @@ $rma_id = @$_POST['rma_id'] ? $_POST['rma_id'] : $_GET['rma_id'];
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
-    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
+    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
 }
 
-if (@$_POST["cat"] == "new") {
+if (@$_POST['cat'] == 'new') {
     $res = Reminder_Condition::insert();
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the condition was added successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to add the new condition.'), Misc::MSG_ERROR),
             -2  =>  array(ev_gettext('Please enter the title for this new condition.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "update") {
+} elseif (@$_POST['cat'] == 'update') {
     $res = Reminder_Condition::update();
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the condition was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to update the condition.'), Misc::MSG_ERROR),
             -2  =>  array(ev_gettext('Please enter the title for this condition.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "delete") {
+} elseif (@$_POST['cat'] == 'delete') {
     Reminder_Condition::remove();
 }
 
-if (@$_GET["cat"] == "edit") {
-    $info = Reminder_Condition::getDetails($_GET["id"]);
+if (@$_GET['cat'] == 'edit') {
+    $info = Reminder_Condition::getDetails($_GET['id']);
     if (!empty($_GET['field'])) {
         $info['rlc_rmf_id'] = $_GET['field'];
     } else {
         $_GET['field'] = $info['rlc_rmf_id'];
     }
-    $tpl->assign("info", $info);
+    $tpl->assign('info', $info);
 }
 
 if (!empty($_GET['field'])) {
@@ -100,7 +101,7 @@ if (!empty($_GET['field'])) {
     } else {
         $tpl->assign('show_status_options', 'no');
     }
-    if (@$_GET["cat"] != "edit") {
+    if (@$_GET['cat'] != 'edit') {
         $tpl->assign('info', array(
             'rlc_rmf_id' => $_GET['field'],
             'rlc_rmo_id' => '',
@@ -109,12 +110,12 @@ if (!empty($_GET['field'])) {
     }
 }
 
-$tpl->assign("rem_id", $rem_id);
-$tpl->assign("rma_id", $rma_id);
-$tpl->assign("rem_title", Reminder::getTitle($rem_id));
-$tpl->assign("rma_title", Reminder_Action::getTitle($rma_id));
-$tpl->assign("fields", Reminder_Condition::getFieldAdminList());
-$tpl->assign("operators", Reminder_Condition::getOperatorAdminList());
-$tpl->assign("list", Reminder_Condition::getAdminList($rma_id));
+$tpl->assign('rem_id', $rem_id);
+$tpl->assign('rma_id', $rma_id);
+$tpl->assign('rem_title', Reminder::getTitle($rem_id));
+$tpl->assign('rma_title', Reminder_Action::getTitle($rma_id));
+$tpl->assign('fields', Reminder_Condition::getFieldAdminList());
+$tpl->assign('operators', Reminder_Condition::getOperatorAdminList());
+$tpl->assign('list', Reminder_Condition::getAdminList($rma_id));
 
 $tpl->displayTemplate();

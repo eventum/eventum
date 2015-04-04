@@ -368,9 +368,9 @@ abstract class Contract
     {
         $options = $this->getOptions(true);
 
-        return "Contract\nID: " . $this->contract_id . "
-            Start: " . $this->start_date . "
-            End: " . $this->end_date . "\n";
+        return "Contract\nID: " . $this->contract_id . '
+            Start: ' . $this->start_date . '
+            End: ' . $this->end_date . "\n";
     }
 }
 

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -39,16 +40,16 @@ if (stristr(APP_BASE_URL, 'https:')) {
 header('Cache-Control: must-revalidate');
 
 if ($_GET['cat'] == 'attachment') {
-    $file = Attachment::getDetails($_GET["id"]);
+    $file = Attachment::getDetails($_GET['id']);
     if (!empty($file)) {
         if (!Issue::canAccess($file['iat_iss_id'], Auth::getUserID())) {
             $tpl = new Template_Helper();
-            $tpl->setTemplate("permission_denied.tpl.html");
+            $tpl->setTemplate('permission_denied.tpl.html');
             $tpl->displayTemplate();
             exit;
         }
         $force_inline = filter_input(INPUT_GET, 'force_inline');
-        Attachment::outputDownload($file['iaf_file'], $file["iaf_filename"], $file['iaf_filesize'],
+        Attachment::outputDownload($file['iaf_file'], $file['iaf_filename'], $file['iaf_filesize'],
                                    $file['iaf_filetype'], $force_inline);
     }
 }

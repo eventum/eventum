@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,14 +31,14 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("adv_search.tpl.html");
+$tpl->setTemplate('adv_search.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 // customers should not be able to see this page
 $role_id = Auth::getCurrentRole();
 if ($role_id == User::getRoleID('Customer')) {
-    Auth::redirect("list.php");
+    Auth::redirect('list.php');
 }
 
 $prj_id = Auth::getCurrentProject();
@@ -46,49 +47,49 @@ $prj_id = Auth::getCurrentProject();
 $groups = Group::getAssocList($prj_id);
 $users = Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer'));
 $assign_options = array(
-    ""      =>  ev_gettext("Any"),
-    "-1"    =>  ev_gettext("un-assigned"),
-    "-2"    =>  ev_gettext("myself and un-assigned"),
+    ''      =>  ev_gettext('Any'),
+    '-1'    =>  ev_gettext('un-assigned'),
+    '-2'    =>  ev_gettext('myself and un-assigned'),
 );
 
 if (Auth::isAnonUser()) {
-    unset($assign_options["-2"]);
+    unset($assign_options['-2']);
 } elseif (User::getGroupID(Auth::getUserID()) != '') {
     $assign_options['-3'] = ev_gettext('myself and my group');
     $assign_options['-4'] = ev_gettext('myself, un-assigned and my group');
 }
-if ((count($groups) > 0) && ($role_id > User::getRoleID("Customer"))) {
+if ((count($groups) > 0) && ($role_id > User::getRoleID('Customer'))) {
     foreach ($groups as $grp_id => $grp_name) {
-        $assign_options["grp:$grp_id"] = "Group: " . $grp_name;
+        $assign_options["grp:$grp_id"] = 'Group: ' . $grp_name;
     }
 }
 $assign_options += $users;
 
 $tpl->assign(array(
-    "cats"          => Category::getAssocList($prj_id),
-    "priorities"    => Priority::getList($prj_id),
-    "severities"    => Severity::getList($prj_id),
-    "status"        => Status::getAssocStatusList($prj_id),
-    "users"         => $assign_options,
-    "releases"      => Release::getAssocList($prj_id, true),
-    "custom"        => Filter::getListing($prj_id),
-    "custom_fields" =>  Custom_Field::getListByProject($prj_id, ''),
-    "reporters"     => Project::getReporters($prj_id),
-    "products"      => Product::getAssocList(false)
+    'cats'          => Category::getAssocList($prj_id),
+    'priorities'    => Priority::getList($prj_id),
+    'severities'    => Severity::getList($prj_id),
+    'status'        => Status::getAssocStatusList($prj_id),
+    'users'         => $assign_options,
+    'releases'      => Release::getAssocList($prj_id, true),
+    'custom'        => Filter::getListing($prj_id),
+    'custom_fields' =>  Custom_Field::getListByProject($prj_id, ''),
+    'reporters'     => Project::getReporters($prj_id),
+    'products'      => Product::getAssocList(false)
 ));
 
-if (!empty($_GET["custom_id"])) {
+if (!empty($_GET['custom_id'])) {
     $check_perm = true;
-    if (Filter::isGlobal($_GET["custom_id"])) {
+    if (Filter::isGlobal($_GET['custom_id'])) {
         if ($role_id >= User::getRoleID('Manager')) {
             $check_perm = false;
         }
     }
-    $options = Filter::getDetails($_GET["custom_id"], $check_perm);
+    $options = Filter::getDetails($_GET['custom_id'], $check_perm);
 } else {
     $options = array();
-    $options["cst_rows"] = APP_DEFAULT_PAGER_SIZE;
+    $options['cst_rows'] = APP_DEFAULT_PAGER_SIZE;
 }
-$tpl->assign("options", $options);
+$tpl->assign('options', $options);
 
 $tpl->displayTemplate();

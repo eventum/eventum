@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -83,7 +84,7 @@ class Prefs
             return $returns[$usr_id];
         }
 
-        $sql = "SELECT
+        $sql = 'SELECT
                     upr_timezone as timezone,
                     upr_week_firstday as week_firstday,
                     upr_list_refresh_rate as list_refresh_rate,
@@ -95,7 +96,7 @@ class Prefs
                 FROM
                     {{%user_preference}}
                 WHERE
-                    upr_usr_id=?";
+                    upr_usr_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($sql, array($usr_id));
         } catch (DbException $e) {
@@ -157,7 +158,7 @@ class Prefs
             $preferences['email_signature'] = file_get_contents($_FILES['file_signature']['tmp_name']);
         }
 
-        $sql = "REPLACE INTO
+        $sql = 'REPLACE INTO
                     {{%user_preference}}
                 SET
                     upr_usr_id = ?,
@@ -168,7 +169,7 @@ class Prefs
                     upr_email_signature = ?,
                     upr_auto_append_email_sig = ?,
                     upr_auto_append_note_sig = ?,
-                    upr_auto_close_popup_window = ?";
+                    upr_auto_close_popup_window = ?';
         try {
             DB_Helper::getInstance()->query($sql, array(
                 $usr_id,
@@ -187,14 +188,14 @@ class Prefs
 
         $projects = Project::getAssocList($usr_id);
         foreach ($projects as $prj_id => $project_name) {
-            $sql = "REPLACE INTO
+            $sql = 'REPLACE INTO
                         {{%user_project_preference}}
                     SET
                         upp_usr_id = ?,
                         upp_prj_id = ?,
                         upp_receive_assigned_email = ?,
                         upp_receive_new_issue_email = ?,
-                        upp_receive_copy_of_own_action = ?";
+                        upp_receive_copy_of_own_action = ?';
 
             try {
                 DB_Helper::getInstance()->query($sql, array(

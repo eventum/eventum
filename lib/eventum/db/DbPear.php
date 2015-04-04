@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -70,7 +71,7 @@ class DbPear implements DbInterface
             case 'mysqli':
                 $db->query("SET SQL_MODE = ''");
                 if (Language::isUTF8()) {
-                    $db->query("SET NAMES utf8");
+                    $db->query('SET NAMES utf8');
                 }
                 break;
             default:
@@ -101,7 +102,7 @@ class DbPear implements DbInterface
         $fetchmode = DB_FETCHMODE_DEFAULT, $group = false
     ) {
         if (is_array($force_array)) {
-            throw new LogicException("force_array passed as array, did you mean fetchPair or forgot extra arg?");
+            throw new LogicException('force_array passed as array, did you mean fetchPair or forgot extra arg?');
         }
         $query = $this->quoteSql($query, $params);
         $res = $this->db->getAssoc($query, $force_array, $params, $fetchmode, $group);

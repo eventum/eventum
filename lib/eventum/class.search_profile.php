@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -42,12 +43,12 @@ class Search_Profile
      */
     public static function remove($usr_id, $prj_id, $type)
     {
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%search_profile}}
                  WHERE
                     sep_usr_id=? AND
                     sep_prj_id=? AND
-                    sep_type=?";
+                    sep_type=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($usr_id, $prj_id, $type));
         } catch (DbException $e) {
@@ -74,14 +75,14 @@ class Search_Profile
             return $returns[$usr_id][$prj_id][$type];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sep_user_profile
                  FROM
                     {{%search_profile}}
                  WHERE
                     sep_usr_id=? AND
                     sep_prj_id=? AND
-                    sep_type=?";
+                    sep_type=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id, $prj_id, $type));
         } catch (DbException $e) {
@@ -108,14 +109,14 @@ class Search_Profile
      */
     private function _exists($usr_id, $prj_id, $type)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(*) AS total
                  FROM
                     {{%search_profile}}
                  WHERE
                     sep_usr_id=? AND
                     sep_prj_id=? AND
-                    sep_type=?";
+                    sep_type=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id, $prj_id, $type));
         } catch (DbException $e) {
@@ -160,7 +161,7 @@ class Search_Profile
      */
     private function _insert($usr_id, $prj_id, $type, $profile)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%search_profile}}
                  (
                     sep_usr_id,
@@ -169,7 +170,7 @@ class Search_Profile
                     sep_user_profile
                  ) VALUES (
                     ?, ?, ?, ?
-                 )";
+                 )';
         try {
             DB_Helper::getInstance()->query($stmt, array($usr_id, $prj_id, $type, serialize($profile)));
         } catch (DbException $e) {
@@ -191,14 +192,14 @@ class Search_Profile
      */
     private function _update($usr_id, $prj_id, $type, $profile)
     {
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%search_profile}}
                  SET
                     sep_user_profile=?
                  WHERE
                     sep_usr_id=? AND
                     sep_prj_id=? AND
-                    sep_type=?";
+                    sep_type=?';
 
         try {
             DB_Helper::getInstance()->query($stmt, array(serialize($profile), $usr_id, $prj_id, $type));

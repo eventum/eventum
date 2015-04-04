@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,35 +31,35 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/anonymous.tpl.html");
+$tpl->setTemplate('manage/anonymous.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
-@$prj_id = $_POST["prj_id"] ? $_POST["prj_id"] : $_GET["prj_id"];
+@$prj_id = $_POST['prj_id'] ? $_POST['prj_id'] : $_GET['prj_id'];
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
-    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
+    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
 }
 
-if (@$_POST["cat"] == "update") {
+if (@$_POST['cat'] == 'update') {
     $res = Project::updateAnonymousPost($prj_id);
-    $tpl->assign("result", $res);
+    $tpl->assign('result', $res);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the information was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to update the information.'), Misc::MSG_ERROR),
     ));
 }
 // load the form fields
-$tpl->assign("project", Project::getDetails($prj_id));
-$tpl->assign("cats", Category::getAssocList($prj_id));
-$tpl->assign("priorities", Priority::getList($prj_id));
-$tpl->assign("users", Project::getUserAssocList($prj_id, 'active'));
-$tpl->assign("options", Project::getAnonymousPostOptions($prj_id));
-$tpl->assign("prj_id", $prj_id);
+$tpl->assign('project', Project::getDetails($prj_id));
+$tpl->assign('cats', Category::getAssocList($prj_id));
+$tpl->assign('priorities', Priority::getList($prj_id));
+$tpl->assign('users', Project::getUserAssocList($prj_id, 'active'));
+$tpl->assign('options', Project::getAnonymousPostOptions($prj_id));
+$tpl->assign('prj_id', $prj_id);
 $setup = Setup::load();
-$tpl->assign("allow_unassigned_issues", @$setup["allow_unassigned_issues"]);
+$tpl->assign('allow_unassigned_issues', @$setup['allow_unassigned_issues']);
 
 $tpl->displayTemplate();

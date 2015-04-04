@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -35,12 +36,12 @@ $tpl->setTemplate('news.tpl.html');
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $prj_id = Auth::getCurrentProject();
-if (!empty($_GET["id"])) {
+if (!empty($_GET['id'])) {
     $t = News::getDetails($_GET['id']);
-    $t['nws_created_date'] = Date_Helper::getFormattedDate($t["nws_created_date"]);
-    $tpl->assign("news", array($t));
+    $t['nws_created_date'] = Date_Helper::getFormattedDate($t['nws_created_date']);
+    $tpl->assign('news', array($t));
 } else {
-    $tpl->assign("news", News::getListByProject($prj_id, true));
+    $tpl->assign('news', News::getListByProject($prj_id, true));
 }
 
 $tpl->displayTemplate();

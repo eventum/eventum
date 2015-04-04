@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,7 +31,7 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/customize_listing.tpl.html");
+$tpl->setTemplate('manage/customize_listing.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
@@ -40,23 +41,23 @@ if ($role_id < User::getRoleID('administrator')) {
     $tpl->displayTemplate();
     exit;
 }
-$tpl->assign("project_list", Project::getAll());
+$tpl->assign('project_list', Project::getAll());
 
-if (@$_POST["cat"] == "new") {
+if (@$_POST['cat'] == 'new') {
     $res = Status::insertCustomization($_POST['project'], $_POST['status'], $_POST['date_field'], $_POST['label']);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the customization was added successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to add the new customization.'), Misc::MSG_ERROR),
             -2  =>  array(ev_gettext('Please enter the title for this new customization'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "update") {
+} elseif (@$_POST['cat'] == 'update') {
     $res = Status::updateCustomization($_POST['id'], $_POST['project'], $_POST['status'], $_POST['date_field'], $_POST['label']);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the customization was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to update the customization information.'), Misc::MSG_ERROR),
             -2  =>  array(ev_gettext('Please enter the title for this customization.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "delete") {
+} elseif (@$_POST['cat'] == 'delete') {
     $res = Status::removeCustomization(@$_POST['items']);
     Misc::mapMessages($res, array(
             true   =>  array(ev_gettext('Thank you, the customization was deleted successfully.'), Misc::MSG_INFO),
@@ -64,25 +65,25 @@ if (@$_POST["cat"] == "new") {
     ));
 }
 
-if (@$_GET["cat"] == "edit") {
-    $details = Status::getCustomizationDetails($_GET["id"]);
+if (@$_GET['cat'] == 'edit') {
+    $details = Status::getCustomizationDetails($_GET['id']);
     $tpl->assign(array(
-        "info"        => $details,
+        'info'        => $details,
         'project_id'  => $details['psd_prj_id'],
         'status_list' => Status::getAssocStatusList($details['psd_prj_id'], true)
     ));
 }
 
 $display_customer_fields = false;
-@$prj_id = $_POST["prj_id"] ? $_POST["prj_id"] : $_GET["prj_id"];
+@$prj_id = $_POST['prj_id'] ? $_POST['prj_id'] : $_GET['prj_id'];
 if (!empty($prj_id)) {
-    $tpl->assign("status_list", Status::getAssocStatusList($prj_id, true));
+    $tpl->assign('status_list', Status::getAssocStatusList($prj_id, true));
     $tpl->assign('project_id', $prj_id);
     $display_customer_fields = CRM::hasCustomerIntegration($prj_id);
 }
 
-$tpl->assign("date_fields", Issue::getDateFieldsAssocList($display_customer_fields));
-$tpl->assign("project_list", Project::getAll());
-$tpl->assign("list", Status::getCustomizationList());
+$tpl->assign('date_fields', Issue::getDateFieldsAssocList($display_customer_fields));
+$tpl->assign('project_list', Project::getAll());
+$tpl->assign('list', Status::getCustomizationList());
 
 $tpl->displayTemplate();

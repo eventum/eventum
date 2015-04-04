@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,12 +31,12 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("emails.tpl.html");
+$tpl->setTemplate('emails.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 if (!Access::canAccessAssociateEmails(Auth::getUserID())) {
-    $tpl->assign("no_access", 1);
+    $tpl->assign('no_access', 1);
     $tpl->displayTemplate();
     exit;
 }
@@ -50,17 +51,17 @@ if (empty($rows)) {
 }
 
 $options = Support::saveSearchParams();
-$tpl->assign("options", $options);
-$tpl->assign("sorting", Support::getSortingInfo($options));
+$tpl->assign('options', $options);
+$tpl->assign('sorting', Support::getSortingInfo($options));
 
 $list = Support::getEmailListing($options, $pagerRow, $rows);
-$tpl->assign("list", $list["list"]);
-$tpl->assign("list_info", $list["info"]);
-$tpl->assign("issues", Issue::getColList());
-$tpl->assign("accounts", Email_Account::getAssocList(Auth::getCurrentProject()));
+$tpl->assign('list', $list['list']);
+$tpl->assign('list_info', $list['info']);
+$tpl->assign('issues', Issue::getColList());
+$tpl->assign('accounts', Email_Account::getAssocList(Auth::getCurrentProject()));
 
 $prefs = Prefs::get(Auth::getUserID());
-$tpl->assign("refresh_rate", $prefs['email_refresh_rate'] * 60);
-$tpl->assign("refresh_page", "emails.php");
+$tpl->assign('refresh_rate', $prefs['email_refresh_rate'] * 60);
+$tpl->assign('refresh_page', 'emails.php');
 
 $tpl->displayTemplate();

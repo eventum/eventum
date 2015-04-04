@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -96,20 +97,20 @@ class Mime_Helper
         $parts = array();
         self::parse_output($output, $parts);
         if (empty($parts)) {
-            Error_Handler::logError(array("self::parse_output failed. Corrupted MIME in email?", $output), __FILE__, __LINE__);
+            Error_Handler::logError(array('self::parse_output failed. Corrupted MIME in email?', $output), __FILE__, __LINE__);
             // we continue as if nothing happened until it's clear it's right check to do.
         }
         $str = '';
         $is_html = false;
-        if (isset($parts["text"])) {
-            $str = implode("\n\n", $parts["text"]);
-        } elseif (isset($parts["html"])) {
+        if (isset($parts['text'])) {
+            $str = implode("\n\n", $parts['text']);
+        } elseif (isset($parts['html'])) {
             $is_html = true;
-            $str = implode("\n\n", $parts["html"]);
+            $str = implode("\n\n", $parts['html']);
 
             // hack for inotes to prevent content from being displayed all on one line.
-            $str = str_replace("</DIV><DIV>", "\n", $str);
-            $str = str_replace(array("<br>", "<br />", "<BR>", "<BR />"), "\n", $str);
+            $str = str_replace('</DIV><DIV>', "\n", $str);
+            $str = str_replace(array('<br>', '<br />', '<BR>', '<BR />'), "\n", $str);
         }
 
         // XXX: do we also need to do something here about base64 encoding?
@@ -193,9 +194,9 @@ class Mime_Helper
         $address = self::removeQuotes($address);
         if (self::is8bit($address)) {
             // split into name and address section
-            preg_match("/(.*)<(.*)>/", $address, $matches);
-            $address = "=?" . APP_CHARSET . "?Q?" .
-                str_replace(' ', '_', trim(preg_replace('/([\x80-\xFF]|[\x21-\x2F]|[\xFC]|\[|\])/e', '"=" . strtoupper(dechex(ord(stripslashes("\1"))))', $matches[1]))) . "?= <" . $matches[2] . ">";
+            preg_match('/(.*)<(.*)>/', $address, $matches);
+            $address = '=?' . APP_CHARSET . '?Q?' .
+                str_replace(' ', '_', trim(preg_replace('/([\x80-\xFF]|[\x21-\x2F]|[\xFC]|\[|\])/e', '"=" . strtoupper(dechex(ord(stripslashes("\1"))))', $matches[1]))) . '?= <' . $matches[2] . '>';
 
             return $address;
         } else {
@@ -215,7 +216,7 @@ class Mime_Helper
     public static function decodeAddress($address)
     {
         if (preg_match("/=\?.+\?Q\?(.+)\?= <(.+)>/i", $address, $matches)) {
-            return str_replace("_", ' ', quoted_printable_decode($matches[1])) . " <" . $matches[2] . ">";
+            return str_replace('_', ' ', quoted_printable_decode($matches[1])) . ' <' . $matches[2] . '>';
         } else {
             return self::removeQuotes($address);
         }
@@ -240,11 +241,11 @@ class Mime_Helper
             $line_length = strlen($string) * 4 + strlen(APP_CHARSET) + 11;
 
             $params = array(
-                "input-charset" => APP_CHARSET,
-                "output-charset" => APP_CHARSET,
-                "line-length" => $line_length,
+                'input-charset' => APP_CHARSET,
+                'output-charset' => APP_CHARSET,
+                'line-length' => $line_length,
             );
-            $string = iconv_mime_encode("", $string, $params);
+            $string = iconv_mime_encode('', $string, $params);
 
             return substr($string, 2);
         }
@@ -275,27 +276,27 @@ class Mime_Helper
         );
 
         $qpReplaceValues = array(
-            "=00","=01","=02","=03","=04","=05","=06","=07",
-            "=08","=09","=0A","=0B","=0C","=0D","=0E","=0F",
-            "=10","=11","=12","=13","=14","=15","=16","=17",
-            "=18","=19","=1A","=1B","=1C","=1D","=1E","=1F",
-            "=7F","=80","=81","=82","=83","=84","=85","=86",
-            "=87","=88","=89","=8A","=8B","=8C","=8D","=8E",
-            "=8F","=90","=91","=92","=93","=94","=95","=96",
-            "=97","=98","=99","=9A","=9B","=9C","=9D","=9E",
-            "=9F","=A0","=A1","=A2","=A3","=A4","=A5","=A6",
-            "=A7","=A8","=A9","=AA","=AB","=AC","=AD","=AE",
-            "=AF","=B0","=B1","=B2","=B3","=B4","=B5","=B6",
-            "=B7","=B8","=B9","=BA","=BB","=BC","=BD","=BE",
-            "=BF","=C0","=C1","=C2","=C3","=C4","=C5","=C6",
-            "=C7","=C8","=C9","=CA","=CB","=CC","=CD","=CE",
-            "=CF","=D0","=D1","=D2","=D3","=D4","=D5","=D6",
-            "=D7","=D8","=D9","=DA","=DB","=DC","=DD","=DE",
-            "=DF","=E0","=E1","=E2","=E3","=E4","=E5","=E6",
-            "=E7","=E8","=E9","=EA","=EB","=EC","=ED","=EE",
-            "=EF","=F0","=F1","=F2","=F3","=F4","=F5","=F6",
-            "=F7","=F8","=F9","=FA","=FB","=FC","=FD","=FE",
-            "=FF"
+            '=00','=01','=02','=03','=04','=05','=06','=07',
+            '=08','=09','=0A','=0B','=0C','=0D','=0E','=0F',
+            '=10','=11','=12','=13','=14','=15','=16','=17',
+            '=18','=19','=1A','=1B','=1C','=1D','=1E','=1F',
+            '=7F','=80','=81','=82','=83','=84','=85','=86',
+            '=87','=88','=89','=8A','=8B','=8C','=8D','=8E',
+            '=8F','=90','=91','=92','=93','=94','=95','=96',
+            '=97','=98','=99','=9A','=9B','=9C','=9D','=9E',
+            '=9F','=A0','=A1','=A2','=A3','=A4','=A5','=A6',
+            '=A7','=A8','=A9','=AA','=AB','=AC','=AD','=AE',
+            '=AF','=B0','=B1','=B2','=B3','=B4','=B5','=B6',
+            '=B7','=B8','=B9','=BA','=BB','=BC','=BD','=BE',
+            '=BF','=C0','=C1','=C2','=C3','=C4','=C5','=C6',
+            '=C7','=C8','=C9','=CA','=CB','=CC','=CD','=CE',
+            '=CF','=D0','=D1','=D2','=D3','=D4','=D5','=D6',
+            '=D7','=D8','=D9','=DA','=DB','=DC','=DD','=DE',
+            '=DF','=E0','=E1','=E2','=E3','=E4','=E5','=E6',
+            '=E7','=E8','=E9','=EA','=EB','=EC','=ED','=EE',
+            '=EF','=F0','=F1','=F2','=F3','=F4','=F5','=F6',
+            '=F7','=F8','=F9','=FA','=FB','=FC','=FD','=FE',
+            '=FF'
         );
 
         $string = str_replace('=', '=3D', $string);
@@ -538,20 +539,20 @@ class Mime_Helper
                 $first_part = substr($filename, 0, strrpos($filename, '.'));
             }
             // check if this is already named Outlook-2.bmp (or similar)
-            if (strstr($first_part, "-")) {
+            if (strstr($first_part, '-')) {
                 // if so, gotta get the number and increment it
-                $numeric_portion = substr($first_part, strrpos($first_part, "-")+1);
-                if (preg_match("/^[0-9]+$/", $numeric_portion)) {
+                $numeric_portion = substr($first_part, strrpos($first_part, '-')+1);
+                if (preg_match('/^[0-9]+$/', $numeric_portion)) {
                     $numeric_portion = intval($numeric_portion) + 1;
                 }
-                $first_part = substr($first_part, 0, strrpos($first_part, "-"));
+                $first_part = substr($first_part, 0, strrpos($first_part, '-'));
             } else {
                 $numeric_portion = 1;
             }
             if (!strstr($filename, '.')) {
-                $filename = $first_part . "-" . $numeric_portion;
+                $filename = $first_part . '-' . $numeric_portion;
             } else {
-                $filename = $first_part . "-" . $numeric_portion . substr($filename, strrpos($filename, '.'));
+                $filename = $first_part . '-' . $numeric_portion . substr($filename, strrpos($filename, '.'));
             }
 
             return self::getAttachmentName($list, $filename);
@@ -723,7 +724,7 @@ class Mime_Helper
         // content-type header is split into another line, the PEAR library would
         // not work correctly. this fix will make the boundary part go to the
         // same line as the content-type one
-        if (preg_match("/^(boundary=).*/m", $message)) {
+        if (preg_match('/^(boundary=).*/m', $message)) {
             $pattern = "/(Content-Type: multipart\/)(.+); ?\r?\n(boundary=)(.*)$/im";
             $replacement = '$1$2; $3$4';
             $message = preg_replace($pattern, $replacement, $message);

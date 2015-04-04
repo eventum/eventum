@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -50,7 +51,7 @@ class CLI_Misc
         if ($default_value !== false) {
             echo " [default: $default_value] -> ";
         } else {
-            echo " [required] -> ";
+            echo ' [required] -> ';
         }
         flush();
         $input = trim(self::getInput());

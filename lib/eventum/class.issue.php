@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -44,16 +45,16 @@ class Issue
      */
     public static function exists($issue_id, $check_project = true)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(*)
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_id=?";
+                    iss_id=?';
         $params = array($issue_id);
         if ($check_project) {
-            $stmt .= " AND
-                    iss_prj_id = ?";
+            $stmt .= ' AND
+                    iss_prj_id = ?';
             $params[] = Auth::getCurrentProject();
         }
         try {
@@ -139,7 +140,7 @@ class Issue
      */
     public static function getAssocListByProject($prj_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_id,
                     iss_summary
                  FROM
@@ -147,11 +148,11 @@ class Issue
                  WHERE
                     iss_prj_id=?
                  ORDER BY
-                    iss_id ASC";
+                    iss_id ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -171,12 +172,12 @@ class Issue
             return $returns[$issue_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_sta_id
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_id=?";
+                    iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -228,12 +229,12 @@ class Issue
             return $returns[$issue_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_customer_id
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_id=?";
+                    iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -259,12 +260,12 @@ class Issue
             return $returns[$issue_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_customer_contract_id
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_id=?";
+                    iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -287,12 +288,12 @@ class Issue
     {
         $old_contract_id = self::getContractID($issue_id);
 
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%issue}}
                 SET
                     iss_customer_contract_id = ?
                  WHERE
-                    iss_id=?";
+                    iss_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($contract_id, $issue_id));
         } catch (DbException $e) {
@@ -300,7 +301,7 @@ class Issue
         }
 
         // log this
-        History::add($issue_id, Auth::getUserID(), History::getTypeID("contract_changed"), "Contract changed from $old_contract_id to $contract_id by " . User::getFullName(Auth::getUserID()));
+        History::add($issue_id, Auth::getUserID(), History::getTypeID('contract_changed'), "Contract changed from $old_contract_id to $contract_id by " . User::getFullName(Auth::getUserID()));
 
         return 1;
     }
@@ -319,12 +320,12 @@ class Issue
             return $returns[$issue_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_customer_contact_id
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_id=?";
+                    iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -351,12 +352,12 @@ class Issue
             return $returns[$issue_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_prj_id
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_id=?";
+                    iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -384,7 +385,7 @@ class Issue
         $res = self::addUserAssociation($usr_id, $issue_id, $assignee, false);
         if ($res != -1) {
             // save a history entry about this...
-            History::add($issue_id, $usr_id, History::getTypeID('remote_assigned'), "Issue remotely assigned to " . User::getFullName($assignee) . " by " . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, History::getTypeID('remote_assigned'), 'Issue remotely assigned to ' . User::getFullName($assignee) . ' by ' . User::getFullName($usr_id));
             Notification::subscribeUser($usr_id, $issue_id, $assignee, Notification::getDefaultActions($issue_id, User::getEmail($assignee), 'remote_assign'), false);
             if ($assignee != $usr_id) {
                 Notification::notifyNewAssignment(array($assignee), $issue_id);
@@ -483,12 +484,12 @@ class Issue
     public function setRelease($issue_id, $pre_id)
     {
         if ($pre_id != self::getRelease($issue_id)) {
-            $sql = "UPDATE
+            $sql = 'UPDATE
                         {{%issue}}
                     SET
                         iss_pre_id = ?
                     WHERE
-                        iss_id = ?";
+                        iss_id = ?';
             try {
                 DB_Helper::getInstance()->query($sql, array($pre_id, $issue_id));
             } catch (DbException $e) {
@@ -508,12 +509,12 @@ class Issue
      */
     public function getRelease($issue_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     iss_pre_id
                 FROM
                     {{%issue}}
                 WHERE
-                    iss_id = ?";
+                    iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
         } catch (DbException $e) {
@@ -534,12 +535,12 @@ class Issue
     public static function setPriority($issue_id, $pri_id)
     {
         if ($pri_id != self::getPriority($issue_id)) {
-            $sql = "UPDATE
+            $sql = 'UPDATE
                         {{%issue}}
                     SET
                         iss_pri_id = ?
                     WHERE
-                        iss_id = ?";
+                        iss_id = ?';
             try {
                 DB_Helper::getInstance()->query($sql, array($pri_id, $issue_id));
             } catch (DbException $e) {
@@ -559,12 +560,12 @@ class Issue
      */
     public static function getPriority($issue_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     iss_pri_id
                 FROM
                     {{%issue}}
                 WHERE
-                    iss_id = ?";
+                    iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
         } catch (DbException $e) {
@@ -585,12 +586,12 @@ class Issue
     public static function setSeverity($issue_id, $sev_id)
     {
         if ($sev_id != self::getSeverity($issue_id)) {
-            $sql = "UPDATE
+            $sql = 'UPDATE
                         {{%issue}}
                     SET
                         iss_sev_id = ?
                     WHERE
-                        iss_id = ?";
+                        iss_id = ?';
             try {
                 DB_Helper::getInstance()->query($sql, array($sev_id, $issue_id));
             } catch (DbException $e) {
@@ -610,12 +611,12 @@ class Issue
      */
     public static function getSeverity($issue_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     iss_sev_id
                 FROM
                     {{%issue}}
                 WHERE
-                    iss_id = ?";
+                    iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
         } catch (DbException $e) {
@@ -637,12 +638,12 @@ class Issue
         $current = self::getExpectedResolutionDate($issue_id);
         if ($expected_resolution_date != $current) {
             $expected_resolution_date = $expected_resolution_date ?: null;
-            $sql = "UPDATE
+            $sql = 'UPDATE
                         {{%issue}}
                     SET
                         iss_expected_resolution_date = ?
                     WHERE
-                        iss_id = ?";
+                        iss_id = ?';
             try {
                 DB_Helper::getInstance()->query($sql, array($expected_resolution_date, $issue_id));
             } catch (DbException $e) {
@@ -651,7 +652,7 @@ class Issue
 
             $usr_id = Auth::getUserID();
             Notification::notifyIssueUpdated($issue_id, array('iss_expected_resolution_date' => $current), array('expected_resolution_date' => $expected_resolution_date));
-            History::add($issue_id, $usr_id, History::getTypeID('issue_updated'), "Issue updated (Expected Resolution Date: " . History::formatChanges($current, $expected_resolution_date) . ") by " . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, History::getTypeID('issue_updated'), 'Issue updated (Expected Resolution Date: ' . History::formatChanges($current, $expected_resolution_date) . ') by ' . User::getFullName($usr_id));
 
             return 1;
         }
@@ -667,12 +668,12 @@ class Issue
      */
     public function getExpectedResolutionDate($issue_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     iss_expected_resolution_date
                 FROM
                     {{%issue}}
                 WHERE
-                    iss_id = ?";
+                    iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
         } catch (DbException $e) {
@@ -693,12 +694,12 @@ class Issue
     public function setCategory($issue_id, $prc_id)
     {
         if ($prc_id != self::getPriority($issue_id)) {
-            $sql = "UPDATE
+            $sql = 'UPDATE
                         {{%issue}}
                     SET
                         iss_prc_id = ?
                     WHERE
-                        iss_id = ?";
+                        iss_id = ?';
             try {
                 DB_Helper::getInstance()->query($sql, array($prc_id, $issue_id));
             } catch (DbException $e) {
@@ -718,12 +719,12 @@ class Issue
      */
     public static function getCategory($issue_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     iss_prc_id
                 FROM
                     {{%issue}}
                 WHERE
-                    iss_id = ?";
+                    iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
         } catch (DbException $e) {
@@ -751,7 +752,7 @@ class Issue
             return '';
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_id,
                     iss_summary,
                     sta_title
@@ -764,22 +765,22 @@ class Issue
                     {{%issue_user}}
                  ON
                     isu_iss_id=iss_id
-                 WHERE ";
+                 WHERE ';
         $params = array();
 
         if (!empty($status_id)) {
-            $stmt .= " sta_id=? AND ";
+            $stmt .= ' sta_id=? AND ';
             $params[] = $status_id;
         }
 
-        $stmt .= "
+        $stmt .= '
                     iss_prj_id=? AND
                     sta_id=iss_sta_id AND
-                    sta_is_closed=0";
+                    sta_is_closed=0';
         $params[] = $prj_id;
         if ($show_all_issues == false) {
-            $stmt .= " AND
-                    isu_usr_id=?";
+            $stmt .= ' AND
+                    isu_usr_id=?';
             $params[] = $usr_id;
         }
         $stmt .= "\nGROUP BY
@@ -807,7 +808,7 @@ class Issue
      */
     public static function getReplyDetails($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_created_date,
                     usr_full_name AS reporter,
                     usr_email AS reporter_email,
@@ -818,7 +819,7 @@ class Issue
                     {{%user}}
                  WHERE
                     iss_usr_id=usr_id AND
-                    iss_id=?";
+                    iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -826,7 +827,7 @@ class Issue
         }
 
         // TRANSLATORS: %1 = issue_id, %2 = issue summary
-        $res['reply_subject'] = ev_gettext('Re: [#%1$s] %2$s', (int) $issue_id, $res["sup_subject"]);
+        $res['reply_subject'] = ev_gettext('Re: [#%1$s] %2$s', (int) $issue_id, $res['sup_subject']);
         $res['created_date_ts'] = Date_Helper::getUnixTimestamp($res['iss_created_date'], 'GMT');
 
         return $res;
@@ -842,7 +843,7 @@ class Issue
      */
     public static function markAsUpdated($issue_id, $type = null)
     {
-        $public = array("staff response", "customer action", "file uploaded", "user response");
+        $public = array('staff response', 'customer action', 'file uploaded', 'user response');
         $stmt = "UPDATE
                     {{%issue}}
                  SET
@@ -853,17 +854,17 @@ class Issue
 
         if ($type) {
             if (in_array($type, $public)) {
-                $field = "iss_last_public_action_";
+                $field = 'iss_last_public_action_';
             } else {
-                $field = "iss_last_internal_action_";
+                $field = 'iss_last_internal_action_';
             }
             $stmt .= ",\n " . $field . "date = ?,\n" .
                 $field . "type  = ?\n";
             $params[] = Date_Helper::getCurrentDateGMT();
             $params[] = $type;
         }
-        $stmt .= "WHERE
-                    iss_id=?";
+        $stmt .= 'WHERE
+                    iss_id=?';
         $params[] = $issue_id;
 
         try {
@@ -873,22 +874,22 @@ class Issue
         }
 
         // update last response dates if this is a staff response
-        if ($type == "staff response") {
-            $stmt = "UPDATE
+        if ($type == 'staff response') {
+            $stmt = 'UPDATE
                         {{%issue}}
                      SET
                         iss_last_response_date=?
                      WHERE
-                        iss_id = ?";
+                        iss_id = ?';
             DB_Helper::getInstance()->query($stmt, array(Date_Helper::getCurrentDateGMT(), $issue_id));
 
-            $stmt = "UPDATE
+            $stmt = 'UPDATE
                         {{%issue}}
                      SET
                         iss_first_response_date=?
                      WHERE
                         iss_first_response_date IS NULL AND
-                        iss_id = ?";
+                        iss_id = ?';
             DB_Helper::getInstance()->query($stmt, array(Date_Helper::getCurrentDateGMT(), $issue_id));
         }
 
@@ -904,12 +905,12 @@ class Issue
      */
     public static function hasDuplicates($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(iss_id)
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_duplicated_iss_id=?";
+                    iss_duplicated_iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -943,22 +944,22 @@ class Issue
         $params = array(
             Date_Helper::getCurrentDateGMT(),
             Date_Helper::getCurrentDateGMT(),
-            $_POST["category"],
+            $_POST['category'],
         );
 
-        if (@$_POST["keep"] == "no") {
-            $stmt .= "iss_pre_id=?,";
-            $params[] = $_POST["release"];
+        if (@$_POST['keep'] == 'no') {
+            $stmt .= 'iss_pre_id=?,';
+            $params[] = $_POST['release'];
         }
-        $stmt .= "
+        $stmt .= '
                     iss_pri_id=?,
                     iss_sta_id=?,
                     iss_res_id=?
                  WHERE
-                    iss_id IN (" . DB_Helper::buildList($ids). ")";
-        $params[] = $_POST["priority"];
-        $params[] = $_POST["status"];
-        $params[] = $_POST["resolution"];
+                    iss_id IN (' . DB_Helper::buildList($ids). ')';
+        $params[] = $_POST['priority'];
+        $params[] = $_POST['status'];
+        $params[] = $_POST['resolution'];
         $params = array_merge($params, $ids);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -970,7 +971,7 @@ class Issue
         $issue_id = (int) $issue_id;
         for ($i = 0; $i < count($ids); $i++) {
             History::add($ids[$i], Auth::getUserID(), History::getTypeID('duplicate_update'),
-                "The details for issue #$issue_id were updated by " . User::getFullName(Auth::getUserID()) . " and the changes propagated to the duplicated issues.");
+                "The details for issue #$issue_id were updated by " . User::getFullName(Auth::getUserID()) . ' and the changes propagated to the duplicated issues.');
         }
 
         return 1;
@@ -1013,7 +1014,7 @@ class Issue
             return $returns[$issue_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_id issue_id,
                     iss_summary title,
                     sta_title current_status,
@@ -1023,7 +1024,7 @@ class Issue
                     {{%status}}
                  WHERE
                     iss_sta_id=sta_id AND
-                    iss_duplicated_iss_id=?";
+                    iss_duplicated_iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -1060,7 +1061,7 @@ class Issue
         }
 
         // record the change
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_removed'), "Duplicate flag was reset by " . User::getFullName(Auth::getUserID()));
+        History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_removed'), 'Duplicate flag was reset by ' . User::getFullName(Auth::getUserID()));
 
         return 1;
     }
@@ -1086,21 +1087,21 @@ class Issue
                     iss_duplicated_iss_id=?
                  WHERE
                     iss_id=?";
-        $params = array(Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $_POST["duplicated_issue"], $issue_id);
+        $params = array(Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $_POST['duplicated_issue'], $issue_id);
         try {
             $res = DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
 
-        if (!empty($_POST["comments"])) {
+        if (!empty($_POST['comments'])) {
             // add note with the comments of marking an issue as a duplicate of another one
             $_POST['title'] = 'Issue duplication comments';
-            $_POST["note"] = $_POST["comments"];
+            $_POST['note'] = $_POST['comments'];
             Note::insert(Auth::getUserID(), $issue_id);
         }
         // record the change
-        $summary = "Issue marked as a duplicate of issue #" . $_POST["duplicated_issue"] . " by " . User::getFullName(Auth::getUserID());
+        $summary = 'Issue marked as a duplicate of issue #' . $_POST['duplicated_issue'] . ' by ' . User::getFullName(Auth::getUserID());
         History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_added'), $summary);
 
         return 1;
@@ -1108,13 +1109,13 @@ class Issue
 
     public static function isDuplicate($issue_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     count(iss_id)
                 FROM
                     {{%issue}}
                 WHERE
                     iss_id = ? AND
-                    iss_duplicated_iss_id IS NULL";
+                    iss_duplicated_iss_id IS NULL';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
         } catch (DbException $e) {
@@ -1133,7 +1134,7 @@ class Issue
      */
     public function getAssignedUsersStatus($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     usr_id,
                     usr_status
                  FROM
@@ -1141,7 +1142,7 @@ class Issue
                     {{%user}}
                  WHERE
                     isu_iss_id=? AND
-                    isu_usr_id=usr_id";
+                    isu_usr_id=usr_id';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -1159,16 +1160,16 @@ class Issue
      */
     public static function getTitle($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_summary
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_id=?";
+                    iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -1182,12 +1183,12 @@ class Issue
      */
     public function getIssueID($summary)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_id
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_summary=?";
+                    iss_summary=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($summary));
         } catch (DbException $e) {
@@ -1204,20 +1205,20 @@ class Issue
      */
     public static function addAnonymousReport()
     {
-        $options = Project::getAnonymousPostOptions($_POST["project"]);
-        $initial_status = Project::getInitialStatus($_POST["project"]);
-        $stmt = "INSERT INTO
+        $options = Project::getAnonymousPostOptions($_POST['project']);
+        $initial_status = Project::getInitialStatus($_POST['project']);
+        $stmt = 'INSERT INTO
                     {{%issue}}
                  (
                     iss_prj_id,
                     iss_prc_id,
                     iss_pre_id,
                     iss_pri_id,
-                    iss_usr_id,";
+                    iss_usr_id,';
         if (!empty($initial_status)) {
-            $stmt .= "iss_sta_id,";
+            $stmt .= 'iss_sta_id,';
         }
-        $stmt .= "
+        $stmt .= '
                     iss_created_date,
                     iss_last_public_action_date,
                     iss_last_public_action_type,
@@ -1225,11 +1226,11 @@ class Issue
                     iss_description,
                     iss_root_message_id
                  ) VALUES (
-                    " . Misc::escapeInteger($_POST["project"]) . ",
-                    " . $options["category"] . ",
+                    ' . Misc::escapeInteger($_POST['project']) . ',
+                    ' . $options['category'] . ',
                     0,
-                    " . $options["priority"] . ",
-                    " . $options["reporter"] . ",";
+                    ' . $options['priority'] . ',
+                    ' . $options['reporter'] . ',';
         if (!empty($initial_status)) {
             $stmt .= "$initial_status,";
         }
@@ -1237,8 +1238,8 @@ class Issue
                     '" . Date_Helper::getCurrentDateGMT() . "',
                     '" . Date_Helper::getCurrentDateGMT() . "',
                     'created',
-                    '" . Misc::escapeString($_POST["summary"]) . "',
-                    '" . Misc::escapeString($_POST["description"]) . "',
+                    '" . Misc::escapeString($_POST['summary']) . "',
+                    '" . Misc::escapeString($_POST['description']) . "',
                     '" . Misc::escapeString(Mail_Helper::generateMessageID()) . "'
                  )";
         try {
@@ -1254,35 +1255,35 @@ class Issue
 
         // now process any files being uploaded
         $found = 0;
-        for ($i = 0; $i < count(@$_FILES["file"]["name"]); $i++) {
-            if (!@empty($_FILES["file"]["name"][$i])) {
+        for ($i = 0; $i < count(@$_FILES['file']['name']); $i++) {
+            if (!@empty($_FILES['file']['name'][$i])) {
                 $found = 1;
                 break;
             }
         }
         if ($found) {
-            $attachment_id = Attachment::add($new_issue_id, $options["reporter"], 'files uploaded anonymously');
-            for ($i = 0; $i < count(@$_FILES["file"]["name"]); $i++) {
-                $filename = @$_FILES["file"]["name"][$i];
+            $attachment_id = Attachment::add($new_issue_id, $options['reporter'], 'files uploaded anonymously');
+            for ($i = 0; $i < count(@$_FILES['file']['name']); $i++) {
+                $filename = @$_FILES['file']['name'][$i];
                 if (empty($filename)) {
                     continue;
                 }
-                $blob = file_get_contents($_FILES["file"]["tmp_name"][$i]);
+                $blob = file_get_contents($_FILES['file']['tmp_name'][$i]);
                 if (!empty($blob)) {
-                    Attachment::addFile($attachment_id, $filename, $_FILES["file"]["type"][$i], $blob);
+                    Attachment::addFile($attachment_id, $filename, $_FILES['file']['type'][$i], $blob);
                 }
             }
         }
         // need to process any custom fields ?
-        if (@count($_POST["custom_fields"]) > 0) {
-            foreach ($_POST["custom_fields"] as $fld_id => $value) {
+        if (@count($_POST['custom_fields']) > 0) {
+            foreach ($_POST['custom_fields'] as $fld_id => $value) {
                 Custom_Field::associateIssue($new_issue_id, $fld_id, $value);
             }
         }
 
         // now add the user/issue association
         $assign = array();
-        $users = @$options["users"];
+        $users = @$options['users'];
         $actions = Notification::getDefaultActions($new_issue_id, false, 'anon_issue');
         for ($i = 0; $i < count($users); $i++) {
             Notification::subscribeUser(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i], $actions);
@@ -1290,7 +1291,7 @@ class Issue
             $assign[] = $users[$i];
         }
 
-        Workflow::handleNewIssue(Misc::escapeInteger($_POST["project"]),  $new_issue_id, false, false);
+        Workflow::handleNewIssue(Misc::escapeInteger($_POST['project']),  $new_issue_id, false, false);
 
         // also notify any users that want to receive emails anytime a new issue is created
         Notification::notifyNewIssue($_POST['project'], $new_issue_id);
@@ -1307,12 +1308,12 @@ class Issue
      */
     public static function removeByProjects($ids)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_id
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_prj_id IN (" . DB_Helper::buildList($ids) . ")";
+                    iss_prj_id IN (' . DB_Helper::buildList($ids) . ')';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
         } catch (DbException $e) {
@@ -1332,7 +1333,7 @@ class Issue
             Phone_Support::removeByIssues($res);
             History::removeByIssues($res);
             // now really delete the issues
-            $items = implode(", ", $res);
+            $items = implode(', ', $res);
             $stmt = "DELETE FROM
                         {{%issue}}
                      WHERE
@@ -1413,7 +1414,7 @@ class Issue
         } else {
             // add note with the reason to close the issue
             $_POST['title'] = 'Issue closed comments';
-            $_POST["note"] = $reason;
+            $_POST['note'] = $reason;
             Note::insert($usr_id, $issue_id, false, true, true, $send_notification);
             $ids = false;
         }
@@ -1422,12 +1423,12 @@ class Issue
             if (CRM::hasCustomerIntegration($prj_id)) {
                 $crm = CRM::getInstance($prj_id);
                 // send a special confirmation email when customer issues are closed
-                $stmt = "SELECT
+                $stmt = 'SELECT
                             iss_customer_contact_id
                          FROM
                             {{%issue}}
                          WHERE
-                            iss_id=?";
+                            iss_id=?';
                 $customer_contact_id = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
                 if (!empty($customer_contact_id)) {
                     try {
@@ -1502,7 +1503,7 @@ class Issue
             }
         }
         $assignments_changed = false;
-        if (@$_POST["keep_assignments"] == "no") {
+        if (@$_POST['keep_assignments'] == 'no') {
             // only change the issue-user associations if there really were any changes
             $old_assignees = array_merge($current['assigned_users'], $current['assigned_inactive_users']);
             if (!empty($_POST['assignments'])) {
@@ -1532,8 +1533,8 @@ class Issue
                 Notification::notifyNewAssignment($assignment_notifications, $issue_id);
             }
         }
-        if (empty($_POST["estimated_dev_time"])) {
-            $_POST["estimated_dev_time"] = 0;
+        if (empty($_POST['estimated_dev_time'])) {
+            $_POST['estimated_dev_time'] = 0;
         }
         $stmt = "UPDATE
                     {{%issue}}
@@ -1541,38 +1542,38 @@ class Issue
                     iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
                     iss_last_public_action_date='" . Date_Helper::getCurrentDateGMT() . "',
                     iss_last_public_action_type='updated',";
-        if (!empty($_POST["category"])) {
-            $stmt .= "iss_prc_id=" . Misc::escapeInteger($_POST["category"]) . ",";
+        if (!empty($_POST['category'])) {
+            $stmt .= 'iss_prc_id=' . Misc::escapeInteger($_POST['category']) . ',';
         }
-        if (@$_POST["keep"] == "no") {
-            $stmt .= "iss_pre_id=" . Misc::escapeInteger($_POST["release"]) . ",";
+        if (@$_POST['keep'] == 'no') {
+            $stmt .= 'iss_pre_id=' . Misc::escapeInteger($_POST['release']) . ',';
         }
         if (!empty($_POST['expected_resolution_date'])) {
             $stmt .= "iss_expected_resolution_date='" . Misc::escapeString($_POST['expected_resolution_date']) . "',";
         } else {
-            $stmt .= "iss_expected_resolution_date=null,";
+            $stmt .= 'iss_expected_resolution_date=null,';
         }
-        $stmt .= "
-                    iss_pre_id=" . Misc::escapeInteger($_POST["release"]) . ",
-                    iss_sta_id=" . Misc::escapeInteger($_POST["status"]) . ",
-                    iss_res_id=" . Misc::escapeInteger($_POST["resolution"]) . ",
-                    iss_summary='" . Misc::escapeString($_POST["summary"]) . "',
-                    iss_description='" . Misc::escapeString($_POST["description"]) . "',
-                    iss_dev_time='" . Misc::escapeString($_POST["estimated_dev_time"]) . "',
-                    iss_percent_complete= '" . Misc::escapeString($_POST["percent_complete"]) . "',
-                    iss_trigger_reminders=" . Misc::escapeInteger($_POST["trigger_reminders"]) . ",
-                    iss_grp_id ='" . Misc::escapeInteger($_POST["group"]) . "'";
+        $stmt .= '
+                    iss_pre_id=' . Misc::escapeInteger($_POST['release']) . ',
+                    iss_sta_id=' . Misc::escapeInteger($_POST['status']) . ',
+                    iss_res_id=' . Misc::escapeInteger($_POST['resolution']) . ",
+                    iss_summary='" . Misc::escapeString($_POST['summary']) . "',
+                    iss_description='" . Misc::escapeString($_POST['description']) . "',
+                    iss_dev_time='" . Misc::escapeString($_POST['estimated_dev_time']) . "',
+                    iss_percent_complete= '" . Misc::escapeString($_POST['percent_complete']) . "',
+                    iss_trigger_reminders=" . Misc::escapeInteger($_POST['trigger_reminders']) . ",
+                    iss_grp_id ='" . Misc::escapeInteger($_POST['group']) . "'";
         if (isset($_POST['private'])) {
-            $stmt .= ",
-                    iss_private = " . Misc::escapeInteger($_POST['private']);
+            $stmt .= ',
+                    iss_private = ' . Misc::escapeInteger($_POST['private']);
         }
         if (isset($_POST['priority'])) {
-            $stmt .= ",
-                    iss_pri_id=" . Misc::escapeInteger($_POST["priority"]);
+            $stmt .= ',
+                    iss_pri_id=' . Misc::escapeInteger($_POST['priority']);
         }
         if (isset($_POST['severity'])) {
-            $stmt .= ",
-                    iss_sev_id=" . Misc::escapeInteger($_POST["severity"]);
+            $stmt .= ',
+                    iss_sev_id=' . Misc::escapeInteger($_POST['severity']);
         }
         $stmt .= "
                  WHERE
@@ -1590,56 +1591,56 @@ class Issue
 
         // add change to the history (only for changes on specific fields?)
         $updated_fields = array();
-        if ($current["iss_expected_resolution_date"] != $_POST['expected_resolution_date']) {
-            $updated_fields["Expected Resolution Date"] = History::formatChanges($current["iss_expected_resolution_date"], $_POST['expected_resolution_date']);
+        if ($current['iss_expected_resolution_date'] != $_POST['expected_resolution_date']) {
+            $updated_fields['Expected Resolution Date'] = History::formatChanges($current['iss_expected_resolution_date'], $_POST['expected_resolution_date']);
         }
-        if (isset($_POST["category"]) && $current["iss_prc_id"] != $_POST["category"]) {
-            $updated_fields["Category"] = History::formatChanges(Category::getTitle($current["iss_prc_id"]), Category::getTitle($_POST["category"]));
+        if (isset($_POST['category']) && $current['iss_prc_id'] != $_POST['category']) {
+            $updated_fields['Category'] = History::formatChanges(Category::getTitle($current['iss_prc_id']), Category::getTitle($_POST['category']));
         }
-        if ($current["iss_pre_id"] != $_POST["release"]) {
-            $updated_fields["Release"] = History::formatChanges(Release::getTitle($current["iss_pre_id"]), Release::getTitle($_POST["release"]));
+        if ($current['iss_pre_id'] != $_POST['release']) {
+            $updated_fields['Release'] = History::formatChanges(Release::getTitle($current['iss_pre_id']), Release::getTitle($_POST['release']));
         }
-        if (isset($_POST["priority"]) && $current["iss_pri_id"] != $_POST["priority"]) {
-            $updated_fields["Priority"] = History::formatChanges(Priority::getTitle($current["iss_pri_id"]), Priority::getTitle($_POST["priority"]));
+        if (isset($_POST['priority']) && $current['iss_pri_id'] != $_POST['priority']) {
+            $updated_fields['Priority'] = History::formatChanges(Priority::getTitle($current['iss_pri_id']), Priority::getTitle($_POST['priority']));
             Workflow::handlePriorityChange($prj_id, $issue_id, $usr_id, $current, $_POST);
         }
-        if (isset($_POST["severity"]) && $current["iss_sev_id"] != $_POST["severity"]) {
-            $updated_fields["Severity"] = History::formatChanges(Severity::getTitle($current["iss_sev_id"]), Severity::getTitle($_POST["severity"]));
+        if (isset($_POST['severity']) && $current['iss_sev_id'] != $_POST['severity']) {
+            $updated_fields['Severity'] = History::formatChanges(Severity::getTitle($current['iss_sev_id']), Severity::getTitle($_POST['severity']));
             Workflow::handleSeverityChange($prj_id, $issue_id, $usr_id, $current, $_POST);
         }
-        if ($current["iss_sta_id"] != $_POST["status"]) {
+        if ($current['iss_sta_id'] != $_POST['status']) {
             // clear out the last-triggered-reminder flag when changing the status of an issue
             Reminder_Action::clearLastTriggered($issue_id);
 
             // if old status was closed and new status is not, clear closed data from issue.
             $old_status_details = Status::getDetails($current['iss_sta_id']);
             if ($old_status_details['sta_is_closed'] == 1) {
-                $new_status_details = Status::getDetails($_POST["status"]);
+                $new_status_details = Status::getDetails($_POST['status']);
                 if ($new_status_details['sta_is_closed'] != 1) {
                     self::clearClosed($issue_id);
                 }
             }
-            $updated_fields["Status"] = History::formatChanges(Status::getStatusTitle($current["iss_sta_id"]), Status::getStatusTitle($_POST["status"]));
+            $updated_fields['Status'] = History::formatChanges(Status::getStatusTitle($current['iss_sta_id']), Status::getStatusTitle($_POST['status']));
         }
-        if ($current["iss_res_id"] != $_POST["resolution"]) {
-            $updated_fields["Resolution"] = History::formatChanges(Resolution::getTitle($current["iss_res_id"]), Resolution::getTitle($_POST["resolution"]));
+        if ($current['iss_res_id'] != $_POST['resolution']) {
+            $updated_fields['Resolution'] = History::formatChanges(Resolution::getTitle($current['iss_res_id']), Resolution::getTitle($_POST['resolution']));
         }
-        if ($current["iss_dev_time"] != $_POST["estimated_dev_time"]) {
-            $updated_fields["Estimated Dev. Time"] = History::formatChanges(Misc::getFormattedTime(($current["iss_dev_time"]*60)), Misc::getFormattedTime(($_POST["estimated_dev_time"]*60)));
+        if ($current['iss_dev_time'] != $_POST['estimated_dev_time']) {
+            $updated_fields['Estimated Dev. Time'] = History::formatChanges(Misc::getFormattedTime(($current['iss_dev_time']*60)), Misc::getFormattedTime(($_POST['estimated_dev_time']*60)));
         }
-        if ($current["iss_summary"] != $_POST["summary"]) {
-            $updated_fields["Summary"] = '';
-        }
-
-        if ($current["iss_original_percent_complete"] != $_POST["percent_complete"]) {
-            $updated_fields["Percent complete"] = History::formatChanges($current["iss_original_percent_complete"], $_POST["percent_complete"]);
+        if ($current['iss_summary'] != $_POST['summary']) {
+            $updated_fields['Summary'] = '';
         }
 
-        if ($current["iss_description"] != $_POST["description"]) {
-            $updated_fields["Description"] = '';
+        if ($current['iss_original_percent_complete'] != $_POST['percent_complete']) {
+            $updated_fields['Percent complete'] = History::formatChanges($current['iss_original_percent_complete'], $_POST['percent_complete']);
+        }
+
+        if ($current['iss_description'] != $_POST['description']) {
+            $updated_fields['Description'] = '';
         }
         if ((isset($_POST['private'])) && ($_POST['private'] != $current['iss_private'])) {
-            $updated_fields["Private"] = History::formatChanges(Misc::getBooleanDisplayValue($current['iss_private']), Misc::getBooleanDisplayValue($_POST['private']));
+            $updated_fields['Private'] = History::formatChanges(Misc::getBooleanDisplayValue($current['iss_private']), Misc::getBooleanDisplayValue($_POST['private']));
         }
         if (isset($_POST['product']) && count($product_changes) > 0) {
             $updated_fields['Product'] = implode('; ', $product_changes);
@@ -1650,9 +1651,9 @@ class Issue
             $i = 0;
             foreach ($updated_fields as $key => $value) {
                 if ($i > 0) {
-                    $changes .= "; ";
+                    $changes .= '; ';
                 }
-                if (($key != "Summary") && ($key != "Description")) {
+                if (($key != 'Summary') && ($key != 'Description')) {
                     $changes .= "$key: $value";
                 } else {
                     $changes .= "$key";
@@ -1665,9 +1666,9 @@ class Issue
         }
 
         // record group change as a seperate change
-        if ($current["iss_grp_id"] != (int) $_POST["group"]) {
+        if ($current['iss_grp_id'] != (int) $_POST['group']) {
             History::add($issue_id, $usr_id, History::getTypeID('group_changed'),
-                "Group changed (" . History::formatChanges(Group::getName($current["iss_grp_id"]), Group::getName($_POST["group"])) . ") by " . User::getFullName($usr_id));
+                'Group changed (' . History::formatChanges(Group::getName($current['iss_grp_id']), Group::getName($_POST['group'])) . ') by ' . User::getFullName($usr_id));
         }
 
         // now update any duplicates, if any
@@ -1679,7 +1680,7 @@ class Issue
             'Resolution'
         );
         $intersect = array_intersect($update_dupe, array_keys($updated_fields));
-        if (($current["duplicates"] != '') && (count($intersect) > 0)) {
+        if (($current['duplicates'] != '') && (count($intersect) > 0)) {
             self::updateDuplicates($issue_id);
         }
 
@@ -1695,10 +1696,10 @@ class Issue
 
         Workflow::handleIssueUpdated($prj_id, $issue_id, $usr_id, $current, $_POST);
         // Move issue to another project
-        if (isset($_POST['move_issue']) and (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID("Developer"))) {
+        if (isset($_POST['move_issue']) and (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID('Developer'))) {
             $new_prj_id = (int) @$_POST['new_prj'];
             if (($prj_id != $new_prj_id) && (array_key_exists($new_prj_id, Project::getAssocList($usr_id)))) {
-                if (User::getRoleByUser($usr_id, $new_prj_id) >= User::getRoleID("Reporter")) {
+                if (User::getRoleByUser($usr_id, $new_prj_id) >= User::getRoleID('Reporter')) {
                     $res = self::moveIssue($issue_id, $new_prj_id);
                     if ($res == -1) {
                         return $res;
@@ -1721,12 +1722,12 @@ class Issue
      */
     public function moveIssue($issue_id, $new_prj_id)
     {
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
               {{%issue}}
           SET
               iss_prj_id = ?
           WHERE
-              iss_id = ?";
+              iss_id = ?';
         try {
             DB_Helper::getInstance()->query($stmt, array($new_prj_id, $issue_id));
         } catch (DbException $e) {
@@ -1754,13 +1755,13 @@ class Issue
         }
 
         // XXX: Set status if needed when moving issue
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
               {{%issue}}
           SET
               iss_prc_id=?,
               iss_pri_id=?
           WHERE
-              iss_id=?";
+              iss_id=?';
 
         DB_Helper::getInstance()->query($stmt, array($new_prc_id, $new_pri_id, $issue_id));
 
@@ -1784,14 +1785,14 @@ class Issue
         $issue_id = Misc::escapeInteger($issue_id);
         $associated_id = Misc::escapeInteger($associated_id);
 
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%issue_association}}
                  (
                     isa_issue_id,
                     isa_associated_id
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         DB_Helper::getInstance()->query($stmt, array($issue_id, $associated_id));
         History::add($issue_id, $usr_id, History::getTypeID('issue_associated'), "Issue associated to Issue #$associated_id by " . User::getFullName($usr_id));
         // link the associated issue back to this one
@@ -1810,7 +1811,7 @@ class Issue
     {
         $issue_id = Misc::escapeInteger($issue_id);
         if (is_array($issue_id)) {
-            $issue_id = implode(", ", $issue_id);
+            $issue_id = implode(', ', $issue_id);
         }
         $stmt = "DELETE FROM
                     {{%issue_association}}
@@ -1835,7 +1836,7 @@ class Issue
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $associated_id = Misc::escapeInteger($associated_id);
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%issue_association}}
                  WHERE
                     (
@@ -1845,7 +1846,7 @@ class Issue
                     (
                         isa_issue_id = ? AND
                         isa_associated_id = ?
-                    )";
+                    )';
         DB_Helper::getInstance()->query($stmt, array($issue_id, $associated_id, $associated_id, $issue_id));
         History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_unassociated'),
                 "Issue association to Issue #$associated_id removed by " . User::getFullName(Auth::getUserID()));
@@ -1866,7 +1867,7 @@ class Issue
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $assignee_usr_id = Misc::escapeInteger($assignee_usr_id);
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%issue_user}}
                  (
                     isu_iss_id,
@@ -1874,7 +1875,7 @@ class Issue
                     isu_assigned_date
                  ) VALUES (
                     ?, ?, ?
-                 )";
+                 )';
         $params = array($issue_id, $assignee_usr_id, Date_Helper::getCurrentDateGMT());
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -1901,7 +1902,7 @@ class Issue
     {
         $issue_id = Misc::escapeInteger($issue_id);
         if (is_array($issue_id)) {
-            $issue_id = implode(", ", $issue_id);
+            $issue_id = implode(', ', $issue_id);
         }
         $stmt = "DELETE FROM
                     {{%issue_user}}
@@ -1932,11 +1933,11 @@ class Issue
     {
         $issue_id = Misc::escapeInteger($issue_id);
         $usr_id = Misc::escapeInteger($usr_id);
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%issue_user}}
                  WHERE
                     isu_iss_id = ? AND
-                    isu_usr_id = ?";
+                    isu_usr_id = ?';
         try {
             DB_Helper::getInstance()->query($stmt, array($issue_id, $usr_id));
         } catch (DbException $e) {
@@ -2275,7 +2276,7 @@ class Issue
 
         // need to associate any emails ?
         if (!empty($data['attached_emails'])) {
-            $items = explode(",", $data['attached_emails']);
+            $items = explode(',', $data['attached_emails']);
             Support::associate($usr_id, $issue_id, $items);
         }
         // need to notify any emails being converted into issues ?
@@ -2383,8 +2384,8 @@ class Issue
         if (!empty($data['severity'])) {
             $params['iss_sev_id'] = $data['severity'];
         }
-        if (!empty($data["expected_resolution_date"])) {
-            $params['iss_expected_resolution_date'] = $data["expected_resolution_date"];
+        if (!empty($data['expected_resolution_date'])) {
+            $params['iss_expected_resolution_date'] = $data['expected_resolution_date'];
         }
 
         $initial_status = Project::getInitialStatus($prj_id);
@@ -2409,7 +2410,7 @@ class Issue
             $params['iss_private'] = $data['private'];
         }
 
-        $stmt = "INSERT INTO {{%issue}} SET " . DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO {{%issue}} SET ' . DB_Helper::buildSet($params);
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -2431,15 +2432,15 @@ class Issue
     public static function getLastActionFields()
     {
         $last_action_fields = array(
-            "iss_last_public_action_date"
+            'iss_last_public_action_date'
         );
         if (Auth::getCurrentRole() > User::getRoleID('Customer')) {
-            $last_action_fields[] = "iss_last_internal_action_date";
+            $last_action_fields[] = 'iss_last_internal_action_date';
         }
         if (count($last_action_fields) > 1) {
-            return "GREATEST(" . implode(', IFNULL(', $last_action_fields) . ", '0000-00-00')) AS last_action_date";
+            return 'GREATEST(' . implode(', IFNULL(', $last_action_fields) . ", '0000-00-00')) AS last_action_date";
         } else {
-            return $last_action_fields[0] . " AS last_action_date";
+            return $last_action_fields[0] . ' AS last_action_date';
         }
     }
 
@@ -2451,13 +2452,13 @@ class Issue
     public static function formatLastActionDates(&$result)
     {
         for ($i = 0; $i < count($result); $i++) {
-            if (($result[$i]['action_type'] == "internal") &&
+            if (($result[$i]['action_type'] == 'internal') &&
                     (Auth::getCurrentRole() > User::getRoleID('Customer'))) {
-                $label = $result[$i]["iss_last_internal_action_type"];
-                $last_date = $result[$i]["iss_last_internal_action_date"];
+                $label = $result[$i]['iss_last_internal_action_type'];
+                $last_date = $result[$i]['iss_last_internal_action_date'];
             } else {
-                $label = $result[$i]["iss_last_public_action_type"];
-                $last_date = $result[$i]["iss_last_public_action_date"];
+                $label = $result[$i]['iss_last_public_action_type'];
+                $last_date = $result[$i]['iss_last_public_action_date'];
             }
 
             $dateDiff = Date_Helper::getFormattedDateDiff(time(), $last_date);
@@ -2477,7 +2478,7 @@ class Issue
     {
         $ids = array();
         for ($i = 0; $i < count($result); $i++) {
-            $ids[] = $result[$i]["iss_sta_id"];
+            $ids[] = $result[$i]['iss_sta_id'];
         }
         if (count($ids) == 0) {
             return false;
@@ -2520,13 +2521,13 @@ class Issue
         $role_id = Auth::getCurrentRole();
         $usr_details = User::getDetails($usr_id);
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_id,
-                    " . self::getLastActionFields() . "
+                    ' . self::getLastActionFields() . '
                  FROM
                     (
                     {{%issue}},
-                    {{%user}}";
+                    {{%user}}';
         // join custom fields if we are searching by custom fields
         if ((is_array($options['custom_field'])) && (count($options['custom_field']) > 0)) {
             foreach ($options['custom_field'] as $fld_id => $search_value) {
@@ -2552,65 +2553,65 @@ class Issue
                 }
             }
         }
-        $stmt .= ")";
+        $stmt .= ')';
         // check for the custom fields we want to sort by
         if (strstr($options['sort_by'], 'custom_field') !== false) {
-            $fld_id = str_replace("custom_field_", '', $options['sort_by']);
+            $fld_id = str_replace('custom_field_', '', $options['sort_by']);
             $stmt .= "\n LEFT JOIN {{%issue_custom_field}} as cf_sort
                 ON
                     (cf_sort.icf_iss_id = iss_id AND cf_sort.icf_fld_id = $fld_id) \n";
         }
-        if (!empty($options["users"]) || @$options["sort_by"] == "isu_usr_id") {
-            $stmt .= "
+        if (!empty($options['users']) || @$options['sort_by'] == 'isu_usr_id') {
+            $stmt .= '
                  LEFT JOIN
                     {{%issue_user}}
                  ON
-                    isu_iss_id=iss_id";
+                    isu_iss_id=iss_id';
         }
-        if ((!empty($options["show_authorized_issues"])) || (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters(Auth::getCurrentProject())))) {
-            $stmt .= "
+        if ((!empty($options['show_authorized_issues'])) || (($role_id == User::getRoleID('Reporter')) && (Project::getSegregateReporters(Auth::getCurrentProject())))) {
+            $stmt .= '
                  LEFT JOIN
                     {{%issue_user_replier}}
                  ON
-                    iur_iss_id=iss_id";
+                    iur_iss_id=iss_id';
         }
-        if (!empty($options["show_notification_list_issues"])) {
-            $stmt .= "
+        if (!empty($options['show_notification_list_issues'])) {
+            $stmt .= '
                  LEFT JOIN
                     {{%subscription}}
                  ON
-                    sub_iss_id=iss_id";
+                    sub_iss_id=iss_id';
         }
-        if (!empty($options["product"])) {
-            $stmt .= "
+        if (!empty($options['product'])) {
+            $stmt .= '
                  LEFT JOIN
                     {{%issue_product_version}}
                  ON
-                    ipv_iss_id=iss_id";
+                    ipv_iss_id=iss_id';
         }
-        if (@$options["sort_by"] == "pre_scheduled_date") {
-            $stmt .= "
+        if (@$options['sort_by'] == 'pre_scheduled_date') {
+            $stmt .= '
                  LEFT JOIN
                     {{%project_release}}
                  ON
-                    iss_pre_id = pre_id";
+                    iss_pre_id = pre_id';
         }
         if (@$options['sort_by'] == 'prc_title') {
-            $stmt .= "
+            $stmt .= '
                  LEFT JOIN
                     {{%project_category}}
                  ON
-                    iss_prc_id = prc_id";
+                    iss_prc_id = prc_id';
         }
         if (!empty($usr_details['usr_par_code'])) {
             // restrict partners
-            $stmt .= "
+            $stmt .= '
                  LEFT JOIN
                     {{%issue_partner}}
                  ON
-                    ipa_iss_id=iss_id";
+                    ipa_iss_id=iss_id';
         }
-        $stmt .= "
+        $stmt .= '
                  LEFT JOIN
                     {{%status}}
                  ON
@@ -2624,24 +2625,24 @@ class Issue
                  ON
                     iss_sev_id=sev_id
                  WHERE
-                    iss_prj_id=" . Auth::getCurrentProject();
+                    iss_prj_id=' . Auth::getCurrentProject();
         $stmt .= Search::buildWhereClause($options);
-        if (strstr($options["sort_by"], 'custom_field') !== false) {
+        if (strstr($options['sort_by'], 'custom_field') !== false) {
             $fld_details = Custom_Field::getDetails($fld_id);
             $sort_by = 'cf_sort.' . Custom_Field::getDBValueFieldNameByType($fld_details['fld_type']);
         } else {
-            $sort_by = Misc::escapeString($options["sort_by"]);
+            $sort_by = Misc::escapeString($options['sort_by']);
         }
-        $stmt .= "
+        $stmt .= '
                  GROUP BY
                     iss_id
                  ORDER BY
-                    " . $sort_by . " " . Misc::escapeString($options["sort_order"]) . ",
-                    iss_id DESC";
+                    ' . $sort_by . ' ' . Misc::escapeString($options['sort_order']) . ',
+                    iss_id DESC';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         $index = array_search($issue_id, $res);
@@ -2653,8 +2654,8 @@ class Issue
         }
 
         return array(
-            "next"     => @$next,
-            "previous" => @$previous
+            'next'     => @$next,
+            'previous' => @$previous
         );
     }
 
@@ -2667,14 +2668,14 @@ class Issue
      */
     public static function getAssignedUserIDs($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     usr_id
                  FROM
                     {{%issue_user}},
                     {{%user}}
                  WHERE
                     isu_iss_id=? AND
-                    isu_usr_id=usr_id";
+                    isu_usr_id=usr_id';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -2712,9 +2713,9 @@ class Issue
     {
         $ids = array();
         for ($i = 0; $i < count($result); $i++) {
-            $ids[] = $result[$i]["iss_id"];
+            $ids[] = $result[$i]['iss_id'];
         }
-        $ids = implode(", ", $ids);
+        $ids = implode(', ', $ids);
         $stmt = "SELECT
                     iss_id,
                     CONCAT(usr_full_name, ' <', usr_email, '>') AS usr_full_name
@@ -2749,12 +2750,12 @@ class Issue
     {
         $ids = array();
         for ($i = 0; $i < count($result); $i++) {
-            $ids[] = $result[$i]["iss_id"];
+            $ids[] = $result[$i]['iss_id'];
         }
         if (count($ids) < 1) {
             return;
         }
-        $ids = implode(", ", $ids);
+        $ids = implode(', ', $ids);
         $stmt = "SELECT
                     isu_iss_id,
                     usr_full_name
@@ -2798,9 +2799,9 @@ class Issue
 
         $ids = array();
         for ($i = 0; $i < count($result); $i++) {
-            $ids[] = $result[$i]["iss_id"];
+            $ids[] = $result[$i]['iss_id'];
         }
-        $ids = implode(", ", $ids);
+        $ids = implode(', ', $ids);
 
         $stmt = "SELECT
                     iss_id,
@@ -2829,14 +2830,14 @@ class Issue
      */
     public static function getAssignedUsers($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     usr_full_name
                  FROM
                     {{%issue_user}},
                     {{%user}}
                  WHERE
                     isu_iss_id=? AND
-                    isu_usr_id=usr_id";
+                    isu_usr_id=usr_id';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -2892,7 +2893,7 @@ class Issue
             return $returns[$issue_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     {{%issue}}.*,
                     prj_title,
                     prc_title,
@@ -2930,15 +2931,15 @@ class Issue
                     iss_pre_id=pre_id
                  WHERE
                     iss_id=? AND
-                    iss_prj_id=prj_id";
+                    iss_prj_id=prj_id';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         if (empty($res)) {
-            return "";
+            return '';
         }
 
         $created_date_ts = Date_Helper::getUnixTimestamp($res['iss_created_date'], Date_Helper::getDefaultTimezone());
@@ -2969,61 +2970,61 @@ class Issue
             }
         }
 
-        $res['iss_original_description'] = $res["iss_description"];
-        $res['iss_original_percent_complete'] = $res["iss_percent_complete"];
-        $res["iss_description"] = nl2br(htmlspecialchars($res["iss_description"]));
-        $res["iss_resolution"] = Resolution::getTitle($res["iss_res_id"]);
-        $res["iss_impact_analysis"] = nl2br(htmlspecialchars($res["iss_impact_analysis"]));
-        $res["iss_created_date"] = Date_Helper::getFormattedDate($res["iss_created_date"]);
+        $res['iss_original_description'] = $res['iss_description'];
+        $res['iss_original_percent_complete'] = $res['iss_percent_complete'];
+        $res['iss_description'] = nl2br(htmlspecialchars($res['iss_description']));
+        $res['iss_resolution'] = Resolution::getTitle($res['iss_res_id']);
+        $res['iss_impact_analysis'] = nl2br(htmlspecialchars($res['iss_impact_analysis']));
+        $res['iss_created_date'] = Date_Helper::getFormattedDate($res['iss_created_date']);
         $res['iss_created_date_ts'] = $created_date_ts;
-        $res["assignments"] = @implode(", ", array_values(self::getAssignedUsers($res["iss_id"])));
-        list($res['authorized_names'], $res['authorized_repliers']) = Authorized_Replier::getAuthorizedRepliers($res["iss_id"]);
-        $temp = self::getAssignedUsersStatus($res["iss_id"]);
-        $res["has_inactive_users"] = 0;
-        $res["assigned_users"] = array();
-        $res["assigned_inactive_users"] = array();
+        $res['assignments'] = @implode(', ', array_values(self::getAssignedUsers($res['iss_id'])));
+        list($res['authorized_names'], $res['authorized_repliers']) = Authorized_Replier::getAuthorizedRepliers($res['iss_id']);
+        $temp = self::getAssignedUsersStatus($res['iss_id']);
+        $res['has_inactive_users'] = 0;
+        $res['assigned_users'] = array();
+        $res['assigned_inactive_users'] = array();
         foreach ($temp as $usr_id => $usr_status) {
             if (!User::isActiveStatus($usr_status)) {
-                $res["assigned_inactive_users"][] = $usr_id;
-                $res["has_inactive_users"] = 1;
+                $res['assigned_inactive_users'][] = $usr_id;
+                $res['has_inactive_users'] = 1;
             } else {
-                $res["assigned_users"][] = $usr_id;
+                $res['assigned_users'][] = $usr_id;
             }
         }
-        if (@in_array(Auth::getUserID(), $res["assigned_users"])) {
-            $res["is_current_user_assigned"] = 1;
+        if (@in_array(Auth::getUserID(), $res['assigned_users'])) {
+            $res['is_current_user_assigned'] = 1;
         } else {
-            $res["is_current_user_assigned"] = 0;
+            $res['is_current_user_assigned'] = 0;
         }
-        $res["associated_issues_details"] = self::getAssociatedIssuesDetails($res["iss_id"]);
-        $res["associated_issues"] = self::getAssociatedIssues($res["iss_id"]);
-        $res["reporter"] = User::getFullName($res["iss_usr_id"]);
-        if (empty($res["iss_updated_date"])) {
-            $res["iss_updated_date"] = 'not updated yet';
+        $res['associated_issues_details'] = self::getAssociatedIssuesDetails($res['iss_id']);
+        $res['associated_issues'] = self::getAssociatedIssues($res['iss_id']);
+        $res['reporter'] = User::getFullName($res['iss_usr_id']);
+        if (empty($res['iss_updated_date'])) {
+            $res['iss_updated_date'] = 'not updated yet';
         } else {
-            $res["iss_updated_date"] = Date_Helper::getFormattedDate($res["iss_updated_date"]);
+            $res['iss_updated_date'] = Date_Helper::getFormattedDate($res['iss_updated_date']);
         }
-        $res["estimated_formatted_time"] = Misc::getFormattedTime($res["iss_dev_time"]);
-        if (Release::isAssignable($res["iss_pre_id"])) {
-            $release = Release::getDetails($res["iss_pre_id"]);
-            $res["pre_title"] = $release["pre_title"];
-            $res["pre_status"] = $release["pre_status"];
+        $res['estimated_formatted_time'] = Misc::getFormattedTime($res['iss_dev_time']);
+        if (Release::isAssignable($res['iss_pre_id'])) {
+            $release = Release::getDetails($res['iss_pre_id']);
+            $res['pre_title'] = $release['pre_title'];
+            $res['pre_status'] = $release['pre_status'];
         }
         // need to return the list of issues that are duplicates of this one
-        $res["duplicates"] = self::getDuplicateList($res["iss_id"]);
-        $res["duplicates_details"] = self::getDuplicateDetailsList($res["iss_id"]);
+        $res['duplicates'] = self::getDuplicateList($res['iss_id']);
+        $res['duplicates_details'] = self::getDuplicateDetailsList($res['iss_id']);
         // also get the issue title of the duplicated issue
         if (!empty($res['iss_duplicated_iss_id'])) {
             $res['duplicated_issue'] = self::getDuplicatedDetails($res['iss_duplicated_iss_id']);
         }
 
         // get group information
-        if (!empty($res["iss_grp_id"])) {
-            $res["group"] = Group::getDetails($res["iss_grp_id"]);
+        if (!empty($res['iss_grp_id'])) {
+            $res['group'] = Group::getDetails($res['iss_grp_id']);
         }
 
         // get quarantine issue
-        $res["quarantine"] = self::getQuarantineInfo($res["iss_id"]);
+        $res['quarantine'] = self::getQuarantineInfo($res['iss_id']);
 
         $res['products'] = Product::getProductsByIssue($res['iss_id']);
 
@@ -3040,7 +3041,7 @@ class Issue
      */
     public function getDuplicatedDetails($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_summary title,
                     sta_title current_status,
                     sta_is_closed is_closed
@@ -3049,7 +3050,7 @@ class Issue
                     {{%status}}
                  WHERE
                     iss_sta_id=sta_id AND
-                    iss_id=?";
+                    iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -3093,7 +3094,7 @@ class Issue
             if (count(@$_POST['users']) > 0) {
                 $users = Misc::escapeInteger($_POST['users']);
                 // get who this issue is currently assigned too
-                $stmt = "SELECT
+                $stmt = 'SELECT
                             isu_usr_id,
                             usr_full_name
                          FROM
@@ -3101,7 +3102,7 @@ class Issue
                             {{%user}}
                          WHERE
                             isu_usr_id = usr_id AND
-                            isu_iss_id = ?";
+                            isu_iss_id = ?';
                 try {
                     $current_assignees = DB_Helper::getInstance()->getPair($stmt, array($items[$i]));
                 } catch (DbException $e) {
@@ -3119,13 +3120,13 @@ class Issue
                     $new_user_names[$usr_id] = User::getFullName($usr_id);
 
                     // check if the issue is already assigned to this person
-                    $stmt = "SELECT
+                    $stmt = 'SELECT
                                 COUNT(*) AS total
                              FROM
                                 {{%issue_user}}
                              WHERE
                                 isu_iss_id=? AND
-                                isu_usr_id=?";
+                                isu_usr_id=?';
                     $total = DB_Helper::getInstance()->getOne($stmt, array($items[$i], $usr_id));
                     if ($total > 0) {
                         continue;
@@ -3183,7 +3184,7 @@ class Issue
                 $k = 0;
                 foreach ($updated_fields as $key => $value) {
                     if ($k > 0) {
-                        $changes .= "; ";
+                        $changes .= '; ';
                     }
                     $changes .= "$key: $value";
                     $k++;
@@ -3218,7 +3219,7 @@ class Issue
                     iss_impact_analysis=?
                  WHERE
                     iss_id=?";
-        $params = array(Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $_POST["dev_time"], $_POST["impact_analysis"], $issue_id);
+        $params = array(Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $_POST['dev_time'], $_POST['impact_analysis'], $issue_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
@@ -3241,22 +3242,22 @@ class Issue
      */
     public static function getColList($extra_condition = null)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_id
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_prj_id=" . Auth::getCurrentProject();
+                    iss_prj_id=' . Auth::getCurrentProject();
         if (!empty($extra_condition)) {
             $stmt .= " AND $extra_condition ";
         }
-        $stmt .= "
+        $stmt .= '
                  ORDER BY
-                    iss_id DESC";
+                    iss_id DESC';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -3271,23 +3272,23 @@ class Issue
      */
     public function getAssocList($extra_condition = null)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_id,
                     iss_summary
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_prj_id=" . Auth::getCurrentProject();
+                    iss_prj_id=' . Auth::getCurrentProject();
         if (!empty($extra_condition)) {
             $stmt .= " AND $extra_condition ";
         }
-        $stmt .= "
+        $stmt .= '
                  ORDER BY
-                    iss_id ASC";
+                    iss_id ASC';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -3325,7 +3326,7 @@ class Issue
             return $returns[$issue_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     isa_associated_id associated_issue,
                     iss_summary associated_title,
                     sta_title current_status,
@@ -3337,7 +3338,7 @@ class Issue
                  WHERE
                     isa_associated_id=iss_id AND
                     iss_sta_id=sta_id AND
-                    isa_issue_id=?";
+                    isa_issue_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -3357,7 +3358,7 @@ class Issue
      */
     public static function isClosed($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(*)
                  FROM
                     {{%issue}},
@@ -3365,7 +3366,7 @@ class Issue
                  WHERE
                     iss_id=? AND
                     iss_sta_id=sta_id AND
-                    sta_is_closed=1";
+                    sta_is_closed=1';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -3384,7 +3385,7 @@ class Issue
     public static function getQuarantinedIssueList()
     {
         // XXX: would be nice to restrict the result list to only one project
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_id,
                     iss_summary
                  FROM
@@ -3393,7 +3394,7 @@ class Issue
                  WHERE
                     iqu_iss_id=iss_id AND
                     iqu_expiration >= ? AND
-                    iqu_expiration IS NOT NULL";
+                    iqu_expiration IS NOT NULL';
         $params = array(Date_Helper::getCurrentDateGMT());
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
@@ -3414,7 +3415,7 @@ class Issue
      */
     public static function getQuarantineInfo($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iqu_status,
                     iqu_expiration
                  FROM
@@ -3422,16 +3423,16 @@ class Issue
                  WHERE
                     iqu_iss_id = ? AND
                         (iqu_expiration > ? OR
-                        iqu_expiration IS NULL)";
+                        iqu_expiration IS NULL)';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id, Date_Helper::getCurrentDateGMT()));
         } catch (DbException $e) {
             return array();
         }
 
-        if (!empty($res["iqu_expiration"])) {
+        if (!empty($res['iqu_expiration'])) {
             $expiration_ts = Date_Helper::getUnixTimestamp($res['iqu_expiration'], Date_Helper::getDefaultTimezone());
-            $res["time_till_expiration"] = Date_Helper::getFormattedDateDiff($expiration_ts, time());
+            $res['time_till_expiration'] = Date_Helper::getFormattedDateDiff($expiration_ts, time());
         }
 
         return $res;
@@ -3452,12 +3453,12 @@ class Issue
         $status = Misc::escapeInteger($status);
 
         // see if there is an existing record
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(*)
                  FROM
                     {{%issue_quarantine}}
                  WHERE
-                    iqu_iss_id = ?";
+                    iqu_iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -3484,18 +3485,18 @@ class Issue
             // add history entry about this change taking place
             if ($status == 0) {
                 History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_quarantine_removed'),
-                        "Issue quarantine status cleared by " . User::getFullName(Auth::getUserID()));
+                        'Issue quarantine status cleared by ' . User::getFullName(Auth::getUserID()));
             }
 
             return 1;
         }
 
         // insert
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%issue_quarantine}}
                  (
                     iqu_iss_id,
-                    iqu_status";
+                    iqu_status';
         if (!empty($expiration)) {
             $stmt .= ",\niqu_expiration\n";
         }
@@ -3505,7 +3506,7 @@ class Issue
         if (!empty($expiration)) {
             $stmt .= ",\n'" . Misc::escapeString($expiration) . "'\n";
         }
-        $stmt .= ")";
+        $stmt .= ')';
         try {
             $res = DB_Helper::getInstance()->query($stmt);
         } catch (DbException $e) {
@@ -3528,15 +3529,15 @@ class Issue
         $group_id = Misc::escapeInteger($group_id);
 
         $current = self::getDetails($issue_id);
-        if ($current["iss_grp_id"] == $group_id) {
+        if ($current['iss_grp_id'] == $group_id) {
             return -2;
         }
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%issue}}
                  SET
                     iss_grp_id = ?
                  WHERE
-                    iss_id = ?";
+                    iss_id = ?';
         try {
             DB_Helper::getInstance()->query($stmt, array($group_id, $issue_id));
         } catch (DbException $e) {
@@ -3548,7 +3549,7 @@ class Issue
             $current_user = APP_SYSTEM_USER_ID;
         }
         History::add($issue_id, $current_user, History::getTypeID('group_changed'),
-                "Group changed (" . History::formatChanges(Group::getName($current["iss_grp_id"]), Group::getName($group_id)) . ") by " . User::getFullName($current_user));
+                'Group changed (' . History::formatChanges(Group::getName($current['iss_grp_id']), Group::getName($group_id)) . ') by ' . User::getFullName($current_user));
 
         return 1;
     }
@@ -3561,12 +3562,12 @@ class Issue
      */
     public static function getGroupID($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_grp_id
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_id=?";
+                    iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -3612,12 +3613,12 @@ class Issue
         static $returns;
 
         if (!isset($returns[$issue_id])) {
-            $sql = "SELECT
+            $sql = 'SELECT
                         iss_private
                     FROM
                         {{%issue}}
                     WHERE
-                        iss_id=?";
+                        iss_id=?';
             try {
                 $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
             } catch (DbException $e) {
@@ -3642,13 +3643,13 @@ class Issue
      */
     public function clearClosed($issue_id)
     {
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%issue}}
                  SET
                     iss_closed_date = null,
                     iss_res_id = null
                  WHERE
-                    iss_id=?";
+                    iss_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -3665,12 +3666,12 @@ class Issue
      */
     public static function getRootMessageID($issue_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     iss_root_message_id
                 FROM
                     {{%issue}}
                 WHERE
-                    iss_id=?";
+                    iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
         } catch (DbException $e) {
@@ -3693,12 +3694,12 @@ class Issue
             return $returns[$msg_id];
         }
 
-        $sql = "SELECT
+        $sql = 'SELECT
                     iss_id
                 FROM
                     {{%issue}}
                 WHERE
-                    iss_root_message_id = ?";
+                    iss_root_message_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($msg_id));
         } catch (DbException $e) {
@@ -3752,7 +3753,7 @@ class Issue
 
         // save a history entry about this...
         History::add($issue_id, Auth::getUserID(), History::getTypeID('user_associated'),
-                        "Issue assignment to changed (" . History::formatChanges(implode(', ', $old_assignee_names), implode(', ', $assignee_names)) . ") by " . User::getFullName(Auth::getUserID()));
+                        'Issue assignment to changed (' . History::formatChanges(implode(', ', $old_assignee_names), implode(', ', $assignee_names)) . ') by ' . User::getFullName(Auth::getUserID()));
     }
 
     /**
@@ -3797,8 +3798,8 @@ class Issue
             $clone_variables += array(
                 'customer_id' => $clone_details['iss_customer_id'],
                 'contact_id'  => $clone_details['iss_customer_contact_id'],
-                "customer"    => $clone_details['customer'],
-                "contact"     => $clone_details['contact'],
+                'customer'    => $clone_details['customer'],
+                'contact'     => $clone_details['contact'],
             );
         }
 

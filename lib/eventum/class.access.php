@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -43,8 +44,8 @@ class Access
             return false;
         }
 
-        if (isset($access[$issue_id . "-" . $usr_id])) {
-            return $access[$issue_id . "-" . $usr_id];
+        if (isset($access[$issue_id . '-' . $usr_id])) {
+            return $access[$issue_id . '-' . $usr_id];
         }
 
         $details = Issue::getDetails($issue_id);
@@ -71,7 +72,7 @@ class Access
         if (empty($usr_role)) {
             // check if they are even allowed to access the project
             $return = false;
-        } elseif ((CRM::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::getRoleID("Customer")) &&
+        } elseif ((CRM::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::getRoleID('Customer')) &&
                 ($can_access_contract === false)) {
             // check customer permissions
             $return = false;
@@ -83,7 +84,7 @@ class Access
             // check if the issue is even private
 
             // check role, reporter, assignment and group
-            if ($usr_role > User::getRoleID("Developer")) {
+            if ($usr_role > User::getRoleID('Developer')) {
                 $return = true;
             } elseif ($details['iss_usr_id'] == $usr_id) {
                 $return = true;
@@ -97,14 +98,14 @@ class Access
             } else {
                 $return = false;
             }
-        } elseif ((Auth::getCurrentRole() == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id)) &&
+        } elseif ((Auth::getCurrentRole() == User::getRoleID('Reporter')) && (Project::getSegregateReporters($prj_id)) &&
                 ($details['iss_usr_id'] != $usr_id) && (!Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id))) {
             return false;
         } else {
             $return = true;
         }
 
-        $access[$issue_id . "-" . $usr_id] = $return;
+        $access[$issue_id . '-' . $usr_id] = $return;
 
         return $return;
     }
@@ -347,7 +348,7 @@ class Access
             }
         }
 
-        if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID("Standard User")) {
+        if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID('Standard User')) {
             return true;
         }
 
@@ -393,7 +394,7 @@ class Access
             }
         }
 
-        if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID("Customer")) {
+        if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID('Customer')) {
             return true;
         }
 

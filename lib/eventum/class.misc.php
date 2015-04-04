@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -144,7 +145,7 @@ class Misc
         if ($default_value !== false) {
             echo " [default: $default_value] -> ";
         } else {
-            echo " [required] -> ";
+            echo ' [required] -> ';
         }
         flush();
         $input = self::getInputLine();
@@ -177,8 +178,8 @@ class Misc
      */
     public static function checkSpelling($text)
     {
-        $temptext = tempnam("/tmp", "spelltext");
-        if ($fd = fopen($temptext, "w")) {
+        $temptext = tempnam('/tmp', 'spelltext');
+        if ($fd = fopen($temptext, 'w')) {
             $textarray = explode("\n", $text);
             fwrite($fd, "!\n");
             foreach ($textarray as $value) {
@@ -300,11 +301,11 @@ class Misc
         } elseif (($bytes > $kb) && ($bytes <= $mb)) {
             $kbytes = $bytes / 1024;
 
-            return sprintf("%.1f", round($kbytes, 1)) . " KiB";
+            return sprintf('%.1f', round($kbytes, 1)) . ' KiB';
         } else {
             $mbytes = ($bytes / 1024) / 1024;
 
-            return sprintf("%.1f", round($mbytes, 1)) . " MiB";
+            return sprintf('%.1f', round($mbytes, 1)) . ' MiB';
         }
     }
 
@@ -475,12 +476,12 @@ class Misc
     public static function prepareBooleanSearch($field, $value)
     {
         $boolean = array();
-        $pieces = explode(" ", $value);
+        $pieces = explode(' ', $value);
         for ($i = 0; $i < count($pieces); $i++) {
             $boolean[] = "$field LIKE '%" . self::escapeString($pieces[$i]) . "%'";
         }
 
-        return "(" . implode(" OR ", $boolean) . ")";
+        return '(' . implode(' OR ', $boolean) . ')';
     }
 
     /**
@@ -517,21 +518,21 @@ class Misc
     {
         $hours = $minutes / 60;
         if ((!empty($minutes)) && ($minutes < 6)) {
-            $return = sprintf("%02dm", $minutes);
+            $return = sprintf('%02dm', $minutes);
         } elseif ($hours > 24 && $omit_days == false) {
-            $return = sprintf("%dd %dh %dm (%dh %dm)", floor($minutes/24/60), floor($minutes/60)%24, $minutes%60, floor($minutes/60), $minutes%60);
+            $return = sprintf('%dd %dh %dm (%dh %dm)', floor($minutes/24/60), floor($minutes/60)%24, $minutes%60, floor($minutes/60), $minutes%60);
         } else {
-            $return = sprintf("%dh %dm", floor($minutes/60), $minutes%60);
+            $return = sprintf('%dh %dm', floor($minutes/60), $minutes%60);
         }
         if ($omit_empty) {
-            $chunks = explode(" ", $return);
+            $chunks = explode(' ', $return);
             foreach ($chunks as $index => $chunk) {
                 preg_match("/(\d*)\S/i", $chunk, $matches);
                 if ($matches[1] == '00') {
                     unset($chunks[$index]);
                 }
             }
-            $return = implode(" ", $chunks);
+            $return = implode(' ', $chunks);
         }
 
         return $return;
@@ -545,7 +546,7 @@ class Misc
      * @param   string $class The CSS class to use on the actual links
      * @return  string The parsed string
      */
-    public static function activateLinks($text, $class = "link")
+    public static function activateLinks($text, $class = 'link')
     {
         $range = '[-\w+@=?.%/:&;~|,#\[\]]+';
         // FIXME: handle the base of email addresses surrounded by <>, i.e.
@@ -567,7 +568,7 @@ class Misc
      */
     public function indent($str)
     {
-        return "> " . $str;
+        return '> ' . $str;
     }
 
     /**
@@ -579,9 +580,9 @@ class Misc
      */
     public static function formatReply($str)
     {
-        $lines = explode("\n", str_replace("\r", "", $str));
+        $lines = explode("\n", str_replace("\r", '', $str));
         // COMPAT: the next line requires PHP >= 4.0.6
-        $lines = array_map(array("Misc", "indent"), $lines);
+        $lines = array_map(array('Misc', 'indent'), $lines);
 
         return implode("\n", $lines);
     }
@@ -620,7 +621,7 @@ class Misc
         }
         clearstatcache();
         if (!is_writable($file)) {
-            if (!stristr(PHP_OS, "win")) {
+            if (!stristr(PHP_OS, 'win')) {
                 // let's try to change the permissions ourselves
                 @chmod($file, 0755);
                 clearstatcache();
@@ -631,7 +632,7 @@ class Misc
                 return false;
             }
         }
-        if (stristr(PHP_OS, "win")) {
+        if (stristr(PHP_OS, 'win')) {
             // need to check whether we can really create files in this directory or not
             // since is_writable() is not trustworthy on windows platforms
             if (is_dir($file)) {
@@ -703,7 +704,7 @@ class Misc
             <br />
             <b>The following problems regarding file and/or directory permissions were found:</b>
             <br /><br />
-            ' . implode("<br />", $errors) . '
+            ' . implode('<br />', $errors) . '
             <br /><br />
             <b>Please provide the appropriate permissions to the user that the web server run as to write in the directories and files specified above.</b>
             <br /><br />
@@ -788,8 +789,8 @@ class Misc
     {
         if (count($notify_list) > 0) {
             $update_tpl = new Template_Helper();
-            $update_tpl->setTemplate("include/notified_list.tpl.html");
-            $update_tpl->assign("notify_list", $notify_list);
+            $update_tpl->setTemplate('include/notified_list.tpl.html');
+            $update_tpl->assign('notify_list', $notify_list);
             Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
         }
     }
@@ -820,9 +821,9 @@ class Misc
                 $qs .= self::arrayToQueryString($val, $key);
             } else {
                 if ($parent_name != false) {
-                    $key = $parent_name . "[" . $key . "]";
+                    $key = $parent_name . '[' . $key . ']';
                 }
-                $qs .= "&" . $key . "=" . urlencode($val);
+                $qs .= '&' . $key . '=' . urlencode($val);
             }
         }
 
@@ -844,7 +845,7 @@ class Misc
 
         $terminator = "\n";
 
-        $stdin = fopen("php://stdin", "r");
+        $stdin = fopen('php://stdin', 'r');
         $input = '';
         while (!feof($stdin)) {
             $buffer = fgets($stdin, 256);

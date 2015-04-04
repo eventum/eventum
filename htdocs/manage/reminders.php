@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,82 +31,82 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/reminders.tpl.html");
+$tpl->setTemplate('manage/reminders.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
-    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
+    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
 }
-$tpl->assign("backend_uses_support_levels", false);
-$tpl->assign("project_has_customer_integration", false);
+$tpl->assign('backend_uses_support_levels', false);
+$tpl->assign('project_has_customer_integration', false);
 
-if (@$_POST["cat"] == "new") {
+if (@$_POST['cat'] == 'new') {
     $res = Reminder::insert();
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the reminder was added successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to add the new reminder.'), Misc::MSG_ERROR),
             -2  =>  array(ev_gettext('Please enter the title for this new reminder.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "update") {
+} elseif (@$_POST['cat'] == 'update') {
     $res = Reminder::update();
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the reminder was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to update the reminder.'), Misc::MSG_ERROR),
             -2  =>  array(ev_gettext('Please enter the title for this reminder.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "delete") {
+} elseif (@$_POST['cat'] == 'delete') {
     Reminder::remove();
 }
 
-if (@$_GET["cat"] == "edit") {
-    $info = Reminder::getDetails($_GET["id"]);
+if (@$_GET['cat'] == 'edit') {
+    $info = Reminder::getDetails($_GET['id']);
     if (!empty($_GET['prj_id'])) {
         $info['rem_prj_id'] = $_GET['prj_id'];
     }
     // only show customers and support levels if the selected project really needs it
     $project_has_customer_integration = CRM::hasCustomerIntegration($info['rem_prj_id']);
-    $tpl->assign("project_has_customer_integration", $project_has_customer_integration);
+    $tpl->assign('project_has_customer_integration', $project_has_customer_integration);
     if ($project_has_customer_integration) {
         $crm = CRM::getInstance($info['rem_prj_id']);
-        $tpl->assign("customers", $crm->getCustomerAssocList());
-        $tpl->assign("support_levels", $crm->getSupportLevelAssocList());
+        $tpl->assign('customers', $crm->getCustomerAssocList());
+        $tpl->assign('support_levels', $crm->getSupportLevelAssocList());
     }
     $tpl->assign('issues', Reminder::getIssueAssocListByProject($info['rem_prj_id']));
-    $tpl->assign("info", $info);
+    $tpl->assign('info', $info);
     // wouldn't make much sense to create a reminder for a 'Not Prioritized'
     // issue, so let's remove that as an option
     $priorities = array_flip(Priority::getAssocList($info['rem_prj_id']));
     unset($priorities['Not Prioritized']);
-    $tpl->assign("priorities", array_flip($priorities));
-    $tpl->assign("severities", Severity::getAssocList($info['rem_prj_id']));
-    $tpl->assign("products", Product::getAssocList());
-} elseif (@$_GET["cat"] == "change_rank") {
+    $tpl->assign('priorities', array_flip($priorities));
+    $tpl->assign('severities', Severity::getAssocList($info['rem_prj_id']));
+    $tpl->assign('products', Product::getAssocList());
+} elseif (@$_GET['cat'] == 'change_rank') {
     Reminder::changeRank($_GET['id'], $_GET['rank']);
 } elseif (!empty($_GET['prj_id'])) {
-    $tpl->assign("info", array('rem_prj_id' => $_GET['prj_id']));
+    $tpl->assign('info', array('rem_prj_id' => $_GET['prj_id']));
     $tpl->assign('issues', Reminder::getIssueAssocListByProject($_GET['prj_id']));
     // wouldn't make much sense to create a reminder for a 'Not Prioritized'
     // issue, so let's remove that as an option
     $priorities = array_flip(Priority::getAssocList($_GET['prj_id']));
     unset($priorities['Not Prioritized']);
-    $tpl->assign("priorities", array_flip($priorities));
-    $tpl->assign("severities", Severity::getAssocList($_GET['prj_id']));
-    $tpl->assign("products", Product::getAssocList());
+    $tpl->assign('priorities', array_flip($priorities));
+    $tpl->assign('severities', Severity::getAssocList($_GET['prj_id']));
+    $tpl->assign('products', Product::getAssocList());
     // only show customers and support levels if the selected project really needs it
     $project_has_customer_integration = CRM::hasCustomerIntegration($_GET['prj_id']);
-    $tpl->assign("project_has_customer_integration", $project_has_customer_integration);
+    $tpl->assign('project_has_customer_integration', $project_has_customer_integration);
     if ($project_has_customer_integration) {
         $crm = CRM::getInstance($_GET['prj_id']);
-        $tpl->assign("customers", $crm->getCustomerAssocList());
-        $tpl->assign("support_levels", $crm->getSupportLevelAssocList());
+        $tpl->assign('customers', $crm->getCustomerAssocList());
+        $tpl->assign('support_levels', $crm->getSupportLevelAssocList());
     }
 }
 
-$tpl->assign("project_list", Project::getAll());
-$tpl->assign("list", Reminder::getAdminList());
+$tpl->assign('project_list', Project::getAll());
+$tpl->assign('list', Reminder::getAdminList());
 
 $tpl->displayTemplate();

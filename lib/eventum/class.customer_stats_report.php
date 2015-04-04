@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -129,7 +130,7 @@ class Customer_Stats_Report
             if (count($this->levels) > 0) {
                 $grouped_levels = $crm->getGroupedSupportLevels();
                 foreach ($this->levels as $level_name) {
-                    if ($level_name == "Aggregate") {
+                    if ($level_name == 'Aggregate') {
                         // get "all" row of data
                         $data[] = $this->getAllRow();
                         continue;
@@ -160,12 +161,12 @@ class Customer_Stats_Report
         $this->current_customers = $customers;
 
         return array(
-            "title" =>  $name,
-            "customer_counts"   =>  $this->getCustomerCounts($name),
-            "issue_counts"  =>  $this->getIssueCounts($name),
-            "email_counts"  =>  $this->getEmailCounts(),
-            "time_tracking" =>  $this->getTimeTracking(),
-            "time_stats"    =>  $this->getTimeStats()
+            'title' =>  $name,
+            'customer_counts'   =>  $this->getCustomerCounts($name),
+            'issue_counts'  =>  $this->getIssueCounts($name),
+            'email_counts'  =>  $this->getEmailCounts(),
+            'time_tracking' =>  $this->getTimeTracking(),
+            'time_stats'    =>  $this->getTimeStats()
         );
     }
 
@@ -179,7 +180,7 @@ class Customer_Stats_Report
     {
         $crm = CRM::getInstance($this->prj_id);
         $row = array(
-            "title" =>  ev_gettext("Aggregate")
+            'title' =>  ev_gettext('Aggregate')
         );
 
         // get complete list of customers.
@@ -196,10 +197,10 @@ class Customer_Stats_Report
         $this->current_customers = $crm->getCustomerIDsBySupportLevel($all_levels, $support_option);
 
         // get customers
-        $row["customer_counts"] = $this->getCustomerCounts("All");
+        $row['customer_counts'] = $this->getCustomerCounts('All');
 
         // get total # of issues, avg issues per customer, median issues per customer
-        $row['issue_counts'] = $this->getIssueCounts("All");
+        $row['issue_counts'] = $this->getIssueCounts('All');
 
         // get actions counts such as # of customer actions per issue, avg customer actions per issue,
         // median customer actions per issue.
@@ -252,10 +253,10 @@ class Customer_Stats_Report
         }
 
         return array(
-                "customer_count"    =>  $customer_count,
-                "activity"  =>  $activity,
-                "active"    =>  count($issue_counts),
-                "inactive"  =>  $inactive_count
+                'customer_count'    =>  $customer_count,
+                'activity'  =>  $activity,
+                'active'    =>  count($issue_counts),
+                'inactive'  =>  $inactive_count
         );
     }
 
@@ -276,17 +277,17 @@ class Customer_Stats_Report
             $stats->setData($issue_counts);
 
             return array(
-                "total" =>  $stats->sum(),
-                "avg"   =>  $stats->mean(),
-                "median"    =>  $stats->median(),
-                "max"   =>  $stats->max()
+                'total' =>  $stats->sum(),
+                'avg'   =>  $stats->mean(),
+                'median'    =>  $stats->median(),
+                'max'   =>  $stats->max()
             );
         } else {
             return array(
-                "total" =>  0,
-                "avg"   =>  0,
-                "median"    =>  0,
-                "max"   =>  0
+                'total' =>  0,
+                'avg'   =>  0,
+                'median'    =>  0,
+                'max'   =>  0
             );
         }
     }
@@ -306,18 +307,18 @@ class Customer_Stats_Report
             return $issue_counts[$name];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     count(*)
                  FROM
                     {{%issue}}
                  WHERE
-                    " . $this->getWhereClause("iss_customer_id", "iss_created_date") . "
+                    ' . $this->getWhereClause('iss_customer_id', 'iss_created_date') . '
                  GROUP BY
-                    iss_customer_id";
+                    iss_customer_id';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
         $issue_counts[$name] = $res;
 
@@ -332,10 +333,10 @@ class Customer_Stats_Report
     public function getEmailCounts()
     {
         $counts = array(
-            "customer"  =>  array(),
-            "developer" =>  array()
+            'customer'  =>  array(),
+            'developer' =>  array()
         );
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     count(*)
                  FROM
                     {{%support_email}},
@@ -348,9 +349,9 @@ class Customer_Stats_Report
                     sup_usr_id = pru_usr_id AND
                     ema_prj_id = pru_prj_id AND
                     pru_role = ? AND
-                    " . $this->getWhereClause("iss_customer_id", "sup_date") . "
+                    ' . $this->getWhereClause('iss_customer_id', 'sup_date') . '
                  GROUP BY
-                    sup_iss_id";
+                    sup_iss_id';
         $params = array(User::getRoleID('Customer'));
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, $params);
@@ -362,16 +363,16 @@ class Customer_Stats_Report
             $stats = new Math_Stats();
             $stats->setData($res);
 
-            $counts["customer"]["total"] = $stats->sum();
-            $counts["customer"]["avg"] = $stats->mean();
-            $counts["customer"]["median"] = $stats->median();
+            $counts['customer']['total'] = $stats->sum();
+            $counts['customer']['avg'] = $stats->mean();
+            $counts['customer']['median'] = $stats->median();
         } else {
-            $counts["customer"]["total"] = 0;
-            $counts["customer"]["avg"] = 0;
-            $counts["customer"]["median"] = 0;
+            $counts['customer']['total'] = 0;
+            $counts['customer']['avg'] = 0;
+            $counts['customer']['median'] = 0;
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     count(*)
                  FROM
                     {{%support_email}},
@@ -384,9 +385,9 @@ class Customer_Stats_Report
                     sup_usr_id = pru_usr_id AND
                     ema_prj_id = pru_prj_id AND
                     pru_role != ? AND
-                    " . $this->getWhereClause("iss_customer_id", "sup_date") . "
+                    ' . $this->getWhereClause('iss_customer_id', 'sup_date') . '
                  GROUP BY
-                    sup_iss_id";
+                    sup_iss_id';
         $params1 = array(User::getRoleID('Customer'));
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, $params1);
@@ -398,13 +399,13 @@ class Customer_Stats_Report
             $stats = new Math_Stats();
             $stats->setData($res);
 
-            $counts["developer"]["total"] = $stats->sum();
-            $counts["developer"]["avg"] = $stats->mean();
-            $counts["developer"]["median"] = $stats->median();
+            $counts['developer']['total'] = $stats->sum();
+            $counts['developer']['avg'] = $stats->mean();
+            $counts['developer']['median'] = $stats->median();
         } else {
-            $counts["developer"]["total"] = 0;
-            $counts["developer"]["avg"] = 0;
-            $counts["developer"]["median"] = 0;
+            $counts['developer']['total'] = 0;
+            $counts['developer']['avg'] = 0;
+            $counts['developer']['median'] = 0;
         }
 
         return $counts;
@@ -421,8 +422,8 @@ class Customer_Stats_Report
 
         // get total stats
         $time[0] = $this->getIndividualTimeTracking();
-        $time[0]["name"] = "Total";
-        $this->time_tracking_categories[0] = "Total";
+        $time[0]['name'] = 'Total';
+        $this->time_tracking_categories[0] = 'Total';
 
         // get categories
         $categories = Time_Tracking::getAssocCategories($this->prj_id);
@@ -430,7 +431,7 @@ class Customer_Stats_Report
             $individual = $this->getIndividualTimeTracking($ttc_id);
             if (count($individual) > 0) {
                 $time[$ttc_id] = $individual;
-                $time[$ttc_id]["name"] = $category;
+                $time[$ttc_id]['name'] = $category;
 
                 $this->time_tracking_categories[$ttc_id] = $category;
             }
@@ -447,19 +448,19 @@ class Customer_Stats_Report
      */
     public function getIndividualTimeTracking($ttc_id = false)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     ttr_time_spent
                  FROM
                     {{%time_tracking}},
                     {{%issue}}
                  WHERE
-                    ttr_iss_id = iss_id";
+                    ttr_iss_id = iss_id';
         $params = array();
         if ($ttc_id != false) {
             $stmt .= "\n AND ttr_ttc_id = ?";
             $params[] = $ttc_id;
         }
-        $stmt .= "\nAND " . $this->getWhereClause("iss_customer_id", "ttr_created_date");
+        $stmt .= "\nAND " . $this->getWhereClause('iss_customer_id', 'ttr_created_date');
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, $params);
         } catch (DbException $e) {
@@ -474,12 +475,12 @@ class Customer_Stats_Report
             $median = $stats->median();
 
             return array(
-                "total" =>  $total,
-                "total_formatted"   =>  Misc::getFormattedTime($total, true),
-                "avg"   =>  $avg,
-                "avg_formatted" =>  Misc::getFormattedTime($avg),
-                "median" =>  $median,
-                "median_formatted"  =>  Misc::getFormattedTime($median),
+                'total' =>  $total,
+                'total_formatted'   =>  Misc::getFormattedTime($total, true),
+                'avg'   =>  $avg,
+                'avg_formatted' =>  Misc::getFormattedTime($avg),
+                'median' =>  $median,
+                'median_formatted'  =>  Misc::getFormattedTime($median),
             );
         } else {
             return array();
@@ -494,13 +495,13 @@ class Customer_Stats_Report
     private function getTimeStats()
     {
         // time to close
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     round(((unix_timestamp(iss_closed_date) - unix_timestamp(iss_created_date)) / 60))
                  FROM
                     {{%issue}}
                  WHERE
                     iss_closed_date IS NOT NULL AND
-                    " . $this->getWhereClause("iss_customer_id", array("iss_created_date", "iss_closed_date"));
+                    ' . $this->getWhereClause('iss_customer_id', array('iss_created_date', 'iss_closed_date'));
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
@@ -512,36 +513,36 @@ class Customer_Stats_Report
             $stats->setData($res);
 
             $time_to_close = array(
-                "avg"   =>  $stats->mean(),
-                "avg_formatted" =>  Misc::getFormattedTime($stats->mean()),
-                "median" =>  $stats->median(),
-                "median_formatted"  =>  Misc::getFormattedTime($stats->median()),
-                "max"   =>  $stats->max(),
-                "max_formatted" =>  Misc::getFormattedTime($stats->max()),
-                "min"   =>  $stats->min(),
-                "min_formatted" =>  Misc::getFormattedTime($stats->min())
+                'avg'   =>  $stats->mean(),
+                'avg_formatted' =>  Misc::getFormattedTime($stats->mean()),
+                'median' =>  $stats->median(),
+                'median_formatted'  =>  Misc::getFormattedTime($stats->median()),
+                'max'   =>  $stats->max(),
+                'max_formatted' =>  Misc::getFormattedTime($stats->max()),
+                'min'   =>  $stats->min(),
+                'min_formatted' =>  Misc::getFormattedTime($stats->min())
             );
         } else {
             $time_to_close = array(
-                "avg"   =>  0,
-                "avg_formatted" =>  Misc::getFormattedTime(0),
-                "median" =>  0,
-                "median_formatted"  =>  Misc::getFormattedTime(0),
-                "max"   =>  0,
-                "max_formatted" =>  Misc::getFormattedTime(0),
-                "min"   =>  0,
-                "min_formatted" =>  Misc::getFormattedTime(0)
+                'avg'   =>  0,
+                'avg_formatted' =>  Misc::getFormattedTime(0),
+                'median' =>  0,
+                'median_formatted'  =>  Misc::getFormattedTime(0),
+                'max'   =>  0,
+                'max_formatted' =>  Misc::getFormattedTime(0),
+                'min'   =>  0,
+                'min_formatted' =>  Misc::getFormattedTime(0)
             );
         }
 
         // time to first response
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     round(((unix_timestamp(iss_first_response_date) - unix_timestamp(iss_created_date)) / 60))
                  FROM
                     {{%issue}}
                  WHERE
                     iss_first_response_date IS NOT NULL AND
-                    " . $this->getWhereClause("iss_customer_id", array("iss_created_date", "iss_closed_date"));
+                    ' . $this->getWhereClause('iss_customer_id', array('iss_created_date', 'iss_closed_date'));
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
@@ -553,31 +554,31 @@ class Customer_Stats_Report
             $stats->setData($res);
 
             $time_to_first_response = array(
-                "avg"   =>  $stats->mean(),
-                "avg_formatted" =>  Misc::getFormattedTime($stats->mean()),
-                "median" =>  $stats->median(),
-                "median_formatted"  =>  Misc::getFormattedTime($stats->median()),
-                "max"   =>  $stats->max(),
-                "max_formatted" =>  Misc::getFormattedTime($stats->max()),
-                "min"   =>  $stats->min(),
-                "min_formatted" =>  Misc::getFormattedTime($stats->min())
+                'avg'   =>  $stats->mean(),
+                'avg_formatted' =>  Misc::getFormattedTime($stats->mean()),
+                'median' =>  $stats->median(),
+                'median_formatted'  =>  Misc::getFormattedTime($stats->median()),
+                'max'   =>  $stats->max(),
+                'max_formatted' =>  Misc::getFormattedTime($stats->max()),
+                'min'   =>  $stats->min(),
+                'min_formatted' =>  Misc::getFormattedTime($stats->min())
             );
         } else {
             $time_to_first_response = array(
-                "avg"   =>  0,
-                "avg_formatted" =>  Misc::getFormattedTime(0),
-                "median" =>  0,
-                "median_formatted"  =>  Misc::getFormattedTime(0),
-                "max"   =>  0,
-                "max_formatted" =>  Misc::getFormattedTime(0),
-                "min"   =>  0,
-                "min_formatted" =>  Misc::getFormattedTime(0)
+                'avg'   =>  0,
+                'avg_formatted' =>  Misc::getFormattedTime(0),
+                'median' =>  0,
+                'median_formatted'  =>  Misc::getFormattedTime(0),
+                'max'   =>  0,
+                'max_formatted' =>  Misc::getFormattedTime(0),
+                'min'   =>  0,
+                'min_formatted' =>  Misc::getFormattedTime(0)
             );
         }
 
         return array(
-            "time_to_close" => $time_to_close,
-            "time_to_first_response"    =>  $time_to_first_response
+            'time_to_close' => $time_to_close,
+            'time_to_first_response'    =>  $time_to_first_response
         );
     }
 
@@ -588,7 +589,7 @@ class Customer_Stats_Report
      */
     public function isCustomerBased()
     {
-        return ((is_array($this->customers)) && (count($this->customers) > 0) && (!in_array("", $this->customers)));
+        return ((is_array($this->customers)) && (count($this->customers) > 0) && (!in_array('', $this->customers)));
     }
 
     /**
@@ -614,10 +615,10 @@ class Customer_Stats_Report
         $where = '';
         if (!empty($customer_field)) {
             if (count($this->current_customers) > 0) {
-                $where .= $customer_field . " IN(" . implode(",", $this->current_customers) . ")";
+                $where .= $customer_field . ' IN(' . implode(',', $this->current_customers) . ')';
             } else {
                 // XXX: this is a dirty hack to handle support levels that don't have customers, but I can't think of anything better right now.
-                $where .= "1 = 2";
+                $where .= '1 = 2';
             }
         }
 
@@ -630,7 +631,7 @@ class Customer_Stats_Report
                 foreach ($date_field as $field) {
                     $date_conditions[] = "($field BETWEEN '" . $this->start_date . "' AND '" . $this->end_date . "')";
                 }
-                $where .= "(" . implode(" OR ", $date_conditions) . ")";
+                $where .= '(' . implode(' OR ', $date_conditions) . ')';
             } else {
                 $where .= "($date_field BETWEEN '" . $this->start_date . "' AND '" . $this->end_date . "')";
             }
@@ -647,9 +648,9 @@ class Customer_Stats_Report
     public function getRowLabel()
     {
         if ($this->isCustomerBased()) {
-            return ev_gettext("Customer");
+            return ev_gettext('Customer');
         } else {
-            return ev_gettext("Support Level");
+            return ev_gettext('Support Level');
         }
     }
 
@@ -662,39 +663,39 @@ class Customer_Stats_Report
     {
         return array(
             1   =>  array(
-                        "title" =>  ev_gettext("Total Workload by Support Level"),
-                        "desc"  =>  ev_gettext("Includes issue count, Developer email Count, Customer Email Count, Customers count by Support Level"),
-                        "size"  => array(
-                                        "x" =>  800,
-                                        "y" =>  350
+                        'title' =>  ev_gettext('Total Workload by Support Level'),
+                        'desc'  =>  ev_gettext('Includes issue count, Developer email Count, Customer Email Count, Customers count by Support Level'),
+                        'size'  => array(
+                                        'x' =>  800,
+                                        'y' =>  350
                         )
             ),
             2   =>  array(
-                        "title" =>  ev_gettext("Avg Workload per Customer by Support Level"),
-                        "desc"  =>  ev_gettext("Displays average number of issues, developer emails and customer emails per issue by support level"),
-                        "size"  =>  array(
-                                        "x" =>  800,
-                                        "y" =>  350
+                        'title' =>  ev_gettext('Avg Workload per Customer by Support Level'),
+                        'desc'  =>  ev_gettext('Displays average number of issues, developer emails and customer emails per issue by support level'),
+                        'size'  =>  array(
+                                        'x' =>  800,
+                                        'y' =>  350
                         ),
-                        "value_format"  =>  "%.1f"
+                        'value_format'  =>  '%.1f'
             ),
             3   =>  array(
-                        "title" =>  ev_gettext("Avg and Median Time to Close by Support Level"),
-                        "desc"  =>  ev_gettext("Displays time stats"),
-                        "size"  =>  array(
-                                        "x" =>  600,
-                                        "y" =>  350
+                        'title' =>  ev_gettext('Avg and Median Time to Close by Support Level'),
+                        'desc'  =>  ev_gettext('Displays time stats'),
+                        'size'  =>  array(
+                                        'x' =>  600,
+                                        'y' =>  350
                         ),
-                        "y_label"   =>  ev_gettext("Days")
+                        'y_label'   =>  ev_gettext('Days')
             ),
             4   =>  array(
-                        "title" =>  ev_gettext("Avg and Median Time to First Response by Support Level"),
-                        "desc"  =>  ev_gettext("Displays time stats"),
-                        "size"  =>  array(
-                                        "x" =>  600,
-                                        "y" =>  350
+                        'title' =>  ev_gettext('Avg and Median Time to First Response by Support Level'),
+                        'desc'  =>  ev_gettext('Displays time stats'),
+                        'size'  =>  array(
+                                        'x' =>  600,
+                                        'y' =>  350
                         ),
-                        "y_label"   =>  ev_gettext("Hours")
+                        'y_label'   =>  ev_gettext('Hours')
             )
         );
     }
@@ -707,11 +708,11 @@ class Customer_Stats_Report
     public static function getDisplaySections()
     {
         return array(
-            "customer_counts"   =>  ev_gettext("Customer Counts"),
-            "issue_counts"  =>  ev_gettext("Issue Counts"),
-            "email_counts"  =>  ev_gettext("Email Counts"),
-            "time_stats"    =>  ev_gettext("Time Statistics"),
-            "time_tracking" =>  ev_gettext("Time Tracking")
+            'customer_counts'   =>  ev_gettext('Customer Counts'),
+            'issue_counts'  =>  ev_gettext('Issue Counts'),
+            'email_counts'  =>  ev_gettext('Email Counts'),
+            'time_stats'    =>  ev_gettext('Time Statistics'),
+            'time_tracking' =>  ev_gettext('Time Tracking')
         );
     }
 

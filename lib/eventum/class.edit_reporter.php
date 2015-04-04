@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -52,12 +53,12 @@ class Edit_Reporter
             $usr_id = APP_SYSTEM_USER_ID;
         }
 
-        $sql = "UPDATE
+        $sql = 'UPDATE
                     {{%issue}}
                 SET
                     iss_usr_id = ?
                 WHERE
-                    iss_id = ?";
+                    iss_id = ?';
 
         try {
             DB_Helper::getInstance()->query($sql, array($usr_id, $issue_id));

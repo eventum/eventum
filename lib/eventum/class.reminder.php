@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -81,20 +82,20 @@ class Reminder
             // switch the rankings here...
             $index = array_search($new_rank, $ranks);
             $replaced_rem_id = $ids[$index];
-            $stmt = "UPDATE
+            $stmt = 'UPDATE
                         {{%reminder_level}}
                      SET
                         rem_rank=?
                      WHERE
-                        rem_id=?";
+                        rem_id=?';
             DB_Helper::getInstance()->query($stmt, array($ranking[$rem_id], $replaced_rem_id));
         }
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%reminder_level}}
                  SET
                     rem_rank=?
                  WHERE
-                    rem_id=?";
+                    rem_id=?';
         DB_Helper::getInstance()->query($stmt, array($new_rank, $rem_id));
 
         return true;
@@ -108,13 +109,13 @@ class Reminder
      */
     private function _getRanking()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rem_id,
                     rem_rank
                  FROM
                     {{%reminder_level}}
                  ORDER BY
-                    rem_rank ASC";
+                    rem_rank ASC';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
@@ -149,12 +150,12 @@ class Reminder
      */
     public static function getTitle($rem_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rem_title
                  FROM
                     {{%reminder_level}}
                  WHERE
-                    rem_id=?";
+                    rem_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($rem_id));
         } catch (DbException $e) {
@@ -172,12 +173,12 @@ class Reminder
      */
     public static function getProjectID($rem_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rem_prj_id
                  FROM
                     {{%reminder_level}}
                  WHERE
-                    rem_id=?";
+                    rem_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($rem_id));
         } catch (DbException $e) {
@@ -195,12 +196,12 @@ class Reminder
      */
     public static function getDetails($rem_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%reminder_level}}
                  WHERE
-                    rem_id=?";
+                    rem_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($rem_id));
         } catch (DbException $e) {
@@ -246,12 +247,12 @@ class Reminder
      */
     public function getAssociatedPriorities($rem_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rep_pri_id
                  FROM
                     {{%reminder_priority}}
                  WHERE
-                    rep_rem_id=?";
+                    rep_rem_id=?';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($rem_id));
         } catch (DbException $e) {
@@ -263,12 +264,12 @@ class Reminder
 
     public function getAssociatedProducts($rem_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rpr_pro_id
                  FROM
                     {{%reminder_product}}
                  WHERE
-                    rpr_rem_id=?";
+                    rpr_rem_id=?';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($rem_id));
         } catch (DbException $e) {
@@ -287,12 +288,12 @@ class Reminder
      */
     public function getAssociatedSeverities($rem_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rms_sev_id
                  FROM
                     {{%reminder_severity}}
                  WHERE
-                    rms_rem_id=?";
+                    rms_rem_id=?';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($rem_id));
         } catch (DbException $e) {
@@ -312,14 +313,14 @@ class Reminder
      */
     public function addSupportLevelAssociation($rem_id, $support_level_id)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%reminder_requirement}}
                  (
                     rer_rem_id,
                     rer_support_level_id
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         try {
             DB_Helper::getInstance()->query($stmt, array($rem_id, $support_level_id));
         } catch (DbException $e) {
@@ -338,14 +339,14 @@ class Reminder
      */
     public function addIssueAssociation($rem_id, $issue_id)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%reminder_requirement}}
                  (
                     rer_rem_id,
                     rer_iss_id
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         try {
             DB_Helper::getInstance()->query($stmt, array($rem_id, $issue_id));
         } catch (DbException $e) {
@@ -365,14 +366,14 @@ class Reminder
      */
     public function addCustomerAssociation($rem_id, $customer_id)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%reminder_requirement}}
                  (
                     rer_rem_id,
                     rer_customer_id
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         try {
             DB_Helper::getInstance()->query($stmt, array($rem_id, $customer_id));
         } catch (DbException $e) {
@@ -390,14 +391,14 @@ class Reminder
      */
     public function associateAllIssues($rem_id)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%reminder_requirement}}
                  (
                     rer_rem_id,
                     rer_trigger_all_issues
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         try {
             DB_Helper::getInstance()->query($stmt, array($rem_id, 1));
         } catch (DbException $e) {
@@ -416,14 +417,14 @@ class Reminder
      */
     public function addPriorityAssociation($rem_id, $priority_id)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%reminder_priority}}
                  (
                     rep_rem_id,
                     rep_pri_id
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         try {
             DB_Helper::getInstance()->query($stmt, array($rem_id, $priority_id));
         } catch (DbException $e) {
@@ -435,14 +436,14 @@ class Reminder
 
     public function addProductAssociation($rem_id, $pro_id)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%reminder_product}}
                  (
                     rpr_rem_id,
                     rpr_pro_id
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         try {
             DB_Helper::getInstance()->query($stmt, array($rem_id, $pro_id));
         } catch (DbException $e) {
@@ -461,14 +462,14 @@ class Reminder
      */
     public function addSeverityAssociation($rem_id, $severity_id)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%reminder_severity}}
                  (
                     rms_rem_id,
                     rms_sev_id
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         try {
             DB_Helper::getInstance()->query($stmt, array($rem_id, $severity_id));
         } catch (DbException $e) {
@@ -523,7 +524,7 @@ class Reminder
      */
     public static function insert()
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%reminder_level}}
                  (
                     rem_created_date,
@@ -533,7 +534,7 @@ class Reminder
                     rem_skip_weekend
                  ) VALUES (
                     ?, ?, ?, ?, ?
-                 )";
+                 )';
         $params = array(
             Date_Helper::getCurrentDateGMT(),
             $_POST['rank'],
@@ -590,7 +591,7 @@ class Reminder
      */
     public static function update()
     {
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%reminder_level}}
                  SET
                     rem_last_updated_date=?,
@@ -599,7 +600,7 @@ class Reminder
                     rem_prj_id=?,
                     rem_skip_weekend=?
                  WHERE
-                    rem_id=?";
+                    rem_id=?';
         $params = array(
             Date_Helper::getCurrentDateGMT(),
             $_POST['rank'],
@@ -658,7 +659,7 @@ class Reminder
      */
     public static function remove()
     {
-        $items = $_POST["items"];
+        $items = $_POST['items'];
         $itemlist = DB_Helper::buildList($items);
 
         $stmt = "DELETE FROM
@@ -695,7 +696,7 @@ class Reminder
      */
     public function getRequirements($rem_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rer_customer_id,
                     rer_iss_id,
                     rer_support_level_id,
@@ -703,7 +704,7 @@ class Reminder
                  FROM
                     {{%reminder_requirement}}
                  WHERE
-                    rer_rem_id=?";
+                    rer_rem_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($rem_id));
         } catch (DbException $e) {
@@ -741,7 +742,7 @@ class Reminder
      */
     public static function getAdminList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     {{%reminder_level}}.*,
                     prj_title
                  FROM
@@ -750,7 +751,7 @@ class Reminder
                  WHERE
                     rem_prj_id=prj_id
                  ORDER BY
-                    rem_rank ASC";
+                    rem_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
@@ -758,7 +759,7 @@ class Reminder
         }
 
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['rem_created_date'] = Date_Helper::getFormattedDate($res[$i]["rem_created_date"]);
+            $res[$i]['rem_created_date'] = Date_Helper::getFormattedDate($res[$i]['rem_created_date']);
             $actions = Reminder_Action::getList($res[$i]['rem_id']);
             $res[$i]['total_actions'] = count($actions);
             $priorities = self::getAssociatedPriorities($res[$i]['rem_id']);
@@ -785,12 +786,12 @@ class Reminder
      */
     public static function getList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%reminder_level}}
                  ORDER BY
-                    rem_rank ASC";
+                    rem_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
@@ -825,16 +826,16 @@ class Reminder
     public static function getTriggeredIssues($reminder, $conditions)
     {
         // - build the SQL query to check if we have an issue that matches these conditions...
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_id,
                     iss_prj_id
                  FROM
-                    {{%issue}}";
+                    {{%issue}}';
 
         $products = self::getAssociatedProducts($reminder['rem_id']);
         if (count($products) > 0) {
-            $stmt .= ",
-                    {{%issue_product_version}}";
+            $stmt .= ',
+                    {{%issue_product_version}}';
         }
 
         $stmt .= self::getWhereClause($reminder, $conditions);
@@ -932,12 +933,12 @@ class Reminder
                     if (strtoupper($conditions[$i]['rlc_value']) == 'NULL') {
                         $conditions[$i]['rmf_sql_representation'] = $conditions[$i]['rmf_sql_field'];
                     } elseif (strtoupper($conditions[$i]['rlc_value']) == 'NOW') {
-                        $conditions[$i]['rmf_sql_representation'] = "UNIX_TIMESTAMP(" .
-                            $conditions[$i]['rmf_sql_field'] . ")";
+                        $conditions[$i]['rmf_sql_representation'] = 'UNIX_TIMESTAMP(' .
+                            $conditions[$i]['rmf_sql_field'] . ')';
                         $conditions[$i]['rlc_value'] = 'UNIX_TIMESTAMP()';
                     } else {
                         $conditions[$i]['rlc_value'] = $conditions[$i]['rlc_value'] * 60 * 60;
-                        if (@$reminder["rem_skip_weekend"] == 1) {
+                        if (@$reminder['rem_skip_weekend'] == 1) {
                             $sql_field = Reminder_Condition::getSQLField($conditions[$i]['rlc_rmf_id']);
                             $conditions[$i]['rmf_sql_representation'] = DB_Helper::getNoWeekendDateDiffSQL($sql_field);
                         }
@@ -965,14 +966,14 @@ class Reminder
     {
         $reminder = self::getDetails($rem_id);
         $conditions = Reminder_Condition::getList($rma_id);
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_id
                  FROM
-                    {{%issue}}";
+                    {{%issue}}';
         $products = self::getAssociatedProducts($reminder['rem_id']);
         if (count($products) > 0) {
-            $stmt .= ",
-                    issue_product_version";
+            $stmt .= ',
+                    issue_product_version';
         }
         $stmt .= self::getWhereClause($reminder, $conditions);
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
@@ -990,7 +991,7 @@ class Reminder
      */
     public static function getHistoryList($iss_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rmh_created_date,
                     rma_title
                  FROM
@@ -1000,7 +1001,7 @@ class Reminder
                     rmh_iss_id=? AND
                     rmh_rma_id=rma_id
                  ORDER BY
-                    rmh_created_date DESC";
+                    rmh_created_date DESC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($iss_id));
         } catch (DbException $e) {
@@ -1008,7 +1009,7 @@ class Reminder
         }
 
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]["rmh_created_date"] = Date_Helper::getFormattedDate($res[$i]["rmh_created_date"]);
+            $res[$i]['rmh_created_date'] = Date_Helper::getFormattedDate($res[$i]['rmh_created_date']);
         }
 
         return $res;

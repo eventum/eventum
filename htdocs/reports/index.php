@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -31,10 +32,10 @@ require_once dirname(__FILE__) . '/../../init.php';
 
 Auth::checkAuthentication(APP_COOKIE);
 if (!Access::canAccessReports(Auth::getUserID())) {
-    Auth::redirect(APP_RELATIVE_URL . "main.php");
+    Auth::redirect(APP_RELATIVE_URL . 'main.php');
 }
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("reports/index.tpl.html");
+$tpl->setTemplate('reports/index.tpl.html');
 
 $tpl->displayTemplate();

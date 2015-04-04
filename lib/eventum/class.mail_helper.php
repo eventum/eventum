@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -103,8 +104,8 @@ class Mail_Helper
      */
     public static function getCannedBlockedMsgExplanation()
     {
-        $msg = ev_gettext("WARNING: This message was blocked because the sender was not allowed to send emails to the associated issue.") . " ";
-        $msg .= ev_gettext("Only staff members listed in the assignment or authorized replier fields can send emails.") . "\n";
+        $msg = ev_gettext('WARNING: This message was blocked because the sender was not allowed to send emails to the associated issue.') . ' ';
+        $msg .= ev_gettext('Only staff members listed in the assignment or authorized replier fields can send emails.') . "\n";
         $msg .= str_repeat('-', 70) . "\n\n";
 
         return $msg;
@@ -171,7 +172,7 @@ class Mail_Helper
             if ((strstr($address, '<')) && (!Mime_Helper::isQuotedPrintable($address))) {
                 $address = stripslashes(trim($address));
                 // is the address in the format 'name' <address> ?
-                if ((strstr($address, "'")) || (strstr($address, "."))) {
+                if ((strstr($address, "'")) || (strstr($address, '.'))) {
                     $bracket_pos = strrpos($address, '<');
                     if ($bracket_pos != 0) {
                         $bracket_pos = $bracket_pos - 1;
@@ -292,7 +293,7 @@ class Mail_Helper
      */
     public static function getFormattedName($name, $email)
     {
-        return $name . " <" . $email . ">";
+        return $name . ' <' . $email . '>';
     }
 
     /**
@@ -309,7 +310,7 @@ class Mail_Helper
             $settings['smtp']['localhost'] = trim(file_get_contents('/etc/mailname'));
         }
 
-        return $settings["smtp"];
+        return $settings['smtp'];
     }
 
     /**
@@ -428,9 +429,9 @@ class Mail_Helper
     public static function getWarningMessage($type)
     {
         if ($type == 'allowed') {
-            $str = ev_gettext("ADVISORY: Your reply will be sent to the notification list.");
+            $str = ev_gettext('ADVISORY: Your reply will be sent to the notification list.');
         } else {
-            $str = ev_gettext("WARNING: If replying, add yourself to Authorized Repliers list first.");
+            $str = ev_gettext('WARNING: If replying, add yourself to Authorized Repliers list first.');
         }
 
         return $str;
@@ -778,14 +779,14 @@ class Mail_Helper
      */
     public static function generateMessageID()
     {
-        list($usec, $sec) = explode(" ", microtime());
+        list($usec, $sec) = explode(' ', microtime());
         $time = ((float) $usec + (float) $sec);
         $first = base_convert($time, 10, 36);
         mt_srand(hexdec(substr(md5(microtime()), -8)) & 0x7fffffff);
         $rand = mt_rand();
         $second = base_convert($rand, 10, 36);
 
-        return "<eventum." . $first . "." . $second . "@" . APP_HOSTNAME . ">";
+        return '<eventum.' . $first . '.' . $second . '@' . APP_HOSTNAME . '>';
     }
 
     /**
@@ -800,7 +801,7 @@ class Mail_Helper
             return trim($matches[1]);
         }
         if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
-            $references = explode(" ", self::unfold(trim($matches[1])));
+            $references = explode(' ', self::unfold(trim($matches[1])));
             $references = array_map('trim', $references);
             // return the first message-id in the list of references
             return $references[0];
@@ -822,7 +823,7 @@ class Mail_Helper
             $references[] = trim($matches[1]);
         }
         if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
-            $references = array_merge($references, explode(" ", self::unfold(trim($matches[1]))));
+            $references = array_merge($references, explode(' ', self::unfold(trim($matches[1]))));
             $references = array_map('trim', $references);
             $references = array_unique($references);
         }
@@ -935,9 +936,9 @@ class Mail_Helper
         $root_msg_id = Issue::getRootMessageID($issue_id);
 
         return array(
-            "Message-ID"    =>  self::generateMessageID(),
-            "In-Reply-To"   =>  $root_msg_id,
-            "References"    =>  $root_msg_id
+            'Message-ID'    =>  self::generateMessageID(),
+            'In-Reply-To'   =>  $root_msg_id,
+            'References'    =>  $root_msg_id
         );
     }
 

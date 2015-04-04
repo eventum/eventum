@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -43,13 +44,13 @@ class Release
      */
     public static function isAssignable($pre_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(*)
                  FROM
                     {{%project_release}}
                  WHERE
                     pre_id=? AND
-                    pre_status=?";
+                    pre_status=?';
 
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($pre_id, 'available'));
@@ -72,18 +73,18 @@ class Release
      */
     public static function getDetails($pre_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *,
                     MONTH(pre_scheduled_date) AS scheduled_month,
                     YEAR(pre_scheduled_date) AS scheduled_year
                  FROM
                     {{%project_release}}
                  WHERE
-                    pre_id=?";
+                    pre_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($pre_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -97,16 +98,16 @@ class Release
      */
     public static function getTitle($pre_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     pre_title
                  FROM
                     {{%project_release}}
                  WHERE
-                    pre_id=?";
+                    pre_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($pre_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -121,10 +122,10 @@ class Release
      */
     public static function removeByProjects($ids)
     {
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%project_release}}
                  WHERE
-                    pre_prj_id IN (" . DB_Helper::buildList($ids) . ")";
+                    pre_prj_id IN (' . DB_Helper::buildList($ids) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $ids);
         } catch (DbException $e) {
@@ -142,7 +143,7 @@ class Release
      */
     public static function remove()
     {
-        $items = $_POST["items"];
+        $items = $_POST['items'];
         $itemlist = DB_Helper::buildList($items);
 
         // gotta fix the issues that are using this release
@@ -179,11 +180,11 @@ class Release
      */
     public static function update()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        $scheduled_date = $_POST["scheduled_date"]["Year"] . "-" . $_POST["scheduled_date"]["Month"] . "-" . $_POST["scheduled_date"]["Day"];
-        $stmt = "UPDATE
+        $scheduled_date = $_POST['scheduled_date']['Year'] . '-' . $_POST['scheduled_date']['Month'] . '-' . $_POST['scheduled_date']['Day'];
+        $stmt = 'UPDATE
                     {{%project_release}}
                  SET
                     pre_title=?,
@@ -191,8 +192,8 @@ class Release
                     pre_status=?
                  WHERE
                     pre_prj_id=? AND
-                    pre_id=?";
-        $params = array($_POST["title"], $scheduled_date, $_POST["status"], $_POST["prj_id"], $_POST["id"]);
+                    pre_id=?';
+        $params = array($_POST['title'], $scheduled_date, $_POST['status'], $_POST['prj_id'], $_POST['id']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
@@ -210,11 +211,11 @@ class Release
      */
     public static function insert()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        $scheduled_date = $_POST["scheduled_date"]["Year"] . "-" . $_POST["scheduled_date"]["Month"] . "-" . $_POST["scheduled_date"]["Day"];
-        $stmt = "INSERT INTO
+        $scheduled_date = $_POST['scheduled_date']['Year'] . '-' . $_POST['scheduled_date']['Month'] . '-' . $_POST['scheduled_date']['Day'];
+        $stmt = 'INSERT INTO
                     {{%project_release}}
                  (
                     pre_prj_id,
@@ -223,12 +224,12 @@ class Release
                     pre_status
                  ) VALUES (
                     ?, ?, ?, ?
-                 )";
+                 )';
         $params = array(
-            $_POST["prj_id"],
-            $_POST["title"],
+            $_POST['prj_id'],
+            $_POST['title'],
             $scheduled_date,
-            $_POST["status"],
+            $_POST['status'],
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -248,7 +249,7 @@ class Release
      */
     public static function getList($prj_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     pre_id,
                     pre_title,
                     pre_scheduled_date,
@@ -258,11 +259,11 @@ class Release
                  WHERE
                     pre_prj_id=?
                  ORDER BY
-                    pre_scheduled_date ASC";
+                    pre_scheduled_date ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -278,7 +279,7 @@ class Release
      */
     public static function getAssocList($prj_id, $show_all_dates = false)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     pre_id,
                     pre_title
                  FROM
@@ -286,21 +287,21 @@ class Release
                  WHERE
                     pre_prj_id=? AND
                     (
-                      pre_status=?";
+                      pre_status=?';
         $params = array($prj_id, 'available');
         if ($show_all_dates != true) {
-            $stmt .= " AND
-                      pre_scheduled_date >= ?";
+            $stmt .= ' AND
+                      pre_scheduled_date >= ?';
             $params[] = gmdate('Y-m-d');
         }
-        $stmt .= "
+        $stmt .= '
                     )
                  ORDER BY
-                    pre_scheduled_date ASC";
+                    pre_scheduled_date ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;

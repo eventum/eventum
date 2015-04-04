@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -39,16 +40,16 @@ class Email_Account
      */
     public static function getIssueAutoCreationOptions($ema_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     ema_issue_auto_creation_options
                  FROM
                     {{%email_account}}
                  WHERE
-                    ema_id=?";
+                    ema_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($ema_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         if (!is_string($res)) {
@@ -66,13 +67,13 @@ class Email_Account
      */
     public static function updateIssueAutoCreation($ema_id, $auto_creation, $options)
     {
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%email_account}}
                  SET
                     ema_issue_auto_creation=?,
                     ema_issue_auto_creation_options=?
                  WHERE
-                    ema_id=?";
+                    ema_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($auto_creation, @serialize($options), $ema_id));
         } catch (DbException $e) {
@@ -91,16 +92,16 @@ class Email_Account
      */
     public static function getAccountByEmail($sup_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sup_ema_id
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_id=?";
+                    sup_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sup_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -116,14 +117,14 @@ class Email_Account
      */
     public static function getAccountID($username, $hostname, $mailbox)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     ema_id
                  FROM
                     {{%email_account}}
                  WHERE
                     ema_username=? AND
                     ema_hostname=? AND
-                    ema_folder=?";
+                    ema_folder=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($username, $hostname, $mailbox));
         } catch (DbException $e) {
@@ -159,22 +160,22 @@ class Email_Account
      */
     public static function getDetails($ema_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%email_account}}
                  WHERE
-                    ema_id=?";
+                    ema_id=?';
 
         // IMPORTANT: do not print out $emai_id without sanitizing, it may contain XSS
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($ema_id));
         } catch (DbException $e) {
-            throw new RuntimeException("email account not found");
+            throw new RuntimeException('email account not found');
         }
 
         if (!$res) {
-            throw new RuntimeException("email account not found");
+            throw new RuntimeException('email account not found');
         }
 
         $res['ema_issue_auto_creation_options'] = @unserialize($res['ema_issue_auto_creation_options']);
@@ -226,11 +227,11 @@ class Email_Account
      */
     public static function remove()
     {
-        $items = $_POST["items"];
-        $stmt = "DELETE FROM
+        $items = $_POST['items'];
+        $stmt = 'DELETE FROM
                     {{%email_account}}
                  WHERE
-                    ema_id IN (" . DB_Helper::buildList($items) . ")";
+                    ema_id IN (' . DB_Helper::buildList($items) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
@@ -249,19 +250,19 @@ class Email_Account
      */
     public static function insert()
     {
-        if (empty($_POST["get_only_new"])) {
-            $_POST["get_only_new"] = 0;
+        if (empty($_POST['get_only_new'])) {
+            $_POST['get_only_new'] = 0;
         }
-        if (empty($_POST["leave_copy"])) {
-            $_POST["leave_copy"] = 0;
+        if (empty($_POST['leave_copy'])) {
+            $_POST['leave_copy'] = 0;
         }
-        if (empty($_POST["use_routing"])) {
-            $_POST["use_routing"] = 0;
+        if (empty($_POST['use_routing'])) {
+            $_POST['use_routing'] = 0;
         } elseif ($_POST['use_routing'] == 1) {
             // if an account will be used for routing, you can't leave the message on the server
             $_POST['leave_copy'] = 0;
         }
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%email_account}}
                  (
                     ema_prj_id,
@@ -277,18 +278,18 @@ class Email_Account
                  ) VALUES (
                     ?, ?, ?, ?, ?,
                     ?, ?, ?, ?, ?
-                 )";
+                 )';
         $params = array(
-            $_POST["project"],
-            $_POST["type"],
-            $_POST["hostname"],
-            $_POST["port"],
-            @$_POST["folder"],
-            $_POST["username"],
-            $_POST["password"],
-            $_POST["get_only_new"],
-            $_POST["leave_copy"],
-            $_POST["use_routing"],
+            $_POST['project'],
+            $_POST['type'],
+            $_POST['hostname'],
+            $_POST['port'],
+            @$_POST['folder'],
+            $_POST['username'],
+            $_POST['password'],
+            $_POST['get_only_new'],
+            $_POST['leave_copy'],
+            $_POST['use_routing'],
         );
 
         try {
@@ -307,19 +308,19 @@ class Email_Account
      */
     public static function update()
     {
-        if (empty($_POST["get_only_new"])) {
-            $_POST["get_only_new"] = 0;
+        if (empty($_POST['get_only_new'])) {
+            $_POST['get_only_new'] = 0;
         }
-        if (empty($_POST["leave_copy"])) {
-            $_POST["leave_copy"] = 0;
+        if (empty($_POST['leave_copy'])) {
+            $_POST['leave_copy'] = 0;
         }
-        if (empty($_POST["use_routing"])) {
-            $_POST["use_routing"] = 0;
+        if (empty($_POST['use_routing'])) {
+            $_POST['use_routing'] = 0;
         } elseif ($_POST['use_routing'] == 1) {
             // if an account will be used for routing, you can't leave the message on the server
             $_POST['leave_copy'] = 0;
         }
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%email_account}}
                  SET
                     ema_prj_id=?,
@@ -333,19 +334,19 @@ class Email_Account
                     ema_leave_copy=?,
                     ema_use_routing=?
                  WHERE
-                    ema_id=?";
+                    ema_id=?';
         $params = array(
-            $_POST["project"],
-            $_POST["type"],
-            $_POST["hostname"],
-            $_POST["port"],
-            @$_POST["folder"],
-            $_POST["username"],
-            $_POST["password"],
-            $_POST["get_only_new"],
-            $_POST["leave_copy"],
-            $_POST["use_routing"],
-            $_POST["id"],
+            $_POST['project'],
+            $_POST['type'],
+            $_POST['hostname'],
+            $_POST['port'],
+            @$_POST['folder'],
+            $_POST['username'],
+            $_POST['password'],
+            $_POST['get_only_new'],
+            $_POST['leave_copy'],
+            $_POST['use_routing'],
+            $_POST['id'],
         );
 
         try {
@@ -365,20 +366,20 @@ class Email_Account
      */
     public static function getList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%email_account}}
                  ORDER BY
-                    ema_hostname";
+                    ema_hostname';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]["prj_title"] = Project::getName($res[$i]["ema_prj_id"]);
+            $res[$i]['prj_title'] = Project::getName($res[$i]['ema_prj_id']);
         }
 
         return $res;
@@ -409,13 +410,13 @@ class Email_Account
                     {{%project}}
                  WHERE
                     prj_id = ema_prj_id AND
-                    ema_prj_id IN (" . DB_Helper::buildList($projects) . ")
+                    ema_prj_id IN (" . DB_Helper::buildList($projects) . ')
                  ORDER BY
-                    ema_title";
+                    ema_title';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt, $projects);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -433,18 +434,18 @@ class Email_Account
         if ($prj_id == false) {
             $prj_id = Auth::getCurrentProject();
         }
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     ema_id
                  FROM
                     {{%email_account}}
                  WHERE
                     ema_prj_id=?
                  LIMIT
-                    1 OFFSET 0";
+                    1 OFFSET 0';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -459,18 +460,18 @@ class Email_Account
      */
     public function getEmailAccountByIssueID($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     ema_id
                  FROM
                     {{%email_account}},
                     {{%issue}}
                  WHERE
                     ema_prj_id=iss_prj_id AND
-                    iss_id=?";
+                    iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;

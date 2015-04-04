@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,13 +31,13 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("requirement.tpl.html");
+$tpl->setTemplate('requirement.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
-if (@$_POST["cat"] == "set_analysis") {
-    $res = Impact_Analysis::update($_POST["isr_id"]);
-    $tpl->assign("set_analysis_result", $res);
+if (@$_POST['cat'] == 'set_analysis') {
+    $res = Impact_Analysis::update($_POST['isr_id']);
+    $tpl->assign('set_analysis_result', $res);
 }
 
 $tpl->displayTemplate();

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,11 +31,11 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/email_accounts.tpl.html");
+$tpl->setTemplate('manage/email_accounts.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$tpl->assign("all_projects", Project::getAll());
+$tpl->assign('all_projects', Project::getAll());
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('administrator')) {
@@ -43,26 +44,26 @@ if ($role_id < User::getRoleID('administrator')) {
     exit;
 }
 
-if (@$_POST["cat"] == "new") {
+if (@$_POST['cat'] == 'new') {
     Misc::mapMessages(Email_Account::insert(), array(
             1   =>  array(ev_gettext('Thank you, the email account was added successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to add the new account.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "update") {
+} elseif (@$_POST['cat'] == 'update') {
     Misc::mapMessages(Email_Account::update(), array(
             1   =>  array(ev_gettext('Thank you, the email account was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to update the account information.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "delete") {
+} elseif (@$_POST['cat'] == 'delete') {
     Misc::mapMessages(Email_Account::remove(), array(
             1   =>  array(ev_gettext('Thank you, the email account was deleted successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to delete the account information.'), Misc::MSG_ERROR),
     ));
 }
 
-if (@$_GET["cat"] == "edit") {
-    $tpl->assign("info", Email_Account::getDetails($_GET["id"]));
+if (@$_GET['cat'] == 'edit') {
+    $tpl->assign('info', Email_Account::getDetails($_GET['id']));
 }
-$tpl->assign("list", Email_Account::getList());
+$tpl->assign('list', Email_Account::getList());
 
 $tpl->displayTemplate();

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -46,7 +47,7 @@ class Group
      */
     public static function insert()
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%group}}
                  (
                     grp_name,
@@ -54,8 +55,8 @@ class Group
                     grp_manager_usr_id
                  ) VALUES (
                     ?, ?, ?
-                 )";
-        $params = array($_POST["group_name"], $_POST["description"], $_POST["manager"]);
+                 )';
+        $params = array($_POST['group_name'], $_POST['description'], $_POST['manager']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
@@ -64,9 +65,9 @@ class Group
 
         $grp_id = DB_Helper::get_last_insert_id();
 
-        self::setProjects($grp_id, $_POST["projects"]);
+        self::setProjects($grp_id, $_POST['projects']);
 
-        foreach ($_POST["users"] as $usr_id) {
+        foreach ($_POST['users'] as $usr_id) {
             User::setGroupID($usr_id, $grp_id);
         }
 
@@ -80,32 +81,32 @@ class Group
      */
     public static function update()
     {
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%group}}
                  SET
                     grp_name = ?,
                     grp_description = ?,
                     grp_manager_usr_id = ?
                  WHERE
-                    grp_id = ?";
-        $params = array($_POST["group_name"], $_POST["description"], $_POST["manager"], $_POST["id"]);
+                    grp_id = ?';
+        $params = array($_POST['group_name'], $_POST['description'], $_POST['manager'], $_POST['id']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
 
-        self::setProjects($_POST["id"], $_POST["projects"]);
+        self::setProjects($_POST['id'], $_POST['projects']);
         // get old users so we can remove any ones that have been removed
-        $existing_users = self::getUsers($_POST["id"]);
-        $diff = array_diff($existing_users, $_POST["users"]);
+        $existing_users = self::getUsers($_POST['id']);
+        $diff = array_diff($existing_users, $_POST['users']);
         if (count($diff) > 0) {
             foreach ($diff as $usr_id) {
                 User::setGroupID($usr_id, false);
             }
         }
-        foreach ($_POST["users"] as $usr_id) {
-            User::setGroupID($usr_id, $_POST["id"]);
+        foreach ($_POST['users'] as $usr_id) {
+            User::setGroupID($usr_id, $_POST['id']);
         }
 
         return 1;
@@ -118,14 +119,14 @@ class Group
      */
     public static function remove()
     {
-        $items = $_POST["items"];
+        $items = $_POST['items'];
         foreach ($items as $grp_id) {
             $users = self::getUsers($grp_id);
 
-            $stmt = "DELETE FROM
+            $stmt = 'DELETE FROM
                         {{%group}}
                      WHERE
-                        grp_id = ?";
+                        grp_id = ?';
             try {
                 DB_Helper::getInstance()->query($stmt, array($grp_id));
             } catch (DbException $e) {
@@ -157,14 +158,14 @@ class Group
 
         // make new associations
         foreach ($projects as $prj_id) {
-            $stmt = "INSERT INTO
+            $stmt = 'INSERT INTO
                         {{%project_group}}
                      (
                         pgr_prj_id,
                         pgr_grp_id
                      ) VALUES (
                         ?, ?
-                     )";
+                     )';
             try {
                 DB_Helper::getInstance()->query($stmt, array($prj_id, $grp_id));
             } catch (DbException $e) {
@@ -184,10 +185,10 @@ class Group
     private function removeProjectsByGroup($grp_id)
     {
         // delete all current associations
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%project_group}}
                  WHERE
-                    pgr_grp_id = ?";
+                    pgr_grp_id = ?';
         try {
             DB_Helper::getInstance()->query($stmt, array($grp_id));
         } catch (DbException $e) {
@@ -206,11 +207,11 @@ class Group
     public static function disassociateProjects($projects)
     {
         // delete all current associations
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%project_group}}
                  WHERE
 
-                    pgr_prj_id IN (" . DB_Helper::buildList($projects) . ")";
+                    pgr_prj_id IN (' . DB_Helper::buildList($projects) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $projects);
         } catch (DbException $e) {
@@ -234,14 +235,14 @@ class Group
             return $returns[$grp_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     grp_name,
                     grp_description,
                     grp_manager_usr_id
                  FROM
                     {{%group}}
                  WHERE
-                    grp_id = ?";
+                    grp_id = ?';
 
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($grp_id));
@@ -250,10 +251,10 @@ class Group
         }
 
         if (count($res) > 0) {
-            $res["users"] = self::getUsers($grp_id);
-            $res["projects"] = self::getProjects($grp_id);
-            $res["project_ids"] = array_keys($res["projects"]);
-            $res["manager"] = User::getFullName($res["grp_manager_usr_id"]);
+            $res['users'] = self::getUsers($grp_id);
+            $res['projects'] = self::getProjects($grp_id);
+            $res['project_ids'] = array_keys($res['projects']);
+            $res['manager'] = User::getFullName($res['grp_manager_usr_id']);
         } else {
             $res = array();
         }
@@ -271,14 +272,14 @@ class Group
     public static function getName($grp_id)
     {
         if (!$grp_id) {
-            return "";
+            return '';
         }
         $details = self::getDetails($grp_id);
         if (count($details) < 1) {
-            return "";
+            return '';
         }
 
-        return $details["grp_name"];
+        return $details['grp_name'];
     }
 
     /**
@@ -288,7 +289,7 @@ class Group
      */
     public static function getList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     grp_id,
                     grp_name,
                     grp_description,
@@ -296,7 +297,7 @@ class Group
                  FROM
                     {{%group}}
                  ORDER BY
-                    grp_name";
+                    grp_name';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
@@ -304,9 +305,9 @@ class Group
         }
 
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]["users"] = self::getUsers($res[$i]['grp_id']);
-            $res[$i]["projects"] = self::getProjects($res[$i]['grp_id']);
-            $res[$i]["manager"] = User::getFullName($res[$i]["grp_manager_usr_id"]);
+            $res[$i]['users'] = self::getUsers($res[$i]['grp_id']);
+            $res[$i]['projects'] = self::getProjects($res[$i]['grp_id']);
+            $res[$i]['manager'] = User::getFullName($res[$i]['grp_manager_usr_id']);
         }
 
         return $res;
@@ -326,7 +327,7 @@ class Group
             return $list[$prj_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     grp_id,
                     grp_name
                  FROM
@@ -336,7 +337,7 @@ class Group
                     grp_id = pgr_grp_id AND
                     pgr_prj_id = ?
                  ORDER BY
-                    grp_name";
+                    grp_name';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
@@ -356,17 +357,17 @@ class Group
      */
     public static function getAssocListAllProjects()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     grp_id,
                     grp_name
                  FROM
                     {{%group}}
                  ORDER BY
-                    grp_name";
+                    grp_name';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -380,12 +381,12 @@ class Group
      */
     public function getUsers($grp_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     usr_id
                  FROM
                     {{%user}}
                  WHERE
-                    usr_grp_id = ?";
+                    usr_grp_id = ?';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($grp_id));
         } catch (DbException $e) {
@@ -403,7 +404,7 @@ class Group
      */
     public function getProjects($grp_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     pgr_prj_id,
                     prj_title
                  FROM
@@ -411,7 +412,7 @@ class Group
                     {{%project}}
                  WHERE
                     pgr_prj_id = prj_id AND
-                    pgr_grp_id = ?";
+                    pgr_grp_id = ?';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($grp_id));
         } catch (DbException $e) {
@@ -429,14 +430,14 @@ class Group
      */
     public function getGroupByName($name)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     grp_id
                  FROM
                     {{%group}},
                     {{%project_group}}
                  WHERE
                     grp_id = pgr_grp_id AND
-                    grp_name = ?";
+                    grp_name = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($name));
         } catch (DbException $e) {

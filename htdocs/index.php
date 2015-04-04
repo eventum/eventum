@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -37,7 +38,7 @@ if (!Misc::isWritableDirectory(APP_TPL_COMPILE_PATH)) {
 }
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("index.tpl.html");
+$tpl->setTemplate('index.tpl.html');
 
 // log anonymous users out so they can use the login form
 if (Auth::hasValidCookie(APP_COOKIE) && Auth::isAnonUser()) {
@@ -46,18 +47,18 @@ if (Auth::hasValidCookie(APP_COOKIE) && Auth::isAnonUser()) {
 
 if (Auth::hasValidCookie(APP_COOKIE) && !Auth::isAnonUser()) {
     $cookie = Auth::getCookieInfo(APP_COOKIE);
-    if (!empty($_REQUEST["url"])) {
-        $extra = '?url=' . $_REQUEST["url"];
+    if (!empty($_REQUEST['url'])) {
+        $extra = '?url=' . $_REQUEST['url'];
     } else {
         $extra = '';
     }
-    Auth::redirect("select_project.php" . $extra);
+    Auth::redirect('select_project.php' . $extra);
 }
 
 $projects = Project::getAnonymousList();
 if (empty($projects)) {
-    $tpl->assign("anonymous_post", 0);
+    $tpl->assign('anonymous_post', 0);
 } else {
-    $tpl->assign("anonymous_post", 1);
+    $tpl->assign('anonymous_post', 1);
 }
 $tpl->displayTemplate();

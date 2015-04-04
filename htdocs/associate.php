@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,7 +31,7 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("associate.tpl.html");
+$tpl->setTemplate('associate.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
@@ -40,13 +41,13 @@ if (@$_POST['cat'] == 'associate') {
         if ($res == 1) {
             Workflow::handleManualEmailAssociation(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id']);
         }
-        $tpl->assign("associate_result", $res);
+        $tpl->assign('associate_result', $res);
     } elseif ($_POST['target'] == 'reference') {
         $res = Support::associateEmail(Auth::getUserID(), $_POST['issue_id'], $_POST['item']);
         if ($res == 1) {
             Workflow::handleManualEmailAssociation(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id']);
         }
-        $tpl->assign("associate_result", $res);
+        $tpl->assign('associate_result', $res);
     } else {
         foreach ($_POST['item'] as $item) {
             $email = Support::getEmailDetails(Email_Account::getAccountByEmail($item), $item);
@@ -59,12 +60,12 @@ if (@$_POST['cat'] == 'associate') {
             $res = Note::insert(Auth::getUserID(), $_POST['issue_id'], false, true, false, true, true);
             // remove the associated email
             if ($res) {
-                list($_POST["from"]) = Support::getSender(array($item));
+                list($_POST['from']) = Support::getSender(array($item));
                 Workflow::handleBlockedEmail(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id'], $_POST, 'associated');
                 Support::removeEmail($item);
             }
         }
-        $tpl->assign("associate_result", $res);
+        $tpl->assign('associate_result', $res);
     }
     @$tpl->assign('total_emails', count($_POST['item']));
 } else {
@@ -113,6 +114,6 @@ if (@$_POST['cat'] == 'associate') {
     }
 }
 
-$tpl->assign("current_user_prefs", Prefs::get(Auth::getUserID()));
+$tpl->assign('current_user_prefs', Prefs::get(Auth::getUserID()));
 
 $tpl->displayTemplate();

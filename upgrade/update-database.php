@@ -7,7 +7,7 @@ define('CONFIG_PATH', INSTALL_PATH . '/config');
 // avoid setup redirecting us
 if (!file_exists(CONFIG_PATH . '/setup.php') || !filesize(CONFIG_PATH . '/setup.php') || !is_readable(CONFIG_PATH . '/setup.php')) {
     error_log("ERROR: Can't get setup.php in '" . CONFIG_PATH . "'");
-    error_log("Did you forgot to copy config from old install? Is file readable?");
+    error_log('Did you forgot to copy config from old install? Is file readable?');
     exit(1);
 }
 
@@ -66,7 +66,7 @@ function read_patches($update_path)
 function init_database()
 {
     $file = __DIR__ . '/schema.sql';
-    echo "* Creating database: ", basename($file), "\n";
+    echo '* Creating database: ', basename($file), "\n";
     exec_sql_file($file);
 }
 
@@ -79,10 +79,10 @@ function patch_database()
         init_database();
     }
 
-    $last_patch = $db->getOne("SELECT ver_version FROM {{%version}}");
+    $last_patch = $db->getOne('SELECT ver_version FROM {{%version}}');
     if (!isset($last_patch)) {
         // insert initial value
-        $db->query("INSERT INTO {{%version}} SET ver_version=0");
+        $db->query('INSERT INTO {{%version}} SET ver_version=0');
         $last_patch = 0;
     }
 
@@ -91,7 +91,7 @@ function patch_database()
     $addCount = 0;
     foreach ($files as $number => $file) {
         if ($number > $last_patch) {
-            echo "* Applying patch: ", $number, " (", basename($file), ")\n";
+            echo '* Applying patch: ', $number, ' (', basename($file), ")\n";
             exec_sql_file($file);
             $db->query("UPDATE {{%version}} SET ver_version=$number");
             $addCount++;

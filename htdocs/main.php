@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,7 +31,7 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("main.tpl.html");
+$tpl->setTemplate('main.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
@@ -60,35 +61,35 @@ if ($role_id == User::getRoleID('customer')) {
     $contact_id = User::getCustomerContactID($usr_id);
     $customer_id = Auth::getCurrentCustomerID();
     $tpl->assign(array(
-        "contact"   =>  $crm->getContact($contact_id),
-        "customer"  =>  $crm->getCustomer($customer_id),
+        'contact'   =>  $crm->getContact($contact_id),
+        'customer'  =>  $crm->getCustomer($customer_id),
     ));
 } else {
-    if ((Auth::getCurrentRole() <= User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id))) {
+    if ((Auth::getCurrentRole() <= User::getRoleID('Reporter')) && (Project::getSegregateReporters($prj_id))) {
         $tpl->assign('hide_stats', true);
     } else {
         $tpl->assign('hide_stats', false);
-        $tpl->assign("status", Stats::getStatus());
-        $tpl->assign("releases", Stats::getRelease($hide_closed));
-        $tpl->assign("categories", Stats::getCategory($hide_closed));
-        $tpl->assign("priorities", Stats::getPriority($hide_closed));
-        $tpl->assign("users", Stats::getUser($hide_closed));
-        $tpl->assign("emails", Stats::getEmailStatus($hide_closed));
-        $tpl->assign("pie_chart", Stats::getPieChart($hide_closed));
+        $tpl->assign('status', Stats::getStatus());
+        $tpl->assign('releases', Stats::getRelease($hide_closed));
+        $tpl->assign('categories', Stats::getCategory($hide_closed));
+        $tpl->assign('priorities', Stats::getPriority($hide_closed));
+        $tpl->assign('users', Stats::getUser($hide_closed));
+        $tpl->assign('emails', Stats::getEmailStatus($hide_closed));
+        $tpl->assign('pie_chart', Stats::getPieChart($hide_closed));
     }
 }
 
 if (@$_REQUEST['hide_closed'] == '') {
-    $Stats_Search_Profile = Search_Profile::getProfile($usr_id, $prj_id, "stats");
+    $Stats_Search_Profile = Search_Profile::getProfile($usr_id, $prj_id, 'stats');
 
     if (!empty($Stats_Search_Profile)) {
-        $tpl->assign("hide_closed", $Stats_Search_Profile['hide_closed']);
+        $tpl->assign('hide_closed', $Stats_Search_Profile['hide_closed']);
     }
 } else {
-    $tpl->assign("hide_closed", @$_REQUEST['hide_closed']);
-    Search_Profile::save($usr_id, $prj_id, "stats", array('hide_closed' => @$_REQUEST['hide_closed']));
+    $tpl->assign('hide_closed', @$_REQUEST['hide_closed']);
+    Search_Profile::save($usr_id, $prj_id, 'stats', array('hide_closed' => @$_REQUEST['hide_closed']));
 }
 
-$tpl->assign("news", News::getListByProject($prj_id));
+$tpl->assign('news', News::getListByProject($prj_id));
 
 $tpl->displayTemplate();

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -38,7 +39,7 @@ class Example_Partner_Backend extends Abstract_Partner_Backend
 
     public function getName()
     {
-        return "Example";
+        return 'Example';
     }
 
     public function issueAdded($iss_id)
@@ -68,7 +69,7 @@ class Example_Partner_Backend extends Abstract_Partner_Backend
 
     public function getIssueMessage($iss_id)
     {
-        return "foo blah blah";
+        return 'foo blah blah';
     }
 
     public static function canUserAccessFeature($usr_id, $feature)

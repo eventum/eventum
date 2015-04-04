@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -46,7 +47,7 @@ class Note
      */
     public static function getSideLinks($issue_id, $not_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     not_id
                  FROM
                     {{%note}}
@@ -54,11 +55,11 @@ class Note
                     not_iss_id=? AND
                     not_removed = 0
                  ORDER BY
-                    not_created_date ASC";
+                    not_created_date ASC';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($issue_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         $index = array_search($not_id, $res);
@@ -70,8 +71,8 @@ class Note
         }
 
         return array(
-            "next"     => @$next,
-            "previous" => @$previous
+            'next'     => @$next,
+            'previous' => @$previous
         );
     }
 
@@ -83,7 +84,7 @@ class Note
      */
     public static function getDetails($note_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     {{%note}}.*,
                     not_full_message,
                     usr_full_name
@@ -92,7 +93,7 @@ class Note
                     {{%user}}
                  WHERE
                     not_usr_id=usr_id AND
-                    not_id=?";
+                    not_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($note_id));
         } catch (DbException $e) {
@@ -107,13 +108,13 @@ class Note
             } else {
                 $res['has_blocked_message'] = false;
             }
-            if (!empty($res["not_unknown_user"])) {
-                $res["not_from"] = $res["not_unknown_user"];
+            if (!empty($res['not_unknown_user'])) {
+                $res['not_from'] = $res['not_unknown_user'];
             } else {
-                $res["not_from"] = User::getFullName($res['not_usr_id']);
+                $res['not_from'] = User::getFullName($res['not_usr_id']);
             }
             if ($res['not_has_attachment']) {
-                $res["attachments"] = Mime_Helper::getAttachmentCIDs($res['not_full_message']);
+                $res['attachments'] = Mime_Helper::getAttachmentCIDs($res['not_full_message']);
             }
 
             return $res;
@@ -136,7 +137,7 @@ class Note
             return $issue_note_numbers[$issue_id][$note_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     not_id,
                     not_iss_id
                 FROM
@@ -145,11 +146,11 @@ class Note
                     not_iss_id = ? AND
                     not_removed = 0
                 ORDER BY
-                    not_created_date ASC";
+                    not_created_date ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         $sequence_number = 1;
@@ -173,12 +174,12 @@ class Note
      */
     public static function getBlockedMessage($note_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     not_full_message
                  FROM
                     {{%note}}
                  WHERE
-                    not_id=?";
+                    not_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($note_id));
         } catch (DbException $e) {
@@ -196,12 +197,12 @@ class Note
      */
     public static function getIssueID($note_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     not_iss_id
                  FROM
                     {{%note}}
                  WHERE
-                    not_id=?";
+                    not_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($note_id));
         } catch (DbException $e) {
@@ -248,12 +249,12 @@ class Note
      */
     public function getUnknownUser($note_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     not_unknown_user
                 FROM
                     {{%note}}
                  WHERE
-                    not_id=?";
+                    not_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($note_id));
         } catch (DbException $e) {
@@ -316,7 +317,7 @@ class Note
                 Notification::subscribeUser($usr_id, $issue_id, $note_cc[$i], Notification::getDefaultActions($issue_id, User::getEmail($usr_id), 'note'));
             }
         }
-        if (Validation::isWhitespace($_POST["note"])) {
+        if (Validation::isWhitespace($_POST['note'])) {
             return -2;
         }
 
@@ -328,8 +329,8 @@ class Note
             'not_iss_id' => $issue_id,
             'not_usr_id' => $usr_id,
             'not_created_date' => Date_Helper::getCurrentDateGMT(),
-            'not_note' => $_POST["note"],
-            'not_title' => $_POST["title"]
+            'not_note' => $_POST['note'],
+            'not_title' => $_POST['title']
         );
 
         if (!@empty($_POST['full_message'])) {
@@ -350,9 +351,9 @@ class Note
             $params['not_unknown_user'] = $unknown_user;
         }
 
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%note}}
-                 SET ". DB_Helper::buildSet($params);
+                 SET '. DB_Helper::buildSet($params);
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -414,26 +415,26 @@ class Note
      */
     public static function remove($note_id, $log = true)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     not_iss_id,
                     not_usr_id,
                     not_is_blocked AS has_blocked_message
                  FROM
                     {{%note}}
                  WHERE
-                    not_id=?";
+                    not_id=?';
 
         $details = DB_Helper::getInstance()->getRow($stmt, array($note_id));
-        if ($details['not_usr_id'] != Auth::getUserID() && $details['has_blocked_message'] != 1 && Auth::getCurrentRole() < User::getRoleID("Manager")) {
+        if ($details['not_usr_id'] != Auth::getUserID() && $details['has_blocked_message'] != 1 && Auth::getCurrentRole() < User::getRoleID('Manager')) {
             return -2;
         }
 
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%note}}
                  SET
                     not_removed = 1
                  WHERE
-                    not_id=?";
+                    not_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($note_id));
         } catch (DbException $e) {
@@ -467,7 +468,7 @@ class Note
      */
     public static function getListing($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     not_id,
                     not_created_date,
                     not_title,
@@ -484,11 +485,11 @@ class Note
                     not_iss_id=? AND
                     not_removed = 0
                  ORDER BY
-                    not_created_date ASC";
+                    not_created_date ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         // only show the internal notes for users with the appropriate permission level
@@ -501,11 +502,11 @@ class Note
 
             // Display not_unknown_user instead of usr_full_name if not null.
             // This is so the original sender of a blocked email is displayed on the note.
-            if (!empty($res[$i]["not_unknown_user"])) {
-                $res[$i]["usr_full_name"] = $res[$i]["not_unknown_user"];
+            if (!empty($res[$i]['not_unknown_user'])) {
+                $res[$i]['usr_full_name'] = $res[$i]['not_unknown_user'];
             }
 
-            $res[$i]["not_created_date"] = Date_Helper::getFormattedDate($res[$i]["not_created_date"]);
+            $res[$i]['not_created_date'] = Date_Helper::getFormattedDate($res[$i]['not_created_date']);
             $t[] = $res[$i];
         }
 
@@ -588,7 +589,7 @@ class Note
                 Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $t, $internal_only, false, '', $sup_id);
                 Issue::markAsUpdated($issue_id, $update_type);
                 self::remove($note_id, false);
-                $summary = "Note converted to e-mail (from: " . @$structure->headers['from'] . ") by " . User::getFullName(Auth::getUserID());
+                $summary = 'Note converted to e-mail (from: ' . @$structure->headers['from'] . ') by ' . User::getFullName(Auth::getUserID());
                 History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_email'), $summary);
                 // now add sender as an authorized replier
                 if ($authorize_sender) {
@@ -610,7 +611,7 @@ class Note
         // remove the note, if the draft was created successfully
         if ($res) {
             self::remove($note_id, false);
-            $summary = "Note converted to draft (from: " . @$structure->headers['from'] . ") by " . User::getFullName(Auth::getUserID());
+            $summary = 'Note converted to draft (from: ' . @$structure->headers['from'] . ') by ' . User::getFullName(Auth::getUserID());
             History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_draft'), $summary);
         }
 
@@ -627,7 +628,7 @@ class Note
      */
     public static function getCountByUser($usr_id, $start, $end)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(not_id)
                  FROM
                     {{%note}},
@@ -637,12 +638,12 @@ class Note
                     iss_prj_id = ? AND
                     not_created_date BETWEEN ? AND ? AND
                     not_usr_id = ? AND
-                    not_removed = 0";
+                    not_removed = 0';
         $params = array(Auth::getCurrentProject(), $start, $end, $usr_id);
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -656,12 +657,12 @@ class Note
      */
     public static function setAttachmentFlag($note_id)
     {
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%note}}
                  SET
                     not_has_attachment=1
                  WHERE
-                    not_id=?";
+                    not_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($note_id));
         } catch (DbException $e) {
@@ -679,13 +680,13 @@ class Note
      */
     public function getTotalNotesByIssue($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(*)
                  FROM
                     {{%note}}
                  WHERE
                     not_iss_id=? AND
-                    not_removed = 0";
+                    not_removed = 0';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -707,16 +708,16 @@ class Note
         if (!$message_id) {
             return false;
         }
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     not_iss_id
                  FROM
                     {{%note}}
                  WHERE
-                    not_message_id=?";
+                    not_message_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($message_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -733,14 +734,14 @@ class Note
         if (!$message_id) {
             return false;
         }
-        $sql = "SELECT
+        $sql = 'SELECT
                     parent.not_message_id
                 FROM
                     {{%note}} child,
                     {{%note}} parent
                 WHERE
                     parent.not_id = child.not_parent_id AND
-                    child.not_message_id = ?";
+                    child.not_message_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($message_id));
         } catch (DbException $e) {
@@ -766,12 +767,12 @@ class Note
         if (!$message_id) {
             return false;
         }
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     not_id
                  FROM
                     {{%note}}
                  WHERE
-                    not_message_id=?";
+                    not_message_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($message_id));
         } catch (DbException $e) {
@@ -794,12 +795,12 @@ class Note
      */
     public static function getMessageIDbyID($id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     not_message_id
                  FROM
                     {{%note}}
                  WHERE
-                    not_id=?";
+                    not_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($id));
         } catch (DbException $e) {
@@ -821,12 +822,12 @@ class Note
      */
     public static function exists($message_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     count(*)
                 FROM
                     {{%note}}
                 WHERE
-                    not_message_id = ?";
+                    not_message_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($message_id));
         } catch (DbException $e) {

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -34,7 +35,7 @@ if (empty($_GET['fld_id'])) {
 }
 
 $backend = Custom_Field::getBackend($_GET['fld_id']);
-if (is_object($backend) && is_subclass_of($backend, "Dynamic_Custom_Field_Backend")) {
+if (is_object($backend) && is_subclass_of($backend, 'Dynamic_Custom_Field_Backend')) {
     header('Content-Type: application/json; charset=UTF-8');
     echo json_encode($backend->getDynamicOptions($_GET));
 }

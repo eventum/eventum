@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -101,14 +102,14 @@ class SCM
      */
     public static function getCheckinList($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%issue_checkin}}
                  WHERE
                     isc_iss_id=?
                  ORDER BY
-                    isc_created_date ASC";
+                    isc_created_date ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -126,13 +127,13 @@ class SCM
             $checkin['added'] = !isset($checkin['isc_old_version']);
             $checkin['removed'] = !isset($checkin['isc_new_version']);
 
-            $checkin["isc_commit_msg"] = Link_Filter::processText(
-                Issue::getProjectID($issue_id), nl2br(htmlspecialchars($checkin["isc_commit_msg"]))
+            $checkin['isc_commit_msg'] = Link_Filter::processText(
+                Issue::getProjectID($issue_id), nl2br(htmlspecialchars($checkin['isc_commit_msg']))
             );
-            $checkin["checkout_url"] = $scm->getCheckoutUrl($checkin);
-            $checkin["diff_url"] = $scm->getDiffUrl($checkin);
-            $checkin["scm_log_url"] = $scm->getLogUrl($checkin);
-            $checkin["isc_created_date"] = Date_Helper::getFormattedDate($checkin["isc_created_date"]);
+            $checkin['checkout_url'] = $scm->getCheckoutUrl($checkin);
+            $checkin['diff_url'] = $scm->getDiffUrl($checkin);
+            $checkin['scm_log_url'] = $scm->getLogUrl($checkin);
+            $checkin['isc_created_date'] = Date_Helper::getFormattedDate($checkin['isc_created_date']);
         }
 
         return $res;
@@ -191,7 +192,7 @@ class SCM
      */
     protected static function insertCheckin($issue_id, $commit_time, $scm_name, $file, $username, $commit_msg)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%issue_checkin}}
                  (
                     isc_iss_id,
@@ -205,7 +206,7 @@ class SCM
                     isc_commit_msg
                  ) VALUES (
                     ?, ?, ?, ?, ?, ?, ?, ?, ?
-                 )";
+                 )';
         $params = array(
             $issue_id,
             $scm_name,

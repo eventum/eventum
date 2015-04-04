@@ -1,7 +1,8 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 
-$db->query("CREATE TABLE {{%user_preference}}
+$db->query('CREATE TABLE {{%user_preference}}
 (
     upr_usr_id int(11) unsigned NOT NULL,
     upr_timezone varchar(100) NOT NULL,
@@ -13,9 +14,9 @@ $db->query("CREATE TABLE {{%user_preference}}
     upr_auto_append_note_sig tinyint(1) DEFAULT 0,
     upr_auto_close_popup_window tinyint(1) DEFAULT 0,
     PRIMARY KEY(upr_usr_id)
-)");
+)');
 
-$db->query("CREATE TABLE {{%user_project_preference}}
+$db->query('CREATE TABLE {{%user_project_preference}}
 (
     upp_usr_id int(11) unsigned NOT NULL,
     upp_prj_id int(11) unsigned NOT NULL,
@@ -23,15 +24,15 @@ $db->query("CREATE TABLE {{%user_project_preference}}
     upp_receive_new_issue_email tinyint(1) DEFAULT 0,
     upp_receive_copy_of_own_action tinyint(1) DEFAULT 0,
     PRIMARY KEY(upp_usr_id, upp_prj_id)
-)");
+)');
 
-$sql = "SELECT
+$sql = 'SELECT
             usr_id,
             usr_preferences
         FROM
             {{%user}}
         ORDER BY
-            usr_id DESC";
+            usr_id DESC';
 $res = $db->getAll($sql);
 
 foreach ($res as $row) {

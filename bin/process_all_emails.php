@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -42,7 +43,7 @@ if (is_array($return)) {
     exit($return[0]);
 } elseif ($return === false) {
     // message was not able to be routed
-    echo "no route";
+    echo 'no route';
     exit(Routing::EX_NOUSER);
 }
 

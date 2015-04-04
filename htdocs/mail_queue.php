@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,21 +31,21 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("mail_queue.tpl.html");
+$tpl->setTemplate('mail_queue.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$issue_id = $_GET["iss_id"];
+$issue_id = $_GET['iss_id'];
 
 if ((Auth::getCurrentRole() < User::getRoleID('Developer')) ||
         (Issue::getProjectID($issue_id) != Auth::getCurrentProject())) {
-    $tpl->assign("denied", 1);
+    $tpl->assign('denied', 1);
 } else {
     $data = Mail_Queue::getListByIssueID($issue_id);
 
     $tpl->assign(array(
-                    "data"  =>  $data,
-                    "issue_id"  =>  $issue_id
+                    'data'  =>  $data,
+                    'issue_id'  =>  $issue_id
     ));
 }
 $tpl->displayTemplate();

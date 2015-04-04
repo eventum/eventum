@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -138,11 +139,11 @@ class Date_Helper
         $now_ts = self::getDateTime($now)->getTimestamp();
         $old_ts = self::getDateTime($date)->getTimestamp();
         $value = (integer) (($now_ts - $old_ts) / self::DAY);
-        $ret = sprintf("%d", round($value, 1)) . "d";
+        $ret = sprintf('%d', round($value, 1)) . 'd';
         $mod = (integer) (($now_ts - $old_ts) % self::DAY);
         $mod = (integer) ($mod / self::HOUR);
 
-        return $ret . " " . $mod . "h";
+        return $ret . ' ' . $mod . 'h';
     }
 
     /**
@@ -253,7 +254,7 @@ class Date_Helper
     {
         $date = self::getDateTime($ts, $timezone);
 
-        return self::formatLocalized($date, "%a, %d %b %Y, %H:%M:%S %Z");
+        return self::formatLocalized($date, '%a, %d %b %Y, %H:%M:%S %Z');
     }
 
     /**
@@ -367,7 +368,7 @@ class Date_Helper
         $options = array();
 
         // get current week details
-        $current_start = date("U") - (self::DAY * (date("w") - 1));
+        $current_start = date('U') - (self::DAY * (date('w') - 1));
 
         // previous weeks
         for ($week = $weeks_past; $week > 0; $week--) {
@@ -394,10 +395,10 @@ class Date_Helper
      */
     public static function getCurrentWeek()
     {
-        $value_format = "Y-m-d";
-        $start = date("U") - (self::DAY * (date("w") - 1));
+        $value_format = 'Y-m-d';
+        $start = date('U') - (self::DAY * (date('w') - 1));
 
-        return date($value_format, $start) . "_" . date($value_format, ($start + (Date_Helper::DAY * 6)));
+        return date($value_format, $start) . '_' . date($value_format, ($start + (Date_Helper::DAY * 6)));
     }
 
     /**
@@ -408,11 +409,11 @@ class Date_Helper
      */
     private static function formatWeekOption($start)
     {
-        $value_format = "Y-m-d";
-        $display_format = "M jS";
+        $value_format = 'Y-m-d';
+        $display_format = 'M jS';
         $end = ($start + (self::DAY * 6));
-        $value = date($value_format, $start) . "_" . date($value_format, $end);
-        $display = date($display_format, $start) . " - " . date($display_format, $end);
+        $value = date($value_format, $start) . '_' . date($value_format, $end);
+        $display = date($display_format, $start) . ' - ' . date($display_format, $end);
 
         return array($value, $display);
     }

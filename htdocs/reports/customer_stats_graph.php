@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -34,7 +35,7 @@ require_once APP_JPGRAPH_PATH . '/jpgraph_bar.php';
 Auth::checkAuthentication(APP_COOKIE);
 
 if (!Access::canAccessReports(Auth::getUserID())) {
-    echo "Invalid role";
+    echo 'Invalid role';
     exit;
 }
 
@@ -42,57 +43,57 @@ if (!Access::canAccessReports(Auth::getUserID())) {
  * Customer Statistics Graphs. Will Graph different items, depending on what is passed to this page.
  */
 
-$data = Session::get("customer_stats_data");
+$data = Session::get('customer_stats_data');
 if (empty($data)) {
-    echo "Unable to load data";
+    echo 'Unable to load data';
     exit;
 }
 
 $colors = array(
-            "#c0c0c0",
-            "#0033ff",
-            "#99ccff",
-            "#00ff66",
-            "#33ffcc",
-            "#ffff66",
-            "#ffffcc",
-            "#ff3333",
-            "#ff9191"
+            '#c0c0c0',
+            '#0033ff',
+            '#99ccff',
+            '#00ff66',
+            '#33ffcc',
+            '#ffff66',
+            '#ffffcc',
+            '#ff3333',
+            '#ff9191'
 );
 $color_index = 0;
 
 $graph_types = Customer_Stats_Report::getGraphTypes();
 
-$graph_id = $_GET["graph_id"];
+$graph_id = $_GET['graph_id'];
 
 $plots = array();
 $max_title_len = 0;
 foreach ($data as $index => $info) {
-    if (strlen($info["title"]) > $max_title_len) {
-        $max_title_len = strlen($info["title"]);
+    if (strlen($info['title']) > $max_title_len) {
+        $max_title_len = strlen($info['title']);
     }
 
     // go through data and convert into something plottable
     $plottable = array();
     switch ($graph_id) {
         case 1:
-            $plottable["Customer Count"] = $info["customer_counts"]["customer_count"];
-            $plottable["Issues"] = $info["issue_counts"]["total"];
-            $plottable["Emails by Staff"] = $info["email_counts"]["developer"]["total"];
-            $plottable["Emails by Customers"] = $info["email_counts"]["customer"]["total"];
+            $plottable['Customer Count'] = $info['customer_counts']['customer_count'];
+            $plottable['Issues'] = $info['issue_counts']['total'];
+            $plottable['Emails by Staff'] = $info['email_counts']['developer']['total'];
+            $plottable['Emails by Customers'] = $info['email_counts']['customer']['total'];
             break;
         case 2:
-            $plottable["Issues"] = $info["issue_counts"]["avg"];
-            $plottable["Emails by Staff"] = $info["email_counts"]["developer"]["avg"];
-            $plottable["Emails by Customers"] = $info["email_counts"]["customer"]["avg"];
+            $plottable['Issues'] = $info['issue_counts']['avg'];
+            $plottable['Emails by Staff'] = $info['email_counts']['developer']['avg'];
+            $plottable['Emails by Customers'] = $info['email_counts']['customer']['avg'];
             break;
         case 3:
-            $plottable["Avg Time to Close"] = $info["time_stats"]["time_to_close"]["avg"] / (60 * 24);
-            $plottable["Median Time to Close"] = $info["time_stats"]["time_to_close"]["median"] / (60 * 24);
+            $plottable['Avg Time to Close'] = $info['time_stats']['time_to_close']['avg'] / (60 * 24);
+            $plottable['Median Time to Close'] = $info['time_stats']['time_to_close']['median'] / (60 * 24);
             break;
         case 4:
-            $plottable["Avg Time to First Response"] = $info["time_stats"]["time_to_first_response"]["avg"] / 60;
-            $plottable["Median Time to First Response"] = $info["time_stats"]["time_to_first_response"]["median"] / 60;
+            $plottable['Avg Time to First Response'] = $info['time_stats']['time_to_first_response']['avg'] / 60;
+            $plottable['Median Time to First Response'] = $info['time_stats']['time_to_first_response']['median'] / 60;
             break;
     }
 
@@ -100,14 +101,14 @@ foreach ($data as $index => $info) {
     $bplot = new BarPlot(array_values($plottable));
     $bplot->showValue(true);
     $bplot->SetValueFont(FF_FONT2, FS_NORMAL, 9);
-    if (!empty($graph_types[$graph_id]["value_format"])) {
-        $value_format = $graph_types[$graph_id]["value_format"];
+    if (!empty($graph_types[$graph_id]['value_format'])) {
+        $value_format = $graph_types[$graph_id]['value_format'];
     } else {
         $value_format = '%d';
     }
     $bplot->SetValueFormat($value_format, 90);
 
-    $bplot->setLegend($info["title"]);
+    $bplot->setLegend($info['title']);
     if (isset($colors[$color_index])) {
         $color = $colors[$color_index];
     } else {
@@ -123,20 +124,20 @@ foreach ($data as $index => $info) {
 // figure out width of legend to propery set margin.
 $legend_width = (imagefontwidth(FF_FONT1) * $max_title_len) + 30;
 
-if (!empty($graph_types[$graph_id]["size"]["group"])) {
-    $width = ($graph_types[$graph_id]["size"]["group"] * count($data)) + 200;
+if (!empty($graph_types[$graph_id]['size']['group'])) {
+    $width = ($graph_types[$graph_id]['size']['group'] * count($data)) + 200;
 } else {
-    $width = $graph_types[$graph_id]["size"]["x"];
+    $width = $graph_types[$graph_id]['size']['x'];
 }
 
-if (!empty($graph_types[$graph_id]["y_label"])) {
-    $y_label = $graph_types[$graph_id]["y_label"];
+if (!empty($graph_types[$graph_id]['y_label'])) {
+    $y_label = $graph_types[$graph_id]['y_label'];
 } else {
-    $y_label = "Count";
+    $y_label = 'Count';
 }
 
-$graph = new Graph($width, $graph_types[$graph_id]["size"]["y"]);
-$graph->SetScale("textlin");
+$graph = new Graph($width, $graph_types[$graph_id]['size']['y']);
+$graph->SetScale('textlin');
 $graph->img->setMargin(60, ($legend_width + 20), 25, 25);
 $graph->yaxis->SetTitleMargin(45);
 $graph->yaxis->scale->setGrace(15, 0);
@@ -151,7 +152,7 @@ $graph->xaxis->SetTickLabels($labels);
 $grouped = new GroupBarPlot($plots);
 $graph->Add($grouped);
 
-$graph->title->Set($graph_types[$graph_id]["title"]);
+$graph->title->Set($graph_types[$graph_id]['title']);
 //$graph->xaxis->title->Set("Support Level");
 //$graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
 $graph->title->SetFont(FF_FONT1, FS_BOLD);

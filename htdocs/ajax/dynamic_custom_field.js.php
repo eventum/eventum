@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -38,7 +39,7 @@ if (!empty($_REQUEST['iss_id'])) {
 $data = array();
 foreach ($fields as $field) {
     $backend = Custom_Field::getBackend($field['fld_id']);
-    if ((is_object($backend)) && (is_subclass_of($backend, "Dynamic_Custom_Field_Backend"))) {
+    if ((is_object($backend)) && (is_subclass_of($backend, 'Dynamic_Custom_Field_Backend'))) {
         $field['structured_data'] = $backend->getStructuredData();
         $data[] = $field;
     }
@@ -46,6 +47,6 @@ foreach ($fields as $field) {
 
 header('Content-Type: text/javascript; charset=UTF-8');
 $tpl = new Template_Helper();
-$tpl->setTemplate("js/dynamic_custom_field.tpl.js");
-$tpl->assign("fields", $data);
+$tpl->setTemplate('js/dynamic_custom_field.tpl.js');
+$tpl->assign('fields', $data);
 $tpl->displayTemplate();

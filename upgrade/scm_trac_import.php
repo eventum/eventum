@@ -55,15 +55,15 @@ function getRevInfo($repository_id, $revision_id)
 {
     global $db;
 
-    $sth = $db->prepare("SELECT * FROM node_change WHERE repos=? AND rev=?");
+    $sth = $db->prepare('SELECT * FROM node_change WHERE repos=? AND rev=?');
     $sth->execute(array($repository_id, $revision_id));
 
     $files = array();
     while ($change = $sth->fetch(PDO::FETCH_ASSOC)) {
         list($module, $filename) = expandPath($change['path']);
 
-        $base_rev = (int) ltrim($change['base_rev'], "0");
-        $rev = (int) ltrim($change['rev'], "0");
+        $base_rev = (int) ltrim($change['base_rev'], '0');
+        $rev = (int) ltrim($change['rev'], '0');
         $file = array(
             'file'        => $filename,
             'old_version' => $base_rev >= 0 ? $base_rev : null,
@@ -85,7 +85,7 @@ function processCommits($repository_id)
 {
     global $db, $scm_name;
 
-    $sth = $db->prepare("SELECT * FROM revision WHERE repos=? AND message LIKE ?");
+    $sth = $db->prepare('SELECT * FROM revision WHERE repos=? AND message LIKE ?');
     $sth->execute(array($repository_id, '%issue%'));
 
     $nissues = $ncommits = 0;

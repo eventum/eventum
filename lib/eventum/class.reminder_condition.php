@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -43,12 +44,12 @@ class Reminder_Condition
      */
     public static function getDetails($rlc_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%reminder_level_condition}}
                  WHERE
-                    rlc_id=?";
+                    rlc_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($rlc_id));
         } catch (DbException $e) {
@@ -65,7 +66,7 @@ class Reminder_Condition
      */
     public static function insert()
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%reminder_level_condition}}
                  (
                     rlc_created_date,
@@ -76,7 +77,7 @@ class Reminder_Condition
                     rlc_comparison_rmf_id
                  ) VALUES (
                     ?, ?, ?, ?, ?, ?
-                 )";
+                 )';
         $params = array(
             Date_Helper::getCurrentDateGMT(),
             $_POST['rma_id'],
@@ -101,7 +102,7 @@ class Reminder_Condition
      */
     public static function update()
     {
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%reminder_level_condition}}
                  SET
                     rlc_last_updated_date=?,
@@ -110,7 +111,7 @@ class Reminder_Condition
                     rlc_value=?,
                     rlc_comparison_rmf_id = ?
                  WHERE
-                    rlc_id=?";
+                    rlc_id=?';
         $params = array(
             Date_Helper::getCurrentDateGMT(),
             $_POST['field'],
@@ -137,11 +138,11 @@ class Reminder_Condition
      */
     public static function remove()
     {
-        $items = $_POST["items"];
-        $stmt = "DELETE FROM
+        $items = $_POST['items'];
+        $stmt = 'DELETE FROM
                     {{%reminder_level_condition}}
                  WHERE
-                    rlc_id IN (" . DB_Helper::buildList($items) . ")";
+                    rlc_id IN (' . DB_Helper::buildList($items) . ')';
         DB_Helper::getInstance()->query($stmt, $items);
     }
 
@@ -154,7 +155,7 @@ class Reminder_Condition
      */
     public static function getList($action_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%reminder_level_condition}},
@@ -163,7 +164,7 @@ class Reminder_Condition
                  WHERE
                     rlc_rma_id=? AND
                     rlc_rmf_id=rmf_id AND
-                    rlc_rmo_id=rmo_id";
+                    rlc_rmo_id=rmo_id';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($action_id));
         } catch (DbException $e) {
@@ -186,7 +187,7 @@ class Reminder_Condition
      */
     public static function getAdminList($rma_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rlc_id,
                     rlc_value,
                     rlc_comparison_rmf_id,
@@ -201,7 +202,7 @@ class Reminder_Condition
                     rlc_rmo_id=rmo_id AND
                     rlc_rma_id=?
                  ORDER BY
-                    rlc_id ASC";
+                    rlc_id ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($rma_id));
         } catch (DbException $e) {
@@ -210,7 +211,7 @@ class Reminder_Condition
 
         for ($i = 0; $i < count($res); $i++) {
             if (!empty($res[$i]['rlc_comparison_rmf_id'])) {
-                $res[$i]['rlc_value'] = ev_gettext("Field") . ': ' . self::getFieldTitle($res[$i]['rlc_comparison_rmf_id']);
+                $res[$i]['rlc_value'] = ev_gettext('Field') . ': ' . self::getFieldTitle($res[$i]['rlc_comparison_rmf_id']);
             } elseif (strtolower($res[$i]['rmf_title']) == 'status') {
                 $res[$i]['rlc_value'] = Status::getStatusTitle($res[$i]['rlc_value']);
             } elseif (strtolower($res[$i]['rmf_title']) == 'category') {
@@ -218,7 +219,7 @@ class Reminder_Condition
             } elseif ((strtolower($res[$i]['rmf_title']) == 'group') || (strtolower($res[$i]['rmf_title']) == 'active group')) {
                 $res[$i]['rlc_value'] = Group::getName($res[$i]['rlc_value']);
             } elseif (strtoupper($res[$i]['rlc_value']) != 'NULL') {
-                $res[$i]['rlc_value'] .= ' ' . ev_gettext("hours");
+                $res[$i]['rlc_value'] .= ' ' . ev_gettext('hours');
             }
         }
 
@@ -233,12 +234,12 @@ class Reminder_Condition
      */
     public static function getFieldTitle($field_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rmf_title
                  FROM
                     {{%reminder_field}}
                  WHERE
-                    rmf_id=?";
+                    rmf_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($field_id));
         } catch (DbException $e) {
@@ -256,12 +257,12 @@ class Reminder_Condition
      */
     public static function getSQLField($field_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rmf_sql_field
                  FROM
                     {{%reminder_field}}
                  WHERE
-                    rmf_id=?";
+                    rmf_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($field_id));
         } catch (DbException $e) {
@@ -288,8 +289,8 @@ class Reminder_Condition
         if ($comparable_only == true) {
             $stmt .= "WHERE rmf_allow_column_compare = 1\n";
         }
-        $stmt .= "ORDER BY
-                    rmf_title ASC";
+        $stmt .= 'ORDER BY
+                    rmf_title ASC';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
@@ -307,13 +308,13 @@ class Reminder_Condition
      */
     public static function getOperatorAdminList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rmo_id,
                     rmo_title
                  FROM
                     {{%reminder_operator}}
                  ORDER BY
-                    rmo_title ASC";
+                    rmo_title ASC';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
@@ -331,12 +332,12 @@ class Reminder_Condition
      */
     public static function canFieldBeCompared($field_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rmf_allow_column_compare
                  FROM
                     {{%reminder_field}}
                  WHERE
-                    rmf_id=?";
+                    rmf_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($field_id));
         } catch (DbException $e) {

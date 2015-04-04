@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -51,7 +52,7 @@ if (in_array($action, array_keys($valid_functions))) {
     $method = $valid_functions[$action];
     $res = $method($_REQUEST['list_id']);
 } else {
-    $res = "ERROR: Unable to call function " . htmlspecialchars($action);
+    $res = 'ERROR: Unable to call function ' . htmlspecialchars($action);
 }
 
 $callback = !empty($_GET['callback']) ? $_GET['callback'] : null;
@@ -86,15 +87,15 @@ function getIssueDescription($issue_id)
  */
 function getEmail($id)
 {
-    $split = explode("-", $id);
+    $split = explode('-', $id);
     $info = Support::getEmailDetails($split[0], $split[1]);
 
     if (!Issue::canAccess($info['sup_iss_id'], $GLOBALS['usr_id'])) {
         return '';
     }
 
-    if (empty($_GET["ec_id"])) {
-        return $info["seb_body"];
+    if (empty($_GET['ec_id'])) {
+        return $info['seb_body'];
     }
 
     return Link_Filter::processText(Auth::getCurrentProject(), nl2br(Misc::highlightQuotedReply($info['seb_body'])));
@@ -112,11 +113,11 @@ function getNote($id)
     if (!Issue::canAccess($note['not_iss_id'], $GLOBALS['usr_id'])) {
         return '';
     }
-    if (empty($_GET["ec_id"])) {
-        return $note["not_note"];
+    if (empty($_GET['ec_id'])) {
+        return $note['not_note'];
     }
 
-    return Link_Filter::processText(Auth::getCurrentProject(), nl2br(Misc::highlightQuotedReply($note["not_note"])));
+    return Link_Filter::processText(Auth::getCurrentProject(), nl2br(Misc::highlightQuotedReply($note['not_note'])));
 }
 
 /**
@@ -131,11 +132,11 @@ function getDraft($id)
     if (!Issue::canAccess($info['emd_iss_id'], $GLOBALS['usr_id'])) {
         return '';
     }
-    if (empty($_GET["ec_id"])) {
-        return $info["emd_body"];
+    if (empty($_GET['ec_id'])) {
+        return $info['emd_body'];
     }
 
-    return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($info["emd_body"])));
+    return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($info['emd_body'])));
 }
 
 /**
@@ -150,11 +151,11 @@ function getPhoneSupport($id)
     if (!Issue::canAccess($res['phs_iss_id'], $GLOBALS['usr_id'])) {
         return '';
     }
-    if (empty($_GET["ec_id"])) {
-        return $res["phs_description"];
+    if (empty($_GET['ec_id'])) {
+        return $res['phs_description'];
     }
 
-    return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($res["phs_description"])));
+    return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($res['phs_description'])));
 }
 
 /**
@@ -173,9 +174,9 @@ function getMailQueue($id)
     if (!Issue::canAccess($res['maq_iss_id'], $GLOBALS['usr_id'])) {
         return '';
     }
-    if (empty($_GET["ec_id"])) {
-        return $res["maq_body"];
+    if (empty($_GET['ec_id'])) {
+        return $res['maq_body'];
     }
 
-    return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($res["maq_headers"] . "\n" . $res["maq_body"])));
+    return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($res['maq_headers'] . "\n" . $res['maq_body'])));
 }

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -69,13 +70,13 @@ class Workflow
             return $backends[$prj_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     prj_id,
                     prj_workflow_backend
                  FROM
                     {{%project}}
                  ORDER BY
-                    prj_id";
+                    prj_id';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
@@ -103,8 +104,8 @@ class Workflow
             if (empty($backend_class)) {
                 return false;
             }
-            $file_name_chunks = explode(".", $backend_class);
-            $class_name = $file_name_chunks[1] . "_Workflow_Backend";
+            $file_name_chunks = explode('.', $backend_class);
+            $class_name = $file_name_chunks[1] . '_Workflow_Backend';
 
             if (file_exists(APP_LOCAL_PATH . "/workflow/$backend_class")) {
                 require_once APP_LOCAL_PATH . "/workflow/$backend_class";

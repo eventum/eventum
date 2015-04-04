@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -52,8 +53,8 @@ if ($cat == 'upload_file') {
 
     // if no iaf_ids passed, perhaps it's old style upload
     // TODO: verify that the uploaded file(s) owner is same as attachment owner.
-    if (!$iaf_ids && isset($_FILES["attachment"])) {
-        $iaf_ids = Attachment::addFiles($_FILES["attachment"]);
+    if (!$iaf_ids && isset($_FILES['attachment'])) {
+        $iaf_ids = Attachment::addFiles($_FILES['attachment']);
     }
 
     try {
@@ -65,14 +66,14 @@ if ($cat == 'upload_file') {
         $res = -1;
     }
 
-    $tpl->assign("upload_file_result", $res);
+    $tpl->assign('upload_file_result', $res);
 }
 
 $tpl->assign(array(
-    "issue_id" => $issue_id,
-    "current_user_prefs" => Prefs::get(Auth::getUserID()),
-    "max_attachment_size" => Attachment::getMaxAttachmentSize(),
-    "max_attachment_bytes" => Attachment::getMaxAttachmentSize(true),
+    'issue_id' => $issue_id,
+    'current_user_prefs' => Prefs::get(Auth::getUserID()),
+    'max_attachment_size' => Attachment::getMaxAttachmentSize(),
+    'max_attachment_bytes' => Attachment::getMaxAttachmentSize(true),
 ));
 
 $tpl->displayTemplate();

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -48,105 +49,105 @@ class Help
 
         // we need this in function as function calls are not allowed in static properties
         self::$topics = array(
-            "main" => array(
-                "title"  => ev_gettext("Help Topics"),
-                "parent" => ""
+            'main' => array(
+                'title'  => ev_gettext('Help Topics'),
+                'parent' => ''
             ),
-            "report" => array(
-                "title"  => ev_gettext("Reporting Issues"),
-                "parent" => "main"
+            'report' => array(
+                'title'  => ev_gettext('Reporting Issues'),
+                'parent' => 'main'
             ),
-            "report_category" => array(
-                "title"  => ev_gettext("Category Field"),
-                "parent" => "report"
+            'report_category' => array(
+                'title'  => ev_gettext('Category Field'),
+                'parent' => 'report'
             ),
-            "report_priority" => array(
-                "title"  => ev_gettext("Priority Field"),
-                "parent" => "report"
+            'report_priority' => array(
+                'title'  => ev_gettext('Priority Field'),
+                'parent' => 'report'
             ),
-            "report_assignment" => array(
-                "title"  => ev_gettext("Assignment Field"),
-                "parent" => "report"
+            'report_assignment' => array(
+                'title'  => ev_gettext('Assignment Field'),
+                'parent' => 'report'
             ),
-            "report_release" => array(
-                "title"  => ev_gettext("Scheduled Release Field"),
-                "parent" => "report"
+            'report_release' => array(
+                'title'  => ev_gettext('Scheduled Release Field'),
+                'parent' => 'report'
             ),
-            "report_summary" => array(
-                "title"  => ev_gettext("Summary Field"),
-                "parent" => "report"
+            'report_summary' => array(
+                'title'  => ev_gettext('Summary Field'),
+                'parent' => 'report'
             ),
-            "report_description" => array(
-                "title"  => ev_gettext("Description Field"),
-                "parent" => "report"
+            'report_description' => array(
+                'title'  => ev_gettext('Description Field'),
+                'parent' => 'report'
             ),
-            "report_estimated_dev_time" => array(
-                "title"  => ev_gettext("Estimated Development Time Field"),
-                "parent" => "report"
+            'report_estimated_dev_time' => array(
+                'title'  => ev_gettext('Estimated Development Time Field'),
+                'parent' => 'report'
             ),
-            "scm_integration" => array(
-                "title"  => ev_gettext("SCM Integration"),
-                "parent" => "main"
+            'scm_integration' => array(
+                'title'  => ev_gettext('SCM Integration'),
+                'parent' => 'main'
             ),
-            "scm_integration_usage" => array(
-                "title"  => ev_gettext("Usage Examples"),
-                "parent" => "scm_integration"
+            'scm_integration_usage' => array(
+                'title'  => ev_gettext('Usage Examples'),
+                'parent' => 'scm_integration'
             ),
-            "scm_integration_installation" => array(
-                "title"  => ev_gettext("Installation Instructions"),
-                "parent" => "scm_integration"
+            'scm_integration_installation' => array(
+                'title'  => ev_gettext('Installation Instructions'),
+                'parent' => 'scm_integration'
             ),
-            "list" => array(
-                "title"  => ev_gettext("Listing / Searching for Issues"),
-                "parent" => "main"
+            'list' => array(
+                'title'  => ev_gettext('Listing / Searching for Issues'),
+                'parent' => 'main'
             ),
-            "adv_search" => array(
-                "title"  => ev_gettext("Advanced Search / Creating Custom Queries"),
-                "parent" => "main"
+            'adv_search' => array(
+                'title'  => ev_gettext('Advanced Search / Creating Custom Queries'),
+                'parent' => 'main'
             ),
-            "support_emails" => array(
-                "title"  => ev_gettext("Associate Emails"),
-                "parent" => "main"
+            'support_emails' => array(
+                'title'  => ev_gettext('Associate Emails'),
+                'parent' => 'main'
             ),
-            "preferences" => array(
-                "title"  => ev_gettext("Account Preferences"),
-                "parent" => "main"
+            'preferences' => array(
+                'title'  => ev_gettext('Account Preferences'),
+                'parent' => 'main'
             ),
-            "notifications" => array(
-                "title"  => ev_gettext("Email Notifications"),
-                "parent" => "main"
+            'notifications' => array(
+                'title'  => ev_gettext('Email Notifications'),
+                'parent' => 'main'
             ),
-            "view" => array(
-                "title"  => ev_gettext("Viewing Issues"),
-                "parent" => "main"
+            'view' => array(
+                'title'  => ev_gettext('Viewing Issues'),
+                'parent' => 'main'
             ),
-            "email_blocking" => array(
-                "title"  => ev_gettext("Email Blocking"),
-                "parent" => "main"
+            'email_blocking' => array(
+                'title'  => ev_gettext('Email Blocking'),
+                'parent' => 'main'
             ),
-            "link_filters" => array(
-                "title"  => ev_gettext("Link Filters"),
-                "parent" => "main"
+            'link_filters' => array(
+                'title'  => ev_gettext('Link Filters'),
+                'parent' => 'main'
             ),
-            "field_display" => array(
-                "title"  => ev_gettext("Edit Fields to Display"),
-                "parent" => "main"
+            'field_display' => array(
+                'title'  => ev_gettext('Edit Fields to Display'),
+                'parent' => 'main'
             ),
-            "column_display" => array(
-                "title"  => ev_gettext("Edit Columns to Display"),
-                "parent" => "main"
+            'column_display' => array(
+                'title'  => ev_gettext('Edit Columns to Display'),
+                'parent' => 'main'
             ),
-            "customize_listing" => array(
-                "title"  => ev_gettext("Customize Issue Listing Screen"),
-                "parent" => "main"
+            'customize_listing' => array(
+                'title'  => ev_gettext('Customize Issue Listing Screen'),
+                'parent' => 'main'
             ),
-            "segregate_reporter" => array(
-                "title"  => ev_gettext("Segregate Reporters"),
-                "parent" => "main"
+            'segregate_reporter' => array(
+                'title'  => ev_gettext('Segregate Reporters'),
+                'parent' => 'main'
             ),
-            "permission_levels" => array(
-                "title"  => ev_gettext("User Permission Levels"),
-                "parent" => "main"
+            'permission_levels' => array(
+                'title'  => ev_gettext('User Permission Levels'),
+                'parent' => 'main'
             ),
         );
 
@@ -185,12 +186,12 @@ class Help
         $topics = self::getTopics();
 
         $child = @$topics[$topic];
-        if (empty($child["parent"])) {
+        if (empty($child['parent'])) {
             return false;
         } else {
             return array(
-                "topic" => $child["parent"],
-                "title" => $topics[$child["parent"]]["title"]
+                'topic' => $child['parent'],
+                'title' => $topics[$child['parent']]['title']
             );
         }
     }
@@ -208,15 +209,15 @@ class Help
 
         $links = array();
         foreach ($topics as $child => $data) {
-            if ($data["parent"] == $topic) {
+            if ($data['parent'] == $topic) {
                 $links[] = array(
-                    "topic" => $child,
-                    "title" => $data["title"]
+                    'topic' => $child,
+                    'title' => $data['title']
                 );
             }
         }
         if (count($links) == 0) {
-            return "";
+            return '';
         } else {
             return $links;
         }
@@ -235,15 +236,15 @@ class Help
 
         $links = array();
         $links[] = array(
-            "topic" => "",
-            "title" => $topics[$topic]["title"]
+            'topic' => '',
+            'title' => $topics[$topic]['title']
         );
         while ($parent = self::getParent($topic)) {
             $links[] = array(
-                "topic" => $parent["topic"],
-                "title" => $parent["title"]
+                'topic' => $parent['topic'],
+                'title' => $parent['title']
             );
-            $topic = $parent["topic"];
+            $topic = $parent['topic'];
         }
         $links = array_reverse($links);
 

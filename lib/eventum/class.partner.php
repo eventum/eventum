@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -45,7 +46,7 @@ class Partner
 
         if (empty($setup_backends[$par_code])) {
             $file_name = 'class.' . $par_code . '.php';
-            $class_name = $par_code . "_Partner_Backend";
+            $class_name = $par_code . '_Partner_Backend';
 
             if (file_exists(APP_LOCAL_PATH . "/partner/$file_name")) {
                 require_once APP_LOCAL_PATH . "/partner/$file_name";
@@ -99,12 +100,12 @@ class Partner
         $current_partners = self::getPartnerCodesByIssue($iss_id);
         if (!in_array($par_code, $current_partners)) {
             $params = array($iss_id, $par_code, Date_Helper::getCurrentDateGMT());
-            $sql = "INSERT INTO
+            $sql = 'INSERT INTO
                         {{%issue_partner}}
                     SET
                         ipa_iss_id = ?,
                         ipa_par_code = ?,
-                        ipa_created_date = ?";
+                        ipa_created_date = ?';
             try {
                 DB_Helper::getInstance()->query($sql, $params);
             } catch (DbException $e) {
@@ -114,7 +115,7 @@ class Partner
             $backend->issueAdded($iss_id);
 
             $summary = ev_gettext('Partner "%1$s" added to issue by %1$s', $backend->getName(), User::getFullName(Auth::getUserID()));
-            History::add($iss_id, Auth::getUserID(), History::getTypeID("partner_added"), $summary);
+            History::add($iss_id, Auth::getUserID(), History::getTypeID('partner_added'), $summary);
         }
 
         return true;
@@ -123,11 +124,11 @@ class Partner
     public static function removePartnerFromIssue($iss_id, $par_code)
     {
         $params = array($iss_id, $par_code);
-        $sql = "DELETE FROM
+        $sql = 'DELETE FROM
                     {{%issue_partner}}
                 WHERE
                     ipa_iss_id = ? AND
-                    ipa_par_code = ?";
+                    ipa_par_code = ?';
         try {
             DB_Helper::getInstance()->query($sql, $params);
         } catch (DbException $e) {
@@ -136,7 +137,7 @@ class Partner
         $backend = self::getBackend($par_code);
         $backend->issueRemoved($iss_id);
 
-        History::add($iss_id, Auth::getUserID(), History::getTypeID("partner_removed"),
+        History::add($iss_id, Auth::getUserID(), History::getTypeID('partner_removed'),
             "Partner '" . $backend->getName() . "' removed from issue by " . User::getFullName(Auth::getUserID()));
 
         return true;
@@ -144,12 +145,12 @@ class Partner
 
     public static function getPartnersByProject($prj_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     pap_par_code
                 FROM
                     {{%partner_project}}
                 WHERE
-                    pap_prj_id = ?";
+                    pap_prj_id = ?';
 
         try {
             $res = DB_Helper::getInstance()->getColumn($sql, array($prj_id));
@@ -170,7 +171,7 @@ class Partner
     public static function getPartnerCodesByIssue($iss_id)
     {
         $prj_id = Issue::getProjectID($iss_id);
-        $sql = "SELECT
+        $sql = 'SELECT
                     ipa_par_code
                 FROM
                     {{%issue_partner}},
@@ -178,7 +179,7 @@ class Partner
                 WHERE
                     ipa_par_code = pap_par_code AND
                     pap_prj_id = ? AND
-                    ipa_iss_id = ?";
+                    ipa_iss_id = ?';
         try {
             $partners = DB_Helper::getInstance()->getColumn($sql, array($prj_id, $iss_id));
         } catch (DbException $e) {
@@ -257,10 +258,10 @@ class Partner
     {
 
         // delete all first, then re-insert
-        $sql = "DELETE FROM
+        $sql = 'DELETE FROM
                     {{%partner_project}}
                 WHERE
-                    pap_par_code = ?";
+                    pap_par_code = ?';
         try {
             DB_Helper::getInstance()->query($sql, array($par_code));
         } catch (DbException $e) {
@@ -269,11 +270,11 @@ class Partner
 
         if (is_array($projects)) {
             foreach ($projects as $prj_id) {
-                $sql = "INSERT INTO
+                $sql = 'INSERT INTO
                             {{%partner_project}}
                         SET
                             pap_par_code = ?,
-                            pap_prj_id = ?";
+                            pap_prj_id = ?';
                 try {
                     DB_Helper::getInstance()->query($sql, array($par_code, $prj_id));
                 } catch (DbException $e) {
@@ -287,7 +288,7 @@ class Partner
 
     public static function getProjectsForPartner($par_code)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     pap_prj_id,
                     prj_title
                 FROM
@@ -295,7 +296,7 @@ class Partner
                     {{%project}}
                 WHERE
                     pap_prj_id = prj_id AND
-                    pap_par_code = ?";
+                    pap_par_code = ?';
         try {
             $res = DB_Helper::getInstance()->getPair($sql, array($par_code));
         } catch (DbException $e) {
