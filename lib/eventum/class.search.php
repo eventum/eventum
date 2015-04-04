@@ -435,7 +435,7 @@ class Search
         }
         $csv[] = @implode("\t", $column_headings);
 
-        if ($options['hide_excerpts'] != 1 && self::doesBackendSupportExcerpts() == true) {
+        if (@$options['hide_excerpts'] != 1 && self::doesBackendSupportExcerpts() == true) {
             $excerpts = self::getFullTextExcerpts();
         }
 

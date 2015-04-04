@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -88,7 +88,7 @@ function getAuthData()
 
 /**
  * Authorize request.
- * @return authorized username (email). exits program if failed
+ * @return string authorized username (email). exits program if failed
  * TODO: translations
  * TODO: ip based control
  */
@@ -156,11 +156,14 @@ function authorizeRequest()
     return $authUser;
 }
 
+$filter = Filter::getDetails($_GET["custom_id"], false);
 $authUser = authorizeRequest();
 
-$filter = Filter::getDetails($_GET["custom_id"], false);
+$usr_id = User::getUserIDByEmail($authUser);
+Auth::createFakeCookie($usr_id, $filter['cst_prj_id']);
 
-Auth::createFakeCookie(User::getUserIDByEmail($authUser), $filter['cst_prj_id']);
+$tpl = new Template_Helper();
+$tpl->setTemplate("rss.tpl.xml");
 
 $options = array(
     'users'         => $filter['cst_users'],
@@ -176,41 +179,15 @@ $options = array(
 );
 $issues = Search::getListing($filter['cst_prj_id'], $options, 0, 'ALL', true);
 $issues = $issues['list'];
-$project_title = Project::getName($filter['cst_prj_id']);
 Issue::getDescriptionByIssues($issues);
 
-# TODO: reporter is not present
+$tpl->assign(array(
+    'charset' => APP_CHARSET,
+    'project_title' => Project::getName($filter['cst_prj_id']),
+    'setup' => $setup,
+    'filter' => $filter,
+    'issues' => $issues,
+));
 
-Header("Content-Type: text/xml; charset=" . APP_CHARSET);
-echo '<?xml version="1.0" encoding="'. APP_CHARSET .'"?>' . "\n";
-?>
-<rss version="2.0"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
-    xmlns:admin="http://webns.net/mvcb/"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title><?php echo htmlspecialchars($setup['tool_caption']); ?>
-    - <?php echo htmlspecialchars($filter['cst_title']); ?></title>
-    <link><?php echo APP_BASE_URL; ?></link>
-    <description>List of issues</description>
-<?php foreach ($issues as $issue) { ?>
-    <item>
-      <title><?php echo '#' . $issue['iss_id'] . " - " . htmlspecialchars($issue['iss_summary']); ?></title>
-      <link><?php echo APP_BASE_URL . "view.php?id=" . $issue['iss_id']; ?></link>
-      <description>
-      Project: <?php echo htmlspecialchars($project_title); ?>&lt;BR&gt;&lt;BR&gt;
-      Assignment: <?php echo htmlspecialchars($issue['assigned_users']); ?>&lt;BR&gt;
-      Status: <?php echo htmlspecialchars($issue['sta_title']); ?>&lt;BR&gt;
-      Priority: <?php echo htmlspecialchars($issue['pri_title']); ?>&lt;BR&gt;
-      Category: <?php echo htmlspecialchars($issue['prc_title']); ?>&lt;BR&gt;
-      &lt;BR&gt;<?php echo htmlspecialchars(Link_Filter::activateLinks(nl2br($issue['iss_description']))); ?>&lt;BR&gt;
-      </description>
-      <author><?php echo htmlspecialchars($issue['reporter']); ?></author>
-      <pubDate><?php echo Date_Helper::getRFC822Date($issue['iss_created_date'], "GMT"); ?></pubDate>
-    </item>
-<?php } ?>
-
-  </channel>
-</rss>
+header("Content-Type: text/xml; charset=" . APP_CHARSET);
+$tpl->displayTemplate();
