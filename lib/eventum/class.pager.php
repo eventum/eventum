@@ -60,21 +60,22 @@ class Pager
         }
         // remove any order by clauses
         $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)(?:,\s+\w+\s+\w+)*(.*)/sei", "'\\1\\3'", $stmt);
-        $rows = DB_Helper::getInstance()->getAll($stmt);
-        if (Misc::isError($rows)) {
-            Error_Handler::logError(array($rows->getMessage(), $rows->getDebugInfo()), __FILE__, __LINE__);
-
+        try {
+            $rows = DB_Helper::getInstance()->getAll($stmt);
+        } catch (DbException $e) {
             return 0;
-        } elseif (empty($rows)) {
-            return 0;
-        } else {
-            // the query above works only if there is no left join or any other complex queries
-            if (count($rows) == 1) {
-                return $rows[0]['total_rows'];
-            } else {
-                return count($rows);
-            }
         }
+
+        if (empty($rows)) {
+            return 0;
+        }
+
+        // the query above works only if there is no left join or any other complex queries
+        if (count($rows) == 1) {
+            return $rows[0]['total_rows'];
+        }
+
+        return count($rows);
     }
 
     /**
