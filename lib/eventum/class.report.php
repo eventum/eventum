@@ -93,13 +93,13 @@ class Report
                     UNIX_TIMESTAMP(iss_last_response_date) < ? AND
                     UNIX_TIMESTAMP(iss_last_response_date) > ?";
         if (count($users) > 0) {
-            $stmt .= " AND\nisu_usr_id IN(" . join(', ', Misc::escapeInteger($users)) . ")";
+            $stmt .= " AND\nisu_usr_id IN(" . implode(', ', Misc::escapeInteger($users)) . ")";
         }
         if (count($groups) > 0) {
-            $stmt .= " AND\nusr_grp_id IN(" . join(', ', Misc::escapeInteger($groups)) . ")";
+            $stmt .= " AND\nusr_grp_id IN(" . implode(', ', Misc::escapeInteger($groups)) . ")";
         }
         if (count($status) > 0) {
-            $stmt .= " AND\niss_sta_id IN(" . join(', ', Misc::escapeInteger($status)) . ")";
+            $stmt .= " AND\niss_sta_id IN(" . implode(', ', Misc::escapeInteger($status)) . ")";
         }
         $stmt .= "
                  ORDER BY
@@ -498,7 +498,7 @@ class Report
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_from IN('" . join("','", $emails) . "')
+                    sup_from IN('" . implode("','", $emails) . "')
                  GROUP BY
                     time_period";
         try {
@@ -670,7 +670,7 @@ class Report
                         icf_fld_id = $fld_id";
             if (count($options) > 0) {
                 $sql .= " AND
-                        cfo_id IN('" . join("','", Misc::escapeString(array_keys($options))) . "')";
+                        cfo_id IN('" . implode("','", Misc::escapeString(array_keys($options))) . "')";
             }
             if (($start_date != false) && ($end_date != false)) {
                 $sql .= " AND\niss_created_date BETWEEN '" . Misc::escapeString($start_date) . "' AND '" . Misc::escapeString($end_date) . "'";
@@ -774,7 +774,7 @@ class Report
                     cfo_id = icf_value AND
                     icf_iss_id = iss_id AND
                     icf_fld_id = $fld_id AND
-                    cfo_id NOT IN(" . join(",", $cfo_ids) . ")";
+                    cfo_id NOT IN(" . implode(",", $cfo_ids) . ")";
         try {
             $res = DB_Helper::getInstance()->getOne($stmt);
         } catch (DbException $e) {
@@ -841,7 +841,7 @@ class Report
                     {{%issue_custom_field}} a
                 WHERE
                     a.icf_fld_id = $fld_id AND
-                    a.icf_value IN('" . join("','", Misc::escapeString(array_keys($options))) . "') AND
+                    a.icf_value IN('" . implode("','", Misc::escapeString(array_keys($options))) . "') AND
                     a.icf_iss_id = ttr_iss_id
                 ) > 0";
         }

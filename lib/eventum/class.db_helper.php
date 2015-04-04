@@ -190,7 +190,7 @@ class DB_Helper
             $partial[] = "$key=?";
         }
 
-        return join(", ", $partial);
+        return implode(", ", $partial);
     }
 
     /**
@@ -201,7 +201,7 @@ class DB_Helper
      */
     public static function buildList($params)
     {
-        return join(', ', array_fill(0, count($params), '?'));
+        return implode(', ', array_fill(0, count($params), '?'));
     }
 
     /**

@@ -195,7 +195,7 @@ class Error_Handler
                         $z[] = '(' . gettype($x). ' )' . $x;
                     }
                 }
-                $a = join(', ', $z);
+                $a = implode(', ', $z);
             }
             $msg .= sprintf("%s:%d\n  %s(%s)\n", $f, $e['line'], $fn, $a);
         }

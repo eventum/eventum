@@ -833,7 +833,7 @@ class Notification
                     } else {
                         $headers['In-Reply-To'] = Issue::getRootMessageID($issue_id);
                     }
-                    $headers['References'] = Mail_Helper::fold(join(' ', Mail_Helper::getReferences($issue_id, @$data['note']['reference_msg_id'], 'note')));
+                    $headers['References'] = Mail_Helper::fold(implode(' ', Mail_Helper::getReferences($issue_id, @$data['note']['reference_msg_id'], 'note')));
                     $subject = 'Note';
                     break;
                 case 'emails':
@@ -1697,7 +1697,7 @@ class Notification
             }
         }
 
-        $subscribers['all'] = @join(', ', array_merge($subscribers['staff'], $subscribers['customers']));
+        $subscribers['all'] = @implode(', ', array_merge($subscribers['staff'], $subscribers['customers']));
         $subscribers['staff'] = @implode(', ', $subscribers['staff']);
         $subscribers['customers'] = @implode(', ', $subscribers['customers']);
 

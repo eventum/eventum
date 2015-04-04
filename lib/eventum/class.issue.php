@@ -1642,7 +1642,7 @@ class Issue
             $updated_fields["Private"] = History::formatChanges(Misc::getBooleanDisplayValue($current['iss_private']), Misc::getBooleanDisplayValue($_POST['private']));
         }
         if (isset($_POST['product']) && count($product_changes) > 0) {
-            $updated_fields['Product'] = join('; ', $product_changes);
+            $updated_fields['Product'] = implode('; ', $product_changes);
         }
         if (count($updated_fields) > 0) {
             // log the changes
@@ -3138,7 +3138,7 @@ class Issue
                 }
                 Workflow::handleAssignmentChange(Auth::getCurrentProject(), $items[$i], $issue_details, Issue::getAssignedUserIDs($items[$i]), false);
                 Notification::notifyNewAssignment($new_assignees, $items[$i]);
-                $updated_fields['Assignment'] = History::formatChanges(join(', ', $current_assignees), join(', ', $new_user_names));
+                $updated_fields['Assignment'] = History::formatChanges(implode(', ', $current_assignees), implode(', ', $new_user_names));
             }
 
             // update status
@@ -3752,7 +3752,7 @@ class Issue
 
         // save a history entry about this...
         History::add($issue_id, Auth::getUserID(), History::getTypeID('user_associated'),
-                        "Issue assignment to changed (" . History::formatChanges(join(', ', $old_assignee_names), join(', ', $assignee_names)) . ") by " . User::getFullName(Auth::getUserID()));
+                        "Issue assignment to changed (" . History::formatChanges(implode(', ', $old_assignee_names), implode(', ', $assignee_names)) . ") by " . User::getFullName(Auth::getUserID()));
     }
 
     /**

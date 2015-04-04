@@ -45,7 +45,7 @@ if (count(@$_POST["start"]) > 0 &&
         (@$_POST["start"]["Year"] != 0) &&
         (@$_POST["start"]["Month"] != 0) &&
         (@$_POST["start"]["Day"] != 0)) {
-    $start_date = join("-", $_POST["start"]);
+    $start_date = implode("-", $_POST["start"]);
 } elseif (!empty($_GET['start_date'])) {
     $start_date = $_GET['start_date'];
 }
@@ -54,7 +54,7 @@ if (count(@$_POST["end"]) > 0 &&
         (@$_POST["end"]["Year"] != 0) &&
         (@$_POST["end"]["Month"] != 0) &&
         (@$_POST["end"]["Day"] != 0)) {
-    $end_date = join("-", $_POST["end"]);
+    $end_date = implode("-", $_POST["end"]);
 } elseif (!empty($_GET['end_date'])) {
     $end_date = $_GET['end_date'];
 }

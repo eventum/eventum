@@ -42,7 +42,7 @@ return Symfony\CS\Config\Config::create()
 			'-empty_return',
 		'extra_empty_lines',
 		'include',
-			'-join_function',
+			'join_function',
 			'-list_commas',
 			'-multiline_array_trailing_comma',
 			'namespace_no_leading_whitespace',

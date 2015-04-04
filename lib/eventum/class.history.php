@@ -170,7 +170,7 @@ class History
                  FROM
                     {{%history_type}}
                  WHERE
-                    htt_name IN('" . join("','", $name) . "')";
+                    htt_name IN('" . implode("','", $name) . "')";
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
@@ -234,7 +234,7 @@ class History
                     his_iss_id = iss_id AND
                     his_usr_id = ? AND
                     his_created_date BETWEEN ? AND ? AND
-                    his_htt_id NOT IN(" . join(',', $htt_list) . ") AND
+                    his_htt_id NOT IN(" . implode(',', $htt_list) . ") AND
                     iss_prj_id = ?
                  GROUP BY
                     iss_id
@@ -308,7 +308,7 @@ class History
         if ($statuses != false) {
             $stmt .= " AND
                     (
-                        sta_abbreviation IN('" . join("','", $statuses) . "') OR
+                        sta_abbreviation IN('" . implode("','", $statuses) . "') OR
                         sta_is_closed = 1
                     )";
         }

@@ -1480,7 +1480,7 @@ class Custom_Field
             return $values;
         }
 
-        return join(', ', $values);
+        return implode(', ', $values);
     }
 
     /**

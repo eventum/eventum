@@ -726,7 +726,7 @@ class Filter
                         }
                     }
                 } elseif (in_array($filter['fld_type'], array('multiple', 'combo'))) {
-                    $display = join(', ', Custom_Field::getOptions($fld_id, $options['custom_field'][$fld_id]));
+                    $display = implode(', ', Custom_Field::getOptions($fld_id, $options['custom_field'][$fld_id]));
                 } else {
                     $display = $options['custom_field'][$fld_id];
                 }
@@ -764,7 +764,7 @@ class Filter
                     foreach ($filter_details as $category) {
                         $active_categories[] = $categories[$category];
                     }
-                    $display = join(', ', $active_categories);
+                    $display = implode(', ', $active_categories);
                 } else {
                     $display = $categories[$filter_details];
                 }

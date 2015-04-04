@@ -614,7 +614,7 @@ class Customer_Stats_Report
         $where = '';
         if (!empty($customer_field)) {
             if (count($this->current_customers) > 0) {
-                $where .= $customer_field . " IN(" . join(",",$this->current_customers) . ")";
+                $where .= $customer_field . " IN(" . implode(",",$this->current_customers) . ")";
             } else {
                 // XXX: this is a dirty hack to handle support levels that don't have customers, but I can't think of anything better right now.
                 $where .= "1 = 2";
@@ -630,7 +630,7 @@ class Customer_Stats_Report
                 foreach ($date_field as $field) {
                     $date_conditions[] = "($field BETWEEN '" . $this->start_date . "' AND '" . $this->end_date . "')";
                 }
-                $where .= "(" . join(" OR ", $date_conditions) . ")";
+                $where .= "(" . implode(" OR ", $date_conditions) . ")";
             } else {
                 $where .= "($date_field BETWEEN '" . $this->start_date . "' AND '" . $this->end_date . "')";
             }

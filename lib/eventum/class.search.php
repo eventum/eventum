@@ -532,7 +532,7 @@ class Search
         if ($role_id == User::getRoleID('Customer')) {
             $crm = CRM::getInstance($prj_id);
             $contact = $crm->getContact($usr_details['usr_customer_contact_id']);
-            $stmt .= " AND iss_customer_contract_id IN('" . join("','", $contact->getContractIDS()) . "')";
+            $stmt .= " AND iss_customer_contract_id IN('" . implode("','", $contact->getContractIDS()) . "')";
             $stmt .= " AND iss_customer_id ='" . Auth::getCurrentCustomerID() . "'";
         } elseif (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id))) {
             $stmt .= " AND (
@@ -578,7 +578,7 @@ class Search
         if (!empty($options["keywords"])) {
             $stmt .= " AND (\n";
             if (($options['search_type'] == 'all_text') && (APP_ENABLE_FULLTEXT)) {
-                $stmt .= "iss_id IN(" . join(', ', self::getFullTextIssues($options)) . ")";
+                $stmt .= "iss_id IN(" . implode(', ', self::getFullTextIssues($options)) . ")";
             } elseif (($options['search_type'] == 'customer') && (CRM::hasCustomerIntegration($prj_id))) {
                 // check if the user is trying to search by customer name / email
                 $crm = CRM::getInstance($prj_id);
@@ -608,7 +608,7 @@ class Search
             if (!is_array($options['category'])) {
                 $options['category'] = array($options['category']);
             }
-            $stmt .= " AND iss_prc_id IN(" . join(', ', Misc::escapeInteger($options["category"])) . ")";
+            $stmt .= " AND iss_prc_id IN(" . implode(', ', Misc::escapeInteger($options["category"])) . ")";
         }
         if (!empty($options["hide_closed"])) {
             $stmt .= " AND sta_is_closed=0";
@@ -709,7 +709,7 @@ class Search
                     $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id";
                     $stmt .= " AND\n cf" . $fld_id . ".icf_fld_id = $fld_id";
                     if ($field['fld_type'] == 'combo') {
-                        $stmt .= " AND cf" . $fld_id . "." . $fld_db_name . " IN('" . join("', '", Misc::escapeString($search_value)) . "')";
+                        $stmt .= " AND cf" . $fld_id . "." . $fld_db_name . " IN('" . implode("', '", Misc::escapeString($search_value)) . "')";
                     } else {
                         $stmt .= " AND cf" . $fld_id . "." . $fld_db_name . " LIKE '%" . Misc::escapeString($search_value) . "%'";
                     }

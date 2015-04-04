@@ -102,10 +102,10 @@ class Mime_Helper
         $str = '';
         $is_html = false;
         if (isset($parts["text"])) {
-            $str = join("\n\n", $parts["text"]);
+            $str = implode("\n\n", $parts["text"]);
         } elseif (isset($parts["html"])) {
             $is_html = true;
-            $str = join("\n\n", $parts["html"]);
+            $str = implode("\n\n", $parts["html"]);
 
             // hack for inotes to prevent content from being displayed all on one line.
             $str = str_replace("</DIV><DIV>", "\n", $str);

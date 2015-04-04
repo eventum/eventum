@@ -76,13 +76,13 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
             (@$_REQUEST["start"]["Year"] != 0) &&
             (@$_REQUEST["start"]["Month"] != 0) &&
             (@$_REQUEST["start"]["Day"] != 0)) {
-        $start_date = join("-", $_POST["start"]);
+        $start_date = implode("-", $_POST["start"]);
     }
     if (count(@$_REQUEST["end"]) > 0 &&
             (@$_REQUEST["end"]["Year"] != 0) &&
             (@$_REQUEST["end"]["Month"] != 0) &&
             (@$_REQUEST["end"]["Day"] != 0)) {
-        $end_date = join("-", $_POST["end"]);
+        $end_date = implode("-", $_POST["end"]);
     }
 
     $data = array();

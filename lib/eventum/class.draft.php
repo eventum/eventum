@@ -413,7 +413,7 @@ class Draft
         $_POST["subject"] = $draft["emd_subject"];
         $_POST["from"] = User::getFromHeader(Auth::getUserID());
         $_POST["to"] = $draft["to"];
-        $_POST["cc"] = @join(";", $draft["cc"]);
+        $_POST["cc"] = @implode(";", $draft["cc"]);
         $_POST["message"] = $draft["emd_body"];
         $_POST["ema_id"] = Email_Account::getEmailAccount();
         $res = Support::sendEmail();

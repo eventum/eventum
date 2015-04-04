@@ -50,7 +50,7 @@ if (count(@$_REQUEST["start"]) > 0 &&
         (@$_REQUEST["start"]["Year"] != 0) &&
         (@$_REQUEST["start"]["Month"] != 0) &&
         (@$_REQUEST["start"]["Day"] != 0)) {
-    $start_date = join("-", $_REQUEST["start"]);
+    $start_date = implode("-", $_REQUEST["start"]);
 } else {
     // if empty start date, set to be a month ago
     $start_date = date("Y-m-d", time() - Date_Helper::MONTH);
@@ -59,7 +59,7 @@ if (count(@$_REQUEST["end"]) > 0 &&
         (@$_REQUEST["end"]["Year"] != 0) &&
         (@$_REQUEST["end"]["Month"] != 0) &&
         (@$_REQUEST["end"]["Day"] != 0)) {
-    $end_date = join("-", $_REQUEST["end"]);
+    $end_date = implode("-", $_REQUEST["end"]);
 } else {
     $end_date = date("Y-m-d");
 }

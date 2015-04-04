@@ -531,7 +531,7 @@ class Misc
                     unset($chunks[$index]);
                 }
             }
-            $return = join(" ", $chunks);
+            $return = implode(" ", $chunks);
         }
 
         return $return;

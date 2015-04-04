@@ -316,7 +316,7 @@ class RemoteApi
         // check if issue currently is un-assigned
         $current_assignees = Issue::getAssignedUsers($issue_id);
         if (count($current_assignees) > 0) {
-            throw new RemoteApiException("Issue is currently assigned to " . join(',', $current_assignees));
+            throw new RemoteApiException("Issue is currently assigned to " . implode(',', $current_assignees));
         }
 
         $usr_id = Auth::getUserID();
@@ -757,7 +757,7 @@ class RemoteApi
         if (empty($draft['to'])) {
             $draft['to'] = "Notification List";
         }
-        $draft['cc'] = @join(", ", $draft['cc']);
+        $draft['cc'] = @implode(", ", $draft['cc']);
 
         return $draft;
     }

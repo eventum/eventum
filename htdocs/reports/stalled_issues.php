@@ -44,12 +44,12 @@ $prj_id = Auth::getCurrentProject();
 if (count(@$_REQUEST['before']) < 1) {
     $before = date("Y-m-d", (time()-Date_Helper::MONTH));
 } else {
-    $before = join('-', $_REQUEST['before']);
+    $before = implode('-', $_REQUEST['before']);
 }
 if (count(@$_REQUEST['after']) < 1) {
     $after = date("Y-m-d", (time()-Date_Helper::YEAR));
 } else {
-    $after = join('-', $_REQUEST['after']);
+    $after = implode('-', $_REQUEST['after']);
 }
 if (empty($_REQUEST['sort_order'])) {
     $_REQUEST['sort_order'] = 'ASC';

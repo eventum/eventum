@@ -199,7 +199,7 @@ class Routing
                     unset($ccs[$i]);
                 }
             }
-            $structure->headers['cc'] = join(', ', $ccs);
+            $structure->headers['cc'] = implode(', ', $ccs);
         }
 
         // Remove excess Re's

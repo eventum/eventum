@@ -193,7 +193,7 @@ class Mail_Helper
             }
         }
 
-        return join(',', $return);
+        return implode(',', $return);
     }
 
     /**
@@ -732,7 +732,7 @@ class Mail_Helper
             }
 
             // add assignee header
-            $new_headers['X-Eventum-Assignee'] = join(',', User::getEmail(Issue::getAssignedUserIDs($issue_id)));
+            $new_headers['X-Eventum-Assignee'] = implode(',', User::getEmail(Issue::getAssignedUserIDs($issue_id)));
 
             $new_headers['X-Eventum-Category'] = Category::getTitle(Issue::getCategory($issue_id));
             $new_headers['X-Eventum-Project'] = Project::getName($prj_id);
@@ -752,7 +752,7 @@ class Mail_Helper
                 if (empty($values)) {
                     continue;
                 }
-                $cf_value = join(', ', (array) $values);
+                $cf_value = implode(', ', (array) $values);
 
                 // value could be empty after multivalued field join
                 if (empty($cf_value)) {
@@ -880,12 +880,12 @@ class Mail_Helper
         $headers['in-reply-to'] = $reference_msg_id;
         if (preg_match('/^References: (.*)/mi', $text_headers) > 0) {
             // replace existing header
-            $text_headers = preg_replace('/^References: (.*)/mi', 'References: ' . self::fold(join(' ', $references)), $text_headers, 1);
+            $text_headers = preg_replace('/^References: (.*)/mi', 'References: ' . self::fold(implode(' ', $references)), $text_headers, 1);
         } else {
             // add new header after In-Reply-To
-            $text_headers = preg_replace('/^In-Reply-To: (.*)$/mi', "In-Reply-To: $1\r\nReferences: " . self::fold(join(' ', $references)), $text_headers, 1);
+            $text_headers = preg_replace('/^In-Reply-To: (.*)$/mi', "In-Reply-To: $1\r\nReferences: " . self::fold(implode(' ', $references)), $text_headers, 1);
         }
-        $headers['references'] = self::fold(join(' ', $references));
+        $headers['references'] = self::fold(implode(' ', $references));
 
         return array($text_headers . "\r\n\r\n" . $body, $headers);
     }

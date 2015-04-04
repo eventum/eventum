@@ -44,12 +44,12 @@ if (!Access::canAccessReports(Auth::getUserID())) {
  */
 
 if ((!empty($_REQUEST['start']['Year'])) && (!empty($_REQUEST['start']['Month'])) &&(!empty($_REQUEST['start']['Day']))) {
-    $start = join('-', $_REQUEST['start']);
+    $start = implode('-', $_REQUEST['start']);
 } else {
     $start = false;
 }
 if ((!empty($_REQUEST['end']['Year'])) && (!empty($_REQUEST['end']['Month'])) &&(!empty($_REQUEST['end']['Day']))) {
-    $end = join('-', $_REQUEST['end']);
+    $end = implode('-', $_REQUEST['end']);
 } else {
     $end = false;
 }

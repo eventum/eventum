@@ -59,7 +59,7 @@ function validateIssueNumbers()
     }
 
     if (count($bad_issues)) {
-        return $_REQUEST['form_name'] . ':' . $_REQUEST['field_name'] . ':' . join(', ', $bad_issues);
+        return $_REQUEST['form_name'] . ':' . $_REQUEST['field_name'] . ':' . implode(', ', $bad_issues);
     } else {
         return $_REQUEST['form_name'] . ':' . $_REQUEST['field_name'] . ':' . 'ok';
     }

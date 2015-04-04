@@ -63,7 +63,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         $this->sphinx->SetFilter('prj_id', array(Auth::getCurrentProject()));
 
         // TODO: Add support for selecting indexes to search
-        $indexes = join('; ', $this->getIndexes((Auth::getCurrentRole() > User::getRoleID("Customer"))));
+        $indexes = implode('; ', $this->getIndexes((Auth::getCurrentRole() > User::getRoleID("Customer"))));
 
         if ((isset($options['customer_id'])) && (!empty($options['customer_id']))) {
             $this->sphinx->SetFilter('customer_id', array($options['customer_id']));
