@@ -36,7 +36,6 @@ return Symfony\CS\Config\Config::create()
 		'standardize_not_equal',
 		'ternary_spaces',
 		'-short_array_syntax',
-//		'controls_spaces',
 	))
 	->finder($finder)
 ;
