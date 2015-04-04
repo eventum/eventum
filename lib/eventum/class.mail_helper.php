@@ -50,7 +50,7 @@ class Mail_Helper
      * PEAR::Mail related objects
      *
      */
-    public function Mail_Helper()
+    public function __construct()
     {
         $this->mime = new Mail_mime("\r\n");
     }
@@ -995,7 +995,7 @@ class Mail_Helper
         return '<eventum.md5.' . $first . '.' . $second . '@' . APP_HOSTNAME . '>';
     }
 
-    public function splitAddresses($addresses)
+    public static function splitAddresses($addresses)
     {
         $mail = new Mail_RFC822($addresses);
 
