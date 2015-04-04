@@ -143,7 +143,7 @@ class Mail_Helper
     {
         $str = self::fixAddressQuoting($str);
         $str = Mime_Helper::encode($str);
-        $structs = Mail_RFC822::parseAddressList($str);
+        $structs = Mail_Helper::parseAddressList($str);
         $addresses = array();
         foreach ($structs as $structure) {
             if ((!empty($structure->mailbox)) && (!empty($structure->host))) {
@@ -152,6 +152,20 @@ class Mail_Helper
         }
 
         return $addresses;
+    }
+
+    /**
+     * Wrapper around Mail_RFC822::parseAddressList to avoid calling it statically
+     *
+     * @param string  $address         The address(es) to validate.
+     * @param string  $default_domain  Default domain/host etc.
+     * @param boolean $nest_groups     Whether to return the structure with groups nested for easier viewing.
+     * @param boolean $validate        Whether to validate atoms. Turn this off if you need to run addresses through before encoding the personal names, for instance.
+     * @return array A structured array of addresses.
+     */
+    public static function parseAddressList($address, $default_domain = null, $nest_groups = null, $validate = null, $limit = null) {
+        $obj = new Mail_RFC822($address, $default_domain, $nest_groups, $validate, $limit);
+        return $obj->parseAddressList();
     }
 
     /**
@@ -208,7 +222,7 @@ class Mail_Helper
     public static function getAddressInfo($address, $multiple = false)
     {
         $address = self::fixAddressQuoting($address);
-        $t = Mail_RFC822::parseAddressList($address, null, null, false);
+        $t = Mail_Helper::parseAddressList($address, null, null, false);
         if (PEAR::isError($t)) {
             return $t;
         }
