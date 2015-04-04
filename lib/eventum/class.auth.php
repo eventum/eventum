@@ -83,10 +83,10 @@ class Auth
      */
     public static function checkAuthentication($cookie_name, $failed_url = null, $is_popup = false)
     {
-        if ($cookie_name == NULL) {
+        if ($cookie_name == null) {
             $cookie_name = APP_COOKIE;
         }
-        if ($failed_url == NULL) {
+        if ($failed_url == null) {
             $failed_url = APP_RELATIVE_URL . "index.php?err=5";
         }
         $failed_url .= "&url=" . urlencode($_SERVER['REQUEST_URI']);
@@ -469,7 +469,7 @@ class Auth
      *
      * @return  integer The project ID
      */
-    public static function getCurrentProject($redirect=true)
+    public static function getCurrentProject($redirect = true)
     {
         $cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
         if (empty($cookie) || @$cookie['prj_id'] == false) {
@@ -529,7 +529,7 @@ class Auth
      * @param bool $redirect
      * @return  string  The current customer ID
      */
-    public static function getCurrentCustomerID($redirect=true)
+    public static function getCurrentCustomerID($redirect = true)
     {
         $customer_id = Session::get("current_customer_id");
         if (empty($customer_id) && $redirect == true) {

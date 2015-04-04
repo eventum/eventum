@@ -75,9 +75,9 @@ foreach ($data as $performer => $values) {
     $plots[] = $bplot;
 }
 
-$graph = new Graph(800,350);
+$graph = new Graph(800, 350);
 $graph->SetScale("textlin");
-$graph->img->SetMargin(60,30,40,40);
+$graph->img->SetMargin(60, 30, 40, 40);
 $graph->yaxis->SetTitleMargin(45);
 $graph->SetShadow();
 
@@ -92,10 +92,10 @@ $graph->Add($grouped);
 
 $graph->title->Set($graph_title);
 $graph->xaxis->title->Set("Hours (" . Date_Helper::getTimezoneShortNameByUser($usr_id) . ")");
-$graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
-$graph->title->SetFont(FF_FONT1,FS_BOLD);
+$graph->xaxis->title->SetFont(FF_FONT1, FS_BOLD);
+$graph->title->SetFont(FF_FONT1, FS_BOLD);
 $graph->yaxis->title->Set(ucfirst($event_type) . " (%)");
-$graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
-$graph->legend->Pos(0.01,0.09,'left','bottom');
+$graph->yaxis->title->SetFont(FF_FONT1, FS_BOLD);
+$graph->legend->Pos(0.01, 0.09, 'left', 'bottom');
 $graph->legend->SetLayout(LEGEND_HOR);
 $graph->Stroke();

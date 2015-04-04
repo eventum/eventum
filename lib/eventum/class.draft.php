@@ -40,7 +40,7 @@ class Draft
         if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
             return;
         }
-        list($usec,) = explode(' ', microtime());
+        list($usec) = explode(' ', microtime());
         $filename = date('Y-m-d_H-i-s_') . $usec . '.draft.txt';
         $file = APP_ROUTED_MAILS_SAVEDIR . '/routed_drafts/' . $filename;
         file_put_contents($file, $message);
@@ -316,7 +316,7 @@ class Draft
             } else {
                 $res[$i]['from'] = User::getFromHeader($res[$i]['emd_usr_id']);
             }
-            list($res[$i]['to'], ) = self::getEmailRecipients($res[$i]['emd_id']);
+            list($res[$i]['to']) = self::getEmailRecipients($res[$i]['emd_id']);
             if (empty($res[$i]['to'])) {
                 $res[$i]['to'] = "Notification List";
             }

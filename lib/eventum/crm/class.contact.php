@@ -218,7 +218,7 @@ abstract class Contact
 
 class ContactNotFoundException extends CRMException
 {
-    public function __construct($contact_id, $message = null, Exception $previous=null)
+    public function __construct($contact_id, $message = null, Exception $previous = null)
     {
         if ($message !== null) {
             $message = "Contact '" . $contact_id. "' not found";

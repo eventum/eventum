@@ -72,7 +72,7 @@ class Attachment
      * @param   boolean $force_inline If the file should be forced to render in the browser
      * @return  void
      */
-    public static function outputDownload(&$data, $filename, $filesize, $mimetype, $force_inline=false)
+    public static function outputDownload(&$data, $filename, $filesize, $mimetype, $force_inline = false)
     {
         if ($force_inline == true) {
             header('Content-Type: text/plain');
@@ -598,8 +598,8 @@ class Attachment
         $params = array(
             'iat_iss_id' => $issue_id,
             'iat_usr_id' => $usr_id,
-            'iat_created_date'=> Date_Helper::getCurrentDateGMT(),
-            'iat_description'=> $description,
+            'iat_created_date' => Date_Helper::getCurrentDateGMT(),
+            'iat_description' => $description,
             'iat_status' => $attachment_status,
         );
 

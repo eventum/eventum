@@ -137,9 +137,9 @@ if (!empty($graph_types[$graph_id]["y_label"])) {
 
 $graph = new Graph($width, $graph_types[$graph_id]["size"]["y"]);
 $graph->SetScale("textlin");
-$graph->img->setMargin(60,($legend_width + 20),25,25);
+$graph->img->setMargin(60, ($legend_width + 20), 25, 25);
 $graph->yaxis->SetTitleMargin(45);
-$graph->yaxis->scale->setGrace(15,0);
+$graph->yaxis->scale->setGrace(15, 0);
 $graph->SetShadow();
 
 // Turn the tickmarks
@@ -154,8 +154,8 @@ $graph->Add($grouped);
 $graph->title->Set($graph_types[$graph_id]["title"]);
 //$graph->xaxis->title->Set("Support Level");
 //$graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
-$graph->title->SetFont(FF_FONT1,FS_BOLD);
+$graph->title->SetFont(FF_FONT1, FS_BOLD);
 $graph->yaxis->title->Set($y_label);
-$graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
-$graph->legend->Pos(.015,.5,'right','center');
+$graph->yaxis->title->SetFont(FF_FONT1, FS_BOLD);
+$graph->legend->Pos(.015, .5, 'right', 'center');
 $graph->Stroke();

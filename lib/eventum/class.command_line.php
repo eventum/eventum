@@ -533,7 +533,7 @@ class Command_Line
      * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
-    public static function printIssueDetails($client, $auth, $issue_id, $full=false)
+    public static function printIssueDetails($client, $auth, $issue_id, $full = false)
     {
         $details = self::checkIssuePermissions($client, $auth, $issue_id);
 
@@ -578,7 +578,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
      * @param   integer $issue_id The issue ID
      * @param   array $details
      */
-    public static function printIssueCustomFields($client, $auth, $issue_id, $details=null)
+    public static function printIssueCustomFields($client, $auth, $issue_id, $details = null)
     {
         if (is_null($details)) {
             $details = self::checkIssuePermissions($client, $auth, $issue_id);
@@ -587,7 +587,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         // start custom fields management
         if (!empty($details["custom_fields"])) {
             foreach ($details["custom_fields"] as $custom_field) {
-                $msg .= str_pad($custom_field["fld_title"],15,' ',STR_PAD_LEFT) . ": " .
+                $msg .= str_pad($custom_field["fld_title"], 15, ' ', STR_PAD_LEFT) . ": " .
               $custom_field["value"] ."\n";
             }
         }
@@ -1147,7 +1147,7 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         $secondRow = '';
         foreach ($format as $column) {
             $firstRow .= sprintf("%-" . $column["width"] . "s", $column["title"]) . " ";
-            $secondRow .= sprintf("%-'-" . $column["width"] . "s","") . " ";
+            $secondRow .= sprintf("%-'-" . $column["width"] . "s", "") . " ";
         }
         echo $firstRow . "\n" . $secondRow . "\n";
         // print out data

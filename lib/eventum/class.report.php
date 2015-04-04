@@ -357,7 +357,7 @@ class Report
             "start"     => str_replace('-', '.', $start),
             "end"       => str_replace('-', '.', $end),
             "user"      => User::getDetails($usr_id),
-            "group_name"=> Group::getName(User::getGroupID($usr_id)),
+            "group_name" => Group::getName(User::getGroupID($usr_id)),
             "issues"    => History::getTouchedIssuesByUser($usr_id, $start_ts, $end_ts, $separate_closed, $htt_exclude, $separate_not_assigned_to_user),
             "status_counts" => History::getTouchedIssueCountByStatus($usr_id, $start_ts, $end_ts),
             "new_assigned_count"    =>  $newly_assigned,

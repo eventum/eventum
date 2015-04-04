@@ -183,7 +183,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
                 } else {
                     $draft['from'] = User::getFromHeader($draft['emd_usr_id']);
                 }
-                list($draft['to'], ) = Draft::getEmailRecipients($draft['emd_id']);
+                list($draft['to']) = Draft::getEmailRecipients($draft['emd_id']);
                 if (empty($draft['to'])) {
                     $draft['to'] = "Notification List";
                 }

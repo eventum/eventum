@@ -141,7 +141,7 @@ class Misc
     public function prompt($message, $default_value)
     {
         echo $message;
-        if ($default_value !== FALSE) {
+        if ($default_value !== false) {
             echo " [default: $default_value] -> ";
         } else {
             echo " [required] -> ";
@@ -149,7 +149,7 @@ class Misc
         flush();
         $input = self::getInputLine();
         if (empty($input)) {
-            if ($default_value === FALSE) {
+            if ($default_value === false) {
                 die("ERROR: Required parameter was not provided!\n");
             } else {
                 return $default_value;
@@ -183,7 +183,7 @@ class Misc
             fwrite($fd, "!\n");
             foreach ($textarray as $value) {
                 // adding the carat to each line prevents the use of aspell commands within the text...
-                fwrite($fd,"^$value\n");
+                fwrite($fd, "^$value\n");
             }
             fclose($fd);
             $return = shell_exec("cat $temptext | /usr/bin/aspell -a");
@@ -269,7 +269,7 @@ class Misc
         }
         foreach (array_keys($in_array) as $key) {
             // we need a reference, not a copy, normal foreach won't do
-            $value =& $in_array[$key];
+            $value = & $in_array[$key];
             // we need to copy args because we are doing
             // manipulation on it farther down
             $args = $in_args;
@@ -551,10 +551,10 @@ class Misc
         // FIXME: handle the base of email addresses surrounded by <>, i.e.
         // Bryan Alsdorf <bryan@askmonty.org>
         $text = preg_replace("'(\w+)://($range)(\.)?'", '<a title="open $1://$2 in a new window" class="' . $class . '" href="$1://$2" target="_$2">$1://$2</a>', $text);
-        $text = preg_replace("'(\s+)(www\.$range)(\.\s|\s)'", '$1<a title="open http://$2 in a new window" class="' . $class . '" href="http://$2" target="_$2">$2</a>$3' , $text);
+        $text = preg_replace("'(\s+)(www\.$range)(\.\s|\s)'", '$1<a title="open http://$2 in a new window" class="' . $class . '" href="http://$2" target="_$2">$2</a>$3', $text);
 
         $mail_pat = '/([-+a-z0-9_.]+@(?:[-a-z0-9_.]{2,63}\.)+[a-z]{2,6})/i';
-        $text = preg_replace($mail_pat, '<a title="open mailto:$1 in a new window" class="' . $class . '" href="mailto:$1" target="_$1">$1</a>' , $text);
+        $text = preg_replace($mail_pat, '<a title="open mailto:$1 in a new window" class="' . $class . '" href="mailto:$1" target="_$1">$1</a>', $text);
 
         return $text;
     }
@@ -755,7 +755,7 @@ class Misc
     const MSG_HTML_BOX = 'html_box';
     const MSG_NOTE_BOX = 'note_box';
 
-    public static function setMessage($msg, $type=self::MSG_INFO)
+    public static function setMessage($msg, $type = self::MSG_INFO)
     {
         $messages = Session::get('messages', array());
         $messages[] = array(

@@ -56,7 +56,7 @@ class Session
      * @param   mixed  $default What should be returned if the named variabe is not set
      * @return  mixed The session variable.
      */
-    public static function get($name, $default=null)
+    public static function get($name, $default = null)
     {
         if (self::is_set($name)) {
             return $_SESSION[$name];

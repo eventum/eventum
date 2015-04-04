@@ -50,7 +50,7 @@ class Link_Filter
                 FROM
                     {{%link_filter}}
                 WHERE
-                    lfi_id = ?" ;
+                    lfi_id = ?";
         try {
             $res = DB_Helper::getInstance()->getRow($sql, array($lfi_id));
         } catch (DbException $e) {

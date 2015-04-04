@@ -680,10 +680,10 @@ class Project
                     pru_usr_id=usr_id AND
                     usr_id != ?";
         $params = array($prj_id, APP_SYSTEM_USER_ID);
-        if ($status != NULL) {
+        if ($status != null) {
             $stmt .= " AND usr_status='active' ";
         }
-        if ($role != NULL) {
+        if ($role != null) {
             $stmt .= " AND pru_role > ?";
             $params[] = $role;
         }

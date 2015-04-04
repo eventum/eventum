@@ -60,7 +60,7 @@ if (@$_GET["err"] == '') {
     // application on that case
     $assigned_projects = Project::getAssocList(Auth::getUserID());
     if (count($assigned_projects) == 1) {
-        list($prj_id,) = each($assigned_projects);
+        list($prj_id) = each($assigned_projects);
         Auth::setCurrentProject($prj_id, 0);
         checkCustomerAuthentication($prj_id);
 

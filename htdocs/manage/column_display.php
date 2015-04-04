@@ -83,7 +83,7 @@ for ($i = 1; $i <= $navailable_ordered; $i++) {
 $tpl->assign(array(
     "available" =>  $available_ordered,
     "selected"  =>  $selected,
-    "user_roles"=>  $user_roles,
+    "user_roles" =>  $user_roles,
     "page"      =>  $page,
     "ranks"     =>  $ranks,
     "prj_id"    =>  $prj_id,

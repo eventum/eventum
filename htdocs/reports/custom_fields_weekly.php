@@ -79,7 +79,7 @@ $tpl->assign(array(
     "end_date"      =>  @$end_date,
     "report_type"   =>  @$_POST["report_type"],
     "per_user"   =>  $per_user,
-    "weeks" => Date_Helper::getWeekOptions(3,0),
+    "weeks" => Date_Helper::getWeekOptions(3, 0),
 ));
 
 if (empty($_POST["week"])) {

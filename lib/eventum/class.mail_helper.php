@@ -612,7 +612,7 @@ class Mail_Helper
         // ok, now parse the headers text and build the assoc array
         $full_email = $hdrs . "\n\n" . $body;
         $structure = Mime_Helper::decode($full_email, false, false);
-        $_headers =& $structure->headers;
+        $_headers = & $structure->headers;
         $header_names = Mime_Helper::getHeaderNames($hdrs);
         $headers = array();
         foreach ($_headers as $lowercase_name => $value) {

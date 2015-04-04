@@ -262,7 +262,7 @@ class FAQ
             return "";
         }
 
-        if ($res == NULL) {
+        if ($res == null) {
             return "";
         }
         $res['support_levels'] = array_keys(self::getAssociatedSupportLevels($res['faq_prj_id'], $res['faq_id']));

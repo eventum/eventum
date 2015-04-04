@@ -52,7 +52,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         // Build the Sphinx client
         $this->sphinx->SetSortMode(SPH_SORT_RELEVANCE);
 //        $this->sphinx->SetWeights(array(1, 1));
-        $this->sphinx->SetLimits(0,500, 100000);
+        $this->sphinx->SetLimits(0, 500, 100000);
         $this->sphinx->SetArrayResult(true);
 
         if (empty($options['match_mode'])) {
@@ -147,7 +147,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                     $res = $this->sphinx->BuildExcerpts($documents, 'issue_stemmed', $this->keywords, $excerpt_options);
                     if ($res[0] != $issue['iss_original_description']) {
                         $excerpt['issue']['description'] = self::cleanUpExcerpt($res[0]);
-                        error_log(print_r($excerpt['issue']['description'],1));
+                        error_log(print_r($excerpt['issue']['description'], 1));
                     }
                 } elseif ($match['index'] == 'email') {
                     $email = Support::getEmailDetails(null, $match['match_id']);
@@ -210,7 +210,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         );
     }
 
-    private function getIndexes($all_indexes=false)
+    private function getIndexes($all_indexes = false)
     {
         $indexes = array(
                     'issue',

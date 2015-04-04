@@ -74,7 +74,7 @@ class Support
                     $accounts[$res[$i]['sup_ema_id']] = self::connectEmailServer(Email_Account::getDetails($res[$i]['sup_ema_id']));
                 }
                 $mbox = $accounts[$res[$i]['sup_ema_id']];
-                if ($mbox !== FALSE) {
+                if ($mbox !== false) {
                     // now try to find the UID of the current message-id
                     $matches = @imap_search($mbox, 'TEXT "' . $res[$i]['sup_message_id'] . '"');
                     if (count($matches) > 0) {
@@ -241,7 +241,7 @@ class Support
         if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
             return;
         }
-        list($usec,) = explode(' ', microtime());
+        list($usec) = explode(' ', microtime());
         $filename = date('Y-m-d_H-i-s_') . $usec . '.note.txt';
         $file = APP_ROUTED_MAILS_SAVEDIR . '/routed_emails/' . $filename;
         file_put_contents($file, $message);
@@ -2032,7 +2032,7 @@ class Support
                 ));
                 // skip users who don't have access to this issue (but allow non-users and users without access to this project) to get emails
                 $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($recipient), true);
-                if ((((!empty($recipient_usr_id)) && ((!Issue::canAccess($issue_id, $recipient_usr_id)) && (User::getRoleByUser($recipient_usr_id, $prj_id) != NULL)))) ||
+                if ((((!empty($recipient_usr_id)) && ((!Issue::canAccess($issue_id, $recipient_usr_id)) && (User::getRoleByUser($recipient_usr_id, $prj_id) != null)))) ||
                         (empty($recipient_usr_id)) && (Issue::isPrivate($issue_id))) {
                     continue;
                 }
@@ -2585,7 +2585,7 @@ class Support
                 (!self::isAllowedToEmail($issue_id, $sender_email))) {
             // add the message body as a note
             $_POST = array(
-                'full_message'=> $email['full_email'],
+                'full_message' => $email['full_email'],
                 'title'       => @$email['headers']['subject'],
                 'note'        => Mail_Helper::getCannedBlockedMsgExplanation($issue_id) . $email['body'],
                 'message_id'  => Mail_Helper::getMessageID($text_headers, $body),

@@ -108,7 +108,7 @@ if (count($plots) < 1) {
 if (@$_REQUEST["type"] == "pie") {
 
     // A new graph
-    $graph = new PieGraph(500,300,"auto");
+    $graph = new PieGraph(500, 300, "auto");
 
     // The pie plot
     $plot = new PiePlot($plots);
@@ -116,7 +116,7 @@ if (@$_REQUEST["type"] == "pie") {
 
     // Move center of pie to the left to make better room
     // for the legend
-    $plot->SetCenter(0.26,0.55);
+    $plot->SetCenter(0.26, 0.55);
 
     // Label font and color setup
     $plot->SetFont(FF_FONT1, FS_BOLD);
@@ -131,7 +131,7 @@ if (@$_REQUEST["type"] == "pie") {
     // Legends
     $plot->SetLegends($labels);
     $graph->legend->SetFont(FF_FONT1);
-    $graph->legend->Pos(0.06,0.27);
+    $graph->legend->Pos(0.06, 0.27);
 } else {
 
     // bar chart
@@ -159,9 +159,9 @@ if (@$_REQUEST["type"] == "pie") {
     $plot->showValue(true);
     $plot->SetFillColor("#0000ff");
 
-    $graph = new Graph($width,350);
+    $graph = new Graph($width, 350);
     $graph->SetScale("textlin");
-    $graph->img->SetMargin(50,30,40,40);
+    $graph->img->SetMargin(50, 30, 40, 40);
     $graph->yaxis->SetTitleMargin(30);
     $graph->SetShadow();
 
@@ -171,15 +171,15 @@ if (@$_REQUEST["type"] == "pie") {
     $graph->xaxis->SetTickLabels($labels);
 
     $graph->xaxis->title->Set($x_title);
-    $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
-    $graph->title->SetFont(FF_FONT1,FS_BOLD);
-    $graph->yaxis->scale->setGrace(15,0);
+    $graph->xaxis->title->SetFont(FF_FONT1, FS_BOLD);
+    $graph->title->SetFont(FF_FONT1, FS_BOLD);
+    $graph->yaxis->scale->setGrace(15, 0);
     $graph->yaxis->title->Set($y_label);
-    $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
+    $graph->yaxis->title->SetFont(FF_FONT1, FS_BOLD);
 }
 
 $graph->title->Set($graph_title);
-$graph->title->SetFont(FF_FONT1,FS_BOLD);
+$graph->title->SetFont(FF_FONT1, FS_BOLD);
 
 $graph->Add($plot);
 $graph->Stroke();

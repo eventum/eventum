@@ -298,7 +298,7 @@ class Routing
             $full_message = preg_replace($pattern, $replacement, $full_message);
         }
 
-        list($headers,) = Mime_Helper::splitHeaderBody($full_message);
+        list($headers) = Mime_Helper::splitHeaderBody($full_message);
 
         // need some validation here
         if (empty($full_message)) {

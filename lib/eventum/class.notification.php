@@ -1323,7 +1323,7 @@ class Notification
      * @return  bool
      */
     public static function notifyIRC($project_id, $notice, $issue_id = false, $usr_id = false, $category = false,
-                                     $type=false)
+                                     $type = false)
     {
         // don't save any irc notification if this feature is disabled
         $setup = Setup::load();
@@ -1349,7 +1349,7 @@ class Notification
             $params['ino_iss_id'] = $issue_id;
         }
         if ($usr_id) {
-            $params['ino_target_usr_id']= $usr_id;
+            $params['ino_target_usr_id'] = $usr_id;
         }
 
         $stmt = "INSERT INTO {{%irc_notice}} SET ". DB_Helper::buildSet($params);

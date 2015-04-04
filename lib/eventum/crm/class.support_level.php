@@ -30,7 +30,7 @@ abstract class Support_Level
     public function __construct(CRM $crm, $level_id)
     {
         $this->crm = $crm;
-        $this->connection =& $crm->getConnection();
+        $this->connection = & $crm->getConnection();
         $this->level_id = $level_id;
 
         $this->load();
@@ -61,7 +61,7 @@ abstract class Support_Level
 
 class SupportLevelNotFoundException extends CRMException
 {
-    public function __construct($level_id, Exception $previous=null)
+    public function __construct($level_id, Exception $previous = null)
     {
         parent::__construct("Support Level '" . $level_id. "' not found", 0, $previous);
     }

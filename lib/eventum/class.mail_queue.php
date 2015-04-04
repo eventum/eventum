@@ -94,7 +94,7 @@ class Mail_Queue
         }
 
         // convert array of headers into text headers
-        list(,$text_headers) = $res;
+        list(, $text_headers) = $res;
 
         $params = array(
             'maq_save_copy' => $save_email_copy,
@@ -161,7 +161,7 @@ class Mail_Queue
                     return $res;
                 }
 
-                list(,$text_headers) = $res;
+                list(, $text_headers) = $res;
                 $result = self::_sendEmail($recipients, $text_headers, $email['body'], $status);
 
                 if (PEAR::isError($result)) {
@@ -248,7 +248,7 @@ class Mail_Queue
         if (PEAR::isError($res)) {
             // special handling of errors when the mail server is down
             $msg = $res->getMessage();
-            $cant_notify = ($status == 'error' || strstr($msg , 'unable to connect to smtp server') || stristr($msg, 'Failed to connect to') !== false);
+            $cant_notify = ($status == 'error' || strstr($msg, 'unable to connect to smtp server') || stristr($msg, 'Failed to connect to') !== false);
             Error_Handler::logError(array($msg, $res->getDebugInfo()), __FILE__, __LINE__, !$cant_notify);
 
             return $res;

@@ -122,7 +122,7 @@ class Custom_Field
                  SET
                     cfo_value=?
                  WHERE
-                    cfo_id=?" ;
+                    cfo_id=?";
         try {
             DB_Helper::getInstance()->query($stmt, array($cfo_value, $cfo_id));
         } catch (DbException $e) {
@@ -487,7 +487,7 @@ class Custom_Field
             return "";
         }
 
-        if ($res == NULL) {
+        if ($res == null) {
             $returns[$fld_id . $value] = '';
 
             return "";
@@ -539,7 +539,7 @@ class Custom_Field
             return "";
         }
 
-        if ($res == NULL) {
+        if ($res == null) {
             $returns[$fld_id . $value] = '';
 
             return "";

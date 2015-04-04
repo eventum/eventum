@@ -187,7 +187,7 @@ class Date_Helper
      * @param   string $timezone
      * @param   bool $omit_offset
      */
-    public static function getISO8601date($ts, $timezone = '', $omit_offset=false)
+    public static function getISO8601date($ts, $timezone = '', $omit_offset = false)
     {
         $date = self::getDateTime($ts, $timezone);
 

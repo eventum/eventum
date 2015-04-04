@@ -61,6 +61,6 @@ if (@$_POST["cat"] == "save") {
 
 $tpl->assign("list", User::getAliases($usr_id));
 $tpl->assign("username", User::getFullName($usr_id));
-$tpl->assign("id",$usr_id);
+$tpl->assign("id", $usr_id);
 
 $tpl->displayTemplate();

@@ -60,7 +60,7 @@ abstract class Customer
     public function __construct(CRM $crm, $customer_id)
     {
         $this->crm = $crm;
-        $this->connection =& $crm->getConnection();
+        $this->connection = & $crm->getConnection();
         $this->customer_id = $customer_id;
 
         // attempt to load the data
@@ -208,7 +208,7 @@ abstract class Customer
 
 class CustomerNotFoundException extends CRMException
 {
-    public function __construct($customer_id, Exception $previous=null)
+    public function __construct($customer_id, Exception $previous = null)
     {
         parent::__construct("Customer '" . $customer_id . "' not found", 0, $previous);
     }

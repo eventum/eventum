@@ -60,7 +60,7 @@ if (count(@$_POST["end"]) > 0 &&
 }
 
 $tpl->assign(array(
-    "weeks" => Date_Helper::getWeekOptions(3,0),
+    "weeks" => Date_Helper::getWeekOptions(3, 0),
     "users" => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     "start_date"    =>  @$start_date,
     "end_date"      =>  @$end_date,

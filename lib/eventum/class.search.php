@@ -431,7 +431,7 @@ class Search
         $categories = Category::getAssocList($prj_id);
         $column_headings = Issue::getColumnHeadings($prj_id);
         if (count($custom_fields) > 0) {
-            $column_headings = array_merge($column_headings,$custom_fields);
+            $column_headings = array_merge($column_headings, $custom_fields);
         }
         $csv[] = @implode("\t", $column_headings);
 

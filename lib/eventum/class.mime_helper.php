@@ -145,7 +145,7 @@ class Mime_Helper
             } else {
                 $address = stripslashes($address);
                 $first_part = substr($address, 0, strrpos($address, '<') - 1);
-                $first_part = '"' . str_replace('"', '\"',($first_part)) . '"';
+                $first_part = '"' . str_replace('"', '\"', ($first_part)) . '"';
                 $second_part = substr($address, strrpos($address, '<'));
                 $address = $first_part . ' ' . $second_part;
             }

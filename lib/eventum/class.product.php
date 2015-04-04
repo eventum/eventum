@@ -29,7 +29,7 @@
 
 class Product
 {
-    public static function getList($include_removed=null)
+    public static function getList($include_removed = null)
     {
         $params = array();
         $sql = "SELECT
@@ -59,7 +59,7 @@ class Product
         return $res;
     }
 
-    public static function getAssocList($removed=null)
+    public static function getAssocList($removed = null)
     {
         $list = self::getList($removed);
         $return = array();

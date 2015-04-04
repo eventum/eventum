@@ -93,7 +93,7 @@ if ((!Stats::hasData($data)) || ((Auth::getCurrentRole() <= User::getRoleID("Rep
 }
 
 // A new graph
-$graph = new PieGraph(360,200,"auto");
+$graph = new PieGraph(360, 200, "auto");
 
 // Setup title
 $graph->title->Set($graph_title);
@@ -109,7 +109,7 @@ if (count($colors) > 0) {
 
 // Move center of pie to the left to make better room
 // for the legend
-$p1->SetCenter(0.26,0.55);
+$p1->SetCenter(0.26, 0.55);
 
 // Label font and color setup
 $p1->SetFont($font, FS_BOLD);
@@ -127,7 +127,7 @@ $p1->SetSize(0.3);
 // Legends
 $p1->SetLegends($labels);
 $graph->legend->SetFont($font);
-$graph->legend->Pos(0.06,0.27);
+$graph->legend->Pos(0.06, 0.27);
 
 $graph->Add($p1);
 $graph->Stroke();

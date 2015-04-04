@@ -478,7 +478,7 @@ class Customer_Stats_Report
                 "total_formatted"   =>  Misc::getFormattedTime($total, true),
                 "avg"   =>  $avg,
                 "avg_formatted" =>  Misc::getFormattedTime($avg),
-                "median"=>  $median,
+                "median" =>  $median,
                 "median_formatted"  =>  Misc::getFormattedTime($median),
             );
         } else {
@@ -514,7 +514,7 @@ class Customer_Stats_Report
             $time_to_close = array(
                 "avg"   =>  $stats->mean(),
                 "avg_formatted" =>  Misc::getFormattedTime($stats->mean()),
-                "median"=>  $stats->median(),
+                "median" =>  $stats->median(),
                 "median_formatted"  =>  Misc::getFormattedTime($stats->median()),
                 "max"   =>  $stats->max(),
                 "max_formatted" =>  Misc::getFormattedTime($stats->max()),
@@ -525,7 +525,7 @@ class Customer_Stats_Report
             $time_to_close = array(
                 "avg"   =>  0,
                 "avg_formatted" =>  Misc::getFormattedTime(0),
-                "median"=>  0,
+                "median" =>  0,
                 "median_formatted"  =>  Misc::getFormattedTime(0),
                 "max"   =>  0,
                 "max_formatted" =>  Misc::getFormattedTime(0),
@@ -555,7 +555,7 @@ class Customer_Stats_Report
             $time_to_first_response = array(
                 "avg"   =>  $stats->mean(),
                 "avg_formatted" =>  Misc::getFormattedTime($stats->mean()),
-                "median"=>  $stats->median(),
+                "median" =>  $stats->median(),
                 "median_formatted"  =>  Misc::getFormattedTime($stats->median()),
                 "max"   =>  $stats->max(),
                 "max_formatted" =>  Misc::getFormattedTime($stats->max()),
@@ -566,7 +566,7 @@ class Customer_Stats_Report
             $time_to_first_response = array(
                 "avg"   =>  0,
                 "avg_formatted" =>  Misc::getFormattedTime(0),
-                "median"=>  0,
+                "median" =>  0,
                 "median_formatted"  =>  Misc::getFormattedTime(0),
                 "max"   =>  0,
                 "max_formatted" =>  Misc::getFormattedTime(0),
@@ -614,7 +614,7 @@ class Customer_Stats_Report
         $where = '';
         if (!empty($customer_field)) {
             if (count($this->current_customers) > 0) {
-                $where .= $customer_field . " IN(" . implode(",",$this->current_customers) . ")";
+                $where .= $customer_field . " IN(" . implode(",", $this->current_customers) . ")";
             } else {
                 // XXX: this is a dirty hack to handle support levels that don't have customers, but I can't think of anything better right now.
                 $where .= "1 = 2";

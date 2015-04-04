@@ -55,12 +55,12 @@ if (is_array($fields) && count($fields) > 0) {
     exit;
 }
 
-if ((!empty($_REQUEST['start']['Year'])) && (!empty($_REQUEST['start']['Month'])) &&(!empty($_REQUEST['start']['Day']))) {
+if ((!empty($_REQUEST['start']['Year'])) && (!empty($_REQUEST['start']['Month'])) && (!empty($_REQUEST['start']['Day']))) {
     $start = implode('-', $_REQUEST['start']);
 } else {
     $start = false;
 }
-if ((!empty($_REQUEST['end']['Year'])) && (!empty($_REQUEST['end']['Month'])) &&(!empty($_REQUEST['end']['Day']))) {
+if ((!empty($_REQUEST['end']['Year'])) && (!empty($_REQUEST['end']['Month'])) && (!empty($_REQUEST['end']['Day']))) {
     $end = implode('-', $_REQUEST['end']);
 } else {
     $end = false;
@@ -84,7 +84,7 @@ $tpl->assign(array(
     "group_by"      =>  @$_GET["group_by"],
     "selected_options"  => @$_REQUEST['custom_options'],
     "data"  =>  @$data,
-    "start_date"=>  $start,
+    "start_date" =>  $start,
     "end_date"  =>  $end,
     "assignees" =>  Project::getUserAssocList($prj_id, 'active', User::getRoleID("Customer")),
     "assignee"  =>  @$_REQUEST['assignee'],

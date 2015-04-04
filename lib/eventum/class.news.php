@@ -176,7 +176,7 @@ class News
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
-    public function removeProjectAssociations($nws_id, $prj_id=false)
+    public function removeProjectAssociations($nws_id, $prj_id = false)
     {
         if (!is_array($nws_id)) {
             $nws_id = array($nws_id);

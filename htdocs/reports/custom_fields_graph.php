@@ -43,12 +43,12 @@ if (!Access::canAccessReports(Auth::getUserID())) {
  * Generates a graph for the selected custom field
  */
 
-if ((!empty($_REQUEST['start']['Year'])) && (!empty($_REQUEST['start']['Month'])) &&(!empty($_REQUEST['start']['Day']))) {
+if ((!empty($_REQUEST['start']['Year'])) && (!empty($_REQUEST['start']['Month'])) && (!empty($_REQUEST['start']['Day']))) {
     $start = implode('-', $_REQUEST['start']);
 } else {
     $start = false;
 }
-if ((!empty($_REQUEST['end']['Year'])) && (!empty($_REQUEST['end']['Month'])) &&(!empty($_REQUEST['end']['Day']))) {
+if ((!empty($_REQUEST['end']['Year'])) && (!empty($_REQUEST['end']['Month'])) && (!empty($_REQUEST['end']['Day']))) {
     $end = implode('-', $_REQUEST['end']);
 } else {
     $end = false;
@@ -67,7 +67,7 @@ if (@$_GET["type"] == "pie") {
     }
 
     // A new graph
-    $graph = new PieGraph(500,300,"auto");
+    $graph = new PieGraph(500, 300, "auto");
 
     // The pie plot
     $plot = new PiePlot(array_values($data));
@@ -75,7 +75,7 @@ if (@$_GET["type"] == "pie") {
 
     // Move center of pie to the left to make better room
     // for the legend
-    $plot->SetCenter(0.26,0.55);
+    $plot->SetCenter(0.26, 0.55);
 
     // Label font and color setup
     $plot->SetFont(FF_FONT1, FS_BOLD);
@@ -90,7 +90,7 @@ if (@$_GET["type"] == "pie") {
     // Legends
     $plot->SetLegends(array_keys($data));
     $graph->legend->SetFont(FF_FONT1);
-    $graph->legend->Pos(0.06,0.27);
+    $graph->legend->Pos(0.06, 0.27);
 } else {
     // bar chart
 
@@ -120,9 +120,9 @@ if (@$_GET["type"] == "pie") {
     $plot->showValue(true);
     $plot->SetFillColor("#0000ff");
 
-    $graph = new Graph($width,350);
+    $graph = new Graph($width, 350);
     $graph->SetScale("textlin");
-    $graph->img->SetMargin(60,30,40,60);
+    $graph->img->SetMargin(60, 30, 40, 60);
     $graph->yaxis->SetTitleMargin(45);
     $graph->SetShadow();
 
@@ -132,11 +132,11 @@ if (@$_GET["type"] == "pie") {
     $graph->xaxis->SetTickLabels(array_keys($data));
 
     $graph->xaxis->title->Set($field_details["fld_title"]);
-    $graph->xaxis->title->SetFont(FF_FONT1,FS_BOLD);
+    $graph->xaxis->title->SetFont(FF_FONT1, FS_BOLD);
     $graph->xaxis->SetTitleMargin(18);
-    $graph->title->SetFont(FF_FONT1,FS_BOLD);
+    $graph->title->SetFont(FF_FONT1, FS_BOLD);
     $graph->yaxis->title->Set("Issue Count");
-    $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
+    $graph->yaxis->title->SetFont(FF_FONT1, FS_BOLD);
 }
 
 if (@$_GET["group_by"] == "customers") {
@@ -146,7 +146,7 @@ if (@$_GET["group_by"] == "customers") {
 }
 
 $graph->title->Set($title);
-$graph->title->SetFont(FF_FONT1,FS_BOLD);
+$graph->title->SetFont(FF_FONT1, FS_BOLD);
 
 $graph->Add($plot);
 $graph->Stroke();

@@ -61,7 +61,7 @@ if (@$_POST["cat"] == "insert") {
     }
 }
 
-list(,$repliers) = Authorized_Replier::getAuthorizedRepliers($issue_id);
+list(, $repliers) = Authorized_Replier::getAuthorizedRepliers($issue_id);
 $tpl->assign("list", $repliers);
 
 $t = Project::getAddressBook($prj_id, $issue_id);

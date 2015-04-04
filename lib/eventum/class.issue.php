@@ -1402,7 +1402,7 @@ class Issue
                 'date'          =>  Date_Helper::getCurrentDateGMT(),
                 'subject'       =>  'Issue closed comments',
                 'from'          =>  $from,
-                'has_attachment'=>  0,
+                'has_attachment' =>  0,
                 'body'          =>  $reason,
                 'full_email'    =>  $full_email,
                 'headers'       =>  $structure->headers
@@ -1632,7 +1632,7 @@ class Issue
         }
 
         if ($current["iss_original_percent_complete"] != $_POST["percent_complete"]) {
-            $updated_fields["Percent complete"] = History::formatChanges($current["iss_original_percent_complete"],$_POST["percent_complete"]);
+            $updated_fields["Percent complete"] = History::formatChanges($current["iss_original_percent_complete"], $_POST["percent_complete"]);
         }
 
         if ($current["iss_description"] != $_POST["description"]) {
@@ -2024,7 +2024,7 @@ class Issue
                     $data['contract'] =  $contract->getContractID();
                 } elseif (isset($contact)) {
                     // Just use first contract / customer for now.
-                    $contracts = $contact->getContracts(array('active'=>true));
+                    $contracts = $contact->getContracts(array('active' => true));
                     $contract = $contracts[0];
                     $data['contract'] =  $contract->getContractID();
                 }

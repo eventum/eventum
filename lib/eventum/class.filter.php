@@ -470,7 +470,7 @@ class Filter
         return $return;
     }
 
-    public static function buildUrl($filter_info, $options, $exclude_filter=false, $use_params=false)
+    public static function buildUrl($filter_info, $options, $exclude_filter = false, $use_params = false)
     {
         $url = '';
         foreach ($filter_info as $field => $filter) {
@@ -923,7 +923,7 @@ class Filter
                 'title' =>  ev_gettext("Reporter"),
                 'param' =>  'reporter'
             ),
-            'customer_id'=>  array(
+            'customer_id' =>  array(
                 'title' =>  ev_gettext("Customer"),
                 'param' =>  'customer_id'
             ),

@@ -130,7 +130,7 @@ class Email_Account
             return 0;
         }
 
-        if ($res == NULL) {
+        if ($res == null) {
             return 0;
         }
 
