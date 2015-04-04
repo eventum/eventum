@@ -156,11 +156,16 @@ function authorizeRequest()
     return $authUser;
 }
 
-$filter = Filter::getDetails($_GET["custom_id"], false);
-$authUser = authorizeRequest();
+$filter = Filter::getDetails(@$_GET["custom_id"], false);
 
-$usr_id = User::getUserIDByEmail($authUser);
-Auth::createFakeCookie($usr_id, $filter['cst_prj_id']);
+// try current auth cookie
+$usr_id = Auth::getUserID();
+if (!$usr_id) {
+    // otherwise setup HTTP Auth headers
+    $authUser = authorizeRequest();
+    $usr_id = User::getUserIDByEmail($authUser);
+    Auth::createFakeCookie($usr_id, $filter['cst_prj_id']);
+}
 
 $tpl = new Template_Helper();
 $tpl->setTemplate("rss.tpl.xml");
