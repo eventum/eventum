@@ -24,7 +24,7 @@ composer.phar:
 	curl -sS https://getcomposer.org/installer | php
 
 php-cs-fixer.phar:
-	curl -sS http://cs.sensiolabs.org/get/php-cs-fixer.phar -o $@.tmp && mv $@.tmp $@
+	curl -sS http://get.sensiolabs.org/php-cs-fixer.phar -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
 
 composer.lock:
 	composer install
