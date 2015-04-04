@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -38,7 +38,6 @@
 
 class Misc
 {
-
     /**
      * Method used to simulate the correct behavior of array_diff().
      *
@@ -264,25 +263,25 @@ class Misc
      */
     public static function array_map_deep(&$in_array, $in_func, $in_args = array(), $in_index = 1)
     {
-       // fix people from messing up the index of the value
-       if ($in_index < 1) {
-           $in_index = 1;
-       }
-       foreach (array_keys($in_array) as $key) {
-           // we need a reference, not a copy, normal foreach won't do
-           $value =& $in_array[$key];
-           // we need to copy args because we are doing
-           // manipulation on it farther down
-           $args = $in_args;
-           if (is_array($value)) {
-               self::array_map_deep($value, $in_func, $in_args, $in_index);
-           } else {
-               array_splice($args, $in_index - 1, $in_index - 1, $value);
-               $value = call_user_func_array($in_func, $args);
-           }
-       }
+        // fix people from messing up the index of the value
+        if ($in_index < 1) {
+            $in_index = 1;
+        }
+        foreach (array_keys($in_array) as $key) {
+            // we need a reference, not a copy, normal foreach won't do
+            $value =& $in_array[$key];
+            // we need to copy args because we are doing
+            // manipulation on it farther down
+            $args = $in_args;
+            if (is_array($value)) {
+                self::array_map_deep($value, $in_func, $in_args, $in_index);
+            } else {
+                array_splice($args, $in_index - 1, $in_index - 1, $value);
+                $value = call_user_func_array($in_func, $args);
+            }
+        }
 
-       return $in_array;
+        return $in_array;
     }
 
     /**
