@@ -489,6 +489,7 @@ class Mime_Helper
         if (preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $input, $match)) {
             return array($match[1], $match[2]);
         }
+
         return null;
     }
 

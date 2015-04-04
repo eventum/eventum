@@ -387,7 +387,8 @@ class Attachment
      * @param int $attachment_id
      * @param int[] $iaf_ids
      */
-    private static function associateFiles($attachment_id, $iaf_ids) {
+    private static function associateFiles($attachment_id, $iaf_ids)
+    {
         // TODO: verify that all $iaf_ids actually existed, not expired
         $list = DB_Helper::buildList($iaf_ids);
         $stmt = "UPDATE {{%issue_attachment_file}} SET iaf_iat_id=? WHERE iaf_id in ($list)";
@@ -414,7 +415,8 @@ class Attachment
      * @param   string $unknown_user The email of the user who originally sent this email, who doesn't have an account.
      * @param   integer $associated_note_id The note ID that these attachments should be associated with
      */
-    public static function attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description, $unknown_user = null, $associated_note_id = null) {
+    public static function attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description, $unknown_user = null, $associated_note_id = null)
+    {
         if (!$iaf_ids) {
             throw new LogicException("No attachment ids");
         }
@@ -547,7 +549,8 @@ class Attachment
      * @param array $files Array from $_FILES
      * @return int[] return id-s of attachment files inserted to database
      */
-    public static function addFiles($files) {
+    public static function addFiles($files)
+    {
         if (!is_array($files['name'])) {
             throw new RuntimeException("Wrong structure, dif you forgot dropfile[]?");
         }
@@ -569,6 +572,7 @@ class Attachment
                 $iaf_ids[] = $iaf_id;
             }
         }
+
         return $iaf_ids;
     }
 

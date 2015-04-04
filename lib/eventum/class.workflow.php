@@ -394,6 +394,7 @@ class Workflow
         }
 
         $backend = self::_getBackend($prj_id);
+
         return $backend->getAllowedStatuses($prj_id, $issue_id);
     }
 
@@ -454,6 +455,7 @@ class Workflow
         }
 
         $backend = self::_getBackend($prj_id);
+
         return $backend->handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $types);
     }
 

@@ -2080,7 +2080,7 @@ class Support
      */
     public static function sendEmail($parent_sup_id = false)
     {
-        $issue_id = isset($_POST["issue_id"]) ? (int)$_POST["issue_id"] : 0;
+        $issue_id = isset($_POST["issue_id"]) ? (int) $_POST["issue_id"] : 0;
 
         // if we are replying to an existing email, set the In-Reply-To: header accordingly
         if ($parent_sup_id) {

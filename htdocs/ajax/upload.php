@@ -40,7 +40,7 @@ try {
         throw new InvalidArgumentException(ev_gettext("No file argument"));
     }
 
-    $file = (string)$_GET['file'];
+    $file = (string) $_GET['file'];
     if (!isset($_FILES[$file])) {
         throw new InvalidArgumentException(ev_gettext("No files uploaded"));
     }

@@ -826,7 +826,7 @@ class Issue
         }
 
         // TRANSLATORS: %1 = issue_id, %2 = issue summary
-        $res['reply_subject'] = ev_gettext('Re: [#%1$s] %2$s', (int)$issue_id, $res["sup_subject"]);
+        $res['reply_subject'] = ev_gettext('Re: [#%1$s] %2$s', (int) $issue_id, $res["sup_subject"]);
         $res['created_date_ts'] = Date_Helper::getUnixTimestamp($res['iss_created_date'], 'GMT');
 
         return $res;
@@ -967,7 +967,7 @@ class Issue
         }
 
         // record the change
-        $issue_id = (int)$issue_id;
+        $issue_id = (int) $issue_id;
         for ($i = 0; $i < count($ids); $i++) {
             History::add($ids[$i], Auth::getUserID(), History::getTypeID('duplicate_update'),
                 "The details for issue #$issue_id were updated by " . User::getFullName(Auth::getUserID()) . " and the changes propagated to the duplicated issues.");
@@ -3752,7 +3752,6 @@ class Issue
                         "Issue assignment to changed (" . History::formatChanges(join(', ', $old_assignee_names), join(', ', $assignee_names)) . ") by " . User::getFullName(Auth::getUserID()));
     }
 
-
     /**
      * Returns an array of variables to be set on the new issue page when cloning an issue.
      *
@@ -3799,6 +3798,7 @@ class Issue
                 "contact"     => $clone_details['contact'],
             );
         }
+
         return $clone_variables;
     }
 }
