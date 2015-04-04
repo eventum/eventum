@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -46,9 +47,9 @@ function sendAuthenticateHeader()
 function rssError($msg)
 {
     $tpl = new Template_Helper();
-    $tpl->setTemplate("rss_error.tpl.xml");
+    $tpl->setTemplate('rss_error.tpl.xml');
 
-    header("Content-Type: text/xml; charset=" . APP_CHARSET);
+    header('Content-Type: text/xml; charset=' . APP_CHARSET);
     $tpl->assign(array(
         'error' => $msg,
     ));
@@ -155,10 +156,10 @@ function authorizeRequest()
 
 authorizeRequest();
 
-$filter = Filter::getDetails($_GET["custom_id"], false);
+$filter = Filter::getDetails($_GET['custom_id'], false);
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("rss.tpl.xml");
+$tpl->setTemplate('rss.tpl.xml');
 
 $options = array(
     'users'         => $filter['cst_users'],
@@ -184,5 +185,5 @@ $tpl->assign(array(
     'issues' => $issues,
 ));
 
-header("Content-Type: text/xml; charset=" . APP_CHARSET);
+header('Content-Type: text/xml; charset=' . APP_CHARSET);
 $tpl->displayTemplate();
