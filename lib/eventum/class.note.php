@@ -570,7 +570,7 @@ class Note
             }
             if (empty($t['customer_id'])) {
                 $update_type = 'staff response';
-                $t['customer_id'] = "NULL";
+                $t['customer_id'] = null;
             } else {
                 $update_type = 'customer action';
             }
@@ -587,8 +587,8 @@ class Note
                 Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $t, $internal_only, false, '', $sup_id);
                 Issue::markAsUpdated($issue_id, $update_type);
                 self::remove($note_id, false);
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_email'),
-                        "Note converted to e-mail (from: " . @$structure->headers['from'] . ") by " . User::getFullName(Auth::getUserID()));
+                $summary = "Note converted to e-mail (from: " . @$structure->headers['from'] . ") by " . User::getFullName(Auth::getUserID());
+                History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_email'), $summary);
                 // now add sender as an authorized replier
                 if ($authorize_sender) {
                     Authorized_Replier::manualInsert($issue_id, @$structure->headers['from']);
@@ -609,8 +609,8 @@ class Note
         // remove the note, if the draft was created successfully
         if ($res) {
             self::remove($note_id, false);
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_draft'),
-                    "Note converted to draft (from: " . @$structure->headers['from'] . ") by " . User::getFullName(Auth::getUserID()));
+            $summary = "Note converted to draft (from: " . @$structure->headers['from'] . ") by " . User::getFullName(Auth::getUserID());
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_draft'), $summary);
         }
 
         return $res;

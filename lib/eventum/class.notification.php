@@ -296,6 +296,7 @@ class Notification
         $full_message = $message['full_email'];
         $sender = $message['from'];
         $sender_email = strtolower(Mail_Helper::getEmailAddress($sender));
+        // FIXME: $structure is unused
         $structure = Mime_Helper::decode($full_message, true);
 
         // get ID of whoever is sending this.
@@ -357,6 +358,7 @@ class Notification
         if (count($emails) == 0) {
             return;
         }
+        // FIXME: $setup unused
         $setup = Setup::load();
         // change the sender of the message to {prefix}{issue_id}@{host}
         //  - keep everything else in the message, except 'From:', 'Sender:', 'To:', 'Cc:'
@@ -391,6 +393,7 @@ class Notification
         }
 
         foreach ($emails as $to) {
+            // FIXME: $recipient_usr_id unused
             $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($to));
             // add the warning message about replies being blocked or not
             $fixed_body = Mail_Helper::addWarningMessage($issue_id, $to, $body, $headers);
