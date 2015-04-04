@@ -29,6 +29,9 @@ php-cs-fixer.phar:
 pear-fix: composer.lock php-cs-fixer.phar
 	./php-cs-fixer.phar fix vendor/pear-pear.php.net --fixers=php4_constructor --verbose
 
+phpcs-fix: php-cs-fixer.phar
+	./php-cs-fixer.phar fix --verbose
+
 composer.lock:
 	composer install
 
