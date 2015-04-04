@@ -43,24 +43,16 @@ function sendAuthenticateHeader()
     header('HTTP/1.0 401 Unauthorized');
 }
 
-function returnError($msg)
+function rssError($msg)
 {
-    header("Content-Type: text/xml");
-    echo '<?xml version="1.0"?>' . "\n";
-?>
-<rss version="2.0"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
-    xmlns:admin="http://webns.net/mvcb/"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Error!</title>
-    <link><?php echo APP_BASE_URL; ?></link>
-    <description><?php echo htmlspecialchars($msg); ?></description>
-  </channel>
-</rss>
-<?php
+    $tpl = new Template_Helper();
+    $tpl->setTemplate("rss_error.tpl.xml");
+
+    header("Content-Type: text/xml; charset=" . APP_CHARSET);
+    $tpl->assign(array(
+        'error' => $msg,
+    ));
+    $tpl->displayTemplate();
 }
 
 /**
@@ -142,14 +134,14 @@ function authorizeRequest()
 
     // check if the required parameter 'custom_id' is really being passed
     if (empty($_GET['custom_id'])) {
-        returnError("Error: The required 'custom_id' parameter was not provided.");
+        rssError("Error: The required 'custom_id' parameter was not provided.");
         exit;
     }
 
     $usr_id = User::getUserIDByEmail($authUser);
     // check if the passed 'custom_id' parameter is associated with the usr_id
     if ((!Filter::isGlobal($_GET['custom_id'])) && (!Filter::isOwner($_GET['custom_id'], $usr_id))) {
-        returnError('Error: The provided custom filter ID is not associated with the given email address.');
+        rssError('Error: The provided custom filter ID is not associated with the given email address.');
         exit;
     }
 
