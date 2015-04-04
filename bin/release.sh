@@ -96,7 +96,7 @@ if [ -n "$composer" ]; then
 	$composer licenses --no-dev --no-ansi > deps
 	# avoid composer warning in resulting doc file
 	grep Warning: deps && exit 1
-	cat deps > docs/DEPENDENCIES.md && rm deps
+	cat deps >> docs/DEPENDENCIES.md && rm deps
 fi
 
 # update to include checksums of js/css files
