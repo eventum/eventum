@@ -8,6 +8,6 @@
 	<channel>
 		<title>Error!</title>
 		<link>{$core.base_url}</link>
-		<description{$error|escape:html}</description>
+		<description>{$error|escape:html}</description>
 	</channel>
 </rss>
