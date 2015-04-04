@@ -31,7 +31,7 @@ install:
 # workaround https://github.com/composer/composer/issues/2757#issuecomment-48731474
   - sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
   - composer install --no-interaction --prefer-source
-  - make pear-fix
+  - make pear-fix || :
 
 notifications:
   irc:
