@@ -91,7 +91,7 @@ update_version() {
 
 # setup composer deps
 composer_install() {
-	[ "$composer" ] || return
+	[ "$composer" ] || return 0
 
 	# composer hack, see .travis.yml
 	sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
@@ -104,7 +104,7 @@ composer_install() {
 
 # remove bundled deps
 cleanup_vendor() {
-	[ "$composer" ] || return
+	[ "$composer" ] || return 0
 
 	rm -r lib/{Smarty,pear,php-gettext,sphinxapi}
 	# cleanup vendors
@@ -197,7 +197,7 @@ sign_tarball() {
 }
 
 upload_tarball() {
-	[ -x dropin ] || return
+	[ -x dropin ] || return 0
 
 	./dropin $app-$version$rc.tar.gz $app-$version$rc.tar.gz.md5
 }
