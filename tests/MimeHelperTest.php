@@ -4,7 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright 2011, Elan Ruusamäe <glen@delfi.ee>                        |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // +----------------------------------------------------------------------+
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
@@ -21,14 +21,14 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
 /**
  * Test class for Mime_Helper.
  */
-class Mime_HelperTest extends PHPUnit_Framework_TestCase
+class MimeHelperTest extends PHPUnit_Framework_TestCase
 {
     public function testEncodeQuotedPrintable()
     {
