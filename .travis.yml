@@ -13,7 +13,10 @@ matrix:
     - php: hhvm
     - php: 7.0
 
-cache: apt
+cache:
+  - apt
+  directories:
+    - $HOME/.composer/cache
 
 before_install:
 # install all locales used by eventum
