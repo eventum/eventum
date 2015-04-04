@@ -38,8 +38,11 @@ update_timestamps() {
 	done
 }
 
+make php-cs-fixer.phar
+
 composer=$(find_prog composer)
 box=$(find_prog box)
+phpcsfixer=$(find_prog php-cs-fixer)
 
 # checkout
 rm -rf $dir
@@ -102,7 +105,6 @@ fi
 # remove bundled deps
 if [ -n "$composer" ]; then
 	rm -r lib/{Smarty,pear,php-gettext,sphinxapi}
-	rm composer.lock
 	# cleanup vendors
 	rm -r vendor/php-gettext/php-gettext/{tests,examples}
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
@@ -148,10 +150,15 @@ if [ -n "$composer" ]; then
 	./bin/update-pear.sh
 	rm pear.download pear.install pear.clean
 
+	# auto-fix pear packages
+	make pear-fix php-cs-fixer=$phpcsfixer
+
 	# eventum standalone cli
 	make -C cli eventum.phar composer=$composer box=$box
 	# eventum scm
 	make -C scm phar box=$box
+
+	rm composer.lock
 fi
 
 make -C localization install clean
