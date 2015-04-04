@@ -16,6 +16,9 @@ install: install-eventum install-cli install-irc install-scm install-libs
 dist:
 	./bin/release.sh
 
+test:
+	phpunit
+
 phpcs:
 	phpcs --standard=phpcs.xml --report=emacs --report-width=120 --report-file=`pwd`/phpcs.txt .
 
