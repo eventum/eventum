@@ -6,7 +6,7 @@ bindir          := /usr/bin
 logdir          := /var/log/$(name)
 smartyplugindir := $(datadir)/lib/Smarty/plugins
 
-php-cs-fixer := $(shell which php-cs-fixer.phar 2>/dev/null || which php-cs-fixer 2>/dev/null || echo false)
+php-cs-fixer := $(shell PATH=$$PATH:. which php-cs-fixer.phar 2>/dev/null || which php-cs-fixer 2>/dev/null || echo false)
 
 all:
 	@echo 'Run "make install" to install eventum.'
