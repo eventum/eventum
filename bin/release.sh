@@ -154,6 +154,8 @@ cleanup_vendor() {
 
 	# auto-fix pear packages
 	make pear-fix php-cs-fixer=$phpcsfixer
+	# run twice, to fix all occurrences
+	make pear-fix php-cs-fixer=$phpcsfixer
 
 	# eventum standalone cli
 	make -C cli eventum.phar composer=$composer box=$box
