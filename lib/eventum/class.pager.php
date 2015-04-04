@@ -61,7 +61,7 @@ class Pager
         // remove any order by clauses
         $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)[,\s+\w+\s+\w+]*(.*)/sei", "'\\1\\3'", $stmt);
         $rows = DB_Helper::getInstance()->getAll($stmt);
-        if (PEAR::isError($rows)) {
+        if (Misc::isError($rows)) {
             Error_Handler::logError(array($rows->getMessage(), $rows->getDebugInfo()), __FILE__, __LINE__);
 
             return 0;

@@ -32,7 +32,7 @@ class LDAP_Wrapper extends LDAP_Auth_Backend
         $requested_attributes = array('cn', 'uid', 'mail');
         $search = $this->conn->search($this->config['basedn'], $filter, array('attributes' => $requested_attributes));
 
-        if (PEAR::isError($search)) {
+        if (Misc::isError($search)) {
             $entry = $search;
             error_log($entry->getCode(). ': '. $entry->getMessage());
 

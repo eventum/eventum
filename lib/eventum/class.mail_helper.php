@@ -223,7 +223,7 @@ class Mail_Helper
     {
         $address = self::fixAddressQuoting($address);
         $t = Mail_Helper::parseAddressList($address, null, null, false);
-        if (PEAR::isError($t)) {
+        if (Misc::isError($t)) {
             return $t;
         }
         if ($multiple) {
@@ -259,7 +259,7 @@ class Mail_Helper
     {
         $address = Mime_Helper::encodeAddress($address);
         $info = self::getAddressInfo($address);
-        if (PEAR::isError($info)) {
+        if (Misc::isError($info)) {
             return $info;
         }
 
@@ -276,7 +276,7 @@ class Mail_Helper
     public static function getName($address, $multiple = false)
     {
         $info = self::getAddressInfo($address, true);
-        if (PEAR::isError($info)) {
+        if (Misc::isError($info)) {
             return $info;
         }
         $returns = array();
@@ -554,7 +554,7 @@ class Mail_Helper
         $this->setHeaders($headers);
         $hdrs = $this->mime->headers($this->headers);
         $res = Mail_Queue::add($to, $hdrs, $body, $save_email_copy, $issue_id, $type, $sender_usr_id, $type_id);
-        if ((PEAR::isError($res)) || ($res == false)) {
+        if (Misc::isError($res) || $res == false) {
             return $res;
         }
 
@@ -666,7 +666,7 @@ class Mail_Helper
         $params = self::getSMTPSettings($address);
         $mail = Mail::factory('smtp', $params);
         $res = $mail->send($address, $headers, $body);
-        if (PEAR::isError($res)) {
+        if (Misc::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         }
 

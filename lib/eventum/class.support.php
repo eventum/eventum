@@ -620,7 +620,7 @@ class Support
         }
 
         $sender_email = Mail_Helper::getEmailAddress($email->fromaddress);
-        if (PEAR::isError($sender_email)) {
+        if (Misc::isError($sender_email)) {
             $sender_email = 'Error Parsing Email <>';
         }
 
@@ -754,7 +754,7 @@ class Support
 
                         // try to get usr_id of sender, if not, use system account
                         $addr = Mail_Helper::getEmailAddress($structure->headers['from']);
-                        if (PEAR::isError($addr)) {
+                        if (Misc::isError($addr)) {
                             // XXX should we log or is this expected?
                             Error_Handler::logError(array($addr->getMessage()." addr: $addr", $addr->getDebugInfo()), __FILE__, __LINE__);
                             $usr_id = APP_SYSTEM_USER_ID;
@@ -911,7 +911,7 @@ class Support
         }
 
         $sender_email = Mail_Helper::getEmailAddress($from);
-        if (PEAR::isError($sender_email)) {
+        if (Misc::isError($sender_email)) {
             $sender_email = 'Error Parsing Email <>';
         }
 
@@ -1327,7 +1327,7 @@ class Support
             } else {
                 $to = Mail_Helper::getName($res[$i]['sup_to']);
                 // Ignore unformattable headers
-                if (!PEAR::isError($to)) {
+                if (!Misc::isError($to)) {
                     $res[$i]['sup_to'] = Mime_Helper::fixEncoding($to);
                 }
             }

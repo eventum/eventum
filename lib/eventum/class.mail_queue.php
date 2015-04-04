@@ -88,7 +88,7 @@ class Mail_Queue
         $headers = Mime_Helper::encodeHeaders($headers);
 
         $res = Mail_Helper::prepareHeaders($headers);
-        if (PEAR::isError($res)) {
+        if (Misc::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
 
             return $res;
@@ -156,7 +156,7 @@ class Mail_Queue
                 $headers = Mime_Helper::encodeHeaders($headers);
 
                 $res = Mail_Helper::prepareHeaders($headers);
-                if (PEAR::isError($res)) {
+                if (Misc::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
 
                     return $res;
@@ -165,7 +165,7 @@ class Mail_Queue
                 list(, $text_headers) = $res;
                 $result = self::_sendEmail($recipients, $text_headers, $email['body'], $status);
 
-                if (PEAR::isError($result)) {
+                if (Misc::isError($result)) {
                     $maq_id = implode(',', $maq_ids);
                     $details = $result->getMessage() . '/' . $result->getDebugInfo();
                     echo "Mail_Queue: issue #{$email['maq_iss_id']}: Can't send merged mail $maq_id: $details\n";
@@ -191,7 +191,7 @@ class Mail_Queue
             $email = self::_getEntry($maq_id);
             $result = self::_sendEmail($email['recipient'], $email['headers'], $email['body'], $status);
 
-            if (PEAR::isError($result)) {
+            if (Misc::isError($result)) {
                 $details = $result->getMessage() . '/' . $result->getDebugInfo();
                 echo "Mail_Queue: issue #{$email['maq_iss_id']}: Can't send mail $maq_id: $details\n";
                 self::_saveStatusLog($email['id'], 'error', $details);
@@ -246,7 +246,7 @@ class Mail_Queue
 
         $mail = Mail::factory('smtp', Mail_Helper::getSMTPSettings());
         $res = $mail->send($recipient, $headers, $body);
-        if (PEAR::isError($res)) {
+        if (Misc::isError($res)) {
             // special handling of errors when the mail server is down
             $msg = $res->getMessage();
             $cant_notify = ($status == 'error' || strstr($msg, 'unable to connect to smtp server') || stristr($msg, 'Failed to connect to') !== false);

@@ -427,7 +427,7 @@ class User
         static $returns;
 
         if (!is_string($email)) {
-            if (PEAR::isError($email)) {
+            if (Misc::isError($email)) {
                 Error_Handler::logError(array($email->getMessage(), $email->getDebugInfo()), __FILE__, __LINE__);
 
                 return null;

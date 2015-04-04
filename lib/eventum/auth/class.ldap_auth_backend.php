@@ -82,7 +82,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     private function connect($config)
     {
         $conn = Net_LDAP2::connect($config);
-        if (PEAR::isError($conn)) {
+        if (Misc::isError($conn)) {
             throw new AuthException($conn->getMessage(), $conn->getCode());
         }
 
@@ -104,7 +104,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
 
         $search = $this->conn->search($this->config['basedn'], $filter);
 
-        if (PEAR::isError($search)) {
+        if (Misc::isError($search)) {
             throw new AuthException($search->getMessage(), $search->getCode());
         }
 
@@ -163,7 +163,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $search = $this->conn->search($this->config['basedn'], $filter, array('sizelimit' => 1));
         $entry = $search->shiftEntry();
 
-        if (!$entry || PEAR::isError($entry)) {
+        if (!$entry || Misc::isError($entry)) {
             return null;
         }
 

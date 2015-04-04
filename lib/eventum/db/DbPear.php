@@ -222,7 +222,7 @@ class DbPear implements DbInterface
      */
     private function assertError($e, $depth = 2)
     {
-        if (!PEAR::isError($e)) {
+        if (!Misc::isError($e)) {
             return;
         }
 

@@ -887,4 +887,27 @@ class Misc
 
         return $data;
     }
+
+    /**
+     * Tell whether a value is a PEAR error.
+     *
+     * @param   mixed $data the value to test
+     * @param   int $code if $data is an error object, return true
+     *                        only if $code is a string and
+     *                        $obj->getMessage() == $code or
+     *                        $code is an integer and $obj->getCode() == $code
+     * @return  bool    true if parameter is an error
+     */
+    public static function isError($data, $code = null)
+    {
+        // remove E_STRICT from error_reporting as PEAR code is not Strict Standards compliant
+        $error_reporting = ini_get('error_reporting');
+        ini_set('error_reporting', $error_reporting & ~E_STRICT);
+
+        $ret = PEAR::isError($data, $code);
+
+        // restore error reporting
+        ini_set('error_reporting', $error_reporting);
+        return $ret;
+    }
 }
