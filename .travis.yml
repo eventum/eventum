@@ -23,7 +23,6 @@ before_install:
   - sudo apt-get update && travis_retry sudo apt-get --reinstall install -qq language-pack-{br,ca,cs,da,de,eo,es,et,fi,fo,fr,he,ht,hu,id,it,ja,ko,lt,lv,nl,oc,pl,pt,ru,si,sv,ta,th,tr,uk,ur,vi,zh-hans}
 # display some info from system
   - dpkg --list | grep language-pack
-  - php -i
   - locale -a
   - make php-cs-fixer.phar
 
@@ -31,7 +30,7 @@ install:
 # workaround https://github.com/composer/composer/issues/2757#issuecomment-48731474
   - sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
   - composer install --no-interaction --prefer-source
-  - make pear-fix || true
+  - make pear-fix
 
 notifications:
   irc:
