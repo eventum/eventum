@@ -11,6 +11,7 @@ php:
 matrix:
   allow_failures:
     - php: hhvm
+    - php: 7.0
 
 before_install:
 # install all locales used by eventum
