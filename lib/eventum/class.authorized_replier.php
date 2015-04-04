@@ -264,7 +264,7 @@ class Authorized_Replier
         } else {
             return false;
         }
-}
+    }
 
     /**
      * Returns if the specified usr_id is authorized to reply.

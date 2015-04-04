@@ -264,7 +264,6 @@ class Custom_Field
                         $value = array($value);
                     }
                     if ((count(array_diff($old_value, $value)) > 0) || (count(array_diff($value, $old_value)) > 0)) {
-
                         $old_display_value = self::getDisplayValue($issue_id, $fld_id);
                         // need to remove all associated options from issue_custom_field and then
                         // add the selected options coming from the form
@@ -497,7 +496,6 @@ class Custom_Field
         $returns[$fld_id . $value] = $res;
 
         return $res;
-
     }
 
     /**
@@ -641,7 +639,6 @@ class Custom_Field
                 }
 
                 $fields[] = $row;
-
             } elseif ($row['fld_type'] == 'multiple' || $row['fld_type'] == 'checkbox') {
                 // check whether this field is already in the array
                 $found = 0;
@@ -1177,7 +1174,7 @@ class Custom_Field
             // gotta remove all custom field options if the field is being changed from a combo box to a text field
             if ((!in_array($old_details['fld_type'], array('text', 'textarea'))) &&
                   (!in_array($_POST["field_type"], array('combo', 'multiple')))) {
-               self::removeOptionsByFields($_POST["id"]);
+                self::removeOptionsByFields($_POST["id"]);
             }
             if (in_array($_POST['field_type'], array('text', 'textarea', 'date', 'integer'))) {
                 // update values for all other option types
@@ -1216,7 +1213,7 @@ class Custom_Field
         $diff_ids = array_diff($old_proj_ids, $_POST["projects"]);
         if (count($diff_ids) > 0) {
             foreach ($diff_ids as $removed_prj_id) {
-                self::removeIssueAssociation($_POST["id"], false, $removed_prj_id );
+                self::removeIssueAssociation($_POST["id"], false, $removed_prj_id);
             }
         }
 
@@ -1406,7 +1403,7 @@ class Custom_Field
         try {
             $res = DB_Helper::getInstance()->getPair($sql, array($prj_id, Auth::getCurrentRole()));
         } catch (DbException $e) {
-           return array();
+            return array();
         }
 
         return $res;
@@ -1635,10 +1632,8 @@ class Custom_Field
         if (!empty($res)) {
             if (file_exists(APP_LOCAL_PATH . "/custom_field/$res")) {
                 require_once APP_LOCAL_PATH . "/custom_field/$res";
-
             } elseif (file_exists(APP_INC_PATH . "/custom_field/$res")) {
                 require_once APP_INC_PATH . "/custom_field/$res";
-
             } else {
                 $returns[$fld_id] = false;
 

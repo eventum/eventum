@@ -36,7 +36,6 @@
  */
 class Abstract_Customer_Backend
 {
-
     /**
      * Return what business hours a customer falls into. Mainly used for international
      * customers.

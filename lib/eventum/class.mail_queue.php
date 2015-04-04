@@ -336,7 +336,7 @@ class Mail_Queue
         }
 
         foreach ($res as &$value) {
-           $value = explode(',', $value['ids']);
+            $value = explode(',', $value['ids']);
         }
 
         return $res;

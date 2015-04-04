@@ -37,7 +37,8 @@ Auth::checkAuthentication(APP_COOKIE, null, true);
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
     $tpl->setTemplate("permission_denied.tpl.html");
-    $tpl->displayTemplate();exit;
+    $tpl->displayTemplate();
+    exit;
 }
 
 $usr_id = $_REQUEST['id'];

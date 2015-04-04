@@ -92,7 +92,7 @@ class Command_Line
             $lowercase_values = array_map('strtolower', array_values($list));
 
             if ((!in_array(strtolower($status), $lowercase_keys)) &&
-                    (!in_array(strtolower($status), $lowercase_values)))  {
+                    (!in_array(strtolower($status), $lowercase_values))) {
                 self::quit("Entered status doesn't match any in the list available to you");
             } else {
                 if (in_array(strtolower($status), $lowercase_keys)) {
@@ -586,10 +586,10 @@ Account Manager: " . @$details['customer']['account_manager_name'];
         $msg = '';
         // start custom fields management
         if (!empty($details["custom_fields"])) {
-          foreach ($details["custom_fields"] as $custom_field) {
-            $msg .= str_pad($custom_field["fld_title"],15,' ',STR_PAD_LEFT) . ": " .
+            foreach ($details["custom_fields"] as $custom_field) {
+                $msg .= str_pad($custom_field["fld_title"],15,' ',STR_PAD_LEFT) . ": " .
               $custom_field["value"] ."\n";
-          }
+            }
         }
 
         echo $msg;
@@ -804,7 +804,9 @@ Account Manager: " . @$details['customer']['account_manager_name'];
             echo sprintf("%15s: %s\n", "Subject", $email["sup_subject"]);
             echo "------------------------------------------------------------------------\n";
             echo $email["message"];
-            if (substr($email["message"], -1) != "\n") { echo "\n"; }
+            if (substr($email["message"], -1) != "\n") {
+                echo "\n";
+            }
         }
     }
 

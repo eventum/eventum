@@ -86,7 +86,6 @@ class XmlRpcServer
             ) {
                 $methods[$method->getName()] = $method;
             }
-
         }
 
         return $methods;

@@ -229,7 +229,6 @@ class Product
         }
 
         return $changes;
-
     }
 
     public static function updateProductAndVersion($ipv_id, $pro_id, $version)

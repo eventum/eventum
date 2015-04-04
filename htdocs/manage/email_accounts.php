@@ -39,7 +39,8 @@ $tpl->assign("all_projects", Project::getAll());
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('administrator')) {
     Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
-    $tpl->displayTemplate();exit;
+    $tpl->displayTemplate();
+    exit;
 }
 
 if (@$_POST["cat"] == "new") {

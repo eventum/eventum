@@ -42,7 +42,6 @@ if (!function_exists('imap_open')) {
     if ((!preg_match("/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/", $_POST["hostname"])) &&
             (gethostbyname($_POST["hostname"]) == $_POST["hostname"])) {
         $tpl->assign("error", "hostname_resolv_error");
-
     } else {
         $account = array(
             "ema_hostname" => $_POST["hostname"],

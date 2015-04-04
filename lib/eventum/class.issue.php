@@ -1388,7 +1388,6 @@ class Issue
         History::add($issue_id, $usr_id, History::getTypeID('issue_closed'), "Issue updated to status '" . Status::getStatusTitle($status_id) . "' by " . User::getFullName($usr_id));
 
         if ($send_notification_to == 'all') {
-
             $from = User::getFromHeader($usr_id);
             $message_id = User::getFromHeader($usr_id);
             $full_email = Support::buildFullHeaders($issue_id, $message_id, $from,
@@ -1434,7 +1433,8 @@ class Issue
                     try {
                         $contact = $crm->getContact($customer_contact_id);
                         $contact->notifyIssueClosed($issue_id, $reason);
-                    } catch (CRMException $e) {}
+                    } catch (CRMException $e) {
+                    }
                 }
             }
             // send notifications for the issue being closed
@@ -1740,7 +1740,7 @@ class Issue
         $iss_prc_title = Category::getTitle($currentDetails['iss_prc_id']);
         $new_prc_id = array_search($iss_prc_title, $new_iss_prc_list);
         if ($new_prc_id === false) {
-          // use the first category listed in the new project
+            // use the first category listed in the new project
           $new_prc_id = key($new_iss_prc_list);
         }
 
@@ -1749,7 +1749,7 @@ class Issue
         $iss_pri_title = Priority::getTitle($currentDetails['iss_pri_id']);
         $new_pri_id = array_search($iss_pri_title, $new_iss_pri_list);
         if ($new_pri_id === false) {
-          // use the first category listed in the new project
+            // use the first category listed in the new project
           $new_pri_id = key($new_iss_pri_list);
         }
 
@@ -2014,8 +2014,9 @@ class Issue
                 $data['contact_person_fname'] = $contact['first_name'];
                 $data['contact_email'] = $sender_email;
                 $data['contact_phone'] = $contact['phone'];
-                $data['contact_timezone'] = Date_Helper::getPreferredTimezone($reporter);;
-            } catch (ContactNotFoundException $e) {}
+                $data['contact_timezone'] = Date_Helper::getPreferredTimezone($reporter);
+            } catch (ContactNotFoundException $e) {
+            }
 
             try {
                 if ($contract_id != false) {
@@ -2027,7 +2028,8 @@ class Issue
                     $contract = $contracts[0];
                     $data['contract'] =  $contract->getContractID();
                 }
-            } catch (ContractNotFoundException $e) {}
+            } catch (ContractNotFoundException $e) {
+            }
 
             try {
                 if ($customer_id != false) {
@@ -2305,7 +2307,8 @@ class Issue
                         try {
                             $notification_contact = $crm->getContactByEmail($notification_email);
                             $notification_contact->notifyNewIssue($issue_id);
-                        } catch (ContactNotFoundException $e) {}
+                        } catch (ContactNotFoundException $e) {
+                        }
                     }
                 }
             }
@@ -2392,7 +2395,7 @@ class Issue
         if (CRM::hasCustomerIntegration($prj_id)) {
             $params['iss_customer_id'] = $data['customer'];
             if (!empty($data['contract'])) {
-               $params['iss_customer_contract_id'] = $data['contract'];
+                $params['iss_customer_contract_id'] = $data['contract'];
             }
             $params['iss_customer_contact_id'] = $data['contact'];
             $params['iss_contact_person_lname'] = $data['contact_person_lname'];
@@ -2565,7 +2568,7 @@ class Issue
                     isu_iss_id=iss_id";
         }
         if ((!empty($options["show_authorized_issues"])) || (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters(Auth::getCurrentProject())))) {
-             $stmt .= "
+            $stmt .= "
                  LEFT JOIN
                     {{%issue_user_replier}}
                  ON

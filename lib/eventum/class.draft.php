@@ -418,7 +418,7 @@ class Draft
         $_POST["ema_id"] = Email_Account::getEmailAccount();
         $res = Support::sendEmail();
         if ($res == 1) {
-           self::remove($draft_id);
+            self::remove($draft_id);
         }
 
         return $res;

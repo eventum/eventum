@@ -31,9 +31,9 @@ require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
 if (php_sapi_name() == 'cli') {
-  $tpl->setTemplate("offline.tpl.text");
+    $tpl->setTemplate("offline.tpl.text");
 } else {
-  $tpl->setTemplate("offline.tpl.html");
+    $tpl->setTemplate("offline.tpl.html");
 }
 
 $tpl->assign("error_type", $error_type);

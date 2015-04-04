@@ -57,7 +57,6 @@ abstract class Support_Level
     {
         return $this->maximum_response_time;
     }
-
 }
 
 class SupportLevelNotFoundException extends CRMException

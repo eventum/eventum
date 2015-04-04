@@ -40,7 +40,8 @@ $rma_id = @$_POST['rma_id'] ? $_POST['rma_id'] : $_GET['rma_id'];
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
     Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
-    $tpl->displayTemplate();exit;
+    $tpl->displayTemplate();
+    exit;
 }
 
 if (@$_POST["cat"] == "new") {
@@ -69,7 +70,6 @@ if (@$_GET["cat"] == "edit") {
         $_GET['field'] = $info['rlc_rmf_id'];
     }
     $tpl->assign("info", $info);
-
 }
 
 if (!empty($_GET['field'])) {
@@ -92,11 +92,11 @@ if (!empty($_GET['field'])) {
             'categories'            => Category::getAssocList($prj_id)
         ));
     } elseif ((strtolower($field_title) == 'group') || (strtolower($field_title) == 'active group')) {
-            $prj_id = Reminder::getProjectID($rem_id);
-            $tpl->assign(array(
-                'show_group_options' => 'yes',
-                'groups'             => Group::getAssocList($prj_id)
-            ));
+        $prj_id = Reminder::getProjectID($rem_id);
+        $tpl->assign(array(
+            'show_group_options' => 'yes',
+            'groups'             => Group::getAssocList($prj_id)
+        ));
     } else {
         $tpl->assign('show_status_options', 'no');
     }

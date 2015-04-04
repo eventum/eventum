@@ -404,7 +404,8 @@ abstract class CRM
             try {
                 $customer = $crm->getCustomer($res[$i]['cam_customer_id']);
                 $res[$i]['customer_title'] = $customer->getName();
-            } catch (CRMException $e) {}
+            } catch (CRMException $e) {
+            }
         }
 
         return $res;
@@ -623,7 +624,8 @@ abstract class CRM
             try {
                 $crm = CRM::getInstance($res[$i]['cno_prj_id']);
                 $res[$i]['customer_title'] = $crm->getCustomer($res[$i]['cno_customer_id'])->getName();
-            } catch (Exception $e) {}
+            } catch (Exception $e) {
+            }
         }
 
         return $res;

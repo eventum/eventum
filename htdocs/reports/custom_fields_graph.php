@@ -62,7 +62,6 @@ if (count($data) < 2) {
 }
 
 if (@$_GET["type"] == "pie") {
-
     if (empty($data["All Others"])) {
         unset($data["All Others"]);
     }
@@ -92,7 +91,6 @@ if (@$_GET["type"] == "pie") {
     $plot->SetLegends(array_keys($data));
     $graph->legend->SetFont(FF_FONT1);
     $graph->legend->Pos(0.06,0.27);
-
 } else {
     // bar chart
 
@@ -109,7 +107,7 @@ if (@$_GET["type"] == "pie") {
             $width += $label_width;
 
             unset($data[$label]);
-            $label = str_replace(array( '-', '/'), array("-\n", "/\n"), $label);
+            $label = str_replace(array('-', '/'), array("-\n", "/\n"), $label);
             $data[$label] = $value;
         }
     }

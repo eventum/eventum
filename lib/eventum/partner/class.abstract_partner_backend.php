@@ -34,13 +34,17 @@ abstract class Abstract_Partner_Backend
     /**
      * method to set up the backend
      */
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     /**
      * return the code grabbed from this class name
      * @return int
      */
-    public function getCode() {}
+    public function getCode()
+    {
+    }
 
     /**
      * @return string
@@ -50,24 +54,32 @@ abstract class Abstract_Partner_Backend
     /**
      * @param int $iss_id
      */
-    public function issueAdded($iss_id) {}
+    public function issueAdded($iss_id)
+    {
+    }
 
     /**
      * @param int $iss_id
      */
-    public function issueRemoved($iss_id) {}
+    public function issueRemoved($iss_id)
+    {
+    }
 
     /**
      * @param int $iss_id
      * @param int $sup_id
      */
-    public function handleNewEmail($iss_id, $sup_id) {}
+    public function handleNewEmail($iss_id, $sup_id)
+    {
+    }
 
     /**
      * @param int $iss_id
      * @param int $not_id
      */
-    public function handleNewNote($iss_id, $not_id) {}
+    public function handleNewNote($iss_id, $not_id)
+    {
+    }
 
     /**
      * @param int $iss_id
@@ -75,34 +87,44 @@ abstract class Abstract_Partner_Backend
      * @param array $old_details
      * @param array $changes
      */
-    public function handleIssueChange($iss_id, $usr_id, $old_details, $changes) {}
+    public function handleIssueChange($iss_id, $usr_id, $old_details, $changes)
+    {
+    }
 
     /**
      * @param int $iss_id
      * @return string
      */
-    public function getIssueMessage($iss_id) {}
+    public function getIssueMessage($iss_id)
+    {
+    }
 
     /**
      * @param int $usr_id
      * @param string $feature
      * @return bool
      */
-    public static function canUserAccessFeature($usr_id, $feature) {}
+    public static function canUserAccessFeature($usr_id, $feature)
+    {
+    }
 
     /**
      * @param int $issue_id
      * @param int $usr_id
      * @return bool
      */
-    public static function canEditIssue($issue_id, $usr_id) {}
+    public static function canEditIssue($issue_id, $usr_id)
+    {
+    }
 
     /**
      * @param int $usr_id
      * @param string $section partners, drafts, files, time, notes, phone, history, notification_list, authorized_repliers
      * @return bool
      */
-    public static function canUserAccessIssueSection($usr_id, $section) {}
+    public static function canUserAccessIssueSection($usr_id, $section)
+    {
+    }
 
     /**
      * If the partner can edit the issue.
@@ -111,5 +133,7 @@ abstract class Abstract_Partner_Backend
      * @param integer   $usr_id
      * @return bool
      */
-    public static function canUpdateIssue($issue_id, $usr_id) {}
+    public static function canUpdateIssue($issue_id, $usr_id)
+    {
+    }
 }

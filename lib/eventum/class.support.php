@@ -2227,7 +2227,8 @@ class Support
                     if ($contact->canAccessContract($issue_contract)) {
                         $t['customer_id'] = $issue_contract->getCustomerID();
                     }
-                } catch (CRMException $e) {}
+                } catch (CRMException $e) {
+                }
             } else {
                 $customer_id = User::getCustomerID(Auth::getUserID());
                 if ((!empty($customer_id)) && ($customer_id != -1)) {

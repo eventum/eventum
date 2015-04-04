@@ -305,8 +305,8 @@ class Mail_Helper
     {
         $settings = Setup::load();
         settype($settings['smtp']['auth'], 'boolean');
-        if (file_exists('/etc/mailname') ) {
-            $settings['smtp']['localhost'] = trim( file_get_contents('/etc/mailname') );
+        if (file_exists('/etc/mailname')) {
+            $settings['smtp']['localhost'] = trim(file_get_contents('/etc/mailname'));
         }
 
         return $settings["smtp"];
@@ -691,7 +691,6 @@ class Mail_Helper
      */
     public static function getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id)
     {
-
         $new_headers = array();
         if (!empty($issue_id)) {
             $prj_id = Issue::getProjectID($issue_id);
@@ -720,14 +719,16 @@ class Mail_Helper
                 try {
                     $customer = $crm->getCustomer(Issue::getCustomerID($issue_id));
                     $new_headers['X-Eventum-Customer'] = $customer->getName();
-                } catch (CustomerNotFoundException $e) { }
+                } catch (CustomerNotFoundException $e) {
+                }
                 try {
                     $contract = $crm->getContract(Issue::getContractID($issue_id));
                     $support_level = $contract->getSupportLevel();
                     if (is_object($support_level)) {
                         $new_headers['X-Eventum-Level'] = $support_level->getName();
                     }
-                } catch (ContractNotFoundException $e) {}
+                } catch (ContractNotFoundException $e) {
+                }
             }
 
             // add assignee header
@@ -761,7 +762,6 @@ class Mail_Helper
                 // convert spaces for header fields
                 $cf_title = str_replace(' ', '_', $cf_titles[$fld_id]);
                 $new_headers['X-Eventum-CustomField-'. $cf_title] = $cf_value;
-
             }
         }
 
@@ -983,7 +983,6 @@ class Mail_Helper
         // (presented as Array by PEAR Mail_mimeDecode class)
         if ($has_message_id && is_string($structure->headers['message-id'])) {
             return $structure->headers['message-id'];
-
         } elseif ($has_message_id && is_array($structure->headers['message-id'])) {
             return current($structure->headers['message-id']);
         }

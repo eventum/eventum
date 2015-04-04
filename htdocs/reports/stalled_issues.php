@@ -59,7 +59,7 @@ $data = Report::getStalledIssuesByUser($prj_id, @$_REQUEST['developers'], @$_REQ
 
 $groups = Group::getAssocList($prj_id);
 $assign_options = array();
-if ((count($groups) > 0) && ( Auth::getCurrentRole() >User::getRoleID("Customer"))) {
+if ((count($groups) > 0) && (Auth::getCurrentRole() > User::getRoleID("Customer"))) {
     foreach ($groups as $grp_id => $grp_name) {
         $assign_options["grp:$grp_id"] = "Group: " . $grp_name;
     }

@@ -100,7 +100,8 @@ if (@$_GET["cat"] == "associate") {
                     'contact_name'  => $info['contact_name'],
                     'contacts'      => $info['contacts']
                 ));
-            } catch (CRMException $e) {}
+            } catch (CRMException $e) {
+            }
         }
         // if we are dealing with just one message, use the subject line as the
         // summary for the issue, and the body as the description
@@ -116,7 +117,8 @@ if (@$_GET["cat"] == "associate") {
                 try {
                     $contact = $crm->getContactByEmail($sender_email);
                     $tpl->assign("contact_details", $contact->getDetails());
-                } catch (CRMException $e) {}
+                } catch (CRMException $e) {
+                }
             }
         }
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Abstract class representing a customer
  *

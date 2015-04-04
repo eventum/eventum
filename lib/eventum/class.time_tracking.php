@@ -391,7 +391,7 @@ class Time_Tracking
             $res[$i]["ttr_created_date"] = Date_Helper::getFormattedDate($res[$i]["ttr_created_date"]);
 
             if (isset($total_time_by_user[$res[$i]['ttr_usr_id']])) {
-               $total_time_by_user[$res[$i]['ttr_usr_id']]['time_spent'] += $res[$i]['ttr_time_spent'];
+                $total_time_by_user[$res[$i]['ttr_usr_id']]['time_spent'] += $res[$i]['ttr_time_spent'];
             } else {
                 $total_time_by_user[$res[$i]['ttr_usr_id']] = array(
                     'usr_full_name' => $res[$i]['usr_full_name'],
@@ -659,7 +659,6 @@ class Time_Tracking
      */
     public static function fillTimeSpentByIssueAndTime(&$res, $usr_id, $start, $end)
     {
-
         $issue_ids = array();
         for ($i = 0; $i < count($res); $i++) {
             $issue_ids[] = $res[$i]["iss_id"];

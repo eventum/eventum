@@ -350,7 +350,6 @@ class Eventum_Bot
                     ino_status='pending'";
         $res = DB_Helper::getInstance()->getAll($stmt);
         for ($i = 0; $i < count($res); $i++) {
-
             if (empty($res[$i]['ino_category'])) {
                 $res[$i]['ino_category'] = APP_EVENTUM_IRC_CATEGORY_DEFAULT;
             }

@@ -35,7 +35,6 @@
 
 class Report
 {
-
     /**
      * Method used to get all open issues and group them by user.
      *
@@ -810,31 +809,31 @@ class Report
                     iss_private
                ";
 
-            if ($per_user) {
-                $sql .= ', usr_full_name ';
-            }
-            $sql .= "
+        if ($per_user) {
+            $sql .= ', usr_full_name ';
+        }
+        $sql .= "
                  FROM
                     {{%time_tracking}},";
 
-            if ($per_user) {
-                    $sql .= "{{%user}}, ";
-            }
+        if ($per_user) {
+            $sql .= "{{%user}}, ";
+        }
 
-            $sql .= "
+        $sql .= "
                         {{%issue}}
                     WHERE
                         iss_prj_id=" . Auth::getCurrentProject() . " AND
                         ttr_created_date BETWEEN '" . Misc::escapeString($start_date) . " 00:00:00' AND '" . Misc::escapeString($end_date) . " 23:59:59' AND
                         ttr_iss_id = iss_id AND
                         ";
-            if ($per_user) {
-                 $sql .= " usr_id = ttr_usr_id AND ";
-            }
-            $sql .= "
+        if ($per_user) {
+            $sql .= " usr_id = ttr_usr_id AND ";
+        }
+        $sql .= "
                         ttr_iss_id = iss_id
                         ";
-            if (count($options) > 0) {
+        if (count($options) > 0) {
             $sql .= " AND (
                 SELECT
                     count(*)
@@ -845,16 +844,16 @@ class Report
                     a.icf_value IN('" . join("','", Misc::escapeString(array_keys($options))) . "') AND
                     a.icf_iss_id = ttr_iss_id
                 ) > 0";
-            }
-            if ($per_user) {
-                $sql .= "
+        }
+        if ($per_user) {
+            $sql .= "
                     GROUP BY
                     iss_id, ttr_usr_id";
-            } else {
-                $sql .= "
+        } else {
+            $sql .= "
                     GROUP BY
                     iss_id";
-           }
+        }
 
         try {
             $res = DB_Helper::getInstance()->getAll($sql);

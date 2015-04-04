@@ -38,7 +38,6 @@
  */
 class Abstract_Workflow_Backend
 {
-
     /**
      * Interface for using config values within Workflow class.
      *

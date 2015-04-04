@@ -260,7 +260,6 @@ class Group
         $returns[$grp_id] = $res;
 
         return $res;
-
     }
 
     /**

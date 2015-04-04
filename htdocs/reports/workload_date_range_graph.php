@@ -132,7 +132,6 @@ if (@$_REQUEST["type"] == "pie") {
     $plot->SetLegends($labels);
     $graph->legend->SetFont(FF_FONT1);
     $graph->legend->Pos(0.06,0.27);
-
 } else {
 
     // bar chart
@@ -177,7 +176,6 @@ if (@$_REQUEST["type"] == "pie") {
     $graph->yaxis->scale->setGrace(15,0);
     $graph->yaxis->title->Set($y_label);
     $graph->yaxis->title->SetFont(FF_FONT1,FS_BOLD);
-
 }
 
 $graph->title->Set($graph_title);

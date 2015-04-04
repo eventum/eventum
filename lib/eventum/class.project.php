@@ -979,7 +979,6 @@ class Project
      */
     public static function getReporters($prj_id)
     {
-
         $stmt = "SELECT
                     DISTINCT usr_id,
                     usr_full_name

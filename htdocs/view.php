@@ -129,12 +129,12 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
 
             if ((!isset($issue_fields_display['priority'])) ||
                 ($issue_fields_display['priority'] != false)) {
-                    if ((isset($issue_fields_display['priority']['min_role'])) &&
+                if ((isset($issue_fields_display['priority']['min_role'])) &&
                         ($issue_fields_display['priority']['min_role'] > User::getRoleID('Customer'))) {
-                            $bgcolor = APP_INTERNAL_COLOR;
-                        } else {
-                            $bgcolor = '';
-                        }
+                    $bgcolor = APP_INTERNAL_COLOR;
+                } else {
+                    $bgcolor = '';
+                }
                 $column[0][] = array(
                         'title' =>  ev_gettext('Priority'),
                         'data'  =>  $details['pri_title'],

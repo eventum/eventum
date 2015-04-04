@@ -58,7 +58,6 @@ function getParams()
             // no other args are allowed
             $config['fix-lock'] = true;
         }
-
     } else {
         foreach (array_keys($config) as $key) {
             if (isset($_GET[$key])) {

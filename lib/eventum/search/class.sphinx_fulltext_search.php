@@ -259,5 +259,4 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
     {
         return true;
     }
-
 }

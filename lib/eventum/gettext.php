@@ -50,7 +50,6 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
     {
         return _ngettext($string, $plural, $number);
     }
-
 } else {
     function ev_gettext($string)
     {

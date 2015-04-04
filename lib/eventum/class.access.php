@@ -28,7 +28,6 @@
 
 class Access
 {
-
     /**
      * Method to determine if user can access a particular issue
      *
@@ -473,6 +472,5 @@ class Access
         }
 
         return false;
-
     }
 }

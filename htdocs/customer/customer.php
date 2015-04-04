@@ -35,7 +35,8 @@ $prj_id = Auth::getCurrentProject();
 $page = $_REQUEST['page'];
 
 if (!CRM::hasCustomerIntegration($prj_id)) {
-    echo "No customer integration for specified project.";exit;
+    echo "No customer integration for specified project.";
+    exit;
 }
 $crm = CRM::getInstance($prj_id);
 require $crm->getHtdocsPath() . basename($page) . '.php';

@@ -36,7 +36,8 @@ $tpl->assign("type", "partners");
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
     Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
-    $tpl->displayTemplate();exit;
+    $tpl->displayTemplate();
+    exit;
 }
 
 if (@$_POST["cat"] == "update") {

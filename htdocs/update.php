@@ -99,7 +99,6 @@ $tpl->assign('issue_lock', $issue_lock);
 
         Auth::redirect(APP_RELATIVE_URL . "view.php?id=" . $issue_id);
         exit;
-
     } elseif (@$_POST["cat"] == "update") {
         if ($issue_lock) {
             Misc::setMessage(ev_gettext("Sorry, you can't update issue if it's locked by another user"), Misc::MSG_ERROR);

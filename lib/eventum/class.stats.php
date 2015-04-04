@@ -197,11 +197,11 @@ class Stats
                  WHERE
                     iss_sta_id=sta_id AND
                     iss_prj_id=?";
-            if ($hide_closed) {
-                $stmt .= " AND
+        if ($hide_closed) {
+            $stmt .= " AND
                         sta_is_closed = 0";
-            }
-            $stmt .= "
+        }
+        $stmt .= "
                  GROUP BY
                     iss_sta_id
                  ORDER BY

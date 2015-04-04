@@ -587,7 +587,7 @@ class Reminder_Action
             }
         }
         if (Reminder::isDebug()) {
-           echo "  - " . ev_gettext('Performing action %1$s for issue # %2$s', $action_type, $issue_id) . "\n";
+            echo "  - " . ev_gettext('Performing action %1$s for issue # %2$s', $action_type, $issue_id) . "\n";
         }
         switch ($action_type) {
             case 'email_assignee':

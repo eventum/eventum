@@ -275,5 +275,4 @@ try {
     if ($debug) {
         print $e->getTraceAsString();
     }
-
 }

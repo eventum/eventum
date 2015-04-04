@@ -109,7 +109,6 @@ foreach ($_POST["display_sections"] as $section) {
 $tpl->assign("display", $display);
 
 if (@$_POST["cat"] == "Generate") {
-
     if ($start_date == "0000-00-00") {
         $start_date = '';
     }

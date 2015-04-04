@@ -561,7 +561,6 @@ class Notification
             $params = array(
                 $issue_id, $type
             );
-
         }
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
@@ -1250,7 +1249,6 @@ class Notification
 
             $data = Issue::getDetails($issue_id);
             foreach ($recipients as $sup_id => $recipient) {
-
                 $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($recipient));
 
                 // open text template
@@ -1508,7 +1506,6 @@ class Notification
             }
             Language::restore();
         }
-
     }
 
     /**

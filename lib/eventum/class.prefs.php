@@ -141,7 +141,6 @@ class Prefs
         }
 
         return $returns[$usr_id];
-
     }
 
     /**

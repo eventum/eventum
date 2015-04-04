@@ -72,7 +72,6 @@ $tpl->assign(array(
 ));
 
 if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_REQUEST['start']) == 3)) {
-
     if (count(@$_REQUEST["start"]) > 0 &&
             (@$_REQUEST["start"]["Year"] != 0) &&
             (@$_REQUEST["start"]["Month"] != 0) &&

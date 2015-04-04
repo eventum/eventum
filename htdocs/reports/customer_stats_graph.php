@@ -68,7 +68,6 @@ $graph_id = $_GET["graph_id"];
 $plots = array();
 $max_title_len = 0;
 foreach ($data as $index => $info) {
-
     if (strlen($info["title"]) > $max_title_len) {
         $max_title_len = strlen($info["title"]);
     }

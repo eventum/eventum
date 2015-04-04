@@ -562,7 +562,7 @@ class Reminder
                 self::addCustomerAssociation($new_rem_id, $_POST['customers'][$i]);
             }
         } elseif (@$_POST['reminder_type'] == 'all_issues') {
-             self::associateAllIssues($new_rem_id);
+            self::associateAllIssues($new_rem_id);
         }
         if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
             for ($i = 0; $i < count($_POST['priorities']); $i++) {
@@ -629,7 +629,7 @@ class Reminder
                 self::addCustomerAssociation($_POST['id'], $_POST['customers'][$i]);
             }
         } elseif (@$_POST['reminder_type'] == 'all_issues') {
-             self::associateAllIssues($_POST['id']);
+            self::associateAllIssues($_POST['id']);
         }
         if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
             for ($i = 0; $i < count($_POST['priorities']); $i++) {

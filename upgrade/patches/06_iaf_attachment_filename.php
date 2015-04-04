@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Decode attachment filenames from QuotedPrintable MIME encoding.
  * Also set Untitled.jpg to unnamed attachments (Usually inline).

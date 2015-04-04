@@ -52,12 +52,12 @@ $assign_options = array(
 );
 
 if (Auth::isAnonUser()) {
-     unset($assign_options["-2"]);
+    unset($assign_options["-2"]);
 } elseif (User::getGroupID(Auth::getUserID()) != '') {
     $assign_options['-3'] = ev_gettext('myself and my group');
     $assign_options['-4'] = ev_gettext('myself, un-assigned and my group');
 }
-if ((count($groups) > 0) && ( $role_id > User::getRoleID("Customer"))) {
+if ((count($groups) > 0) && ($role_id > User::getRoleID("Customer"))) {
     foreach ($groups as $grp_id => $grp_name) {
         $assign_options["grp:$grp_id"] = "Group: " . $grp_name;
     }

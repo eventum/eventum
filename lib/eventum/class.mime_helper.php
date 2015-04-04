@@ -110,7 +110,6 @@ class Mime_Helper
             // hack for inotes to prevent content from being displayed all on one line.
             $str = str_replace("</DIV><DIV>", "\n", $str);
             $str = str_replace(array("<br>", "<br />", "<BR>", "<BR />"), "\n", $str);
-
         }
 
         // XXX: do we also need to do something here about base64 encoding?
@@ -195,10 +194,10 @@ class Mime_Helper
         if (self::is8bit($address)) {
             // split into name and address section
             preg_match("/(.*)<(.*)>/", $address, $matches);
-           $address = "=?" . APP_CHARSET . "?Q?" .
+            $address = "=?" . APP_CHARSET . "?Q?" .
                 str_replace(' ', '_', trim(preg_replace('/([\x80-\xFF]|[\x21-\x2F]|[\xFC]|\[|\])/e', '"=" . strtoupper(dechex(ord(stripslashes("\1"))))', $matches[1]))) . "?= <" . $matches[2] . ">";
 
-           return $address;
+            return $address;
         } else {
             return self::quoteSender($address);
         }
@@ -639,7 +638,7 @@ class Mime_Helper
 
         // hack in order to treat inline images as normal attachments
         // (since Eventum does not display those embedded within the message)
-        if (isset($mime_part->ctype_primary ) && $mime_part->ctype_primary == 'image') {
+        if (isset($mime_part->ctype_primary) && $mime_part->ctype_primary == 'image') {
             // if requested, return only the details of a particular filename
             if (($return_filename != false) && ($mime_part_filename != $return_filename)) {
                 return array();

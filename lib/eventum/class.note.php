@@ -565,7 +565,8 @@ class Note
                         if ($contact->canAccessContract($issue_contract)) {
                             $t['customer_id'] = $issue_contract->getCustomerID();
                         }
-                    } catch (CRMException $e) {}
+                    } catch (CRMException $e) {
+                    }
                 }
             }
             if (empty($t['customer_id'])) {

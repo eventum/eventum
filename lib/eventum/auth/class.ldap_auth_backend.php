@@ -398,7 +398,6 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
 
                 if (isset($ldap_setup)) {
                     $setup = $ldap_setup;
-
                 } elseif (isset($ldap_setup_string)) {
                     // support reading legacy base64 encoded config
                     $setup = unserialize(base64_decode($ldap_setup_string));

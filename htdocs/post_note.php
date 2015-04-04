@@ -51,7 +51,6 @@ Workflow::prePage($prj_id, 'post_note');
 if (@$_GET["cat"] == 'post_result' && !empty($_GET['post_result'])) {
     $res = (int) $_GET['post_result'];
     $tpl->assign("post_result", $res);
-
 } elseif (@$_POST["cat"] == "post_note") {
     // change status
     if (!@empty($_POST['new_status'])) {
@@ -86,7 +85,6 @@ if (@$_GET["cat"] == 'post_result' && !empty($_GET['post_result'])) {
     }
 
     Auth::redirect("post_note.php?cat=post_result&issue_id=$issue_id&post_result={$res}");
-
 } elseif (@$_GET["cat"] == "reply") {
     if (!@empty($_GET["id"])) {
         $note = Note::getDetails($_GET["id"]);

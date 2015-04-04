@@ -214,7 +214,6 @@ abstract class Contact
      * @return  void
      */
     abstract public function notifyNewIssue($issue_id);
-
 }
 
 class ContactNotFoundException extends CRMException
