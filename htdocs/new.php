@@ -99,7 +99,7 @@ if (@$_GET['cat'] == 'associate') {
                     'customer_name' => $info['customer_name'],
                     'contact_id'    => $info['contact_id'],
                     'contact_name'  => $info['contact_name'],
-                    'contacts'      => $info['contacts']
+                    'contacts'      => $info['contacts'],
                 ));
             } catch (CRMException $e) {
             }
@@ -110,7 +110,7 @@ if (@$_GET['cat'] == 'associate') {
             $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($_GET['item'][0]), $_GET['item'][0]);
             $tpl->assign(array(
                 'issue_summary'     => $email_details['sup_subject'],
-                'issue_description' => $email_details['seb_body']
+                'issue_description' => $email_details['seb_body'],
             ));
             // also auto pre-fill the customer contact text fields
             if (CRM::hasCustomerIntegration($prj_id)) {

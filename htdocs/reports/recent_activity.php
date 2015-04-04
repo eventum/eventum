@@ -46,7 +46,7 @@ if (!Access::canAccessReports(Auth::getUserID())) {
 
 $units = array(
     'hour'  =>  'Hours',
-    'day'   =>  'Days'
+    'day'   =>  'Days',
 );
 $type_list = array(
     'phone' =>  'Phone Calls',
@@ -54,7 +54,7 @@ $type_list = array(
     'email' =>  'Email',
     'draft' =>  'Drafts',
     'time'  =>  'Time Tracking',
-    'reminder'  =>  'Reminders'
+    'reminder'  =>  'Reminders',
 );
 
 if (empty($_REQUEST['activity_types'])) {
@@ -69,7 +69,7 @@ $tpl->assign(array(
     'users' => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     'developer' => $usr_id,
     'type_list' =>  $type_list,
-    'activity_types'    =>  $_REQUEST['activity_types']
+    'activity_types'    =>  $_REQUEST['activity_types'],
 ));
 
 if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_REQUEST['start']) == 3)) {
@@ -253,7 +253,7 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
         'developer' =>  $_REQUEST['developer'],
         'start_date'    =>  @$start_date,
         'end_date'      =>  @$end_date,
-        'data'  =>  $data
+        'data'  =>  $data,
     ));
 }
 

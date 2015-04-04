@@ -53,7 +53,7 @@ class User
         self::ROLE_USER => 'Standard User',
         self::ROLE_DEVELOPER => 'Developer',
         self::ROLE_MANAGER => 'Manager',
-        self::ROLE_ADMINISTRATOR => 'Administrator'
+        self::ROLE_ADMINISTRATOR => 'Administrator',
     );
 
     private static $localized_roles;
@@ -341,7 +341,7 @@ class User
         $tpl->assign(array(
             'app_title'   => Misc::getToolCaption(),
             'email'     =>  $_POST['email'],
-            'hash'      =>  $hash
+            'hash'      =>  $hash,
         ));
         $text_message = $tpl->getTemplateContents();
 
@@ -372,7 +372,7 @@ class User
         $tpl->assign(array(
             'app_title' => Misc::getToolCaption(),
             'user'      =>  $info,
-            'hash'      =>  $hash
+            'hash'      =>  $hash,
         ));
         $text_message = $tpl->getTemplateContents();
 
@@ -1123,7 +1123,7 @@ class User
                 try {
                     DB_Helper::getInstance()->query(
                         $stmt, array(
-                            $prj_id, $usr_id, $role
+                            $prj_id, $usr_id, $role,
                         )
                     );
                 } catch (DbException $e) {

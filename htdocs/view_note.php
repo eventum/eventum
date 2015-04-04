@@ -70,7 +70,7 @@ if (!empty($issue_id)) {
     $sides = Note::getSideLinks($issue_id, $_GET['id']);
     $tpl->assign(array(
         'previous' => $sides['previous'],
-        'next'     => $sides['next']
+        'next'     => $sides['next'],
     ));
 }
 

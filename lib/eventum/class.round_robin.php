@@ -97,7 +97,7 @@ class Round_Robin
 
         return array(
             date('Y-m-d', $date->getTimestamp() + $first),
-            date('Y-m-d', $date->getTimestamp() + $second)
+            date('Y-m-d', $date->getTimestamp() + $second),
         );
     }
 
@@ -277,14 +277,14 @@ class Round_Robin
             $prefs = Prefs::get($res[$i]['usr_id']);
             $t[$res[$i]['usr_id']] = array(
                 'timezone' => $prefs['timezone'],
-                'is_next'  => $res[$i]['rru_next']
+                'is_next'  => $res[$i]['rru_next'],
             );
         }
 
         return array(
             $blackout_start,
             $blackout_end,
-            $t
+            $t,
         );
     }
 

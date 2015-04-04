@@ -120,7 +120,7 @@ class Search
             'updated_date',
             'last_response_date',
             'first_response_date',
-            'closed_date'
+            'closed_date',
         );
         foreach ($date_fields as $field_name) {
             $field = Misc::stripHTML(self::getParam($field_name, $request_only));
@@ -130,7 +130,7 @@ class Search
             if (@$field['filter_type'] == 'in_past') {
                 @$cookie[$field_name] = array(
                     'filter_type'   =>  'in_past',
-                    'time_period'   =>  $field['time_period']
+                    'time_period'   =>  $field['time_period'],
                 );
             } else {
                 $end_field_name = $field_name . '_end';
@@ -142,12 +142,12 @@ class Search
                     'Day'         => $field['Day'],
                     'start'       => $field['Year'] . '-' . $field['Month'] . '-' . $field['Day'],
                     'filter_type' => $field['filter_type'],
-                    'end'         => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day']
+                    'end'         => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day'],
                 );
                 @$cookie[$end_field_name] = array(
                     'Year'        => $end_field['Year'],
                     'Month'       => $end_field['Month'],
-                    'Day'         => $end_field['Day']
+                    'Day'         => $end_field['Day'],
                 );
             }
         }
@@ -199,7 +199,7 @@ class Search
 
         $items = array(
             'links'  => array(),
-            'images' => array()
+            'images' => array(),
         );
         $current_sort_by = $options['sort_by'];
         $current_sort_order = $options['sort_order'];
@@ -409,7 +409,7 @@ class Search
         } catch (DbException $e) {
             return array(
                 'list' => '',
-                'info' => ''
+                'info' => '',
             );
         }
 
@@ -510,9 +510,9 @@ class Search
                 'previous_page' => ($current_row == 0) ? '-1' : ($current_row - 1),
                 'next_page'     => ($current_row == $last_page) ? '-1' : ($current_row + 1),
                 'last_page'     => $last_page,
-                'custom_fields' => $custom_fields
+                'custom_fields' => $custom_fields,
             ),
-            'csv' => @implode("\n", $csv)
+            'csv' => @implode("\n", $csv),
         );
     }
 
@@ -626,7 +626,7 @@ class Search
             'updated_date',
             'last_response_date',
             'first_response_date',
-            'closed_date'
+            'closed_date',
         );
         foreach ($date_fields as $field_name) {
             if (!empty($options[$field_name])) {

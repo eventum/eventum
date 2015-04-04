@@ -44,7 +44,7 @@ $prj_id = Auth::getCurrentProject();
 
 $types = array(
     'individual'    =>  'Individual',
-    'aggregate'     =>  'Aggregate'
+    'aggregate'     =>  'Aggregate',
 );
 
 if (count(@$_REQUEST['start']) > 0 &&

@@ -65,7 +65,7 @@ $tpl->assign(array(
     'users' => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     'start_date'    =>  @$start_date,
     'end_date'      =>  @$end_date,
-    'report_type'   =>  @$_REQUEST['report_type']
+    'report_type'   =>  @$_REQUEST['report_type'],
 ));
 
 if (!empty($_REQUEST['developer'])) {

@@ -121,7 +121,7 @@ class Issue
             'iss_created_date'              => 'Created Date',
             'iss_updated_date'              => 'Last Updated Date',
             'iss_last_response_date'        => 'Last Response Date',
-            'iss_closed_date'               => 'Closed Date'
+            'iss_closed_date'               => 'Closed Date',
         );
         if ($display_customer_fields) {
             $fields['iss_last_customer_action_date'] = 'Customer Action Date';
@@ -1406,7 +1406,7 @@ class Issue
                 'has_attachment' =>  0,
                 'body'          =>  $reason,
                 'full_email'    =>  $full_email,
-                'headers'       =>  $structure->headers
+                'headers'       =>  $structure->headers,
             );
             $sup_id = null;
             Support::insertEmail($email, $structure, $sup_id, true);
@@ -1677,7 +1677,7 @@ class Issue
             'Release',
             'Priority',
             'Release',
-            'Resolution'
+            'Resolution',
         );
         $intersect = array_intersect($update_dupe, array_keys($updated_fields));
         if (($current['duplicates'] != '') && (count($intersect) > 0)) {
@@ -2147,7 +2147,7 @@ class Issue
             'add_primary_contact', 'attached_emails', 'category', 'contact', 'contact_email', 'contact_extra_emails', 'contact_person_fname',
             'contact_person_lname', 'contact_phone', 'contact_timezone', 'contract', 'customer', 'custom_fields', 'description',
             'estimated_dev_time', 'group', 'notify_customer', 'notify_senders', 'priority', 'private', 'release', 'severity', 'summary', 'users',
-            'product', 'product_version', 'expected_resolution_date'
+            'product', 'product_version', 'expected_resolution_date',
         );
         $data = array();
         foreach ($keys as $key) {
@@ -2432,7 +2432,7 @@ class Issue
     public static function getLastActionFields()
     {
         $last_action_fields = array(
-            'iss_last_public_action_date'
+            'iss_last_public_action_date',
         );
         if (Auth::getCurrentRole() > User::getRoleID('Customer')) {
             $last_action_fields[] = 'iss_last_internal_action_date';
@@ -2655,7 +2655,7 @@ class Issue
 
         return array(
             'next'     => @$next,
-            'previous' => @$previous
+            'previous' => @$previous,
         );
     }
 

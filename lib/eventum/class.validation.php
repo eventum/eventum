@@ -69,7 +69,7 @@ class Validation
                                 'j', 'l', 'k', 'm', 'n', 'o', 'p', 'q', 'r',
                                 's', 't', 'u', 'w', 'v', 'x', 'y', 'z',
                                 '0', '1', '2', '3', '4', '5', '6', '7',
-                                '8', '9');
+                                '8', '9', );
         $extended_chars = array('.', '+', '_', '-', '@');
         $str = strtolower($str);
 
@@ -121,7 +121,7 @@ class Validation
     {
         $valid_chars = array('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
                                 'j', 'l', 'k', 'm', 'n', 'o', 'p', 'q', 'r',
-                                's', 't', 'u', 'w', 'v', 'x', 'y', 'z');
+                                's', 't', 'u', 'w', 'v', 'x', 'y', 'z', );
 
         for ($i = 0; $i < strlen($str); $i++) {
             if (!in_array(substr($str, $i, 1), $valid_chars)) {

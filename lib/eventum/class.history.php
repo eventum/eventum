@@ -252,7 +252,7 @@ class History
             'no_time'   =>  array(),
             'not_mine'  =>  array(),
             'closed'    =>  array(),
-            'other'     =>  array()
+            'other'     =>  array(),
         );
         if (count($res) > 0) {
             if (isset($_REQUEST['show_per_issue'])) {

@@ -272,7 +272,7 @@ class Mime_Helper
             "\xE7","\xE8","\xE9","\xEA","\xEB","\xEC","\xED","\xEE",
             "\xEF","\xF0","\xF1","\xF2","\xF3","\xF4","\xF5","\xF6",
             "\xF7","\xF8","\xF9","\xFA","\xFB","\xFC","\xFD","\xFE",
-            "\xFF"
+            "\xFF",
         );
 
         $qpReplaceValues = array(
@@ -296,7 +296,7 @@ class Mime_Helper
             '=E7','=E8','=E9','=EA','=EB','=EC','=ED','=EE',
             '=EF','=F0','=F1','=F2','=F3','=F4','=F5','=F6',
             '=F7','=F8','=F9','=FA','=FB','=FC','=FD','=FE',
-            '=FF'
+            '=FF',
         );
 
         $string = str_replace('=', '=3D', $string);
@@ -673,7 +673,7 @@ class Mime_Helper
             $t = array(
                 'filename' => $mime_part_filename,
                 'cid'      => @$mime_part->headers['content-id'],
-                'filetype' => $content_type
+                'filetype' => $content_type,
             );
             // only include the body of the attachment when
             // requested to save some memory
@@ -704,7 +704,7 @@ class Mime_Helper
         if (count($details) == 1) {
             return array(
                 $details[0]['filetype'],
-                $details[0]['blob']
+                $details[0]['blob'],
             );
         } else {
             return array();
@@ -734,7 +734,7 @@ class Mime_Helper
             'crlf'           => "\r\n",
             'include_bodies' => $include_bodies,
             'decode_headers' => false,
-            'decode_bodies'  => $decode_bodies
+            'decode_bodies'  => $decode_bodies,
         );
         $decode = new Mail_mimeDecode($message);
         $email = $decode->decode($params);
@@ -876,7 +876,7 @@ class Mime_Helper
     {
         return array(
             'attachment',
-            'inline'
+            'inline',
         );
     }
 

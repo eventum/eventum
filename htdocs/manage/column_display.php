@@ -88,7 +88,7 @@ $tpl->assign(array(
     'page'      =>  $page,
     'ranks'     =>  $ranks,
     'prj_id'    =>  $prj_id,
-    'project_name'  =>  Project::getName($prj_id)
+    'project_name'  =>  Project::getName($prj_id),
 ));
 
 $tpl->displayTemplate();

@@ -171,7 +171,7 @@ $options = array(
     'sort_by'       => $filter['cst_sort_by'],
     'sort_order'    => $filter['cst_sort_order'],
     'custom_field'  => $filter['cst_custom_field'],
-    'search_type'   => $filter['cst_search_type']
+    'search_type'   => $filter['cst_search_type'],
 );
 $issues = Search::getListing($filter['cst_prj_id'], $options, 0, 'ALL', true);
 $issues = $issues['list'];

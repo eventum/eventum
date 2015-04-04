@@ -78,25 +78,25 @@ if (!empty($_GET['field'])) {
     if (Reminder_Condition::canFieldBeCompared($_GET['field'])) {
         $tpl->assign(array(
             'show_field_options'    =>  'yes',
-            'comparable_fields'     =>  Reminder_Condition::getFieldAdminList(true)
+            'comparable_fields'     =>  Reminder_Condition::getFieldAdminList(true),
         ));
     } elseif (strtolower($field_title) == 'status') {
         $prj_id = Reminder::getProjectID($rem_id);
         $tpl->assign(array(
             'show_status_options' => 'yes',
-            'statuses'            => Status::getAssocStatusList($prj_id)
+            'statuses'            => Status::getAssocStatusList($prj_id),
         ));
     } elseif (strtolower($field_title) == 'category') {
         $prj_id = Reminder::getProjectID($rem_id);
         $tpl->assign(array(
             'show_category_options' => 'yes',
-            'categories'            => Category::getAssocList($prj_id)
+            'categories'            => Category::getAssocList($prj_id),
         ));
     } elseif ((strtolower($field_title) == 'group') || (strtolower($field_title) == 'active group')) {
         $prj_id = Reminder::getProjectID($rem_id);
         $tpl->assign(array(
             'show_group_options' => 'yes',
-            'groups'             => Group::getAssocList($prj_id)
+            'groups'             => Group::getAssocList($prj_id),
         ));
     } else {
         $tpl->assign('show_status_options', 'no');
@@ -105,7 +105,7 @@ if (!empty($_GET['field'])) {
         $tpl->assign('info', array(
             'rlc_rmf_id' => $_GET['field'],
             'rlc_rmo_id' => '',
-            'rlc_value'  => ''
+            'rlc_value'  => '',
         ));
     }
 }

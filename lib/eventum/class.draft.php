@@ -360,7 +360,7 @@ class Draft
 
         return array(
             $to,
-            $ccs
+            $ccs,
         );
     }
 

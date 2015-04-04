@@ -75,7 +75,7 @@ $tpl->assign(array(
     'developers'    => @$_REQUEST['developers'],
     'status_list'   =>  Status::getAssocStatusList($prj_id),
     'status'        =>  @$_REQUEST['status'],
-    'sort_order'    =>  $_REQUEST['sort_order']
+    'sort_order'    =>  $_REQUEST['sort_order'],
 ));
 
 $tpl->displayTemplate();

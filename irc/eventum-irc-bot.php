@@ -207,7 +207,7 @@ class Eventum_Bot
             'auth'             => 'Format is "auth user@example.com password"',
             'clock'            => 'Format is "clock [in|out]"',
             'list-clocked-in'  => 'Format is "list-clocked-in"',
-            'list-quarantined' => 'Format is "list-quarantined"'
+            'list-quarantined' => 'Format is "list-quarantined"',
         );
         $this->sendResponse($irc, $data->nick, 'This is the list of available commands:');
         foreach ($commands as $command => $description) {

@@ -56,7 +56,7 @@ $required_files = array(
         'check_permission' => true,
         'permission'       => 660,
         'check_filesize'   => true,
-        'filesize'         => 1024
+        'filesize'         => 1024,
     ),
 );
 

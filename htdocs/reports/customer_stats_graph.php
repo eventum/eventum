@@ -58,7 +58,7 @@ $colors = array(
             '#ffff66',
             '#ffffcc',
             '#ff3333',
-            '#ff9191'
+            '#ff9191',
 );
 $color_index = 0;
 

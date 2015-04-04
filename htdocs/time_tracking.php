@@ -53,7 +53,7 @@ $prj_id = Auth::getCurrentProject();
 $tpl->assign(array(
     'issue_id'           => $issue_id,
     'time_categories'    => Time_Tracking::getAssocCategories($prj_id),
-    'current_user_prefs' => Prefs::get(Auth::getUserID())
+    'current_user_prefs' => Prefs::get(Auth::getUserID()),
 ));
 
 $tpl->displayTemplate();

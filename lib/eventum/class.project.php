@@ -48,7 +48,7 @@ class Project
     {
         $default = array(
             'name'  => '',
-            'email' => ''
+            'email' => '',
         );
         $stmt = 'SELECT
                     prj_outgoing_sender_name,
@@ -66,7 +66,7 @@ class Project
         if (!empty($res)) {
             return array(
                 'name'  => $res['prj_outgoing_sender_name'],
-                'email' => $res['prj_outgoing_sender_email']
+                'email' => $res['prj_outgoing_sender_email'],
             );
         }
 

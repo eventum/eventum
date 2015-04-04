@@ -96,7 +96,7 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
                      MATCH (icf_value_integer) AGAINST (? IN BOOLEAN MODE))';
         $params1 = array(
             $options['keywords'],
-            $options['keywords']
+            $options['keywords'],
         );
         try {
             $custom_res = DB_Helper::getInstance()->getColumn($stmt, $params1);

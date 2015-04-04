@@ -45,7 +45,7 @@ if ((Auth::getCurrentRole() < User::getRoleID('Developer')) ||
 
     $tpl->assign(array(
                     'data'  =>  $data,
-                    'issue_id'  =>  $issue_id
+                    'issue_id'  =>  $issue_id,
     ));
 }
 $tpl->displayTemplate();

@@ -100,7 +100,7 @@ if (CRM::hasCustomerIntegration($prj_id) && isset($details['contract'])) {
         $details = Issue::getDetails($issue_id);
         $tpl->assign(array(
                 'redeemed'  =>  $contract->getRedeemedIncidentDetails($issue_id),
-                'incident_details'  =>  $details['customer']['incident_details']
+                'incident_details'  =>  $details['customer']['incident_details'],
         ));
     }
 }

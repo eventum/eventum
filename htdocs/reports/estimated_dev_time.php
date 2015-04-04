@@ -69,7 +69,7 @@ foreach ($res as $id => $row) {
 }
 $res[] = array(
     'dev_time'  =>  str_replace(' ', '&nbsp;', str_pad($total, 5, ' ', STR_PAD_LEFT)),
-    'prc_title' =>  'Total'
+    'prc_title' =>  'Total',
 );
 $tpl->assign('data', $res);
 

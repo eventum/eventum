@@ -52,7 +52,7 @@ $tpl->assign(array(
     'issue_id'           => $issue_id,
     'enabled_partners'   => Partner::getPartnersByProject($prj_id),
     'partners'           => Partner::getPartnersByIssue($issue_id),
-    'current_user_prefs' => Prefs::get(Auth::getUserID())
+    'current_user_prefs' => Prefs::get(Auth::getUserID()),
 ));
 
 $tpl->displayTemplate();

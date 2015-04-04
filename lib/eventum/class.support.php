@@ -177,12 +177,12 @@ class Support
         return array(
             'next'     => array(
                 'sup_id' => @$next,
-                'ema_id' => @$res[$next]
+                'ema_id' => @$res[$next],
             ),
             'previous' => array(
                 'sup_id' => @$previous,
-                'ema_id' => @$res[$previous]
-            )
+                'ema_id' => @$res[$previous],
+            ),
         );
     }
 
@@ -223,12 +223,12 @@ class Support
         return array(
             'next'     => array(
                 'sup_id' => @$next,
-                'ema_id' => @$res[$next]
+                'ema_id' => @$res[$next],
             ),
             'previous' => array(
                 'sup_id' => @$previous,
-                'ema_id' => @$res[$previous]
-            )
+                'ema_id' => @$res[$previous],
+            ),
         );
     }
 
@@ -636,7 +636,7 @@ class Support
             'full_email'     => @$message,
             'has_attachment' => $has_attachments,
             // the following items are not inserted, but useful in some methods
-            'headers'        => @$structure->headers
+            'headers'        => @$structure->headers,
         );
 
         $subject = Mime_Helper::decodeQuotedPrintable(@$structure->headers['subject']);
@@ -970,7 +970,7 @@ class Support
             'customer_id'   =>  $customer_id,
             'contact_id'   =>  $contact_id,
             'type'      =>  $type,
-            'parent_id' =>  $parent_id
+            'parent_id' =>  $parent_id,
         );
     }
 
@@ -1173,11 +1173,11 @@ class Support
             'sender'           => self::getParam('sender'),
             'to'               => self::getParam('to'),
             'ema_id'           => self::getParam('ema_id'),
-            'filter'           => self::getParam('filter')
+            'filter'           => self::getParam('filter'),
         );
         // now do some magic to properly format the date fields
         $date_fields = array(
-            'arrival_date'
+            'arrival_date',
         );
         foreach ($date_fields as $field_name) {
             $field = self::getParam($field_name);
@@ -1192,12 +1192,12 @@ class Support
                 'Day'         => $field['Day'],
                 'start'       => $field['Year'] . '-' . $field['Month'] . '-' . $field['Day'],
                 'filter_type' => $field['filter_type'],
-                'end'         => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day']
+                'end'         => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day'],
             );
             @$cookie[$end_field_name] = array(
                 'Year'        => $end_field['Year'],
                 'Month'       => $end_field['Month'],
-                'Day'         => $end_field['Day']
+                'Day'         => $end_field['Day'],
             );
         }
         Search_Profile::save(Auth::getUserID(), Auth::getCurrentProject(), 'email', $cookie);
@@ -1220,11 +1220,11 @@ class Support
             'sup_date',
             'sup_to',
             'sup_iss_id',
-            'sup_subject'
+            'sup_subject',
         );
         $items = array(
             'links'  => array(),
-            'images' => array()
+            'images' => array(),
         );
         for ($i = 0; $i < count($fields); $i++) {
             if ($options['sort_by'] == $fields[$i]) {
@@ -1296,7 +1296,7 @@ class Support
         } catch (DbException $e) {
             return array(
                 'list' => '',
-                'info' => ''
+                'info' => '',
             );
         }
 
@@ -1349,8 +1349,8 @@ class Support
                 'total_pages'   => $total_pages,
                 'previous_page' => ($current_row == 0) ? '-1' : ($current_row - 1),
                 'next_page'     => ($current_row == $last_page) ? '-1' : ($current_row + 1),
-                'last_page'     => $last_page
-            )
+                'last_page'     => $last_page,
+            ),
         );
     }
 
@@ -1573,7 +1573,7 @@ class Support
                 'full_email'     => $res[$i]['seb_full_email'],
                 'has_attachment' => $has_attachments,
                 // the following items are not inserted, but useful in some methods
-                'headers'        => @$structure->headers
+                'headers'        => @$structure->headers,
             );
 
             $prj_id = Issue::getProjectID($t['issue_id']);
@@ -2029,7 +2029,7 @@ class Support
                 // add the warning message to the current message' body, if needed
                 $fixed_body = Mail_Helper::addWarningMessage($issue_id, $recipient, $body, array());
                 $mail->setHeaders(array(
-                    'Message-Id' => $message_id
+                    'Message-Id' => $message_id,
                 ));
                 // skip users who don't have access to this issue (but allow non-users and users without access to this project) to get emails
                 $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($recipient), true);
@@ -2540,7 +2540,7 @@ class Support
             'subject'        => $email['sup_subject'],
             'body'           => $email['seb_body'],
             'full_email'     => $email['seb_full_email'],
-            'has_attachment' => $email['sup_has_attachment']
+            'has_attachment' => $email['sup_has_attachment'],
         );
         Workflow::handleNewEmail(self::getProjectByEmailAccount($new_ema_id), $issue_id, $structure, $row);
 

@@ -93,7 +93,7 @@ $tpl->assign(array(
 
 if (isset($_GET['custom_field'])) {
     $tpl->assign(array(
-        'field_info'  =>  Custom_Field::getDetails($_GET['custom_field'])
+        'field_info'  =>  Custom_Field::getDetails($_GET['custom_field']),
     ));
 }
 

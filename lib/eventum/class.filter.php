@@ -111,7 +111,7 @@ class Filter
             'updated_date',
             'last_response_date',
             'first_response_date',
-            'closed_date'
+            'closed_date',
         );
 
         /**
@@ -814,7 +814,7 @@ class Filter
             if ($display != false) {
                 $return[$filter['title']] = array(
                     'value' =>  $display,
-                    'remove_link'   =>  'list.php?view=clearandfilter&' . Filter::buildUrl($filter_info, $options, $filter_key, true)
+                    'remove_link'   =>  'list.php?view=clearandfilter&' . Filter::buildUrl($filter_info, $options, $filter_key, true),
                 );
             }
         }
@@ -836,69 +836,69 @@ class Filter
             'iss_pri_id'    =>  array(
                 'title' =>  ev_gettext('Priority'),
                 'param' =>  'priority',
-                'quickfilter'   =>  true
+                'quickfilter'   =>  true,
             ),
             'iss_sev_id'    =>  array(
                 'title' =>  ev_gettext('Severity'),
                 'param' =>  'severity',
-                'quickfilter'   =>  true
+                'quickfilter'   =>  true,
             ),
             'keywords'  =>  array(
                 'title' =>  ev_gettext('Keyword(s)'),
                 'param' =>  'keywords',
-                'quickfilter'   =>  true
+                'quickfilter'   =>  true,
             ),
             'users' =>  array(
                 'title' =>  ev_gettext('Assigned'),
                 'param' =>  'users',
-                'quickfilter'   =>  true
+                'quickfilter'   =>  true,
             ),
             'iss_prc_id'    =>  array(
                 'title' =>  ev_gettext('Category'),
                 'param' =>  'category',
-                'quickfilter'   =>  true
+                'quickfilter'   =>  true,
             ),
             'iss_sta_id'    =>  array(
                 'title' =>  ev_gettext('Status'),
                 'param' =>  'status',
-                'quickfilter'   =>  true
+                'quickfilter'   =>  true,
             ),
             'iss_pre_id'    =>  array(
                 'title' =>  ev_gettext('Release'),
-                'param' =>  'release'
+                'param' =>  'release',
             ),
             'created_date'  =>  array(
                 'title' =>  ev_gettext('Created Date'),
                 'param' =>  'created_date',
-                'is_date'   =>  true
+                'is_date'   =>  true,
             ),
             'updated_date'  =>  array(
                 'title' =>  ev_gettext('Updated Date'),
                 'param' =>  'updated_date',
-                'is_date'   =>  true
+                'is_date'   =>  true,
             ),
             'last_response_date'  =>  array(
                 'title' =>  ev_gettext('Last Response Date'),
                 'param' =>  'last_response_date',
-                'is_date'   =>  true
+                'is_date'   =>  true,
             ),
             'first_response_date'  =>  array(
                 'title' =>  ev_gettext('First Response Date'),
                 'param' =>  'first_response_date',
-                'is_date'   =>  true
+                'is_date'   =>  true,
             ),
             'closed_date'  =>  array(
                 'title' =>  ev_gettext('Closed Date'),
                 'param' =>  'closed_date',
-                'is_date'   =>  true
+                'is_date'   =>  true,
             ),
             'rows'  =>  array(
                 'title' =>  ev_gettext('Rows Per Page'),
-                'param' =>  'rows'
+                'param' =>  'rows',
             ),
             'sort_by'   =>  array(
                 'title' =>  ev_gettext('Sort By'),
-                'param' =>  'sort_by'
+                'param' =>  'sort_by',
             ),
             'sort_order'    =>  array(
                 'title' =>  ev_gettext('Sort Order'),
@@ -906,32 +906,32 @@ class Filter
             ),
             'hide_closed'   =>  array(
                 'title' =>  ev_gettext('Hide Closed Issues'),
-                'param' =>  'hide_closed'
+                'param' =>  'hide_closed',
             ),
             'show_authorized'   =>  array(
                 'title' =>  ev_gettext('Authorized to Send Emails'),
-                'param' =>  'show_authorized_issues'
+                'param' =>  'show_authorized_issues',
             ),
             'show_notification_list'    =>  array(
                 'title' =>  ev_gettext('In Notification List'),
-                'param' =>  'show_notification_list_issues'
+                'param' =>  'show_notification_list_issues',
             ),
             'search_type'   =>  array(
                 'title' =>  ev_gettext('Search Type'),
-                'param' =>  'search_type'
+                'param' =>  'search_type',
             ),
             'reporter'  =>  array(
                 'title' =>  ev_gettext('Reporter'),
-                'param' =>  'reporter'
+                'param' =>  'reporter',
             ),
             'customer_id' =>  array(
                 'title' =>  ev_gettext('Customer'),
-                'param' =>  'customer_id'
+                'param' =>  'customer_id',
             ),
             'pro_id'   =>  array(
                 'title' =>  ev_gettext('Product'),
-                'param' =>  'product'
-            )
+                'param' =>  'product',
+            ),
         );
 
         // add custom fields
@@ -943,7 +943,7 @@ class Filter
                     'title' =>  $field['fld_title'],
                     'is_custom' =>  1,
                     'fld_id'    =>  $fld_id,
-                    'fld_type'  =>  $field['fld_type']
+                    'fld_type'  =>  $field['fld_type'],
                 );
             }
         }

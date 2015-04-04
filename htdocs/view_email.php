@@ -62,7 +62,7 @@ if (@$_GET['cat'] == 'list_emails') {
     $sides = Support::getListingSides($_GET['id']);
     $tpl->assign(array(
         'previous' => $sides['previous'],
-        'next'     => $sides['next']
+        'next'     => $sides['next'],
     ));
 } elseif ((@$_GET['cat'] == 'move_email') && (Auth::getCurrentRole() >= User::getRoleID('Standard User'))) {
     $res = Support::moveEmail(@$_GET['id'], @$_GET['ema_id'], @$_GET['new_ema_id']);
@@ -72,7 +72,7 @@ if (@$_GET['cat'] == 'list_emails') {
     $sides = Support::getIssueSides($issue_id, $_GET['id']);
     $tpl->assign(array(
         'previous' => $sides['previous'],
-        'next'     => $sides['next']
+        'next'     => $sides['next'],
     ));
 }
 

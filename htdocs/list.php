@@ -109,7 +109,7 @@ $users = Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer'
 $assign_options = array(
     ''      =>  ev_gettext('Any'),
     '-1'    =>  ev_gettext('un-assigned'),
-    '-2'    =>  ev_gettext('myself and un-assigned')
+    '-2'    =>  ev_gettext('myself and un-assigned'),
 );
 if (Auth::isAnonUser()) {
     unset($assign_options['-2']);
@@ -143,7 +143,7 @@ $tpl->assign('categories', Category::getAssocList($prj_id));
 $tpl->assign('releases', Release::getAssocList($prj_id, true));
 $tpl->assign('reporters', Project::getReporters($prj_id));
 $tpl->assign(array(
-    'products'      => Product::getAssocList(false)
+    'products'      => Product::getAssocList(false),
 ));
 
 $prefs = Prefs::get($usr_id);

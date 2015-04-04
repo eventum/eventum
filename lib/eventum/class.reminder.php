@@ -730,7 +730,7 @@ class Reminder
 
         return array(
             'type'   => $type,
-            'values' => $values
+            'values' => $values,
         );
     }
 

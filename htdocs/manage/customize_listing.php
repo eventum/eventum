@@ -70,7 +70,7 @@ if (@$_GET['cat'] == 'edit') {
     $tpl->assign(array(
         'info'        => $details,
         'project_id'  => $details['psd_prj_id'],
-        'status_list' => Status::getAssocStatusList($details['psd_prj_id'], true)
+        'status_list' => Status::getAssocStatusList($details['psd_prj_id'], true),
     ));
 }
 

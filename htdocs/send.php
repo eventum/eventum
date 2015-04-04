@@ -101,7 +101,7 @@ if (@$_GET['cat'] == 'view_draft') {
         'sup_subject' => $draft['emd_subject'],
         'seb_body'    => $draft['emd_body'],
         'sup_from'    => $draft['to'],
-        'cc'          => implode('; ', $draft['cc'])
+        'cc'          => implode('; ', $draft['cc']),
     );
     // try to guess the correct email account to be associated with this email
     if (!empty($draft['emd_sup_id'])) {
@@ -114,7 +114,7 @@ if (@$_GET['cat'] == 'view_draft') {
         'draft_id'        => $_GET['id'],
         'email'           => $email,
         'parent_email_id' => $draft['emd_sup_id'],
-        'draft_status'    => $draft['emd_status']
+        'draft_status'    => $draft['emd_status'],
     ));
     if ($draft['emd_status'] != 'pending') {
         $tpl->assign('read_only', 1);
@@ -128,7 +128,7 @@ if (@$_GET['cat'] == 'view_draft') {
         $email['seb_body'] = $header . Misc::formatReply($email['seb_body']);
         $tpl->assign(array(
             'email'           => $email,
-            'parent_email_id' => $_GET['id']
+            'parent_email_id' => $_GET['id'],
         ));
     }
 }
@@ -143,7 +143,7 @@ if (@$_GET['cat'] == 'reply') {
         $tpl->assign(array(
             'email'           => $details,
             'parent_email_id' => 0,
-            'extra_title'     => 'Issue #' . $_GET['issue_id'] . ': Reply'
+            'extra_title'     => 'Issue #' . $_GET['issue_id'] . ': Reply',
         ));
     }
 }

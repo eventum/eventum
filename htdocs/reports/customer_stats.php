@@ -91,14 +91,14 @@ $tpl->assign(array(
     'sections'          =>  Customer_Stats_Report::getDisplaySections(),
     'display_sections'  =>  $_POST['display_sections'],
     'include_expired'   =>  @$_POST['include_expired'],
-    'graphs'            =>  Customer_Stats_Report::getGraphTypes()
+    'graphs'            =>  Customer_Stats_Report::getGraphTypes(),
 ));
 
 // only set customers if user has role of manager or above
 if (Auth::getCurrentRole() >= User::getRoleID('manager')) {
     $tpl->assign(array(
     'customers'         =>  $crm->getCustomerAssocList(),
-    'customer'          =>  @$_POST['customer']
+    'customer'          =>  @$_POST['customer'],
     ));
 }
 
@@ -124,7 +124,7 @@ if (@$_POST['cat'] == 'Generate') {
             'date_msg_text' =>  $date_msg_text,
             'date_msg'      =>  "<div align=\"center\" style=\"font-family: Verdana, Arial, Helvetica, sans-serif;font-style: normal;font-weight: bold; margin: 3px\">
                                     $date_msg_text
-                                </div>"
+                                </div>",
         ));
     }
 

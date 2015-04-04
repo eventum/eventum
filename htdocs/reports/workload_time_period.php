@@ -55,6 +55,6 @@ if (@$_GET['type'] == 'email') {
 $tpl->assign(array(
     'data'    => $data,
     'type'    => @$_GET['type'],
-    'user_tz' => Date_Helper::getTimezoneShortNameByUser($usr_id)
+    'user_tz' => Date_Helper::getTimezoneShortNameByUser($usr_id),
 ));
 $tpl->displayTemplate();

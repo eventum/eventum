@@ -91,7 +91,7 @@ if (empty($_POST['week'])) {
 
 if (isset($_POST['custom_field'])) {
     $tpl->assign(array(
-        'field_info'  =>  Custom_Field::getDetails($_POST['custom_field'])
+        'field_info'  =>  Custom_Field::getDetails($_POST['custom_field']),
     ));
 }
 
@@ -105,7 +105,7 @@ if (@$_POST['report_type'] == 'weekly') {
 if (count(@$_POST['custom_field']) > 0) {
     $data = Report::getCustomFieldWeeklyReport(@$_POST['custom_field'], @$_POST['custom_options'], $dates[0], $dates[1], $per_user);
     $tpl->assign(array(
-        'data'  =>  $data
+        'data'  =>  $data,
     ));
 }
 

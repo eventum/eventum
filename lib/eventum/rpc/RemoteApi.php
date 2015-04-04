@@ -47,7 +47,7 @@ class RemoteApi
     {
         if ($email) {
             $cookie = array(
-                'email' => $email
+                'email' => $email,
             );
             $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
         }
@@ -55,7 +55,7 @@ class RemoteApi
         if ($project) {
             $cookie = array(
                 'prj_id'   => $project,
-                'remember' => false
+                'remember' => false,
             );
             $_COOKIE[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
         }
@@ -520,7 +520,7 @@ class RemoteApi
             'sup_from'    => $issue['reporter'],
             'sup_to'      => '',
             'sup_cc'      => '',
-            'sup_subject' => $issue['iss_summary']
+            'sup_subject' => $issue['iss_summary'],
         );
         if ($real_emails != '') {
             $emails = array_merge(array($email), $real_emails);
@@ -557,7 +557,7 @@ class RemoteApi
                 'sup_has_attachment' => 0,
                 'sup_subject'        => $issue['iss_summary'],
                 'message'            => $issue['iss_original_description'],
-                'seb_full_email'     => $issue['iss_original_description']
+                'seb_full_email'     => $issue['iss_original_description'],
             );
         } else {
             $email = Support::getEmailBySequence($issue_id, $email_id);
@@ -680,7 +680,7 @@ class RemoteApi
         $tpl->setTemplate('reports/weekly_data.tpl.html');
         $tpl->assign(array(
             'report_type' => 'weekly',
-            'data' => Report::getWeeklyReport($usr_id, $start, $end, $separate_closed)
+            'data' => Report::getWeeklyReport($usr_id, $start, $end, $separate_closed),
         ));
 
         $ret = $tpl->getTemplateContents() . "\n";

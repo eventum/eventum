@@ -184,7 +184,7 @@ class Notification
             $project_info = Project::getOutgoingSenderAddress($project_id);
             $info = array(
                 'sender_name'   =>  $project_info['name'],
-                'email'         =>  $project_info['email']
+                'email'         =>  $project_info['email'],
             );
 
             // if no project name, use eventum wide sender name
@@ -560,7 +560,7 @@ class Notification
                         sub_id=sbt_sub_id AND
                         sbt_type=?';
             $params = array(
-                $issue_id, $type
+                $issue_id, $type,
             );
         }
         try {
@@ -741,7 +741,7 @@ class Notification
             for ($i = 0; $i < count($extra_recipients); $i++) {
                 $extra[] = array(
                     'sub_usr_id' => $extra_recipients[$i],
-                    'sub_email'  => ''
+                    'sub_email'  => '',
                 );
             }
         }
@@ -1030,7 +1030,7 @@ class Notification
                     usr_status = 'active' AND
                     pru_role > ?";
         $params = array(
-            $prj_id, User::getRoleID('Customer')
+            $prj_id, User::getRoleID('Customer'),
         );
 
         if (count($exclude_list) > 0) {
@@ -1122,7 +1122,7 @@ class Notification
         // generate new Message-ID
         $message_id = Mail_Helper::generateMessageID();
         $headers = array(
-            'Message-ID' => $message_id
+            'Message-ID' => $message_id,
         );
 
         self::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false, false, $headers);
@@ -1173,7 +1173,7 @@ class Notification
                 'data'        => $data,
                 'sender_name' => Mail_Helper::getName($sender),
                 'recipient_name'    => Mail_Helper::getName($recipient),
-                'is_message_sender' =>  $is_message_sender
+                'is_message_sender' =>  $is_message_sender,
             ));
 
             // figure out if sender has a real account or not
@@ -1189,8 +1189,8 @@ class Notification
                 'email' => array(
                     'date'    => $date,
                     'from'    => Mime_Helper::fixEncoding($sender),
-                    'subject' => $subject
-                )
+                    'subject' => $subject,
+                ),
             ));
 
             // change the current locale
@@ -1266,8 +1266,8 @@ class Notification
                     'email' => array(
                         'date'    => $email_details['sup_date'],
                         'from'    => $email_details['sup_from'],
-                        'subject' => $email_details['sup_subject']
-                    )
+                        'subject' => $email_details['sup_subject'],
+                    ),
                 ));
 
                 // change the current locale
@@ -1379,7 +1379,7 @@ class Notification
         $tpl->setTemplate('notifications/updated_account.tpl.text');
         $tpl->assign(array(
             'app_title'    => Misc::getToolCaption(),
-            'user'         => $info
+            'user'         => $info,
         ));
 
         // change the current locale
@@ -1414,7 +1414,7 @@ class Notification
         $tpl->setTemplate('notifications/updated_password.tpl.text');
         $tpl->assign(array(
             'app_title'    => Misc::getToolCaption(),
-            'user'         => $info
+            'user'         => $info,
         ));
 
         // change the current locale
@@ -1449,7 +1449,7 @@ class Notification
         $tpl->setTemplate('notifications/new_user.tpl.text');
         $tpl->assign(array(
             'app_title'    => Misc::getToolCaption(),
-            'user'         => $info
+            'user'         => $info,
         ));
 
         // change the current locale
@@ -1487,7 +1487,7 @@ class Notification
             $tpl->assign(array(
                 'app_title'    => Misc::getToolCaption(),
                 'issue'        => $issue,
-                'data'         => $data
+                'data'         => $data,
             ));
 
             for ($i = 0; $i < count($assignees); $i++) {
@@ -1542,7 +1542,7 @@ class Notification
         $tpl->assign(array(
             'app_title'    => Misc::getToolCaption(),
             'issue'        => $issue,
-            'current_user' => User::getFullName(Auth::getUserID())
+            'current_user' => User::getFullName(Auth::getUserID()),
         ));
 
         for ($i = 0; $i < count($emails); $i++) {
@@ -1573,7 +1573,7 @@ class Notification
         $tpl->setTemplate('notifications/account_details.tpl.text');
         $tpl->assign(array(
             'app_title'    => Misc::getToolCaption(),
-            'user'         => $info
+            'user'         => $info,
         ));
 
         Language::set(User::getLang($usr_id));
@@ -1600,7 +1600,7 @@ class Notification
         $subscribers = array(
             'staff'     => array(),
             'customers' => array(),
-            'all'       => array()
+            'all'       => array(),
         );
         $prj_id = Issue::getProjectID($issue_id);
         $stmt = 'SELECT
@@ -1627,7 +1627,7 @@ class Notification
                     sub_usr_id=usr_id AND
                     sub_iss_id=?';
         $params = array(
-            $prj_id, $issue_id
+            $prj_id, $issue_id,
         );
         if ($min_role) {
             $stmt .= ' AND
@@ -2017,7 +2017,7 @@ class Notification
             'updated',
             'closed',
             'emails',
-            'files'
+            'files',
         );
     }
 

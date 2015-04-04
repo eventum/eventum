@@ -167,70 +167,70 @@ class Display_Column
         $columns = array(
             'list_issues'   =>  array(
                 'pri_rank'    =>  array(
-                    'title' =>  ev_gettext('Priority')
+                    'title' =>  ev_gettext('Priority'),
                 ),
                 'sev_rank'    =>  array(
-                    'title' =>  ev_gettext('Severity')
+                    'title' =>  ev_gettext('Severity'),
                 ),
                 'iss_id'    =>  array(
-                    'title' =>  ev_gettext('Issue ID')
+                    'title' =>  ev_gettext('Issue ID'),
                 ),
                 'usr_full_name' =>  array(
-                    'title' =>  ev_gettext('Reporter')
+                    'title' =>  ev_gettext('Reporter'),
                 ),
                 'iss_created_date'    =>  array(
-                    'title' =>  ev_gettext('Created Date')
+                    'title' =>  ev_gettext('Created Date'),
                 ),
                 'grp_name'    =>  array(
-                    'title' =>  ev_gettext('Group')
+                    'title' =>  ev_gettext('Group'),
                 ),
                 'assigned'  =>  array(
-                    'title' =>  ev_gettext('Assigned')
+                    'title' =>  ev_gettext('Assigned'),
                 ),
                 'time_spent'    =>  array(
-                    'title' =>  ev_gettext('Time Spent')
+                    'title' =>  ev_gettext('Time Spent'),
                 ),
                 'iss_percent_complete'    =>  array(
                     'title' =>  ev_gettext('% Complete'),
-                    'default_role'  =>  9
+                    'default_role'  =>  9,
                 ),
                 'iss_dev_time'    =>  array(
                     'title' =>  ev_gettext('Est Dev Time'),
-                    'default_role'  =>  9
+                    'default_role'  =>  9,
                 ),
                 'prc_title'     =>  array(
-                    'title' =>  ev_gettext('Category')
+                    'title' =>  ev_gettext('Category'),
                 ),
                 'pre_title' =>  array(
-                    'title' =>  ev_gettext('Release')
+                    'title' =>  ev_gettext('Release'),
                 ),
                 'iss_customer_id'   =>  array(
-                    'title' =>  ev_gettext('Customer')
+                    'title' =>  ev_gettext('Customer'),
                 ),
                 'support_level' =>  array(
-                    'title' =>  ev_gettext('Support Level')
+                    'title' =>  ev_gettext('Support Level'),
                 ),
                 'sta_rank'    =>  array(
-                    'title' =>  ev_gettext('Status')
+                    'title' =>  ev_gettext('Status'),
                 ),
                 'sta_change_date'   =>  array(
-                    'title' =>  ev_gettext('Status Change Date')
+                    'title' =>  ev_gettext('Status Change Date'),
                 ),
                 'last_action_date'  =>  array(
-                    'title' =>  ev_gettext('Last Action Date')
+                    'title' =>  ev_gettext('Last Action Date'),
                 ),
                 'custom_fields' =>  array(
-                    'title' =>  ev_gettext('Custom Fields')
+                    'title' =>  ev_gettext('Custom Fields'),
                 ),
                 'iss_summary'   =>  array(
                     'title' =>  ev_gettext('Summary'),
                     'align' =>  'left',
-                    'width' =>  '30%'
+                    'width' =>  '30%',
                 ),
                 'iss_expected_resolution_date'  =>  array(
-                    'title' =>  ev_gettext('Expected Resolution Date')
-                )
-            )
+                    'title' =>  ev_gettext('Expected Resolution Date'),
+                ),
+            ),
         );
 
         return $columns[$page];

@@ -63,6 +63,6 @@ $details = $contract->getDetails();
 $tpl->assign(array(
     'issue_id'  =>  $issue_id,
     'redeemed'  =>  $contract->getRedeemedIncidentDetails($issue_id),
-    'incident_details'  =>  $details['incident_details']
+    'incident_details'  =>  $details['incident_details'],
 ));
 $tpl->displayTemplate();

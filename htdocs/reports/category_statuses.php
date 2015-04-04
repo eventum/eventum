@@ -51,7 +51,7 @@ $data = array();
 foreach ($categories as $cat_id => $cat_title) {
     $data[$cat_id] = array(
         'title' =>  $cat_title,
-        'statuses'  =>  array()
+        'statuses'  =>  array(),
     );
     foreach ($statuses as $sta_id => $sta_title) {
         $sql = 'SELECT
@@ -69,7 +69,7 @@ foreach ($categories as $cat_id => $cat_title) {
         }
         $data[$cat_id]['statuses'][$sta_id] = array(
             'title' =>  $sta_title,
-            'count' =>  $res
+            'count' =>  $res,
         );
     }
 }

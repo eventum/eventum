@@ -44,7 +44,7 @@ $assigned_user_ids = Issue::getAssignedUserIDs($issue_id);
 if ((count($assigned_user_ids) > 0) && (empty($_REQUEST['target']))) {
     $tpl->assign(array(
         'prompt_override'   =>  1,
-        'assigned_users'    =>  Issue::getAssignedUsers($issue_id)
+        'assigned_users'    =>  Issue::getAssignedUsers($issue_id),
     ));
 } else {
     $issue_details = Issue::getDetails($issue_id);

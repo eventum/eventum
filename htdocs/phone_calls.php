@@ -55,7 +55,7 @@ $usr_id = Auth::getUserID();
 $tpl->assign(array(
     'issue_id'           => $issue_id,
     'phone_categories'   => Phone_Support::getCategoryAssocList($prj_id),
-    'current_user_prefs' => Prefs::get($usr_id)
+    'current_user_prefs' => Prefs::get($usr_id),
 ));
 
 $tpl->displayTemplate();

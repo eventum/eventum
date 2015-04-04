@@ -218,7 +218,7 @@ class Routing
             'body'           => @$body,
             'full_email'     => @$full_message,
             'has_attachment' => $has_attachments,
-            'headers'        => @$structure->headers
+            'headers'        => @$structure->headers,
         );
         // automatically associate this incoming email with a customer
         if (CRM::hasCustomerIntegration($prj_id)) {

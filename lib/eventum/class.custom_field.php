@@ -228,7 +228,7 @@ class Custom_Field
                                     ?, ?, ?
                                  )";
                         $params = array(
-                            $issue_id, $fld_id, $value
+                            $issue_id, $fld_id, $value,
                         );
                         try {
                             DB_Helper::getInstance()->query($stmt, $params);
@@ -601,7 +601,7 @@ class Custom_Field
                     pcf_prj_id=? AND
                     fld_min_role <= ?';
         $params = array(
-            $iss_id, $prj_id, $usr_role
+            $iss_id, $prj_id, $usr_role,
         );
 
         if ($form_type != false) {
@@ -711,7 +711,7 @@ class Custom_Field
         foreach ($list as $field) {
             if ($field['fld_type'] == 'combo') {
                 $values[$field['fld_id']] = array(
-                    $field['selected_cfo_id'] => $field['value']
+                    $field['selected_cfo_id'] => $field['value'],
                 );
             } elseif ($field['fld_type'] == 'multiple') {
                 $selected = $field['selected_cfo_id'];
@@ -1073,7 +1073,7 @@ class Custom_Field
         if (substr($value, 0, 4) == 'new:') {
             return array(
                 'type'  => 'new',
-                'value' => substr($value, 4)
+                'value' => substr($value, 4),
             );
         }
 
@@ -1082,7 +1082,7 @@ class Custom_Field
         return array(
             'type'  => 'existing',
             'id'    => substr($value, 0, strpos($value, ':')),
-            'value' => substr($value, strpos($value, ':')+1)
+            'value' => substr($value, strpos($value, ':')+1),
         );
     }
 

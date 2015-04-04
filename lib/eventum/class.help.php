@@ -51,103 +51,103 @@ class Help
         self::$topics = array(
             'main' => array(
                 'title'  => ev_gettext('Help Topics'),
-                'parent' => ''
+                'parent' => '',
             ),
             'report' => array(
                 'title'  => ev_gettext('Reporting Issues'),
-                'parent' => 'main'
+                'parent' => 'main',
             ),
             'report_category' => array(
                 'title'  => ev_gettext('Category Field'),
-                'parent' => 'report'
+                'parent' => 'report',
             ),
             'report_priority' => array(
                 'title'  => ev_gettext('Priority Field'),
-                'parent' => 'report'
+                'parent' => 'report',
             ),
             'report_assignment' => array(
                 'title'  => ev_gettext('Assignment Field'),
-                'parent' => 'report'
+                'parent' => 'report',
             ),
             'report_release' => array(
                 'title'  => ev_gettext('Scheduled Release Field'),
-                'parent' => 'report'
+                'parent' => 'report',
             ),
             'report_summary' => array(
                 'title'  => ev_gettext('Summary Field'),
-                'parent' => 'report'
+                'parent' => 'report',
             ),
             'report_description' => array(
                 'title'  => ev_gettext('Description Field'),
-                'parent' => 'report'
+                'parent' => 'report',
             ),
             'report_estimated_dev_time' => array(
                 'title'  => ev_gettext('Estimated Development Time Field'),
-                'parent' => 'report'
+                'parent' => 'report',
             ),
             'scm_integration' => array(
                 'title'  => ev_gettext('SCM Integration'),
-                'parent' => 'main'
+                'parent' => 'main',
             ),
             'scm_integration_usage' => array(
                 'title'  => ev_gettext('Usage Examples'),
-                'parent' => 'scm_integration'
+                'parent' => 'scm_integration',
             ),
             'scm_integration_installation' => array(
                 'title'  => ev_gettext('Installation Instructions'),
-                'parent' => 'scm_integration'
+                'parent' => 'scm_integration',
             ),
             'list' => array(
                 'title'  => ev_gettext('Listing / Searching for Issues'),
-                'parent' => 'main'
+                'parent' => 'main',
             ),
             'adv_search' => array(
                 'title'  => ev_gettext('Advanced Search / Creating Custom Queries'),
-                'parent' => 'main'
+                'parent' => 'main',
             ),
             'support_emails' => array(
                 'title'  => ev_gettext('Associate Emails'),
-                'parent' => 'main'
+                'parent' => 'main',
             ),
             'preferences' => array(
                 'title'  => ev_gettext('Account Preferences'),
-                'parent' => 'main'
+                'parent' => 'main',
             ),
             'notifications' => array(
                 'title'  => ev_gettext('Email Notifications'),
-                'parent' => 'main'
+                'parent' => 'main',
             ),
             'view' => array(
                 'title'  => ev_gettext('Viewing Issues'),
-                'parent' => 'main'
+                'parent' => 'main',
             ),
             'email_blocking' => array(
                 'title'  => ev_gettext('Email Blocking'),
-                'parent' => 'main'
+                'parent' => 'main',
             ),
             'link_filters' => array(
                 'title'  => ev_gettext('Link Filters'),
-                'parent' => 'main'
+                'parent' => 'main',
             ),
             'field_display' => array(
                 'title'  => ev_gettext('Edit Fields to Display'),
-                'parent' => 'main'
+                'parent' => 'main',
             ),
             'column_display' => array(
                 'title'  => ev_gettext('Edit Columns to Display'),
-                'parent' => 'main'
+                'parent' => 'main',
             ),
             'customize_listing' => array(
                 'title'  => ev_gettext('Customize Issue Listing Screen'),
-                'parent' => 'main'
+                'parent' => 'main',
             ),
             'segregate_reporter' => array(
                 'title'  => ev_gettext('Segregate Reporters'),
-                'parent' => 'main'
+                'parent' => 'main',
             ),
             'permission_levels' => array(
                 'title'  => ev_gettext('User Permission Levels'),
-                'parent' => 'main'
+                'parent' => 'main',
             ),
         );
 
@@ -191,7 +191,7 @@ class Help
         } else {
             return array(
                 'topic' => $child['parent'],
-                'title' => $topics[$child['parent']]['title']
+                'title' => $topics[$child['parent']]['title'],
             );
         }
     }
@@ -212,7 +212,7 @@ class Help
             if ($data['parent'] == $topic) {
                 $links[] = array(
                     'topic' => $child,
-                    'title' => $data['title']
+                    'title' => $data['title'],
                 );
             }
         }
@@ -237,12 +237,12 @@ class Help
         $links = array();
         $links[] = array(
             'topic' => '',
-            'title' => $topics[$topic]['title']
+            'title' => $topics[$topic]['title'],
         );
         while ($parent = self::getParent($topic)) {
             $links[] = array(
                 'topic' => $parent['topic'],
-                'title' => $parent['title']
+                'title' => $parent['title'],
             );
             $topic = $parent['topic'];
         }

@@ -72,7 +72,7 @@ class Note
 
         return array(
             'next'     => @$next,
-            'previous' => @$previous
+            'previous' => @$previous,
         );
     }
 
@@ -330,7 +330,7 @@ class Note
             'not_usr_id' => $usr_id,
             'not_created_date' => Date_Helper::getCurrentDateGMT(),
             'not_note' => $_POST['note'],
-            'not_title' => $_POST['title']
+            'not_title' => $_POST['title'],
         );
 
         if (!@empty($_POST['full_message'])) {
@@ -550,7 +550,7 @@ class Note
                 'body'           => @$body,
                 'full_email'     => @$blocked_message,
                 'has_attachment' => $has_attachments,
-                'headers'        => $headers
+                'headers'        => $headers,
             );
 
             // need to check for a possible customer association

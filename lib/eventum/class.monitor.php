@@ -262,7 +262,7 @@ class Monitor
             'support_email_body',
             'time_tracking',
             'time_tracking_category',
-            'user'
+            'user',
         );
 
         // add the table prefix to all of the required tables
@@ -332,7 +332,7 @@ class Monitor
 
         return array(
             $owner_info['name'],
-            $group_info['name']
+            $group_info['name'],
         );
     }
 

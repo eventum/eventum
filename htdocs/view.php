@@ -95,7 +95,7 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
             if (!empty($auto_switched_from)) {
                 $tpl->assign(array(
                     'project_auto_switched' =>  1,
-                    'old_project'   =>  Project::getName($auto_switched_from)
+                    'old_project'   =>  Project::getName($auto_switched_from),
                 ));
             }
             $setup = Setup::load();

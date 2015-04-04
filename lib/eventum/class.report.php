@@ -229,7 +229,7 @@ class Report
                 'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
                 'status_color'        => $res[$i]['sta_color'],
                 'last_update'         => Date_Helper::getFormattedDateDiff($ts, $update_date_ts),
-                'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts)
+                'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
             );
         }
 
@@ -283,7 +283,7 @@ class Report
                 'sta_title'        => $res[$i]['sta_title'],
                 'iss_created_date' => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
                 'time_spent'       => Misc::getFormattedTime($res[$i]['time_spent']),
-                'status_color'     => $res[$i]['sta_color']
+                'status_color'     => $res[$i]['sta_color'],
             );
         }
 
@@ -344,7 +344,7 @@ class Report
 
         $email_count = array(
             'associated'    =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, true),
-            'other'         =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, false)
+            'other'         =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, false),
         );
 
         $htt_exclude = array();
@@ -366,7 +366,7 @@ class Report
             'email_count'   => $email_count,
             'phone_count'   => Phone_Support::getCountByUser($usr_id, $start_ts, $end_ts),
             'note_count'    => Note::getCountByUser($usr_id, $start_ts, $end_ts),
-            'total_time'    => Misc::getFormattedTime($total_time, false)
+            'total_time'    => Misc::getFormattedTime($total_time, false),
         );
 
         return $data;
@@ -409,7 +409,7 @@ class Report
         // get total number of developer and customer events
         $event_count = array(
             'developer' =>  0,
-            'customer'  =>  0
+            'customer'  =>  0,
         );
         foreach ($res as $row) {
             $event_count['developer'] += $row['dev_events'];
@@ -952,14 +952,14 @@ class Report
                 'total' =>  $stats->sum(),
                 'avg'   =>  $stats->mean(),
                 'median'    =>  $stats->median(),
-                'max'   =>  $stats->max()
+                'max'   =>  $stats->max(),
             );
         } else {
             $data['issues']['stats'] = array(
                 'total' =>  0,
                 'avg'   =>  0,
                 'median'    =>  0,
-                'max'   =>  0
+                'max'   =>  0,
             );
         }
 
@@ -1006,14 +1006,14 @@ class Report
                 'total' =>  $stats->sum(),
                 'avg'   =>  $stats->mean(),
                 'median'    =>  $stats->median(),
-                'max'   =>  $stats->max()
+                'max'   =>  $stats->max(),
             );
         } else {
             $data['emails']['stats'] = array(
                 'total' =>  0,
                 'avg'   =>  0,
                 'median'    =>  0,
-                'max'   =>  0
+                'max'   =>  0,
             );
         }
 

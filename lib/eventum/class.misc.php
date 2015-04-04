@@ -231,7 +231,7 @@ class Misc
         return array(
             'total_words' => count($misspelled_words),
             'words'       => $misspelled_words,
-            'suggestions' => $spell_suggestions
+            'suggestions' => $spell_suggestions,
         );
     }
 

@@ -206,7 +206,7 @@ class Template_Helper
                     'has_crm'       =>  $has_crm,
                     'current_role'              =>  $role_id,
                     'current_role_name'         =>  User::getRole($role_id),
-                    'feature_access'            =>  Access::getFeatureAccessArray($usr_id)
+                    'feature_access'            =>  Access::getFeatureAccessArray($usr_id),
                 );
                 if ($has_crm) {
                     $crm = CRM::getInstance($prj_id);

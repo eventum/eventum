@@ -756,24 +756,24 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         $format = array(
             'id' => array(
                 'width' => 3,
-                'title' => 'ID'
+                'title' => 'ID',
             ),
             'sup_date' => array(
                 'width' => 30,
-                'title' => 'Date'
+                'title' => 'Date',
             ),
             'sup_from' => array(
                 'width' => 24,
-                'title' => 'From'
+                'title' => 'From',
             ),
             'sup_cc' => array(
                 'width' => 24,
-                'title' => 'CC'
+                'title' => 'CC',
             ),
             'sup_subject' => array(
                 'width' => 30,
-                'title' => 'Subject'
-            )
+                'title' => 'Subject',
+            ),
         );
 
         self::printTable($format, $emails);
@@ -839,20 +839,20 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         $format = array(
             'id' => array(
                 'width' => 3,
-                'title' => 'ID'
+                'title' => 'ID',
             ),
             'usr_full_name' => array(
                 'width' => 24,
-                'title' => 'User'
+                'title' => 'User',
             ),
             'not_title' => array(
                 'width' => 50,
-                'title' => 'Title'
+                'title' => 'Title',
             ),
             'not_created_date' => array(
                 'width' => 30,
-                'title' => 'Date'
-            )
+                'title' => 'Date',
+            ),
         );
 
         self::printTable($format, $notes);
@@ -976,24 +976,24 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         $format = array(
             'id' => array(
                 'width' => 3,
-                'title' => 'ID'
+                'title' => 'ID',
             ),
             'from' => array(
                 'width' => 24,
-                'title' => 'From'
+                'title' => 'From',
             ),
             'to' => array(
                 'width' => 24,
-                'title' => 'To'
+                'title' => 'To',
             ),
             'emd_subject' => array(
                 'width' => 30,
-                'title' => 'Title'
+                'title' => 'Title',
             ),
             'emd_updated_date' => array(
                 'width' => 30,
-                'title' => 'Date'
-            )
+                'title' => 'Date',
+            ),
         );
 
         self::printTable($format, $drafts);
@@ -1268,7 +1268,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         $usage = array();
         $usage[] = array(
             'command'   =>  '<ticket_number> [--full]',
-            'help'      =>  'View general details of an existing issue. --full displays also custom fields.'
+            'help'      =>  'View general details of an existing issue. --full displays also custom fields.',
         );
         $usage[] = array(
             'command'   =>  array('<ticket_number> custom-fields', '<ticket_number> cf'),
@@ -1276,28 +1276,28 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         );
         $usage[] = array(
             'command'   =>  '<ticket_number> assign <developer_email> [--safe]',
-            'help'      =>  'Assign an issue to another developer.'
+            'help'      =>  'Assign an issue to another developer.',
         );
         $usage[] = array(
             'command'   =>  '<ticket_number> take [--safe]',
-            'help'      =>  "Assign an issue to yourself and change status to 'Assigned'."
+            'help'      =>  "Assign an issue to yourself and change status to 'Assigned'.",
         );
         $usage[] = array(
             'command'   =>  array('<ticket_number> add-replier <user_email> [--safe]','<ticket_number> ar <user_email> [--safe]'),
-            'help'      =>  'Adds the specified user to the list of authorized repliers.'
+            'help'      =>  'Adds the specified user to the list of authorized repliers.',
         );
         $usage[] = array(
             'command'   =>  '<ticket_number> set-status <status> [--safe]',
             'help'      =>  "Sets the status of an issue to the desired value. If you are not sure
-     about the available statuses, use command 'list-status' described below."
+     about the available statuses, use command 'list-status' described below.",
         );
         $usage[] = array(
             'command'   =>  '<ticket_number> add-time <time_worked> [--safe]',
-            'help'      =>  'Records time worked to the time tracking tool of the given issue.'
+            'help'      =>  'Records time worked to the time tracking tool of the given issue.',
         );
         $usage[] = array(
             'command'   =>  '<ticket_number> close [--safe]',
-            'help'      =>  'Marks an issue as closed.'
+            'help'      =>  'Marks an issue as closed.',
         );
         $usage[] = array(
             'command'   =>  array('<ticket_number> list-files', '<ticket_number> lf'),
@@ -1305,78 +1305,78 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         );
         $usage[] = array(
             'command'   =>  array('<ticket_number> get-file <file_number>', '<ticket_number> gf <file_number>'),
-            'help'      =>  'Download a specific file from the given issue.'
+            'help'      =>  'Download a specific file from the given issue.',
         );
         $usage[] = array(
             'command'   =>  array('<ticket_number> list-emails','<ticket_number> le'),
-            'help'      =>  'Lists emails from the given issue.'
+            'help'      =>  'Lists emails from the given issue.',
         );
         $usage[] = array(
             'command'   =>  array('<ticket_number> get-email <email_number> [--full]','<ticket_number> ge <email_number> [--full]'),
             'help'      =>  'Displays a specific email for the issue. If the optional --full parameter
      is specified, the full email including headers and attachments will be
-     displayed.'
+     displayed.',
         );
         $usage[] = array(
             'command'   =>  array('<ticket_number> list-notes','<ticket_number> ln'),
-            'help'      =>  'Lists notes from the given issue.'
+            'help'      =>  'Lists notes from the given issue.',
         );
         $usage[] = array(
             'command'   =>  array('<ticket_number> get-note <note_number> [--full]','<ticket_number> gn <note_number>'),
-            'help'      =>  'Displays a specific note for the issue.'
+            'help'      =>  'Displays a specific note for the issue.',
         );
         $usage[] = array(
             'command'   =>  array('<ticket_number> convert-note <note_number> draft|email [authorize] [--safe]','<ticket_number> cn <note_number> draft|email [authorize] [--safe]'),
             'help'      =>  "Converts the specified note to a draft or an email.
-    Use optional argument 'authorize' to add sender to authorized repliers list."
+    Use optional argument 'authorize' to add sender to authorized repliers list.",
         );
         $usage[] = array(
             'command'   =>  array('<ticket_number> list-drafts','<ticket_number> ld'),
-            'help'      =>  'Lists drafts from the given issue.'
+            'help'      =>  'Lists drafts from the given issue.',
         );
         $usage[] = array(
             'command'   =>  array('<ticket_number> get-draft <draft_number>','<ticket_number> gd <draft_number>'),
-            'help'      =>  'Displays a specific draft for the issue.'
+            'help'      =>  'Displays a specific draft for the issue.',
         );
         $usage[] = array(
             'command'   =>  array('<ticket_number> send-draft <draft_number>','<ticket_number> sd <draft_number>'),
-            'help'      =>  'Converts a draft to an email and sends it out.'
+            'help'      =>  'Converts a draft to an email and sends it out.',
         );
         $usage[] = array(
             'command'   =>  array('<ticket_number> redeem'),
-            'help'      =>  'Marks an issue as redeemed incident.'
+            'help'      =>  'Marks an issue as redeemed incident.',
         );
         $usage[] = array(
             'command'   =>  array('<ticket_number> unredeem'),
-            'help'      =>  'Un-marks an issue as redeemed incident.'
+            'help'      =>  'Un-marks an issue as redeemed incident.',
         );
         $usage[] = array(
             'command'   =>  'developers',
-            'help'      =>  "List all available developers' email addresses."
+            'help'      =>  "List all available developers' email addresses.",
         );
         $usage[] = array(
             'command'   =>  'open-issues [<status>] [my]',
             'help'      =>  "List all issues that are not set to a status with a 'closed' context. Use
-     optional argument 'my' if you just wish to see issues assigned to you."
+     optional argument 'my' if you just wish to see issues assigned to you.",
         );
         $usage[] = array(
             'command'   =>  'list-status',
-            'help'      =>  'List all available statuses in the system.'
+            'help'      =>  'List all available statuses in the system.',
         );
         $usage[] = array(
             'command'   =>  'customer email|support|customer <value>',
-            'help'      =>  "Looks up a customer's record information."
+            'help'      =>  "Looks up a customer's record information.",
         );
         $usage[] = array(
             'command'   =>  array('weekly-report ([<week>] [--separate-closed])|([<start>] [<end>] [--separate-closed])', 'wr ([<week>])|([<start>] [<end>] [--separate-closed])'),
             'help'      =>  "Fetches the weekly report. Week is specified as an integer with 0 representing
      the current week, -1 the previous week and so on. If the week is omitted it defaults
-     to the current week. Alternately, a date range can be set. Dates should be in the format 'YYYY-MM-DD'."
+     to the current week. Alternately, a date range can be set. Dates should be in the format 'YYYY-MM-DD'.",
         );
         $usage[] = array(
             'command'   =>  'clock [in|out]',
             'help'      =>  'Clocks you in or out of the system. When clocked out, no reminders will be sent to your account.
-     If the in|out parameter is left off, your current status is displayed.'
+     If the in|out parameter is left off, your current status is displayed.',
         );
         $script = basename($script);
         $usage_text = '';

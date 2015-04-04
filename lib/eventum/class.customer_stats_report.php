@@ -166,7 +166,7 @@ class Customer_Stats_Report
             'issue_counts'  =>  $this->getIssueCounts($name),
             'email_counts'  =>  $this->getEmailCounts(),
             'time_tracking' =>  $this->getTimeTracking(),
-            'time_stats'    =>  $this->getTimeStats()
+            'time_stats'    =>  $this->getTimeStats(),
         );
     }
 
@@ -180,7 +180,7 @@ class Customer_Stats_Report
     {
         $crm = CRM::getInstance($this->prj_id);
         $row = array(
-            'title' =>  ev_gettext('Aggregate')
+            'title' =>  ev_gettext('Aggregate'),
         );
 
         // get complete list of customers.
@@ -230,7 +230,7 @@ class Customer_Stats_Report
         $activity = array(
             'low' => 0,
             'medium' => 0,
-            'high' => 0
+            'high' => 0,
         );
         if ((is_array($issue_counts)) && (count($issue_counts) > 0)) {
             foreach ($issue_counts as $count) {
@@ -256,7 +256,7 @@ class Customer_Stats_Report
                 'customer_count'    =>  $customer_count,
                 'activity'  =>  $activity,
                 'active'    =>  count($issue_counts),
-                'inactive'  =>  $inactive_count
+                'inactive'  =>  $inactive_count,
         );
     }
 
@@ -280,14 +280,14 @@ class Customer_Stats_Report
                 'total' =>  $stats->sum(),
                 'avg'   =>  $stats->mean(),
                 'median'    =>  $stats->median(),
-                'max'   =>  $stats->max()
+                'max'   =>  $stats->max(),
             );
         } else {
             return array(
                 'total' =>  0,
                 'avg'   =>  0,
                 'median'    =>  0,
-                'max'   =>  0
+                'max'   =>  0,
             );
         }
     }
@@ -334,7 +334,7 @@ class Customer_Stats_Report
     {
         $counts = array(
             'customer'  =>  array(),
-            'developer' =>  array()
+            'developer' =>  array(),
         );
         $stmt = 'SELECT
                     count(*)
@@ -520,7 +520,7 @@ class Customer_Stats_Report
                 'max'   =>  $stats->max(),
                 'max_formatted' =>  Misc::getFormattedTime($stats->max()),
                 'min'   =>  $stats->min(),
-                'min_formatted' =>  Misc::getFormattedTime($stats->min())
+                'min_formatted' =>  Misc::getFormattedTime($stats->min()),
             );
         } else {
             $time_to_close = array(
@@ -531,7 +531,7 @@ class Customer_Stats_Report
                 'max'   =>  0,
                 'max_formatted' =>  Misc::getFormattedTime(0),
                 'min'   =>  0,
-                'min_formatted' =>  Misc::getFormattedTime(0)
+                'min_formatted' =>  Misc::getFormattedTime(0),
             );
         }
 
@@ -561,7 +561,7 @@ class Customer_Stats_Report
                 'max'   =>  $stats->max(),
                 'max_formatted' =>  Misc::getFormattedTime($stats->max()),
                 'min'   =>  $stats->min(),
-                'min_formatted' =>  Misc::getFormattedTime($stats->min())
+                'min_formatted' =>  Misc::getFormattedTime($stats->min()),
             );
         } else {
             $time_to_first_response = array(
@@ -572,13 +572,13 @@ class Customer_Stats_Report
                 'max'   =>  0,
                 'max_formatted' =>  Misc::getFormattedTime(0),
                 'min'   =>  0,
-                'min_formatted' =>  Misc::getFormattedTime(0)
+                'min_formatted' =>  Misc::getFormattedTime(0),
             );
         }
 
         return array(
             'time_to_close' => $time_to_close,
-            'time_to_first_response'    =>  $time_to_first_response
+            'time_to_first_response'    =>  $time_to_first_response,
         );
     }
 
@@ -667,36 +667,36 @@ class Customer_Stats_Report
                         'desc'  =>  ev_gettext('Includes issue count, Developer email Count, Customer Email Count, Customers count by Support Level'),
                         'size'  => array(
                                         'x' =>  800,
-                                        'y' =>  350
-                        )
+                                        'y' =>  350,
+                        ),
             ),
             2   =>  array(
                         'title' =>  ev_gettext('Avg Workload per Customer by Support Level'),
                         'desc'  =>  ev_gettext('Displays average number of issues, developer emails and customer emails per issue by support level'),
                         'size'  =>  array(
                                         'x' =>  800,
-                                        'y' =>  350
+                                        'y' =>  350,
                         ),
-                        'value_format'  =>  '%.1f'
+                        'value_format'  =>  '%.1f',
             ),
             3   =>  array(
                         'title' =>  ev_gettext('Avg and Median Time to Close by Support Level'),
                         'desc'  =>  ev_gettext('Displays time stats'),
                         'size'  =>  array(
                                         'x' =>  600,
-                                        'y' =>  350
+                                        'y' =>  350,
                         ),
-                        'y_label'   =>  ev_gettext('Days')
+                        'y_label'   =>  ev_gettext('Days'),
             ),
             4   =>  array(
                         'title' =>  ev_gettext('Avg and Median Time to First Response by Support Level'),
                         'desc'  =>  ev_gettext('Displays time stats'),
                         'size'  =>  array(
                                         'x' =>  600,
-                                        'y' =>  350
+                                        'y' =>  350,
                         ),
-                        'y_label'   =>  ev_gettext('Hours')
-            )
+                        'y_label'   =>  ev_gettext('Hours'),
+            ),
         );
     }
 
@@ -712,7 +712,7 @@ class Customer_Stats_Report
             'issue_counts'  =>  ev_gettext('Issue Counts'),
             'email_counts'  =>  ev_gettext('Email Counts'),
             'time_stats'    =>  ev_gettext('Time Statistics'),
-            'time_tracking' =>  ev_gettext('Time Tracking')
+            'time_tracking' =>  ev_gettext('Time Tracking'),
         );
     }
 

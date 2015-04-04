@@ -50,7 +50,7 @@ if (!function_exists('imap_open')) {
             'ema_type'     => $_POST['type'],
             'ema_folder'   => $_POST['folder'],
             'ema_username' => $_POST['username'],
-            'ema_password' => $_POST['password']
+            'ema_password' => $_POST['password'],
         );
         $mbox = Support::connectEmailServer($account);
         if (!$mbox) {

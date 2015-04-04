@@ -567,7 +567,7 @@ class Auth
     {
         $cookie = array(
             'prj_id'   => $prj_id,
-            'remember' => $remember
+            'remember' => $remember,
         );
         $cookie = base64_encode(serialize($cookie));
         self::setCookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE);
@@ -594,7 +594,7 @@ class Auth
         if ($prj_id) {
             $cookie = array(
                 'prj_id'   => $prj_id,
-                'remember' => false
+                'remember' => false,
             );
         }
         $_COOKIE[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));

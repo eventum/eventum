@@ -93,7 +93,7 @@ if (@$_GET['cat'] == 'post_result' && !empty($_GET['post_result'])) {
         $note['not_body'] = $header . Misc::formatReply($note['not_note']);
         $tpl->assign(array(
             'note'           => $note,
-            'parent_note_id' => $_GET['id']
+            'parent_note_id' => $_GET['id'],
         ));
         $reply_subject = Mail_Helper::removeExcessRe($note['not_title']);
     }

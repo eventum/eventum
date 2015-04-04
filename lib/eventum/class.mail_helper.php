@@ -219,7 +219,7 @@ class Mail_Helper
                     'sender_name' => $t[$i]->personal,
                     'email'       => $t[$i]->mailbox . '@' . $t[$i]->host,
                     'username'    => $t[$i]->mailbox,
-                    'host'        => $t[$i]->host
+                    'host'        => $t[$i]->host,
                 );
             }
 
@@ -229,7 +229,7 @@ class Mail_Helper
                 'sender_name' => $t[0]->personal,
                 'email'       => $t[0]->mailbox . '@' . $t[0]->host,
                 'username'    => $t[0]->mailbox,
-                'host'        => $t[0]->host
+                'host'        => $t[0]->host,
             );
         }
     }
@@ -534,7 +534,7 @@ class Mail_Helper
         $headers = array(
             'From'    => $from,
             'To'      => self::fixAddressQuoting($to),
-            'Subject' => $subject
+            'Subject' => $subject,
         );
 
         $this->setHeaders($headers);
@@ -574,7 +574,7 @@ class Mail_Helper
         $this->setHeaders(array(
             'From'    => $from,
             'To'      => $to,
-            'Subject' => $subject
+            'Subject' => $subject,
         ));
         $hdrs = $this->mime->headers($this->headers);
         // RFC 822 formatted date
@@ -938,7 +938,7 @@ class Mail_Helper
         return array(
             'Message-ID'    =>  self::generateMessageID(),
             'In-Reply-To'   =>  $root_msg_id,
-            'References'    =>  $root_msg_id
+            'References'    =>  $root_msg_id,
         );
     }
 

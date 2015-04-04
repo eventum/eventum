@@ -254,9 +254,9 @@ function checkRequirements()
         'mysqli' => array(true, 'The MySQLi extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'),
         'json' => array(true, 'The json extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'),
         'mbstring' =>  array(false, 'The Multibyte String Functions extension is not enabled in your PHP installation. For localization to work properly ' .
-            'You need to install this extension. If you do not install this extension localization will be disabled.'),
+            'You need to install this extension. If you do not install this extension localization will be disabled.', ),
         'iconv' => array(false, 'The ICONV extension is not enabled in your PHP installation. '.
-            'You need to install this extension for optimal operation. If you do not install this extension some unicode data will be corrupted.'),
+            'You need to install this extension for optimal operation. If you do not install this extension some unicode data will be corrupted.', ),
     );
 
     foreach ($extensions as $extension => $value) {

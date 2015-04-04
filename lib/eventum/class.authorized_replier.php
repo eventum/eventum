@@ -46,7 +46,7 @@ class Authorized_Replier
         // split into users and others (those with email address but no real user accounts)
         $repliers = array(
             'users' =>  array(),
-            'other' =>  array()
+            'other' =>  array(),
         );
 
         $stmt = "SELECT
@@ -68,7 +68,7 @@ class Authorized_Replier
         } catch (DbException $e) {
             return array(
                 array(),
-                $repliers
+                $repliers,
             );
         }
 
@@ -88,7 +88,7 @@ class Authorized_Replier
 
         return array(
             $names,
-            $repliers
+            $repliers,
         );
     }
 
