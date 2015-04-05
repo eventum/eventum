@@ -900,14 +900,18 @@ class Misc
      */
     public static function isError($data, $code = null)
     {
-        // remove E_STRICT from error_reporting as PEAR code is not Strict Standards compliant
-        $error_reporting = ini_get('error_reporting');
-        ini_set('error_reporting', $error_reporting & ~E_STRICT);
+        if (!$data instanceof PEAR_Error) {
+            return false;
+        }
 
-        $ret = PEAR::isError($data, $code);
+        if ($code === null) {
+            return true;
+        }
 
-        // restore error reporting
-        ini_set('error_reporting', $error_reporting);
-        return $ret;
+        if (is_string($code)) {
+            return $data->getMessage() == $code;
+        }
+
+        return $data->getCode() == $code;
     }
 }
