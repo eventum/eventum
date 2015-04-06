@@ -40,7 +40,7 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $issue_id = Support::getIssueFromEmail($_GET['id']);
 
 if (($issue_id != 0 && !Issue::canAccess($issue_id, $usr_id)) ||
-    (User::getRoleByUser($usr_id, $prj_id) < User::ROLE_USER)) {
+    ($issue_id == 0 && User::getRoleByUser($usr_id, $prj_id) < User::ROLE_USER)) {
     $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;
