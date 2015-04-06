@@ -14,8 +14,13 @@
         },
         {
             "name": [
-                "autoload.php",
-                "autoload-dist.php"
+                "autoload.php"
+            ],
+            "in": "."
+        },
+        {
+            "name": [
+                "autoload.php"
             ],
             "in": "vendor"
         },

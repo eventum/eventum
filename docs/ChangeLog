@@ -1,12 +1,15 @@
 Eventum Issue Tracking System
 =============================
 
-???, Version 3.0.0
+2015-??-??, Version 3.0.0
 - Add option to set time summary when sending a note (Bryan)
 - Optionally send reminders to a different IRC channel (Bryan)
 - Fix broken Workflow::handleSCMCheckins call from 3.0.0pre1 (Elan Ruusamäe, GH#15)
 - Display custom fields in CLI (Joffrey, GH#39)
 - Notify the Notification List when creating an issue (Bryan)
+- Add Clone Issue functionality (Bryan, GH#41)
+- Add AJAX upload via dropzone library (Elan Ruusamäe, GH#25)
+- Handle Eventum issue links as well for issue linking (Elan Ruusamäe, GH#15)
 
 2015-02-03, Version 3.0.0 pre1
 - Make Custom Fields Weekly Report honor Project ID (Raul Raat, GH#6)

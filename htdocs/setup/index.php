@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -37,6 +37,7 @@ ini_set('memory_limit', '64M');
 ini_set('display_errors', 1);
 error_reporting(E_ALL & ~E_STRICT);
 set_time_limit(0);
+define('APP_NAME', 'Eventum');
 define('APP_CHARSET', 'UTF-8');
 define('APP_DEFAULT_LOCALE', 'en_US');
 define('APP_PATH', realpath(dirname(__FILE__) . '/../..'));
@@ -55,7 +56,7 @@ header('Content-Type: text/html; charset=' . APP_CHARSET);
 $have_config = file_exists(APP_CONFIG_PATH . '/config.php') && filesize(APP_CONFIG_PATH . '/config.php');
 // get out if already configured
 if ($have_config) {
-    Header('Location: ../');
+    header('Location: ../');
     exit(0);
 }
 
@@ -66,7 +67,7 @@ if (defined('APP_PEAR_PATH')) {
         get_include_path()
     );
 }
-require_once APP_PATH . '/vendor/autoload-dist.php';
+require_once APP_PATH . '/autoload.php';
 require_once 'File/Util.php';
 
 list($warnings, $errors) = checkRequirements();
@@ -156,6 +157,7 @@ $relative_url = implode('/', $relative_url);
 $tpl->assign('phpversion', phpversion());
 $tpl->assign('core', array(
     'rel_url'   =>  $relative_url,
+    'app_title' =>  APP_NAME,
     'use_components' => APP_USE_COMPONENTS,
 ));
 if (@$_SERVER['HTTPS'] == 'on') {
@@ -343,7 +345,7 @@ function getFirstWeekday()
 {
     // this works on Linux
     // http://stackoverflow.com/questions/727471/how-do-i-get-the-first-day-of-the-week-for-the-current-locale-php-l8n
-    $weekday = system('locale first_weekday');
+    $weekday = exec('locale first_weekday');
     if ($weekday) {
         // Returns Monday=2, but we need 1 for Monday
         // see http://man7.org/linux/man-pages/man5/locale.5.html

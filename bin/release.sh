@@ -90,7 +90,10 @@ if [ -n "$composer" ]; then
 	# composer hack, see .travis.yml
 	sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
 	$composer install --prefer-dist --no-dev --ignore-platform-reqs
-	$composer licenses --no-dev --no-ansi >> docs/DEPENDENCIES.md
+	$composer licenses --no-dev --no-ansi > deps
+	# avoid composer warning in resulting doc file
+	grep Warning: deps && exit 1
+	cat deps > docs/DEPENDENCIES.md && rm deps
 fi
 
 # update to include checksums of js/css files
@@ -104,6 +107,7 @@ if [ -n "$composer" ]; then
 	rm -r vendor/php-gettext/php-gettext/{tests,examples}
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
 	rm -r vendor/bin
+	rm -r vendor/pear-pear.php.net/PEAR/bin
 
 	# smarty: use -f, as dist and src packages differ
 	# smarty src
@@ -121,6 +125,7 @@ if [ -n "$composer" ]; then
 	rm -r vendor/robloach/component-installer
 	rm -r vendor/components
 	rm -r vendor/malsup/form
+	rm -r vendor/enyo/dropzone
 	install -d vendor/kriswallsmith/assetic/src
 	touch vendor/kriswallsmith/assetic/src/functions.php
 	# cleanup components
@@ -133,6 +138,7 @@ if [ -n "$composer" ]; then
 	mv htdocs/components/jquery-ui/themes/{.base,base}
 	rm -r htdocs/components/jquery-ui/ui/minified
 	rm -r htdocs/components/jquery-ui/ui/i18n
+	rm htdocs/components/dropzone/index.js
 
 	# and old code in repo
 	rm -r htdocs/js/jquery

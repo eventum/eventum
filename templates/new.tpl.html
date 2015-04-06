@@ -2,6 +2,10 @@
 {block "page_id"}new_issue{/block}
 {block "page_classes"}CustomField GrowingFileField{/block}
 
+{block "javascripts" append}
+  {include file="include/dropzone.tpl.html" form="reportForm" param="dropfile"}
+{/block}
+
 {block name="content"}
 {include file="new_form.tpl.html"}
 {/block}

@@ -35,7 +35,6 @@
 		<include name="**/*.js" />
 		<!-- skip external libs -->
 		<exclude name="**/jquery/*.js" />
-		<exclude name="dtree.js" />
 	</fileset>
 
 	<!-- phplint -->

@@ -29,7 +29,7 @@
 // +----------------------------------------------------------------------+
 
 define('APP_PATH', dirname(__FILE__) . '/..');
-require_once APP_PATH . '/vendor/autoload-dist.php';
+require_once APP_PATH . '/autoload.php';
 
 list($user_email, $user_password, $hostname, $port, $relative_url) = Command_Line::getEnvironmentSettings();
 if (empty($port)) {

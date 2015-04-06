@@ -7,7 +7,7 @@
 {if $no_customer_integration == 1}
     <span>{t}The current project does not have customer integration so this report can not be viewed.{/t}</span>
 {else}
-<form method="post" action="{$smarty.server.PHP_SELF}" name="customer_stats_report">
+<form method="post" name="customer_stats_report">
 <input type="hidden" name="cat" value="generate">
 <script type="text/javascript">
 {literal}

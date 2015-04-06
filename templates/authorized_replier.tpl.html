@@ -17,7 +17,7 @@ function validate(f)
 }
 function addSelection(f, from, to)
 {
-    var selected = new Array();
+    var selected = [];
     var field = getFormElement(f, from);
     selected = getSelectedItems(field);
     addOptions(f, to, selected);
@@ -48,7 +48,7 @@ function checkDelete(f)
 </script>
 {/literal}
 {if $core.current_role > $core.roles.reporter}
-<form name="replier_form" onSubmit="return validate(this);" method="post" action="{$smarty.server.PHP_SELF}">
+<form name="replier_form" onSubmit="return validate(this);" method="post">
 {if $smarty.get.cat|default:'' == 'edit'}
 <input type="hidden" name="cat" value="update">
 <input type="hidden" name="id" value="{$issue_id}">
@@ -81,7 +81,7 @@ function checkDelete(f)
 </form>
 {/if}
 
-<form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+<form onSubmit="return checkDelete(this);" method="post">
 <input type="hidden" name="cat" value="delete">
 <input type="hidden" name="issue_id" value="{$issue_id}">
 <table class="bordered grid">

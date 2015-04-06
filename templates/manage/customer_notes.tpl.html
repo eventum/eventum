@@ -47,7 +47,7 @@ function checkDelete()
 //-->
 </script>
 {/literal}
-<form name="release_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+<form name="release_form" onSubmit="return validateForm(this);" method="post">
 {if $smarty.get.cat|default:'' == 'edit'}
 <input type="hidden" name="cat" value="update">
 <input type="hidden" name="id" value="{$smarty.get.id|intval|default:''}">
@@ -107,7 +107,7 @@ function checkDelete()
         </table>
         </form>
 
-        <form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+        <form onSubmit="return checkDelete(this);" method="post">
         <input type="hidden" name="cat" value="delete">
         <table class="bordered grid">
           <tr class="title">

@@ -175,7 +175,7 @@
       $('input[name=update_button]').click(updateFieldOption);
   });
   {/literal}
-  var selected_projects = new Array();
+  var selected_projects = [];
   {if $info.project|default:'' != '' && $info.project|@count > 0}
   {foreach from=$info.projects item=prj_id}
   selected_projects[selected_projects.length] = new Option("{$project_list[$prj_id]}", {$prj_id});
@@ -183,7 +183,7 @@
   {/if}
   //-->
   </script>
-  <form id="custom_field_form" method="post" action="{$smarty.server.PHP_SELF}">
+  <form id="custom_field_form" method="post">
   {if $smarty.get.cat|default:'' == 'edit'}
   <input type="hidden" name="cat" value="update">
   <input type="hidden" name="id" value="{$smarty.get.id|intval}">
@@ -372,7 +372,7 @@
           </table>
           </form>
 
-          <form id="delete_form" method="post" action="{$smarty.server.PHP_SELF}">
+          <form id="delete_form" method="post">
           <input type="hidden" name="cat" value="delete">
 
           <table class="bordered grid">

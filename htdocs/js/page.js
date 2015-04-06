@@ -76,7 +76,7 @@ list_issues.bulk_update = function(e)
     }
 
     // figure out what is changing
-    var changed = new Array();
+    var changed = [];
     if (Validation.hasOneSelected('users[]')) {
         changed[changed.length] = 'Assignment';
     }
@@ -632,7 +632,7 @@ adv_search.ready = function()
     $('.select_all').click(function() { Eventum.toggleCheckAll('item[]'); });
 
 
-    var elements_to_hide = new Array('created_date', 'updated_date', 'first_response_date', 'last_response_date', 'closed_date');
+    var elements_to_hide = ['created_date', 'updated_date', 'first_response_date', 'last_response_date', 'closed_date'];
     for (var i = 0; i < elements_to_hide.length; i++) {
         adv_search.checkDateFilterType(elements_to_hide[i]);
         adv_search.toggle_date_field(elements_to_hide[i]);

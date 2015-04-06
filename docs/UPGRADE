@@ -26,6 +26,9 @@ instructions:
 6) Run the upgrade scripts described below from the command line.
    cd /path-to-eventum/upgrade/
    php update-database.php
+
+   NB! when updating databases, review that your database partition has enough disk space.
+
 7) Modify your workflow/customer classes not to require any Eventum core
    classes, they are autoloaded now. So you can just remove following lines:
    require_once(APP_INC_PATH."workflow/class.abstract_workflow_backend.php");

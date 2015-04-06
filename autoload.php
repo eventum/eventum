@@ -4,7 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright 2014, Elan Ruusamäe <glen@delfi.ee>                        |
-// | Copyright (c) 2014 Eventum Team.                                     |
+// | Copyright (c) 2014 - 2015 Eventum Team.                              |
 // +----------------------------------------------------------------------+
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
@@ -31,8 +31,8 @@ if (defined('APP_LOCAL_PATH')) {
     set_include_path(APP_LOCAL_PATH . '/include/' . PATH_SEPARATOR . get_include_path());
 }
 
-// if composer autoloader in place, use it and skip the rest
-if (file_exists($autoload = dirname(__FILE__) . '/autoload.php')) {
+// if autoloader (from composer) in place, use it and skip the rest
+if (file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
     require $autoload;
 
     // needed for init.php and gettext.inc

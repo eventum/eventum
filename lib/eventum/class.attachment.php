@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -21,7 +21,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -35,6 +35,13 @@
  */
 class Attachment
 {
+    /**
+     * files uploaded, but not linked to attachment are expired after this time passes
+     * use 24h, this is very safe value
+     * @see associateFiles
+     */
+    const ATTACHMENT_EXPIRE_TIME = 86400;
+
     /**
      * Returns true if specified mime type should be displayed
      * directly in the browser window.
@@ -119,7 +126,7 @@ class Attachment
             $params[] = $usr_id;
         }
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt);
+            $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
@@ -262,6 +269,7 @@ class Attachment
         if ($add_history) {
             Issue::markAsUpdated($usr_id);
             // need to save a history entry for this
+            // FIXME:: translate
             History::add($issue_id, $usr_id, History::getTypeID('attachment_removed'), 'Attachment removed by ' . User::getFullName($usr_id));
         }
 
@@ -373,6 +381,64 @@ class Attachment
     }
 
     /**
+     * Associate uploaded files to an "attachment".
+     * Additionally cleanups stale uploads.
+     *
+     * @param int $attachment_id
+     * @param int[] $iaf_ids
+     */
+    private static function associateFiles($attachment_id, $iaf_ids) {
+        // TODO: verify that all $iaf_ids actually existed, not expired
+        $list = DB_Helper::buildList($iaf_ids);
+        $stmt = "UPDATE {{%issue_attachment_file}} SET iaf_iat_id=? WHERE iaf_id in ($list)";
+        $params = $iaf_ids;
+        array_unshift($params, $attachment_id);
+        DB_Helper::getInstance()->query($stmt, $params);
+
+        // run cleanup of stale uploads
+        $stmt = "DELETE FROM {{%issue_attachment_file}} WHERE iaf_iat_id=0 AND iaf_created_date < ?";
+        $expire_date = time() - self::ATTACHMENT_EXPIRE_TIME;
+        $params = array(Date_Helper::convertDateGMT($expire_date));
+        DB_Helper::getInstance()->query($stmt, $params);
+    }
+
+    /**
+     * Attach uploaded files to an issue
+     * It also notifies any subscribers of this new attachment.
+     *
+     * @param int $issue_id The issue ID
+     * @param int $usr_id The user ID
+     * @param int[] $iaf_ids attachment file id-s to attach
+     * @param boolean $internal_only Whether this attachment is supposed to be internal only or not
+     * @param $file_description File description text
+     * @param   string $unknown_user The email of the user who originally sent this email, who doesn't have an account.
+     * @param   integer $associated_note_id The note ID that these attachments should be associated with
+     */
+    public static function attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description, $unknown_user = null, $associated_note_id = null) {
+        if (!$iaf_ids) {
+            throw new LogicException("No attachment ids");
+        }
+        $attachment_id = self::add($issue_id, $usr_id, $file_description, $internal_only, $unknown_user, $associated_note_id);
+        self::associateFiles($attachment_id, $iaf_ids);
+
+        Issue::markAsUpdated($issue_id, "file uploaded");
+        // FIXME: translate
+        $summary = 'Attachment uploaded by ' . User::getFullName($usr_id);
+        History::add($issue_id, $usr_id, History::getTypeID('attachment_added'), $summary);
+
+        // if there is customer integration, mark last customer action
+        $prj_id = Issue::getProjectID($issue_id);
+        $has_crm = CRM::hasCustomerIntegration($prj_id);
+        $is_customer = User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer');
+        if ($has_crm && $is_customer) {
+            Issue::recordLastCustomerAction($issue_id);
+        }
+
+        Workflow::handleAttachment($prj_id, $issue_id, $usr_id);
+        Notification::notify($issue_id, 'files', $attachment_id, $internal_only);
+    }
+
+    /**
      * Method used to associate an attachment to an issue, and all of its
      * related files. It also notifies any subscribers of this new attachment.
      *
@@ -381,61 +447,30 @@ class Attachment
      * -2 - The uploaded file is already attached to the current issue.
      *  1 - The uploaded file was associated with the issue.
      *
-     * @param   integer $usr_id The user ID
-     * @param   string $status The attachment status
-     * @return  integer Numeric code used to check for any errors
+     * @param integer $usr_id The user ID
+     * @param string $status The attachment status
+     * @return integer Numeric code used to check for any errors
+     * @deprecated this method uses super-globals, and doesn't emit exceptions
      */
     public static function attach($usr_id, $status = 'public')
     {
-        $files = array();
-        $nfiles = count($_FILES["attachment"]["name"]);
-        for ($i = 0; $i < $nfiles; $i++) {
-            $filename = @$_FILES["attachment"]["name"][$i];
-            if (empty($filename)) {
-                continue;
-            }
-            $blob = file_get_contents($_FILES["attachment"]["tmp_name"][$i]);
-            if (empty($blob)) {
-                return -1;
-            }
-            $files[] = array(
-                "filename"  =>  $filename,
-                "type"      =>  $_FILES['attachment']['type'][$i],
-                "blob"      =>  $blob
-            );
-        }
-        if (count($files) < 1) {
+        try {
+            $iaf_ids = self::addFiles($_FILES["attachment"]);
+        } catch (DbException $e) {
             return -1;
         }
-        if ($status == 'internal') {
-            $internal_only = true;
-        } else {
-            $internal_only = false;
-        }
-        $attachment_id = self::add($_POST["issue_id"], $usr_id, @$_POST["file_description"], $internal_only);
-        foreach ($files as $file) {
-            $res = self::addFile($attachment_id, $file["filename"], $file["type"], $file["blob"]);
-            if ($res !== true) {
-                // we must rollback whole attachment (all files)
-                self::remove($attachment_id, false);
 
-                return -1;
-            }
+        if (empty($iaf_ids)) {
+            return -1;
         }
 
-        Issue::markAsUpdated($_POST["issue_id"], "file uploaded");
-        // need to save a history entry for this
-        History::add($_POST["issue_id"], $usr_id, History::getTypeID('attachment_added'), 'Attachment uploaded by ' . User::getFullName($usr_id));
+        $internal_only = $status == 'internal';
 
-        // if there is customer integration, mark last customer action
-        if ((CRM::hasCustomerIntegration(Issue::getProjectID($_POST["issue_id"]))) && (User::getRoleByUser($usr_id, Issue::getProjectID($_POST["issue_id"])) == User::getRoleID('Customer'))) {
-            Issue::recordLastCustomerAction($_POST["issue_id"]);
+        try {
+            self::attachFiles($_POST["issue_id"], $usr_id, $iaf_ids, $internal_only, $_POST["file_description"]);
+        } catch (DbException $e) {
+            return -1;
         }
-
-        Workflow::handleAttachment(Issue::getProjectID($_POST["issue_id"]), $_POST["issue_id"], $usr_id);
-
-        // send notifications for the issue being updated
-        Notification::notify($_POST["issue_id"], 'files', $attachment_id, $internal_only);
 
         return 1;
     }
@@ -445,11 +480,10 @@ class Attachment
      *
      * @param   integer $attachment_id The attachment ID
      * @param   string $filename The filename to be added
-     * @return  boolean
+     * @return  int|boolean iaf_id if insert was success
      */
     public static function addFile($attachment_id, $filename, $filetype, &$blob)
     {
-        $filesize = strlen($blob);
         $stmt = "INSERT INTO
                     {{%issue_attachment_file}}
                  (
@@ -457,23 +491,85 @@ class Attachment
                     iaf_filename,
                     iaf_filesize,
                     iaf_filetype,
+                    iaf_created_date,
                     iaf_file
                  ) VALUES (
-                    ?, ?, ?, ?, ?
+                    ?, ?, ?, ?, ?, ?
                  )";
         try {
             DB_Helper::getInstance()->query($stmt, array(
                 $attachment_id,
                 $filename,
-                $filesize,
+                strlen($blob),
                 $filetype,
+                Date_Helper::getCurrentDateGMT(),
                 $blob,
             ));
         } catch (DbException $e) {
             return false;
         }
 
-        return true;
+        return DB_Helper::get_last_insert_id();
+    }
+
+    /**
+     * Adds multiple files to attachment_file table
+     *
+     * The files has multidimensional structure (here are 3 files uploaded):
+     * $files => [
+     *   'name' => [
+     *     0 => 'file1.png',
+     *     1 => 'file2.png',
+     *     2 => null,
+     *   ],
+     *   'type' => [
+     *     0 => 'image/png',
+     *     1 => 'image/png',
+     *     2 => null,
+     *   ],
+     *   'tmp_name' => [
+     *     0 => '/tmp/phpjESjor',
+     *     1 => '/tmp/phpX2s2nb',
+     *     2 => null,
+     *   ],
+     *   'error' => [
+     *     0 => 0,
+     *     1 => 0,
+     *     2 => 4,
+     *   ],
+     *   'size' => [
+     *     0 => 25935,
+     *     1 => 890,
+     *     2 => 0,
+     *   ],
+     * ],
+     *
+     * @param array $files Array from $_FILES
+     * @return int[] return id-s of attachment files inserted to database
+     */
+    public static function addFiles($files) {
+        if (!is_array($files['name'])) {
+            throw new RuntimeException("Wrong structure, dif you forgot dropfile[]?");
+        }
+
+        $iaf_ids = array();
+        $nfiles = count($files['name']);
+        for ($i = 0; $i < $nfiles; $i++) {
+            $filename = $files['name'][$i];
+            if (!$filename) {
+                continue;
+            }
+            $blob = file_get_contents($files['tmp_name'][$i]);
+            if ($blob === false) {
+                throw new RuntimeException("Can't read tmp file");
+            }
+            $iaf_id = self::addFile(0, $filename, $files['type'][$i], $blob);
+            // FIXME: handle errors properly
+            if ($iaf_id) {
+                $iaf_ids[] = $iaf_id;
+            }
+        }
+        return $iaf_ids;
     }
 
     /**
@@ -525,12 +621,13 @@ class Attachment
     /**
      * Returns the current maximum file upload size.
      *
-     * @return  string A string containing the formatted max file size.
+     * @param bool $raw whether to return computer or human readable value
+     * @return string|int A string containing the formatted max file size
      */
-    public static function getMaxAttachmentSize()
+    public static function getMaxAttachmentSize($raw = false)
     {
         $size = Misc::return_bytes(ini_get('upload_max_filesize'));
 
-        return Misc::formatFileSize($size);
+        return $raw ? $size : Misc::formatFileSize($size);
     }
 }

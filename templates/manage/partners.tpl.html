@@ -1,7 +1,7 @@
 {extends "manage/manage.tpl.html"}
 
 {block "manage_content"}
-<form name="partner_form"  method="post" action="{$smarty.server.PHP_SELF}">
+<form name="partner_form"  method="post">
     {if $smarty.get.cat|default:'' == 'edit'}
     <input type="hidden" name="cat" value="update">
     <input type="hidden" name="code" value="{$smarty.get.code|escape}">

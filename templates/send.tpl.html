@@ -1,6 +1,10 @@
 {extends "base.tpl.html"}
 {block "title"}#{$issue_id} - Reply{/block}
 
+{block "javascripts" append}
+  {include file="include/dropzone.tpl.html" form="sendEmailForm" param="dropfile"}
+{/block}
+
 {block "content"}
 {if $send_result|default:'' != ''}
 <br />
@@ -61,13 +65,13 @@ $(function() {
 });
 
 {if $core.current_role > $core.roles.customer && not $core.is_current_user_partner}
-var contact_list = new Array();
+var contact_list = [];
 {section name="i" loop=$assoc_emails}
 contact_list[contact_list.length] = '{$assoc_emails[i]|escape:javascript}';
 {/section}
 {/if}
 
-var email_responses = new Array();
+var email_responses = [];
 {section name="i" loop=$js_canned_responses}
 email_responses[{$js_canned_responses[i].ere_id}] = "{$js_canned_responses[i].ere_response_body}";
 {/section}
@@ -155,7 +159,7 @@ $().ready(function() {
 //-->
 </script>
 {/literal}
-<form  class="validate" data-validation-function='validateForm' name="send_email_form" method="post" action="{$smarty.server.PHP_SELF}" enctype="multipart/form-data">
+<form class="validate dropzone" data-validation-function='validateForm' id="send_email_form" name="send_email_form" method="post" enctype="multipart/form-data">
 <input type="hidden" name="cat" value="send_email">
 <input type="hidden" name="parent_id" value="{$parent_email_id|default:''}">
 <input type="hidden" name="ema_id" value="{$ema_id|default:''}">
@@ -251,8 +255,20 @@ $().ready(function() {
       <th width="120">
         Attachment
       </th>
-      <td >
-        <input type="file" name="attachment[]" size="30"></input>
+      <td>
+        <div class="dz-message">
+          {t}Drop files here or click to upload.{/t}<br/><br/>
+
+          <div class="dropzone-previews"></div>
+
+          <div class="fallback">
+            <input type="file" name="attachment[]" size="30"/>
+          </div>
+
+          <input type="hidden" name="iaf_ids" id="iaf_ids" value="">
+
+          <div><i>{t 1=$max_attachment_size}Note: The current maximum allowed upload file size is %1{/t}</i></div>
+        </div>
       </td>
     </tr>
     {if $issue_id and $core.current_role > $core.roles.customer and $read_only|default:'' != 1}

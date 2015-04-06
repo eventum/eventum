@@ -78,9 +78,9 @@ abstract class Contract
      * @param string $contract_id
      * @see Contract::load()
      */
-    public function __construct(CRM &$crm, $contract_id)
+    public function __construct(CRM $crm, $contract_id)
     {
-        $this->crm = &$crm;
+        $this->crm = $crm;
         $this->connection = &$crm->getConnection();
         $this->contract_id = $contract_id;
 

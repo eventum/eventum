@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -21,25 +21,26 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate("new.tpl.html");
+Auth::checkAuthentication(APP_COOKIE);
 
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 
-Auth::checkAuthentication(APP_COOKIE);
 if (!Access::canCreateIssue($usr_id)) {
     Auth::redirect("main.php");
 }
 
+$tpl = new Template_Helper();
+$tpl->setTemplate("new.tpl.html");
 $tpl->assign("new_issue_id", '');
 
 // If the project has changed since the new issue form was requested, then change it back
@@ -129,6 +130,7 @@ $tpl->assign(array(
     "releases"               => Release::getAssocList($prj_id),
     "custom_fields"          => Custom_Field::getListByProject($prj_id, 'report_form'),
     "max_attachment_size"    => Attachment::getMaxAttachmentSize(),
+    "max_attachment_bytes"   => Attachment::getMaxAttachmentSize(true),
     "field_display_settings" => Project::getFieldDisplaySettings($prj_id),
     "groups"                 => Group::getAssocList($prj_id),
     "products"               => Product::getList(false),
@@ -153,6 +155,12 @@ if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
         "customer"    => $customer,
         "contact"     => $contact,
     ));
+}
+
+if (isset($_GET['clone_iss_id']) && Access::canCloneIssue($_GET['clone_iss_id'], $usr_id)) {
+    $tpl->assign(Issue::getCloneIssueTemplateVariables($_GET['clone_iss_id']));
+} else {
+    $tpl->assign('defaults', $_REQUEST);
 }
 
 $tpl->displayTemplate();

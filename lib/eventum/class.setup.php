@@ -141,7 +141,7 @@ class Setup
      */
     private static function dumpConfig($config)
     {
-        return '<' . "?php\nreturn " . var_export($config, 1) . ";\n";
+        return '<' . "?php\nreturn \$eventum_setup = " . var_export($config, 1) . ";\n";
     }
 
     /**

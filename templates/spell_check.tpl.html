@@ -37,7 +37,7 @@
 <br /><br />&nbsp;
 <br /><br />&nbsp;
 <br /><br />&nbsp;
-<form action="{$smarty.server.PHP_SELF}" method="post">
+<form method="post">
 <input type="hidden" name="form_name" value="{$smarty.get.form_name}">
 <input type="hidden" name="field_name" value="{$smarty.get.field_name}">
 <textarea rows="0" cols="0" name="textarea"></textarea>
@@ -71,7 +71,7 @@ function fixSpelling()
 function buildSuggestionBox()
 {
 {/literal}
-    var suggestions = new Array();
+    var suggestions = [];
     {foreach key=word item=suggestions from=$spell_check.suggestions}
     suggestions.push(new Option("{$word}", "{section name=i loop=$suggestions}{$suggestions[i]}{if not $smarty.section.i.last},{/if}{/section}"));
     {/foreach}

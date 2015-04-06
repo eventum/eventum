@@ -34,7 +34,7 @@
     //-->
 </script>
 {/literal}
-<form name="category_form" onSubmit="return validateForm(this);" method="post" action="{$smarty.server.PHP_SELF}">
+<form name="category_form" onSubmit="return validateForm(this);" method="post">
     <input type="hidden" name="prj_id" value="{$project.prj_id}">
     {if $smarty.get.cat|default:'' == 'edit'}
     <input type="hidden" name="cat" value="update">
@@ -73,7 +73,7 @@
     </table>
 </form>
 
-<form id="delete_form" method="post" action="{$smarty.server.PHP_SELF}">
+<form id="delete_form" method="post">
     <input type="hidden" name="prj_id" value="{$project.prj_id}">
     <input type="hidden" name="cat" value="delete">
     <table class="bordered">

@@ -19,6 +19,7 @@
     {* use composer component installer *}
     <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/jquery-ui/themes/base/all.css">
     <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/jquery-chosen/chosen.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/dropzone/dist/basic.css">
     <script type="text/javascript" src="{$core.rel_url}components/jquery/jquery.js"></script>
     <script type="text/javascript" src="{$core.rel_url}components/jquery-blockui/jquery.blockUI.js"></script>
     <script type="text/javascript" src="{$core.rel_url}components/form/jquery.form.js"></script>
@@ -26,6 +27,7 @@
     <script type="text/javascript" src="{$core.rel_url}components/jquery-ui/ui/core.js"></script>
     <script type="text/javascript" src="{$core.rel_url}components/jquery-ui/ui/datepicker.js"></script>
     <script type="text/javascript" src="{$core.rel_url}components/jquery-chosen/chosen.jquery.js"></script>
+    <script type="text/javascript" src="{$core.rel_url}components/dropzone/dist/dropzone.js"></script>
   {else}
     <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}js/jquery/ui.datepicker.css">
     <script type="text/javascript" src="{$core.rel_url}js/jquery/jquery.js"></script>
@@ -40,9 +42,12 @@
   <script type="text/javascript" src="{$core.rel_url}js/main.js"></script>
   <script type="text/javascript" src="{$core.rel_url}js/page.js"></script>
 
-  {include file="extra_header.tpl.html"}
+  {* allow pages to inject to <head> block *}
+  {block "stylesheets"}{/block}
+  {block "javascripts"}{/block}
 
-  <!-- Bundled CSS here -->
+  {* local directory can add overrides *}
+  {include file="extra_header.tpl.html"}
 </head>
 <!--[if lt IE 7 ]> <body class="ie6 {block "page_classes"}{/block} {block "page_id"}{/block}" id="{block "page_id"}{/block}"> <![endif]-->
 <!--[if IE 7 ]> <body class="ie7 {block "page_classes"}{/block} {block "page_id"}{/block}" id="{block "page_id"}{/block}"> <![endif]-->

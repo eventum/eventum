@@ -46,7 +46,7 @@
     //-->
 </script>
 {/literal}
-<form name="update_name_form" onSubmit="return validateName();" action="{$smarty.server.PHP_SELF}" method="post">
+<form name="update_name_form" onSubmit="return validateName();" method="post">
     <input type="hidden" name="cat" value="update_name">
     <table class="bordered">
         {if $core.current_role != $core.roles.customer && $can_update_name}
@@ -73,7 +73,7 @@
 </form>
 {/if}
 
-<form name="update_email_form" onSubmit="return validateEmail();" action="{$smarty.server.PHP_SELF}" method="post">
+<form name="update_email_form" onSubmit="return validateEmail();" method="post">
     <input type="hidden" name="cat" value="update_email">
     <table class="bordered">
 {if $core.current_role != $core.roles.customer && $can_update_email}
@@ -101,7 +101,7 @@
 </form>
 
 {if $can_update_password}
-<form name="update_password_form" onSubmit="return validatePassword();" action="{$smarty.server.PHP_SELF}" method="post">
+<form name="update_password_form" onSubmit="return validatePassword();" method="post">
     <input type="hidden" name="cat" value="update_password">
     <table class="bordered">
         <tr>
@@ -136,7 +136,7 @@
 </form>
 
 <table class="bordered">
-    <form name="account_prefs_form" onSubmit="return validateAccount();" action="{$smarty.server.PHP_SELF}" method="post" enctype="multipart/form-data">
+    <form name="account_prefs_form" onSubmit="return validateAccount();" method="post" enctype="multipart/form-data">
         <input type="hidden" name="cat" value="update_account">
         <tr class="title">
             <th colspan="{$assigned_projects|@count+1}">

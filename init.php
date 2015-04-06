@@ -5,7 +5,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -196,7 +196,7 @@ if (!defined('APP_MAINTENANCE')) {
     define('APP_MAINTENANCE', false);
 }
 
-require_once APP_PATH . '/vendor/autoload-dist.php';
+require_once APP_PATH . '/autoload.php';
 
 // fix magic_quote_gpc'ed values
 if (get_magic_quotes_gpc()) {

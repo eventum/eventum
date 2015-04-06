@@ -1,6 +1,10 @@
 {extends "base.tpl.html"}
 {block "title"}#{$issue_id} - Upload File{/block}
 
+{block "javascripts" append}
+  {include file="include/dropzone.tpl.html" form="dropzone" param="dropfile"}
+{/block}
+
 {block "content"}
 {if $core.current_role > $core.roles.viewer}
 {if $upload_file_result|default:'' != ''}
@@ -30,26 +34,25 @@
     </center>
     {/if}
 {else}
-{literal}
 <script type="text/javascript">
-<!--
 function validateUpload(f)
 {
     if ($("input[name='attachment[]'][value!='']").length < 1) {
         Validation.errors[Validation.errors.length] = new Option('Files', 'attachment[]');
     }
 }
-//-->
 </script>
-{/literal}
-  <table class="bordered">
+
+    <form name="attachment_form" class="dropzone" id="dropzone" action="file_upload.php" method="post" enctype="multipart/form-data" class="validate" data-validation-function="validateUpload">
+
+    <table class="bordered">
     <tr class="title">
       <th colspan="2">{t}Add New Files{/t}:</th>
     </tr>
-    <form name="attachment_form" action="file_upload.php" method="post" enctype="multipart/form-data" class="validate"
-          data-validation-function="validateUpload">
     <input type="hidden" name="cat" value="upload_file">
     <input type="hidden" name="issue_id" value="{$issue_id}">
+    <input type="hidden" name="iaf_ids" id="iaf_ids" value="">
+
       {if $core.current_role > $core.roles.customer}
       <tr>
         <th width="120" nowrap class="internal">
@@ -71,6 +74,14 @@ function validateUpload(f)
           {t}Filenames{/t}
         </th>
         <td>
+          <div class="dz-message">
+            {if empty($smarty.get.legacy)}
+              {t}Drop files here or click to upload.{/t}
+            {/if}
+
+          <div class="dropzone-previews"></div>
+
+          <div class="fallback">
           <table width="100%" cellpadding="2" cellspacing="0" id="file_table">
             <tr>
               <td><input size="50" name="attachment[]" type="file" class="shortcut"></td>
@@ -81,10 +92,18 @@ function validateUpload(f)
             <tr>
               <td><input size="50" name="attachment[]" type="file" class="shortcut"></td>
             </tr>
-            <tr>
-              <td><i>{t 1=$max_attachment_size}Note: The current maximum allowed upload file size is %1{/t}</i></td>
-            </tr>
           </table>
+          </div>
+
+          <br/><br/>
+          <i>{t 1=$max_attachment_size}Note: The current maximum allowed upload file size is %1{/t}</i>
+
+          </div>
+
+          {if empty($smarty.get.legacy)}
+          <br/>
+          <b>{t}NOTE{/t}</b>: {t escape=no 1="?iss_id={$issue_id}&legacy=1"}To use legacy uploader, click <a href="%1">here</a>{/t}
+          {/if}
         </td>
       </tr>
       <tr>
@@ -100,8 +119,8 @@ function validateUpload(f)
           <input type="submit" value="{t}Upload File{/t}">
         </td>
       </tr>
-    </form>
   </table>
+  </form>
 {/if}
 {else}
 <center><span>{t}You do not have the correct role to access this page{/t}</span></center>

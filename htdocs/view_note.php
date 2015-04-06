@@ -58,7 +58,7 @@ $note = Note::getDetails($_GET["id"]);
 $note["message"] = $note["not_note"];
 
 $issue_id = Note::getIssueID($_GET["id"]);
-$tpl->bulkAssign(array(
+$tpl->assign(array(
     "note"        => $note,
     "issue_id"    => $issue_id,
     'extra_title' => "Note #" . Note::getNoteSequenceNumber($issue_id, $note_id) . ": " . $note['not_title'],

@@ -178,16 +178,16 @@ Eventum.selectOption = function(field, new_values)
         field.val(new_values);
     } else {
         if (values == null) {
-            values = new Array();
+            values = [];
         }
         values.push(new_values);
         field.val(values);
     }
-}
+};
 
 Eventum.removeOptionByValue = function(field, value)
 {
-    var field = Eventum.getField(field);
+    field = Eventum.getField(field);
     for (var i = 0; i < field[0].options.length; i++) {
         if (field[0].options[i].value == value) {
             field[0].options[i] = null;
@@ -236,7 +236,7 @@ Eventum.replaceParam = function(str, param, new_value)
     } else {
         var pieces = str.split("?");
         var params = pieces[1].split("&");
-        var new_params = new Array();
+        var new_params = [];
         for (var i = 0; i < params.length; i++) {
             if (params[i].indexOf(param + "=") == 0) {
                 params[i] = param + "=" + new_value;
@@ -537,7 +537,7 @@ Validation.isEmail = function(s)
 {
     // email text field.
     var sLength = s.length;
-    var denied_chars = new Array(" ", "\n", "\t", "\r", "%", "$", "#", "!", "~", "`", "^", "&", "*", "(", ")", "=", "{", "}", "[", "]", ",", ";", ":", "'", "\"", "?", "<", ">", "/", "\\", "|");
+    var denied_chars = [" ", "\n", "\t", "\r", "%", "$", "#", "!", "~", "`", "^", "&", "*", "(", ")", "=", "{", "}", "[", "]", ",", ";", ":", "'", "\"", "?", "<", ">", "/", "\\", "|"];
 
     // look for @
     if (s.indexOf("@") == -1) return false;
@@ -601,13 +601,14 @@ Validation.errors = null;
 Validation.errors_extra = null;
 Validation.checkFormSubmission = function(form, callback_func)
 {
-    Validation.errors = new Array();
-    Validation.errors_extra = new Array();
+    var res, fields;
+    Validation.errors = [];
+    Validation.errors_extra = [];
 
     if (typeof(callback_func) == 'string') {
-        var res = eval(callback_func + '(form)');
+        res = eval(callback_func + '(form)');
     } else {
-        var res = callback_func(form);
+        res = callback_func(form);
     }
     if (res === false) {
         return false;
@@ -615,7 +616,7 @@ Validation.checkFormSubmission = function(form, callback_func)
 
     if (Validation.errors.length > 0) {
         // loop through all of the broken fields and select them
-        var fields = '';
+        fields = '';
         for (var i = 0; i < Validation.errors.length; i++) {
             Validation.selectField(form.find("[name=" + Eventum.escapeSelector(Validation.errors[i].value) + "]"));
             fields += '- ' + Validation.errors[i].text + "\n";
@@ -625,7 +626,7 @@ Validation.checkFormSubmission = function(form, callback_func)
         return false;
     } else if (Validation.errors_extra.length > 0) {
         // loop through all of the broken fields and select them
-        var fields = '';
+        fields = '';
         for (var i = 0; i < Validation.errors_extra.length; i++) {
             Validation.selectField(f, Validation.errors_extra[i].value);
             fields += '- ' + Validation.errors_extra[i].text + "\n";
@@ -636,7 +637,7 @@ Validation.checkFormSubmission = function(form, callback_func)
     } else {
         return true;
     }
-}
+};
 
 Validation.checkCustomFields = function(form)
 {

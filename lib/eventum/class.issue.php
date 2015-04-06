@@ -2196,6 +2196,13 @@ class Issue
         $info = User::getNameEmail($usr_id);
         // log the creation of the issue
         History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_opened'), 'Issue opened by ' . User::getFullName(Auth::getUserID()));
+        if (isset($_POST['clone_iss_id']) && Access::canCloneIssue($_POST['clone_iss_id'], Auth::getUserID())) {
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_cloned_from'),
+                'Issue cloned from #' . $_POST['clone_iss_id']);
+            History::add($_POST['clone_iss_id'], Auth::getUserID(), History::getTypeID('issue_cloned_to'),
+                'Issue cloned to #' . $issue_id);
+            self::addAssociation($issue_id, $_POST['clone_iss_id'], $usr_id, true);
+        }
 
         $emails = array();
         if (CRM::hasCustomerIntegration($prj_id)) {
@@ -2268,40 +2275,18 @@ class Issue
             Product::addIssueProductVersion($issue_id, $data['product'], $data['product_version']);
         }
 
-        // now process any files being uploaded
-        $found = 0;
-        for ($i = 0; $i < count(@$_FILES["file"]["name"]); $i++) {
-            if (!@empty($_FILES["file"]["name"][$i])) {
-                $found = 1;
-                break;
-            }
+        // process any files being uploaded
+        // from ajax upload, attachment file ids
+        $iaf_ids = !empty($_POST['iaf_ids']) ? explode(',', $_POST['iaf_ids']) : null;
+        // if no iaf_ids passed, perhaps it's old style upload
+        // TODO: verify that the uploaded file(s) owner is same as attachment owner.
+        if (!$iaf_ids && isset($_FILES['file'])) {
+            $iaf_ids = Attachment::addFiles($_FILES['file']);
         }
-        if ($found) {
-            $files = array();
-            for ($i = 0; $i < count($_FILES["file"]["name"]); $i++) {
-                $filename = @$_FILES["file"]["name"][$i];
-                if (empty($filename)) {
-                    continue;
-                }
-                $blob = file_get_contents($_FILES["file"]["tmp_name"][$i]);
-                if (empty($blob)) {
-                    // error reading a file
-                    self::$insert_errors["file[$i]"] = "There was an error uploading the file '$filename'.";
-                    continue;
-                }
-                $files[] = array(
-                    "filename" => $filename,
-                    "type"     => $_FILES['file']['type'][$i],
-                    "blob"     => $blob
-                );
-            }
-            if (count($files) > 0) {
-                $attachment_id = Attachment::add($issue_id, $usr_id, 'Files uploaded at issue creation time');
-                foreach ($files as $file) {
-                    Attachment::addFile($attachment_id, $file["filename"], $file["type"], $file["blob"]);
-                }
-            }
+        if ($iaf_ids) {
+            Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, false, 'Files uploaded at issue creation time');
         }
+
         // need to associate any emails ?
         if (!empty($data['attached_emails'])) {
             $items = explode(",", $data['attached_emails']);
@@ -3787,5 +3772,55 @@ class Issue
         // save a history entry about this...
         History::add($issue_id, Auth::getUserID(), History::getTypeID('user_associated'),
                         "Issue assignment to changed (" . History::formatChanges(join(', ', $old_assignee_names), join(', ', $assignee_names)) . ") by " . User::getFullName(Auth::getUserID()));
+    }
+
+
+    /**
+     * Returns an array of variables to be set on the new issue page when cloning an issue.
+     *
+     * @param integer $issue_id The ID of the issue to clone
+     * @return array
+     */
+    public static function getCloneIssueTemplateVariables($issue_id)
+    {
+        $prj_id = Issue::getProjectID($issue_id);
+        $clone_details = Issue::getDetails($issue_id);
+        $defaults = array(
+            'clone_iss_id'  =>  $issue_id,
+            'category'  =>  $clone_details['iss_prc_id'],
+            'group'  =>  $clone_details['iss_grp_id'],
+            'severity'  =>  $clone_details['iss_sev_id'],
+            'priority'  =>  $clone_details['iss_pri_id'],
+            'users' =>  $clone_details['assigned_users'],
+            'summary'   =>  $clone_details['iss_summary'],
+            'description'   =>  $clone_details['iss_original_description'],
+            'expected_resolution_date'   =>  $clone_details['iss_expected_resolution_date'],
+            'estimated_dev_time'   =>  $clone_details['iss_dev_time'],
+            'private'   =>  $clone_details['iss_private'],
+        );
+        if (count($clone_details['products']) > 0) {
+            $defaults['product'] = $clone_details['products'][0]['pro_id'];
+            $defaults['product_version'] = $clone_details['products'][0]['version'];
+        }
+        $defaults['custom_fields'] = array();
+        foreach (Custom_Field::getListByIssue($prj_id, $issue_id) as $field) {
+            if (isset($field['selected_cfo_id'])) {
+                $defaults['custom_fields'][$field['fld_id']] = $field['selected_cfo_id'];
+            } else {
+                $defaults['custom_fields'][$field['fld_id']] = $field['value'];
+            }
+        }
+        $clone_variables = array(
+            'defaults'   =>  $defaults,
+        );
+        if (isset($clone_details['customer']) && isset($clone_details['contact'])) {
+            $clone_variables += array(
+                'customer_id' => $clone_details['iss_customer_id'],
+                'contact_id'  => $clone_details['iss_customer_contact_id'],
+                "customer"    => $clone_details['customer'],
+                "contact"     => $clone_details['contact'],
+            );
+        }
+        return $clone_variables;
     }
 }

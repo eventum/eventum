@@ -95,7 +95,7 @@
   //-->
   </script>
   {/literal}
-  <form id="email_account_form"  method="post" action="{$smarty.server.PHP_SELF}">
+  <form id="email_account_form"  method="post">
   {if $smarty.get.cat|default:'' == 'edit'}
   <input type="hidden" name="cat" value="update">
   <input type="hidden" name="id" value="{$smarty.get.id|intval}">
@@ -221,7 +221,7 @@
 </table>
 </form>
 
-<form onSubmit="return checkDelete(this);" method="post" action="{$smarty.server.PHP_SELF}">
+<form onSubmit="return checkDelete(this);" method="post">
 <input type="hidden" name="cat" value="delete">
 <table class="bordered grid">
   <tr class="title">
@@ -243,7 +243,7 @@
     <tr class="{cycle values='odd,even'}">
       <td width="4" align="center" nowrap><input type="checkbox" name="items[]" value="{$list[i].ema_id}"></td>
       <td>&nbsp;{$list[i].prj_title}</td>
-      <td width="30%"bgcolor="{$row_color}">
+      <td width="30%">
         &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ema_id}" title="{t}update this entry{/t}">{$list[i].ema_hostname|escape:"html"}</a></td>
       <td>&nbsp;{$list[i].ema_type}</td>
       <td>&nbsp;{$list[i].ema_port}</td>
