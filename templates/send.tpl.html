@@ -257,7 +257,9 @@ $().ready(function() {
       </th>
       <td>
         <div class="dz-message">
-          {t}Drop files here or click to upload.{/t}<br/><br/>
+          {if empty($smarty.get.legacy) and $core.app_setup.use_legacy_file_upload|default:0 != 1}
+            {t}Drop files here or click to upload.{/t}
+          {/if}
 
           <div class="dropzone-previews"></div>
 
