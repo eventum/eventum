@@ -240,6 +240,7 @@ class Template_Helper
                 'is_anon_user'  =>  Auth::isAnonUser(),
                 'is_current_user_partner'   =>  !empty($info['usr_par_code']),
                 'roles' =>  User::getAssocRoleIDs(),
+                'current_user_prefs'    =>  Prefs::get(Auth::getUserID()),
 
             );
             $this->assign('current_full_name', $core['user']['usr_full_name']);
