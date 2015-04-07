@@ -17,11 +17,11 @@
   <title>{if $title != '' or isset($extra_title)}{$extra_title|default:$title} - {/if}{$core.app_setup.tool_caption|default:$core.app_title}</title>
   <script type="text/javascript">
   <!--
-  var user_prefs = {ldelim}
+  var user_prefs = {
   {if $core.current_user_prefs|default:'' != ''}
     week_firstday : '{$core.current_user_prefs.week_firstday}' == '1' ? 1 : 0
   {/if}
-  {rdelim};
+  };
   //-->
   </script>
 
