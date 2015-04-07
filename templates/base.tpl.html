@@ -18,9 +18,7 @@
   <script type="text/javascript">
   <!--
   var user_prefs = {
-  {if $core.current_user_prefs|default:'' != ''}
-    week_firstday : '{$core.current_user_prefs.week_firstday}' == '1' ? 1 : 0
-  {/if}
+    week_firstday : {$core.current_user_prefs.week_firstday|default:0|intval}
   };
   //-->
   </script>
