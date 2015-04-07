@@ -830,28 +830,6 @@ class Mime_Helper
     }
 
     /**
-     * FIXME: this function is unused
-     *
-     * Given a quoted-printable string, this
-     * function will decode and return it.
-     *
-     * FIXME: it does not respect charset being used in qp string
-     *
-     * @param  string $input Input body to decode
-     * @return string Decoded body
-     */
-    private function _quotedPrintableDecode($input)
-    {
-        // Remove soft line breaks
-        $input = preg_replace("/=\r?\n/", '', $input);
-
-        // Replace encoded characters
-        $input = preg_replace('/=([a-f0-9]{2})/ie', "chr(hexdec('\\1'))", $input);
-
-        return $input;
-    }
-
-    /**
      * Returns the internal list of content types that we do not support as
      * valid attachment types.
      *
