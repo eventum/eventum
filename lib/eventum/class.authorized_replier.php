@@ -112,7 +112,7 @@ class Authorized_Replier
         try {
             $issue_id = DB_Helper::getInstance()->getOne($stmt, $iur_ids);
         } catch (DbException $e) {
-            // FIXME: why continuing on error?
+            return false;
         }
 
         foreach ($iur_ids as $id) {
@@ -127,7 +127,6 @@ class Authorized_Replier
                 return -1;
             }
 
-            // FIXME: $issue_id can be undefined
             History::add($issue_id, Auth::getUserID(), History::getTypeID('replier_removed'),
                             "Authorized replier $replier removed by " . User::getFullName(Auth::getUserID()));
 
