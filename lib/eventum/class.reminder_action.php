@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -68,20 +69,20 @@ class Reminder_Action
             // switch the rankings here...
             $index = array_search($new_rank, $ranks);
             $replaced_rma_id = $ids[$index];
-            $stmt = "UPDATE
+            $stmt = 'UPDATE
                         {{%reminder_action}}
                      SET
                         rma_rank=?
                      WHERE
-                        rma_id=?";
+                        rma_id=?';
             DB_Helper::getInstance()->query($stmt, array($ranking[$rma_id], $replaced_rma_id));
         }
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%reminder_action}}
                  SET
                     rma_rank=?
                  WHERE
-                    rma_id=?";
+                    rma_id=?';
         DB_Helper::getInstance()->query($stmt, array($new_rank, $rma_id));
 
         return true;
@@ -96,7 +97,7 @@ class Reminder_Action
      */
     private function _getRanking($rem_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rma_id,
                     rma_rank
                  FROM
@@ -104,7 +105,7 @@ class Reminder_Action
                  WHERE
                     rma_rem_id = ?
                  ORDER BY
-                    rma_rank ASC";
+                    rma_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($rem_id));
         } catch (DbException $e) {
@@ -122,12 +123,12 @@ class Reminder_Action
      */
     public static function getTitle($rma_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rma_title
                  FROM
                     {{%reminder_action}}
                  WHERE
-                    rma_id=?";
+                    rma_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($rma_id));
         } catch (DbException $e) {
@@ -145,12 +146,12 @@ class Reminder_Action
      */
     public static function getDetails($rma_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%reminder_action}}
                  WHERE
-                    rma_id=?";
+                    rma_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($rma_id));
         } catch (DbException $e) {
@@ -172,7 +173,7 @@ class Reminder_Action
      */
     public static function insert()
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%reminder_action}}
                  (
                     rma_rem_id,
@@ -186,7 +187,7 @@ class Reminder_Action
                  ) VALUES (
                     ?, ?, ?, ?, ?,
                     ?, ?, ?
-                 )";
+                 )';
         $params = array(
             $_POST['rem_id'],
             $_POST['type'],
@@ -221,13 +222,13 @@ class Reminder_Action
      */
     public function getUserList($rma_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     ral_usr_id,
                     ral_email
                  FROM
                     {{%reminder_action_list}}
                  WHERE
-                    ral_rma_id=?";
+                    ral_rma_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($rma_id));
         } catch (DbException $e) {
@@ -264,7 +265,7 @@ class Reminder_Action
             } else {
                 $email = $user_list[$i];
             }
-            $stmt = "INSERT INTO
+            $stmt = 'INSERT INTO
                         {{%reminder_action_list}}
                      (
                         ral_rma_id,
@@ -272,7 +273,7 @@ class Reminder_Action
                         ral_email
                      ) VALUES (
                         ?, ?, ?
-                     )";
+                     )';
             DB_Helper::getInstance()->query($stmt, array($rma_id, $usr_id, $email));
         }
     }
@@ -284,7 +285,7 @@ class Reminder_Action
      */
     public static function update()
     {
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%reminder_action}}
                  SET
                     rma_last_updated_date=?,
@@ -295,7 +296,7 @@ class Reminder_Action
                     rma_alert_group_leader=?,
                     rma_boilerplate=?
                  WHERE
-                    rma_id=?";
+                    rma_id=?';
         $params = array(
             Date_Helper::getCurrentDateGMT(),
             $_POST['rank'],
@@ -331,12 +332,12 @@ class Reminder_Action
      */
     public function isUserList($rmt_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rmt_type
                  FROM
                     {{%reminder_action_type}}
                  WHERE
-                    rmt_id=?";
+                    rmt_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($rmt_id));
         } catch (DbException $e) {
@@ -345,7 +346,7 @@ class Reminder_Action
 
         $user_list_types = array(
             'sms_list',
-            'email_list'
+            'email_list',
         );
 
         if (!in_array($res, $user_list_types)) {
@@ -413,13 +414,13 @@ class Reminder_Action
      */
     public static function getActionTypeList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rmt_id,
                     rmt_title
                  FROM
                     {{%reminder_action_type}}
                  ORDER BY
-                    rmt_title ASC";
+                    rmt_title ASC';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
@@ -438,7 +439,7 @@ class Reminder_Action
      */
     public static function getAdminList($rem_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rma_rem_id,
                     rma_id,
                     rma_title,
@@ -453,7 +454,7 @@ class Reminder_Action
                     rma_rmt_id=rmt_id AND
                     rma_rem_id=?
                  ORDER BY
-                    rma_rank ASC";
+                    rma_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($rem_id));
         } catch (DbException $e) {
@@ -482,14 +483,14 @@ class Reminder_Action
      */
     public static function getList($reminder_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%reminder_action}}
                  WHERE
                     rma_rem_id=?
                  ORDER BY
-                    rma_rank ASC";
+                    rma_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($reminder_id));
         } catch (DbException $e) {
@@ -511,12 +512,12 @@ class Reminder_Action
      */
     public function getActionType($rmt_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     rmt_type
                  FROM
                     {{%reminder_action_type}}
                  WHERE
-                    rmt_id=?";
+                    rmt_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($rmt_id));
         } catch (DbException $e) {
@@ -536,7 +537,7 @@ class Reminder_Action
      */
     public function saveHistory($issue_id, $rma_id)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%reminder_history}}
                  (
                     rmh_iss_id,
@@ -544,7 +545,7 @@ class Reminder_Action
                     rmh_created_date
                  ) VALUES (
                     ?, ?, ?
-                 )";
+                 )';
         try {
             DB_Helper::getInstance()->query($stmt, array($issue_id, $rma_id, Date_Helper::getCurrentDateGMT()));
         } catch (DbException $e) {
@@ -571,13 +572,13 @@ class Reminder_Action
         $group_leader_usr_id = 0;
         if ($action['rma_alert_group_leader']) {
             if (Reminder::isDebug()) {
-                echo "  - " . ev_gettext("Processing Group Leader notification") . "\n";
+                echo '  - ' . ev_gettext('Processing Group Leader notification') . "\n";
             }
             $group_id = Issue::getGroupID($issue_id);
             // check if there's even a group associated with this issue
             if (empty($group_id)) {
                 if (Reminder::isDebug()) {
-                    echo "  - " . ev_gettext('No group associated with issue %1$s', $issue_id) . "\n";
+                    echo '  - ' . ev_gettext('No group associated with issue %1$s', $issue_id) . "\n";
                 }
             } else {
                 $group_details = Group::getDetails($group_id);
@@ -587,7 +588,7 @@ class Reminder_Action
             }
         }
         if (Reminder::isDebug()) {
-           echo "  - " . ev_gettext('Performing action %1$s for issue # %2$s', $action_type, $issue_id) . "\n";
+            echo '  - ' . ev_gettext('Performing action %1$s for issue # %2$s', $action_type, $issue_id) . "\n";
         }
         switch ($action_type) {
             case 'email_assignee':
@@ -681,18 +682,18 @@ class Reminder_Action
             }
             $irc_notice = "Issue #$issue_id (";
             if (!empty($data['pri_title'])) {
-                $irc_notice .= "Priority: " . $data['pri_title'];
+                $irc_notice .= 'Priority: ' . $data['pri_title'];
             }
             if (!empty($data['sev_title'])) {
-                $irc_notice .= "Severity: " . $data['sev_title'];
+                $irc_notice .= 'Severity: ' . $data['sev_title'];
             }
             // also add information about the assignee, if any
             $assignment = Issue::getAssignedUsers($issue_id);
             if (count($assignment) > 0) {
-                $irc_notice .= "; Assignment: " . implode(', ', $assignment);
+                $irc_notice .= '; Assignment: ' . implode(', ', $assignment);
             }
             if (!empty($data['iss_grp_id'])) {
-                $irc_notice .= "; Group: " . Group::getName($data['iss_grp_id']);
+                $irc_notice .= '; Group: ' . Group::getName($data['iss_grp_id']);
             }
             $irc_notice .= "), Reminder action '" . $action['rma_title'] . "' was just triggered; " . $action['rma_boilerplate'];
             Notification::notifyIRC(Issue::getProjectID($issue_id), $irc_notice, $issue_id, false,
@@ -732,11 +733,11 @@ class Reminder_Action
             $tpl = new Template_Helper();
             $tpl->setTemplate('reminders/' . $type . '_alert.tpl.text');
             $tpl->assign(array(
-                "data"                     => $data,
-                "reminder"                 => $reminder,
-                "action"                   => $action,
-                "conditions"               => $conditions,
-                "has_customer_integration" => CRM::hasCustomerIntegration(Issue::getProjectID($issue_id))
+                'data'                     => $data,
+                'reminder'                 => $reminder,
+                'action'                   => $action,
+                'conditions'               => $conditions,
+                'has_customer_integration' => CRM::hasCustomerIntegration(Issue::getProjectID($issue_id)),
             ));
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {
@@ -744,7 +745,7 @@ class Reminder_Action
                 $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup["from"], $address, "[#$issue_id] " . ev_gettext("Reminder") . ": " . $action['rma_title'], 0, $issue_id, 'reminder');
+                $mail->send($setup['from'], $address, "[#$issue_id] " . ev_gettext('Reminder') . ': ' . $action['rma_title'], 0, $issue_id, 'reminder');
             }
         }
         // - eventum saves the day once again
@@ -769,12 +770,12 @@ class Reminder_Action
             $tpl = new Template_Helper();
             $tpl->setTemplate('reminders/alert_no_recipients.tpl.text');
             $tpl->assign(array(
-                "type"                     => $type,
-                "data"                     => $data,
-                "reminder"                 => $reminder,
-                "action"                   => $action,
-                "conditions"               => $conditions,
-                "has_customer_integration" => CRM::hasCustomerIntegration(Issue::getProjectID($issue_id))
+                'type'                     => $type,
+                'data'                     => $data,
+                'reminder'                 => $reminder,
+                'action'                   => $action,
+                'conditions'               => $conditions,
+                'has_customer_integration' => CRM::hasCustomerIntegration(Issue::getProjectID($issue_id)),
             ));
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {
@@ -782,7 +783,7 @@ class Reminder_Action
                 $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup["from"], $address, "[#$issue_id] " . ev_gettext("Reminder Not Triggered") . ": " . $action['rma_title'], 0, $issue_id);
+                $mail->send($setup['from'], $address, "[#$issue_id] " . ev_gettext('Reminder Not Triggered') . ': ' . $action['rma_title'], 0, $issue_id);
             }
         }
     }
@@ -838,24 +839,24 @@ class Reminder_Action
      */
     public function recordLastTriggered($issue_id, $rma_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(*)
                  FROM
                     {{%reminder_triggered_action}}
                  WHERE
-                    rta_iss_id=?";
+                    rta_iss_id=?';
 
         $total = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         if ($total == 1) {
-            $stmt = "UPDATE
+            $stmt = 'UPDATE
                         {{%reminder_triggered_action}}
                      SET
                         rta_rma_id=?
                      WHERE
-                        rta_iss_id=?";
+                        rta_iss_id=?';
             $params = array($rma_id, $issue_id);
         } else {
-            $stmt = "INSERT INTO
+            $stmt = 'INSERT INTO
                         {{%reminder_triggered_action}}
                      (
                         rta_iss_id,
@@ -863,7 +864,7 @@ class Reminder_Action
                      ) VALUES (
                         ?,
                         ?
-                     )";
+                     )';
             $params = array($issue_id, $rma_id);
         }
         try {
@@ -883,10 +884,10 @@ class Reminder_Action
      */
     public static function clearLastTriggered($issue_id)
     {
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%reminder_triggered_action}}
                  WHERE
-                    rta_iss_id=?";
+                    rta_iss_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($issue_id));
         } catch (DbException $e) {

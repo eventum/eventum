@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -43,16 +44,16 @@ class Category
      */
     public static function getDetails($prc_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%project_category}}
                  WHERE
-                    prc_id=?";
+                    prc_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($prc_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -67,10 +68,10 @@ class Category
      */
     public static function removeByProjects($ids)
     {
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%project_category}}
                  WHERE
-                    prc_prj_id IN (" . DB_Helper::buildList($ids) . ")";
+                    prc_prj_id IN (' . DB_Helper::buildList($ids) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $ids);
         } catch (DbException $e) {
@@ -88,11 +89,11 @@ class Category
      */
     public static function remove()
     {
-        $items = $_POST["items"];
-        $stmt = "DELETE FROM
+        $items = $_POST['items'];
+        $stmt = 'DELETE FROM
                     {{%project_category}}
                  WHERE
-                    prc_id IN (" . DB_Helper::buildList($items) . ")";
+                    prc_id IN (' . DB_Helper::buildList($items) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
@@ -111,18 +112,18 @@ class Category
      */
     public static function update()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%project_category}}
                  SET
                     prc_title=?
                  WHERE
                     prc_prj_id=? AND
-                    prc_id=";
+                    prc_id=';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST["title"], $_POST["prj_id"], $_POST["id"]));
+            DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['prj_id'], $_POST['id']));
         } catch (DbException $e) {
             return -1;
         }
@@ -137,20 +138,20 @@ class Category
      */
     public static function insert()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
 
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%project_category}}
                  (
                     prc_prj_id,
                     prc_title
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST["prj_id"], $_POST["title"]));
+            DB_Helper::getInstance()->query($stmt, array($_POST['prj_id'], $_POST['title']));
         } catch (DbException $e) {
             return -1;
         }
@@ -167,7 +168,7 @@ class Category
      */
     public static function getList($prj_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     prc_id,
                     prc_title
                  FROM
@@ -175,11 +176,11 @@ class Category
                  WHERE
                     prc_prj_id=?
                  ORDER BY
-                    prc_title ASC";
+                    prc_title ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -200,7 +201,7 @@ class Category
             return $list[$prj_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     prc_id,
                     prc_title
                  FROM
@@ -208,11 +209,11 @@ class Category
                  WHERE
                     prc_prj_id=?
                  ORDER BY
-                    prc_title ASC";
+                    prc_title ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         $list[$prj_id] = $res;
@@ -228,16 +229,16 @@ class Category
      */
     public static function getTitle($prc_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     prc_title
                  FROM
                     {{%project_category}}
                  WHERE
-                    prc_id=?";
+                    prc_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prc_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;

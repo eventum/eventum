@@ -2,14 +2,19 @@
 .project
 .settings
 config/config.php
+config/ldap.php
 config/private_key.php
 config/setup.php
 config/sphinx.conf
+config/custom_field/
+config/templates/
+config/workflow/
 *.gz
 *.gz.md5
 cli/*.phar
 cli/build/
-logs/*.log
+locks/
+logs/
 templates_c/*
 misc/routed_emails/*
 misc/routed_notes/*
@@ -26,6 +31,8 @@ vendor
 composer.lock
 composer.phar
 box.phar
+php-cs-fixer.phar
+.php_cs.cache
 
 # vim
 [._]*.s[a-w][a-z]

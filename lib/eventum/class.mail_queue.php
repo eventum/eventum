@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -64,7 +65,7 @@ class Mail_Queue
         $reminder_addresses = Reminder::_getReminderAlertAddresses();
 
         // add specialized headers
-        if ((!empty($issue_id)) && ((!empty($to_usr_id)) && (User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID("Customer"))) ||
+        if ((!empty($issue_id)) && ((!empty($to_usr_id)) && (User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID('Customer'))) ||
                 (@in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses))) {
             $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id);
         }
@@ -87,14 +88,14 @@ class Mail_Queue
         $headers = Mime_Helper::encodeHeaders($headers);
 
         $res = Mail_Helper::prepareHeaders($headers);
-        if (PEAR::isError($res)) {
+        if (Misc::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
 
             return $res;
         }
 
         // convert array of headers into text headers
-        list(,$text_headers) = $res;
+        list(, $text_headers) = $res;
 
         $params = array(
             'maq_save_copy' => $save_email_copy,
@@ -104,7 +105,7 @@ class Mail_Queue
             'maq_headers' => $text_headers,
             'maq_body' => $body,
             'maq_iss_id' => $issue_id,
-            'maq_subject' => $headers["Subject"],
+            'maq_subject' => $headers['Subject'],
             'maq_type' => $type,
         );
 
@@ -115,7 +116,7 @@ class Mail_Queue
             $params['maq_type_id'] = $type_id;
         }
 
-        $stmt = "INSERT INTO {{%mail_queue}} SET ".DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO {{%mail_queue}} SET '.DB_Helper::buildSet($params);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
@@ -155,18 +156,18 @@ class Mail_Queue
                 $headers = Mime_Helper::encodeHeaders($headers);
 
                 $res = Mail_Helper::prepareHeaders($headers);
-                if (PEAR::isError($res)) {
+                if (Misc::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
 
                     return $res;
                 }
 
-                list(,$text_headers) = $res;
+                list(, $text_headers) = $res;
                 $result = self::_sendEmail($recipients, $text_headers, $email['body'], $status);
 
-                if (PEAR::isError($result)) {
+                if (Misc::isError($result)) {
                     $maq_id = implode(',', $maq_ids);
-                    $details = $result->getMessage() . "/" . $result->getDebugInfo();
+                    $details = $result->getMessage() . '/' . $result->getDebugInfo();
                     echo "Mail_Queue: issue #{$email['maq_iss_id']}: Can't send merged mail $maq_id: $details\n";
 
                     foreach ($emails as $email) {
@@ -190,8 +191,8 @@ class Mail_Queue
             $email = self::_getEntry($maq_id);
             $result = self::_sendEmail($email['recipient'], $email['headers'], $email['body'], $status);
 
-            if (PEAR::isError($result)) {
-                $details = $result->getMessage() . "/" . $result->getDebugInfo();
+            if (Misc::isError($result)) {
+                $details = $result->getMessage() . '/' . $result->getDebugInfo();
                 echo "Mail_Queue: issue #{$email['maq_iss_id']}: Can't send mail $maq_id: $details\n";
                 self::_saveStatusLog($email['id'], 'error', $details);
                 continue;
@@ -245,10 +246,10 @@ class Mail_Queue
 
         $mail = Mail::factory('smtp', Mail_Helper::getSMTPSettings());
         $res = $mail->send($recipient, $headers, $body);
-        if (PEAR::isError($res)) {
+        if (Misc::isError($res)) {
             // special handling of errors when the mail server is down
             $msg = $res->getMessage();
-            $cant_notify = ($status == 'error' || strstr($msg , 'unable to connect to smtp server') || stristr($msg, 'Failed to connect to') !== false);
+            $cant_notify = ($status == 'error' || strstr($msg, 'unable to connect to smtp server') || stristr($msg, 'Failed to connect to') !== false);
             Error_Handler::logError(array($msg, $res->getDebugInfo()), __FILE__, __LINE__, !$cant_notify);
 
             return $res;
@@ -311,7 +312,7 @@ class Mail_Queue
      */
     private function _getMergedList($status, $limit = null)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     GROUP_CONCAT(maq_id) ids
                  FROM
                     {{%mail_queue}}
@@ -322,7 +323,7 @@ class Mail_Queue
                  GROUP BY
                     maq_type_id
                  ORDER BY
-                    MIN(maq_id) ASC";
+                    MIN(maq_id) ASC';
 
         $limit = (int) $limit;
         if ($limit) {
@@ -336,7 +337,7 @@ class Mail_Queue
         }
 
         foreach ($res as &$value) {
-           $value = explode(',', $value['ids']);
+            $value = explode(',', $value['ids']);
         }
 
         return $res;
@@ -350,7 +351,7 @@ class Mail_Queue
      */
     private function _getEntry($maq_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     maq_id id,
                     maq_iss_id,
                     maq_save_copy save_copy,
@@ -362,7 +363,7 @@ class Mail_Queue
                  FROM
                     {{%mail_queue}}
                  WHERE
-                    maq_id=?";
+                    maq_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($maq_id));
         } catch (DbException $e) {
@@ -380,7 +381,7 @@ class Mail_Queue
      */
     private function _getEntries($maq_ids)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     maq_id id,
                     maq_iss_id,
                     maq_save_copy save_copy,
@@ -392,7 +393,7 @@ class Mail_Queue
                  FROM
                     {{%mail_queue}}
                  WHERE
-                    maq_id IN (" . implode(',', $maq_ids) . ")";
+                    maq_id IN (' . implode(',', $maq_ids) . ')';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
@@ -413,7 +414,7 @@ class Mail_Queue
      */
     private function _saveStatusLog($maq_id, $status, $server_message)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%mail_queue_log}}
                  (
                     mql_maq_id,
@@ -422,7 +423,7 @@ class Mail_Queue
                     mql_server_message
                  ) VALUES (
                     ?, ?, ?, ?
-                 )";
+                 )';
         $params = array(
             $maq_id,
             Date_Helper::getCurrentDateGMT(),
@@ -435,12 +436,12 @@ class Mail_Queue
             return false;
         }
 
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%mail_queue}}
                  SET
                     maq_status=?
                  WHERE
-                    maq_id=?";
+                    maq_id=?';
 
         DB_Helper::getInstance()->query($stmt, array($status, $maq_id));
 
@@ -455,7 +456,7 @@ class Mail_Queue
      */
     public static function getListByIssueID($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     maq_id,
                     maq_queued_date,
                     maq_status,
@@ -466,7 +467,7 @@ class Mail_Queue
                  WHERE
                     maq_iss_id = ?
                  ORDER BY
-                    maq_queued_date ASC";
+                    maq_queued_date ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
@@ -493,7 +494,7 @@ class Mail_Queue
      */
     public static function getEntry($maq_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     maq_iss_id,
                     maq_queued_date,
                     maq_status,
@@ -504,7 +505,7 @@ class Mail_Queue
                  FROM
                     {{%mail_queue}}
                  WHERE
-                    maq_id = ?";
+                    maq_id = ?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($maq_id));
         } catch (DbException $e) {

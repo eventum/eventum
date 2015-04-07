@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -33,12 +34,12 @@ Auth::checkAuthentication(APP_COOKIE);
 
 // get the 'remember' setting of the project cookie
 $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
-Auth::setCurrentProject($_POST["current_project"], $cookie["remember"]);
+Auth::setCurrentProject($_POST['current_project'], $cookie['remember']);
 
 Misc::setMessage(ev_gettext('The project has been switched'), Misc::MSG_INFO);
 
 if (stristr($_REQUEST['current_page'], 'view.php') !== false) {
-    $_REQUEST['current_page'] = APP_RELATIVE_URL . "list.php";
+    $_REQUEST['current_page'] = APP_RELATIVE_URL . 'list.php';
 }
 
 Auth::redirect($_REQUEST['current_page']);

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -32,28 +33,28 @@ require_once dirname(__FILE__) . '/../../init.php';
 
 // This report shows a list of activity performed in recent history.
 $tpl = new Template_Helper();
-$tpl->setTemplate("reports/recent_activity.tpl.html");
+$tpl->setTemplate('reports/recent_activity.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 if (!Access::canAccessReports(Auth::getUserID())) {
-    echo "Invalid role";
+    echo 'Invalid role';
     exit;
 }
 
 // TODO: move logic below to some class
 
 $units = array(
-    "hour"  =>  "Hours",
-    "day"   =>  "Days"
+    'hour'  =>  'Hours',
+    'day'   =>  'Days',
 );
 $type_list = array(
-    "phone" =>  "Phone Calls",
-    "note"  =>  "Notes",
-    "email" =>  "Email",
-    "draft" =>  "Drafts",
-    "time"  =>  "Time Tracking",
-    "reminder"  =>  "Reminders"
+    'phone' =>  'Phone Calls',
+    'note'  =>  'Notes',
+    'email' =>  'Email',
+    'draft' =>  'Drafts',
+    'time'  =>  'Time Tracking',
+    'reminder'  =>  'Reminders',
 );
 
 if (empty($_REQUEST['activity_types'])) {
@@ -64,26 +65,25 @@ $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
 
 $tpl->assign(array(
-    "units" =>  $units,
-    "users" => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
-    "developer" => $usr_id,
-    "type_list" =>  $type_list,
-    "activity_types"    =>  $_REQUEST['activity_types']
+    'units' =>  $units,
+    'users' => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
+    'developer' => $usr_id,
+    'type_list' =>  $type_list,
+    'activity_types'    =>  $_REQUEST['activity_types'],
 ));
 
 if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_REQUEST['start']) == 3)) {
-
-    if (count(@$_REQUEST["start"]) > 0 &&
-            (@$_REQUEST["start"]["Year"] != 0) &&
-            (@$_REQUEST["start"]["Month"] != 0) &&
-            (@$_REQUEST["start"]["Day"] != 0)) {
-        $start_date = join("-", $_POST["start"]);
+    if (count(@$_REQUEST['start']) > 0 &&
+            (@$_REQUEST['start']['Year'] != 0) &&
+            (@$_REQUEST['start']['Month'] != 0) &&
+            (@$_REQUEST['start']['Day'] != 0)) {
+        $start_date = implode('-', $_POST['start']);
     }
-    if (count(@$_REQUEST["end"]) > 0 &&
-            (@$_REQUEST["end"]["Year"] != 0) &&
-            (@$_REQUEST["end"]["Month"] != 0) &&
-            (@$_REQUEST["end"]["Day"] != 0)) {
-        $end_date = join("-", $_POST["end"]);
+    if (count(@$_REQUEST['end']) > 0 &&
+            (@$_REQUEST['end']['Year'] != 0) &&
+            (@$_REQUEST['end']['Month'] != 0) &&
+            (@$_REQUEST['end']['Day'] != 0)) {
+        $end_date = implode('-', $_POST['end']);
     }
 
     $data = array();
@@ -180,13 +180,13 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
             $data['draft'] = processResult($res, 'emd_updated_date', 'emd_iss_id');
             foreach ($data['draft'] as &$draft) {
                 if (!empty($draft['emd_unknown_user'])) {
-                    $draft['from'] = $draft["emd_unknown_user"];
+                    $draft['from'] = $draft['emd_unknown_user'];
                 } else {
                     $draft['from'] = User::getFromHeader($draft['emd_usr_id']);
                 }
-                list($draft['to'], ) = Draft::getEmailRecipients($draft['emd_id']);
+                list($draft['to']) = Draft::getEmailRecipients($draft['emd_id']);
                 if (empty($draft['to'])) {
-                    $draft['to'] = "Notification List";
+                    $draft['to'] = 'Notification List';
                 }
             }
         } catch (DbException $e) {
@@ -248,12 +248,12 @@ if (((!empty($_REQUEST['unit'])) && (!empty($_REQUEST['amount']))) || (@count($_
     }
 
     $tpl->assign(array(
-        "unit"  =>  $_REQUEST['unit'],
-        "amount"    =>  $_REQUEST['amount'],
-        "developer" =>  $_REQUEST['developer'],
-        "start_date"    =>  @$start_date,
-        "end_date"      =>  @$end_date,
-        "data"  =>  $data
+        'unit'  =>  $_REQUEST['unit'],
+        'amount'    =>  $_REQUEST['amount'],
+        'developer' =>  $_REQUEST['developer'],
+        'start_date'    =>  @$start_date,
+        'end_date'      =>  @$end_date,
+        'data'  =>  $data,
     ));
 }
 
@@ -263,7 +263,7 @@ function createWhereClause($date_field, $user_field = false)
 
     $sql = '';
     if ($_REQUEST['report_type'] == 'recent') {
-        $sql .= "$date_field >= DATE_SUB('" . Date_Helper::getCurrentDateGMT() . "', INTERVAL " . Misc::escapeInteger($_REQUEST['amount']) . " " . Misc::escapeString($_REQUEST['unit']) . ")";
+        $sql .= "$date_field >= DATE_SUB('" . Date_Helper::getCurrentDateGMT() . "', INTERVAL " . Misc::escapeInteger($_REQUEST['amount']) . ' ' . Misc::escapeString($_REQUEST['unit']) . ')';
     } else {
         $sql .= "$date_field BETWEEN '$start_date' AND '$end_date'";
     }
@@ -293,13 +293,13 @@ function processResult($results, $date_field, $issue_field)
                 $res['customer'] = '';
             }
         }
-        $res["date"] = Date_Helper::getFormattedDate($res[$date_field], Date_Helper::getPreferredTimezone($usr_id));
+        $res['date'] = Date_Helper::getFormattedDate($res[$date_field], Date_Helper::getPreferredTimezone($usr_id));
         // need to decode From:, To: mail headers
-        if (isset($res["sup_from"])) {
-            $res["sup_from"] = Mime_Helper::fixEncoding($res["sup_from"]);
+        if (isset($res['sup_from'])) {
+            $res['sup_from'] = Mime_Helper::fixEncoding($res['sup_from']);
         }
-        if (isset($res["sup_to"])) {
-            $res["sup_to"] = Mime_Helper::fixEncoding($res["sup_to"]);
+        if (isset($res['sup_to'])) {
+            $res['sup_to'] = Mime_Helper::fixEncoding($res['sup_to']);
         }
 
         $data[] = $res;

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -111,7 +112,7 @@ class Issue_Lock
      * @param $issue_id
      * @return bool TRUE - if locked, otherwise - FALSE
      */
-    private function isLocked($issue_id)
+    private static function isLocked($issue_id)
     {
         $lockfile = self::getLockFilename($issue_id);
 

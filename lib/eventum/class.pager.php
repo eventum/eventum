@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -46,34 +47,35 @@ class Pager
      */
     public static function getTotalRows($stmt)
     {
-        $stmt = str_replace("\n", "", $stmt);
-        $stmt = str_replace("\r", "", $stmt);
+        $stmt = str_replace("\n", '', $stmt);
+        $stmt = str_replace("\r", '', $stmt);
         if (stristr($stmt, 'GROUP BY')) {
             // go the extra mile and try to use the grouped by column in the count() call
             preg_match("/.*\s+GROUP BY\s+(\w*)\s+.*/i", $stmt, $matches);
             if (!empty($matches[1])) {
-                $stmt = preg_replace("/SELECT (.*?) FROM /sei", "'SELECT COUNT(DISTINCT " . $matches[1] . ") AS total_rows FROM '", $stmt);
+                $stmt = preg_replace('/SELECT (.*?) FROM /sei', "'SELECT COUNT(DISTINCT " . $matches[1] . ") AS total_rows FROM '", $stmt);
             }
         } else {
-            $stmt = preg_replace("/SELECT (.*?) FROM /sei", "'SELECT COUNT(*) AS total_rows FROM '", $stmt);
+            $stmt = preg_replace('/SELECT (.*?) FROM /sei', "'SELECT COUNT(*) AS total_rows FROM '", $stmt);
         }
         // remove any order by clauses
-        $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)[,\s+\w+\s+\w+]*(.*)/sei", "'\\1\\3'", $stmt);
-        $rows = DB_Helper::getInstance()->getAll($stmt);
-        if (PEAR::isError($rows)) {
-            Error_Handler::logError(array($rows->getMessage(), $rows->getDebugInfo()), __FILE__, __LINE__);
-
+        $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)(?:,\s+\w+\s+\w+)*(.*)/sei", "'\\1\\3'", $stmt);
+        try {
+            $rows = DB_Helper::getInstance()->getAll($stmt);
+        } catch (DbException $e) {
             return 0;
-        } elseif (empty($rows)) {
-            return 0;
-        } else {
-            // the query above works only if there is no left join or any other complex queries
-            if (count($rows) == 1) {
-                return $rows[0]["total_rows"];
-            } else {
-                return count($rows);
-            }
         }
+
+        if (empty($rows)) {
+            return 0;
+        }
+
+        // the query above works only if there is no left join or any other complex queries
+        if (count($rows) == 1) {
+            return $rows[0]['total_rows'];
+        }
+
+        return count($rows);
     }
 
     /**
@@ -83,12 +85,12 @@ class Pager
      */
     private function _buildQueryString()
     {
-        $query_str = "";
+        $query_str = '';
         // gotta check manually here
         $params = $_GET;
         while (list($key, $value) = each($params)) {
-            if ($key != "pagerRow") {
-                $query_str .= "&" . $key . "=" . urlencode($value);
+            if ($key != 'pagerRow') {
+                $query_str .= '&' . $key . '=' . urlencode($value);
             }
         }
 
@@ -107,7 +109,7 @@ class Pager
      * @return  array The list of paginated links
      * @see     getTotalRows()
      */
-    public function getLinks($row, $total_rows, $per_page, $show_links = "all", $show_blank = "off", $link_str = -1)
+    public function getLinks($row, $total_rows, $per_page, $show_links = 'all', $show_blank = 'off', $link_str = -1)
     {
         // check for emptyness
         if ((empty($total_rows)) || (empty($per_page))) {
@@ -115,33 +117,33 @@ class Pager
         }
         if ($link_str == -1) {
             $link_str = array(
-                "previous" => "&lt;&lt; " . ev_gettext("Previous"),
-                "next"     => ev_gettext("Next") . " &gt;&gt;"
+                'previous' => '&lt;&lt; ' . ev_gettext('Previous'),
+                'next'     => ev_gettext('Next') . ' &gt;&gt;',
             );
         }
         $extra_vars = self::_buildQueryString();
-        $file = $_SERVER["SCRIPT_NAME"];
+        $file = $_SERVER['SCRIPT_NAME'];
         $number_of_pages = ceil($total_rows / $per_page);
         $subscript = 0;
         for ($current = 0; $current < $number_of_pages; $current++) {
             // if we need to show all links, or the 'side' links,
             // let's add the 'Previous' link as the first item of the array
-            if ((($show_links == "all") || ($show_links == "sides")) && ($current == 0)) {
+            if ((($show_links == 'all') || ($show_links == 'sides')) && ($current == 0)) {
                 if ($row != 0) {
-                    $array[0] = '<A HREF="' . $file . '?pagerRow=' . ($row - 1) . $extra_vars . '">' . $link_str["previous"] . '</A>';
-                } elseif (($row == 0) && ($show_blank == "on")) {
-                    $array[0] = $link_str["previous"];
+                    $array[0] = '<A HREF="' . $file . '?pagerRow=' . ($row - 1) . $extra_vars . '">' . $link_str['previous'] . '</A>';
+                } elseif (($row == 0) && ($show_blank == 'on')) {
+                    $array[0] = $link_str['previous'];
                 }
             }
 
             // check to show page numbering links or not
-            if (($show_links == "all") || ($show_links == "pages")) {
+            if (($show_links == 'all') || ($show_links == 'pages')) {
                 if ($row == $current) {
                     // if we only have one page worth of rows, we should show the '1' page number
-                    if (($current == ($number_of_pages - 1)) && ($number_of_pages == 1) && ($show_blank == "off")) {
-                        $array[0] = "<b>" . ($current > 0 ? ($current + 1) : 1) . "</b>";
+                    if (($current == ($number_of_pages - 1)) && ($number_of_pages == 1) && ($show_blank == 'off')) {
+                        $array[0] = '<b>' . ($current > 0 ? ($current + 1) : 1) . '</b>';
                     } else {
-                        $array[++$subscript] = "<b>" . ($current > 0 ? ($current + 1) : 1) . "</b>";
+                        $array[++$subscript] = '<b>' . ($current > 0 ? ($current + 1) : 1) . '</b>';
                     }
                 } else {
                     $array[++$subscript] = '<A HREF="' . $file . '?pagerRow=' . $current . $extra_vars . '">' . ($current + 1) . '</A>';
@@ -149,11 +151,11 @@ class Pager
             }
 
             // only add the 'Next' link to the array if we are on the last iteration of this loop
-            if ((($show_links == "all") || ($show_links == "sides")) && ($current == ($number_of_pages - 1))) {
+            if ((($show_links == 'all') || ($show_links == 'sides')) && ($current == ($number_of_pages - 1))) {
                 if ($row != ($number_of_pages - 1)) {
-                    $array[++$subscript] = '<A HREF="' . $file . '?pagerRow=' . ($row + 1) . $extra_vars . '">' . $link_str["next"] . '</A>';
-                } elseif (($row == ($number_of_pages - 1)) && ($show_blank == "on")) {
-                    $array[++$subscript] = $link_str["next"];
+                    $array[++$subscript] = '<A HREF="' . $file . '?pagerRow=' . ($row + 1) . $extra_vars . '">' . $link_str['next'] . '</A>';
+                } elseif (($row == ($number_of_pages - 1)) && ($show_blank == 'on')) {
+                    $array[++$subscript] = $link_str['next'];
                 }
             }
         }
@@ -192,7 +194,7 @@ class Pager
         }
         // extra check to make sure
         if (count($temp) == 0) {
-            return "";
+            return '';
         } else {
             return $temp;
         }

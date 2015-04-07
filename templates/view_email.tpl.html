@@ -10,7 +10,7 @@ window.name = '_email' + {$email.sup_id}
 var issue_id = '{$issue_id}';
 var ema_id = '{$email.sup_ema_id}';
 var sup_id = '{$email.sup_id}';
-{literal}
+
 function reply(ema_id, id)
 {
     if (issue_id != '') {
@@ -21,21 +21,21 @@ function reply(ema_id, id)
 }
 function loadReport(id)
 {
-{/literal}
+
     document.writeln('<link rel="stylesheet" href="{$core.rel_url}css/main.css" type="text/css">');
     document.writeln('<span>Please wait a few moments.</span><br />');
     document.writeln('<br /><span>{t}Re-directing the parent window to the issue report page. This window will be closed automatically.{/t}</span>');
     window.opener.location.href = 'new.php?cat=associate&item[]=' + id;
     window.setTimeout('window.close()', 2000);
-{literal}
+
 }
 function associate(f)
 {
     var field = getFormElement(f, 'issue');
     if (field.options[field.selectedIndex].value == 'new') {
-{/literal}
+
         loadReport({$smarty.get.id|intval});
-{literal}
+
     } else {
         var hidden_field = getFormElement(f, 'issue');
         hidden_field.value = field.options[field.selectedIndex].value;
@@ -44,21 +44,21 @@ function associate(f)
 }
 function openRawHeaders()
 {
-{/literal}
+
     var features = 'width=740,height=580,top=60,left=60,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var headersWin = window.open('view_headers.php?id={$smarty.get.id|intval}', '_headers', features);
     headersWin.focus();
-{literal}
+
 }
 function viewEmail(ema_id, id)
 {
-{/literal}
+
 {if $smarty.get.cat|default:'' == 'list_emails'}
     window.location.href = 'view_email.php?cat=list_emails&ema_id=' + ema_id + '&id=' + id;
 {else}
     window.location.href = 'view_email.php?issue_id=' + issue_id + '&ema_id=' + ema_id + '&id=' + id;
 {/if}
-{literal}
+
 }
 function moveMessage()
 {
@@ -67,7 +67,7 @@ function moveMessage()
     var new_ema_id = f.new_ema_id.value;
 
     if (new_ema_id == ema_id) {
-        alert('{/literal}{t escape=js}This message already belongs to that account{/t}{literal}');
+        alert('{t escape=js}This message already belongs to that account{/t}');
         return false;
     }
 
@@ -79,7 +79,7 @@ $().ready(function(e) {
 });
 //-->
 </script>
-{/literal}
+
 {if $move_email_result|default:'' != ''}
 <br />
 <center>

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -28,32 +29,33 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/partners.tpl.html");
+$tpl->setTemplate('manage/partners.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
-$tpl->assign("type", "partners");
+$tpl->assign('type', 'partners');
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
-    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
-    $tpl->displayTemplate();exit;
+    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
+    $tpl->displayTemplate();
+    exit;
 }
 
-if (@$_POST["cat"] == "update") {
+if (@$_POST['cat'] == 'update') {
     $res = Partner::update($_POST['code'], @$_POST['projects']);
-    $tpl->assign("result", $res);
+    $tpl->assign('result', $res);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the partner was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to update the partner information.'), Misc::MSG_ERROR),
     ));
 }
 
-if (@$_GET["cat"] == "edit") {
-    $info = Partner::getDetails($_GET["code"]);
-    $tpl->assign("info", $info);
+if (@$_GET['cat'] == 'edit') {
+    $info = Partner::getDetails($_GET['code']);
+    $tpl->assign('info', $info);
 }
 
-$tpl->assign("list", Partner::getList());
-$tpl->assign("project_list", Project::getAll());
+$tpl->assign('list', Partner::getList());
+$tpl->assign('project_list', Project::getAll());
 
 $tpl->displayTemplate();

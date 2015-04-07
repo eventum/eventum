@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -38,7 +39,6 @@
  */
 class Abstract_Workflow_Backend
 {
-
     /**
      * Interface for using config values within Workflow class.
      *

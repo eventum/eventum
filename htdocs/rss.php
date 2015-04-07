@@ -1,11 +1,12 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -43,24 +44,16 @@ function sendAuthenticateHeader()
     header('HTTP/1.0 401 Unauthorized');
 }
 
-function returnError($msg)
+function rssError($msg)
 {
-    header("Content-Type: text/xml");
-    echo '<?xml version="1.0"?>' . "\n";
-?>
-<rss version="2.0"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
-    xmlns:admin="http://webns.net/mvcb/"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title>Error!</title>
-    <link><?php echo APP_BASE_URL; ?></link>
-    <description><?php echo htmlspecialchars($msg); ?></description>
-  </channel>
-</rss>
-<?php
+    $tpl = new Template_Helper();
+    $tpl->setTemplate('rss_error.tpl.xml');
+
+    header('Content-Type: text/xml; charset=' . APP_CHARSET);
+    $tpl->assign(array(
+        'error' => $msg,
+    ));
+    $tpl->displayTemplate();
 }
 
 /**
@@ -88,79 +81,85 @@ function getAuthData()
 
 /**
  * Authorize request.
- * @return authorized username (email). exits program if failed
  * TODO: translations
  * TODO: ip based control
  */
 function authorizeRequest()
 {
-    $authData = getAuthData();
-    if ($authData === null) {
-        sendAuthenticateHeader();
-        echo 'Error: You are required to authenticate in order to access the requested RSS feed.';
-        exit;
-    }
+    // try current auth cookie
+    $usr_id = Auth::getUserID();
+    if (!$usr_id) {
+        // otherwise setup HTTP Auth headers
+        $authData = getAuthData();
+        if ($authData === null) {
+            sendAuthenticateHeader();
+            echo 'Error: You are required to authenticate in order to access the requested RSS feed.';
+            exit;
+        }
 
-    list($authUser, $authPassword) = $authData;
-    $usr_id = User::getUserIDByEmail($authUser);
+        list($authUser, $authPassword) = $authData;
 
-    // check the authentication
-    if (Validation::isWhitespace($authUser)) {
-        sendAuthenticateHeader();
-        echo 'Error: Please provide your email address.';
-        exit;
-    }
-    if (Validation::isWhitespace($authPassword)) {
-        sendAuthenticateHeader();
-        echo 'Error: Please provide your password.';
-        exit;
-    }
-    // check if user exists
-    if (!Auth::userExists($authUser)) {
-        sendAuthenticateHeader();
-        echo 'Error: The user specified does not exist.';
-        exit;
-    }
-    // check if the password matches
-    if (!Auth::isCorrectPassword($authUser, $authPassword)) {
-        sendAuthenticateHeader();
-        echo 'Error: The provided email address/password combo is not correct.';
-        exit;
-    }
-    // check if this user did already confirm his account
-    if (Auth::isPendingUser($authUser)) {
-        sendAuthenticateHeader();
-        echo 'Error: The provided user still needs to have its account confirmed.';
-        exit;
-    }
-    // check if this user is really an active one
-    if (!Auth::isActiveUser($authUser)) {
-        sendAuthenticateHeader();
-        echo 'Error: The provided user is currently set as an inactive user.';
-        exit;
+        // check the authentication
+        if (Validation::isWhitespace($authUser)) {
+            sendAuthenticateHeader();
+            echo 'Error: Please provide your email address.';
+            exit;
+        }
+        if (Validation::isWhitespace($authPassword)) {
+            sendAuthenticateHeader();
+            echo 'Error: Please provide your password.';
+            exit;
+        }
+
+        // check if user exists
+        if (!Auth::userExists($authUser)) {
+            sendAuthenticateHeader();
+            echo 'Error: The user specified does not exist.';
+            exit;
+        }
+        // check if the password matches
+        if (!Auth::isCorrectPassword($authUser, $authPassword)) {
+            sendAuthenticateHeader();
+            echo 'Error: The provided email address/password combo is not correct.';
+            exit;
+        }
+        // check if this user did already confirm his account
+        if (Auth::isPendingUser($authUser)) {
+            sendAuthenticateHeader();
+            echo 'Error: The provided user still needs to have its account confirmed.';
+            exit;
+        }
+
+        // check if this user is really an active one
+        if (!Auth::isActiveUser($authUser)) {
+            sendAuthenticateHeader();
+            echo 'Error: The provided user is currently set as an inactive user.';
+            exit;
+        }
+
+        $usr_id = User::getUserIDByEmail($authUser);
+        Auth::createFakeCookie($usr_id);
     }
 
     // check if the required parameter 'custom_id' is really being passed
     if (empty($_GET['custom_id'])) {
-        returnError("Error: The required 'custom_id' parameter was not provided.");
+        rssError("Error: The required 'custom_id' parameter was not provided.");
         exit;
     }
 
-    $usr_id = User::getUserIDByEmail($authUser);
     // check if the passed 'custom_id' parameter is associated with the usr_id
     if ((!Filter::isGlobal($_GET['custom_id'])) && (!Filter::isOwner($_GET['custom_id'], $usr_id))) {
-        returnError('Error: The provided custom filter ID is not associated with the given email address.');
+        rssError('Error: The provided custom filter ID is not associated with the given email address.');
         exit;
     }
-
-    return $authUser;
 }
 
-$authUser = authorizeRequest();
+authorizeRequest();
 
-$filter = Filter::getDetails($_GET["custom_id"], false);
+$filter = Filter::getDetails($_GET['custom_id'], false);
 
-Auth::createFakeCookie(User::getUserIDByEmail($authUser), $filter['cst_prj_id']);
+$tpl = new Template_Helper();
+$tpl->setTemplate('rss.tpl.xml');
 
 $options = array(
     'users'         => $filter['cst_users'],
@@ -172,45 +171,19 @@ $options = array(
     'sort_by'       => $filter['cst_sort_by'],
     'sort_order'    => $filter['cst_sort_order'],
     'custom_field'  => $filter['cst_custom_field'],
-    'search_type'   => $filter['cst_search_type']
+    'search_type'   => $filter['cst_search_type'],
 );
 $issues = Search::getListing($filter['cst_prj_id'], $options, 0, 'ALL', true);
 $issues = $issues['list'];
-$project_title = Project::getName($filter['cst_prj_id']);
 Issue::getDescriptionByIssues($issues);
 
-# TODO: reporter is not present
+$tpl->assign(array(
+    'charset' => APP_CHARSET,
+    'project_title' => Project::getName($filter['cst_prj_id']),
+    'setup' => $setup,
+    'filter' => $filter,
+    'issues' => $issues,
+));
 
-Header("Content-Type: text/xml; charset=" . APP_CHARSET);
-echo '<?xml version="1.0" encoding="'. APP_CHARSET .'"?>' . "\n";
-?>
-<rss version="2.0"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
-    xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
-    xmlns:admin="http://webns.net/mvcb/"
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns:content="http://purl.org/rss/1.0/modules/content/">
-  <channel>
-    <title><?php echo htmlspecialchars($setup['tool_caption']); ?>
-    - <?php echo htmlspecialchars($filter['cst_title']); ?></title>
-    <link><?php echo APP_BASE_URL; ?></link>
-    <description>List of issues</description>
-<?php foreach ($issues as $issue) { ?>
-    <item>
-      <title><?php echo '#' . $issue['iss_id'] . " - " . htmlspecialchars($issue['iss_summary']); ?></title>
-      <link><?php echo APP_BASE_URL . "view.php?id=" . $issue['iss_id']; ?></link>
-      <description>
-      Project: <?php echo htmlspecialchars($project_title); ?>&lt;BR&gt;&lt;BR&gt;
-      Assignment: <?php echo htmlspecialchars($issue['assigned_users']); ?>&lt;BR&gt;
-      Status: <?php echo htmlspecialchars($issue['sta_title']); ?>&lt;BR&gt;
-      Priority: <?php echo htmlspecialchars($issue['pri_title']); ?>&lt;BR&gt;
-      Category: <?php echo htmlspecialchars($issue['prc_title']); ?>&lt;BR&gt;
-      &lt;BR&gt;<?php echo htmlspecialchars(Link_Filter::activateLinks(nl2br($issue['iss_description']))); ?>&lt;BR&gt;
-      </description>
-      <author><?php echo htmlspecialchars($issue['reporter']); ?></author>
-      <pubDate><?php echo Date_Helper::getRFC822Date($issue['iss_created_date'], "GMT"); ?></pubDate>
-    </item>
-<?php } ?>
-
-  </channel>
-</rss>
+header('Content-Type: text/xml; charset=' . APP_CHARSET);
+$tpl->displayTemplate();

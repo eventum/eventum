@@ -4,16 +4,16 @@
 
 {block "content"}
 
-{literal}
+
 <script type="text/javascript">
 <!--
 function validateForm()
 {
     if (Validation.isFieldWhitespace(Eventum.getField('email'))) {
-        Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Email Address{/t}{literal}', 'email');
+        Validation.errors[Validation.errors.length] = new Option('{t escape=js}Email Address{/t}', 'email');
     }
     if (Validation.isFieldWhitespace(Eventum.getField('passwd'))) {
-        Validation.errors[Validation.errors.length] = new Option('{/literal}{t escape=js}Password{/t}{literal}', 'passwd');
+        Validation.errors[Validation.errors.length] = new Option('{t escape=js}Password{/t}', 'passwd');
     }
 }
 $().ready(function() {
@@ -21,7 +21,7 @@ $().ready(function() {
 });
 //-->
 </script>
-{/literal}
+
 <form id="login_form" method="post" action="login.php" class="validate" data-validation-function="validateForm">
 <input type="hidden" name="cat" value="login">
 <input type="hidden" name="url" value="{$smarty.request.url|default     :''}">

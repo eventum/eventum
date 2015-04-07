@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -29,10 +30,10 @@
 
 class Product
 {
-    public static function getList($include_removed=null)
+    public static function getList($include_removed = null)
     {
         $params = array();
-        $sql = "SELECT
+        $sql = 'SELECT
                     pro_id,
                     pro_title,
                     pro_version_howto,
@@ -40,16 +41,16 @@ class Product
                     pro_removed,
                     pro_email
                 FROM
-                    {{%product}}";
+                    {{%product}}';
         if ($include_removed !== null) {
-            $sql .= "
+            $sql .= '
                 WHERE
-                    pro_removed = ?";
+                    pro_removed = ?';
             $params[] = $include_removed;
         }
-        $sql .= "
+        $sql .= '
                 ORDER BY
-                    pro_rank";
+                    pro_rank';
         try {
             $res = DB_Helper::getInstance()->getAll($sql, $params);
         } catch (DbException $e) {
@@ -59,7 +60,7 @@ class Product
         return $res;
     }
 
-    public static function getAssocList($removed=null)
+    public static function getAssocList($removed = null)
     {
         $list = self::getList($removed);
         $return = array();
@@ -76,14 +77,14 @@ class Product
             $removed = 0;
         }
         $params = array($title, $version_howto, $rank, $removed, $email);
-        $sql = "INSERT INTO
+        $sql = 'INSERT INTO
                     {{%product}}
                 SET
                     pro_title = ?,
                     pro_version_howto = ?,
                     pro_rank = ?,
                     pro_removed = ?,
-                    pro_email = ?";
+                    pro_email = ?';
         try {
             DB_Helper::getInstance()->query($sql, $params);
         } catch (DbException $e) {
@@ -99,7 +100,7 @@ class Product
             $removed = 0;
         }
         $params = array($title, $version_howto, $rank, $removed, $email, $id);
-        $sql = "UPDATE
+        $sql = 'UPDATE
                     {{%product}}
                 SET
                     pro_title = ?,
@@ -108,7 +109,7 @@ class Product
                     pro_removed = ?,
                     pro_email = ?
                 WHERE
-                    pro_id = ?";
+                    pro_id = ?';
         try {
             DB_Helper::getInstance()->query($sql, $params);
         } catch (DbException $e) {
@@ -120,10 +121,10 @@ class Product
 
     public static function remove($ids)
     {
-        $sql = "DELETE FROM
+        $sql = 'DELETE FROM
                     {{%product}}
                 WHERE
-                    pro_id IN (" . DB_Helper::buildList($ids) . ")";
+                    pro_id IN (' . DB_Helper::buildList($ids) . ')';
 
         try {
             DB_Helper::getInstance()->query($sql, $ids);
@@ -136,7 +137,7 @@ class Product
 
     public static function getDetails($pro_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     pro_id,
                     pro_title,
                     pro_version_howto,
@@ -146,7 +147,7 @@ class Product
                 FROM
                     {{%product}}
                 WHERE
-                    pro_id = ?";
+                    pro_id = ?';
 
         try {
             $res = DB_Helper::getInstance()->getRow($sql, array($pro_id));
@@ -166,12 +167,12 @@ class Product
 
     public static function addIssueProductVersion($issue_id, $pro_id, $version)
     {
-        $sql = "INSERT INTO
+        $sql = 'INSERT INTO
                     {{%issue_product_version}}
                 SET
                     ipv_iss_id = ?,
                     ipv_pro_id = ?,
-                    ipv_version = ?";
+                    ipv_version = ?';
         $params = array($issue_id, $pro_id, $version);
         try {
             DB_Helper::getInstance()->query($sql, $params);
@@ -184,7 +185,7 @@ class Product
 
     public static function getProductsByIssue($issue_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     ipv_id,
                     pro_id,
                     pro_title as product,
@@ -195,7 +196,7 @@ class Product
                     {{%product}}
                 WHERE
                     ipv_pro_id = pro_id AND
-                    ipv_iss_id = ?";
+                    ipv_iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getAll($sql, array($issue_id));
         } catch (DbException $e) {
@@ -229,25 +230,24 @@ class Product
         }
 
         return $changes;
-
     }
 
     public static function updateProductAndVersion($ipv_id, $pro_id, $version)
     {
         if ($pro_id == -1) {
-            $sql = "DELETE FROM
+            $sql = 'DELETE FROM
                         {{%issue_product_version}}
                     WHERE
-                        ipv_id = ?";
+                        ipv_id = ?';
             $params = array($ipv_id);
         } else {
-            $sql = "UPDATE
+            $sql = 'UPDATE
                         {{%issue_product_version}}
                     SET
                         ipv_pro_id = ?,
                         ipv_version = ?
                     WHERE
-                        ipv_id = ?";
+                        ipv_id = ?';
             $params = array($pro_id, $version, $ipv_id);
         }
         try {

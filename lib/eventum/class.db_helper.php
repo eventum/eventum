@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -64,8 +65,8 @@ class DB_Helper
                 throw $e;
             }
             /** @global $error_type */
-            $error_type = "db";
-            require_once APP_PATH . "/htdocs/offline.php";
+            $error_type = 'db';
+            require_once APP_PATH . '/htdocs/offline.php';
             exit(2);
         }
 
@@ -146,7 +147,7 @@ class DB_Helper
      */
     public static function get_last_insert_id()
     {
-        $stmt = "SELECT last_insert_id()";
+        $stmt = 'SELECT last_insert_id()';
         $res = (integer) DB_Helper::getInstance()->getOne($stmt);
 
         return $res;
@@ -190,7 +191,7 @@ class DB_Helper
             $partial[] = "$key=?";
         }
 
-        return join(", ", $partial);
+        return implode(', ', $partial);
     }
 
     /**
@@ -201,7 +202,7 @@ class DB_Helper
      */
     public static function buildList($params)
     {
-        return join(', ', array_fill(0, count($params), '?'));
+        return implode(', ', array_fill(0, count($params), '?'));
     }
 
     /**
@@ -211,9 +212,9 @@ class DB_Helper
      * @param string $default
      * @return string
      */
-    public static function orderBy($order, $default = "DESC")
+    public static function orderBy($order, $default = 'DESC')
     {
-        if (!in_array(strtoupper($order), array("ASC", "DESC"))) {
+        if (!in_array(strtoupper($order), array('ASC', 'DESC'))) {
             return $default;
         }
 
@@ -254,7 +255,7 @@ class DB_Helper
             ELSE 0
         END)";
 
-        return str_replace("\n", " ", $sql);
+        return str_replace("\n", ' ', $sql);
     }
 
     public static function fatalDBError($e)
@@ -262,8 +263,8 @@ class DB_Helper
         /** @var $e PEAR_Error */
         Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), __FILE__, __LINE__);
         /** @global $error_type  */
-        $error_type = "db";
-        require_once APP_PATH . "/htdocs/offline.php";
+        $error_type = 'db';
+        require_once APP_PATH . '/htdocs/offline.php';
         exit(2);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -81,7 +82,7 @@ class Stats
         $list = Category::getAssocList($prj_id);
         $stats = array();
         foreach ($list as $prc_id => $prc_title) {
-            $stmt = "SELECT
+            $stmt = 'SELECT
                         COUNT(*) AS total_items
                      FROM
                         {{%issue}},
@@ -89,10 +90,10 @@ class Stats
                      WHERE
                         iss_sta_id = sta_id AND
                         iss_prj_id=? AND
-                        iss_prc_id=?";
+                        iss_prc_id=?';
             if ($hide_closed) {
-                $stmt .= " AND
-                        sta_is_closed = 0";
+                $stmt .= ' AND
+                        sta_is_closed = 0';
             }
 
             $res = (integer) DB_Helper::getInstance()->getOne($stmt, array($prj_id, $prc_id));
@@ -118,7 +119,7 @@ class Stats
         $list = Release::getAssocList($prj_id);
         $stats = array();
         foreach ($list as $pre_id => $pre_title) {
-            $stmt = "SELECT
+            $stmt = 'SELECT
                         COUNT(*) AS total_items
                      FROM
                         {{%issue}},
@@ -126,10 +127,10 @@ class Stats
                      WHERE
                         iss_sta_id = sta_id AND
                         iss_prj_id=? AND
-                        iss_pre_id=?";
+                        iss_pre_id=?';
             if ($hide_closed) {
-                $stmt .= " AND
-                        sta_is_closed = 0";
+                $stmt .= ' AND
+                        sta_is_closed = 0';
             }
             $res = (integer) DB_Helper::getInstance()->getOne($stmt, array($prj_id, $pre_id));
             if ($res > 0) {
@@ -154,7 +155,7 @@ class Stats
         $list = Status::getAssocStatusList($prj_id);
         $stats = array();
         foreach ($list as $sta_id => $sta_title) {
-            $stmt = "SELECT
+            $stmt = 'SELECT
                         COUNT(*) AS total_items
                      FROM
                         {{%issue}},
@@ -162,10 +163,10 @@ class Stats
                      WHERE
                         iss_sta_id = sta_id AND
                         iss_prj_id=? AND
-                        iss_sta_id=?";
+                        iss_sta_id=?';
             if ($hide_closed) {
-                $stmt .= " AND
-                        sta_is_closed = 0";
+                $stmt .= ' AND
+                        sta_is_closed = 0';
             }
             $res = (integer) DB_Helper::getInstance()->getOne($stmt, array($prj_id, $sta_id));
             if ($res > 0) {
@@ -187,7 +188,7 @@ class Stats
     public static function getStatus($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     DISTINCT iss_sta_id,
                     sta_title,
                     COUNT(*) AS total_items
@@ -196,20 +197,20 @@ class Stats
                     {{%status}}
                  WHERE
                     iss_sta_id=sta_id AND
-                    iss_prj_id=?";
-            if ($hide_closed) {
-                $stmt .= " AND
-                        sta_is_closed = 0";
-            }
-            $stmt .= "
+                    iss_prj_id=?';
+        if ($hide_closed) {
+            $stmt .= ' AND
+                        sta_is_closed = 0';
+        }
+        $stmt .= '
                  GROUP BY
                     iss_sta_id
                  ORDER BY
-                    total_items DESC";
+                    total_items DESC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -225,7 +226,7 @@ class Stats
     public static function getCategory($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     DISTINCT iss_prc_id,
                     prc_title,
                     SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
@@ -237,20 +238,20 @@ class Stats
                  WHERE
                     iss_prj_id=? AND
                     iss_prc_id=prc_id AND
-                    iss_sta_id=sta_id";
+                    iss_sta_id=sta_id';
         if ($hide_closed) {
-            $stmt .= " AND
-                    sta_is_closed = 0";
+            $stmt .= ' AND
+                    sta_is_closed = 0';
         }
-        $stmt .= "
+        $stmt .= '
                  GROUP BY
                     iss_prc_id
                  ORDER BY
-                    total_open_items";
+                    total_open_items';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -266,7 +267,7 @@ class Stats
     public static function getRelease($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     DISTINCT iss_pre_id,
                     pre_title,
                     SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
@@ -278,20 +279,20 @@ class Stats
                  WHERE
                     iss_prj_id=? AND
                     iss_pre_id=pre_id AND
-                    iss_sta_id=sta_id";
+                    iss_sta_id=sta_id';
         if ($hide_closed) {
-            $stmt .= " AND
-                    sta_is_closed = 0";
+            $stmt .= ' AND
+                    sta_is_closed = 0';
         }
-        $stmt .= "
+        $stmt .= '
                  GROUP BY
                     iss_pre_id
                  ORDER BY
-                    total_open_items DESC";
+                    total_open_items DESC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -310,7 +311,7 @@ class Stats
         $list = Priority::getAssocList($prj_id);
         $stats = array();
         foreach ($list as $pri_id => $pri_title) {
-            $stmt = "SELECT
+            $stmt = 'SELECT
                         COUNT(*) AS total_items
                      FROM
                         {{%issue}},
@@ -318,10 +319,10 @@ class Stats
                      WHERE
                         iss_sta_id = sta_id AND
                         iss_prj_id=? AND
-                        iss_pri_id=?";
+                        iss_pri_id=?';
             if ($hide_closed) {
-                $stmt .= " AND
-                        sta_is_closed = 0";
+                $stmt .= ' AND
+                        sta_is_closed = 0';
             }
             $res = (integer) DB_Helper::getInstance()->getOne($stmt, array($prj_id, $pri_id));
             if ($res > 0) {
@@ -343,7 +344,7 @@ class Stats
     public static function getPriority($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     DISTINCT iss_pri_id,
                     pri_title,
                     SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
@@ -355,20 +356,20 @@ class Stats
                  WHERE
                     iss_pri_id=pri_id AND
                     iss_sta_id=sta_id AND
-                    iss_prj_id=?";
+                    iss_prj_id=?';
         if ($hide_closed) {
-            $stmt .= " AND
-                    sta_is_closed = 0";
+            $stmt .= ' AND
+                    sta_is_closed = 0';
         }
-        $stmt .= "
+        $stmt .= '
                  GROUP BY
                     iss_pri_id
                  ORDER BY
-                    total_open_items DESC";
+                    total_open_items DESC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -387,7 +388,7 @@ class Stats
         $list = Project::getUserAssocList($prj_id, 'stats', User::getRoleID('Customer'));
         $stats = array();
         foreach ($list as $usr_id => $usr_full_name) {
-            $stmt = "SELECT
+            $stmt = 'SELECT
                         COUNT(*) AS total_items
                      FROM
                         {{%issue}},
@@ -397,10 +398,10 @@ class Stats
                         iss_sta_id = sta_id AND
                         isu_iss_id=iss_id AND
                         iss_prj_id=? AND
-                        isu_usr_id=?";
+                        isu_usr_id=?';
             if ($hide_closed) {
-                $stmt .= " AND
-                        sta_is_closed = 0";
+                $stmt .= ' AND
+                        sta_is_closed = 0';
             }
             $res = (integer) DB_Helper::getInstance()->getOne($stmt, array($prj_id, $usr_id));
             if ($res > 0) {
@@ -422,7 +423,7 @@ class Stats
     public static function getUser($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     DISTINCT isu_usr_id,
                     usr_full_name,
                     SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
@@ -436,20 +437,20 @@ class Stats
                     isu_usr_id=usr_id AND
                     isu_iss_id=iss_id AND
                     iss_prj_id=? AND
-                    iss_sta_id=sta_id";
+                    iss_sta_id=sta_id';
         if ($hide_closed) {
-            $stmt .= " AND
-                    sta_is_closed = 0";
+            $stmt .= ' AND
+                    sta_is_closed = 0';
         }
-        $stmt .= "
+        $stmt .= '
                  GROUP BY
                     isu_usr_id
                  ORDER BY
-                    total_open_items DESC";
+                    total_open_items DESC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -479,7 +480,7 @@ class Stats
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         if (empty($res['associated'])) {
@@ -488,7 +489,7 @@ class Stats
         if (empty($res['unassociated'])) {
             $res['unassociated'] = 0;
         }
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(*) AS total_items
                  FROM
                     {{%support_email}},
@@ -496,17 +497,17 @@ class Stats
                  WHERE
                     sup_ema_id=ema_id AND
                     ema_prj_id=? AND
-                    sup_removed=1";
+                    sup_removed=1';
         try {
             $res3 = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return array(
-            "pending"    => $res['unassociated'],
-            "associated" => $res['associated'],
-            "removed"    => $res3
+            'pending'    => $res['unassociated'],
+            'associated' => $res['associated'],
+            'removed'    => $res3,
         );
     }
 }

@@ -30,7 +30,7 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 if (APP_AUTH_BACKEND != 'ldap_auth_backend') {
-    error_log("You should enable and configure LDAP backend first");
+    error_log('You should enable and configure LDAP backend first');
     exit(1);
 }
 
@@ -38,8 +38,8 @@ if (APP_AUTH_BACKEND != 'ldap_auth_backend') {
  * Get the new user information from the LDAP servers
  */
 
-$active_dn = "ou=People,dc=example,dc=net";
-$inactive_dn = "ou=Inactive Accounts,dc=example,dc=net";
+$active_dn = 'ou=People,dc=example,dc=net';
+$inactive_dn = 'ou=Inactive Accounts,dc=example,dc=net';
 
 $backend = new LDAP_Auth_Backend();
 $search = $backend->getUserListing();

@@ -12,28 +12,28 @@
 </span>
 </center>
 {else}
-{literal}
+
 <script type="text/javascript">
 <!--
 function validateForm()
 {
     if (Validation.isFieldWhitespace('full_name')) {
-        alert('{/literal}{t escape=js}Please enter your full name.{/t}{literal}');
+        alert('{t escape=js}Please enter your full name.{/t}');
         Validation.selectField('full_name');
         return false;
     }
     if (Validation.isFieldWhitespace('email')) {
-        alert('{/literal}{t escape=js}Please enter your email address.{/t}{literal}');
+        alert('{t escape=js}Please enter your email address.{/t}');
         Validation.selectField('email');
         return false;
     }
     if (!Validation.isEmail(Eventum.getField('email').val())) {
-        alert('{/literal}{t escape=js}Please enter a valid email address.{/t}{literal}');
+        alert('{t escape=js}Please enter a valid email address.{/t}');
         Validation.selectField('email');
         return false;
     }
     if (Validation.isFieldWhitespace('passwd')) {
-        alert('{/literal}{t escape=js}Please enter your password.{/t}{literal}');
+        alert('{t escape=js}Please enter your password.{/t}');
         Validation.selectField('passwd');
         return false;
     }
@@ -44,7 +44,7 @@ $().ready(function() {
 });
 //-->
 </script>
-{/literal}
+
 <form id="signup_form" method="post" action="signup.php">
 <input type="hidden" name="cat" value="signup">
       <table class="bordered medium">

@@ -74,13 +74,4 @@
 			</batchtest>
 		</phpunit>
 	</target>
-
-	<import file="pear.xml"/>
-	<target name="pear" description="Create PEAR package.">
-		<echo msg="Creating PEAR package"/>
-		<phingcall target="make">
-			<property name="name" value="${name}" />
-			<property name="version" value="${version}" />
-		</phingcall>
-	</target>
 </project>

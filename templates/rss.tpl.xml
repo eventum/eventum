@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="{$charset}" ?>
+<rss version="2.0"
+	 xmlns:dc="http://purl.org/dc/elements/1.1/"
+	 xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	 xmlns:admin="http://webns.net/mvcb/"
+	 xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	 xmlns:content="http://purl.org/rss/1.0/modules/content/">
+	<channel>
+		<title>{$setup.tool_caption|escape:html}
+			- {$filter.cst_title|escape:html}</title>
+		<link>{$core.base_url}</link>
+		<description>List of issues</description>
+
+		{foreach key=issue_id item=issue from=$issues}
+
+		<item>
+			<title>#{$issue.iss_id} - {$issue.iss_summary|escape:html}</title>
+			<link>{$core.base_url}view.php?id={$issue.iss_id}</link>
+			<description>
+				Project: {$project_title|escape:html}&lt;BR&gt;&lt;BR&gt;
+				Assignment: {$issue.assigned_users|escape:html}&lt;BR&gt;
+				Status: {$issue.sta_title}&lt;BR&gt;
+				Priority: {$issue.pri_title}&lt;BR&gt;
+				Category: {$issue.prc_title}&lt;BR&gt;
+				&lt;BR&gt;
+				{$issue.iss_description|nl2br|activateLinks:"link"|escape:html}&lt;BR&gt;
+			</description>
+			<author>{* FIXME: reporter is not present
+				{$issue.reporter|escape:html} *}</author>
+			{*
+			<?php echo Date_Helper::getRFC822Date($issue['iss_created_date'], "GMT");
+				{$issue.iss_created_date|Date_Helper::getRFC822Date:"GMT"}
+			*}
+			<pubDate>{$issue.iss_created_date}</pubDate>
+		</item>
+		{/foreach}
+
+	</channel>
+</rss>

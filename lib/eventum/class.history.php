@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -77,7 +78,7 @@ class History
             $params['his_is_hidden'] = 1;
         }
 
-        $stmt = "INSERT INTO {{%issue_history}} SET ". DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO {{%issue_history}} SET '. DB_Helper::buildSet($params);
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -111,13 +112,13 @@ class History
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         foreach ($res as &$row) {
-            $row["his_created_date"] = Date_Helper::getFormattedDate($row["his_created_date"]);
-            $t = Mime_Helper::fixEncoding(htmlspecialchars($row["his_summary"]));
-            $row["his_summary"] = Link_Filter::processText(Auth::getCurrentProject(), $t);
+            $row['his_created_date'] = Date_Helper::getFormattedDate($row['his_created_date']);
+            $t = Mime_Helper::fixEncoding(htmlspecialchars($row['his_summary']));
+            $row['his_summary'] = Link_Filter::processText(Auth::getCurrentProject(), $t);
         }
 
         return $res;
@@ -132,7 +133,7 @@ class History
      */
     public static function removeByIssues($ids)
     {
-        $items = implode(", ", $ids);
+        $items = implode(', ', $ids);
         $stmt = "DELETE FROM
                     {{%issue_history}}
                  WHERE
@@ -170,11 +171,11 @@ class History
                  FROM
                     {{%history_type}}
                  WHERE
-                    htt_name IN('" . join("','", $name) . "')";
+                    htt_name IN('" . implode("','", $name) . "')";
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
-            return "unknown";
+            return 'unknown';
         }
 
         if (count($name) == 1) {
@@ -210,7 +211,7 @@ class History
             ), $htt_exclude)
         );
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_id,
                     iss_prj_id,
                     iss_summary,
@@ -234,32 +235,32 @@ class History
                     his_iss_id = iss_id AND
                     his_usr_id = ? AND
                     his_created_date BETWEEN ? AND ? AND
-                    his_htt_id NOT IN(" . join(',', $htt_list) . ") AND
+                    his_htt_id NOT IN(' . implode(',', $htt_list) . ') AND
                     iss_prj_id = ?
                  GROUP BY
                     iss_id
                  ORDER BY
-                    iss_id ASC";
+                    iss_id ASC';
         $params = array($usr_id, $start, $end, Auth::getCurrentProject());
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         $data = array(
-            "no_time"   =>  array(),
-            "not_mine"  =>  array(),
-            "closed"    =>  array(),
-            "other"     =>  array()
+            'no_time'   =>  array(),
+            'not_mine'  =>  array(),
+            'closed'    =>  array(),
+            'other'     =>  array(),
         );
         if (count($res) > 0) {
             if (isset($_REQUEST['show_per_issue'])) {
                 Time_Tracking::fillTimeSpentByIssueAndTime($res, $usr_id, $start, $end);
             }
             foreach ($res as $row) {
-                if ((!empty($row["iss_customer_id"])) && (CRM::hasCustomerIntegration($row['iss_prj_id']))) {
-                    $row["customer_name"] = CRM::getCustomerName($row["iss_prj_id"], $row["iss_customer_id"]);
+                if ((!empty($row['iss_customer_id'])) && (CRM::hasCustomerIntegration($row['iss_prj_id']))) {
+                    $row['customer_name'] = CRM::getCustomerName($row['iss_prj_id'], $row['iss_customer_id']);
                 }
                 if (($separate_closed) && ($row['sta_is_closed'] == 1)) {
                     $data['closed'][] = $row;
@@ -272,7 +273,7 @@ class History
                 }
             }
             $sort_function = function ($a, $b) {
-                return strcasecmp($a["customer_name"], $b["customer_name"]);
+                return strcasecmp($a['customer_name'], $b['customer_name']);
             };
             usort($data['closed'], $sort_function);
             usort($data['other'], $sort_function);
@@ -292,7 +293,7 @@ class History
      */
     public static function getTouchedIssueCountByStatus($usr_id, $start, $end, $statuses = false)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sta_title,
                     count(DISTINCT iss_id) as total
                  FROM
@@ -304,19 +305,19 @@ class History
                     iss_sta_id = sta_id AND
                     iss_prj_id = ? AND
                     his_usr_id = ? AND
-                    his_created_date BETWEEN ? AND ?";
+                    his_created_date BETWEEN ? AND ?';
         if ($statuses != false) {
             $stmt .= " AND
                     (
-                        sta_abbreviation IN('" . join("','", $statuses) . "') OR
+                        sta_abbreviation IN('" . implode("','", $statuses) . "') OR
                         sta_is_closed = 1
                     )";
         }
-        $stmt .= "
+        $stmt .= '
                  GROUP BY
                     sta_title
                  ORDER BY
-                    sta_rank";
+                    sta_rank';
         $params = array(Auth::getCurrentProject(), $usr_id, $start, $end);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
@@ -340,7 +341,7 @@ class History
      */
     public function getHistoryByUser($usr_id, $start, $end, $htt_id = null)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     his_id,
                     his_iss_id,
                     his_created_date,
@@ -350,12 +351,12 @@ class History
                     {{%issue_history}}
                  WHERE
                     his_usr_id = ? AND
-                    his_created_date BETWEEN ? AND ?";
+                    his_created_date BETWEEN ? AND ?';
 
-        $params = array($usr_id, date("Y/m/d", $start), date("Y/m/d", $end));
+        $params = array($usr_id, date('Y/m/d', $start), date('Y/m/d', $end));
 
         if ($htt_id) {
-            $stmt .= "AND his_htt_id IN (" . DB_Helper::buildList($htt_id) . ")";
+            $stmt .= 'AND his_htt_id IN (' . DB_Helper::buildList($htt_id) . ')';
             $params = array_merge($params, $htt_id);
         }
 
@@ -376,7 +377,7 @@ class History
      */
     public static function getIssueCloser($issue_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     his_usr_id
                 FROM
                     {{%issue_history}}
@@ -385,7 +386,7 @@ class History
                     his_htt_id = ?
                 ORDER BY
                     his_created_date DESC
-                LIMIT 1";
+                LIMIT 1';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id, self::getTypeID('issue_closed')));
         } catch (DbException $e) {

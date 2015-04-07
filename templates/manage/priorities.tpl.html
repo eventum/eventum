@@ -2,16 +2,16 @@
 
 {block "manage_content"}
 
-{literal}
+
 <script type="text/javascript">
     <!--
     function checkDelete()
     {
         if (!Validation.hasOneChecked('items[]')) {
-            alert('{/literal}{t escape=js}Please select at least one of the priorities.{/t}{literal}');
+            alert('{t escape=js}Please select at least one of the priorities.{/t}');
             return false;
         }
-        if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
+        if (!confirm('{t escape=js}This action will remove the selected entries.{/t}')) {
             return false;
         } else {
             return true;
@@ -21,12 +21,12 @@
     {
         if (Validation.isFieldWhitespace('title')) {
             Validation.selectField('title');
-            alert('{/literal}{t escape=js}Please enter the title of this priority{/t}{literal}');
+            alert('{t escape=js}Please enter the title of this priority{/t}');
             return false;
         }
         if (Validation.isFieldWhitespace('rank')) {
             Validation.selectField('rank');
-            alert('{/literal}{t escape=js}Please enter the rank of this priority{/t}{literal}');
+            alert('{t escape=js}Please enter the rank of this priority{/t}');
             return false;
         }
         return true;
@@ -39,7 +39,7 @@
     });
     //-->
 </script>
-{/literal}
+
 <form id="priority_form" method="post">
     <input type="hidden" name="prj_id" value="{$project.prj_id}">
     {if $smarty.get.cat|default:'' == 'edit'}

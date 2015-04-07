@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,23 +31,23 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("history.tpl.html");
+$tpl->setTemplate('history.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
-$iss_id = $_GET["iss_id"];
+$iss_id = $_GET['iss_id'];
 if (!Access::canViewHistory($iss_id, Auth::getUserID())) {
-    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;
 }
 
-$tpl->assign("changes", History::getListing($iss_id));
+$tpl->assign('changes', History::getListing($iss_id));
 $tpl->assign('issue_id', $iss_id);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id > User::getRoleID('Customer')) {
-    $tpl->assign("reminders", Reminder::getHistoryList($_GET["iss_id"]));
+    $tpl->assign('reminders', Reminder::getHistoryList($_GET['iss_id']));
 }
 
 $tpl->displayTemplate();

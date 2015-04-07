@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -56,7 +57,7 @@ class Session
      * @param   mixed  $default What should be returned if the named variabe is not set
      * @return  mixed The session variable.
      */
-    public static function get($name, $default=null)
+    public static function get($name, $default = null)
     {
         if (self::is_set($name)) {
             return $_SESSION[$name];

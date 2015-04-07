@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,17 +31,17 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("notification.tpl.html");
+$tpl->setTemplate('notification.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
-$issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
-$tpl->assign("issue_id", $issue_id);
+$issue_id = @$_POST['issue_id'] ? $_POST['issue_id'] : $_GET['iss_id'];
+$tpl->assign('issue_id', $issue_id);
 
 if (!Access::canViewNotificationList($issue_id, Auth::getUserID())) {
-    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;
 }
@@ -51,35 +52,35 @@ $res = array();
 foreach ($default as $action) {
     $res[$action] = 1;
 }
-$tpl->assign("default_actions", $res);
+$tpl->assign('default_actions', $res);
 
-if (@$_POST["cat"] == "insert") {
+if (@$_POST['cat'] == 'insert') {
     $res = Notification::subscribeEmail($usr_id, $issue_id, $_POST['email'], $_POST['actions']);
     if ($res == 1) {
-        Misc::setMessage(ev_gettext("Thank you, the email has been subscribed to the issue."));
+        Misc::setMessage(ev_gettext('Thank you, the email has been subscribed to the issue.'));
     }
-} elseif (@$_GET["cat"] == "edit") {
-    $res = Notification::getDetails($_GET["id"]);
-    $tpl->assign("info", $res);
-} elseif (@$_POST["cat"] == "update") {
-    $res = Notification::update($_POST["id"]);
+} elseif (@$_GET['cat'] == 'edit') {
+    $res = Notification::getDetails($_GET['id']);
+    $tpl->assign('info', $res);
+} elseif (@$_POST['cat'] == 'update') {
+    $res = Notification::update($_POST['id']);
     if ($res == 1) {
-        Misc::setMessage(ev_gettext("Thank you, the notification entry was updated successfully."));
+        Misc::setMessage(ev_gettext('Thank you, the notification entry was updated successfully.'));
     } elseif ($res == -1) {
-        Misc::setMessage(ev_gettext("An error occurred while trying to update the notification entry."), Misc::MSG_ERROR);
+        Misc::setMessage(ev_gettext('An error occurred while trying to update the notification entry.'), Misc::MSG_ERROR);
     } elseif ($res == -2) {
-        Misc::setMessage(ev_gettext("Error: the given email address is not allowed to be added to the notification list."), Misc::MSG_ERROR);
+        Misc::setMessage(ev_gettext('Error: the given email address is not allowed to be added to the notification list.'), Misc::MSG_ERROR);
     }
-} elseif (@$_POST["cat"] == "delete") {
-    $res = Notification::remove($_POST["items"]);
+} elseif (@$_POST['cat'] == 'delete') {
+    $res = Notification::remove($_POST['items']);
     if ($res == 1) {
-        Misc::setMessage(ev_gettext("Thank you, the items have been deleted."));
+        Misc::setMessage(ev_gettext('Thank you, the items have been deleted.'));
     }
 }
 
-$tpl->assign("list", Notification::getSubscriberListing($issue_id));
+$tpl->assign('list', Notification::getSubscriberListing($issue_id));
 $t = Project::getAddressBook($prj_id, $issue_id);
-$tpl->assign("assoc_users", $t);
-$tpl->assign("allowed_emails", Project::getAddressBookEmails($prj_id, $issue_id));
+$tpl->assign('assoc_users', $t);
+$tpl->assign('allowed_emails', Project::getAddressBookEmails($prj_id, $issue_id));
 
 $tpl->displayTemplate();

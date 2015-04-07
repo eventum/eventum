@@ -288,7 +288,7 @@ abstract class CRM
      */
     public static function getBackendList()
     {
-        $files = Misc::getFileList(APP_INC_PATH . "crm/");
+        $files = Misc::getFileList(APP_INC_PATH . 'crm/');
         $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/crm'));
         $list = array();
         for ($i = 0; $i < count($files); $i++) {
@@ -313,13 +313,13 @@ abstract class CRM
             return $backends[$prj_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     prj_id,
                     prj_customer_backend
                  FROM
                     {{%project}}
                  ORDER BY
-                    prj_id";
+                    prj_id';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
@@ -358,13 +358,13 @@ abstract class CRM
      */
     private static function getBackend($backend_class, $prj_id)
     {
-        $file_name_chunks = explode(".", $backend_class);
+        $file_name_chunks = explode('.', $backend_class);
         $class_name = $file_name_chunks[1];
 
         if (file_exists(APP_LOCAL_PATH . "/crm/$class_name/$backend_class")) {
-            require_once APP_LOCAL_PATH . "/crm/" . $class_name . "/$backend_class";
+            require_once APP_LOCAL_PATH . '/crm/' . $class_name . "/$backend_class";
         } else {
-            require_once APP_INC_PATH . "/crm/backends/" . $class_name . "/$backend_class";
+            require_once APP_INC_PATH . '/crm/backends/' . $class_name . "/$backend_class";
         }
 
         $backend = new $class_name();
@@ -382,7 +382,7 @@ abstract class CRM
      */
     public static function getAccountManagerList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     cam_id,
                     cam_prj_id,
                     cam_customer_id,
@@ -392,11 +392,11 @@ abstract class CRM
                     {{%customer_account_manager}},
                     {{%user}}
                  WHERE
-                    cam_usr_id=usr_id";
+                    cam_usr_id=usr_id';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         for ($i = 0; $i < count($res); $i++) {
@@ -404,7 +404,8 @@ abstract class CRM
             try {
                 $customer = $crm->getCustomer($res[$i]['cam_customer_id']);
                 $res[$i]['customer_title'] = $customer->getName();
-            } catch (CRMException $e) {}
+            } catch (CRMException $e) {
+            }
         }
 
         return $res;
@@ -419,7 +420,7 @@ abstract class CRM
      */
     public static function insertAccountManager()
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%customer_account_manager}}
                  (
                     cam_prj_id,
@@ -428,7 +429,7 @@ abstract class CRM
                     cam_type
                  ) VALUES (
                     ?, ?, ?, ?
-                 )";
+                 )';
         try {
             DB_Helper::getInstance()->query(
                 $stmt, array($_POST['project'], $_POST['customer'], $_POST['manager'], $_POST['type'])
@@ -448,12 +449,12 @@ abstract class CRM
      */
     public static function getAccountManagerDetails($cam_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%customer_account_manager}}
                  WHERE
-                    cam_id=?";
+                    cam_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($cam_id));
         } catch (DbException $e) {
@@ -470,7 +471,7 @@ abstract class CRM
      */
     public static function updateAccountManager()
     {
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%customer_account_manager}}
                  SET
                     cam_prj_id=?,
@@ -478,7 +479,7 @@ abstract class CRM
                     cam_usr_id=?,
                     cam_type=?
                  WHERE
-                    cam_id=?";
+                    cam_id=?';
         try {
             DB_Helper::getInstance()->query(
                 $stmt, array($_POST['project'], $_POST['customer'], $_POST['manager'], $_POST['type'], $_POST['id'])
@@ -498,11 +499,11 @@ abstract class CRM
      */
     public static function removeAccountManager()
     {
-        $items = $_POST["items"];
-        $stmt = "DELETE FROM
+        $items = $_POST['items'];
+        $stmt = 'DELETE FROM
                     {{%customer_account_manager}}
                  WHERE
-                    cam_id IN (" . DB_Helper::buildList($items) . ")";
+                    cam_id IN (' . DB_Helper::buildList($items) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
@@ -522,7 +523,7 @@ abstract class CRM
      */
     public static function getAccountManagers($prj_id, $customer_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     cam_usr_id,
                     usr_email,
                     cam_type
@@ -532,7 +533,7 @@ abstract class CRM
                  WHERE
                     cam_usr_id=usr_id AND
                     cam_prj_id=? AND
-                    cam_customer_id=?";
+                    cam_customer_id=?';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id, $customer_id), DB_FETCHMODE_ASSOC);
         } catch (DbException $e) {
@@ -554,7 +555,7 @@ abstract class CRM
      */
     public static function getNoteDetailsByCustomer($customer_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     cno_id,
                     cno_prj_id,
                     cno_customer_id,
@@ -562,7 +563,7 @@ abstract class CRM
                 FROM
                     {{%customer_note}}
                 WHERE
-                    cno_customer_id = ?";
+                    cno_customer_id = ?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($customer_id));
         } catch (DbException $e) {
@@ -580,14 +581,14 @@ abstract class CRM
      */
     public static function getNoteDetailsByID($cno_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     cno_prj_id,
                     cno_customer_id,
                     cno_note
                 FROM
                     {{%customer_note}}
                 WHERE
-                    cno_id = ?";
+                    cno_id = ?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($cno_id));
         } catch (DbException $e) {
@@ -604,7 +605,7 @@ abstract class CRM
      */
     public static function getNoteList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     cno_id,
                     cno_prj_id,
                     cno_customer_id,
@@ -612,7 +613,7 @@ abstract class CRM
                 FROM
                     {{%customer_note}}
                 ORDER BY
-                    cno_customer_id ASC";
+                    cno_customer_id ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
@@ -623,7 +624,8 @@ abstract class CRM
             try {
                 $crm = CRM::getInstance($res[$i]['cno_prj_id']);
                 $res[$i]['customer_title'] = $crm->getCustomer($res[$i]['cno_customer_id'])->getName();
-            } catch (Exception $e) {}
+            } catch (Exception $e) {
+            }
         }
 
         return $res;
@@ -640,7 +642,7 @@ abstract class CRM
      */
     public static function updateNote($cno_id, $prj_id, $customer_id, $note)
     {
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%customer_note}}
                  SET
                     cno_note=?,
@@ -648,7 +650,7 @@ abstract class CRM
                     cno_customer_id=?,
                     cno_updated_date=?
                  WHERE
-                    cno_id=?";
+                    cno_id=?';
         try {
             DB_Helper::getInstance()->query(
                 $stmt, array($note, $prj_id, $customer_id, Date_Helper::getCurrentDateGMT(), $cno_id)
@@ -670,7 +672,7 @@ abstract class CRM
      */
     public static function insertNote($prj_id, $customer_id, $note)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%customer_note}}
                  (
                     cno_prj_id,
@@ -680,7 +682,7 @@ abstract class CRM
                     cno_note
                  ) VALUES (
                     ?, ?, ?, ?, ?
-                 )";
+                 )';
         try {
             DB_Helper::getInstance()->query(
                 $stmt,
@@ -701,10 +703,10 @@ abstract class CRM
      */
     public static function removeNotes($ids)
     {
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%customer_note}}
                  WHERE
-                    cno_id IN (" . DB_Helper::buildList($ids) . ")";
+                    cno_id IN (' . DB_Helper::buildList($ids) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $ids);
         } catch (DbException $e) {

@@ -1,11 +1,12 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -38,7 +39,6 @@
 
 class Misc
 {
-
     /**
      * Method used to simulate the correct behavior of array_diff().
      *
@@ -142,15 +142,15 @@ class Misc
     public function prompt($message, $default_value)
     {
         echo $message;
-        if ($default_value !== FALSE) {
+        if ($default_value !== false) {
             echo " [default: $default_value] -> ";
         } else {
-            echo " [required] -> ";
+            echo ' [required] -> ';
         }
         flush();
         $input = self::getInputLine();
         if (empty($input)) {
-            if ($default_value === FALSE) {
+            if ($default_value === false) {
                 die("ERROR: Required parameter was not provided!\n");
             } else {
                 return $default_value;
@@ -178,13 +178,13 @@ class Misc
      */
     public static function checkSpelling($text)
     {
-        $temptext = tempnam("/tmp", "spelltext");
-        if ($fd = fopen($temptext, "w")) {
+        $temptext = tempnam('/tmp', 'spelltext');
+        if ($fd = fopen($temptext, 'w')) {
             $textarray = explode("\n", $text);
             fwrite($fd, "!\n");
             foreach ($textarray as $value) {
                 // adding the carat to each line prevents the use of aspell commands within the text...
-                fwrite($fd,"^$value\n");
+                fwrite($fd, "^$value\n");
             }
             fclose($fd);
             $return = shell_exec("cat $temptext | /usr/bin/aspell -a");
@@ -231,7 +231,7 @@ class Misc
         return array(
             'total_words' => count($misspelled_words),
             'words'       => $misspelled_words,
-            'suggestions' => $spell_suggestions
+            'suggestions' => $spell_suggestions,
         );
     }
 
@@ -264,25 +264,25 @@ class Misc
      */
     public static function array_map_deep(&$in_array, $in_func, $in_args = array(), $in_index = 1)
     {
-       // fix people from messing up the index of the value
-       if ($in_index < 1) {
-           $in_index = 1;
-       }
-       foreach (array_keys($in_array) as $key) {
-           // we need a reference, not a copy, normal foreach won't do
-           $value =& $in_array[$key];
-           // we need to copy args because we are doing
-           // manipulation on it farther down
-           $args = $in_args;
-           if (is_array($value)) {
-               self::array_map_deep($value, $in_func, $in_args, $in_index);
-           } else {
-               array_splice($args, $in_index - 1, $in_index - 1, $value);
-               $value = call_user_func_array($in_func, $args);
-           }
-       }
+        // fix people from messing up the index of the value
+        if ($in_index < 1) {
+            $in_index = 1;
+        }
+        foreach (array_keys($in_array) as $key) {
+            // we need a reference, not a copy, normal foreach won't do
+            $value = & $in_array[$key];
+            // we need to copy args because we are doing
+            // manipulation on it farther down
+            $args = $in_args;
+            if (is_array($value)) {
+                self::array_map_deep($value, $in_func, $in_args, $in_index);
+            } else {
+                array_splice($args, $in_index - 1, $in_index - 1, $value);
+                $value = call_user_func_array($in_func, $args);
+            }
+        }
 
-       return $in_array;
+        return $in_array;
     }
 
     /**
@@ -301,11 +301,11 @@ class Misc
         } elseif (($bytes > $kb) && ($bytes <= $mb)) {
             $kbytes = $bytes / 1024;
 
-            return sprintf("%.1f", round($kbytes, 1)) . " KiB";
+            return sprintf('%.1f', round($kbytes, 1)) . ' KiB';
         } else {
             $mbytes = ($bytes / 1024) / 1024;
 
-            return sprintf("%.1f", round($mbytes, 1)) . " MiB";
+            return sprintf('%.1f', round($mbytes, 1)) . ' MiB';
         }
     }
 
@@ -476,12 +476,12 @@ class Misc
     public static function prepareBooleanSearch($field, $value)
     {
         $boolean = array();
-        $pieces = explode(" ", $value);
+        $pieces = explode(' ', $value);
         for ($i = 0; $i < count($pieces); $i++) {
             $boolean[] = "$field LIKE '%" . self::escapeString($pieces[$i]) . "%'";
         }
 
-        return "(" . implode(" OR ", $boolean) . ")";
+        return '(' . implode(' OR ', $boolean) . ')';
     }
 
     /**
@@ -518,21 +518,21 @@ class Misc
     {
         $hours = $minutes / 60;
         if ((!empty($minutes)) && ($minutes < 6)) {
-            $return = sprintf("%02dm", $minutes);
+            $return = sprintf('%02dm', $minutes);
         } elseif ($hours > 24 && $omit_days == false) {
-            $return = sprintf("%dd %dh %dm (%dh %dm)", floor($minutes/24/60), floor($minutes/60)%24, $minutes%60, floor($minutes/60), $minutes%60);
+            $return = sprintf('%dd %dh %dm (%dh %dm)', floor($minutes/24/60), floor($minutes/60)%24, $minutes%60, floor($minutes/60), $minutes%60);
         } else {
-            $return = sprintf("%dh %dm", floor($minutes/60), $minutes%60);
+            $return = sprintf('%dh %dm', floor($minutes/60), $minutes%60);
         }
         if ($omit_empty) {
-            $chunks = explode(" ", $return);
+            $chunks = explode(' ', $return);
             foreach ($chunks as $index => $chunk) {
                 preg_match("/(\d*)\S/i", $chunk, $matches);
                 if ($matches[1] == '00') {
                     unset($chunks[$index]);
                 }
             }
-            $return = join(" ", $chunks);
+            $return = implode(' ', $chunks);
         }
 
         return $return;
@@ -546,16 +546,16 @@ class Misc
      * @param   string $class The CSS class to use on the actual links
      * @return  string The parsed string
      */
-    public static function activateLinks($text, $class = "link")
+    public static function activateLinks($text, $class = 'link')
     {
         $range = '[-\w+@=?.%/:&;~|,#\[\]]+';
         // FIXME: handle the base of email addresses surrounded by <>, i.e.
         // Bryan Alsdorf <bryan@askmonty.org>
         $text = preg_replace("'(\w+)://($range)(\.)?'", '<a title="open $1://$2 in a new window" class="' . $class . '" href="$1://$2" target="_$2">$1://$2</a>', $text);
-        $text = preg_replace("'(\s+)(www\.$range)(\.\s|\s)'", '$1<a title="open http://$2 in a new window" class="' . $class . '" href="http://$2" target="_$2">$2</a>$3' , $text);
+        $text = preg_replace("'(\s+)(www\.$range)(\.\s|\s)'", '$1<a title="open http://$2 in a new window" class="' . $class . '" href="http://$2" target="_$2">$2</a>$3', $text);
 
         $mail_pat = '/([-+a-z0-9_.]+@(?:[-a-z0-9_.]{2,63}\.)+[a-z]{2,6})/i';
-        $text = preg_replace($mail_pat, '<a title="open mailto:$1 in a new window" class="' . $class . '" href="mailto:$1" target="_$1">$1</a>' , $text);
+        $text = preg_replace($mail_pat, '<a title="open mailto:$1 in a new window" class="' . $class . '" href="mailto:$1" target="_$1">$1</a>', $text);
 
         return $text;
     }
@@ -568,7 +568,7 @@ class Misc
      */
     public function indent($str)
     {
-        return "> " . $str;
+        return '> ' . $str;
     }
 
     /**
@@ -580,9 +580,9 @@ class Misc
      */
     public static function formatReply($str)
     {
-        $lines = explode("\n", str_replace("\r", "", $str));
+        $lines = explode("\n", str_replace("\r", '', $str));
         // COMPAT: the next line requires PHP >= 4.0.6
-        $lines = array_map(array("Misc", "indent"), $lines);
+        $lines = array_map(array('Misc', 'indent'), $lines);
 
         return implode("\n", $lines);
     }
@@ -621,7 +621,7 @@ class Misc
         }
         clearstatcache();
         if (!is_writable($file)) {
-            if (!stristr(PHP_OS, "win")) {
+            if (!stristr(PHP_OS, 'win')) {
                 // let's try to change the permissions ourselves
                 @chmod($file, 0755);
                 clearstatcache();
@@ -632,7 +632,7 @@ class Misc
                 return false;
             }
         }
-        if (stristr(PHP_OS, "win")) {
+        if (stristr(PHP_OS, 'win')) {
             // need to check whether we can really create files in this directory or not
             // since is_writable() is not trustworthy on windows platforms
             if (is_dir($file)) {
@@ -704,7 +704,7 @@ class Misc
             <br />
             <b>The following problems regarding file and/or directory permissions were found:</b>
             <br /><br />
-            ' . implode("<br />", $errors) . '
+            ' . implode('<br />', $errors) . '
             <br /><br />
             <b>Please provide the appropriate permissions to the user that the web server run as to write in the directories and files specified above.</b>
             <br /><br />
@@ -756,7 +756,7 @@ class Misc
     const MSG_HTML_BOX = 'html_box';
     const MSG_NOTE_BOX = 'note_box';
 
-    public static function setMessage($msg, $type=self::MSG_INFO)
+    public static function setMessage($msg, $type = self::MSG_INFO)
     {
         $messages = Session::get('messages', array());
         $messages[] = array(
@@ -789,8 +789,8 @@ class Misc
     {
         if (count($notify_list) > 0) {
             $update_tpl = new Template_Helper();
-            $update_tpl->setTemplate("include/notified_list.tpl.html");
-            $update_tpl->assign("notify_list", $notify_list);
+            $update_tpl->setTemplate('include/notified_list.tpl.html');
+            $update_tpl->assign('notify_list', $notify_list);
             Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
         }
     }
@@ -821,9 +821,9 @@ class Misc
                 $qs .= self::arrayToQueryString($val, $key);
             } else {
                 if ($parent_name != false) {
-                    $key = $parent_name . "[" . $key . "]";
+                    $key = $parent_name . '[' . $key . ']';
                 }
-                $qs .= "&" . $key . "=" . urlencode($val);
+                $qs .= '&' . $key . '=' . urlencode($val);
             }
         }
 
@@ -845,7 +845,7 @@ class Misc
 
         $terminator = "\n";
 
-        $stdin = fopen("php://stdin", "r");
+        $stdin = fopen('php://stdin', 'r');
         $input = '';
         while (!feof($stdin)) {
             $buffer = fgets($stdin, 256);
@@ -886,5 +886,32 @@ class Misc
         }
 
         return $data;
+    }
+
+    /**
+     * Tell whether a value is a PEAR error.
+     *
+     * @param   mixed $data the value to test
+     * @param   int $code if $data is an error object, return true
+     *                        only if $code is a string and
+     *                        $obj->getMessage() == $code or
+     *                        $code is an integer and $obj->getCode() == $code
+     * @return  bool    true if parameter is an error
+     */
+    public static function isError($data, $code = null)
+    {
+        if (!$data instanceof PEAR_Error) {
+            return false;
+        }
+
+        if ($code === null) {
+            return true;
+        }
+
+        if (is_string($code)) {
+            return $data->getMessage() == $code;
+        }
+
+        return $data->getCode() == $code;
     }
 }

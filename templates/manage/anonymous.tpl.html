@@ -1,43 +1,43 @@
 {extends "manage/manage.tpl.html"}
 
 {block "manage_content"}
-{literal}
+
 <script type="text/javascript">
     <!--
     function validateForm()
     {
         if (Eventum.getField('anonymous_post').first().is(':checked')) {
             if (!Validation.hasOneChecked('options[show_custom_fields]')) {
-                alert('{/literal}{t escape=js}Please choose whether to show custom fields for remote invocations or not.{/t}{literal}');
+                alert('{t escape=js}Please choose whether to show custom fields for remote invocations or not.{/t}');
                 Validation.selectField('options[show_custom_fields]');
                 return false;
             }
             if (Eventum.getField('options[reporter]').val() == '-1') {
-                alert('{/literal}{t escape=js}Please choose the reporter for remote invocations.{/t}{literal}');
+                alert('{t escape=js}Please choose the reporter for remote invocations.{/t}');
                 Validation.selectField('options[reporter]');
                 return false;
             }
             if (Eventum.getField('options[category]').val() == '-1') {
-                alert('{/literal}{t escape=js}Please choose the default category for remote invocations.{/t}{literal}');
+                alert('{t escape=js}Please choose the default category for remote invocations.{/t}');
                 Validation.selectField('options[category]');
                 return false;
             }
             if (Eventum.getField('options[priority]').val() == '-1') {
-                alert('{/literal}{t escape=js}Please choose the default priority for remote invocations.{/t}{literal}');
+                alert('{t escape=js}Please choose the default priority for remote invocations.{/t}');
                 Validation.selectField('options[priority]');
                 return false;
             }
-            {/literal}
+
             {if $allow_unassigned_issues != 'yes'}
-                {literal}
+
                 if (!Validation.hasOneSelected('options[users][]')) {
-                    alert('{/literal}{t escape=js}Please choose at least one person to assign the new issues created remotely.{/t}{literal}');
+                    alert('{t escape=js}Please choose at least one person to assign the new issues created remotely.{/t}');
                     Validation.selectField('options[users][]');
                     return false;
                 }
-                {/literal}
+
             {/if}
-            {literal}
+
                 }
                 return true;
             }
@@ -62,7 +62,7 @@
             });
     //-->
 </script>
-{/literal}
+
 <form id="anon_form" method="post">
     <input type="hidden" name="cat" value="update">
     <input type="hidden" name="prj_id" value="{$prj_id}">

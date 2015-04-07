@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,17 +31,18 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/round_robin.tpl.html");
+$tpl->setTemplate('manage/round_robin.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
-    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
-    $tpl->displayTemplate();exit;
+    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
+    $tpl->displayTemplate();
+    exit;
 }
 
-if (@$_POST["cat"] == "new") {
+if (@$_POST['cat'] == 'new') {
     $res = Round_Robin::insert();
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the round robin entry was added successfully.'), Misc::MSG_INFO),
@@ -48,7 +50,7 @@ if (@$_POST["cat"] == "new") {
             -2  =>  array(ev_gettext('Please enter the title for this round robin entry.'), Misc::MSG_ERROR),
             -3  =>  array(ev_gettext('Please enter the message for this round robin entry.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "update") {
+} elseif (@$_POST['cat'] == 'update') {
     $res = Round_Robin::update();
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the round robin entry was updated successfully.'), Misc::MSG_INFO),
@@ -56,19 +58,19 @@ if (@$_POST["cat"] == "new") {
             -2  =>  array(ev_gettext('Please enter the title for this round robin entry.'), Misc::MSG_ERROR),
             -3  =>  array(ev_gettext('Please enter the message for this round robin entry.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "delete") {
+} elseif (@$_POST['cat'] == 'delete') {
     Round_Robin::remove();
 }
 
-if (@$_GET["cat"] == "edit") {
-    $info = Round_Robin::getDetails($_GET["id"]);
-    $tpl->assign("info", $info);
+if (@$_GET['cat'] == 'edit') {
+    $info = Round_Robin::getDetails($_GET['id']);
+    $tpl->assign('info', $info);
     $_REQUEST['prj_id'] = $info['prr_prj_id'];
 }
 
-$tpl->assign("list", Round_Robin::getList());
+$tpl->assign('list', Round_Robin::getList());
 if (!empty($_REQUEST['prj_id'])) {
-    $tpl->assign("user_options", User::getActiveAssocList($_REQUEST['prj_id'], User::getRoleID('Customer')));
+    $tpl->assign('user_options', User::getActiveAssocList($_REQUEST['prj_id'], User::getRoleID('Customer')));
 }
-$tpl->assign("project_list", Project::getAll());
+$tpl->assign('project_list', Project::getAll());
 $tpl->displayTemplate();

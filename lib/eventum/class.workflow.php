@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -69,13 +70,13 @@ class Workflow
             return $backends[$prj_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     prj_id,
                     prj_workflow_backend
                  FROM
                     {{%project}}
                  ORDER BY
-                    prj_id";
+                    prj_id';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
@@ -103,8 +104,8 @@ class Workflow
             if (empty($backend_class)) {
                 return false;
             }
-            $file_name_chunks = explode(".", $backend_class);
-            $class_name = $file_name_chunks[1] . "_Workflow_Backend";
+            $file_name_chunks = explode('.', $backend_class);
+            $class_name = $file_name_chunks[1] . '_Workflow_Backend';
 
             if (file_exists(APP_LOCAL_PATH . "/workflow/$backend_class")) {
                 require_once APP_LOCAL_PATH . "/workflow/$backend_class";
@@ -150,9 +151,9 @@ class Workflow
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = self::_getBackend($prj_id);
 
-        return $backend->handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $changes);
+        $backend = self::_getBackend($prj_id);
+        $backend->handleIssueUpdated($prj_id, $issue_id, $usr_id, $old_details, $changes);
     }
 
     /**
@@ -176,6 +177,7 @@ class Workflow
 
     /**
      * Called when an issue is assigned.
+     * FIXME: not used by current eventum code
      *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
@@ -203,9 +205,9 @@ class Workflow
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = self::_getBackend($prj_id);
 
-        return $backend->handleAttachment($prj_id, $issue_id, $usr_id);
+        $backend = self::_getBackend($prj_id);
+        $backend->handleAttachment($prj_id, $issue_id, $usr_id);
     }
 
     /**
@@ -241,9 +243,9 @@ class Workflow
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = self::_getBackend($prj_id);
 
-        return $backend->handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes);
+        $backend = self::_getBackend($prj_id);
+        $backend->handlePriorityChange($prj_id, $issue_id, $usr_id, $old_details, $changes);
     }
 
     /**
@@ -260,9 +262,9 @@ class Workflow
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = self::_getBackend($prj_id);
 
-        return $backend->handleSeverityChange($prj_id, $issue_id, $usr_id, $old_details, $changes);
+        $backend = self::_getBackend($prj_id);
+        $backend->handleSeverityChange($prj_id, $issue_id, $usr_id, $old_details, $changes);
     }
 
     /**
@@ -278,9 +280,9 @@ class Workflow
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = self::_getBackend($prj_id);
 
-        return $backend->handleBlockedEmail($prj_id, $issue_id, $email_details, $type);
+        $backend = self::_getBackend($prj_id);
+        $backend->handleBlockedEmail($prj_id, $issue_id, $email_details, $type);
     }
 
     /**
@@ -298,9 +300,9 @@ class Workflow
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = self::_getBackend($prj_id);
 
-        return $backend->handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment);
+        $backend = self::_getBackend($prj_id);
+        $backend->handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment);
     }
 
     /**
@@ -316,9 +318,9 @@ class Workflow
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = self::_getBackend($prj_id);
 
-        return $backend->handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
+        $backend = self::_getBackend($prj_id);
+        $backend->handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
     }
 
     /**
@@ -337,9 +339,9 @@ class Workflow
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = self::_getBackend($prj_id);
 
-        return $backend->handleNewEmail($prj_id, $issue_id, $message, $row, $closing);
+        $backend = self::_getBackend($prj_id);
+        $backend->handleNewEmail($prj_id, $issue_id, $message, $row, $closing);
     }
 
     /**
@@ -353,9 +355,9 @@ class Workflow
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = self::_getBackend($prj_id);
 
-        return $backend->handleManualEmailAssociation($prj_id, $issue_id);
+        $backend = self::_getBackend($prj_id);
+        $backend->handleManualEmailAssociation($prj_id, $issue_id);
     }
 
     /**
@@ -367,16 +369,16 @@ class Workflow
      * @param   boolean $closing If the issue is being closed
      * @param   integer $note_id The ID of the new note
      */
-    public static function handleNewNote($prj_id, $issue_id, $usr_id, $closing = false, $note_id = false)
+    public static function handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id)
     {
         Partner::handleNewNote($issue_id, $note_id);
 
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = self::_getBackend($prj_id);
 
-        return $backend->handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id);
+        $backend = self::_getBackend($prj_id);
+        $backend->handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id);
     }
 
     /**
@@ -389,8 +391,9 @@ class Workflow
     public static function getAllowedStatuses($prj_id, $issue_id = null)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return;
+            return null;
         }
+
         $backend = self::_getBackend($prj_id);
 
         return $backend->getAllowedStatuses($prj_id, $issue_id);
@@ -430,9 +433,9 @@ class Workflow
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = self::_getBackend($prj_id);
 
-        return $backend->handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new);
+        $backend = self::_getBackend($prj_id);
+        $backend->handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new);
     }
 
     /**
@@ -449,8 +452,9 @@ class Workflow
     public static function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$types)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return;
+            return null;
         }
+
         $backend = self::_getBackend($prj_id);
 
         return $backend->handleSubscription($prj_id, $issue_id, $subscriber_usr_id, $email, $types);

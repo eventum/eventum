@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -44,29 +45,29 @@ class FAQ
         $prj_id = Auth::getCurrentProject();
 
         if (count($support_level_ids) == 0) {
-            $stmt = "SELECT
+            $stmt = 'SELECT
                         *
                      FROM
                         {{%faq}}
                      WHERE
                         faq_prj_id = ?
                      ORDER BY
-                        faq_rank ASC";
+                        faq_rank ASC';
             $params = array($prj_id);
         } else {
-            $stmt = "SELECT
+            $stmt = 'SELECT
                         *
                      FROM
                         {{%faq}},
                         {{%faq_support_level}}
                      WHERE
                         faq_id=fsl_faq_id AND
-                        fsl_support_level_id IN (" . DB_Helper::buildList($support_level_ids) . ") AND
+                        fsl_support_level_id IN (' . DB_Helper::buildList($support_level_ids) . ') AND
                         faq_prj_id = ?
                      GROUP BY
                         faq_id
                      ORDER BY
-                        faq_rank ASC";
+                        faq_rank ASC';
             $params = $support_level_ids;
             $params[] = $prj_id;
         }
@@ -74,14 +75,14 @@ class FAQ
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         for ($i = 0; $i < count($res); $i++) {
             if (empty($res[$i]['faq_updated_date'])) {
                 $res[$i]['faq_updated_date'] = $res[$i]['faq_created_date'];
             }
-            $res[$i]['faq_updated_date'] = Date_Helper::getSimpleDate($res[$i]["faq_updated_date"]);
+            $res[$i]['faq_updated_date'] = Date_Helper::getSimpleDate($res[$i]['faq_updated_date']);
         }
 
         return $res;
@@ -94,11 +95,11 @@ class FAQ
      */
     public static function remove()
     {
-        $items = $_POST["items"];
-        $stmt = "DELETE FROM
+        $items = $_POST['items'];
+        $stmt = 'DELETE FROM
                     {{%faq}}
                  WHERE
-                    faq_id IN (" . DB_Helper::buildList($items) . ")";
+                    faq_id IN (' . DB_Helper::buildList($items) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
@@ -123,10 +124,10 @@ class FAQ
             $faq_id = array($faq_id);
         }
 
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%faq_support_level}}
                  WHERE
-                    fsl_faq_id IN (" . DB_Helper::buildList($faq_id) . ")";
+                    fsl_faq_id IN (' . DB_Helper::buildList($faq_id) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $faq_id);
         } catch (DbException $e) {
@@ -143,15 +144,15 @@ class FAQ
      */
     public static function update()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        if (Validation::isWhitespace($_POST["message"])) {
+        if (Validation::isWhitespace($_POST['message'])) {
             return -3;
         }
 
         $faq_id = $_POST['id'];
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%faq}}
                  SET
                     faq_prj_id=?,
@@ -160,8 +161,8 @@ class FAQ
                     faq_message=?,
                     faq_rank=?
                  WHERE
-                    faq_id=?";
-        $params = array($_POST['project'], Date_Helper::getCurrentDateGMT(), $_POST["title"], $_POST["message"], $_POST['rank'], $faq_id);
+                    faq_id=?';
+        $params = array($_POST['project'], Date_Helper::getCurrentDateGMT(), $_POST['title'], $_POST['message'], $_POST['rank'], $faq_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
@@ -186,13 +187,13 @@ class FAQ
      */
     public static function insert()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        if (Validation::isWhitespace($_POST["message"])) {
+        if (Validation::isWhitespace($_POST['message'])) {
             return -3;
         }
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%faq}}
                  (
                     faq_prj_id,
@@ -203,8 +204,8 @@ class FAQ
                     faq_rank
                  ) VALUES (
                     ?, ?, ?, ?, ?, ?
-                 )";
-        $params = array($_POST['project'], Auth::getUserID(), Date_Helper::getCurrentDateGMT(), $_POST["title"], $_POST["message"], $_POST['rank']);
+                 )';
+        $params = array($_POST['project'], Auth::getUserID(), Date_Helper::getCurrentDateGMT(), $_POST['title'], $_POST['message'], $_POST['rank']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
@@ -231,14 +232,14 @@ class FAQ
      */
     public function addSupportLevelAssociation($faq_id, $support_level_id)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%faq_support_level}}
                  (
                     fsl_faq_id,
                     fsl_support_level_id
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         DB_Helper::getInstance()->query($stmt, array($faq_id, $support_level_id));
     }
 
@@ -250,20 +251,20 @@ class FAQ
      */
     public static function getDetails($faq_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%faq}}
                  WHERE
-                    faq_id=?";
+                    faq_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($faq_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
-        if ($res == NULL) {
-            return "";
+        if ($res == null) {
+            return '';
         }
         $res['support_levels'] = array_keys(self::getAssociatedSupportLevels($res['faq_prj_id'], $res['faq_id']));
         if (empty($res['faq_updated_date'])) {
@@ -282,7 +283,7 @@ class FAQ
      */
     public static function getList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     faq_id,
                     faq_prj_id,
                     faq_title,
@@ -290,16 +291,16 @@ class FAQ
                  FROM
                     {{%faq}}
                  ORDER BY
-                    faq_rank ASC";
+                    faq_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         // get the list of associated support levels
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['support_levels'] = implode(", ", array_values(self::getAssociatedSupportLevels($res[$i]['faq_prj_id'], $res[$i]['faq_id'])));
+            $res[$i]['support_levels'] = implode(', ', array_values(self::getAssociatedSupportLevels($res[$i]['faq_prj_id'], $res[$i]['faq_id'])));
         }
 
         return $res;
@@ -317,12 +318,12 @@ class FAQ
     {
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
-            $stmt = "SELECT
+            $stmt = 'SELECT
                         fsl_support_level_id
                      FROM
                         {{%faq_support_level}}
                      WHERE
-                        fsl_faq_id=?";
+                        fsl_faq_id=?';
             $ids = DB_Helper::getInstance()->getColumn($stmt, array($faq_id));
 
             $t = array();
@@ -370,20 +371,20 @@ class FAQ
             // switch the rankings here...
             $index = array_search($new_rank, $ranks);
             $replaced_faq_id = $ids[$index];
-            $stmt = "UPDATE
+            $stmt = 'UPDATE
                         {{%faq}}
                      SET
                         faq_rank=?
                      WHERE
-                        faq_id=?";
+                        faq_id=?';
             DB_Helper::getInstance()->query($stmt, array($ranking[$faq_id], $replaced_faq_id));
         }
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%faq}}
                  SET
                     faq_rank=?
                  WHERE
-                    faq_id=?";
+                    faq_id=?';
         DB_Helper::getInstance()->query($stmt, array($new_rank, $faq_id));
 
         return true;
@@ -397,13 +398,13 @@ class FAQ
      */
     private function _getRanking()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     faq_id,
                     faq_rank
                  FROM
                     {{%faq}}
                  ORDER BY
-                    faq_rank ASC";
+                    faq_rank ASC';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {

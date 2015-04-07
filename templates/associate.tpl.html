@@ -57,10 +57,10 @@
 <script type="text/javascript">
     <!--
     var found_unknown = {if $unknown_contacts != ''}1{else}0{/if};
-        {literal}
+
         function validateForm(f)
         {
-            if ((found_unknown) && (!confirm('{/literal}{t escape=js}Warning: Unknown contacts were found in the selected email messages. Please make sure you have selected the correct email messages to associate.{/t}{literal}'))) {
+            if ((found_unknown) && (!confirm('{t escape=js}Warning: Unknown contacts were found in the selected email messages. Please make sure you have selected the correct email messages to associate.{/t}'))) {
                 return false;
             } else {
                 return true;
@@ -68,7 +68,7 @@
         }
     //-->
 </script>
-{/literal}
+
 <form name="associate_email_form" method="post" action="associate.php" onSubmit="return validateForm(this);">
     <input type="hidden" name="cat" value="associate">
     <input type="hidden" name="issue_id" value="{$smarty.get.issue_id}">

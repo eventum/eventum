@@ -1,27 +1,27 @@
 {extends "manage/manage.tpl.html"}
 
 {block "manage_content"}
-{literal}
+
 <script type="text/javascript">
 function validateForm()
 {
     if (Validation.isFieldWhitespace('group_name')) {
-        alert('{/literal}{t escape=js}Please enter the name of this group.{/t}{literal}');
+        alert('{t escape=js}Please enter the name of this group.{/t}');
         Validation.selectField('group_name');
         return false;
     }
     if (!Validation.hasOneSelected('projects[]')) {
-        alert('{/literal}{t escape=js}Please assign the appropriate projects for this group.{/t}{literal}');
+        alert('{t escape=js}Please assign the appropriate projects for this group.{/t}');
         Validation.selectField('projects[]');
         return false;
     }
     if (!Validation.hasOneSelected('users[]')) {
-        alert('{/literal}{t escape=js}Please assign the appropriate users for this group.{/t}{literal}');
+        alert('{t escape=js}Please assign the appropriate users for this group.{/t}');
         Validation.selectField('users[]');
         return false;
     }
     if (Validation.isFieldWhitespace('manager')) {
-        alert('{/literal}{t escape=js}Please assign the manager of this group.{/t}{literal}');
+        alert('{t escape=js}Please assign the manager of this group.{/t}');
         Validation.selectField('manager');
         return false;
     } else {
@@ -34,10 +34,10 @@ function validateForm()
 function checkDelete()
 {
     if (!Validation.hasOneChecked('items[]')) {
-      alert('{/literal}{t escape=js}Please select at least one of the groups.{/t}{literal}');
+      alert('{t escape=js}Please select at least one of the groups.{/t}');
       return false;
     }
-    if (!confirm('{/literal}{t escape=js}WARNING: This action will remove the selected groups permanently.{/t}{literal}\n{/literal}{t escape=js}Please click OK to confirm.{/t}{literal}')) {
+    if (!confirm('{t escape=js}WARNING: This action will remove the selected groups permanently.{/t}\n{t escape=js}Please click OK to confirm.{/t}')) {
       return false;
     } else {
       return true;
@@ -53,7 +53,7 @@ function checkDelete()
   });
 
 </script>
-{/literal}
+
 
 <form id="group_form"  method="post">
 {if $smarty.get.cat|default:'' == 'edit'}

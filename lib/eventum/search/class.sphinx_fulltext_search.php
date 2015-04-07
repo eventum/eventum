@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -52,7 +53,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         // Build the Sphinx client
         $this->sphinx->SetSortMode(SPH_SORT_RELEVANCE);
 //        $this->sphinx->SetWeights(array(1, 1));
-        $this->sphinx->SetLimits(0,500, 100000);
+        $this->sphinx->SetLimits(0, 500, 100000);
         $this->sphinx->SetArrayResult(true);
 
         if (empty($options['match_mode'])) {
@@ -63,7 +64,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         $this->sphinx->SetFilter('prj_id', array(Auth::getCurrentProject()));
 
         // TODO: Add support for selecting indexes to search
-        $indexes = join('; ', $this->getIndexes((Auth::getCurrentRole() > User::getRoleID("Customer"))));
+        $indexes = implode('; ', $this->getIndexes((Auth::getCurrentRole() > User::getRoleID('Customer'))));
 
         if ((isset($options['customer_id'])) && (!empty($options['customer_id']))) {
             $this->sphinx->SetFilter('customer_id', array($options['customer_id']));
@@ -76,13 +77,13 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 
         // TODO: report these somehow back to the UI
         if (method_exists($this->sphinx, 'IsConnectError') && $this->sphinx->IsConnectError()) {
-            error_log("sphinx_fulltext_search: Network Error");
+            error_log('sphinx_fulltext_search: Network Error');
         }
         if ($this->sphinx->GetLastWarning()) {
-            error_log("sphinx_fulltext_search: WARNING: " . $this->sphinx->GetLastWarning());
+            error_log('sphinx_fulltext_search: WARNING: ' . $this->sphinx->GetLastWarning());
         }
         if ($this->sphinx->GetLastError()) {
-            error_log("sphinx_fulltext_search: ERROR: " . $this->sphinx->GetLastError());
+            error_log('sphinx_fulltext_search: ERROR: ' . $this->sphinx->GetLastError());
         }
 
         $issue_ids = array();
@@ -147,7 +148,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                     $res = $this->sphinx->BuildExcerpts($documents, 'issue_stemmed', $this->keywords, $excerpt_options);
                     if ($res[0] != $issue['iss_original_description']) {
                         $excerpt['issue']['description'] = self::cleanUpExcerpt($res[0]);
-                        error_log(print_r($excerpt['issue']['description'],1));
+                        error_log(print_r($excerpt['issue']['description'], 1));
                     }
                 } elseif ($match['index'] == 'email') {
                     $email = Support::getEmailDetails(null, $match['match_id']);
@@ -210,7 +211,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         );
     }
 
-    private function getIndexes($all_indexes=false)
+    private function getIndexes($all_indexes = false)
     {
         $indexes = array(
                     'issue',
@@ -259,5 +260,4 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
     {
         return true;
     }
-
 }

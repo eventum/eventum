@@ -5,7 +5,7 @@
   <!--
   var url = '{$smarty.server.PHP_SELF}';
   var id = {$smarty.get.id|intval|default:''};
-  {literal}
+
   function populateComboBox()
   {
       if (id == '') {
@@ -19,36 +19,36 @@
   {
       if (Eventum.getField('project').val() == -1) {
           Validation.selectField('project');
-          alert('{/literal}{t escape=js}Please choose the project for this FAQ entry.{/t}{literal}');
+          alert('{t escape=js}Please choose the project for this FAQ entry.{/t}');
           return false;
       }
       var field = Eventum.getField('support_levels[]');
       if (field.length > 0) {
           if (!Validation.hasOneSelected('support_levels[]')) {
               Validation.selectField('support_levels[]');
-              alert('{/literal}{t escape=js}Please assign the appropriate support levels for this FAQ entry.{/t}{literal}');
+              alert('{t escape=js}Please assign the appropriate support levels for this FAQ entry.{/t}');
               return false;
           }
       }
       var rank = Eventum.getField("rank").val();
       if (Validation.isWhitespace(rank)) {
           Validation.selectField('rank');
-          alert('{/literal}{t escape=js}Please enter the rank of this FAQ entry.{/t}{literal}');
+          alert('{t escape=js}Please enter the rank of this FAQ entry.{/t}');
           return false;
       }
       if (!Validation.isNumberOnly(rank)) {
           Validation.selectField('rank');
-          alert('{/literal}{t escape=js}Please enter a number for the rank of this FAQ entry.{/t}{literal}');
+          alert('{t escape=js}Please enter a number for the rank of this FAQ entry.{/t}');
           return false;
       }
       if (Validation.isFieldWhitespace('title')) {
           Validation.selectField('title');
-          alert('{/literal}{t escape=js}Please enter the title of this FAQ entry.{/t}{literal}');
+          alert('{t escape=js}Please enter the title of this FAQ entry.{/t}');
           return false;
       }
       if (Validation.isFieldWhitespace('message')) {
           Validation.selectField('message');
-          alert('{/literal}{t escape=js}Please enter the content of this FAQ entry.{/t}{literal}');
+          alert('{t escape=js}Please enter the content of this FAQ entry.{/t}');
           return false;
       }
       return true;
@@ -56,10 +56,10 @@
   function checkDelete(f)
   {
       if (!Validation.hasOneChecked('items[]')) {
-          alert('{/literal}{t escape=js}Please select at least one of the FAQ entries.{/t}{literal}');
+          alert('{t escape=js}Please select at least one of the FAQ entries.{/t}');
           return false;
       }
-      if (!confirm('{/literal}{t escape=js}This action will permanently remove the selected FAQ entries.{/t}{literal}')) {
+      if (!confirm('{t escape=js}This action will permanently remove the selected FAQ entries.{/t}')) {
           return false;
       } else {
           return true;
@@ -75,7 +75,7 @@
   });
   //-->
   </script>
-  {/literal}
+
   <form id="faq_form" method="post">
   {if $smarty.get.cat|default:'' == 'edit'}
   <input type="hidden" name="cat" value="update">

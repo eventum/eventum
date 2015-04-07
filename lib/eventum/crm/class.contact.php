@@ -169,7 +169,7 @@ abstract class Contact
 
     public function getName()
     {
-        return $this->first_name . " " . $this->last_name;
+        return $this->first_name . ' ' . $this->last_name;
     }
 
     public function getFirstName()
@@ -195,7 +195,7 @@ abstract class Contact
     public function __toString()
     {
         return "Contact\nID: " . $this->contact_id . "\n" .
-            "Name: " . $this->getName() . "\n";
+            'Name: ' . $this->getName() . "\n";
     }
 
     /**
@@ -214,12 +214,11 @@ abstract class Contact
      * @return  void
      */
     abstract public function notifyNewIssue($issue_id);
-
 }
 
 class ContactNotFoundException extends CRMException
 {
-    public function __construct($contact_id, $message = null, Exception $previous=null)
+    public function __construct($contact_id, $message = null, Exception $previous = null)
     {
         if ($message !== null) {
             $message = "Contact '" . $contact_id. "' not found";

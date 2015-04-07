@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -63,12 +64,12 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
      */
     public function updatePassword($usr_id, $password)
     {
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%user}}
                  SET
                     usr_password=?
                  WHERE
-                    usr_id=?";
+                    usr_id=?';
         $params = array(Auth::hashPassword($password), $usr_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -95,13 +96,13 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
      */
     public function incrementFailedLogins($usr_id)
     {
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%user}}
                  SET
                     usr_failed_logins = usr_failed_logins + 1,
                     usr_last_failed_login = NOW()
                  WHERE
-                    usr_id=?";
+                    usr_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($usr_id));
         } catch (DbException $e) {
@@ -119,14 +120,14 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
      */
     public function resetFailedLogins($usr_id)
     {
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%user}}
                  SET
                     usr_failed_logins = 0,
                     usr_last_login = NOW(),
                     usr_last_failed_login = NULL
                  WHERE
-                    usr_id=?";
+                    usr_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($usr_id));
         } catch (DbException $e) {
@@ -147,12 +148,12 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
         if (!is_int(APP_FAILED_LOGIN_BACKOFF_COUNT)) {
             return false;
         }
-        $stmt = "SELECT
-                    IF( usr_failed_logins >= ?, NOW() < DATE_ADD(usr_last_failed_login, INTERVAL " . APP_FAILED_LOGIN_BACKOFF_MINUTES . " MINUTE), 0)
+        $stmt = 'SELECT
+                    IF( usr_failed_logins >= ?, NOW() < DATE_ADD(usr_last_failed_login, INTERVAL ' . APP_FAILED_LOGIN_BACKOFF_MINUTES . ' MINUTE), 0)
                  FROM
                     {{%user}}
                  WHERE
-                    usr_id=?";
+                    usr_id=?';
         $params = array(APP_FAILED_LOGIN_BACKOFF_COUNT, $usr_id);
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -29,14 +30,15 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/ldap.tpl.html");
+$tpl->setTemplate('manage/ldap.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('administrator')) {
-    Misc::setMessage("Sorry, you are not allowed to access this page.", Misc::MSG_ERROR);
-    $tpl->displayTemplate();exit;
+    Misc::setMessage('Sorry, you are not allowed to access this page.', Misc::MSG_ERROR);
+    $tpl->displayTemplate();
+    exit;
 }
 
 if (@$_POST['cat'] == 'update') {
@@ -56,19 +58,19 @@ if (@$_POST['cat'] == 'update') {
     Misc::mapMessages($res, array(
             1   =>  array('Thank you, the setup information was saved successfully.', Misc::MSG_INFO),
             -1  =>  array("ERROR: The system doesn't have the appropriate permissions to create the configuration file
-                            in the setup directory (" . APP_CONFIG_PATH . "). Please contact your local system
-                            administrator and ask for write privileges on the provided path.", Misc::MSG_HTML_BOX),
+                            in the setup directory (" . APP_CONFIG_PATH . '). Please contact your local system
+                            administrator and ask for write privileges on the provided path.', Misc::MSG_HTML_BOX),
             -2  =>  array("ERROR: The system doesn't have the appropriate permissions to update the configuration file
-                            in the setup directory (" . APP_CONFIG_PATH . "/ldap.php). Please contact your local system
-                            administrator and ask for write privileges on the provided filename.", Misc::MSG_HTML_BOX),
+                            in the setup directory (" . APP_CONFIG_PATH . '/ldap.php). Please contact your local system
+                            administrator and ask for write privileges on the provided filename.', Misc::MSG_HTML_BOX),
     ));
 
-    $tpl->assign("result", $res);
+    $tpl->assign('result', $res);
 }
 $options = LDAP_Auth_Backend::loadSetup(true);
-$tpl->assign("setup", $options);
-$tpl->assign("project_list", Project::getAll());
-$tpl->assign("project_roles", array(0 => "No Access") + User::getRoles());
-$tpl->assign("user_roles", User::getRoles(array('Customer')));
+$tpl->assign('setup', $options);
+$tpl->assign('project_list', Project::getAll());
+$tpl->assign('project_roles', array(0 => 'No Access') + User::getRoles());
+$tpl->assign('user_roles', User::getRoles(array('Customer')));
 
 $tpl->displayTemplate();

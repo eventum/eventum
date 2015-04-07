@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -28,24 +29,24 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("select_customer.tpl.html");
+$tpl->setTemplate('select_customer.tpl.html');
 
 session_start();
 
 // check if cookies are enabled, first of all
 if (!Auth::hasCookieSupport(APP_COOKIE)) {
-    Auth::redirect("index.php?err=11");
+    Auth::redirect('index.php?err=11');
 }
 
 if (!Auth::hasValidCookie(APP_COOKIE)) {
-    Auth::redirect("index.php?err=5");
+    Auth::redirect('index.php?err=5');
 }
 
 $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
 $contact_id = User::getCustomerContactID($usr_id);
 if (!CRM::hasCustomerIntegration($prj_id) || empty($contact_id)) {
-    Auth::redirect("main.php");
+    Auth::redirect('main.php');
 }
 $crm = CRM::getInstance($prj_id);
 $contact = $crm->getContact($contact_id);
@@ -55,10 +56,10 @@ if (isset($_REQUEST['customer_id'])) {
     $customer_id = $_REQUEST['customer_id'];
     if (in_array($customer_id, array_keys($customers))) {
         Auth::setCurrentCustomerID($customer_id);
-        if (!empty($_POST["url"])) {
-            Auth::redirect($_REQUEST["url"]);
+        if (!empty($_POST['url'])) {
+            Auth::redirect($_REQUEST['url']);
         } else {
-            Auth::redirect("main.php");
+            Auth::redirect('main.php');
         }
     }
 }

@@ -1,10 +1,11 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2009 Sun Microsystem Inc.                              |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -29,15 +30,16 @@
 
 require_once dirname(__FILE__) . '/../init.php';
 
-// Render OpenSearch description document (OSDD), http://www.opensearch.org/
 if (!Auth::hasValidCookie(APP_COOKIE)) {
     Header('HTTP/1.0 403 Forbidden');
     exit(0);
 }
 
-Header("Content-Type: text/xml; charset=" . APP_CHARSET);
+// Render OpenSearch description document (OSDD), http://www.opensearch.org/
+
+header('Content-Type: text/xml; charset=' . APP_CHARSET);
 
 $tpl = new Template_Helper();
-$tpl->assign("app_charset", APP_CHARSET);
-$tpl->setTemplate("opensearch.tpl.xml");
+$tpl->assign('app_charset', APP_CHARSET);
+$tpl->setTemplate('opensearch.tpl.xml');
 $tpl->displayTemplate();

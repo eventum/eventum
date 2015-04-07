@@ -1,50 +1,50 @@
 {extends "manage/manage.tpl.html"}
 
-{block "manage_content"}              {literal}
+{block "manage_content"}
   <script type="text/javascript">
   <!--
   function validateForm()
   {
       var f = $('#email_account_form');
       if (f.find('[name=project]').val() == -1) {
-          alert('{/literal}{t escape=js}Please choose the project to be associated with this email account.{/t}{literal}');
+          alert('{t escape=js}Please choose the project to be associated with this email account.{/t}');
           Validation.selectField('project');
           return false;
       }
       if (f.find('[name=type]').val() == -1) {
-          alert('{/literal}{t escape=js}Please choose the type of email server to be associated with this email account.{/t}{literal}');
+          alert('{t escape=js}Please choose the type of email server to be associated with this email account.{/t}');
           Validation.selectField('type');
           return false;
       }
       if (Validation.isFieldWhitespace('hostname')) {
-          alert('{/literal}{t escape=js}Please enter the hostname for this email account.{/t}{literal}');
+          alert('{t escape=js}Please enter the hostname for this email account.{/t}');
           Validation.selectField('hostname');
           return false;
       }
       var port_val = f.find('[name=port]').val();
       if (Validation.isWhitespace(port_val)) {
-          alert('{/literal}{t escape=js}Please enter the port number for this email account.{/t}{literal}');
+          alert('{t escape=js}Please enter the port number for this email account.{/t}');
           Validation.selectField('port');
           return false;
       }
       if (!Validation.isNumberOnly(port_val)) {
-          alert('{/literal}{t escape=js}Please enter a valid port number for this email account.{/t}{literal}');
+          alert('{t escape=js}Please enter a valid port number for this email account.{/t}');
           Validation.selectField('port');
           return false;
       }
       var server_type = f.find('[name=type]').val();
       if ((server_type.indexOf('imap') != -1) && (Validation.isFieldWhitespace('folder'))) {
-          alert('{/literal}{t escape=js}Please enter the IMAP folder for this email account.{/t}{literal}');
+          alert('{t escape=js}Please enter the IMAP folder for this email account.{/t}');
           Validation.selectField('folder');
           return false;
       }
       if (Validation.isFieldWhitespace('username')) {
-          alert('{/literal}{t escape=js}Please enter the username for this email account.{/t}{literal}');
+          alert('{t escape=js}Please enter the username for this email account.{/t}');
           Validation.selectField('username');
           return false;
       }
       if (Validation.isFieldWhitespace('password')) {
-          alert('{/literal}{t escape=js}Please enter the password for this email account.{/t}{literal}');
+          alert('{t escape=js}Please enter the password for this email account.{/t}');
           Validation.selectField('password');
           return false;
       }
@@ -78,10 +78,10 @@
   function checkDelete(f)
   {
       if (!Validation.hasOneChecked('items[]')) {
-          alert('{/literal}{t escape=js}Please select at least one of the accounts.{/t}{literal}');
+          alert('{t escape=js}Please select at least one of the accounts.{/t}');
           return false;
       }
-      if (!confirm('{/literal}{t escape=js}This action will remove the selected entries.{/t}{literal}')) {
+      if (!confirm('{t escape=js}This action will remove the selected entries.{/t}')) {
           return false;
       } else {
           return true;
@@ -94,7 +94,7 @@
   });
   //-->
   </script>
-  {/literal}
+
   <form id="email_account_form"  method="post">
   {if $smarty.get.cat|default:'' == 'edit'}
   <input type="hidden" name="cat" value="update">

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -40,7 +41,7 @@ class Draft
         if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
             return;
         }
-        list($usec,) = explode(' ', microtime());
+        list($usec) = explode(' ', microtime());
         $filename = date('Y-m-d_H-i-s_') . $usec . '.draft.txt';
         $file = APP_ROUTED_MAILS_SAVEDIR . '/routed_drafts/' . $filename;
         file_put_contents($file, $message);
@@ -72,7 +73,7 @@ class Draft
         } else {
             $usr_id = Auth::getUserID();
         }
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%email_draft}}
                  (
                     emd_updated_date,
@@ -80,14 +81,14 @@ class Draft
                     emd_iss_id,
                     emd_sup_id,
                     emd_subject,
-                    emd_body";
+                    emd_body';
 
         if ($unknown_user) {
-            $stmt .= ", emd_unknown_user";
+            $stmt .= ', emd_unknown_user';
         }
-        $stmt .= ") VALUES (
+        $stmt .= ') VALUES (
                     ?, ?, ?, ?, ?, ?
-                ";
+                ';
         $params = array(
             Date_Helper::getCurrentDateGMT(),
             $usr_id,
@@ -97,10 +98,10 @@ class Draft
             $message,
         );
         if ($unknown_user) {
-            $stmt .= ", ?";
+            $stmt .= ', ?';
             $params[] = $unknown_user;
         }
-        $stmt .= ")";
+        $stmt .= ')';
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
@@ -114,7 +115,7 @@ class Draft
         foreach ($ccs as $cc) {
             self::addEmailRecipient($new_emd_id, $cc, true);
         }
-        Issue::markAsUpdated($issue_id, "draft saved");
+        Issue::markAsUpdated($issue_id, 'draft saved');
         if ($add_history_entry) {
             History::add($issue_id, $usr_id, History::getTypeID('draft_added'), ev_gettext('Email message saved as a draft by %1$s', User::getFullName($usr_id)));
         }
@@ -156,7 +157,7 @@ class Draft
             return -1;
         }
 
-        Issue::markAsUpdated($issue_id, "draft saved");
+        Issue::markAsUpdated($issue_id, 'draft saved');
         History::add($issue_id, $usr_id, History::getTypeID('draft_updated'), ev_gettext('Email message draft updated by %1$s', User::getFullName($usr_id)));
         self::saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id, false, false);
 
@@ -195,10 +196,10 @@ class Draft
      */
     public function removeRecipients($emd_id)
     {
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%email_draft_recipient}}
                  WHERE
-                    edr_emd_id=?";
+                    edr_emd_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($emd_id));
         } catch (DbException $e) {
@@ -221,7 +222,7 @@ class Draft
     {
         $is_cc = $is_cc ? 1 : 0;
         $email = trim($email);
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%email_draft_recipient}}
                  (
                     edr_emd_id,
@@ -229,7 +230,7 @@ class Draft
                     edr_email
                  ) VALUES (
                     ?, ?, ?
-                 )";
+                 )';
         $params = array(
             $emd_id,
             $is_cc,
@@ -252,22 +253,22 @@ class Draft
      */
     public static function getDetails($emd_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%email_draft}}
                  WHERE
-                    emd_id=?";
+                    emd_id=?';
 
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($emd_id));
         } catch (DbException $e) {
-            throw new RuntimeException("email not found");
+            throw new RuntimeException('email not found');
         }
 
-        $res["emd_updated_date"] = Date_Helper::getFormattedDate($res["emd_updated_date"]);
+        $res['emd_updated_date'] = Date_Helper::getFormattedDate($res['emd_updated_date']);
         if (!empty($res['emd_unknown_user'])) {
-            $res['from'] = $res["emd_unknown_user"];
+            $res['from'] = $res['emd_unknown_user'];
         } else {
             $res['from'] = User::getFromHeader($res['emd_usr_id']);
         }
@@ -301,8 +302,8 @@ class Draft
         if ($show_all == false) {
             $stmt .= "AND emd_status = 'pending'\n";
         }
-        $stmt .= "ORDER BY
-                    emd_id";
+        $stmt .= 'ORDER BY
+                    emd_id';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
@@ -310,15 +311,15 @@ class Draft
         }
 
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]["emd_updated_date"] = Date_Helper::getFormattedDate($res[$i]["emd_updated_date"]);
+            $res[$i]['emd_updated_date'] = Date_Helper::getFormattedDate($res[$i]['emd_updated_date']);
             if (!empty($res[$i]['emd_unknown_user'])) {
-                $res[$i]['from'] = $res[$i]["emd_unknown_user"];
+                $res[$i]['from'] = $res[$i]['emd_unknown_user'];
             } else {
                 $res[$i]['from'] = User::getFromHeader($res[$i]['emd_usr_id']);
             }
-            list($res[$i]['to'], ) = self::getEmailRecipients($res[$i]['emd_id']);
+            list($res[$i]['to']) = self::getEmailRecipients($res[$i]['emd_id']);
             if (empty($res[$i]['to'])) {
-                $res[$i]['to'] = "Notification List";
+                $res[$i]['to'] = 'Notification List';
             }
         }
 
@@ -334,13 +335,13 @@ class Draft
      */
     public static function getEmailRecipients($emd_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     edr_email,
                     edr_is_cc
                  FROM
                     {{%email_draft_recipient}}
                  WHERE
-                    edr_emd_id=?";
+                    edr_emd_id=?';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($emd_id));
         } catch (DbException $e) {
@@ -359,7 +360,7 @@ class Draft
 
         return array(
             $to,
-            $ccs
+            $ccs,
         );
     }
 
@@ -409,16 +410,16 @@ class Draft
     public static function send($draft_id)
     {
         $draft = self::getDetails($draft_id);
-        $_POST["issue_id"] = $draft["emd_iss_id"];
-        $_POST["subject"] = $draft["emd_subject"];
-        $_POST["from"] = User::getFromHeader(Auth::getUserID());
-        $_POST["to"] = $draft["to"];
-        $_POST["cc"] = @join(";", $draft["cc"]);
-        $_POST["message"] = $draft["emd_body"];
-        $_POST["ema_id"] = Email_Account::getEmailAccount();
+        $_POST['issue_id'] = $draft['emd_iss_id'];
+        $_POST['subject'] = $draft['emd_subject'];
+        $_POST['from'] = User::getFromHeader(Auth::getUserID());
+        $_POST['to'] = $draft['to'];
+        $_POST['cc'] = @implode(';', $draft['cc']);
+        $_POST['message'] = $draft['emd_body'];
+        $_POST['ema_id'] = Email_Account::getEmailAccount();
         $res = Support::sendEmail();
         if ($res == 1) {
-           self::remove($draft_id);
+            self::remove($draft_id);
         }
 
         return $res;
@@ -434,17 +435,17 @@ class Draft
      */
     public function getCountByUser($usr_id, $start, $end)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(emd_id)
                  FROM
                     {{%email_draft}}
                  WHERE
                     emd_updated_date BETWEEN ? AND ? AND
-                    emd_usr_id = ?";
+                    emd_usr_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($start, $end, $usr_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;

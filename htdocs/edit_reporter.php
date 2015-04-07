@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,21 +31,21 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("edit_reporter.tpl.html");
+$tpl->setTemplate('edit_reporter.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $prj_id = Auth::getCurrentProject();
-$issue_id = @$_POST["issue_id"] ? $_POST["issue_id"] : $_GET["iss_id"];
-$tpl->assign("issue_id", $issue_id);
+$issue_id = @$_POST['issue_id'] ? $_POST['issue_id'] : $_GET['iss_id'];
+$tpl->assign('issue_id', $issue_id);
 
 if (!Access::canChangeReporter($issue_id, Auth::getUserID())) {
-    $tpl->setTemplate("permission_denied.tpl.html");
+    $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;
 }
 
-if (@$_POST["cat"] == "update") {
+if (@$_POST['cat'] == 'update') {
     $res = Edit_Reporter::update($issue_id, $_POST['email']);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the Reporter was updated successfully.'), Misc::MSG_INFO),
@@ -54,6 +55,6 @@ if (@$_POST["cat"] == "update") {
 }
 
 $t = Project::getAddressBook($prj_id, $issue_id);
-$tpl->assign("allowed_reporters", $t);
+$tpl->assign('allowed_reporters', $t);
 
 $tpl->displayTemplate();

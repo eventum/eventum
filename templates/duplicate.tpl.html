@@ -6,19 +6,19 @@
 
 <br />
 <script type="text/javascript">
-    {literal}
+
     <!--
     function validateDuplicate()
     {
         if (!Validation.isNumberOnly(Eventum.getField('duplicated_issue').val())) {
-            alert('{/literal}{t escape=js}Please enter the ID of the duplicated issue.{/t}{literal}');
+            alert('{t escape=js}Please enter the ID of the duplicated issue.{/t}');
             Validation.selectField('duplicated_issue');
             return false;
         }
         return true;
     }
     //-->
-    {/literal}
+
 </script>
 <form name="duplicate_form" onSubmit="return validateDuplicate();" method="post" action="duplicate.php">
     <input type="hidden" name="cat" value="mark">

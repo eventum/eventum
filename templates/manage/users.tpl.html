@@ -17,35 +17,35 @@
     projects[{$smarty.foreach.projects.iteration-1}] = {$prj_id};
   {/foreach}
 
-  {literal}
+
   function validateForm()
   {
       if (Validation.isFieldWhitespace('email')) {
-          alert('{/literal}{t escape=js}Please enter the email of this user.{/t}{literal}');
+          alert('{t escape=js}Please enter the email of this user.{/t}');
           Validation.selectField('email');
           return false;
       }
       if (!Validation.isEmail(Eventum.getField('email').val())) {
-          alert('{/literal}{t escape=js}Please enter a valid email address.{/t}{literal}');
+          alert('{t escape=js}Please enter a valid email address.{/t}');
           Validation.selectField('email');
           return false;
       }
       var password = Eventum.getField('password').val();
       if (Eventum.getField('cat').val() == 'update') {
           if ((!Validation.isWhitespace(password)) && (password.length < 6)) {
-              alert('{/literal}{t escape=js}Please enter a password of at least 6 characters.{/t}{literal}');
+              alert('{t escape=js}Please enter a password of at least 6 characters.{/t}');
               Validation.selectField('password');
               return false;
           }
       } else {
           if ((Validation.isWhitespace(password)) || (password.length < 6)) {
-              alert('{/literal}{t escape=js}Please enter a password of at least 6 characters.{/t}{literal}');
+              alert('{t escape=js}Please enter a password of at least 6 characters.{/t}');
               Validation.selectField('password');
               return false;
           }
       }
       if (Validation.isFieldWhitespace('full_name')) {
-          alert('{/literal}{t escape=js}Please enter the full name of this user.{/t}{literal}');
+          alert('{t escape=js}Please enter the full name of this user.{/t}');
           Validation.selectField('full_name');
           return false;
       }
@@ -58,19 +58,19 @@
       var total = Eventum.getField('items[]').length;
       if (Eventum.getField('status').val() == 'inactive') {
           if (active_users.length < 2) {
-              alert('{/literal}{t escape=js}You cannot change the status of the only active user left in the system.{/t}{literal}');
+              alert('{t escape=js}You cannot change the status of the only active user left in the system.{/t}');
               return false;
           }
           if (total == total_selected) {
-              alert('{/literal}{t escape=js}You cannot inactivate all of the users in the system.{/t}{literal}');
+              alert('{t escape=js}You cannot inactivate all of the users in the system.{/t}');
               return false;
           }
       }
       if (!Validation.hasOneChecked('items[]')) {
-          alert('{/literal}{t escape=js}Please select at least one of the users.{/t}{literal}');
+          alert('{t escape=js}Please select at least one of the users.{/t}');
           return false;
       }
-      if (!confirm('{/literal}{t escape=js}This action will change the status of the selected users.{/t}{literal}')) {
+      if (!confirm('{t escape=js}This action will change the status of the selected users.{/t}')) {
           return false;
       } else {
           return true;
@@ -107,7 +107,7 @@
       $('#delete_form').submit(checkDelete);
   });
 
-  {/literal}
+
   //-->
   </script>
   <form id="user_form" method="post" action="{$core.rel_url}manage/users.php">

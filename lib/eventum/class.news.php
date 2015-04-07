@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -55,11 +56,11 @@ class News
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['nws_created_date'] = Date_Helper::getSimpleDate($res[$i]["nws_created_date"]);
+            $res[$i]['nws_created_date'] = Date_Helper::getSimpleDate($res[$i]['nws_created_date']);
             if ((!$show_full_message) && (strlen($res[$i]['nws_message']) > 300)) {
                 $next_space = strpos($res[$i]['nws_message'], ' ', 254);
                 if (empty($next_space)) {
@@ -87,14 +88,14 @@ class News
      */
     public function addProjectAssociation($nws_id, $prj_id)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%project_news}}
                  (
                     prn_nws_id,
                     prn_prj_id
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         DB_Helper::getInstance()->query($stmt, array($nws_id, $prj_id));
     }
 
@@ -105,13 +106,13 @@ class News
      */
     public static function insert()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        if (Validation::isWhitespace($_POST["message"])) {
+        if (Validation::isWhitespace($_POST['message'])) {
             return -3;
         }
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%news}}
                  (
                     nws_usr_id,
@@ -121,13 +122,13 @@ class News
                     nws_status
                  ) VALUES (
                     ?, ?, ?, ?, ?
-                 )";
+                 )';
         $params = array(
             Auth::getUserID(),
             Date_Helper::getCurrentDateGMT(),
-            $_POST["title"],
-            $_POST["message"],
-            $_POST["status"],
+            $_POST['title'],
+            $_POST['message'],
+            $_POST['status'],
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -151,7 +152,7 @@ class News
      */
     public static function remove()
     {
-        $items = $_POST["items"];
+        $items = $_POST['items'];
         $itemlist = DB_Helper::buildList($items);
         $stmt = "DELETE FROM
                     {{%news}}
@@ -176,7 +177,7 @@ class News
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
-    public function removeProjectAssociations($nws_id, $prj_id=false)
+    public function removeProjectAssociations($nws_id, $prj_id = false)
     {
         if (!is_array($nws_id)) {
             $nws_id = array($nws_id);
@@ -189,7 +190,7 @@ class News
                     prn_nws_id IN ($items)";
         $params = $nws_id;
         if ($prj_id) {
-            $stmt .= " AND prn_prj_id=?";
+            $stmt .= ' AND prn_prj_id=?';
             $params[] = $prj_id;
         }
         try {
@@ -208,21 +209,21 @@ class News
      */
     public static function update()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        if (Validation::isWhitespace($_POST["message"])) {
+        if (Validation::isWhitespace($_POST['message'])) {
             return -3;
         }
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%news}}
                  SET
                     nws_title=?,
                     nws_message=?,
                     nws_status=?
                  WHERE
-                    nws_id=?";
-        $params = array($_POST["title"], $_POST["message"], $_POST["status"], $_POST["id"]);
+                    nws_id=?';
+        $params = array($_POST['title'], $_POST['message'], $_POST['status'], $_POST['id']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
@@ -246,16 +247,16 @@ class News
      */
     public static function getDetails($nws_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%news}}
                  WHERE
-                    nws_id=?";
+                    nws_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($nws_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         // get all of the project associations here as well
@@ -273,16 +274,16 @@ class News
      */
     public static function getAdminDetails($nws_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%news}}
                  WHERE
-                    nws_id=?";
+                    nws_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($nws_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         // get all of the project associations here as well
@@ -298,23 +299,23 @@ class News
      */
     public static function getList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     nws_id,
                     nws_title,
                     nws_status
                  FROM
                     {{%news}}
                  ORDER BY
-                    nws_title ASC";
+                    nws_title ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         // get the list of associated projects
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['projects'] = implode(", ", array_values(self::getAssociatedProjects($res[$i]['nws_id'])));
+            $res[$i]['projects'] = implode(', ', array_values(self::getAssociatedProjects($res[$i]['nws_id'])));
         }
 
         return $res;
@@ -329,7 +330,7 @@ class News
      */
     public function getAssociatedProjects($nws_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     prj_id,
                     prj_title
                  FROM
@@ -337,7 +338,7 @@ class News
                     {{%project_news}}
                  WHERE
                     prj_id=prn_prj_id AND
-                    prn_nws_id=?";
+                    prn_nws_id=?';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($nws_id));
         } catch (DbException $e) {

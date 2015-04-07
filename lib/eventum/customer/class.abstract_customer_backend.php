@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -36,7 +37,6 @@
  */
 class Abstract_Customer_Backend
 {
-
     /**
      * Return what business hours a customer falls into. Mainly used for international
      * customers.

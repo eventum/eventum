@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -36,8 +37,8 @@ $prj_id = Auth::getCurrentProject();
 $issue_id = $_REQUEST['iss_id'];
 $usr_id = Auth::getUserID();
 
-if ((!Issue::canAccess($issue_id, $usr_id)) || (Auth::getCurrentRole() <= User::getRoleID("Customer"))) {
-    $tpl->setTemplate("permission_denied.tpl.html");
+if ((!Issue::canAccess($issue_id, $usr_id)) || (Auth::getCurrentRole() <= User::getRoleID('Customer'))) {
+    $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;
 }
@@ -62,6 +63,6 @@ $details = $contract->getDetails();
 $tpl->assign(array(
     'issue_id'  =>  $issue_id,
     'redeemed'  =>  $contract->getRedeemedIncidentDetails($issue_id),
-    'incident_details'  =>  $details['incident_details']
+    'incident_details'  =>  $details['incident_details'],
 ));
 $tpl->displayTemplate();

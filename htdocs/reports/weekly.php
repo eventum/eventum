@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,80 +31,80 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("reports/weekly.tpl.html");
+$tpl->setTemplate('reports/weekly.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 if (!Access::canAccessReports(Auth::getUserID())) {
-    echo "Invalid role";
+    echo 'Invalid role';
     exit;
 }
 
 $prj_id = Auth::getCurrentProject();
 
-if (count(@$_POST["start"]) > 0 &&
-        (@$_POST["start"]["Year"] != 0) &&
-        (@$_POST["start"]["Month"] != 0) &&
-        (@$_POST["start"]["Day"] != 0)) {
-    $start_date = join("-", $_POST["start"]);
+if (count(@$_POST['start']) > 0 &&
+        (@$_POST['start']['Year'] != 0) &&
+        (@$_POST['start']['Month'] != 0) &&
+        (@$_POST['start']['Day'] != 0)) {
+    $start_date = implode('-', $_POST['start']);
 } elseif (!empty($_GET['start_date'])) {
     $start_date = $_GET['start_date'];
 }
 
-if (count(@$_POST["end"]) > 0 &&
-        (@$_POST["end"]["Year"] != 0) &&
-        (@$_POST["end"]["Month"] != 0) &&
-        (@$_POST["end"]["Day"] != 0)) {
-    $end_date = join("-", $_POST["end"]);
+if (count(@$_POST['end']) > 0 &&
+        (@$_POST['end']['Year'] != 0) &&
+        (@$_POST['end']['Month'] != 0) &&
+        (@$_POST['end']['Day'] != 0)) {
+    $end_date = implode('-', $_POST['end']);
 } elseif (!empty($_GET['end_date'])) {
     $end_date = $_GET['end_date'];
 }
 
 $tpl->assign(array(
-    "weeks" => Date_Helper::getWeekOptions(3,0),
-    "users" => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
-    "start_date"    =>  @$start_date,
-    "end_date"      =>  @$end_date,
-    "report_type"   =>  @$_REQUEST["report_type"]
+    'weeks' => Date_Helper::getWeekOptions(3, 0),
+    'users' => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
+    'start_date'    =>  @$start_date,
+    'end_date'      =>  @$end_date,
+    'report_type'   =>  @$_REQUEST['report_type'],
 ));
 
-if (!empty($_REQUEST["developer"])) {
+if (!empty($_REQUEST['developer'])) {
 
     //split date up
-    if (@$_REQUEST["report_type"] == "weekly") {
-        $dates = explode("_", $_REQUEST["week"]);
+    if (@$_REQUEST['report_type'] == 'weekly') {
+        $dates = explode('_', $_REQUEST['week']);
     } else {
         $dates = array($start_date, $end_date);
     }
 
     // print out emails
-    $data = Report::getWeeklyReport($_REQUEST["developer"], $dates[0], $dates[1], @$_REQUEST['separate_closed'], @$_REQUEST['ignore_statuses'], @$_REQUEST['separate_not_assigned_to_user']);
+    $data = Report::getWeeklyReport($_REQUEST['developer'], $dates[0], $dates[1], @$_REQUEST['separate_closed'], @$_REQUEST['ignore_statuses'], @$_REQUEST['separate_not_assigned_to_user']);
 
     // order issues by time spent on them
     if (isset($_REQUEST['show_per_issue'])) {
         $sort_function = function ($a, $b) {
-            if ($a["it_spent"] == $b["it_spent"]) {
+            if ($a['it_spent'] == $b['it_spent']) {
                 return 0;
             }
 
-            return ($a["it_spent"] < $b["it_spent"]) ? 1 : -1;
+            return ($a['it_spent'] < $b['it_spent']) ? 1 : -1;
         };
         usort($data['issues']['closed'], $sort_function);
         usort($data['issues']['other'], $sort_function);
         usort($data['issues']['not_mine'], $sort_function);
     }
-    $tpl->assign("data", $data);
+    $tpl->assign('data', $data);
 }
 
-if (empty($_REQUEST["week"])) {
-    $tpl->assign("week", Date_Helper::getCurrentWeek());
+if (empty($_REQUEST['week'])) {
+    $tpl->assign('week', Date_Helper::getCurrentWeek());
 } else {
-    $tpl->assign("week", $_REQUEST["week"]);
+    $tpl->assign('week', $_REQUEST['week']);
 }
-if (empty($_REQUEST["developer"])) {
-    $tpl->assign("developer", Auth::getUserID());
+if (empty($_REQUEST['developer'])) {
+    $tpl->assign('developer', Auth::getUserID());
 } else {
-    $tpl->assign("developer", $_REQUEST["developer"]);
+    $tpl->assign('developer', $_REQUEST['developer']);
 }
 
 $tpl->displayTemplate();

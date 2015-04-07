@@ -91,7 +91,7 @@
 </form>
 
 <script type="text/javascript">
-    {literal}
+
     function changeType(type) {
         if (type == 'range') {
             $('#recent_row').hide();
@@ -103,7 +103,7 @@
             $('#end_row').hide();
         }
     }
-    {/literal}
+
 
         changeType("{$smarty.request.report_type|default:''}");
 </script>

@@ -22,18 +22,18 @@ setTimeout('window.close()', 2000);
 </span>
 </center>
 {else}
-{literal}
+
 <script type="text/javascript">
 <!--
 function validate(f)
 {
     if (!isFloat(f.dev_time.value)) {
-        alert('{/literal}{t escape=js}Please use only floating point numbers on the estimated development time field.{/t}{literal}');
+        alert('{t escape=js}Please use only floating point numbers on the estimated development time field.{/t}');
         selectField(f, 'dev_time');
         return false;
     }
     if (isWhitespace(f.impact_analysis.value)) {
-        alert('{/literal}{t escape=js}Please enter the impact analysis for this new requirement.{/t}{literal}');
+        alert('{t escape=js}Please enter the impact analysis for this new requirement.{/t}');
         selectField(f, 'impact_analysis');
         return false;
     }
@@ -41,7 +41,7 @@ function validate(f)
 }
 //-->
 </script>
-{/literal}
+
 <form name="set_analysis_form" onSubmit="return validate(this);" method="post">
 <input type="hidden" name="cat" value="set_analysis">
 <input type="hidden" name="isr_id" value="{$smarty.get.isr_id}">

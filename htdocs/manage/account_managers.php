@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,50 +31,51 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/account_managers.tpl.html");
+$tpl->setTemplate('manage/account_managers.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
-    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
-    $tpl->displayTemplate();exit;
+    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
+    $tpl->displayTemplate();
+    exit;
 }
 
-if (@$_POST["cat"] == "new") {
+if (@$_POST['cat'] == 'new') {
     $res = CRM::insertAccountManager();
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the account manager was added successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to add the the account manager.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "update") {
+} elseif (@$_POST['cat'] == 'update') {
     $res = CRM::updateAccountManager();
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the account manager was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to update the the account manager.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "delete") {
+} elseif (@$_POST['cat'] == 'delete') {
     CRM::removeAccountManager();
 } elseif (!empty($_GET['prj_id'])) {
-    $tpl->assign("info", array('cam_prj_id' => $_GET['prj_id']));
+    $tpl->assign('info', array('cam_prj_id' => $_GET['prj_id']));
     $crm = CRM::getInstance($_GET['prj_id']);
     $tpl->assign('customers', $crm->getCustomerAssocList());
 }
 
-if (@$_GET["cat"] == "edit") {
-    $info = CRM::getAccountManagerDetails($_GET["id"]);
+if (@$_GET['cat'] == 'edit') {
+    $info = CRM::getAccountManagerDetails($_GET['id']);
     if (!empty($_GET['prj_id'])) {
         $info['cam_prj_id'] = $_GET['prj_id'];
     }
     $tpl->assign('customers', CRM::getInstance($info['cam_prj_id'])->getCustomerAssocList());
-    $tpl->assign("user_options", User::getActiveAssocList($info['cam_prj_id'], User::getRoleID('Customer')));
-    $tpl->assign("info", $info);
+    $tpl->assign('user_options', User::getActiveAssocList($info['cam_prj_id'], User::getRoleID('Customer')));
+    $tpl->assign('info', $info);
 }
 
-$tpl->assign("list", CRM::getAccountManagerList());
+$tpl->assign('list', CRM::getAccountManagerList());
 if (!empty($_REQUEST['prj_id'])) {
-    $tpl->assign("user_options", User::getActiveAssocList($_REQUEST['prj_id'], User::getRoleID('Customer')));
+    $tpl->assign('user_options', User::getActiveAssocList($_REQUEST['prj_id'], User::getRoleID('Customer')));
 }
-$tpl->assign("project_list", Project::getAll(false));
+$tpl->assign('project_list', Project::getAll(false));
 
 $tpl->displayTemplate();

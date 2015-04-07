@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -65,22 +66,22 @@ class Priority
             // switch the rankings here...
             $index = array_search($new_rank, $ranks);
             $replaced_pri_id = $ids[$index];
-            $stmt = "UPDATE
+            $stmt = 'UPDATE
                         {{%project_priority}}
                      SET
                         pri_rank=?
                      WHERE
                         pri_prj_id=? AND
-                        pri_id=?";
+                        pri_id=?';
             DB_Helper::getInstance()->query($stmt, array($ranking[$pri_id], $prj_id, $replaced_pri_id));
         }
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%project_priority}}
                  SET
                     pri_rank=?
                  WHERE
                     pri_prj_id=? AND
-                    pri_id=?";
+                    pri_id=?';
         DB_Helper::getInstance()->query($stmt, array($new_rank, $prj_id, $pri_id));
 
         return true;
@@ -95,7 +96,7 @@ class Priority
      */
     private function _getRanking($prj_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     pri_id,
                     pri_rank
                  FROM
@@ -103,7 +104,7 @@ class Priority
                  WHERE
                     pri_prj_id=?
                  ORDER BY
-                    pri_rank ASC";
+                    pri_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
@@ -121,16 +122,16 @@ class Priority
      */
     public static function getDetails($pri_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%project_priority}}
                  WHERE
-                    pri_id=?";
+                    pri_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($pri_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -167,7 +168,7 @@ class Priority
      */
     public static function remove()
     {
-        $items = $_POST["items"];
+        $items = $_POST['items'];
         $itemlist = DB_Helper::buildList($items);
         $stmt = "DELETE FROM
                     {{%project_priority}}
@@ -191,19 +192,19 @@ class Priority
      */
     public static function update()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%project_priority}}
                  SET
                     pri_title=?,
                     pri_rank=?
                  WHERE
                     pri_prj_id=? AND
-                    pri_id=?";
+                    pri_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST["title"], $_POST['rank'], $_POST["prj_id"], $_POST["id"]));
+            DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['rank'], $_POST['prj_id'], $_POST['id']));
         } catch (DbException $e) {
             return -1;
         }
@@ -218,10 +219,10 @@ class Priority
      */
     public static function insert()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%project_priority}}
                  (
                     pri_prj_id,
@@ -229,9 +230,9 @@ class Priority
                     pri_rank
                  ) VALUES (
                     ?, ?, ?
-                 )";
+                 )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST["prj_id"], $_POST["title"], $_POST['rank']));
+            DB_Helper::getInstance()->query($stmt, array($_POST['prj_id'], $_POST['title'], $_POST['rank']));
         } catch (DbException $e) {
             return -1;
         }
@@ -248,7 +249,7 @@ class Priority
      */
     public static function getList($prj_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     pri_id,
                     pri_title,
                     pri_rank
@@ -257,11 +258,11 @@ class Priority
                  WHERE
                     pri_prj_id=?
                  ORDER BY
-                    pri_rank ASC";
+                    pri_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -275,16 +276,16 @@ class Priority
      */
     public static function getTitle($pri_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     pri_title
                  FROM
                     {{%project_priority}}
                  WHERE
-                    pri_id=?";
+                    pri_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($pri_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -305,7 +306,7 @@ class Priority
             return $list[$prj_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     pri_id,
                     pri_title
                  FROM
@@ -313,11 +314,11 @@ class Priority
                  WHERE
                     pri_prj_id=?
                  ORDER BY
-                    pri_rank ASC";
+                    pri_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         $list[$prj_id] = $res;
@@ -334,13 +335,13 @@ class Priority
      */
     public function getPriorityID($prj_id, $pri_title)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     pri_id
                  FROM
                     {{%project_priority}}
                  WHERE
                     pri_prj_id=?
-                    AND pri_title = ?";
+                    AND pri_title = ?';
 
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id, $pri_title));

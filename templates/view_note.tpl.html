@@ -15,7 +15,7 @@
   </tr>
 </table>
 {else}
-{literal}
+
 <script type="text/javascript">
 <!--
 function reply(id, issue_id)
@@ -24,11 +24,11 @@ function reply(id, issue_id)
 }
 function openRawHeaders()
 {
-{/literal}
+
     var features = 'width=740,height=580,top=60,left=60,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var headersWin = window.open('view_headers.php?cat=note&id={$smarty.get.id|intval}', '_headers', features);
     headersWin.focus();
-{literal}
+
 }
 function viewNote(id)
 {
@@ -36,7 +36,7 @@ function viewNote(id)
 }
 //-->
 </script>
-{/literal}
+
 <form method="post" action="popup.php">
 <table align="center" class="bordered internal">
         <tr class="title">

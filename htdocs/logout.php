@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,4 +31,4 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 Auth::logout();
-Auth::redirect("index.php?err=6");
+Auth::redirect('index.php?err=6');

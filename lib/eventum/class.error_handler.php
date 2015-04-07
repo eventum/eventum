@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -49,9 +50,9 @@ class Error_Handler
      * @param  integer $line The line number where the error happened
      * @param  boolean $notify_error Whether error should be notified by email.
      */
-    public static function logError($error_msg = 'unknown', $script = 'unknown', $line = 'unknown', $notify_error = true)
+    public static function logError($error_msg = 'unknown', $script = 'unknown', $line = 0, $notify_error = true)
     {
-        $msg =& self::_createErrorReport($error_msg, $script, $line);
+        $msg = & self::_createErrorReport($error_msg, $script, $line);
 
         if (is_resource(APP_ERROR_LOG)) {
             fwrite(APP_ERROR_LOG, date('[D M d H:i:s Y] '));
@@ -62,17 +63,17 @@ class Error_Handler
 
         // if there's no database connection, then we cannot possibly queue up the error emails
         $dbh = DB_Helper::getInstance();
-        if ($notify_error === false || !$dbh || PEAR::isError($dbh)) {
-            return false;
+        if ($notify_error === false || !$dbh) {
+            return;
         }
 
         $setup = Setup::load();
         if (isset($setup['email_error']['status']) && $setup['email_error']['status'] == 'enabled') {
             $notify_list = trim($setup['email_error']['addresses']);
             if (empty($notify_list)) {
-                return false;
+                return;
             }
-            self::_notify($msg, $setup['smtp']['from'], $notify_list, $script, $line);
+            self::_notify($msg, $setup['smtp']['from'], $notify_list);
         }
     }
 
@@ -83,7 +84,7 @@ class Error_Handler
      * @param  string $notify_from Sender of the email
      * @param  string $notify_list Email addresses to whom send the error report.
      */
-    private static function _notify(&$notify_msg, $notify_from, $notify_list, $script, $line)
+    private static function _notify(&$notify_msg, $notify_from, $notify_list)
     {
         $backtrace = debug_backtrace();
         array_splice($backtrace, 0, 2);
@@ -130,7 +131,7 @@ class Error_Handler
         // skip error details of an email notification about a query that
         // was bigger than max_allowed_packet + 1024
         if (strlen($msg) > $max_allowed_packet + 1024) {
-            return false;
+            return;
         }
 
         $notify_list = str_replace(';', ',', $notify_list);
@@ -187,18 +188,15 @@ class Error_Handler
                         }
                     } elseif (is_object($x)) {
                         $z[] = 'Object '. get_class($x);
-
                     } elseif (is_array($x)) {
                         $z[] = 'Array('. count($x) .')';
-
                     } elseif (is_bool($x)) {
                         $z[] = '(bool ) '.$x ? 'true' : 'false';
-
                     } else {
                         $z[] = '(' . gettype($x). ' )' . $x;
                     }
                 }
-                $a = join(', ', $z);
+                $a = implode(', ', $z);
             }
             $msg .= sprintf("%s:%d\n  %s(%s)\n", $f, $e['line'], $fn, $a);
         }

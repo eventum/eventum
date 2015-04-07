@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -72,7 +73,7 @@ class Attachment
      * @param   boolean $force_inline If the file should be forced to render in the browser
      * @return  void
      */
-    public static function outputDownload(&$data, $filename, $filesize, $mimetype, $force_inline=false)
+    public static function outputDownload(&$data, $filename, $filesize, $mimetype, $force_inline = false)
     {
         if ($force_inline == true) {
             header('Content-Type: text/plain');
@@ -81,20 +82,20 @@ class Attachment
                 header('Content-Encoding: gzip');
             }
             header("Content-Disposition: inline; filename=\"" . urlencode($filename) . "\"");
-            header("Content-Length: " . $filesize);
+            header('Content-Length: ' . $filesize);
             print $data;
             exit;
         }
 
         if (empty($mimetype)) {
-            $mimetype = "application/octet-stream";
+            $mimetype = 'application/octet-stream';
         }
         if (empty($filename)) {
-            $filename = ev_gettext("Untitled");
+            $filename = ev_gettext('Untitled');
         }
         $disposition = self::displayInline($mimetype) ? 'inline' : 'attachment';
         $filename = rawurlencode($filename);
-        header("Content-Type: " . $mimetype);
+        header('Content-Type: ' . $mimetype);
         header("Content-Disposition: {$disposition}; filename=\"{$filename}\"; filename*=".APP_CHARSET."''{$filename}");
         header("Content-Length: {$filesize}");
         echo $data;
@@ -110,19 +111,19 @@ class Attachment
     public static function removeIndividualFile($iaf_id)
     {
         $usr_id = Auth::getUserID();
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iat_iss_id
                  FROM
                     {{%issue_attachment}},
                     {{%issue_attachment_file}}
                  WHERE
                     iaf_id=? AND
-                    iat_id=iaf_iat_id";
+                    iat_id=iaf_iat_id';
 
         $params = array($iaf_id);
-        if (Auth::getCurrentRole() < User::getRoleID("Manager")) {
-            $stmt .= " AND
-                    iat_usr_id=?";
+        if (Auth::getCurrentRole() < User::getRoleID('Manager')) {
+            $stmt .= ' AND
+                    iat_usr_id=?';
             $params[] = $usr_id;
         }
         try {
@@ -136,14 +137,14 @@ class Attachment
         }
 
         // check if the file is the only one in the attachment
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iat_id
                  FROM
                     {{%issue_attachment}},
                     {{%issue_attachment_file}}
                  WHERE
                     iaf_id=? AND
-                    iaf_iat_id=iat_id";
+                    iaf_iat_id=iat_id';
         $attachment_id = DB_Helper::getInstance()->getOne($stmt, array($iaf_id));
 
         $res = self::getFileList($attachment_id);
@@ -164,18 +165,18 @@ class Attachment
      */
     public static function getDetails($file_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%issue_attachment}},
                     {{%issue_attachment_file}}
                  WHERE
                     iat_id=iaf_iat_id AND
-                    iaf_id=?";
+                    iaf_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($file_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         // don't allow customers to reach internal only files
@@ -196,12 +197,12 @@ class Attachment
      */
     public static function removeByIssues($ids)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iat_id
                  FROM
                     {{%issue_attachment}}
                  WHERE
-                    iat_iss_id IN (" . DB_Helper::buildList($ids) . ")";
+                    iat_iss_id IN (' . DB_Helper::buildList($ids) . ')';
 
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
@@ -226,16 +227,16 @@ class Attachment
     public static function remove($iat_id, $add_history = true)
     {
         $usr_id = Auth::getUserID();
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iat_iss_id
                  FROM
                     {{%issue_attachment}}
                  WHERE
-                    iat_id=?";
+                    iat_id=?';
         $params = array($iat_id);
-        if (Auth::getCurrentRole() < User::getRoleID("Manager")) {
-            $stmt .= " AND
-                    iat_usr_id=?";
+        if (Auth::getCurrentRole() < User::getRoleID('Manager')) {
+            $stmt .= ' AND
+                    iat_usr_id=?';
             $params[] = $usr_id;
         }
 
@@ -251,11 +252,11 @@ class Attachment
 
         $issue_id = $res;
         $files = self::getFileList($iat_id);
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%issue_attachment}}
                  WHERE
                     iat_id=? AND
-                    iat_iss_id=?";
+                    iat_iss_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($iat_id, $issue_id));
         } catch (DbException $e) {
@@ -285,10 +286,10 @@ class Attachment
      */
     public function removeFile($iaf_id)
     {
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%issue_attachment_file}}
                  WHERE
-                    iaf_id=?";
+                    iaf_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($iaf_id));
         } catch (DbException $e) {
@@ -306,22 +307,22 @@ class Attachment
      */
     public static function getFileList($attachment_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iaf_id,
                     iaf_filename,
                     iaf_filesize
                  FROM
                     {{%issue_attachment_file}}
                  WHERE
-                    iaf_iat_id=?";
+                    iaf_iat_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($attachment_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         foreach ($res as &$row) {
-            $row["iaf_filesize"] = Misc::formatFileSize($row["iaf_filesize"]);
+            $row['iaf_filesize'] = Misc::formatFileSize($row['iaf_filesize']);
         }
 
         return $res;
@@ -339,7 +340,7 @@ class Attachment
         $usr_id = Auth::getUserID();
         $prj_id = Issue::getProjectID($issue_id);
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iat_id,
                     iat_usr_id,
                     usr_full_name,
@@ -352,28 +353,28 @@ class Attachment
                     {{%user}}
                  WHERE
                     iat_iss_id=? AND
-                    iat_usr_id=usr_id";
+                    iat_usr_id=usr_id';
         if (User::getRoleByUser($usr_id, $prj_id) <= User::getRoleID('Customer')) {
             $stmt .= " AND iat_status='public' ";
         }
-        $stmt .= "
+        $stmt .= '
                  ORDER BY
-                    iat_created_date ASC";
+                    iat_created_date ASC';
         $params = array($issue_id);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         foreach ($res as &$row) {
-            $row["iat_description"] = Link_Filter::processText($prj_id, nl2br(htmlspecialchars($row["iat_description"])));
-            $row["files"] = self::getFileList($row["iat_id"]);
-            $row["iat_created_date"] = Date_Helper::getFormattedDate($row["iat_created_date"]);
+            $row['iat_description'] = Link_Filter::processText($prj_id, nl2br(htmlspecialchars($row['iat_description'])));
+            $row['files'] = self::getFileList($row['iat_id']);
+            $row['iat_created_date'] = Date_Helper::getFormattedDate($row['iat_created_date']);
 
             // if there is an unknown user, user that instead of the user_full_name
-            if (!empty($row["iat_unknown_user"])) {
-                $row["usr_full_name"] = $row["iat_unknown_user"];
+            if (!empty($row['iat_unknown_user'])) {
+                $row['usr_full_name'] = $row['iat_unknown_user'];
             }
         }
 
@@ -387,7 +388,8 @@ class Attachment
      * @param int $attachment_id
      * @param int[] $iaf_ids
      */
-    private static function associateFiles($attachment_id, $iaf_ids) {
+    private static function associateFiles($attachment_id, $iaf_ids)
+    {
         // TODO: verify that all $iaf_ids actually existed, not expired
         $list = DB_Helper::buildList($iaf_ids);
         $stmt = "UPDATE {{%issue_attachment_file}} SET iaf_iat_id=? WHERE iaf_id in ($list)";
@@ -396,7 +398,7 @@ class Attachment
         DB_Helper::getInstance()->query($stmt, $params);
 
         // run cleanup of stale uploads
-        $stmt = "DELETE FROM {{%issue_attachment_file}} WHERE iaf_iat_id=0 AND iaf_created_date < ?";
+        $stmt = 'DELETE FROM {{%issue_attachment_file}} WHERE iaf_iat_id=0 AND iaf_created_date < ?';
         $expire_date = time() - self::ATTACHMENT_EXPIRE_TIME;
         $params = array(Date_Helper::convertDateGMT($expire_date));
         DB_Helper::getInstance()->query($stmt, $params);
@@ -414,14 +416,15 @@ class Attachment
      * @param   string $unknown_user The email of the user who originally sent this email, who doesn't have an account.
      * @param   integer $associated_note_id The note ID that these attachments should be associated with
      */
-    public static function attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description, $unknown_user = null, $associated_note_id = null) {
+    public static function attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description, $unknown_user = null, $associated_note_id = null)
+    {
         if (!$iaf_ids) {
-            throw new LogicException("No attachment ids");
+            throw new LogicException('No attachment ids');
         }
         $attachment_id = self::add($issue_id, $usr_id, $file_description, $internal_only, $unknown_user, $associated_note_id);
         self::associateFiles($attachment_id, $iaf_ids);
 
-        Issue::markAsUpdated($issue_id, "file uploaded");
+        Issue::markAsUpdated($issue_id, 'file uploaded');
         // FIXME: translate
         $summary = 'Attachment uploaded by ' . User::getFullName($usr_id);
         History::add($issue_id, $usr_id, History::getTypeID('attachment_added'), $summary);
@@ -455,7 +458,7 @@ class Attachment
     public static function attach($usr_id, $status = 'public')
     {
         try {
-            $iaf_ids = self::addFiles($_FILES["attachment"]);
+            $iaf_ids = self::addFiles($_FILES['attachment']);
         } catch (DbException $e) {
             return -1;
         }
@@ -467,7 +470,7 @@ class Attachment
         $internal_only = $status == 'internal';
 
         try {
-            self::attachFiles($_POST["issue_id"], $usr_id, $iaf_ids, $internal_only, $_POST["file_description"]);
+            self::attachFiles($_POST['issue_id'], $usr_id, $iaf_ids, $internal_only, $_POST['file_description']);
         } catch (DbException $e) {
             return -1;
         }
@@ -484,7 +487,7 @@ class Attachment
      */
     public static function addFile($attachment_id, $filename, $filetype, &$blob)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%issue_attachment_file}}
                  (
                     iaf_iat_id,
@@ -495,7 +498,7 @@ class Attachment
                     iaf_file
                  ) VALUES (
                     ?, ?, ?, ?, ?, ?
-                 )";
+                 )';
         try {
             DB_Helper::getInstance()->query($stmt, array(
                 $attachment_id,
@@ -547,9 +550,10 @@ class Attachment
      * @param array $files Array from $_FILES
      * @return int[] return id-s of attachment files inserted to database
      */
-    public static function addFiles($files) {
+    public static function addFiles($files)
+    {
         if (!is_array($files['name'])) {
-            throw new RuntimeException("Wrong structure, dif you forgot dropfile[]?");
+            throw new RuntimeException('Wrong structure, dif you forgot dropfile[]?');
         }
 
         $iaf_ids = array();
@@ -569,6 +573,7 @@ class Attachment
                 $iaf_ids[] = $iaf_id;
             }
         }
+
         return $iaf_ids;
     }
 
@@ -594,8 +599,8 @@ class Attachment
         $params = array(
             'iat_iss_id' => $issue_id,
             'iat_usr_id' => $usr_id,
-            'iat_created_date'=> Date_Helper::getCurrentDateGMT(),
-            'iat_description'=> $description,
+            'iat_created_date' => Date_Helper::getCurrentDateGMT(),
+            'iat_description' => $description,
             'iat_status' => $attachment_status,
         );
 
@@ -607,7 +612,7 @@ class Attachment
             $params['iat_not_id'] = $associated_note_id;
         }
 
-        $stmt = "INSERT INTO {{%issue_attachment}} SET ". DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO {{%issue_attachment}} SET '. DB_Helper::buildSet($params);
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);

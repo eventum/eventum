@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -104,7 +105,7 @@ class DbYii implements DbInterface
         $query, $force_array = false, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT, $group = false
     ) {
         if (is_array($force_array)) {
-            throw new LogicException("force_array passed as array, did you mean fetchPair or forgot extra arg?");
+            throw new LogicException('force_array passed as array, did you mean fetchPair or forgot extra arg?');
         }
         if (!$force_array && $fetchmode == DbInterface::DB_FETCHMODE_DEFAULT) {
             return $this->getPair($query, $params);
@@ -116,11 +117,11 @@ class DbYii implements DbInterface
 //        }
 
         if ($fetchmode != DbInterface::DB_FETCHMODE_ASSOC) {
-            throw new UnexpectedValueException(__FUNCTION__ . " unsupported fetchmode");
+            throw new UnexpectedValueException(__FUNCTION__ . ' unsupported fetchmode');
         }
 
         if ($group !== false) {
-            throw new UnexpectedValueException(__FUNCTION__ . " unsupported group mode");
+            throw new UnexpectedValueException(__FUNCTION__ . ' unsupported group mode');
         }
 
         $this->convertParams($params);
@@ -140,7 +141,7 @@ class DbYii implements DbInterface
         } elseif ($fetchmode == DbInterface::DB_FETCHMODE_DEFAULT) {
             $flags |= PDO::FETCH_NUM;
         } else {
-            throw new UnexpectedValueException(__FUNCTION__ . " unsupported fetchmode: ". $fetchmode);
+            throw new UnexpectedValueException(__FUNCTION__ . ' unsupported fetchmode: '. $fetchmode);
         }
 
         return $command->queryAll($flags);
@@ -160,11 +161,11 @@ class DbYii implements DbInterface
     public function getCol($query, $col = 0, $params = array())
     {
         if (is_array($col)) {
-            throw new LogicException("col passed as array, did you mean to use getColumn?");
+            throw new LogicException('col passed as array, did you mean to use getColumn?');
         }
 
         if ($col !== 0) {
-            throw new UnexpectedValueException(__FUNCTION__ . " - col != 0 not implemented");
+            throw new UnexpectedValueException(__FUNCTION__ . ' - col != 0 not implemented');
         }
 
         return $this->getColumn($query, $params);
@@ -277,7 +278,7 @@ class DbYii implements DbInterface
                 break;
 
             default:
-                throw new UnexpectedValueException("Unsupported fetchmode");
+                throw new UnexpectedValueException('Unsupported fetchmode');
         }
     }
 }

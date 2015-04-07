@@ -368,15 +368,15 @@ abstract class Contract
     {
         $options = $this->getOptions(true);
 
-        return "Contract\nID: " . $this->contract_id . "
-            Start: " . $this->start_date . "
-            End: " . $this->end_date . "\n";
+        return "Contract\nID: " . $this->contract_id . '
+            Start: ' . $this->start_date . '
+            End: ' . $this->end_date . "\n";
     }
 }
 
 class ContractNotFoundException extends CRMException
 {
-    public function __construct($contract_id, Exception $previous=null)
+    public function __construct($contract_id, Exception $previous = null)
     {
         parent::__construct("Contract '" . $contract_id. "' not found", 0, $previous);
     }

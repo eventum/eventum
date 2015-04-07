@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -36,7 +37,7 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
     {
         if (func_num_args() > 1) {
             $arg = array();
-            for ($i = 1 ; $i < func_num_args(); $i++) {
+            for ($i = 1; $i < func_num_args(); $i++) {
                 $arg[] = func_get_arg($i);
             }
             $string = _gettext($string);
@@ -50,13 +51,12 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
     {
         return _ngettext($string, $plural, $number);
     }
-
 } else {
     function ev_gettext($string)
     {
         if (func_num_args() > 1) {
             $arg = array();
-            for ($i = 1 ; $i < func_num_args(); $i++) {
+            for ($i = 1; $i < func_num_args(); $i++) {
                 $arg[] = func_get_arg($i);
             }
 

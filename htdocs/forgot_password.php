@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,22 +31,22 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("forgot_password.tpl.html");
+$tpl->setTemplate('forgot_password.tpl.html');
 
-if (@$_POST["cat"] == "reset_password") {
-    if (empty($_POST["email"])) {
-        $tpl->assign("result", 4);
+if (@$_POST['cat'] == 'reset_password') {
+    if (empty($_POST['email'])) {
+        $tpl->assign('result', 4);
     }
-    $usr_id = User::getUserIDByEmail($_POST["email"], true);
+    $usr_id = User::getUserIDByEmail($_POST['email'], true);
     if (empty($usr_id)) {
-        $tpl->assign("result", 5);
+        $tpl->assign('result', 5);
     } else {
         $info = User::getDetails($usr_id);
-        if (!User::isActiveStatus($info["usr_status"])) {
-            $tpl->assign("result", 3);
+        if (!User::isActiveStatus($info['usr_status'])) {
+            $tpl->assign('result', 3);
         } else {
             User::sendPasswordConfirmationEmail($usr_id);
-            $tpl->assign("result", 1);
+            $tpl->assign('result', 1);
         }
     }
 }

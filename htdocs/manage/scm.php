@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -28,37 +29,38 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/scm.tpl.html");
+$tpl->setTemplate('manage/scm.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('administrator')) {
-    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
-    $tpl->displayTemplate();exit;
+    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
+    $tpl->displayTemplate();
+    exit;
 }
 
-if (@$_POST["cat"] == "update") {
+if (@$_POST['cat'] == 'update') {
     $setup = Setup::load();
 
-    $setup["scm_integration"] = $_POST["scm_integration"];
+    $setup['scm_integration'] = $_POST['scm_integration'];
 
     $res = Setup::save($setup);
-    $tpl->assign("result", $res);
+    $tpl->assign('result', $res);
 
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the setup information was saved successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext(
                 "ERROR: The system doesn't have the appropriate permissions to create the configuration file in the setup directory (%1\$s). ".
-                "Please contact your local system administrator and ask for write privileges on the provided path.", APP_CONFIG_PATH),
+                'Please contact your local system administrator and ask for write privileges on the provided path.', APP_CONFIG_PATH),
                 Misc::MSG_NOTE_BOX),
             -2  =>  array(ev_gettext(
                 "ERROR: The system doesn't have the appropriate permissions to update the configuration file in the setup directory (%1\$s). ".
-                "Please contact your local system administrator and ask for write privileges on the provided filename.", APP_SETUP_FILE),
+                'Please contact your local system administrator and ask for write privileges on the provided filename.', APP_SETUP_FILE),
                 Misc::MSG_NOTE_BOX),
     ));
 }
 $options = Setup::load(true);
-$tpl->assign("setup", $options);
+$tpl->assign('setup', $options);
 
 $tpl->displayTemplate();

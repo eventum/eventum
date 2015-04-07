@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -32,19 +33,20 @@ require_once dirname(__FILE__) . '/../../init.php';
 $prj_id = $_REQUEST['prj_id'];
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/column_display.tpl.html");
+$tpl->setTemplate('manage/column_display.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
-    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
-    $tpl->displayTemplate();exit;
+    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
+    $tpl->displayTemplate();
+    exit;
 }
 
-if (@$_POST["cat"] == "save") {
+if (@$_POST['cat'] == 'save') {
     $res = Display_Column::save();
-    $tpl->assign("result", $res);
+    $tpl->assign('result', $res);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, columns to display was saved successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to save columns to display.'), Misc::MSG_ERROR),
@@ -67,10 +69,10 @@ if (count($available) > 0) {
 
 $excluded_roles = array();
 if (!CRM::hasCustomerIntegration($prj_id)) {
-    $excluded_roles[] = "customer";
+    $excluded_roles[] = 'customer';
 }
 $user_roles = User::getRoles($excluded_roles);
-$user_roles[9] = "Never Display";
+$user_roles[9] = 'Never Display';
 
 // generate ranks
 $ranks = array();
@@ -80,13 +82,13 @@ for ($i = 1; $i <= $navailable_ordered; $i++) {
 }
 
 $tpl->assign(array(
-    "available" =>  $available_ordered,
-    "selected"  =>  $selected,
-    "user_roles"=>  $user_roles,
-    "page"      =>  $page,
-    "ranks"     =>  $ranks,
-    "prj_id"    =>  $prj_id,
-    "project_name"  =>  Project::getName($prj_id)
+    'available' =>  $available_ordered,
+    'selected'  =>  $selected,
+    'user_roles' =>  $user_roles,
+    'page'      =>  $page,
+    'ranks'     =>  $ranks,
+    'prj_id'    =>  $prj_id,
+    'project_name'  =>  Project::getName($prj_id),
 ));
 
 $tpl->displayTemplate();

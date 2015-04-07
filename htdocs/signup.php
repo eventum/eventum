@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,7 +31,7 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("signup.tpl.html");
+$tpl->setTemplate('signup.tpl.html');
 
 // log anonymous users out so they can use the signup form
 if (Auth::hasValidCookie(APP_COOKIE) && Auth::isAnonUser()) {

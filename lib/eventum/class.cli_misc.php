@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -47,15 +48,15 @@ class CLI_Misc
     public static function prompt($message, $default_value)
     {
         echo $message;
-        if ($default_value !== FALSE) {
+        if ($default_value !== false) {
             echo " [default: $default_value] -> ";
         } else {
-            echo " [required] -> ";
+            echo ' [required] -> ';
         }
         flush();
         $input = trim(self::getInput());
         if (empty($input)) {
-            if ($default_value === FALSE) {
+            if ($default_value === false) {
                 die("ERROR: Required parameter was not provided!\n");
             } else {
                 return $default_value;

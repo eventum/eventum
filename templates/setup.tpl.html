@@ -3,40 +3,40 @@
 {block "title"}Eventum Installation{/block}
 
 {block name="content"}
-{literal}
+
 <script type="text/javascript">
 <!--
 function validateForm(f)
 {
     if (Validation.isFieldWhitespace('hostname')) {
         Validation.selectField('hostname');
-        alert('{/literal}{t escape=js}Please enter the hostname for the server of this installation of Eventum.{/t}{literal}');
+        alert('{t escape=js}Please enter the hostname for the server of this installation of Eventum.{/t}');
         return false;
     }
     if (Validation.isFieldWhitespace('relative_url')) {
         Validation.selectField('relative_url');
-        alert('{/literal}{t escape=js}Please enter the relative URL of this installation of Eventum.{/t}{literal}');
+        alert('{t escape=js}Please enter the relative URL of this installation of Eventum.{/t}');
         return false;
     }
     if (Validation.isFieldWhitespace('db_hostname')) {
         Validation.selectField('db_hostname');
-        alert('{/literal}{t escape=js}Please enter the database hostname for this installation of Eventum.{/t}{literal}');
+        alert('{t escape=js}Please enter the database hostname for this installation of Eventum.{/t}');
         return false;
     }
     if (Validation.isFieldWhitespace('db_name')) {
         Validation.selectField('db_name');
-        alert('{/literal}{t escape=js}Please enter the database name for this installation of Eventum.{/t}{literal}');
+        alert('{t escape=js}Please enter the database name for this installation of Eventum.{/t}');
         return false;
     }
     if (Validation.isFieldWhitespace('db_username')) {
         Validation.selectField('db_username');
-        alert('{/literal}{t escape=js}Please enter the database username for this installation of Eventum.{/t}{literal}');
+        alert('{t escape=js}Please enter the database username for this installation of Eventum.{/t}');
         return false;
     }
     if (Eventum.getField('alternate_user').is(':checked')) {
         if (Validation.isFieldWhitespace('eventum_user')) {
             Validation.selectField('eventum_user');
-            alert('{/literal}{t escape=js}Please enter the alternate username for this installation of Eventum.{/t}{literal}');
+            alert('{t escape=js}Please enter the alternate username for this installation of Eventum.{/t}');
             return false;
         }
     }
@@ -44,40 +44,40 @@ function validateForm(f)
     var field = Eventum.getField('setup[smtp][from]');
     if (Validation.isFieldWhitespace(field)) {
         Validation.selectField(field);
-        alert('{/literal}{t escape=js}Please enter the sender address that will be used for all outgoing notification emails.{/t}{literal}');
+        alert('{t escape=js}Please enter the sender address that will be used for all outgoing notification emails.{/t}');
         return false;
     }
     if (!Validation.isEmail(field.val())) {
         Validation.selectField(field);
-        alert('{/literal}{t escape=js}Please enter a valid email address for the sender address.{/t}{literal}');
+        alert('{t escape=js}Please enter a valid email address for the sender address.{/t}');
         return false;
     }
     field = Eventum.getField('setup[smtp][host]');
     if (Validation.isWhitespace(field)) {
         Validation.selectField(field);
-        alert('{/literal}{t escape=js}Please enter the SMTP server hostname.{/t}{literal}');
+        alert('{t escape=js}Please enter the SMTP server hostname.{/t}');
         return false;
     }
     field = Eventum.getField('setup[smtp][port]');
     if ((Validation.isFieldWhitespace(field)) || (!Validation.isNumberOnly(field.val()))) {
         Validation.selectField(field);
-        alert('{/literal}{t escape=js}Please enter the SMTP server port number.{/t}{literal}');
+        alert('{t escape=js}Please enter the SMTP server port number.{/t}');
         return false;
     }
     var auth_field = Eventum.getField('setup[smtp][auth]');
     if (!Validation.hasOneChecked(auth_field)) {
-        alert('{/literal}{t escape=js}Please indicate whether the SMTP server requires authentication or not.{/t}{literal}');
+        alert('{t escape=js}Please indicate whether the SMTP server requires authentication or not.{/t}');
         return false;
     }
     if (auth_field.val() == 1) {
       if (Validation.isFieldWhitespace('setup[smtp][username]')) {
           Validation.selectField('setup[smtp][username]');
-          alert('{/literal}{t escape=js}Please enter the SMTP server username.{/t}{literal}');
+          alert('{t escape=js}Please enter the SMTP server username.{/t}');
           return false;
       }
       if (Validation.isFieldWhitespace('setup[smtp][password]')) {
           Validation.selectField('setup[smtp][password]');
-          alert('{/literal}{t escape=js}Please enter the SMTP server password.{/t}{literal}');
+          alert('{t escape=js}Please enter the SMTP server password.{/t}');
           return false;
       }
     }
@@ -104,7 +104,7 @@ function disableAuthFields(bool)
 }
 //-->
 </script>
-{/literal}
+
 
 {if $result|default:'' != '' and $result|default:'' != 'success'}
 <br />
@@ -474,7 +474,7 @@ function disableAuthFields(bool)
 </form>
 </table>
 
-{literal}
+
 <script type="text/javascript">
 <!--
 window.onload = setFocus;
@@ -482,14 +482,14 @@ function setFocus()
 {
     document.install_form.hostname.focus();
     toggleAlternateUserFields();
-{/literal}
+
     {if $smarty.request.setup.smtp.auth|default:'' != 1}
     disableAuthFields(true);
     {/if}
-{literal}
+
 }
 //-->
 </script>
-{/literal}
+
 {/if}
 {/block}

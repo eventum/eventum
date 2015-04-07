@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -29,55 +30,55 @@
 
 require_once dirname(__FILE__) . '/../init.php';
 
-if (Validation::isWhitespace($_POST["email"])) {
-    Auth::redirect("index.php?err=1");
+if (Validation::isWhitespace($_POST['email'])) {
+    Auth::redirect('index.php?err=1');
 }
-if (Validation::isWhitespace($_POST["passwd"])) {
-    Auth::saveLoginAttempt($_POST["email"], 'failure', 'empty password');
-    Auth::redirect("index.php?err=2&email=" . $_POST["email"]);
+if (Validation::isWhitespace($_POST['passwd'])) {
+    Auth::saveLoginAttempt($_POST['email'], 'failure', 'empty password');
+    Auth::redirect('index.php?err=2&email=' . $_POST['email']);
 }
 
 // check if user exists
-if (!Auth::userExists($_POST["email"])) {
-    Auth::saveLoginAttempt($_POST["email"], 'failure', 'unknown user');
-    Auth::redirect("index.php?err=3");
+if (!Auth::userExists($_POST['email'])) {
+    Auth::saveLoginAttempt($_POST['email'], 'failure', 'unknown user');
+    Auth::redirect('index.php?err=3');
 }
 
 // check if user is locked
 if (Auth::isUserBackOffLocked(Auth::getUserIDByLogin($_POST['email']))) {
-    Auth::saveLoginAttempt($_POST["email"], 'failure', 'account back-off locked');
-    Auth::redirect("index.php?err=13");
+    Auth::saveLoginAttempt($_POST['email'], 'failure', 'account back-off locked');
+    Auth::redirect('index.php?err=13');
 }
 
 // check if the password matches
-if (!Auth::isCorrectPassword($_POST["email"], $_POST["passwd"])) {
-    Auth::saveLoginAttempt($_POST["email"], 'failure', 'wrong password');
-    Auth::redirect("index.php?err=3&email=" . $_POST["email"]);
+if (!Auth::isCorrectPassword($_POST['email'], $_POST['passwd'])) {
+    Auth::saveLoginAttempt($_POST['email'], 'failure', 'wrong password');
+    Auth::redirect('index.php?err=3&email=' . $_POST['email']);
 }
 
 // handle aliases since the user is now authenticated
 $_POST['email'] = User::getEmail(Auth::getUserIDByLogin($_POST['email']));
 
 // check if this user did already confirm his account
-if (Auth::isPendingUser($_POST["email"])) {
-    Auth::saveLoginAttempt($_POST["email"], 'failure', 'pending user');
-    Auth::redirect("index.php?err=9");
+if (Auth::isPendingUser($_POST['email'])) {
+    Auth::saveLoginAttempt($_POST['email'], 'failure', 'pending user');
+    Auth::redirect('index.php?err=9');
 }
 // check if this user is really an active one
-if (!Auth::isActiveUser($_POST["email"])) {
-    Auth::saveLoginAttempt($_POST["email"], 'failure', 'inactive user');
-    Auth::redirect("index.php?err=7");
+if (!Auth::isActiveUser($_POST['email'])) {
+    Auth::saveLoginAttempt($_POST['email'], 'failure', 'inactive user');
+    Auth::redirect('index.php?err=7');
 }
 
-Auth::saveLoginAttempt($_POST["email"], 'success');
+Auth::saveLoginAttempt($_POST['email'], 'success');
 
 $remember = !empty($_POST['remember']);
-Auth::createLoginCookie(APP_COOKIE, $_POST["email"], $remember);
+Auth::createLoginCookie(APP_COOKIE, $_POST['email'], $remember);
 
 Session::init(User::getUserIDByEmail($_POST['email']));
-if (!empty($_POST["url"])) {
-    $extra = '?url=' . urlencode($_POST["url"]);
+if (!empty($_POST['url'])) {
+    $extra = '?url=' . urlencode($_POST['url']);
 } else {
     $extra = '';
 }
-Auth::redirect("select_project.php" . $extra);
+Auth::redirect('select_project.php' . $extra);

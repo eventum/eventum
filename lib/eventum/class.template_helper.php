@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -35,7 +36,7 @@
 class Template_Helper
 {
     public $smarty;
-    public $tpl_name = "";
+    public $tpl_name = '';
 
     /**
      * Constructor of the class
@@ -50,11 +51,11 @@ class Template_Helper
 
         $smarty->addPluginsDir(array(APP_INC_PATH . '/smarty'));
 
-        $smarty->registerPlugin("modifier", "activateLinks", array('Link_Filter', 'activateLinks'));
-        $smarty->registerPlugin("modifier", "activateAttachmentLinks", array('Link_Filter', 'activateAttachmentLinks'));
-        $smarty->registerPlugin("modifier", "formatCustomValue", array('Custom_Field', 'formatValue'));
-        $smarty->registerPlugin("modifier", "bool", array('Misc', 'getBooleanDisplayValue'));
-        $smarty->registerPlugin("modifier", "format_date", array('Date_Helper', 'getFormattedDate'));
+        $smarty->registerPlugin('modifier', 'activateLinks', array('Link_Filter', 'activateLinks'));
+        $smarty->registerPlugin('modifier', 'activateAttachmentLinks', array('Link_Filter', 'activateAttachmentLinks'));
+        $smarty->registerPlugin('modifier', 'formatCustomValue', array('Custom_Field', 'formatValue'));
+        $smarty->registerPlugin('modifier', 'bool', array('Misc', 'getBooleanDisplayValue'));
+        $smarty->registerPlugin('modifier', 'format_date', array('Date_Helper', 'getFormattedDate'));
 
         // Fixes problem with CRM API and dynamic includes.
         // See https://code.google.com/p/smarty-php/source/browse/trunk/distribution/3.1.16_RELEASE_NOTES.txt?spec=svn4800&r=4800
@@ -86,7 +87,7 @@ class Template_Helper
      * @param  string $var_name Placeholder on the template
      * @param  string $value Value to be assigned to this placeholder
      */
-    public function assign($var_name, $value = "")
+    public function assign($var_name, $value = '')
     {
         if (!is_array($var_name)) {
             $this->smarty->assign($var_name, $value);
@@ -149,7 +150,7 @@ class Template_Helper
 
         // if version ends with "-dev", try look into VCS
         if (substr(APP_VERSION, -4) == '-dev' && file_exists($file = APP_PATH . '/.git/HEAD')) {
-            list(, $refname) = explode(": ", file_get_contents($file));
+            list(, $refname) = explode(': ', file_get_contents($file));
             if (!file_exists($file = APP_PATH . '/.git/' . trim($refname))) {
                 return null;
             }
@@ -205,7 +206,7 @@ class Template_Helper
                     'has_crm'       =>  $has_crm,
                     'current_role'              =>  $role_id,
                     'current_role_name'         =>  User::getRole($role_id),
-                    'feature_access'            =>  Access::getFeatureAccessArray($usr_id)
+                    'feature_access'            =>  Access::getFeatureAccessArray($usr_id),
                 );
                 if ($has_crm) {
                     $crm = CRM::getInstance($prj_id);
@@ -239,14 +240,15 @@ class Template_Helper
                 'is_anon_user'  =>  Auth::isAnonUser(),
                 'is_current_user_partner'   =>  !empty($info['usr_par_code']),
                 'roles' =>  User::getAssocRoleIDs(),
+                'current_user_prefs'    =>  Prefs::get(Auth::getUserID()),
 
             );
-            $this->assign("current_full_name", $core['user']["usr_full_name"]);
-            $this->assign("current_email", $core['user']["usr_email"]);
-            $this->assign("current_user_id", $usr_id);
-            $this->assign("handle_clock_in", $setup['handle_clock_in'] == 'enabled');
-            $this->assign("is_current_user_clocked_in", User::isClockedIn($usr_id));
-            $this->assign("roles", User::getAssocRoleIDs());
+            $this->assign('current_full_name', $core['user']['usr_full_name']);
+            $this->assign('current_email', $core['user']['usr_email']);
+            $this->assign('current_user_id', $usr_id);
+            $this->assign('handle_clock_in', $setup['handle_clock_in'] == 'enabled');
+            $this->assign('is_current_user_clocked_in', User::isClockedIn($usr_id));
+            $this->assign('roles', User::getAssocRoleIDs());
         }
         $this->assign('core', $core);
     }

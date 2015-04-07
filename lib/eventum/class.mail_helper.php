@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -50,7 +51,7 @@ class Mail_Helper
      * PEAR::Mail related objects
      *
      */
-    public function Mail_Helper()
+    public function __construct()
     {
         $this->mime = new Mail_mime("\r\n");
     }
@@ -103,8 +104,8 @@ class Mail_Helper
      */
     public static function getCannedBlockedMsgExplanation()
     {
-        $msg = ev_gettext("WARNING: This message was blocked because the sender was not allowed to send emails to the associated issue.") . " ";
-        $msg .= ev_gettext("Only staff members listed in the assignment or authorized replier fields can send emails.") . "\n";
+        $msg = ev_gettext('WARNING: This message was blocked because the sender was not allowed to send emails to the associated issue.') . ' ';
+        $msg .= ev_gettext('Only staff members listed in the assignment or authorized replier fields can send emails.') . "\n";
         $msg .= str_repeat('-', 70) . "\n\n";
 
         return $msg;
@@ -142,7 +143,7 @@ class Mail_Helper
     {
         $str = self::fixAddressQuoting($str);
         $str = Mime_Helper::encode($str);
-        $structs = Mail_RFC822::parseAddressList($str);
+        $structs = Mail_Helper::parseAddressList($str);
         $addresses = array();
         foreach ($structs as $structure) {
             if ((!empty($structure->mailbox)) && (!empty($structure->host))) {
@@ -151,6 +152,20 @@ class Mail_Helper
         }
 
         return $addresses;
+    }
+
+    /**
+     * Wrapper around Mail_RFC822::parseAddressList to avoid calling it statically
+     *
+     * @param string  $address         The address(es) to validate.
+     * @param string  $default_domain  Default domain/host etc.
+     * @param boolean $nest_groups     Whether to return the structure with groups nested for easier viewing.
+     * @param boolean $validate        Whether to validate atoms. Turn this off if you need to run addresses through before encoding the personal names, for instance.
+     * @return array A structured array of addresses.
+     */
+    public static function parseAddressList($address, $default_domain = null, $nest_groups = null, $validate = null, $limit = null) {
+        $obj = new Mail_RFC822($address, $default_domain, $nest_groups, $validate, $limit);
+        return $obj->parseAddressList();
     }
 
     /**
@@ -171,7 +186,7 @@ class Mail_Helper
             if ((strstr($address, '<')) && (!Mime_Helper::isQuotedPrintable($address))) {
                 $address = stripslashes(trim($address));
                 // is the address in the format 'name' <address> ?
-                if ((strstr($address, "'")) || (strstr($address, "."))) {
+                if ((strstr($address, "'")) || (strstr($address, '.'))) {
                     $bracket_pos = strrpos($address, '<');
                     if ($bracket_pos != 0) {
                         $bracket_pos = $bracket_pos - 1;
@@ -193,7 +208,7 @@ class Mail_Helper
             }
         }
 
-        return join(',', $return);
+        return implode(',', $return);
     }
 
     /**
@@ -207,8 +222,8 @@ class Mail_Helper
     public static function getAddressInfo($address, $multiple = false)
     {
         $address = self::fixAddressQuoting($address);
-        $t = Mail_RFC822::parseAddressList($address, null, null, false);
-        if (PEAR::isError($t)) {
+        $t = Mail_Helper::parseAddressList($address, null, null, false);
+        if (Misc::isError($t)) {
             return $t;
         }
         if ($multiple) {
@@ -218,7 +233,7 @@ class Mail_Helper
                     'sender_name' => $t[$i]->personal,
                     'email'       => $t[$i]->mailbox . '@' . $t[$i]->host,
                     'username'    => $t[$i]->mailbox,
-                    'host'        => $t[$i]->host
+                    'host'        => $t[$i]->host,
                 );
             }
 
@@ -228,7 +243,7 @@ class Mail_Helper
                 'sender_name' => $t[0]->personal,
                 'email'       => $t[0]->mailbox . '@' . $t[0]->host,
                 'username'    => $t[0]->mailbox,
-                'host'        => $t[0]->host
+                'host'        => $t[0]->host,
             );
         }
     }
@@ -244,7 +259,7 @@ class Mail_Helper
     {
         $address = Mime_Helper::encodeAddress($address);
         $info = self::getAddressInfo($address);
-        if (PEAR::isError($info)) {
+        if (Misc::isError($info)) {
             return $info;
         }
 
@@ -261,7 +276,7 @@ class Mail_Helper
     public static function getName($address, $multiple = false)
     {
         $info = self::getAddressInfo($address, true);
-        if (PEAR::isError($info)) {
+        if (Misc::isError($info)) {
             return $info;
         }
         $returns = array();
@@ -292,7 +307,7 @@ class Mail_Helper
      */
     public static function getFormattedName($name, $email)
     {
-        return $name . " <" . $email . ">";
+        return $name . ' <' . $email . '>';
     }
 
     /**
@@ -305,11 +320,11 @@ class Mail_Helper
     {
         $settings = Setup::load();
         settype($settings['smtp']['auth'], 'boolean');
-        if (file_exists('/etc/mailname') ) {
-            $settings['smtp']['localhost'] = trim( file_get_contents('/etc/mailname') );
+        if (file_exists('/etc/mailname')) {
+            $settings['smtp']['localhost'] = trim(file_get_contents('/etc/mailname'));
         }
 
-        return $settings["smtp"];
+        return $settings['smtp'];
     }
 
     /**
@@ -428,9 +443,9 @@ class Mail_Helper
     public static function getWarningMessage($type)
     {
         if ($type == 'allowed') {
-            $str = ev_gettext("ADVISORY: Your reply will be sent to the notification list.");
+            $str = ev_gettext('ADVISORY: Your reply will be sent to the notification list.');
         } else {
-            $str = ev_gettext("WARNING: If replying, add yourself to Authorized Repliers list first.");
+            $str = ev_gettext('WARNING: If replying, add yourself to Authorized Repliers list first.');
         }
 
         return $str;
@@ -533,13 +548,13 @@ class Mail_Helper
         $headers = array(
             'From'    => $from,
             'To'      => self::fixAddressQuoting($to),
-            'Subject' => $subject
+            'Subject' => $subject,
         );
 
         $this->setHeaders($headers);
         $hdrs = $this->mime->headers($this->headers);
         $res = Mail_Queue::add($to, $hdrs, $body, $save_email_copy, $issue_id, $type, $sender_usr_id, $type_id);
-        if ((PEAR::isError($res)) || ($res == false)) {
+        if (Misc::isError($res) || $res == false) {
             return $res;
         }
 
@@ -573,7 +588,7 @@ class Mail_Helper
         $this->setHeaders(array(
             'From'    => $from,
             'To'      => $to,
-            'Subject' => $subject
+            'Subject' => $subject,
         ));
         $hdrs = $this->mime->headers($this->headers);
         // RFC 822 formatted date
@@ -612,7 +627,7 @@ class Mail_Helper
         // ok, now parse the headers text and build the assoc array
         $full_email = $hdrs . "\n\n" . $body;
         $structure = Mime_Helper::decode($full_email, false, false);
-        $_headers =& $structure->headers;
+        $_headers = & $structure->headers;
         $header_names = Mime_Helper::getHeaderNames($hdrs);
         $headers = array();
         foreach ($_headers as $lowercase_name => $value) {
@@ -651,7 +666,7 @@ class Mail_Helper
         $params = self::getSMTPSettings($address);
         $mail = Mail::factory('smtp', $params);
         $res = $mail->send($address, $headers, $body);
-        if (PEAR::isError($res)) {
+        if (Misc::isError($res)) {
             Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
         }
 
@@ -691,7 +706,6 @@ class Mail_Helper
      */
     public static function getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id)
     {
-
         $new_headers = array();
         if (!empty($issue_id)) {
             $prj_id = Issue::getProjectID($issue_id);
@@ -720,18 +734,20 @@ class Mail_Helper
                 try {
                     $customer = $crm->getCustomer(Issue::getCustomerID($issue_id));
                     $new_headers['X-Eventum-Customer'] = $customer->getName();
-                } catch (CustomerNotFoundException $e) { }
+                } catch (CustomerNotFoundException $e) {
+                }
                 try {
                     $contract = $crm->getContract(Issue::getContractID($issue_id));
                     $support_level = $contract->getSupportLevel();
                     if (is_object($support_level)) {
                         $new_headers['X-Eventum-Level'] = $support_level->getName();
                     }
-                } catch (ContractNotFoundException $e) {}
+                } catch (ContractNotFoundException $e) {
+                }
             }
 
             // add assignee header
-            $new_headers['X-Eventum-Assignee'] = join(',', User::getEmail(Issue::getAssignedUserIDs($issue_id)));
+            $new_headers['X-Eventum-Assignee'] = implode(',', User::getEmail(Issue::getAssignedUserIDs($issue_id)));
 
             $new_headers['X-Eventum-Category'] = Category::getTitle(Issue::getCategory($issue_id));
             $new_headers['X-Eventum-Project'] = Project::getName($prj_id);
@@ -751,7 +767,7 @@ class Mail_Helper
                 if (empty($values)) {
                     continue;
                 }
-                $cf_value = join(', ', (array) $values);
+                $cf_value = implode(', ', (array) $values);
 
                 // value could be empty after multivalued field join
                 if (empty($cf_value)) {
@@ -761,7 +777,6 @@ class Mail_Helper
                 // convert spaces for header fields
                 $cf_title = str_replace(' ', '_', $cf_titles[$fld_id]);
                 $new_headers['X-Eventum-CustomField-'. $cf_title] = $cf_value;
-
             }
         }
 
@@ -778,14 +793,14 @@ class Mail_Helper
      */
     public static function generateMessageID()
     {
-        list($usec, $sec) = explode(" ", microtime());
+        list($usec, $sec) = explode(' ', microtime());
         $time = ((float) $usec + (float) $sec);
         $first = base_convert($time, 10, 36);
         mt_srand(hexdec(substr(md5(microtime()), -8)) & 0x7fffffff);
         $rand = mt_rand();
         $second = base_convert($rand, 10, 36);
 
-        return "<eventum." . $first . "." . $second . "@" . APP_HOSTNAME . ">";
+        return '<eventum.' . $first . '.' . $second . '@' . APP_HOSTNAME . '>';
     }
 
     /**
@@ -800,7 +815,7 @@ class Mail_Helper
             return trim($matches[1]);
         }
         if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
-            $references = explode(" ", self::unfold(trim($matches[1])));
+            $references = explode(' ', self::unfold(trim($matches[1])));
             $references = array_map('trim', $references);
             // return the first message-id in the list of references
             return $references[0];
@@ -822,7 +837,7 @@ class Mail_Helper
             $references[] = trim($matches[1]);
         }
         if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
-            $references = array_merge($references, explode(" ", self::unfold(trim($matches[1]))));
+            $references = array_merge($references, explode(' ', self::unfold(trim($matches[1]))));
             $references = array_map('trim', $references);
             $references = array_unique($references);
         }
@@ -843,12 +858,6 @@ class Mail_Helper
     {
         list($text_headers, $body) = Mime_Helper::splitHeaderBody($full_email);
 
-        if ($type == 'note') {
-            $class = 'Note';
-        } else {
-            $class = 'Support';
-        }
-
         $msg_id = self::getMessageID($text_headers, $body);
 
         // check if the In-Reply-To header exists and if so, does it relate to a message stored in Eventum
@@ -857,7 +866,11 @@ class Mail_Helper
         $reference_issue_id = false;
         if (!empty($reference_msg_id)) {
             // check if referenced msg id is associated with this issue
-            $reference_issue_id = call_user_func(array($class, 'getIssueByMessageID'), $reference_msg_id);
+            if ($type == 'note') {
+                $reference_issue_id = Note::getIssueByMessageID($reference_msg_id);
+            } else {
+                $reference_issue_id = Support::getIssueByMessageID($reference_msg_id);
+            }
         }
 
         if ((empty($reference_msg_id)) || ($reference_issue_id != $issue_id)) {
@@ -882,12 +895,12 @@ class Mail_Helper
         $headers['in-reply-to'] = $reference_msg_id;
         if (preg_match('/^References: (.*)/mi', $text_headers) > 0) {
             // replace existing header
-            $text_headers = preg_replace('/^References: (.*)/mi', 'References: ' . self::fold(join(' ', $references)), $text_headers, 1);
+            $text_headers = preg_replace('/^References: (.*)/mi', 'References: ' . self::fold(implode(' ', $references)), $text_headers, 1);
         } else {
             // add new header after In-Reply-To
-            $text_headers = preg_replace('/^In-Reply-To: (.*)$/mi', "In-Reply-To: $1\r\nReferences: " . self::fold(join(' ', $references)), $text_headers, 1);
+            $text_headers = preg_replace('/^In-Reply-To: (.*)$/mi', "In-Reply-To: $1\r\nReferences: " . self::fold(implode(' ', $references)), $text_headers, 1);
         }
-        $headers['references'] = self::fold(join(' ', $references));
+        $headers['references'] = self::fold(implode(' ', $references));
 
         return array($text_headers . "\r\n\r\n" . $body, $headers);
     }
@@ -922,11 +935,11 @@ class Mail_Helper
     {
         $references[] = $msg_id;
         if ($type == 'note') {
-            $class = 'Note';
+            $parent_msg_id = Note::getParentMessageIDbyMessageID($msg_id);
         } else {
-            $class = 'Support';
+            $parent_msg_id = Support::getParentMessageIDbyMessageID($msg_id);
         }
-        $parent_msg_id = call_user_func(array($class, 'getParentMessageIDbyMessageID'), $msg_id);
+
         if (!empty($parent_msg_id)) {
             self::_getReferences($parent_msg_id, $type, $references);
         }
@@ -937,9 +950,9 @@ class Mail_Helper
         $root_msg_id = Issue::getRootMessageID($issue_id);
 
         return array(
-            "Message-ID"    =>  self::generateMessageID(),
-            "In-Reply-To"   =>  $root_msg_id,
-            "References"    =>  $root_msg_id
+            'Message-ID'    =>  self::generateMessageID(),
+            'In-Reply-To'   =>  $root_msg_id,
+            'References'    =>  $root_msg_id,
         );
     }
 
@@ -985,7 +998,6 @@ class Mail_Helper
         // (presented as Array by PEAR Mail_mimeDecode class)
         if ($has_message_id && is_string($structure->headers['message-id'])) {
             return $structure->headers['message-id'];
-
         } elseif ($has_message_id && is_array($structure->headers['message-id'])) {
             return current($structure->headers['message-id']);
         }
@@ -997,7 +1009,7 @@ class Mail_Helper
         return '<eventum.md5.' . $first . '.' . $second . '@' . APP_HOSTNAME . '>';
     }
 
-    public function splitAddresses($addresses)
+    public static function splitAddresses($addresses)
     {
         $mail = new Mail_RFC822($addresses);
 

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -32,17 +33,17 @@ require_once dirname(__FILE__) . '/../init.php';
 Auth::checkAuthentication(APP_COOKIE);
 
 if (@$_GET['cat'] == 'blocked_email') {
-    $email = Note::getBlockedMessage($_GET["note_id"]);
+    $email = Note::getBlockedMessage($_GET['note_id']);
 } else {
-    $email = Support::getFullEmail($_GET["sup_id"]);
+    $email = Support::getFullEmail($_GET['sup_id']);
 }
 if (!empty($_GET['raw'])) {
     Attachment::outputDownload($email, 'message.eml', strlen($email), 'message/rfc822');
 } else {
     if (!empty($_GET['cid'])) {
-        list($mimetype, $data) = Mime_Helper::getAttachment($email, $_GET["filename"], $_GET["cid"]);
+        list($mimetype, $data) = Mime_Helper::getAttachment($email, $_GET['filename'], $_GET['cid']);
     } else {
-        list($mimetype, $data) = Mime_Helper::getAttachment($email, $_GET["filename"]);
+        list($mimetype, $data) = Mime_Helper::getAttachment($email, $_GET['filename']);
     }
-    Attachment::outputDownload($data, $_GET["filename"], strlen($data), $mimetype);
+    Attachment::outputDownload($data, $_GET['filename'], strlen($data), $mimetype);
 }

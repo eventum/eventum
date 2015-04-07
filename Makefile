@@ -6,6 +6,8 @@ bindir          := /usr/bin
 logdir          := /var/log/$(name)
 smartyplugindir := $(datadir)/lib/Smarty/plugins
 
+php-cs-fixer := $(shell PATH=$$PATH:. which php-cs-fixer.phar 2>/dev/null || which php-cs-fixer 2>/dev/null || echo false)
+
 all:
 	@echo 'Run "make install" to install eventum.'
 
@@ -13,6 +15,9 @@ install: install-eventum install-cli install-irc install-scm install-libs
 
 dist:
 	./bin/release.sh
+
+test:
+	phpunit
 
 phpcs:
 	phpcs --standard=phpcs.xml --report=emacs --report-width=120 --report-file=`pwd`/phpcs.txt .
@@ -22,6 +27,15 @@ box.phar:
 
 composer.phar:
 	curl -sS https://getcomposer.org/installer | php
+
+php-cs-fixer.phar:
+	curl -sS http://get.sensiolabs.org/php-cs-fixer.phar -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
+
+pear-fix: composer.lock
+	-$(php-cs-fixer) fix vendor/pear-pear.php.net --fixers=php4_constructor --verbose
+
+phpcs-fix: php-cs-fixer.phar
+	-$(php-cs-fixer) fix --verbose
 
 composer.lock:
 	composer install
@@ -63,23 +77,11 @@ install-scm:
 	install -p scm/eventum-svn-hook.php $(DESTDIR)$(sbindir)/eventum-svn-hook
 
 # install extra libraries for eventum
-install-libs: install-pear install-jpgraph install-gettext install-smarty
-
-install-pear:
-	install -d $(DESTDIR)$(datadir)/lib
-	cp -a lib/pear $(DESTDIR)$(datadir)/lib
+install-libs: install-jpgraph
 
 install-jpgraph:
 	install -d $(DESTDIR)$(datadir)/lib
 	cp -a lib/jpgraph $(DESTDIR)$(datadir)/lib
-
-install-gettext:
-	install -d $(DESTDIR)$(datadir)/lib
-	cp -a lib/php-gettext $(DESTDIR)$(datadir)/lib
-
-install-smarty:
-	install -d $(DESTDIR)$(datadir)/lib
-	cp -a lib/Smarty $(DESTDIR)$(datadir)/lib
 
 install-localization:
 	$(MAKE) -C localization install

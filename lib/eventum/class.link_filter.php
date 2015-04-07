@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -41,7 +42,7 @@ class Link_Filter
      */
     public static function getDetails($lfi_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     lfi_id,
                     lfi_description,
                     lfi_usr_role,
@@ -50,7 +51,7 @@ class Link_Filter
                 FROM
                     {{%link_filter}}
                 WHERE
-                    lfi_id = ?" ;
+                    lfi_id = ?';
         try {
             $res = DB_Helper::getInstance()->getRow($sql, array($lfi_id));
         } catch (DbException $e) {
@@ -58,12 +59,12 @@ class Link_Filter
         }
 
         if (count($res) > 0) {
-            $sql = "SELECT
+            $sql = 'SELECT
                         plf_prj_id
                     FROM
                         {{%project_link_filter}}
                     WHERE
-                        plf_lfi_id = ?";
+                        plf_lfi_id = ?';
             try {
                 $projects = DB_Helper::getInstance()->getColumn($sql, array($res['lfi_id']));
             } catch (DbException $e) {
@@ -73,7 +74,7 @@ class Link_Filter
             if ($projects === null) {
                 $projects = array();
             }
-            $res["projects"] = $projects;
+            $res['projects'] = $projects;
         }
 
         return $res;
@@ -86,7 +87,7 @@ class Link_Filter
      */
     public static function getList()
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     lfi_id,
                     lfi_description,
                     lfi_usr_role,
@@ -95,7 +96,7 @@ class Link_Filter
                 FROM
                     {{%link_filter}}
                 ORDER BY
-                    lfi_id";
+                    lfi_id';
         try {
             $res = DB_Helper::getInstance()->getAll($sql);
         } catch (DbException $e) {
@@ -103,7 +104,7 @@ class Link_Filter
         }
 
         for ($i = 0; $i < count($res); $i++) {
-            $sql = "SELECT
+            $sql = 'SELECT
                         plf_prj_id,
                         prj_title
                     FROM
@@ -111,7 +112,7 @@ class Link_Filter
                         {{%project}}
                     WHERE
                         prj_id = plf_prj_id AND
-                        plf_lfi_id = ?";
+                        plf_lfi_id = ?';
             try {
                 $projects = DB_Helper::getInstance()->getPair($sql, array($res[$i]['lfi_id']));
             } catch (DbException $e) {
@@ -120,9 +121,9 @@ class Link_Filter
             if ($projects === null) {
                 $projects = array();
             }
-            $res[$i]["projects"] = array_keys($projects);
-            $res[$i]["project_names"] = array_values($projects);
-            $res[$i]["min_usr_role_name"] = User::getRole($res[$i]["lfi_usr_role"]);
+            $res[$i]['projects'] = array_keys($projects);
+            $res[$i]['project_names'] = array_values($projects);
+            $res[$i]['min_usr_role_name'] = User::getRole($res[$i]['lfi_usr_role']);
         }
 
         return $res;
@@ -135,7 +136,7 @@ class Link_Filter
      */
     public static function insert()
     {
-        $sql = "INSERT INTO
+        $sql = 'INSERT INTO
                     {{%link_filter}}
                 (
                     lfi_pattern,
@@ -144,8 +145,8 @@ class Link_Filter
                     lfi_description
                 ) VALUES (
                     ?, ?, ?, ?
-                )";
-        $params = array($_REQUEST["pattern"], $_REQUEST["replacement"], $_REQUEST["usr_role"], $_REQUEST["description"]);
+                )';
+        $params = array($_REQUEST['pattern'], $_REQUEST['replacement'], $_REQUEST['usr_role'], $_REQUEST['description']);
         try {
             DB_Helper::getInstance()->query($sql, $params);
         } catch (DbException $e) {
@@ -153,15 +154,15 @@ class Link_Filter
         }
 
         $lfi_id = DB_Helper::get_last_insert_id();
-        foreach ($_REQUEST["projects"] as $prj_id) {
-            $sql = "INSERT INTO
+        foreach ($_REQUEST['projects'] as $prj_id) {
+            $sql = 'INSERT INTO
                         {{%project_link_filter}}
                     (
                         plf_prj_id,
                         plf_lfi_id
                     ) VALUES (
                         ?, ?
-                    )";
+                    )';
             try {
                 DB_Helper::getInstance()->query($sql, array($prj_id, $lfi_id));
             } catch (DbException $e) {
@@ -179,7 +180,7 @@ class Link_Filter
      */
     public static function remove()
     {
-        $items = $_REQUEST["items"];
+        $items = $_REQUEST['items'];
         $itemlist = DB_Helper::buildList($items);
 
         $sql = "DELETE FROM
@@ -212,7 +213,7 @@ class Link_Filter
      */
     public static function update()
     {
-        $sql = "UPDATE
+        $sql = 'UPDATE
                     {{%link_filter}}
                 SET
                     lfi_pattern = ?,
@@ -220,40 +221,40 @@ class Link_Filter
                     lfi_usr_role = ?,
                     lfi_description = ?
                 WHERE
-                    lfi_id = ?";
+                    lfi_id = ?';
         try {
             DB_Helper::getInstance()->query($sql, array(
-                $_REQUEST["pattern"],
-                $_REQUEST["replacement"],
-                $_REQUEST["usr_role"],
-                $_REQUEST["description"],
-                $_REQUEST["id"],
+                $_REQUEST['pattern'],
+                $_REQUEST['replacement'],
+                $_REQUEST['usr_role'],
+                $_REQUEST['description'],
+                $_REQUEST['id'],
             ));
         } catch (DbException $e) {
             return -1;
         }
 
-        $sql = "DELETE FROM
+        $sql = 'DELETE FROM
                     {{%project_link_filter}}
                 WHERE
-                    plf_lfi_id = ?";
+                    plf_lfi_id = ?';
         try {
-            DB_Helper::getInstance()->query($sql, array($_REQUEST["id"]));
+            DB_Helper::getInstance()->query($sql, array($_REQUEST['id']));
         } catch (DbException $e) {
             return -1;
         }
 
-        foreach ($_REQUEST["projects"] as $prj_id) {
-            $sql = "INSERT INTO
+        foreach ($_REQUEST['projects'] as $prj_id) {
+            $sql = 'INSERT INTO
                         {{%project_link_filter}}
                     (
                         plf_prj_id,
                         plf_lfi_id
                     ) VALUES (
                         ?, ?
-                    )";
+                    )';
             try {
-                DB_Helper::getInstance()->query($sql, array($prj_id, $_REQUEST["id"]));
+                DB_Helper::getInstance()->query($sql, array($prj_id, $_REQUEST['id']));
             } catch (DbException $e) {
                 return -1;
             }
@@ -270,7 +271,7 @@ class Link_Filter
      * @param   string $class The CSS class to use on the actual links
      * @return  string The processed text.
      */
-    public static function processText($prj_id, $text, $class = "link")
+    public static function processText($prj_id, $text, $class = 'link')
     {
 
         // process issue link seperatly since it has to do something special

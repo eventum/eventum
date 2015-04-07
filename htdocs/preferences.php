@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -34,7 +35,7 @@ if (!empty($_POST['language'])) {
 require_once dirname(__FILE__) . '/../init.php';
 
 // must do Language::setPreference before template is initialized
-if (@$_POST["cat"] == "update_account") {
+if (@$_POST['cat'] == 'update_account') {
     if (isset($_POST['language'])) {
         $res = User::setLang(Auth::getUserID(), $_POST['language']);
         Language::setPreference();
@@ -42,25 +43,25 @@ if (@$_POST["cat"] == "update_account") {
 }
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("preferences.tpl.html");
+$tpl->setTemplate('preferences.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 if (Auth::isAnonUser()) {
-    Auth::redirect("index.php");
+    Auth::redirect('index.php');
 }
 
 $usr_id = Auth::getUserID();
 
 $res = null;
-if (@$_POST["cat"] == "update_account") {
+if (@$_POST['cat'] == 'update_account') {
     $res = Prefs::set($usr_id, $_POST);
     User::updateSMS($usr_id, @$_POST['sms_email']);
-} elseif (@$_POST["cat"] == "update_name") {
+} elseif (@$_POST['cat'] == 'update_name') {
     $res = User::updateFullName($usr_id);
-} elseif (@$_POST["cat"] == "update_email") {
+} elseif (@$_POST['cat'] == 'update_email') {
     $res = User::updateEmail($usr_id);
-} elseif (@$_POST["cat"] == "update_password") {
+} elseif (@$_POST['cat'] == 'update_password') {
     $res = Auth::updatePassword($usr_id, $_POST['new_password'], $_POST['confirm_password']);
 }
 
@@ -73,10 +74,10 @@ if ($res == 1) {
 $prefs = Prefs::get($usr_id);
 $prefs['sms_email'] = User::getSMS($usr_id);
 
-$tpl->assign("user_prefs", $prefs);
-$tpl->assign("user_info", User::getDetails($usr_id));
-$tpl->assign("assigned_projects", Project::getAssocList($usr_id, false, true));
-$tpl->assign("zones", Date_Helper::getTimezoneList());
+$tpl->assign('user_prefs', $prefs);
+$tpl->assign('user_info', User::getDetails($usr_id));
+$tpl->assign('assigned_projects', Project::getAssocList($usr_id, false, true));
+$tpl->assign('zones', Date_Helper::getTimezoneList());
 $tpl->assign('avail_langs', Language::getAvailableLanguages());
 $tpl->assign('current_locale', User::getLang(Auth::getUserID(), true));
 $tpl->assign(array(

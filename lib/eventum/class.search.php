@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -54,7 +55,7 @@ class Search
         if (isset($profile[$name])) {
             return $profile[$name];
         } else {
-            return "";
+            return '';
         }
     }
 
@@ -88,10 +89,10 @@ class Search
             'rows'           => Misc::escapeString($rows ? $rows : APP_DEFAULT_PAGER_SIZE),
             'pagerRow'       => Misc::escapeInteger(self::getParam('pagerRow', $request_only)),
             'hide_closed'    => $hide_closed,
-            "sort_by"        => Misc::stripHTML($sort_by ? $sort_by : "pri_rank"),
-            "sort_order"     => Misc::stripHTML($sort_order ? $sort_order : "ASC"),
-            "customer_id"    => Misc::escapeString(self::getParam('customer_id')),
-            "nosave"         => self::getParam('nosave', $request_only),
+            'sort_by'        => Misc::stripHTML($sort_by ? $sort_by : 'pri_rank'),
+            'sort_order'     => Misc::stripHTML($sort_order ? $sort_order : 'ASC'),
+            'customer_id'    => Misc::escapeString(self::getParam('customer_id')),
+            'nosave'         => self::getParam('nosave', $request_only),
             // quick filter form
             'keywords'       => self::getParam('keywords', $request_only),
             'match_mode'     => self::getParam('match_mode', $request_only),
@@ -119,7 +120,7 @@ class Search
             'updated_date',
             'last_response_date',
             'first_response_date',
-            'closed_date'
+            'closed_date',
         );
         foreach ($date_fields as $field_name) {
             $field = Misc::stripHTML(self::getParam($field_name, $request_only));
@@ -129,7 +130,7 @@ class Search
             if (@$field['filter_type'] == 'in_past') {
                 @$cookie[$field_name] = array(
                     'filter_type'   =>  'in_past',
-                    'time_period'   =>  $field['time_period']
+                    'time_period'   =>  $field['time_period'],
                 );
             } else {
                 $end_field_name = $field_name . '_end';
@@ -141,12 +142,12 @@ class Search
                     'Day'         => $field['Day'],
                     'start'       => $field['Year'] . '-' . $field['Month'] . '-' . $field['Day'],
                     'filter_type' => $field['filter_type'],
-                    'end'         => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day']
+                    'end'         => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day'],
                 );
                 @$cookie[$end_field_name] = array(
                     'Year'        => $end_field['Year'],
                     'Month'       => $end_field['Month'],
-                    'Day'         => $end_field['Day']
+                    'Day'         => $end_field['Day'],
                 );
             }
         }
@@ -172,49 +173,49 @@ class Search
         // default order for last action date, priority should be descending
         // for textual fields, like summary, ascending is reasonable
         $fields = array(
-            "pri_rank" => "desc",
-            "sev_rank" => "asc",
-            "iss_id" => "desc",
-            "iss_customer_id" => "desc",
-            "prc_title" => "asc",
-            "sta_rank" => "asc",
-            "iss_created_date" => "desc",
-            "iss_summary" => "asc",
-            "last_action_date" => "desc",
-            "usr_full_name" => "asc",
-            "iss_expected_resolution_date" => "desc",
-            "pre_title" => "asc",
-            "assigned" => "asc",
-            "grp_name"  =>  "asc",
+            'pri_rank' => 'desc',
+            'sev_rank' => 'asc',
+            'iss_id' => 'desc',
+            'iss_customer_id' => 'desc',
+            'prc_title' => 'asc',
+            'sta_rank' => 'asc',
+            'iss_created_date' => 'desc',
+            'iss_summary' => 'asc',
+            'last_action_date' => 'desc',
+            'usr_full_name' => 'asc',
+            'iss_expected_resolution_date' => 'desc',
+            'pre_title' => 'asc',
+            'assigned' => 'asc',
+            'grp_name'  =>  'asc',
         );
 
         foreach ($custom_fields as $fld_id => $fld_name) {
-            $fields['custom_field_' . $fld_id] = "desc";
+            $fields['custom_field_' . $fld_id] = 'desc';
         }
 
         $sortfields = array_combine(array_keys($fields), array_keys($fields));
-        $sortfields["pre_title"] = "pre_scheduled_date";
-        $sortfields["assigned"] = "isu_usr_id";
+        $sortfields['pre_title'] = 'pre_scheduled_date';
+        $sortfields['assigned'] = 'isu_usr_id';
 
         $items = array(
-            "links"  => array(),
-            "images" => array()
+            'links'  => array(),
+            'images' => array(),
         );
         $current_sort_by = $options['sort_by'];
         $current_sort_order = $options['sort_order'];
         foreach ($sortfields as $field => $sortfield) {
             $sort_order = $fields[$field];
             if ($current_sort_by == $sortfield) {
-                $items["images"][$field] = "images/" . strtolower($current_sort_order) . ".gif";
-                if (strtolower($current_sort_order) == "asc") {
-                    $sort_order = "desc";
+                $items['images'][$field] = 'images/' . strtolower($current_sort_order) . '.gif';
+                if (strtolower($current_sort_order) == 'asc') {
+                    $sort_order = 'desc';
                 } else {
-                    $sort_order = "asc";
+                    $sort_order = 'asc';
                 }
             }
             $options['sort_by'] = $sortfield;
             $options['sort_order'] = $sort_order;
-            $items["links"][$field] = $_SERVER["PHP_SELF"] . "?" . Filter::buildUrl(Filter::getFiltersInfo(), $options, false, true);
+            $items['links'][$field] = $_SERVER['PHP_SELF'] . '?' . Filter::buildUrl(Filter::getFiltersInfo(), $options, false, true);
         }
 
         return $items;
@@ -231,7 +232,7 @@ class Search
      */
     public static function getListing($prj_id, $options, $current_row = 0, $max = 5)
     {
-        if (strtoupper($max) == "ALL") {
+        if (strtoupper($max) == 'ALL') {
             $max = 9999999;
         }
         $start = $current_row * $max;
@@ -243,7 +244,7 @@ class Search
         // get any custom fields that should be displayed
         $custom_fields = Custom_Field::getFieldsToBeListed($prj_id);
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     iss_id,
                     iss_grp_id,
                     iss_prj_id,
@@ -269,7 +270,7 @@ class Search
                     iss_last_public_action_type,
                     iss_last_internal_action_date,
                     iss_last_internal_action_type,
-                    " . Issue::getLastActionFields() . ",
+                    ' . Issue::getLastActionFields() . ",
                     CASE WHEN iss_last_internal_action_date > iss_last_public_action_date THEN 'internal' ELSE 'public' END AS action_type,
                     iss_private,
                     usr_full_name,
@@ -305,52 +306,52 @@ class Search
                 }
             }
         }
-        $stmt .= ")";
+        $stmt .= ')';
 
         // check for the custom fields we want to sort by
         if (strstr($options['sort_by'], 'custom_field') !== false) {
-            $fld_id = str_replace("custom_field_", '', $options['sort_by']);
+            $fld_id = str_replace('custom_field_', '', $options['sort_by']);
             $stmt .= "\n LEFT JOIN \n
                     {{%issue_custom_field}} as cf_sort
                 ON
                     (cf_sort.icf_iss_id = iss_id AND cf_sort.icf_fld_id = $fld_id) \n";
         }
 
-        if (!empty($options["users"]) || $options["sort_by"] === "isu_usr_id") {
-            $stmt .= "
+        if (!empty($options['users']) || $options['sort_by'] === 'isu_usr_id') {
+            $stmt .= '
                  LEFT JOIN
                     {{%issue_user}}
                  ON
-                    isu_iss_id=iss_id";
+                    isu_iss_id=iss_id';
         }
         if (!empty($usr_details['usr_par_code'])) {
             // restrict partners
-            $stmt .= "
+            $stmt .= '
                  LEFT JOIN
                     {{%issue_partner}}
                  ON
-                    ipa_iss_id=iss_id";
+                    ipa_iss_id=iss_id';
         }
-        if ((!empty($options["show_authorized_issues"])) || (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id)))) {
-            $stmt .= "
+        if ((!empty($options['show_authorized_issues'])) || (($role_id == User::getRoleID('Reporter')) && (Project::getSegregateReporters($prj_id)))) {
+            $stmt .= '
                  LEFT JOIN
                     {{%issue_user_replier}}
                  ON
-                    iur_iss_id=iss_id";
+                    iur_iss_id=iss_id';
         }
-        if (!empty($options["show_notification_list_issues"])) {
-            $stmt .= "
+        if (!empty($options['show_notification_list_issues'])) {
+            $stmt .= '
                  LEFT JOIN
                     {{%subscription}}
                  ON
-                    sub_iss_id=iss_id";
+                    sub_iss_id=iss_id';
         }
-        if (!empty($options["product"])) {
-            $stmt .= "
+        if (!empty($options['product'])) {
+            $stmt .= '
                  LEFT JOIN
                     {{%issue_product_version}}
                  ON
-                    ipv_iss_id=iss_id";
+                    ipv_iss_id=iss_id';
         }
         $stmt .= "
                  LEFT JOIN
@@ -386,29 +387,29 @@ class Search
                     iss_prj_id= " . Misc::escapeInteger($prj_id);
         $stmt .= self::buildWhereClause($options);
 
-        if (strstr($options["sort_by"], 'custom_field') !== false) {
+        if (strstr($options['sort_by'], 'custom_field') !== false) {
             $fld_details = Custom_Field::getDetails($fld_id);
             $sort_by = 'cf_sort.' . Custom_Field::getDBValueFieldNameByType($fld_details['fld_type']);
         } else {
-            $sort_by = Misc::escapeString($options["sort_by"]);
+            $sort_by = Misc::escapeString($options['sort_by']);
         }
 
-        $stmt .= "
+        $stmt .= '
                  GROUP BY
                     iss_id
                  ORDER BY
-                    " . $sort_by . " " . Misc::escapeString($options["sort_order"]) . ",
-                    iss_id DESC";
+                    ' . $sort_by . ' ' . Misc::escapeString($options['sort_order']) . ',
+                    iss_id DESC';
         $total_rows = Pager::getTotalRows($stmt);
-        $stmt .= "
+        $stmt .= '
                  LIMIT
-                    " . Misc::escapeInteger($max) . " OFFSET " . Misc::escapeInteger($start);
+                    ' . Misc::escapeInteger($max) . ' OFFSET ' . Misc::escapeInteger($start);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return array(
-                "list" => "",
-                "info" => ""
+                'list' => '',
+                'info' => '',
             );
         }
 
@@ -431,20 +432,20 @@ class Search
         $categories = Category::getAssocList($prj_id);
         $column_headings = Issue::getColumnHeadings($prj_id);
         if (count($custom_fields) > 0) {
-            $column_headings = array_merge($column_headings,$custom_fields);
+            $column_headings = array_merge($column_headings, $custom_fields);
         }
         $csv[] = @implode("\t", $column_headings);
 
-        if ($options['hide_excerpts'] != 1 && self::doesBackendSupportExcerpts() == true) {
-           $excerpts = self::getFullTextExcerpts();
+        if (@$options['hide_excerpts'] != 1 && self::doesBackendSupportExcerpts() == true) {
+            $excerpts = self::getFullTextExcerpts();
         }
 
         for ($i = 0; $i < count($res); $i++) {
             $issue_id = $res[$i]['iss_id'];
-            $res[$i]["time_spent"] = Misc::getFormattedTime($res[$i]["time_spent"]);
-            $res[$i]["iss_created_date"] = Date_Helper::getFormattedDate($res[$i]["iss_created_date"]);
-            $res[$i]["iss_expected_resolution_date"] = Date_Helper::getSimpleDate($res[$i]["iss_expected_resolution_date"], false);
-            $res[$i]["excerpts"] = isset($excerpts[$issue_id]) ? $excerpts[$issue_id] : '';
+            $res[$i]['time_spent'] = Misc::getFormattedTime($res[$i]['time_spent']);
+            $res[$i]['iss_created_date'] = Date_Helper::getFormattedDate($res[$i]['iss_created_date']);
+            $res[$i]['iss_expected_resolution_date'] = Date_Helper::getSimpleDate($res[$i]['iss_expected_resolution_date'], false);
+            $res[$i]['excerpts'] = isset($excerpts[$issue_id]) ? $excerpts[$issue_id] : '';
             $fields = array(
                 $res[$i]['pri_title'],
                 $res[$i]['iss_id'],
@@ -475,8 +476,8 @@ class Search
                 }
             }
             $fields[] = $res[$i]['sta_title'];
-            $fields[] = $res[$i]["status_change_date"];
-            $fields[] = $res[$i]["last_action_date"];
+            $fields[] = $res[$i]['status_change_date'];
+            $fields[] = $res[$i]['last_action_date'];
             $fields[] = $res[$i]['iss_dev_time'];
             $fields[] = $res[$i]['iss_summary'];
             $fields[] = $res[$i]['iss_expected_resolution_date'];
@@ -499,19 +500,19 @@ class Search
         $last_page = $total_pages - 1;
 
         return array(
-            "list" => $res,
-            "info" => array(
-                "current_page"  => $current_row,
-                "start_offset"  => $start,
-                "end_offset"    => $start + count($res),
-                "total_rows"    => $total_rows,
-                "total_pages"   => $total_pages,
-                "previous_page" => ($current_row == 0) ? "-1" : ($current_row - 1),
-                "next_page"     => ($current_row == $last_page) ? "-1" : ($current_row + 1),
-                "last_page"     => $last_page,
-                "custom_fields" => $custom_fields
+            'list' => $res,
+            'info' => array(
+                'current_page'  => $current_row,
+                'start_offset'  => $start,
+                'end_offset'    => $start + count($res),
+                'total_rows'    => $total_rows,
+                'total_pages'   => $total_pages,
+                'previous_page' => ($current_row == 0) ? '-1' : ($current_row - 1),
+                'next_page'     => ($current_row == $last_page) ? '-1' : ($current_row + 1),
+                'last_page'     => $last_page,
+                'custom_fields' => $custom_fields,
             ),
-            "csv" => @implode("\n", $csv)
+            'csv' => @implode("\n", $csv),
         );
     }
 
@@ -532,9 +533,9 @@ class Search
         if ($role_id == User::getRoleID('Customer')) {
             $crm = CRM::getInstance($prj_id);
             $contact = $crm->getContact($usr_details['usr_customer_contact_id']);
-            $stmt .= " AND iss_customer_contract_id IN('" . join("','", $contact->getContractIDS()) . "')";
+            $stmt .= " AND iss_customer_contract_id IN('" . implode("','", $contact->getContractIDS()) . "')";
             $stmt .= " AND iss_customer_id ='" . Auth::getCurrentCustomerID() . "'";
-        } elseif (($role_id == User::getRoleID("Reporter")) && (Project::getSegregateReporters($prj_id))) {
+        } elseif (($role_id == User::getRoleID('Reporter')) && (Project::getSegregateReporters($prj_id))) {
             $stmt .= " AND (
                         iss_usr_id = $usr_id OR
                         iur_usr_id = $usr_id
@@ -546,10 +547,10 @@ class Search
             $stmt .= " AND ipa_par_code = '" . Misc::escapeString($usr_details['usr_par_code']) . "'";
         }
 
-        if (!empty($options["users"])) {
+        if (!empty($options['users'])) {
             $stmt .= " AND (\n";
-            if (stristr($options["users"], "grp") !== false) {
-                $chunks = explode(":", $options["users"]);
+            if (stristr($options['users'], 'grp') !== false) {
+                $chunks = explode(':', $options['users']);
                 $stmt .= 'iss_grp_id = ' . Misc::escapeInteger($chunks[1]);
             } else {
                 if ($options['users'] == '-1') {
@@ -561,63 +562,63 @@ class Search
                 } elseif ($options['users'] == '-4') {
                     $stmt .= 'isu_usr_id IS NULL OR isu_usr_id = ' . $usr_id . ' OR iss_grp_id = ' . User::getGroupID($usr_id);
                 } else {
-                    $stmt .= 'isu_usr_id =' . Misc::escapeInteger($options["users"]);
+                    $stmt .= 'isu_usr_id =' . Misc::escapeInteger($options['users']);
                 }
             }
             $stmt .= ')';
         }
-        if (!empty($options["reporter"])) {
-            $stmt .= " AND iss_usr_id = " . Misc::escapeInteger($options["reporter"]);
+        if (!empty($options['reporter'])) {
+            $stmt .= ' AND iss_usr_id = ' . Misc::escapeInteger($options['reporter']);
         }
-        if (!empty($options["show_authorized_issues"])) {
+        if (!empty($options['show_authorized_issues'])) {
             $stmt .= " AND (iur_usr_id=$usr_id)";
         }
-        if (!empty($options["show_notification_list_issues"])) {
+        if (!empty($options['show_notification_list_issues'])) {
             $stmt .= " AND (sub_usr_id=$usr_id)";
         }
-        if (!empty($options["keywords"])) {
+        if (!empty($options['keywords'])) {
             $stmt .= " AND (\n";
             if (($options['search_type'] == 'all_text') && (APP_ENABLE_FULLTEXT)) {
-                $stmt .= "iss_id IN(" . join(', ', self::getFullTextIssues($options)) . ")";
+                $stmt .= 'iss_id IN(' . implode(', ', self::getFullTextIssues($options)) . ')';
             } elseif (($options['search_type'] == 'customer') && (CRM::hasCustomerIntegration($prj_id))) {
                 // check if the user is trying to search by customer name / email
                 $crm = CRM::getInstance($prj_id);
                 $customer_ids = $crm->getCustomerIDsByString($options['keywords'], true);
                 if (count($customer_ids) > 0) {
-                    $stmt .= " iss_customer_id IN (" . implode(', ', $customer_ids) . ")";
+                    $stmt .= ' iss_customer_id IN (' . implode(', ', $customer_ids) . ')';
                 } else {
                     // no results, kill query
-                    $stmt .= " iss_customer_id = -1";
+                    $stmt .= ' iss_customer_id = -1';
                 }
             } else {
-                $stmt .= "(" . Misc::prepareBooleanSearch('iss_summary', $options["keywords"]);
-                $stmt .= " OR " . Misc::prepareBooleanSearch('iss_description', $options["keywords"]) . ")";
+                $stmt .= '(' . Misc::prepareBooleanSearch('iss_summary', $options['keywords']);
+                $stmt .= ' OR ' . Misc::prepareBooleanSearch('iss_description', $options['keywords']) . ')';
             }
             $stmt .= "\n) ";
         }
         if (!empty($options['customer_id'])) {
-            $stmt .= " AND iss_customer_id='" . Misc::escapeString($options["customer_id"]) . "'";
+            $stmt .= " AND iss_customer_id='" . Misc::escapeString($options['customer_id']) . "'";
         }
-        if (!empty($options["priority"])) {
-            $stmt .= " AND iss_pri_id=" . Misc::escapeInteger($options["priority"]);
+        if (!empty($options['priority'])) {
+            $stmt .= ' AND iss_pri_id=' . Misc::escapeInteger($options['priority']);
         }
-        if (!empty($options["status"])) {
-            $stmt .= " AND iss_sta_id=" . Misc::escapeInteger($options["status"]);
+        if (!empty($options['status'])) {
+            $stmt .= ' AND iss_sta_id=' . Misc::escapeInteger($options['status']);
         }
-        if (!empty($options["category"])) {
+        if (!empty($options['category'])) {
             if (!is_array($options['category'])) {
                 $options['category'] = array($options['category']);
             }
-            $stmt .= " AND iss_prc_id IN(" . join(', ', Misc::escapeInteger($options["category"])) . ")";
+            $stmt .= ' AND iss_prc_id IN(' . implode(', ', Misc::escapeInteger($options['category'])) . ')';
         }
-        if (!empty($options["hide_closed"])) {
-            $stmt .= " AND sta_is_closed=0";
+        if (!empty($options['hide_closed'])) {
+            $stmt .= ' AND sta_is_closed=0';
         }
         if (!empty($options['release'])) {
-            $stmt .= " AND iss_pre_id = " . Misc::escapeInteger($options['release']);
+            $stmt .= ' AND iss_pre_id = ' . Misc::escapeInteger($options['release']);
         }
-        if (!empty($options["product"])) {
-            $stmt .= " AND ipv_pro_id = " . Misc::escapeInteger($options['product']);
+        if (!empty($options['product'])) {
+            $stmt .= ' AND ipv_pro_id = ' . Misc::escapeInteger($options['product']);
         }
         // now for the date fields
         $date_fields = array(
@@ -625,7 +626,7 @@ class Search
             'updated_date',
             'last_response_date',
             'first_response_date',
-            'closed_date'
+            'closed_date',
         );
         foreach ($date_fields as $field_name) {
             if (!empty($options[$field_name])) {
@@ -647,7 +648,7 @@ class Search
                             $options[$field_name]['time_period'] = 0;
                         }
                         $stmt .= " AND (UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "') - UNIX_TIMESTAMP(iss_$field_name)) <= (" .
-                            Misc::escapeInteger($options[$field_name]['time_period']) . "*3600)";
+                            Misc::escapeInteger($options[$field_name]['time_period']) . '*3600)';
                         break;
                 }
             }
@@ -672,17 +673,17 @@ class Search
                     $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
                         $cfo_id = Misc::escapeString($cfo_id);
-                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_iss_id = iss_id";
+                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . '.icf_iss_id = iss_id';
                         $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_fld_id = $fld_id";
-                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . "." . $fld_db_name . " = '$cfo_id'";
+                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . '.' . $fld_db_name . " = '$cfo_id'";
                     }
                 } elseif ($field['fld_type'] == 'date') {
                     if ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day']))) {
                         continue;
                     }
-                    $search_value = $search_value['Year'] . "-" . $search_value['Month'] . "-" . $search_value['Day'];
-                    $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id AND
-                        cf" . $fld_id . "." . $fld_db_name . " = '" . Misc::escapeString($search_value) . "')";
+                    $search_value = $search_value['Year'] . '-' . $search_value['Month'] . '-' . $search_value['Day'];
+                    $stmt .= " AND\n (iss_id = cf" . $fld_id . '.icf_iss_id AND
+                        cf' . $fld_id . '.' . $fld_db_name . " = '" . Misc::escapeString($search_value) . "')";
                 } elseif ($field['fld_type'] == 'integer') {
                     $value = $search_value['value'];
                     switch ($search_value['filter_type']) {
@@ -702,16 +703,16 @@ class Search
                         $cmp = '=';
                         break;
                     }
-                    $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id";
+                    $stmt .= " AND\n (iss_id = cf" . $fld_id . '.icf_iss_id';
                     $stmt .= " AND\n cf" . $fld_id . ".icf_fld_id = $fld_id";
-                    $stmt .= " AND cf" . $fld_id . "." . $fld_db_name . $cmp . Misc::escapeString($value) . ')';
+                    $stmt .= ' AND cf' . $fld_id . '.' . $fld_db_name . $cmp . Misc::escapeString($value) . ')';
                 } else {
-                    $stmt .= " AND\n (iss_id = cf" . $fld_id . ".icf_iss_id";
+                    $stmt .= " AND\n (iss_id = cf" . $fld_id . '.icf_iss_id';
                     $stmt .= " AND\n cf" . $fld_id . ".icf_fld_id = $fld_id";
                     if ($field['fld_type'] == 'combo') {
-                        $stmt .= " AND cf" . $fld_id . "." . $fld_db_name . " IN('" . join("', '", Misc::escapeString($search_value)) . "')";
+                        $stmt .= ' AND cf' . $fld_id . '.' . $fld_db_name . " IN('" . implode("', '", Misc::escapeString($search_value)) . "')";
                     } else {
-                        $stmt .= " AND cf" . $fld_id . "." . $fld_db_name . " LIKE '%" . Misc::escapeString($search_value) . "%'";
+                        $stmt .= ' AND cf' . $fld_id . '.' . $fld_db_name . " LIKE '%" . Misc::escapeString($search_value) . "%'";
                     }
                     $stmt .= ')';
                 }

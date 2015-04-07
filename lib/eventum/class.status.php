@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -47,7 +48,7 @@ class Status
     {
         $sta_ids = array_unique($sta_ids);
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     psd_sta_id,
                     psd_label,
                     psd_date_field
@@ -55,7 +56,7 @@ class Status
                     {{%project_status_date}}
                  WHERE
                     psd_prj_id=? AND
-                    psd_sta_id IN (" . DB_Helper::buildList($sta_ids). ")";
+                    psd_sta_id IN (' . DB_Helper::buildList($sta_ids). ')';
         $params = array_merge(array($prj_id), $sta_ids);
 
         try {
@@ -75,16 +76,16 @@ class Status
      */
     public static function getCustomizationDetails($psd_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%project_status_date}}
                  WHERE
-                    psd_id=?";
+                    psd_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($psd_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -98,10 +99,10 @@ class Status
      */
     public static function removeCustomization($items)
     {
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%project_status_date}}
                  WHERE
-                    psd_id IN (" . DB_Helper::buildList($items) . ")";
+                    psd_id IN (' . DB_Helper::buildList($items) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $items);
         } catch (DbException $e) {
@@ -123,7 +124,7 @@ class Status
      */
     public static function updateCustomization($psd_id, $prj_id, $sta_id, $date_field, $label)
     {
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%project_status_date}}
                  SET
                     psd_prj_id=?,
@@ -131,7 +132,7 @@ class Status
                     psd_date_field=?,
                     psd_label=?
                  WHERE
-                    psd_id=?";
+                    psd_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($prj_id, $sta_id, $date_field, $label, $psd_id));
         } catch (DbException $e) {
@@ -152,7 +153,7 @@ class Status
      */
     public static function insertCustomization($prj_id, $sta_id, $date_field, $label)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%project_status_date}}
                  (
                     psd_prj_id,
@@ -161,7 +162,7 @@ class Status
                     psd_label
                  ) VALUES (
                     ?, ?, ?, ?
-                 )";
+                 )';
         try {
             DB_Helper::getInstance()->query($stmt, array($prj_id, $sta_id, $date_field, $label));
         } catch (DbException $e) {
@@ -178,7 +179,7 @@ class Status
      */
     public static function getCustomizationList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     psd_id,
                     psd_prj_id,
                     psd_sta_id,
@@ -194,11 +195,11 @@ class Status
                     prj_id=psd_prj_id AND
                     sta_id=psd_sta_id
                  ORDER BY
-                    prj_title ASC";
+                    prj_title ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         $date_fields = Issue::getDateFieldsAssocList(true);
@@ -217,12 +218,12 @@ class Status
      */
     public function hasClosedContext($sta_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sta_is_closed
                  FROM
                     {{%status}}
                  WHERE
-                    sta_id=?";
+                    sta_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sta_id));
         } catch (DbException $e) {
@@ -246,7 +247,7 @@ class Status
         if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%status}}
                  (
                     sta_title,
@@ -256,7 +257,7 @@ class Status
                     sta_is_closed
                  ) VALUES (
                     ?, ?, ?, ?, ?
-                 )";
+                 )';
         $params = array($_POST['title'], $_POST['abbreviation'], $_POST['rank'], $_POST['color'], $_POST['is_closed']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -280,10 +281,10 @@ class Status
      */
     public static function update()
     {
-        if (Validation::isWhitespace($_POST["title"])) {
+        if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%status}}
                  SET
                     sta_title=?,
@@ -292,8 +293,8 @@ class Status
                     sta_color=?,
                     sta_is_closed=?
                  WHERE
-                    sta_id=?";
-        $params = array($_POST["title"], $_POST["abbreviation"], $_POST['rank'], $_POST["color"], $_POST['is_closed'], $_POST["id"]);
+                    sta_id=?';
+        $params = array($_POST['title'], $_POST['abbreviation'], $_POST['rank'], $_POST['color'], $_POST['is_closed'], $_POST['id']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
@@ -315,13 +316,13 @@ class Status
             }
         }
         if (count($removed_projects) > 0) {
-            $stmt = "UPDATE
+            $stmt = 'UPDATE
                         {{%issue}}
                      SET
                         iss_sta_id=0
                      WHERE
                         iss_sta_id=? AND
-                        iss_prj_id IN (" . implode(', ', $removed_projects) . ")";
+                        iss_prj_id IN (' . implode(', ', $removed_projects) . ')';
             try {
                 DB_Helper::getInstance()->query($stmt, array($_POST['id']));
             } catch (DbException $e) {
@@ -339,7 +340,7 @@ class Status
      */
     public static function remove()
     {
-        $items = $_POST["items"];
+        $items = $_POST['items'];
         $item_list = DB_Helper::buildList($items);
 
         $stmt = "DELETE FROM
@@ -374,14 +375,14 @@ class Status
      */
     public static function addProjectAssociation($sta_id, $prj_id)
     {
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%project_status}}
                  (
                     prs_sta_id,
                     prs_prj_id
                  ) VALUES (
                     ?, ?
-                 )";
+                 )';
         DB_Helper::getInstance()->query($stmt, array($sta_id, $prj_id));
     }
 
@@ -399,14 +400,14 @@ class Status
             $sta_id = array($sta_id);
         }
 
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%project_status}}
                  WHERE
-                    prs_sta_id IN (" . DB_Helper::buildList($sta_id) . ")";
+                    prs_sta_id IN (' . DB_Helper::buildList($sta_id) . ')';
 
         $params = $sta_id;
         if ($prj_id) {
-            $stmt .= " AND prs_prj_id=?";
+            $stmt .= ' AND prs_prj_id=?';
             $params[] = $prj_id;
         }
         try {
@@ -426,16 +427,16 @@ class Status
      */
     public static function getDetails($sta_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%status}}
                  WHERE
-                    sta_id=?";
+                    sta_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($sta_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         // get all of the project associations here as well
@@ -451,22 +452,22 @@ class Status
      */
     public static function getList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     *
                  FROM
                     {{%status}}
                  ORDER BY
                     sta_rank ASC,
-                    sta_title";
+                    sta_title';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         // get the list of associated projects
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['projects'] = implode(", ", array_values(self::getAssociatedProjects($res[$i]['sta_id'])));
+            $res[$i]['projects'] = implode(', ', array_values(self::getAssociatedProjects($res[$i]['sta_id'])));
         }
 
         return $res;
@@ -481,7 +482,7 @@ class Status
      */
     public function getAssociatedProjects($sta_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     prj_id,
                     prj_title
                  FROM
@@ -489,7 +490,7 @@ class Status
                     {{%project_status}}
                  WHERE
                     prj_id=prs_prj_id AND
-                    prs_sta_id=?";
+                    prs_sta_id=?';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($sta_id));
         } catch (DbException $e) {
@@ -513,16 +514,16 @@ class Status
             return $returns[$sta_title];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sta_id
                  FROM
                     {{%status}}
                  WHERE
-                    sta_title=?";
+                    sta_title=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sta_title));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         $returns[$sta_title] = $res;
@@ -538,16 +539,16 @@ class Status
      */
     public static function getStatusTitle($sta_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sta_title
                  FROM
                     {{%status}}
                  WHERE
-                    sta_id=?";
+                    sta_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sta_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -557,7 +558,7 @@ class Status
      * Method used to get the list of available closed-context statuses as an
      * associative array in the style of (abbreviation => title)
      *
-     * @param   array $prj_id List of project IDs
+     * @param   array|int $prj_id List of project IDs
      * @return  array The list of closed-context statuses
      */
     public static function getClosedAbbreviationAssocList($prj_id)
@@ -566,22 +567,22 @@ class Status
             $prj_id = array($prj_id);
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     UPPER(sta_abbreviation),
                     sta_title
                  FROM
                     {{%status}},
                     {{%project_status}}
                  WHERE
-                    prs_prj_id IN (" . DB_Helper::buildList($prj_id) . ") AND
+                    prs_prj_id IN (' . DB_Helper::buildList($prj_id) . ') AND
                     prs_sta_id=sta_id AND
                     sta_is_closed=1
                  ORDER BY
-                    sta_rank ASC";
+                    sta_rank ASC';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt, $prj_id);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -591,7 +592,7 @@ class Status
      * Method used to get the list of available statuses as an associative array
      * in the style of (abbreviation => title)
      *
-     * @param   array $prj_id List of project IDs
+     * @param   array|int $prj_id List of project IDs
      * @param   boolean $show_closed Whether to also return closed-context statuses or not
      * @return  array The list of statuses
      */
@@ -601,25 +602,25 @@ class Status
             $prj_id = array($prj_id);
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     UPPER(sta_abbreviation),
                     sta_title
                  FROM
                     {{%status}},
                     {{%project_status}}
                  WHERE
-                    prs_prj_id IN (" . DB_Helper::buildList($prj_id) . ") AND
-                    prs_sta_id=sta_id";
+                    prs_prj_id IN (' . DB_Helper::buildList($prj_id) . ') AND
+                    prs_sta_id=sta_id';
         if (!$show_closed) {
-            $stmt .= " AND sta_is_closed=0 ";
+            $stmt .= ' AND sta_is_closed=0 ';
         }
-        $stmt .= "
+        $stmt .= '
                  ORDER BY
-                    sta_rank ASC";
+                    sta_rank ASC';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt, $prj_id);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -639,25 +640,25 @@ class Status
             $prj_id = array($prj_id);
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sta_id,
                     sta_title
                  FROM
                     {{%status}},
                     {{%project_status}}
                  WHERE
-                    prs_prj_id IN (" . DB_Helper::buildList($prj_id) . ") AND
-                    prs_sta_id=sta_id";
+                    prs_prj_id IN (' . DB_Helper::buildList($prj_id) . ') AND
+                    prs_sta_id=sta_id';
         if (!$show_closed) {
-            $stmt .= " AND sta_is_closed=0 ";
+            $stmt .= ' AND sta_is_closed=0 ';
         }
-        $stmt .= "
+        $stmt .= '
                  ORDER BY
-                    sta_rank ASC";
+                    sta_rank ASC';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt, $prj_id);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -671,17 +672,17 @@ class Status
      */
     public static function getAssocList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sta_id,
                     sta_title
                  FROM
                     {{%status}}
                  ORDER BY
-                    sta_rank ASC";
+                    sta_rank ASC';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -697,7 +698,7 @@ class Status
      */
     public static function getClosedAssocList($prj_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sta_id,
                     sta_title
                  FROM
@@ -708,11 +709,11 @@ class Status
                     prs_sta_id=sta_id AND
                     sta_is_closed=1
                  ORDER BY
-                    sta_rank ASC";
+                    sta_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -725,17 +726,17 @@ class Status
      */
     public function getStatusColors()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sta_color,
                     sta_title
                  FROM
                     {{%status}}
                  ORDER BY
-                    sta_rank ASC";
+                    sta_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;

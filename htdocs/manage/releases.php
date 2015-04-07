@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,43 +31,44 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/releases.tpl.html");
+$tpl->setTemplate('manage/releases.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
-    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
-    $tpl->displayTemplate();exit;
+    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
+    $tpl->displayTemplate();
+    exit;
 }
 
-@$prj_id = $_POST["prj_id"] ? $_POST["prj_id"] : $_GET["prj_id"];
-$tpl->assign("project", Project::getDetails($prj_id));
+@$prj_id = $_POST['prj_id'] ? $_POST['prj_id'] : $_GET['prj_id'];
+$tpl->assign('project', Project::getDetails($prj_id));
 
-if (@$_POST["cat"] == "new") {
+if (@$_POST['cat'] == 'new') {
     $res = Release::insert();
-    $tpl->assign("result", $res);
+    $tpl->assign('result', $res);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the release was added successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to add the release.'), Misc::MSG_ERROR),
             -2  =>  array(ev_gettext('Please enter the title for this new release.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "update") {
+} elseif (@$_POST['cat'] == 'update') {
     $res = Release::update();
-    $tpl->assign("result", $res);
+    $tpl->assign('result', $res);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the release was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to update the release.'), Misc::MSG_ERROR),
             -2  =>  array(ev_gettext('Please enter the title for this release.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "delete") {
+} elseif (@$_POST['cat'] == 'delete') {
     Release::remove();
 }
 
-if (@$_GET["cat"] == "edit") {
-    $tpl->assign("info", Release::getDetails($_GET["id"]));
+if (@$_GET['cat'] == 'edit') {
+    $tpl->assign('info', Release::getDetails($_GET['id']));
 }
 
-$tpl->assign("list", Release::getList($prj_id));
+$tpl->assign('list', Release::getList($prj_id));
 
 $tpl->displayTemplate();

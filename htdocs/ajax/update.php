@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -38,19 +39,19 @@ $issue_id = !empty($_POST['issue_id']) ? (int) $_POST['issue_id'] : null;
 
 // check if correct issue id was sent
 if (!$issue_id || !Issue::exists($issue_id)) {
-    die("Invalid issue_id");
+    die('Invalid issue_id');
 }
 
 $usr_id = Auth::getUserID();
 
 // check if user role is above "Standard User"
-if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) < User::getRoleID("Standard User")) {
-    die("Forbidden");
+if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) < User::getRoleID('Standard User')) {
+    die('Forbidden');
 }
 
 // check if user can acess the issue
 if (!Issue::canAccess($issue_id, $usr_id)) {
-    die("Forbidden");
+    die('Forbidden');
 }
 
 switch ($field_name) {
@@ -68,7 +69,7 @@ switch ($field_name) {
 
         $res = Issue::setExpectedResolutionDate($issue_id, $date);
         if ($res == -1) {
-            die("Update failed");
+            die('Update failed');
         }
 
         if ($date !== null) {

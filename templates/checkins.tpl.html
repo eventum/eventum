@@ -1,14 +1,14 @@
 
-{literal}
+
 <script type="text/javascript">
 <!--
 function removeCheckins(f)
 {
     if (!hasOneChecked(f, 'item[]')) {
-        alert('{/literal}{t escape=js}Please choose which entries need to be removed.{/t}{literal}');
+        alert('{t escape=js}Please choose which entries need to be removed.{/t}');
         return false;
     }
-    if (!confirm('{/literal}{t escape=js}This action will permanently delete the selected entries.{/t}{literal}')) {
+    if (!confirm('{t escape=js}This action will permanently delete the selected entries.{/t}')) {
         return false;
     } else {
         var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -59,7 +59,7 @@ $(function() {
 
 //-->
 </script>
-{/literal}
+
 <form onSubmit="return removeCheckins(this);" target="_removeCheckins" action="popup.php" method="post">
 <input type="hidden" name="cat" value="remove_checkin">
 <div class="issue_section bordered">

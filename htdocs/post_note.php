@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -28,38 +29,37 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("post_note.tpl.html");
+$tpl->setTemplate('post_note.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
 
-@$issue_id = $_GET["issue_id"] ? $_GET["issue_id"] : $_POST["issue_id"];
+@$issue_id = $_GET['issue_id'] ? $_GET['issue_id'] : $_POST['issue_id'];
 $details = Issue::getDetails($issue_id);
-$tpl->assign("issue_id", $issue_id);
-$tpl->assign("issue", $details);
+$tpl->assign('issue_id', $issue_id);
+$tpl->assign('issue', $details);
 
-if ((!Issue::canAccess($issue_id, $usr_id)) || (Auth::getCurrentRole() <= User::getRoleID("Customer"))) {
-    $tpl->setTemplate("permission_denied.tpl.html");
+if ((!Issue::canAccess($issue_id, $usr_id)) || (Auth::getCurrentRole() <= User::getRoleID('Customer'))) {
+    $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;
 }
 
 Workflow::prePage($prj_id, 'post_note');
 
-if (@$_GET["cat"] == 'post_result' && !empty($_GET['post_result'])) {
+if (@$_GET['cat'] == 'post_result' && !empty($_GET['post_result'])) {
     $res = (int) $_GET['post_result'];
-    $tpl->assign("post_result", $res);
-
-} elseif (@$_POST["cat"] == "post_note") {
+    $tpl->assign('post_result', $res);
+} elseif (@$_POST['cat'] == 'post_note') {
     // change status
     if (!@empty($_POST['new_status'])) {
         $res = Issue::setStatus($issue_id, $_POST['new_status']);
         if ($res != -1) {
             $new_status = Status::getStatusTitle($_POST['new_status']);
             History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to '$new_status' by " .
-                User::getFullName($usr_id) . " when sending a note");
+                User::getFullName($usr_id) . ' when sending a note');
         }
     }
 
@@ -71,7 +71,7 @@ if (@$_GET["cat"] == 'post_result' && !empty($_GET['post_result'])) {
     } else {
         Misc::setMessage(ev_gettext('Thank you, the internal note was posted successfully.'), Misc::MSG_INFO);
     }
-    $tpl->assign("post_result", $res);
+    $tpl->assign('post_result', $res);
 
     // enter the time tracking entry about this phone support entry
     if (!empty($_POST['time_spent'])) {
@@ -86,15 +86,14 @@ if (@$_GET["cat"] == 'post_result' && !empty($_GET['post_result'])) {
     }
 
     Auth::redirect("post_note.php?cat=post_result&issue_id=$issue_id&post_result={$res}");
-
-} elseif (@$_GET["cat"] == "reply") {
-    if (!@empty($_GET["id"])) {
-        $note = Note::getDetails($_GET["id"]);
-        $header = Misc::formatReplyPreamble($note["timestamp"], $note["not_from"]);
-        $note["not_body"] = $header . Misc::formatReply($note["not_note"]);
+} elseif (@$_GET['cat'] == 'reply') {
+    if (!@empty($_GET['id'])) {
+        $note = Note::getDetails($_GET['id']);
+        $header = Misc::formatReplyPreamble($note['timestamp'], $note['not_from']);
+        $note['not_body'] = $header . Misc::formatReply($note['not_note']);
         $tpl->assign(array(
-            "note"           => $note,
-            "parent_note_id" => $_GET["id"]
+            'note'           => $note,
+            'parent_note_id' => $_GET['id'],
         ));
         $reply_subject = Mail_Helper::removeExcessRe($note['not_title']);
     }
@@ -109,7 +108,7 @@ $tpl->assign(array(
     'from'               => User::getFromHeader($usr_id),
     'users'              => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
     'current_user_prefs' => Prefs::get($usr_id),
-    'subscribers'        => Notification::getSubscribers($issue_id, false, User::getRoleID("Standard User")),
+    'subscribers'        => Notification::getSubscribers($issue_id, false, User::getRoleID('Standard User')),
     'statuses'           => Status::getAssocStatusList($prj_id, false),
     'current_issue_status'  =>  Issue::getStatusID($issue_id),
     'time_categories'    => Time_Tracking::getAssocCategories($prj_id),

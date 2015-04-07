@@ -1,8 +1,10 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
+// | Copyright (c) 2009-2015 Eventum Team.                                |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -18,7 +20,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
@@ -33,6 +35,7 @@ if (empty($_GET['fld_id'])) {
 }
 
 $backend = Custom_Field::getBackend($_GET['fld_id']);
-if ((is_object($backend)) && (is_subclass_of($backend, "Dynamic_Custom_Field_Backend"))) {
+if (is_object($backend) && is_subclass_of($backend, 'Dynamic_Custom_Field_Backend')) {
+    header('Content-Type: application/json; charset=UTF-8');
     echo json_encode($backend->getDynamicOptions($_GET));
 }

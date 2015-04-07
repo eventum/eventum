@@ -150,9 +150,9 @@ class Eventum_Bot
             $res = User::clockOut(User::getUserIDByEmail($email));
         } else {
             if (User::isClockedIn(User::getUserIDByEmail($email))) {
-                $msg = "clocked in";
+                $msg = 'clocked in';
             } else {
-                $msg = "clocked out";
+                $msg = 'clocked out';
             }
             $this->sendResponse($irc, $data->nick, "You are currently $msg.");
 
@@ -207,9 +207,9 @@ class Eventum_Bot
             'auth'             => 'Format is "auth user@example.com password"',
             'clock'            => 'Format is "clock [in|out]"',
             'list-clocked-in'  => 'Format is "list-clocked-in"',
-            'list-quarantined' => 'Format is "list-quarantined"'
+            'list-quarantined' => 'Format is "list-quarantined"',
         );
-        $this->sendResponse($irc, $data->nick, "This is the list of available commands:");
+        $this->sendResponse($irc, $data->nick, 'This is the list of available commands:');
         foreach ($commands as $command => $description) {
             $this->sendResponse($irc, $data->nick, "$command: $description");
         }
@@ -350,7 +350,6 @@ class Eventum_Bot
                     ino_status='pending'";
         $res = DB_Helper::getInstance()->getAll($stmt);
         for ($i = 0; $i < count($res); $i++) {
-
             if (empty($res[$i]['ino_category'])) {
                 $res[$i]['ino_category'] = APP_EVENTUM_IRC_CATEGORY_DEFAULT;
             }
@@ -376,7 +375,7 @@ class Eventum_Bot
                     }
                     if (count($this->_getProjectsForChannel($channel)) > 1) {
                         // if multiple projects display in the same channel, display project in message
-                        $message = "[" . Project::getName($res[$i]['ino_prj_id']) . "] " . $message;
+                        $message = '[' . Project::getName($res[$i]['ino_prj_id']) . '] ' . $message;
                     }
                     if (in_array($res[$i]['ino_category'], $categories)) {
                         $this->sendResponse($irc, $channel, $message);

@@ -29,7 +29,7 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-ini_set("memory_limit", '1024M');
+ini_set('memory_limit', '1024M');
 
 require_once dirname(__FILE__).'/../init.php';
 
@@ -58,7 +58,6 @@ function getParams()
             // no other args are allowed
             $config['fix-lock'] = true;
         }
-
     } else {
         foreach (array_keys($config) as $key) {
             if (isset($_GET[$key])) {

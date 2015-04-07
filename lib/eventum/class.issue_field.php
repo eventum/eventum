@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -125,6 +126,7 @@ class Issue_Field
      * @param integer $issue_id
      * @param string $field_name
      * @param mixed $value
+     * @return bool|int|null
      */
     private static function setValue($issue_id, $field_name, $value)
     {
@@ -136,6 +138,8 @@ class Issue_Field
             case 'severity':
                 return Issue::setSeverity($issue_id, $value);
         }
+
+        return null;
     }
 
     /**

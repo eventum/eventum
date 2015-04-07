@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,12 +31,12 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("reports/issue_user.tpl.html");
+$tpl->setTemplate('reports/issue_user.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 if (!Access::canAccessReports(Auth::getUserID())) {
-    echo "Invalid role";
+    echo 'Invalid role';
     exit;
 }
 
@@ -43,7 +44,7 @@ $prj_id = Auth::getCurrentProject();
 
 if ($_GET['cat'] == 'user') {
     $res = Report::getIssuesByUser($prj_id);
-    $tpl->assign("users", $res);
+    $tpl->assign('users', $res);
 }
 
 $tpl->displayTemplate();

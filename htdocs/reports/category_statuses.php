@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -31,12 +32,12 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("reports/category_statuses.tpl.html");
+$tpl->setTemplate('reports/category_statuses.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 if (!Access::canAccessReports(Auth::getUserID())) {
-    echo "Invalid role";
+    echo 'Invalid role';
     exit;
 }
 
@@ -50,17 +51,17 @@ $data = array();
 foreach ($categories as $cat_id => $cat_title) {
     $data[$cat_id] = array(
         'title' =>  $cat_title,
-        'statuses'  =>  array()
+        'statuses'  =>  array(),
     );
     foreach ($statuses as $sta_id => $sta_title) {
-        $sql = "SELECT
+        $sql = 'SELECT
                     count(*)
                 FROM
                     {{%issue}}
                 WHERE
                     iss_prj_id = ? AND
                     iss_sta_id = ? AND
-                    iss_prc_id = ?";
+                    iss_prc_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($prj_id, $sta_id, $cat_id));
         } catch (DbException $e) {
@@ -68,7 +69,7 @@ foreach ($categories as $cat_id => $cat_title) {
         }
         $data[$cat_id]['statuses'][$sta_id] = array(
             'title' =>  $sta_title,
-            'count' =>  $res
+            'count' =>  $res,
         );
     }
 }

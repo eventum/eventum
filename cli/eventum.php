@@ -40,7 +40,7 @@ if (empty($relative_url)) {
 }
 
 if (count($argv) == 1) {
-    Command_Line::quit("Requirement argument not found");
+    Command_Line::quit('Requirement argument not found');
 }
 // show usage information if user gave --help
 if (($argv[1] == '--help') || ($argv[1] == 'help')) {
@@ -73,7 +73,7 @@ try {
             switch ($argv[2]) {
                 case 'assign':
                     if (count($argv) == 3) {
-                        Command_Line::quit("Missing parameter for the developer");
+                        Command_Line::quit('Missing parameter for the developer');
                     }
                     Command_Line::assignIssue($client, $auth, $issue_id, $argv[3]);
                     break;
@@ -84,21 +84,21 @@ try {
                 case 'ar':
                     // adds a user to the list of authorized repliers
                     if (count($argv) == 3) {
-                        Command_Line::quit("Missing parameter for the developer");
+                        Command_Line::quit('Missing parameter for the developer');
                     }
                     Command_Line::addAuthorizedReplier($client, $auth, $issue_id, $argv[3]);
                     break;
                 case 'set-status':
                 case 'ss':
                     if (count($argv) == 3) {
-                        Command_Line::quit("Missing parameter for the status");
+                        Command_Line::quit('Missing parameter for the status');
                     }
                     Command_Line::setIssueStatus($client, $auth, $issue_id, $argv[3]);
                     break;
                 case 'add-time':
                 case 'at':
                     if (count($argv) == 3) {
-                        Command_Line::quit("Missing parameter for time worked");
+                        Command_Line::quit('Missing parameter for time worked');
                     }
                     $check = (integer) $argv[3];
                     if ($check == 0) {
@@ -113,7 +113,7 @@ try {
                 case 'get-file':
                 case 'gf':
                     if (count($argv) == 3) {
-                        Command_Line::quit("Missing parameter for the file number");
+                        Command_Line::quit('Missing parameter for the file number');
                     }
                     Command_Line::getFile($client, $auth, $issue_id, $argv[3]);
                     break;
@@ -131,9 +131,9 @@ try {
                 case 'ge':
                     // views an email
                     if (count($argv) == 3) {
-                        Command_Line::quit("Missing parameter for the email number");
+                        Command_Line::quit('Missing parameter for the email number');
                     }
-                    if (@$argv[4] == "--full") {
+                    if (@$argv[4] == '--full') {
                         $full = true;
                     } else {
                         $full = false;
@@ -151,7 +151,7 @@ try {
                 case 'gn':
                     // view a note
                     if (count($argv) == 3) {
-                        Command_Line::quit("Missing parameter for the note number");
+                        Command_Line::quit('Missing parameter for the note number');
                     }
                     Command_Line::printNote($client, $auth, $issue_id, $argv[3]);
                     break;
@@ -159,7 +159,7 @@ try {
                 case 'cn':
                     // convert a note to an email
                     if (empty($argv[3])) {
-                        Command_Line::quit("Missing parameter for the note number");
+                        Command_Line::quit('Missing parameter for the note number');
                     }
                     if (@$argv[4] != 'draft' && @$argv[4] != 'email') {
                         Command_Line::quit("4th parameter must be 'draft' or 'email'");
@@ -182,7 +182,7 @@ try {
                 case 'gd':
                     // viewing a draft
                     if (count($argv) == 3) {
-                        Command_Line::quit("Missing parameter for the draft number");
+                        Command_Line::quit('Missing parameter for the draft number');
                     }
                     Command_Line::printDraft($client, $auth, $issue_id, $argv[3]);
                     break;
@@ -190,7 +190,7 @@ try {
                 case 'sd':
                     // viewing a draft
                     if (count($argv) == 3) {
-                        Command_Line::quit("Missing parameter for the draft number");
+                        Command_Line::quit('Missing parameter for the draft number');
                     }
                     Command_Line::sendDraft($client, $auth, $issue_id, $argv[3]);
                     break;
@@ -246,7 +246,7 @@ try {
             Command_Line::printStatusList($client, $auth);
         } elseif ($argv[1] == 'customer') {
             if (count($argv) != 4) {
-                Command_Line::quit("Wrong parameter count");
+                Command_Line::quit('Wrong parameter count');
             }
             Command_Line::lookupCustomer($client, $auth, $argv[2], $argv[3]);
         } elseif (($argv[1] == 'weekly-report') || ($argv[1] == 'wr')) {
@@ -271,9 +271,8 @@ try {
         }
     }
 } catch (Eventum_RPC_Exception $e) {
-    print "ERROR: " . $e->getMessage() . "\n";
+    print 'ERROR: ' . $e->getMessage() . "\n";
     if ($debug) {
         print $e->getTraceAsString();
     }
-
 }

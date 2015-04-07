@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -35,7 +36,6 @@
 
 class Report
 {
-
     /**
      * Method used to get all open issues and group them by user.
      *
@@ -65,7 +65,7 @@ class Report
             }
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     usr_full_name,
                     iss_id,
                     iss_summary,
@@ -92,24 +92,24 @@ class Report
                     iss_id=isu_iss_id AND
                     isu_usr_id=usr_id AND
                     UNIX_TIMESTAMP(iss_last_response_date) < ? AND
-                    UNIX_TIMESTAMP(iss_last_response_date) > ?";
+                    UNIX_TIMESTAMP(iss_last_response_date) > ?';
         if (count($users) > 0) {
-            $stmt .= " AND\nisu_usr_id IN(" . join(', ', Misc::escapeInteger($users)) . ")";
+            $stmt .= " AND\nisu_usr_id IN(" . implode(', ', Misc::escapeInteger($users)) . ')';
         }
         if (count($groups) > 0) {
-            $stmt .= " AND\nusr_grp_id IN(" . join(', ', Misc::escapeInteger($groups)) . ")";
+            $stmt .= " AND\nusr_grp_id IN(" . implode(', ', Misc::escapeInteger($groups)) . ')';
         }
         if (count($status) > 0) {
-            $stmt .= " AND\niss_sta_id IN(" . join(', ', Misc::escapeInteger($status)) . ")";
+            $stmt .= " AND\niss_sta_id IN(" . implode(', ', Misc::escapeInteger($status)) . ')';
         }
-        $stmt .= "
+        $stmt .= '
                  ORDER BY
                     usr_full_name,
-                    iss_last_response_date " . Misc::escapeString($sort_order);
+                    iss_last_response_date ' . Misc::escapeString($sort_order);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id, $before_ts, $after_ts));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         Time_Tracking::getTimeSpentByIssues($res);
@@ -190,14 +190,14 @@ class Report
                     UNIX_TIMESTAMP(iss_created_date) < (UNIX_TIMESTAMP() - ?)
                  ORDER BY\n";
         if ($group_by_reporter) {
-            $stmt .= "reporter.usr_full_name";
+            $stmt .= 'reporter.usr_full_name';
         } else {
-            $stmt .= "assignee.usr_full_name";
+            $stmt .= 'assignee.usr_full_name';
         }
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id, $ts_diff));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         Time_Tracking::getTimeSpentByIssues($res);
@@ -229,7 +229,7 @@ class Report
                 'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
                 'status_color'        => $res[$i]['sta_color'],
                 'last_update'         => Date_Helper::getFormattedDateDiff($ts, $update_date_ts),
-                'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts)
+                'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
             );
         }
 
@@ -245,7 +245,7 @@ class Report
      */
     public static function getIssuesByUser($prj_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     usr_full_name,
                     iss_id,
                     iss_summary,
@@ -268,11 +268,11 @@ class Report
                     iss_id=isu_iss_id AND
                     isu_usr_id=usr_id
                  ORDER BY
-                    usr_full_name";
+                    usr_full_name';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         Time_Tracking::getTimeSpentByIssues($res);
@@ -283,7 +283,7 @@ class Report
                 'sta_title'        => $res[$i]['sta_title'],
                 'iss_created_date' => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
                 'time_spent'       => Misc::getFormattedTime($res[$i]['time_spent']),
-                'status_color'     => $res[$i]['sta_color']
+                'status_color'     => $res[$i]['sta_color'],
             );
         }
 
@@ -307,7 +307,7 @@ class Report
 
         // figure out timezone
         $user_prefs = Prefs::get($usr_id);
-        $tz = $user_prefs["timezone"];
+        $tz = $user_prefs['timezone'];
 
         $start_ts = Date_Helper::getDateTime($start, $tz)->setTime(0, 0, 0)->format('Y-m-d H:i:s');
         $end_ts = Date_Helper::getDateTime($end, $tz)->setTime(23, 59, 59)->format('Y-m-d H:i:s');
@@ -318,12 +318,12 @@ class Report
         $total_time = 0;
         foreach ($time_tracking as $category => $data) {
             unset($time_tracking[$category]);
-            $time_tracking[str_replace(" ", "_", $category)] = $data;
-            $total_time += $data["total_time"];
+            $time_tracking[str_replace(' ', '_', $category)] = $data;
+            $total_time += $data['total_time'];
         }
 
         // get count of issues assigned in week of report.
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(*)
                  FROM
                     {{%issue}},
@@ -334,7 +334,7 @@ class Report
                     iss_sta_id = sta_id AND
                     isu_usr_id = ? AND
                     iss_prj_id = ? AND
-                    isu_assigned_date BETWEEN ? AND ?";
+                    isu_assigned_date BETWEEN ? AND ?';
         $params = array($usr_id, Auth::getCurrentProject(), $start_ts, $end_ts);
         try {
             $newly_assigned = DB_Helper::getInstance()->getOne($stmt, $params);
@@ -343,8 +343,8 @@ class Report
         }
 
         $email_count = array(
-            "associated"    =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, true),
-            "other"         =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, false)
+            'associated'    =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, true),
+            'other'         =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, false),
         );
 
         $htt_exclude = array();
@@ -355,18 +355,18 @@ class Report
         }
 
         $data = array(
-            "start"     => str_replace('-', '.', $start),
-            "end"       => str_replace('-', '.', $end),
-            "user"      => User::getDetails($usr_id),
-            "group_name"=> Group::getName(User::getGroupID($usr_id)),
-            "issues"    => History::getTouchedIssuesByUser($usr_id, $start_ts, $end_ts, $separate_closed, $htt_exclude, $separate_not_assigned_to_user),
-            "status_counts" => History::getTouchedIssueCountByStatus($usr_id, $start_ts, $end_ts),
-            "new_assigned_count"    =>  $newly_assigned,
-            "time_tracking" => $time_tracking,
-            "email_count"   => $email_count,
-            "phone_count"   => Phone_Support::getCountByUser($usr_id, $start_ts, $end_ts),
-            "note_count"    => Note::getCountByUser($usr_id, $start_ts, $end_ts),
-            "total_time"    => Misc::getFormattedTime($total_time, false)
+            'start'     => str_replace('-', '.', $start),
+            'end'       => str_replace('-', '.', $end),
+            'user'      => User::getDetails($usr_id),
+            'group_name' => Group::getName(User::getGroupID($usr_id)),
+            'issues'    => History::getTouchedIssuesByUser($usr_id, $start_ts, $end_ts, $separate_closed, $htt_exclude, $separate_not_assigned_to_user),
+            'status_counts' => History::getTouchedIssueCountByStatus($usr_id, $start_ts, $end_ts),
+            'new_assigned_count'    =>  $newly_assigned,
+            'time_tracking' => $time_tracking,
+            'email_count'   => $email_count,
+            'phone_count'   => Phone_Support::getCountByUser($usr_id, $start_ts, $end_ts),
+            'note_count'    => Note::getCountByUser($usr_id, $start_ts, $end_ts),
+            'total_time'    => Misc::getFormattedTime($total_time, false),
         );
 
         return $data;
@@ -408,12 +408,12 @@ class Report
 
         // get total number of developer and customer events
         $event_count = array(
-            "developer" =>  0,
-            "customer"  =>  0
+            'developer' =>  0,
+            'customer'  =>  0,
         );
         foreach ($res as $row) {
-            $event_count["developer"] += $row["dev_events"];
-            $event_count["customer"] += $row["cust_events"];
+            $event_count['developer'] += $row['dev_events'];
+            $event_count['customer'] += $row['cust_events'];
         }
 
         $data = array();
@@ -427,23 +427,23 @@ class Report
             $user_time = $dt->format('H:i');
 
             if ($graph) {
-                $data["developer"][$hour] = "";
-                $data["customer"][$hour] = "";
+                $data['developer'][$hour] = '';
+                $data['customer'][$hour] = '';
             } else {
-                $data[$i]["display_time_gmt"] = $gmt_time;
-                $data[$i]["display_time_user"] = $user_time;
+                $data[$i]['display_time_gmt'] = $gmt_time;
+                $data[$i]['display_time_user'] = $user_time;
             }
 
             // loop through results, assigning appropriate results to data array
             foreach ($res as $index => $row) {
-                if ($row["time_period"] == $i) {
-                    $sort_values[$row["performer"]][$i] = $row["events"];
+                if ($row['time_period'] == $i) {
+                    $sort_values[$row['performer']][$i] = $row['events'];
 
                     if ($graph) {
-                        $data[$row["performer"]][$hour] = (($row["events"] / $event_count[$row["performer"]]) * 100);
+                        $data[$row['performer']][$hour] = (($row['events'] / $event_count[$row['performer']]) * 100);
                     } else {
-                        $data[$i][$row["performer"]]["count"] = $row["events"];
-                        $data[$i][$row["performer"]]["percentage"] = (($row["events"] / $event_count[$row["performer"]]) * 100);
+                        $data[$i][$row['performer']]['count'] = $row['events'];
+                        $data[$i][$row['performer']]['percentage'] = (($row['events'] / $event_count[$row['performer']]) * 100);
                     }
                     unset($res[$index]);
                 }
@@ -455,7 +455,7 @@ class Report
             foreach ($sort_values as $performer => $values) {
                 arsort($values);
                 reset($values);
-                $data[key($values)][$performer]["rank"] = 1;
+                $data[key($values)][$performer]['rank'] = 1;
             }
         }
 
@@ -472,13 +472,13 @@ class Report
     public static function getEmailWorkloadByTimePeriod($timezone, $graph = false)
     {
         // get total counts
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     hour(sup_date) AS time_period,
                     count(*) as events
                  FROM
                     {{%support_email}}
                  GROUP BY
-                    time_period";
+                    time_period';
         try {
             $total = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
@@ -486,7 +486,7 @@ class Report
         }
 
         // get all developer email addresses
-        $users = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID("customer"));
+        $users = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'));
         $emails = array();
         foreach ($users as $usr_id => $usr_full_name) {
             $emails[] = Misc::escapeString(User::getFromHeader($usr_id));
@@ -499,7 +499,7 @@ class Report
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_from IN('" . join("','", $emails) . "')
+                    sup_from IN('" . implode("','", $emails) . "')
                  GROUP BY
                     time_period";
         try {
@@ -532,40 +532,40 @@ class Report
             $user_time = $dt->format('H:i');
 
             if ($graph) {
-                $data["developer"][$hour] = "";
-                $data["customer"][$hour] = "";
+                $data['developer'][$hour] = '';
+                $data['customer'][$hour] = '';
             } else {
-                $data[$i]["display_time_gmt"] = $gmt_time;
-                $data[$i]["display_time_user"] = $user_time;
+                $data[$i]['display_time_gmt'] = $gmt_time;
+                $data[$i]['display_time_user'] = $user_time;
             }
 
             // use later to find highest value
-            $sort_values["developer"][$i] = $dev_stats[$i];
-            $sort_values["customer"][$i] = $cust_stats[$i];
+            $sort_values['developer'][$i] = $dev_stats[$i];
+            $sort_values['customer'][$i] = $cust_stats[$i];
 
             if ($graph) {
                 if ($dev_count == 0) {
-                    $data["developer"][$hour] = 0;
+                    $data['developer'][$hour] = 0;
                 } else {
-                    $data["developer"][$hour] = (($dev_stats[$i] / $dev_count) * 100);
+                    $data['developer'][$hour] = (($dev_stats[$i] / $dev_count) * 100);
                 }
                 if ($cust_count == 0) {
-                    $data["customer"][$hour] = 0;
+                    $data['customer'][$hour] = 0;
                 } else {
-                    $data["customer"][$hour] = (($cust_stats[$i] / $cust_count) * 100);
+                    $data['customer'][$hour] = (($cust_stats[$i] / $cust_count) * 100);
                 }
             } else {
-                $data[$i]["developer"]["count"] = $dev_stats[$i];
+                $data[$i]['developer']['count'] = $dev_stats[$i];
                 if ($dev_count == 0) {
-                    $data[$i]["developer"]["percentage"] = 0;
+                    $data[$i]['developer']['percentage'] = 0;
                 } else {
-                    $data[$i]["developer"]["percentage"] = (($dev_stats[$i] / $dev_count) * 100);
+                    $data[$i]['developer']['percentage'] = (($dev_stats[$i] / $dev_count) * 100);
                 }
-                $data[$i]["customer"]["count"] = $cust_stats[$i];
+                $data[$i]['customer']['count'] = $cust_stats[$i];
                 if ($cust_count == 0) {
-                    $data[$i]["customer"]["percentage"] = 0;
+                    $data[$i]['customer']['percentage'] = 0;
                 } else {
-                    $data[$i]["customer"]["percentage"] = (($cust_stats[$i] / $cust_count) * 100);
+                    $data[$i]['customer']['percentage'] = (($cust_stats[$i] / $cust_count) * 100);
                 }
             }
         }
@@ -575,7 +575,7 @@ class Report
             foreach ($sort_values as $performer => $values) {
                 arsort($values);
                 reset($values);
-                $data[key($values)][$performer]["rank"] = 1;
+                $data[key($values)][$performer]['rank'] = 1;
             }
         }
 
@@ -595,7 +595,7 @@ class Report
      * @param   integer $assignee The assignee the issue should belong to.
      * @return  array An array of data.
      */
-    public static function getCustomFieldReport($fld_id, $cfo_ids, $group_by = "issue", $start_date = false, $end_date = false, $list = false, $interval = '', $assignee = false)
+    public static function getCustomFieldReport($fld_id, $cfo_ids, $group_by = 'issue', $start_date = false, $end_date = false, $list = false, $interval = '', $assignee = false)
     {
         $prj_id = Auth::getCurrentProject();
         $fld_id = Misc::escapeInteger($fld_id);
@@ -604,10 +604,10 @@ class Report
         // get field values
         $options = Custom_Field::getOptions($fld_id, $cfo_ids);
 
-        if ($group_by == "customer") {
-            $group_by_field = "iss_customer_id";
+        if ($group_by == 'customer') {
+            $group_by_field = 'iss_customer_id';
         } else {
-            $group_by_field = "iss_id";
+            $group_by_field = 'iss_id';
         }
 
         if ($assignee == -1) {
@@ -617,21 +617,21 @@ class Report
         $label_field = '';
         $interval_group_by_field = '';
         switch ($interval) {
-            case "day":
+            case 'day':
                 $label_field = "CONCAT(YEAR(iss_created_date), '-', MONTH(iss_created_date), '-', DAY(iss_created_date))";
-                $interval_group_by_field = "CONCAT(YEAR(iss_created_date), MONTH(iss_created_date), DAY(iss_created_date))";
+                $interval_group_by_field = 'CONCAT(YEAR(iss_created_date), MONTH(iss_created_date), DAY(iss_created_date))';
                 break;
-            case "week":
+            case 'week':
                 $label_field = "CONCAT(YEAR(iss_created_date), '/', WEEK(iss_created_date))";
-                $interval_group_by_field = "WEEK(iss_created_date)";
+                $interval_group_by_field = 'WEEK(iss_created_date)';
                 break;
-            case "month":
+            case 'month':
                 $label_field = "CONCAT(YEAR(iss_created_date), '/', MONTH(iss_created_date))";
-                $interval_group_by_field = "MONTH(iss_created_date)";
+                $interval_group_by_field = 'MONTH(iss_created_date)';
                 break;
-            case "year":
-                $label_field = "YEAR(iss_created_date)";
-                $interval_group_by_field = "YEAR(iss_created_date)";
+            case 'year':
+                $label_field = 'YEAR(iss_created_date)';
+                $interval_group_by_field = 'YEAR(iss_created_date)';
                 break;
         }
 
@@ -648,22 +648,22 @@ class Report
                 $sql .= ",
                         $label_field as interval_label";
             }
-            $sql .= "
+            $sql .= '
                     FROM
-                        {{%custom_field}},";
+                        {{%custom_field}},';
             if (count($options) > 0) {
-                $sql .= "
-                        {{%custom_field_option}},";
+                $sql .= '
+                        {{%custom_field_option}},';
             }
-            $sql .= "
+            $sql .= '
                         {{%issue_custom_field}},
                         {{%issue}},
                         {{%issue_user}}
                     WHERE
-                        fld_id = icf_fld_id AND";
+                        fld_id = icf_fld_id AND';
             if (count($options) > 0) {
                 $sql .=
-                        " cfo_id = icf_value AND";
+                        ' cfo_id = icf_value AND';
             }
             $sql .= "
                         icf_iss_id = iss_id AND
@@ -671,7 +671,7 @@ class Report
                         icf_fld_id = $fld_id";
             if (count($options) > 0) {
                 $sql .= " AND
-                        cfo_id IN('" . join("','", Misc::escapeString(array_keys($options))) . "')";
+                        cfo_id IN('" . implode("','", Misc::escapeString(array_keys($options))) . "')";
             }
             if (($start_date != false) && ($end_date != false)) {
                 $sql .= " AND\niss_created_date BETWEEN '" . Misc::escapeString($start_date) . "' AND '" . Misc::escapeString($end_date) . "'";
@@ -687,8 +687,8 @@ class Report
                 $sql .= "
                         $label_field DESC,";
             }
-            $sql .= "
-                        row_count DESC";
+            $sql .= '
+                        row_count DESC';
             try {
                 $res = DB_Helper::getInstance()->getAll($sql);
             } catch (DbException $e) {
@@ -698,12 +698,12 @@ class Report
             if (CRM::hasCustomerIntegration($prj_id)) {
                 $crm = CRM::getInstance($prj_id);
                 $crm->processListIssuesResult($res);
-                if ($group_by == "issue") {
+                if ($group_by == 'issue') {
                     usort($res,
                         function ($a, $b) {
-                            if ($a["customer_title"] < $b["customer_title"]) {
+                            if ($a['customer_title'] < $b['customer_title']) {
                                 return -1;
-                            } elseif ($a["customer_title"] > $b["customer_title"]) {
+                            } elseif ($a['customer_title'] > $b['customer_title']) {
                                 return 1;
                             } else {
                                 return 0;
@@ -721,7 +721,7 @@ class Report
 
         $data = array();
         foreach ($options as $cfo_id => $value) {
-            $stmt = "SELECT";
+            $stmt = 'SELECT';
             if ($label_field != '') {
                 $stmt .= "
                         $label_field as label,";
@@ -775,13 +775,13 @@ class Report
                     cfo_id = icf_value AND
                     icf_iss_id = iss_id AND
                     icf_fld_id = $fld_id AND
-                    cfo_id NOT IN(" . join(",", $cfo_ids) . ")";
+                    cfo_id NOT IN(" . implode(',', $cfo_ids) . ')';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt);
         } catch (DbException $e) {
             return array();
         }
-        $data["All Others"] = $res;
+        $data['All Others'] = $res;
 
         return $data;
     }
@@ -802,39 +802,39 @@ class Report
         // get field values
         $options = Custom_Field::getOptions($fld_id, $cfo_ids);
 
-        $sql = "SELECT
+        $sql = 'SELECT
                     iss_id,
                     SUM(ttr_time_spent) ttr_time_spent_sum,
                     iss_summary,
                     iss_customer_id,
                     iss_private
-               ";
+               ';
 
-            if ($per_user) {
-                $sql .= ', usr_full_name ';
-            }
-            $sql .= "
+        if ($per_user) {
+            $sql .= ', usr_full_name ';
+        }
+        $sql .= '
                  FROM
-                    {{%time_tracking}},";
+                    {{%time_tracking}},';
 
-            if ($per_user) {
-                    $sql .= "{{%user}}, ";
-            }
+        if ($per_user) {
+            $sql .= '{{%user}}, ';
+        }
 
-            $sql .= "
+        $sql .= '
                         {{%issue}}
                     WHERE
-                        iss_prj_id=" . Auth::getCurrentProject() . " AND
+                        iss_prj_id=' . Auth::getCurrentProject() . " AND
                         ttr_created_date BETWEEN '" . Misc::escapeString($start_date) . " 00:00:00' AND '" . Misc::escapeString($end_date) . " 23:59:59' AND
                         ttr_iss_id = iss_id AND
                         ";
-            if ($per_user) {
-                 $sql .= " usr_id = ttr_usr_id AND ";
-            }
-            $sql .= "
+        if ($per_user) {
+            $sql .= ' usr_id = ttr_usr_id AND ';
+        }
+        $sql .= '
                         ttr_iss_id = iss_id
-                        ";
-            if (count($options) > 0) {
+                        ';
+        if (count($options) > 0) {
             $sql .= " AND (
                 SELECT
                     count(*)
@@ -842,19 +842,19 @@ class Report
                     {{%issue_custom_field}} a
                 WHERE
                     a.icf_fld_id = $fld_id AND
-                    a.icf_value IN('" . join("','", Misc::escapeString(array_keys($options))) . "') AND
+                    a.icf_value IN('" . implode("','", Misc::escapeString(array_keys($options))) . "') AND
                     a.icf_iss_id = ttr_iss_id
                 ) > 0";
-            }
-            if ($per_user) {
-                $sql .= "
+        }
+        if ($per_user) {
+            $sql .= '
                     GROUP BY
-                    iss_id, ttr_usr_id";
-            } else {
-                $sql .= "
+                    iss_id, ttr_usr_id';
+        } else {
+            $sql .= '
                     GROUP BY
-                    iss_id";
-           }
+                    iss_id';
+        }
 
         try {
             $res = DB_Helper::getInstance()->getAll($sql);
@@ -888,27 +888,27 @@ class Report
 
         // figure out the correct format code
         switch ($interval) {
-            case "day":
+            case 'day':
                 $format = '%m/%d/%y';
                 $order_by = "%1\$s";
                 break;
-            case "dow":
+            case 'dow':
                 $format = '%W';
                 $order_by = "CASE WHEN DATE_FORMAT(%1\$s, '%%w') = 0 THEN 7 ELSE DATE_FORMAT(%1\$s, '%%w') END";
                 break;
-            case "week":
-                if ($type == "aggregate") {
+            case 'week':
+                if ($type == 'aggregate') {
                     $format = '%v';
                 } else {
                     $format = '%v/%y';
                 }
                 $order_by = "%1\$s";
                 break;
-            case "dom":
+            case 'dom':
                 $format = '%d';
                 break;
-            case "month":
-                if ($type == "aggregate") {
+            case 'month':
+                if ($type == 'aggregate') {
                     $format = '%b';
                     $order_by = "DATE_FORMAT(%1\$s, '%%m')";
                 } else {
@@ -942,24 +942,24 @@ class Report
         } catch (DbException $e) {
             return array();
         }
-        $data["issues"]["points"] = $res;
+        $data['issues']['points'] = $res;
 
         if (count($res) > 0) {
             $stats = new Math_Stats();
             $stats->setData($res);
 
-            $data["issues"]["stats"] = array(
-                "total" =>  $stats->sum(),
-                "avg"   =>  $stats->mean(),
-                "median"    =>  $stats->median(),
-                "max"   =>  $stats->max()
+            $data['issues']['stats'] = array(
+                'total' =>  $stats->sum(),
+                'avg'   =>  $stats->mean(),
+                'median'    =>  $stats->median(),
+                'max'   =>  $stats->max(),
             );
         } else {
-            $data["issues"]["stats"] = array(
-                "total" =>  0,
-                "avg"   =>  0,
-                "median"    =>  0,
-                "max"   =>  0
+            $data['issues']['stats'] = array(
+                'total' =>  0,
+                'avg'   =>  0,
+                'median'    =>  0,
+                'max'   =>  0,
             );
         }
 
@@ -971,13 +971,13 @@ class Report
                     {{%support_email}},
                     {{%email_account}}";
         if (!empty($category)) {
-            $stmt .= ",
-                     {{%issue}}";
+            $stmt .= ',
+                     {{%issue}}';
         }
-        $stmt .= "
+        $stmt .= '
                  WHERE
                     sup_ema_id=ema_id AND
-                    ema_prj_id=" . Auth::getCurrentProject() . " AND
+                    ema_prj_id=' . Auth::getCurrentProject() . " AND
                     sup_date BETWEEN '$start' AND '$end'";
         if (!empty($category)) {
             $stmt .= " AND
@@ -996,24 +996,24 @@ class Report
         } catch (DbException $e) {
             return array();
         }
-        $data["emails"]["points"] = $res;
+        $data['emails']['points'] = $res;
 
         if (count($res) > 0) {
             $stats = new Math_Stats();
             $stats->setData($res);
 
-            $data["emails"]["stats"] = array(
-                "total" =>  $stats->sum(),
-                "avg"   =>  $stats->mean(),
-                "median"    =>  $stats->median(),
-                "max"   =>  $stats->max()
+            $data['emails']['stats'] = array(
+                'total' =>  $stats->sum(),
+                'avg'   =>  $stats->mean(),
+                'median'    =>  $stats->median(),
+                'max'   =>  $stats->max(),
             );
         } else {
-            $data["emails"]["stats"] = array(
-                "total" =>  0,
-                "avg"   =>  0,
-                "median"    =>  0,
-                "max"   =>  0
+            $data['emails']['stats'] = array(
+                'total' =>  0,
+                'avg'   =>  0,
+                'median'    =>  0,
+                'max'   =>  0,
             );
         }
 

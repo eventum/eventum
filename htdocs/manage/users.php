@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -31,38 +32,39 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/users.tpl.html");
+$tpl->setTemplate('manage/users.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 
 if ($role_id < User::getRoleID('manager')) {
-    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
-    $tpl->displayTemplate();exit;
+    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
+    $tpl->displayTemplate();
+    exit;
 }
 
-if (@$_POST["cat"] == "new") {
+if (@$_POST['cat'] == 'new') {
     $res = User::insertFromPost();
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the user was added successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to add the new user.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "update") {
+} elseif (@$_POST['cat'] == 'update') {
     $res = User::updateFromPost();
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the user was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to update the user information.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "change_status") {
-    User::changeStatus($_POST["items"], $_POST["status"]);
+} elseif (@$_POST['cat'] == 'change_status') {
+    User::changeStatus($_POST['items'], $_POST['status']);
 }
 
 $project_roles = array();
 $project_list = Project::getAll();
-if (@$_GET["cat"] == "edit") {
-    $info = User::getDetails($_GET["id"]);
-    $tpl->assign("info", $info);
+if (@$_GET['cat'] == 'edit') {
+    $info = User::getDetails($_GET['id']);
+    $tpl->assign('info', $info);
 }
 foreach ($project_list as $prj_id => $prj_title) {
     $excluded_roles = array('Customer');
@@ -72,19 +74,19 @@ foreach ($project_list as $prj_id => $prj_title) {
         } else {
             $excluded_roles = array('administrator');
         }
-        if (@$info['roles'][$prj_id]['pru_role'] == User::getRoleID("administrator")) {
+        if (@$info['roles'][$prj_id]['pru_role'] == User::getRoleID('administrator')) {
             $excluded_roles = false;
         }
     }
-    $project_roles[$prj_id] = $user_roles = array(0 => "No Access") + User::getRoles($excluded_roles);
+    $project_roles[$prj_id] = $user_roles = array(0 => 'No Access') + User::getRoles($excluded_roles);
 }
 
 $show_customer = !empty($_GET['show_customers']);
 $show_inactive = !empty($_GET['show_inactive']);
-$tpl->assign("list", User::getList($show_customer, $show_inactive));
-$tpl->assign("project_list", $project_list);
-$tpl->assign("project_roles", $project_roles);
-$tpl->assign("group_list", Group::getAssocListAllProjects());
-$tpl->assign("partners", Partner::getAssocList());
+$tpl->assign('list', User::getList($show_customer, $show_inactive));
+$tpl->assign('project_list', $project_list);
+$tpl->assign('project_roles', $project_roles);
+$tpl->assign('group_list', Group::getAssocListAllProjects());
+$tpl->assign('partners', Partner::getAssocList());
 
 $tpl->displayTemplate();

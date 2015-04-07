@@ -30,7 +30,7 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("get_emails.tpl.html");
+$tpl->setTemplate('get_emails.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, null, true);
 
@@ -38,7 +38,7 @@ $tpl->displayTemplate();
 flush();
 
 echo "<span class='default'>";
-echo "<b>The following is the SQL statement produced by this reminder:</b><br /><br />";
+echo '<b>The following is the SQL statement produced by this reminder:</b><br /><br />';
 echo nl2br(Reminder::getSQLQuery($_GET['rem_id'], $_GET['rma_id']));
 
 ?>

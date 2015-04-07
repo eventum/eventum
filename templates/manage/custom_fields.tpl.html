@@ -1,7 +1,7 @@
 {extends "manage/manage.tpl.html"}
 
 {block "manage_content"}
-  {literal}
+
   <script type="text/javascript">
   <!--
   var editing_option_id = -1;
@@ -9,12 +9,12 @@
   {
       var f = $('#email_account_form');
       if (Validation.isFieldWhitespace('title')) {
-          alert('{/literal}{t escape=js}Please enter the title of this custom field.{/t}{literal}');
+          alert('{t escape=js}Please enter the title of this custom field.{/t}');
           Validation.selectField('title');
           return false;
       }
       if (!Validation.hasOneSelected('projects[]')) {
-          alert('{/literal}{t escape=js}Please assign the appropriate projects for this custom field.{/t}{literal}');
+          alert('{t escape=js}Please assign the appropriate projects for this custom field.{/t}');
           Validation.selectField('projects[]');
           return false;
       }
@@ -37,9 +37,9 @@
           }
       }
       if (removed_projects.length > 0) {
-          var answer = confirm('{/literal}{t escape=js}WARNING: You have removed project(s){/t}{literal} ' + removed_projects + ' {/literal}{t}from the list{/t}{literal} ' +
-             '{/literal}{t escape=js}of associated projects. This will remove all data for this field from the selected project(s).{/t}{literal} ' +
-             '{/literal}{t escape=js}Do you want to continue?{/t}{literal}');
+          var answer = confirm('{t escape=js}WARNING: You have removed project(s){/t} ' + removed_projects + ' {t}from the list{/t} ' +
+             '{t escape=js}of associated projects. This will remove all data for this field from the selected project(s).{/t} ' +
+             '{t escape=js}Do you want to continue?{/t}');
           if (answer == false) {
               return false;
           }
@@ -55,7 +55,7 @@
       var val_field = $('input[name=new_value]');
       var value = val_field.val();
       if (Validation.isWhitespace(value)) {
-          alert('{/literal}{t escape=js}Please enter the new value for the combo box.{/t}{literal}');
+          alert('{t escape=js}Please enter the new value for the combo box.{/t}');
           val_field.val('');
           val_field.focus();
           return false;
@@ -70,7 +70,7 @@
       // check for an existing option with the same value
       for (var i = 0; i < field.options.length; i++) {
           if (field.options[i].text == value) {
-              alert('{/literal}{t escape=js}The specified value already exists in the list of options.{/t}{literal}');
+              alert('{t escape=js}The specified value already exists in the list of options.{/t}');
               val_field.focus();
               return false;
           }
@@ -91,7 +91,7 @@
   {
       var new_value = Eventum.getField('new_value').val();
       if (Validation.isWhitespace(new_value)) {
-          alert('{/literal}{t escape=js}Please enter the updated value.{/t}{literal}');
+          alert('{t escape=js}Please enter the updated value.{/t}');
           return false;
       }
       var option = Eventum.getField('field_options[]').children('option').filter("[value='" + editing_option_id + "']'");
@@ -105,7 +105,7 @@
   {
       var options = Eventum.getField('field_options[]').children(':selected');
       if (options.length == 0) {
-          alert('{/literal}{t escape=js}Please select an option from the list.{/t}{literal}');
+          alert('{t escape=js}Please select an option from the list.{/t}');
           return false;
       }
       editing_option_id = options[0].value;
@@ -115,13 +115,13 @@
   function removeFieldOption(e)
   {
       if (!Validation.hasOneSelected('field_options[]')) {
-          alert('{/literal}{t escape=js}Please select an option from the list.{/t}{literal}');
+          alert('{t escape=js}Please select an option from the list.{/t}');
           return false;
       }
       Eventum.getField('field_options[]').find('option:selected').remove();
       var field = Eventum.getField('field_options[]')[0];
       if (field.options.length == 0) {
-          field.options[0] = new Option('{/literal}{t escape=js}enter a new option above{/t}{literal}', '-1');
+          field.options[0] = new Option('{t escape=js}enter a new option above{/t}', '-1');
       }
   }
   function toggleCustomOptionsField()
@@ -148,10 +148,10 @@
   function checkDelete()
   {
       if (!Validation.hasOneChecked('items[]')) {
-          alert('{/literal}{t escape=js}Please select at least one of the custom fields.{/t}{literal}');
+          alert('{t escape=js}Please select at least one of the custom fields.{/t}');
           return false;
       }
-      if (!confirm('{/literal}{t escape=js}This action will permanently remove the selected custom fields.{/t}{literal}')) {
+      if (!confirm('{t escape=js}This action will permanently remove the selected custom fields.{/t}')) {
           return false;
       } else {
           return true;
@@ -174,7 +174,7 @@
       $('input[name=remove_button]').click(removeFieldOption);
       $('input[name=update_button]').click(updateFieldOption);
   });
-  {/literal}
+
   var selected_projects = [];
   {if $info.project|default:'' != '' && $info.project|@count > 0}
   {foreach from=$info.projects item=prj_id}

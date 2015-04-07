@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -34,7 +35,7 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
     public function getIssueIDs($options)
     {
         // no pre-existing list, generate them
-        $stmt = "(SELECT
+        $stmt = '(SELECT
                     iss_id
                  FROM
                      {{%issue}}
@@ -72,7 +73,7 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
                      sup_id = seb_sup_id AND
                      sup_removed = 0 AND
                      MATCH(seb_body) AGAINST (? IN BOOLEAN MODE)
-                 )";
+                 )';
         $params = array(
             $options['keywords'],
             $options['keywords'],
@@ -86,16 +87,16 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
             return array(-1);
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     DISTINCT(icf_iss_id)
                 FROM
                     {{%issue_custom_field}}
                 WHERE
                     (MATCH (icf_value) AGAINST (? IN BOOLEAN MODE) OR
-                     MATCH (icf_value_integer) AGAINST (? IN BOOLEAN MODE))";
+                     MATCH (icf_value_integer) AGAINST (? IN BOOLEAN MODE))';
         $params1 = array(
             $options['keywords'],
-            $options['keywords']
+            $options['keywords'],
         );
         try {
             $custom_res = DB_Helper::getInstance()->getColumn($stmt, $params1);

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -97,7 +98,7 @@ class Routing
     {
         // need some validation here
         if (empty($full_message)) {
-            return array(self::EX_NOINPUT, ev_gettext("Error: The email message was empty") . ".\n");
+            return array(self::EX_NOINPUT, ev_gettext('Error: The email message was empty') . ".\n");
         }
 
         // save the full message for logging purposes
@@ -106,19 +107,19 @@ class Routing
         // check if the email routing interface is even supposed to be enabled
         $setup = Setup::load();
         if ($setup['email_routing']['status'] != 'enabled') {
-            return array(self::EX_CONFIG, ev_gettext("Error: The email routing interface is disabled.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext('Error: The email routing interface is disabled.') . "\n");
         }
         if (empty($setup['email_routing']['address_prefix'])) {
-            return array(self::EX_CONFIG, ev_gettext("Error: Please configure the email address prefix.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext('Error: Please configure the email address prefix.') . "\n");
         }
         if (empty($setup['email_routing']['address_host'])) {
-            return array(self::EX_CONFIG, ev_gettext("Error: Please configure the email address domain.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext('Error: Please configure the email address domain.') . "\n");
         }
 
         // associate routed emails to the internal system account
         $sys_account = User::getNameEmail(APP_SYSTEM_USER_ID);
         if (empty($sys_account['usr_email'])) {
-            return array(self::EX_CONFIG, ev_gettext("Error: The associated user for the email routing interface needs to be set.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext('Error: The associated user for the email routing interface needs to be set.') . "\n");
         }
         unset($sys_account);
 
@@ -148,17 +149,17 @@ class Routing
         }
 
         if (empty($issue_id)) {
-            return array(self::EX_DATAERR, ev_gettext("Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
+            return array(self::EX_DATAERR, ev_gettext('Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.') . "\n");
         }
 
         $issue_prj_id = Issue::getProjectID($issue_id);
         if (empty($issue_prj_id)) {
-            return array(self::EX_DATAERR, ev_gettext("Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
+            return array(self::EX_DATAERR, ev_gettext('Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.') . "\n");
         }
 
         $email_account_id = Email_Account::getEmailAccount($issue_prj_id);
         if (empty($email_account_id)) {
-            return array(self::EX_CONFIG, ev_gettext("Error: Please provide the email account ID.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext('Error: Please provide the email account ID.') . "\n");
         }
 
         $body = $structure->body;
@@ -193,17 +194,17 @@ class Routing
 
         // remove certain CC addresses
         if ((!empty($structure->headers['cc'])) && (@$setup['smtp']['save_outgoing_email'] == 'yes')) {
-            $ccs = explode(",", @$structure->headers['cc']);
+            $ccs = explode(',', @$structure->headers['cc']);
             for ($i = 0; $i < count($ccs); $i++) {
                 if (Mail_Helper::getEmailAddress($ccs[$i]) == $setup['smtp']['save_address']) {
                     unset($ccs[$i]);
                 }
             }
-            @$structure->headers['cc'] = join(', ', $ccs);
+            $structure->headers['cc'] = implode(', ', $ccs);
         }
 
         // Remove excess Re's
-        @$structure->headers['subject'] = Mail_Helper::removeExcessRe(@$structure->headers['subject'], true);
+        $structure->headers['subject'] = Mail_Helper::removeExcessRe(@$structure->headers['subject'], true);
 
         $t = array(
             'issue_id'       => $issue_id,
@@ -217,7 +218,7 @@ class Routing
             'body'           => @$body,
             'full_email'     => @$full_message,
             'has_attachment' => $has_attachments,
-            'headers'        => @$structure->headers
+            'headers'        => @$structure->headers,
         );
         // automatically associate this incoming email with a customer
         if (CRM::hasCustomerIntegration($prj_id)) {
@@ -229,11 +230,12 @@ class Routing
                     if ($contact->canAccessContract($issue_contract)) {
                         $t['customer_id'] = $issue_contract->getCustomerID();
                     }
-                } catch (CRMException $e) {}
+                } catch (CRMException $e) {
+                }
             }
         }
         if (empty($t['customer_id'])) {
-            $t['customer_id'] = "NULL";
+            $t['customer_id'] = null;
         }
 
         if (Support::blockEmailIfNeeded($t)) {
@@ -241,7 +243,7 @@ class Routing
         }
 
         // re-write Threading headers if needed
-        list($t['full_email'], $t['headers']) = Mail_Helper::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], "email");
+        list($t['full_email'], $t['headers']) = Mail_Helper::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], 'email');
         $res = Support::insertEmail($t, $structure, $sup_id);
         if ($res != -1) {
             Support::extractAttachments($issue_id, $structure);
@@ -262,7 +264,7 @@ class Routing
                 $usr_id = APP_SYSTEM_USER_ID;
             }
             // mark this issue as updated
-            if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL')) {
+            if ((!empty($t['customer_id'])) && ($t['customer_id'] != null)) {
                 Issue::markAsUpdated($issue_id, 'customer action');
             } else {
                 if ((!empty($usr_id)) && ($usr_id != APP_SYSTEM_USER_ID) &&
@@ -297,11 +299,11 @@ class Routing
             $full_message = preg_replace($pattern, $replacement, $full_message);
         }
 
-        list($headers,) = Mime_Helper::splitHeaderBody($full_message);
+        list($headers) = Mime_Helper::splitHeaderBody($full_message);
 
         // need some validation here
         if (empty($full_message)) {
-            return array(self::EX_NOINPUT, ev_gettext("Error: The email message was empty.") . "\n");
+            return array(self::EX_NOINPUT, ev_gettext('Error: The email message was empty.') . "\n");
         }
 
         // remove the reply-to: header
@@ -312,13 +314,13 @@ class Routing
         // check if the email routing interface is even supposed to be enabled
         $setup = Setup::load();
         if (@$setup['note_routing']['status'] != 'enabled') {
-            return array(self::EX_CONFIG, ev_gettext("Error: The internal note routing interface is disabled.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext('Error: The internal note routing interface is disabled.') . "\n");
         }
         if (empty($setup['note_routing']['address_prefix'])) {
-            return array(self::EX_CONFIG, ev_gettext("Error: Please configure the email address prefix.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext('Error: Please configure the email address prefix.') . "\n");
         }
         if (empty($setup['note_routing']['address_host'])) {
-            return array(self::EX_CONFIG, ev_gettext("Error: Please configure the email address domain.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext('Error: Please configure the email address domain.') . "\n");
         }
         $structure = Mime_Helper::decode($full_message, true, true);
 
@@ -333,7 +335,7 @@ class Routing
         }
 
         if (empty($issue_id)) {
-            return array(self::EX_DATAERR, ev_gettext("Error: The routed note had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
+            return array(self::EX_DATAERR, ev_gettext('Error: The routed note had no associated Eventum issue ID or had an invalid recipient address.') . "\n");
         }
 
         $prj_id = Issue::getProjectID($issue_id);
@@ -367,7 +369,7 @@ class Routing
         $cc_users = array();
         foreach ($addresses as $email) {
             $cc_usr_id = User::getUserIDByEmail(strtolower($email), true);
-            if ((!empty($cc_usr_id)) && (User::getRoleByUser($cc_usr_id, $prj_id) >= User::getRoleID("Standard User"))) {
+            if ((!empty($cc_usr_id)) && (User::getRoleByUser($cc_usr_id, $prj_id) >= User::getRoleID('Standard User'))) {
                 $cc_users[] = $cc_usr_id;
             }
         }
@@ -417,7 +419,7 @@ class Routing
         // save the full message for logging purposes
         Draft::saveRoutedMessage($full_message);
 
-        if (preg_match("/^(boundary=).*/m", $full_message)) {
+        if (preg_match('/^(boundary=).*/m', $full_message)) {
             $pattern = "/(Content-Type: multipart\/)(.+); ?\r?\n(boundary=)(.*)$/im";
             $replacement = '$1$2; $3$4';
             $full_message = preg_replace($pattern, $replacement, $full_message);
@@ -425,24 +427,24 @@ class Routing
 
         // need some validation here
         if (empty($full_message)) {
-            return array(self::EX_NOINPUT, ev_gettext("Error: The email message was empty.") . "\n");
+            return array(self::EX_NOINPUT, ev_gettext('Error: The email message was empty.') . "\n");
         }
 
         // remove the reply-to: header
-        if (preg_match("/^(reply-to:).*/im", $full_message)) {
+        if (preg_match('/^(reply-to:).*/im', $full_message)) {
             $full_message = preg_replace("/^(reply-to:).*\n/im", '', $full_message, 1);
         }
 
         // check if the draft interface is even supposed to be enabled
         $setup = Setup::load();
         if (@$setup['draft_routing']['status'] != 'enabled') {
-            return array(self::EX_CONFIG, ev_gettext("Error: The email draft interface is disabled.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext('Error: The email draft interface is disabled.') . "\n");
         }
         if (empty($setup['draft_routing']['address_prefix'])) {
-            return array(self::EX_CONFIG, ev_gettext("Error: Please configure the email address prefix.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext('Error: Please configure the email address prefix.') . "\n");
         }
         if (empty($setup['draft_routing']['address_host'])) {
-            return array(self::EX_CONFIG, ev_gettext("Error: Please configure the email address domain.") . "\n");
+            return array(self::EX_CONFIG, ev_gettext('Error: Please configure the email address domain.') . "\n");
         }
 
         $structure = Mime_Helper::decode($full_message, true, false);
@@ -458,7 +460,7 @@ class Routing
         }
 
         if (empty($issue_id)) {
-            return array(self::EX_DATAERR, ev_gettext("Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.") . "\n");
+            return array(self::EX_DATAERR, ev_gettext('Error: The routed email had no associated Eventum issue ID or had an invalid recipient address.') . "\n");
         }
 
         $prj_id = Issue::getProjectID($issue_id);
@@ -478,7 +480,7 @@ class Routing
 
         Draft::saveEmail($issue_id, @$structure->headers['to'], @$structure->headers['cc'], @$structure->headers['subject'], $body, false, false, false);
         // XXX: need to handle attachments coming from drafts as well?
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('draft_routed'), ev_gettext("Draft routed from") . " " . $structure->headers['from']);
+        History::add($issue_id, Auth::getUserID(), History::getTypeID('draft_routed'), ev_gettext('Draft routed from') . ' ' . $structure->headers['from']);
 
         return true;
     }

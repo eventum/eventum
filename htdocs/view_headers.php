@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,15 +31,15 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("view_headers.tpl.html");
+$tpl->setTemplate('view_headers.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 if (@$_GET['cat'] == 'note') {
-    $headers = Note::getBlockedMessage($_GET["id"]);
+    $headers = Note::getBlockedMessage($_GET['id']);
 } else {
-    $headers = Support::getFullEmail($_GET["id"]);
+    $headers = Support::getFullEmail($_GET['id']);
 }
-$tpl->assign("headers", $headers);
+$tpl->assign('headers', $headers);
 
 $tpl->displayTemplate();

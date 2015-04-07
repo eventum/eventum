@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,15 +31,15 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("spell_check.tpl.html");
+$tpl->setTemplate('spell_check.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 if (!empty($_GET['form_name'])) {
     // show temporary form
-    $tpl->assign("show_temp_form", "yes");
+    $tpl->assign('show_temp_form', 'yes');
 } else {
-    $tpl->assign("spell_check", Misc::checkSpelling($_POST['textarea']));
+    $tpl->assign('spell_check', Misc::checkSpelling($_POST['textarea']));
 }
 
 $tpl->displayTemplate();

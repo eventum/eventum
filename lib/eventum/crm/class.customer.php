@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Abstract class representing a customer
  *
@@ -59,7 +60,7 @@ abstract class Customer
     public function __construct(CRM $crm, $customer_id)
     {
         $this->crm = $crm;
-        $this->connection =& $crm->getConnection();
+        $this->connection = & $crm->getConnection();
         $this->customer_id = $customer_id;
 
         // attempt to load the data
@@ -142,8 +143,8 @@ abstract class Customer
      */
     public function __toString()
     {
-        return "ID: " . $this->customer_id . "\n" .
-            "Name: " . $this->name . "\n";
+        return 'ID: ' . $this->customer_id . "\n" .
+            'Name: ' . $this->name . "\n";
     }
 
     /**
@@ -153,7 +154,7 @@ abstract class Customer
      */
     public function getNoteDetails()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     cno_id,
                     cno_prj_id,
                     cno_customer_id,
@@ -161,7 +162,7 @@ abstract class Customer
                 FROM
                     {{%customer_note}}
                 WHERE
-                    cno_customer_id = ?";
+                    cno_customer_id = ?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($this->customer_id));
         } catch (DbException $e) {
@@ -179,7 +180,7 @@ abstract class Customer
      */
     public function getEventumAccountManagers()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     cam_usr_id,
                     usr_email,
                     cam_type
@@ -189,7 +190,7 @@ abstract class Customer
                  WHERE
                     cam_usr_id=usr_id AND
                     cam_prj_id=? AND
-                    cam_customer_id=?";
+                    cam_customer_id=?';
         $params = array($this->crm->getProjectID(), $this->customer_id);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
@@ -207,7 +208,7 @@ abstract class Customer
 
 class CustomerNotFoundException extends CRMException
 {
-    public function __construct($customer_id, Exception $previous=null)
+    public function __construct($customer_id, Exception $previous = null)
     {
         parent::__construct("Customer '" . $customer_id . "' not found", 0, $previous);
     }

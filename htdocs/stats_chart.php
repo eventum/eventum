@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -36,7 +37,7 @@ Auth::checkAuthentication(APP_COOKIE);
 error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
 
 // check to see if the TTF file is available or not
-$ttf_font = TTF_DIR . "verdana.ttf";
+$ttf_font = TTF_DIR . 'verdana.ttf';
 if (!file_exists($ttf_font)) {
     $font = FF_FONT1;
 } else {
@@ -51,11 +52,11 @@ if (isset($_REQUEST['hide_closed'])) {
 
 // Some data
 $colors = array();
-if ($_GET["plot"] == "status") {
+if ($_GET['plot'] == 'status') {
     $fake = false;
     $rgb = new RGB($fake);
     $data = Stats::getAssocStatus($hide_closed);
-    $graph_title = ev_gettext("Issues by Status");
+    $graph_title = ev_gettext('Issues by Status');
     foreach ($data as $sta_title => $trash) {
         $sta_id = Status::getStatusID($sta_title);
         $status_details = Status::getDetails($sta_id);
@@ -65,18 +66,18 @@ if ($_GET["plot"] == "status") {
         }
         $colors[] = $status_details['sta_color'];
     }
-} elseif ($_GET["plot"] == "release") {
+} elseif ($_GET['plot'] == 'release') {
     $data = Stats::getAssocRelease($hide_closed);
-    $graph_title = ev_gettext("Issues by Release");
-} elseif ($_GET["plot"] == "priority") {
+    $graph_title = ev_gettext('Issues by Release');
+} elseif ($_GET['plot'] == 'priority') {
     $data = Stats::getAssocPriority($hide_closed);
-    $graph_title = ev_gettext("Issues by Priority");
-} elseif ($_GET["plot"] == "user") {
+    $graph_title = ev_gettext('Issues by Priority');
+} elseif ($_GET['plot'] == 'user') {
     $data = Stats::getAssocUser($hide_closed);
-    $graph_title = ev_gettext("Issues by Assignment");
-} elseif ($_GET["plot"] == "category") {
+    $graph_title = ev_gettext('Issues by Assignment');
+} elseif ($_GET['plot'] == 'category') {
     $data = Stats::getAssocCategory($hide_closed);
-    $graph_title = ev_gettext("Issues by Category");
+    $graph_title = ev_gettext('Issues by Category');
 }
 $labels = array();
 foreach ($data as $label => $count) {
@@ -86,14 +87,14 @@ $data = array_values($data);
 
 // check the values coming from the database and if they are all empty, then
 // output a pre-generated 'No Data Available' picture
-if ((!Stats::hasData($data)) || ((Auth::getCurrentRole() <= User::getRoleID("Reporter")) && (Project::getSegregateReporters(Auth::getCurrentProject())))) {
-    header("Content-type: image/gif");
-    readfile(APP_PATH . "/htdocs/images/no_data.gif");
+if ((!Stats::hasData($data)) || ((Auth::getCurrentRole() <= User::getRoleID('Reporter')) && (Project::getSegregateReporters(Auth::getCurrentProject())))) {
+    header('Content-type: image/gif');
+    readfile(APP_PATH . '/htdocs/images/no_data.gif');
     exit;
 }
 
 // A new graph
-$graph = new PieGraph(360,200,"auto");
+$graph = new PieGraph(360, 200, 'auto');
 
 // Setup title
 $graph->title->Set($graph_title);
@@ -109,17 +110,17 @@ if (count($colors) > 0) {
 
 // Move center of pie to the left to make better room
 // for the legend
-$p1->SetCenter(0.26,0.55);
+$p1->SetCenter(0.26, 0.55);
 
 // Label font and color setup
 $p1->SetFont($font, FS_BOLD);
-$p1->SetFontColor("black");
+$p1->SetFontColor('black');
 
 // Use absolute values (type==1)
 $p1->SetLabelType(1);
 
 // Label format
-$p1->SetLabelFormat("%d");
+$p1->SetLabelFormat('%d');
 
 // Size of pie in fraction of the width of the graph
 $p1->SetSize(0.3);
@@ -127,7 +128,7 @@ $p1->SetSize(0.3);
 // Legends
 $p1->SetLegends($labels);
 $graph->legend->SetFont($font);
-$graph->legend->Pos(0.06,0.27);
+$graph->legend->Pos(0.06, 0.27);
 
 $graph->Add($p1);
 $graph->Stroke();

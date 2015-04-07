@@ -33,7 +33,7 @@
     var page_url = '{$smarty.server.PHP_SELF}';
     var current_page = {$list_info.current_page};
     var last_page = {$list_info.last_page};
-    {literal}
+
     function viewEmail(account_id, email_id)
     {
         var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -95,7 +95,7 @@
     function associateEmails(f)
     {
         if (!Validation.hasOneChecked('item[]')) {
-            alert('{/literal}{t escape=js}Please choose which emails need to be associated.{/t}{literal}');
+            alert('{t escape=js}Please choose which emails need to be associated.{/t}');
             return false;
         }
         if (f.issue.options[f.issue.selectedIndex].value == 'new') {
@@ -104,7 +104,7 @@
         } else {
             var issue_id = jQuery('#issue_id').val();
             if (issue_id == '') {
-                alert('{/literal}{t escape=js}Please enter an issue to associate these emails with.{/t}{literal}');
+                alert('{t escape=js}Please enter an issue to associate these emails with.{/t}');
                 return false;
             }
             var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -118,10 +118,10 @@
     function removeEmails()
     {
         if (!Validation.hasOneChecked('item[]')) {
-            alert('{/literal}{t escape=js}Please choose which emails need to be marked as deleted.{/t}{literal}');
+            alert('{t escape=js}Please choose which emails need to be marked as deleted.{/t}');
             return false;
         }
-        if (!confirm('{/literal}{t escape=js}This action will mark the selected email messages as deleted.{/t}{literal}')) {
+        if (!confirm('{t escape=js}This action will mark the selected email messages as deleted.{/t}')) {
             return false;
         } else {
             var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -155,7 +155,7 @@
     });
     //-->
 </script>
-{/literal}
+
 <form id="email_list_form" target="_popup" method="get" action="associate.php">
     <input type="hidden" name="cat" value="associate">
     <table class="bordered grid">

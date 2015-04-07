@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -47,7 +48,7 @@ class Impact_Analysis
     public static function insert($issue_id)
     {
         $usr_id = Auth::getUserID();
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%issue_requirement}}
                  (
                     isr_iss_id,
@@ -56,8 +57,8 @@ class Impact_Analysis
                     isr_requirement
                  ) VALUES (
                     ?, ?, ?, ?
-                 )";
-        $params = array($issue_id, $usr_id, Date_Helper::getCurrentDateGMT(), $_POST["new_requirement"]);
+                 )';
+        $params = array($issue_id, $usr_id, Date_Helper::getCurrentDateGMT(), $_POST['new_requirement']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
@@ -80,7 +81,7 @@ class Impact_Analysis
      */
     public static function getListing($issue_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     isr_id,
                     isr_requirement,
                     isr_dev_time,
@@ -98,21 +99,21 @@ class Impact_Analysis
                     isr_updated_usr_id=B.usr_id
                  WHERE
                     isr_iss_id=? AND
-                    isr_usr_id=A.usr_id";
+                    isr_usr_id=A.usr_id';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         if (count($res) == 0) {
-            return "";
+            return '';
         }
 
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]["isr_requirement"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["isr_requirement"])));
-            $res[$i]["isr_impact_analysis"] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]["isr_impact_analysis"])));
-            $res[$i]["formatted_dev_time"] = Misc::getFormattedTime($res[$i]["isr_dev_time"]);
+            $res[$i]['isr_requirement'] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]['isr_requirement'])));
+            $res[$i]['isr_impact_analysis'] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]['isr_impact_analysis'])));
+            $res[$i]['formatted_dev_time'] = Misc::getFormattedTime($res[$i]['isr_dev_time']);
         }
 
         return $res;
@@ -127,18 +128,18 @@ class Impact_Analysis
      */
     public static function update($isr_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     isr_iss_id
                  FROM
                     {{%issue_requirement}}
                  WHERE
-                    isr_id=?";
+                    isr_id=?';
         $issue_id = DB_Helper::getInstance()->getOne($stmt, array($isr_id));
 
         // we are storing minutes, not hours
-        $dev_time = $_POST["dev_time"] * 60;
+        $dev_time = $_POST['dev_time'] * 60;
         $usr_id = Auth::getUserID();
-        $stmt = "UPDATE
+        $stmt = 'UPDATE
                     {{%issue_requirement}}
                  SET
                     isr_updated_usr_id=?,
@@ -146,8 +147,8 @@ class Impact_Analysis
                     isr_dev_time=?,
                     isr_impact_analysis=?
                  WHERE
-                    isr_id=?";
-        $params = array($usr_id, Date_Helper::getCurrentDateGMT(), $dev_time, $_POST["impact_analysis"], $isr_id);
+                    isr_id=?';
+        $params = array($usr_id, Date_Helper::getCurrentDateGMT(), $dev_time, $_POST['impact_analysis'], $isr_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
@@ -168,7 +169,7 @@ class Impact_Analysis
      */
     public static function remove()
     {
-        $items = $_POST["item"];
+        $items = $_POST['item'];
         $itemlist = DB_Helper::buildList($items);
 
         $stmt = "SELECT

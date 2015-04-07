@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -62,7 +63,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     public function __construct()
     {
         $setup = self::loadSetup();
-        $this->config = array (
+        $this->config = array(
             'binddn'    =>  $setup['binddn'],
             'bindpw'    =>  $setup['bindpw'],
             'basedn'    =>  $setup['basedn'],
@@ -81,7 +82,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     private function connect($config)
     {
         $conn = Net_LDAP2::connect($config);
-        if (PEAR::isError($conn)) {
+        if (Misc::isError($conn)) {
             throw new AuthException($conn->getMessage(), $conn->getCode());
         }
 
@@ -98,12 +99,12 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $filter = Net_LDAP2_Filter::create('uid', 'equals', '*', false);
         if (!empty($this->user_filter_string)) {
             $user_filter = Net_LDAP2_Filter::parse($this->user_filter_string);
-            $filter = Net_LDAP2_Filter::combine("and", array($filter, $user_filter));
+            $filter = Net_LDAP2_Filter::combine('and', array($filter, $user_filter));
         }
 
         $search = $this->conn->search($this->config['basedn'], $filter);
 
-        if (PEAR::isError($search)) {
+        if (Misc::isError($search)) {
             throw new AuthException($search->getMessage(), $search->getCode());
         }
 
@@ -157,12 +158,12 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         }
         if (!empty($this->user_filter_string)) {
             $user_filter = Net_LDAP2_Filter::parse($this->user_filter_string);
-            $filter = Net_LDAP2_Filter::combine("and", array($filter, $user_filter));
+            $filter = Net_LDAP2_Filter::combine('and', array($filter, $user_filter));
         }
         $search = $this->conn->search($this->config['basedn'], $filter, array('sizelimit' => 1));
         $entry = $search->shiftEntry();
 
-        if (!$entry || PEAR::isError($entry)) {
+        if (!$entry || Misc::isError($entry)) {
             return null;
         }
 
@@ -255,7 +256,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
                 $data['email'] = $email;
             } else {
                 if (!$emails) {
-                    throw new AuthException("E-mail is requred");
+                    throw new AuthException('E-mail is requred');
                 }
                 // just use first email
                 $data['email'] = array_shift($emails);
@@ -275,7 +276,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
 
         $emails = $remote['emails'];
         if (!$emails) {
-            throw new AuthException("E-mail is requred");
+            throw new AuthException('E-mail is requred');
         }
         $data['email'] = array_shift($emails);
 
@@ -398,7 +399,6 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
 
                 if (isset($ldap_setup)) {
                     $setup = $ldap_setup;
-
                 } elseif (isset($ldap_setup_string)) {
                     // support reading legacy base64 encoded config
                     $setup = unserialize(base64_decode($ldap_setup_string));
@@ -428,7 +428,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
                 return -2;
             }
         }
-        $contents = "<" . "?php\n\$ldap_setup = " . var_export($options, 1) . ";\n";
+        $contents = '<' . "?php\n\$ldap_setup = " . var_export($options, 1) . ";\n";
         $res = file_put_contents(APP_CONFIG_PATH . '/ldap.php', $contents);
         if ($res === false) {
             return -2;

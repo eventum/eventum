@@ -16,4 +16,15 @@ class MailParseTest extends PHPUnit_Framework_TestCase
             "\npöördumise töötaja.\n<b>Võtame</b> töösse võimalusel.\npöördumisele süsteemis\n\n", $structure->body
         );
     }
+
+    public function testBug684922()
+    {
+        $file = __DIR__ . '/data/bug684922.txt';
+        $message = file_get_contents($file);
+        $this->assertNotEmpty($message);
+
+        $structure = Mime_Helper::decode($message, true, true);
+        $message_body = $structure->body;
+        $this->assertEquals("", $message_body);
+    }
 }

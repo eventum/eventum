@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -36,12 +37,12 @@ $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 
 if (!Access::canCreateIssue($usr_id)) {
-    Auth::redirect("main.php");
+    Auth::redirect('main.php');
 }
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("new.tpl.html");
-$tpl->assign("new_issue_id", '');
+$tpl->setTemplate('new.tpl.html');
+$tpl->assign('new_issue_id', '');
 
 // If the project has changed since the new issue form was requested, then change it back
 $issue_prj_id = !empty($_REQUEST['prj_id']) ? (int) $_REQUEST['prj_id'] : 0;
@@ -50,11 +51,11 @@ if (($issue_prj_id > 0) && ($issue_prj_id != $prj_id)) {
     $assigned_projects = Project::getAssocList($usr_id);
     if (isset($assigned_projects[$issue_prj_id])) {
         $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
-        Auth::setCurrentProject($issue_prj_id, $cookie["remember"]);
+        Auth::setCurrentProject($issue_prj_id, $cookie['remember']);
         $prj_id = $issue_prj_id;
     } else {
         Misc::setMessage(ev_gettext('There was an error creating your issue.'), Misc::MSG_ERROR);
-        $tpl->assign("error_msg", "1");
+        $tpl->assign('error_msg', '1');
     }
 }
 
@@ -70,78 +71,80 @@ if (CRM::hasCustomerIntegration($prj_id)) {
     }
 }
 
-if (@$_POST["cat"] == "report") {
+if (@$_POST['cat'] == 'report') {
     $res = Issue::createFromPost();
     if ($res != -1) {
         // redirect to view issue page
         Misc::setMessage(ev_gettext('Your issue was created successfully.'));
-        Auth::redirect(APP_BASE_URL . "view.php?id=" . $res);
+        Auth::redirect(APP_BASE_URL . 'view.php?id=' . $res);
     } else {
         // need to show everything again
         Misc::setMessage(ev_gettext('There was an error creating your issue.'), Misc::MSG_ERROR);
-        $tpl->assign("error_msg", "1");
+        $tpl->assign('error_msg', '1');
     }
 }
 
-if (@$_GET["cat"] == "associate") {
-    if (@count($_GET["item"]) > 0) {
-        $res = Support::getListDetails($_GET["item"]);
-        $tpl->assign("emails", $res);
-        $tpl->assign("attached_emails", @implode(",", $_GET["item"]));
+if (@$_GET['cat'] == 'associate') {
+    if (@count($_GET['item']) > 0) {
+        $res = Support::getListDetails($_GET['item']);
+        $tpl->assign('emails', $res);
+        $tpl->assign('attached_emails', @implode(',', $_GET['item']));
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
             // also need to guess the contact_id from any attached emails
             try {
-                $info = $crm->getCustomerInfoFromEmails($prj_id, $_GET["item"]);
+                $info = $crm->getCustomerInfoFromEmails($prj_id, $_GET['item']);
                 $tpl->assign(array(
-                    "customer_id"   => $info['customer_id'],
+                    'customer_id'   => $info['customer_id'],
                     'customer_name' => $info['customer_name'],
-                    "contact_id"    => $info['contact_id'],
+                    'contact_id'    => $info['contact_id'],
                     'contact_name'  => $info['contact_name'],
-                    'contacts'      => $info['contacts']
+                    'contacts'      => $info['contacts'],
                 ));
-            } catch (CRMException $e) {}
+            } catch (CRMException $e) {
+            }
         }
         // if we are dealing with just one message, use the subject line as the
         // summary for the issue, and the body as the description
-        if (count($_GET["item"]) == 1) {
-            $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($_GET["item"][0]), $_GET["item"][0]);
+        if (count($_GET['item']) == 1) {
+            $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($_GET['item'][0]), $_GET['item'][0]);
             $tpl->assign(array(
                 'issue_summary'     => $email_details['sup_subject'],
-                'issue_description' => $email_details['seb_body']
+                'issue_description' => $email_details['seb_body'],
             ));
             // also auto pre-fill the customer contact text fields
             if (CRM::hasCustomerIntegration($prj_id)) {
                 $sender_email = Mail_Helper::getEmailAddress($email_details['sup_from']);
                 try {
                     $contact = $crm->getContactByEmail($sender_email);
-                    $tpl->assign("contact_details", $contact->getDetails());
-                } catch (CRMException $e) {}
+                    $tpl->assign('contact_details', $contact->getDetails());
+                } catch (CRMException $e) {
+                }
             }
         }
     }
 }
 
 $tpl->assign(array(
-    "cats"                   => Category::getAssocList($prj_id),
-    "priorities"             => Priority::getAssocList($prj_id),
-    "severities"             => Severity::getList($prj_id),
-    "users"                  => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
-    "releases"               => Release::getAssocList($prj_id),
-    "custom_fields"          => Custom_Field::getListByProject($prj_id, 'report_form'),
-    "max_attachment_size"    => Attachment::getMaxAttachmentSize(),
-    "max_attachment_bytes"   => Attachment::getMaxAttachmentSize(true),
-    "field_display_settings" => Project::getFieldDisplaySettings($prj_id),
-    "groups"                 => Group::getAssocList($prj_id),
-    "products"               => Product::getList(false),
+    'cats'                   => Category::getAssocList($prj_id),
+    'priorities'             => Priority::getAssocList($prj_id),
+    'severities'             => Severity::getList($prj_id),
+    'users'                  => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
+    'releases'               => Release::getAssocList($prj_id),
+    'custom_fields'          => Custom_Field::getListByProject($prj_id, 'report_form'),
+    'max_attachment_size'    => Attachment::getMaxAttachmentSize(),
+    'max_attachment_bytes'   => Attachment::getMaxAttachmentSize(true),
+    'field_display_settings' => Project::getFieldDisplaySettings($prj_id),
+    'groups'                 => Group::getAssocList($prj_id),
+    'products'               => Product::getList(false),
 ));
 
 $setup = Setup::load();
-$tpl->assign("allow_unassigned_issues", @$setup["allow_unassigned_issues"]);
+$tpl->assign('allow_unassigned_issues', @$setup['allow_unassigned_issues']);
 
 $prefs = Prefs::get($usr_id);
-$tpl->assign("user_prefs", $prefs);
-$tpl->assign("zones", Date_Helper::getTimezoneList());
+$tpl->assign('user_prefs', $prefs);
+$tpl->assign('zones', Date_Helper::getTimezoneList());
 if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
     $crm = CRM::getInstance(Auth::getCurrentProject());
     $customer_contact_id = User::getCustomerContactID($usr_id);
@@ -150,10 +153,10 @@ if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
     $customer = $crm->getCustomer($customer_id);
     // TODOCRM: Pull contacts via ajax when user selects contract
     $tpl->assign(array(
-        "customer_id" => $customer_id,
-        "contact_id"  => $customer_contact_id,
-        "customer"    => $customer,
-        "contact"     => $contact,
+        'customer_id' => $customer_id,
+        'contact_id'  => $customer_contact_id,
+        'customer'    => $customer,
+        'contact'     => $contact,
     ));
 }
 

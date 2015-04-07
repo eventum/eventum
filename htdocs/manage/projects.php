@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,44 +31,45 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/projects.tpl.html");
+$tpl->setTemplate('manage/projects.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
-    Misc::setMessage(ev_gettext("Sorry, you are not allowed to access this page."), Misc::MSG_ERROR);
-    $tpl->displayTemplate();exit;
+    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
+    $tpl->displayTemplate();
+    exit;
 }
 
-if (@$_POST["cat"] == "new") {
+if (@$_POST['cat'] == 'new') {
     Misc::mapMessages(Project::insert(), array(
             1   =>  array(ev_gettext('Thank you, the project was added successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to add the new project.'), Misc::MSG_ERROR),
             -2  =>  array(ev_gettext('Please enter the title for this new project.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "update") {
+} elseif (@$_POST['cat'] == 'update') {
     Misc::mapMessages(Project::update(), array(
             1   =>  array(ev_gettext('Thank you, the project was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to update the project information.'), Misc::MSG_ERROR),
             -2  =>  array(ev_gettext('Please enter the title for this project.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "delete") {
+} elseif (@$_POST['cat'] == 'delete') {
     Misc::mapMessages(Project::remove(), array(
             1   =>  array(ev_gettext('Thank you, the project was deleted successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to delete the project.'), Misc::MSG_ERROR),
     ));
 }
-$tpl->assign("active_projects", Project::getAssocList(Auth::getUserID(), true));
+$tpl->assign('active_projects', Project::getAssocList(Auth::getUserID(), true));
 
-if (@$_GET["cat"] == "edit") {
-    $tpl->assign("info", Project::getDetails($_GET["id"]));
+if (@$_GET['cat'] == 'edit') {
+    $tpl->assign('info', Project::getDetails($_GET['id']));
 }
 
-$tpl->assign("list", Project::getList());
-$tpl->assign("user_options", User::getActiveAssocList());
-$tpl->assign("status_options", Status::getAssocList());
-$tpl->assign("customer_backends", CRM::getBackendList());
-$tpl->assign("workflow_backends", Workflow::getBackendList());
+$tpl->assign('list', Project::getList());
+$tpl->assign('user_options', User::getActiveAssocList());
+$tpl->assign('status_options', Status::getAssocList());
+$tpl->assign('customer_backends', CRM::getBackendList());
+$tpl->assign('workflow_backends', Workflow::getBackendList());
 
 $tpl->displayTemplate();

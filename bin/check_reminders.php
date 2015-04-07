@@ -41,7 +41,7 @@ if (in_array('--fix-lock', $argv)) {
 // acquire a lock to prevent multiple scripts from
 // running at the same time
 if (!Lock::acquire('check_reminders')) {
-    echo "Error: Another instance of the script is still running. " .
+    echo 'Error: Another instance of the script is still running. ' .
                 "If this is not accurate, you may fix it by running this script with '--fix-lock' " .
                 "as the only parameter.\n";
     exit;

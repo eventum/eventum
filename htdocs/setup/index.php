@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -167,9 +168,9 @@ if (@$_SERVER['HTTPS'] == 'on') {
 }
 $tpl->assign('ssl_mode', $ssl_mode);
 
-$tpl->assign("zones", Date_Helper::getTimezoneList());
-$tpl->assign("default_timezone", getTimezone());
-$tpl->assign("default_weekday", getFirstWeekday());
+$tpl->assign('zones', Date_Helper::getTimezoneList());
+$tpl->assign('default_timezone', getTimezone());
+$tpl->assign('default_weekday', getFirstWeekday());
 
 $tpl->setTemplate('setup.tpl.html');
 $tpl->displayTemplate(false);
@@ -250,12 +251,12 @@ function checkRequirements()
         // extension => array(IS_REQUIRED, MESSAGE_TO_DISPLAY)
         'gd' => array(true, 'The GD extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'),
         'session' => array(true, 'The Session extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'),
-        'mysql' => array(true, 'The MySQL extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'),
+        'mysqli' => array(true, 'The MySQLi extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'),
         'json' => array(true, 'The json extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'),
-        'mbstring' =>  array(false, "The Multibyte String Functions extension is not enabled in your PHP installation. For localization to work properly " .
-            "You need to install this extension. If you do not install this extension localization will be disabled."),
-        'iconv' => array(false, "The ICONV extension is not enabled in your PHP installation. ".
-            "You need to install this extension for optimal operation. If you do not install this extension some unicode data will be corrupted."),
+        'mbstring' =>  array(false, 'The Multibyte String Functions extension is not enabled in your PHP installation. For localization to work properly ' .
+            'You need to install this extension. If you do not install this extension localization will be disabled.', ),
+        'iconv' => array(false, 'The ICONV extension is not enabled in your PHP installation. '.
+            'You need to install this extension for optimal operation. If you do not install this extension some unicode data will be corrupted.', ),
     );
 
     foreach ($extensions as $extension => $value) {
@@ -270,7 +271,7 @@ function checkRequirements()
     }
 
     // check for the file_uploads php.ini directive
-    if (ini_get('file_uploads') != "1") {
+    if (ini_get('file_uploads') != '1') {
         $errors[] = "The 'file_uploads' directive needs to be enabled in your PHP.INI file in order for Eventum to work properly.";
     }
 
@@ -332,7 +333,7 @@ function getErrorMessage($type, $message)
 
 function getTimezone()
 {
-    $ini = ini_get("date.timezone");
+    $ini = ini_get('date.timezone');
     if ($ini) {
         return $ini;
     }
@@ -370,7 +371,7 @@ function getFirstWeekday()
  */
 function checkDatabaseExists($conn, $database)
 {
-    $exists = $conn->getOne("SHOW DATABASES LIKE ?", $database);
+    $exists = $conn->getOne('SHOW DATABASES LIKE ?', $database);
 
     return $exists;
 }
@@ -382,7 +383,7 @@ function checkDatabaseExists($conn, $database)
 function getUserList($conn)
 {
     // avoid "1046 ** No database selected" error
-    $conn->query("USE mysql");
+    $conn->query('USE mysql');
     try {
         $users = $conn->getColumn('SELECT DISTINCT User from user');
     } catch (DbException $e) {
@@ -402,7 +403,7 @@ function getUserList($conn)
  */
 function getTableList($conn)
 {
-    $tables = $conn->getColumn("SHOW TABLES");
+    $tables = $conn->getColumn('SHOW TABLES');
 
     // FIXME: why lowercase neccessary?
     $tables = array_map('strtolower', $tables);
@@ -431,8 +432,8 @@ function strip_hashbang($str)
 function get_queries($file)
 {
     $contents = file_get_contents($file);
-    $queries = explode(";", $contents);
-    $queries = array_map("trim", $queries);
+    $queries = explode(';', $contents);
+    $queries = array_map('trim', $queries);
     $queries = array_filter($queries);
 
     return $queries;
@@ -455,28 +456,28 @@ function setup_database()
                 throw new RuntimeException(getErrorMessage('create_db', $e->getMessage()));
             }
         } else {
-            throw new RuntimeException("The provided database name could not be found. Review your information or specify that the database should be created in the form below.");
+            throw new RuntimeException('The provided database name could not be found. Review your information or specify that the database should be created in the form below.');
         }
     }
 
     // create the new user, if needed
-    if (@$_POST["alternate_user"] == 'yes') {
+    if (@$_POST['alternate_user'] == 'yes') {
         $user_list = getUserList($conn);
         if ($user_list) {
             $user_exists = in_array(strtolower(@$_POST['eventum_user']), $user_list);
 
-            if (@$_POST["create_user"] == 'yes') {
+            if (@$_POST['create_user'] == 'yes') {
                 if (!$user_exists) {
                     $stmt = "GRANT SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE, INDEX ON {{{$_POST['db_name']}}}.* TO ?@'%' IDENTIFIED BY ?";
                     try {
-                        $conn->query($stmt, array($_POST["eventum_user"], $_POST["eventum_password"]));
+                        $conn->query($stmt, array($_POST['eventum_user'], $_POST['eventum_password']));
                     } catch (DbException $e) {
                         throw new RuntimeException(getErrorMessage('create_user', $e->getMessage()));
                     }
                 }
             } else {
                 if (!$user_exists) {
-                    throw new RuntimeException("The provided MySQL username could not be found. Review your information or specify that the username should be created in the form below.");
+                    throw new RuntimeException('The provided MySQL username could not be found. Review your information or specify that the username should be created in the form below.');
                 }
             }
         }
@@ -586,7 +587,7 @@ function write_setup()
 
     $setup['database'] = array(
         // database driver
-        'driver' => 'mysql',
+        'driver' => 'mysqli',
 
         // connection info
         'hostname' => $_POST['db_hostname'],

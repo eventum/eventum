@@ -1,0 +1,73 @@
+Return-Path: <abc@abc.abc>
+X-Original-To: our@email.com
+Delivered-To: our@email.com
+Received: from localhost (localhost.localdomain [127.0.0.1]) by eventum.eventumsite.com (Postfix) with ESMTP id E003EA7C304 for <our@email.com>; Tue, 18 Jan 2011 23:42:00 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at eventumsite.com
+Received: from eventum.eventumsite.com ([127.0.0.1]) by localhost (eventum.eventumsite.com [127.0.0.1]) (amavisd-new, port 10024) with ESMTP id YBqDvPKNRmBY for <our@email.com>; Tue, 18 Jan 2011 23:42:00 +0100 (CET)
+Received: from mx4.origin.com (mx4.origin.com [212.77.101.8]) (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits)) (No client certificate requested) by eventum.eventumsite.com (Postfix) with ESMTPS id 7DC19A7C2FC for <our@email.com>; Tue, 18 Jan 2011 23:42:00 +0100 (CET)
+Received: (wp-smtpd smtp.origin.com 17802 invoked from network); 18 Jan 2011 23:41:59 +0100
+Received: from out.poczta.origin.com (HELO localhost) ([212.77.101.240]) (envelope-sender <pbsg@origin.com>) by smtp.origin.com (WP-SMTPD) with SMTP for <our@email.com>; 18 Jan 2011 23:41:59 +0100
+Date: Tue, 18 Jan 2011 23:41:58 +0100
+From: "Some Guy" <abcd@origin.com>
+To: Us <our@email.com>
+Subject: =?ISO-8859-2?Q?PD=3A_My=3A_Go=B3?= =?ISO-8859-2?Q?blahblah?=
+Message-ID: <4d36173add8b60.67944236@origin.com>
+In-Reply-To: <4d36173add8b60.67944236@origin.com>
+References: <4d36173add8b60.67944236@origin.com>
+MIME-Version: 1.0
+Content-Type: multipart/related; boundary="part4d361736dd7165.17138776"
+X-Mailer: Interfejs WWW nowej poczty Wirtualnej Polski
+X-User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/534.10 (KHTML, like Gecko) Chrome/8.0.552.237 Safari/534.10
+Organization: Poznaj Poczte WP http://poczta.origin.com/info-start.html
+X-WP-IP: 87.206.240.222
+X-WP-AV: skaner antywirusowy poczty Wirtualnej Polski S. A.
+X-WP-SPAM: NO 0000000 [ISME]
+
+This is a multi-part message in MIME format.
+
+--part4d36173add7165.17138776
+Content-Type: text/html; charset=iso-8859-2
+Content-Transfer-Encoding: 8bit
+Content-Disposition: inline
+
+<style>blockquote {padding-left: 1ex; margin: 0px 0px 0px 0.8ex; border-left: #cccccc 1px solid;} p {margin: 0px;padding: 0px;} </style>
+<p><br />
+<blockquote><!-- blockquote {padding-left: 1ex; margin: 0px 0px 0px 0.8ex; border-left: #cccccc 1px solid;} p {margin: 0px;padding: 0px;} -->
+<p>Text.&nbsp;</p>
+<p>&nbsp;</p>
+<p>More Text<img title="Laughing" src="cid:smiley-laughing.gif" border="0" alt="Laughing" /></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<br /></blockquote>
+<br /></p><br />
+
+--part4d361736dd7165.17138776
+Content-Type: image/gif; name="smiley-laughing.gif"
+Content-Transfer-Encoding: base64
+Content-ID: <smiley-laughing.gif>
+Content-Disposition: attachment; filename="smiley-laughing.gif"
+
+R0lGODlhEgASANQTAFI9Da6qpuPQHKOGBqGVjPXnLO/v7r+qTnJeSPPwWdK+H8OrGsjHxWpTEsS8
+nfbYEPryR+DYurebE/r6+v79cf32N4h1WtjV07qfLsq2at7SMnljE9XDMcKmMv77WgAAACH5BAEA
+AB8ALAAAAAASABIAAAXV4CeKU2mWY0pGhzQM0hFNKplJXEJRCSdltJQBs0h4IEiIJ7HAGEaTg4IC
+4XAqFSuEojjQJhEJtdIAYMuVrWQW1XiwAHMljvVovAZJAoLdNPp/aQkSBnkUWBUFig8CAg+PHoSG
+BRyOj5cPCwIQknoLCBahoqEIGJyFBxpkBAwBFxcBDAR/dwYTDgseAg0XDCUMFw0KHgsOJQZSuhsE
+r7MCHl22HxMXHQoJFQsbAwsVCQodF0EfBhcHCxpKRxoLBxdPKdQOBx0LCx0HDuI10+UM/8CkjQgB
+ADs=
+
+--part4d361736dd7165.17138776
+Content-Type: image/gif; name="smiley-money-mouth.gif"
+Content-Transfer-Encoding: base64
+Content-ID: <smiley-money-mouth.gif>
+Content-Disposition: attachment; filename="smiley-money-mouth.gif"
+
+R0lGODlhEgASANQUACkYBr62mpiMHMKoIsKsUffaE25YNvn0UoS1auPYMdra2T5eKrSXCvz6bvz0
+ObKbJEozB4lzE8rCoK6iVvb29k13OVpGPjJCGrHlmZqGNtG+JtnTv3J4JJJ+FcLCwgAAACH5BAEA
+AB8ALAAAAAASABIAAAW+4CeKVGmWY0puxMMwD7FRKkkw2tE0h8YQtBTlMeAdHI6DbvAIfigEDe+B
+RD50GuBzw2g4IgAIEixuMGbQxCEBiCQcbHcyARwqkQLA25FXH5oUXUgQbQUFhBGGBwwlgniGhh2Q
+iyUDBwQZGpCbRAcDJQRvBhakpaQGcHUSlg8AFQgVrxUAAp4SJQpRHAsLsK8LFRdZCjQUCgMXvBgI
+CBgLFwIDxCPGE7sY2M4DBNNCCgG84QsB3Sq4HugexE4fIQA7
+
+--part4d361736dd7165.17138776--
+
+

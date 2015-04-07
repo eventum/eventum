@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,26 +31,27 @@
 require_once dirname(__FILE__) . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("manage/email_alias.tpl.html");
+$tpl->setTemplate('manage/email_alias.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, null, true);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::getRoleID('manager')) {
-    $tpl->setTemplate("permission_denied.tpl.html");
-    $tpl->displayTemplate();exit;
+    $tpl->setTemplate('permission_denied.tpl.html');
+    $tpl->displayTemplate();
+    exit;
 }
 
 $usr_id = $_REQUEST['id'];
 
-if (@$_POST["cat"] == "save") {
-    $res = User::addAlias($usr_id, $_POST["alias"]);
+if (@$_POST['cat'] == 'save') {
+    $res = User::addAlias($usr_id, $_POST['alias']);
     Misc::mapMessages($res, array(
             true   =>  array(ev_gettext('Thank you, the alias was added successfully.'), Misc::MSG_INFO),
             false  =>  array(ev_gettext('An error occurred while trying to add the alias.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST["cat"] == "remove") {
-    foreach ($_POST["item"] as $aliastmp) {
+} elseif (@$_POST['cat'] == 'remove') {
+    foreach ($_POST['item'] as $aliastmp) {
         $res = User::removeAlias($usr_id, $aliastmp);
     }
     Misc::mapMessages($res, array(
@@ -58,8 +60,8 @@ if (@$_POST["cat"] == "save") {
     ));
 }
 
-$tpl->assign("list", User::getAliases($usr_id));
-$tpl->assign("username", User::getFullName($usr_id));
-$tpl->assign("id",$usr_id);
+$tpl->assign('list', User::getAliases($usr_id));
+$tpl->assign('username', User::getFullName($usr_id));
+$tpl->assign('id', $usr_id);
 
 $tpl->displayTemplate();

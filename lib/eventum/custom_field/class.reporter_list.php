@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -38,6 +39,6 @@ class Reporter_List_Custom_Field_Backend
 {
     public function getList($fld_id)
     {
-        return User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID("Viewer"));
+        return User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('Viewer'));
     }
 }

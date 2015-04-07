@@ -50,32 +50,32 @@ document.forms[0].submit();
 //-->
 </script>
 {else}
-{literal}
+
 <script type="text/javascript">
 <!--
 function fixSpelling()
 {
-{/literal}
+
     var f = document.forms[0];
     var old_value = f.misspelled_words.options[f.misspelled_words.selectedIndex].text;
     var new_value = f.suggestion.options[f.suggestion.selectedIndex].text;
-    {literal}
+
     if (new_value == '') {
         return;
     }
-    {/literal}
+
     var textarea = window.opener.document.{$smarty.post.form_name}.{$smarty.post.field_name};
     textarea.value = replaceWords(textarea.value, old_value, new_value);
-{literal}
+
 }
 function buildSuggestionBox()
 {
-{/literal}
+
     var suggestions = [];
     {foreach key=word item=suggestions from=$spell_check.suggestions}
     suggestions.push(new Option("{$word}", "{section name=i loop=$suggestions}{$suggestions[i]}{if not $smarty.section.i.last},{/if}{/section}"));
     {/foreach}
-{literal}
+
     var f = document.forms[0];
     var word = f.misspelled_words.options[f.misspelled_words.selectedIndex].text;
     var _suggestions = '';
@@ -93,7 +93,7 @@ function buildSuggestionBox()
 }
 //-->
 </script>
-{/literal}
+
 <form>
 <table align="center" width="100%" cellpadding="3">
   <tr>

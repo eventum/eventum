@@ -4,23 +4,23 @@
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2">
-        {literal}
+
         <script type="text/javascript">
         <!--
         function validateImpactAnalysis(f)
         {
             if (isWhitespace(f.dev_time.value)) {
-                alert('{/literal}{t escape=js}Please enter the estimated development time for this task.{/t}{literal}');
+                alert('{t escape=js}Please enter the estimated development time for this task.{/t}');
                 selectField(f, 'dev_time');
                 return false;
             }
             if (!isFloat(f.dev_time.value)) {
-                alert('{/literal}{t escape=js}Please use only floating point numbers (or integers) on the estimated development time field.{/t}{literal}');
+                alert('{t escape=js}Please use only floating point numbers (or integers) on the estimated development time field.{/t}');
                 selectField(f, 'dev_time');
                 return false;
             }
             if (isWhitespace(f.impact_analysis.value)) {
-                alert('{/literal}{t escape=js}Please enter the analysis for the changes required by this issue.{/t}{literal}');
+                alert('{t escape=js}Please enter the analysis for the changes required by this issue.{/t}');
                 selectField(f, 'impact_analysis');
                 return false;
             }
@@ -31,7 +31,7 @@
         }
         //-->
         </script>
-        {/literal}
+
         <form name="set_initial_impact_form" onSubmit="return validateImpactAnalysis(this);" target="_impact" method="post" action="popup.php">
         <input type="hidden" name="cat" value="set_initial_impact">
         <input type="hidden" name="issue_id" value="{$smarty.get.id|intval}">
@@ -77,16 +77,16 @@
         </tr>
         {/if}
         </form>
-        {literal}
+
         <script type="text/javascript">
         <!--
         function validateDeleteReq(f)
         {
             if (!hasOneChecked(f, 'item[]')) {
-                alert('{/literal}{t escape=js}Please choose which entries need to be removed.{/t}{literal}');
+                alert('{t escape=js}Please choose which entries need to be removed.{/t}');
                 return false;
             }
-            if (!confirm('{/literal}{t escape=js}This action will permanently delete the selected entries.{/t}{literal}')) {
+            if (!confirm('{t escape=js}This action will permanently delete the selected entries.{/t}')) {
                 return false;
             } else {
                 var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -103,7 +103,7 @@
         }
         //-->
         </script>
-        {/literal}
+
         <tr id="{if $core.current_role > $core.roles.reporter}impact_analysis4{else}impact_analysis1{/if}" {get_display_style element_name="impact_analysis"}>
           <td colspan="2" width="100%">
             <b>{t}Further Requirements{/t}:</b>
@@ -165,13 +165,13 @@
         <tr id="impact_analysis5" {get_display_style element_name="impact_analysis"}>
           <td colspan="2" width="100%">
             <table width="100%" border="0" cellpadding="2" cellspacing="1">
-              {literal}
+
               <script type="text/javascript">
               <!--
               function validateNewRequirement(f)
               {
                   if (isWhitespace(f.new_requirement.value)) {
-                      alert('{/literal}{t escape=js}Please enter the new requirement for this issue.{/t}{literal}');
+                      alert('{t escape=js}Please enter the new requirement for this issue.{/t}');
                       selectField(f, 'new_requirement');
                       return false;
                   }
@@ -182,7 +182,7 @@
               }
               //-->
               </script>
-              {/literal}
+
               <form name="add_requirement_form" onSubmit="return validateNewRequirement(this);" target="_requirement" method="post" action="popup.php">
               <input type="hidden" name="cat" value="add_requirement">
               <input type="hidden" name="issue_id" value="{$smarty.get.id|intval}">

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
-	<ShortName>{$app_setup.tool_caption|default:$application_title|escape:"html"}</ShortName>
+	<ShortName>{$app_setup.tool_caption|default:$core.app_title|escape:"html"}</ShortName>
 	<Description>{t}Search Eventum Issues{/t}</Description>
 	<OutputEncoding>{$app_charset}</OutputEncoding>
 	<InputEncoding>{$app_charset}</InputEncoding>
-	<Url type="text/html" template="{$core.base_url}view.php?id={literal}{{/literal}searchTerms{literal}}{/literal}" />
+	<Url type="text/html" template="{$core.base_url}view.php?id={searchTerms}" />
 </OpenSearchDescription>

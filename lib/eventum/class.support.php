@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -50,14 +51,14 @@ class Support
     {
         $accounts = array();
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sup_id,
                     sup_message_id,
                     sup_ema_id
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_id IN (" . DB_Helper::buildList($sup_ids) . ")";
+                    sup_id IN (' . DB_Helper::buildList($sup_ids) . ')';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $sup_ids);
         } catch (DbException $e) {
@@ -74,7 +75,7 @@ class Support
                     $accounts[$res[$i]['sup_ema_id']] = self::connectEmailServer(Email_Account::getDetails($res[$i]['sup_ema_id']));
                 }
                 $mbox = $accounts[$res[$i]['sup_ema_id']];
-                if ($mbox !== FALSE) {
+                if ($mbox !== false) {
                     // now try to find the UID of the current message-id
                     $matches = @imap_search($mbox, 'TEXT "' . $res[$i]['sup_message_id'] . '"');
                     if (count($matches) > 0) {
@@ -105,20 +106,20 @@ class Support
      */
     public static function removeEmail($sup_id)
     {
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%support_email}}
                  WHERE
-                    sup_id=?";
+                    sup_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($sup_id));
         } catch (DbException $e) {
             return false;
         }
 
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%support_email_body}}
                  WHERE
-                    seb_sup_id=?";
+                    seb_sup_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($sup_id));
         } catch (DbException $e) {
@@ -139,7 +140,7 @@ class Support
     {
         $options = self::saveSearchParams();
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sup_id,
                     sup_ema_id
                  FROM
@@ -150,18 +151,18 @@ class Support
                     LEFT JOIN
                         {{%issue}}
                     ON
-                        sup_iss_id = iss_id";
+                        sup_iss_id = iss_id';
         if (!empty($options['keywords'])) {
-            $stmt .= ", {{%support_email_body}}";
+            $stmt .= ', {{%support_email_body}}';
         }
         $stmt .= self::buildWhereClause($options);
-        $stmt .= "
+        $stmt .= '
                  ORDER BY
-                    " . $options["sort_by"] . " " . $options["sort_order"];
+                    ' . $options['sort_by'] . ' ' . $options['sort_order'];
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         $email_ids = array_keys($res);
@@ -174,14 +175,14 @@ class Support
         }
 
         return array(
-            "next"     => array(
+            'next'     => array(
                 'sup_id' => @$next,
-                'ema_id' => @$res[$next]
+                'ema_id' => @$res[$next],
             ),
-            "previous" => array(
+            'previous' => array(
                 'sup_id' => @$previous,
-                'ema_id' => @$res[$previous]
-            )
+                'ema_id' => @$res[$previous],
+            ),
         );
     }
 
@@ -195,7 +196,7 @@ class Support
      */
     public static function getIssueSides($issue_id, $sup_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sup_id,
                     sup_ema_id
                  FROM
@@ -203,11 +204,11 @@ class Support
                  WHERE
                     sup_iss_id=?
                  ORDER BY
-                    sup_id ASC";
+                    sup_id ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($issue_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         $email_ids = array_keys($res);
@@ -220,14 +221,14 @@ class Support
         }
 
         return array(
-            "next"     => array(
+            'next'     => array(
                 'sup_id' => @$next,
-                'ema_id' => @$res[$next]
+                'ema_id' => @$res[$next],
             ),
-            "previous" => array(
+            'previous' => array(
                 'sup_id' => @$previous,
-                'ema_id' => @$res[$previous]
-            )
+                'ema_id' => @$res[$previous],
+            ),
         );
     }
 
@@ -241,7 +242,7 @@ class Support
         if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
             return;
         }
-        list($usec,) = explode(' ', microtime());
+        list($usec) = explode(' ', microtime());
         $filename = date('Y-m-d_H-i-s_') . $usec . '.note.txt';
         $file = APP_ROUTED_MAILS_SAVEDIR . '/routed_emails/' . $filename;
         file_put_contents($file, $message);
@@ -256,12 +257,12 @@ class Support
      */
     public static function getSender($sup_ids)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sup_from
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_id IN (" . DB_Helper::buildList($sup_ids) . ")";
+                    sup_id IN (' . DB_Helper::buildList($sup_ids) . ')';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, $sup_ids);
         } catch (DbException $e) {
@@ -318,7 +319,7 @@ class Support
      */
     public static function getRemovedList()
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sup_id,
                     sup_date,
                     sup_subject,
@@ -329,18 +330,18 @@ class Support
                  WHERE
                     ema_prj_id=? AND
                     ema_id=sup_ema_id AND
-                    sup_removed=1";
+                    sup_removed=1';
         $params = array(Auth::getCurrentProject());
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]["sup_date"] = Date_Helper::getFormattedDate($res[$i]["sup_date"]);
-            $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
-            $res[$i]["sup_from"] = Mime_Helper::fixEncoding($res[$i]["sup_from"]);
+            $res[$i]['sup_date'] = Date_Helper::getFormattedDate($res[$i]['sup_date']);
+            $res[$i]['sup_subject'] = Mime_Helper::fixEncoding($res[$i]['sup_subject']);
+            $res[$i]['sup_from'] = Mime_Helper::fixEncoding($res[$i]['sup_from']);
         }
 
         return $res;
@@ -359,10 +360,10 @@ class Support
             return true;
         }
 
-        $stmt = "DELETE FROM
+        $stmt = 'DELETE FROM
                     {{%support_email}}
                  WHERE
-                    sup_ema_id IN (" . DB_Helper::buildList($ids) . ")";
+                    sup_ema_id IN (' . DB_Helper::buildList($ids) . ')';
         try {
             DB_Helper::getInstance()->query($stmt);
         } catch (DbException $e) {
@@ -526,7 +527,7 @@ class Support
             return;
         }
 
-        // route emails if neccassary
+        // route emails if necessary
         if ($info['ema_use_routing'] == 1) {
             $setup = Setup::load();
 
@@ -619,7 +620,7 @@ class Support
         }
 
         $sender_email = Mail_Helper::getEmailAddress($email->fromaddress);
-        if (PEAR::isError($sender_email)) {
+        if (Misc::isError($sender_email)) {
             $sender_email = 'Error Parsing Email <>';
         }
 
@@ -635,10 +636,11 @@ class Support
             'full_email'     => @$message,
             'has_attachment' => $has_attachments,
             // the following items are not inserted, but useful in some methods
-            'headers'        => @$structure->headers
+            'headers'        => @$structure->headers,
         );
-        $should_create_array = self::createIssueFromEmail(
-            $info, $headers, $message_body, $t['date'], $sender_email, Mime_Helper::decodeQuotedPrintable( @$structure->headers['subject']), $t['to'], $t['cc']);
+
+        $subject = Mime_Helper::decodeQuotedPrintable(@$structure->headers['subject']);
+        $should_create_array = self::createIssueFromEmail($info, $headers, $message_body, $t['date'], $sender_email, $subject, $t['to'], $t['cc']);
         $should_create_issue = $should_create_array['should_create_issue'];
 
         if (!empty($should_create_array['issue_id'])) {
@@ -671,7 +673,7 @@ class Support
                 $usr_id = User::getUserIDByEmail($sender_email);
                 if (!empty($usr_id)) {
                     $role_id = User::getRoleByUser($usr_id, $prj_id);
-                    if ($role_id > User::getRoleID("Customer")) {
+                    if ($role_id > User::getRoleID('Customer')) {
                         // actually a valid user so insert the note
 
                         Auth::createFakeCookie($usr_id, $prj_id);
@@ -752,7 +754,7 @@ class Support
 
                         // try to get usr_id of sender, if not, use system account
                         $addr = Mail_Helper::getEmailAddress($structure->headers['from']);
-                        if (PEAR::isError($addr)) {
+                        if (Misc::isError($addr)) {
                             // XXX should we log or is this expected?
                             Error_Handler::logError(array($addr->getMessage()." addr: $addr", $addr->getDebugInfo()), __FILE__, __LINE__);
                             $usr_id = APP_SYSTEM_USER_ID;
@@ -909,7 +911,7 @@ class Support
         }
 
         $sender_email = Mail_Helper::getEmailAddress($from);
-        if (PEAR::isError($sender_email)) {
+        if (Misc::isError($sender_email)) {
             $sender_email = 'Error Parsing Email <>';
         }
 
@@ -968,7 +970,7 @@ class Support
             'customer_id'   =>  $customer_id,
             'contact_id'   =>  $contact_id,
             'type'      =>  $type,
-            'parent_id' =>  $parent_id
+            'parent_id' =>  $parent_id,
         );
     }
 
@@ -993,12 +995,12 @@ class Support
      */
     public function getMessageIDs($ema_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     DISTINCT sup_message_id
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_ema_id=?";
+                    sup_ema_id=?';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($ema_id));
         } catch (DbException $e) {
@@ -1016,12 +1018,12 @@ class Support
      */
     public function exists($message_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     count(*)
                 FROM
                     {{%support_email}}
                 WHERE
-                    sup_message_id = ?";
+                    sup_message_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($message_id));
         } catch (DbException $e) {
@@ -1048,11 +1050,11 @@ class Support
     {
         // get usr_id from FROM header
         $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($row['from']));
-        if (!empty($usr_id) && empty($row["customer_id"])) {
-            $row["customer_id"] = User::getCustomerID($usr_id);
+        if (!empty($usr_id) && empty($row['customer_id'])) {
+            $row['customer_id'] = User::getCustomerID($usr_id);
         }
         if (empty($row['customer_id'])) {
-            $row['customer_id'] = "NULL";
+            $row['customer_id'] = null;
         }
 
         // try to get the parent ID
@@ -1066,16 +1068,16 @@ class Support
             }
         }
         $params = array(
-            'sup_ema_id' => $row["ema_id"],
-            'sup_iss_id' => $row["issue_id"],
-            'sup_customer_id' => $row["customer_id"],
-            'sup_message_id' => $row["message_id"],
-            'sup_date' => $row["date"],
-            'sup_from' => $row["from"],
-            'sup_to' => $row["to"],
-            'sup_cc' => $row["cc"],
-            'sup_subject' => $row["subject"],
-            'sup_has_attachment' => $row["has_attachment"],
+            'sup_ema_id' => $row['ema_id'],
+            'sup_iss_id' => $row['issue_id'],
+            'sup_customer_id' => $row['customer_id'],
+            'sup_message_id' => $row['message_id'],
+            'sup_date' => $row['date'],
+            'sup_from' => $row['from'],
+            'sup_to' => $row['to'],
+            'sup_cc' => $row['cc'],
+            'sup_subject' => $row['subject'] ?: '',
+            'sup_has_attachment' => $row['has_attachment'],
         );
 
         if (!empty($parent_id)) {
@@ -1086,8 +1088,7 @@ class Support
             $params['sup_usr_id'] = $usr_id;
         }
 
-        $stmt = "INSERT INTO {{%support_email}} SET " . DB_Helper::buildSet($params);
-
+        $stmt = 'INSERT INTO {{%support_email}} SET ' . DB_Helper::buildSet($params);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
@@ -1098,7 +1099,7 @@ class Support
         $sup_id = $new_sup_id;
         $row['sup_id'] = $sup_id;
         // now add the body and full email to the separate table
-        $stmt = "INSERT INTO
+        $stmt = 'INSERT INTO
                     {{%support_email_body}}
                  (
                     seb_sup_id,
@@ -1106,9 +1107,9 @@ class Support
                     seb_full_email
                  ) VALUES (
                     ?, ?, ?
-                 )";
+                 )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($new_sup_id, $row["body"], $row["full_email"]));
+            DB_Helper::getInstance()->query($stmt, array($new_sup_id, $row['body'], $row['full_email']));
         } catch (DbException $e) {
             return -1;
         }
@@ -1116,14 +1117,14 @@ class Support
         if (!empty($row['issue_id'])) {
             $prj_id = Issue::getProjectID($row['issue_id']);
         } elseif (!empty($row['ema_id'])) {
-            $prj_id = Email_Account::getProjectID($row["ema_id"]);
+            $prj_id = Email_Account::getProjectID($row['ema_id']);
         } else {
             $prj_id = false;
         }
 
         // FIXME: $row['ema_id'] is empty when mail is sent via convert note!
         if ($prj_id !== false) {
-            Workflow::handleNewEmail($prj_id, @$row["issue_id"], $structure, $row, $closing);
+            Workflow::handleNewEmail($prj_id, @$row['issue_id'], $structure, $row, $closing);
         }
 
         return 1;
@@ -1145,7 +1146,7 @@ class Support
         } elseif (($profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'email')) && (isset($profile[$name]))) {
             return $profile[$name];
         } else {
-            return "";
+            return '';
         }
     }
 
@@ -1165,18 +1166,18 @@ class Support
             'rows'             => $rows ? $rows : APP_DEFAULT_PAGER_SIZE,
             'pagerRow'         => self::getParam('pagerRow'),
             'hide_associated'  => self::getParam('hide_associated'),
-            "sort_by"          => $sort_by ? $sort_by : "sup_date",
-            "sort_order"       => $sort_order ? $sort_order : "DESC",
+            'sort_by'          => $sort_by ? $sort_by : 'sup_date',
+            'sort_order'       => $sort_order ? $sort_order : 'DESC',
             // quick filter form options
             'keywords'         => self::getParam('keywords'),
             'sender'           => self::getParam('sender'),
             'to'               => self::getParam('to'),
             'ema_id'           => self::getParam('ema_id'),
-            'filter'           => self::getParam('filter')
+            'filter'           => self::getParam('filter'),
         );
         // now do some magic to properly format the date fields
         $date_fields = array(
-            'arrival_date'
+            'arrival_date',
         );
         foreach ($date_fields as $field_name) {
             $field = self::getParam($field_name);
@@ -1191,12 +1192,12 @@ class Support
                 'Day'         => $field['Day'],
                 'start'       => $field['Year'] . '-' . $field['Month'] . '-' . $field['Day'],
                 'filter_type' => $field['filter_type'],
-                'end'         => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day']
+                'end'         => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day'],
             );
             @$cookie[$end_field_name] = array(
                 'Year'        => $end_field['Year'],
                 'Month'       => $end_field['Month'],
-                'Day'         => $end_field['Day']
+                'Day'         => $end_field['Day'],
             );
         }
         Search_Profile::save(Auth::getUserID(), Auth::getCurrentProject(), 'email', $cookie);
@@ -1214,28 +1215,28 @@ class Support
     public static function getSortingInfo($options)
     {
         $fields = array(
-            "sup_from",
-            "sup_customer_id",
-            "sup_date",
-            "sup_to",
-            "sup_iss_id",
-            "sup_subject"
+            'sup_from',
+            'sup_customer_id',
+            'sup_date',
+            'sup_to',
+            'sup_iss_id',
+            'sup_subject',
         );
         $items = array(
-            "links"  => array(),
-            "images" => array()
+            'links'  => array(),
+            'images' => array(),
         );
         for ($i = 0; $i < count($fields); $i++) {
-            if ($options["sort_by"] == $fields[$i]) {
-                $items["images"][$fields[$i]] = "images/" . strtolower($options["sort_order"]) . ".gif";
-                if (strtolower($options["sort_order"]) == "asc") {
-                    $sort_order = "desc";
+            if ($options['sort_by'] == $fields[$i]) {
+                $items['images'][$fields[$i]] = 'images/' . strtolower($options['sort_order']) . '.gif';
+                if (strtolower($options['sort_order']) == 'asc') {
+                    $sort_order = 'desc';
                 } else {
-                    $sort_order = "asc";
+                    $sort_order = 'asc';
                 }
-                $items["links"][$fields[$i]] = $_SERVER["PHP_SELF"] . "?sort_by=" . $fields[$i] . "&sort_order=" . $sort_order;
+                $items['links'][$fields[$i]] = $_SERVER['PHP_SELF'] . '?sort_by=' . $fields[$i] . '&sort_order=' . $sort_order;
             } else {
-                $items["links"][$fields[$i]] = $_SERVER["PHP_SELF"] . "?sort_by=" . $fields[$i] . "&sort_order=asc";
+                $items['links'][$fields[$i]] = $_SERVER['PHP_SELF'] . '?sort_by=' . $fields[$i] . '&sort_order=asc';
             }
         }
 
@@ -1254,12 +1255,12 @@ class Support
     public static function getEmailListing($options, $current_row = 0, $max = 5)
     {
         $prj_id = Auth::getCurrentProject();
-        if ($max == "ALL") {
+        if ($max == 'ALL') {
             $max = 9999999;
         }
         $start = $current_row * $max;
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sup_id,
                     sup_ema_id,
                     sup_iss_id,
@@ -1272,30 +1273,30 @@ class Support
                  FROM
                     (
                     {{%support_email}},
-                    {{%email_account}}";
+                    {{%email_account}}';
         if (!empty($options['keywords'])) {
-            $stmt .= ", {{%support_email_body}} ";
+            $stmt .= ', {{%support_email_body}} ';
         }
-        $stmt .= "
+        $stmt .= '
                     )
                     LEFT JOIN
                         {{%issue}}
                     ON
-                        sup_iss_id = iss_id";
+                        sup_iss_id = iss_id';
         $stmt .= self::buildWhereClause($options);
-        $stmt .= "
+        $stmt .= '
                  ORDER BY
-                    " . Misc::escapeString($options["sort_by"]) . " " . Misc::escapeString($options["sort_order"]);
+                    ' . Misc::escapeString($options['sort_by']) . ' ' . Misc::escapeString($options['sort_order']);
         $total_rows = Pager::getTotalRows($stmt);
-        $stmt .= "
+        $stmt .= '
                  LIMIT
-                    " . Misc::escapeInteger($max) . " OFFSET " . Misc::escapeInteger($start);
+                    ' . Misc::escapeInteger($max) . ' OFFSET ' . Misc::escapeInteger($start);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return array(
-                "list" => "",
-                "info" => ""
+                'list' => '',
+                'info' => '',
             );
         }
 
@@ -1318,15 +1319,15 @@ class Support
         }
 
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]["sup_date"] = Date_Helper::getFormattedDate($res[$i]["sup_date"]);
-            $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
-            $res[$i]["sup_from"] = join(', ', Mail_Helper::getName($res[$i]["sup_from"], true));
-            if ((empty($res[$i]["sup_to"])) && (!empty($res[$i]["sup_iss_id"]))) {
-                $res[$i]["sup_to"] = "Notification List";
+            $res[$i]['sup_date'] = Date_Helper::getFormattedDate($res[$i]['sup_date']);
+            $res[$i]['sup_subject'] = Mime_Helper::fixEncoding($res[$i]['sup_subject']);
+            $res[$i]['sup_from'] = implode(', ', Mail_Helper::getName($res[$i]['sup_from'], true));
+            if ((empty($res[$i]['sup_to'])) && (!empty($res[$i]['sup_iss_id']))) {
+                $res[$i]['sup_to'] = 'Notification List';
             } else {
-                $to = Mail_Helper::getName($res[$i]["sup_to"]);
+                $to = Mail_Helper::getName($res[$i]['sup_to']);
                 // Ignore unformattable headers
-                if (!PEAR::isError($to)) {
+                if (!Misc::isError($to)) {
                     $res[$i]['sup_to'] = Mime_Helper::fixEncoding($to);
                 }
             }
@@ -1339,17 +1340,17 @@ class Support
         $last_page = $total_pages - 1;
 
         return array(
-            "list" => $res,
-            "info" => array(
-                "current_page"  => $current_row,
-                "start_offset"  => $start,
-                "end_offset"    => $start + count($res),
-                "total_rows"    => $total_rows,
-                "total_pages"   => $total_pages,
-                "previous_page" => ($current_row == 0) ? "-1" : ($current_row - 1),
-                "next_page"     => ($current_row == $last_page) ? "-1" : ($current_row + 1),
-                "last_page"     => $last_page
-            )
+            'list' => $res,
+            'info' => array(
+                'current_page'  => $current_row,
+                'start_offset'  => $start,
+                'end_offset'    => $start + count($res),
+                'total_rows'    => $total_rows,
+                'total_pages'   => $total_pages,
+                'previous_page' => ($current_row == 0) ? '-1' : ($current_row - 1),
+                'next_page'     => ($current_row == $last_page) ? '-1' : ($current_row + 1),
+                'last_page'     => $last_page,
+            ),
         );
     }
 
@@ -1361,27 +1362,27 @@ class Support
      */
     public function buildWhereClause($options)
     {
-        $stmt = "
+        $stmt = '
                  WHERE
                     sup_removed=0 AND
                     sup_ema_id=ema_id AND
-                    ema_prj_id=" . Auth::getCurrentProject();
-        if (!empty($options["hide_associated"])) {
-            $stmt .= " AND sup_iss_id = 0";
+                    ema_prj_id=' . Auth::getCurrentProject();
+        if (!empty($options['hide_associated'])) {
+            $stmt .= ' AND sup_iss_id = 0';
         }
         if (!empty($options['keywords'])) {
-            $stmt .= " AND sup_id=seb_sup_id ";
-            $stmt .= " AND (" . Misc::prepareBooleanSearch('sup_subject', $options["keywords"]);
-            $stmt .= " OR " . Misc::prepareBooleanSearch('seb_body', $options["keywords"]) . ")";
+            $stmt .= ' AND sup_id=seb_sup_id ';
+            $stmt .= ' AND (' . Misc::prepareBooleanSearch('sup_subject', $options['keywords']);
+            $stmt .= ' OR ' . Misc::prepareBooleanSearch('seb_body', $options['keywords']) . ')';
         }
         if (!empty($options['sender'])) {
-            $stmt .= " AND " . Misc::prepareBooleanSearch('sup_from', $options["sender"]);
+            $stmt .= ' AND ' . Misc::prepareBooleanSearch('sup_from', $options['sender']);
         }
         if (!empty($options['to'])) {
-            $stmt .= " AND " . Misc::prepareBooleanSearch('sup_to', $options["to"]);
+            $stmt .= ' AND ' . Misc::prepareBooleanSearch('sup_to', $options['to']);
         }
         if (!empty($options['ema_id'])) {
-            $stmt .= " AND sup_ema_id=" . $options['ema_id'];
+            $stmt .= ' AND sup_ema_id=' . $options['ema_id'];
         }
         if ((!empty($options['filter'])) && ($options['filter']['arrival_date'] == 'yes')) {
             switch ($options['arrival_date']['filter_type']) {
@@ -1398,8 +1399,8 @@ class Support
         }
 
         // handle 'private' issues.
-        if (Auth::getCurrentRole() < User::getRoleID("Manager")) {
-            $stmt .= " AND (iss_private = 0 OR iss_private IS NULL)";
+        if (Auth::getCurrentRole() < User::getRoleID('Manager')) {
+            $stmt .= ' AND (iss_private = 0 OR iss_private IS NULL)';
         }
 
         return $stmt;
@@ -1449,9 +1450,9 @@ class Support
         $attachments = Mime_Helper::getAttachments($input);
         if (count($attachments) > 0) {
             if (empty($associated_note_id)) {
-                $history_log = ev_gettext("Attachment originated from an email");
+                $history_log = ev_gettext('Attachment originated from an email');
             } else {
-                $history_log = ev_gettext("Attachment originated from a note");
+                $history_log = ev_gettext('Attachment originated from a note');
             }
 
             $iaf_ids = array();
@@ -1506,7 +1507,7 @@ class Support
             $full_email = self::getFullEmail($items[$i]);
             self::extractAttachments($issue_id, $full_email);
         }
-        Issue::markAsUpdated($issue_id, "email");
+        Issue::markAsUpdated($issue_id, 'email');
         // save a history entry for each email being associated to this issue
         $stmt = "SELECT
                     sup_subject
@@ -1542,7 +1543,7 @@ class Support
             return -1;
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sup_id,
                     seb_full_email
                  FROM
@@ -1550,7 +1551,7 @@ class Support
                     {{%support_email_body}}
                  WHERE
                     sup_id=seb_sup_id AND
-                    sup_id IN (" . DB_Helper::buildList($items) . ")";
+                    sup_id IN (' . DB_Helper::buildList($items) . ')';
 
         $res = DB_Helper::getInstance()->getAll($stmt, $items);
         for ($i = 0; $i < count($res); $i++) {
@@ -1572,7 +1573,7 @@ class Support
                 'full_email'     => $res[$i]['seb_full_email'],
                 'has_attachment' => $has_attachments,
                 // the following items are not inserted, but useful in some methods
-                'headers'        => @$structure->headers
+                'headers'        => @$structure->headers,
             );
 
             $prj_id = Issue::getProjectID($t['issue_id']);
@@ -1599,7 +1600,7 @@ class Support
     public static function getEmailDetails($ema_id, $sup_id)
     {
         // $ema_id is not needed anymore and will be re-factored away in the future
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     {{%support_email}}.*,
                     {{%support_email_body}}.*
                  FROM
@@ -1607,22 +1608,22 @@ class Support
                     {{%support_email_body}}
                  WHERE
                     sup_id=seb_sup_id AND
-                    sup_id=?";
+                    sup_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($sup_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         $res['message'] = $res['seb_body'];
-        $res["attachments"] = Mime_Helper::getAttachmentCIDs($res["seb_full_email"]);
-        $res["timestamp"] = Date_Helper::getUnixTimestamp($res['sup_date'], 'GMT');
-        $res["sup_date"] = Date_Helper::getFormattedDate($res["sup_date"]);
-        $res["sup_subject"] = Mime_Helper::fixEncoding($res["sup_subject"]);
+        $res['attachments'] = Mime_Helper::getAttachmentCIDs($res['seb_full_email']);
+        $res['timestamp'] = Date_Helper::getUnixTimestamp($res['sup_date'], 'GMT');
+        $res['sup_date'] = Date_Helper::getFormattedDate($res['sup_date']);
+        $res['sup_subject'] = Mime_Helper::fixEncoding($res['sup_subject']);
         // TRANSLATORS: %1 = email subject
-        $res['reply_subject'] = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $res["sup_subject"]), true);
-        $res["sup_from"] = Mime_Helper::fixEncoding($res["sup_from"]);
-        $res["sup_to"] = Mime_Helper::fixEncoding($res["sup_to"]);
+        $res['reply_subject'] = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $res['sup_subject']), true);
+        $res['sup_from'] = Mime_Helper::fixEncoding($res['sup_from']);
+        $res['sup_to'] = Mime_Helper::fixEncoding($res['sup_to']);
 
         if (!empty($res['sup_iss_id'])) {
             $res['reply_subject'] = Mail_Helper::formatSubject($res['sup_iss_id'], $res['reply_subject']);
@@ -1674,7 +1675,7 @@ class Support
      */
     public static function getListDetails($items)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sup_id,
                     sup_from,
                     sup_subject
@@ -1684,19 +1685,19 @@ class Support
                  WHERE
                     ema_id=sup_ema_id AND
                     ema_prj_id=? AND
-                    sup_id IN (" . DB_Helper::buildList($items) . ")";
+                    sup_id IN (' . DB_Helper::buildList($items) . ')';
 
         $params = $items;
         array_unshift($params, Auth::getCurrentProject());
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
-            $res[$i]["sup_from"] = Mime_Helper::fixEncoding($res[$i]["sup_from"]);
+            $res[$i]['sup_subject'] = Mime_Helper::fixEncoding($res[$i]['sup_subject']);
+            $res[$i]['sup_from'] = Mime_Helper::fixEncoding($res[$i]['sup_from']);
         }
 
         return $res;
@@ -1711,16 +1712,16 @@ class Support
      */
     public static function getFullEmail($sup_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     seb_full_email
                  FROM
                     {{%support_email_body}}
                  WHERE
-                    seb_sup_id=?";
+                    seb_sup_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sup_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -1735,16 +1736,16 @@ class Support
      */
     public static function getEmail($sup_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     seb_body
                  FROM
                     {{%support_email_body}}
                  WHERE
-                    seb_sup_id=?";
+                    seb_sup_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sup_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -1779,7 +1780,7 @@ class Support
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         if (count($res) == 0) {
@@ -1787,11 +1788,11 @@ class Support
         }
 
         for ($i = 0; $i < count($res); $i++) {
-            $res[$i]["sup_date"] = Date_Helper::getFormattedDate($res[$i]["sup_date"]);
-            $res[$i]["sup_subject"] = Mime_Helper::fixEncoding($res[$i]["sup_subject"]);
-            $res[$i]["sup_from"] = Mime_Helper::fixEncoding($res[$i]["sup_from"]);
-            $res[$i]["sup_to"] = Mime_Helper::fixEncoding($res[$i]["sup_to"]);
-            $res[$i]["sup_cc"] = Mime_Helper::fixEncoding($res[$i]["sup_cc"]);
+            $res[$i]['sup_date'] = Date_Helper::getFormattedDate($res[$i]['sup_date']);
+            $res[$i]['sup_subject'] = Mime_Helper::fixEncoding($res[$i]['sup_subject']);
+            $res[$i]['sup_from'] = Mime_Helper::fixEncoding($res[$i]['sup_from']);
+            $res[$i]['sup_to'] = Mime_Helper::fixEncoding($res[$i]['sup_to']);
+            $res[$i]['sup_cc'] = Mime_Helper::fixEncoding($res[$i]['sup_cc']);
         }
 
         return $res;
@@ -1805,7 +1806,7 @@ class Support
      */
     public static function removeEmails()
     {
-        $items = $_POST["item"];
+        $items = $_POST['item'];
         $list = DB_Helper::buildList($items);
         $stmt = "UPDATE
                     {{%support_email}}
@@ -1830,7 +1831,7 @@ class Support
      */
     public static function removeAssociation()
     {
-        $items = $_POST["item"];
+        $items = $_POST['item'];
         $list = DB_Helper::buildList($items);
         $stmt = "SELECT
                     sup_iss_id
@@ -1964,7 +1965,7 @@ class Support
         );
 
         if (!empty($issue_id)) {
-            $mail->setHeaders(array("Message-Id" => $message_id));
+            $mail->setHeaders(array('Message-Id' => $message_id));
         } else {
             $issue_id = 0;
         }
@@ -1975,7 +1976,7 @@ class Support
         }
 
         if ($in_reply_to) {
-            $mail->setHeaders(array("In-Reply-To" => $in_reply_to));
+            $mail->setHeaders(array('In-Reply-To' => $in_reply_to));
         }
 
         if ($iaf_ids) {
@@ -1987,8 +1988,8 @@ class Support
 
         $cc = trim($cc);
         if (!empty($cc)) {
-            $cc = str_replace(",", ";", $cc);
-            $ccs = explode(";", $cc);
+            $cc = str_replace(',', ';', $cc);
+            $ccs = explode(';', $cc);
             for ($i = 0; $i < count($ccs); $i++) {
                 if (!empty($ccs[$i])) {
                     $mail->addCc($ccs[$i]);
@@ -2028,26 +2029,26 @@ class Support
                 // add the warning message to the current message' body, if needed
                 $fixed_body = Mail_Helper::addWarningMessage($issue_id, $recipient, $body, array());
                 $mail->setHeaders(array(
-                    "Message-Id" => $message_id
+                    'Message-Id' => $message_id,
                 ));
                 // skip users who don't have access to this issue (but allow non-users and users without access to this project) to get emails
                 $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($recipient), true);
-                if ((((!empty($recipient_usr_id)) && ((!Issue::canAccess($issue_id, $recipient_usr_id)) && (User::getRoleByUser($recipient_usr_id, $prj_id) != NULL)))) ||
+                if ((((!empty($recipient_usr_id)) && ((!Issue::canAccess($issue_id, $recipient_usr_id)) && (User::getRoleByUser($recipient_usr_id, $prj_id) != null)))) ||
                         (empty($recipient_usr_id)) && (Issue::isPrivate($issue_id))) {
                     continue;
                 }
             } else {
                 $fixed_body = $body;
             }
-            if (User::getRoleByUser(User::getUserIDByEmail(Mail_Helper::getEmailAddress($from)), Issue::getProjectID($issue_id)) == User::getRoleID("Customer")) {
+            if (User::getRoleByUser(User::getUserIDByEmail(Mail_Helper::getEmailAddress($from)), Issue::getProjectID($issue_id)) == User::getRoleID('Customer')) {
                 $type = 'customer_email';
             } else {
                 $type = 'other_email';
             }
-            if ($attachment && !empty($attachment["name"][0])) {
-                $mail->addAttachment($attachment["name"][0],
-                                     file_get_contents($attachment["tmp_name"][0]),
-                                     $attachment["type"][0]);
+            if ($attachment && !empty($attachment['name'][0])) {
+                $mail->addAttachment($attachment['name'][0],
+                                     file_get_contents($attachment['tmp_name'][0]),
+                                     $attachment['type'][0]);
             }
             $mail->setTextBody($fixed_body);
             $mail->send($from, $recipient, $subject, true, $issue_id, $type, $sender_usr_id);
@@ -2067,9 +2068,9 @@ class Support
         if (empty($cc)) {
             return array();
         } else {
-            $cc = str_replace(",", ";", $cc);
+            $cc = str_replace(',', ';', $cc);
 
-            return explode(";", $cc);
+            return explode(';', $cc);
         }
     }
 
@@ -2080,7 +2081,7 @@ class Support
      */
     public static function sendEmail($parent_sup_id = false)
     {
-        $issue_id = isset($_POST["issue_id"]) ? (int)$_POST["issue_id"] : 0;
+        $issue_id = isset($_POST['issue_id']) ? (int) $_POST['issue_id'] : 0;
 
         // if we are replying to an existing email, set the In-Reply-To: header accordingly
         if ($parent_sup_id) {
@@ -2090,7 +2091,7 @@ class Support
         }
 
         // get ID of whoever is sending this.
-        $sender_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($_POST["from"]));
+        $sender_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($_POST['from']));
         if (empty($sender_usr_id)) {
             $sender_usr_id = false;
         }
@@ -2123,8 +2124,8 @@ class Support
 
         // TODO: $_FILES["attachment"] not handled by ajax upload
         // hack needed to get the full headers of this web-based email
-        $full_email = self::buildFullHeaders($issue_id, $message_id, $_POST["from"], $_POST["to"], $_POST["cc"], $_POST["subject"],
-            $_POST["message"], $in_reply_to, $iaf_ids);
+        $full_email = self::buildFullHeaders($issue_id, $message_id, $_POST['from'], $_POST['to'], $_POST['cc'], $_POST['subject'],
+            $_POST['message'], $in_reply_to, $iaf_ids);
 
         // email blocking should only be done if this is an email about an associated issue
         if (!empty($_POST['issue_id'])) {
@@ -2133,8 +2134,8 @@ class Support
             if (!self::isAllowedToEmail($issue_id, $user_info['usr_email'])) {
                 // add the message body as a note
                 $_POST['full_message'] = $full_email;
-                $_POST['title'] = $_POST["subject"];
-                $_POST['note'] = Mail_Helper::getCannedBlockedMsgExplanation() . $_POST["message"];
+                $_POST['title'] = $_POST['subject'];
+                $_POST['note'] = Mail_Helper::getCannedBlockedMsgExplanation() . $_POST['message'];
                 Note::insert(Auth::getUserID(), $issue_id, false, true, false, true, true);
                 Workflow::handleBlockedEmail(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id'], $_POST, 'web');
 
@@ -2227,7 +2228,8 @@ class Support
                     if ($contact->canAccessContract($issue_contract)) {
                         $t['customer_id'] = $issue_contract->getCustomerID();
                     }
-                } catch (CRMException $e) {}
+                } catch (CRMException $e) {
+                }
             } else {
                 $customer_id = User::getCustomerID(Auth::getUserID());
                 if ((!empty($customer_id)) && ($customer_id != -1)) {
@@ -2274,16 +2276,16 @@ class Support
      */
     public function getMessageIDByID($sup_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sup_message_id
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_id=?";
+                    sup_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sup_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -2301,12 +2303,12 @@ class Support
         if (!$message_id) {
             return false;
         }
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sup_id
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_message_id=?";
+                    sup_message_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($message_id));
         } catch (DbException $e) {
@@ -2327,21 +2329,21 @@ class Support
      * @param   string $message_id The message ID
      * @return  integer The issue ID
      */
-    public function getIssueByMessageID($message_id)
+    public static function getIssueByMessageID($message_id)
     {
         if (!$message_id) {
             return false;
         }
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sup_iss_id
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_message_id=?";
+                    sup_message_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($message_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -2356,16 +2358,16 @@ class Support
      */
     public static function getIssueFromEmail($sup_id)
     {
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     sup_iss_id
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_id=?";
+                    sup_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sup_id));
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -2377,16 +2379,16 @@ class Support
      * @param   string $msg_id The message ID
      * @return  string The message id of the parent email or false
      */
-    public function getParentMessageIDbyMessageID($msg_id)
+    public static function getParentMessageIDbyMessageID($msg_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     parent.sup_message_id
                 FROM
                     {{%support_email}} child,
                     {{%support_email}} parent
                 WHERE
                     parent.sup_id = child.sup_parent_id AND
-                    child.sup_message_id = ?";
+                    child.sup_message_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($msg_id));
         } catch (DbException $e) {
@@ -2412,7 +2414,7 @@ class Support
     public static function getSentEmailCountByUser($usr_id, $start, $end, $associated)
     {
         $usr_info = User::getNameEmail($usr_id);
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     COUNT(sup_id)
                  FROM
                     {{%support_email}},
@@ -2422,18 +2424,18 @@ class Support
                     ema_prj_id = ? AND
                     sup_date BETWEEN ? AND ? AND
                     sup_from LIKE ? AND
-                    sup_iss_id ";
+                    sup_iss_id ';
         if ($associated == true) {
-            $stmt .= "!= 0";
+            $stmt .= '!= 0';
         } else {
-            $stmt .= "= 0";
+            $stmt .= '= 0';
         }
 
-        $params = array(Auth::getCurrentProject(), $start, $end, "%{$usr_info["usr_email"]}%");
+        $params = array(Auth::getCurrentProject(), $start, $end, "%{$usr_info['usr_email']}%");
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DbException $e) {
-            return "";
+            return '';
         }
 
         return $res;
@@ -2453,12 +2455,12 @@ class Support
             return $returns[$ema_id];
         }
 
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     ema_prj_id
                  FROM
                     {{%email_account}}
                  WHERE
-                    ema_id = ?";
+                    ema_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($ema_id));
         } catch (DbException $e) {
@@ -2509,7 +2511,7 @@ class Support
             $customer_id = 'NULL';
         }
 
-        $sql = "UPDATE
+        $sql = 'UPDATE
                     {{%support_email}}
                 SET
                     sup_ema_id = ?,
@@ -2517,7 +2519,7 @@ class Support
                     sup_customer_id = ?
                 WHERE
                     sup_id = ? AND
-                    sup_ema_id = ?";
+                    sup_ema_id = ?';
         $params = array($new_ema_id, $issue_id, $customer_id, $sup_id, $current_ema_id);
         try {
             DB_Helper::getInstance()->query($sql, $params);
@@ -2538,7 +2540,7 @@ class Support
             'subject'        => $email['sup_subject'],
             'body'           => $email['seb_body'],
             'full_email'     => $email['seb_full_email'],
-            'has_attachment' => $email['sup_has_attachment']
+            'has_attachment' => $email['sup_has_attachment'],
         );
         Workflow::handleNewEmail(self::getProjectByEmailAccount($new_ema_id), $issue_id, $structure, $row);
 
@@ -2584,7 +2586,7 @@ class Support
                 (!self::isAllowedToEmail($issue_id, $sender_email))) {
             // add the message body as a note
             $_POST = array(
-                'full_message'=> $email['full_email'],
+                'full_message' => $email['full_email'],
                 'title'       => @$email['headers']['subject'],
                 'note'        => Mail_Helper::getCannedBlockedMsgExplanation($issue_id) . $email['body'],
                 'message_id'  => Mail_Helper::getMessageID($text_headers, $body),
@@ -2675,13 +2677,13 @@ class Support
         }
 
         try {
-            DB_Helper::getInstance()->query("SET @sup_seq = 0");
+            DB_Helper::getInstance()->query('SET @sup_seq = 0');
         } catch (DbException $e) {
             return 0;
         }
 
         $issue_id = Support::getIssueFromEmail($sup_id);
-        $sql = "SELECT
+        $sql = 'SELECT
                 	sup_id,
                 	@sup_seq := @sup_seq+1
                 FROM
@@ -2689,7 +2691,7 @@ class Support
                 WHERE
                 	sup_iss_id = ?
                 ORDER BY
-                    sup_id ASC";
+                    sup_id ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($sql, array($issue_id));
         } catch (DbException $e) {

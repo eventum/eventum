@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -30,18 +31,18 @@
 require_once dirname(__FILE__) . '/../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("removed_emails.tpl.html");
+$tpl->setTemplate('removed_emails.tpl.html');
 
 Auth::checkAuthentication(APP_COOKIE, null, true);
 
-if (@$_POST["cat"] == "restore") {
+if (@$_POST['cat'] == 'restore') {
     $res = Support::restoreEmails();
-    $tpl->assign("result_msg", $res);
-} elseif (@$_POST["cat"] == "remove") {
-    $res = Support::expungeEmails($_POST["item"]);
-    $tpl->assign("result_msg", $res);
+    $tpl->assign('result_msg', $res);
+} elseif (@$_POST['cat'] == 'remove') {
+    $res = Support::expungeEmails($_POST['item']);
+    $tpl->assign('result_msg', $res);
 }
 
-$tpl->assign("list", Support::getRemovedList());
+$tpl->assign('list', Support::getRemovedList());
 
 $tpl->displayTemplate();

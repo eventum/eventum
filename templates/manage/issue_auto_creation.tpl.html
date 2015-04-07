@@ -1,7 +1,7 @@
 {extends "manage/manage.tpl.html"}
 
 {block "manage_content"}
-{literal}
+
 <script type="text/javascript">
     <!--
     function validateForm()
@@ -10,13 +10,13 @@
             var field = Eventum.getField('options[category]');
             if (field.length && !Validation.hasOneSelected(field)) {
                 Validation.selectField('options[category]');
-                alert('{/literal}{t escape=js}Please choose the default category.{/t}{literal}');
+                alert('{t escape=js}Please choose the default category.{/t}');
                 return false;
             }
             var field = Eventum.getField('options[priority]');
             if (field.length && !Validation.hasOneSelected(field)) {
                 Validation.selectField('options[priority]');
-                alert('{/literal}{t escape=js}Please choose the default priority.{/t}{literal}');
+                alert('{t escape=js}Please choose the default priority.{/t}');
                 return false;
             }
         }
@@ -42,7 +42,7 @@
     });
     //-->
 </script>
-{/literal}
+
 <form id="auto_creation_form" method="post">
     <input type="hidden" name="cat" value="update">
     <input type="hidden" name="ema_id" value="{$ema_id}">
@@ -115,7 +115,7 @@
             </th>
             <td>
                 <select name="options[users][]" multiple size="3" tabindex="4">
-                    {html_options options=$users selected=$options.users}
+                    {html_options options=$users selected=$options.users|default:-1}
                 </select>
                 {include file="error_icon.tpl.html" field="options[users][]"}
             </td>
