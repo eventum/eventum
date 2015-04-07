@@ -466,6 +466,16 @@ table.narrow {
 }
 
 
+/* Dropzone */
+.dz-status {
+    font-size: .8em;
+}
+
+.dz-status img {
+    height: 15px;
+    width: 15px;
+}
+
 /* Old compat styles */
 td.light {
     background: #dddddd;
