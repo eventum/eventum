@@ -171,9 +171,11 @@ class Abstract_Workflow_Backend
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $usr_id The id of the user who assigned the issue.
+     * @deprecated Deprecated since Version 2.4.0 pre1 in favor of handleAssignmentChange
      */
     public function handleAssignment($prj_id, $issue_id, $usr_id)
     {
+        trigger_error("Workflow::handleAssignment is deprecated", E_USER_DEPRECATED);
     }
 
     /**

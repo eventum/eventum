@@ -176,24 +176,6 @@ class Workflow
     }
 
     /**
-     * Called when an issue is assigned.
-     * FIXME: not used by current eventum code
-     *
-     * @param   integer $prj_id The project ID
-     * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The id of the user who assigned the issue.
-     */
-    public function handleAssignment($prj_id, $issue_id, $usr_id)
-    {
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return;
-        }
-        $backend = self::_getBackend($prj_id);
-
-        return $backend->handleAssignment($prj_id, $issue_id, $usr_id);
-    }
-
-    /**
      * Called when a file is attached to an issue..
      *
      * @param   integer $prj_id The project ID
