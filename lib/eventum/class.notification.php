@@ -297,8 +297,6 @@ class Notification
         $full_message = $message['full_email'];
         $sender = $message['from'];
         $sender_email = strtolower(Mail_Helper::getEmailAddress($sender));
-        // FIXME: $structure is unused
-        $structure = Mime_Helper::decode($full_message, true);
 
         // get ID of whoever is sending this.
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
@@ -359,8 +357,7 @@ class Notification
         if (count($emails) == 0) {
             return;
         }
-        // FIXME: $setup unused
-        $setup = Setup::load();
+
         // change the sender of the message to {prefix}{issue_id}@{host}
         //  - keep everything else in the message, except 'From:', 'Sender:', 'To:', 'Cc:'
         // make 'Joe Blow <joe@example.com>' become 'Joe Blow [CSC] <eventum_59@example.com>'
@@ -394,8 +391,6 @@ class Notification
         }
 
         foreach ($emails as $to) {
-            // FIXME: $recipient_usr_id unused
-            $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($to));
             // add the warning message about replies being blocked or not
             $fixed_body = Mail_Helper::addWarningMessage($issue_id, $to, $body, $headers);
             $headers['To'] = Mime_Helper::encodeAddress($to);
@@ -699,20 +694,17 @@ class Notification
         $prj_id = Issue::getProjectID($issue_id);
         $emails = array();
         $users = self::getUsersByIssue($issue_id, 'updated');
-        $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
-        $user_emails = array_map('strtolower', $user_emails);
-        // FIXME: unused $user_emails
-        for ($i = 0; $i < count($users); $i++) {
-            if (empty($users[$i]['sub_usr_id'])) {
-                $email = $users[$i]['sub_email'];
+        foreach ($users as $user) {
+            if (empty($user['sub_usr_id'])) {
+                $email = $user['sub_email'];
             } else {
-                $prefs = Prefs::get($users[$i]['sub_usr_id']);
-                if ((Auth::getUserID() == $users[$i]['sub_usr_id']) &&
+                $prefs = Prefs::get($user['sub_usr_id']);
+                if ((Auth::getUserID() == $user['sub_usr_id']) &&
                         ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
                             ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
                     continue;
                 }
-                $email = User::getFromHeader($users[$i]['sub_usr_id']);
+                $email = User::getFromHeader($user['sub_usr_id']);
             }
             // now add it to the list of emails
             if ((!empty($email)) && (!in_array($email, $emails))) {
@@ -902,8 +894,6 @@ class Notification
             'current_user' => User::getFullName(Auth::getUserID()),
         ));
 
-        // FIXME: unused $setup
-        $setup = Setup::load();
         // type of notification is sent out: email, note, blocked_email
         $notify_type = $type;
         $sender_usr_id = false;
@@ -2232,30 +2222,18 @@ class Notification
     /**
      * Method used to update the details of a given subscription.
      *
+     * @param   $issue_id
      * @param   integer $sub_id The subscription ID
+     * @param   $email
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public static function update($sub_id)
+    public static function update($issue_id, $sub_id, $email)
     {
-        $stmt = 'SELECT
-                    sub_iss_id,
-                    sub_usr_id
-                 FROM
-                    {{%subscription}}
-                 WHERE
-                    sub_id=?';
-
-        // FIXME $usr_id unused
-        // TODO: need fetchmode default?
-        list($issue_id, $usr_id) = DB_Helper::getInstance()->getRow($stmt, array($sub_id), DbInterface::DB_FETCHMODE_DEFAULT);
-
-        $email = strtolower(Mail_Helper::getEmailAddress($_POST['email']));
-        $usr_id = User::getUserIDByEmail($email, true);
+        $usr_id = User::getUserIDByEmail(strtolower(Mail_Helper::getEmailAddress($email)), true);
         if (!empty($usr_id)) {
             $email = '';
         } else {
             $usr_id = 0;
-            $email = $_POST['email'];
         }
         $prj_id = Issue::getProjectID($issue_id);
 

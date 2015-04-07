@@ -59,11 +59,8 @@ if (@$_POST['cat'] == 'insert') {
     if ($res == 1) {
         Misc::setMessage(ev_gettext('Thank you, the email has been subscribed to the issue.'));
     }
-} elseif (@$_GET['cat'] == 'edit') {
-    $res = Notification::getDetails($_GET['id']);
-    $tpl->assign('info', $res);
 } elseif (@$_POST['cat'] == 'update') {
-    $res = Notification::update($_POST['id']);
+    $res = Notification::update($issue_id, $_POST['id'], $_POST['email']);
     if ($res == 1) {
         Misc::setMessage(ev_gettext('Thank you, the notification entry was updated successfully.'));
     } elseif ($res == -1) {
@@ -71,6 +68,10 @@ if (@$_POST['cat'] == 'insert') {
     } elseif ($res == -2) {
         Misc::setMessage(ev_gettext('Error: the given email address is not allowed to be added to the notification list.'), Misc::MSG_ERROR);
     }
+    Auth::redirect(APP_RELATIVE_URL . "notification.php?iss_id=" . $issue_id);
+} elseif (@$_GET['cat'] == 'edit') {
+    $res = Notification::getDetails($_GET['id']);
+    $tpl->assign('info', $res);
 } elseif (@$_POST['cat'] == 'delete') {
     $res = Notification::remove($_POST['items']);
     if ($res == 1) {
