@@ -381,8 +381,7 @@ class Link_Filter
                     lfi_id";
         $params = array(Auth::getCurrentRole(), $prj_id);
         try {
-            // FIXME: need fetchmod default?
-            $res = DB_Helper::getInstance()->getAll($stmt, $params, DbInterface::DB_FETCHMODE_DEFAULT);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params, DbInterface::DB_FETCHMODE_ORDERED);
         } catch (DbException $e) {
             return array();
         }

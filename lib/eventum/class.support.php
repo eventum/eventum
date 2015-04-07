@@ -1653,8 +1653,7 @@ class Support
                     sup_id
                 LIMIT 1 OFFSET $offset";
         try {
-            // FIXME: need DB_FETCHMODE_DEFAULT here?
-            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id), DbInterface::DB_FETCHMODE_DEFAULT);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
         } catch (DbException $e) {
             return array();
         }
@@ -1663,7 +1662,7 @@ class Support
             return array();
         }
 
-        return self::getEmailDetails($res[1], $res[0]);
+        return self::getEmailDetails($res['sup_id'], $res['sup_ema_id']);
     }
 
     /**
