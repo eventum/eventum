@@ -118,11 +118,6 @@ class Project
             return '';
         }
 
-        // FIXME: wtf is this? from db it is always returned as string
-        if (!is_string($res)) {
-            $res = (string) $res;
-        }
-
         return @unserialize($res);
     }
 
