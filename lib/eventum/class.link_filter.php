@@ -413,6 +413,6 @@ class Link_Filter
         // use named capture 'match' if present
         $match = isset($matches['match']) ? $matches['match'] : "issue {$issue_id}";
 
-        return " <a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$match}</a>";
+        return "<a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$match}</a>";
     }
 }
