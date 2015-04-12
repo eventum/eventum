@@ -1026,7 +1026,8 @@ class Report
      *
      * @param string $type
      */
-    public static function plotGraph($type) {
+    public static function plotGraph($type)
+    {
         $usr_id = Auth::getUserID();
 
         // get timezone of current user
@@ -1076,5 +1077,123 @@ class Report
         $plot->SetYLabelType('printf', '%.0f%%');
         $plot->group_frac_width = 1;
         $plot->DrawGraph();
+    }
+
+    /**
+     * Generates a graph for workload by date range report.
+     *
+     * @param string $graph
+     * @param string $type
+     * @param string $start_date
+     * @param string $end_date
+     * @param $interval
+     * @return bool
+     */
+    public static function plotWorkloadDateRangeGraph($graph, $type, $start_date, $end_date, $interval)
+    {
+        $data = Session::get('workload_date_range_data');
+        if (empty($data)) {
+            return false;
+        }
+
+        switch ($interval) {
+            case 'dow':
+                $x_title = ev_gettext('Day of Week');
+                break;
+            case 'week':
+                $x_title = ev_gettext('Week');
+                break;
+            case 'dom':
+                $x_title = ev_gettext('Day of Month');
+                break;
+            case 'day':
+                $x_title = ev_gettext('Day');
+                break;
+            case 'month':
+                $x_title = ev_gettext('Month');
+                break;
+            default:
+                return false;
+        }
+
+        switch ($graph) {
+            case 'issue':
+                $plots = array_values($data['issues']['points']);
+                $graph_title = ev_gettext('Issues by created date %s through %s', $start_date, $end_date);
+                $labels = array_keys($data['issues']['points']);
+                $y_label = ev_gettext('Issues');
+                break;
+
+            case 'email':
+                $plots = array_values($data['emails']['points']);
+                $graph_title = ev_gettext('Emails by sent date %s through %s', $start_date, $end_date);
+                $labels = array_keys($data['emails']['points']);
+                $y_label = ev_gettext('Emails');
+                break;
+
+            case 'note':
+                $plots = array_values($data['notes']['points']);
+                $graph_title = ev_gettext('Notes by sent date %s through %s', $start_date, $end_date);
+                $labels = array_keys($data['notes']['points']);
+                $y_label = ev_gettext('Notes');
+                break;
+
+            case 'phone':
+                $plots = array_values($data['phone']['points']);
+                $graph_title = ev_gettext('Phone calls by date %s through %s', $start_date, $end_date);
+                $labels = array_keys($data['phone']['points']);
+                $y_label = ev_gettext('Phone Calls');
+                break;
+
+            case 'time_spent':
+                $plots = array_values($data['time_spent']['points']);
+                $graph_title = ev_gettext('Time spent (hrs) %s through %s', $start_date, $end_date);
+                $labels = array_keys($data['time_spent']['points']);
+                $y_label = ev_gettext('Hours');
+                break;
+
+            case 'avg_time_per_issue':
+                $plots = array_values($data['avg_time_per_issue']['points']);
+                $graph_title = ev_gettext('Avg. Time spent per issue (min) %s through %s', $start_date, $end_date);
+                $labels = array_keys($data['avg_time_per_issue']['points']);
+                $y_label = ev_gettext('Minutes');
+                break;
+
+            default:
+                return false;
+        }
+
+        if (count($plots) < 1) {
+            return false;
+        }
+
+        // convert to phplot format
+        $plotData = array();
+        foreach ($plots as $i => $plot) {
+            $plotData[] = array($labels[$i], $plot);
+        }
+
+        if ($type == 'pie') {
+            $plot = new PHPlot(500, 300);
+            $plot->SetPlotType('pie');
+            $plot->SetDataType('text-data-single');
+            $plot->SetLegend($labels);
+        } else {
+            $plot = new PHPlot(500, 350);
+            $plot->SetPlotType('bars');
+            $plot->SetDataType('text-data');
+            $plot->SetYTitle($y_label);
+            $plot->SetXTitle($x_title);
+            $plot->SetYDataLabelPos('plotin');
+        }
+
+        $plot->SetTitle($graph_title);
+        $plot->SetImageBorderType('plain');
+        $plot->SetDataValues($plotData);
+
+        $plot->SetTTFPath(APP_FONTS_PATH);
+        $plot->SetUseTTF(true);
+
+        return $plot->DrawGraph();
     }
 }
