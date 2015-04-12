@@ -38,9 +38,6 @@ if (file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
     // needed for init.php and gettext.inc
     define('APP_PHP_GETTEXT_PATH', APP_PATH . '/vendor/php-gettext/php-gettext');
 
-    // no substitution, use bundled copy
-    define('APP_JPGRAPH_PATH', APP_PATH . '/lib/jpgraph');
-
     return;
 }
 
@@ -67,10 +64,6 @@ if (!defined('APP_PHP_GETTEXT_PATH')) {
 
 if (!defined('APP_SMARTY_PATH')) {
     define('APP_SMARTY_PATH', '');
-}
-
-if (!defined('APP_JPGRAPH_PATH')) {
-    define('APP_JPGRAPH_PATH', APP_PATH . '/lib/jpgraph');
 }
 
 // add PEAR to the include path, required by PEAR classes

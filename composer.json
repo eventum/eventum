@@ -31,7 +31,7 @@
 		"component-baseurl": "/components"
 	},
 	"autoload": {
-		"classmap": [ "lib/eventum/", "lib/jpgraph/"]
+		"classmap": [ "lib/eventum/"]
 	},
 	"scripts": {
 		"test": "phpunit"

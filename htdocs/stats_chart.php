@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,27 +22,16 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../init.php';
-require_once APP_JPGRAPH_PATH . '/jpgraph.php';
-require_once APP_JPGRAPH_PATH . '/jpgraph_pie.php';
 
 Auth::checkAuthentication(APP_COOKIE);
-
-error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED);
-
-// check to see if the TTF file is available or not
-$ttf_font = TTF_DIR . 'verdana.ttf';
-if (!file_exists($ttf_font)) {
-    $font = FF_FONT1;
-} else {
-    $font = FF_VERDANA;
-}
 
 if (isset($_REQUEST['hide_closed'])) {
     $hide_closed = $_REQUEST['hide_closed'];

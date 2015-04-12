@@ -22,9 +22,6 @@
 		<exclude name="config/**" />
 		<exclude name="docs/**" />
 		<exclude name="templates_c/**" />
-
-		<!-- External libs: we do not modify these to fit standards -->
-		<exclude name="lib/jpgraph/**" />
 	</fileset>
 
 	<fileset id="jssource" dir="${dir.src}/htdocs/js">

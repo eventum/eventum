@@ -22,7 +22,6 @@ Additionally you should enable following PHP Core extensions:
 Installation is pretty simple and quick. Eventum already bundles the libraries
 that it needs to work properly:
 
-- JpGraph 1.5.3 (last GPL version)
 - Smarty 3.x (http://smarty.net)
 - PEAR packages (see lib/pear/README for details)
 - A few other small javascript libraries
