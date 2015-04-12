@@ -24,17 +24,11 @@
 		<exclude name="templates_c/**" />
 
 		<!-- External libs: we do not modify these to fit standards -->
-		<exclude name="cli/lib/pear/**" />
-		<exclude name="lib/Smarty/**" />
 		<exclude name="lib/jpgraph/**" />
-		<exclude name="lib/pear/**" />
-		<exclude name="lib/php-gettext/**" />
 	</fileset>
 
 	<fileset id="jssource" dir="${dir.src}/htdocs/js">
 		<include name="**/*.js" />
-		<!-- skip external libs -->
-		<exclude name="**/jquery/*.js" />
 	</fileset>
 
 	<!-- phplint -->
