@@ -253,8 +253,8 @@ class Email_Response
         }
 
         // get the list of associated projects
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['projects'] = implode(', ', array_values(self::getAssociatedProjects($res[$i]['ere_id'])));
+        foreach ($res as &$row) {
+            $row['projects'] = implode(', ', array_values(self::getAssociatedProjects($row['ere_id'])));
         }
 
         return $res;
@@ -315,9 +315,9 @@ class Email_Response
 
         // fix the newlines in the response bodies so javascript doesn't die
         // FIXME: this is very wrong, escaping should be done in template where ere_response_body is output, not here
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['ere_response_body'] = Misc::escapeWhitespace($res[$i]['ere_response_body']);
-            $res[$i]['ere_response_body'] = str_replace('"', '\"', $res[$i]['ere_response_body']);
+        foreach ($res as &$row) {
+            $row['ere_response_body'] = Misc::escapeWhitespace($row['ere_response_body']);
+            $row['ere_response_body'] = str_replace('"', '\"', $row['ere_response_body']);
         }
 
         return $res;

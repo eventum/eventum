@@ -310,16 +310,16 @@ class Draft
             return '';
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['emd_updated_date'] = Date_Helper::getFormattedDate($res[$i]['emd_updated_date']);
-            if (!empty($res[$i]['emd_unknown_user'])) {
-                $res[$i]['from'] = $res[$i]['emd_unknown_user'];
+        foreach ($res as &$row) {
+            $row['emd_updated_date'] = Date_Helper::getFormattedDate($row['emd_updated_date']);
+            if (!empty($row['emd_unknown_user'])) {
+                $row['from'] = $row['emd_unknown_user'];
             } else {
-                $res[$i]['from'] = User::getFromHeader($res[$i]['emd_usr_id']);
+                $row['from'] = User::getFromHeader($row['emd_usr_id']);
             }
-            list($res[$i]['to']) = self::getEmailRecipients($res[$i]['emd_id']);
-            if (empty($res[$i]['to'])) {
-                $res[$i]['to'] = 'Notification List';
+            list($row['to']) = self::getEmailRecipients($row['emd_id']);
+            if (empty($row['to'])) {
+                $row['to'] = 'Notification List';
             }
         }
 

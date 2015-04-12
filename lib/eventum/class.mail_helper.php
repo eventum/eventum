@@ -226,26 +226,27 @@ class Mail_Helper
         if (Misc::isError($t)) {
             return $t;
         }
+
         if ($multiple) {
             $returns = array();
-            for ($i = 0; $i < count($t); $i++) {
+            foreach ($t as $row) {
                 $returns[] = array(
-                    'sender_name' => $t[$i]->personal,
-                    'email'       => $t[$i]->mailbox . '@' . $t[$i]->host,
-                    'username'    => $t[$i]->mailbox,
-                    'host'        => $t[$i]->host,
+                    'sender_name' => $row->personal,
+                    'email'       => $row->mailbox . '@' . $row->host,
+                    'username'    => $row->mailbox,
+                    'host'        => $row->host,
                 );
             }
 
             return $returns;
-        } else {
-            return array(
-                'sender_name' => $t[0]->personal,
-                'email'       => $t[0]->mailbox . '@' . $t[0]->host,
-                'username'    => $t[0]->mailbox,
-                'host'        => $t[0]->host,
-            );
         }
+
+        return array(
+            'sender_name' => $t[0]->personal,
+            'email'       => $t[0]->mailbox . '@' . $t[0]->host,
+            'username'    => $t[0]->mailbox,
+            'host'        => $t[0]->host,
+        );
     }
 
     /**

@@ -969,9 +969,12 @@ class Issue
 
         // record the change
         $issue_id = (int) $issue_id;
-        for ($i = 0; $i < count($ids); $i++) {
-            History::add($ids[$i], Auth::getUserID(), History::getTypeID('duplicate_update'),
-                "The details for issue #$issue_id were updated by " . User::getFullName(Auth::getUserID()) . ' and the changes propagated to the duplicated issues.');
+        $usr_id = Auth::getUserID();
+        $full_name = User::getFullName($usr_id);
+        $htt_id = History::getTypeID('duplicate_update');
+        $summary = "The details for issue #$issue_id were updated by {$full_name} and the changes propagated to the duplicated issues.";
+        foreach ($ids as $iss_id) {
+            History::add($iss_id, $usr_id, $htt_id, $summary);
         }
 
         return 1;
@@ -992,8 +995,8 @@ class Issue
         }
 
         $list = array();
-        for ($i = 0; $i < count($res); $i++) {
-            $list[$res[$i]['issue_id']] = $res[$i]['title'];
+        foreach ($res as $row) {
+            $list[$row['issue_id']] = $row['title'];
         }
 
         return $list;
@@ -1285,10 +1288,10 @@ class Issue
         $assign = array();
         $users = @$options['users'];
         $actions = Notification::getDefaultActions($new_issue_id, false, 'anon_issue');
-        for ($i = 0; $i < count($users); $i++) {
-            Notification::subscribeUser(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i], $actions);
-            self::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $users[$i]);
-            $assign[] = $users[$i];
+        foreach ($users as $user) {
+            Notification::subscribeUser(APP_SYSTEM_USER_ID, $new_issue_id, $user, $actions);
+            self::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $user);
+            $assign[] = $user;
         }
 
         Workflow::handleNewIssue(Misc::escapeInteger($_POST['project']),  $new_issue_id, false, false);
@@ -1475,9 +1478,9 @@ class Issue
         } else {
             $associated_issues = explode(',', @$_POST['associated_issues']);
             // make sure all associated issues are valid (and in this project)
-            for ($i = 0; $i < count($associated_issues); $i++) {
-                if (!self::exists(trim($associated_issues[$i]), false)) {
-                    $errors['Associated Issues'][] = 'Issue #' . $associated_issues[$i] . ' does not exist and was removed from the list of associated issues.';
+            foreach ($associated_issues as $i => $iss_id) {
+                if (!Issue::exists(trim($iss_id), false)) {
+                    $errors['Associated Issues'][] = 'Issue #' . $iss_id . ' does not exist and was removed from the list of associated issues.';
                     unset($associated_issues[$i]);
                 }
             }
@@ -2092,16 +2095,17 @@ class Issue
         }
         // now add the user/issue association
         if (@count($assignment) > 0) {
-            for ($i = 0; $i < count($assignment); $i++) {
-                Notification::subscribeUser($reporter, $issue_id, $assignment[$i], $actions);
-                self::addUserAssociation(APP_SYSTEM_USER_ID, $issue_id, $assignment[$i]);
-                if ($assignment[$i] != $usr_id) {
-                    $users[] = $assignment[$i];
+            foreach ($assignment as $ass_usr_id) {
+                Notification::subscribeUser($reporter, $issue_id, $ass_usr_id, $actions);
+                self::addUserAssociation(APP_SYSTEM_USER_ID, $issue_id, $ass_usr_id);
+                if ($ass_usr_id != $usr_id) {
+                    $users[] = $ass_usr_id;
                 }
             }
         } else {
             // only use the round-robin feature if this new issue was not
             // already assigned to a customer account manager
+            // FIXME: $managers may be uninitialized
             if (@count($managers) < 1) {
                 $assignee = Round_Robin::getNextAssignee($prj_id);
                 // assign the issue to the round robin person
@@ -2234,12 +2238,12 @@ class Issue
         }
         // now add the user/issue association (aka assignments)
         if (!empty($data['users']) && count($data['users']) > 0) {
-            for ($i = 0; $i < count($data['users']); $i++) {
-                $actions = Notification::getDefaultActions($issue_id, User::getEmail($data['users'][$i]), 'new_issue');
-                Notification::subscribeUser($usr_id, $issue_id, $data['users'][$i], $actions);
-                self::addUserAssociation($usr_id, $issue_id, $data['users'][$i]);
-                if ($data['users'][$i] != $usr_id) {
-                    $users[] = $data['users'][$i];
+            foreach ($data['users'] as $user) {
+                $actions = Notification::getDefaultActions($issue_id, User::getEmail($user), 'new_issue');
+                Notification::subscribeUser($usr_id, $issue_id, $user, $actions);
+                self::addUserAssociation($usr_id, $issue_id, $user);
+                if ($user != $usr_id) {
+                    $users[] = $user;
                 }
             }
         } else {
@@ -2451,19 +2455,20 @@ class Issue
      */
     public static function formatLastActionDates(&$result)
     {
-        for ($i = 0; $i < count($result); $i++) {
-            if (($result[$i]['action_type'] == 'internal') &&
-                    (Auth::getCurrentRole() > User::getRoleID('Customer'))) {
-                $label = $result[$i]['iss_last_internal_action_type'];
-                $last_date = $result[$i]['iss_last_internal_action_date'];
+        $role_id = Auth::getCurrentRole();
+        $customer_role_id = User::getRoleID('Customer');
+        foreach ($result as &$row) {
+            if ($row['action_type'] == 'internal' && $role_id > $customer_role_id) {
+                $label = $row['iss_last_internal_action_type'];
+                $last_date = $row['iss_last_internal_action_date'];
             } else {
-                $label = $result[$i]['iss_last_public_action_type'];
-                $last_date = $result[$i]['iss_last_public_action_date'];
+                $label = $row['iss_last_public_action_type'];
+                $last_date = $row['iss_last_public_action_date'];
             }
 
             $dateDiff = Date_Helper::getFormattedDateDiff(time(), $last_date);
-            $result[$i]['last_action_date_diff'] = $dateDiff;
-            $result[$i]['last_action_date_label'] = ucwords($label);
+            $row['last_action_date_diff'] = $dateDiff;
+            $row['last_action_date_label'] = ucwords($label);
         }
     }
 
@@ -2477,33 +2482,35 @@ class Issue
     public static function getLastStatusChangeDates($prj_id, &$result)
     {
         $ids = array();
-        for ($i = 0; $i < count($result); $i++) {
-            $ids[] = $result[$i]['iss_sta_id'];
+        foreach ($result as $res) {
+            $ids[] = $res['iss_sta_id'];
         }
-        if (count($ids) == 0) {
-            return false;
+        if (!$ids) {
+            return;
         }
         $customizations = Status::getProjectStatusCustomization($prj_id, $ids);
-        for ($i = 0; $i < count($result); $i++) {
-            if (empty($result[$i]['iss_sta_id'])) {
-                $result[$i]['status_change_date'] = '';
-            } else {
-                list($label, $date_field_name) = @$customizations[$result[$i]['iss_sta_id']];
-                if ((empty($label)) || (empty($date_field_name))) {
-                    $result[$i]['status_change_date'] = '';
-                    continue;
-                }
-                // TRANSLATORS: %1 = label, %2 = date diff
-                $desc = ev_gettext('%1$s: %2$s ago');
-                $target_date = $result[$i][$date_field_name];
-                if (empty($target_date)) {
-                    $result[$i]['status_change_date'] = '';
-                    continue;
-                }
-
-                $dateDiff = Date_Helper::getFormattedDateDiff(time(), $target_date);
-                $result[$i]['status_change_date'] = sprintf($desc, $label, $dateDiff);
+        foreach ($result as &$row) {
+            if (empty($row['iss_sta_id'])) {
+                $row['status_change_date'] = '';
+                continue;
             }
+
+            list($label, $date_field_name) = @$customizations[$row['iss_sta_id']];
+            if ((empty($label)) || (empty($date_field_name))) {
+                $row['status_change_date'] = '';
+                continue;
+            }
+
+            // TRANSLATORS: %1 = label, %2 = date diff
+            $desc = ev_gettext('%1$s: %2$s ago');
+            $target_date = $row[$date_field_name];
+            if (empty($target_date)) {
+                $row['status_change_date'] = '';
+                continue;
+            }
+
+            $dateDiff = Date_Helper::getFormattedDateDiff(time(), $target_date);
+            $row['status_change_date'] = sprintf($desc, $label, $dateDiff);
         }
     }
 
@@ -2712,8 +2719,8 @@ class Issue
     public function getReportersByIssues(&$result)
     {
         $ids = array();
-        for ($i = 0; $i < count($result); $i++) {
-            $ids[] = $result[$i]['iss_id'];
+        foreach ($result as $res) {
+            $ids[] = $res['iss_id'];
         }
         $ids = implode(', ', $ids);
         $stmt = "SELECT
@@ -2733,8 +2740,8 @@ class Issue
         }
 
         // now populate the $result variable again
-        for ($i = 0; $i < count($result); $i++) {
-            @$result[$i]['reporter'] = $res[$result[$i]['iss_id']];
+        foreach ($result as &$row) {
+            $row['reporter'] = $res[$row['iss_id']];
         }
     }
 
@@ -2749,8 +2756,8 @@ class Issue
     public static function getAssignedUsersByIssues(&$result)
     {
         $ids = array();
-        for ($i = 0; $i < count($result); $i++) {
-            $ids[] = $result[$i]['iss_id'];
+        foreach ($result as $res) {
+            $ids[] = $res['iss_id'];
         }
         if (count($ids) < 1) {
             return;
@@ -2772,16 +2779,17 @@ class Issue
         }
 
         $t = array();
-        for ($i = 0; $i < count($res); $i++) {
-            if (!empty($t[$res[$i]['isu_iss_id']])) {
-                $t[$res[$i]['isu_iss_id']] .= ', ' . $res[$i]['usr_full_name'];
+        foreach ($res as &$row) {
+            if (!empty($t[$row['isu_iss_id']])) {
+                $t[$row['isu_iss_id']] .= ', ' . $row['usr_full_name'];
             } else {
-                $t[$res[$i]['isu_iss_id']] = $res[$i]['usr_full_name'];
+                $t[$row['isu_iss_id']] = $row['usr_full_name'];
             }
         }
+
         // now populate the $result variable again
-        for ($i = 0; $i < count($result); $i++) {
-            @$result[$i]['assigned_users'] = $t[$result[$i]['iss_id']];
+        foreach ($result as &$res) {
+            $res['assigned_users'] = $t[$res['iss_id']];
         }
     }
 
@@ -2798,8 +2806,8 @@ class Issue
         }
 
         $ids = array();
-        for ($i = 0; $i < count($result); $i++) {
-            $ids[] = $result[$i]['iss_id'];
+        foreach ($result as $res) {
+            $ids[] = $res['iss_id'];
         }
         $ids = implode(', ', $ids);
 
@@ -2816,8 +2824,8 @@ class Issue
             return;
         }
 
-        for ($i = 0; $i < count($result); $i++) {
-            @$result[$i]['iss_description'] = $res[$result[$i]['iss_id']];
+        foreach ($result as &$row) {
+            $row['iss_description'] = $res[$row['iss_id']];
         }
     }
 
@@ -3078,15 +3086,16 @@ class Issue
         $new_priority_id = Misc::escapeInteger($_POST['priority']);
         $new_category_id = Misc::escapeInteger($_POST['category']);
 
-        for ($i = 0; $i < count($items); $i++) {
-            if (!self::canAccess($items[$i], Auth::getUserID())) {
+        foreach ($items as $i => $issue_id) {
+            if (!self::canAccess($issue_id, Auth::getUserID())) {
                 continue;
-            } elseif (self::getProjectID($_POST['item'][$i]) != Auth::getCurrentProject()) {
+            }
+            if (self::getProjectID($issue_id) != Auth::getCurrentProject()) {
                 // make sure issue is not in another project
                 continue;
             }
 
-            $issue_details = Issue::getDetails($items[$i]);
+            $issue_details = Issue::getDetails($issue_id);
 
             $updated_fields = array();
 
@@ -3104,14 +3113,14 @@ class Issue
                             isu_usr_id = usr_id AND
                             isu_iss_id = ?';
                 try {
-                    $current_assignees = DB_Helper::getInstance()->getPair($stmt, array($items[$i]));
+                    $current_assignees = DB_Helper::getInstance()->getPair($stmt, array($issue_id));
                 } catch (DbException $e) {
                     return -1;
                 }
 
                 foreach ($current_assignees as $usr_id => $usr_name) {
                     if (!in_array($usr_id, $users)) {
-                        self::deleteUserAssociation($items[$i], $usr_id, false);
+                        self::deleteUserAssociation($issue_id, $usr_id, false);
                     }
                 }
                 $new_user_names = array();
@@ -3127,25 +3136,25 @@ class Issue
                              WHERE
                                 isu_iss_id=? AND
                                 isu_usr_id=?';
-                    $total = DB_Helper::getInstance()->getOne($stmt, array($items[$i], $usr_id));
+                    $total = DB_Helper::getInstance()->getOne($stmt, array($issue_id, $usr_id));
                     if ($total > 0) {
                         continue;
                     } else {
                         $new_assignees[] = $usr_id;
                         // add the assignment
-                        self::addUserAssociation(Auth::getUserID(), $items[$i], $usr_id, false);
-                        Notification::subscribeUser(Auth::getUserID(), $items[$i], $usr_id, Notification::getAllActions());
+                        self::addUserAssociation(Auth::getUserID(), $issue_id, $usr_id, false);
+                        Notification::subscribeUser(Auth::getUserID(), $issue_id, $usr_id, Notification::getAllActions());
                     }
                 }
-                Workflow::handleAssignmentChange(Auth::getCurrentProject(), $items[$i], $issue_details, Issue::getAssignedUserIDs($items[$i]), false);
-                Notification::notifyNewAssignment($new_assignees, $items[$i]);
+                Workflow::handleAssignmentChange(Auth::getCurrentProject(), $issue_id, $issue_details, Issue::getAssignedUserIDs($items[$i]), false);
+                Notification::notifyNewAssignment($new_assignees, $issue_id);
                 $updated_fields['Assignment'] = History::formatChanges(implode(', ', $current_assignees), implode(', ', $new_user_names));
             }
 
             // update status
             if (!empty($new_status_id)) {
-                $old_status_id = self::getStatusID($items[$i]);
-                $res = self::setStatus($items[$i], $new_status_id, false);
+                $old_status_id = self::getStatusID($issue_id);
+                $res = self::setStatus($issue_id, $new_status_id, false);
                 if ($res == 1) {
                     $updated_fields['Status'] = History::formatChanges(Status::getStatusTitle($old_status_id), Status::getStatusTitle($new_status_id));
                 }
@@ -3153,8 +3162,8 @@ class Issue
 
             // update release
             if (!empty($new_release_id)) {
-                $old_release_id = self::getRelease($items[$i]);
-                $res = self::setRelease($items[$i], $new_release_id);
+                $old_release_id = self::getRelease($issue_id);
+                $res = self::setRelease($issue_id, $new_release_id);
                 if ($res == 1) {
                     $updated_fields['Release'] = History::formatChanges(Release::getTitle($old_release_id), Release::getTitle($new_release_id));
                 }
@@ -3162,8 +3171,8 @@ class Issue
 
             // update priority
             if (!empty($new_priority_id)) {
-                $old_priority_id = self::getPriority($items[$i]);
-                $res = self::setPriority($items[$i], $new_priority_id);
+                $old_priority_id = self::getPriority($issue_id);
+                $res = self::setPriority($issue_id, $new_priority_id);
                 if ($res == 1) {
                     $updated_fields['Priority'] = History::formatChanges(Priority::getTitle($old_priority_id), Priority::getTitle($new_priority_id));
                 }
@@ -3171,8 +3180,8 @@ class Issue
 
             // update category
             if (!empty($new_category_id)) {
-                $old_category_id = self::getCategory($items[$i]);
-                $res = self::setCategory($items[$i], $new_category_id);
+                $old_category_id = self::getCategory($issue_id);
+                $res = self::setCategory($issue_id, $new_category_id);
                 if ($res == 1) {
                     $updated_fields['Category'] = History::formatChanges(Category::getTitle($old_category_id), Category::getTitle($new_category_id));
                 }
@@ -3189,12 +3198,12 @@ class Issue
                     $changes .= "$key: $value";
                     $k++;
                 }
-                History::add($items[$i], Auth::getUserID(), History::getTypeID('issue_bulk_updated'), "Issue updated ($changes) by " . User::getFullName(Auth::getUserID()));
+                History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_bulk_updated'), "Issue updated ($changes) by " . User::getFullName(Auth::getUserID()));
             }
 
             // close if request
             if ((isset($_REQUEST['closed_status'])) && (!empty($_REQUEST['closed_status']))) {
-                self::close(Auth::getUserID(), $items[$i], true, 0, $_REQUEST['closed_status'], $_REQUEST['closed_message'], $_REQUEST['notification_list']);
+                self::close(Auth::getUserID(), $issue_id, true, 0, $_REQUEST['closed_status'], $_REQUEST['closed_message'], $_REQUEST['notification_list']);
             }
         }
 
@@ -3304,8 +3313,8 @@ class Issue
     {
         $issues = self::getAssociatedIssuesDetails($issue_id);
         $associated = array();
-        for ($i = 0; $i < count($issues); $i++) {
-            $associated[] = $issues[$i]['associated_issue'];
+        foreach ($issues as $issue) {
+            $associated[] = $issue['associated_issue'];
         }
 
         return $associated;

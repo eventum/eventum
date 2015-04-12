@@ -88,9 +88,9 @@ class Error_Handler
     {
         $backtrace = debug_backtrace();
         array_splice($backtrace, 0, 2);
-        for ($i = 0; $i < count($backtrace); $i++) {
+        foreach ($backtrace as $frame) {
             // avoid recursion?
-            if (isset($backtrace[$i]['class']) && $backtrace[$i]['class'] == __CLASS__) {
+            if (isset($frame['class']) && $frame['class'] == __CLASS__) {
                 return;
             }
         }

@@ -453,8 +453,8 @@ class Filter
 
         if (count($res) > 0 && $build_url == true) {
             $filter_info = self::getFiltersInfo();
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['url'] = Filter::buildUrl($filter_info, self::removeCSTprefix($res[$i]));
+            foreach ($res as &$row) {
+                $row['url'] = Filter::buildUrl($filter_info, self::removeCSTprefix($row));
             }
         }
 

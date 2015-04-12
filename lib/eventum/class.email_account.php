@@ -378,8 +378,8 @@ class Email_Account
             return '';
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['prj_title'] = Project::getName($res[$i]['ema_prj_id']);
+        foreach ($res as &$row) {
+            $row['prj_title'] = Project::getName($row['ema_prj_id']);
         }
 
         return $res;
