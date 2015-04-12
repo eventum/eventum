@@ -67,6 +67,8 @@ class Eventum_Autoload
 
             'DbPear' => $baseDir . '/db/DbPear.php',
             'DbInterface' => $baseDir . '/db/DbInterface.php',
+            'RemoteApi' => $baseDir . '/rpc/RemoteApi.php',
+            'XmlRpcServer' => $baseDir . '/rpc/XmlRpcServer.php',
 
             'Auth_Backend_Interface' => $baseDir . '/auth/class.auth_backend_interface.php',
             'Mysql_Auth_Backend' => $baseDir . '/auth/class.mysql_auth_backend.php',
