@@ -248,10 +248,10 @@ class Phone_Support
             return '';
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['phs_description'] = Misc::activateLinks(nl2br(htmlspecialchars($res[$i]['phs_description'])));
-            $res[$i]['phs_description'] = Link_Filter::processText($res[$i]['iss_prj_id'], $res[$i]['phs_description']);
-            $res[$i]['phs_created_date'] = Date_Helper::getFormattedDate($res[$i]['phs_created_date']);
+        foreach ($res as &$row) {
+            $row['phs_description'] = Misc::activateLinks(nl2br(htmlspecialchars($row['phs_description'])));
+            $row['phs_description'] = Link_Filter::processText($row['iss_prj_id'], $row['phs_description']);
+            $row['phs_created_date'] = Date_Helper::getFormattedDate($row['phs_created_date']);
         }
 
         return $res;

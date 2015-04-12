@@ -610,6 +610,7 @@ class User
      *
      * @param   string $role_title The role title
      * @return  integer The role ID
+     * @deprecated use ROLE_ constant directly
      */
     public static function getRoleID($role_title)
     {

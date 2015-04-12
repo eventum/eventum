@@ -316,13 +316,13 @@ class Partner
         $files = Misc::getFileList(APP_INC_PATH . '/partner');
         $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/partner'));
         $list = array();
-        for ($i = 0; $i < count($files); $i++) {
+        foreach ($files as $file) {
             // display a prettyfied backend name in the admin section
-            if (preg_match('/^class\.(.*)\.php$/', $files[$i], $matches)) {
+            if (preg_match('/^class\.(.*)\.php$/', $file, $matches)) {
                 if (substr($matches[1], 0, 8) == 'abstract') {
                     continue;
                 }
-                $list[$files[$i]] = $matches[1];
+                $list[$file] = $matches[1];
             }
         }
 

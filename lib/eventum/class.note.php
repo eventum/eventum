@@ -313,8 +313,9 @@ class Note
         // only if there is no 'unknown user' and the note is not blocked
         $note_cc[] = $usr_id;
         if (!$unknown_user && !$is_blocked) {
-            for ($i = 0; $i < count($note_cc); $i++) {
-                Notification::subscribeUser($usr_id, $issue_id, $note_cc[$i], Notification::getDefaultActions($issue_id, User::getEmail($usr_id), 'note'));
+            $actions = Notification::getDefaultActions($issue_id, User::getEmail($usr_id), 'note');
+            foreach ($note_cc as $note) {
+                Notification::subscribeUser($usr_id, $issue_id, $note, $actions);
             }
         }
         if (Validation::isWhitespace($_POST['note'])) {
@@ -494,20 +495,22 @@ class Note
 
         // only show the internal notes for users with the appropriate permission level
         $role_id = Auth::getCurrentRole();
+        $user_role_id = User::getRoleID('standard user');
         $t = array();
-        for ($i = 0; $i < count($res); $i++) {
-            if ($role_id < User::getRoleID('standard user')) {
+        foreach ($res as &$row) {
+            if ($role_id < $user_role_id) {
                 continue;
             }
 
             // Display not_unknown_user instead of usr_full_name if not null.
             // This is so the original sender of a blocked email is displayed on the note.
-            if (!empty($res[$i]['not_unknown_user'])) {
-                $res[$i]['usr_full_name'] = $res[$i]['not_unknown_user'];
+            if (!empty($row['not_unknown_user'])) {
+                $row['usr_full_name'] = $row['not_unknown_user'];
             }
 
-            $res[$i]['not_created_date'] = Date_Helper::getFormattedDate($res[$i]['not_created_date']);
-            $t[] = $res[$i];
+            $row['not_created_date'] = Date_Helper::getFormattedDate($row['not_created_date']);
+            $t[] = $row;
+            unset($row);
         }
 
         return $t;

@@ -551,33 +551,33 @@ class Reminder
         $new_rem_id = DB_Helper::get_last_insert_id();
         // map the reminder requirements now
         if ((@$_POST['reminder_type'] == 'support_level') && (count($_POST['support_levels']) > 0)) {
-            for ($i = 0; $i < count($_POST['support_levels']); $i++) {
-                self::addSupportLevelAssociation($new_rem_id, $_POST['support_levels'][$i]);
+            foreach ($_POST['support_levels'] as $level) {
+                self::addSupportLevelAssociation($new_rem_id, $level);
             }
         } elseif ((@$_POST['reminder_type'] == 'issue') && (count($_POST['issues']) > 0)) {
-            for ($i = 0; $i < count($_POST['issues']); $i++) {
-                self::addIssueAssociation($new_rem_id, $_POST['issues'][$i]);
+            foreach ($_POST['issues'] as $issue_id) {
+                self::addIssueAssociation($new_rem_id, $issue_id);
             }
         } elseif ((@$_POST['reminder_type'] == 'customer') && (count($_POST['customers']) > 0)) {
-            for ($i = 0; $i < count($_POST['customers']); $i++) {
-                self::addCustomerAssociation($new_rem_id, $_POST['customers'][$i]);
+            foreach ($_POST['customers'] as $customer_id) {
+                self::addCustomerAssociation($new_rem_id, $customer_id);
             }
         } elseif (@$_POST['reminder_type'] == 'all_issues') {
             self::associateAllIssues($new_rem_id);
         }
         if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
-            for ($i = 0; $i < count($_POST['priorities']); $i++) {
-                self::addPriorityAssociation($new_rem_id, $_POST['priorities'][$i]);
+            foreach ($_POST['priorities'] as $priority_id) {
+                self::addPriorityAssociation($new_rem_id, $priority_id);
             }
         }
         if ((@$_POST['check_product'] == 'yes') && (count($_POST['products']) > 0)) {
-            for ($i = 0; $i < count($_POST['products']); $i++) {
-                self::addProductAssociation($new_rem_id, $_POST['products'][$i]);
+            foreach ($_POST['products'] as $pro_id) {
+                self::addProductAssociation($new_rem_id, $pro_id);
             }
         }
         if ((@$_POST['check_severity'] == 'yes') && (count($_POST['severities']) > 0)) {
-            for ($i = 0; $i < count($_POST['severities']); $i++) {
-                self::addSeverityAssociation($new_rem_id, $_POST['severities'][$i]);
+            foreach ($_POST['severities'] as $severity_id) {
+                self::addSeverityAssociation($new_rem_id, $severity_id);
             }
         }
 
@@ -618,33 +618,33 @@ class Reminder
         self::removeAllAssociations($_POST['id']);
         // map the reminder requirements now
         if ((@$_POST['reminder_type'] == 'support_level') && (count($_POST['support_levels']) > 0)) {
-            for ($i = 0; $i < count($_POST['support_levels']); $i++) {
-                self::addSupportLevelAssociation($_POST['id'], $_POST['support_levels'][$i]);
+            foreach ($_POST['support_levels'] as $level) {
+                self::addSupportLevelAssociation($_POST['id'], $level);
             }
         } elseif ((@$_POST['reminder_type'] == 'issue') && (count($_POST['issues']) > 0)) {
-            for ($i = 0; $i < count($_POST['issues']); $i++) {
-                self::addIssueAssociation($_POST['id'], $_POST['issues'][$i]);
+            foreach ($_POST['issues'] as $issue_id) {
+                self::addIssueAssociation($_POST['id'], $issue_id);
             }
         } elseif ((@$_POST['reminder_type'] == 'customer') && (count($_POST['customers']) > 0)) {
-            for ($i = 0; $i < count($_POST['customers']); $i++) {
-                self::addCustomerAssociation($_POST['id'], $_POST['customers'][$i]);
+            foreach ($_POST['customers'] as $customer_id) {
+                self::addCustomerAssociation($_POST['id'], $customer_id);
             }
         } elseif (@$_POST['reminder_type'] == 'all_issues') {
             self::associateAllIssues($_POST['id']);
         }
         if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
-            for ($i = 0; $i < count($_POST['priorities']); $i++) {
-                self::addPriorityAssociation($_POST['id'], $_POST['priorities'][$i]);
+            foreach ($_POST['priorities'] as $priority_id) {
+                self::addPriorityAssociation($_POST['id'], $priority_id);
             }
         }
         if ((@$_POST['check_product'] == 'yes') && (count($_POST['products']) > 0)) {
-            for ($i = 0; $i < count($_POST['products']); $i++) {
-                self::addProductAssociation($_POST['id'], $_POST['products'][$i]);
+            foreach ($_POST['products'] as $pro_id) {
+                self::addProductAssociation($_POST['id'], $pro_id);
             }
         }
         if ((@$_POST['check_severity'] == 'yes') && (count($_POST['severities']) > 0)) {
-            for ($i = 0; $i < count($_POST['severities']); $i++) {
-                self::addSeverityAssociation($_POST['id'], $_POST['severities'][$i]);
+            foreach ($_POST['severities'] as $severity_id) {
+                self::addSeverityAssociation($_POST['id'], $severity_id);
             }
         }
 

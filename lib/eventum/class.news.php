@@ -59,21 +59,21 @@ class News
             return '';
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['nws_created_date'] = Date_Helper::getSimpleDate($res[$i]['nws_created_date']);
-            if ((!$show_full_message) && (strlen($res[$i]['nws_message']) > 300)) {
-                $next_space = strpos($res[$i]['nws_message'], ' ', 254);
+        foreach ($res as &$row) {
+            $row['nws_created_date'] = Date_Helper::getSimpleDate($row['nws_created_date']);
+            if ((!$show_full_message) && (strlen($row['nws_message']) > 300)) {
+                $next_space = strpos($row['nws_message'], ' ', 254);
                 if (empty($next_space)) {
-                    $next_space = strpos($res[$i]['nws_message'], "\n", 254);
+                    $next_space = strpos($row['nws_message'], "\n", 254);
                 }
                 if (($next_space > 0) && (($next_space - 255) < 50)) {
                     $cut = $next_space;
                 } else {
                     $cut = 255;
                 }
-                $res[$i]['nws_message'] = substr($res[$i]['nws_message'], 0, $cut) . '...';
+                $row['nws_message'] = substr($row['nws_message'], 0, $cut) . '...';
             }
-            $res[$i]['nws_message'] = nl2br(htmlspecialchars($res[$i]['nws_message']));
+            $row['nws_message'] = nl2br(htmlspecialchars($row['nws_message']));
         }
 
         return $res;
@@ -314,8 +314,8 @@ class News
         }
 
         // get the list of associated projects
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['projects'] = implode(', ', array_values(self::getAssociatedProjects($res[$i]['nws_id'])));
+        foreach ($res as &$row) {
+            $row['projects'] = implode(', ', array_values(self::getAssociatedProjects($row['nws_id'])));
         }
 
         return $res;

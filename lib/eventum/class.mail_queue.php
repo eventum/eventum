@@ -475,10 +475,10 @@ class Mail_Queue
         }
 
         if (count($res) > 0) {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['maq_recipient'] = Mime_Helper::decodeAddress($res[$i]['maq_recipient']);
-                $res[$i]['maq_queued_date'] = Date_Helper::getFormattedDate(Date_Helper::getUnixTimestamp($res[$i]['maq_queued_date'], 'GMT'));
-                $res[$i]['maq_subject'] = Mime_Helper::fixEncoding($res[$i]['maq_subject']);
+            foreach ($res as &$row) {
+                $row['maq_recipient'] = Mime_Helper::decodeAddress($row['maq_recipient']);
+                $row['maq_queued_date'] = Date_Helper::getFormattedDate(Date_Helper::getUnixTimestamp($row['maq_queued_date'], 'GMT'));
+                $row['maq_subject'] = Mime_Helper::fixEncoding($row['maq_subject']);
             }
         }
 
@@ -537,9 +537,9 @@ class Mail_Queue
             return false;
         }
 
-        for ($i = 0; $i < count($res); $i++) {
+        foreach ($res as &$row) {
             // FIXME: what does quote stripping fix here
-            $res[$i] = Mime_Helper::decodeAddress(str_replace('"', '', $res[$i]));
+            $row = Mime_Helper::decodeAddress(str_replace('"', '', $row));
         }
 
         return $res;

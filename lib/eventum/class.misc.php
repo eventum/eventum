@@ -203,17 +203,17 @@ class Misc
 
         $misspelled_words = array();
         $spell_suggestions = array();
-        for ($i = 0; $i < count($lines); $i++) {
-            if (substr($lines[$i], 0, 1) == '&') {
+        foreach ($lines as $line) {
+            if (substr($line, 0, 1) == '&') {
                 // found suggestions for this word
-                $first_part = substr($lines[$i], 0, strpos($lines[$i], ':'));
+                $first_part = substr($line, 0, strpos($line, ':'));
                 $pieces = explode(' ', $first_part);
                 $misspelled_word = $pieces[1];
-                $last_part = substr($lines[$i], strpos($lines[$i], ':')+2);
+                $last_part = substr($line, strpos($line, ':')+2);
                 $suggestions = explode(', ', $last_part);
-            } elseif (substr($lines[$i], 0, 1) == '#') {
+            } elseif (substr($line, 0, 1) == '#') {
                 // found no suggestions for this word
-                $pieces = explode(' ', $lines[$i]);
+                $pieces = explode(' ', $line);
                 $misspelled_word = $pieces[1];
                 $suggestions = array();
             } else {
@@ -477,8 +477,8 @@ class Misc
     {
         $boolean = array();
         $pieces = explode(' ', $value);
-        for ($i = 0; $i < count($pieces); $i++) {
-            $boolean[] = "$field LIKE '%" . self::escapeString($pieces[$i]) . "%'";
+        foreach ($pieces as $piece) {
+            $boolean[] = "$field LIKE '%" . self::escapeString($piece) . "%'";
         }
 
         return '(' . implode(' OR ', $boolean) . ')';
