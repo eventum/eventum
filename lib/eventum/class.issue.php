@@ -2789,7 +2789,7 @@ class Issue
 
         // now populate the $result variable again
         foreach ($result as &$res) {
-            $res['assigned_users'] = $t[$res['iss_id']];
+            $res['assigned_users'] = isset($t[$res['iss_id']]) ? $t[$res['iss_id']] : '';
         }
     }
 

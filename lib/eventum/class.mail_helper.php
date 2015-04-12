@@ -228,7 +228,7 @@ class Mail_Helper
         }
 
         if (!$multiple) {
-            $addresslist = $addresslist[0];
+            $addresslist = array($addresslist[0]);
         }
 
         $returns = array();
