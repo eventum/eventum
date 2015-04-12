@@ -132,6 +132,7 @@ cleanup_vendor() {
 	rm -r vendor/enyo/dropzone
 	install -d vendor/kriswallsmith/assetic/src
 	touch vendor/kriswallsmith/assetic/src/functions.php
+	echo '<?php return array();' > vendor/composer/autoload_namespaces.php
 	# cleanup components
 	rm htdocs/components/*/*-built.js
 	rm htdocs/components/*-built.js
