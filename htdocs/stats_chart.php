@@ -33,91 +33,12 @@ require_once dirname(__FILE__) . '/../init.php';
 
 Auth::checkAuthentication(APP_COOKIE);
 
-if (isset($_REQUEST['hide_closed'])) {
-    $hide_closed = $_REQUEST['hide_closed'];
-} else {
-    $hide_closed = false;
-}
+$plot = isset($_GET['plot']) ? (string)$_GET['plot'] : null;
+$hide_closed = isset($_REQUEST['hide_closed']) ? $_REQUEST['hide_closed'] : false;
 
-// Some data
-$colors = array();
-if ($_GET['plot'] == 'status') {
-    $fake = false;
-    $rgb = new RGB($fake);
-    $data = Stats::getAssocStatus($hide_closed);
-    $graph_title = ev_gettext('Issues by Status');
-    foreach ($data as $sta_title => $trash) {
-        $sta_id = Status::getStatusID($sta_title);
-        $status_details = Status::getDetails($sta_id);
-        if (!isset($rgb->rgb_table[$status_details['sta_color']])) {
-            $colors = array();
-            break;
-        }
-        $colors[] = $status_details['sta_color'];
-    }
-} elseif ($_GET['plot'] == 'release') {
-    $data = Stats::getAssocRelease($hide_closed);
-    $graph_title = ev_gettext('Issues by Release');
-} elseif ($_GET['plot'] == 'priority') {
-    $data = Stats::getAssocPriority($hide_closed);
-    $graph_title = ev_gettext('Issues by Priority');
-} elseif ($_GET['plot'] == 'user') {
-    $data = Stats::getAssocUser($hide_closed);
-    $graph_title = ev_gettext('Issues by Assignment');
-} elseif ($_GET['plot'] == 'category') {
-    $data = Stats::getAssocCategory($hide_closed);
-    $graph_title = ev_gettext('Issues by Category');
-}
-$labels = array();
-foreach ($data as $label => $count) {
-    $labels[] = $label . ' (' . $count . ')';
-}
-$data = array_values($data);
-
-// check the values coming from the database and if they are all empty, then
-// output a pre-generated 'No Data Available' picture
-if ((!Stats::hasData($data)) || ((Auth::getCurrentRole() <= User::getRoleID('Reporter')) && (Project::getSegregateReporters(Auth::getCurrentProject())))) {
+$res = Stats::plotGraph($plot, $hide_closed);
+if (!$res) {
     header('Content-type: image/gif');
     readfile(APP_PATH . '/htdocs/images/no_data.gif');
     exit;
 }
-
-// A new graph
-$graph = new PieGraph(360, 200, 'auto');
-
-// Setup title
-$graph->title->Set($graph_title);
-$graph->title->SetFont($font, FS_BOLD, 12);
-
-// The pie plot
-$p1 = new PiePlot($data);
-if (count($colors) > 0) {
-    $p1->SetSliceColors($colors);
-} else {
-    $p1->SetTheme('pastel');
-}
-
-// Move center of pie to the left to make better room
-// for the legend
-$p1->SetCenter(0.26, 0.55);
-
-// Label font and color setup
-$p1->SetFont($font, FS_BOLD);
-$p1->SetFontColor('black');
-
-// Use absolute values (type==1)
-$p1->SetLabelType(1);
-
-// Label format
-$p1->SetLabelFormat('%d');
-
-// Size of pie in fraction of the width of the graph
-$p1->SetSize(0.3);
-
-// Legends
-$p1->SetLegends($labels);
-$graph->legend->SetFont($font);
-$graph->legend->Pos(0.06, 0.27);
-
-$graph->Add($p1);
-$graph->Stroke();
