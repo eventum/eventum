@@ -1020,4 +1020,61 @@ class Report
 
         return $data;
     }
+
+    /**
+     * Generates the workload by time period graph.
+     *
+     * @param string $type
+     */
+    public static function plotGraph($type) {
+        $usr_id = Auth::getUserID();
+
+        // get timezone of current user
+        $user_prefs = Prefs::get($usr_id);
+
+        if ($type == 'email') {
+            $data = Report::getEmailWorkloadByTimePeriod($user_prefs['timezone'], true);
+            $graph_title = ev_gettext('Email by Time Period');
+            $event_type = ev_gettext('emails');
+        } else {
+            $data = Report::getWorkloadByTimePeriod($user_prefs['timezone'], true);
+            $graph_title = ev_gettext('Workload by Time Period');
+            $event_type = ev_gettext('actions');
+        }
+
+        // TRANSLATORS: %s = Timezone name
+        $xtitle = ev_gettext('Hours (%s)', Date_Helper::getTimezoneShortNameByUser($usr_id));
+
+        // rebuild data for phplot format
+        $plotData = array();
+        $legends = array();
+
+        $i = 1;
+        foreach ($data as $performer => $values) {
+            foreach ($values as $hour => $value) {
+                $plotData[(int)$hour][0] = $hour;
+                $plotData[(int)$hour][$i] = $value;
+            }
+            $legends[$i] = ucfirst($performer) . ' ' . $event_type;
+            $i++;
+        }
+
+        $plot = new PHPlot(900, 350);
+        $plot->SetTTFPath(APP_FONTS_PATH);
+        $plot->SetUseTTF(true);
+        $plot->SetImageBorderType('plain');
+        $plot->SetPlotType('bars');
+        $plot->SetDataType('text-data');
+        $plot->SetDataValues($plotData);
+        $plot->SetTitle($graph_title);
+        $plot->SetLegend($legends);
+        $plot->SetYTitle($event_type);
+        $plot->SetXTitle($xtitle);
+        $plot->SetXTickLabelPos('none');
+        $plot->SetXTickPos('none');
+        $plot->SetYDataLabelPos('plotin');
+        $plot->SetYLabelType('printf', '%.0f%%');
+        $plot->group_frac_width = 1;
+        $plot->DrawGraph();
+    }
 }
