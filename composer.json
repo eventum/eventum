@@ -75,6 +75,7 @@
 		"pear/XML_RPC": "*",
 		"php": ">=5.3.3",
 		"php-gettext/php-gettext": "1.0.*",
+		"phplot/phplot": "~6.1.0",
 		"roave/security-advisories": "dev-master",
 		"smarty-gettext/smarty-gettext": "~1.0",
 		"smarty/smarty": "~3.1.12",
