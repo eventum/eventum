@@ -107,6 +107,7 @@ cleanup_vendor() {
 	[ "$composer" ] || return 0
 
 	rm -r lib/{Smarty,pear,php-gettext,sphinxapi}
+	rm lib/eventum/smarty/block.t.php
 	# cleanup vendors
 	rm -r vendor/php-gettext/php-gettext/{tests,examples}
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
