@@ -106,8 +106,6 @@ composer_install() {
 cleanup_vendor() {
 	[ "$composer" ] || return 0
 
-	rm -r lib/{Smarty,pear,php-gettext,sphinxapi}
-	rm lib/eventum/smarty/block.t.php
 	# cleanup vendors
 	rm -r vendor/php-gettext/php-gettext/{tests,examples}
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
@@ -146,9 +144,6 @@ cleanup_vendor() {
 	rm -r htdocs/components/jquery-ui/ui/minified
 	rm -r htdocs/components/jquery-ui/ui/i18n
 	rm htdocs/components/dropzone/index.js
-
-	# and old code in repo
-	rm -r htdocs/js/jquery
 
 	# this will do clean pear in vendor dir
 	touch pear.download pear.install pear.clean
