@@ -560,6 +560,8 @@ class Stats
         }
 
         $plot = new PHPlot(360, 200);
+        $plot->SetTTFPath(APP_FONTS_PATH);
+        $plot->SetUseTTF(true);
         $plot->SetImageBorderType('plain');
         $plot->SetTitle($graph_title);
         $plot->SetPlotType('pie');

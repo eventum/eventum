@@ -38,6 +38,9 @@ if (file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
     // needed for init.php and gettext.inc
     define('APP_PHP_GETTEXT_PATH', APP_PATH . '/vendor/php-gettext/php-gettext');
 
+    // fonts directory for phplot
+    define('APP_FONTS_PATH', APP_PATH . '/vendor/fonts/liberation');
+
     return;
 }
 
