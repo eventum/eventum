@@ -222,31 +222,30 @@ class Mail_Helper
     public static function getAddressInfo($address, $multiple = false)
     {
         $address = self::fixAddressQuoting($address);
-        $t = Mail_Helper::parseAddressList($address, null, null, false);
-        if (Misc::isError($t)) {
-            return $t;
+        $addresslist = Mail_Helper::parseAddressList($address, null, null, false);
+        if (Misc::isError($addresslist)) {
+            return $addresslist;
         }
 
-        if ($multiple) {
-            $returns = array();
-            foreach ($t as $row) {
-                $returns[] = array(
-                    'sender_name' => $row->personal,
-                    'email'       => $row->mailbox . '@' . $row->host,
-                    'username'    => $row->mailbox,
-                    'host'        => $row->host,
-                );
-            }
-
-            return $returns;
+        if (!$multiple) {
+            $addresslist = $addresslist[0];
         }
 
-        return array(
-            'sender_name' => $t[0]->personal,
-            'email'       => $t[0]->mailbox . '@' . $t[0]->host,
-            'username'    => $t[0]->mailbox,
-            'host'        => $t[0]->host,
-        );
+        $returns = array();
+        foreach ($addresslist as $row) {
+            $returns[] = array(
+                'sender_name' => $row->personal,
+                'email' => $row->mailbox . '@' . $row->host,
+                'username' => $row->mailbox,
+                'host' => $row->host,
+            );
+        }
+
+        if (!$multiple) {
+            return $returns[0];
+        }
+
+        return $returns;
     }
 
     /**
