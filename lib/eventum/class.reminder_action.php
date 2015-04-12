@@ -236,11 +236,11 @@ class Reminder_Action
         }
 
         $t = array();
-        for ($i = 0; $i < count($res); $i++) {
-            if (Validation::isEmail($res[$i]['ral_email'])) {
-                $t[$res[$i]['ral_email']] = $res[$i]['ral_email'];
+        foreach ($res as $row) {
+            if (Validation::isEmail($row['ral_email'])) {
+                $t[$row['ral_email']] = $row['ral_email'];
             } else {
-                $t[$res[$i]['ral_usr_id']] = User::getFullName($res[$i]['ral_usr_id']);
+                $t[$row['ral_usr_id']] = User::getFullName($row['ral_usr_id']);
             }
         }
 
@@ -257,13 +257,13 @@ class Reminder_Action
      */
     public function associateUserList($rma_id, $user_list)
     {
-        for ($i = 0; $i < count($user_list); $i++) {
-            $usr_id = 0;
-            $email = '';
-            if (!Validation::isEmail($user_list[$i])) {
-                $usr_id = $user_list[$i];
+        foreach ($user_list as $user) {
+            if (!Validation::isEmail($user)) {
+                $usr_id = $user;
+                $email = '';
             } else {
-                $email = $user_list[$i];
+                $usr_id = 0;
+                $email = $user;
             }
             $stmt = 'INSERT INTO
                         {{%reminder_action_list}}
@@ -461,12 +461,12 @@ class Reminder_Action
             return array();
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $conditions = Reminder_Condition::getList($res[$i]['rma_id']);
-            $res[$i]['total_conditions'] = count($conditions);
+        foreach ($res as &$row) {
+            $conditions = Reminder_Condition::getList($row['rma_id']);
+            $row['total_conditions'] = count($conditions);
             foreach ($conditions as $condition) {
                 if ($condition['rmf_sql_field'] == 'iss_sta_id') {
-                    $res[$i]['status'] = Status::getStatusTitle($condition['rlc_value']);
+                    $row['status'] = Status::getStatusTitle($condition['rlc_value']);
                 }
             }
         }

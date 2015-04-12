@@ -203,8 +203,8 @@ class Status
         }
 
         $date_fields = Issue::getDateFieldsAssocList(true);
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['date_field'] = $date_fields[$res[$i]['psd_date_field']];
+        foreach ($res as &$row) {
+            $row['date_field'] = $date_fields[$row['psd_date_field']];
         }
 
         return $res;
@@ -466,8 +466,8 @@ class Status
         }
 
         // get the list of associated projects
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['projects'] = implode(', ', array_values(self::getAssociatedProjects($res[$i]['sta_id'])));
+        foreach ($res as &$row) {
+            $row['projects'] = implode(', ', array_values(self::getAssociatedProjects($row['sta_id'])));
         }
 
         return $res;

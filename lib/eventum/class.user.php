@@ -327,8 +327,8 @@ class User
 
         $new_usr_id = DB_Helper::get_last_insert_id();
         // add the project associations!
-        for ($i = 0; $i < count($projects); $i++) {
-            Project::associateUser($projects[$i], $new_usr_id, $role);
+        foreach ($projects as $prj_id) {
+            Project::associateUser($prj_id, $new_usr_id, $role);
         }
 
         Prefs::set($new_usr_id, Prefs::getDefaults($projects));

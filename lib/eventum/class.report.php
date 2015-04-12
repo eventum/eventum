@@ -114,28 +114,28 @@ class Report
 
         Time_Tracking::getTimeSpentByIssues($res);
         $issues = array();
-        for ($i = 0; $i < count($res); $i++) {
-            if (empty($res[$i]['iss_updated_date'])) {
-                $res[$i]['iss_updated_date'] = $res[$i]['iss_created_date'];
+        foreach ($res as &$row) {
+            if (empty($row['iss_updated_date'])) {
+                $row['iss_updated_date'] = $row['iss_created_date'];
             }
-            if (empty($res[$i]['iss_last_response_date'])) {
-                $res[$i]['iss_last_response_date'] = $res[$i]['iss_created_date'];
+            if (empty($row['iss_last_response_date'])) {
+                $row['iss_last_response_date'] = $row['iss_created_date'];
             }
             $updated_date_ts = Date_Helper::getUnixTimestamp(
-                $res[$i]['iss_updated_date'],
+                $row['iss_updated_date'],
                 Date_Helper::getDefaultTimezone()
             );
             $last_response_ts = Date_Helper::getUnixTimestamp(
-                $res[$i]['iss_last_response_date'],
+                $row['iss_last_response_date'],
                 Date_Helper::getDefaultTimezone()
             );
-            $issues[$res[$i]['usr_full_name']][$res[$i]['iss_id']] = array(
-                'iss_summary'         => $res[$i]['iss_summary'],
-                'sta_title'           => $res[$i]['sta_title'],
-                'iss_created_date'    => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
-                'iss_last_response_date'    => Date_Helper::getFormattedDate($res[$i]['iss_last_response_date']),
-                'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
-                'status_color'        => $res[$i]['sta_color'],
+            $issues[$row['usr_full_name']][$row['iss_id']] = array(
+                'iss_summary'         => $row['iss_summary'],
+                'sta_title'           => $row['sta_title'],
+                'iss_created_date'    => Date_Helper::getFormattedDate($row['iss_created_date']),
+                'iss_last_response_date'    => Date_Helper::getFormattedDate($row['iss_last_response_date']),
+                'time_spent'          => Misc::getFormattedTime($row['time_spent']),
+                'status_color'        => $row['sta_color'],
                 'last_update'         => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
                 'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
             );
@@ -202,32 +202,32 @@ class Report
 
         Time_Tracking::getTimeSpentByIssues($res);
         $issues = array();
-        for ($i = 0; $i < count($res); $i++) {
-            if (empty($res[$i]['iss_updated_date'])) {
-                $res[$i]['iss_updated_date'] = $res[$i]['iss_created_date'];
+        foreach ($res as &$row) {
+            if (empty($row['iss_updated_date'])) {
+                $row['iss_updated_date'] = $row['iss_created_date'];
             }
-            if (empty($res[$i]['iss_last_response_date'])) {
-                $res[$i]['iss_last_response_date'] = $res[$i]['iss_created_date'];
+            if (empty($row['iss_last_response_date'])) {
+                $row['iss_last_response_date'] = $row['iss_created_date'];
             }
             if ($group_by_reporter) {
-                $name = $res[$i]['reporter_name'];
+                $name = $row['reporter_name'];
             } else {
-                $name = $res[$i]['assignee_name'];
+                $name = $row['assignee_name'];
             }
             $update_date_ts = Date_Helper::getUnixTimestamp(
-                $res[$i]['iss_updated_date'],
+                $row['iss_updated_date'],
                 Date_Helper::getDefaultTimezone()
             );
             $last_response_ts = Date_Helper::getUnixTimestamp(
-                $res[$i]['iss_last_response_date'],
+                $row['iss_last_response_date'],
                 Date_Helper::getDefaultTimezone()
             );
-            $issues[$name][$res[$i]['iss_id']] = array(
-                'iss_summary'         => $res[$i]['iss_summary'],
-                'sta_title'           => $res[$i]['sta_title'],
-                'iss_created_date'    => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
-                'time_spent'          => Misc::getFormattedTime($res[$i]['time_spent']),
-                'status_color'        => $res[$i]['sta_color'],
+            $issues[$name][$row['iss_id']] = array(
+                'iss_summary'         => $row['iss_summary'],
+                'sta_title'           => $row['sta_title'],
+                'iss_created_date'    => Date_Helper::getFormattedDate($row['iss_created_date']),
+                'time_spent'          => Misc::getFormattedTime($row['time_spent']),
+                'status_color'        => $row['sta_color'],
                 'last_update'         => Date_Helper::getFormattedDateDiff($ts, $update_date_ts),
                 'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
             );
@@ -277,13 +277,13 @@ class Report
 
         Time_Tracking::getTimeSpentByIssues($res);
         $issues = array();
-        for ($i = 0; $i < count($res); $i++) {
-            $issues[$res[$i]['usr_full_name']][$res[$i]['iss_id']] = array(
-                'iss_summary'      => $res[$i]['iss_summary'],
-                'sta_title'        => $res[$i]['sta_title'],
-                'iss_created_date' => Date_Helper::getFormattedDate($res[$i]['iss_created_date']),
-                'time_spent'       => Misc::getFormattedTime($res[$i]['time_spent']),
-                'status_color'     => $res[$i]['sta_color'],
+        foreach ($res as $row) {
+            $issues[$row['usr_full_name']][$row['iss_id']] = array(
+                'iss_summary'      => $row['iss_summary'],
+                'sta_title'        => $row['sta_title'],
+                'iss_created_date' => Date_Helper::getFormattedDate($row['iss_created_date']),
+                'time_spent'       => Misc::getFormattedTime($row['time_spent']),
+                'status_color'     => $row['sta_color'],
             );
         }
 
@@ -712,8 +712,9 @@ class Report
                     );
                 }
             }
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['field_value'] = Custom_Field::getDisplayValue($res[$i]['iss_id'], $res[$i]['fld_id']);
+
+            foreach ($res as &$row) {
+                $row['field_value'] = Custom_Field::getDisplayValue($row['iss_id'], $row['fld_id']);
             }
 
             return $res;
@@ -862,9 +863,9 @@ class Report
             return array();
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['field_value'] = Custom_Field::getDisplayValue($res[$i]['iss_id'], $fld_id);
-            $res[$i]['ttr_time_spent_sum_formatted'] = Misc::getFormattedTime($res[$i]['ttr_time_spent_sum'], false);
+        foreach ($res as &$row) {
+            $row['field_value'] = Custom_Field::getDisplayValue($row['iss_id'], $fld_id);
+            $row['ttr_time_spent_sum_formatted'] = Misc::getFormattedTime($row['ttr_time_spent_sum'], false);
         }
 
         return $res;

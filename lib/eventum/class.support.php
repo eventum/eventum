@@ -65,25 +65,25 @@ class Support
             return -1;
         }
 
-        for ($i = 0; $i < count($res); $i++) {
+        foreach ($res as $row) {
             // don't remove emails from the imap/pop3 server if the email
             // account is set to leave a copy of the messages on the server
-            $account_details = Email_Account::getDetails($res[$i]['sup_ema_id']);
+            $account_details = Email_Account::getDetails($row['sup_ema_id']);
             if (!$account_details['leave_copy']) {
                 // try to re-use an open connection to the imap server
-                if (!in_array($res[$i]['sup_ema_id'], array_keys($accounts))) {
-                    $accounts[$res[$i]['sup_ema_id']] = self::connectEmailServer(Email_Account::getDetails($res[$i]['sup_ema_id']));
+                if (!in_array($row['sup_ema_id'], array_keys($accounts))) {
+                    $accounts[$row['sup_ema_id']] = self::connectEmailServer(Email_Account::getDetails($row['sup_ema_id']));
                 }
-                $mbox = $accounts[$res[$i]['sup_ema_id']];
+                $mbox = $accounts[$row['sup_ema_id']];
                 if ($mbox !== false) {
                     // now try to find the UID of the current message-id
-                    $matches = @imap_search($mbox, 'TEXT "' . $res[$i]['sup_message_id'] . '"');
+                    $matches = @imap_search($mbox, 'TEXT "' . $row['sup_message_id'] . '"');
                     if (count($matches) > 0) {
-                        for ($y = 0; $y < count($matches); $y++) {
-                            $headers = imap_headerinfo($mbox, $matches[$y]);
+                        foreach ($matches as $match) {
+                            $headers = imap_headerinfo($mbox, $match);
                             // if the current message also matches the message-id header, then remove it!
-                            if ($headers->message_id == $res[$i]['sup_message_id']) {
-                                @imap_delete($mbox, $matches[$y]);
+                            if ($headers->message_id == $row['sup_message_id']) {
+                                @imap_delete($mbox, $match);
                                 @imap_expunge($mbox);
                                 break;
                             }
@@ -91,8 +91,9 @@ class Support
                     }
                 }
             }
+
             // remove the email record from the table
-            self::removeEmail($res[$i]['sup_id']);
+            self::removeEmail($row['sup_id']);
         }
 
         return 1;
@@ -338,10 +339,10 @@ class Support
             return '';
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['sup_date'] = Date_Helper::getFormattedDate($res[$i]['sup_date']);
-            $res[$i]['sup_subject'] = Mime_Helper::fixEncoding($res[$i]['sup_subject']);
-            $res[$i]['sup_from'] = Mime_Helper::fixEncoding($res[$i]['sup_from']);
+        foreach ($res as &$row) {
+            $row['sup_date'] = Date_Helper::getFormattedDate($row['sup_date']);
+            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
+            $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
         }
 
         return $res;
@@ -1226,17 +1227,18 @@ class Support
             'links'  => array(),
             'images' => array(),
         );
-        for ($i = 0; $i < count($fields); $i++) {
-            if ($options['sort_by'] == $fields[$i]) {
-                $items['images'][$fields[$i]] = 'images/' . strtolower($options['sort_order']) . '.gif';
+
+        foreach ($fields as $field) {
+            if ($options['sort_by'] == $field) {
+                $items['images'][$field] = 'images/' . strtolower($options['sort_order']) . '.gif';
                 if (strtolower($options['sort_order']) == 'asc') {
                     $sort_order = 'desc';
                 } else {
                     $sort_order = 'asc';
                 }
-                $items['links'][$fields[$i]] = $_SERVER['PHP_SELF'] . '?sort_by=' . $fields[$i] . '&sort_order=' . $sort_order;
+                $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=' . $sort_order;
             } else {
-                $items['links'][$fields[$i]] = $_SERVER['PHP_SELF'] . '?sort_by=' . $fields[$i] . '&sort_order=asc';
+                $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=asc';
             }
         }
 
@@ -1308,9 +1310,9 @@ class Support
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
             $customer_ids = array();
-            for ($i = 0; $i < count($res); $i++) {
-                if ((!empty($res[$i]['sup_customer_id'])) && (!in_array($res[$i]['sup_customer_id'], $customer_ids))) {
-                    $customer_ids[] = $res[$i]['sup_customer_id'];
+            foreach ($res as $row) {
+                if ((!empty($row['sup_customer_id'])) && (!in_array($row['sup_customer_id'], $customer_ids))) {
+                    $customer_ids[] = $row['sup_customer_id'];
                 }
             }
             if (count($customer_ids) > 0) {
@@ -1318,21 +1320,22 @@ class Support
             }
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['sup_date'] = Date_Helper::getFormattedDate($res[$i]['sup_date']);
-            $res[$i]['sup_subject'] = Mime_Helper::fixEncoding($res[$i]['sup_subject']);
-            $res[$i]['sup_from'] = implode(', ', Mail_Helper::getName($res[$i]['sup_from'], true));
-            if ((empty($res[$i]['sup_to'])) && (!empty($res[$i]['sup_iss_id']))) {
-                $res[$i]['sup_to'] = 'Notification List';
+        foreach ($res as &$row) {
+            $row['sup_date'] = Date_Helper::getFormattedDate($row['sup_date']);
+            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
+            $row['sup_from'] = implode(', ', Mail_Helper::getName($row['sup_from'], true));
+            if ((empty($row['sup_to'])) && (!empty($row['sup_iss_id']))) {
+                $row['sup_to'] = 'Notification List';
             } else {
-                $to = Mail_Helper::getName($res[$i]['sup_to']);
+                $to = Mail_Helper::getName($row['sup_to']);
                 // Ignore unformattable headers
                 if (!Misc::isError($to)) {
-                    $res[$i]['sup_to'] = Mime_Helper::fixEncoding($to);
+                    $row['sup_to'] = Mime_Helper::fixEncoding($to);
                 }
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
-                @$res[$i]['customer_title'] = $company_titles[$res[$i]['sup_customer_id']];
+                // FIXME: $company_titles maybe used uninitialied
+                $row['customer_title'] = $company_titles[$row['sup_customer_id']];
             }
         }
 
@@ -1503,10 +1506,11 @@ class Support
             return -1;
         }
 
-        for ($i = 0; $i < count($items); $i++) {
-            $full_email = self::getFullEmail($items[$i]);
+        foreach ($items as &$item) {
+            $full_email = self::getFullEmail($item);
             self::extractAttachments($issue_id, $full_email);
         }
+
         Issue::markAsUpdated($issue_id, 'email');
         // save a history entry for each email being associated to this issue
         $stmt = "SELECT
@@ -1516,8 +1520,9 @@ class Support
                  WHERE
                     sup_id IN ($list)";
         $res = DB_Helper::getInstance()->getColumn($stmt, $items);
-        for ($i = 0; $i < count($res); $i++) {
-            $summary = ev_gettext('Email (subject: "%1$s") associated by %2$s', $res[$i], User::getFullName($usr_id));
+
+        foreach ($res as $row) {
+            $summary = ev_gettext('Email (subject: "%1$s") associated by %2$s', $row, User::getFullName($usr_id));
             History::add($issue_id, $usr_id, History::getTypeID('email_associated'), $summary);
         }
 
@@ -1554,9 +1559,10 @@ class Support
                     sup_id IN (' . DB_Helper::buildList($items) . ')';
 
         $res = DB_Helper::getInstance()->getAll($stmt, $items);
-        for ($i = 0; $i < count($res); $i++) {
+
+        foreach ($res as $row) {
             // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
-            $structure = Mime_Helper::decode($res[$i]['seb_full_email'], true, false);
+            $structure = Mime_Helper::decode($row['seb_full_email'], true, false);
             if (Mime_Helper::hasAttachments($structure)) {
                 $has_attachments = 1;
             } else {
@@ -1570,7 +1576,7 @@ class Support
                 'cc'             => @$structure->headers['cc'],
                 'subject'        => @$structure->headers['subject'],
                 'body'           => Mime_Helper::getMessageBody($structure),
-                'full_email'     => $res[$i]['seb_full_email'],
+                'full_email'     => $row['seb_full_email'],
                 'has_attachment' => $has_attachments,
                 // the following items are not inserted, but useful in some methods
                 'headers'        => @$structure->headers,
@@ -1581,7 +1587,7 @@ class Support
                 self::addExtraRecipientsToNotificationList($prj_id, $t, false);
             }
 
-            Notification::notifyNewEmail($usr_id, $issue_id, $t, false, false, '', $res[$i]['sup_id']);
+            Notification::notifyNewEmail($usr_id, $issue_id, $t, false, false, '', $row['sup_id']);
             if ($authorize) {
                 Authorized_Replier::manualInsert($issue_id, Mail_Helper::getEmailAddress(@$structure->headers['from']), false);
             }
@@ -1694,9 +1700,9 @@ class Support
             return '';
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['sup_subject'] = Mime_Helper::fixEncoding($res[$i]['sup_subject']);
-            $res[$i]['sup_from'] = Mime_Helper::fixEncoding($res[$i]['sup_from']);
+        foreach ($res as &$row) {
+            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
+            $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
         }
 
         return $res;
@@ -1786,12 +1792,12 @@ class Support
             return array();
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['sup_date'] = Date_Helper::getFormattedDate($res[$i]['sup_date']);
-            $res[$i]['sup_subject'] = Mime_Helper::fixEncoding($res[$i]['sup_subject']);
-            $res[$i]['sup_from'] = Mime_Helper::fixEncoding($res[$i]['sup_from']);
-            $res[$i]['sup_to'] = Mime_Helper::fixEncoding($res[$i]['sup_to']);
-            $res[$i]['sup_cc'] = Mime_Helper::fixEncoding($res[$i]['sup_cc']);
+        foreach ($res as &$row) {
+            $row['sup_date'] = Date_Helper::getFormattedDate($row['sup_date']);
+            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
+            $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
+            $row['sup_to'] = Mime_Helper::fixEncoding($row['sup_to']);
+            $row['sup_cc'] = Mime_Helper::fixEncoding($row['sup_cc']);
         }
 
         return $res;
@@ -1862,9 +1868,10 @@ class Support
                  WHERE
                     sup_id IN ($list)";
         $subjects = DB_Helper::getInstance()->fetchAssoc($stmt, $items);
-        for ($i = 0; $i < count($items); $i++) {
+
+        foreach ($items as $item) {
             $summary = ev_gettext(
-                'Email (subject: "%1$s") disassociated by %2$s', $subjects[$items[$i]],
+                'Email (subject: "%1$s") disassociated by %2$s', $subjects[$item],
                 User::getFullName(Auth::getUserID())
             );
             History::add($issue_id, Auth::getUserID(), History::getTypeID('email_disassociated'), $summary);
@@ -1989,9 +1996,9 @@ class Support
         if (!empty($cc)) {
             $cc = str_replace(',', ';', $cc);
             $ccs = explode(';', $cc);
-            for ($i = 0; $i < count($ccs); $i++) {
-                if (!empty($ccs[$i])) {
-                    $mail->addCc($ccs[$i]);
+            foreach ($ccs as $address) {
+                if (!empty($address)) {
+                    $mail->addCc($address);
                 }
             }
         }
@@ -2148,10 +2155,12 @@ class Support
             // add the recipients to the notification list of the associated issue
             $recipients = array($_POST['to']);
             $recipients = array_merge($recipients, self::getRecipientsCC($_POST['cc']));
-            for ($i = 0; $i < count($recipients); $i++) {
-                if ((!empty($recipients[$i])) && (!Notification::isIssueRoutingSender($issue_id, $recipients[$i]))) {
-                    Notification::subscribeEmail(Auth::getUserID(), $issue_id, Mail_Helper::getEmailAddress($recipients[$i]),
-                                    Notification::getDefaultActions($_POST['issue_id'], $recipients[$i], 'add_unknown_user'));
+            $current_usr_id = Auth::getUserID();
+
+            foreach ($recipients as $address) {
+                if (!empty($address) && !Notification::isIssueRoutingSender($issue_id, $address)) {
+                    $actions = Notification::getDefaultActions($_POST['issue_id'], $address, 'add_unknown_user');
+                    Notification::subscribeEmail($current_usr_id, $issue_id, Mail_Helper::getEmailAddress($address), $actions);
                 }
             }
         } else {
@@ -2174,11 +2183,13 @@ class Support
                     $recipients = self::getRecipientsCC($_POST['cc']);
                 }
                 $unknowns = array();
-                for ($i = 0; $i < count($recipients); $i++) {
-                    if (!Notification::isSubscribedToEmails($_POST['issue_id'], $recipients[$i])) {
-                        $unknowns[] = $recipients[$i];
+
+                foreach ($recipients as $address) {
+                    if (!Notification::isSubscribedToEmails($_POST['issue_id'], $address)) {
+                        $unknowns[] = $address;
                     }
                 }
+
                 if (count($unknowns) > 0) {
                     $to = array_shift($unknowns);
                     $cc = implode('; ', $unknowns);

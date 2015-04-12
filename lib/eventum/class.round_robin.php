@@ -271,13 +271,13 @@ class Round_Robin
         $blackout_start = '';
         $blackout_end = '';
         $t = array();
-        for ($i = 0; $i < count($res); $i++) {
-            $blackout_start = $res[$i]['prr_blackout_start'];
-            $blackout_end = $res[$i]['prr_blackout_end'];
-            $prefs = Prefs::get($res[$i]['usr_id']);
-            $t[$res[$i]['usr_id']] = array(
+        foreach ($res as $row) {
+            $blackout_start = $row['prr_blackout_start'];
+            $blackout_end = $row['prr_blackout_end'];
+            $prefs = Prefs::get($row['usr_id']);
+            $t[$row['usr_id']] = array(
                 'timezone' => $prefs['timezone'],
-                'is_next'  => $res[$i]['rru_next'],
+                'is_next'  => $row['rru_next'],
             );
         }
 
@@ -373,8 +373,8 @@ class Round_Robin
         }
 
         // get the list of associated users
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['users'] = implode(', ', array_values(self::getAssociatedUsers($res[$i]['prr_id'])));
+        foreach ($res as &$row) {
+            $row['users'] = implode(', ', array_values(self::getAssociatedUsers($row['prr_id'])));
         }
 
         return $res;

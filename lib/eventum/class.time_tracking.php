@@ -300,10 +300,11 @@ class Time_Tracking
     public static function getTimeSpentByIssues(&$result)
     {
         $ids = array();
-        for ($i = 0; $i < count($result); $i++) {
-            $ids[] = $result[$i]['iss_id'];
+        foreach ($result as $res) {
+            $ids[] = $res['iss_id'];
         }
-        if (count($ids) == 0) {
+
+        if (!$ids) {
             return;
         }
 
@@ -386,26 +387,29 @@ class Time_Tracking
 
         $total_time_spent = 0;
         $total_time_by_user = array();
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['ttr_summary'] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]['ttr_summary'])));
-            $res[$i]['formatted_time'] = Misc::getFormattedTime($res[$i]['ttr_time_spent']);
-            $res[$i]['ttr_created_date'] = Date_Helper::getFormattedDate($res[$i]['ttr_created_date']);
 
-            if (isset($total_time_by_user[$res[$i]['ttr_usr_id']])) {
-                $total_time_by_user[$res[$i]['ttr_usr_id']]['time_spent'] += $res[$i]['ttr_time_spent'];
+        foreach ($res as &$row) {
+            $row['ttr_summary'] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($row['ttr_summary'])));
+            $row['formatted_time'] = Misc::getFormattedTime($row['ttr_time_spent']);
+            $row['ttr_created_date'] = Date_Helper::getFormattedDate($row['ttr_created_date']);
+
+            if (isset($total_time_by_user[$row['ttr_usr_id']])) {
+                $total_time_by_user[$row['ttr_usr_id']]['time_spent'] += $row['ttr_time_spent'];
             } else {
-                $total_time_by_user[$res[$i]['ttr_usr_id']] = array(
-                    'usr_full_name' => $res[$i]['usr_full_name'],
-                    'time_spent'    => $res[$i]['ttr_time_spent'],
+                $total_time_by_user[$row['ttr_usr_id']] = array(
+                    'usr_full_name' => $row['usr_full_name'],
+                    'time_spent'    => $row['ttr_time_spent'],
                 );
             }
-            $total_time_spent += $res[$i]['ttr_time_spent'];
+            $total_time_spent += $row['ttr_time_spent'];
         }
+
         usort($total_time_by_user,
             function ($a, $b) {
                 return $a['time_spent'] < $b['time_spent'];
             }
         );
+
         foreach ($total_time_by_user as &$item) {
             $item['time_spent'] = Misc::getFormattedTime($item['time_spent']);
         }
@@ -661,8 +665,8 @@ class Time_Tracking
     public static function fillTimeSpentByIssueAndTime(&$res, $usr_id, $start, $end)
     {
         $issue_ids = array();
-        for ($i = 0; $i < count($res); $i++) {
-            $issue_ids[] = $res[$i]['iss_id'];
+        foreach ($res as $row) {
+            $issue_ids[] = $row['iss_id'];
         }
 
         $stmt = 'SELECT

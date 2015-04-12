@@ -440,31 +440,32 @@ class Search
             $excerpts = self::getFullTextExcerpts();
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $issue_id = $res[$i]['iss_id'];
-            $res[$i]['time_spent'] = Misc::getFormattedTime($res[$i]['time_spent']);
-            $res[$i]['iss_created_date'] = Date_Helper::getFormattedDate($res[$i]['iss_created_date']);
-            $res[$i]['iss_expected_resolution_date'] = Date_Helper::getSimpleDate($res[$i]['iss_expected_resolution_date'], false);
-            $res[$i]['excerpts'] = isset($excerpts[$issue_id]) ? $excerpts[$issue_id] : '';
+        foreach ($res as &$row) {
+            $issue_id = $row['iss_id'];
+            $row['time_spent'] = Misc::getFormattedTime($row['time_spent']);
+            $row['iss_created_date'] = Date_Helper::getFormattedDate($row['iss_created_date']);
+            $row['iss_expected_resolution_date'] = Date_Helper::getSimpleDate($row['iss_expected_resolution_date'], false);
+            $row['excerpts'] = isset($excerpts[$issue_id]) ? $excerpts[$issue_id] : '';
             $fields = array(
-                $res[$i]['pri_title'],
-                $res[$i]['iss_id'],
-                $res[$i]['usr_full_name'],
+                $row['pri_title'],
+                $row['iss_id'],
+                $row['usr_full_name'],
             );
+
             // hide the group column from the output if no
             // groups are available in the database
             if (count($groups) > 0) {
-                $fields[] = $res[$i]['grp_name'];
+                $fields[] = $row['grp_name'];
             }
-            $fields[] = $res[$i]['assigned_users'];
-            $fields[] = $res[$i]['time_spent'];
+            $fields[] = $row['assigned_users'];
+            $fields[] = $row['time_spent'];
             // hide the category column from the output if no
             // categories are available in the database
             if (count($categories) > 0) {
-                $fields[] = $res[$i]['prc_title'];
+                $fields[] = $row['prc_title'];
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
-                $fields[] = @$res[$i]['customer_title'];
+                $fields[] = @$row['customer_title'];
                 // check if current user is a customer and has a per incident contract.
                 // if so, check if issue is redeemed.
                 if (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')) {
@@ -475,19 +476,19 @@ class Search
 //                    }
                 }
             }
-            $fields[] = $res[$i]['sta_title'];
-            $fields[] = $res[$i]['status_change_date'];
-            $fields[] = $res[$i]['last_action_date'];
-            $fields[] = $res[$i]['iss_dev_time'];
-            $fields[] = $res[$i]['iss_summary'];
-            $fields[] = $res[$i]['iss_expected_resolution_date'];
+            $fields[] = $row['sta_title'];
+            $fields[] = $row['status_change_date'];
+            $fields[] = $row['last_action_date'];
+            $fields[] = $row['iss_dev_time'];
+            $fields[] = $row['iss_summary'];
+            $fields[] = $row['iss_expected_resolution_date'];
 
             if (count($custom_fields) > 0) {
-                $res[$i]['custom_field'] = array();
-                $custom_field_values = Custom_Field::getListByIssue($prj_id, $res[$i]['iss_id']);
+                $row['custom_field'] = array();
+                $custom_field_values = Custom_Field::getListByIssue($prj_id, $row['iss_id']);
                 foreach ($custom_field_values as $this_field) {
                     if (!empty($custom_fields[$this_field['fld_id']])) {
-                        $res[$i]['custom_field'][$this_field['fld_id']] = $this_field['value'];
+                        $row['custom_field'][$this_field['fld_id']] = $this_field['value'];
                         $fields[] = $this_field['value'];
                     }
                 }
