@@ -178,7 +178,6 @@ class Template_Helper
             'roles'     =>  User::getAssocRoleIDs(),
             'auth_backend'  =>  APP_AUTH_BACKEND,
             'current_url'   =>  $_SERVER['PHP_SELF'],
-            'use_components' => APP_USE_COMPONENTS,
         );
 
         // If VCS version is present "Eventum 2.3.3-148-g78b3368", link ref to github
