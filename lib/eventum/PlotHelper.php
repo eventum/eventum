@@ -29,6 +29,30 @@
 class PlotHelper
 {
     /**
+     * Path to truetype fonts
+     *
+     * @see PHPlot::GetDefaultTTFont
+     * @var string
+     */
+    private $fonts_path = APP_FONTS_PATH;
+
+    /**
+     * Create PHPlot instance initializing common options
+     *
+     * @param int $width
+     * @param int $height
+     * @return PHPlot
+     */
+    private function create($width, $height)
+    {
+        $plot = new PHPlot($width, $height);
+        $plot->SetTTFPath($this->fonts_path);
+        $plot->SetUseTTF(true);
+
+        return $plot;
+    }
+
+    /**
      * Plot various stats charts
      *
      * @param string $plotType
@@ -82,9 +106,7 @@ class PlotHelper
             return false;
         }
 
-        $plot = new PHPlot(360, 200);
-        $plot->SetTTFPath(APP_FONTS_PATH);
-        $plot->SetUseTTF(true);
+        $plot = $this->create(360, 200);
         $plot->SetImageBorderType('plain');
         $plot->SetTitle($graph_title);
         $plot->SetPlotType('pie');
@@ -141,13 +163,13 @@ class PlotHelper
         }
 
         if ($type == 'pie') {
-            $plot = new PHPlot(500, 300);
+            $plot = $this->create(500, 300);
             $plot->SetPlotType('pie');
             $plot->SetDataType('text-data-single');
 
         } else {
             // bar chart
-            $plot = new PHPlot(500, 350);
+            $plot = $this->create(500, 350);
             $plot->SetPlotType('bars');
             $plot->SetDataType('text-data');
             $plot->SetXTitle($field_details['fld_title']);
@@ -167,9 +189,6 @@ class PlotHelper
         $plot->SetLegend($labels);
         $plot->SetImageBorderType('plain');
         $plot->SetTitle($title);
-
-        $plot->SetTTFPath(APP_FONTS_PATH);
-        $plot->SetUseTTF(true);
 
         return $plot->DrawGraph();
     }
@@ -213,9 +232,7 @@ class PlotHelper
             $i++;
         }
 
-        $plot = new PHPlot(900, 350);
-        $plot->SetTTFPath(APP_FONTS_PATH);
-        $plot->SetUseTTF(true);
+        $plot = $this->create(900, 350);
         $plot->SetImageBorderType('plain');
         $plot->SetPlotType('bars');
         $plot->SetDataType('text-data');
@@ -327,12 +344,12 @@ class PlotHelper
         }
 
         if ($type == 'pie') {
-            $plot = new PHPlot(500, 300);
+            $plot = $this->create(500, 300);
             $plot->SetPlotType('pie');
             $plot->SetDataType('text-data-single');
             $plot->SetLegend($labels);
         } else {
-            $plot = new PHPlot(500, 350);
+            $plot = $this->create(500, 350);
             $plot->SetPlotType('bars');
             $plot->SetDataType('text-data');
             $plot->SetYTitle($y_label);
@@ -343,9 +360,6 @@ class PlotHelper
         $plot->SetTitle($graph_title);
         $plot->SetImageBorderType('plain');
         $plot->SetDataValues($plotData);
-
-        $plot->SetTTFPath(APP_FONTS_PATH);
-        $plot->SetUseTTF(true);
 
         return $plot->DrawGraph();
     }
