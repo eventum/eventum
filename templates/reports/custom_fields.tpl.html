@@ -136,10 +136,9 @@ var option_to_fld_id = [];
     option_to_fld_id[{$smarty.foreach.option_list.iteration-1}] = {$fld_id};
     options[{$smarty.foreach.option_list.iteration-1}] = [];
     {foreach from=$option_list key=cfo_id item=cfo_value name=option}
-        options[{$smarty.foreach.option_list.iteration-1}][{$smarty.foreach.option.iteration-1}] = new Option('{$cfo_value}', '{$cfo_id}');
+        options[{$smarty.foreach.option_list.iteration-1}][{$smarty.foreach.option.iteration-1}] = new Option('{$cfo_value|escape:javascript}', '{$cfo_id|escape:javascript}');
     {/foreach}
 {/foreach}
-
 
 var options_field = document.forms['custom_fields_report'].elements['custom_options[]'];
 function setOptions(fld_id, auto_select)
