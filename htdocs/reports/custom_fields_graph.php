@@ -56,7 +56,8 @@ $group_by = isset($_GET['group_by']) ? $_GET['group_by'] : null;
 $interval = isset($_REQUEST['interval']) ? $_REQUEST['interval'] : null;
 $type = isset($_GET['type']) ? $_GET['type'] : null;
 
-$res = Custom_Field::plotCustomFields($type, $custom_field, $custom_options, $group_by, $start, $end, $interval);
+$plot = new PlotHelper();
+$res = $plot->CustomFieldGraph($type, $custom_field, $custom_options, $group_by, $start, $end, $interval);
 if (!$res) {
     header('Location: ' . APP_RELATIVE_URL . '/images/no_data.gif');
     exit;

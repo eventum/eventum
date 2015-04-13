@@ -33,10 +33,11 @@ require_once dirname(__FILE__) . '/../init.php';
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$plot = isset($_GET['plot']) ? (string)$_GET['plot'] : null;
+$type = isset($_GET['plot']) ? (string)$_GET['plot'] : null;
 $hide_closed = isset($_REQUEST['hide_closed']) ? $_REQUEST['hide_closed'] : false;
 
-$res = Stats::plotGraph($plot, $hide_closed);
+$plot = new PlotHelper();
+$res = $plot->StatsChart($type, $hide_closed);
 if (!$res) {
     header('Content-type: image/gif');
     readfile(APP_PATH . '/htdocs/images/no_data.gif');

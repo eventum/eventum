@@ -44,7 +44,8 @@ $start_date = isset($_REQUEST['start_date']) ? $_REQUEST['start_date'] : null;
 $end_date = isset($_REQUEST['end_date']) ? $_REQUEST['end_date'] : null;
 $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : null;
 
-$res = Report::plotWorkloadDateRangeGraph($graph, $type, $start_date, $end_date, $interval);
+$plot = new PlotHelper();
+$res = $plot->WorkloadDateRangeGraph($graph, $type, $start_date, $end_date, $interval);
 if (!$res) {
     header('Location: ../images/no_data.gif');
     exit;
