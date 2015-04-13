@@ -595,7 +595,7 @@ class Report
      * @param   integer $assignee The assignee the issue should belong to.
      * @return  array An array of data.
      */
-    public static function getCustomFieldReport($fld_id, $cfo_ids, $group_by = 'issue', $start_date = false, $end_date = false, $list = false, $interval = '', $assignee = false)
+    public static function getCustomFieldReport($fld_id, $cfo_ids, $group_by = 'issue', $start_date = null, $end_date = null, $list = false, $interval = null, $assignee = false)
     {
         $prj_id = Auth::getCurrentProject();
         $fld_id = Misc::escapeInteger($fld_id);
@@ -673,7 +673,7 @@ class Report
                 $sql .= " AND
                         cfo_id IN('" . implode("','", Misc::escapeString(array_keys($options))) . "')";
             }
-            if (($start_date != false) && ($end_date != false)) {
+            if ($start_date && $end_date) {
                 $sql .= " AND\niss_created_date BETWEEN '" . Misc::escapeString($start_date) . "' AND '" . Misc::escapeString($end_date) . "'";
             }
             if ($assignee != false) {
@@ -738,7 +738,7 @@ class Report
                         isu_iss_id = iss_id AND
                         icf_fld_id = $fld_id AND
                         icf_value = '$cfo_id'";
-            if (($start_date != false) && ($end_date != false)) {
+            if ($start_date && $end_date) {
                 $stmt .= " AND\niss_created_date BETWEEN '" . Misc::escapeString($start_date) . "' AND '" . Misc::escapeString($end_date) . "'";
             }
             if ($assignee != false) {

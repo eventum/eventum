@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -1796,5 +1796,71 @@ class Custom_Field
         }
 
         return true;
+    }
+
+    /**
+     * Generates a graph for the selected custom field.
+     *
+     * @param string $type
+     * @param int $custom_field The id of the custom field.
+     * @param array $custom_options An array of option ids.
+     * @param string $group_by How the data should be grouped.
+     * @param string $start
+     * @param string $end
+     * @param string $interval
+     * @return bool
+     */
+    public static function plotCustomFields($type, $custom_field, $custom_options, $group_by, $start, $end, $interval)
+    {
+        $data = Report::getCustomFieldReport($custom_field, $custom_options, $group_by, $start, $end, false, $interval);
+
+        if (count($data) < 2) {
+            return false;
+        }
+
+        $field_details = Custom_Field::getDetails($custom_field);
+
+        // convert to phplot format
+        $i = 0;
+        $plotData = $labels = array();
+        unset($data['All Others']);
+        foreach ($data as $label => $value) {
+            $plotData[$i] = array($label, $value);
+            $labels[] = $label;
+            $i++;
+        }
+
+        if ($type == 'pie') {
+            $plot = new PHPlot(500, 300);
+            $plot->SetPlotType('pie');
+            $plot->SetDataType('text-data-single');
+
+        } else {
+            // bar chart
+            $plot = new PHPlot(500, 350);
+            $plot->SetPlotType('bars');
+            $plot->SetDataType('text-data');
+            $plot->SetXTitle($field_details['fld_title']);
+            $plot->SetYTitle(ev_gettext('Issue Count'));
+            $plot->SetXTickLabelPos('none');
+            $plot->SetXTickPos('none');
+            $plot->SetYDataLabelPos('plotin');
+        }
+
+        if ($group_by == 'customers') {
+            $title = ev_gettext('Customers by %s', $field_details['fld_title']);
+        } else {
+            $title = ev_gettext('Issues by %s', $field_details['fld_title']);
+        }
+
+        $plot->SetDataValues($plotData);
+        $plot->SetLegend($labels);
+        $plot->SetImageBorderType('plain');
+        $plot->SetTitle($title);
+
+        $plot->SetTTFPath(APP_FONTS_PATH);
+        $plot->SetUseTTF(true);
+
+        return $plot->DrawGraph();
     }
 }
