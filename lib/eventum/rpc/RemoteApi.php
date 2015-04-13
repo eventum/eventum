@@ -101,10 +101,11 @@ class RemoteApi
 
         return array(
             'summary'          => $details['iss_summary'],
-            'customer'         => @$details['customer_info']['customer_name'],
-            'status'           => @$details['sta_title'],
-            'assignments'      => @$details['assignments'],
-            'authorized_names' => @implode(', ', $details['authorized_names']),
+            'customer'         => $details['customer_info']['customer_name'],
+            'status'           => $details['sta_title'],
+            'is_closed'        => $details['sta_is_closed'],
+            'assignments'      => $details['assignments'],
+            'authorized_names' => implode(', ', $details['authorized_names']),
         );
     }
 
