@@ -122,6 +122,14 @@ cleanup_vendor() {
 
 	rm vendor/composer/*.json
 
+	# we need just LiberationSans-Regular.ttf
+	mv vendor/fonts/liberation/{,.}LiberationSans-Regular.ttf
+	rm vendor/fonts/liberation/*
+	mv vendor/fonts/liberation/{.,}LiberationSans-Regular.ttf
+
+	# need just phplot.php and maybe rgb.php
+	rm -r vendor/phplot/phplot/{contrib,[A-Z]*}
+
 	# component related deps, not needed runtime
 	rm -r vendor/symfony/process
 	rm -r vendor/kriswallsmith/assetic
