@@ -398,7 +398,7 @@ class Attachment
         DB_Helper::getInstance()->query($stmt, $params);
 
         // run cleanup of stale uploads
-        $stmt = 'DELETE FROM {{%issue_attachment_file}} WHERE iaf_iat_id=0 AND iaf_created_date>'0000-00-00 00:00:00' AND iaf_created_date < ?';
+        $stmt = "DELETE FROM {{%issue_attachment_file}} WHERE iaf_iat_id=0 AND iaf_created_date>'0000-00-00 00:00:00' AND iaf_created_date < ?";
         $expire_date = time() - self::ATTACHMENT_EXPIRE_TIME;
         $params = array(Date_Helper::convertDateGMT($expire_date));
         DB_Helper::getInstance()->query($stmt, $params);
