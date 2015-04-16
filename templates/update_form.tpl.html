@@ -221,7 +221,9 @@
                         {t 1=$issue_lock.locker.usr_full_name 2=$issue_lock.expires_formatted_time escape=no}Page is locked by <b>%1</b>. Lock expires at %2{/t}
                     </div>
 
-                    <span id="issue_description" {get_display_style element_name="issue_description"}>{$issue.iss_description|activateLinks:"link"|activateAttachmentLinks:$issue.iss_id}</span>
+                    <span id="issue_description" {get_display_style element_name="issue_description"}>
+                      {$issue.iss_description|textFormat:$issue.iss_id}
+                    </span>
                     {else}
                     <textarea name="description" rows="20" style="width: 97%">{$issue.iss_original_description|escape:"html"}</textarea>
                     {/if}

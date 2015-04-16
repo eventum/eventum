@@ -202,7 +202,9 @@
                         </div>
                     </th>
                     <td>
-                        <span id="issue_description" {get_display_style element_name="issue_description"}>{$issue.iss_description|activateLinks:"link"|activateAttachmentLinks:$issue.iss_id}</span>
+                        <span id="issue_description" {get_display_style element_name="issue_description"}>
+                          {$issue.iss_description|textFormat:$issue.iss_id}
+                        </span>
                         <span id="description_hidden" style="display: none"><em>{t}Description is currently collapsed{/t}.</em></span>
                     </td>
                 </tr>
