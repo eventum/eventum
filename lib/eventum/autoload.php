@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2009 - 2014 Eventum Team.                              |
+// | Copyright (c) 2009 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -69,6 +69,7 @@ class Eventum_Autoload
             'DbInterface' => $baseDir . '/db/DbInterface.php',
             'RemoteApi' => $baseDir . '/rpc/RemoteApi.php',
             'XmlRpcServer' => $baseDir . '/rpc/XmlRpcServer.php',
+            'PlotHelper' => $baseDir . '/PlotHelper.php',
 
             'Auth_Backend_Interface' => $baseDir . '/auth/class.auth_backend_interface.php',
             'Mysql_Auth_Backend' => $baseDir . '/auth/class.mysql_auth_backend.php',

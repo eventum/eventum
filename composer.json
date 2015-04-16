@@ -31,7 +31,7 @@
 		"component-baseurl": "/components"
 	},
 	"autoload": {
-		"classmap": [ "lib/eventum/", "lib/jpgraph/"]
+		"classmap": [ "lib/eventum/"]
 	},
 	"scripts": {
 		"test": "phpunit"
@@ -47,7 +47,6 @@
 		"enyo/dropzone": "~4.0.1",
 		"eventum/rpc": "~3.0.0",
 		"ext-filter": "*",
-		"ext-gd": "*",
 		"ext-iconv": "*",
 		"ext-imap": "*",
 		"ext-json": "*",
@@ -56,25 +55,27 @@
 		"ext-pcre": "*",
 		"ext-session": "*",
 		"ext-spl": "*",
+		"fonts/liberation":"*",
 		"malsup/form" :"*",
 		"pear/Auth_SASL": "*",
 		"pear/DB": "*",
-		"pear-pear.php.net/File_Util": "*",
 		"pear/Mail": "*",
 		"pear/Mail_Mime": "*",
+		"pear/Net_SMTP": "*",
+		"pear/Net_Socket": "*",
+		"pear/PEAR": "*",
+		"pear-pear.php.net/File_Util": "*",
 		"pear-pear.php.net/Mail_mimeDecode": "*",
 		"pear-pear.php.net/Math_Stats": "*",
 		"pear-pear.php.net/Net_LDAP2": "*",
 		"pear-pear.php.net/Net_POP3": "*",
-		"pear/Net_SMTP": "*",
 		"pear-pear.php.net/Net_SmartIRC": "*",
-		"pear/Net_Socket": "*",
 		"pear-pear.php.net/Net_URL": "*",
-		"pear/PEAR": "*",
 		"pear-pear.php.net/Text_Diff": "*",
 		"pear/XML_RPC": "*",
 		"php": ">=5.3.3",
 		"php-gettext/php-gettext": "1.0.*",
+		"phplot/phplot": "~6.1.0",
 		"roave/security-advisories": "dev-master",
 		"smarty-gettext/smarty-gettext": "~1.0",
 		"smarty/smarty": "~3.1.12",

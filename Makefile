@@ -11,7 +11,7 @@ php-cs-fixer := $(shell PATH=$$PATH:. which php-cs-fixer.phar 2>/dev/null || whi
 all:
 	@echo 'Run "make install" to install eventum.'
 
-install: install-eventum install-cli install-irc install-scm install-libs
+install: install-eventum install-cli install-irc install-scm
 
 dist:
 	./bin/release.sh
@@ -75,13 +75,6 @@ install-scm:
 	install -d $(DESTDIR)$(sbindir)
 	install -p scm/eventum-cvs-hook.php $(DESTDIR)$(sbindir)/eventum-cvs-hook
 	install -p scm/eventum-svn-hook.php $(DESTDIR)$(sbindir)/eventum-svn-hook
-
-# install extra libraries for eventum
-install-libs: install-jpgraph
-
-install-jpgraph:
-	install -d $(DESTDIR)$(datadir)/lib
-	cp -a lib/jpgraph $(DESTDIR)$(datadir)/lib
 
 install-localization:
 	$(MAKE) -C localization install
