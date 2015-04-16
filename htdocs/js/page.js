@@ -900,6 +900,23 @@ anon_post.validateForm = function(form)
 
 }
 
+/*
+ * Stats page
+ */
+function stats() {}
+
+stats.ready = function()
+{
+    $('#hide_closed').change(function hideClosed(e) {
+        var target = $(e.target);
+        if (target.is(':checked')) {
+            window.location.href = "?" + Eventum.replaceParam(window.location.href, 'hide_closed', '1');
+        } else {
+            window.location.href = "?" + Eventum.replaceParam(window.location.href, 'hide_closed', '0');
+        }
+    });
+}
+
 
 /*
  * Product chooser functions used in multiplepages
