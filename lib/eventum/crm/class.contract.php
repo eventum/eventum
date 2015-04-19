@@ -366,6 +366,7 @@ abstract class Contract
 
     public function __toString()
     {
+        // FIXME: $options unused
         $options = $this->getOptions(true);
 
         return "Contract\nID: " . $this->contract_id . '

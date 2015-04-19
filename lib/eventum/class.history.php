@@ -190,8 +190,8 @@ class History
      * Returns a list of issues touched by the specified user in the specified time frame.
      *
      * @param   integer $usr_id The id of the user.
-     * @param   date $start The start date
-     * @param   date $end The end date
+     * @param   string $start The start date
+     * @param   string $end The end date
      * @param   boolean $separate_closed If closed issues should be included in a separate array
      * @param   array $htt_exclude Addtional History Types to ignore
      * @param   boolean $separate_not_assigned_to_user  Separate Issues Not Assigned to User
@@ -286,12 +286,12 @@ class History
      * Returns the number of issues for the specified user that are currently set to the specified status(es).
      *
      * @param   integer $usr_id The id of the user.
-     * @param   date $start The start date
-     * @param   date $end The end date
-     * @param   array $statuses An array of status abreviations to return counts for.
-     * @return  array An array containing the number of issues for the user set tothe specified statuses.
+     * @param   string $start The start date
+     * @param   string $end The end date
+     * @param   array $statuses An array of status abbreviations to return counts for.
+     * @return  array An array containing the number of issues for the user set to the specified statuses.
      */
-    public static function getTouchedIssueCountByStatus($usr_id, $start, $end, $statuses = false)
+    public static function getTouchedIssueCountByStatus($usr_id, $start, $end, $statuses = null)
     {
         $stmt = 'SELECT
                     sta_title,
@@ -306,7 +306,7 @@ class History
                     iss_prj_id = ? AND
                     his_usr_id = ? AND
                     his_created_date BETWEEN ? AND ?';
-        if ($statuses != false) {
+        if ($statuses) {
             $stmt .= " AND
                     (
                         sta_abbreviation IN('" . implode("','", $statuses) . "') OR
@@ -334,8 +334,8 @@ class History
      * NOTE: not used by eventum core. drop?
      *
      * @param   integer $usr_id The id of the user.
-     * @param   date $start The start date
-     * @param   date $end The end date
+     * @param   string $start The start date
+     * @param   string $end The end date
      * @param   array $htt_id The htt_id or id's to to return history for.
      * @return  array An array of history items
      */

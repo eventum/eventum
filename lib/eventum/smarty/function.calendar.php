@@ -10,7 +10,6 @@
 function _get_month_view($params)
 {
     extract($params);
-    $html_result = '';
 
     // $values[1-31] -> values to be printed in each cell
     // $month -> month
@@ -88,7 +87,6 @@ function _get_month_view($params)
 function _get_week_view($params)
 {
     extract($params);
-    $html_result = '';
     // $values[1-31] -> values to be printed in each cell
     // $week -> 1 - 5
     // $month -> month

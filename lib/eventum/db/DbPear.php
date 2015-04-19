@@ -218,7 +218,7 @@ class DbPear implements DbInterface
     /**
      * Check if $e is PEAR error, if so, throw as DbException
      *
-     * @param $e PEAR_Error
+     * @param $e PEAR_Error|array|object|int
      */
     private function assertError($e, $depth = 2)
     {

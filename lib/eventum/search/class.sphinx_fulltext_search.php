@@ -187,6 +187,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
      * Converts placeholders to HTML bold tags and returns text HTML encoded
      *
      * @param string $str
+     * @return string
      */
     private function cleanUpExcerpt($str)
     {

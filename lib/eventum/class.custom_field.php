@@ -1264,17 +1264,17 @@ class Custom_Field
      * Method used to remove the issue associations related to a given
      * custom field ID.
      *
-     * @param   integer $fld_id The custom field ID
+     * @param   integer[] $fld_id The custom field ID
      * @param   integer $issue_id The issue ID (not required)
      * @param   integer $prj_id The project ID (not required)
      * @return  boolean
      */
-    public function removeIssueAssociation($fld_id, $issue_id = false, $prj_id = false)
+    public function removeIssueAssociation($fld_id, $issue_id = null, $prj_id = null)
     {
         $issues = array();
-        if ($issue_id != false) {
+        if ($issue_id) {
             $issues = array($issue_id);
-        } elseif ($prj_id != false) {
+        } elseif ($prj_id) {
             $sql = 'SELECT
                         iss_id
                     FROM
@@ -1294,7 +1294,7 @@ class Custom_Field
                     {{%issue_custom_field}}
                  WHERE
                     icf_fld_id IN (' . DB_Helper::buildList($fld_id) . ')';
-        $params = array($fld_id);
+        $params = $fld_id;
         if (count($issues) > 0) {
             $stmt .= ' AND icf_iss_id IN(' . DB_Helper::buildList($issues) . ')';
             $params = array_merge($params, $issues);
@@ -1632,8 +1632,10 @@ class Custom_Field
 
         if (!empty($res)) {
             if (file_exists(APP_LOCAL_PATH . "/custom_field/$res")) {
+                /** @noinspection PhpIncludeInspection */
                 require_once APP_LOCAL_PATH . "/custom_field/$res";
             } elseif (file_exists(APP_INC_PATH . "/custom_field/$res")) {
+                /** @noinspection PhpIncludeInspection */
                 require_once APP_INC_PATH . "/custom_field/$res";
             } else {
                 $returns[$fld_id] = false;

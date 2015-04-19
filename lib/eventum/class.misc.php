@@ -324,8 +324,10 @@ class Misc
         $last = strtolower($val[strlen($val)-1]);
         switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
+            /** @noinspection PhpMissingBreakStatementInspection */
             case 'g':
                 $val *= 1024;
+            /** @noinspection PhpMissingBreakStatementInspection */
             case 'm':
                 $val *= 1024;
             case 'k':
@@ -411,7 +413,7 @@ class Misc
      * Method used to escape a string before using it in a query.
      *
      * @param   string|array $input The original string
-     * @return  string The escaped (or not) string
+     * @return  string|array The escaped (or not) string
      * @deprecated Using this is bad design, must use placeholders in query
      */
     public static function escapeString($input, $add_quotes = false)

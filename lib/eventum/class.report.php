@@ -361,6 +361,7 @@ class Report
             'group_name' => Group::getName(User::getGroupID($usr_id)),
             'issues'    => History::getTouchedIssuesByUser($usr_id, $start_ts, $end_ts, $separate_closed, $htt_exclude, $separate_not_assigned_to_user),
             'status_counts' => History::getTouchedIssueCountByStatus($usr_id, $start_ts, $end_ts),
+            // FIXME: $newly_assigned may not have value
             'new_assigned_count'    =>  $newly_assigned,
             'time_tracking' => $time_tracking,
             'email_count'   => $email_count,

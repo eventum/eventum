@@ -49,8 +49,10 @@ class Partner
             $class_name = $par_code . '_Partner_Backend';
 
             if (file_exists(APP_LOCAL_PATH . "/partner/$file_name")) {
+                /** @noinspection PhpIncludeInspection */
                 require_once APP_LOCAL_PATH . "/partner/$file_name";
             } else {
+                /** @noinspection PhpIncludeInspection */
                 require_once APP_INC_PATH . "/partner/$file_name";
             }
 

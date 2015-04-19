@@ -390,7 +390,7 @@ class Status
      * Method used to remove the project associations for a given
      * custom status.
      *
-     * @param   integer $sta_id The custom status ID
+     * @param   int|array $sta_id The custom status ID
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
@@ -630,7 +630,7 @@ class Status
      * Method used to get the list of available statuses as an associative array
      * in the style of (id => title)
      *
-     * @param   array $prj_id List of project IDs
+     * @param   array|int $prj_id List of project IDs
      * @param   boolean $show_closed Whether to show closed context statuses or not
      * @return  array The list of statuses
      */

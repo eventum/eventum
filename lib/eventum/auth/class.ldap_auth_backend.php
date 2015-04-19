@@ -395,6 +395,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             if (file_exists($configfile)) {
                 $ldap_setup_string = $ldap_setup = null;
 
+                /** @noinspection PhpIncludeInspection */
                 require $configfile;
 
                 if (isset($ldap_setup)) {

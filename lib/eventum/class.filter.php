@@ -827,7 +827,7 @@ class Filter
      *
      * @return  Array an array of information.
      */
-    public function getFiltersInfo()
+    public static function getFiltersInfo()
     {
         // format is "name_of_db_field" => array(
         //      "title" => human readable title,

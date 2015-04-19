@@ -86,6 +86,7 @@ class Eventum_Autoload
         $classMap = self::getMap();
 
         if (isset($classMap[$className])) {
+            /** @noinspection PhpIncludeInspection */
             require_once $classMap[$className];
 
             return;
@@ -99,6 +100,7 @@ class Eventum_Autoload
 
         $className = strtolower($className);
         if (array_key_exists($className, self::$classes)) {
+            /** @noinspection PhpIncludeInspection */
             require_once self::$classes[$className];
 
             return;

@@ -108,8 +108,10 @@ class Workflow
             $class_name = $file_name_chunks[1] . '_Workflow_Backend';
 
             if (file_exists(APP_LOCAL_PATH . "/workflow/$backend_class")) {
+                /** @noinspection PhpIncludeInspection */
                 require_once APP_LOCAL_PATH . "/workflow/$backend_class";
             } else {
+                /** @noinspection PhpIncludeInspection */
                 require_once APP_INC_PATH . "/workflow/$backend_class";
             }
 
@@ -509,7 +511,7 @@ class Workflow
      *
      * @param   integer $prj_id The project ID.
      * @param   integer $issue_id The ID of the issue
-     * @param   string The email address that is trying to send an email
+     * @param   string $email The email address that is trying to send an email
      * @return  boolean true if the sender can email the issue, false if the sender
      *          should not email the issue and null if the default rules should be used.
      */

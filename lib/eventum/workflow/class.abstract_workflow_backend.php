@@ -71,9 +71,10 @@ class Abstract_Workflow_Backend
     private $configLoaded = false;
 
     /**
-     * getConfig($option)
-     *
      * use this function to access workflow configuration variables
+     *
+     * @param string $option
+     * @return mixed
      */
     protected function getConfig($option)
     {
@@ -424,9 +425,10 @@ class Abstract_Workflow_Backend
     /**
      * Called to check if an email address that does not have an eventum account can send notes to an issue.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $issue_id The issue ID
-     * @param   string $email The email address to check
+     * @param integer $prj_id The project ID
+     * @param integer $issue_id The issue ID
+     * @param string $email The email address to check
+     * @param object $structure Parsed email structure
      * @return  boolean True if the note should be added, false otherwise
      */
     public function canSendNote($prj_id, $issue_id, $email, $structure)

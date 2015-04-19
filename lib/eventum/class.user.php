@@ -719,7 +719,7 @@ class User
     /**
      * Method used to get the full name of the specified user.
      *
-     * @param   integer $usr_id The user ID
+     * @param   integer|array $usr_id The user ID
      * @return  string The user' full name
      */
     public static function getFullName($usr_id)
@@ -771,7 +771,7 @@ class User
     /**
      * Method used to get the email address of the specified user.
      *
-     * @param   integer $usr_id The user ID or user ids
+     * @param   int|array $usr_id The user ID or user ids
      * @return  string The user' full name
      */
     public static function getEmail($usr_id)

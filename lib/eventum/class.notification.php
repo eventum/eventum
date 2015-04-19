@@ -684,8 +684,9 @@ class Notification
      * subscribers about status changes
      *
      * @param   integer $issue_id The issue ID
-     * @param   array $old_status The old issue status
-     * @param   array $new_status The new issue status
+     * @param   int $old_status The old issue status
+     * @param   int $new_status The new issue status
+     * @return bool
      */
     public static function notifyStatusChange($issue_id, $old_status, $new_status)
     {

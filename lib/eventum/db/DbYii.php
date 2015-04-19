@@ -48,6 +48,7 @@ class DbYii implements DbInterface
         define('YII_ENABLE_EXCEPTION_HANDLER', false);
         define('YII_ENABLE_ERROR_HANDLER', false);
 
+        /** @noinspection PhpIncludeInspection */
         require_once APP_PATH . '/vendor/yiisoft/yii2/Yii.php';
         $yiiConfig = self::getYiiConfig($config);
 

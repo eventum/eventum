@@ -412,9 +412,9 @@ class Attachment
      * @param int $usr_id The user ID
      * @param int[] $iaf_ids attachment file id-s to attach
      * @param boolean $internal_only Whether this attachment is supposed to be internal only or not
-     * @param $file_description File description text
-     * @param   string $unknown_user The email of the user who originally sent this email, who doesn't have an account.
-     * @param   integer $associated_note_id The note ID that these attachments should be associated with
+     * @param string $file_description File description text
+     * @param string $unknown_user The email of the user who originally sent this email, who doesn't have an account.
+     * @param integer $associated_note_id The note ID that these attachments should be associated with
      */
     public static function attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description, $unknown_user = null, $associated_note_id = null)
     {

@@ -227,7 +227,7 @@ class Mime_Helper
      *
      * @author Elan Ruusamäe <glen@delfi.ee>
      * @see    Zend_Mime::_encodeQuotedPrintable
-     * @param   string The string in APP_CHARSET encoding
+     * @param   string $string The string in APP_CHARSET encoding
      * @return  string encoded string
      */
 
@@ -884,7 +884,7 @@ class Mime_Helper
      * not complete but is a start.
      *
      * @see     http://www.faqs.org/rfcs/rfc3676.html
-     * @param   text $body The text to "unflow"
+     * @param   string $body The text to "unflow"
      * @param   string $delsp If spaces should be deleted
      * @return  string The decoded body
      */

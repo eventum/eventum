@@ -224,6 +224,7 @@ class XmlRpcServer
             if ($protected) {
                 list($email, $password) = $this->getAuthParams($params);
 
+                // FIXME: $usr_id unused
                 $usr_id = User::getUserIDByEmail($email, true);
                 if (!Auth::isCorrectPassword($email, $password)) {
                     throw new RemoteApiException(

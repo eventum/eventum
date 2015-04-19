@@ -42,6 +42,9 @@ class RemoteApi
 {
     /**
      * Fakes the creation of the login cookie
+     *
+     * @param string $email
+     * @param bool $project
      */
     public static function createFakeCookie($email, $project = false)
     {

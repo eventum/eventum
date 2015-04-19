@@ -1807,7 +1807,7 @@ class Issue
     /**
      * Method used to remove the issue associations related to a specific issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int|array $issue_id The issue ID
      * @return  void
      */
     public function deleteAssociations($issue_id, $usr_id = false)
@@ -1897,11 +1897,11 @@ class Issue
     /**
      * Method used to delete all user assignments for a specific issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int|array $issue_id The issue ID
      * @param   integer $usr_id The user ID of the person performing the change
      * @return int
      */
-    public static function deleteUserAssociations($issue_id, $usr_id = false)
+    public static function deleteUserAssociations($issue_id, $usr_id = null)
     {
         $issue_id = Misc::escapeInteger($issue_id);
         if (is_array($issue_id)) {
@@ -3146,7 +3146,12 @@ class Issue
                         Notification::subscribeUser(Auth::getUserID(), $issue_id, $usr_id, Notification::getAllActions());
                     }
                 }
-                Workflow::handleAssignmentChange(Auth::getCurrentProject(), $issue_id, $issue_details, Issue::getAssignedUserIDs($items[$i]), false);
+
+                $prj_id = Auth::getCurrentProject();
+                $usr_ids = Issue::getAssignedUserIDs($items[$i]);
+                // FIXME: wrong arguments or wrong prototype?
+                // interface is: Workflow::handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, ...
+                Workflow::handleAssignmentChange($prj_id, $issue_id, $issue_details, $usr_ids, false);
                 Notification::notifyNewAssignment($new_assignees, $issue_id);
                 $updated_fields['Assignment'] = History::formatChanges(implode(', ', $current_assignees), implode(', ', $new_user_names));
             }

@@ -89,7 +89,7 @@ class Abstract_Customer_Backend
      * @param   integer $contract_id The contract ID
      * @return  integer The maximum first response time, in seconds
      */
-    public function getMaximumFirstResponseTime($customer_id, $contract_id = false)
+    public function getMaximumFirstResponseTime($customer_id, $contract_id = null)
     {
     }
 
@@ -129,7 +129,7 @@ class Abstract_Customer_Backend
      * @param   integer $contract_id The contract ID
      * @return  string The contract status
      */
-    public function getContractStatus($customer_id, $contract_id = false)
+    public function getContractStatus($customer_id, $contract_id = null)
     {
     }
 
@@ -210,6 +210,8 @@ class Abstract_Customer_Backend
     /**
      * Returns the total number of allowed incidents for the given support
      * contract ID.
+     *
+     * FIXME: $prj_id not used in params
      *
      * @param   integer $prj_id The project ID
      * @param   integer $support_no The support contract ID
@@ -400,7 +402,7 @@ class Abstract_Customer_Backend
      * @param   integer $contract_id The contract ID
      * @return  string The support contract level
      */
-    public function getSupportLevelID($customer_id, $contract_id = false)
+    public function getSupportLevelID($customer_id, $contract_id = null)
     {
     }
 
@@ -469,7 +471,7 @@ class Abstract_Customer_Backend
      * @param   integer $customer_id The customer ID
      * @return  array The list of recipient emails
      */
-    public function notifyEmailConvertedIntoIssue($issue_id, $sup_ids, $customer_id = false)
+    public function notifyEmailConvertedIntoIssue($issue_id, $sup_ids, $customer_id = null)
     {
     }
 
@@ -514,7 +516,7 @@ class Abstract_Customer_Backend
      * @param   integer $contract_id The contract ID
      * @return  string The support contract end date
      */
-    public function getContractEndDate($customer_id, $contract_id = false)
+    public function getContractEndDate($customer_id, $contract_id = null)
     {
     }
 
@@ -536,7 +538,7 @@ class Abstract_Customer_Backend
      * @param   integer $contract_id The contract ID
      * @return  string The support contract start date
      */
-    public function getContractStartDate($customer_id, $contract_id = false)
+    public function getContractStartDate($customer_id, $contract_id = null)
     {
     }
 }
