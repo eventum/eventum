@@ -6,7 +6,12 @@ bindir          := /usr/bin
 logdir          := /var/log/$(name)
 smartyplugindir := $(datadir)/lib/Smarty/plugins
 
-php-cs-fixer := $(shell PATH=$$PATH:. which php-cs-fixer.phar 2>/dev/null || which php-cs-fixer 2>/dev/null || echo false)
+define find_tool
+$(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
+endef
+
+php-cs-fixer := $(call find_tool, php-cs-fixer)
+phpcompatinfo := $(call find_tool, phpcompatinfo)
 
 all:
 	@echo 'Run "make install" to install eventum.'
@@ -39,6 +44,9 @@ pear-fix: composer.lock
 
 phpcs-fix: php-cs-fixer.phar
 	-$(php-cs-fixer) fix --verbose
+
+phpcompatinfo: phpcompatinfo.phar
+	$(phpcompatinfo) analyser:run --alias current
 
 composer.lock:
 	composer install
