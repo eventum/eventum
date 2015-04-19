@@ -408,8 +408,9 @@ class Search
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return array(
-                'list' => '',
-                'info' => '',
+                'list' => null,
+                'info' => null,
+                'csv' => null,
             );
         }
 
