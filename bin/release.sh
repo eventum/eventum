@@ -91,8 +91,6 @@ update_version() {
 
 # setup composer deps
 composer_install() {
-	[ "$composer" ] || return 0
-
 	# composer hack, see .travis.yml
 	sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
 	$composer install --prefer-dist --no-dev --ignore-platform-reqs
@@ -103,9 +101,7 @@ composer_install() {
 }
 
 # remove bundled deps
-cleanup_vendor() {
-	[ "$composer" ] || return 0
-
+cleanup_dist() {
 	# cleanup vendors
 	rm -r vendor/php-gettext/php-gettext/{tests,examples}
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
@@ -153,6 +149,9 @@ cleanup_vendor() {
 	rm -r htdocs/components/jquery-ui/ui/i18n
 	rm htdocs/components/dropzone/index.js
 
+	# not ready yet
+	rm lib/eventum/db/DbYii.php
+
 	# this will do clean pear in vendor dir
 	touch pear.download pear.install pear.clean
 	./bin/update-pear.sh
@@ -171,7 +170,7 @@ cleanup_vendor() {
 	rm composer.lock
 }
 
-cleanup_dist() {
+cleanup_postdist() {
 	rm -f composer.json bin/{dyncontent-chksum.pl,update-pear.sh}
 	rm -f cli/{composer.json,box.json.dist,Makefile}
 }
@@ -217,19 +216,19 @@ prepare_source() {
 	# update to include checksums of js/css files
 	./bin/dyncontent-chksum.pl
 
-	cleanup_vendor
+	cleanup_dist
 
 	# setup locatlization
 	make -C localization install clean
 
-	# instal dirs and fix permissions
+	# install dirs and fix permissions
 	install -d logs templates_c locks htdocs/customer
 	touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 	chmod -R a+rX .
 	chmod -R a+rwX templates_c locks logs config
 
-	# clean these now, can't omit them from git export as needed in release preparation process
-	cleanup_dist
+	# cleanup rest of the stuff, that was neccessary for release preparation process
+	cleanup_postdist
 
 	if [ "$rc" != "dev" ]; then
 		phplint
