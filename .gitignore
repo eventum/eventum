@@ -32,6 +32,7 @@ composer.lock
 composer.phar
 box.phar
 php-cs-fixer.phar
+phpcompatinfo.phar
 .php_cs.cache
 
 # vim

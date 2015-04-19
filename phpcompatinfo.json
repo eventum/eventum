@@ -1,0 +1,15 @@
+{
+	"source-providers": [
+		{
+			"in": ". as current",
+			"name": "/\\.(php|)$/",
+			"exclude": ["vendor", "tests", "templates_c", "locks", "logs", "po"]
+		}
+	],
+	"plugins": [
+	],
+	"analysers": [
+	],
+	"services": [
+	]
+}

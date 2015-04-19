@@ -100,6 +100,11 @@ composer_install() {
 	cat deps >> docs/DEPENDENCIES.md && rm deps
 }
 
+# create phpcompatinfo report
+phpcompatinfo_report() {
+	$phpcompatinfo analyser:run --alias current --output docs/PhpCompatInfo.txt
+}
+
 # remove bundled deps
 cleanup_dist() {
 	# cleanup vendors
@@ -212,6 +217,7 @@ upload_tarball() {
 prepare_source() {
 	update_version
 	composer_install
+	phpcompatinfo_report
 
 	# update to include checksums of js/css files
 	./bin/dyncontent-chksum.pl
@@ -240,11 +246,12 @@ prepare_source() {
 }
 
 # download tools
-make php-cs-fixer.phar
+make php-cs-fixer.phar phpcompatinfo.phar
 
 composer=$(find_prog composer)
 box=$(find_prog box)
 phpcsfixer=$(find_prog php-cs-fixer)
+phpcompatinfo=$(find_prog phpcompatinfo)
 
 # checkout
 vcs_checkout
