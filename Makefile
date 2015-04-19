@@ -31,6 +31,9 @@ composer.phar:
 php-cs-fixer.phar:
 	curl -sS http://get.sensiolabs.org/php-cs-fixer.phar -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
 
+phpcompatinfo.phar:
+	curl -sS http://bartlett.laurent-laville.org/get/phpcompatinfo-4.1.0.phar -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
+
 pear-fix: composer.lock
 	-$(php-cs-fixer) fix vendor/pear-pear.php.net --fixers=php4_constructor --verbose
 
