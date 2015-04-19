@@ -37,18 +37,28 @@ class Search
     /**
      * Method used to get a specific parameter in the issue listing cookie.
      *
-     * @param   string $name The name of the parameter
-     * @param   bool $request_only If only $_GET and $_POST should be checked
+     * @param string $name The name of the parameter
+     * @param bool $request_only If only $_GET and $_POST should be checked
+     * @param array $valid_values
      * @return  mixed The value of the specified parameter
+     * @return string
      */
-    public static function getParam($name, $request_only = false)
+    public static function getParam($name, $request_only = false, $valid_values = null)
     {
+        $value = null;
         if (isset($_GET[$name])) {
-            return $_GET[$name];
+            $value = $_GET[$name];
         } elseif (isset($_POST[$name])) {
-            return $_POST[$name];
+            $value = $_POST[$name];
         } elseif ($request_only) {
             return '';
+        }
+
+        if (isset($value)) {
+            if ($valid_values && !in_array($value, $valid_values)) {
+                return '';
+            }
+            return $value;
         }
 
         $profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'issue');
@@ -71,7 +81,7 @@ class Search
         $request_only = !$save_db; // if we should only look at get / post not the DB or cookies
 
         $sort_by = self::getParam('sort_by', $request_only);
-        $sort_order = self::getParam('sort_order', $request_only);
+        $sort_order = self::getParam('sort_order', $request_only, array('asc', 'desc'));
         $rows = self::getParam('rows', $request_only);
         $hide_closed = self::getParam('hide_closed', $request_only);
         if ($hide_closed === '') {
