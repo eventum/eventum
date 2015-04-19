@@ -79,7 +79,7 @@ update_version() {
 
 	version=$(git describe --tags)
 	# not good tags, try trimming
-	version=$(echo "$version" | sed -e 's,release-,,; s/-final$//; s/^v//; ')
+	version=$(echo "$version" | sed -e 's,release-,,; s/-final$//; s/^v//; s/-pre[0-9]*//; ')
 
 	sed -i -e "
 		/define('APP_VERSION'/ {
