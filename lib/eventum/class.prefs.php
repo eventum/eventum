@@ -102,7 +102,7 @@ class Prefs
         } catch (DbException $e) {
             return Prefs::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
         }
-        if (is_null($res)) {
+        if ($res === null) {
             return Prefs::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
         }
 

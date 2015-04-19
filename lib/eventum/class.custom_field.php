@@ -662,7 +662,7 @@ class Custom_Field
                 }
 
                 // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
-                if (!is_null($original_value) && !in_array($original_value, $fields[$found_index]['field_options'])) {
+                if ($original_value !== null && !in_array($original_value, $fields[$found_index]['field_options'])) {
                     $fields[$found_index]['field_options'][$original_value] = self::getOptionValue($row['fld_id'], $original_value);
                 }
             } else {

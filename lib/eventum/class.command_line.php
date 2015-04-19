@@ -581,7 +581,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      */
     public static function printIssueCustomFields($client, $auth, $issue_id, $details = null)
     {
-        if (is_null($details)) {
+        if (!$details) {
             $details = self::checkIssuePermissions($client, $auth, $issue_id);
         }
         $msg = '';
