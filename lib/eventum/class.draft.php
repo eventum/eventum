@@ -374,8 +374,7 @@ class Draft
     public static function getDraftBySequence($issue_id, $sequence)
     {
         $sequence = (int) $sequence;
-        // FIXME: sequence 0 valid too?
-        if ($sequence < 0) {
+        if ($sequence < 1) {
             return array();
         }
         $stmt = "SELECT
