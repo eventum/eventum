@@ -39,8 +39,7 @@ class Monitor
     public static function checkMailQueue()
     {
         $stmt = "SELECT
-                    maq_id,
-                    COUNT(mql_id) total_tries
+                    maq_id
                  FROM
                     {{%mail_queue}},
                     {{%mail_queue_log}}
@@ -49,9 +48,12 @@ class Monitor
                     maq_id=mql_maq_id
                  GROUP BY
                     maq_id";
-
-        // FIXME: selecting 2 columns but using 1 column!
-        $queue_ids = DB_Helper::getInstance()->getColumn($stmt);
+        try {
+            $queue_ids = DB_Helper::getInstance()->getColumn($stmt);
+        } catch (DbException $e) {
+            echo ev_gettext('ERROR: There was a DB error checking the mail queue status'), "\n";
+            return;
+        }
         $errors = count($queue_ids);
         if ($errors) {
             echo ev_gettext('ERROR: There is a total of %d queued emails with errors.', $errors), "\n";
