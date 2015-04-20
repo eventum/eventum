@@ -376,13 +376,11 @@ class Support
 
     /**
      * Method used to build the server URI to connect to.
-     * FIXME: $tls param unused
      *
      * @param   array $info The email server information
-     * @param   boolean $tls Whether to use TLS or not
      * @return  string The server URI to connect to
      */
-    public static function getServerURI($info, $tls = false)
+    public static function getServerURI($info)
     {
         $server_uri = $info['ema_hostname'] . ':' . $info['ema_port'] . '/' . strtolower($info['ema_type']);
         if (stristr($info['ema_type'], 'imap')) {
