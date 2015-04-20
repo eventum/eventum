@@ -495,17 +495,15 @@ class Issue
             } catch (DbException $e) {
                 return -1;
             }
-
-            return 1;
         }
-        // FIXME: no return value
+        return 1;
     }
 
     /**
      * Returns the current release of an issue
      *
      * @param   integer $issue_id The ID of the issue
-     * @return  integer The release
+     * @return  integer The release ID
      */
     public function getRelease($issue_id)
     {
@@ -518,8 +516,7 @@ class Issue
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
         } catch (DbException $e) {
-            // FIXME: why 0?
-            return 0;
+            return -1;
         }
 
         return $res;
@@ -546,10 +543,8 @@ class Issue
             } catch (DbException $e) {
                 return -1;
             }
-
-            return 1;
         }
-        // FIXME: no return value
+        return 1;
     }
 
     /**
@@ -569,8 +564,7 @@ class Issue
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
         } catch (DbException $e) {
-            // FIXME: why return 0?
-            return 0;
+            return -1;
         }
 
         return $res;
@@ -597,10 +591,8 @@ class Issue
             } catch (DbException $e) {
                 return -1;
             }
-
-            return 1;
         }
-        // FIXME: no return value
+        return 1;
     }
 
     /**
@@ -620,7 +612,7 @@ class Issue
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
         } catch (DbException $e) {
-            return false;
+            return -1;
         }
 
         return $res;
@@ -677,8 +669,7 @@ class Issue
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
         } catch (DbException $e) {
-            // FIXME: why return 0 not -1?
-            return 0;
+            return -1;
         }
 
         return $res;
@@ -705,10 +696,8 @@ class Issue
             } catch (DbException $e) {
                 return -1;
             }
-
-            return 1;
         }
-        // FIXME: no return value
+        return 1;
     }
 
     /**
@@ -728,8 +717,7 @@ class Issue
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
         } catch (DbException $e) {
-            // FIXME: why return 0, not some -1?
-            return 0;
+            return -1;
         }
 
         return $res;
@@ -1248,8 +1236,7 @@ class Issue
         try {
             $res = DB_Helper::getInstance()->query($stmt);
         } catch (DbException $e) {
-            // FIXME: $res undefined
-            return $res;
+            return -1;
         }
 
         $new_issue_id = DB_Helper::get_last_insert_id();
@@ -3583,8 +3570,7 @@ class Issue
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
         } catch (DbException $e) {
-            // FIXME: why return 0?
-            return 0;
+            return -1;
         }
 
         return $res;
@@ -3667,7 +3653,7 @@ class Issue
         } catch (DbException $e) {
             return -1;
         }
-        // FIXME: no return value
+        return 1;
     }
 
     /**
@@ -3729,10 +3715,10 @@ class Issue
 
     /**
      * Sets the assignees for the issue
-     * FIXME: inconsistent return values
      *
      * @param   integer $issue_id
-     * @param   array   $assignees
+     * @param   array $assignees
+     * @return  int 1 if success, -1 if error, 0 if no change was needed.
      */
     public static function setAssignees($issue_id, $assignees)
     {
@@ -3743,7 +3729,7 @@ class Issue
         // see if there is anything to change
         $old_assignees = self::getAssignedUserIDs($issue_id);
         if ((count(array_diff($old_assignees, $assignees)) == 0) && (count(array_diff($assignees, $old_assignees)) == 0)) {
-            return;
+            return 0;
         }
 
         $old_assignee_names = self::getAssignedUsers($issue_id);
@@ -3755,7 +3741,7 @@ class Issue
         foreach ($assignees as $assignee) {
             $res = self::addUserAssociation(Auth::getUserID(), $issue_id, $assignee, false);
             if ($res == -1) {
-                return false;
+                return -1;
             }
             $assignee_names[] = User::getFullName($assignee);
             Notification::subscribeUser(Auth::getUserID(), $issue_id, $assignee, Notification::getDefaultActions($issue_id, User::getEmail($assignee), 'set_assignees'), false);
@@ -3766,6 +3752,7 @@ class Issue
         // save a history entry about this...
         History::add($issue_id, Auth::getUserID(), History::getTypeID('user_associated'),
                         'Issue assignment to changed (' . History::formatChanges(implode(', ', $old_assignee_names), implode(', ', $assignee_names)) . ') by ' . User::getFullName(Auth::getUserID()));
+        return 1;
     }
 
     /**
