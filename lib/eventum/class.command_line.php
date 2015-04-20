@@ -283,8 +283,7 @@ class Command_Line
      */
     public static function getFile($client, $auth, $issue_id, $file_number)
     {
-        // FIXME: $details not used
-        $details = self::checkIssuePermissions($client, $auth, $issue_id);
+        self::checkIssuePermissions($client, $auth, $issue_id);
 
         // check if the provided file number is valid
         $list = $client->getFileList($auth[0], $auth[1], $issue_id);
