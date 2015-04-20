@@ -3149,9 +3149,7 @@ class Issue
 
                 $prj_id = Auth::getCurrentProject();
                 $usr_ids = Issue::getAssignedUserIDs($items[$i]);
-                // FIXME: wrong arguments or wrong prototype?
-                // interface is: Workflow::handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, ...
-                Workflow::handleAssignmentChange($prj_id, $issue_id, $issue_details, $usr_ids, false);
+                Workflow::handleAssignmentChange($prj_id, $issue_id, Auth::getUserID(), $issue_details, $usr_ids, false);
                 Notification::notifyNewAssignment($new_assignees, $issue_id);
                 $updated_fields['Assignment'] = History::formatChanges(implode(', ', $current_assignees), implode(', ', $new_user_names));
             }

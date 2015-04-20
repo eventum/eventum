@@ -274,7 +274,7 @@ class Workflow
      *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The id of the user who locked the issue.
+     * @param   integer $usr_id The id of the user who assigned the issue.
      * @param   array $issue_details The old details of the issue.
      * @param   array $new_assignees The new assignees of this issue.
      * @param   boolean $remote_assignment If this issue was remotely assigned.
