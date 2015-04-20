@@ -2041,7 +2041,7 @@ class Issue
 
         $data['reporter'] = $reporter;
 
-        $issue_id = self::insertIssue($prj_id, $usr_id, $data);
+        $issue_id = self::insertIssue($prj_id, $data);
         if ($issue_id == -1) {
             return -1;
         }
@@ -2165,7 +2165,7 @@ class Issue
 
         $data['msg_id'] = Mail_Helper::generateMessageID();
 
-        $issue_id = self::insertIssue($prj_id, $usr_id, $data);
+        $issue_id = self::insertIssue($prj_id, $data);
         if ($issue_id == -1) {
             return -1;
         }
@@ -2318,22 +2318,11 @@ class Issue
      * Insert issue to database.
      *
      * @param   integer $prj_id The project ID
-     * @param   integer $usr_id The user responsible for this action
      * @param   array $data of issue to be inserted
      * @return  integer The new issue ID
      */
-    private function insertIssue($prj_id, $usr_id, $data)
+    private function insertIssue($prj_id, $data)
     {
-        // FIXME: $usr_id never used
-        // FIXME: missing_fields never used
-        $missing_fields = array();
-        if ($data['category'] == -1) {
-            $missing_fields[] = 'Category';
-        }
-        if ($data['priority'] == -1) {
-            $missing_fields[] = 'Priority';
-        }
-
         // if there is no reporter set, use the system user
         if (empty($data['reporter'])) {
             $data['reporter'] = APP_SYSTEM_USER_ID;
