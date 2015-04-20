@@ -528,50 +528,6 @@ class Filter
         return $url;
     }
 
-    /**
-     * FIXME: this method is unused
-     *
-     * Takes the saved search details and information about filters and returns an array of
-     * of the saved search information.
-     *
-     * @param   array $details An array of information about the saved search, usually the direct row from the database.
-     * @param   array $info An array of information about filters
-     * @return  array An array of information about the saved search.
-     */
-    private function buildOptions($details, $info)
-    {
-        $options = array();
-        foreach ($info as $field => $filter) {
-            if (@$filter['is_date'] == true) {
-                $options[$filter['param']]['filter_type'] =  $details['cst_' . $field . '_filter_type'];
-                if ($details['cst_' . $field . '_filter_type'] == 'in_past') {
-                    $options[$filter['param']]['time_period'] = $details['cst_' . $field . '_time_period'] . '&';
-                } else {
-                    $start_date = $details['cst_' . $field];
-                    if (!empty($start_date)) {
-                        $start_date_parts = explode('-', $start_date);
-                        $options[$filter['param']]['Year'] = $start_date_parts[0];
-                        $options[$filter['param']]['Month'] = $start_date_parts[1];
-                        $options[$filter['param']]['Day'] = $start_date_parts[2];
-                    }
-                    $end_date = $details['cst_' . $field . '_end'];
-                    if (!empty($end_date)) {
-                        $end_date_parts = explode('-', $end_date);
-                        $options[$filter['param'] . '_end']['Year'] = $end_date_parts[0];
-                        $options[$filter['param'] . '_end']['Month'] = $end_date_parts[1];
-                        $options[$filter['param'] . '_end']['Day'] = $end_date_parts[2];
-                    }
-                }
-            } else {
-                if (@$filter['is_custom'] != 1) {
-                    $options[$filter['param']] = $details['cst_' . $field];
-                }
-            }
-        }
-        $options['custom_field'] = $details['cst_custom_field'];
-
-        return $options;
-    }
 
     /**
      * Method used to get an associative array of the full details of
