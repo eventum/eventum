@@ -1531,15 +1531,13 @@ class Support
      * Method used to associate a support email with an existing
      * issue.
      *
-     * FIXME $add_recipients_to_nl parameter is unused
-     *
      * @param   integer $usr_id The user ID of the person performing this change
      * @param   integer $issue_id The issue ID
      * @param   array $items The list of email IDs to associate
      * @param   boolean $authorize If the senders should be added the authorized repliers list
      * @return  integer 1 if it worked, -1 otherwise
      */
-    public static function associate($usr_id, $issue_id, $items, $authorize = false, $add_recipients_to_nl = false)
+    public static function associate($usr_id, $issue_id, $items, $authorize = false)
     {
         $res = self::associateEmail($usr_id, $issue_id, $items);
         if ($res != 1) {
