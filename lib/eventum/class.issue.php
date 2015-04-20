@@ -1965,6 +1965,7 @@ class Issue
                              $date, $msg_id, $severity, $customer_id, $contact_id, $contract_id)
     {
         $exclude_list = array();
+        $managers = array();
 
         $sender_email = Mail_Helper::getEmailAddress($sender);
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
@@ -2092,8 +2093,7 @@ class Issue
         } else {
             // only use the round-robin feature if this new issue was not
             // already assigned to a customer account manager
-            // FIXME: $managers may be uninitialized
-            if (@count($managers) < 1) {
+            if (count($managers) < 1) {
                 $assignee = Round_Robin::getNextAssignee($prj_id);
                 // assign the issue to the round robin person
                 if (!empty($assignee)) {
