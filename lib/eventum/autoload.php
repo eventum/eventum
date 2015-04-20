@@ -64,6 +64,7 @@ class Eventum_Autoload
 
             'Smarty' => APP_SMARTY_PATH . '/Smarty.class.php',
             'SphinxClient' => APP_SPHINXAPI_PATH . '/sphinxapi.php',
+            'PHPlot' => APP_PHP_PATH . '/phplot/phplot.php',
 
             'DbPear' => $baseDir . '/db/DbPear.php',
             'DbInterface' => $baseDir . '/db/DbInterface.php',

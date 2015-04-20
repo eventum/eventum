@@ -57,6 +57,14 @@ if (!defined('APP_PEAR_PATH')) {
     define('APP_PEAR_PATH', '');
 }
 
+if (!defined('APP_PHP_PATH')) {
+    define('APP_PHP_PATH', '');
+}
+
+if (!defined('APP_FONTS_PATH')) {
+    define('APP_FONTS_PATH', '/usr/share/fonts/TTF');
+}
+
 if (!defined('APP_SPHINXAPI_PATH')) {
     define('APP_SPHINXAPI_PATH', '');
 }
