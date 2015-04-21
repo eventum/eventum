@@ -261,6 +261,8 @@ class History
             foreach ($res as $row) {
                 if ((!empty($row['iss_customer_id'])) && (CRM::hasCustomerIntegration($row['iss_prj_id']))) {
                     $row['customer_name'] = CRM::getCustomerName($row['iss_prj_id'], $row['iss_customer_id']);
+                } else {
+                    $row['customer_name'] = null;
                 }
                 if (($separate_closed) && ($row['sta_is_closed'] == 1)) {
                     $data['closed'][] = $row;
