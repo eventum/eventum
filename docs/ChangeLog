@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2015-??-??, Version 3.0.0
+2015-04-21, Version 3.0.1
 - Add option to set time summary when sending a note (Bryan)
 - Optionally send reminders to a different IRC channel (Bryan)
 - Fix broken Workflow::handleSCMCheckins call from 3.0.0pre1 (Elan Ruusamäe, GH#15)
