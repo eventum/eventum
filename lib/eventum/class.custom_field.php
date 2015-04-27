@@ -1271,6 +1271,10 @@ class Custom_Field
      */
     public function removeIssueAssociation($fld_id, $issue_id = null, $prj_id = null)
     {
+        if (!is_array($fld_id)) {
+            $fld_id = array($fld_id);
+        }
+
         $issues = array();
         if ($issue_id) {
             $issues = array($issue_id);
@@ -1294,7 +1298,7 @@ class Custom_Field
                     {{%issue_custom_field}}
                  WHERE
                     icf_fld_id IN (' . DB_Helper::buildList($fld_id) . ')';
-        $params = array($fld_id);
+        $params = $fld_id;
         if (count($issues) > 0) {
             $stmt .= ' AND icf_iss_id IN(' . DB_Helper::buildList($issues) . ')';
             $params = array_merge($params, $issues);
