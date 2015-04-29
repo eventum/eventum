@@ -107,7 +107,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             $filter = Net_LDAP2_Filter::combine('and', array($filter, $user_filter));
         }
 
-        $search = $this->conn->search($this->config['basedn'], $filter);
+        $search = $this->conn->search($this->basedn, $filter);
 
         if (Misc::isError($search)) {
             throw new AuthException($search->getMessage(), $search->getCode());
