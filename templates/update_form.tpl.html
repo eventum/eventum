@@ -361,7 +361,7 @@
         <div class="display">
             {if $issue_lock}
               <div id="page_locked">
-              {t 1=$issue_lock.locker.usr_full_name 2=$issue_lock.expires_formatted_time}Page is locked by <b>%1</b>. Lock expires at %2{/t}
+              {t 1=$issue_lock.locker.usr_full_name 2=$issue_lock.expires_formatted_time escape=no}Page is locked by <b>%1</b>. Lock expires at %2{/t}
               </div>
 
               <span id="issue_description" {get_display_style element_name="issue_description"}>{$issue.iss_description|activateLinks:"link"|activateAttachmentLinks:$issue.iss_id}</span>
