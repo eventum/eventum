@@ -3,6 +3,7 @@ Eventum Issue Tracking System
 
 2015-??-??, Version 3.0.2
 - fix sql error in disassociate custom field (Elan Ruusamäe)
+- fix cancel update issue action (Elan Ruusamäe, #47)
 
 2015-04-21, Version 3.0.1
 - Add option to set time summary when sending a note (Bryan)
