@@ -255,10 +255,15 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
                 $data['email'] = $email;
             } else {
                 if (!$emails) {
-                    throw new AuthException('E-mail is requred');
+                    throw new AuthException('E-mail is required');
                 }
                 // just use first email
                 $data['email'] = array_shift($emails);
+            }
+
+            // do not clear full name if for some reason it is empty
+            if (empty($data['full_name'])) {
+                unset($data['full_name']);
             }
 
             $update = User::update($usr_id, $data, false);

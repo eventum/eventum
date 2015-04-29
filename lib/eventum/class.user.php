@@ -1065,9 +1065,12 @@ class User
         }
 
         $params = array(
-            'usr_full_name' => $data['full_name'],
             'usr_email' => $data['email'],
         );
+
+        if (isset($params['usr_full_name'])) {
+            $params['usr_full_name'] = $data['full_name'];
+        }
 
         if (isset($data['grp_id'])) {
             $params['usr_grp_id'] = !empty($data['grp_id']) ? $data['grp_id'] : null;
