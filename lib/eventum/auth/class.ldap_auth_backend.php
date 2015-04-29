@@ -454,12 +454,17 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             'userdn' => 'uid=%UID%,ou=People,dc=example,dc=org',
             'customer_id_attribute' => '',
             'contact_id_attribute' => '',
+            'user_filter' => '',
             'create_users' => null,
-            'default_role' => array(
-                // ensure there is entry for current project
-                Auth::getCurrentProject() => 0,
-            ),
+            'default_role' => array(),
         );
+
+        if (Auth::hasValidCookie(APP_COOKIE)) {
+            // ensure there is entry for current project
+            $prj_id = Auth::getCurrentProject();
+
+            $defaults['default_role'][$prj_id] = 0;
+        }
 
         return $defaults;
     }
