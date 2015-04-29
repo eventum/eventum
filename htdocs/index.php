@@ -46,9 +46,10 @@ if (Auth::hasValidCookie(APP_COOKIE) && Auth::isAnonUser()) {
 }
 
 if (Auth::hasValidCookie(APP_COOKIE) && !Auth::isAnonUser()) {
+    // FIXME: $cookie unused?
     $cookie = Auth::getCookieInfo(APP_COOKIE);
     if (!empty($_REQUEST['url'])) {
-        $extra = '?url=' . $_REQUEST['url'];
+        $extra = '?url=' . urlencode($_REQUEST['url']);
     } else {
         $extra = '';
     }
