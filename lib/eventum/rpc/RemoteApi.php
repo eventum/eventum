@@ -418,6 +418,41 @@ class RemoteApi
     }
 
     /**
+     * Upload single file to an issue.
+     *
+     * @param int $issue_id
+     * @param string $filename
+     * @param string $mimetype
+     * @param string $contents
+     * @param string $file_description
+     * @param bool $internal_only
+     * @return struct
+     * @access protected
+     * @since 3.0.2
+     */
+    public function addFile($issue_id, $filename, $mimetype, $contents, $file_description, $internal_only)
+    {
+        $usr_id = Auth::getUserID();
+        if (!$usr_id) {
+            throw new RemoteApiException("Not authenticated");
+        }
+
+        $iaf_id = Attachment::addFile(0, $filename, $mimetype, $contents);
+        if (!$iaf_id) {
+            throw new RemoteApiException("File not uploaded");
+        }
+
+        $iaf_ids = array($iaf_id);
+        Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description);
+
+        $res = array(
+            'usr_id' => $usr_id,
+            'iaf_id' => $iaf_id,
+        );
+        return $res;
+    }
+
+    /**
      * @param int $prj_id
      * @param string $field
      * @param string $value
