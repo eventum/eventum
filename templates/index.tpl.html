@@ -10,7 +10,7 @@
 function validateForm()
 {
     if (Validation.isFieldWhitespace(Eventum.getField('email'))) {
-        Validation.errors[Validation.errors.length] = new Option('{t escape=js}Email Address{/t}', 'email');
+        Validation.errors[Validation.errors.length] = new Option('{t escape=js}Login{/t}', 'email');
     }
     if (Validation.isFieldWhitespace(Eventum.getField('passwd'))) {
         Validation.errors[Validation.errors.length] = new Option('{t escape=js}Password{/t}', 'passwd');
@@ -34,11 +34,11 @@ $().ready(function() {
       <td colspan="2" class="message">
         <b>
         {if $smarty.get.err == 1}
-          {t}Error{/t}: {t}Please provide your email address.{/t}
+          {t}Error{/t}: {t}Please provide login.{/t}
         {elseif $smarty.get.err == 2}
-          {t}Error{/t}: {t}Please provide your password.{/t}
+          {t}Error{/t}: {t}Please provide password.{/t}
         {elseif $smarty.get.err == 3 or $smarty.get.err == 4}
-          {t}Error{/t}: {t}The email address / password combination could not be found in the system.{/t}
+          {t}Error{/t}: {t}The login / password combination could not be found in the system.{/t}
         {elseif $smarty.get.err == 5}
           {t}Your session has expired. Please login again to continue.{/t}
         {elseif $smarty.get.err == 6}
@@ -59,7 +59,7 @@ $().ready(function() {
     </tr>
     {/if}
     <tr>
-      <td class="label">{t}Email Address{/t}:</td>
+      <td class="label">{t}Login{/t}:</td>
       <td>
         <input accessKey="e" type="text" name="email" value="{$email|default:$smarty.request.email|default:''|escape}" size="30">
         {include file="error_icon.tpl.html" field="email"}
@@ -70,6 +70,11 @@ $().ready(function() {
       <td>
         <input accessKey="p" type="password" name="passwd" size="20" maxlength="32">
         {include file="error_icon.tpl.html" field="passwd"}
+      </td>
+    </tr>
+    <tr align="center">
+      <td colspan="2">
+        {t}Login credential may be your email or user id, depending on system configuration.{/t}
       </td>
     </tr>
     <tr align="center">
