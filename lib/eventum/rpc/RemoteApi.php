@@ -432,6 +432,11 @@ class RemoteApi
      */
     public function addFile($issue_id, $filename, $mimetype, $contents, $file_description, $internal_only)
     {
+        $filesize = strlen($contents);
+        if (!$filesize) {
+            throw new RemoteApiException("Empty file uploaded");
+        }
+
         $usr_id = Auth::getUserID();
         if (!$usr_id) {
             throw new RemoteApiException("Not authenticated");
@@ -448,6 +453,7 @@ class RemoteApi
         $res = array(
             'usr_id' => $usr_id,
             'iaf_id' => $iaf_id,
+            'filesize' => $filesize,
         );
         return $res;
     }
