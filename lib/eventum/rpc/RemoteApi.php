@@ -163,6 +163,23 @@ class RemoteApi
     }
 
     /**
+     * Method used to check if Eventum RPC can be reached
+     *
+     * @return bool
+     * @access protected
+     * @since 3.0.2
+     */
+    public function checkAuthentication()
+    {
+        $usr_id = Auth::getUserID();
+        if (!$usr_id) {
+            throw new RemoteApiException("Not authenticated");
+        }
+
+        return true;
+    }
+
+    /**
      * @param bool $only_customer_projects
      * @return array
      * @access protected
