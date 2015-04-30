@@ -205,7 +205,7 @@ class XmlRpcServer
      *
      * @param ReflectionMethod $method
      * @param XML_RPC_Message $message
-     * @param bool $protected true if method should be protected with username/password
+     * @param bool $protected true if method should be protected with login/password
      * @return string
      */
     public function handle($method, $message, $protected)
@@ -224,11 +224,10 @@ class XmlRpcServer
             if ($protected) {
                 list($email, $password) = $this->getAuthParams($params);
 
-                // FIXME: $usr_id unused
-                $usr_id = User::getUserIDByEmail($email, true);
                 if (!Auth::isCorrectPassword($email, $password)) {
+                    // FIXME: role is not checked here
                     throw new RemoteApiException(
-                        "Authentication failed for $email.\nYour email/password is invalid or you do not have the proper role."
+                        "Authentication failed for $email. Your login/password is invalid or you do not have the proper role."
                     );
                 }
 
