@@ -180,6 +180,23 @@ class RemoteApi
     }
 
     /**
+     * Method used to retrieve server parameters
+     *
+     * @param string $parameter
+     * @return string
+     * @access protected
+     * @since 3.0.2
+     */
+    public function getServerParameter($parameter)
+    {
+        switch ($parameter) {
+            case 'upload_max_filesize':
+                return Attachment::getMaxAttachmentSize(true);
+        }
+        throw new InvalidArgumentException("Invalid parameter: $parameter");
+    }
+
+    /**
      * @param bool $only_customer_projects
      * @return array
      * @access protected

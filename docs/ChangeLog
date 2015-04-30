@@ -6,6 +6,7 @@ Eventum Issue Tracking System
 - Fix cancel update issue action (Elan Ruusamäe, #47)
 - Add XMLRPC method to upload files to issue (Elan Ruusamäe)
 - RemoteApi: add checkAuthentication method (Elan Ruusamäe)
+- RemoteApi: add getServerParameter method (Elan Ruusamäe)
 
 2015-04-21, Version 3.0.1
 - Add option to set time summary when sending a note (Bryan)
