@@ -423,7 +423,7 @@ class RemoteApi
      * @param int $issue_id
      * @param string $filename
      * @param string $mimetype
-     * @param string $contents
+     * @param base64 $contents
      * @param string $file_description
      * @param bool $internal_only
      * @return struct

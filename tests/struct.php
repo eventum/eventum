@@ -1,10 +1,15 @@
 <?php
 
 /*
- * fake class for RemoteApi phpdoc annotation
+ * Fake classes for RemoteApi phpdoc annotation
  */
 
 abstract class struct implements ArrayAccess, Iterator, Countable
+{
+
+}
+
+abstract class base64
 {
 
 }
