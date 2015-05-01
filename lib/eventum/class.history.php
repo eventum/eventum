@@ -189,15 +189,18 @@ class History
     /**
      * Returns a list of issues touched by the specified user in the specified time frame.
      *
-     * @param   integer $usr_id The id of the user.
-     * @param   string $start The start date
-     * @param   string $end The end date
-     * @param   boolean $separate_closed If closed issues should be included in a separate array
-     * @param   array $htt_exclude Addtional History Types to ignore
-     * @param   boolean $separate_not_assigned_to_user  Separate Issues Not Assigned to User
+     * @param integer $usr_id The id of the user
+     * @param int $prj_id The project id
+     * @param string $start The start date
+     * @param string $end The end date
+     * @param boolean $separate_closed If closed issues should be included in a separate array
+     * @param array $htt_exclude Additional History Types to ignore
+     * @param boolean $separate_not_assigned_to_user  Separate Issues Not Assigned to User
+     * @param bool $show_per_issue Add time spent on issue to issues
+     * @param bool $separate_no_time Separate No time spent issues
      * @return  array An array of issues touched by the user.
      */
-    public static function getTouchedIssuesByUser($usr_id, $start, $end, $separate_closed = false, $htt_exclude = array(), $separate_not_assigned_to_user = false)
+    public static function getTouchedIssuesByUser($usr_id, $prj_id, $start, $end, $separate_closed = false, $htt_exclude = array(), $separate_not_assigned_to_user = false, $show_per_issue = false, $separate_no_time = false)
     {
         $htt_list = self::getTypeID(
             array_merge(array(
@@ -241,7 +244,7 @@ class History
                     iss_id
                  ORDER BY
                     iss_id ASC';
-        $params = array($usr_id, $start, $end, Auth::getCurrentProject());
+        $params = array($usr_id, $start, $end, $prj_id);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
@@ -255,20 +258,20 @@ class History
             'other'     =>  array(),
         );
         if (count($res) > 0) {
-            if (isset($_REQUEST['show_per_issue'])) {
+            if ($show_per_issue) {
                 Time_Tracking::fillTimeSpentByIssueAndTime($res, $usr_id, $start, $end);
             }
             foreach ($res as $row) {
-                if ((!empty($row['iss_customer_id'])) && (CRM::hasCustomerIntegration($row['iss_prj_id']))) {
+                if (!empty($row['iss_customer_id']) && CRM::hasCustomerIntegration($row['iss_prj_id'])) {
                     $row['customer_name'] = CRM::getCustomerName($row['iss_prj_id'], $row['iss_customer_id']);
                 } else {
                     $row['customer_name'] = null;
                 }
-                if (($separate_closed) && ($row['sta_is_closed'] == 1)) {
+                if ($separate_closed && $row['sta_is_closed'] == 1) {
                     $data['closed'][] = $row;
                 } elseif ($separate_not_assigned_to_user && !Issue::isAssignedToUser($row['iss_id'], $usr_id)) {
                     $data['not_mine'][] = $row;
-                } elseif ((isset($_REQUEST['separate_no_time'])) && empty($row['it_spent'])) {
+                } elseif ($separate_no_time && empty($row['it_spent'])) {
                     $data['no_time'][] = $row;
                 } else {
                     $data['other'][] = $row;

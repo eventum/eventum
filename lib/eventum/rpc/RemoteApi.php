@@ -726,6 +726,7 @@ class RemoteApi
     /**
      * Get data for weekly report.
      *
+     * @param int $prj_id The project id
      * @param DateTime $start
      * @param DateTime $end
      * @param bool $separate_closed
@@ -733,11 +734,11 @@ class RemoteApi
      * @access protected
      * @since 3.0.2
      */
-    public function getWeeklyReportData($start, $end, $separate_closed)
+    public function getWeeklyReportData($prj_id, $start, $end, $separate_closed)
     {
         $usr_id = Auth::getUserID();
 
-        return Report::getWeeklyReport($usr_id, $start, $end, $separate_closed);
+        return Report::getWeeklyReport($usr_id, $prj_id, $start, $end, $separate_closed);
     }
 
     /**
@@ -757,6 +758,7 @@ class RemoteApi
         // we have to set a project so the template class works, even though the weekly report doesn't actually need it
         $projects = Project::getAssocList(Auth::getUserID());
         self::createFakeCookie(false, current(array_keys($projects)));
+        $prj_id = Auth::getCurrentProject();
 
         // figure out the correct week
         if ((empty($start)) || (empty($end))) {
@@ -777,7 +779,7 @@ class RemoteApi
         $tpl->setTemplate('reports/weekly_data.tpl.html');
         $tpl->assign(array(
             'report_type' => 'weekly',
-            'data' => Report::getWeeklyReport($usr_id, $start, $end, $separate_closed),
+            'data' => Report::getWeeklyReport($usr_id, $prj_id, $start, $end, $separate_closed),
         ));
 
         $ret = $tpl->getTemplateContents() . "\n";

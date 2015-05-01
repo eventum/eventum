@@ -293,18 +293,19 @@ class Report
     /**
      * Returns the data used by the weekly report.
      *
-     * @param   string $usr_id The ID of the user this report is for.
-     * @param   string|DateTime $start The start date of this report.
-     * @param   string|DateTime $end The end date of this report.
-     * @param   boolean $separate_closed If closed issues should be separated from other issues.
-     * @param   boolean $ignore_statuses If issue status changes should be ignored in report.
-     * @param   boolean $separate_not_assigned_to_user Separate Issues Not Assigned to User
-     * @return  array An array of data containing all the elements of the weekly report.
+     * @param string $usr_id The ID of the user this report is for.
+     * @param int $prj_id The project id
+     * @param string|DateTime $start The start date of this report.
+     * @param string|DateTime $end The end date of this report.
+     * @param boolean $separate_closed If closed issues should be separated from other issues.
+     * @param boolean $ignore_statuses If issue status changes should be ignored in report.
+     * @param boolean $separate_not_assigned_to_user Separate Issues Not Assigned to User
+     * @param bool $show_per_issue Add time spent on issue to issues
+     * @param bool $separate_no_time Separate No time spent issues
+     * @return array An array of data containing all the elements of the weekly report.
      */
-    public static function getWeeklyReport($usr_id, $start, $end, $separate_closed = false, $ignore_statuses = false, $separate_not_assigned_to_user = false)
+    public static function getWeeklyReport($usr_id, $prj_id, $start, $end, $separate_closed = false, $ignore_statuses = false, $separate_not_assigned_to_user = false, $show_per_issue = false, $separate_no_time = false)
     {
-        $usr_id = Misc::escapeInteger($usr_id);
-
         // figure out timezone
         $user_prefs = Prefs::get($usr_id);
         $tz = $user_prefs['timezone'];
@@ -362,12 +363,17 @@ class Report
             $htt_exclude[] = 'remote_status_change';
         }
 
+        $issues = History::getTouchedIssuesByUser(
+            $usr_id, $prj_id, $start_ts, $end_ts, $separate_closed, $htt_exclude,
+            $separate_not_assigned_to_user, $show_per_issue, $separate_no_time
+        );
+
         $data = array(
             'start'     => $start_ts,
             'end'       => $end_ts,
             'user'      => User::getDetails($usr_id),
             'group_name' => Group::getName(User::getGroupID($usr_id)),
-            'issues'    => History::getTouchedIssuesByUser($usr_id, $start_ts, $end_ts, $separate_closed, $htt_exclude, $separate_not_assigned_to_user),
+            'issues'    => $issues,
             'status_counts' => History::getTouchedIssueCountByStatus($usr_id, $start_ts, $end_ts),
             // FIXME: $newly_assigned may not have value
             'new_assigned_count'    =>  $newly_assigned,
