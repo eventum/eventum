@@ -294,8 +294,8 @@ class Report
      * Returns the data used by the weekly report.
      *
      * @param   string $usr_id The ID of the user this report is for.
-     * @param   string $start The start date of this report.
-     * @param   string $end The end date of this report.
+     * @param   string|DateTime $start The start date of this report.
+     * @param   string|DateTime $end The end date of this report.
      * @param   boolean $separate_closed If closed issues should be separated from other issues.
      * @param   boolean $ignore_statuses If issue status changes should be ignored in report.
      * @param   boolean $separate_not_assigned_to_user Separate Issues Not Assigned to User
@@ -309,8 +309,16 @@ class Report
         $user_prefs = Prefs::get($usr_id);
         $tz = $user_prefs['timezone'];
 
-        $start_ts = Date_Helper::getDateTime($start, $tz)->setTime(0, 0, 0)->format('Y-m-d H:i:s');
-        $end_ts = Date_Helper::getDateTime($end, $tz)->setTime(23, 59, 59)->format('Y-m-d H:i:s');
+        // if start or end is string, convert assume min and max date are specified
+        if (!$start instanceof DateTime) {
+            $start = Date_Helper::getDateTime($start, $tz)->setTime(0, 0, 0);
+        }
+        if (!$end instanceof DateTime) {
+            $end = Date_Helper::getDateTime($end, $tz)->setTime(23, 59, 59);
+        }
+
+        $start_ts = Date_Helper::getSqlDateTime($start);
+        $end_ts = Date_Helper::getSqlDateTime($end);
 
         $time_tracking = Time_Tracking::getSummaryByUser($usr_id, $start_ts, $end_ts);
 
@@ -355,8 +363,8 @@ class Report
         }
 
         $data = array(
-            'start'     => str_replace('-', '.', $start),
-            'end'       => str_replace('-', '.', $end),
+            'start'     => $start_ts,
+            'end'       => $end_ts,
             'user'      => User::getDetails($usr_id),
             'group_name' => Group::getName(User::getGroupID($usr_id)),
             'issues'    => History::getTouchedIssuesByUser($usr_id, $start_ts, $end_ts, $separate_closed, $htt_exclude, $separate_not_assigned_to_user),

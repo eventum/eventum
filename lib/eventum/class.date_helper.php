@@ -345,6 +345,19 @@ class Date_Helper
     }
 
     /**
+     * Get Date in MySQL DATETIME format
+     *
+     * @param DateTime|string $ts
+     * @param string $tz
+     * @return string
+     */
+    public static function getSqlDateTime($ts, $tz = null) {
+        $date = self::getDateTime($ts, $tz);
+
+        return $date->format('Y-m-d H:i:s');
+    }
+
+    /**
      * Method used to convert a unix timestamp date to a GMT date.
      *
      * @param   integer $timestamp The user based date
