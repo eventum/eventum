@@ -2413,7 +2413,7 @@ class Support
      *
      * @param   string $usr_id The ID of the user
      * @param   integer $start The timestamp of the start date
-     * @param   integer $end The timestanp of the end date
+     * @param   integer $end The timestamp of the end date
      * @param   boolean $associated If this should return emails associated with issues or non associated emails.
      * @return  integer The number of emails sent by the user.
      */

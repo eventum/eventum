@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2014 Eventum Team.                                     |
+// | Copyright (c) 2014-2015 Eventum Team.                                |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -20,7 +20,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
@@ -60,9 +60,10 @@ class XmlRpcServer
             $tags = $this->parseBlockComment($method->getDocComment());
             $protected = isset($tags['access']) && $tags['access'][0][0] == 'protected';
             $signature = $this->getSignature($tags, $protected);
-            $function = $this->getFunctionDecorator($method, $protected);
+            $pdesc = isset($tags['param']) ? $tags['param'] : null;
+            $function = $this->getFunctionDecorator($method, $protected, $pdesc);
             $signatures[$methodName] = array(
-                'function'  => $function,
+                'function' => $function,
                 'signature' => array($signature),
                 'docstring' => $method->getDocComment(),
             );
@@ -167,18 +168,47 @@ class XmlRpcServer
      * Get type for XMLRPC.
      *
      * @param string $type
-     * @return Exception
-     * @throws Exception
+     * @param string $default_type
+     * @return string
      */
-    private function getXmlRpcType($type)
+    private function getXmlRpcType($type, $default_type = 'string')
     {
-        if ($type == 'integer') {
-            $type = 'int';
-        } elseif ($type == 'bool') {
-            $type = 'boolean';
+        switch ($type) {
+            case 'integer':
+            case 'int':
+                return 'int';
+
+            case 'bool':
+            case 'boolean':
+                return 'boolean';
+
+            case 'string':
+            case 'array':
+            case 'base64':
+            case 'struct':
+                return $type;
         }
 
-        return $type;
+        return $default_type;
+    }
+
+    /**
+     * Decode parameters.
+     * Parameters that are objects are encoded via php serialize() method
+     *
+     * @param array $params actual parameters
+     * @param array $description parameter descriptions
+     */
+    private function decodeParams(&$params, $description)
+    {
+        foreach ($params as $i => &$param) {
+            $type = $description[$i][0];
+            $has_type = $this->getXmlRpcType($type, null);
+            // if there is no internal type, and typ exists as class, unserialize it
+            if (!$has_type && class_exists($type)) {
+                $param = unserialize($param);
+            }
+        }
     }
 
     /**
@@ -186,14 +216,26 @@ class XmlRpcServer
      *
      * @param ReflectionMethod $method
      * @param bool $protected true if method should be protected with username/password
+     * @param array $pdesc Parameter descriptions
      * @return callable
      */
-    private function getFunctionDecorator($method, $protected)
+    private function getFunctionDecorator($method, $protected, $pdesc)
     {
         // create $handler variable for PHP 5.3
         $handler = $this;
 
-        $function = function ($params) use ($handler, $method, $protected) {
+        $function = function ($message) use ($handler, $method, $protected, $pdesc) {
+            /** @var XML_RPC_Message $message */
+            $params = array();
+            $n = $message->getNumParams();
+            for ($i = 0; $i < $n; $i++) {
+                $params[] = XML_RPC_decode($message->getParam($i));
+            }
+
+            if ($pdesc) {
+                $handler->decodeParams($params, $pdesc);
+            }
+
             return $handler->handle($method, $params, $protected);
         };
 
@@ -204,18 +246,12 @@ class XmlRpcServer
      * NOTE: this needs to be public for PHP 5.3 compatibility
      *
      * @param ReflectionMethod $method
-     * @param XML_RPC_Message $message
+     * @param array $params Method parameters in already decoded into PHP types
      * @param bool $protected true if method should be protected with login/password
      * @return string
      */
-    public function handle($method, $message, $protected)
+    public function handle($method, $params, $protected)
     {
-        $params = array();
-        $nparams = $message->getNumParams();
-        for ($i = 0; $i < $nparams; $i++) {
-            $params[] = XML_RPC_decode($message->getParam($i));
-        }
-
         // there's method to set this via $client->setAutoBase64(true);
         // but nothing at server side. where we actually need it
         $GLOBALS['XML_RPC_auto_base64'] = true;
