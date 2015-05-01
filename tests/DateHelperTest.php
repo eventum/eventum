@@ -220,27 +220,6 @@ class DateHelperTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers       Date_Helper::getSecondsDiff
-     * @dataProvider testGetSecondsDiff_data
-     */
-    public function testGetSecondsDiff($ts1, $ts2, $exp)
-    {
-        // NOTE: this is supoer pointless function
-        $res = Date_Helper::getSecondsDiff($ts1, $ts2);
-        $this->assertEquals($exp, $res);
-    }
-
-    public function testGetSecondsDiff_data()
-    {
-        return array(
-            array(0, 10, 10),
-            array(0, 3600, 3600),
-            array(7200, 3600, -3600),
-            array(3600, 7200, 3600),
-        );
-    }
-
-    /**
      * @dataProvider testInvalidTimezone_data
      */
     public function testInvalidTimezone($ts, $tz, $exp)

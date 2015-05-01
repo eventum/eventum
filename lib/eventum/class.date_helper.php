@@ -432,17 +432,6 @@ class Date_Helper
     }
 
     /**
-     * @param int $old_ts
-     * @param int $new_ts
-     * @return int
-     * @deprecated Just use the math operator yourself
-     */
-    public static function getSecondsDiff($old_ts, $new_ts)
-    {
-        return $new_ts - $old_ts;
-    }
-
-    /**
      * Format $date under current locale. Uses strftime format.
      *
      * @param DateTime $date
