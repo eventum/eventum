@@ -321,7 +321,7 @@ class Report
         $start_ts = Date_Helper::getSqlDateTime($start);
         $end_ts = Date_Helper::getSqlDateTime($end);
 
-        $time_tracking = Time_Tracking::getSummaryByUser($usr_id, $start_ts, $end_ts);
+        $time_tracking = Time_Tracking::getSummaryByUser($usr_id, $prj_id, $start_ts, $end_ts);
 
         // replace spaces in index with _ and calculate total time
         $total_time = 0;
@@ -374,7 +374,7 @@ class Report
             'user'      => User::getDetails($usr_id),
             'group_name' => Group::getName(User::getGroupID($usr_id)),
             'issues'    => $issues,
-            'status_counts' => History::getTouchedIssueCountByStatus($usr_id, $start_ts, $end_ts),
+            'status_counts' => History::getTouchedIssueCountByStatus($usr_id, $prj_id, $start_ts, $end_ts),
             // FIXME: $newly_assigned may not have value
             'new_assigned_count'    =>  $newly_assigned,
             'time_tracking' => $time_tracking,

@@ -290,13 +290,14 @@ class History
     /**
      * Returns the number of issues for the specified user that are currently set to the specified status(es).
      *
-     * @param   integer $usr_id The id of the user.
-     * @param   string $start The start date
-     * @param   string $end The end date
-     * @param   array $statuses An array of status abbreviations to return counts for.
-     * @return  array An array containing the number of issues for the user set to the specified statuses.
+     * @param integer $usr_id The id of the user.
+     * @param int $prj_id The project id
+     * @param string $start The start date
+     * @param string $end The end date
+     * @param array $statuses An array of status abbreviations to return counts for.
+     * @return array An array containing the number of issues for the user set to the specified statuses.
      */
-    public static function getTouchedIssueCountByStatus($usr_id, $start, $end, $statuses = null)
+    public static function getTouchedIssueCountByStatus($usr_id, $prj_id, $start, $end, $statuses = null)
     {
         $stmt = 'SELECT
                     sta_title,
@@ -323,7 +324,7 @@ class History
                     sta_title
                  ORDER BY
                     sta_rank';
-        $params = array(Auth::getCurrentProject(), $usr_id, $start, $end);
+        $params = array($prj_id, $usr_id, $start, $end);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {

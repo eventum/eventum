@@ -583,12 +583,13 @@ class Time_Tracking
     /**
      * Returns summary information about all time spent by a user in a specified time frame.
      *
-     * @param   string $usr_id The ID of the user this report is for.
-     * @param   string $start The datetime of the beginning of the report.
-     * @param   string $end The datetime of the end of this report.
-     * @return  array An array of data containing information about time trackinge
+     * @param string $usr_id The ID of the user this report is for.
+     * @param int $prj_id The project id
+     * @param string $start The datetime of the beginning of the report.
+     * @param string $end The datetime of the end of this report.
+     * @return array An array of data containing information about time trackinge
      */
-    public static function getSummaryByUser($usr_id, $start, $end)
+    public static function getSummaryByUser($usr_id, $prj_id, $start, $end)
     {
         $stmt = 'SELECT
                     ttc_title,
@@ -607,7 +608,7 @@ class Time_Tracking
                  GROUP BY
                     ttc_title';
 
-        $params = array(Auth::getCurrentProject(), $usr_id, $start, $end);
+        $params = array($prj_id, $usr_id, $start, $end);
 
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DB_FETCHMODE_ASSOC);
