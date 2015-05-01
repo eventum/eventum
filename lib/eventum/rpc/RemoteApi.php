@@ -724,12 +724,30 @@ class RemoteApi
     }
 
     /**
+     * Get data for weekly report.
+     *
+     * @param DateTime $start
+     * @param DateTime $end
+     * @param bool $separate_closed
+     * @return string
+     * @access protected
+     * @since 3.0.2
+     */
+    public function getWeeklyReportData($start, $end, $separate_closed)
+    {
+        $usr_id = Auth::getUserID();
+
+        return Report::getWeeklyReport($usr_id, $start, $end, $separate_closed);
+    }
+
+    /**
      * @param int $week
      * @param string $start
      * @param string $end
      * @param bool $separate_closed
      * @return string
      * @access protected
+     * @deprecated use getWeeklyReportData() and format data yourself
      */
     public function getWeeklyReport($week, $start, $end, $separate_closed)
     {

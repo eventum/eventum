@@ -204,7 +204,7 @@ class XmlRpcServer
         foreach ($params as $i => &$param) {
             $type = $description[$i][0];
             $has_type = $this->getXmlRpcType($type, null);
-            // if there is no internal type, and typ exists as class, unserialize it
+            // if there is no internal type, and type exists as class, unserialize it
             if (!$has_type && class_exists($type)) {
                 $param = unserialize($param);
             }
