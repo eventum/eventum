@@ -257,32 +257,36 @@ class History
             'closed'    =>  array(),
             'other'     =>  array(),
         );
-        if (count($res) > 0) {
-            if ($show_per_issue) {
-                Time_Tracking::fillTimeSpentByIssueAndTime($res, $usr_id, $start, $end);
-            }
-            foreach ($res as $row) {
-                if (!empty($row['iss_customer_id']) && CRM::hasCustomerIntegration($row['iss_prj_id'])) {
-                    $row['customer_name'] = CRM::getCustomerName($row['iss_prj_id'], $row['iss_customer_id']);
-                } else {
-                    $row['customer_name'] = null;
-                }
-                if ($separate_closed && $row['sta_is_closed'] == 1) {
-                    $data['closed'][] = $row;
-                } elseif ($separate_not_assigned_to_user && !Issue::isAssignedToUser($row['iss_id'], $usr_id)) {
-                    $data['not_mine'][] = $row;
-                } elseif ($separate_no_time && empty($row['it_spent'])) {
-                    $data['no_time'][] = $row;
-                } else {
-                    $data['other'][] = $row;
-                }
-            }
-            $sort_function = function ($a, $b) {
-                return strcasecmp($a['customer_name'], $b['customer_name']);
-            };
-            usort($data['closed'], $sort_function);
-            usort($data['other'], $sort_function);
+        if (!$res) {
+            return $data;
         }
+
+        if ($show_per_issue) {
+            Time_Tracking::fillTimeSpentByIssueAndTime($res, $usr_id, $start, $end);
+        }
+
+        foreach ($res as $row) {
+            if (!empty($row['iss_customer_id']) && CRM::hasCustomerIntegration($row['iss_prj_id'])) {
+                $row['customer_name'] = CRM::getCustomerName($row['iss_prj_id'], $row['iss_customer_id']);
+            } else {
+                $row['customer_name'] = null;
+            }
+            if ($separate_closed && $row['sta_is_closed'] == 1) {
+                $data['closed'][] = $row;
+            } elseif ($separate_not_assigned_to_user && !Issue::isAssignedToUser($row['iss_id'], $usr_id)) {
+                $data['not_mine'][] = $row;
+            } elseif ($separate_no_time && empty($row['it_spent'])) {
+                $data['no_time'][] = $row;
+            } else {
+                $data['other'][] = $row;
+            }
+        }
+
+        $sort_function = function ($a, $b) {
+            return strcasecmp($a['customer_name'], $b['customer_name']);
+        };
+        usort($data['closed'], $sort_function);
+        usort($data['other'], $sort_function);
 
         return $data;
     }
