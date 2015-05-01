@@ -729,16 +729,16 @@ class RemoteApi
      * @param int $prj_id The project id
      * @param DateTime $start
      * @param DateTime $end
-     * @param bool $separate_closed
+     * @param struct $options
      * @return string
      * @access protected
      * @since 3.0.2
      */
-    public function getWeeklyReportData($prj_id, $start, $end, $separate_closed)
+    public function getWeeklyReportData($prj_id, $start, $end, $options)
     {
         $usr_id = Auth::getUserID();
 
-        return Report::getWeeklyReport($usr_id, $prj_id, $start, $end, $separate_closed);
+        return Report::getWeeklyReport($usr_id, $prj_id, $start, $end, $options);
     }
 
     /**
@@ -775,11 +775,14 @@ class RemoteApi
             // {if $smarty.post.separate_closed == 1}
             $_POST['separate_closed'] = true;
         }
+        $options = array(
+            'separate_closed' => $separate_closed,
+        );
         $tpl = new Template_Helper();
         $tpl->setTemplate('reports/weekly_data.tpl.html');
         $tpl->assign(array(
             'report_type' => 'weekly',
-            'data' => Report::getWeeklyReport($usr_id, $prj_id, $start, $end, $separate_closed),
+            'data' => Report::getWeeklyReport($usr_id, $prj_id, $start, $end, $options),
         ));
 
         $ret = $tpl->getTemplateContents() . "\n";

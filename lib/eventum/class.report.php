@@ -297,14 +297,15 @@ class Report
      * @param int $prj_id The project id
      * @param string|DateTime $start The start date of this report.
      * @param string|DateTime $end The end date of this report.
-     * @param boolean $separate_closed If closed issues should be separated from other issues.
-     * @param boolean $ignore_statuses If issue status changes should be ignored in report.
-     * @param boolean $separate_not_assigned_to_user Separate Issues Not Assigned to User
-     * @param bool $show_per_issue Add time spent on issue to issues
-     * @param bool $separate_no_time Separate No time spent issues
+     * @param array $options extra options for report:
+     * - $separate_closed If closed issues should be separated from other issues.
+     * - $ignore_statuses If issue status changes should be ignored in report.
+     * - $separate_not_assigned_to_user Separate Issues Not Assigned to User
+     * - $show_per_issue Add time spent on issue to issues
+     * - $separate_no_time Separate No time spent issues
      * @return array An array of data containing all the elements of the weekly report.
      */
-    public static function getWeeklyReport($usr_id, $prj_id, $start, $end, $separate_closed = false, $ignore_statuses = false, $separate_not_assigned_to_user = false, $show_per_issue = false, $separate_no_time = false)
+    public static function getWeeklyReport($usr_id, $prj_id, $start, $end, $options = array())
     {
         // figure out timezone
         $user_prefs = Prefs::get($usr_id);
@@ -348,7 +349,7 @@ class Report
         try {
             $newly_assigned = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DbException $e) {
-            // FIXME: why no handling
+            $newly_assigned = null;
         }
 
         $email_count = array(
@@ -357,25 +358,57 @@ class Report
         );
 
         $htt_exclude = array();
-        if ($ignore_statuses) {
+        if (!empty($options['ignore_statuses'])) {
             $htt_exclude[] = 'status_changed';
             $htt_exclude[] = 'status_auto_changed';
             $htt_exclude[] = 'remote_status_change';
         }
+        $issue_list = History::getTouchedIssuesByUser($usr_id, $prj_id, $start_ts, $end_ts, $htt_exclude);
 
-        $issues = History::getTouchedIssuesByUser(
-            $usr_id, $prj_id, $start_ts, $end_ts, $separate_closed, $htt_exclude,
-            $separate_not_assigned_to_user, $show_per_issue, $separate_no_time
+        $issues = array(
+            'no_time'   => array(),
+            'not_mine'  => array(),
+            'closed'    => array(),
+            'other'     => array(),
         );
 
-        $data = array(
+        // organize issues into categories
+        if ($issue_list) {
+            if (!empty($options['show_per_issue'])) {
+                Time_Tracking::fillTimeSpentByIssueAndTime($issue_list, $usr_id, $start, $end);
+            }
+
+            foreach ($issue_list as $row) {
+                if (!empty($row['iss_customer_id']) && CRM::hasCustomerIntegration($row['iss_prj_id'])) {
+                    $row['customer_name'] = CRM::getCustomerName($row['iss_prj_id'], $row['iss_customer_id']);
+                } else {
+                    $row['customer_name'] = null;
+                }
+                if (!empty($options['separate_closed']) && $row['sta_is_closed'] == 1) {
+                    $issues['closed'][] = $row;
+                } elseif (!empty($options['separate_not_assigned_to_user']) && !Issue::isAssignedToUser($row['iss_id'], $usr_id)) {
+                    $issues['not_mine'][] = $row;
+                } elseif (!empty($options['separate_no_time']) && empty($row['it_spent'])) {
+                    $issues['no_time'][] = $row;
+                } else {
+                    $issues['other'][] = $row;
+                }
+            }
+
+            $sort_function = function ($a, $b) {
+                return strcasecmp($a['customer_name'], $b['customer_name']);
+            };
+            usort($issues['closed'], $sort_function);
+            usort($issues['other'], $sort_function);
+        }
+
+        return array(
             'start'     => $start_ts,
             'end'       => $end_ts,
             'user'      => User::getDetails($usr_id),
             'group_name' => Group::getName(User::getGroupID($usr_id)),
             'issues'    => $issues,
             'status_counts' => History::getTouchedIssueCountByStatus($usr_id, $prj_id, $start_ts, $end_ts),
-            // FIXME: $newly_assigned may not have value
             'new_assigned_count'    =>  $newly_assigned,
             'time_tracking' => $time_tracking,
             'email_count'   => $email_count,
@@ -383,8 +416,6 @@ class Report
             'note_count'    => Note::getCountByUser($usr_id, $start_ts, $end_ts),
             'total_time'    => Misc::getFormattedTime($total_time, false),
         );
-
-        return $data;
     }
 
     /**
