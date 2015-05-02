@@ -1465,12 +1465,20 @@ class Issue
         } else {
             $associated_issues = explode(',', @$_POST['associated_issues']);
             // make sure all associated issues are valid (and in this project)
-            foreach ($associated_issues as $i => $iss_id) {
-                if (!Issue::exists(trim($iss_id), false)) {
-                    $errors['Associated Issues'][] = 'Issue #' . $iss_id . ' does not exist and was removed from the list of associated issues.';
+            foreach ($associated_issues as $i => &$iss_id) {
+                $iss_id = trim($iss_id);
+                if ($iss_id == $issue_id) {
+                    // skip issue itself
+                    unset($associated_issues[$i]);
+                    continue;
+                }
+                if (!Issue::exists($iss_id, false)) {
+                    $error = ev_gettext('Issue #%s does not exist and was removed from the list of associated issues.', $iss_id);
+                    $errors['Associated Issues'][] = $error;
                     unset($associated_issues[$i]);
                 }
             }
+            $associated_issues = array_values($associated_issues);
         }
         $association_diff = Misc::arrayDiff($current['associated_issues'], $associated_issues);
         if (count($association_diff) > 0) {
