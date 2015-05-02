@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -150,6 +150,7 @@ class RemoteApi
      * @param string $email
      * @param string $password
      * @return string
+     * @access public
      */
     public function isValidLogin($email, $password)
     {
@@ -792,6 +793,7 @@ class RemoteApi
 
     /**
      * @return array
+     * @access public
      */
     public function getResolutionAssocList()
     {

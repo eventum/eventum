@@ -58,10 +58,10 @@ class XmlRpcServer
         $signatures = array();
         foreach ($this->getMethods() as $methodName => $method) {
             $tags = $this->parseBlockComment($method->getDocComment());
-            $protected = isset($tags['access']) && $tags['access'][0][0] == 'protected';
-            $signature = $this->getSignature($tags, $protected);
+            $public = isset($tags['access']) && $tags['access'][0][0] == 'public';
+            $signature = $this->getSignature($tags, $public);
             $pdesc = isset($tags['param']) ? $tags['param'] : null;
-            $function = $this->getFunctionDecorator($method, $protected, $pdesc);
+            $function = $this->getFunctionDecorator($method, $public, $pdesc);
             $signatures[$methodName] = array(
                 'function' => $function,
                 'signature' => array($signature),
@@ -132,10 +132,10 @@ class XmlRpcServer
      * Extract parameter types for XMLRPC from PHP docBlock
      *
      * @param array $tags
-     * @param bool $protected true if method should be protected with username/password
+     * @param bool $public true if method not should be protected with username/password
      * @return array
      */
-    private function getSignature($tags, $protected)
+    private function getSignature($tags, $public)
     {
         $signature = array();
 
@@ -149,7 +149,7 @@ class XmlRpcServer
 
         // for protected add email and password strings
         // skip adding if HTTP Authorization header is present
-        if ($protected && !isset($_SERVER['PHP_AUTH_USER'])) {
+        if (!$public && !isset($_SERVER['PHP_AUTH_USER'])) {
             $signature[] = $this->getXmlRpcType('string');
             $signature[] = $this->getXmlRpcType('string');
         }
@@ -215,16 +215,16 @@ class XmlRpcServer
      * Create callable to proxy
      *
      * @param ReflectionMethod $method
-     * @param bool $protected true if method should be protected with username/password
+     * @param bool $public true if method should not be protected with username/password
      * @param array $pdesc Parameter descriptions
      * @return callable
      */
-    private function getFunctionDecorator($method, $protected, $pdesc)
+    private function getFunctionDecorator($method, $public, $pdesc)
     {
         // create $handler variable for PHP 5.3
         $handler = $this;
 
-        $function = function ($message) use ($handler, $method, $protected, $pdesc) {
+        $function = function ($message) use ($handler, $method, $public, $pdesc) {
             /** @var XML_RPC_Message $message */
             $params = array();
             $n = $message->getNumParams();
@@ -236,7 +236,7 @@ class XmlRpcServer
                 $handler->decodeParams($params, $pdesc);
             }
 
-            return $handler->handle($method, $params, $protected);
+            return $handler->handle($method, $params, $public);
         };
 
         return $function;
@@ -247,17 +247,17 @@ class XmlRpcServer
      *
      * @param ReflectionMethod $method
      * @param array $params Method parameters in already decoded into PHP types
-     * @param bool $protected true if method should be protected with login/password
+     * @param bool $public true if method should not be protected with login/password
      * @return string
      */
-    public function handle($method, $params, $protected)
+    public function handle($method, $params, $public)
     {
         // there's method to set this via $client->setAutoBase64(true);
         // but nothing at server side. where we actually need it
         $GLOBALS['XML_RPC_auto_base64'] = true;
 
         try {
-            if ($protected) {
+            if (!$public) {
                 list($email, $password) = $this->getAuthParams($params);
 
                 if (!Auth::isCorrectPassword($email, $password)) {
