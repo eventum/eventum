@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,60 +22,64 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../init.php';
 
-if (Validation::isWhitespace($_POST['email'])) {
+$login = isset($_POST['email']) ? (string)$_POST['email'] : null;
+if (Validation::isWhitespace($login)) {
     Auth::redirect('index.php?err=1');
+
 }
-if (Validation::isWhitespace($_POST['passwd'])) {
-    Auth::saveLoginAttempt($_POST['email'], 'failure', 'empty password');
-    Auth::redirect('index.php?err=2&email=' . $_POST['email']);
+$passwd = isset($_POST['passwd']) ? (string)$_POST['passwd'] : null;
+if (Validation::isWhitespace($passwd)) {
+    Auth::saveLoginAttempt($login, 'failure', 'empty password');
+    Auth::redirect('index.php?err=2&email=' . $login);
 }
 
 // check if user exists
-if (!Auth::userExists($_POST['email'])) {
-    Auth::saveLoginAttempt($_POST['email'], 'failure', 'unknown user');
+if (!Auth::userExists($login)) {
+    Auth::saveLoginAttempt($login, 'failure', 'unknown user');
     Auth::redirect('index.php?err=3');
 }
 
 // check if user is locked
-if (Auth::isUserBackOffLocked(Auth::getUserIDByLogin($_POST['email']))) {
-    Auth::saveLoginAttempt($_POST['email'], 'failure', 'account back-off locked');
+if (Auth::isUserBackOffLocked(Auth::getUserIDByLogin($login))) {
+    Auth::saveLoginAttempt($login, 'failure', 'account back-off locked');
     Auth::redirect('index.php?err=13');
 }
 
 // check if the password matches
-if (!Auth::isCorrectPassword($_POST['email'], $_POST['passwd'])) {
-    Auth::saveLoginAttempt($_POST['email'], 'failure', 'wrong password');
-    Auth::redirect('index.php?err=3&email=' . $_POST['email']);
+if (!Auth::isCorrectPassword($login, $passwd)) {
+    Auth::saveLoginAttempt($login, 'failure', 'wrong password');
+    Auth::redirect('index.php?err=3&email=' . $login);
 }
 
 // handle aliases since the user is now authenticated
-$_POST['email'] = User::getEmail(Auth::getUserIDByLogin($_POST['email']));
+$login = User::getEmail(Auth::getUserIDByLogin($login));
 
 // check if this user did already confirm his account
-if (Auth::isPendingUser($_POST['email'])) {
-    Auth::saveLoginAttempt($_POST['email'], 'failure', 'pending user');
+if (Auth::isPendingUser($login)) {
+    Auth::saveLoginAttempt($login, 'failure', 'pending user');
     Auth::redirect('index.php?err=9');
 }
 // check if this user is really an active one
-if (!Auth::isActiveUser($_POST['email'])) {
-    Auth::saveLoginAttempt($_POST['email'], 'failure', 'inactive user');
+if (!Auth::isActiveUser($login)) {
+    Auth::saveLoginAttempt($login, 'failure', 'inactive user');
     Auth::redirect('index.php?err=7');
 }
 
-Auth::saveLoginAttempt($_POST['email'], 'success');
+Auth::saveLoginAttempt($login, 'success');
 
 $remember = !empty($_POST['remember']);
-Auth::createLoginCookie(APP_COOKIE, $_POST['email'], $remember);
+Auth::createLoginCookie(APP_COOKIE, $login, $remember);
 
-Session::init(User::getUserIDByEmail($_POST['email']));
+Session::init(User::getUserIDByEmail($login));
 if (!empty($_POST['url'])) {
     $extra = '?url=' . urlencode($_POST['url']);
 } else {
