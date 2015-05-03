@@ -1417,7 +1417,7 @@ class Issue
     }
 
     /**
-     * Method used to update the details of a specific issue.
+     * Method to update the details of a specific issue.
      *
      * @param   integer $issue_id The issue ID
      * @return  integer 1 if the update worked, -1 or -2 otherwise
@@ -1427,7 +1427,7 @@ class Issue
         global $errors;
         $errors = array();
 
-        $issue_id = Misc::escapeInteger($issue_id);
+        $issue_id = (int)$issue_id;
 
         $usr_id = Auth::getUserID();
         $prj_id = self::getProjectID($issue_id);
@@ -1514,50 +1514,48 @@ class Issue
         if (empty($_POST['estimated_dev_time'])) {
             $_POST['estimated_dev_time'] = 0;
         }
-        $stmt = "UPDATE
-                    {{%issue}}
-                 SET
-                    iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
-                    iss_last_public_action_date='" . Date_Helper::getCurrentDateGMT() . "',
-                    iss_last_public_action_type='updated',";
+
+        $params = array(
+            'iss_updated_date' => Date_Helper::getCurrentDateGMT(),
+            'iss_last_public_action_date' => Date_Helper::getCurrentDateGMT(),
+            'iss_last_public_action_type' => 'updated',
+            'iss_pre_id' => $_POST['release'],
+            'iss_sta_id' => $_POST['status'],
+            'iss_res_id' => $_POST['resolution'],
+            'iss_summary' => $_POST['summary'],
+            'iss_description' => $_POST['description'],
+            'iss_dev_time' => $_POST['estimated_dev_time'],
+            'iss_percent_complete' => $_POST['percent_complete'],
+            'iss_trigger_reminders' => $_POST['trigger_reminders'],
+            'iss_grp_id' => $_POST['group'],
+        );
+
         if (!empty($_POST['category'])) {
-            $stmt .= 'iss_prc_id=' . Misc::escapeInteger($_POST['category']) . ',';
+            $params['iss_prc_id'] = $_POST['category'];
         }
         if (@$_POST['keep'] == 'no') {
-            $stmt .= 'iss_pre_id=' . Misc::escapeInteger($_POST['release']) . ',';
+            $params['iss_pre_id'] = $_POST['release'];
         }
         if (!empty($_POST['expected_resolution_date'])) {
-            $stmt .= "iss_expected_resolution_date='" . Misc::escapeString($_POST['expected_resolution_date']) . "',";
+            $params['iss_expected_resolution_date'] = $_POST['expected_resolution_date'];
         } else {
-            $stmt .= 'iss_expected_resolution_date=null,';
+            $params['iss_expected_resolution_date'] = null;
         }
-        $stmt .= '
-                    iss_pre_id=' . Misc::escapeInteger($_POST['release']) . ',
-                    iss_sta_id=' . Misc::escapeInteger($_POST['status']) . ',
-                    iss_res_id=' . Misc::escapeInteger($_POST['resolution']) . ",
-                    iss_summary='" . Misc::escapeString($_POST['summary']) . "',
-                    iss_description='" . Misc::escapeString($_POST['description']) . "',
-                    iss_dev_time='" . Misc::escapeString($_POST['estimated_dev_time']) . "',
-                    iss_percent_complete= '" . Misc::escapeString($_POST['percent_complete']) . "',
-                    iss_trigger_reminders=" . Misc::escapeInteger($_POST['trigger_reminders']) . ",
-                    iss_grp_id ='" . Misc::escapeInteger($_POST['group']) . "'";
         if (isset($_POST['private'])) {
-            $stmt .= ',
-                    iss_private = ' . Misc::escapeInteger($_POST['private']);
+            $params['iss_private'] = $_POST['private'];
         }
         if (isset($_POST['priority'])) {
-            $stmt .= ',
-                    iss_pri_id=' . Misc::escapeInteger($_POST['priority']);
+            $params['iss_pri_id'] = $_POST['priority'];
         }
         if (isset($_POST['severity'])) {
-            $stmt .= ',
-                    iss_sev_id=' . Misc::escapeInteger($_POST['severity']);
+            $params['iss_sev_id'] = $_POST['severity'];
         }
-        $stmt .= "
-                 WHERE
-                    iss_id=$issue_id";
+
+        $stmt = 'UPDATE {{%issue}} SET ' . DB_Helper::buildSet($params). ' WHERE iss_id=?';
+        $params[] = $issue_id;
+
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
@@ -1638,15 +1636,17 @@ class Issue
                 }
                 $i++;
             }
-            History::add($issue_id, $usr_id, History::getTypeID('issue_updated'), "Issue updated ($changes) by " . User::getFullName($usr_id));
+            $summary = "Issue updated ($changes) by " . User::getFullName($usr_id);
+            History::add($issue_id, $usr_id, History::getTypeID('issue_updated'), $summary);
             // send notifications for the issue being updated
             Notification::notifyIssueUpdated($issue_id, $current, $_POST);
         }
 
         // record group change as a seperate change
         if ($current['iss_grp_id'] != (int) $_POST['group']) {
-            History::add($issue_id, $usr_id, History::getTypeID('group_changed'),
-                'Group changed (' . History::formatChanges(Group::getName($current['iss_grp_id']), Group::getName($_POST['group'])) . ') by ' . User::getFullName($usr_id));
+            $changes = History::formatChanges(Group::getName($current['iss_grp_id']), Group::getName($_POST['group']));
+            $summary = 'Group changed (' . $changes . ') by ' . User::getFullName($usr_id);
+            History::add($issue_id, $usr_id, History::getTypeID('group_changed'), $summary);
         }
 
         // now update any duplicates, if any
