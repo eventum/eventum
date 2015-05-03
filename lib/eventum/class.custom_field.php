@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -1007,7 +1007,7 @@ class Custom_Field
      * @param   integer $issue_id The ID of the issue
      * @return  array The list of custom field options
      */
-    public static function getOptions($fld_id, $ids = false, $issue_id = false, $form_type = false)
+    public static function getOptions($fld_id, $ids = null, $issue_id = null, $form_type = null)
     {
         static $returns;
 
@@ -1020,7 +1020,7 @@ class Custom_Field
         $backend = self::getBackend($fld_id);
         if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
             $list = $backend->getList($fld_id, $issue_id, $form_type);
-            if ($ids != false) {
+            if ($ids) {
                 foreach ($list as $id => $value) {
                     if (!in_array($id, $ids)) {
                         unset($list[$id]);
@@ -1039,7 +1039,7 @@ class Custom_Field
                  WHERE
                     cfo_fld_id=?';
         $params = array($fld_id);
-        if ($ids != false) {
+        if ($ids) {
             $stmt .= ' AND
                     cfo_id IN(' . DB_Helper::buildList($ids) . ')';
             $params = array_merge($params, $ids);

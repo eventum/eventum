@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -39,17 +39,17 @@ class Report
     /**
      * Method used to get all open issues and group them by user.
      *
-     * @param   integer $prj_id The project ID
-     * @param $users
-     * @param $status
-     * @param $before_date
-     * @param $after_date
-     * @param $sort_order
-     * @return  array The list of issues
+     * @param integer $prj_id The project ID
+     * @param array $users
+     * @param array $status
+     * @param string $before_date
+     * @param string $after_date
+     * @param string $sort_order
+     * @return array The list of issues
      */
     public static function getStalledIssuesByUser($prj_id, $users, $status, $before_date, $after_date, $sort_order)
     {
-        $prj_id = Misc::escapeInteger($prj_id);
+        $prj_id = (int)$prj_id;
         $ts = time();
         $before_ts = strtotime($before_date);
         $after_ts = strtotime($after_date);
@@ -93,21 +93,34 @@ class Report
                     isu_usr_id=usr_id AND
                     UNIX_TIMESTAMP(iss_last_response_date) < ? AND
                     UNIX_TIMESTAMP(iss_last_response_date) > ?';
-        if (count($users) > 0) {
-            $stmt .= " AND\nisu_usr_id IN(" . implode(', ', Misc::escapeInteger($users)) . ')';
+        $params = array($prj_id, $before_ts, $after_ts);
+
+        if ($users) {
+            $ids = (array)$users;
+            $list = DB_Helper::buildList($ids);
+            $params = array_merge($params, $ids);
+            $stmt .= " AND\nisu_usr_id IN($list)";
         }
-        if (count($groups) > 0) {
-            $stmt .= " AND\nusr_grp_id IN(" . implode(', ', Misc::escapeInteger($groups)) . ')';
+        if ($groups) {
+            $ids = (array)$groups;
+            $list = DB_Helper::buildList($ids);
+            $params = array_merge($params, $ids);
+            $stmt .= " AND\nusr_grp_id IN($list)";
         }
-        if (count($status) > 0) {
-            $stmt .= " AND\niss_sta_id IN(" . implode(', ', Misc::escapeInteger($status)) . ')';
+        if ($status) {
+            $ids = (array)$status;
+            $list = DB_Helper::buildList($ids);
+            $params = array_merge($params, $ids);
+            $stmt .= " AND\niss_sta_id IN($list)";
         }
+
+        $sort_order = Misc::escapeString($sort_order);
         $stmt .= '
                  ORDER BY
                     usr_full_name,
-                    iss_last_response_date ' . Misc::escapeString($sort_order);
+                    iss_last_response_date ' . $sort_order;
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id, $before_ts, $after_ts));
+            $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return '';
         }
@@ -121,14 +134,9 @@ class Report
             if (empty($row['iss_last_response_date'])) {
                 $row['iss_last_response_date'] = $row['iss_created_date'];
             }
-            $updated_date_ts = Date_Helper::getUnixTimestamp(
-                $row['iss_updated_date'],
-                Date_Helper::getDefaultTimezone()
-            );
-            $last_response_ts = Date_Helper::getUnixTimestamp(
-                $row['iss_last_response_date'],
-                Date_Helper::getDefaultTimezone()
-            );
+
+            $updated_date_ts = Date_Helper::getUnixTimestamp($row['iss_updated_date'], Date_Helper::getDefaultTimezone());
+            $last_response_ts = Date_Helper::getUnixTimestamp($row['iss_last_response_date'], Date_Helper::getDefaultTimezone());
             $issues[$row['usr_full_name']][$row['iss_id']] = array(
                 'iss_summary'         => $row['iss_summary'],
                 'sta_title'           => $row['sta_title'],
@@ -154,8 +162,8 @@ class Report
      */
     public static function getOpenIssuesByUser($prj_id, $cutoff_days, $group_by_reporter = false)
     {
-        $prj_id = Misc::escapeInteger($prj_id);
-        $cutoff_days = Misc::escapeInteger($cutoff_days);
+        $prj_id = (int)$prj_id;
+        $cutoff_days = (int)$cutoff_days;
         $ts = time();
         $ts_diff = $cutoff_days * Date_Helper::DAY;
 
@@ -535,21 +543,22 @@ class Report
         $users = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'));
         $emails = array();
         foreach ($users as $usr_id => $usr_full_name) {
-            $emails[] = Misc::escapeString(User::getFromHeader($usr_id));
+            $emails[] = User::getFromHeader($usr_id);
         }
 
         // get number of support emails from developers
+        $list = DB_Helper::buildList($emails);
         $stmt = "SELECT
                     hour(sup_date) AS time_period,
                     count(*) as events
                  FROM
                     {{%support_email}}
                  WHERE
-                    sup_from IN('" . implode("','", $emails) . "')
+                    sup_from IN($list)
                  GROUP BY
                     time_period";
         try {
-            $dev_stats = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $dev_stats = DB_Helper::getInstance()->fetchAssoc($stmt, $emails);
         } catch (DbException $e) {
             return array();
         }
@@ -641,11 +650,10 @@ class Report
      * @param   integer $assignee The assignee the issue should belong to.
      * @return  array An array of data.
      */
-    public static function getCustomFieldReport($fld_id, $cfo_ids, $group_by = 'issue', $start_date = null, $end_date = null, $list = false, $interval = null, $assignee = false)
+    public static function getCustomFieldReport($fld_id, $cfo_ids, $group_by = 'issue', $start_date = null, $end_date = null, $list = false, $interval = null, $assignee = null)
     {
         $prj_id = Auth::getCurrentProject();
-        $fld_id = Misc::escapeInteger($fld_id);
-        $cfo_ids = Misc::escapeInteger($cfo_ids);
+        $fld_id = (int)$fld_id;
 
         // get field values
         $options = Custom_Field::getOptions($fld_id, $cfo_ids);
@@ -657,7 +665,7 @@ class Report
         }
 
         if ($assignee == -1) {
-            $assignee = false;
+            $assignee = null;
         }
 
         $label_field = '';
@@ -682,6 +690,7 @@ class Report
         }
 
         if ($list == true) {
+            $params = array();
             $sql = "SELECT
                         DISTINCT($group_by_field),
                         iss_id,
@@ -690,7 +699,7 @@ class Report
                         count(DISTINCT(iss_id)) as row_count,
                         iss_private,
                         fld_id";
-            if ($label_field != '') {
+            if ($label_field) {
                 $sql .= ",
                         $label_field as interval_label";
             }
@@ -714,29 +723,35 @@ class Report
             $sql .= "
                         icf_iss_id = iss_id AND
                         isu_iss_id = iss_id AND
-                        icf_fld_id = $fld_id";
+                        icf_fld_id = ?";
+            $params[] = $fld_id;
             if (count($options) > 0) {
-                $sql .= " AND
-                        cfo_id IN('" . implode("','", Misc::escapeString(array_keys($options))) . "')";
+                $ids = array_keys($options);
+                $list = DB_Helper::buildList($ids);
+                $sql .= " AND cfo_id IN($list)";
+                $params = array_merge($params, $ids);
             }
             if ($start_date && $end_date) {
-                $sql .= " AND\niss_created_date BETWEEN '" . Misc::escapeString($start_date) . "' AND '" . Misc::escapeString($end_date) . "'";
+                $sql .= " AND\niss_created_date BETWEEN ? AND ?";
+                $params[] = $start_date;
+                $params[] = $end_date;
             }
-            if ($assignee != false) {
-                $sql .= " AND\nisu_usr_id = " . Misc::escapeInteger($assignee);
+            if ($assignee) {
+                $sql .= " AND\nisu_usr_id = ?";
+                $params[] = $assignee;
             }
             $sql .= "
                     GROUP BY
                         $group_by_field
                     ORDER BY";
-            if ($label_field != '') {
+            if ($label_field) {
                 $sql .= "
                         $label_field DESC,";
             }
             $sql .= '
                         row_count DESC';
             try {
-                $res = DB_Helper::getInstance()->getAll($sql);
+                $res = DB_Helper::getInstance()->getAll($sql, $params);
             } catch (DbException $e) {
                 return array();
             }
@@ -768,6 +783,7 @@ class Report
 
         $data = array();
         foreach ($options as $cfo_id => $value) {
+            $params = array();
             $stmt = 'SELECT';
             if ($label_field != '') {
                 $stmt .= "
@@ -782,13 +798,17 @@ class Report
                     WHERE
                         icf_iss_id = iss_id AND
                         isu_iss_id = iss_id AND
-                        icf_fld_id = $fld_id AND
-                        icf_value = '$cfo_id'";
+                        icf_fld_id = ? AND
+                        icf_value = ?";
+            $params = array($fld_id, $cfo_id);
             if ($start_date && $end_date) {
-                $stmt .= " AND\niss_created_date BETWEEN '" . Misc::escapeString($start_date) . "' AND '" . Misc::escapeString($end_date) . "'";
+                $stmt .= " AND\niss_created_date BETWEEN ? AND ?";
+                $params[] = $start_date;
+                $params[] = $end_date;
             }
-            if ($assignee != false) {
-                $stmt .= " AND\nisu_usr_id = " . Misc::escapeInteger($assignee);
+            if ($assignee) {
+                $stmt .= " AND\nisu_usr_id = ?";
+                $params[] = $assignee;
             }
             if ($interval_group_by_field != '') {
                 $stmt .= "
@@ -797,13 +817,13 @@ class Report
                     ORDER BY
                         $label_field ASC";
                 try {
-                    $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+                    $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
                 } catch (DbException $e) {
                     return array();
                 }
             } else {
                 try {
-                    $res = DB_Helper::getInstance()->getOne($stmt);
+                    $res = DB_Helper::getInstance()->getOne($stmt, $params);
                 } catch (DbException $e) {
                     return array();
                 }
@@ -812,6 +832,7 @@ class Report
         }
 
         // include count of all other values (used in pie chart)
+        $list = DB_Helper::buildList($cfo_ids);
         $stmt = "SELECT
                     COUNT(DISTINCT $group_by_field)
                 FROM
@@ -821,10 +842,13 @@ class Report
                 WHERE
                     cfo_id = icf_value AND
                     icf_iss_id = iss_id AND
-                    icf_fld_id = $fld_id AND
-                    cfo_id NOT IN(" . implode(',', $cfo_ids) . ')';
+                    cfo_id NOT IN($list) AND
+                    icf_fld_id = ?
+                    ";
+        $params = $cfo_ids;
+        $params[] = $fld_id;
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt);
+            $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -844,11 +868,12 @@ class Report
      */
     public static function getCustomFieldWeeklyReport($fld_id, $cfo_ids, $start_date, $end_date, $per_user = false)
     {
-        $fld_id = Misc::escapeInteger($fld_id);
-        $cfo_ids = Misc::escapeInteger($cfo_ids);
+        $fld_id = (int)$fld_id;
+        $cfo_ids = (array)$cfo_ids;
         // get field values
         $options = Custom_Field::getOptions($fld_id, $cfo_ids);
 
+        $params = array();
         $sql = 'SELECT
                     iss_id,
                     SUM(ttr_time_spent) ttr_time_spent_sum,
@@ -871,10 +896,13 @@ class Report
         $sql .= '
                         {{%issue}}
                     WHERE
-                        iss_prj_id=' . Auth::getCurrentProject() . " AND
-                        ttr_created_date BETWEEN '" . Misc::escapeString($start_date) . " 00:00:00' AND '" . Misc::escapeString($end_date) . " 23:59:59' AND
+                        iss_prj_id=? AND
+                        ttr_created_date BETWEEN ? AND ? AND
                         ttr_iss_id = iss_id AND
-                        ";
+                        ';
+        $params[] = Auth::getCurrentProject();
+        $params[] = "$start_date 00:00:00";
+        $params[] = "$end_date 23:59:59";
         if ($per_user) {
             $sql .= ' usr_id = ttr_usr_id AND ';
         }
@@ -882,16 +910,20 @@ class Report
                         ttr_iss_id = iss_id
                         ';
         if (count($options) > 0) {
+            $ids = array_keys($options);
+            $list = DB_Helper::buildList($ids);
             $sql .= " AND (
                 SELECT
                     count(*)
                 FROM
                     {{%issue_custom_field}} a
                 WHERE
-                    a.icf_fld_id = $fld_id AND
-                    a.icf_value IN('" . implode("','", Misc::escapeString(array_keys($options))) . "') AND
+                    a.icf_fld_id = ? AND
+                    a.icf_value IN($list) AND
                     a.icf_iss_id = ttr_iss_id
                 ) > 0";
+            $params[] = $fld_id;
+            $params = array_merge($params, $ids);
         }
         if ($per_user) {
             $sql .= '
@@ -904,7 +936,7 @@ class Report
         }
 
         try {
-            $res = DB_Helper::getInstance()->getAll($sql);
+            $res = DB_Helper::getInstance()->getAll($sql, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -923,15 +955,13 @@ class Report
      * @param   string $type If this report is aggregate or individual
      * @param   string $start The start date of this report.
      * @param   string $end The end date of this report.
-     * @param   integer $category The category to restrict this report to
+     * @param   integer $category_id The category to restrict this report to
      * @return  array An array containing workload data.
      */
-    public static function getWorkloadByDateRange($interval, $type, $start, $end, $category)
+    public static function getWorkloadByDateRange($interval, $type, $start, $end, $category_id)
     {
         $data = array();
-        $start = Misc::escapeString($start);
-        $end = Misc::escapeString($end);
-        $category = Misc::escapeInteger($category);
+        $category_id = (int)$category_id;
 
         // figure out the correct format code
         switch ($interval) {
@@ -963,35 +993,47 @@ class Report
                     $order_by = "%1\$s";
                 }
                 break;
+            default:
+                throw new LogicException('Invalid interval');
         }
 
         // get issue counts
         $stmt = "SELECT
-                    DATE_FORMAT(iss_created_date, '$format'),
+                    DATE_FORMAT(iss_created_date, ?),
                     count(*)
                  FROM
                     {{%issue}}
                  WHERE
-                    iss_prj_id=" . Auth::getCurrentProject() . " AND
-                    iss_created_date BETWEEN '$start' AND '$end'";
-        if (!empty($category)) {
+                    iss_prj_id=? AND
+                    iss_created_date BETWEEN ? AND ?";
+        $params = array($format, Auth::getCurrentProject(), $start, $end);
+        if (!empty($category_id)) {
             $stmt .= " AND
-                    iss_prc_id = $category";
+                    iss_prc_id = ?";
+            $params[] = $category_id;
         }
         $stmt .= "
                  GROUP BY
-                    DATE_FORMAT(iss_created_date, '$format')";
+                    DATE_FORMAT(iss_created_date, ?)";
+        $params[] = $format;
         if (!empty($order_by)) {
             $stmt .= "\nORDER BY " . sprintf($order_by, 'iss_created_date');
         }
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
         $data['issues']['points'] = $res;
 
-        if (count($res) > 0) {
+        $data['issues']['stats'] = array(
+            'total' =>  0,
+            'avg'   =>  0,
+            'median'    =>  0,
+            'max'   =>  0,
+        );
+
+        if ($res) {
             $stats = new Math_Stats();
             $stats->setData($res);
 
@@ -1001,45 +1043,45 @@ class Report
                 'median'    =>  $stats->median(),
                 'max'   =>  $stats->max(),
             );
-        } else {
-            $data['issues']['stats'] = array(
-                'total' =>  0,
-                'avg'   =>  0,
-                'median'    =>  0,
-                'max'   =>  0,
-            );
         }
 
         // get email counts
+        $params = array();
         $stmt = "SELECT
-                    DATE_FORMAT(sup_date, '$format'),
+                    DATE_FORMAT(sup_date, ?),
                     count(*)
                  FROM
                     {{%support_email}},
                     {{%email_account}}";
-        if (!empty($category)) {
+        $params[] = $format;
+        if (!empty($category_id)) {
             $stmt .= ',
                      {{%issue}}';
         }
-        $stmt .= '
+        $stmt .= "
                  WHERE
                     sup_ema_id=ema_id AND
-                    ema_prj_id=' . Auth::getCurrentProject() . " AND
-                    sup_date BETWEEN '$start' AND '$end'";
-        if (!empty($category)) {
+                    ema_prj_id=? AND
+                    sup_date BETWEEN ? AND ?";
+        $params[] = Auth::getCurrentProject();
+        $params[] = $start;
+        $params[] = $end;
+        if (!empty($category_id)) {
             $stmt .= " AND
                     sup_iss_id = iss_id AND
-                    iss_prc_id = $category";
+                    iss_prc_id = ?";
+            $params[] = $category_id;
         }
         $stmt .= "
                  GROUP BY
-                    DATE_FORMAT(sup_date, '$format')";
+                    DATE_FORMAT(sup_date, ?)";
+        $params[] = $format;
         if (!empty($order_by)) {
             $stmt .= "\nORDER BY " . sprintf($order_by, 'sup_date');
         }
 
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
