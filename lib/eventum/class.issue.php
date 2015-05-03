@@ -1222,7 +1222,7 @@ class Issue
         $stmt = 'INSERT INTO {{%issue}} SET ' . DB_Helper::buildSet($params);
 
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
@@ -1326,26 +1326,28 @@ class Issue
     public static function close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason,
                                  $send_notification_to = 'internal')
     {
-        $usr_id = Misc::escapeInteger($usr_id);
-        $issue_id = Misc::escapeInteger($issue_id);
-        $resolution_id = Misc::escapeInteger($resolution_id);
-        $status_id = Misc::escapeInteger($status_id);
+        $usr_id = (int)$usr_id;
+        $issue_id = (int)$issue_id;
+        $resolution_id = (int)$resolution_id;
+        $status_id = (int)$status_id;
 
-        $stmt = "UPDATE
-                    {{%issue}}
-                 SET
-                    iss_updated_date='" . Date_Helper::getCurrentDateGMT() . "',
-                    iss_last_public_action_date='" . Date_Helper::getCurrentDateGMT() . "',
-                    iss_last_public_action_type='closed',
-                    iss_closed_date='" . Date_Helper::getCurrentDateGMT() . "',\n";
+        $params = array(
+            'iss_updated_date' => Date_Helper::getCurrentDateGMT(),
+            'iss_last_public_action_date' => Date_Helper::getCurrentDateGMT(),
+            'iss_last_public_action_type' => 'closed',
+            'iss_closed_date' => Date_Helper::getCurrentDateGMT(),
+            'iss_sta_id' => $status_id,
+        );
+
         if (!empty($resolution_id)) {
-            $stmt .= "iss_res_id=$resolution_id,\n";
+            $params['iss_res_id'] = $resolution_id;
         }
-        $stmt .= "iss_sta_id=$status_id
-                 WHERE
-                    iss_id=$issue_id";
+
+        $stmt = 'UPDATE {{%issue}} SET ' . DB_Helper::buildSet($params). ' WHERE iss_id=?';
+        $params[] = $issue_id;
+
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
@@ -1353,7 +1355,8 @@ class Issue
         $prj_id = self::getProjectID($issue_id);
 
         // record the change
-        History::add($issue_id, $usr_id, History::getTypeID('issue_closed'), "Issue updated to status '" . Status::getStatusTitle($status_id) . "' by " . User::getFullName($usr_id));
+        $summary = "Issue updated to status '" . Status::getStatusTitle($status_id) . "' by " . User::getFullName($usr_id);
+        History::add($issue_id, $usr_id, History::getTypeID('issue_closed'), $summary);
 
         if ($send_notification_to == 'all') {
             $from = User::getFromHeader($usr_id);
