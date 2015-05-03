@@ -1196,45 +1196,32 @@ class Issue
      */
     public static function addAnonymousReport()
     {
-        $options = Project::getAnonymousPostOptions($_POST['project']);
-        $initial_status = Project::getInitialStatus($_POST['project']);
-        $stmt = 'INSERT INTO
-                    {{%issue}}
-                 (
-                    iss_prj_id,
-                    iss_prc_id,
-                    iss_pre_id,
-                    iss_pri_id,
-                    iss_usr_id,';
-        if (!empty($initial_status)) {
-            $stmt .= 'iss_sta_id,';
+        $prj_id = (int)$_POST['project'];
+        $options = Project::getAnonymousPostOptions($prj_id);
+        $initial_status = Project::getInitialStatus($prj_id);
+
+        $params = array(
+            'iss_prj_id' => $prj_id,
+            'iss_prc_id' => $options['category'],
+            'iss_pre_id' => 0,
+            'iss_pri_id' => $options['priority'],
+            'iss_usr_id' => $options['reporter'],
+            'iss_created_date' => Date_Helper::getCurrentDateGMT(),
+            'iss_last_public_action_date' => Date_Helper::getCurrentDateGMT(),
+            'iss_last_public_action_type' => 'created',
+            'iss_summary' => $_POST['summary'],
+            'iss_description' => $_POST['description'],
+            'iss_root_message_id' => Mail_Helper::generateMessageID(),
+        );
+
+        if ($initial_status) {
+            $params['iss_sta_id'] = $initial_status;
         }
-        $stmt .= '
-                    iss_created_date,
-                    iss_last_public_action_date,
-                    iss_last_public_action_type,
-                    iss_summary,
-                    iss_description,
-                    iss_root_message_id
-                 ) VALUES (
-                    ' . Misc::escapeInteger($_POST['project']) . ',
-                    ' . $options['category'] . ',
-                    0,
-                    ' . $options['priority'] . ',
-                    ' . $options['reporter'] . ',';
-        if (!empty($initial_status)) {
-            $stmt .= "$initial_status,";
-        }
-        $stmt .= "
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    '" . Date_Helper::getCurrentDateGMT() . "',
-                    'created',
-                    '" . Misc::escapeString($_POST['summary']) . "',
-                    '" . Misc::escapeString($_POST['description']) . "',
-                    '" . Misc::escapeString(Mail_Helper::generateMessageID()) . "'
-                 )";
+
+        $stmt = 'INSERT INTO {{%issue}} SET ' . DB_Helper::buildSet($params);
+
         try {
-            $res = DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt);
         } catch (DbException $e) {
             return -1;
         }
@@ -1251,6 +1238,7 @@ class Issue
                 break;
             }
         }
+
         if ($found) {
             $attachment_id = Attachment::add($new_issue_id, $options['reporter'], 'files uploaded anonymously');
             for ($i = 0; $i < count(@$_FILES['file']['name']); $i++) {
@@ -1264,6 +1252,7 @@ class Issue
                 }
             }
         }
+
         // need to process any custom fields ?
         if (@count($_POST['custom_fields']) > 0) {
             foreach ($_POST['custom_fields'] as $fld_id => $value) {
