@@ -38,7 +38,7 @@
         {if $priorities|@count < 1}
         <input type="hidden" name="priority" value="">
         {/if}
-        <input type="hidden" name="release" value="{$options.release|default:''}}">
+        <input type="hidden" name="release" value="{$options.release|default:''}">
         {if $core.current_role == $core.roles.customer}
         <input type="hidden" name="users" value="" />
         {/if}
