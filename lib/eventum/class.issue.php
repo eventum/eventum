@@ -1270,6 +1270,8 @@ class Issue
      * Method used to remove all issues associated with a specific list of
      * projects.
      *
+     * XXX: this is dangerous, maybe remove such methods?
+     *
      * @param   array $ids The list of projects to look for
      * @return  boolean
      */
@@ -1760,9 +1762,6 @@ class Issue
      */
     public function addAssociation($issue_id, $associated_id, $usr_id, $link_issues = true)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $associated_id = Misc::escapeInteger($associated_id);
-
         $stmt = 'INSERT INTO
                     {{%issue_association}}
                  (
@@ -1782,24 +1781,25 @@ class Issue
     /**
      * Method used to remove the issue associations related to a specific issue.
      *
-     * @param   int|array $issue_id The issue ID
-     * @return  void
+     * @param int|array $issue_id The issue ID
+     * @param int $usr_id
      */
-    public function deleteAssociations($issue_id, $usr_id = false)
+    public function deleteAssociations($issue_id, $usr_id = null)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        if (is_array($issue_id)) {
-            $issue_id = implode(', ', $issue_id);
-        }
+        $issues = (array)$issue_id;
+        $list = DB_Helper::buildList($issues);
+
         $stmt = "DELETE FROM
                     {{%issue_association}}
                  WHERE
-                    isa_issue_id IN ($issue_id) OR
-                    isa_associated_id IN ($issue_id)";
+                    isa_issue_id IN ($list) OR
+                    isa_associated_id IN ($list)";
+        $params = array_merge($issues, $issues);
 
-        DB_Helper::getInstance()->query($stmt);
+        DB_Helper::getInstance()->query($stmt, $params);
         if ($usr_id) {
-            History::add($issue_id, $usr_id, History::getTypeID('issue_all_unassociated'), 'Issue associations removed by ' . User::getFullName($usr_id));
+            $summary = 'Issue associations removed by ' . User::getFullName($usr_id);
+            History::add($issue_id, $usr_id, History::getTypeID('issue_all_unassociated'), $summary);
         }
     }
 
@@ -1808,12 +1808,9 @@ class Issue
      *
      * @param   integer $issue_id The issue ID
      * @param   integer $associated_id The associated issue ID to remove.
-     * @return  void
      */
     public function deleteAssociation($issue_id, $associated_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $associated_id = Misc::escapeInteger($associated_id);
         $stmt = 'DELETE FROM
                     {{%issue_association}}
                  WHERE
@@ -1826,10 +1823,15 @@ class Issue
                         isa_associated_id = ?
                     )';
         DB_Helper::getInstance()->query($stmt, array($issue_id, $associated_id, $associated_id, $issue_id));
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_unassociated'),
-                "Issue association to Issue #$associated_id removed by " . User::getFullName(Auth::getUserID()));
-        History::add($associated_id, Auth::getUserID(), History::getTypeID('issue_unassociated'),
-                "Issue association to Issue #$issue_id removed by " . User::getFullName(Auth::getUserID()));
+
+        $usr_id = Auth::getUserID();
+        $full_name = User::getFullName($usr_id);
+
+        $summary = "Issue association to Issue #$associated_id removed by " . $full_name;
+        History::add($issue_id, $usr_id, History::getTypeID('issue_unassociated'), $summary);
+
+        $summary = "Issue association to Issue #$issue_id removed by " . $full_name;
+        History::add($associated_id, $usr_id, History::getTypeID('issue_unassociated'), $summary);
     }
 
     /**
@@ -1843,8 +1845,6 @@ class Issue
      */
     public static function addUserAssociation($usr_id, $issue_id, $assignee_usr_id, $add_history = true)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $assignee_usr_id = Misc::escapeInteger($assignee_usr_id);
         $stmt = 'INSERT INTO
                     {{%issue_user}}
                  (
@@ -1862,8 +1862,8 @@ class Issue
         }
 
         if ($add_history) {
-            History::add($issue_id, $usr_id, History::getTypeID('user_associated'),
-                'Issue assigned to ' . User::getFullName($assignee_usr_id) . ' by ' . User::getFullName($usr_id));
+            $summary = 'Issue assigned to ' . User::getFullName($assignee_usr_id) . ' by ' . User::getFullName($usr_id);
+            History::add($issue_id, $usr_id, History::getTypeID('user_associated'), $summary);
         }
 
         return 1;
@@ -1878,22 +1878,22 @@ class Issue
      */
     public static function deleteUserAssociations($issue_id, $usr_id = null)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        if (is_array($issue_id)) {
-            $issue_id = implode(', ', $issue_id);
-        }
+        $issues = (array)$issue_id;
+        $list = DB_Helper::buildList($issues);
+
         $stmt = "DELETE FROM
                     {{%issue_user}}
                  WHERE
-                    isu_iss_id IN ($issue_id)";
+                    isu_iss_id IN ($list)";
         try {
-            DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $issues);
         } catch (DbException $e) {
             return -1;
         }
 
         if ($usr_id) {
-            History::add($issue_id, $usr_id, History::getTypeID('user_all_unassociated'), 'Issue assignments removed by ' . User::getFullName($usr_id));
+            $summary = 'Issue assignments removed by ' . User::getFullName($usr_id);
+            History::add($issue_id, $usr_id, History::getTypeID('user_all_unassociated'), $summary);
         }
 
         return 1;
@@ -1909,8 +1909,6 @@ class Issue
      */
     public static function deleteUserAssociation($issue_id, $usr_id, $add_history = true)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $usr_id = Misc::escapeInteger($usr_id);
         $stmt = 'DELETE FROM
                     {{%issue_user}}
                  WHERE
@@ -1923,8 +1921,8 @@ class Issue
         }
 
         if ($add_history) {
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('user_unassociated'),
-                User::getFullName($usr_id) . ' removed from issue by ' . User::getFullName(Auth::getUserID()));
+            $summary = User::getFullName($usr_id) . ' removed from issue by ' . User::getFullName(Auth::getUserID());
+            History::add($issue_id, Auth::getUserID(), History::getTypeID('user_unassociated'), $summary);
         }
 
         return 1;
