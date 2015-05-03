@@ -1199,13 +1199,14 @@ class Issue
         $prj_id = (int)$_POST['project'];
         $options = Project::getAnonymousPostOptions($prj_id);
         $initial_status = Project::getInitialStatus($prj_id);
+        $usr_id = (int)$options['reporter'];
 
         $params = array(
             'iss_prj_id' => $prj_id,
             'iss_prc_id' => $options['category'],
             'iss_pre_id' => 0,
             'iss_pri_id' => $options['priority'],
-            'iss_usr_id' => $options['reporter'],
+            'iss_usr_id' => $usr_id,
             'iss_created_date' => Date_Helper::getCurrentDateGMT(),
             'iss_last_public_action_date' => Date_Helper::getCurrentDateGMT(),
             'iss_last_public_action_type' => 'created',
@@ -1226,56 +1227,43 @@ class Issue
             return -1;
         }
 
-        $new_issue_id = DB_Helper::get_last_insert_id();
+        $issue_id = DB_Helper::get_last_insert_id();
         // log the creation of the issue
-        History::add($new_issue_id, APP_SYSTEM_USER_ID, History::getTypeID('issue_opened_anon'), 'Issue opened anonymously');
+        History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('issue_opened_anon'), 'Issue opened anonymously');
 
-        // now process any files being uploaded
-        $found = 0;
-        for ($i = 0; $i < count(@$_FILES['file']['name']); $i++) {
-            if (!@empty($_FILES['file']['name'][$i])) {
-                $found = 1;
-                break;
-            }
-        }
+        // process any files being uploaded
+        // TODO: handle ajax uploads
+        if (isset($_FILES['file'])) {
+            $iaf_ids = Attachment::addFiles($_FILES['file']);
 
-        if ($found) {
-            $attachment_id = Attachment::add($new_issue_id, $options['reporter'], 'files uploaded anonymously');
-            for ($i = 0; $i < count(@$_FILES['file']['name']); $i++) {
-                $filename = @$_FILES['file']['name'][$i];
-                if (empty($filename)) {
-                    continue;
-                }
-                $blob = file_get_contents($_FILES['file']['tmp_name'][$i]);
-                if (!empty($blob)) {
-                    Attachment::addFile($attachment_id, $filename, $_FILES['file']['type'][$i], $blob);
-                }
+            if ($iaf_ids) {
+                Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, false, 'Files uploaded anonymously');
             }
         }
 
         // need to process any custom fields ?
         if (@count($_POST['custom_fields']) > 0) {
             foreach ($_POST['custom_fields'] as $fld_id => $value) {
-                Custom_Field::associateIssue($new_issue_id, $fld_id, $value);
+                Custom_Field::associateIssue($issue_id, $fld_id, $value);
             }
         }
 
         // now add the user/issue association
         $assign = array();
         $users = @$options['users'];
-        $actions = Notification::getDefaultActions($new_issue_id, false, 'anon_issue');
+        $actions = Notification::getDefaultActions($issue_id, false, 'anon_issue');
         foreach ($users as $user) {
-            Notification::subscribeUser(APP_SYSTEM_USER_ID, $new_issue_id, $user, $actions);
-            self::addUserAssociation(APP_SYSTEM_USER_ID, $new_issue_id, $user);
+            Notification::subscribeUser(APP_SYSTEM_USER_ID, $issue_id, $user, $actions);
+            self::addUserAssociation(APP_SYSTEM_USER_ID, $issue_id, $user);
             $assign[] = $user;
         }
 
-        Workflow::handleNewIssue(Misc::escapeInteger($_POST['project']),  $new_issue_id, false, false);
+        Workflow::handleNewIssue($prj_id, $issue_id, false, false);
 
         // also notify any users that want to receive emails anytime a new issue is created
-        Notification::notifyNewIssue($_POST['project'], $new_issue_id);
+        Notification::notifyNewIssue($prj_id, $issue_id);
 
-        return $new_issue_id;
+        return $issue_id;
     }
 
     /**
