@@ -3426,8 +3426,8 @@ class Issue
      */
     public static function setQuarantine($issue_id, $status, $expiration = '')
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $status = Misc::escapeInteger($status);
+        $issue_id = (int)$issue_id;
+        $status = (int)$status;
 
         // see if there is an existing record
         $stmt = 'SELECT
@@ -3447,45 +3447,42 @@ class Issue
             $stmt = "UPDATE
                         {{%issue_quarantine}}
                      SET
-                        iqu_status = $status";
+                        iqu_status = ?";
+            $params = array($status);
             if (!empty($expiration)) {
-                $stmt .= ",\niqu_expiration = '" . Misc::escapeString($expiration) . "'";
+                $stmt .= ",\niqu_expiration = ?";
+                $params[] = $expiration;
             }
             $stmt .= "\nWHERE
-                        iqu_iss_id = $issue_id";
+                        iqu_iss_id = ?";
+            $params[] = $issue_id;
             try {
-                $res = DB_Helper::getInstance()->query($stmt);
+                DB_Helper::getInstance()->query($stmt, $params);
             } catch (DbException $e) {
                 return -1;
             }
 
             // add history entry about this change taking place
             if ($status == 0) {
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_quarantine_removed'),
-                        'Issue quarantine status cleared by ' . User::getFullName(Auth::getUserID()));
+                $summary = 'Issue quarantine status cleared by ' . User::getFullName(Auth::getUserID());
+                History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_quarantine_removed'), $summary);
             }
 
             return 1;
         }
 
         // insert
-        $stmt = 'INSERT INTO
-                    {{%issue_quarantine}}
-                 (
-                    iqu_iss_id,
-                    iqu_status';
+        $params = array(
+            'iqu_iss_id' => $issue_id,
+            'iqu_status' => $status,
+        );
         if (!empty($expiration)) {
-            $stmt .= ",\niqu_expiration\n";
+            $params['iqu_expiration'] = $expiration;
         }
-        $stmt .= ") VALUES (
-                    $issue_id,
-                    $status";
-        if (!empty($expiration)) {
-            $stmt .= ",\n'" . Misc::escapeString($expiration) . "'\n";
-        }
-        $stmt .= ')';
+        $stmt = 'INSERT INTO {{%issue_quarantine}} SET ' . DB_Helper::buildSet($params);
+
         try {
-            $res = DB_Helper::getInstance()->query($stmt);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
@@ -3502,8 +3499,8 @@ class Issue
      */
     public function setGroup($issue_id, $group_id)
     {
-        $issue_id = Misc::escapeInteger($issue_id);
-        $group_id = Misc::escapeInteger($group_id);
+        $issue_id = (int)$issue_id;
+        $group_id = (int)$group_id;
 
         $current = self::getDetails($issue_id);
         if ($current['iss_grp_id'] == $group_id) {
@@ -3521,12 +3518,14 @@ class Issue
             return -1;
         }
 
-        $current_user = Auth::getUserID();
-        if (empty($current_user)) {
-            $current_user = APP_SYSTEM_USER_ID;
+        $usr_id = Auth::getUserID();
+        if (!$usr_id) {
+            $usr_id = APP_SYSTEM_USER_ID;
         }
-        History::add($issue_id, $current_user, History::getTypeID('group_changed'),
-                'Group changed (' . History::formatChanges(Group::getName($current['iss_grp_id']), Group::getName($group_id)) . ') by ' . User::getFullName($current_user));
+
+        $changes = History::formatChanges(Group::getName($current['iss_grp_id']), Group::getName($group_id));
+        $summary = 'Group changed (' . $changes . ') by ' . User::getFullName($usr_id);
+        History::add($issue_id, $usr_id, History::getTypeID('group_changed'), $summary);
 
         return 1;
     }
