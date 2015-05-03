@@ -3042,13 +3042,14 @@ class Issue
             return -1;
         }
 
-        $items = Misc::escapeInteger($_POST['item']);
-        $new_status_id = Misc::escapeInteger($_POST['status']);
-        $new_release_id = Misc::escapeInteger(@$_POST['release']);
-        $new_priority_id = Misc::escapeInteger($_POST['priority']);
-        $new_category_id = Misc::escapeInteger($_POST['category']);
+        $items = (array)$_POST['item'];
+        $new_status_id = (int)$_POST['status'];
+        $new_release_id = (int)$_POST['release'];
+        $new_priority_id = (int)$_POST['priority'];
+        $new_category_id = (int)$_POST['category'];
 
-        foreach ($items as $i => $issue_id) {
+        foreach ($items as $issue_id) {
+            $issue_id = (int) $issue_id;
             if (!self::canAccess($issue_id, Auth::getUserID())) {
                 continue;
             }
@@ -3063,7 +3064,7 @@ class Issue
 
             // update assignment
             if (count(@$_POST['users']) > 0) {
-                $users = Misc::escapeInteger($_POST['users']);
+                $users = (array)$_POST['users'];
                 // get who this issue is currently assigned too
                 $stmt = 'SELECT
                             isu_usr_id,
@@ -3088,6 +3089,7 @@ class Issue
                 $new_user_names = array();
                 $new_assignees = array();
                 foreach ($users as $usr_id) {
+                    $usr_id = (int)$usr_id;
                     $new_user_names[$usr_id] = User::getFullName($usr_id);
 
                     // check if the issue is already assigned to this person
@@ -3110,14 +3112,14 @@ class Issue
                 }
 
                 $prj_id = Auth::getCurrentProject();
-                $usr_ids = Issue::getAssignedUserIDs($items[$i]);
+                $usr_ids = Issue::getAssignedUserIDs($issue_id);
                 Workflow::handleAssignmentChange($prj_id, $issue_id, Auth::getUserID(), $issue_details, $usr_ids, false);
                 Notification::notifyNewAssignment($new_assignees, $issue_id);
                 $updated_fields['Assignment'] = History::formatChanges(implode(', ', $current_assignees), implode(', ', $new_user_names));
             }
 
             // update status
-            if (!empty($new_status_id)) {
+            if ($new_status_id) {
                 $old_status_id = self::getStatusID($issue_id);
                 $res = self::setStatus($issue_id, $new_status_id, false);
                 if ($res == 1) {
@@ -3126,7 +3128,7 @@ class Issue
             }
 
             // update release
-            if (!empty($new_release_id)) {
+            if ($new_release_id) {
                 $old_release_id = self::getRelease($issue_id);
                 $res = self::setRelease($issue_id, $new_release_id);
                 if ($res == 1) {
@@ -3135,7 +3137,7 @@ class Issue
             }
 
             // update priority
-            if (!empty($new_priority_id)) {
+            if ($new_priority_id) {
                 $old_priority_id = self::getPriority($issue_id);
                 $res = self::setPriority($issue_id, $new_priority_id);
                 if ($res == 1) {
@@ -3144,7 +3146,7 @@ class Issue
             }
 
             // update category
-            if (!empty($new_category_id)) {
+            if ($new_category_id) {
                 $old_category_id = self::getCategory($issue_id);
                 $res = self::setCategory($issue_id, $new_category_id);
                 if ($res == 1) {
@@ -3163,7 +3165,8 @@ class Issue
                     $changes .= "$key: $value";
                     $k++;
                 }
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_bulk_updated'), "Issue updated ($changes) by " . User::getFullName(Auth::getUserID()));
+                $summary = "Issue updated ($changes) by " . User::getFullName(Auth::getUserID());
+                History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_bulk_updated'), $summary);
             }
 
             // close if request
