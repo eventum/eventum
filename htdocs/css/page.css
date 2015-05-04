@@ -380,7 +380,9 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 #report_content {
     margin-left: 220px;
 }
-
+#report_content pre {
+    font-size: 1.3em;
+}
 
 /* Begin Select Project */
 #select_project table {
