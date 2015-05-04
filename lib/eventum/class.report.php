@@ -383,7 +383,7 @@ class Report
         // organize issues into categories
         if ($issue_list) {
             if (!empty($options['show_per_issue'])) {
-                Time_Tracking::fillTimeSpentByIssueAndTime($issue_list, $usr_id, $start, $end);
+                Time_Tracking::fillTimeSpentByIssueAndTime($issue_list, $usr_id, $start_ts, $end_ts);
             }
 
             foreach ($issue_list as $row) {
