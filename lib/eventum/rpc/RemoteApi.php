@@ -278,10 +278,14 @@ class RemoteApi
      * @param int $time_spent
      * @return string
      * @access protected
+     * @since 3.0.2 checks access via Issue::canUpdate
      */
     public function recordTimeWorked($issue_id, $cat_id, $summary, $time_spent)
     {
         $usr_id = Auth::getUserID();
+        if (!Issue::canUpdate($issue_id, $usr_id)) {
+            throw new RemoteApiException("No access to issue #{$issue_id}");
+        }
 
         $res = Time_Tracking::recordRemoteTimeEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent);
         if ($res == -1) {
