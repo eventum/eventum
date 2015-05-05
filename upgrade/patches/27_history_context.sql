@@ -1,2 +1,2 @@
 alter table {{%issue_history}}
-    add context text not null default '' after his_summary;
+    add context his_context mediumtext not null after his_summary;
