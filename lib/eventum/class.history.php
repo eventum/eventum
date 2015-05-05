@@ -62,9 +62,8 @@ class History
      * @param   integer $usr_id The ID of the user.
      * @param   integer $htt_id The type ID of this history event.
      * @param   string $summary The summary of the changes
-     * @param   boolean $hide If this history item should be hidden.
      */
-    public static function add($iss_id, $usr_id, $htt_id, $summary, $hide = false)
+    public static function add($iss_id, $usr_id, $htt_id, $summary)
     {
         $params = array(
             'his_iss_id' => $iss_id,
@@ -73,10 +72,6 @@ class History
             'his_summary' => $summary,
             'his_htt_id' => $htt_id,
         );
-
-        if ($hide == true) {
-            $params['his_is_hidden'] = 1;
-        }
 
         $stmt = 'INSERT INTO {{%issue_history}} SET '. DB_Helper::buildSet($params);
 
