@@ -296,47 +296,6 @@ class History
     }
 
     /**
-     * Returns the history for a specified user in a specified time frame for an optional type
-     *
-     * NOTE: not used by eventum core. drop?
-     *
-     * @param   integer $usr_id The id of the user.
-     * @param   string $start The start date
-     * @param   string $end The end date
-     * @param   array $htt_id The htt_id or id's to to return history for.
-     * @return  array An array of history items
-     */
-    public function getHistoryByUser($usr_id, $start, $end, $htt_id = null)
-    {
-        $stmt = 'SELECT
-                    his_id,
-                    his_iss_id,
-                    his_created_date,
-                    his_summary,
-                    his_htt_id
-                 FROM
-                    {{%issue_history}}
-                 WHERE
-                    his_usr_id = ? AND
-                    his_created_date BETWEEN ? AND ?';
-
-        $params = array($usr_id, date('Y/m/d', $start), date('Y/m/d', $end));
-
-        if ($htt_id) {
-            $stmt .= 'AND his_htt_id IN (' . DB_Helper::buildList($htt_id) . ')';
-            $params = array_merge($params, $htt_id);
-        }
-
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
-            return array();
-        }
-
-        return $res;
-    }
-
-    /**
      * Returns the last person to close the issue
      *
      * @param   integer $issue_id The ID of the issue
