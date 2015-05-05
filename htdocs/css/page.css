@@ -265,6 +265,19 @@ body#issue_view #drafts .buttons_div {
     text-align: right;
 }
 
+body#issue_view .revision {
+	display: inline-block;
+	max-width: 5em;
+	overflow: hidden;
+	text-decoration: underline;
+}
+
+body#issue_view td.checkins > a {
+	display: inline-block;
+	overflow: hidden;
+	vertical-align: top;
+}
+
 /* End View Issue Page */
 
 /* Begin Issue Update Page */
