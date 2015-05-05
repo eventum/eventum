@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,10 +22,11 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../init.php';
@@ -37,81 +38,90 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 
-if (@$_GET['cat'] == 'delete_note') {
-    $res = Note::remove($_GET['id']);
+$iss_id = isset($_GET['iss_id']) ? (int)$_GET['iss_id'] : (isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : null);
+$cat = isset($_GET['cat']) ? (string)$_GET['cat'] : (isset($_POST['cat']) ? (string)$_POST['cat'] : null);
+$id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+$status_id = isset($_GET['new_sta_id']) ? (int)$_GET['new_sta_id'] : null;
+$isr_id = isset($_POST['isr_id']) ? (int)$_POST['isr_id'] : null;
+$items = isset($_POST['item']) ? (array)$_POST['item'] : null;
+
+if ($cat == 'delete_note') {
+    $res = Note::remove($id);
     $tpl->assign('note_delete_result', $res);
-} elseif (@$_GET['cat'] == 'delete_time') {
-    $res = Time_Tracking::removeEntry($_GET['id'], $usr_id);
+} elseif ($cat == 'delete_time') {
+    $res = Time_Tracking::removeEntry($id, $usr_id);
     $tpl->assign('time_delete_result', $res);
-} elseif (@$_POST['cat'] == 'bulk_update') {
+} elseif ($cat == 'bulk_update') {
     $res = Issue::bulkUpdate();
     $tpl->assign('bulk_update_result', $res);
-} elseif (@$_POST['cat'] == 'set_initial_impact') {
-    $res = Issue::setImpactAnalysis($_POST['issue_id']);
+} elseif ($cat == 'set_initial_impact') {
+    $res = Issue::setImpactAnalysis($iss_id);
     $tpl->assign('set_initial_impact_result', $res);
-} elseif (@$_POST['cat'] == 'add_requirement') {
-    $res = Impact_Analysis::insert($_POST['issue_id']);
+} elseif ($cat == 'add_requirement') {
+    $res = Impact_Analysis::insert($iss_id);
     $tpl->assign('add_requirement_result', $res);
-} elseif (@$_POST['cat'] == 'set_impact_requirement') {
-    $res = Impact_Analysis::update($_POST['isr_id']);
+} elseif ($cat == 'set_impact_requirement') {
+    $res = Impact_Analysis::update($isr_id);
     $tpl->assign('set_impact_requirement_result', $res);
-} elseif (@$_POST['cat'] == 'delete_requirement') {
+} elseif ($cat == 'delete_requirement') {
     $res = Impact_Analysis::remove();
     $tpl->assign('requirement_delete_result', $res);
-} elseif (@$_POST['cat'] == 'save_filter') {
+} elseif ($cat == 'save_filter') {
     $res = Filter::save();
     $tpl->assign('save_filter_result', $res);
-} elseif (@$_POST['cat'] == 'delete_filter') {
+} elseif ($cat == 'delete_filter') {
     $res = Filter::remove();
     $tpl->assign('delete_filter_result', $res);
-} elseif (@$_POST['cat'] == 'remove_support_email') {
+} elseif ($cat == 'remove_support_email') {
     $res = Support::removeAssociation();
     $tpl->assign('remove_association_result', $res);
-} elseif (@$_GET['cat'] == 'delete_attachment') {
-    $res = Attachment::remove($_GET['id']);
+} elseif ($cat == 'delete_attachment') {
+    $res = Attachment::remove($id);
     $tpl->assign('remove_attachment_result', $res);
-} elseif (@$_GET['cat'] == 'delete_file') {
-    $res = Attachment::removeIndividualFile($_GET['id']);
+} elseif ($cat == 'delete_file') {
+    $res = Attachment::removeIndividualFile($id);
     $tpl->assign('remove_file_result', $res);
-} elseif (@$_POST['cat'] == 'remove_checkin') {
-    $res = SCM::remove($_POST['item']);
+} elseif ($cat == 'remove_checkin') {
+    $res = SCM::remove($items);
     $tpl->assign('remove_checkin_result', $res);
-} elseif (@$_GET['cat'] == 'unassign') {
-    $res = Issue::deleteUserAssociation($_GET['iss_id'], $usr_id);
-    Workflow::handleAssignmentChange($prj_id, $_GET['iss_id'], Auth::getUserID(), Issue::getDetails($_GET['iss_id']), Issue::getAssignedUserIDs($_GET['iss_id']));
+} elseif ($cat == 'unassign') {
+    $res = Issue::deleteUserAssociation($iss_id, $usr_id);
+    Workflow::handleAssignmentChange(
+        $prj_id, $iss_id, Auth::getUserID(), Issue::getDetails($iss_id), Issue::getAssignedUserIDs($iss_id)
+    );
     $tpl->assign('unassign_result', $res);
-} elseif (@$_POST['cat'] == 'remove_email') {
+} elseif ($cat == 'remove_email') {
     $res = Support::removeEmails();
     $tpl->assign('remove_email_result', $res);
-} elseif (@$_GET['cat'] == 'clear_duplicate') {
-    $res = Issue::clearDuplicateStatus($_GET['iss_id']);
+} elseif ($cat == 'clear_duplicate') {
+    $res = Issue::clearDuplicateStatus($iss_id);
     $tpl->assign('clear_duplicate_result', $res);
-} elseif (@$_GET['cat'] == 'delete_phone') {
-    $res = Phone_Support::remove($_GET['id']);
+} elseif ($cat == 'delete_phone') {
+    $res = Phone_Support::remove($id);
     $tpl->assign('delete_phone_result', $res);
-} elseif (@$_GET['cat'] == 'new_status') {
-    $res = Issue::setStatus($_GET['iss_id'], $_GET['new_sta_id'], true);
+} elseif ($cat == 'new_status') {
+    $res = Issue::setStatus($iss_id, $status_id, true);
     if ($res == 1) {
-        History::add($_GET['iss_id'], $usr_id, History::getTypeID('status_changed'),
-                "Issue manually set to status '" . Status::getStatusTitle($_GET['new_sta_id']) . "' by " . User::getFullName($usr_id));
+        History::add($iss_id, $usr_id, History::getTypeID('status_changed'),
+            "Issue manually set to status '" . Status::getStatusTitle($status_id) . "' by " . User::getFullName($usr_id));
     }
     $tpl->assign('new_status_result', $res);
-} elseif (@$_GET['cat'] == 'authorize_reply') {
-    $res = Authorized_Replier::addUser($_GET['iss_id'], $usr_id);
+} elseif ($cat == 'authorize_reply') {
+    $res = Authorized_Replier::addUser($iss_id, $usr_id);
     $tpl->assign('authorize_reply_result', $res);
-} elseif (@$_GET['cat'] == 'remove_quarantine') {
+} elseif ($cat == 'remove_quarantine') {
     if (Auth::getCurrentRole() > User::getRoleID('Developer')) {
-        $res = Issue::setQuarantine($_GET['iss_id'], 0);
+        $res = Issue::setQuarantine($iss_id, 0);
         $tpl->assign('remove_quarantine_result', $res);
     }
-} elseif (@$_GET['cat'] == 'selfnotify') {
-    if (Issue::canAccess($_GET['iss_id'], $usr_id)) {
-        $res = Notification::subscribeUser($usr_id, $_GET['iss_id'], $usr_id, Notification::getDefaultActions($_GET['iss_id']));
+} elseif ($cat == 'selfnotify') {
+    if (Issue::canAccess($iss_id, $usr_id)) {
+        $res = Notification::subscribeUser($usr_id, $iss_id, $usr_id, Notification::getDefaultActions($iss_id));
         $tpl->assign('selfnotify_result', $res);
     }
 }
 
 $tpl->assign('current_user_prefs', Prefs::get($usr_id));
-$tpl->assign('cat', @$_GET['cat']);
+$tpl->assign('cat', $cat);
 
 $tpl->displayTemplate();
