@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -266,11 +266,15 @@ class Phone_Support
     public static function insert()
     {
         $usr_id = Auth::getUserID();
+        $iss_id = (int)$_POST['issue_id'];
+        $date = $_POST['date'];
+
         // format the date from the form
         $created_date = sprintf('%04d-%02d-%02d %02d:%02d:%02d',
-            $_POST['date']['Year'], $_POST['date']['Month'],
-            $_POST['date']['Day'], $_POST['date']['Hour'],
-            $_POST['date']['Minute'], 0);
+            $date['Year'], $date['Month'],
+            $date['Day'], $date['Hour'],
+            $date['Minute'], 0);
+
         // convert the date to GMT timezone
         $created_date = Date_Helper::convertDateGMT($created_date . ' ' . Date_Helper::getPreferredTimezone());
         $stmt = 'INSERT INTO
@@ -294,7 +298,7 @@ class Phone_Support
                     ?, ?
                  )';
         $params = array(
-            $_POST['issue_id'],
+            $iss_id,
             $usr_id,
             $_POST['phone_category'],
             $created_date,
@@ -316,10 +320,10 @@ class Phone_Support
         // enter the time tracking entry about this phone support entry
         $phs_id = DB_Helper::get_last_insert_id();
         $prj_id = Auth::getCurrentProject();
-        $_POST['category'] = Time_Tracking::getCategoryID($prj_id, 'Telephone Discussion');
-        $_POST['time_spent'] = $_POST['call_length'];
-        $_POST['summary'] = ev_gettext('Time entry inserted from phone call.');
-        Time_Tracking::insertEntry();
+        $ttc_id = Time_Tracking::getCategoryId($prj_id, 'Telephone Discussion');
+        $time_spent = (int)$_POST['call_length'];
+        $summary = ev_gettext('Time entry inserted from phone call.');
+        Time_Tracking::addTimeEntry($iss_id, $ttc_id, $time_spent, $date, $summary);
         $stmt = 'SELECT
                     max(ttr_id)
                  FROM
@@ -327,16 +331,16 @@ class Phone_Support
                  WHERE
                     ttr_iss_id = ? AND
                     ttr_usr_id = ?';
-        $ttr_id = DB_Helper::getInstance()->getOne($stmt, array($_POST['issue_id'], $usr_id));
+        $ttr_id = DB_Helper::getInstance()->getOne($stmt, array($iss_id, $usr_id));
 
-        Issue::markAsUpdated($_POST['issue_id'], 'phone call');
+        Issue::markAsUpdated($iss_id, 'phone call');
         // need to save a history entry for this
-        History::add($_POST['issue_id'], $usr_id, History::getTypeID('phone_entry_added'),
-                        ev_gettext('Phone Support entry submitted by %1$s', User::getFullName($usr_id)));
+        $summary = ev_gettext('Phone Support entry submitted by %1$s', User::getFullName($usr_id));
+        History::add($iss_id, $usr_id, History::getTypeID('phone_entry_added'), $summary);
         // XXX: send notifications for the issue being updated (new notification type phone_support?)
 
         // update phone record with time tracking ID.
-        if ((!empty($phs_id)) && (!empty($ttr_id))) {
+        if (!empty($phs_id) && !empty($ttr_id)) {
             $stmt = 'UPDATE
                         {{%phone_support}}
                      SET
@@ -391,7 +395,7 @@ class Phone_Support
         History::add($details['phs_iss_id'], Auth::getUserID(), History::getTypeID('phone_entry_removed'), $summary);
 
         if (!empty($details['phs_ttr_id'])) {
-            $time_result = Time_Tracking::removeEntry($details['phs_ttr_id'], $details['phs_usr_id']);
+            $time_result = Time_Tracking::removeTimeEntry($details['phs_ttr_id'], $details['phs_usr_id']);
             if ($time_result == 1) {
                 return 2;
             }

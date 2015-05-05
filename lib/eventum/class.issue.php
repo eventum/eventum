@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -1296,7 +1296,7 @@ class Issue
             Impact_Analysis::removeByIssues($res);
             self::deleteUserAssociations($res);
             Note::removeByIssues($res);
-            Time_Tracking::removeByIssues($res);
+            Time_Tracking::removeTimeEntriesByIssues($res);
             Notification::removeByIssues($res);
             Custom_Field::removeByIssues($res);
             Phone_Support::removeByIssues($res);

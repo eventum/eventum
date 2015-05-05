@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,10 +22,11 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../init.php';
@@ -265,7 +266,7 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
                     $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
                 }
 
-                $time_entries = Time_Tracking::getListing($issue_id);
+                $time_entries = Time_Tracking::getTimeEntryListing($issue_id);
                 $tpl->assign(array(
                     'notes'              => Note::getListing($issue_id),
                     'is_user_assigned'   => Issue::isAssignedToUser($issue_id, $usr_id),

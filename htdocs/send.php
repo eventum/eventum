@@ -22,10 +22,11 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../init.php';
@@ -72,10 +73,11 @@ if (@$_POST['cat'] == 'send_email') {
     }
     // enter the time tracking entry about this new email
     if (!empty($_POST['time_spent'])) {
-        $_POST['issue_id'] = $issue_id;
-        $_POST['category'] = Time_Tracking::getCategoryID($prj_id, 'Email Discussion');
-        $_POST['summary'] = 'Time entry inserted when sending outgoing email.';
-        Time_Tracking::insertEntry();
+        $date = (array)$_POST['date'];
+        $ttc_id = Time_Tracking::getCategoryId($prj_id, 'Email Discussion');
+        $time_spent = (int)$_POST['time_spent'];
+        $summary = 'Time entry inserted when sending outgoing email.';
+        Time_Tracking::addTimeEntry($issue_id, $ttc_id, $time_spent, $date, $summary);
     }
 } elseif (@$_POST['cat'] == 'save_draft') {
     $res = Draft::saveEmail($issue_id, $_POST['to'], $_POST['cc'], $_POST['subject'], $_POST['message'], $_POST['parent_id']);
@@ -88,10 +90,11 @@ if (@$_POST['cat'] == 'send_email') {
 // enter the time tracking entry about this new email
 if ((@$_POST['cat'] == 'save_draft') || (@$_POST['cat'] == 'update_draft')) {
     if (!empty($_POST['time_spent'])) {
-        $_POST['issue_id'] = $issue_id;
-        $_POST['category'] = Time_Tracking::getCategoryID($prj_id, 'Email Discussion');
-        $_POST['summary'] = 'Time entry inserted when saving an email draft.';
-        Time_Tracking::insertEntry();
+        $date = (array)$_POST['date'];
+        $ttc_id = Time_Tracking::getCategoryId($prj_id, 'Email Discussion');
+        $time_spent = (int)$_POST['time_spent'];
+        $summary = 'Time entry inserted when saving an email draft.';
+        Time_Tracking::addTimeEntry($issue_id, $ttc_id, $time_spent, $date, $summary);
     }
 }
 

@@ -49,7 +49,7 @@ if ($cat == 'delete_note') {
     $res = Note::remove($id);
     $tpl->assign('note_delete_result', $res);
 } elseif ($cat == 'delete_time') {
-    $res = Time_Tracking::removeEntry($id, $usr_id);
+    $res = Time_Tracking::removeTimeEntry($id, $usr_id);
     $tpl->assign('time_delete_result', $res);
 } elseif ($cat == 'bulk_update') {
     $res = Issue::bulkUpdate();

@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -50,16 +50,8 @@ class Time_Tracking
      * @param   string $ttc_title The time tracking category title
      * @return  integer The time tracking category ID
      */
-    public static function getCategoryID($prj_id, $ttc_title = '')
+    public static function getCategoryId($prj_id, $ttc_title)
     {
-        // LEGACY: handle swapped params, i.e one parameter call where
-        // $ttc_title was only arg. This is not needed by Eventum Core, but
-        // kept for the sake of Workflow and Customer integration.
-        if (func_num_args() == 1) {
-            $ttc_title = $prj_id;
-            $prj_id = Auth::getCurrentProject();
-        }
-
         $stmt = 'SELECT
                     ttc_id
                  FROM
@@ -82,7 +74,7 @@ class Time_Tracking
      * @param   integer $ttc_id The time tracking category ID
      * @return  array The details of the category
      */
-    public static function getDetails($ttc_id)
+    public static function getCategoryDetails($ttc_id)
     {
         $stmt = 'SELECT
                     *
@@ -126,12 +118,11 @@ class Time_Tracking
     /**
      * Method used to remove a specific set of time tracking categories
      *
-     * @return  int, 1 on success, -1 on error, -2 if can't remove because time category is being used
+     * @param array $items
+     * @return int, 1 on success, -1 on error, -2 if can't remove because time category is being used
      */
-    public static function remove()
+    public static function removeCategory($items)
     {
-        $items = $_POST['items'];
-
         // check that none of the categories are in use
         $usage = self::getCategoryStats($items);
         foreach ($usage as $count) {
@@ -156,11 +147,14 @@ class Time_Tracking
     /**
      * Method used to update a specific time tracking category
      *
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param int $prj_id project id
+     * @param int $ttc_id time tracking category id
+     * @param string $title
+     * @return int 1 if the update worked, -1 otherwise
      */
-    public static function update()
+    public static function updateCategory($prj_id, $ttc_id, $title)
     {
-        if (Validation::isWhitespace($_POST['title'])) {
+        if (Validation::isWhitespace($title)) {
             return -2;
         }
         $stmt = 'UPDATE
@@ -171,7 +165,7 @@ class Time_Tracking
                     ttc_prj_id=? AND
                     ttc_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['prj_id'], $_POST['id']));
+            DB_Helper::getInstance()->query($stmt, array($title, $prj_id, $ttc_id));
         } catch (DbException $e) {
             return -1;
         }
@@ -186,7 +180,7 @@ class Time_Tracking
      * @param   string $title The title of the time tracking category
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public static function insert($prj_id, $title)
+    public static function insertCategory($prj_id, $title)
     {
         if (Validation::isWhitespace($title)) {
             return -2;
@@ -220,7 +214,7 @@ class Time_Tracking
     {
         $res = 1;
         foreach (self::$default_categories as $title) {
-            $res = min($res, self::insert($prj_id, $title));
+            $res = min($res, self::insertCategory($prj_id, $title));
         }
 
         return $res;
@@ -233,7 +227,7 @@ class Time_Tracking
      * @param   integer $prj_id The project ID
      * @return  array The list of categories
      */
-    public static function getList($prj_id)
+    public static function getCategoryList($prj_id)
     {
         $stmt = 'SELECT
                     ttc_id,
@@ -250,7 +244,7 @@ class Time_Tracking
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
-            return '';
+            return null;
         }
 
         $ttc_usage = self::getCategoryStats(Misc::collect('ttc_id', $res));
@@ -293,11 +287,9 @@ class Time_Tracking
     /**
      * Method used to get the time spent on a given list of issues.
      *
-     * FIXME: bad prefix: should not be called "getXXX" if it modifies $result, not returns it (updateXXX perhaps)
-     *
      * @param   array $result The result set
      */
-    public static function getTimeSpentByIssues(&$result)
+    public static function fillTimeSpentByIssues(&$result)
     {
         $ids = array();
         foreach ($result as $res) {
@@ -359,7 +351,7 @@ class Time_Tracking
      * @param   integer $issue_id The issue ID
      * @return  array The full list of time entries
      */
-    public static function getListing($issue_id)
+    public static function getTimeEntryListing($issue_id)
     {
         $stmt = 'SELECT
                     ttr_id,
@@ -428,7 +420,7 @@ class Time_Tracking
      * @param   array $ids The list of issues
      * @return  boolean
      */
-    public static function removeByIssues($ids)
+    public static function removeTimeEntriesByIssues($ids)
     {
         $stmt = 'DELETE FROM
                     {{%time_tracking}}
@@ -450,7 +442,7 @@ class Time_Tracking
      * @param   integer $usr_id The user ID of the person trying to remove this entry
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public static function removeEntry($time_id, $usr_id)
+    public static function removeTimeEntry($time_id, $usr_id)
     {
         $stmt = 'SELECT
                     ttr_iss_id issue_id,
@@ -486,21 +478,27 @@ class Time_Tracking
     /**
      * Method used to add a new time entry in the system.
      *
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param int $iss_id issue id the time entry is associated with
+     * @param int $ttc_id time tracking category id
+     * @param int $time_spent time spent in minutes
+     * @param array $date date structure
+     * @param string $summary summary about time tracking entry
+     * @return int 1 if the update worked, -1 otherwise
      */
-    public static function insertEntry()
+    public static function addTimeEntry($iss_id, $ttc_id, $time_spent, $date, $summary)
     {
-        if (!empty($_POST['date'])) {
+        if ($date) {
             // format the date from the form
             $created_date = sprintf('%04d-%02d-%02d %02d:%02d:%02d',
-                $_POST['date']['Year'], $_POST['date']['Month'],
-                $_POST['date']['Day'], $_POST['date']['Hour'],
-                $_POST['date']['Minute'], 0);
+                $date['Year'], $date['Month'],
+                $date['Day'], $date['Hour'],
+                $date['Minute'], 0);
             // convert the date to GMT timezone
             $created_date = Date_Helper::convertDateGMT($created_date . ' ' . Date_Helper::getPreferredTimezone());
         } else {
             $created_date = Date_Helper::getCurrentDateGMT();
         }
+
         $usr_id = Auth::getUserID();
         $stmt = 'INSERT INTO
                     {{%time_tracking}}
@@ -515,12 +513,12 @@ class Time_Tracking
                     ?, ?, ?, ?, ?, ?
                  )';
         $params = array(
-            $_POST['category'],
-            $_POST['issue_id'],
+            $ttc_id,
+            $iss_id,
             $usr_id,
             $created_date,
-            $_POST['time_spent'],
-            $_POST['summary'],
+            $time_spent,
+            $summary,
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -528,9 +526,9 @@ class Time_Tracking
             return -1;
         }
 
-        Issue::markAsUpdated($_POST['issue_id'], 'time added');
-        // need to save a history entry for this
-        History::add($_POST['issue_id'], $usr_id, History::getTypeID('time_added'), ev_gettext('Time tracking entry submitted by %1$s', User::getFullName($usr_id)));
+        Issue::markAsUpdated($iss_id, 'time added');
+        $summary = ev_gettext('Time tracking entry submitted by %1$s', User::getFullName($usr_id));
+        History::add($iss_id, $usr_id, History::getTypeID('time_added'), $summary);
 
         return 1;
     }
@@ -545,7 +543,7 @@ class Time_Tracking
      * @param   integer $time_spent The time spent in minutes
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    public static function recordRemoteEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent)
+    public static function recordRemoteTimeEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent)
     {
         $stmt = 'INSERT INTO
                     {{%time_tracking}}
@@ -568,7 +566,7 @@ class Time_Tracking
             $summary,
         );
         try {
-            $res = DB_Helper::getInstance()->query($stmt, $params);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
@@ -587,7 +585,7 @@ class Time_Tracking
      * @param int $prj_id The project id
      * @param string $start The datetime of the beginning of the report.
      * @param string $end The datetime of the end of this report.
-     * @return array An array of data containing information about time trackinge
+     * @return array An array of data containing information about time tracking
      */
     public static function getSummaryByUser($usr_id, $prj_id, $start, $end)
     {

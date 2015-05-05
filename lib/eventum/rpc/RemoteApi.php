@@ -283,7 +283,7 @@ class RemoteApi
     {
         $usr_id = Auth::getUserID();
 
-        $res = Time_Tracking::recordRemoteEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent);
+        $res = Time_Tracking::recordRemoteTimeEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent);
         if ($res == -1) {
             throw new RemoteApiException('Could not record the time tracking entry');
         }

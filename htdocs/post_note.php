@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,8 +22,10 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
+// +----------------------------------------------------------------------+
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../init.php';
@@ -75,14 +77,15 @@ if (@$_GET['cat'] == 'post_result' && !empty($_GET['post_result'])) {
 
     // enter the time tracking entry about this phone support entry
     if (!empty($_POST['time_spent'])) {
-        $_POST['issue_id'] = $issue_id;
-        $_POST['category'] = $_POST['time_category'];
         if (isset($_POST['time_summary']) && !empty($_POST['time_summary'])) {
-            $_POST['summary'] = $_POST['time_summary'];
+            $summary = (string)$_POST['time_summary'];
         } else {
-            $_POST['summary'] = 'Time entry inserted when sending an internal note.';
+            $summary = 'Time entry inserted when sending an internal note.';
         }
-        Time_Tracking::insertEntry();
+        $date = (array)$_POST['date'];
+        $ttc_id = (int)$_POST['time_category'];
+        $time_spent = (int)$_POST['time_spent'];
+        Time_Tracking::addTimeEntry($issue_id, $ttc_id, $time_spent, $date, $summary);
     }
 
     Auth::redirect("post_note.php?cat=post_result&issue_id=$issue_id&post_result={$res}");
@@ -112,7 +115,7 @@ $tpl->assign(array(
     'statuses'           => Status::getAssocStatusList($prj_id, false),
     'current_issue_status'  =>  Issue::getStatusID($issue_id),
     'time_categories'    => Time_Tracking::getAssocCategories($prj_id),
-    'note_category_id'   => Time_Tracking::getCategoryID($prj_id, 'Note Discussion'),
+    'note_category_id'   => Time_Tracking::getCategoryId($prj_id, 'Note Discussion'),
     'reply_subject'      => $reply_subject,
     'issue_fields'       => Issue_Field::getDisplayData($issue_id, 'post_note'),
 ));

@@ -125,7 +125,7 @@ class Report
             return '';
         }
 
-        Time_Tracking::getTimeSpentByIssues($res);
+        Time_Tracking::fillTimeSpentByIssues($res);
         $issues = array();
         foreach ($res as &$row) {
             if (empty($row['iss_updated_date'])) {
@@ -208,7 +208,7 @@ class Report
             return '';
         }
 
-        Time_Tracking::getTimeSpentByIssues($res);
+        Time_Tracking::fillTimeSpentByIssues($res);
         $issues = array();
         foreach ($res as &$row) {
             if (empty($row['iss_updated_date'])) {
@@ -283,7 +283,7 @@ class Report
             return '';
         }
 
-        Time_Tracking::getTimeSpentByIssues($res);
+        Time_Tracking::fillTimeSpentByIssues($res);
         $issues = array();
         foreach ($res as $row) {
             $issues[$row['usr_full_name']][$row['iss_id']] = array(

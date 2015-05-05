@@ -5,7 +5,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003, 2004, 2005, 2006 MySQL AB                        |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -21,7 +21,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
@@ -426,7 +426,7 @@ class Search
 
         if (count($res) > 0) {
             Issue::getAssignedUsersByIssues($res);
-            Time_Tracking::getTimeSpentByIssues($res);
+            Time_Tracking::fillTimeSpentByIssues($res);
             // need to get the customer titles for all of these issues...
             if (CRM::hasCustomerIntegration($prj_id)) {
                 $crm = CRM::getInstance($prj_id);
