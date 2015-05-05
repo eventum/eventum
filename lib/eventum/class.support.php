@@ -1070,7 +1070,7 @@ class Support
             'sup_ema_id' => $row['ema_id'],
             'sup_iss_id' => $row['issue_id'],
             'sup_customer_id' => $row['customer_id'],
-            'sup_message_id' => $row['message_id'],
+            'sup_message_id' => $row['message_id'] ?: '',
             'sup_date' => $row['date'],
             'sup_from' => $row['from'],
             'sup_to' => $row['to'],
