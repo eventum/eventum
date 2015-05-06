@@ -16,6 +16,9 @@ phpcompatinfo := $(call find_tool, phpcompatinfo)
 all:
 	@echo 'Run "make install" to install eventum.'
 
+pot:
+	$(MAKE) -C localization pot
+
 install: install-eventum install-cli install-irc install-scm
 
 dist:
