@@ -125,7 +125,7 @@ if (@$_GET['cat'] == 'view_draft') {
 } elseif (@$_GET['cat'] == 'create_draft') {
     $tpl->assign('hide_email_buttons', 'yes');
 } else {
-    if (!@empty($_GET['id'])) {
+    if (!empty($_GET['id'])) {
         $email = Support::getEmailDetails($_GET['ema_id'], $_GET['id']);
         $header = Misc::formatReplyPreamble($email['timestamp'], $email['sup_from']);
         $email['seb_body'] = $header . Misc::formatReply($email['seb_body']);
@@ -160,7 +160,7 @@ if (!empty($issue_id)) {
     $tpl->assign('can_send_email', Support::isAllowedToEmail($issue_id, $sender_details['usr_email']));
     $tpl->assign('subscribers', Notification::getSubscribers($issue_id, 'emails'));
 }
-if ((!@empty($_GET['ema_id'])) || (!@empty($_POST['ema_id']))) {
+if ((!empty($_GET['ema_id'])) || (!empty($_POST['ema_id']))) {
     @$tpl->assign('ema_id', $_GET['ema_id'] ? $_GET['ema_id'] : $_POST['ema_id']);
 }
 

@@ -56,7 +56,7 @@ if (@$_GET['cat'] == 'post_result' && !empty($_GET['post_result'])) {
     $tpl->assign('post_result', $res);
 } elseif (@$_POST['cat'] == 'post_note') {
     // change status
-    if (!@empty($_POST['new_status'])) {
+    if (!empty($_POST['new_status'])) {
         $res = Issue::setStatus($issue_id, $_POST['new_status']);
         if ($res != -1) {
             $new_status = Status::getStatusTitle($_POST['new_status']);
@@ -90,7 +90,7 @@ if (@$_GET['cat'] == 'post_result' && !empty($_GET['post_result'])) {
 
     Auth::redirect("post_note.php?cat=post_result&issue_id=$issue_id&post_result={$res}");
 } elseif (@$_GET['cat'] == 'reply') {
-    if (!@empty($_GET['id'])) {
+    if (!empty($_GET['id'])) {
         $note = Note::getDetails($_GET['id']);
         $header = Misc::formatReplyPreamble($note['timestamp'], $note['not_from']);
         $note['not_body'] = $header . Misc::formatReply($note['not_note']);
