@@ -273,7 +273,8 @@ class XmlRpcServer
             $res = $method->invokeArgs($this->api, $params);
         } catch (Exception $e) {
             global $XML_RPC_erruser;
-            $res = new XML_RPC_Response(0, $XML_RPC_erruser + 1, $e->getMessage());
+            $code = $e->getCode() ?: 1;
+            $res = new XML_RPC_Response(0, $XML_RPC_erruser + $code, $e->getMessage());
         }
 
         if (!$res instanceof XML_RPC_Response) {
