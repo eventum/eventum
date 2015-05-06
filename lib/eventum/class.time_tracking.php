@@ -527,8 +527,10 @@ class Time_Tracking
         }
 
         Issue::markAsUpdated($iss_id, 'time added');
-        $summary = ev_gettext('Time tracking entry submitted by %1$s', User::getFullName($usr_id));
-        History::add($iss_id, $usr_id, History::getTypeID('time_added'), $summary);
+        $context = array(
+            'subject' => User::getFullName($usr_id)
+        );
+        History::add($iss_id, $usr_id, 'time_added', 'Time tracking entry submitted by {subject}', $context);
 
         return 1;
     }

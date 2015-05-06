@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -58,18 +58,24 @@ class History
     /**
      * Method used to log the changes made against a specific issue.
      *
-     * @param   integer $iss_id The issue ID
-     * @param   integer $usr_id The ID of the user.
-     * @param   integer $htt_id The type ID of this history event.
-     * @param   string $summary The summary of the changes
+     * @param integer $iss_id The issue ID
+     * @param integer $usr_id The ID of the user.
+     * @param integer|string $htt_id The type ID of this history event.
+     * @param string $summary The summary of the changes
+     * @param array $context parameters used in summary
      */
-    public static function add($iss_id, $usr_id, $htt_id, $summary)
+    public static function add($iss_id, $usr_id, $htt_id, $summary, $context = array())
     {
+        if (!is_numeric($htt_id)) {
+            $htt_id = History::getTypeID($htt_id);
+        }
+
         $params = array(
             'his_iss_id' => $iss_id,
             'his_usr_id' => $usr_id,
             'his_created_date' => Date_Helper::getCurrentDateGMT(),
             'his_summary' => $summary,
+            'his_context' => json_encode($context),
             'his_htt_id' => $htt_id,
         );
 
@@ -112,6 +118,7 @@ class History
 
         foreach ($res as &$row) {
             $row['his_created_date'] = Date_Helper::getFormattedDate($row['his_created_date']);
+            $row['his_summary'] = Misc::processTokens($row['his_summary'], $row['his_context']);
         }
 
         return $res;
@@ -139,6 +146,7 @@ class History
 
         return true;
     }
+
 
     /**
      * Returns the id for the history type based on name.

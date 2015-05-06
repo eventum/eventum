@@ -366,7 +366,7 @@ class Note
         Issue::markAsUpdated($issue_id, 'note');
         if ($log) {
             // need to save a history entry for this
-            History::add($issue_id, $usr_id, History::getTypeID('note_added'), 'Note added by ' . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, 'note_added', 'Note added by {subject}', array('subject' => User::getFullName($usr_id)));
         }
         // send notifications for the issue being updated
         if ($send_notification) {

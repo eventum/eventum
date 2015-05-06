@@ -928,10 +928,21 @@ class Misc
      * @param  array $context
      * @return string
      */
-    public static function processTokens($message, array $context)
+    public static function processTokens($message, $context)
     {
+        // shortcut out
         if (false === strpos($message, '{')) {
             return $message;
+        }
+
+        // handle empty context
+        if (!$context) {
+            $context = array();
+        }
+
+        // handle raw data from database (json encoded)
+        if (!is_array($context)) {
+            $context = json_decode($context, true);
         }
 
         $replacements = array();
