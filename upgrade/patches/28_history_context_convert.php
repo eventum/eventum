@@ -6,6 +6,15 @@
 /** @var DbInterface $db */
 $res = $db->getAll("select his_id,his_summary from eventum_issue_history where his_context='' limit 10");
 
+# initial pattern list extracted using xgettext:
+# $ grep -rl History::add lib htdocs | xargs sed -i -e 's/History::add/History__add/g'; \
+# $ find -name '*.php' | grep -v localization | xgettext -L PHP --files-from=- --keyword=History__add:4
+# and then some sed magic:
+# :%s#\([(.)]\)#\\\1#g
+# :%s#{\([^}]\+\)}#(?P<\1>.+)#g
+# :%s#^msgid "#"/^#
+# :%s#"$#$/",
+#
 $patterns = array(
     '/^Note added by (?P<subject>.+)$/',
     '/^Issue opened by (?P<subject>.+)$/',
