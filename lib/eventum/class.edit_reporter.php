@@ -7,7 +7,7 @@
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
 // | Copyright (c) 2011 - 2011 Anderson.net New Zealand                   |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -68,8 +68,11 @@ class Edit_Reporter
 
         if ($add_history) {
             // TRANSLATORS: %1: email, %2: full name
-            $summary = ev_gettext('Reporter was changed to %1$s  by %2$s', $email, User::getFullName(Auth::getUserID()));
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_updated'), $summary);
+            $current_usr_id = Auth::getUserID();
+            History::add($issue_id, $current_usr_id, 'issue_updated', 'Reporter was changed to {email}  by {user}', array(
+                'email' => $email,
+                'user' => User::getFullName($current_usr_id)
+            ));
         }
 
         // Add new user to notification list

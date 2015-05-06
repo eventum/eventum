@@ -335,8 +335,9 @@ class Phone_Support
 
         Issue::markAsUpdated($iss_id, 'phone call');
         // need to save a history entry for this
-        $summary = ev_gettext('Phone Support entry submitted by %1$s', User::getFullName($usr_id));
-        History::add($iss_id, $usr_id, History::getTypeID('phone_entry_added'), $summary);
+        History::add($iss_id, $usr_id, 'phone_entry_added', 'Phone Support entry submitted by {user}', array(
+            'user' => User::getFullName($usr_id),
+        ));
         // XXX: send notifications for the issue being updated (new notification type phone_support?)
 
         // update phone record with time tracking ID.
@@ -390,9 +391,10 @@ class Phone_Support
         }
 
         Issue::markAsUpdated($details['phs_iss_id']);
-        // need to save a history entry for this
-        $summary = ev_gettext('Phone Support entry removed by %1$s', User::getFullName(Auth::getUserID()));
-        History::add($details['phs_iss_id'], Auth::getUserID(), History::getTypeID('phone_entry_removed'), $summary);
+        $usr_id = Auth::getUserID();
+        History::add($details['phs_iss_id'], $usr_id, 'phone_entry_removed', 'Phone Support entry removed by {user}', array(
+            'user' => User::getFullName($usr_id)
+        ));
 
         if (!empty($details['phs_ttr_id'])) {
             $time_result = Time_Tracking::removeTimeEntry($details['phs_ttr_id'], $details['phs_usr_id']);

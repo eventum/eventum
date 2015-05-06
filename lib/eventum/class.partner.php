@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2011-2014 Eventum Team         .                       |
+// | Copyright (c) 2011-2015 Eventum Team         .                       |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -20,7 +20,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
@@ -116,8 +116,11 @@ class Partner
             $backend = self::getBackend($par_code);
             $backend->issueAdded($iss_id);
 
-            $summary = ev_gettext('Partner "%1$s" added to issue by %1$s', $backend->getName(), User::getFullName(Auth::getUserID()));
-            History::add($iss_id, Auth::getUserID(), History::getTypeID('partner_added'), $summary);
+            $usr_id = Auth::getUserID();
+            History::add($iss_id, $usr_id, 'partner_added', "Partner '{partner}' added to issue by {user}", array(
+                'partner' => $backend->getName(),
+                'user' => User::getFullName($usr_id)
+            ));
         }
 
         return true;
@@ -139,8 +142,11 @@ class Partner
         $backend = self::getBackend($par_code);
         $backend->issueRemoved($iss_id);
 
-        History::add($iss_id, Auth::getUserID(), History::getTypeID('partner_removed'),
-            "Partner '" . $backend->getName() . "' removed from issue by " . User::getFullName(Auth::getUserID()));
+        $usr_id = Auth::getUserID();
+        History::add($iss_id, $usr_id, 'partner_removed', "Partner '{partner}' removed from issue by {user}", array(
+            'partner' => $backend->getName(),
+            'user' => User::getFullName($usr_id)
+        ));
 
         return true;
     }

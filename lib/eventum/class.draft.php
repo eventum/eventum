@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -117,7 +117,9 @@ class Draft
         }
         Issue::markAsUpdated($issue_id, 'draft saved');
         if ($add_history_entry) {
-            History::add($issue_id, $usr_id, History::getTypeID('draft_added'), ev_gettext('Email message saved as a draft by %1$s', User::getFullName($usr_id)));
+            History::add($issue_id, $usr_id, 'draft_added', 'Email message saved as a draft by {user}', array(
+                'user' => User::getFullName($usr_id)
+            ));
         }
 
         return 1;
@@ -158,7 +160,9 @@ class Draft
         }
 
         Issue::markAsUpdated($issue_id, 'draft saved');
-        History::add($issue_id, $usr_id, History::getTypeID('draft_updated'), ev_gettext('Email message draft updated by %1$s', User::getFullName($usr_id)));
+        History::add($issue_id, $usr_id, 'draft_updated', 'Email message draft updated by {user}', array(
+            'user' => User::getFullName($usr_id))
+        );
         self::saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id, false, false);
 
         return 1;

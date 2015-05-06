@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -127,8 +127,11 @@ class Authorized_Replier
                 return -1;
             }
 
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('replier_removed'),
-                            "Authorized replier $replier removed by " . User::getFullName(Auth::getUserID()));
+            $usr_id = Auth::getUserID();
+            History::add($issue_id, $usr_id, 'replier_removed', "Authorized replier {replier} removed by {user}", array(
+                'replier' => $replier,
+                'user' => User::getFullName($usr_id)
+            ));
 
             return 1;
         }
@@ -140,6 +143,7 @@ class Authorized_Replier
      * @param   integer $issue_id The id of the issue.
      * @param   string $email The email of the user.
      * @param   boolean $add_history If this should be logged.
+     * @return int
      */
     public static function manualInsert($issue_id, $email, $add_history = true)
     {
@@ -177,8 +181,11 @@ class Authorized_Replier
 
             if ($add_history) {
                 // add the change to the history of the issue
-                $summary = $email . ' added to the authorized repliers list by ' . User::getFullName(Auth::getUserID());
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('replier_other_added'), $summary);
+                $usr_id = Auth::getUserID();
+                History::add($issue_id, $usr_id, 'replier_other_added', '{email} added to the authorized repliers list by {user}', array(
+                    'email' => $email,
+                    'user' => User::getFullName($usr_id)
+                ));
             }
 
             return 1;
@@ -215,8 +222,11 @@ class Authorized_Replier
 
         if ($add_history) {
             // add the change to the history of the issue
-            $summary = User::getFullName($usr_id) . ' added to the authorized repliers list by ' . User::getFullName(Auth::getUserID());
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('replier_added'), $summary);
+            $current_usr_id = Auth::getUserID();
+            History::add($issue_id, $current_usr_id, 'replier_added', '{other_user} added to the authorized repliers list by {user}', array(
+                'other_user' => User::getFullName($usr_id),
+                'user' => User::getFullName($current_usr_id)
+            ));
         }
 
         return 1;
@@ -364,8 +374,10 @@ class Authorized_Replier
         $res = self::manualInsert($issue_id, $replier, false);
         if ($res != -1) {
             // save a history entry about this...
-            History::add($issue_id, $usr_id, History::getTypeID('remote_replier_added'),
-                            $replier . ' remotely added to authorized repliers by ' . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, 'remote_replier_added', '{replier} remotely added to authorized repliers by {user}', array(
+                'replier' => $replier,
+                'user' => User::getFullName($usr_id),
+            ));
         }
 
         return $res;

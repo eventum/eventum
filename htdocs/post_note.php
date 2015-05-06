@@ -56,12 +56,15 @@ if (@$_GET['cat'] == 'post_result' && !empty($_GET['post_result'])) {
     $tpl->assign('post_result', $res);
 } elseif (@$_POST['cat'] == 'post_note') {
     // change status
-    if (!empty($_POST['new_status'])) {
-        $res = Issue::setStatus($issue_id, $_POST['new_status']);
+    $status = isset($_POST['new_status']) ? (int)$_POST['new_status'] : null;
+    if ($status) {
+        $res = Issue::setStatus($issue_id, $status);
         if ($res != -1) {
-            $new_status = Status::getStatusTitle($_POST['new_status']);
-            History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to '$new_status' by " .
-                User::getFullName($usr_id) . ' when sending a note');
+            $new_status = Status::getStatusTitle($status);
+            History::add($issue_id, $usr_id, 'status_changed', "Status changed to '{status}' by {user} when sending a note", array(
+                'status' => $new_status,
+                'user' => User::getFullName($usr_id)
+            ));
         }
     }
 

@@ -300,8 +300,12 @@ class Issue
             return -1;
         }
 
-        // log this
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('contract_changed'), "Contract changed from $old_contract_id to $contract_id by " . User::getFullName(Auth::getUserID()));
+        $usr_id = Auth::getUserID();
+        History::add($issue_id, $usr_id, 'contract_changed', "Contract changed from {old_contract_id} to {contract_id} by {user}", array(
+            'old_contract_id' => $old_contract_id,
+            'contract_id' => $contract_id,
+            'user' => User::getFullName($usr_id)
+        ));
 
         return 1;
     }
@@ -384,8 +388,10 @@ class Issue
         self::deleteUserAssociations($issue_id, $usr_id);
         $res = self::addUserAssociation($usr_id, $issue_id, $assignee, false);
         if ($res != -1) {
-            // save a history entry about this...
-            History::add($issue_id, $usr_id, History::getTypeID('remote_assigned'), 'Issue remotely assigned to ' . User::getFullName($assignee) . ' by ' . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, 'remote_assigned', 'Issue remotely assigned to {assignee} by {user}', array(
+                'assignee' => User::getFullName($assignee),
+                'user' =>User::getFullName($usr_id),
+            ));
             Notification::subscribeUser($usr_id, $issue_id, $assignee, Notification::getDefaultActions($issue_id, User::getEmail($assignee), 'remote_assign'), false);
             if ($assignee != $usr_id) {
                 Notification::notifyNewAssignment(array($assignee), $issue_id);
@@ -468,7 +474,10 @@ class Issue
         $res = self::setStatus($issue_id, $sta_id);
         if ($res == 1) {
             // record history entry
-            History::add($issue_id, $usr_id, History::getTypeID('remote_status_change'), "Status remotely changed to '$new_status' by " . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, 'remote_status_change', "Status remotely changed to '{status}' by {user}", array(
+                'status' => $new_status,
+                'user' => User::getFullName($usr_id)
+            ));
         }
 
         return $res;
@@ -644,7 +653,10 @@ class Issue
 
             $usr_id = Auth::getUserID();
             Notification::notifyIssueUpdated($issue_id, array('iss_expected_resolution_date' => $current), array('expected_resolution_date' => $expected_resolution_date));
-            History::add($issue_id, $usr_id, History::getTypeID('issue_updated'), 'Issue updated (Expected Resolution Date: ' . History::formatChanges($current, $expected_resolution_date) . ') by ' . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, 'issue_updated', 'Issue updated (Expected Resolution Date: {changes}) by {user}', array(
+                'changes' => History::formatChanges($current, $expected_resolution_date),
+                'user' => User::getFullName($usr_id)
+            ));
 
             return 1;
         }
@@ -960,9 +972,11 @@ class Issue
         $usr_id = Auth::getUserID();
         $full_name = User::getFullName($usr_id);
         $htt_id = History::getTypeID('duplicate_update');
-        $summary = "The details for issue #$issue_id were updated by {$full_name} and the changes propagated to the duplicated issues.";
         foreach ($ids as $iss_id) {
-            History::add($iss_id, $usr_id, $htt_id, $summary);
+            History::add($iss_id, $usr_id, $htt_id, "The details for issue #{issue_id} were updated by {user} and the changes propagated to the duplicated issues.", array(
+                'issue_id' => $issue_id,
+                'user' => $full_name,
+            ));
         }
 
         return 1;
@@ -1052,7 +1066,10 @@ class Issue
         }
 
         // record the change
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_removed'), 'Duplicate flag was reset by ' . User::getFullName(Auth::getUserID()));
+        $usr_id = Auth::getUserID();
+        History::add($issue_id, $usr_id, 'duplicate_removed', 'Duplicate flag was reset by {user}', array(
+            'user' => User::getFullName($usr_id)
+        ));
 
         return 1;
     }
@@ -1069,6 +1086,8 @@ class Issue
             return -1;
         }
 
+        $dup_iss_id = (int)$_POST['duplicated_issue'];
+
         $stmt = "UPDATE
                     {{%issue}}
                  SET
@@ -1078,22 +1097,26 @@ class Issue
                     iss_duplicated_iss_id=?
                  WHERE
                     iss_id=?";
-        $params = array(Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $_POST['duplicated_issue'], $issue_id);
+        $params = array(Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $dup_iss_id, $issue_id);
         try {
-            $res = DB_Helper::getInstance()->query($stmt, $params);
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
         }
+
+        $usr_id = Auth::getUserID();
 
         if (!empty($_POST['comments'])) {
             // add note with the comments of marking an issue as a duplicate of another one
             $_POST['title'] = 'Issue duplication comments';
             $_POST['note'] = $_POST['comments'];
-            Note::insert(Auth::getUserID(), $issue_id);
+            Note::insert($usr_id, $issue_id);
         }
         // record the change
-        $summary = 'Issue marked as a duplicate of issue #' . $_POST['duplicated_issue'] . ' by ' . User::getFullName(Auth::getUserID());
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('duplicate_added'), $summary);
+        History::add($issue_id, $usr_id, 'duplicate_added', 'Issue marked as a duplicate of issue #{issue_id} by {user}', array(
+            'issue_id' => $dup_iss_id,
+            'user' => User::getFullName($usr_id)
+        ));
 
         return 1;
     }
@@ -1229,7 +1252,7 @@ class Issue
 
         $issue_id = DB_Helper::get_last_insert_id();
         // log the creation of the issue
-        History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('issue_opened_anon'), 'Issue opened anonymously');
+        History::add($issue_id, APP_SYSTEM_USER_ID, 'issue_opened_anon', 'Issue opened anonymously');
 
         // process any files being uploaded
         // TODO: handle ajax uploads
@@ -1357,8 +1380,10 @@ class Issue
         $prj_id = self::getProjectID($issue_id);
 
         // record the change
-        $summary = "Issue updated to status '" . Status::getStatusTitle($status_id) . "' by " . User::getFullName($usr_id);
-        History::add($issue_id, $usr_id, History::getTypeID('issue_closed'), $summary);
+        History::add($issue_id, $usr_id, 'issue_closed', "Issue updated to status '{status}' by {user}", array(
+            'status' => Status::getStatusTitle($status_id),
+            'user' => User::getFullName($usr_id)
+        ));
 
         if ($send_notification_to == 'all') {
             $from = User::getFromHeader($usr_id);
@@ -1638,17 +1663,20 @@ class Issue
                 }
                 $i++;
             }
-            $summary = "Issue updated ($changes) by " . User::getFullName($usr_id);
-            History::add($issue_id, $usr_id, History::getTypeID('issue_updated'), $summary);
+            History::add($issue_id, $usr_id, 'issue_updated', "Issue updated ({changes}) by {user}", array(
+                'changes' => $changes,
+                'user' => User::getFullName($usr_id)
+            ));
             // send notifications for the issue being updated
             Notification::notifyIssueUpdated($issue_id, $current, $_POST);
         }
 
         // record group change as a seperate change
         if ($current['iss_grp_id'] != (int) $_POST['group']) {
-            $changes = History::formatChanges(Group::getName($current['iss_grp_id']), Group::getName($_POST['group']));
-            $summary = 'Group changed (' . $changes . ') by ' . User::getFullName($usr_id);
-            History::add($issue_id, $usr_id, History::getTypeID('group_changed'), $summary);
+            History::add($issue_id, $usr_id, 'group_changed', 'Group changed ({changes}) by {user}', array(
+                'changes' => History::formatChanges(Group::getName($current['iss_grp_id']), Group::getName($_POST['group'])),
+                'user' => User::getFullName($usr_id),
+            ));
         }
 
         // now update any duplicates, if any
@@ -1771,7 +1799,10 @@ class Issue
                     ?, ?
                  )';
         DB_Helper::getInstance()->query($stmt, array($issue_id, $associated_id));
-        History::add($issue_id, $usr_id, History::getTypeID('issue_associated'), "Issue associated to Issue #$associated_id by " . User::getFullName($usr_id));
+        History::add($issue_id, $usr_id, 'issue_associated', "Issue associated to Issue #{associated_id} by {user}", array(
+            'associated_id' => $associated_id,
+            'user' => User::getFullName($usr_id)
+        ));
         // link the associated issue back to this one
         if ($link_issues) {
             self::addAssociation($associated_id, $issue_id, $usr_id, false);
@@ -1798,8 +1829,9 @@ class Issue
 
         DB_Helper::getInstance()->query($stmt, $params);
         if ($usr_id) {
-            $summary = 'Issue associations removed by ' . User::getFullName($usr_id);
-            History::add($issue_id, $usr_id, History::getTypeID('issue_all_unassociated'), $summary);
+            History::add($issue_id, $usr_id, 'issue_all_unassociated', 'Issue associations removed by {user}', array(
+                'user' => User::getFullName($usr_id)
+            ));
         }
     }
 
@@ -1827,11 +1859,15 @@ class Issue
         $usr_id = Auth::getUserID();
         $full_name = User::getFullName($usr_id);
 
-        $summary = "Issue association to Issue #$associated_id removed by " . $full_name;
-        History::add($issue_id, $usr_id, History::getTypeID('issue_unassociated'), $summary);
+        History::add($issue_id, $usr_id, 'issue_unassociated', "Issue association to Issue #{issue_id} removed by {user}", array(
+            'issue_id' => $associated_id,
+            'user' => $full_name
+        ));
 
-        $summary = "Issue association to Issue #$issue_id removed by " . $full_name;
-        History::add($associated_id, $usr_id, History::getTypeID('issue_unassociated'), $summary);
+        History::add($associated_id, $usr_id, 'issue_unassociated', "Issue association to Issue #{issue_id} removed by {user}", array(
+            'issue_id' => $issue_id,
+            'user' => $full_name
+        ));
     }
 
     /**
@@ -1862,8 +1898,10 @@ class Issue
         }
 
         if ($add_history) {
-            $summary = 'Issue assigned to ' . User::getFullName($assignee_usr_id) . ' by ' . User::getFullName($usr_id);
-            History::add($issue_id, $usr_id, History::getTypeID('user_associated'), $summary);
+            History::add($issue_id, $usr_id, 'user_associated', 'Issue assigned to {assignee} by {user}', array(
+                'assignee' => User::getFullName($assignee_usr_id),
+                'user' => User::getFullName($usr_id)
+            ));
         }
 
         return 1;
@@ -1892,8 +1930,9 @@ class Issue
         }
 
         if ($usr_id) {
-            $summary = 'Issue assignments removed by ' . User::getFullName($usr_id);
-            History::add($issue_id, $usr_id, History::getTypeID('user_all_unassociated'), $summary);
+            History::add($issue_id, $usr_id, 'user_all_unassociated', 'Issue assignments removed by {user}', array(
+                'user' => User::getFullName($usr_id)
+            ));
         }
 
         return 1;
@@ -1921,8 +1960,11 @@ class Issue
         }
 
         if ($add_history) {
-            $summary = User::getFullName($usr_id) . ' removed from issue by ' . User::getFullName(Auth::getUserID());
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('user_unassociated'), $summary);
+            $current_usr_id = Auth::getUserID();
+            History::add($issue_id, $current_usr_id, 'user_unassociated', '{other_user} removed from issue by {user}', array(
+                'other_user' => User::getFullName($usr_id),
+                'user' => User::getFullName($current_usr_id),
+            ));
         }
 
         return 1;
@@ -2035,7 +2077,9 @@ class Issue
 
         $has_RR = false;
         // log the creation of the issue
-        History::add($issue_id, $usr_id, History::getTypeID('issue_opened'), 'Issue opened by ' . $sender);
+        History::add($issue_id, $usr_id, 'issue_opened', 'Issue opened by {sender}', array(
+            'sender' => $sender
+        ));
 
         $emails = array();
         // if there are any technical account managers associated with this customer, add these users to the notification list
@@ -2063,7 +2107,9 @@ class Issue
                 }
                 $users[] = $manager['cam_usr_id'];
                 self::addUserAssociation($usr_id, $issue_id, $manager['cam_usr_id'], false);
-                History::add($issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager['cam_usr_id']) . ' (TAM)');
+                History::add($issue_id, $usr_id, 'issue_auto_assigned', 'Issue auto-assigned to {assignee} (TAM)', array(
+                    'assignee' => User::getFullName($manager['cam_usr_id']),
+                ));
             }
             $has_TAM = true;
         }
@@ -2084,7 +2130,9 @@ class Issue
                 // assign the issue to the round robin person
                 if (!empty($assignee)) {
                     self::addUserAssociation(APP_SYSTEM_USER_ID, $issue_id, $assignee, false);
-                    History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
+                    History::add($issue_id, APP_SYSTEM_USER_ID, 'rr_issue_assigned', 'Issue auto-assigned to {assignee} (RR)', array(
+                        'assignee' => User::getFullName($assignee),
+                    ));
                     $users[] = $assignee;
                     $has_RR = true;
                 }
@@ -2134,7 +2182,8 @@ class Issue
         }
 
         $prj_id = Auth::getCurrentProject();
-        $usr_id = Auth::getUserID();
+        $current_usr_id = Auth::getUserID();
+        $usr_id = $current_usr_id;
 
         // if we are creating an issue for a customer, put the
         // main customer contact as the reporter for it
@@ -2159,13 +2208,19 @@ class Issue
         $has_RR = false;
         $info = User::getNameEmail($usr_id);
         // log the creation of the issue
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_opened'), 'Issue opened by ' . User::getFullName(Auth::getUserID()));
-        if (isset($_POST['clone_iss_id']) && Access::canCloneIssue($_POST['clone_iss_id'], Auth::getUserID())) {
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_cloned_from'),
-                'Issue cloned from #' . $_POST['clone_iss_id']);
-            History::add($_POST['clone_iss_id'], Auth::getUserID(), History::getTypeID('issue_cloned_to'),
-                'Issue cloned to #' . $issue_id);
-            self::addAssociation($issue_id, $_POST['clone_iss_id'], $usr_id, true);
+        History::add($issue_id, $current_usr_id, 'issue_opened', 'Issue opened by {user}', array(
+            'user' => User::getFullName($current_usr_id),
+        ));
+
+        $clone_iss_id = isset($_POST['clone_iss_id']) ? (int)$_POST['clone_iss_id'] : null;
+        if ($clone_iss_id && Access::canCloneIssue($clone_iss_id, $current_usr_id)) {
+            History::add($issue_id, $current_usr_id, 'issue_cloned_from', 'Issue cloned from #{issue_id}', array(
+                'issue_id' => $clone_iss_id
+            ));
+            History::add($clone_iss_id, $current_usr_id, 'issue_cloned_to', 'Issue cloned to #{issue_id}', array(
+                'issue_id' => $issue_id,
+            ));
+            self::addAssociation($issue_id, $clone_iss_id, $usr_id, true);
         }
 
         $emails = array();
@@ -2205,7 +2260,9 @@ class Issue
                 }
                 $users[] = $manager['cam_usr_id'];
                 self::addUserAssociation($usr_id, $issue_id, $manager['cam_usr_id'], false);
-                History::add($issue_id, $usr_id, History::getTypeID('issue_auto_assigned'), 'Issue auto-assigned to ' . User::getFullName($manager['cam_usr_id']) . ' (TAM)');
+                History::add($issue_id, $usr_id, 'issue_auto_assigned', 'Issue auto-assigned to {assignee} (TAM)', array(
+                    'assignee' => User::getFullName($manager['cam_usr_id']),
+                ));
             }
             $has_TAM = true;
         }
@@ -2228,7 +2285,9 @@ class Issue
                 if (!empty($assignee)) {
                     $users[] = $assignee;
                     self::addUserAssociation($usr_id, $issue_id, $assignee, false);
-                    History::add($issue_id, APP_SYSTEM_USER_ID, History::getTypeID('rr_issue_assigned'), 'Issue auto-assigned to ' . User::getFullName($assignee) . ' (RR)');
+                    History::add($issue_id, APP_SYSTEM_USER_ID, 'rr_issue_assigned', 'Issue auto-assigned to {assignee} (RR)', array(
+                         'assignee' => User::getFullName($assignee)
+                    ));
                     $has_RR = true;
                 }
             }
@@ -3165,8 +3224,11 @@ class Issue
                     $changes .= "$key: $value";
                     $k++;
                 }
-                $summary = "Issue updated ($changes) by " . User::getFullName(Auth::getUserID());
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_bulk_updated'), $summary);
+                $usr_id = Auth::getUserID();
+                History::add($issue_id, $usr_id, 'issue_bulk_updated', "Issue updated ({changes}) by {user}", array(
+                    'changes' => $changes,
+                    'user'=>User::getFullName(Auth::getUserID())
+                ));
             }
 
             // close if request
@@ -3204,8 +3266,10 @@ class Issue
         }
 
         // add the impact analysis to the history of the issue
-        $summary = 'Initial Impact Analysis for issue set by ' . User::getFullName(Auth::getUserID());
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('impact_analysis_added'), $summary);
+        $usr_id = Auth::getUserID();
+        History::add($issue_id, $usr_id, 'impact_analysis_added', 'Initial Impact Analysis for issue set by {user}', array(
+            'user' => User::getFullName($usr_id)
+        ));
 
         return 1;
     }
@@ -3464,8 +3528,10 @@ class Issue
 
             // add history entry about this change taking place
             if ($status == 0) {
-                $summary = 'Issue quarantine status cleared by ' . User::getFullName(Auth::getUserID());
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('issue_quarantine_removed'), $summary);
+                $usr_id = Auth::getUserID();
+                History::add($issue_id, $usr_id, 'issue_quarantine_removed', 'Issue quarantine status cleared by {user}', array(
+                    'user' => User::getFullName(Auth::getUserID()),
+                ));
             }
 
             return 1;
@@ -3523,9 +3589,10 @@ class Issue
             $usr_id = APP_SYSTEM_USER_ID;
         }
 
-        $changes = History::formatChanges(Group::getName($current['iss_grp_id']), Group::getName($group_id));
-        $summary = 'Group changed (' . $changes . ') by ' . User::getFullName($usr_id);
-        History::add($issue_id, $usr_id, History::getTypeID('group_changed'), $summary);
+        History::add($issue_id, $usr_id, 'group_changed', 'Group changed ({changes}) by {user}', array(
+            'changes' => History::formatChanges(Group::getName($current['iss_grp_id']), Group::getName($group_id)),
+            'user' => User::getFullName($usr_id)
+        ));
 
         return 1;
     }
@@ -3726,9 +3793,11 @@ class Issue
 
         Notification::notifyNewAssignment($assignees, $issue_id);
 
-        // save a history entry about this...
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('user_associated'),
-                        'Issue assignment to changed (' . History::formatChanges(implode(', ', $old_assignee_names), implode(', ', $assignee_names)) . ') by ' . User::getFullName(Auth::getUserID()));
+        $usr_id = Auth::getUserID();
+        History::add($issue_id, $usr_id, 'user_associated', 'Issue assignment to changed ({changes}) by {user}', array(
+            'changes' => History::formatChanges(implode(', ', $old_assignee_names), implode(', ', $assignee_names)),
+            'user' => User::getFullName($usr_id)
+        ));
         return 1;
     }
 

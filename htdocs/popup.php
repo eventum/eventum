@@ -102,9 +102,9 @@ if ($cat == 'delete_note') {
 } elseif ($cat == 'new_status') {
     $res = Issue::setStatus($iss_id, $status_id, true);
     if ($res == 1) {
-        History::add($iss_id, $usr_id, 'status_changed', "Issue manually set to status '{status}' by {subject}", array(
+        History::add($iss_id, $usr_id, 'status_changed', "Issue manually set to status '{status}' by {user}", array(
             'status' => Status::getStatusTitle($status_id),
-            'subject' => User::getFullName($usr_id),
+            'user' => User::getFullName($usr_id),
         ));
     }
     $tpl->assign('new_status_result', $res);
