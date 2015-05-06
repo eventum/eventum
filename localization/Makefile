@@ -67,7 +67,7 @@ pot: tools-check
 	cd workdir; \
 		find templates -name '*.tpl.html' -o -name '*.tpl.text' -o -name '*.tpl.js' -o -name '*.tpl.xml' | xargs $(tsmarty2c) -o ts.pot; \
 		grep -rl History::add lib htdocs | xargs sed -i -e 's/History::add/History__add/g'; \
-		find -name '*.php' | xgettext --files-from=- --add-comments=TRANSLATORS: \
+		find -name '*.php' | xgettext -L PHP --files-from=- --add-comments=TRANSLATORS: \
 			--keyword=gettext --keyword=ev_gettext \
 			--keyword=History__add:4 \
 			--output=code.pot; \
