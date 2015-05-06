@@ -63,9 +63,14 @@ pot: tools-check
 	rm -rf workdir; \
 	install -d workdir; \
 	(cd .. && git archive HEAD) | tar -x -C workdir; \
+	# note about History::add: it's little hack, as can't specicy :: in --keyword arg
 	cd workdir; \
 		find templates -name '*.tpl.html' -o -name '*.tpl.text' -o -name '*.tpl.js' -o -name '*.tpl.xml' | xargs $(tsmarty2c) -o ts.pot; \
-		find -name '*.php' | xgettext --files-from=- --add-comments=TRANSLATORS: --keyword=gettext --keyword=ev_gettext --output=code.pot; \
+		grep -rl History::add lib htdocs | xargs sed -i -e 's/History::add/History__add/g'; \
+		find -name '*.php' | xgettext --files-from=- --add-comments=TRANSLATORS: \
+			--keyword=gettext --keyword=ev_gettext \
+			--keyword=History__add:4 \
+			--output=code.pot; \
 		msgcat -o merged.pot code.pot ts.pot; \
 		sed -ne '1,/^$$/p' code.pot > header.pot; \
 		msgcat -s -o $(DOMAIN).pot --use-first header.pot merged.pot; \
