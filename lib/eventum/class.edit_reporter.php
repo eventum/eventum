@@ -69,7 +69,7 @@ class Edit_Reporter
         if ($add_history) {
             // TRANSLATORS: %1: email, %2: full name
             $current_usr_id = Auth::getUserID();
-            History::add($issue_id, $current_usr_id, 'issue_updated', 'Reporter was changed to {email}  by {user}', array(
+            History::add($issue_id, $current_usr_id, 'issue_updated', 'Reporter was changed to {email} by {user}', array(
                 'email' => $email,
                 'user' => User::getFullName($current_usr_id)
             ));

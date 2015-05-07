@@ -973,7 +973,7 @@ class Issue
         $full_name = User::getFullName($usr_id);
         $htt_id = History::getTypeID('duplicate_update');
         foreach ($ids as $iss_id) {
-            History::add($iss_id, $usr_id, $htt_id, "The details for issue #{issue_id} were updated by {user} and the changes propagated to the duplicated issues.", array(
+            History::add($iss_id, $usr_id, $htt_id, "The details for issue #{issue_id} were updated by {user} and the changes propagated to the duplicated issues", array(
                 'issue_id' => $issue_id,
                 'user' => $full_name,
             ));

@@ -1897,8 +1897,8 @@ class Notification
                         sbt_sub_id=?';
             DB_Helper::getInstance()->query($stmt, array($sub_id));
 
-            History::add($issue_id, $usr_id, $htt_id, 'Notification list entry ({subscriber}) removed by {user}', array(
-                'subscriber' => $subscriber,
+            History::add($issue_id, $usr_id, $htt_id, 'Notification list entry ({email}) removed by {user}', array(
+                'email' => $subscriber,
                 'user' => $user_fullname,
             ));
         }
@@ -2139,8 +2139,8 @@ class Notification
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
         if ($add_history) {
-            History::add($issue_id, $usr_id, 'notification_added', 'Notification list entry ({other_user}) added by {user}', array(
-                'other_user' => User::getFromHeader($subscriber_usr_id),
+            History::add($issue_id, $usr_id, 'notification_added', 'Notification list entry ({email}) added by {user}', array(
+                'email' => User::getFromHeader($subscriber_usr_id),
                 'user' => User::getFullName($usr_id),
             ));
         }
