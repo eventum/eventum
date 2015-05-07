@@ -95,7 +95,7 @@ $patterns = array(
 );
 
 // find contexts from history entries
-$find = function($string) use ($patterns) {
+$find = function ($string) use ($patterns) {
     $matches = null;
     // first find pattern that matches
     foreach ($patterns as $regex) {
@@ -136,19 +136,32 @@ $find = function($string) use ($patterns) {
     );
 };
 
-$i = 0;
 /** @var DbInterface $db */
 $res = $db->query("select his_id,his_summary from {{%issue_history}} where his_context=''");
+$total = $res->numRows();
+$current = $updated = 0;
 
+echo "Total $total rows, this may take time. Please be patient.\n";
 /** @var DB_result $res */
 while ($res->fetchInto($row, DB_FETCHMODE_ASSOC)) {
+    $current++;
     $m = $find($row['his_summary']);
     if (!$m) {
-        echo "{$row['his_id']} '{$row['his_summary']}'\n";
-    } else {
-        print_r($m);
+        echo "No substitution: {$row['his_id']} '{$row['his_summary']}'\n";
+        continue;
     }
 
-    $i++;
+    $db->query(
+        "update {{%issue_history}} set his_summary=?, his_context=? where his_id=?", array(
+        $m['message'], json_encode($m['context']), $row['his_id']
+    )
+    );
+    $updated++;
+
+    if ($current % 5000 == 0) {
+        $p = round($current / $total * 100, 2);
+        echo "... updated $current rows, $p%\n";
+    }
 }
-die("$i rows processed\n");
+
+echo "$current history entries matched, $updated updated\n";
