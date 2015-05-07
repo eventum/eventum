@@ -24,7 +24,7 @@ $patterns = array(
     "/^Duplicate flag was reset by (?P<user>.*)$/",
     "/^Email \(subject: '(?P<subject>.*)'\) associated by (?P<user>.*)$/",
     "/^Email \(subject: '(?P<subject>.*)'\) disassociated by (?P<user>.*)$/",
-    "/^Email from '(?P<from>.*)' blocked$/",
+    "/^Email from '(?P<from>.*)' blocked\.?$/",
     "/^Email message draft updated by (?P<user>.*)$/",
     "/^Email message saved as a draft by (?P<user>.*)$/",
     "/^Email routed from (?P<from>.*)$/",
@@ -36,7 +36,7 @@ $patterns = array(
     "/^Issue assignment to changed \((?P<changes>.*)\) by (?P<user>.*)$/",
     "/^Issue assignments removed by (?P<user>.*)$/",
     "/^Issue associated to Issue #(?P<associated_id>.*) by (?P<user>.*)$/",
-    "/^Issue association to Issue #(?P<issue_id>.*) removed by (?P<user>.*)$/",
+    "/^ ?Issue association to Issue #(?P<issue_id>.*) removed by (?P<user>.*)$/",
     "/^Issue associations removed by (?P<user>.*)$/",
     "/^Issue auto-assigned to (?P<assignee>.*) \(RR\)$/",
     "/^Issue auto-assigned to (?P<assignee>.*) \(TAM\)$/",
@@ -68,12 +68,12 @@ $patterns = array(
     "/^Phone Support entry removed by (?P<user>.*)$/",
     "/^Phone Support entry submitted by (?P<user>.*)$/",
     "/^Reporter was changed to (?P<email>.*) by (?P<user>.*)$/",
-    "/^SCM Checkins associated by SCM user '(?P<user>.*)'$/",
+    "/^SCM Checkins associated by SCM user '(?P<user>.*)'\.?$/",
     "/^SCM Checkins removed by (?P<user>.*)$/",
     "/^Status changed to '(?P<status>.*)' by (?P<user>.*) when sending a note$/",
     "/^Status changed to '(?P<status>.*)' by (?P<user>.*) when sending an email$/",
     "/^Status remotely changed to '(?P<status>.*)' by (?P<user>.*)$/",
-    "/^The details for issue #(?P<issue_id>.*) were updated by (?P<user>.*) and the changes propagated to the duplicated issues$/",
+    "/^The details for issue #(?P<issue_id>.*) were updated by (?P<user>.*) and the changes propagated to the duplicated issues\.?$/",
     "/^Time tracking entry removed by (?P<user>.*)$/",
     "/^Time tracking entry submitted by (?P<user>.*)$/",
     "/^Time tracking entry submitted remotely by (?P<user>.*)$/",
@@ -81,6 +81,17 @@ $patterns = array(
     "/^(?P<other_user>.*) added to the authorized repliers list by (?P<user>.*)$/",
     "/^(?P<other_user>.*) removed from issue by (?P<user>.*)$/",
     "/^(?P<replier>.*) remotely added to authorized repliers by (?P<user>.*)$/",
+
+    // manual matches from older eventum versions
+    "/^Custom field updated by (?P<user>.+)$/",
+    "/^Status changed to '(?P<status>.+)' by (?P<user>.+)$/",
+    // some nasty errors
+    "/^SCM Checkins associated by SCM user \\\\'(?P<user>.+)'\.$/",
+    "/^SCM Checkins associated by SCM user \"(?P<user>.+)\"$/",
+
+    // custom workflow methods
+    "/^Status changed to \"(?P<status>.+)\" through assignment change$/",
+    "/^Status changed from '(?P<old_status>.+)' to '(?P<new_status>.+)' because (?P<user>.+) assigned the issue and is the only assignee\.$/",
 );
 
 // find contexts from history entries
