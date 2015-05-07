@@ -91,7 +91,7 @@ $patterns = array(
 
     // custom workflow methods
     "/^Status changed to \"(?P<status>.+)\" through assignment change$/",
-    "/^Status changed from '(?P<old_status>.+)' to '(?P<new_status>.+)' because (?P<user>.+) assigned the issue and is the only assignee\.$/",
+    "/^Status changed from '(?P<old_status>.+)' to '(?P<new_status>.+)' because (?P<user>.+) assigned the issue and is the only assignee\.?$/",
 );
 
 // find contexts from history entries
