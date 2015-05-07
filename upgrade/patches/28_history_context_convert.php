@@ -3,9 +3,6 @@
  * Try to find placeholders to old history entries not containing context information
  */
 
-/** @var DbInterface $db */
-$res = $db->getAll("select his_id,his_summary from eventum_issue_history where his_context='' limit 10");
-
 # initial pattern list extracted using xgettext:
 # $ grep -rl History::add lib htdocs | xargs sed -i -e 's/History::add/History__add/g'; \
 # $ find -name '*.php' | grep -v localization | xgettext -L PHP --files-from=- --keyword=History__add:4
@@ -129,12 +126,18 @@ $find = function($string) use ($patterns) {
 };
 
 $i = 0;
-foreach ($res as $i => $row) {
+/** @var DbInterface $db */
+$res = $db->query("select his_id,his_summary from {{%issue_history}} where his_context=''");
+
+/** @var DB_result $res */
+while ($res->fetchInto($row, DB_FETCHMODE_ASSOC)) {
     $m = $find($row['his_summary']);
     if (!$m) {
-        echo "{$row['his_summary']}\n";
+        echo "{$row['his_id']} '{$row['his_summary']}'\n";
     } else {
         print_r($m);
     }
+
+    $i++;
 }
 die("$i rows processed\n");
