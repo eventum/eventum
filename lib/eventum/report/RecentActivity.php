@@ -47,6 +47,8 @@ class RecentActivity
     private $amount;
     /** @var string */
     private $developer;
+    /** @var CRM */
+    private $crm;
 
     public function __construct() {
         $this->usr_id = Auth::getUserID();
@@ -62,6 +64,10 @@ class RecentActivity
         $this->developer = isset($_REQUEST['developer']) ? $_REQUEST['developer'] : null;
         $this->start_date = $this->parseDate(isset($_POST['start']) ? $_POST['start'] : null);
         $this->end_date = $this->parseDate(isset($_POST['end']) ? $_POST['end'] : null);
+
+        if (CRM::hasCustomerIntegration($this->prj_id)) {
+            $this->crm = CRM::getInstance($this->prj_id);
+        }
     }
 
     public function __invoke(Template_Helper $tpl)
@@ -307,21 +313,19 @@ class RecentActivity
     private function processResult($results, $date_field, $issue_field)
     {
         $data = array();
-        // TODO: cache calls to canaccess and crm
         foreach ($results as &$res) {
             if (!Issue::canAccess($res[$issue_field], $this->usr_id)) {
                 continue;
             }
-            if (CRM::hasCustomerIntegration($this->prj_id)) {
-                $crm = CRM::getInstance($this->prj_id);
+            $res['customer'] = null;
+            if ($this->crm) {
                 try {
-                    $customer = $crm->getCustomer(Issue::getCustomerID($res[$issue_field]));
+                    $customer = $this->crm->getCustomer(Issue::getCustomerID($res[$issue_field]));
                     $res['customer'] = $customer->getName();
                 } catch (CRMException $e) {
-                    $res['customer'] = '';
                 }
             }
-            $res['date'] = Date_Helper::getFormattedDate($res[$date_field], Date_Helper::getPreferredTimezone($usr_id));
+            $res['date'] = Date_Helper::getFormattedDate($res[$date_field], Date_Helper::getPreferredTimezone($this->usr_id));
             // need to decode From:, To: mail headers
             if (isset($res['sup_from'])) {
                 $res['sup_from'] = Mime_Helper::fixEncoding($res['sup_from']);
