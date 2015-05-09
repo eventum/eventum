@@ -335,6 +335,7 @@ class RecentActivity
 
     private function processResult(&$data, $date_field, $issue_field)
     {
+        $timezone = Date_Helper::getPreferredTimezone($this->usr_id);
         foreach ($data as &$res) {
             if (!Issue::canAccess($res[$issue_field], $this->usr_id)) {
                 continue;
@@ -347,7 +348,7 @@ class RecentActivity
                 } catch (CRMException $e) {
                 }
             }
-            $res['date'] = Date_Helper::getFormattedDate($res[$date_field], Date_Helper::getPreferredTimezone($this->usr_id));
+            $res['date'] = Date_Helper::getFormattedDate($res[$date_field], $timezone);
             // need to decode From:, To: mail headers
             if (isset($res['sup_from'])) {
                 $res['sup_from'] = Mime_Helper::fixEncoding($res['sup_from']);
