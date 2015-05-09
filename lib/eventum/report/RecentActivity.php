@@ -78,7 +78,6 @@ class RecentActivity
 
     public function __invoke(Template_Helper $tpl)
     {
-
         $units = array(
             'hour' => 'Hours',
             'day' => 'Days',
@@ -166,7 +165,8 @@ class RecentActivity
         $params = array($this->prj_id);
         $this->createWhereClause($sql, $params, 'phs_created_date', 'usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
-        return $this->processResult($res, 'phs_created_date', 'phs_iss_id');
+        $this->processResult($res, 'phs_created_date', 'phs_iss_id');
+        return $res;
     }
 
     private function noteActivity()
@@ -190,7 +190,8 @@ class RecentActivity
         $params = array($this->prj_id);
         $this->createWhereClause($sql, $params, 'not_created_date', 'not_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
-        return $this->processResult($res, 'not_created_date', 'not_iss_id');
+        $this->processResult($res, 'not_created_date', 'not_iss_id');
+        return $res;
     }
 
     private function emailActivity()
@@ -212,7 +213,8 @@ class RecentActivity
         $params = array($this->prj_id);
         $this->createWhereClause($sql, $params, 'sup_date', 'sup_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
-        return $this->processResult($res, 'sup_date', 'sup_iss_id');
+        $this->processResult($res, 'sup_date', 'sup_iss_id');
+        return $res;
     }
 
     private function draftActivity()
@@ -234,8 +236,8 @@ class RecentActivity
         $this->createWhereClause($sql, $params, 'emd_updated_date', 'emd_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
 
-        $data = $this->processResult($res, 'emd_updated_date', 'emd_iss_id');
-        foreach ($data as &$draft) {
+        $this->processResult($res, 'emd_updated_date', 'emd_iss_id');
+        foreach ($res as &$draft) {
             if (!empty($draft['emd_unknown_user'])) {
                 $draft['from'] = $draft['emd_unknown_user'];
             } else {
@@ -246,7 +248,7 @@ class RecentActivity
                 $draft['to'] = 'Notification List';
             }
         }
-        return $data;
+        return $res;
     }
 
     private function timeActivity()
@@ -273,11 +275,11 @@ class RecentActivity
         $params = array($this->prj_id);
         $this->createWhereClause($sql, $params, 'ttr_created_date', 'ttr_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
-        $data = $this->processResult($res, 'ttr_created_date', 'ttr_iss_id');
-        foreach ($data as &$time) {
+        $this->processResult($res, 'ttr_created_date', 'ttr_iss_id');
+        foreach ($res as &$time) {
             $time['time_spent'] = Misc::getFormattedTime($time['ttr_time_spent'], true);
         }
-        return $data;
+        return $res;
     }
 
     private function reminderActivity() {
@@ -300,7 +302,8 @@ class RecentActivity
         $params = array($this->prj_id);
         $this->createWhereClause($sql, $params, 'rmh_created_date');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
-        return $this->processResult($res, 'rmh_created_date', 'rmh_iss_id');
+        $this->processResult($res, 'rmh_created_date', 'rmh_iss_id');
+        return $res;
     }
 
     /**
@@ -330,10 +333,9 @@ class RecentActivity
         $sql .= " ORDER BY $date_field {$this->sort_order}";
     }
 
-    private function processResult($results, $date_field, $issue_field)
+    private function processResult(&$data, $date_field, $issue_field)
     {
-        $data = array();
-        foreach ($results as &$res) {
+        foreach ($data as &$res) {
             if (!Issue::canAccess($res[$issue_field], $this->usr_id)) {
                 continue;
             }
@@ -353,11 +355,7 @@ class RecentActivity
             if (isset($res['sup_to'])) {
                 $res['sup_to'] = Mime_Helper::fixEncoding($res['sup_to']);
             }
-
-            $data[] = $res;
         }
-
-        return $data;
     }
 
     private function parseDate($struct)
