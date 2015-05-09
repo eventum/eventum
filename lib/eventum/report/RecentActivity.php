@@ -42,11 +42,15 @@ class RecentActivity
     /** @var array */
     private $activity_types;
     /** @var string */
+    private $report_type;
+    /** @var string */
     private $unit;
     /** @var string */
     private $amount;
     /** @var string */
     private $developer;
+    /** @var string */
+    private $sort_order;
     /** @var CRM */
     private $crm;
 
@@ -59,11 +63,13 @@ class RecentActivity
 
         $this->prj_id = Auth::getCurrentProject();
         $this->activity_types = !empty($_REQUEST['activity_types']) ? (array)$_REQUEST['activity_types'] : array();
-        $this->unit = isset($_REQUEST['unit']) ? $_REQUEST['unit'] : null;
+        $this->report_type = isset($_REQUEST['report_type']) ? (string)$_REQUEST['report_type'] : null;
+        $this->unit = $this->getParam('unit', array('hour', 'day'));
         $this->amount = isset($_REQUEST['amount']) ? $_REQUEST['amount'] : null;
         $this->developer = isset($_REQUEST['developer']) ? $_REQUEST['developer'] : null;
         $this->start_date = $this->parseDate(isset($_POST['start']) ? $_POST['start'] : null);
         $this->end_date = $this->parseDate(isset($_POST['end']) ? $_POST['end'] : null);
+        $this->sort_order = $this->getParam('sort_order', array('ASC', 'DESC'));
 
         if (CRM::hasCustomerIntegration($this->prj_id)) {
             $this->crm = CRM::getInstance($this->prj_id);
@@ -98,8 +104,7 @@ class RecentActivity
             'amount' => $this->amount,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
-
-            'sort_order' => isset($_REQUEST['sort_order']) ? $_REQUEST['sort_order'] : null,
+            'sort_order' => $this->sort_order,
         ));
 
         if (!$this->unit && !$this->amount) {
@@ -158,8 +163,9 @@ class RecentActivity
                     phs_iss_id = iss_id AND
                     phs_usr_id = usr_id AND
                     iss_prj_id = ? AND\n";
-        $sql .= $this->createWhereClause('phs_created_date', 'usr_id');
-        $res = DB_Helper::getInstance()->getAll($sql, array($this->prj_id));
+        $params = array($this->prj_id);
+        $this->createWhereClause($sql, $params, 'phs_created_date', 'usr_id');
+        $res = DB_Helper::getInstance()->getAll($sql, $params);
         return $this->processResult($res, 'phs_created_date', 'phs_iss_id');
     }
 
@@ -181,8 +187,9 @@ class RecentActivity
                     not_iss_id = iss_id AND
                     not_usr_id = usr_id AND
                     iss_prj_id = ? AND\n";
-        $sql .= $this->createWhereClause('not_created_date', 'not_usr_id');
-        $res = DB_Helper::getInstance()->getAll($sql, array($this->prj_id));
+        $params = array($this->prj_id);
+        $this->createWhereClause($sql, $params, 'not_created_date', 'not_usr_id');
+        $res = DB_Helper::getInstance()->getAll($sql, $params);
         return $this->processResult($res, 'not_created_date', 'not_iss_id');
     }
 
@@ -202,8 +209,9 @@ class RecentActivity
                     iss_sta_id = sta_id AND
                     sup_iss_id = iss_id AND
                     iss_prj_id = ? AND\n";
-        $sql .= $this->createWhereClause('sup_date', 'sup_usr_id');
-        $res = DB_Helper::getInstance()->getAll($sql, array($this->prj_id));
+        $params = array($this->prj_id);
+        $this->createWhereClause($sql, $params, 'sup_date', 'sup_usr_id');
+        $res = DB_Helper::getInstance()->getAll($sql, $params);
         return $this->processResult($res, 'sup_date', 'sup_iss_id');
     }
 
@@ -222,8 +230,9 @@ class RecentActivity
                     iss_sta_id = sta_id AND
                     emd_iss_id = iss_id AND
                     iss_prj_id = ? AND\n";
-        $sql .= $this->createWhereClause('emd_updated_date', 'emd_usr_id');
-        $res = DB_Helper::getInstance()->getAll($sql, array($this->prj_id));
+        $params = array($this->prj_id);
+        $this->createWhereClause($sql, $params, 'emd_updated_date', 'emd_usr_id');
+        $res = DB_Helper::getInstance()->getAll($sql, $params);
 
         $data = $this->processResult($res, 'emd_updated_date', 'emd_iss_id');
         foreach ($data as &$draft) {
@@ -261,8 +270,9 @@ class RecentActivity
                     ttr_ttc_id = ttc_id AND
                     ttr_usr_id = usr_id AND
                     iss_prj_id = ? AND\n";
-        $sql .= $this->createWhereClause('ttr_created_date', 'ttr_usr_id');
-        $res = DB_Helper::getInstance()->getAll($sql, array($this->prj_id));
+        $params = array($this->prj_id);
+        $this->createWhereClause($sql, $params, 'ttr_created_date', 'ttr_usr_id');
+        $res = DB_Helper::getInstance()->getAll($sql, $params);
         $data = $this->processResult($res, 'ttr_created_date', 'ttr_iss_id');
         foreach ($data as &$time) {
             $time['time_spent'] = Misc::getFormattedTime($time['ttr_time_spent'], true);
@@ -287,27 +297,37 @@ class RecentActivity
                     rmh_iss_id = iss_id AND
                     rmh_rma_id = rma_id AND
                     iss_prj_id = ? AND\n";
-        $sql .= $this->createWhereClause('rmh_created_date');
-        $res = DB_Helper::getInstance()->getAll($sql, array($this->prj_id));
+        $params = array($this->prj_id);
+        $this->createWhereClause($sql, $params, 'rmh_created_date');
+        $res = DB_Helper::getInstance()->getAll($sql, $params);
         return $this->processResult($res, 'rmh_created_date', 'rmh_iss_id');
     }
 
-    private function createWhereClause($date_field, $user_field = false)
+    /**
+     * Update SQL with common where clause
+     *
+     * @param string $sql
+     * @param array $params
+     * @param string $date_field
+     * @param string $user_field
+     */
+    private function createWhereClause(&$sql, &$params, $date_field, $user_field = null)
     {
-        $sql = '';
-        if ($_REQUEST['report_type'] == 'recent') {
-            $sql .= "$date_field >= DATE_SUB('" . Date_Helper::getCurrentDateGMT() . "', INTERVAL " . Misc::escapeInteger(
-                    $_REQUEST['amount']
-                ) . ' ' . Misc::escapeString($_REQUEST['unit']) . ')';
+        if ($this->report_type == 'recent') {
+            $sql .= "$date_field >= DATE_SUB(?, INTERVAL ? {$this->unit})";
+            $params[] = Date_Helper::getCurrentDateGMT();
+            $params[] = $this->amount;
         } else {
-            $sql .= "$date_field BETWEEN '{$this->start_date}' AND '{$this->end_date}'";
+            $sql .= "$date_field BETWEEN ? AND ?";
+            $params[] = $this->start_date;
+            $params[] = $this->end_date;
         }
-        if ($user_field != false && !empty($_REQUEST['developer'])) {
-            $sql .= " AND $user_field = " . Misc::escapeString($_REQUEST['developer']);
+        if ($user_field && $this->developer) {
+            $sql .= " AND $user_field = ?";
+            $params[] = $this->developer;
         }
-        $sql .= " ORDER BY $date_field " . Misc::escapeString($_REQUEST['sort_order']);
 
-        return $sql;
+        $sql .= " ORDER BY $date_field {$this->sort_order}";
     }
 
     private function processResult($results, $date_field, $issue_field)
@@ -351,5 +371,29 @@ class RecentActivity
         }
 
         return false;
+    }
+
+
+    /**
+     * Return Request parameter, optionally validating it against whitelist
+     *
+     * @param string $key
+     * @param array $valid_values
+     * @return mixed
+     */
+    private function getParam($key, $valid_values = null) {
+        if (!isset($_REQUEST[$key])) {
+            return null;
+        }
+
+        if (!isset($valid_values)) {
+            return $_REQUEST[$key];
+        }
+
+        if (is_array($valid_values)  && in_array($_REQUEST[$key], $valid_values)) {
+            return $_REQUEST[$key];
+        }
+
+        return null;
     }
 }
