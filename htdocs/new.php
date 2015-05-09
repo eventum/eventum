@@ -46,7 +46,7 @@ $tpl->assign('new_issue_id', '');
 
 // If the project has changed since the new issue form was requested, then change it back
 $issue_prj_id = !empty($_REQUEST['prj_id']) ? (int) $_REQUEST['prj_id'] : 0;
-if (($issue_prj_id > 0) && ($issue_prj_id != $prj_id)) {
+if ($issue_prj_id > 0 && $issue_prj_id != $prj_id) {
     // Switch the project back
     $assigned_projects = Project::getAssocList($usr_id);
     if (isset($assigned_projects[$issue_prj_id])) {
@@ -65,13 +65,14 @@ if (CRM::hasCustomerIntegration($prj_id)) {
         $customer_id = Auth::getCurrentCustomerID();
         $customer = $crm->getCustomer($customer_id);
         $new_issue_message = $customer->getNewIssueMessage();
-        if (!empty($new_issue_message)) {
+        if ($new_issue_message) {
             Misc::setMessage($new_issue_message, Misc::MSG_INFO);
         }
     }
 }
 
-if (@$_POST['cat'] == 'report') {
+$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : (isset($_GET['cat']) ? (string)$_GET['cat'] : null);
+if ($cat == 'report') {
     $res = Issue::createFromPost();
     if ($res != -1) {
         // redirect to view issue page
@@ -84,16 +85,17 @@ if (@$_POST['cat'] == 'report') {
     }
 }
 
-if (@$_GET['cat'] == 'associate') {
-    if (@count($_GET['item']) > 0) {
-        $res = Support::getListDetails($_GET['item']);
+if ($cat  == 'associate') {
+    $item = isset($_GET['item']) ? (array)$_GET['item'] : null;
+    if (count($item) > 0) {
+        $res = Support::getListDetails($item);
         $tpl->assign('emails', $res);
-        $tpl->assign('attached_emails', @implode(',', $_GET['item']));
+        $tpl->assign('attached_emails', @implode(',', $item));
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
             // also need to guess the contact_id from any attached emails
             try {
-                $info = $crm->getCustomerInfoFromEmails($prj_id, $_GET['item']);
+                $info = $crm->getCustomerInfoFromEmails($prj_id, $item);
                 $tpl->assign(array(
                     'customer_id'   => $info['customer_id'],
                     'customer_name' => $info['customer_name'],
@@ -106,8 +108,8 @@ if (@$_GET['cat'] == 'associate') {
         }
         // if we are dealing with just one message, use the subject line as the
         // summary for the issue, and the body as the description
-        if (count($_GET['item']) == 1) {
-            $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($_GET['item'][0]), $_GET['item'][0]);
+        if (count($item) == 1) {
+            $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($item[0]), $item[0]);
             $tpl->assign(array(
                 'issue_summary'     => $email_details['sup_subject'],
                 'issue_description' => $email_details['seb_body'],
@@ -160,8 +162,9 @@ if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
     ));
 }
 
-if (isset($_GET['clone_iss_id']) && Access::canCloneIssue($_GET['clone_iss_id'], $usr_id)) {
-    $tpl->assign(Issue::getCloneIssueTemplateVariables($_GET['clone_iss_id']));
+$clone_iss_id = isset($_GET['clone_iss_id']) ? (int)$_GET['clone_iss_id'] : null;
+if ($clone_iss_id && Access::canCloneIssue($clone_iss_id, $usr_id)) {
+    $tpl->assign(Issue::getCloneIssueTemplateVariables($clone_iss_id));
 } else {
     $tpl->assign('defaults', $_REQUEST);
 }
