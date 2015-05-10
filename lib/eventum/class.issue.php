@@ -2149,7 +2149,7 @@ class Issue
             'add_primary_contact', 'attached_emails', 'category', 'contact', 'contact_email', 'contact_extra_emails', 'contact_person_fname',
             'contact_person_lname', 'contact_phone', 'contact_timezone', 'contract', 'customer', 'custom_fields', 'description',
             'estimated_dev_time', 'group', 'notify_customer', 'notify_senders', 'priority', 'private', 'release', 'severity', 'summary', 'users',
-            'product', 'product_version', 'expected_resolution_date',
+            'product', 'product_version', 'expected_resolution_date', 'associated_issues',
         );
         $data = array();
         foreach ($keys as $key) {
@@ -2315,6 +2315,12 @@ class Issue
                     }
                 }
             }
+        }
+
+        // handle associated issues
+        if (isset($data['associated_issues'])) {
+            $associated_issues = explode(',', $data['associated_issues']);
+            self::updateAssociatedIssuesRelations($issue_id, $associated_issues);
         }
 
         Workflow::handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);

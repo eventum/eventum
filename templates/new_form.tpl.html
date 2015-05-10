@@ -124,7 +124,7 @@
     </tr>
     {/if}
 
-    {if $groups|@count > 0 && $core.current_role >= $field_display_settings.group}
+  {if $groups|@count > 0 && $core.current_role >= $field_display_settings.group}
     <tr>
       <th {if $field_display_settings.assignment > $core.roles.customer}class="internal"{/if}>
         {t}Group{/t}:
@@ -141,6 +141,7 @@
       </td>
     </tr>
     {/if}
+
     {if $releases|@count > 0 && $core.current_role >= $field_display_settings.release}
     <tr>
       <th {if $field_display_settings.release > $core.roles.customer}class="internal"{/if}>
@@ -157,6 +158,7 @@
       </td>
     </tr>
     {/if}
+
     <tr>
       <th>
         {t}Summary{/t}: * {include file="help_link.tpl.html" topic="report_summary"}
@@ -171,6 +173,7 @@
         {include file="error_icon.tpl.html" field="summary"}
       </td>
     </tr>
+
     <tr>
       <th>
         {t}Initial Description{/t}: * {include file="help_link.tpl.html" topic="report_description"}
@@ -186,7 +189,17 @@
       </td>
     </tr>
 
-    {if $core.current_role > $core.roles.customer}
+    {* associated issue field *}
+    <tr>
+      <th>
+        {t}Associated Issues{/t}:
+      </th>
+      <td>
+        <input type="text" name="associated_issues" size="20" tabindex="{$tabindex++}" value="{$associated_issues|default:''|escape:"html"}">
+      </td>
+    </tr>
+
+  {if $core.current_role > $core.roles.customer}
       <tr>
 
         <th {if $field_display_settings.assignment > $core.roles.customer}class="internal"{/if}>
