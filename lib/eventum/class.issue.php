@@ -1419,6 +1419,66 @@ class Issue
     }
 
     /**
+     * Update the issue associations
+     *
+     * @param int $issue_id issue to associate
+     * @param array $associated_issues issue_id's to associate with
+     */
+    private function updateAssociatedIssuesRelations($issue_id, $associated_issues)
+    {
+        global $errors;
+
+        // trim and remove empty values
+        $associated_issues = array_filter(array_map('trim', $associated_issues));
+
+        // make sure all associated issues are valid (and in this project)
+        foreach ($associated_issues as $i => $iss_id) {
+            if ($iss_id == $issue_id) {
+                // skip issue itself
+                unset($associated_issues[$i]);
+                continue;
+            }
+            if (!Issue::exists($iss_id, false)) {
+                $error = ev_gettext(
+                    'Issue #%s does not exist and was removed from the list of associated issues.', $iss_id
+                );
+                $errors['Associated Issues'][] = $error;
+                unset($associated_issues[$i]);
+            }
+        }
+        // this reindexes the array and removes duplicates filled by user
+        $associated_issues = array_unique($associated_issues);
+
+        $current = self::getDetails($issue_id);
+        $association_diff = Misc::arrayDiff($current['associated_issues'], $associated_issues);
+        if (!$association_diff) {
+            // no diffs, return back
+            return;
+        }
+
+        $usr_id = Auth::getUserID();
+
+        // go through the new associations, if association already exists, skip it
+        $associations_to_remove = $current['associated_issues'];
+        if (count($associated_issues) > 0) {
+            foreach ($associated_issues as $associated_id) {
+                if (!in_array($associated_id, $current['associated_issues'])) {
+                    self::addAssociation($issue_id, $associated_id, $usr_id);
+                } else {
+                    // already assigned, remove this user from list of issues to remove
+                    unset($associations_to_remove[array_search($associated_id, $associations_to_remove)]);
+                }
+            }
+        }
+
+        if ($associations_to_remove) {
+            foreach ($associations_to_remove as $associated_id) {
+                self::deleteAssociation($issue_id, $associated_id);
+            }
+        }
+    }
+
+    /**
      * Method to update the details of a specific issue.
      *
      * @param   integer $issue_id The issue ID
@@ -1441,47 +1501,10 @@ class Issue
 
         // get all of the 'current' information of this issue
         $current = self::getDetails($issue_id);
-        // update the issue associations
-        if (empty($_POST['associated_issues'])) {
-            $associated_issues = array();
-        } else {
-            $associated_issues = explode(',', @$_POST['associated_issues']);
-            // make sure all associated issues are valid (and in this project)
-            foreach ($associated_issues as $i => &$iss_id) {
-                $iss_id = trim($iss_id);
-                if ($iss_id == $issue_id) {
-                    // skip issue itself
-                    unset($associated_issues[$i]);
-                    continue;
-                }
-                if (!Issue::exists($iss_id, false)) {
-                    $error = ev_gettext('Issue #%s does not exist and was removed from the list of associated issues.', $iss_id);
-                    $errors['Associated Issues'][] = $error;
-                    unset($associated_issues[$i]);
-                }
-            }
-            $associated_issues = array_values($associated_issues);
-        }
-        $association_diff = Misc::arrayDiff($current['associated_issues'], $associated_issues);
-        if (count($association_diff) > 0) {
-            // go through the new assocations, if association already exists, skip it
-            $associations_to_remove = $current['associated_issues'];
-            if (count($associated_issues) > 0) {
-                foreach ($associated_issues as $associated_id) {
-                    if (!in_array($associated_id, $current['associated_issues'])) {
-                        self::addAssociation($issue_id, $associated_id, $usr_id);
-                    } else {
-                        // already assigned, remove this user from list of users to remove
-                        unset($associations_to_remove[array_search($associated_id, $associations_to_remove)]);
-                    }
-                }
-            }
-            if (count($associations_to_remove) > 0) {
-                foreach ($associations_to_remove as $associated_id) {
-                    self::deleteAssociation($issue_id, $associated_id);
-                }
-            }
-        }
+
+        $associated_issues = isset($_POST['associated_issues']) ? explode(',', $_POST['associated_issues']) : array();
+        self::updateAssociatedIssuesRelations($issue_id, $associated_issues);
+
         $assignments_changed = false;
         if (@$_POST['keep_assignments'] == 'no') {
             // only change the issue-user associations if there really were any changes
@@ -1513,6 +1536,7 @@ class Issue
                 Notification::notifyNewAssignment($assignment_notifications, $issue_id);
             }
         }
+
         if (empty($_POST['estimated_dev_time'])) {
             $_POST['estimated_dev_time'] = 0;
         }
@@ -1617,6 +1641,7 @@ class Issue
         if ($current['iss_description'] != $_POST['description']) {
             $updated_fields['Description'] = '';
         }
+
         if ((isset($_POST['private'])) && ($_POST['private'] != $current['iss_private'])) {
             $updated_fields['Private'] = History::formatChanges(Misc::getBooleanDisplayValue($current['iss_private']), Misc::getBooleanDisplayValue($_POST['private']));
         }
