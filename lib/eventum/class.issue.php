@@ -1638,7 +1638,7 @@ class Issue
             $updated_fields['Percent complete'] = History::formatChanges($current['iss_original_percent_complete'], $_POST['percent_complete']);
         }
 
-        if ($current['iss_description'] != $_POST['description']) {
+        if ($current['iss_original_description'] != $_POST['description']) {
             $updated_fields['Description'] = '';
         }
 
