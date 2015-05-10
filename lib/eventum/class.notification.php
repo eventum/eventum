@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -1897,9 +1897,10 @@ class Notification
                         sbt_sub_id=?';
             DB_Helper::getInstance()->query($stmt, array($sub_id));
 
-            // need to save a history entry for this
-            $summary = ev_gettext('Notification list entry (%1$s) removed by %2$s', $subscriber, $user_fullname);
-            History::add($issue_id, $usr_id, $htt_id, $summary);
+            History::add($issue_id, $usr_id, $htt_id, 'Notification list entry ({email}) removed by {user}', array(
+                'email' => $subscriber,
+                'user' => $user_fullname,
+            ));
         }
         Issue::markAsUpdated($issue_id);
 
@@ -1952,8 +1953,11 @@ class Notification
         }
 
         // need to save a history entry for this
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_removed'),
-                        ev_gettext('Notification list entry (%1$s) removed by %2$s', $email, User::getFullName(Auth::getUserID())));
+        $current_usr_id = Auth::getUserID();
+        History::add($issue_id, $current_usr_id, 'notification_removed', 'Notification list entry ({email}) removed by {user}', array(
+            'email' => $email,
+            'user' => User::getFullName($current_usr_id)
+        ));
 
         Issue::markAsUpdated($issue_id);
 
@@ -2135,10 +2139,10 @@ class Notification
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
         if ($add_history) {
-            $summary = ev_gettext(
-                'Notification list entry (%1$s) added by %2$s', User::getFromHeader($subscriber_usr_id), User::getFullName($usr_id)
-            );
-            History::add($issue_id, $usr_id, History::getTypeID('notification_added'), $summary);
+            History::add($issue_id, $usr_id, 'notification_added', 'Notification list entry ({email}) added by {user}', array(
+                'email' => User::getFromHeader($subscriber_usr_id),
+                'user' => User::getFullName($usr_id),
+            ));
         }
 
         return 1;
@@ -2221,8 +2225,10 @@ class Notification
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
         // FIXME: XSS possible as $email is not escaped for html?
-        $summary = ev_gettext('Notification list entry (\'%1$s\') added by %2$s', $email, User::getFullName($usr_id));
-        History::add($issue_id, $usr_id, History::getTypeID('notification_added'), $summary);
+        History::add($issue_id, $usr_id, 'notification_added', "Notification list entry ('{subscriber}') added by {user}", array(
+            'subscriber' => $email,
+            'user' => User::getFullName($usr_id)
+        ));
 
         return 1;
     }
@@ -2302,12 +2308,11 @@ class Notification
         }
         // need to mark the issue as updated
         Issue::markAsUpdated($issue_id);
-        // need to save a history entry for this
-        $summary = ev_gettext(
-            'Notification list entry (\'%1$s\') updated by %2$s', self::getSubscriber($sub_id),
-            User::getFullName(Auth::getUserID())
-        );
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_updated'), $summary);
+        $current_usr_id = Auth::getUserID();
+        History::add($issue_id, $current_usr_id, 'notification_updated', "Notification list entry ('{subscriber}') updated by {user}", array(
+            'subscriber' => self::getSubscriber($sub_id),
+            'user' => User::getFullName($current_usr_id),
+        ));
 
         return 1;
     }

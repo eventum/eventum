@@ -469,8 +469,9 @@ class Time_Tracking
         }
 
         Issue::markAsUpdated($details['issue_id']);
-        // need to save a history entry for this
-        History::add($details['issue_id'], $usr_id, History::getTypeID('time_removed'), ev_gettext('Time tracking entry removed by %1$s', User::getFullName($usr_id)));
+        History::add($details['issue_id'], $usr_id, 'time_removed', 'Time tracking entry removed by {user}', array(
+            'user' => User::getFullName($usr_id)
+        ));
 
         return 1;
     }
@@ -527,8 +528,9 @@ class Time_Tracking
         }
 
         Issue::markAsUpdated($iss_id, 'time added');
-        $summary = ev_gettext('Time tracking entry submitted by %1$s', User::getFullName($usr_id));
-        History::add($iss_id, $usr_id, History::getTypeID('time_added'), $summary);
+        History::add($iss_id, $usr_id, 'time_added', 'Time tracking entry submitted by {user}', array(
+            'user' => User::getFullName($usr_id)
+        ));
 
         return 1;
     }
@@ -572,8 +574,9 @@ class Time_Tracking
         }
 
         Issue::markAsUpdated($issue_id);
-        $summary = ev_gettext('Time tracking entry submitted remotely by %1$s', User::getFullName($usr_id));
-        History::add($issue_id, $usr_id, History::getTypeID('remote_time_added'), $summary);
+        History::add($issue_id, $usr_id, 'remote_time_added', 'Time tracking entry submitted remotely by {user}', array(
+            'user' => User::getFullName($usr_id),
+        ));
 
         return 1;
     }

@@ -270,8 +270,9 @@ class Attachment
         if ($add_history) {
             Issue::markAsUpdated($usr_id);
             // need to save a history entry for this
-            // FIXME:: translate
-            History::add($issue_id, $usr_id, History::getTypeID('attachment_removed'), 'Attachment removed by ' . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, 'attachment_removed', 'Attachment removed by {user}', array(
+                'user' => User::getFullName($usr_id)
+            ));
         }
 
         return 1;
@@ -425,9 +426,9 @@ class Attachment
         self::associateFiles($attachment_id, $iaf_ids);
 
         Issue::markAsUpdated($issue_id, 'file uploaded');
-        // FIXME: translate
-        $summary = 'Attachment uploaded by ' . User::getFullName($usr_id);
-        History::add($issue_id, $usr_id, History::getTypeID('attachment_added'), $summary);
+        History::add($issue_id, $usr_id, 'attachment_added', 'Attachment uploaded by {user}', array(
+            'user' => User::getFullName($usr_id),
+        ));
 
         // if there is customer integration, mark last customer action
         $prj_id = Issue::getProjectID($issue_id);

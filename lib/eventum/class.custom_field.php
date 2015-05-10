@@ -298,8 +298,11 @@ class Custom_Field
                     $i++;
                 }
 
-                $summary = ev_gettext('Custom field updated (%1$s) by %2$s', $changes, User::getFullName(Auth::getUserID()));
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('custom_field_updated'), $summary);
+                $usr_id = Auth::getUserID();
+                History::add($issue_id, $usr_id, 'custom_field_updated', 'Custom field updated ({changes}) by {user}', array(
+                    'changes' => $changes,
+                    'user' => User::getFullName($usr_id)
+                ));
             }
         }
 

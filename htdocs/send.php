@@ -64,7 +64,10 @@ if (@$_POST['cat'] == 'send_email') {
         $res = Issue::setStatus($issue_id, $_POST['new_status']);
         if ($res != -1) {
             $new_status = Status::getStatusTitle($_POST['new_status']);
-            History::add($issue_id, $usr_id, History::getTypeID('status_changed'), "Status changed to '$new_status' by " . User::getFullName($usr_id) . ' when sending an email');
+            History::add($issue_id, $usr_id, 'status_changed', "Status changed to '{status}' by {user} when sending an email", array(
+                'status' => $new_status,
+                'user' => User::getFullName($usr_id),
+            ));
         }
     }
     // remove the existing email draft, if appropriate

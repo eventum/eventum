@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -87,9 +87,10 @@ class SCM
 
         // need to mark this issue as updated
         Issue::markAsUpdated($issue_id);
-        // need to save a history entry for this
-        $summary = ev_gettext('SCM Checkins removed by %1$s', User::getFullName(Auth::getUserID()));
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('scm_checkin_removed'), $summary);
+        $usr_id = Auth::getUserID();
+        History::add($issue_id, $usr_id, 'scm_checkin_removed', 'SCM Checkins removed by {user}', array(
+            'user' => User::getFullName($usr_id)
+        ));
 
         return 1;
     }
@@ -171,8 +172,9 @@ class SCM
 
         // need to save a history entry for this
         // TRANSLATORS: %1: scm username
-        $summary = ev_gettext('SCM Checkins associated by SCM user "%1$s"', $username);
-        History::add($issue_id, $usr_id, History::getTypeID('scm_checkin_associated'), $summary);
+        History::add($issue_id, $usr_id, 'scm_checkin_associated', "SCM Checkins associated by SCM user '{user}'", array(
+            'user' => $username
+        ));
 
         Workflow::handleSCMCheckins($prj_id, $issue_id, $files, $username, $commit_msg);
 

@@ -916,4 +916,48 @@ class Misc
 
         return $data->getCode() == $code;
     }
+
+    /**
+     * Processes a message according to PSR-3 rules
+     *
+     * It replaces {foo} with the value from $context['foo']
+     *
+     * @see \Monolog\Processor\PsrLogMessageProcessor()
+     * @link https://github.com/Seldaek/monolog/blob/master/src/Monolog/Processor/PsrLogMessageProcessor.php
+     * @param string $message
+     * @param  array $context
+     * @return string
+     */
+    public static function processTokens($message, $context)
+    {
+        // shortcut out
+        if (false === strpos($message, '{')) {
+            return $message;
+        }
+
+        // handle empty context
+        if (!$context) {
+            $context = array();
+        }
+
+        // handle raw data from database (json encoded)
+        if (!is_array($context)) {
+            $context = json_decode($context, true);
+        }
+
+        $replacements = array();
+        foreach ($context as $key => $val) {
+            if (is_null($val) || is_scalar($val) || (is_object($val) && method_exists($val, '__toString'))) {
+                $replacements['{' . $key . '}'] = $val;
+            } elseif (is_object($val)) {
+                $replacements['{' . $key . '}'] = '[object ' . get_class($val) . ']';
+            } else {
+                $replacements['{' . $key . '}'] = '[' . gettype($val) . ']';
+            }
+        }
+
+        $message = strtr($message, $replacements);
+
+        return $message;
+    }
 }

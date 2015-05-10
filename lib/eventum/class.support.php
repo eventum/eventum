@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -775,7 +775,9 @@ class Support
                             }
                         }
                         // log routed email
-                        History::add($t['issue_id'], $usr_id, History::getTypeID('email_routed'), ev_gettext('Email routed from %1$s', $structure->headers['from']));
+                        History::add($t['issue_id'], $usr_id, 'email_routed', 'Email routed from {from}', array(
+                            'from' => $structure->headers['from'],
+                        ));
                     }
                 }
             } else {
@@ -1520,8 +1522,10 @@ class Support
         $res = DB_Helper::getInstance()->getColumn($stmt, $items);
 
         foreach ($res as $row) {
-            $summary = ev_gettext('Email (subject: "%1$s") associated by %2$s', $row, User::getFullName($usr_id));
-            History::add($issue_id, $usr_id, History::getTypeID('email_associated'), $summary);
+            History::add($issue_id, $usr_id, 'email_associated', "Email (subject: '{subject}') associated by {user}", array(
+                'subject' => $row,
+                'user' => User::getFullName($usr_id)
+            ));
         }
 
         return 1;
@@ -1865,12 +1869,12 @@ class Support
                     sup_id IN ($list)";
         $subjects = DB_Helper::getInstance()->fetchAssoc($stmt, $items);
 
+        $usr_id = Auth::getUserID();
         foreach ($items as $item) {
-            $summary = ev_gettext(
-                'Email (subject: "%1$s") disassociated by %2$s', $subjects[$item],
-                User::getFullName(Auth::getUserID())
-            );
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('email_disassociated'), $summary);
+            History::add($issue_id, $usr_id, 'email_disassociated', "Email (subject: '{subject}') disassociated by {user}", array(
+                'subject' => $subjects[$item],
+                'user' => User::getFullName($usr_id),
+            ));
         }
 
         return 1;
@@ -2118,9 +2122,10 @@ class Support
         if (!$iaf_ids && isset($_FILES['attachment'])) {
             $iaf_ids = Attachment::addFiles($_FILES['attachment']);
         }
+        $current_usr_id = Auth::getUserID();
         if ($iaf_ids) {
             // FIXME: is it correct to use sender from post data?
-            $usr_id = $sender_usr_id ?: Auth::getUserID();
+            $usr_id = $sender_usr_id ?: $current_usr_id;
             Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, false, 'Attachment originated from outgoing email');
         }
 
@@ -2131,14 +2136,14 @@ class Support
 
         // email blocking should only be done if this is an email about an associated issue
         if (!empty($_POST['issue_id'])) {
-            $user_info = User::getNameEmail(Auth::getUserID());
+            $user_info = User::getNameEmail($current_usr_id);
             // check whether the current user is allowed to send this email to customers or not
             if (!self::isAllowedToEmail($issue_id, $user_info['usr_email'])) {
                 // add the message body as a note
                 $_POST['full_message'] = $full_email;
                 $_POST['title'] = $_POST['subject'];
                 $_POST['note'] = Mail_Helper::getCannedBlockedMsgExplanation() . $_POST['message'];
-                Note::insert(Auth::getUserID(), $issue_id, false, true, false, true, true);
+                Note::insert($current_usr_id, $issue_id, false, true, false, true, true);
                 Workflow::handleBlockedEmail(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id'], $_POST, 'web');
 
                 return 1;
@@ -2151,7 +2156,6 @@ class Support
             // add the recipients to the notification list of the associated issue
             $recipients = array($_POST['to']);
             $recipients = array_merge($recipients, self::getRecipientsCC($_POST['cc']));
-            $current_usr_id = Auth::getUserID();
 
             foreach ($recipients as $address) {
                 if (!empty($address) && !Notification::isIssueRoutingSender($issue_id, $address)) {
@@ -2198,10 +2202,10 @@ class Support
                 $project_info = Project::getOutgoingSenderAddress(Auth::getCurrentProject());
                 // use the project-related outgoing email address, if there is one
                 if (!empty($project_info['email'])) {
-                    $from = Mail_Helper::getFormattedName(User::getFullName(Auth::getUserID()), $project_info['email']);
+                    $from = Mail_Helper::getFormattedName(User::getFullName($current_usr_id), $project_info['email']);
                 } else {
                     // otherwise, use the real email address for the current user
-                    $from = User::getFromHeader(Auth::getUserID());
+                    $from = User::getFromHeader($current_usr_id);
                 }
                 // send direct emails
                 self::sendDirectEmail($_POST['issue_id'], $from, $_POST['to'], $_POST['cc'],
@@ -2229,7 +2233,7 @@ class Support
                 $prj_id = Issue::getProjectID($_POST['issue_id']);
                 $crm = CRM::getInstance($prj_id);
                 try {
-                    $contact = $crm->getContact(User::getCustomerContactID(Auth::getUserID()));
+                    $contact = $crm->getContact(User::getCustomerContactID($current_usr_id));
                     $issue_contract = $crm->getContract(Issue::getContractID($_POST['issue_id']));
                     if ($contact->canAccessContract($issue_contract)) {
                         $t['customer_id'] = $issue_contract->getCustomerID();
@@ -2237,7 +2241,7 @@ class Support
                 } catch (CRMException $e) {
                 }
             } else {
-                $customer_id = User::getCustomerID(Auth::getUserID());
+                $customer_id = User::getCustomerID($current_usr_id);
                 if ((!empty($customer_id)) && ($customer_id != -1)) {
                     $t['customer_id'] = $customer_id;
                 }
@@ -2253,7 +2257,7 @@ class Support
 
         if ($issue_id) {
             // need to send a notification
-            Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $t, $internal_only, false, $type, $sup_id);
+            Notification::notifyNewEmail($current_usr_id, $issue_id, $t, $internal_only, false, $type, $sup_id);
             // mark this issue as updated
             if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')))) {
                 Issue::markAsUpdated($issue_id, 'customer action');
@@ -2265,9 +2269,9 @@ class Support
                 }
             }
 
-            // save a history entry for this
-            $summary = ev_gettext('Outgoing email sent by %1$s', User::getFullName(Auth::getUserID()));
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('email_sent'), $summary);
+            History::add($issue_id, $current_usr_id, 'email_sent', 'Outgoing email sent by {user}', array(
+                'user' => User::getFullName($current_usr_id)
+            ));
         }
 
         return 1;
@@ -2627,8 +2631,10 @@ class Support
             if (!$usr_id) {
                 $usr_id = APP_SYSTEM_USER_ID;
             }
-            // log blocked email
-            History::add($issue_id, $usr_id, History::getTypeID('email_blocked'), ev_gettext('Email from \'%1$s\' blocked', $email['from']));
+
+            History::add($issue_id, $usr_id, 'email_blocked', "Email from '{from}' blocked", array(
+                'from' => $email['from'],
+            ));
 
             return true;
         }
