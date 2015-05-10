@@ -193,13 +193,15 @@ class XmlRpcServer
     }
 
     /**
+     * NOTE: this needs to be public for PHP 5.3 compatibility
+     *
      * Decode parameters.
      * Parameters that are objects are encoded via php serialize() method
      *
      * @param array $params actual parameters
      * @param array $description parameter descriptions
      */
-    private function decodeParams(&$params, $description)
+    public function decodeParams(&$params, $description)
     {
         foreach ($params as $i => &$param) {
             $type = $description[$i][0];
