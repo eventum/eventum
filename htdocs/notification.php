@@ -64,7 +64,7 @@ foreach ($default as $action) {
 }
 $tpl->assign('default_actions', $res);
 
-$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : null;
+$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : (isset($_GET['cat']) ? (string)$_GET['cat'] : null);
 
 if ($cat == 'insert') {
     $res = Notification::subscribeEmail($usr_id, $issue_id, $_POST['email'], $_POST['actions']);

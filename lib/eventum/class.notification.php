@@ -1723,7 +1723,7 @@ class Notification
      * Method used to get the details of a given email notification
      * subscription.
      *
-     * @param   integer $sub_id The subcription ID
+     * @param   integer $sub_id The subscription ID
      * @return  array The details of the subscription
      */
     public static function getDetails($sub_id)
