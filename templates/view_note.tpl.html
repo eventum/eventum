@@ -106,7 +106,7 @@ function viewNote(id)
           <th width="120">
             {t}Attachments{/t}:
           </th>
-          <td bgcolor="{$dark_color}">
+          <td>
             {section name="i" loop=$note.attachments}
             <a title="{t}download file{/t}" href="get_attachment.php?cat=blocked_email&note_id={$note.not_id}&filename={$note.attachments[i].filename}{if $note.attachments[i].cid}&cid={$note.attachments[i].cid|escape:"html"}{/if}"><img src="{$core.rel_url}images/attachment.gif" border="0"></a>
             <a title="{t}download file{/t}" href="get_attachment.php?cat=blocked_email&note_id={$note.not_id}&filename={$note.attachments[i].filename}{if $note.attachments[i].cid}&cid={$note.attachments[i].cid|escape:"html"}{/if}">{$note.attachments[i].filename}</a><br />
