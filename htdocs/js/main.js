@@ -65,6 +65,8 @@ $(document).ready(function() {
 
     $("a.help").click(Eventum.openHelp);
 
+    $("input.issue_field").blur(Validation.validateIssueNumberField);
+
     // chosen config
     var config = {
         '.chosen-select'           : {},
@@ -727,6 +729,51 @@ Validation.isFloat = function(s)
 
     // All characters are numbers.
     return true;
+}
+
+Validation.last_issue_number_validation_value = '';
+Validation.validateIssueNumberField = function(e)
+{
+    var target = $(e.target);
+    var form_value = target.val()
+    if (Validation.last_issue_number_validation_value == form_value) {
+        return;
+    } else {
+        Validation.last_issue_number_validation_value = form_value;
+    }
+    var options = {
+        check_project: target.attr('data-check-project'),
+        exclude_issue: target.attr('data-exclude-issue'),
+        exclude_duplicates: target.attr('data-exclude-duplicates'),
+        error_message: target.attr('data-error-message')
+    }
+
+    jQuery.ajax({
+            url: Eventum.rel_url + 'validate.php',
+            data: {
+                action: 'validateIssueNumbers',
+                values: form_value,
+                field_id: target.attr('id'),
+                check_project: options.check_project,
+                exclude_issue: options.exclude_issue,
+                exclude_duplicates: options.exclude_duplicates
+            },
+            error_message: options.error_message,
+            success: function(data, textStatus) {
+                var error_span = $('#' + target.attr('id') + '_error');
+                if (data != 'ok') {
+                    Validation.selectField(target);
+                    var error_message = '<b>Error</b>: The following issues are invalid: ' + data;
+                    if (this.error_message != undefined) {
+                        error_message += '. ' + this.error_message;
+                    }
+                    error_span.html(error_message);
+                } else {
+                    Validation.showErrorIcon(target, false);
+                    error_span.innerHTML = '';
+                }
+            }
+     });
 }
 
 
