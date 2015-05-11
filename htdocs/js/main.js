@@ -770,7 +770,7 @@ Validation.validateIssueNumberField = function(e)
                     error_span.html(error_message);
                 } else {
                     Validation.showErrorIcon(target, false);
-                    error_span.innerHTML = '';
+                    error_span.html('');
                 }
             }
      });
