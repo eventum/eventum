@@ -56,14 +56,21 @@ tools-check: $(tsmarty2c)
 		[ "$$p" -a -x "$$p" ] || { echo "ERROR: Can't find $$t"; exit 1; }; \
 	done
 
+# seupt workdir from git index
+SETUP_WORKDIR=git archive HEAD
+
+# build pot from current workdir, not from git index
+local-pot:
+	$(MAKE) pot SETUP_WORKDIR="tar -cf - . --exclude=vendor --exclude=po --exclude=workdir"
+
 # generate .pot file from clean copy
 pot: tools-check
-	@set -x -e; \
+	# note about History::add: it's little hack, as can't specicy :: in --keyword arg
+	set -x -e; \
 	umask 002; \
 	rm -rf workdir; \
 	install -d workdir; \
-	(cd .. && git archive HEAD) | tar -x -C workdir; \
-	# note about History::add: it's little hack, as can't specicy :: in --keyword arg
+	(cd .. && $(SETUP_WORKDIR)) | tar -x -C workdir; \
 	cd workdir; \
 		find templates -name '*.tpl.html' -o -name '*.tpl.text' -o -name '*.tpl.js' -o -name '*.tpl.xml' | xargs $(tsmarty2c) -o ts.pot; \
 		grep -rl History::add lib htdocs | xargs sed -i -e 's/History::add/History__add/g'; \
