@@ -193,15 +193,13 @@ class XmlRpcServer
     }
 
     /**
-     * NOTE: this needs to be public for PHP 5.3 compatibility
-     *
      * Decode parameters.
      * Parameters that are objects are encoded via php serialize() method
      *
      * @param array $params actual parameters
      * @param array $description parameter descriptions
      */
-    public function decodeParams(&$params, $description)
+    private function decodeParams(&$params, $description)
     {
         foreach ($params as $i => &$param) {
             $type = $description[$i][0];
@@ -234,11 +232,7 @@ class XmlRpcServer
                 $params[] = XML_RPC_decode($message->getParam($i));
             }
 
-            if ($pdesc) {
-                $handler->decodeParams($params, $pdesc);
-            }
-
-            return $handler->handle($method, $params, $public);
+            return $handler->handle($method, $params, $public, $pdesc);
         };
 
         return $function;
@@ -250,9 +244,10 @@ class XmlRpcServer
      * @param ReflectionMethod $method
      * @param array $params Method parameters in already decoded into PHP types
      * @param bool $public true if method should not be protected with login/password
+     * @param array $pdesc Parameter descriptions
      * @return string
      */
-    public function handle($method, $params, $public)
+    public function handle($method, $params, $public, $pdesc)
     {
         // there's method to set this via $client->setAutoBase64(true);
         // but nothing at server side. where we actually need it
@@ -270,6 +265,10 @@ class XmlRpcServer
                 }
 
                 RemoteApi::createFakeCookie($email);
+            }
+
+            if ($pdesc) {
+                $this->decodeParams($params, $pdesc);
             }
 
             $res = $method->invokeArgs($this->api, $params);
