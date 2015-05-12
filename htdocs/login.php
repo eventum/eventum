@@ -39,7 +39,7 @@ if (Validation::isWhitespace($login)) {
 $passwd = isset($_POST['passwd']) ? (string)$_POST['passwd'] : null;
 if (Validation::isWhitespace($passwd)) {
     Auth::saveLoginAttempt($login, 'failure', 'empty password');
-    Auth::redirect('index.php?err=2&email=' . $login);
+    Auth::redirect('index.php?err=2&email=' . rawurlencode($login));
 }
 
 // check if user exists
@@ -57,7 +57,7 @@ if (Auth::isUserBackOffLocked(Auth::getUserIDByLogin($login))) {
 // check if the password matches
 if (!Auth::isCorrectPassword($login, $passwd)) {
     Auth::saveLoginAttempt($login, 'failure', 'wrong password');
-    Auth::redirect('index.php?err=3&email=' . $login);
+    Auth::redirect('index.php?err=3&email=' . rawurlencode($login));
 }
 
 // handle aliases since the user is now authenticated
