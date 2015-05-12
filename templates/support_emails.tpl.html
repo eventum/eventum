@@ -78,7 +78,8 @@
                 <th width="15%" nowrap>{t}Received{/t}</th>
                 <th width="50%">{t}Subject{/t}</th>
             </tr>
-            {if $core.current_role > $core.roles.viewer and $core.current_role != $core.roles.customer}
+            {if $core.current_role > $core.roles.viewer and $core.current_role != $core.roles.customer and
+                $core.app_setup.description_email_0|default:'' == 'enabled'}
             <tr class="even">
                 <td align="center">&nbsp;</td>
                 <td align="center" nowrap align="center">

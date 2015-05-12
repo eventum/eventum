@@ -597,25 +597,32 @@ class RemoteApi
     public function getEmailListing($issue_id)
     {
         $real_emails = Support::getEmailsByIssue($issue_id);
-
-        $issue = Issue::getDetails($issue_id);
-        $email = array(
-            'sup_date'    => $issue['iss_created_date'],
-            'sup_from'    => $issue['reporter'],
-            'sup_to'      => '',
-            'sup_cc'      => '',
-            'sup_subject' => $issue['iss_summary'],
-        );
-        if ($real_emails != '') {
-            $emails = array_merge(array($email), $real_emails);
-        } else {
-            $emails[] = $email;
-        }
-
-        if (is_array($emails)) {
-            foreach ($emails as &$email) {
+        if (is_array($real_emails)) {
+            foreach ($real_emails as $i => &$email) {
+                $email['id'] = $i+1;
                 unset($email['seb_body']);
             }
+        }
+
+        $setup = Setup::load();
+
+        if (isset($setup['description_email_0']) && $setup['description_email_0'] == 'enabled') {
+            $issue = Issue::getDetails($issue_id);
+            $email = array(
+                'id'          => 0,
+                'sup_date'    => $issue['iss_created_date'],
+                'sup_from'    => $issue['reporter'],
+                'sup_to'      => '',
+                'sup_cc'      => '',
+                'sup_subject' => $issue['iss_summary'],
+            );
+            if ($real_emails != '') {
+                $emails = array_merge(array($email), $real_emails);
+            } else {
+                $emails[] = $email;
+            }
+        } else {
+            $emails = $real_emails;
         }
 
         return $emails;

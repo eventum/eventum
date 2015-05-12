@@ -12,6 +12,7 @@ Eventum Issue Tracking System
 - Avoid associating issue with itself (Elan Ruusamäe, #29)
 - Allow history entries to be fully translated (Elan Ruusamäe, #51)
 - Add associated issues field to New Issue page (Elan Ruusamäe, #52)
+- Added global setting to control if the description is used as email #0 (Bryan Alsdorf)
 
 2015-04-21, Version 3.0.1
 - Add option to set time summary when sending a note (Bryan)

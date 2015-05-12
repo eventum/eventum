@@ -47,6 +47,7 @@ if (@$_POST['cat'] == 'update') {
     $setup = Setup::load();
     $setup['tool_caption'] = $_POST['tool_caption'];
     $setup['support_email'] = $_POST['support_email'];
+    $setup['description_email_0'] = $_POST['description_email_0'];
     $setup['spell_checker'] = $_POST['spell_checker'];
     $setup['irc_notification'] = $_POST['irc_notification'];
     $setup['allow_unassigned_issues'] = $_POST['allow_unassigned_issues'];

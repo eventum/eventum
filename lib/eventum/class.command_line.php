@@ -748,10 +748,6 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             exit;
         }
 
-        foreach ($emails as $id => &$email) {
-            $email['id'] = $id;
-        }
-
         $format = array(
             'id' => array(
                 'width' => 3,
