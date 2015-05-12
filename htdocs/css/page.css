@@ -338,6 +338,10 @@ body#list_issues #bulk_update table {
     width: 100%;
 }
 
+body#list_issues td.custom_field {
+    cursor: pointer;
+}
+
 /* End List Issue page */
 
 /*
