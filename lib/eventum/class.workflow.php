@@ -292,7 +292,6 @@ class Workflow
         if ($reflection->hasMethod('handleAssignment')) {
             trigger_error("Workflow::handleAssignment is deprecated", E_USER_DEPRECATED);
             $backend->handleAssignment($prj_id, $issue_id, $usr_id);
-            return;
         }
 
         $backend->handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment);
