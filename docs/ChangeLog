@@ -13,7 +13,7 @@ Eventum Issue Tracking System
 - Allow history entries to be fully translated (Elan Ruusamäe, #51)
 - Add associated issues field to New Issue page (Elan Ruusamäe, #52)
 - Added global setting to control if the description is used as email #0 (Bryan Alsdorf)
-- Properly handle handleAssignment workflow method deprecation (Elan Ruusamäe, 539ef83, 8f4eb61)
+- Properly handle handleAssignment workflow method deprecation (Elan Ruusamäe, 539ef83, 8f4eb61, 130ec88)
 
 2015-04-21, Version 3.0.1
 - Add option to set time summary when sending a note (Bryan)
