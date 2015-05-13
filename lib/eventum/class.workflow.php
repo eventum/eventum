@@ -287,9 +287,9 @@ class Workflow
 
         $backend = self::_getBackend($prj_id);
 
-        // call deprecated handleAssignment() if handleAssignmentChange() is not defined
+        // call deprecated handleAssignment() if it still exists
         $reflection = new ReflectionClass($backend);
-        if ($reflection->hasMethod('handleAssignment') && !$reflection->hasMethod('handleAssignmentChange')) {
+        if ($reflection->hasMethod('handleAssignment')) {
             trigger_error("Workflow::handleAssignment is deprecated", E_USER_DEPRECATED);
             $backend->handleAssignment($prj_id, $issue_id, $usr_id);
             return;

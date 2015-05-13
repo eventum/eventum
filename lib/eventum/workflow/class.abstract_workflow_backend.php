@@ -165,21 +165,6 @@ class Abstract_Workflow_Backend
     }
 
     /**
-     * THIS METHOD IS NOW DEPRECATED AND ISN'T CALLED FROM ANYWHERE.
-     * USE handleAssignmentChange instead.
-     * Called when an issue is assigned.
-     *
-     * @param   integer $prj_id The projectID
-     * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The id of the user who assigned the issue.
-     * @deprecated Deprecated since Version 2.4.0 pre1 in favor of handleAssignmentChange
-     */
-    public function handleAssignment($prj_id, $issue_id, $usr_id)
-    {
-        trigger_error("Workflow::handleAssignment is deprecated", E_USER_DEPRECATED);
-    }
-
-    /**
      * Called when a file is attached to an issue.
      *
      * @param   integer $prj_id The projectID
