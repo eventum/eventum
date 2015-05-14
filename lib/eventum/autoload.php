@@ -71,7 +71,7 @@ class Eventum_Autoload
             'RemoteApi' => $baseDir . '/rpc/RemoteApi.php',
             'XmlRpcServer' => $baseDir . '/rpc/XmlRpcServer.php',
             'PlotHelper' => $baseDir . '/PlotHelper.php',
-            'RecentActivity' => $baseDir . '/reports/RecentActivity.php',
+            'RecentActivity' => $baseDir . '/report/RecentActivity.php',
 
             'Auth_Backend_Interface' => $baseDir . '/auth/class.auth_backend_interface.php',
             'Mysql_Auth_Backend' => $baseDir . '/auth/class.mysql_auth_backend.php',
