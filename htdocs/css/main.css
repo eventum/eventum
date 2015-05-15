@@ -76,7 +76,8 @@ div#header #app_title {
 }
 
 div#header #user_menu {
-    width: 500px;
+    width: 75%;
+    font-size: 0.9em;
     background: #dddddd;
     color: black;
     font-weight: bold;
