@@ -102,43 +102,36 @@ body.issue_view div#issue_overview div#issue_menu {
     font-weight: normal;
 }
 body.issue_view div#issue_overview div#colwrap1 {
-    background: #255282;
-    float: left;
-    width: 1000px;
-    position: relative;
-    right: 850px;
+    background: none repeat scroll 0 0 #255282;
+    width: 100%;
 }
 
 body.issue_view div#issue_overview div#colwrap2 {
-    background: #ffffff;
-    float: left;
-    width: 1000px;
-    position: relative;
-    right: 151px;
+    background: none repeat scroll 0 0 #ffffff;
+}
+
+body.issue_view div#issue_overview div#colwrap2 div.issue_field_display div.label {
+    width: 25%;
 }
 
 body.issue_view div#issue_overview div#column1 {
-    width: 500px;
     float: left;
-    position: relative;
-    left: 1001px;
-    overflow: hidden;
+    width: 50%;
 }
 
 body.issue_view div#issue_overview div#column2 {
-    width: 500px;
     float: left;
-    position: relative;
-    left: 1000px;
+    width: 50%;
 }
 
 body.issue_view div#issue_overview div.issue_field_display {
+    background: none repeat scroll 0 0 #dddddd;
+    border-top: 1px solid #ffffff;
     clear: left;
+    display: block;
     float: left;
-    width: 500px;
     overflow: hidden;
-    background: #dddddd;
-    border-top: #FFFFFF 1px solid;
+    width: 100%;
 }
 
 body.issue_view div#issue_overview div.issue_field_display:first-child {
@@ -147,49 +140,50 @@ body.issue_view div#issue_overview div.issue_field_display:first-child {
 
 body.issue_view div#issue_overview div.issue_field_display div.background  {
     float: left;
-    width: 500px;
-    position: relative;
-    right: 350px;
+    width: 100%;
     background: #255282;
 }
 
 body.issue_view div#issue_overview div.issue_field_display div.label {
     float: left;
-    width: 150px;
+    width: 20%;
     font-weight: bold;
-    position: relative;
-    left: 353px;
+    font-size: 0.9em;
     overflow: hidden;
     padding-top: 2px;
     color: #FFFFFF;
+
+    box-sizing: border-box;
+    padding-left: 2px;
 }
 
 body.issue_view div#issue_overview div.issue_field_display div.display {
     float: left;
-    width: 350px;
-    position: relative;
-    left: 353px;
+    width: 75%;
     overflow: hidden;
     padding-top: 2px;
+    background: #dddddd;
+    min-height: 17px;
+    box-sizing: border-box;
+    padding-left: 2px;
 }
 
 body.issue_view div#issue_overview div.issue_field_display.full_width {
-    width: 1000px;
+    width: 100%;
 }
 
 body.issue_view div#issue_overview div.issue_field_display.full_width div.background  {
-    width: 1000px;
-    right: 850px;
+    float: left;
+    width: 100%;
 }
 
 body.issue_view div#issue_overview div.issue_field_display.full_width div.label {
-    width: 150px;
-    left: 853px;
+    width: 12%;
 }
 
 body.issue_view div#issue_overview div.issue_field_display.full_width div.display {
-    width: 850px;
-    left: 853px;
+    width: 88%;
+    background: #dddddd;
 }
 
 body.issue_view div#issue_overview #summary {
