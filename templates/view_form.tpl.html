@@ -76,10 +76,10 @@
                 {/if}
 
                 {foreach from=$columns[0] item=row}
-                <div class="issue_field_display" {if $row.data_bgcolor|default:'' != '' }style="background-color: {$row.data_bgcolor}"{/if}>
+                <div class="issue_field_display">
                 <div class="background">
                     <div class="label" {if $row.title_bgcolor|default:'' != '' }style="background-color: {$row.title_bgcolor}"{/if}>{$row.title}</div>
-                <div class="display" >
+                <div class="display" {if $row.data_bgcolor|default:'' != '' }style="background-color: {$row.data_bgcolor}"{/if}>
                     {if $row.tpl_block|default:'' == 'reporter'}
                     <a href="list.php?reporter={$issue.iss_usr_id}&hide_closed=1" class="link">{$issue.reporter|escape:html}</a>
                     {elseif $row.tpl_block|default:'' == 'product'}
