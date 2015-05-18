@@ -186,6 +186,11 @@ body.issue_view div#issue_overview div.issue_field_display.full_width div.displa
     background: #dddddd;
 }
 
+body.issue_view div#issue_overview div.issue_field_display.full_width div.display span#issue_description {
+    min-height: 90px;
+    display: block;
+}
+
 body.issue_view div#issue_overview #summary {
     clear: both;
 }
