@@ -250,4 +250,16 @@ class DateHelperTest extends PHPUnit_Framework_TestCase
         printf("%d Differences\n", count($diff));
 //        print_r($diff);
     }
+
+    public function testTzNamingDifferences()
+    {
+        $created_date = Date_Helper::convertDateGMT('2015-05-19 12:22:24 EET');
+        $this->assertEquals("2015-05-19 10:22:24", $created_date);
+
+        $created_date = Date_Helper::convertDateGMT('2015-05-19 12:22:24 EEST');
+        $this->assertEquals("2015-05-19 09:22:24", $created_date);
+
+        $created_date = Date_Helper::convertDateGMT('2015-05-19 12:22:24 Europe/Tallinn');
+        $this->assertEquals("2015-05-19 09:22:24", $created_date);
+    }
 }
