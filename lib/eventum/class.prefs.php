@@ -153,11 +153,7 @@ class Prefs
      */
     public static function set($usr_id, $preferences)
     {
-        // if the user is trying to upload a new signature, override any changes to the textarea
-        if (!empty($_FILES['file_signature']['name'])) {
-            $preferences['email_signature'] = file_get_contents($_FILES['file_signature']['tmp_name']);
-        }
-
+        // set global preferences
         $sql = 'REPLACE INTO
                     {{%user_preference}}
                 SET
@@ -186,6 +182,7 @@ class Prefs
             return -1;
         }
 
+        // set per project preferences
         $projects = Project::getAssocList($usr_id);
         foreach ($projects as $prj_id => $project_name) {
             $sql = 'REPLACE INTO
