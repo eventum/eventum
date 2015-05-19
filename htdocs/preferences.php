@@ -36,11 +36,12 @@ if (!empty($_POST['language'])) {
 require_once dirname(__FILE__) . '/../init.php';
 
 $cat = isset($_POST['cat']) ? (string)$_POST['cat'] : null;
+$usr_id = Auth::getUserID();
 
 // must do Language::setPreference before template is initialized
 if ($cat == 'update_account') {
     if (isset($_POST['language'])) {
-        $res = User::setLang(Auth::getUserID(), $_POST['language']);
+        $res = User::setLang($usr_id, $_POST['language']);
         Language::setPreference();
     }
 }
@@ -53,8 +54,6 @@ Auth::checkAuthentication(APP_COOKIE);
 if (Auth::isAnonUser()) {
     Auth::redirect('index.php');
 }
-
-$usr_id = Auth::getUserID();
 
 $res = null;
 
@@ -90,11 +89,11 @@ $tpl->assign('user_info', User::getDetails($usr_id));
 $tpl->assign('assigned_projects', Project::getAssocList($usr_id, false, true));
 $tpl->assign('zones', Date_Helper::getTimezoneList());
 $tpl->assign('avail_langs', Language::getAvailableLanguages());
-$tpl->assign('current_locale', User::getLang(Auth::getUserID(), true));
+$tpl->assign('current_locale', User::getLang($usr_id, true));
 $tpl->assign(array(
-    'can_update_name' => Auth::canUserUpdateName(Auth::getUserID()),
-    'can_update_email' => Auth::canUserUpdateEmail(Auth::getUserID()),
-    'can_update_password' => Auth::canUserUpdatePassword(Auth::getUserID()),
+    'can_update_name' => Auth::canUserUpdateName($usr_id),
+    'can_update_email' => Auth::canUserUpdateEmail($usr_id),
+    'can_update_password' => Auth::canUserUpdatePassword($usr_id),
 ));
 
 $tpl->displayTemplate();
