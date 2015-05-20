@@ -39,7 +39,7 @@ $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
 
 $issue_id = isset($_GET['issue_id']) ? (int)$_GET['issue_id'] : (isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : null);
-$cat = isset($_GET['cat']) ? (string)$_GET['cat'] : (isset($_POST['cat']) ? (string)$_POST['cat'] : null);
+$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : (isset($_GET['cat']) ? (string)$_GET['cat'] : null);
 
 $details = Issue::getDetails($issue_id);
 $tpl->assign('issue_id', $issue_id);
