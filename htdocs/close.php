@@ -39,7 +39,8 @@ Auth::checkAuthentication(APP_COOKIE);
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 $role_id = Auth::getCurrentRole();
-$issue_id = @$_POST['issue_id'] ? $_POST['issue_id'] : @$_GET['id'];
+$issue_id = isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : (isset($_GET['id']) ? (int)$_GET['id'] : null);
+
 $tpl->assign('extra_title', "Close Issue #$issue_id");
 $tpl->assign('user_prefs', Prefs::get($usr_id));
 
@@ -47,7 +48,7 @@ if (!Issue::exists($issue_id, false)) {
     $tpl->assign('no_issue', true);
     $tpl->displayTemplate();
     exit;
-} elseif (($role_id == User::getRoleID('customer')) || (!Issue::canAccess($issue_id, $usr_id))) {
+} elseif ($role_id == User::getRoleID('customer') || !Issue::canAccess($issue_id, $usr_id)) {
     $tpl->assign('auth_customer', 'denied');
     $tpl->displayTemplate();
     exit;
@@ -60,7 +61,8 @@ $tpl->assign('notification_list_all', $notification_list['all']);
 $notification_list_internal = Notification::getSubscribers($issue_id, 'closed', User::getRoleID('Standard User'));
 $tpl->assign('notification_list_internal', $notification_list_internal['all']);
 
-if (@$_REQUEST['cat'] == 'close') {
+$cat = isset($_REQUEST['cat']) ? (string)$_REQUEST['cat'] : null;
+if ($cat == 'close') {
     Custom_Field::updateValues();
     $res = Issue::close(Auth::getUserID(), $issue_id, $_REQUEST['send_notification'], $_REQUEST['resolution'], $_REQUEST['status'], $_REQUEST['reason'], @$_REQUEST['notification_list']);
 
