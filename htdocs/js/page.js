@@ -585,7 +585,7 @@ close_issue.validateForm = function()
     Validation.checkCustomFields(form);
 
     // TODO: this needs to be double checked with a customer backend
-    var has_per_incident_contract = (('tr.per_incident').length > 0)
+    var has_per_incident_contract = ($('tr.per_incident').length > 0)
     if ((Validation.errors.length < 1) && (has_per_incident_contract)) {
         if ($('input[type=checkbox][name^=redeem]:checked').length > 0) {
             return confirm('This customer has a per incident contract. You have chosen not to redeem any incidents. Press \'OK\' to confirm or \'Cancel\' to revise.');
