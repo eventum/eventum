@@ -38,7 +38,9 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
 
-@$issue_id = $_GET['issue_id'] ? $_GET['issue_id'] : $_POST['issue_id'];
+$issue_id = isset($_GET['issue_id']) ? (int)$_GET['issue_id'] : (isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : null);
+$cat = isset($_GET['cat']) ? (string)$_GET['cat'] : (isset($_POST['cat']) ? (string)$_POST['cat'] : null);
+
 $details = Issue::getDetails($issue_id);
 $tpl->assign('issue_id', $issue_id);
 $tpl->assign('issue', $details);
@@ -51,10 +53,10 @@ if ((!Issue::canAccess($issue_id, $usr_id)) || (Auth::getCurrentRole() <= User::
 
 Workflow::prePage($prj_id, 'post_note');
 
-if (@$_GET['cat'] == 'post_result' && !empty($_GET['post_result'])) {
+if ($cat == 'post_result' && !empty($_GET['post_result'])) {
     $res = (int) $_GET['post_result'];
     $tpl->assign('post_result', $res);
-} elseif (@$_POST['cat'] == 'post_note') {
+} elseif ($cat == 'post_note') {
     // change status
     $status = isset($_POST['new_status']) ? (int)$_POST['new_status'] : null;
     if ($status) {
@@ -92,7 +94,7 @@ if (@$_GET['cat'] == 'post_result' && !empty($_GET['post_result'])) {
     }
 
     Auth::redirect("post_note.php?cat=post_result&issue_id=$issue_id&post_result={$res}");
-} elseif (@$_GET['cat'] == 'reply') {
+} elseif ($cat == 'reply') {
     if (!empty($_GET['id'])) {
         $note = Note::getDetails($_GET['id']);
         $header = Misc::formatReplyPreamble($note['timestamp'], $note['not_from']);
