@@ -21,7 +21,7 @@ foreach (DateTimeZone::listAbbreviations() as $abbrevation => $list) {
 }
 
 /** @var DbInterface $db */
-$res = $db->getAll("select upr_usr_id, upr_timezone from {{%user_preference}} where upr_timezone != ''");
+$res = $db->getAll("select upr_usr_id, upr_timezone from {{%user_preference}}");
 
 foreach ($res as $row) {
     $usr_id = $row['upr_usr_id'];
@@ -32,13 +32,20 @@ foreach ($res as $row) {
         continue;
     }
 
-    // no mapping, sorry
-    if (!isset($timezones[$tz])) {
+    if (!$tz) {
+        // if empty tz, set default from system
+        $new_tz = APP_DEFAULT_TIMEZONE;
+
+    } elseif (isset($timezones[$tz])) {
+        $new_tz = $timezones[$tz];
+
+    } else {
+        // no mapping, sorry
         continue;
     }
 
     $prefs = Prefs::get($usr_id);
-    $prefs['timezone'] = $timezones[$tz];
+    $prefs['timezone'] = $new_tz;
     echo "Updating user #$usr_id timezone: $tz => {$prefs['timezone']}\n";
     Prefs::set($usr_id, $prefs);
 }
