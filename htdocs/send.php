@@ -39,7 +39,9 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
 
-@$issue_id = $_GET['issue_id'] ? $_GET['issue_id'] : $_POST['issue_id'];
+$issue_id = isset($_GET['issue_id']) ? (int)$_GET['issue_id'] : (isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : null);
+$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : (isset($_GET['cat']) ? (string)$_GET['cat'] : null);
+
 $tpl->assign('issue_id', $issue_id);
 
 if (!Issue::canAccess($issue_id, $usr_id)) {
@@ -52,11 +54,11 @@ Workflow::prePage($prj_id, 'send_email');
 
 // since emails associated with issues are sent to the notification list, not the to: field, set the to field to be blank
 // this field should already be blank, but may also be unset.
-if (!empty($issue_id)) {
+if ($issue_id) {
     $_POST['to'] = '';
 }
 
-if (@$_POST['cat'] == 'send_email') {
+if ($cat == 'send_email') {
     $res = Support::sendEmail($_POST['parent_id']);
     $tpl->assign('send_result', $res);
     if (Access::canChangeStatus($issue_id, $usr_id) && isset($_POST['new_status']) &&
@@ -82,16 +84,16 @@ if (@$_POST['cat'] == 'send_email') {
         $summary = 'Time entry inserted when sending outgoing email.';
         Time_Tracking::addTimeEntry($issue_id, $ttc_id, $time_spent, $date, $summary);
     }
-} elseif (@$_POST['cat'] == 'save_draft') {
+} elseif ($cat == 'save_draft') {
     $res = Draft::saveEmail($issue_id, $_POST['to'], $_POST['cc'], $_POST['subject'], $_POST['message'], $_POST['parent_id']);
     $tpl->assign('draft_result', $res);
-} elseif (@$_POST['cat'] == 'update_draft') {
+} elseif ($cat == 'update_draft') {
     $res = Draft::update($issue_id, $_POST['draft_id'], $_POST['to'], $_POST['cc'], $_POST['subject'], $_POST['message'], $_POST['parent_id']);
     $tpl->assign('draft_result', $res);
 }
 
 // enter the time tracking entry about this new email
-if ((@$_POST['cat'] == 'save_draft') || (@$_POST['cat'] == 'update_draft')) {
+if ($cat == 'save_draft' || $cat == 'update_draft') {
     if (!empty($_POST['time_spent'])) {
         $date = (array)$_POST['date'];
         $ttc_id = Time_Tracking::getCategoryId($prj_id, 'Email Discussion');
@@ -101,7 +103,7 @@ if ((@$_POST['cat'] == 'save_draft') || (@$_POST['cat'] == 'update_draft')) {
     }
 }
 
-if (@$_GET['cat'] == 'view_draft') {
+if ($cat == 'view_draft') {
     $draft = Draft::getDetails($_GET['id']);
     $email = array(
         'sup_subject' => $draft['emd_subject'],
@@ -125,7 +127,7 @@ if (@$_GET['cat'] == 'view_draft') {
     if ($draft['emd_status'] != 'pending') {
         $tpl->assign('read_only', 1);
     }
-} elseif (@$_GET['cat'] == 'create_draft') {
+} elseif ($cat == 'create_draft') {
     $tpl->assign('hide_email_buttons', 'yes');
 } else {
     if (!empty($_GET['id'])) {
@@ -140,7 +142,7 @@ if (@$_GET['cat'] == 'view_draft') {
 }
 
 // special handling when someone tries to 'reply' to an issue
-if (@$_GET['cat'] == 'reply') {
+if ($cat == 'reply') {
     $details = Issue::getReplyDetails($_GET['issue_id']);
     if ($details != '') {
         $header = Misc::formatReplyPreamble($details['created_date_ts'], $details['reporter']);
@@ -164,7 +166,8 @@ if (!empty($issue_id)) {
     $tpl->assign('subscribers', Notification::getSubscribers($issue_id, 'emails'));
 }
 if ((!empty($_GET['ema_id'])) || (!empty($_POST['ema_id']))) {
-    @$tpl->assign('ema_id', $_GET['ema_id'] ? $_GET['ema_id'] : $_POST['ema_id']);
+    $ema_id = isset($_GET['ema_id']) ? (int)$_GET['ema_id'] : (isset($_POST['ema_id']) ? (int)$_POST['ema_id'] : null);
+    $tpl->assign('ema_id', $ema_id);
 }
 
 $user_prefs = Prefs::get($usr_id);
