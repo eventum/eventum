@@ -731,16 +731,16 @@ class Notification
      *
      * @param integer $issue_id The issue ID
      * @param string $type The notification type
-     * @param array $ids The list of entries that were changed
+     * @param int $entry_id The entries id that was changed
      * @param bool $internal_only Whether the notification should only be sent to internal users or not
      * @param array $extra_recipients
      * @return bool
      */
-    public static function notify($issue_id, $type, $ids = null, $internal_only = false, $extra_recipients = null)
+    public static function notify($issue_id, $type, $entry_id = null, $internal_only = false, $extra_recipients = null)
     {
         $prj_id = Issue::getProjectID($issue_id);
+        $extra = array();
         if ($extra_recipients) {
-            $extra = array();
             foreach ($extra_recipients as $user) {
                 $extra[] = array(
                     'sub_usr_id' => $user,
@@ -750,7 +750,7 @@ class Notification
         }
         $emails = array();
         $users = self::getUsersByIssue($issue_id, $type);
-        if (($extra_recipients) && (count($extra) > 0)) {
+        if ($extra_recipients && (count($extra) > 0)) {
             $users = array_merge($users, $extra);
         }
         $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
@@ -826,15 +826,15 @@ class Notification
                 $data['closer_name'] = User::getFullName(History::getIssueCloser($issue_id));
                 $subject = ev_gettext('Closed');
 
-                if ($ids) {
-                    $data['reason'] = Support::getEmail($ids);
+                if ($entry_id) {
+                    $data['reason'] = Support::getEmail($entry_id);
                 }
                 break;
             case 'updated':
                 // this should not be used anymore
                 return false;
             case 'notes':
-                $data = self::getNote($issue_id, $ids);
+                $data = self::getNote($issue_id, $entry_id);
                 $headers = array(
                     'Message-ID'    =>  $data['note']['not_message_id'],
                 );
@@ -850,13 +850,13 @@ class Notification
                 // this should not be used anymore
                 return false;
             case 'files':
-                $data = self::getAttachment($issue_id, $ids);
+                $data = self::getAttachment($issue_id, $entry_id);
                 $subject = 'File Attached';
                 break;
         }
 
         // FIXME: $data and $subject might be used uninitialized
-        self::notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $ids, $headers);
+        self::notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $entry_id, $headers);
     }
 
     /**
