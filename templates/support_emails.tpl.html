@@ -67,7 +67,7 @@
         <div class="content" {get_display_style element_name='support_emails' total=$emails|@count}>
         <table class="grid">
             <tr>
-                {if $emails|@count > 0 and $core.current_role > $core.roles.viewer and $core.current_role != $core.roles.customer}
+                {if $emails|@count > 0 && $core.current_role > $core.roles.viewer && $core.current_role != $core.roles.customer}
                 <th width="5"><input type="button" value="{t}All{/t}" class="select_all"></th>
                 {/if}
                 <th align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email,description"}</th>
@@ -78,7 +78,7 @@
                 <th width="15%" nowrap>{t}Received{/t}</th>
                 <th width="50%">{t}Subject{/t}</th>
             </tr>
-            {if $core.current_role > $core.roles.viewer and $core.current_role != $core.roles.customer and
+            {if $core.current_role > $core.roles.viewer && $core.current_role != $core.roles.customer &&
                 $core.app_setup.description_email_0|default:'' == 'enabled'}
             <tr class="even">
                 <td align="center">&nbsp;</td>
@@ -103,7 +103,7 @@
             {section name="i" loop=$emails}
             {cycle values='odd,even' assign="row_class"}
             <tr class="{$row_class}">
-                {if $core.current_role > $core.roles.viewer and $core.current_role != $core.roles.customer}
+                {if $core.current_role > $core.roles.viewer && $core.current_role != $core.roles.customer}
                 <td align="center">
                     <input type="checkbox" name="item[]" value="{$emails[i].sup_id}">
                 </td>
@@ -151,7 +151,7 @@
     <input type="button" value="{t}Send Email{/t}" onClick="sendEmail({$ema_id}, {$smarty.get.id|intval});">
     {/if}
 
-    {if $emails|@count > 0 and $core.current_role != $core.roles.customer}
+    {if $emails|@count > 0 && $core.current_role != $core.roles.customer}
     <div class="right">
         <input type="submit" value="{t}Disassociate Selected{/t}">
     </div>
