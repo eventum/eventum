@@ -70,7 +70,7 @@ if ($cat == 'post_result' && !empty($_GET['post_result'])) {
         }
     }
 
-    $res = Note::insert($usr_id, $issue_id);
+    $res = Note::insertFromPost($usr_id, $issue_id);
     Issue_Field::updateValues($issue_id, 'post_note', @$_REQUEST['issue_field']);
 
     if ($res == -1) {

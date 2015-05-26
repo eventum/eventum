@@ -706,7 +706,7 @@ class Support
                             'message_id'           => $t['message_id'],
                             'parent_id'            => $should_create_array['parent_id'],
                         );
-                        $res = Note::insert($usr_id, $t['issue_id']);
+                        $res = Note::insertFromPost($usr_id, $t['issue_id']);
 
                         // need to handle attachments coming from notes as well
                         if ($res != -1) {
@@ -2143,7 +2143,7 @@ class Support
                 $_POST['full_message'] = $full_email;
                 $_POST['title'] = $_POST['subject'];
                 $_POST['note'] = Mail_Helper::getCannedBlockedMsgExplanation() . $_POST['message'];
-                Note::insert($current_usr_id, $issue_id, false, true, false, true, true);
+                Note::insertFromPost($current_usr_id, $issue_id, false, true, false, true, true);
                 Workflow::handleBlockedEmail(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id'], $_POST, 'web');
 
                 return 1;
@@ -2609,7 +2609,7 @@ class Support
                 $closing = false;
                 $notify = true;
             }
-            $res = Note::insert(Auth::getUserID(), $issue_id, $email['headers']['from'], false, $closing, $notify, true);
+            $res = Note::insertFromPost(Auth::getUserID(), $issue_id, $email['headers']['from'], false, $closing, $notify, true);
             // associate the email attachments as internal-only files on this issue
             if ($res != -1) {
                 self::extractAttachments($issue_id, $email['full_email'], true, $res);

@@ -1110,7 +1110,7 @@ class Issue
             // add note with the comments of marking an issue as a duplicate of another one
             $_POST['title'] = 'Issue duplication comments';
             $_POST['note'] = $_POST['comments'];
-            Note::insert($usr_id, $issue_id);
+            Note::insertFromPost($usr_id, $issue_id);
         }
         // record the change
         History::add($issue_id, $usr_id, 'duplicate_added', 'Issue marked as a duplicate of issue #{issue_id} by {user}', array(
@@ -1412,7 +1412,7 @@ class Issue
             // add note with the reason to close the issue
             $_POST['title'] = 'Issue closed comments';
             $_POST['note'] = $reason;
-            Note::insert($usr_id, $issue_id, false, true, true, $send_notification);
+            Note::insertFromPost($usr_id, $issue_id, false, true, true, $send_notification);
             $ids = false;
         }
 

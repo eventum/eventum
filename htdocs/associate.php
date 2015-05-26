@@ -57,7 +57,7 @@ if (@$_POST['cat'] == 'associate') {
             $_POST['note'] = $email['seb_body'];
             // XXX: probably broken to use the current logged in user as the 'owner' of
             // XXX: this new note, but that's how it was already
-            $res = Note::insert(Auth::getUserID(), $_POST['issue_id'], false, true, false, true, true);
+            $res = Note::insertFromPost(Auth::getUserID(), $_POST['issue_id'], false, true, false, true, true);
             // remove the associated email
             if ($res) {
                 list($_POST['from']) = Support::getSender(array($item));

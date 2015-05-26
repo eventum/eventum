@@ -402,7 +402,7 @@ class Routing
         }
 
         $usr_id = Auth::getUserID();
-        $res = Note::insert($usr_id, $issue_id, $unknown_user, false);
+        $res = Note::insertFromPost($usr_id, $issue_id, $unknown_user, false);
         // need to handle attachments coming from notes as well
         if ($res != -1) {
             Support::extractAttachments($issue_id, $structure, true, $res);
