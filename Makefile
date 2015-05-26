@@ -46,6 +46,9 @@ php-cs-fixer.phar:
 phpcompatinfo.phar:
 	$(call fetch_tool,http://bartlett.laurent-laville.org/get/phpcompatinfo-4.1.0.phar)
 
+phpunit.phar:
+	$(call fetch_tool,https://phar.phpunit.de/phpunit.phar)
+
 pear-fix: composer.lock
 	-$(php-cs-fixer) fix vendor/pear-pear.php.net --fixers=php4_constructor --verbose
 
