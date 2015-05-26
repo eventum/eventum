@@ -4,7 +4,10 @@
 
 {block "content"}
 <script type="text/javascript">
-<!--
+$(function() {
+  $('.select_all').click(function() { Eventum.toggleCheckAll('items[]') });
+});
+
 function validateForm(f)
 {
     if (Validation.isFieldWhitespace('email')) {
@@ -89,7 +92,11 @@ function checkDelete(f)
       </th>
     </tr>
           <tr>
+          {if $list|@count > 0}
+            <th width="5"><input type="button" value="{t}All{/t}" class="select_all"></th>
+          {else}
             <th nowrap>&nbsp;</th>
+          {/if}
             <th>{t}Email{/t} ({t}click to edit{/t})</th>
             <th>{t}Actions{/t}</th>
           </tr>

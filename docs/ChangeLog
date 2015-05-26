@@ -15,6 +15,7 @@ Eventum Issue Tracking System
 - Added global setting to control if the description is used as email #0 (Bryan Alsdorf)
 - Properly handle handleAssignment workflow method deprecation (Elan Ruusamäe, 539ef83, 8f4eb61, 130ec88, 827089e)
 - Convert user preference timezone in abbreviation to timezone (Elan Ruusamäe, #53)
+- Add select all button to edit notification dialog (Elan Ruusamäe)
 
 2015-04-21, Version 3.0.1
 - Add option to set time summary when sending a note (Bryan)
