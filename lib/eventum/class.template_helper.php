@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
@@ -35,14 +35,16 @@
  */
 class Template_Helper
 {
-    public $smarty;
-    public $tpl_name = '';
+    /** @var Smarty */
+    private $smarty;
+
+    /** @var string */
+    private $tpl_name;
 
     /**
      * Constructor of the class
-     *
      */
-    public function __construct()
+    public function __construct($tpl_name = null)
     {
         $smarty = new Smarty();
         // TODO: remove "APP_LOCAL_PATH" from the list in 2.4.1
@@ -68,6 +70,10 @@ class Template_Helper
             $smarty->registerPlugin('block', 't', 'smarty_block_t');
         }
 
+        if ($tpl_name) {
+            $this->setTemplate($tpl_name);
+        }
+
         $this->smarty = $smarty;
     }
 
@@ -75,10 +81,12 @@ class Template_Helper
      * Sets the internal template filename for the current PHP script
      *
      * @param  string $tpl_name The filename of the template
+     * @return $this
      */
     public function setTemplate($tpl_name)
     {
         $this->tpl_name = $tpl_name;
+        return $this;
     }
 
     /**
@@ -86,6 +94,7 @@ class Template_Helper
      *
      * @param  string $var_name Placeholder on the template
      * @param  string $value Value to be assigned to this placeholder
+     * @return $this
      */
     public function assign($var_name, $value = '')
     {
@@ -94,6 +103,7 @@ class Template_Helper
         } else {
             $this->smarty->assign($var_name);
         }
+        return $this;
     }
 
     /**
@@ -113,6 +123,7 @@ class Template_Helper
      * Prints the actual parsed template.
      *
      * @param bool $process Whether to call process template to fill template variables. Default true
+     * @return $this
      */
     public function displayTemplate($process = true)
     {
@@ -122,6 +133,7 @@ class Template_Helper
 
         // finally display the parsed template
         $this->smarty->display($this->tpl_name);
+        return $this;
     }
 
     /**
@@ -164,20 +176,21 @@ class Template_Helper
     }
 
     /**
-     * Processes the template and assigns common variables automatically.
+     * Processes the template and assign common variables automatically.
+     * @return $this
      */
     private function processTemplate()
     {
         $core = array(
-            'rel_url'   =>  APP_RELATIVE_URL,
-            'base_url'  =>  APP_BASE_URL,
-            'app_title' =>  APP_NAME,
-            'app_version'   =>  APP_VERSION,
-            'app_setup' =>  Setup::load(),
-            'messages'  =>  Misc::getMessages(),
-            'roles'     =>  User::getAssocRoleIDs(),
-            'auth_backend'  =>  APP_AUTH_BACKEND,
-            'current_url'   =>  $_SERVER['PHP_SELF'],
+            'rel_url' => APP_RELATIVE_URL,
+            'base_url' => APP_BASE_URL,
+            'app_title' => APP_NAME,
+            'app_version' => APP_VERSION,
+            'app_setup' => Setup::load(),
+            'messages' => Misc::getMessages(),
+            'roles' => User::getAssocRoleIDs(),
+            'auth_backend' => APP_AUTH_BACKEND,
+            'current_url' => $_SERVER['PHP_SELF'],
         );
 
         // If VCS version is present "Eventum 2.3.3-148-g78b3368", link ref to github
@@ -200,13 +213,13 @@ class Template_Helper
                 $role_id = User::getRoleByUser($usr_id, $prj_id);
                 $has_crm = CRM::hasCustomerIntegration($prj_id);
                 $core = $core + array(
-                    'project_id'    =>  $prj_id,
-                    'project_name'  =>  Auth::getCurrentProjectName(),
-                    'has_crm'       =>  $has_crm,
-                    'current_role'              =>  $role_id,
-                    'current_role_name'         =>  User::getRole($role_id),
-                    'feature_access'            =>  Access::getFeatureAccessArray($usr_id),
-                );
+                        'project_id' => $prj_id,
+                        'project_name' => Auth::getCurrentProjectName(),
+                        'has_crm' => $has_crm,
+                        'current_role' => $role_id,
+                        'current_role_name' => User::getRole($role_id),
+                        'feature_access' => Access::getFeatureAccessArray($usr_id),
+                    );
                 if ($has_crm) {
                     $crm = CRM::getInstance($prj_id);
                     $core['crm_template_path'] = $crm->getTemplatePath();
@@ -230,18 +243,18 @@ class Template_Helper
                 $active_projects[$prj_id] = $prj_info['prj_title'];
             }
             $core = $core + array(
-                'active_projects'   =>  $active_projects,
-                'current_full_name' =>  $info['usr_full_name'],
-                'current_email'     =>  $info['usr_email'],
-                'current_user_id'   =>  $usr_id,
-                'current_user_datetime' =>  Date_Helper::getISO8601date('now', '', true),
-                'is_current_user_clocked_in'    =>  User::isCLockedIn($usr_id),
-                'is_anon_user'  =>  Auth::isAnonUser(),
-                'is_current_user_partner'   =>  !empty($info['usr_par_code']),
-                'roles' =>  User::getAssocRoleIDs(),
-                'current_user_prefs'    =>  Prefs::get(Auth::getUserID()),
+                    'active_projects' => $active_projects,
+                    'current_full_name' => $info['usr_full_name'],
+                    'current_email' => $info['usr_email'],
+                    'current_user_id' => $usr_id,
+                    'current_user_datetime' => Date_Helper::getISO8601date('now', '', true),
+                    'is_current_user_clocked_in' => User::isCLockedIn($usr_id),
+                    'is_anon_user' => Auth::isAnonUser(),
+                    'is_current_user_partner' => !empty($info['usr_par_code']),
+                    'roles' => User::getAssocRoleIDs(),
+                    'current_user_prefs' => Prefs::get(Auth::getUserID()),
 
-            );
+                );
             $this->assign('current_full_name', $core['user']['usr_full_name']);
             $this->assign('current_email', $core['user']['usr_email']);
             $this->assign('current_user_id', $usr_id);
@@ -250,5 +263,6 @@ class Template_Helper
             $this->assign('roles', User::getAssocRoleIDs());
         }
         $this->assign('core', $core);
+        return $this;
     }
 }
