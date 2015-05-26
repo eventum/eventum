@@ -10,6 +10,10 @@ define find_tool
 $(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
 endef
 
+define fetch_tool
+curl -sS $1 -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
+endef
+
 php-cs-fixer := $(call find_tool, php-cs-fixer)
 phpcompatinfo := $(call find_tool, phpcompatinfo)
 
@@ -37,10 +41,10 @@ composer.phar:
 	curl -sS https://getcomposer.org/installer | php
 
 php-cs-fixer.phar:
-	curl -sS http://get.sensiolabs.org/php-cs-fixer.phar -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
+	$(call fetch_tool,http://get.sensiolabs.org/php-cs-fixer.phar)
 
 phpcompatinfo.phar:
-	curl -sS http://bartlett.laurent-laville.org/get/phpcompatinfo-4.1.0.phar -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
+	$(call fetch_tool,http://bartlett.laurent-laville.org/get/phpcompatinfo-4.1.0.phar)
 
 pear-fix: composer.lock
 	-$(php-cs-fixer) fix vendor/pear-pear.php.net --fixers=php4_constructor --verbose
