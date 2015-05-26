@@ -358,6 +358,11 @@ class Note
             return $workflow;
         }
 
+        // FIXME: can this be moved before workflow call?
+        if (Validation::isWhitespace($note)) {
+            return -2;
+        }
+
         // add the poster to the list of people to be subscribed to the notification list
         // only if there is no 'unknown user' and the note is not blocked
         if (!$options['unknown_user'] && !$options['is_blocked']) {
@@ -369,10 +374,6 @@ class Note
             foreach ($note_cc as $subscriber_usr_id) {
                 Notification::subscribeUser($usr_id, $issue_id, $subscriber_usr_id, $actions);
             }
-        }
-
-        if (Validation::isWhitespace($note)) {
-            return -2;
         }
 
         $params = array(
