@@ -155,20 +155,169 @@ $tpl->assign('issue_lock', $issue_lock);
     if ((!empty($details['iss_sta_id'])) && (empty($statuses[$details['iss_sta_id']]))) {
         $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
     }
+
+    $columns = array(0 => array(), 1 => array());
+    if (CRM::hasCustomerIntegration($prj_id) and !empty($details['iss_customer_id'])) {
+        $columns[0][] = array(
+            'title' =>  'Customer',
+            'field' =>  'customer_0'
+        );
+        $columns[1][] = array(
+            'title' =>  'Customer Contract',
+            'field' =>  'customer_1'
+        );
+    }
+    $categories = Category::getList($prj_id);
+    if (count($categories) > 0) {
+        $columns[0][] = array(
+            'title' =>  ev_gettext('Category'),
+            'data'  =>  $details['prc_title'],
+            'field' =>  'category',
+        );
+    }
+    $columns[0][] = array(
+        'title' =>  ev_gettext('Status'),
+        'data'  =>  $details['sta_title'],
+        'data_bgcolor'  =>  $details['status_color'],
+        'field' =>  'status',
+    );
+
+    $severities = Severity::getList($prj_id);
+    if (count($severities) > 0) {
+        $columns[0][] = array(
+            'title' =>  ev_gettext('Severity'),
+            'data'  =>  $details['sev_title'],
+            'field' =>  'severity'
+        );
+    }
+
+    $priorities = Priority::getAssocList($prj_id);
+    if (count($priorities) > 0 && ((!isset($issue_fields_display['priority'])) ||
+        ($issue_fields_display['priority'] != false))) {
+        if ((isset($issue_fields_display['priority']['min_role'])) &&
+            ($issue_fields_display['priority']['min_role'] > User::getRoleID('Customer'))) {
+            $bgcolor = APP_INTERNAL_COLOR;
+        } else {
+            $bgcolor = '';
+        }
+        $columns[0][] = array(
+            'title' =>  ev_gettext('Priority'),
+            'data'  =>  $details['pri_title'],
+            'title_bgcolor'  =>  $bgcolor,
+            'field' =>  'priority',
+        );
+    }
+    $releases = Release::getAssocList($prj_id);
+    if ((count($releases) > 0) && ($role_id != User::getRoleID('Customer'))) {
+        $columns[0][] = array(
+            'title' =>  ev_gettext('Scheduled Release'),
+            'data'  =>  $details['pre_title'],
+            'title_bgcolor' =>  APP_INTERNAL_COLOR,
+        );
+    }
+    if ($role_id > User::ROLE_CUSTOMER) {
+        $columns[0][] = array(
+            'title' =>  ev_gettext('Resolution'),
+            'data'  =>  $details['iss_resolution'],
+            'field' =>  'resolution',
+        );
+    }
+
+    if ((!isset($issue_fields_display['percent_complete'])) ||
+        ($issue_fields_display['percent_complete'] != false)) {
+        $columns[0][] = array(
+            'title' =>  ev_gettext('Percentage Complete'),
+            'data'  =>  (empty($details['iss_percent_complete']) ? 0 : $details['iss_percent_complete']) . '%',
+            'field' =>  'percentage_complete',
+        );
+    }
+    $columns[0][] = array(
+        'title' =>  ev_gettext('Reporter'),
+        'field' =>  'reporter',
+    );
+    $products = Product::getAssocList(false);
+    if (count($products) > 0) {
+        $columns[0][] = array(
+            'title' =>  ev_gettext('Product'),
+            'field' =>  'product',
+        );
+        $columns[0][] = array(
+            'title' =>  ev_gettext('Product Version'),
+            'field' =>  'product_version',
+        );
+    }
+    $columns[0][] = array(
+        'title' =>  ev_gettext('Assignment'),
+        'data'  =>  $details['assignments'],
+        'field' =>  'assignment',
+    );
+
+    $columns[1][] = array(
+        'title' =>  ev_gettext('Notification List'),
+        'field' =>  'notification_list',
+    );
+    $columns[1][] = array(
+        'title' =>  ev_gettext('Submitted Date'),
+        'data'  =>  $details['iss_created_date'],
+    );
+    $columns[1][] = array(
+        'title' =>  ev_gettext('Last Updated Date'),
+        'data'  =>  $details['iss_updated_date'],
+    );
+    $columns[1][] = array(
+        'title' =>  ev_gettext('Associated Issues'),
+        'field' =>  'associated_issues',
+    );
+    if ((!isset($issue_fields_display['expected_resolution'])) ||
+        ($issue_fields_display['expected_resolution'] != false)) {
+        $columns[1][] = array(
+            'title' =>  ev_gettext('Expected Resolution Date'),
+            'field' =>  'expected_resolution',
+        );
+    }
+    if ((!isset($issue_fields_display['estimated_dev_time'])) ||
+        ($issue_fields_display['estimated_dev_time'] != false)) {
+        $columns[1][] = array(
+            'title' =>  ev_gettext('Estimated Dev. Time'),
+            'data'  =>  $details['iss_dev_time'] . empty($details['iss_dev_time']) ? '' : ' hours',
+            'field' =>  'estimated_dev_time',
+        );
+    }
+    if ($role_id > User::getRoleID('Customer')) {
+        $columns[1][] = array(
+            'title' =>  ev_gettext('Duplicates'),
+            'field' =>  'duplicates',
+            'title_bgcolor' =>  APP_INTERNAL_COLOR,
+        );
+        $columns[1][] = array(
+            'title' =>  ev_gettext('Authorized Repliers'),
+            'field' =>  'authorized_repliers',
+            'title_bgcolor' =>  APP_INTERNAL_COLOR,
+        );
+    }
+    $groups = Group::getAssocList($prj_id);
+    if (($role_id > User::getRoleID('Customer')) && (count($groups) > 0)) {
+        $columns[1][] = array(
+            'title' =>  ev_gettext('Group'),
+            'data' =>  isset($details['group']) ? $details['group']['grp_name'] : '',
+            'title_bgcolor' =>  APP_INTERNAL_COLOR,
+        );
+    }
     $tpl->assign(array(
         'subscribers'  => Notification::getSubscribers($issue_id),
-        'categories'   => Category::getAssocList($prj_id),
-        'priorities'   => Priority::getAssocList($prj_id),
-        'severities'   => Severity::getAssocList($prj_id),
+        'categories'   => $categories,
+        'priorities'   => $priorities,
+        'severities'   => $severities,
         'status'       => $statuses,
         'releases'     => $releases,
-        'resolutions'  => Resolution::getAssocList(),
+        'resolutions'  => ,
         'users'        => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
         'one_week_ts'  => time() + (7 * Date_Helper::DAY),
         'allow_unassigned_issues'   =>  @$setup['allow_unassigned_issues'],
         'groups'       => Group::getAssocList($prj_id),
         'current_year' =>   date('Y'),
         'products'     => Product::getList(false),
+        'grid'         => $columns,
     ));
 
 $tpl->assign('usr_role_id', User::getRoleByUser($usr_id, $prj_id));
