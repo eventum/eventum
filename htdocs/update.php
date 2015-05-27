@@ -310,7 +310,7 @@ $tpl->assign('issue_lock', $issue_lock);
         'severities'   => $severities,
         'status'       => $statuses,
         'releases'     => $releases,
-        'resolutions'  => ,
+        'resolutions'  => Resolution::getAssocList(),
         'users'        => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
         'one_week_ts'  => time() + (7 * Date_Helper::DAY),
         'allow_unassigned_issues'   =>  @$setup['allow_unassigned_issues'],
