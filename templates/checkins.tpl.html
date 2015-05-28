@@ -109,8 +109,10 @@ $(function() {
                 [<a title="{t 1=$checkins[i].isc_old_version}see the diff to revision %1{/t}" target="_blank" href="{$checkins[i].diff_url}">{t 1=$checkins[i].isc_old_version escape=no}diff to <span class=revision>%1</span>{/t}</a>]
               {/if}
             </td>
-            <td valign=top>
+            <td valign=top class=message>
+              <span>
               {$checkins[i].isc_commit_msg}
+              </span>
             </td>
           </tr>
           {sectionelse}

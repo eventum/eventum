@@ -277,6 +277,12 @@ body#issue_view td.checkins > a {
 	vertical-align: top;
 }
 
+body#issue_view td.message > span {
+	display: inline-block;
+	max-height: 200px;
+	overflow: auto;
+}
+
 /* End View Issue Page */
 
 /* Begin Issue Update Page */
