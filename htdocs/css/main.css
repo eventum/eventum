@@ -335,6 +335,10 @@ table.grid th {
     padding-left: .3em;
 }
 
+table.grid th.initial_description {
+    vertical-align: top;
+}
+
 table.grid.internal th, table.grid th.internal {
     background: #9c494b;
 }
