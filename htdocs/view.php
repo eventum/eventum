@@ -102,6 +102,8 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
             $setup = Setup::load();
             $tpl->assign('allow_unassigned_issues', @$setup['allow_unassigned_issues']);
 
+            $issue_fields_display = Issue_Field::getFieldsToDisplay($issue_id, 'view_issue');
+
             // figure out what data to show in each column
             $columns = array(0 => array(), 1 => array());
             if (CRM::hasCustomerIntegration($prj_id) and !empty($details['iss_customer_id'])) {
