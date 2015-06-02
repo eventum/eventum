@@ -73,158 +73,56 @@ body#login form#login_form table td.button {
 
 
 /* View Issue Page */
-body.issue_view div#issue_overview {
-    margin: 1em 0;
-    background: #dddddd;
-}
-
-body.issue_view div#issue_overview div.clear {
-    background: #FFFFFF;
-    height: 1px;
-}
-
-body.issue_view div#issue_overview div.title {
-    font-weight: bold;
-    background: #FFFFFF;
-    padding: .3em;
-    border-top-left-radius: 0.5em;
-    -webkit-border-top-left-radius: 0.5em;
-    -moz-border-radius-topleft: 0.5em;
-    border-top-right-radius: 0.5em;
-    -webkit-border-top-right-radius: 0.5em;
-    -moz-border-radius-topright: 0.5em;
-}
-
-body.issue_view div#issue_overview div#issue_menu {
-    width: 50%;
+#issue_overview #issue_menu {
     float: right;
-    text-align: right;
     font-weight: normal;
 }
-body.issue_view div#issue_overview div#colwrap1 {
-    background: #255282;
-    float: left;
-    width: 1000px;
-    position: relative;
-    right: 850px;
+#issue_overview tr.title th {
+    border-top-left-radius: .5em;
+    border-top-right-radius: .5em;
 }
-
-body.issue_view div#issue_overview div#colwrap2 {
-    background: #ffffff;
-    float: left;
-    width: 1000px;
-    position: relative;
-    right: 151px;
+#issue_overview tr.buttons th {
+    border-bottom-left-radius: .5em;
+    border-bottom-right-radius: .5em;
 }
-
-body.issue_view div#issue_overview div#column1 {
-    width: 500px;
-    float: left;
-    position: relative;
-    left: 1001px;
-    overflow: hidden;
+#issue_overview .grid_cell {
+    padding: 0;
+    width: 50%;
+    vertical-align: top;
 }
-
-body.issue_view div#issue_overview div#column2 {
-    width: 500px;
-    float: left;
-    position: relative;
-    left: 1000px;
+#issue_overview .grid_cell table {
+    width: 100%;
+    border-collapse: collapse;
 }
-
-body.issue_view div#issue_overview div.issue_field_display {
-    clear: left;
-    float: left;
-    width: 500px;
-    overflow: hidden;
-    background: #dddddd;
-    border-top: #FFFFFF 1px solid;
+#issue_overview .grid_cell th {
+    width: 30%;
+    border: 1px solid #ffffff;
 }
-
-body.issue_view div#issue_overview div.issue_field_display:first-child {
-    border: none;
+#issue_overview .grid_cell tr:last-child>th {
+    width: 30%;
+    border-bottom: none;
 }
-
-body.issue_view div#issue_overview div.issue_field_display div.background  {
-    float: left;
-    width: 500px;
-    position: relative;
-    right: 350px;
-    background: #255282;
+#issue_overview .grid_cell td {
+    width: 70%;
 }
-
-body.issue_view div#issue_overview div.issue_field_display div.label {
-    float: left;
-    width: 150px;
-    font-weight: bold;
-    position: relative;
-    left: 353px;
-    overflow: hidden;
-    padding-top: 2px;
-    color: #FFFFFF;
+#issue_overview tr.full_width>td {
+    padding: 0;
+    border: 0;
+    margin: 0;
 }
-
-body.issue_view div#issue_overview div.issue_field_display div.display {
-    float: left;
-    width: 350px;
-    position: relative;
-    left: 353px;
-    overflow: hidden;
-    padding-top: 2px;
+#issue_overview tr.full_width td table {
+    width: 100%;
+    margin-top: -1px;
 }
-
-body.issue_view div#issue_overview div.issue_field_display.full_width {
-    width: 1000px;
+#issue_overview tr.full_width td table tr {
+    border-top: 0px;
 }
-
-body.issue_view div#issue_overview div.issue_field_display.full_width div.background  {
-    width: 1000px;
-    right: 850px;
+#issue_overview tr.full_width td table th {
+    width: 15%;
 }
-
-body.issue_view div#issue_overview div.issue_field_display.full_width div.label {
-    width: 150px;
-    left: 853px;
-}
-
-body.issue_view div#issue_overview div.issue_field_display.full_width div.display {
-    width: 850px;
-    left: 853px;
-}
-
-body.issue_view div#issue_overview #summary {
-    clear: both;
-}
-
-body.issue_view div#issue_overview div#description div.label {
-    min-height: 8em;
-}
-
-body.issue_view div#issue_overview div#description div.label div {
-    margin-top: 1em;
-}
-
-body.issue_view div#issue_overview div#description div.label div a {
-    color: white;
-}
-
-body.issue_view div#issue_overview div.buttons1 {
-    background: #255282;
-    padding: .3em;
-    clear: both;
-    border-top: #FFFFFF 1px solid;
-    text-align: center;
-}
-
-body#issue_view div#issue_overview div.buttons2 {
-    background: #dddddd;
-    padding: .3em;
-    border-bottom-left-radius: 0.5em;
-    -webkit-border-bottom-left-radius: 0.5em;
-    -moz-border-radius-bottomleft: 0.5em;
-    border-bottom-right-radius: 0.5em;
-    -webkit-border-bottom-right-radius: 0.5em;
-    -moz-border-radius-bottomright: 0.5em;
+#issue_overview .buttons1 td {
+    background-color: #255282;
+	text-align: center;
 }
 
 body#issue_view div#issue_links {
@@ -263,6 +161,25 @@ body#issue_view div#custom_fields div.content th {
 body#issue_view #drafts .buttons_div {
     width: 200px;
     text-align: right;
+}
+
+body#issue_view .revision {
+	display: inline-block;
+	max-width: 5em;
+	overflow: hidden;
+	text-decoration: underline;
+}
+
+body#issue_view td.checkins > a {
+	display: inline-block;
+	overflow: hidden;
+	vertical-align: top;
+}
+
+body#issue_view td.message > span {
+	display: inline-block;
+	max-height: 200px;
+	overflow: auto;
 }
 
 /* End View Issue Page */
@@ -325,6 +242,10 @@ body#list_issues #bulk_update table {
     width: 100%;
 }
 
+body#list_issues td.custom_field {
+    cursor: pointer;
+}
+
 /* End List Issue page */
 
 /*
@@ -380,7 +301,9 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 #report_content {
     margin-left: 220px;
 }
-
+#report_content pre {
+    font-size: 1.3em;
+}
 
 /* Begin Select Project */
 #select_project table {

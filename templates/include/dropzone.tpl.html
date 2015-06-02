@@ -19,6 +19,7 @@ Dropzone.options.{$form} = {
       '<span data-dz-name></span> ' +
       '(<span data-dz-size></span>) ' +
       '<span>[ <a class="dz-remove" href="javascript:undefined" data-dz-remove>remove</a></span> ] ' +
+      '<span class="dz-status"></span>' +
     '</div>' +
   '</div>' +
   '<div class="dz-error-message"><span data-dz-errormessage></span></div> ' +
@@ -70,11 +71,14 @@ Dropzone.options.{$form} = {
       iaf_ids.add(data.iaf_id);
       // store value for remove action
       file.iaf_id = data.iaf_id[0];
+
+      $(file.previewElement).find('.dz-status').html('Upload Complete');
     });
 
     this.on("sending", function(file, xhr, formData) {
       // Will send the filesize along with the file as POST data.
       formData.append("filesize", file.size);
+      $(file.previewElement).find('.dz-status').html('Uploading<img src="images/ajax-loader.gif" />');
     });
 
     this.on("removedfile", function(file) {

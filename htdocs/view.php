@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,10 +22,11 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../init.php';
@@ -103,128 +104,147 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
 
             // figure out what data to show in each column
             $columns = array(0 => array(), 1 => array());
-
-            $issue_fields_display = Issue_Field::getFieldsToDisplay($issue_id, 'view_issue');
-
-            # TODO: Add customer fields
-            $cats = Category::getList($prj_id);
-            if (count($cats) > 0) {
-                $column[0][] = array(
-                    'title' =>  ev_gettext('Category'),
-                    'data'  =>  $details['prc_title'],
+            if (CRM::hasCustomerIntegration($prj_id) and !empty($details['iss_customer_id'])) {
+                $columns[0][] = array(
+                    'title' =>  'Customer',
+                    'field' =>  'customer_0'
+                );
+                $columns[1][] = array(
+                    'title' =>  'Customer Contract',
+                    'field' =>  'customer_1'
                 );
             }
-            $column[0][] = array(
-                    'title' =>  ev_gettext('Status'),
-                    'data'  =>  $details['sta_title'],
-                    'data_bgcolor'  =>  $details['status_color'],
+            $cats = Category::getList($prj_id);
+            if (count($cats) > 0) {
+                $columns[0][] = array(
+                    'title' =>  ev_gettext('Category'),
+                    'data'  =>  $details['prc_title'],
+                    'field' =>  'category',
+                );
+            }
+            $columns[0][] = array(
+                'title' =>  ev_gettext('Status'),
+                'data'  =>  $details['sta_title'],
+                'data_bgcolor'  =>  $details['status_color'],
+                'field' =>  'status',
             );
 
             $severities = Severity::getList($prj_id);
             if (count($severities) > 0) {
-                $column[0][] = array(
-                        'title' =>  ev_gettext('Severity'),
-                        'data'  =>  $details['sev_title'],
+                $columns[0][] = array(
+                    'title' =>  ev_gettext('Severity'),
+                    'data'  =>  $details['sev_title'],
+                    'field' =>  'severity'
                 );
             }
 
             if ((!isset($issue_fields_display['priority'])) ||
                 ($issue_fields_display['priority'] != false)) {
                 if ((isset($issue_fields_display['priority']['min_role'])) &&
-                        ($issue_fields_display['priority']['min_role'] > User::getRoleID('Customer'))) {
+                    ($issue_fields_display['priority']['min_role'] > User::getRoleID('Customer'))) {
                     $bgcolor = APP_INTERNAL_COLOR;
                 } else {
                     $bgcolor = '';
                 }
-                $column[0][] = array(
-                        'title' =>  ev_gettext('Priority'),
-                        'data'  =>  $details['pri_title'],
-                        'title_bgcolor'  =>  $bgcolor,
+                $columns[0][] = array(
+                    'title' =>  ev_gettext('Priority'),
+                    'data'  =>  $details['pri_title'],
+                    'title_bgcolor'  =>  $bgcolor,
+                    'field' =>  'priority',
                 );
             }
             $releases = Release::getAssocList($prj_id);
             if ((count($releases) > 0) && ($role_id != User::getRoleID('Customer'))) {
-                $column[0][] = array(
-                        'title' =>  ev_gettext('Scheduled Release'),
-                        'data'  =>  $details['pre_title'],
-                        'title_bgcolor' =>  APP_INTERNAL_COLOR,
+                $columns[0][] = array(
+                    'title' =>  ev_gettext('Scheduled Release'),
+                    'data'  =>  $details['pre_title'],
+                    'title_bgcolor' =>  APP_INTERNAL_COLOR,
                 );
             }
-            $column[0][] = array(
-                    'title' =>  ev_gettext('Resolution'),
-                    'data'  =>  $details['iss_resolution'],
+            $columns[0][] = array(
+                'title' =>  ev_gettext('Resolution'),
+                'data'  =>  $details['iss_resolution'],
+                'field' =>  'resolution',
             );
+
             if ((!isset($issue_fields_display['percent_complete'])) ||
                 ($issue_fields_display['percent_complete'] != false)) {
-                $column[0][] = array(
-                        'title' =>  ev_gettext('Percentage Complete'),
-                        'data'  =>  (empty($details['iss_percent_complete']) ? 0 : $details['iss_percent_complete']) . '%',
+                $columns[0][] = array(
+                    'title' =>  ev_gettext('Percentage Complete'),
+                    'data'  =>  (empty($details['iss_percent_complete']) ? 0 : $details['iss_percent_complete']) . '%',
+                    'field' =>  'percentage_complete',
                 );
             }
-            $column[0][] = array(
-                    'title' =>  ev_gettext('Reporter'),
-                    'tpl_block' =>  'reporter',
+            $columns[0][] = array(
+                'title' =>  ev_gettext('Reporter'),
+                'field' =>  'reporter',
             );
             $products = Product::getAssocList(false);
             if (count($products) > 0) {
-                $column[0][] = array(
-                        'title' =>  ev_gettext('Product'),
-                        'tpl_block' =>  'product',
+                $columns[0][] = array(
+                    'title' =>  ev_gettext('Product'),
+                    'field' =>  'product',
+                );
+                $columns[0][] = array(
+                    'title' =>  ev_gettext('Product Version'),
+                    'field' =>  'product_version',
                 );
             }
-            $column[0][] = array(
-                    'title' =>  ev_gettext('Assignment'),
-                    'data' =>  $details['assignments'],
+            $columns[0][] = array(
+                'title' =>  ev_gettext('Assignment'),
+                'data'  =>  $details['assignments'],
+                'field' =>  'assignment',
             );
 
-            $column[1][] = array(
-                    'title' =>  ev_gettext('Notification List'),
-                    'tpl_block' =>  'notification_list',
+            $columns[1][] = array(
+                'title' =>  ev_gettext('Notification List'),
+                'field' =>  'notification_list',
             );
-            $column[1][] = array(
-                    'title' =>  ev_gettext('Submitted Date'),
-                    'data'  =>  $details['iss_created_date'],
+            $columns[1][] = array(
+                'title' =>  ev_gettext('Submitted Date'),
+                'data'  =>  $details['iss_created_date'],
             );
-            $column[1][] = array(
-                    'title' =>  ev_gettext('Last Updated Date'),
-                    'data'  =>  $details['iss_updated_date'],
+            $columns[1][] = array(
+                'title' =>  ev_gettext('Last Updated Date'),
+                'data'  =>  $details['iss_updated_date'],
             );
-            $column[1][] = array(
-                    'title' =>  ev_gettext('Associated Issues'),
-                    'tpl_block' =>  'associated_issues',
+            $columns[1][] = array(
+                'title' =>  ev_gettext('Associated Issues'),
+                'field' =>  'associated_issues',
             );
             if ((!isset($issue_fields_display['expected_resolution'])) ||
                 ($issue_fields_display['expected_resolution'] != false)) {
-                $column[1][] = array(
-                        'title' =>  ev_gettext('Expected Resolution Date'),
-                        'tpl_block' =>  'expected_resolution',
+                $columns[1][] = array(
+                    'title' =>  ev_gettext('Expected Resolution Date'),
+                    'field' =>  'expected_resolution',
                 );
             }
             if ((!isset($issue_fields_display['estimated_dev_time'])) ||
                 ($issue_fields_display['estimated_dev_time'] != false)) {
-                $column[1][] = array(
-                        'title' =>  ev_gettext('Estimated Dev. Time'),
-                        'data'  =>  $details['iss_dev_time'] . empty($details['iss_dev_time']) ? '' : ' hours',
+                $columns[1][] = array(
+                    'title' =>  ev_gettext('Estimated Dev. Time'),
+                    'data'  =>  $details['iss_dev_time'] . empty($details['iss_dev_time']) ? '' : ' hours',
+                    'field' =>  'estimated_dev_time',
                 );
             }
             if ($role_id > User::getRoleID('Customer')) {
-                $column[1][] = array(
-                        'title' =>  ev_gettext('Duplicates'),
-                        'tpl_block' =>  'duplicates',
-                        'title_bgcolor' =>  APP_INTERNAL_COLOR,
+                $columns[1][] = array(
+                    'title' =>  ev_gettext('Duplicates'),
+                    'field' =>  'duplicates',
+                    'title_bgcolor' =>  APP_INTERNAL_COLOR,
                 );
-                $column[1][] = array(
-                        'title' =>  ev_gettext('Authorized Repliers'),
-                        'tpl_block' =>  'authorized_repliers',
-                        'title_bgcolor' =>  APP_INTERNAL_COLOR,
+                $columns[1][] = array(
+                    'title' =>  ev_gettext('Authorized Repliers'),
+                    'field' =>  'authorized_repliers',
+                    'title_bgcolor' =>  APP_INTERNAL_COLOR,
                 );
             }
             $groups = Group::getAssocList($prj_id);
             if (($role_id > User::getRoleID('Customer')) && (count($groups) > 0)) {
-                $column[1][] = array(
-                        'title' =>  ev_gettext('Group'),
-                        'data' =>  isset($details['group']) ? $details['group']['grp_name'] : '',
-                        'title_bgcolor' =>  APP_INTERNAL_COLOR,
+                $columns[1][] = array(
+                    'title' =>  ev_gettext('Group'),
+                    'data' =>  isset($details['group']) ? $details['group']['grp_name'] : '',
+                    'title_bgcolor' =>  APP_INTERNAL_COLOR,
                 );
             }
 
@@ -240,7 +260,7 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
                 'ema_id'              => Email_Account::getEmailAccount(),
                 'max_attachment_size' => Attachment::getMaxAttachmentSize(),
                 'quarantine'          => Issue::getQuarantineInfo($issue_id),
-                'columns'             => $column,
+                'grid'                => $columns,
                 'can_update'          => Issue::canUpdate($issue_id, $usr_id),
                 'enabled_partners'    => Partner::getPartnersByProject($prj_id),
                 'partners'            => Partner::getPartnersByIssue($issue_id),
@@ -265,7 +285,7 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
                     $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
                 }
 
-                $time_entries = Time_Tracking::getListing($issue_id);
+                $time_entries = Time_Tracking::getTimeEntryListing($issue_id);
                 $tpl->assign(array(
                     'notes'              => Note::getListing($issue_id),
                     'is_user_assigned'   => Issue::isAssignedToUser($issue_id, $usr_id),
@@ -280,7 +300,7 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
                     'impacts'            => Impact_Analysis::getListing($issue_id),
                     'statuses'           => $statuses,
                     'drafts'             => Draft::getList($issue_id, $show_all_drafts),
-                    'groups'             => $groups,
+                    'groups'             => Group::getAssocList($prj_id),
                 ));
             }
         }

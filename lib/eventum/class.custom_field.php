@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -298,8 +298,11 @@ class Custom_Field
                     $i++;
                 }
 
-                $summary = ev_gettext('Custom field updated (%1$s) by %2$s', $changes, User::getFullName(Auth::getUserID()));
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('custom_field_updated'), $summary);
+                $usr_id = Auth::getUserID();
+                History::add($issue_id, $usr_id, 'custom_field_updated', 'Custom field updated ({changes}) by {user}', array(
+                    'changes' => $changes,
+                    'user' => User::getFullName($usr_id)
+                ));
             }
         }
 
@@ -662,7 +665,7 @@ class Custom_Field
                 }
 
                 // add the select option to the list of values if it isn't on the list (useful for fields with active and non-active items)
-                if (!is_null($original_value) && !in_array($original_value, $fields[$found_index]['field_options'])) {
+                if ($original_value !== null && !in_array($original_value, $fields[$found_index]['field_options'])) {
                     $fields[$found_index]['field_options'][$original_value] = self::getOptionValue($row['fld_id'], $original_value);
                 }
             } else {
@@ -1007,7 +1010,7 @@ class Custom_Field
      * @param   integer $issue_id The ID of the issue
      * @return  array The list of custom field options
      */
-    public static function getOptions($fld_id, $ids = false, $issue_id = false, $form_type = false)
+    public static function getOptions($fld_id, $ids = null, $issue_id = null, $form_type = null)
     {
         static $returns;
 
@@ -1020,7 +1023,7 @@ class Custom_Field
         $backend = self::getBackend($fld_id);
         if ((is_object($backend)) && (method_exists($backend, 'getList'))) {
             $list = $backend->getList($fld_id, $issue_id, $form_type);
-            if ($ids != false) {
+            if ($ids) {
                 foreach ($list as $id => $value) {
                     if (!in_array($id, $ids)) {
                         unset($list[$id]);
@@ -1039,7 +1042,7 @@ class Custom_Field
                  WHERE
                     cfo_fld_id=?';
         $params = array($fld_id);
-        if ($ids != false) {
+        if ($ids) {
             $stmt .= ' AND
                     cfo_id IN(' . DB_Helper::buildList($ids) . ')';
             $params = array_merge($params, $ids);
@@ -1264,17 +1267,21 @@ class Custom_Field
      * Method used to remove the issue associations related to a given
      * custom field ID.
      *
-     * @param   integer $fld_id The custom field ID
+     * @param   integer[] $fld_id The custom field ID
      * @param   integer $issue_id The issue ID (not required)
      * @param   integer $prj_id The project ID (not required)
      * @return  boolean
      */
-    public function removeIssueAssociation($fld_id, $issue_id = false, $prj_id = false)
+    public function removeIssueAssociation($fld_id, $issue_id = null, $prj_id = null)
     {
+        if (!is_array($fld_id)) {
+            $fld_id = array($fld_id);
+        }
+
         $issues = array();
-        if ($issue_id != false) {
+        if ($issue_id) {
             $issues = array($issue_id);
-        } elseif ($prj_id != false) {
+        } elseif ($prj_id) {
             $sql = 'SELECT
                         iss_id
                     FROM
@@ -1294,7 +1301,7 @@ class Custom_Field
                     {{%issue_custom_field}}
                  WHERE
                     icf_fld_id IN (' . DB_Helper::buildList($fld_id) . ')';
-        $params = array($fld_id);
+        $params = $fld_id;
         if (count($issues) > 0) {
             $stmt .= ' AND icf_iss_id IN(' . DB_Helper::buildList($issues) . ')';
             $params = array_merge($params, $issues);
@@ -1632,8 +1639,10 @@ class Custom_Field
 
         if (!empty($res)) {
             if (file_exists(APP_LOCAL_PATH . "/custom_field/$res")) {
+                /** @noinspection PhpIncludeInspection */
                 require_once APP_LOCAL_PATH . "/custom_field/$res";
             } elseif (file_exists(APP_INC_PATH . "/custom_field/$res")) {
+                /** @noinspection PhpIncludeInspection */
                 require_once APP_INC_PATH . "/custom_field/$res";
             } else {
                 $returns[$fld_id] = false;

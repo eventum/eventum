@@ -3,24 +3,6 @@
 {block "page_id"}stats{/block}
 
 {block "content"}
-<script type="text/javascript">
-<!--
-var page_url = '{$smarty.server.PHP_SELF}';
-var current_page = '{$list_info.current_page}';
-var last_page = '{$list_info.last_page}';
-
-function hideClosed(hide_closed)
-{
-    if (hide_closed.checked) {
-        window.location.href = page_url + "?" + replaceParam(window.location.href, 'hide_closed', '1');
-    } else {
-        window.location.href = page_url + "?" + replaceParam(window.location.href, 'hide_closed', '0');
-    }
-}
-//-->
-</script>
-
-
 {if $core.current_role == $core.roles.customer}
   {include file="`$core.crm_template_path`/customer_report.tpl.html"}
 {else}
@@ -33,7 +15,7 @@ function hideClosed(hide_closed)
             <td>
               <span><b>{t}Overall Stats{/t}</b></span><br />
               <span>
-              <input type="checkbox" id="hide_closed" name="hide_closed" {if $hide_closed}checked{/if} onClick="hideClosed(this);"> <label for="hide_closed">{t}Hide Closed Issues{/t}</label>
+              <label for="hide_closed"><input type="checkbox" id="hide_closed" name="hide_closed" {if $hide_closed}checked{/if}> {t}Hide Closed Issues{/t}</label>
               </span>
             </td>
           </tr>

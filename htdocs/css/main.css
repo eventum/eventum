@@ -76,7 +76,8 @@ div#header #app_title {
 }
 
 div#header #user_menu {
-    width: 500px;
+    width: 75%;
+    font-size: 0.9em;
     background: #dddddd;
     color: black;
     font-weight: bold;
@@ -195,25 +196,25 @@ div#content {
     border-spacing: 1px;
 }
 
-table.bordered tr:first-child td:first-child {
+table.bordered tr:first-child > td:first-child {
     border-top-left-radius: 0.5em;
     -webkit-border-top-left-radius: 0.5em;
     -moz-border-radius-topleft: 0.5em;
 }
 
-table.bordered tr:first-child td:last-child {
+table.bordered tr:first-child > td:last-child {
     border-top-right-radius: 0.5em;
     -webkit-border-top-right-radius: 0.5em;
     -moz-border-radius-topright: 0.5em;
 }
 
-table.bordered tr:last-child td:first-child {
+table.bordered tr:last-child > td:first-child {
     border-bottom-left-radius: 0.5em;
     -webkit-border-bottom-left-radius: 0.5em;
     -moz-border-radius-bottomleft: 0.5em;
 }
 
-table.bordered tr:last-child td:last-child {
+table.bordered tr:last-child > td:last-child {
     border-bottom-right-radius: 0.5em;
     -webkit-border-bottom-right-radius: 0.5em;
     -moz-border-radius-bottomright: 0.5em;
@@ -330,8 +331,12 @@ table.grid th {
     background: #255282;
     text-align: left;
     color: #FFFFFF;
-    font-weight: normal;
+    font-weight: bold;
     padding-left: .3em;
+}
+
+table.grid th.initial_description {
+    vertical-align: top;
 }
 
 table.grid.internal th, table.grid th.internal {
@@ -465,6 +470,16 @@ table.narrow {
     width: 500px;
 }
 
+
+/* Dropzone */
+.dz-status {
+    font-size: .8em;
+}
+
+.dz-status img {
+    height: 15px;
+    width: 15px;
+}
 
 /* Old compat styles */
 td.light {

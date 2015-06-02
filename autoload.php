@@ -38,35 +38,43 @@ if (file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
     // needed for init.php and gettext.inc
     define('APP_PHP_GETTEXT_PATH', APP_PATH . '/vendor/php-gettext/php-gettext');
 
-    // no substitution, use bundled copy
-    define('APP_JPGRAPH_PATH', APP_PATH . '/lib/jpgraph');
+    // fonts directory for phplot
+    define('APP_FONTS_PATH', APP_PATH . '/vendor/fonts/liberation');
 
-    // indicate whether we use components installed by composer
-    define('APP_USE_COMPONENTS', true);
     return;
 }
 
-// indicate whether we use components installed by composer
-define('APP_USE_COMPONENTS', false);
+/*
+
+You must set up the project dependencies, run the following commands:
+
+$ curl -sS https://getcomposer.org/installer | php
+$ php composer.phar install
+
+ */
 
 if (!defined('APP_PEAR_PATH')) {
-    define('APP_PEAR_PATH', APP_PATH . '/lib/pear');
+    define('APP_PEAR_PATH', '');
+}
+
+if (!defined('APP_PHP_PATH')) {
+    define('APP_PHP_PATH', '');
+}
+
+if (!defined('APP_FONTS_PATH')) {
+    define('APP_FONTS_PATH', '/usr/share/fonts/TTF');
 }
 
 if (!defined('APP_SPHINXAPI_PATH')) {
-    define('APP_SPHINXAPI_PATH', APP_PATH . '/lib/sphinxapi');
+    define('APP_SPHINXAPI_PATH', '');
 }
 
 if (!defined('APP_PHP_GETTEXT_PATH')) {
-    define('APP_PHP_GETTEXT_PATH', APP_PATH . '/lib/php-gettext');
+    define('APP_PHP_GETTEXT_PATH', '');
 }
 
 if (!defined('APP_SMARTY_PATH')) {
-    define('APP_SMARTY_PATH', APP_PATH . '/lib/Smarty');
-}
-
-if (!defined('APP_JPGRAPH_PATH')) {
-    define('APP_JPGRAPH_PATH', APP_PATH . '/lib/jpgraph');
+    define('APP_SMARTY_PATH', '');
 }
 
 // add PEAR to the include path, required by PEAR classes

@@ -5,7 +5,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003, 2004, 2005, 2006 MySQL AB                        |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -21,7 +21,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
@@ -37,18 +37,28 @@ class Search
     /**
      * Method used to get a specific parameter in the issue listing cookie.
      *
-     * @param   string $name The name of the parameter
-     * @param   bool $request_only If only $_GET and $_POST should be checked
+     * @param string $name The name of the parameter
+     * @param bool $request_only If only $_GET and $_POST should be checked
+     * @param array $valid_values
      * @return  mixed The value of the specified parameter
+     * @return string
      */
-    public static function getParam($name, $request_only = false)
+    public static function getParam($name, $request_only = false, $valid_values = null)
     {
+        $value = null;
         if (isset($_GET[$name])) {
-            return $_GET[$name];
+            $value = $_GET[$name];
         } elseif (isset($_POST[$name])) {
-            return $_POST[$name];
+            $value = $_POST[$name];
         } elseif ($request_only) {
             return '';
+        }
+
+        if (isset($value)) {
+            if ($valid_values && !in_array($value, $valid_values)) {
+                return '';
+            }
+            return $value;
         }
 
         $profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'issue');
@@ -71,7 +81,7 @@ class Search
         $request_only = !$save_db; // if we should only look at get / post not the DB or cookies
 
         $sort_by = self::getParam('sort_by', $request_only);
-        $sort_order = self::getParam('sort_order', $request_only);
+        $sort_order = self::getParam('sort_order', $request_only, array('asc', 'desc'));
         $rows = self::getParam('rows', $request_only);
         $hide_closed = self::getParam('hide_closed', $request_only);
         if ($hide_closed === '') {
@@ -408,14 +418,15 @@ class Search
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {
             return array(
-                'list' => '',
-                'info' => '',
+                'list' => null,
+                'info' => null,
+                'csv' => null,
             );
         }
 
         if (count($res) > 0) {
             Issue::getAssignedUsersByIssues($res);
-            Time_Tracking::getTimeSpentByIssues($res);
+            Time_Tracking::fillTimeSpentByIssues($res);
             // need to get the customer titles for all of these issues...
             if (CRM::hasCustomerIntegration($prj_id)) {
                 $crm = CRM::getInstance($prj_id);
@@ -440,31 +451,32 @@ class Search
             $excerpts = self::getFullTextExcerpts();
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $issue_id = $res[$i]['iss_id'];
-            $res[$i]['time_spent'] = Misc::getFormattedTime($res[$i]['time_spent']);
-            $res[$i]['iss_created_date'] = Date_Helper::getFormattedDate($res[$i]['iss_created_date']);
-            $res[$i]['iss_expected_resolution_date'] = Date_Helper::getSimpleDate($res[$i]['iss_expected_resolution_date'], false);
-            $res[$i]['excerpts'] = isset($excerpts[$issue_id]) ? $excerpts[$issue_id] : '';
+        foreach ($res as &$row) {
+            $issue_id = $row['iss_id'];
+            $row['time_spent'] = Misc::getFormattedTime($row['time_spent']);
+            $row['iss_created_date'] = Date_Helper::getFormattedDate($row['iss_created_date']);
+            $row['iss_expected_resolution_date'] = Date_Helper::getSimpleDate($row['iss_expected_resolution_date'], false);
+            $row['excerpts'] = isset($excerpts[$issue_id]) ? $excerpts[$issue_id] : '';
             $fields = array(
-                $res[$i]['pri_title'],
-                $res[$i]['iss_id'],
-                $res[$i]['usr_full_name'],
+                $row['pri_title'],
+                $row['iss_id'],
+                $row['usr_full_name'],
             );
+
             // hide the group column from the output if no
             // groups are available in the database
             if (count($groups) > 0) {
-                $fields[] = $res[$i]['grp_name'];
+                $fields[] = $row['grp_name'];
             }
-            $fields[] = $res[$i]['assigned_users'];
-            $fields[] = $res[$i]['time_spent'];
+            $fields[] = $row['assigned_users'];
+            $fields[] = $row['time_spent'];
             // hide the category column from the output if no
             // categories are available in the database
             if (count($categories) > 0) {
-                $fields[] = $res[$i]['prc_title'];
+                $fields[] = $row['prc_title'];
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
-                $fields[] = @$res[$i]['customer_title'];
+                $fields[] = @$row['customer_title'];
                 // check if current user is a customer and has a per incident contract.
                 // if so, check if issue is redeemed.
                 if (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')) {
@@ -475,19 +487,19 @@ class Search
 //                    }
                 }
             }
-            $fields[] = $res[$i]['sta_title'];
-            $fields[] = $res[$i]['status_change_date'];
-            $fields[] = $res[$i]['last_action_date'];
-            $fields[] = $res[$i]['iss_dev_time'];
-            $fields[] = $res[$i]['iss_summary'];
-            $fields[] = $res[$i]['iss_expected_resolution_date'];
+            $fields[] = $row['sta_title'];
+            $fields[] = $row['status_change_date'];
+            $fields[] = $row['last_action_date'];
+            $fields[] = $row['iss_dev_time'];
+            $fields[] = $row['iss_summary'];
+            $fields[] = $row['iss_expected_resolution_date'];
 
             if (count($custom_fields) > 0) {
-                $res[$i]['custom_field'] = array();
-                $custom_field_values = Custom_Field::getListByIssue($prj_id, $res[$i]['iss_id']);
+                $row['custom_field'] = array();
+                $custom_field_values = Custom_Field::getListByIssue($prj_id, $row['iss_id']);
                 foreach ($custom_field_values as $this_field) {
                     if (!empty($custom_fields[$this_field['fld_id']])) {
-                        $res[$i]['custom_field'][$this_field['fld_id']] = $this_field['value'];
+                        $row['custom_field'][$this_field['fld_id']] = $this_field['value'];
                         $fields[] = $this_field['value'];
                     }
                 }

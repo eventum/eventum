@@ -494,18 +494,14 @@ class Auth
     }
 
     /**
-     * Gets the current project name from the user's project cookie.
+     * Gets the current project name from the user's project cookie. If no project ID is set it will redirect
+     * to the select project page.
      *
      * @return  string The current project name
      */
     public static function getCurrentProjectName()
     {
-        $proj_id = self::getCurrentProject();
-        if ($proj_id) {
-            return Project::getName($proj_id);
-        }
-        // FIXME: throw instead?
-        return null;
+        return Project::getName(self::getCurrentProject(true));
     }
 
     /**

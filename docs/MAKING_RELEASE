@@ -1,5 +1,7 @@
 --- make tarball:
 	* make sure upgrade/drop.sql lists all created tables
+	$ sed -e 's,{{%\([^}]*\)}},eventum_\1,' upgrade/drop.sql
+    - install twice to same database, second time select drop tables, install must not fail
 	* Change the release number in init.php (APP_VERSION)
 	* Update the docs/ChangeLog file with the correct version number and release date
 	$ make dist

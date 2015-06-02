@@ -270,8 +270,9 @@ class Attachment
         if ($add_history) {
             Issue::markAsUpdated($usr_id);
             // need to save a history entry for this
-            // FIXME:: translate
-            History::add($issue_id, $usr_id, History::getTypeID('attachment_removed'), 'Attachment removed by ' . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, 'attachment_removed', 'Attachment removed by {user}', array(
+                'user' => User::getFullName($usr_id)
+            ));
         }
 
         return 1;
@@ -398,7 +399,7 @@ class Attachment
         DB_Helper::getInstance()->query($stmt, $params);
 
         // run cleanup of stale uploads
-        $stmt = 'DELETE FROM {{%issue_attachment_file}} WHERE iaf_iat_id=0 AND iaf_created_date < ?';
+        $stmt = "DELETE FROM {{%issue_attachment_file}} WHERE iaf_iat_id=0 AND iaf_created_date>'0000-00-00 00:00:00' AND iaf_created_date < ?";
         $expire_date = time() - self::ATTACHMENT_EXPIRE_TIME;
         $params = array(Date_Helper::convertDateGMT($expire_date));
         DB_Helper::getInstance()->query($stmt, $params);
@@ -412,9 +413,9 @@ class Attachment
      * @param int $usr_id The user ID
      * @param int[] $iaf_ids attachment file id-s to attach
      * @param boolean $internal_only Whether this attachment is supposed to be internal only or not
-     * @param $file_description File description text
-     * @param   string $unknown_user The email of the user who originally sent this email, who doesn't have an account.
-     * @param   integer $associated_note_id The note ID that these attachments should be associated with
+     * @param string $file_description File description text
+     * @param string $unknown_user The email of the user who originally sent this email, who doesn't have an account.
+     * @param integer $associated_note_id The note ID that these attachments should be associated with
      */
     public static function attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description, $unknown_user = null, $associated_note_id = null)
     {
@@ -425,9 +426,9 @@ class Attachment
         self::associateFiles($attachment_id, $iaf_ids);
 
         Issue::markAsUpdated($issue_id, 'file uploaded');
-        // FIXME: translate
-        $summary = 'Attachment uploaded by ' . User::getFullName($usr_id);
-        History::add($issue_id, $usr_id, History::getTypeID('attachment_added'), $summary);
+        History::add($issue_id, $usr_id, 'attachment_added', 'Attachment uploaded by {user}', array(
+            'user' => User::getFullName($usr_id),
+        ));
 
         // if there is customer integration, mark last customer action
         $prj_id = Issue::getProjectID($issue_id);

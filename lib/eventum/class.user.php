@@ -327,8 +327,8 @@ class User
 
         $new_usr_id = DB_Helper::get_last_insert_id();
         // add the project associations!
-        for ($i = 0; $i < count($projects); $i++) {
-            Project::associateUser($projects[$i], $new_usr_id, $role);
+        foreach ($projects as $prj_id) {
+            Project::associateUser($prj_id, $new_usr_id, $role);
         }
 
         Prefs::set($new_usr_id, Prefs::getDefaults($projects));
@@ -610,6 +610,7 @@ class User
      *
      * @param   string $role_title The role title
      * @return  integer The role ID
+     * @deprecated use ROLE_ constant directly
      */
     public static function getRoleID($role_title)
     {
@@ -718,7 +719,7 @@ class User
     /**
      * Method used to get the full name of the specified user.
      *
-     * @param   integer $usr_id The user ID
+     * @param   integer|array $usr_id The user ID
      * @return  string The user' full name
      */
     public static function getFullName($usr_id)
@@ -770,7 +771,7 @@ class User
     /**
      * Method used to get the email address of the specified user.
      *
-     * @param   integer $usr_id The user ID or user ids
+     * @param   int|array $usr_id The user ID or user ids
      * @return  string The user' full name
      */
     public static function getEmail($usr_id)
@@ -1064,9 +1065,12 @@ class User
         }
 
         $params = array(
-            'usr_full_name' => $data['full_name'],
             'usr_email' => $data['email'],
         );
+
+        if (isset($params['usr_full_name'])) {
+            $params['usr_full_name'] = $data['full_name'];
+        }
 
         if (isset($data['grp_id'])) {
             $params['usr_grp_id'] = !empty($data['grp_id']) ? $data['grp_id'] : null;

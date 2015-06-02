@@ -51,6 +51,7 @@ interface DbInterface
     /**
      * Connects to the database
      *
+     * @param array $config
      * @throws DbException on connection failure
      */
     public function __construct(array $config);

@@ -291,8 +291,8 @@ abstract class CRM
         $files = Misc::getFileList(APP_INC_PATH . 'crm/');
         $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/crm'));
         $list = array();
-        for ($i = 0; $i < count($files); $i++) {
-            $list['class.' . $files[$i] . '.php'] = $files[$i];
+        foreach ($files as $file) {
+            $list['class.' . $file . '.php'] = $file;
         }
 
         return $list;
@@ -399,11 +399,11 @@ abstract class CRM
             return '';
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $crm = CRM::getInstance($res[$i]['cam_prj_id']);
+        foreach ($res as &$row) {
+            $crm = CRM::getInstance($row['cam_prj_id']);
             try {
-                $customer = $crm->getCustomer($res[$i]['cam_customer_id']);
-                $res[$i]['customer_title'] = $customer->getName();
+                $customer = $crm->getCustomer($row['cam_customer_id']);
+                $row['customer_title'] = $customer->getName();
             } catch (CRMException $e) {
             }
         }
@@ -620,10 +620,10 @@ abstract class CRM
             return array();
         }
 
-        for ($i = 0; $i < count($res); $i++) {
+        foreach ($res as &$row) {
             try {
-                $crm = CRM::getInstance($res[$i]['cno_prj_id']);
-                $res[$i]['customer_title'] = $crm->getCustomer($res[$i]['cno_customer_id'])->getName();
+                $crm = CRM::getInstance($row['cno_prj_id']);
+                $row['customer_title'] = $crm->getCustomer($row['cno_customer_id'])->getName();
             } catch (Exception $e) {
             }
         }

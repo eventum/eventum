@@ -88,9 +88,9 @@ class Error_Handler
     {
         $backtrace = debug_backtrace();
         array_splice($backtrace, 0, 2);
-        for ($i = 0; $i < count($backtrace); $i++) {
+        foreach ($backtrace as $frame) {
             // avoid recursion?
-            if ($backtrace[$i]['class'] == __CLASS__) {
+            if (isset($frame['class']) && $frame['class'] == __CLASS__) {
                 return;
             }
         }
@@ -122,7 +122,10 @@ class Error_Handler
             if (!empty($_SERVER['HTTP_REFERER'])) {
                 $msg  .= "Referer: {$_SERVER['HTTP_REFERER']}\n";
             }
-            $msg .= "User-Agent: {$_SERVER['HTTP_USER_AGENT']}\n\n";
+            if (!empty($_SERVER['HTTP_USER_AGENT'])) {
+                $msg .= "User-Agent: {$_SERVER['HTTP_USER_AGENT']}\n";
+            }
+            $msg .= "\n";
         }
         $msg .= "-- \nSincerely yours,\nAutomated Error_Handler Class";
 

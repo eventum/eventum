@@ -337,7 +337,7 @@ class Access
 
         $prj_id = Issue::getProjectID($issue_id);
         $workflow = Workflow::canCloneIssue($prj_id, $issue_id, $usr_id);
-        if (!is_null($workflow)) {
+        if ($workflow !== null) {
             return $workflow;
         }
 
@@ -383,7 +383,7 @@ class Access
 
         $prj_id = Issue::getProjectID($issue_id);
         $workflow = Workflow::canUpdateIssue($prj_id, $issue_id, $usr_id);
-        if (!is_null($workflow)) {
+        if ($workflow !== null) {
             return $workflow;
         }
 

@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -65,25 +65,25 @@ class Support
             return -1;
         }
 
-        for ($i = 0; $i < count($res); $i++) {
+        foreach ($res as $row) {
             // don't remove emails from the imap/pop3 server if the email
             // account is set to leave a copy of the messages on the server
-            $account_details = Email_Account::getDetails($res[$i]['sup_ema_id']);
+            $account_details = Email_Account::getDetails($row['sup_ema_id']);
             if (!$account_details['leave_copy']) {
                 // try to re-use an open connection to the imap server
-                if (!in_array($res[$i]['sup_ema_id'], array_keys($accounts))) {
-                    $accounts[$res[$i]['sup_ema_id']] = self::connectEmailServer(Email_Account::getDetails($res[$i]['sup_ema_id']));
+                if (!in_array($row['sup_ema_id'], array_keys($accounts))) {
+                    $accounts[$row['sup_ema_id']] = self::connectEmailServer(Email_Account::getDetails($row['sup_ema_id']));
                 }
-                $mbox = $accounts[$res[$i]['sup_ema_id']];
+                $mbox = $accounts[$row['sup_ema_id']];
                 if ($mbox !== false) {
                     // now try to find the UID of the current message-id
-                    $matches = @imap_search($mbox, 'TEXT "' . $res[$i]['sup_message_id'] . '"');
+                    $matches = @imap_search($mbox, 'TEXT "' . $row['sup_message_id'] . '"');
                     if (count($matches) > 0) {
-                        for ($y = 0; $y < count($matches); $y++) {
-                            $headers = imap_headerinfo($mbox, $matches[$y]);
+                        foreach ($matches as $match) {
+                            $headers = imap_headerinfo($mbox, $match);
                             // if the current message also matches the message-id header, then remove it!
-                            if ($headers->message_id == $res[$i]['sup_message_id']) {
-                                @imap_delete($mbox, $matches[$y]);
+                            if ($headers->message_id == $row['sup_message_id']) {
+                                @imap_delete($mbox, $match);
                                 @imap_expunge($mbox);
                                 break;
                             }
@@ -91,8 +91,9 @@ class Support
                     }
                 }
             }
+
             // remove the email record from the table
-            self::removeEmail($res[$i]['sup_id']);
+            self::removeEmail($row['sup_id']);
         }
 
         return 1;
@@ -338,10 +339,10 @@ class Support
             return '';
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['sup_date'] = Date_Helper::getFormattedDate($res[$i]['sup_date']);
-            $res[$i]['sup_subject'] = Mime_Helper::fixEncoding($res[$i]['sup_subject']);
-            $res[$i]['sup_from'] = Mime_Helper::fixEncoding($res[$i]['sup_from']);
+        foreach ($res as &$row) {
+            $row['sup_date'] = Date_Helper::getFormattedDate($row['sup_date']);
+            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
+            $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
         }
 
         return $res;
@@ -375,13 +376,11 @@ class Support
 
     /**
      * Method used to build the server URI to connect to.
-     * FIXME: $tls param unused
      *
      * @param   array $info The email server information
-     * @param   boolean $tls Whether to use TLS or not
      * @return  string The server URI to connect to
      */
-    public static function getServerURI($info, $tls = false)
+    public static function getServerURI($info)
     {
         $server_uri = $info['ema_hostname'] . ':' . $info['ema_port'] . '/' . strtolower($info['ema_type']);
         if (stristr($info['ema_type'], 'imap')) {
@@ -707,7 +706,7 @@ class Support
                             'message_id'           => $t['message_id'],
                             'parent_id'            => $should_create_array['parent_id'],
                         );
-                        $res = Note::insert($usr_id, $t['issue_id']);
+                        $res = Note::insertFromPost($usr_id, $t['issue_id']);
 
                         // need to handle attachments coming from notes as well
                         if ($res != -1) {
@@ -776,7 +775,9 @@ class Support
                             }
                         }
                         // log routed email
-                        History::add($t['issue_id'], $usr_id, History::getTypeID('email_routed'), ev_gettext('Email routed from %1$s', $structure->headers['from']));
+                        History::add($t['issue_id'], $usr_id, 'email_routed', 'Email routed from {from}', array(
+                            'from' => $structure->headers['from'],
+                        ));
                     }
                 }
             } else {
@@ -1071,7 +1072,7 @@ class Support
             'sup_ema_id' => $row['ema_id'],
             'sup_iss_id' => $row['issue_id'],
             'sup_customer_id' => $row['customer_id'],
-            'sup_message_id' => $row['message_id'],
+            'sup_message_id' => $row['message_id'] ?: '',
             'sup_date' => $row['date'],
             'sup_from' => $row['from'],
             'sup_to' => $row['to'],
@@ -1226,17 +1227,18 @@ class Support
             'links'  => array(),
             'images' => array(),
         );
-        for ($i = 0; $i < count($fields); $i++) {
-            if ($options['sort_by'] == $fields[$i]) {
-                $items['images'][$fields[$i]] = 'images/' . strtolower($options['sort_order']) . '.gif';
+
+        foreach ($fields as $field) {
+            if ($options['sort_by'] == $field) {
+                $items['images'][$field] = 'images/' . strtolower($options['sort_order']) . '.gif';
                 if (strtolower($options['sort_order']) == 'asc') {
                     $sort_order = 'desc';
                 } else {
                     $sort_order = 'asc';
                 }
-                $items['links'][$fields[$i]] = $_SERVER['PHP_SELF'] . '?sort_by=' . $fields[$i] . '&sort_order=' . $sort_order;
+                $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=' . $sort_order;
             } else {
-                $items['links'][$fields[$i]] = $_SERVER['PHP_SELF'] . '?sort_by=' . $fields[$i] . '&sort_order=asc';
+                $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=asc';
             }
         }
 
@@ -1308,9 +1310,9 @@ class Support
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
             $customer_ids = array();
-            for ($i = 0; $i < count($res); $i++) {
-                if ((!empty($res[$i]['sup_customer_id'])) && (!in_array($res[$i]['sup_customer_id'], $customer_ids))) {
-                    $customer_ids[] = $res[$i]['sup_customer_id'];
+            foreach ($res as $row) {
+                if ((!empty($row['sup_customer_id'])) && (!in_array($row['sup_customer_id'], $customer_ids))) {
+                    $customer_ids[] = $row['sup_customer_id'];
                 }
             }
             if (count($customer_ids) > 0) {
@@ -1318,21 +1320,22 @@ class Support
             }
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['sup_date'] = Date_Helper::getFormattedDate($res[$i]['sup_date']);
-            $res[$i]['sup_subject'] = Mime_Helper::fixEncoding($res[$i]['sup_subject']);
-            $res[$i]['sup_from'] = implode(', ', Mail_Helper::getName($res[$i]['sup_from'], true));
-            if ((empty($res[$i]['sup_to'])) && (!empty($res[$i]['sup_iss_id']))) {
-                $res[$i]['sup_to'] = 'Notification List';
+        foreach ($res as &$row) {
+            $row['sup_date'] = Date_Helper::getFormattedDate($row['sup_date']);
+            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
+            $row['sup_from'] = implode(', ', Mail_Helper::getName($row['sup_from'], true));
+            if ((empty($row['sup_to'])) && (!empty($row['sup_iss_id']))) {
+                $row['sup_to'] = 'Notification List';
             } else {
-                $to = Mail_Helper::getName($res[$i]['sup_to']);
+                $to = Mail_Helper::getName($row['sup_to']);
                 // Ignore unformattable headers
                 if (!Misc::isError($to)) {
-                    $res[$i]['sup_to'] = Mime_Helper::fixEncoding($to);
+                    $row['sup_to'] = Mime_Helper::fixEncoding($to);
                 }
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
-                @$res[$i]['customer_title'] = $company_titles[$res[$i]['sup_customer_id']];
+                // FIXME: $company_titles maybe used uninitialied
+                $row['customer_title'] = $company_titles[$row['sup_customer_id']];
             }
         }
 
@@ -1503,10 +1506,11 @@ class Support
             return -1;
         }
 
-        for ($i = 0; $i < count($items); $i++) {
-            $full_email = self::getFullEmail($items[$i]);
+        foreach ($items as &$item) {
+            $full_email = self::getFullEmail($item);
             self::extractAttachments($issue_id, $full_email);
         }
+
         Issue::markAsUpdated($issue_id, 'email');
         // save a history entry for each email being associated to this issue
         $stmt = "SELECT
@@ -1516,9 +1520,12 @@ class Support
                  WHERE
                     sup_id IN ($list)";
         $res = DB_Helper::getInstance()->getColumn($stmt, $items);
-        for ($i = 0; $i < count($res); $i++) {
-            $summary = ev_gettext('Email (subject: "%1$s") associated by %2$s', $res[$i], User::getFullName($usr_id));
-            History::add($issue_id, $usr_id, History::getTypeID('email_associated'), $summary);
+
+        foreach ($res as $row) {
+            History::add($issue_id, $usr_id, 'email_associated', "Email (subject: '{subject}') associated by {user}", array(
+                'subject' => $row,
+                'user' => User::getFullName($usr_id)
+            ));
         }
 
         return 1;
@@ -1528,15 +1535,13 @@ class Support
      * Method used to associate a support email with an existing
      * issue.
      *
-     * FIXME $add_recipients_to_nl parameter is unused
-     *
      * @param   integer $usr_id The user ID of the person performing this change
      * @param   integer $issue_id The issue ID
      * @param   array $items The list of email IDs to associate
      * @param   boolean $authorize If the senders should be added the authorized repliers list
      * @return  integer 1 if it worked, -1 otherwise
      */
-    public static function associate($usr_id, $issue_id, $items, $authorize = false, $add_recipients_to_nl = false)
+    public static function associate($usr_id, $issue_id, $items, $authorize = false)
     {
         $res = self::associateEmail($usr_id, $issue_id, $items);
         if ($res != 1) {
@@ -1554,9 +1559,10 @@ class Support
                     sup_id IN (' . DB_Helper::buildList($items) . ')';
 
         $res = DB_Helper::getInstance()->getAll($stmt, $items);
-        for ($i = 0; $i < count($res); $i++) {
+
+        foreach ($res as $row) {
             // since downloading email should make the emails 'public', send 'false' below as the 'internal_only' flag
-            $structure = Mime_Helper::decode($res[$i]['seb_full_email'], true, false);
+            $structure = Mime_Helper::decode($row['seb_full_email'], true, false);
             if (Mime_Helper::hasAttachments($structure)) {
                 $has_attachments = 1;
             } else {
@@ -1570,7 +1576,7 @@ class Support
                 'cc'             => @$structure->headers['cc'],
                 'subject'        => @$structure->headers['subject'],
                 'body'           => Mime_Helper::getMessageBody($structure),
-                'full_email'     => $res[$i]['seb_full_email'],
+                'full_email'     => $row['seb_full_email'],
                 'has_attachment' => $has_attachments,
                 // the following items are not inserted, but useful in some methods
                 'headers'        => @$structure->headers,
@@ -1581,7 +1587,7 @@ class Support
                 self::addExtraRecipientsToNotificationList($prj_id, $t, false);
             }
 
-            Notification::notifyNewEmail($usr_id, $issue_id, $t, false, false, '', $res[$i]['sup_id']);
+            Notification::notifyNewEmail($usr_id, $issue_id, $t, false, false, '', $row['sup_id']);
             if ($authorize) {
                 Authorized_Replier::manualInsert($issue_id, Mail_Helper::getEmailAddress(@$structure->headers['from']), false);
             }
@@ -1653,8 +1659,7 @@ class Support
                     sup_id
                 LIMIT 1 OFFSET $offset";
         try {
-            // FIXME: need DB_FETCHMODE_DEFAULT here?
-            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id), DbInterface::DB_FETCHMODE_DEFAULT);
+            $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
         } catch (DbException $e) {
             return array();
         }
@@ -1663,7 +1668,7 @@ class Support
             return array();
         }
 
-        return self::getEmailDetails($res[1], $res[0]);
+        return self::getEmailDetails($res['sup_id'], $res['sup_ema_id']);
     }
 
     /**
@@ -1695,9 +1700,9 @@ class Support
             return '';
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['sup_subject'] = Mime_Helper::fixEncoding($res[$i]['sup_subject']);
-            $res[$i]['sup_from'] = Mime_Helper::fixEncoding($res[$i]['sup_from']);
+        foreach ($res as &$row) {
+            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
+            $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
         }
 
         return $res;
@@ -1787,12 +1792,12 @@ class Support
             return array();
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['sup_date'] = Date_Helper::getFormattedDate($res[$i]['sup_date']);
-            $res[$i]['sup_subject'] = Mime_Helper::fixEncoding($res[$i]['sup_subject']);
-            $res[$i]['sup_from'] = Mime_Helper::fixEncoding($res[$i]['sup_from']);
-            $res[$i]['sup_to'] = Mime_Helper::fixEncoding($res[$i]['sup_to']);
-            $res[$i]['sup_cc'] = Mime_Helper::fixEncoding($res[$i]['sup_cc']);
+        foreach ($res as &$row) {
+            $row['sup_date'] = Date_Helper::getFormattedDate($row['sup_date']);
+            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
+            $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
+            $row['sup_to'] = Mime_Helper::fixEncoding($row['sup_to']);
+            $row['sup_cc'] = Mime_Helper::fixEncoding($row['sup_cc']);
         }
 
         return $res;
@@ -1863,12 +1868,13 @@ class Support
                  WHERE
                     sup_id IN ($list)";
         $subjects = DB_Helper::getInstance()->fetchAssoc($stmt, $items);
-        for ($i = 0; $i < count($items); $i++) {
-            $summary = ev_gettext(
-                'Email (subject: "%1$s") disassociated by %2$s', $subjects[$items[$i]],
-                User::getFullName(Auth::getUserID())
-            );
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('email_disassociated'), $summary);
+
+        $usr_id = Auth::getUserID();
+        foreach ($items as $item) {
+            History::add($issue_id, $usr_id, 'email_disassociated', "Email (subject: '{subject}') disassociated by {user}", array(
+                'subject' => $subjects[$item],
+                'user' => User::getFullName($usr_id),
+            ));
         }
 
         return 1;
@@ -1990,9 +1996,9 @@ class Support
         if (!empty($cc)) {
             $cc = str_replace(',', ';', $cc);
             $ccs = explode(';', $cc);
-            for ($i = 0; $i < count($ccs); $i++) {
-                if (!empty($ccs[$i])) {
-                    $mail->addCc($ccs[$i]);
+            foreach ($ccs as $address) {
+                if (!empty($address)) {
+                    $mail->addCc($address);
                 }
             }
         }
@@ -2116,9 +2122,10 @@ class Support
         if (!$iaf_ids && isset($_FILES['attachment'])) {
             $iaf_ids = Attachment::addFiles($_FILES['attachment']);
         }
+        $current_usr_id = Auth::getUserID();
         if ($iaf_ids) {
             // FIXME: is it correct to use sender from post data?
-            $usr_id = $sender_usr_id ?: Auth::getUserID();
+            $usr_id = $sender_usr_id ?: $current_usr_id;
             Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, false, 'Attachment originated from outgoing email');
         }
 
@@ -2129,14 +2136,14 @@ class Support
 
         // email blocking should only be done if this is an email about an associated issue
         if (!empty($_POST['issue_id'])) {
-            $user_info = User::getNameEmail(Auth::getUserID());
+            $user_info = User::getNameEmail($current_usr_id);
             // check whether the current user is allowed to send this email to customers or not
             if (!self::isAllowedToEmail($issue_id, $user_info['usr_email'])) {
                 // add the message body as a note
                 $_POST['full_message'] = $full_email;
                 $_POST['title'] = $_POST['subject'];
                 $_POST['note'] = Mail_Helper::getCannedBlockedMsgExplanation() . $_POST['message'];
-                Note::insert(Auth::getUserID(), $issue_id, false, true, false, true, true);
+                Note::insertFromPost($current_usr_id, $issue_id, false, true, false, true, true);
                 Workflow::handleBlockedEmail(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id'], $_POST, 'web');
 
                 return 1;
@@ -2149,10 +2156,11 @@ class Support
             // add the recipients to the notification list of the associated issue
             $recipients = array($_POST['to']);
             $recipients = array_merge($recipients, self::getRecipientsCC($_POST['cc']));
-            for ($i = 0; $i < count($recipients); $i++) {
-                if ((!empty($recipients[$i])) && (!Notification::isIssueRoutingSender($issue_id, $recipients[$i]))) {
-                    Notification::subscribeEmail(Auth::getUserID(), $issue_id, Mail_Helper::getEmailAddress($recipients[$i]),
-                                    Notification::getDefaultActions($_POST['issue_id'], $recipients[$i], 'add_unknown_user'));
+
+            foreach ($recipients as $address) {
+                if (!empty($address) && !Notification::isIssueRoutingSender($issue_id, $address)) {
+                    $actions = Notification::getDefaultActions($_POST['issue_id'], $address, 'add_unknown_user');
+                    Notification::subscribeEmail($current_usr_id, $issue_id, Mail_Helper::getEmailAddress($address), $actions);
                 }
             }
         } else {
@@ -2175,11 +2183,13 @@ class Support
                     $recipients = self::getRecipientsCC($_POST['cc']);
                 }
                 $unknowns = array();
-                for ($i = 0; $i < count($recipients); $i++) {
-                    if (!Notification::isSubscribedToEmails($_POST['issue_id'], $recipients[$i])) {
-                        $unknowns[] = $recipients[$i];
+
+                foreach ($recipients as $address) {
+                    if (!Notification::isSubscribedToEmails($_POST['issue_id'], $address)) {
+                        $unknowns[] = $address;
                     }
                 }
+
                 if (count($unknowns) > 0) {
                     $to = array_shift($unknowns);
                     $cc = implode('; ', $unknowns);
@@ -2192,10 +2202,10 @@ class Support
                 $project_info = Project::getOutgoingSenderAddress(Auth::getCurrentProject());
                 // use the project-related outgoing email address, if there is one
                 if (!empty($project_info['email'])) {
-                    $from = Mail_Helper::getFormattedName(User::getFullName(Auth::getUserID()), $project_info['email']);
+                    $from = Mail_Helper::getFormattedName(User::getFullName($current_usr_id), $project_info['email']);
                 } else {
                     // otherwise, use the real email address for the current user
-                    $from = User::getFromHeader(Auth::getUserID());
+                    $from = User::getFromHeader($current_usr_id);
                 }
                 // send direct emails
                 self::sendDirectEmail($_POST['issue_id'], $from, $_POST['to'], $_POST['cc'],
@@ -2223,7 +2233,7 @@ class Support
                 $prj_id = Issue::getProjectID($_POST['issue_id']);
                 $crm = CRM::getInstance($prj_id);
                 try {
-                    $contact = $crm->getContact(User::getCustomerContactID(Auth::getUserID()));
+                    $contact = $crm->getContact(User::getCustomerContactID($current_usr_id));
                     $issue_contract = $crm->getContract(Issue::getContractID($_POST['issue_id']));
                     if ($contact->canAccessContract($issue_contract)) {
                         $t['customer_id'] = $issue_contract->getCustomerID();
@@ -2231,7 +2241,7 @@ class Support
                 } catch (CRMException $e) {
                 }
             } else {
-                $customer_id = User::getCustomerID(Auth::getUserID());
+                $customer_id = User::getCustomerID($current_usr_id);
                 if ((!empty($customer_id)) && ($customer_id != -1)) {
                     $t['customer_id'] = $customer_id;
                 }
@@ -2247,7 +2257,7 @@ class Support
 
         if ($issue_id) {
             // need to send a notification
-            Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $t, $internal_only, false, $type, $sup_id);
+            Notification::notifyNewEmail($current_usr_id, $issue_id, $t, $internal_only, false, $type, $sup_id);
             // mark this issue as updated
             if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')))) {
                 Issue::markAsUpdated($issue_id, 'customer action');
@@ -2259,9 +2269,9 @@ class Support
                 }
             }
 
-            // save a history entry for this
-            $summary = ev_gettext('Outgoing email sent by %1$s', User::getFullName(Auth::getUserID()));
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('email_sent'), $summary);
+            History::add($issue_id, $current_usr_id, 'email_sent', 'Outgoing email sent by {user}', array(
+                'user' => User::getFullName($current_usr_id)
+            ));
         }
 
         return 1;
@@ -2407,7 +2417,7 @@ class Support
      *
      * @param   string $usr_id The ID of the user
      * @param   integer $start The timestamp of the start date
-     * @param   integer $end The timestanp of the end date
+     * @param   integer $end The timestamp of the end date
      * @param   boolean $associated If this should return emails associated with issues or non associated emails.
      * @return  integer The number of emails sent by the user.
      */
@@ -2552,7 +2562,7 @@ class Support
      * NOTE: YOU STILL MUST call imap_expunge($mbox) to permanently delete the message.
      *
      * @param   array $info An array of email account information
-     * @param   object $mbox The mailbox object
+     * @param   resource $mbox The mailbox object
      * @param   integer $num The number of the message to delete.
      */
     public function deleteMessage($info, $mbox, $num)
@@ -2599,7 +2609,7 @@ class Support
                 $closing = false;
                 $notify = true;
             }
-            $res = Note::insert(Auth::getUserID(), $issue_id, $email['headers']['from'], false, $closing, $notify, true);
+            $res = Note::insertFromPost(Auth::getUserID(), $issue_id, $email['headers']['from'], false, $closing, $notify, true);
             // associate the email attachments as internal-only files on this issue
             if ($res != -1) {
                 self::extractAttachments($issue_id, $email['full_email'], true, $res);
@@ -2621,8 +2631,10 @@ class Support
             if (!$usr_id) {
                 $usr_id = APP_SYSTEM_USER_ID;
             }
-            // log blocked email
-            History::add($issue_id, $usr_id, History::getTypeID('email_blocked'), ev_gettext('Email from \'%1$s\' blocked', $email['from']));
+
+            History::add($issue_id, $usr_id, 'email_blocked', "Email from '{from}' blocked", array(
+                'from' => $email['from'],
+            ));
 
             return true;
         }

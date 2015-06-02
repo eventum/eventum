@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,10 +22,11 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../init.php';
@@ -37,8 +38,11 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
-$issue_id = @$_POST['issue_id'] ? $_POST['issue_id'] : $_GET['iss_id'];
+$issue_id = isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : (int)$_GET['iss_id'];
 $tpl->assign('issue_id', $issue_id);
+
+// assign default to avoid warnings
+$tpl->assign('info', null);
 
 if (!Access::canViewNotificationList($issue_id, Auth::getUserID())) {
     $tpl->setTemplate('permission_denied.tpl.html');
@@ -48,22 +52,27 @@ if (!Access::canViewNotificationList($issue_id, Auth::getUserID())) {
 
 // format default actions properly
 $default = Notification::getDefaultActions();
-$res = array();
+// first setup defaults
+$res = array(
+    'updated' => 0,
+    'closed' => 0,
+    'files' => 0,
+    'emails' => 0,
+);
 foreach ($default as $action) {
     $res[$action] = 1;
 }
 $tpl->assign('default_actions', $res);
 
-if (@$_POST['cat'] == 'insert') {
+$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : (isset($_GET['cat']) ? (string)$_GET['cat'] : null);
+
+if ($cat == 'insert') {
     $res = Notification::subscribeEmail($usr_id, $issue_id, $_POST['email'], $_POST['actions']);
     if ($res == 1) {
         Misc::setMessage(ev_gettext('Thank you, the email has been subscribed to the issue.'));
     }
-} elseif (@$_GET['cat'] == 'edit') {
-    $res = Notification::getDetails($_GET['id']);
-    $tpl->assign('info', $res);
-} elseif (@$_POST['cat'] == 'update') {
-    $res = Notification::update($_POST['id']);
+} elseif ($cat == 'update') {
+    $res = Notification::update($issue_id, $_POST['id'], $_POST['email']);
     if ($res == 1) {
         Misc::setMessage(ev_gettext('Thank you, the notification entry was updated successfully.'));
     } elseif ($res == -1) {
@@ -71,7 +80,11 @@ if (@$_POST['cat'] == 'insert') {
     } elseif ($res == -2) {
         Misc::setMessage(ev_gettext('Error: the given email address is not allowed to be added to the notification list.'), Misc::MSG_ERROR);
     }
-} elseif (@$_POST['cat'] == 'delete') {
+    Auth::redirect(APP_RELATIVE_URL . "notification.php?iss_id=" . $issue_id);
+} elseif ($cat == 'edit') {
+    $res = Notification::getDetails($_GET['id']);
+    $tpl->assign('info', $res);
+} elseif ($cat == 'delete') {
     $res = Notification::remove($_POST['items']);
     if ($res == 1) {
         Misc::setMessage(ev_gettext('Thank you, the items have been deleted.'));

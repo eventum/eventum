@@ -50,19 +50,6 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
 
 
     /**
-     * Called when an issue is assigned.
-     *
-     * @param   integer $prj_id The projectID
-     * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The id of the user who assigned the issue.
-     */
-    function handleAssignment($prj_id, $issue_id, $usr_id)
-    {
-        echo "Workflow: Issue Assigned<br />\n";
-    }
-
-
-    /**
      * Called when a file is attached to an issue.
      *
      * @param   integer $prj_id The projectID
@@ -124,7 +111,7 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
      *
      * @param   integer $prj_id The projectID
      * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The id of the user who locked the issue.
+     * @param   integer $usr_id The id of the user who assigned the issue.
      * @param   array $issue_details The old details of the issue.
      * @param   array $new_assignees The new assignees of this issue.
      * @param   boolean $remote_assignment If this issue was remotely assigned.

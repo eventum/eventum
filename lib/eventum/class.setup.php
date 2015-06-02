@@ -85,6 +85,7 @@ class Setup
         $eventum_setup_string = $eventum_setup = null;
 
         // config array is supposed to be returned from that path
+        /** @noinspection PhpIncludeInspection */
         $config = require $path;
 
         // fall back to old modes:

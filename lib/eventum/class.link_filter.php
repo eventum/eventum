@@ -103,7 +103,7 @@ class Link_Filter
             return array();
         }
 
-        for ($i = 0; $i < count($res); $i++) {
+        foreach ($res as &$row) {
             $sql = 'SELECT
                         plf_prj_id,
                         prj_title
@@ -114,16 +114,16 @@ class Link_Filter
                         prj_id = plf_prj_id AND
                         plf_lfi_id = ?';
             try {
-                $projects = DB_Helper::getInstance()->getPair($sql, array($res[$i]['lfi_id']));
+                $projects = DB_Helper::getInstance()->getPair($sql, array($row['lfi_id']));
             } catch (DbException $e) {
                 $projects = array();
             }
             if ($projects === null) {
                 $projects = array();
             }
-            $res[$i]['projects'] = array_keys($projects);
-            $res[$i]['project_names'] = array_values($projects);
-            $res[$i]['min_usr_role_name'] = User::getRole($res[$i]['lfi_usr_role']);
+            $row['projects'] = array_keys($projects);
+            $row['project_names'] = array_values($projects);
+            $row['min_usr_role_name'] = User::getRole($row['lfi_usr_role']);
         }
 
         return $res;
@@ -381,8 +381,7 @@ class Link_Filter
                     lfi_id";
         $params = array(Auth::getCurrentRole(), $prj_id);
         try {
-            // FIXME: need fetchmod default?
-            $res = DB_Helper::getInstance()->getAll($stmt, $params, DbInterface::DB_FETCHMODE_DEFAULT);
+            $res = DB_Helper::getInstance()->getAll($stmt, $params, DbInterface::DB_FETCHMODE_ORDERED);
         } catch (DbException $e) {
             return array();
         }
@@ -414,6 +413,6 @@ class Link_Filter
         // use named capture 'match' if present
         $match = isset($matches['match']) ? $matches['match'] : "issue {$issue_id}";
 
-        return " <a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$match}</a>";
+        return "<a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$match}</a>";
     }
 }

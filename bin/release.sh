@@ -79,7 +79,7 @@ update_version() {
 
 	version=$(git describe --tags)
 	# not good tags, try trimming
-	version=$(echo "$version" | sed -e 's,release-,,; s/-final$//; s/^v//; ')
+	version=$(echo "$version" | sed -e 's,release-,,; s/-final$//; s/^v//; s/-pre[0-9]*//; ')
 
 	sed -i -e "
 		/define('APP_VERSION'/ {
@@ -91,8 +91,6 @@ update_version() {
 
 # setup composer deps
 composer_install() {
-	[ "$composer" ] || return 0
-
 	# composer hack, see .travis.yml
 	sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
 	$composer install --prefer-dist --no-dev --ignore-platform-reqs
@@ -102,11 +100,13 @@ composer_install() {
 	cat deps >> docs/DEPENDENCIES.md && rm deps
 }
 
-# remove bundled deps
-cleanup_vendor() {
-	[ "$composer" ] || return 0
+# create phpcompatinfo report
+phpcompatinfo_report() {
+	$phpcompatinfo analyser:run --alias current --output docs/PhpCompatInfo.txt
+}
 
-	rm -r lib/{Smarty,pear,php-gettext,sphinxapi}
+# remove bundled deps
+cleanup_dist() {
 	# cleanup vendors
 	rm -r vendor/php-gettext/php-gettext/{tests,examples}
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
@@ -123,6 +123,14 @@ cleanup_vendor() {
 
 	rm vendor/composer/*.json
 
+	# we need just LiberationSans-Regular.ttf
+	mv vendor/fonts/liberation/{,.}LiberationSans-Regular.ttf
+	rm vendor/fonts/liberation/*
+	mv vendor/fonts/liberation/{.,}LiberationSans-Regular.ttf
+
+	# need just phplot.php and maybe rgb.php
+	rm -r vendor/phplot/phplot/{contrib,[A-Z]*}
+
 	# component related deps, not needed runtime
 	rm -r vendor/symfony/process
 	rm -r vendor/kriswallsmith/assetic
@@ -132,6 +140,8 @@ cleanup_vendor() {
 	rm -r vendor/enyo/dropzone
 	install -d vendor/kriswallsmith/assetic/src
 	touch vendor/kriswallsmith/assetic/src/functions.php
+	echo '<?php return array();' > vendor/composer/autoload_namespaces.php
+	rmdir --ignore-fail-on-non-empty vendor/*/
 	# cleanup components
 	rm htdocs/components/*/*-built.js
 	rm htdocs/components/*-built.js
@@ -144,8 +154,8 @@ cleanup_vendor() {
 	rm -r htdocs/components/jquery-ui/ui/i18n
 	rm htdocs/components/dropzone/index.js
 
-	# and old code in repo
-	rm -r htdocs/js/jquery
+	# not ready yet
+	rm lib/eventum/db/DbYii.php
 
 	# this will do clean pear in vendor dir
 	touch pear.download pear.install pear.clean
@@ -165,7 +175,7 @@ cleanup_vendor() {
 	rm composer.lock
 }
 
-cleanup_dist() {
+cleanup_postdist() {
 	rm -f composer.json bin/{dyncontent-chksum.pl,update-pear.sh}
 	rm -f cli/{composer.json,box.json.dist,Makefile}
 }
@@ -207,23 +217,24 @@ upload_tarball() {
 prepare_source() {
 	update_version
 	composer_install
+	phpcompatinfo_report
 
 	# update to include checksums of js/css files
 	./bin/dyncontent-chksum.pl
 
-	cleanup_vendor
+	cleanup_dist
 
 	# setup locatlization
 	make -C localization install clean
 
-	# instal dirs and fix permissions
+	# install dirs and fix permissions
 	install -d logs templates_c locks htdocs/customer
 	touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 	chmod -R a+rX .
 	chmod -R a+rwX templates_c locks logs config
 
-	# clean these now, can't omit them from git export as needed in release preparation process
-	cleanup_dist
+	# cleanup rest of the stuff, that was neccessary for release preparation process
+	cleanup_postdist
 
 	if [ "$rc" != "dev" ]; then
 		phplint
@@ -235,11 +246,12 @@ prepare_source() {
 }
 
 # download tools
-make php-cs-fixer.phar
+make php-cs-fixer.phar phpcompatinfo.phar
 
 composer=$(find_prog composer)
 box=$(find_prog box)
 phpcsfixer=$(find_prog php-cs-fixer)
+phpcompatinfo=$(find_prog phpcompatinfo)
 
 # checkout
 vcs_checkout

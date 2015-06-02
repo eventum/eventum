@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -42,6 +42,9 @@ class RemoteApi
 {
     /**
      * Fakes the creation of the login cookie
+     *
+     * @param string $email
+     * @param bool $project
      */
     public static function createFakeCookie($email, $project = false)
     {
@@ -101,10 +104,11 @@ class RemoteApi
 
         return array(
             'summary'          => $details['iss_summary'],
-            'customer'         => @$details['customer_info']['customer_name'],
-            'status'           => @$details['sta_title'],
-            'assignments'      => @$details['assignments'],
-            'authorized_names' => @implode(', ', $details['authorized_names']),
+            'customer'         => isset($details['customer_info']['customer_name']) ? $details['customer_info']['customer_name'] : null,
+            'status'           => $details['sta_title'],
+            'is_closed'        => $details['sta_is_closed'],
+            'assignments'      => $details['assignments'],
+            'authorized_names' => implode(', ', $details['authorized_names']),
         );
     }
 
@@ -146,6 +150,7 @@ class RemoteApi
      * @param string $email
      * @param string $password
      * @return string
+     * @access public
      */
     public function isValidLogin($email, $password)
     {
@@ -156,6 +161,40 @@ class RemoteApi
         }
 
         return $is_valid;
+    }
+
+    /**
+     * Method used to check if Eventum RPC can be reached
+     *
+     * @return bool
+     * @access protected
+     * @since 3.0.2
+     */
+    public function checkAuthentication()
+    {
+        $usr_id = Auth::getUserID();
+        if (!$usr_id) {
+            throw new RemoteApiException("Not authenticated");
+        }
+
+        return true;
+    }
+
+    /**
+     * Method used to retrieve server parameters
+     *
+     * @param string $parameter
+     * @return string
+     * @access protected
+     * @since 3.0.2
+     */
+    public function getServerParameter($parameter)
+    {
+        switch ($parameter) {
+            case 'upload_max_filesize':
+                return Attachment::getMaxAttachmentSize(true);
+        }
+        throw new InvalidArgumentException("Invalid parameter: $parameter");
     }
 
     /**
@@ -239,12 +278,16 @@ class RemoteApi
      * @param int $time_spent
      * @return string
      * @access protected
+     * @since 3.0.2 checks access via Issue::canUpdate
      */
     public function recordTimeWorked($issue_id, $cat_id, $summary, $time_spent)
     {
         $usr_id = Auth::getUserID();
+        if (!Issue::canUpdate($issue_id, $usr_id)) {
+            throw new RemoteApiException("No access to issue #{$issue_id}");
+        }
 
-        $res = Time_Tracking::recordRemoteEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent);
+        $res = Time_Tracking::recordRemoteTimeEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent);
         if ($res == -1) {
             throw new RemoteApiException('Could not record the time tracking entry');
         }
@@ -414,6 +457,47 @@ class RemoteApi
     }
 
     /**
+     * Upload single file to an issue.
+     *
+     * @param int $issue_id
+     * @param string $filename
+     * @param string $mimetype
+     * @param base64 $contents
+     * @param string $file_description
+     * @param bool $internal_only
+     * @return struct
+     * @access protected
+     * @since 3.0.2
+     */
+    public function addFile($issue_id, $filename, $mimetype, $contents, $file_description, $internal_only)
+    {
+        $filesize = strlen($contents);
+        if (!$filesize) {
+            throw new RemoteApiException("Empty file uploaded");
+        }
+
+        $usr_id = Auth::getUserID();
+        if (!$usr_id) {
+            throw new RemoteApiException("Not authenticated");
+        }
+
+        $iaf_id = Attachment::addFile(0, $filename, $mimetype, $contents);
+        if (!$iaf_id) {
+            throw new RemoteApiException("File not uploaded");
+        }
+
+        $iaf_ids = array($iaf_id);
+        Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description);
+
+        $res = array(
+            'usr_id' => $usr_id,
+            'iaf_id' => $iaf_id,
+            'filesize' => $filesize,
+        );
+        return $res;
+    }
+
+    /**
      * @param int $prj_id
      * @param string $field
      * @param string $value
@@ -513,25 +597,32 @@ class RemoteApi
     public function getEmailListing($issue_id)
     {
         $real_emails = Support::getEmailsByIssue($issue_id);
-
-        $issue = Issue::getDetails($issue_id);
-        $email = array(
-            'sup_date'    => $issue['iss_created_date'],
-            'sup_from'    => $issue['reporter'],
-            'sup_to'      => '',
-            'sup_cc'      => '',
-            'sup_subject' => $issue['iss_summary'],
-        );
-        if ($real_emails != '') {
-            $emails = array_merge(array($email), $real_emails);
-        } else {
-            $emails[] = $email;
-        }
-
-        if (is_array($emails)) {
-            foreach ($emails as &$email) {
+        if (is_array($real_emails)) {
+            foreach ($real_emails as $i => &$email) {
+                $email['id'] = $i+1;
                 unset($email['seb_body']);
             }
+        }
+
+        $setup = Setup::load();
+
+        if (isset($setup['description_email_0']) && $setup['description_email_0'] == 'enabled') {
+            $issue = Issue::getDetails($issue_id);
+            $email = array(
+                'id'          => 0,
+                'sup_date'    => $issue['iss_created_date'],
+                'sup_from'    => $issue['reporter'],
+                'sup_to'      => '',
+                'sup_cc'      => '',
+                'sup_subject' => $issue['iss_summary'],
+            );
+            if ($real_emails != '') {
+                $emails = array_merge(array($email), $real_emails);
+            } else {
+                $emails[] = $email;
+            }
+        } else {
+            $emails = $real_emails;
         }
 
         return $emails;
@@ -645,12 +736,31 @@ class RemoteApi
     }
 
     /**
+     * Get data for weekly report.
+     *
+     * @param int $prj_id The project id
+     * @param DateTime $start
+     * @param DateTime $end
+     * @param struct $options
+     * @return string
+     * @access protected
+     * @since 3.0.2
+     */
+    public function getWeeklyReportData($prj_id, $start, $end, $options)
+    {
+        $usr_id = Auth::getUserID();
+
+        return Report::getWeeklyReport($usr_id, $prj_id, $start, $end, $options);
+    }
+
+    /**
      * @param int $week
      * @param string $start
      * @param string $end
      * @param bool $separate_closed
      * @return string
      * @access protected
+     * @deprecated use getWeeklyReportData() and format data yourself
      */
     public function getWeeklyReport($week, $start, $end, $separate_closed)
     {
@@ -660,6 +770,7 @@ class RemoteApi
         // we have to set a project so the template class works, even though the weekly report doesn't actually need it
         $projects = Project::getAssocList(Auth::getUserID());
         self::createFakeCookie(false, current(array_keys($projects)));
+        $prj_id = Auth::getCurrentProject();
 
         // figure out the correct week
         if ((empty($start)) || (empty($end))) {
@@ -676,11 +787,14 @@ class RemoteApi
             // {if $smarty.post.separate_closed == 1}
             $_POST['separate_closed'] = true;
         }
+        $options = array(
+            'separate_closed' => $separate_closed,
+        );
         $tpl = new Template_Helper();
         $tpl->setTemplate('reports/weekly_data.tpl.html');
         $tpl->assign(array(
             'report_type' => 'weekly',
-            'data' => Report::getWeeklyReport($usr_id, $start, $end, $separate_closed),
+            'data' => Report::getWeeklyReport($usr_id, $prj_id, $start, $end, $options),
         ));
 
         $ret = $tpl->getTemplateContents() . "\n";
@@ -690,6 +804,7 @@ class RemoteApi
 
     /**
      * @return array
+     * @access public
      */
     public function getResolutionAssocList()
     {

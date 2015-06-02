@@ -92,7 +92,7 @@ $(function() {
             <td valign="top" nowrap>{$checkins[i].isc_created_date}</td>
             <td valign="top" >{$checkins[i].isc_username|escape:"html"}</td>
             <td valign="top">{$checkins[i].isc_module|escape:"html"}</td>
-            <td valign="top" nowrap>
+            <td valign="top" nowrap class="checkins">
               {if $checkins[i].checkout_url}
                 <a title="{t 1=$checkins[i].isc_filename}see the log of of %1{/t}" target="_blank" href="{$checkins[i].scm_log_url}">{$checkins[i].isc_filename|escape:"html"}</a>
                 {if $checkins[i].added}
@@ -100,17 +100,19 @@ $(function() {
                 {elseif $checkins[i].removed}
                   ({t}REMOVED{/t})
                 {else}
-                  <a title="{t 1=$checkins[i].isc_new_version 2=$checkins[i].isc_filename}see the source of revision %1 of %2{/t}" target="_blank" href="{$checkins[i].checkout_url}">({$checkins[i].isc_new_version})</a>
+                  (<a title="{t 1=$checkins[i].isc_new_version 2=$checkins[i].isc_filename}see the source of revision %1 of %2{/t}" target="_blank" href="{$checkins[i].checkout_url}"><span class=revision>{$checkins[i].isc_new_version}</span></a>)
                 {/if}
               {else}
               {$checkins[i].isc_filename|escape:"html"}
               {/if}
               {if $checkins[i].diff_url && !$checkins[i].added && !$checkins[i].removed}
-                [<a title="{t 1=$checkins[i].isc_old_version}see the diff to revision %1{/t}" target="_blank" href="{$checkins[i].diff_url}">{t 1=$checkins[i].isc_old_version}diff to %1{/t}</a>]
+                [<a title="{t 1=$checkins[i].isc_old_version}see the diff to revision %1{/t}" target="_blank" href="{$checkins[i].diff_url}">{t 1=$checkins[i].isc_old_version escape=no}diff to <span class=revision>%1</span>{/t}</a>]
               {/if}
             </td>
-            <td valign=top>
+            <td valign=top class=message>
+              <span>
               {$checkins[i].isc_commit_msg}
+              </span>
             </td>
           </tr>
           {sectionelse}

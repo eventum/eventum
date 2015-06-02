@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -58,25 +58,26 @@ class History
     /**
      * Method used to log the changes made against a specific issue.
      *
-     * @param   integer $iss_id The issue ID
-     * @param   integer $usr_id The ID of the user.
-     * @param   integer $htt_id The type ID of this history event.
-     * @param   string $summary The summary of the changes
-     * @param   boolean $hide If this history item should be hidden.
+     * @param integer $iss_id The issue ID
+     * @param integer $usr_id The ID of the user.
+     * @param integer|string $htt_id The type ID of this history event.
+     * @param string $summary The summary of the changes
+     * @param array $context parameters used in summary
      */
-    public static function add($iss_id, $usr_id, $htt_id, $summary, $hide = false)
+    public static function add($iss_id, $usr_id, $htt_id, $summary, $context = array())
     {
+        if (!is_numeric($htt_id)) {
+            $htt_id = History::getTypeID($htt_id);
+        }
+
         $params = array(
             'his_iss_id' => $iss_id,
             'his_usr_id' => $usr_id,
             'his_created_date' => Date_Helper::getCurrentDateGMT(),
             'his_summary' => $summary,
+            'his_context' => json_encode($context),
             'his_htt_id' => $htt_id,
         );
-
-        if ($hide == true) {
-            $params['his_is_hidden'] = 1;
-        }
 
         $stmt = 'INSERT INTO {{%issue_history}} SET '. DB_Helper::buildSet($params);
 
@@ -117,8 +118,7 @@ class History
 
         foreach ($res as &$row) {
             $row['his_created_date'] = Date_Helper::getFormattedDate($row['his_created_date']);
-            $t = Mime_Helper::fixEncoding(htmlspecialchars($row['his_summary']));
-            $row['his_summary'] = Link_Filter::processText(Auth::getCurrentProject(), $t);
+            $row['his_summary'] = Misc::processTokens(ev_gettext($row['his_summary']), $row['his_context']);
         }
 
         return $res;
@@ -146,6 +146,7 @@ class History
 
         return true;
     }
+
 
     /**
      * Returns the id for the history type based on name.
@@ -187,19 +188,18 @@ class History
     }
 
     /**
-     * Returns a list of issues touched by the specified user in the specified time frame.
+     * Returns a list of issues touched by the specified user in the specified time frame in specified project.
      *
-     * @param   integer $usr_id The id of the user.
-     * @param   date $start The start date
-     * @param   date $end The end date
-     * @param   boolean $separate_closed If closed issues should be included in a separate array
-     * @param   array $htt_exclude Addtional History Types to ignore
-     * @param   boolean $separate_not_assigned_to_user  Separate Issues Not Assigned to User
-     * @return  array An array of issues touched by the user.
+     * @param integer $usr_id The id of the user
+     * @param int $prj_id The project id
+     * @param string $start The start date
+     * @param string $end The end date
+     * @param array $htt_exclude Additional History Types to ignore
+     * @return array An array of issues touched by the user.
      */
-    public static function getTouchedIssuesByUser($usr_id, $start, $end, $separate_closed = false, $htt_exclude = array(), $separate_not_assigned_to_user = false)
+    public static function getTouchedIssuesByUser($usr_id, $prj_id, $start, $end, $htt_exclude = array())
     {
-        $htt_list = self::getTypeID(
+        $htt_exclude_list = self::getTypeID(
             array_merge(array(
                 'notification_removed',
                 'notification_added',
@@ -235,63 +235,31 @@ class History
                     his_iss_id = iss_id AND
                     his_usr_id = ? AND
                     his_created_date BETWEEN ? AND ? AND
-                    his_htt_id NOT IN(' . implode(',', $htt_list) . ') AND
+                    his_htt_id NOT IN(' . implode(',', $htt_exclude_list) . ') AND
                     iss_prj_id = ?
                  GROUP BY
                     iss_id
                  ORDER BY
                     iss_id ASC';
-        $params = array($usr_id, $start, $end, Auth::getCurrentProject());
+        $params = array($usr_id, $start, $end, $prj_id);
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
+            return DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
-            return '';
+            return null;
         }
-
-        $data = array(
-            'no_time'   =>  array(),
-            'not_mine'  =>  array(),
-            'closed'    =>  array(),
-            'other'     =>  array(),
-        );
-        if (count($res) > 0) {
-            if (isset($_REQUEST['show_per_issue'])) {
-                Time_Tracking::fillTimeSpentByIssueAndTime($res, $usr_id, $start, $end);
-            }
-            foreach ($res as $row) {
-                if ((!empty($row['iss_customer_id'])) && (CRM::hasCustomerIntegration($row['iss_prj_id']))) {
-                    $row['customer_name'] = CRM::getCustomerName($row['iss_prj_id'], $row['iss_customer_id']);
-                }
-                if (($separate_closed) && ($row['sta_is_closed'] == 1)) {
-                    $data['closed'][] = $row;
-                } elseif ($separate_not_assigned_to_user && !Issue::isAssignedToUser($row['iss_id'], $usr_id)) {
-                    $data['not_mine'][] = $row;
-                } elseif ((isset($_REQUEST['separate_no_time'])) && empty($row['it_spent'])) {
-                    $data['no_time'][] = $row;
-                } else {
-                    $data['other'][] = $row;
-                }
-            }
-            $sort_function = function ($a, $b) {
-                return strcasecmp($a['customer_name'], $b['customer_name']);
-            };
-            usort($data['closed'], $sort_function);
-            usort($data['other'], $sort_function);
-        }
-
-        return $data;
     }
 
     /**
      * Returns the number of issues for the specified user that are currently set to the specified status(es).
      *
-     * @param   integer $usr_id The id of the user.
-     * @param   date $start The start date
-     * @param   date $end The end date
-     * @param   array $statuses An array of status abreviations to return counts for.
-     * @return  array An array containing the number of issues for the user set tothe specified statuses.
+     * @param integer $usr_id The id of the user.
+     * @param int $prj_id The project id
+     * @param string $start The start date
+     * @param string $end The end date
+     * @param array $statuses An array of status abbreviations to return counts for.
+     * @return array An array containing the number of issues for the user set to the specified statuses.
      */
-    public static function getTouchedIssueCountByStatus($usr_id, $start, $end, $statuses = false)
+    public static function getTouchedIssueCountByStatus($usr_id, $prj_id, $start, $end, $statuses = null)
     {
         $stmt = 'SELECT
                     sta_title,
@@ -306,7 +274,7 @@ class History
                     iss_prj_id = ? AND
                     his_usr_id = ? AND
                     his_created_date BETWEEN ? AND ?';
-        if ($statuses != false) {
+        if ($statuses) {
             $stmt .= " AND
                     (
                         sta_abbreviation IN('" . implode("','", $statuses) . "') OR
@@ -318,48 +286,7 @@ class History
                     sta_title
                  ORDER BY
                     sta_rank';
-        $params = array(Auth::getCurrentProject(), $usr_id, $start, $end);
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
-            return array();
-        }
-
-        return $res;
-    }
-
-    /**
-     * Returns the history for a specified user in a specified time frame for an optional type
-     *
-     * NOTE: not used by eventum core. drop?
-     *
-     * @param   integer $usr_id The id of the user.
-     * @param   date $start The start date
-     * @param   date $end The end date
-     * @param   array $htt_id The htt_id or id's to to return history for.
-     * @return  array An array of history items
-     */
-    public function getHistoryByUser($usr_id, $start, $end, $htt_id = null)
-    {
-        $stmt = 'SELECT
-                    his_id,
-                    his_iss_id,
-                    his_created_date,
-                    his_summary,
-                    his_htt_id
-                 FROM
-                    {{%issue_history}}
-                 WHERE
-                    his_usr_id = ? AND
-                    his_created_date BETWEEN ? AND ?';
-
-        $params = array($usr_id, date('Y/m/d', $start), date('Y/m/d', $end));
-
-        if ($htt_id) {
-            $stmt .= 'AND his_htt_id IN (' . DB_Helper::buildList($htt_id) . ')';
-            $params = array_merge($params, $htt_id);
-        }
-
+        $params = array($prj_id, $usr_id, $start, $end);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {

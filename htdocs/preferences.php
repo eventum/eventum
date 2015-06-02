@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,10 +22,11 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 // delay language init if we're saving language
@@ -34,10 +35,13 @@ if (!empty($_POST['language'])) {
 }
 require_once dirname(__FILE__) . '/../init.php';
 
+$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : null;
+$usr_id = Auth::getUserID();
+
 // must do Language::setPreference before template is initialized
-if (@$_POST['cat'] == 'update_account') {
+if ($cat == 'update_account') {
     if (isset($_POST['language'])) {
-        $res = User::setLang(Auth::getUserID(), $_POST['language']);
+        $res = User::setLang($usr_id, $_POST['language']);
         Language::setPreference();
     }
 }
@@ -51,17 +55,23 @@ if (Auth::isAnonUser()) {
     Auth::redirect('index.php');
 }
 
-$usr_id = Auth::getUserID();
-
 $res = null;
-if (@$_POST['cat'] == 'update_account') {
-    $res = Prefs::set($usr_id, $_POST);
+
+if ($cat == 'update_account') {
+    $preferences = $_POST;
+
+    // if the user is trying to upload a new signature, override any changes to the textarea
+    if (!empty($_FILES['file_signature']['name'])) {
+        $preferences['email_signature'] = file_get_contents($_FILES['file_signature']['tmp_name']);
+    }
+
+    $res = Prefs::set($usr_id, $preferences);
     User::updateSMS($usr_id, @$_POST['sms_email']);
-} elseif (@$_POST['cat'] == 'update_name') {
+} elseif ($cat == 'update_name') {
     $res = User::updateFullName($usr_id);
-} elseif (@$_POST['cat'] == 'update_email') {
+} elseif ($cat == 'update_email') {
     $res = User::updateEmail($usr_id);
-} elseif (@$_POST['cat'] == 'update_password') {
+} elseif ($cat == 'update_password') {
     $res = Auth::updatePassword($usr_id, $_POST['new_password'], $_POST['confirm_password']);
 }
 
@@ -79,11 +89,11 @@ $tpl->assign('user_info', User::getDetails($usr_id));
 $tpl->assign('assigned_projects', Project::getAssocList($usr_id, false, true));
 $tpl->assign('zones', Date_Helper::getTimezoneList());
 $tpl->assign('avail_langs', Language::getAvailableLanguages());
-$tpl->assign('current_locale', User::getLang(Auth::getUserID(), true));
+$tpl->assign('current_locale', User::getLang($usr_id, true));
 $tpl->assign(array(
-    'can_update_name'   =>  Auth::canUserUpdateName(Auth::getUserID()),
-    'can_update_email'  =>  Auth::canUserUpdateEmail(Auth::getUserID()),
-    'can_update_password'   =>  Auth::canUserUpdatePassword(Auth::getUserID()),
+    'can_update_name' => Auth::canUserUpdateName($usr_id),
+    'can_update_email' => Auth::canUserUpdateEmail($usr_id),
+    'can_update_password' => Auth::canUserUpdatePassword($usr_id),
 ));
 
 $tpl->displayTemplate();

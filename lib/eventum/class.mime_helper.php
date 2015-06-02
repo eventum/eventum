@@ -227,7 +227,7 @@ class Mime_Helper
      *
      * @author Elan Ruusamäe <glen@delfi.ee>
      * @see    Zend_Mime::_encodeQuotedPrintable
-     * @param   string The string in APP_CHARSET encoding
+     * @param   string $string The string in APP_CHARSET encoding
      * @return  string encoded string
      */
 
@@ -616,8 +616,8 @@ class Mime_Helper
     {
         $attachments = array();
         if (isset($mime_part->parts)) {
-            for ($i = 0; $i < count($mime_part->parts); $i++) {
-                $t = self::_getAttachmentDetails($mime_part->parts[$i], $return_body, $return_filename, $return_cid);
+            foreach ($mime_part->parts as &$part) {
+                $t = self::_getAttachmentDetails($part, $return_body, $return_filename, $return_cid);
                 $attachments = array_merge($t, $attachments);
             }
         }
@@ -780,75 +780,58 @@ class Mime_Helper
     public static function parse_output($obj, &$parts)
     {
         if (!empty($obj->parts)) {
-            for ($i = 0; $i < count($obj->parts); $i++) {
-                self::parse_output($obj->parts[$i], $parts);
+            foreach ($obj->parts as &$part) {
+                self::parse_output($part, $parts);
             }
-        } else {
-            $ctype = @strtolower($obj->ctype_primary.'/'.$obj->ctype_secondary);
-            switch ($ctype) {
-                case 'text/plain':
-                    if (((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) || (!empty($obj->d_parameters['filename']))) {
-                        @$parts['attachments'][] = $obj->body;
-                    } else {
-                        $text = self::convertString($obj->body, @$obj->ctype_parameters['charset']);
-                        if (@$obj->ctype_parameters['format'] == 'flowed') {
-                            $text = self::decodeFlowedBodies($text, @$obj->ctype_parameters['delsp']);
-                        }
-                        @$parts['text'][] = $text;
-                    }
-                    break;
-                case 'text/html':
-                    if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) {
-                        @$parts['attachments'][] = $obj->body;
-                    } else {
-                        @$parts['html'][] = self::convertString($obj->body, @$obj->ctype_parameters['charset']);
-                    }
-                    break;
-                // special case for Apple Mail
-                case 'text/enriched':
-                    if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) {
-                        @$parts['attachments'][] = $obj->body;
-                    } else {
-                        @$parts['html'][] = self::convertString($obj->body, @$obj->ctype_parameters['charset']);
-                    }
-                    break;
-                default:
-                    // avoid treating forwarded messages as attachments
-                    if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'inline') &&
-                            ($ctype != 'message/rfc822')) {
-                        @$parts['attachments'][] = $obj->body;
-                    } elseif (stristr($ctype, 'image')) {
-                        // handle inline images
-                        @$parts['attachments'][] = $obj->body;
-                    } elseif (strtolower(@$obj->disposition) == 'attachment') {
-                        @$parts['attachments'][] = $obj->body;
-                    } else {
-                        @$parts['text'][] = $obj->body;
-                    }
-            }
+            return;
         }
-    }
 
-    /**
-     * FIXME: this function is unused
-     *
-     * Given a quoted-printable string, this
-     * function will decode and return it.
-     *
-     * FIXME: it does not respect charset being used in qp string
-     *
-     * @param  string $input Input body to decode
-     * @return string Decoded body
-     */
-    private function _quotedPrintableDecode($input)
-    {
-        // Remove soft line breaks
-        $input = preg_replace("/=\r?\n/", '', $input);
 
-        // Replace encoded characters
-        $input = preg_replace('/=([a-f0-9]{2})/ie', "chr(hexdec('\\1'))", $input);
+        $ctype = @strtolower($obj->ctype_primary.'/'.$obj->ctype_secondary);
+        switch ($ctype) {
+            case 'text/plain':
+                if (((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) || (!empty($obj->d_parameters['filename']))) {
+                    @$parts['attachments'][] = $obj->body;
+                } else {
+                    $text = self::convertString($obj->body, @$obj->ctype_parameters['charset']);
+                    if (@$obj->ctype_parameters['format'] == 'flowed') {
+                        $text = self::decodeFlowedBodies($text, @$obj->ctype_parameters['delsp']);
+                    }
+                    @$parts['text'][] = $text;
+                }
+                break;
 
-        return $input;
+            case 'text/html':
+                if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) {
+                    @$parts['attachments'][] = $obj->body;
+                } else {
+                    @$parts['html'][] = self::convertString($obj->body, @$obj->ctype_parameters['charset']);
+                }
+                break;
+
+            // special case for Apple Mail
+            case 'text/enriched':
+                if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) {
+                    @$parts['attachments'][] = $obj->body;
+                } else {
+                    @$parts['html'][] = self::convertString($obj->body, @$obj->ctype_parameters['charset']);
+                }
+                break;
+
+            default:
+                // avoid treating forwarded messages as attachments
+                if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'inline') &&
+                        ($ctype != 'message/rfc822')) {
+                    @$parts['attachments'][] = $obj->body;
+                } elseif (stristr($ctype, 'image')) {
+                    // handle inline images
+                    @$parts['attachments'][] = $obj->body;
+                } elseif (strtolower(@$obj->disposition) == 'attachment') {
+                    @$parts['attachments'][] = $obj->body;
+                } else {
+                    @$parts['text'][] = $obj->body;
+                }
+        }
     }
 
     /**
@@ -901,7 +884,7 @@ class Mime_Helper
      * not complete but is a start.
      *
      * @see     http://www.faqs.org/rfcs/rfc3676.html
-     * @param   text $body The text to "unflow"
+     * @param   string $body The text to "unflow"
      * @param   string $delsp If spaces should be deleted
      * @return  string The decoded body
      */

@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -117,7 +117,9 @@ class Draft
         }
         Issue::markAsUpdated($issue_id, 'draft saved');
         if ($add_history_entry) {
-            History::add($issue_id, $usr_id, History::getTypeID('draft_added'), ev_gettext('Email message saved as a draft by %1$s', User::getFullName($usr_id)));
+            History::add($issue_id, $usr_id, 'draft_added', 'Email message saved as a draft by {user}', array(
+                'user' => User::getFullName($usr_id)
+            ));
         }
 
         return 1;
@@ -158,7 +160,9 @@ class Draft
         }
 
         Issue::markAsUpdated($issue_id, 'draft saved');
-        History::add($issue_id, $usr_id, History::getTypeID('draft_updated'), ev_gettext('Email message draft updated by %1$s', User::getFullName($usr_id)));
+        History::add($issue_id, $usr_id, 'draft_updated', 'Email message draft updated by {user}', array(
+            'user' => User::getFullName($usr_id))
+        );
         self::saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id, false, false);
 
         return 1;
@@ -310,16 +314,16 @@ class Draft
             return '';
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['emd_updated_date'] = Date_Helper::getFormattedDate($res[$i]['emd_updated_date']);
-            if (!empty($res[$i]['emd_unknown_user'])) {
-                $res[$i]['from'] = $res[$i]['emd_unknown_user'];
+        foreach ($res as &$row) {
+            $row['emd_updated_date'] = Date_Helper::getFormattedDate($row['emd_updated_date']);
+            if (!empty($row['emd_unknown_user'])) {
+                $row['from'] = $row['emd_unknown_user'];
             } else {
-                $res[$i]['from'] = User::getFromHeader($res[$i]['emd_usr_id']);
+                $row['from'] = User::getFromHeader($row['emd_usr_id']);
             }
-            list($res[$i]['to']) = self::getEmailRecipients($res[$i]['emd_id']);
-            if (empty($res[$i]['to'])) {
-                $res[$i]['to'] = 'Notification List';
+            list($row['to']) = self::getEmailRecipients($row['emd_id']);
+            if (empty($row['to'])) {
+                $row['to'] = 'Notification List';
             }
         }
 
@@ -374,8 +378,7 @@ class Draft
     public static function getDraftBySequence($issue_id, $sequence)
     {
         $sequence = (int) $sequence;
-        // FIXME: sequence 0 valid too?
-        if ($sequence < 0) {
+        if ($sequence < 1) {
             return array();
         }
         $stmt = "SELECT

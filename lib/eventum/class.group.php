@@ -304,10 +304,10 @@ class Group
             return -1;
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['users'] = self::getUsers($res[$i]['grp_id']);
-            $res[$i]['projects'] = self::getProjects($res[$i]['grp_id']);
-            $res[$i]['manager'] = User::getFullName($res[$i]['grp_manager_usr_id']);
+        foreach ($res as &$row) {
+            $row['users'] = self::getUsers($row['grp_id']);
+            $row['projects'] = self::getProjects($row['grp_id']);
+            $row['manager'] = User::getFullName($row['grp_manager_usr_id']);
         }
 
         return $res;

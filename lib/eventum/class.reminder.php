@@ -551,33 +551,33 @@ class Reminder
         $new_rem_id = DB_Helper::get_last_insert_id();
         // map the reminder requirements now
         if ((@$_POST['reminder_type'] == 'support_level') && (count($_POST['support_levels']) > 0)) {
-            for ($i = 0; $i < count($_POST['support_levels']); $i++) {
-                self::addSupportLevelAssociation($new_rem_id, $_POST['support_levels'][$i]);
+            foreach ($_POST['support_levels'] as $level) {
+                self::addSupportLevelAssociation($new_rem_id, $level);
             }
         } elseif ((@$_POST['reminder_type'] == 'issue') && (count($_POST['issues']) > 0)) {
-            for ($i = 0; $i < count($_POST['issues']); $i++) {
-                self::addIssueAssociation($new_rem_id, $_POST['issues'][$i]);
+            foreach ($_POST['issues'] as $issue_id) {
+                self::addIssueAssociation($new_rem_id, $issue_id);
             }
         } elseif ((@$_POST['reminder_type'] == 'customer') && (count($_POST['customers']) > 0)) {
-            for ($i = 0; $i < count($_POST['customers']); $i++) {
-                self::addCustomerAssociation($new_rem_id, $_POST['customers'][$i]);
+            foreach ($_POST['customers'] as $customer_id) {
+                self::addCustomerAssociation($new_rem_id, $customer_id);
             }
         } elseif (@$_POST['reminder_type'] == 'all_issues') {
             self::associateAllIssues($new_rem_id);
         }
         if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
-            for ($i = 0; $i < count($_POST['priorities']); $i++) {
-                self::addPriorityAssociation($new_rem_id, $_POST['priorities'][$i]);
+            foreach ($_POST['priorities'] as $priority_id) {
+                self::addPriorityAssociation($new_rem_id, $priority_id);
             }
         }
         if ((@$_POST['check_product'] == 'yes') && (count($_POST['products']) > 0)) {
-            for ($i = 0; $i < count($_POST['products']); $i++) {
-                self::addProductAssociation($new_rem_id, $_POST['products'][$i]);
+            foreach ($_POST['products'] as $pro_id) {
+                self::addProductAssociation($new_rem_id, $pro_id);
             }
         }
         if ((@$_POST['check_severity'] == 'yes') && (count($_POST['severities']) > 0)) {
-            for ($i = 0; $i < count($_POST['severities']); $i++) {
-                self::addSeverityAssociation($new_rem_id, $_POST['severities'][$i]);
+            foreach ($_POST['severities'] as $severity_id) {
+                self::addSeverityAssociation($new_rem_id, $severity_id);
             }
         }
 
@@ -618,33 +618,33 @@ class Reminder
         self::removeAllAssociations($_POST['id']);
         // map the reminder requirements now
         if ((@$_POST['reminder_type'] == 'support_level') && (count($_POST['support_levels']) > 0)) {
-            for ($i = 0; $i < count($_POST['support_levels']); $i++) {
-                self::addSupportLevelAssociation($_POST['id'], $_POST['support_levels'][$i]);
+            foreach ($_POST['support_levels'] as $level) {
+                self::addSupportLevelAssociation($_POST['id'], $level);
             }
         } elseif ((@$_POST['reminder_type'] == 'issue') && (count($_POST['issues']) > 0)) {
-            for ($i = 0; $i < count($_POST['issues']); $i++) {
-                self::addIssueAssociation($_POST['id'], $_POST['issues'][$i]);
+            foreach ($_POST['issues'] as $issue_id) {
+                self::addIssueAssociation($_POST['id'], $issue_id);
             }
         } elseif ((@$_POST['reminder_type'] == 'customer') && (count($_POST['customers']) > 0)) {
-            for ($i = 0; $i < count($_POST['customers']); $i++) {
-                self::addCustomerAssociation($_POST['id'], $_POST['customers'][$i]);
+            foreach ($_POST['customers'] as $customer_id) {
+                self::addCustomerAssociation($_POST['id'], $customer_id);
             }
         } elseif (@$_POST['reminder_type'] == 'all_issues') {
             self::associateAllIssues($_POST['id']);
         }
         if ((@$_POST['check_priority'] == 'yes') && (count($_POST['priorities']) > 0)) {
-            for ($i = 0; $i < count($_POST['priorities']); $i++) {
-                self::addPriorityAssociation($_POST['id'], $_POST['priorities'][$i]);
+            foreach ($_POST['priorities'] as $priority_id) {
+                self::addPriorityAssociation($_POST['id'], $priority_id);
             }
         }
         if ((@$_POST['check_product'] == 'yes') && (count($_POST['products']) > 0)) {
-            for ($i = 0; $i < count($_POST['products']); $i++) {
-                self::addProductAssociation($_POST['id'], $_POST['products'][$i]);
+            foreach ($_POST['products'] as $pro_id) {
+                self::addProductAssociation($_POST['id'], $pro_id);
             }
         }
         if ((@$_POST['check_severity'] == 'yes') && (count($_POST['severities']) > 0)) {
-            for ($i = 0; $i < count($_POST['severities']); $i++) {
-                self::addSeverityAssociation($_POST['id'], $_POST['severities'][$i]);
+            foreach ($_POST['severities'] as $severity_id) {
+                self::addSeverityAssociation($_POST['id'], $severity_id);
             }
         }
 
@@ -713,18 +713,20 @@ class Reminder
 
         $type = '';
         $values = array();
-        for ($i = 0; $i < count($res); $i++) {
-            if ($res[$i]['rer_trigger_all_issues'] == '1') {
+        foreach ($res as $row) {
+            if ($row['rer_trigger_all_issues'] == '1') {
                 return array('type' => 'ALL');
-            } elseif (!empty($res[$i]['rer_support_level_id'])) {
+            }
+
+            if (!empty($row['rer_support_level_id'])) {
                 $type = 'support_level';
-                $values[] = $res[$i]['rer_support_level_id'];
-            } elseif (!empty($res[$i]['rer_customer_id'])) {
+                $values[] = $row['rer_support_level_id'];
+            } elseif (!empty($row['rer_customer_id'])) {
                 $type = 'customer';
-                $values[] = $res[$i]['rer_customer_id'];
-            } elseif (!empty($res[$i]['rer_iss_id'])) {
+                $values[] = $row['rer_customer_id'];
+            } elseif (!empty($row['rer_iss_id'])) {
                 $type = 'issue';
-                $values[] = $res[$i]['rer_iss_id'];
+                $values[] = $row['rer_iss_id'];
             }
         }
 
@@ -758,22 +760,22 @@ class Reminder
             return array();
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['rem_created_date'] = Date_Helper::getFormattedDate($res[$i]['rem_created_date']);
-            $actions = Reminder_Action::getList($res[$i]['rem_id']);
-            $res[$i]['total_actions'] = count($actions);
-            $priorities = self::getAssociatedPriorities($res[$i]['rem_id']);
-            $priority_titles = Priority::getAssocList($res[$i]['rem_prj_id']);
-            $res[$i]['priorities'] = array();
+        foreach ($res as &$row) {
+            $row['rem_created_date'] = Date_Helper::getFormattedDate($row['rem_created_date']);
+            $actions = Reminder_Action::getList($row['rem_id']);
+            $row['total_actions'] = count($actions);
+            $priorities = self::getAssociatedPriorities($row['rem_id']);
+            $priority_titles = Priority::getAssocList($row['rem_prj_id']);
+            $row['priorities'] = array();
             if (count($priorities) > 0) {
                 foreach ($priorities as $pri_id) {
-                    $res[$i]['priorities'][] = $priority_titles[$pri_id];
+                    $row['priorities'][] = $priority_titles[$pri_id];
                 }
             } else {
-                $res[$i]['priorities'][] = 'Any';
+                $row['priorities'][] = 'Any';
             }
-            $requirements = self::getRequirements($res[$i]['rem_id']);
-            $res[$i]['type'] = $requirements['type'];
+            $requirements = self::getRequirements($row['rem_id']);
+            $row['type'] = $requirements['type'];
         }
 
         return $res;
@@ -803,14 +805,15 @@ class Reminder
         }
 
         $t = array();
-        for ($i = 0; $i < count($res); $i++) {
+        foreach ($res as &$row) {
             // ignore reminders that have no actions set yet...
-            $actions = Reminder_Action::getList($res[$i]['rem_id']);
+            $actions = Reminder_Action::getList($row['rem_id']);
             if (count($actions) == 0) {
                 continue;
             }
-            $res[$i]['actions'] = $actions;
-            $t[] = $res[$i];
+            $row['actions'] = $actions;
+            $t[] = $row;
+            unset($row);
         }
 
         return $t;
@@ -914,40 +917,39 @@ class Reminder
         if (count($severities) > 0) {
             $stmt .= ' AND iss_sev_id IN (' . implode(', ', $severities) . ")\n";
         }
+
         // now for the interesting stuff
-        for ($i = 0; $i < count($conditions); $i++) {
-            if (empty($conditions[$i]['rmf_sql_representation'])) {
+        foreach ($conditions as &$cond) {
+            if (empty($cond['rmf_sql_representation'])) {
                 continue;
             }
 
             // check for fields that compare to other fields
-            if (!empty($conditions[$i]['rlc_comparison_rmf_id'])) {
-                $sql_field = Reminder_Condition::getSQLField($conditions[$i]['rlc_comparison_rmf_id']);
-                $stmt .= sprintf(" AND %s %s %s\n", $conditions[$i]['rmf_sql_field'],
-                                              $conditions[$i]['rmo_sql_representation'],
-                                              $sql_field);
+            if (!empty($cond['rlc_comparison_rmf_id'])) {
+                $sql_field = Reminder_Condition::getSQLField($cond['rlc_comparison_rmf_id']);
+                $stmt .= sprintf(" AND %s %s %s\n", $cond['rmf_sql_field'],
+                    $cond['rmo_sql_representation'], $sql_field);
             } else {
                 // date field values are always saved as number of hours, so let's calculate them now as seconds
-                if (stristr($conditions[$i]['rmf_title'], 'date')) {
+                if (stristr($cond['rmf_title'], 'date')) {
                     // support NULL as values for a date field
-                    if (strtoupper($conditions[$i]['rlc_value']) == 'NULL') {
-                        $conditions[$i]['rmf_sql_representation'] = $conditions[$i]['rmf_sql_field'];
-                    } elseif (strtoupper($conditions[$i]['rlc_value']) == 'NOW') {
-                        $conditions[$i]['rmf_sql_representation'] = 'UNIX_TIMESTAMP(' .
-                            $conditions[$i]['rmf_sql_field'] . ')';
-                        $conditions[$i]['rlc_value'] = 'UNIX_TIMESTAMP()';
+                    if (strtoupper($cond['rlc_value']) == 'NULL') {
+                        $cond['rmf_sql_representation'] = $cond['rmf_sql_field'];
+                    } elseif (strtoupper($cond['rlc_value']) == 'NOW') {
+                        $cond['rmf_sql_representation'] = 'UNIX_TIMESTAMP(' .
+                            $cond['rmf_sql_field'] . ')';
+                        $cond['rlc_value'] = 'UNIX_TIMESTAMP()';
                     } else {
-                        $conditions[$i]['rlc_value'] = $conditions[$i]['rlc_value'] * 60 * 60;
+                        $cond['rlc_value'] = $cond['rlc_value'] * 60 * 60;
                         if (@$reminder['rem_skip_weekend'] == 1) {
-                            $sql_field = Reminder_Condition::getSQLField($conditions[$i]['rlc_rmf_id']);
-                            $conditions[$i]['rmf_sql_representation'] = DB_Helper::getNoWeekendDateDiffSQL($sql_field);
+                            $sql_field = Reminder_Condition::getSQLField($cond['rlc_rmf_id']);
+                            $cond['rmf_sql_representation'] = DB_Helper::getNoWeekendDateDiffSQL($sql_field);
                         }
                     }
                 }
 
-                $stmt .= sprintf(" AND %s %s %s\n", $conditions[$i]['rmf_sql_representation'],
-                                                  $conditions[$i]['rmo_sql_representation'],
-                                                  $conditions[$i]['rlc_value']);
+                $stmt .= sprintf(" AND %s %s %s\n",
+                    $cond['rmf_sql_representation'], $cond['rmo_sql_representation'], $cond['rlc_value']);
             }
         }
 
@@ -1008,8 +1010,8 @@ class Reminder
             return array();
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['rmh_created_date'] = Date_Helper::getFormattedDate($res[$i]['rmh_created_date']);
+        foreach ($res as &$row) {
+            $row['rmh_created_date'] = Date_Helper::getFormattedDate($row['rmh_created_date']);
         }
 
         return $res;

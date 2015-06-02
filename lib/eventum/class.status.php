@@ -203,8 +203,8 @@ class Status
         }
 
         $date_fields = Issue::getDateFieldsAssocList(true);
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['date_field'] = $date_fields[$res[$i]['psd_date_field']];
+        foreach ($res as &$row) {
+            $row['date_field'] = $date_fields[$row['psd_date_field']];
         }
 
         return $res;
@@ -390,7 +390,7 @@ class Status
      * Method used to remove the project associations for a given
      * custom status.
      *
-     * @param   integer $sta_id The custom status ID
+     * @param   int|array $sta_id The custom status ID
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
@@ -466,8 +466,8 @@ class Status
         }
 
         // get the list of associated projects
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['projects'] = implode(', ', array_values(self::getAssociatedProjects($res[$i]['sta_id'])));
+        foreach ($res as &$row) {
+            $row['projects'] = implode(', ', array_values(self::getAssociatedProjects($row['sta_id'])));
         }
 
         return $res;
@@ -630,7 +630,7 @@ class Status
      * Method used to get the list of available statuses as an associative array
      * in the style of (id => title)
      *
-     * @param   array $prj_id List of project IDs
+     * @param   array|int $prj_id List of project IDs
      * @param   boolean $show_closed Whether to show closed context statuses or not
      * @return  array The list of statuses
      */

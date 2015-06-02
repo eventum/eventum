@@ -220,27 +220,6 @@ class DateHelperTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers       Date_Helper::getSecondsDiff
-     * @dataProvider testGetSecondsDiff_data
-     */
-    public function testGetSecondsDiff($ts1, $ts2, $exp)
-    {
-        // NOTE: this is supoer pointless function
-        $res = Date_Helper::getSecondsDiff($ts1, $ts2);
-        $this->assertEquals($exp, $res);
-    }
-
-    public function testGetSecondsDiff_data()
-    {
-        return array(
-            array(0, 10, 10),
-            array(0, 3600, 3600),
-            array(7200, 3600, -3600),
-            array(3600, 7200, 3600),
-        );
-    }
-
-    /**
      * @dataProvider testInvalidTimezone_data
      */
     public function testInvalidTimezone($ts, $tz, $exp)
@@ -270,5 +249,17 @@ class DateHelperTest extends PHPUnit_Framework_TestCase
         printf("%d PHP timezones\n", count($timezones));
         printf("%d Differences\n", count($diff));
 //        print_r($diff);
+    }
+
+    public function testTzNamingDifferences()
+    {
+        $created_date = Date_Helper::convertDateGMT('2015-05-19 12:22:24 EET');
+        $this->assertEquals("2015-05-19 10:22:24", $created_date);
+
+        $created_date = Date_Helper::convertDateGMT('2015-05-19 12:22:24 EEST');
+        $this->assertEquals("2015-05-19 09:22:24", $created_date);
+
+        $created_date = Date_Helper::convertDateGMT('2015-05-19 12:22:24 Europe/Tallinn');
+        $this->assertEquals("2015-05-19 09:22:24", $created_date);
     }
 }

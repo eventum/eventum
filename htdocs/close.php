@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,10 +22,11 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../init.php';
@@ -38,7 +39,8 @@ Auth::checkAuthentication(APP_COOKIE);
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 $role_id = Auth::getCurrentRole();
-$issue_id = @$_POST['issue_id'] ? $_POST['issue_id'] : @$_GET['id'];
+$issue_id = isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : (isset($_GET['id']) ? (int)$_GET['id'] : null);
+
 $tpl->assign('extra_title', "Close Issue #$issue_id");
 $tpl->assign('user_prefs', Prefs::get($usr_id));
 
@@ -46,7 +48,7 @@ if (!Issue::exists($issue_id, false)) {
     $tpl->assign('no_issue', true);
     $tpl->displayTemplate();
     exit;
-} elseif (($role_id == User::getRoleID('customer')) || (!Issue::canAccess($issue_id, $usr_id))) {
+} elseif ($role_id == User::getRoleID('customer') || !Issue::canAccess($issue_id, $usr_id)) {
     $tpl->assign('auth_customer', 'denied');
     $tpl->displayTemplate();
     exit;
@@ -59,13 +61,18 @@ $tpl->assign('notification_list_all', $notification_list['all']);
 $notification_list_internal = Notification::getSubscribers($issue_id, 'closed', User::getRoleID('Standard User'));
 $tpl->assign('notification_list_internal', $notification_list_internal['all']);
 
-if (@$_REQUEST['cat'] == 'close') {
+$cat = isset($_REQUEST['cat']) ? (string)$_REQUEST['cat'] : null;
+if ($cat == 'close') {
     Custom_Field::updateValues();
     $res = Issue::close(Auth::getUserID(), $issue_id, $_REQUEST['send_notification'], $_REQUEST['resolution'], $_REQUEST['status'], $_REQUEST['reason'], @$_REQUEST['notification_list']);
 
     if (!empty($_POST['time_spent'])) {
-        $_POST['summary'] = 'Time entry inserted when closing issue.';
-        Time_Tracking::insertEntry();
+        $date = (array)$_POST['date'];
+        $ttc_id = (int)$_POST['category'];
+        $iss_id = (int)$_POST['issue_id'];
+        $time_spent = (int)$_POST['time_spent'];
+        $summary = 'Time entry inserted when closing issue.';
+        Time_Tracking::addTimeEntry($iss_id, $ttc_id, $time_spent, $date, $summary);
     }
 
     if (CRM::hasCustomerIntegration($prj_id) && isset($details['contract'])) {

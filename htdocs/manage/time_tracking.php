@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,10 +22,11 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../../init.php';
@@ -42,31 +43,37 @@ if ($role_id < User::getRoleID('manager')) {
     exit;
 }
 
-@$prj_id = $_POST['prj_id'] ? $_POST['prj_id'] : $_GET['prj_id'];
+$prj_id = isset($_POST['prj_id']) ? (int)$_POST['prj_id'] : (int)$_GET['prj_id'];
+$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : null;
+
 $tpl->assign('project', Project::getDetails($prj_id));
 
-if (@$_POST['cat'] == 'new') {
+if ($cat == 'new') {
     $title = $_POST['title'];
-    $res =  Time_Tracking::insert($prj_id, $title);
+    $res =  Time_Tracking::insertCategory($prj_id, $title);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the time tracking category was added successfully.'), Misc::MSG_INFO),
             -1   =>  array(ev_gettext('An error occurred while trying to add the new time tracking category.'), Misc::MSG_INFO),
             -2  =>  array(ev_gettext('Please enter the title for this new time tracking category.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST['cat'] == 'update') {
-    $res = Time_Tracking::update();
+} elseif ($cat == 'update') {
+    $title = (string)$_POST['title'];
+    $prj_id = (int)$_POST['prj_id'];
+    $id = (int)$_POST['id'];
+    $res = Time_Tracking::updateCategory($prj_id, $id, $title);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the time tracking category was updated successfully.'), Misc::MSG_INFO),
             -1   =>  array(ev_gettext('An error occurred while trying to update the time tracking category information.'), Misc::MSG_INFO),
             -2  =>  array(ev_gettext('Please enter the title for this time tracking category.'), Misc::MSG_ERROR),
     ));
-} elseif (@$_POST['cat'] == 'delete') {
-    Time_Tracking::remove();
+} elseif ($cat == 'delete') {
+    $items = (array)$_POST['items'];
+    Time_Tracking::removeCategory($items);
 }
 
-if (@$_GET['cat'] == 'edit') {
-    $tpl->assign('info', Time_Tracking::getDetails($_GET['id']));
+if ($cat == 'edit') {
+    $tpl->assign('info', Time_Tracking::getCategoryDetails($_GET['id']));
 }
 
-$tpl->assign('list', Time_Tracking::getList($prj_id));
+$tpl->assign('list', Time_Tracking::getCategoryList($prj_id));
 $tpl->displayTemplate();

@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -291,64 +291,114 @@ class Note
      * @param   boolean $log If adding this note should be logged. Default true.
      * @param   boolean $closing If The issue is being closed. Default false
      * @param   boolean $send_notification Whether to send a notification about this note or not
+     * @param bool $is_blocked
      * @return  integer the new note id if the insert worked, -1 or -2 otherwise
+     * @deprecated use insertNote() instead
      */
-    public static function insert($usr_id, $issue_id, $unknown_user = null, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
+    public static function insertFromPost($usr_id, $issue_id, $unknown_user = null, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
     {
+        $options = array(
+            'unknown_user' => $unknown_user,
+            'log' => $log,
+            'closing' => $closing,
+            'send_notification' => $send_notification,
+            'is_blocked' => $is_blocked,
+
+            'message_id' => !empty($_POST['message_id']) ? $_POST['message_id'] : null,
+            'full_message' => !empty($_POST['full_message']) ? $_POST['full_message'] : null,
+            'parent_id' => !empty($_POST['parent_id']) ? $_POST['parent_id'] : null,
+            'add_extra_recipients' => isset($_POST['add_extra_recipients']) ? $_POST['add_extra_recipients'] == 'yes' : false,
+            'cc' => !empty($_POST['note_cc']) ? $_POST['note_cc'] : null,
+        );
+
+        return self::insertNote($usr_id, $issue_id, $_POST['title'], $_POST['note'], $options);
+    }
+
+    /**
+     * Insert note to system, send out notification and log.
+     *
+     * @param int $usr_id The user ID
+     * @param int $issue_id The issue ID
+     * @param string $title Title of the note
+     * @param string $note Note contents
+     * @param array $options extra optional options:
+     * - (array) cc: extra recipients to notify (usr_id list)
+     * - (bool) add_extra_recipients: whether to add recipients in 'cc' to notification list
+     * - (bool) closing: If The issue is being closed. Default false
+     * - (bool) is_blocked: FIXME
+     * - (bool) log: If adding this note should be logged. Default true
+     * - (bool) send_notification: Whether to send a notification about this note or not. Default true
+     * - (int) parent_id: FIXME
+     * - (string) full_message: FIXME
+     * - (string) message_id: FIXME
+     * - (string) unknown_user: The email address of a user that sent the blocked email that was turned into this note
+     * @return int the new note id if the insert worked, -1 or -2 otherwise
+     */
+    public static function insertNote($usr_id, $issue_id, $title, $note, $options = array())
+    {
+        $options = array_merge(array(
+            'unknown_user' => null,
+            'log' => true,
+            'closing' => false,
+            'send_notification' => true,
+            'is_blocked' => false,
+
+            'message_id' => null,
+            'cc' => null,
+            'full_message' => null,
+            'parent_id' => null,
+        ), $options);
+
+
         $prj_id = Issue::getProjectID($issue_id);
-
-        if (@$_POST['add_extra_recipients'] != 'yes') {
-            $note_cc = array();
-        } else {
-            $note_cc = $_POST['note_cc'];
-        }
-
-        $workflow = Workflow::preNoteInsert($prj_id, $issue_id, $unknown_user, $_POST);
+        // XXX FIXME: workflow takes $_POST as input, but we already took values from $_POST
+        $workflow = Workflow::preNoteInsert($prj_id, $issue_id, $options['unknown_user'], $_POST);
         if ($workflow !== null) {
             // cancel insert of note
             return $workflow;
         }
 
-        // add the poster to the list of people to be subscribed to the notification list
-        // only if there is no 'unknown user' and the note is not blocked
-        $note_cc[] = $usr_id;
-        if (!$unknown_user && !$is_blocked) {
-            for ($i = 0; $i < count($note_cc); $i++) {
-                Notification::subscribeUser($usr_id, $issue_id, $note_cc[$i], Notification::getDefaultActions($issue_id, User::getEmail($usr_id), 'note'));
-            }
-        }
-        if (Validation::isWhitespace($_POST['note'])) {
+        // FIXME: can this be moved before workflow call?
+        if (Validation::isWhitespace($note)) {
             return -2;
         }
 
-        if (empty($_POST['message_id'])) {
-            $_POST['message_id'] = Mail_Helper::generateMessageID();
+        // add the poster to the list of people to be subscribed to the notification list
+        // only if there is no 'unknown user' and the note is not blocked
+        if (!$options['unknown_user'] && !$options['is_blocked']) {
+            $note_cc = $options['add_extra_recipients'] ? $options['cc'] : array();
+            // always add the current user to the note_cc list
+            $note_cc[] = $usr_id;
+
+            $actions = Notification::getDefaultActions($issue_id, User::getEmail($usr_id), 'note');
+            foreach ($note_cc as $subscriber_usr_id) {
+                Notification::subscribeUser($usr_id, $issue_id, $subscriber_usr_id, $actions);
+            }
         }
 
         $params = array(
             'not_iss_id' => $issue_id,
             'not_usr_id' => $usr_id,
             'not_created_date' => Date_Helper::getCurrentDateGMT(),
-            'not_note' => $_POST['note'],
-            'not_title' => $_POST['title'],
+            'not_note' => $note,
+            'not_title' => $title,
+            'not_message_id' => $options['message_id'] ?: Mail_Helper::generateMessageID(),
         );
 
-        if (!@empty($_POST['full_message'])) {
-            $params['not_full_message'] = $_POST['full_message'];
+        if ($options['full_message']) {
+            $params['not_full_message'] = $options['full_message'];
         }
 
-        if ($is_blocked) {
+        if ($options['is_blocked']) {
             $params['not_is_blocked'] = '1';
         }
 
-        $params['not_message_id'] = $_POST['message_id'];
-
-        if (!empty($_POST['parent_id'])) {
-            $params['not_parent_id'] = $_POST['parent_id'];
+        if ($options['parent_id']) {
+            $params['not_parent_id'] = $options['parent_id'];
         }
 
-        if ($unknown_user) {
-            $params['not_unknown_user'] = $unknown_user;
+        if ($options['unknown_user']) {
+            $params['not_unknown_user'] = $options['unknown_user'];
         }
 
         $stmt = 'INSERT INTO
@@ -361,26 +411,23 @@ class Note
             return -1;
         }
 
-        $new_note_id = DB_Helper::get_last_insert_id();
+        $note_id = DB_Helper::get_last_insert_id();
         Issue::markAsUpdated($issue_id, 'note');
-        if ($log) {
+        if ($options['log']) {
             // need to save a history entry for this
-            History::add($issue_id, $usr_id, History::getTypeID('note_added'), 'Note added by ' . User::getFullName($usr_id));
+            History::add($issue_id, $usr_id, 'note_added', 'Note added by {subject}', array('subject' => User::getFullName($usr_id)));
         }
+
         // send notifications for the issue being updated
-        if ($send_notification) {
+        if ($options['send_notification']) {
             $internal_only = true;
-            if ((@$_POST['add_extra_recipients'] != 'yes') && (@count($_POST['note_cc']) > 0)) {
-                Notification::notify($issue_id, 'notes', $new_note_id, $internal_only, $_POST['note_cc']);
-            } else {
-                Notification::notify($issue_id, 'notes', $new_note_id, $internal_only);
-            }
-            Workflow::handleNewNote($prj_id, $issue_id, $usr_id, $closing, $new_note_id);
+            Notification::notify($issue_id, 'notes', $note_id, $internal_only, $options['cc']);
+            Workflow::handleNewNote($prj_id, $issue_id, $usr_id, $options['closing'], $note_id);
         }
 
         // need to return the new note id here so it can
         // be re-used to associate internal-only attachments
-        return $new_note_id;
+        return $note_id;
     }
 
     /**
@@ -453,7 +500,10 @@ class Note
         Issue::markAsUpdated($details['not_iss_id']);
         if ($log) {
             // need to save a history entry for this
-            History::add($details['not_iss_id'], Auth::getUserID(), History::getTypeID('note_removed'), 'Note removed by ' . User::getFullName(Auth::getUserID()));
+            $usr_id = Auth::getUserID();
+            History::add($details['not_iss_id'], $usr_id, 'note_removed', 'Note removed by {user}', array(
+                'user' => User::getFullName($usr_id)
+            ));
         }
 
         return 1;
@@ -494,20 +544,22 @@ class Note
 
         // only show the internal notes for users with the appropriate permission level
         $role_id = Auth::getCurrentRole();
+        $user_role_id = User::getRoleID('standard user');
         $t = array();
-        for ($i = 0; $i < count($res); $i++) {
-            if ($role_id < User::getRoleID('standard user')) {
+        foreach ($res as &$row) {
+            if ($role_id < $user_role_id) {
                 continue;
             }
 
             // Display not_unknown_user instead of usr_full_name if not null.
             // This is so the original sender of a blocked email is displayed on the note.
-            if (!empty($res[$i]['not_unknown_user'])) {
-                $res[$i]['usr_full_name'] = $res[$i]['not_unknown_user'];
+            if (!empty($row['not_unknown_user'])) {
+                $row['usr_full_name'] = $row['not_unknown_user'];
             }
 
-            $res[$i]['not_created_date'] = Date_Helper::getFormattedDate($res[$i]['not_created_date']);
-            $t[] = $res[$i];
+            $row['not_created_date'] = Date_Helper::getFormattedDate($row['not_created_date']);
+            $t[] = $row;
+            unset($row);
         }
 
         return $t;
@@ -531,6 +583,7 @@ class Note
         $body = $structure->body;
         $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
 
+        $current_usr_id = Auth::getUserID();
         if ($target == 'email') {
             if (Mime_Helper::hasAttachments($structure)) {
                 $has_attachments = 1;
@@ -586,11 +639,13 @@ class Note
                 if (Notification::isBounceMessage($sender_email)) {
                     $internal_only = true;
                 }
-                Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $t, $internal_only, false, '', $sup_id);
+                Notification::notifyNewEmail($current_usr_id, $issue_id, $t, $internal_only, false, '', $sup_id);
                 Issue::markAsUpdated($issue_id, $update_type);
                 self::remove($note_id, false);
-                $summary = 'Note converted to e-mail (from: ' . @$structure->headers['from'] . ') by ' . User::getFullName(Auth::getUserID());
-                History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_email'), $summary);
+                History::add($issue_id, $current_usr_id, 'note_converted_email', 'Note converted to e-mail (from: {from}) by {user}', array(
+                    'from' => @$structure->headers['from'],
+                    'user' => User::getFullName($current_usr_id)
+                ));
                 // now add sender as an authorized replier
                 if ($authorize_sender) {
                     Authorized_Replier::manualInsert($issue_id, @$structure->headers['from']);
@@ -611,8 +666,11 @@ class Note
         // remove the note, if the draft was created successfully
         if ($res) {
             self::remove($note_id, false);
-            $summary = 'Note converted to draft (from: ' . @$structure->headers['from'] . ') by ' . User::getFullName(Auth::getUserID());
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('note_converted_draft'), $summary);
+            $usr_id = $current_usr_id;
+            History::add($issue_id, $usr_id, 'note_converted_draft', 'Note converted to draft (from: {from}) by {user}', array(
+                'from' => @$structure->headers['from'],
+                'user' => User::getFullName($current_usr_id)
+            ));
         }
 
         return $res;

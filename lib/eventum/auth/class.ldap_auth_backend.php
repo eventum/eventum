@@ -40,48 +40,53 @@
  */
 class LDAP_Auth_Backend implements Auth_Backend_Interface
 {
-    /**
-     * @var $conn
-     *
-     * The admin connection
-     */
+    /** @var Net_LDAP2 $conn The admin LDAP connection */
     protected $conn;
 
-    protected $config;
-
+    /** @var string */
+    protected $basedn;
+    /** @var string */
     protected $user_dn_string;
-
+    /** @var string */
     protected $customer_id_attribute;
+    /** @var string */
     protected $contact_id_attribute;
 
     /**
      * configures LDAP
-     * connects to LDAP
      *
-     * @throws AuthException if failed to connect to ldap
+     * @throws AuthException if failed LDAP bind failed
      */
     public function __construct()
     {
         $setup = self::loadSetup();
-        $this->config = array(
-            'binddn'    =>  $setup['binddn'],
-            'bindpw'    =>  $setup['bindpw'],
-            'basedn'    =>  $setup['basedn'],
-            'host'      =>  $setup['host'],
-            'port'      =>  $setup['port'],
-        );
 
+        $this->basedn = $setup['basedn'];
         $this->user_dn_string = $setup['userdn'];
         $this->user_filter_string = $setup['user_filter'];
         $this->customer_id_attribute = $setup['customer_id_attribute'];
         $this->contact_id_attribute = $setup['contact_id_attribute'];
 
-        $this->conn = $this->connect($this->config);
+        $options = array(
+            'host' => $setup['host'],
+            'port' => $setup['port'],
+            'binddn' => $setup['binddn'],
+            'bindpw' => $setup['bindpw'],
+            'basedn' => $this->basedn,
+        );
+
+        $this->conn = $this->connect($options);
     }
 
-    private function connect($config)
+    /**
+     * Create LDAP connection.
+     *
+     * @param array $options
+     * @return Net_LDAP2
+     */
+    private function connect($options)
     {
-        $conn = Net_LDAP2::connect($config);
+        $conn = Net_LDAP2::connect($options);
         if (Misc::isError($conn)) {
             throw new AuthException($conn->getMessage(), $conn->getCode());
         }
@@ -90,7 +95,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     }
 
     /**
-     * Get all users from remote LDAP
+     * Get all users from LDAP server
      *
      * @return Net_LDAP2_Search|Net_LDAP2_Error Net_LDAP2_Search object or Net_LDAP2_Error object
      */
@@ -102,7 +107,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             $filter = Net_LDAP2_Filter::combine('and', array($filter, $user_filter));
         }
 
-        $search = $this->conn->search($this->config['basedn'], $filter);
+        $search = $this->conn->search($this->basedn, $filter);
 
         if (Misc::isError($search)) {
             throw new AuthException($search->getMessage(), $search->getCode());
@@ -113,23 +118,17 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
 
     private function validatePassword($uid, $password)
     {
-        $setup = self::loadSetup();
         $errors = array();
 
         foreach (explode('|', $this->getUserDNstring($uid)) as $userDNstring) {
-            $config = array(
-                'binddn'    =>  $userDNstring,
-                'bindpw'    =>  $password,
-                'basedn'    =>  $setup['basedn'],
-                'host'      =>  $setup['host'],
-                'port'      =>  $setup['port'],
-            );
-
             // Connecting using the configuration
             try {
-                $this->connect($config);
+                $res = $this->conn->bind($userDNstring, $password);
+                if (Misc::isError($res)) {
+                    throw new AuthException($res->getMessage(), $res->getCode());
+                }
 
-                return true;
+                return $res;
             } catch (AuthException $e) {
                 $errors[] = $e;
             }
@@ -160,7 +159,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             $user_filter = Net_LDAP2_Filter::parse($this->user_filter_string);
             $filter = Net_LDAP2_Filter::combine('and', array($filter, $user_filter));
         }
-        $search = $this->conn->search($this->config['basedn'], $filter, array('sizelimit' => 1));
+        $search = $this->conn->search($this->basedn, $filter, array('sizelimit' => 1));
         $entry = $search->shiftEntry();
 
         if (!$entry || Misc::isError($entry)) {
@@ -256,10 +255,15 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
                 $data['email'] = $email;
             } else {
                 if (!$emails) {
-                    throw new AuthException('E-mail is requred');
+                    throw new AuthException('E-mail is required');
                 }
                 // just use first email
                 $data['email'] = array_shift($emails);
+            }
+
+            // do not clear full name if for some reason it is empty
+            if (empty($data['full_name'])) {
+                unset($data['full_name']);
             }
 
             $update = User::update($usr_id, $data, false);
@@ -271,7 +275,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         }
 
         // create new local user
-        $setup = $this->loadSetup();
+        $setup = self::loadSetup();
         $data['role'] = $setup['default_role'];
 
         $emails = $remote['emails'];
@@ -395,6 +399,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             if (file_exists($configfile)) {
                 $ldap_setup_string = $ldap_setup = null;
 
+                /** @noinspection PhpIncludeInspection */
                 require $configfile;
 
                 if (isset($ldap_setup)) {
@@ -453,12 +458,17 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             'userdn' => 'uid=%UID%,ou=People,dc=example,dc=org',
             'customer_id_attribute' => '',
             'contact_id_attribute' => '',
+            'user_filter' => '',
             'create_users' => null,
-            'default_role' => array(
-                // ensure there is entry for current project
-                Auth::getCurrentProject() => 0,
-            ),
+            'default_role' => array(),
         );
+
+        if (Auth::hasValidCookie(APP_COOKIE)) {
+            // ensure there is entry for current project
+            $prj_id = Auth::getCurrentProject();
+
+            $defaults['default_role'][$prj_id] = 0;
+        }
 
         return $defaults;
     }

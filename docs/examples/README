@@ -1,5 +1,6 @@
 Here are example classes, scripts and templates for extending Eventum
 Workflow, Customer backend, adding Custom fields.
 
-You should put copy of these example classes into real eventum project dir,
-under same subdir, and maybe rename to reflect your custom backend/field name.
+You should put copy of these example classes into APP_LOCAL_PATH (which
+defaults to config directory) under subdir with same name, and maybe rename to
+reflect your custom backend/field name.

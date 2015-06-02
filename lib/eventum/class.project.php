@@ -118,11 +118,6 @@ class Project
             return '';
         }
 
-        // FIXME: wtf is this? from db it is always returned as string
-        if (!is_string($res)) {
-            $res = (string) $res;
-        }
-
         return @unserialize($res);
     }
 
@@ -436,14 +431,15 @@ class Project
         }
 
         self::removeUserByProjects(array($_POST['id']), $_POST['users']);
-        for ($i = 0; $i < count($_POST['users']); $i++) {
-            if ($_POST['users'][$i] == $_POST['lead_usr_id']) {
-                self::associateUser($_POST['id'], $_POST['users'][$i], User::getRoleID('Manager'));
-            } elseif (User::getRoleByUser($_POST['users'][$i], $_POST['id']) == '') {
+        foreach ($_POST['users'] as $user) {
+            if ($user == $_POST['lead_usr_id']) {
+                self::associateUser($_POST['id'], $user, User::getRoleID('Manager'));
+            } elseif (User::getRoleByUser($user, $_POST['id']) == '') {
                 // users who are now being associated with this project should be set to 'Standard User'
-                self::associateUser($_POST['id'], $_POST['users'][$i], User::getRoleID('Standard User'));
+                self::associateUser($_POST['id'], $user, User::getRoleID('Standard User'));
             }
         }
+
         $statuses = array_keys(Status::getAssocStatusList($_POST['id']));
         if (count($statuses) > 0) {
             Status::removeProjectAssociations($statuses, $_POST['id']);
@@ -549,13 +545,13 @@ class Project
         }
 
         $new_prj_id = DB_Helper::get_last_insert_id();
-        for ($i = 0; $i < count($_POST['users']); $i++) {
-            if ($_POST['users'][$i] == $_POST['lead_usr_id']) {
+        foreach ($_POST['users'] as $user) {
+            if ($user == $_POST['lead_usr_id']) {
                 $role_id = User::getRoleID('Manager');
             } else {
                 $role_id = User::getRoleID('Standard User');
             }
-            self::associateUser($new_prj_id, $_POST['users'][$i], $role_id);
+            self::associateUser($new_prj_id, $user, $role_id);
         }
         foreach ($_POST['statuses'] as $sta_id) {
             Status::addProjectAssociation($sta_id, $new_prj_id);

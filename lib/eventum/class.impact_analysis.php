@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -67,7 +67,9 @@ class Impact_Analysis
 
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
-        History::add($issue_id, $usr_id, History::getTypeID('impact_analysis_added'), ev_gettext('New requirement submitted by %1$s', User::getFullName($usr_id)));
+        History::add($issue_id, $usr_id, 'impact_analysis_added', 'New requirement submitted by {user}', array(
+            'user' => User::getFullName($usr_id)
+        ));
 
         return 1;
     }
@@ -110,10 +112,11 @@ class Impact_Analysis
             return '';
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['isr_requirement'] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]['isr_requirement'])));
-            $res[$i]['isr_impact_analysis'] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($res[$i]['isr_impact_analysis'])));
-            $res[$i]['formatted_dev_time'] = Misc::getFormattedTime($res[$i]['isr_dev_time']);
+        $prj_id = Issue::getProjectID($issue_id);
+        foreach ($res as &$row) {
+            $row['isr_requirement'] = Link_Filter::processText($prj_id, nl2br(htmlspecialchars($row['isr_requirement'])));
+            $row['isr_impact_analysis'] = Link_Filter::processText($prj_id, nl2br(htmlspecialchars($row['isr_impact_analysis'])));
+            $row['formatted_dev_time'] = Misc::getFormattedTime($row['isr_dev_time']);
         }
 
         return $res;
@@ -157,7 +160,9 @@ class Impact_Analysis
 
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
-        History::add($issue_id, $usr_id, History::getTypeID('impact_analysis_updated'), ev_gettext('Impact analysis submitted by %1$s', User::getFullName($usr_id)));
+        History::add($issue_id, $usr_id, 'impact_analysis_updated', 'Impact analysis submitted by {user}', array(
+            'user' => User::getFullName($usr_id)
+        ));
 
         return 1;
     }
@@ -192,7 +197,10 @@ class Impact_Analysis
 
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('impact_analysis_removed'), ev_gettext('Impact analysis removed by %1$s', User::getFullName(Auth::getUserID())));
+        $usr_id = Auth::getUserID();
+        History::add($issue_id, $usr_id, 'impact_analysis_removed', 'Impact analysis removed by {user}', array(
+            'user' => User::getFullName($usr_id)
+        ));
 
         return 1;
     }

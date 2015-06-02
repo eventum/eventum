@@ -128,14 +128,14 @@ class Mail_Queue
 
     /**
      * Sends the queued up messages to their destinations. This can either try
-     * to send emails that couldn't be sent before (status = 'error'), or just
+     * to send emails that could not be sent before (status = 'error'), or just
      * emails just recently queued (status = 'pending').
      *
      * @param   string $status The status of the messages that need to be sent
      * @param   integer $limit The limit of emails that we should send at one time
      * @param   boolean $merge Whether or not to send one merged email for multiple entries with the same status and type.
      */
-    public static function send($status, $limit = false, $merge = false)
+    public static function send($status, $limit = null, $merge = false)
     {
         if ($merge !== false) {
             foreach (self::_getMergedList($status, $limit) as $maq_ids) {
@@ -158,16 +158,20 @@ class Mail_Queue
                 $res = Mail_Helper::prepareHeaders($headers);
                 if (Misc::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
-
-                    return $res;
+                    return;
                 }
 
                 list(, $text_headers) = $res;
                 $result = self::_sendEmail($recipients, $text_headers, $email['body'], $status);
 
-                if (Misc::isError($result)) {
+                if (Misc::isError($e = $result)) {
+                    /** @var PEAR_Error $e */
                     $maq_id = implode(',', $maq_ids);
-                    $details = $result->getMessage() . '/' . $result->getDebugInfo();
+                    $details = $e->getMessage();
+                    $debugInfo = $e->getDebugInfo();
+                    if ($debugInfo) {
+                        $details .= '/' . $debugInfo;
+                    }
                     echo "Mail_Queue: issue #{$email['maq_iss_id']}: Can't send merged mail $maq_id: $details\n";
 
                     foreach ($emails as $email) {
@@ -191,8 +195,13 @@ class Mail_Queue
             $email = self::_getEntry($maq_id);
             $result = self::_sendEmail($email['recipient'], $email['headers'], $email['body'], $status);
 
-            if (Misc::isError($result)) {
-                $details = $result->getMessage() . '/' . $result->getDebugInfo();
+            if (Misc::isError($e = $result)) {
+                /** @var PEAR_Error $e */
+                $details = $e->getMessage();
+                $debugInfo = $e->getDebugInfo();
+                if ($debugInfo) {
+                    $details .= '/' . $debugInfo;
+                }
                 echo "Mail_Queue: issue #{$email['maq_iss_id']}: Can't send mail $maq_id: $details\n";
                 self::_saveStatusLog($email['id'], 'error', $details);
                 continue;
@@ -475,10 +484,10 @@ class Mail_Queue
         }
 
         if (count($res) > 0) {
-            for ($i = 0; $i < count($res); $i++) {
-                $res[$i]['maq_recipient'] = Mime_Helper::decodeAddress($res[$i]['maq_recipient']);
-                $res[$i]['maq_queued_date'] = Date_Helper::getFormattedDate(Date_Helper::getUnixTimestamp($res[$i]['maq_queued_date'], 'GMT'));
-                $res[$i]['maq_subject'] = Mime_Helper::fixEncoding($res[$i]['maq_subject']);
+            foreach ($res as &$row) {
+                $row['maq_recipient'] = Mime_Helper::decodeAddress($row['maq_recipient']);
+                $row['maq_queued_date'] = Date_Helper::getFormattedDate(Date_Helper::getUnixTimestamp($row['maq_queued_date'], 'GMT'));
+                $row['maq_subject'] = Mime_Helper::fixEncoding($row['maq_subject']);
             }
         }
 
@@ -537,9 +546,9 @@ class Mail_Queue
             return false;
         }
 
-        for ($i = 0; $i < count($res); $i++) {
+        foreach ($res as &$row) {
             // FIXME: what does quote stripping fix here
-            $res[$i] = Mime_Helper::decodeAddress(str_replace('"', '', $res[$i]));
+            $row = Mime_Helper::decodeAddress(str_replace('"', '', $row));
         }
 
         return $res;

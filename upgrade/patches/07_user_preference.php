@@ -1,7 +1,12 @@
 <?php
+/**
+ * Move user preferences to a separate table.
+ *
+ * Note: the usr_preference column has not been dropped,
+ * as want to make sure everyone migrates their preferences before deleting this.
+ */
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-
+/** @var DbInterface $db */
 $db->query('CREATE TABLE {{%user_preference}}
 (
     upr_usr_id int(11) unsigned NOT NULL,
@@ -59,6 +64,7 @@ foreach ($res as $row) {
     $new_preferences['receive_new_issue_email'] = $old_preferences['receive_new_emails'];
     unset($new_preferences['receive_new_emails']);
 
+    // FIXME: is the 1 here hardcoded project id? boo!
     $new_preferences['receive_copy_of_own_action'][1] = 0;
 
     Prefs::set($usr_id, $new_preferences);

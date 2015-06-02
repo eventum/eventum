@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -297,8 +297,6 @@ class Notification
         $full_message = $message['full_email'];
         $sender = $message['from'];
         $sender_email = strtolower(Mail_Helper::getEmailAddress($sender));
-        // FIXME: $structure is unused
-        $structure = Mime_Helper::decode($full_message, true);
 
         // get ID of whoever is sending this.
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
@@ -320,47 +318,50 @@ class Notification
         // get the subscribers
         $emails = array();
         $users = self::getUsersByIssue($issue_id, 'emails');
-        for ($i = 0; $i < count($users); $i++) {
-            if (empty($users[$i]['sub_usr_id'])) {
+        foreach ($users as $user) {
+            if (empty($user['sub_usr_id'])) {
                 if ($internal_only == false) {
-                    $email = $users[$i]['sub_email'];
+                    $email = $user['sub_email'];
                 }
             } else {
                 // if we are only supposed to send email to internal users, check if the role is lower than standard user
-                if (($internal_only == true) && (User::getRoleByUser($users[$i]['sub_usr_id'], Issue::getProjectID($issue_id)) < User::getRoleID('standard user'))) {
+                if ($internal_only == true && (User::getRoleByUser($user['sub_usr_id'], Issue::getProjectID($issue_id)) < User::getRoleID('standard user'))) {
                     continue;
                 }
                 // check if we are only supposed to send email to the assignees
-                if (($internal_only == true) && ($assignee_only == true)) {
+                if ($internal_only == true && $assignee_only == true) {
                     $assignee_usr_ids = Issue::getAssignedUserIDs($issue_id);
-                    if (!in_array($users[$i]['sub_usr_id'], $assignee_usr_ids)) {
+                    if (!in_array($user['sub_usr_id'], $assignee_usr_ids)) {
                         continue;
                     }
                 }
-                $email = User::getFromHeader($users[$i]['sub_usr_id']);
+                $email = User::getFromHeader($user['sub_usr_id']);
             }
 
-            if (!empty($email)) {
-                // don't send the email to the same person who sent it unless they want it
-                if ($sender_usr_id != false) {
-                    $prefs = Prefs::get($sender_usr_id);
-                    if (!isset($prefs['receive_copy_of_own_action'][$prj_id])) {
-                        $prefs['receive_copy_of_own_action'][$prj_id] = 0;
-                    }
-                    if (($prefs['receive_copy_of_own_action'][$prj_id] == 0) &&
-                            ((!empty($users[$i]['sub_usr_id'])) && ($sender_usr_id == $users[$i]['sub_usr_id']) ||
-                            (strtolower(Mail_Helper::getEmailAddress($email)) == $sender_email))) {
-                        continue;
-                    }
-                }
-                $emails[] = $email;
+            if (empty($email)) {
+                continue;
             }
+
+            // don't send the email to the same person who sent it unless they want it
+            if ($sender_usr_id != false) {
+                $prefs = Prefs::get($sender_usr_id);
+                if (!isset($prefs['receive_copy_of_own_action'][$prj_id])) {
+                    $prefs['receive_copy_of_own_action'][$prj_id] = 0;
+                }
+                if (($prefs['receive_copy_of_own_action'][$prj_id] == 0) &&
+                        ((!empty($user['sub_usr_id'])) && ($sender_usr_id == $user['sub_usr_id']) ||
+                        (strtolower(Mail_Helper::getEmailAddress($email)) == $sender_email))) {
+                    continue;
+                }
+            }
+
+            $emails[] = $email;
         }
-        if (count($emails) == 0) {
+
+        if (!$emails) {
             return;
         }
-        // FIXME: $setup unused
-        $setup = Setup::load();
+
         // change the sender of the message to {prefix}{issue_id}@{host}
         //  - keep everything else in the message, except 'From:', 'Sender:', 'To:', 'Cc:'
         // make 'Joe Blow <joe@example.com>' become 'Joe Blow [CSC] <eventum_59@example.com>'
@@ -394,8 +395,6 @@ class Notification
         }
 
         foreach ($emails as $to) {
-            // FIXME: $recipient_usr_id unused
-            $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($to));
             // add the warning message about replies being blocked or not
             $fixed_body = Mail_Helper::addWarningMessage($issue_id, $to, $body, $headers);
             $headers['To'] = Mime_Helper::encodeAddress($to);
@@ -641,32 +640,36 @@ class Notification
             $renderer = new Text_Diff_Renderer_unified();
             $desc_diff = explode("\n", trim($renderer->render($diff)));
             $diffs[] = 'Description:';
-            for ($i = 0; $i < count($desc_diff); $i++) {
-                $diffs[] = $desc_diff[$i];
+            foreach ($desc_diff as $diff) {
+                $diffs[] = $diff;
             }
         }
 
         $emails = array();
         $users = self::getUsersByIssue($issue_id, 'updated');
         $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
+        // FIXME: $user_emails unused
         $user_emails = array_map('strtolower', $user_emails);
-        for ($i = 0; $i < count($users); $i++) {
-            if (empty($users[$i]['sub_usr_id'])) {
-                $email = $users[$i]['sub_email'];
+
+        foreach ($users as $user) {
+            if (empty($user['sub_usr_id'])) {
+                $email = $user['sub_email'];
             } else {
-                $prefs = Prefs::get($users[$i]['sub_usr_id']);
-                if ((Auth::getUserID() == $users[$i]['sub_usr_id']) &&
+                $prefs = Prefs::get($user['sub_usr_id']);
+                if ((Auth::getUserID() == $user['sub_usr_id']) &&
                         ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
                             ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
                     continue;
                 }
-                $email = User::getFromHeader($users[$i]['sub_usr_id']);
+                $email = User::getFromHeader($user['sub_usr_id']);
             }
+
             // now add it to the list of emails
-            if ((!empty($email)) && (!in_array($email, $emails))) {
+            if (!empty($email) && !in_array($email, $emails)) {
                 $emails[] = $email;
             }
         }
+
         // get additional email addresses to notify
         $emails = array_merge($emails, Workflow::getAdditionalEmailAddresses($prj_id, $issue_id, 'issue_updated', array('old' => $old, 'new' => $new)));
 
@@ -681,8 +684,9 @@ class Notification
      * subscribers about status changes
      *
      * @param   integer $issue_id The issue ID
-     * @param   array $old_status The old issue status
-     * @param   array $new_status The new issue status
+     * @param   int $old_status The old issue status
+     * @param   int $new_status The new issue status
+     * @return bool
      */
     public static function notifyStatusChange($issue_id, $old_status, $new_status)
     {
@@ -699,20 +703,17 @@ class Notification
         $prj_id = Issue::getProjectID($issue_id);
         $emails = array();
         $users = self::getUsersByIssue($issue_id, 'updated');
-        $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
-        $user_emails = array_map('strtolower', $user_emails);
-        // FIXME: unused $user_emails
-        for ($i = 0; $i < count($users); $i++) {
-            if (empty($users[$i]['sub_usr_id'])) {
-                $email = $users[$i]['sub_email'];
+        foreach ($users as $user) {
+            if (empty($user['sub_usr_id'])) {
+                $email = $user['sub_email'];
             } else {
-                $prefs = Prefs::get($users[$i]['sub_usr_id']);
-                if ((Auth::getUserID() == $users[$i]['sub_usr_id']) &&
+                $prefs = Prefs::get($user['sub_usr_id']);
+                if ((Auth::getUserID() == $user['sub_usr_id']) &&
                         ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
                             ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
                     continue;
                 }
-                $email = User::getFromHeader($users[$i]['sub_usr_id']);
+                $email = User::getFromHeader($user['sub_usr_id']);
             }
             // now add it to the list of emails
             if ((!empty($email)) && (!in_array($email, $emails))) {
@@ -728,57 +729,62 @@ class Notification
     /**
      * Method used to send email notifications for a given issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   string $type The notification type
-     * @param   array $ids The list of entries that were changed
-     * @param   integer $internal_only Whether the notification should only be sent to internal users or not
+     * @param integer $issue_id The issue ID
+     * @param string $type The notification type
+     * @param int $entry_id The entries id that was changed
+     * @param bool $internal_only Whether the notification should only be sent to internal users or not
+     * @param array $extra_recipients
+     * @return bool
      */
-    public static function notify($issue_id, $type, $ids = false, $internal_only = false, $extra_recipients = false)
+    public static function notify($issue_id, $type, $entry_id = null, $internal_only = false, $extra_recipients = null)
     {
         $prj_id = Issue::getProjectID($issue_id);
+        $extra = array();
         if ($extra_recipients) {
-            $extra = array();
-            for ($i = 0; $i < count($extra_recipients); $i++) {
+            foreach ($extra_recipients as $user) {
                 $extra[] = array(
-                    'sub_usr_id' => $extra_recipients[$i],
+                    'sub_usr_id' => $user,
                     'sub_email'  => '',
                 );
             }
         }
         $emails = array();
         $users = self::getUsersByIssue($issue_id, $type);
-        if (($extra_recipients) && (count($extra) > 0)) {
+        if ($extra_recipients && (count($extra) > 0)) {
             $users = array_merge($users, $extra);
         }
         $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
         $user_emails = array_map('strtolower', $user_emails);
-        for ($i = 0; $i < count($users); $i++) {
-            if (empty($users[$i]['sub_usr_id'])) {
-                if (($internal_only == false) || (in_array(strtolower($users[$i]['sub_email']), array_values($user_emails)))) {
-                    $email = $users[$i]['sub_email'];
+
+        foreach ($users as $user) {
+            if (empty($user['sub_usr_id'])) {
+                if (($internal_only == false) || (in_array(strtolower($user['sub_email']), array_values($user_emails)))) {
+                    $email = $user['sub_email'];
                 }
             } else {
-                $prefs = Prefs::get($users[$i]['sub_usr_id']);
-                if ((Auth::getUserID() == $users[$i]['sub_usr_id']) &&
+                $prefs = Prefs::get($user['sub_usr_id']);
+                if ((Auth::getUserID() == $user['sub_usr_id']) &&
                         ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
                             ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
                     continue;
                 }
                 // if we are only supposed to send email to internal users, check if the role is lower than standard user
-                if (($internal_only == true) && (User::getRoleByUser($users[$i]['sub_usr_id'], Issue::getProjectID($issue_id)) < User::getRoleID('standard user'))) {
+                if (($internal_only == true) && (User::getRoleByUser($user['sub_usr_id'], Issue::getProjectID($issue_id)) < User::getRoleID('standard user'))) {
                     continue;
                 }
-                if ($type == 'notes' && User::isPartner($users[$i]['sub_usr_id']) &&
-                        !Partner::canUserAccessIssueSection($users[$i]['sub_usr_id'], 'notes')) {
+                if ($type == 'notes' && User::isPartner($user['sub_usr_id']) &&
+                        !Partner::canUserAccessIssueSection($user['sub_usr_id'], 'notes')) {
                     continue;
                 }
-                $email = User::getFromHeader($users[$i]['sub_usr_id']);
+                $email = User::getFromHeader($user['sub_usr_id']);
             }
+
             // now add it to the list of emails
-            if ((!empty($email)) && (!in_array($email, $emails))) {
+            if (!empty($email) && !in_array($email, $emails)) {
                 $emails[] = $email;
             }
         }
+
         // prevent the primary customer contact from receiving two emails about the issue being closed
         if ($type == 'closed') {
             if (CRM::hasCustomerIntegration($prj_id)) {
@@ -797,8 +803,8 @@ class Notification
                     } catch (CRMException $e) {
                         $contact_email = '';
                     }
-                    for ($i = 0; $i < count($emails); $i++) {
-                        $email = Mail_Helper::getEmailAddress($emails[$i]);
+                    foreach ($emails as $i => $email) {
+                        $email = Mail_Helper::getEmailAddress($email);
                         if ($email == $contact_email) {
                             unset($emails[$i]);
                             $emails = array_values($emails);
@@ -808,46 +814,49 @@ class Notification
                 }
             }
         }
-        if (count($emails) > 0) {
-            $headers = false;
-            switch ($type) {
-                case 'closed':
-                    $data = Issue::getDetails($issue_id);
-                    $data['closer_name'] = User::getFullName(History::getIssueCloser($issue_id));
-                    $subject = ev_gettext('Closed');
 
-                    if ($ids != false) {
-                        $data['reason'] = Support::getEmail($ids);
-                    }
-                    break;
-                case 'updated':
-                    // this should not be used anymore
-                    return false;
-                    break;
-                case 'notes':
-                    $data = self::getNote($issue_id, $ids);
-                    $headers = array(
-                        'Message-ID'    =>  $data['note']['not_message_id'],
-                    );
-                    if (@$data['note']['reference_msg_id'] != false) {
-                        $headers['In-Reply-To'] = $data['note']['reference_msg_id'];
-                    } else {
-                        $headers['In-Reply-To'] = Issue::getRootMessageID($issue_id);
-                    }
-                    $headers['References'] = Mail_Helper::fold(implode(' ', Mail_Helper::getReferences($issue_id, @$data['note']['reference_msg_id'], 'note')));
-                    $subject = 'Note';
-                    break;
-                case 'emails':
-                    // this should not be used anymore
-                    return false;
-                    break;
-                case 'files':
-                    $data = self::getAttachment($issue_id, $ids);
-                    $subject = 'File Attached';
-                    break;
-            }
-            self::notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $ids, $headers);
+        if (!$emails) {
+            return null;
         }
+
+        $headers = false;
+        switch ($type) {
+            case 'closed':
+                $data = Issue::getDetails($issue_id);
+                $data['closer_name'] = User::getFullName(History::getIssueCloser($issue_id));
+                $subject = ev_gettext('Closed');
+
+                if ($entry_id) {
+                    $data['reason'] = Support::getEmail($entry_id);
+                }
+                break;
+            case 'updated':
+                // this should not be used anymore
+                return false;
+            case 'notes':
+                $data = self::getNote($issue_id, $entry_id);
+                $headers = array(
+                    'Message-ID'    =>  $data['note']['not_message_id'],
+                );
+                if (@$data['note']['reference_msg_id'] != false) {
+                    $headers['In-Reply-To'] = $data['note']['reference_msg_id'];
+                } else {
+                    $headers['In-Reply-To'] = Issue::getRootMessageID($issue_id);
+                }
+                $headers['References'] = Mail_Helper::fold(implode(' ', Mail_Helper::getReferences($issue_id, @$data['note']['reference_msg_id'], 'note')));
+                $subject = 'Note';
+                break;
+            case 'emails':
+                // this should not be used anymore
+                return false;
+            case 'files':
+                $data = self::getAttachment($issue_id, $entry_id);
+                $subject = 'File Attached';
+                break;
+        }
+
+        // FIXME: $data and $subject might be used uninitialized
+        self::notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $entry_id, $headers);
     }
 
     /**
@@ -902,8 +911,6 @@ class Notification
             'current_user' => User::getFullName(Auth::getUserID()),
         ));
 
-        // FIXME: unused $setup
-        $setup = Setup::load();
         // type of notification is sent out: email, note, blocked_email
         $notify_type = $type;
         $sender_usr_id = false;
@@ -1041,14 +1048,14 @@ class Notification
 
         $res = DB_Helper::getInstance()->getAll($stmt, $params);
         $emails = array();
-        for ($i = 0; $i < count($res); $i++) {
-            $subscriber = Mail_Helper::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
+        foreach ($res as $row) {
+            $subscriber = Mail_Helper::getFormattedName($row['usr_full_name'], $row['usr_email']);
             // don't send these emails to customers
-            if (($res[$i]['pru_role'] == User::getRoleID('Customer')) || (!empty($res[$i]['usr_customer_id']))
-                    || (!empty($res[$i]['usr_customer_contact_id']))) {
+            if (($row['pru_role'] == User::getRoleID('Customer')) || (!empty($row['usr_customer_id']))
+                    || (!empty($row['usr_customer_contact_id']))) {
                 continue;
             }
-            $prefs = Prefs::get($res[$i]['usr_id']);
+            $prefs = Prefs::get($row['usr_id']);
             if ((!empty($prefs['receive_new_issue_email'][$prj_id]))
                     && (@$prefs['receive_new_issue_email'][$prj_id])
                     && (!in_array($subscriber, $emails))) {
@@ -1069,10 +1076,10 @@ class Notification
                     usr_id=isu_usr_id AND
                     usr_status = 'active'";
         $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
-        for ($i = 0; $i < count($res); $i++) {
-            $subscriber = Mail_Helper::getFormattedName($res[$i]['usr_full_name'], $res[$i]['usr_email']);
+        foreach ($res as $row) {
+            $subscriber = Mail_Helper::getFormattedName($row['usr_full_name'], $row['usr_email']);
 
-            $prefs = Prefs::get($res[$i]['usr_id']);
+            $prefs = Prefs::get($row['usr_id']);
             if ((!empty($prefs['receive_assigned_email'][$prj_id])) &&
             (@$prefs['receive_assigned_email'][$prj_id]) && (!in_array($subscriber, $emails))) {
                 $emails[] = $subscriber;
@@ -1236,15 +1243,16 @@ class Notification
             // build the list of recipients
             $recipients = array();
             $recipient_emails = array();
-            for ($i = 0; $i < count($sup_ids); $i++) {
-                $senders = Support::getSender(array($sup_ids[$i]));
+            foreach ($sup_ids as $sup_id) {
+                $senders = Support::getSender(array($sup_id));
                 if (count($senders) > 0) {
                     $sender_email = Mail_Helper::getEmailAddress($senders[0]);
-                    $recipients[$sup_ids[$i]] = $senders[0];
+                    $recipients[$sup_id] = $senders[0];
                     $recipient_emails[] = $sender_email;
                 }
             }
-            if (count($recipients) == 0) {
+
+            if (!$recipients) {
                 return false;
             }
 
@@ -1490,20 +1498,23 @@ class Notification
                 'data'         => $data,
             ));
 
-            for ($i = 0; $i < count($assignees); $i++) {
-                if (!Workflow::shouldEmailAddress($prj_id, Mail_Helper::getEmailAddress(User::getFromHeader($assignees[$i])))) {
+            foreach ($assignees as $usr_id) {
+                $usr_email = User::getFromHeader($usr_id);
+                if (!Workflow::shouldEmailAddress($prj_id, Mail_Helper::getEmailAddress($usr_email))) {
                     continue;
                 }
 
                 // change the current locale
-                Language::set(User::getLang($assignees[$i]));
+                Language::set(User::getLang($usr_id));
                 $text_message = $tpl->getTemplateContents();
+                $from = self::getFixedFromHeader($issue_id, '', 'issue');
+                $subject = "[#$issue_id] $title: " . $issue['iss_summary'];
 
                 // send email (use PEAR's classes)
                 $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
                 $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-                $mail->send(self::getFixedFromHeader($issue_id, '', 'issue'), User::getFromHeader($assignees[$i]), "[#$issue_id] $title: " . $issue['iss_summary'], true, $issue_id, $type);
+                $mail->send($from, $usr_email, $subject, true, $issue_id, $type);
             }
             Language::restore();
         }
@@ -1515,25 +1526,26 @@ class Notification
      *
      * @param   array $users The list of users
      * @param   integer $issue_id The issue ID
-     * @return  void
      */
     public static function notifyNewAssignment($users, $issue_id)
     {
         $prj_id = Issue::getProjectID($issue_id);
         $emails = array();
-        for ($i = 0; $i < count($users); $i++) {
-            if ($users[$i] == Auth::getUserID()) {
+        foreach ($users as $usr_id) {
+            if ($usr_id == Auth::getUserID()) {
                 continue;
             }
-            $prefs = Prefs::get($users[$i]);
+            $prefs = Prefs::get($usr_id);
             if ((!empty($prefs)) && (isset($prefs['receive_assigned_email'][$prj_id])) &&
-                    ($prefs['receive_assigned_email'][$prj_id]) && ($users[$i] != Auth::getUserID())) {
-                $emails[] = User::getFromHeader($users[$i]);
+                    ($prefs['receive_assigned_email'][$prj_id]) && ($usr_id != Auth::getUserID())) {
+                $emails[] = User::getFromHeader($usr_id);
             }
         }
-        if (count($emails) == 0) {
-            return false;
+
+        if (!$emails) {
+            return;
         }
+
         // get issue details
         $issue = Issue::getDetails($issue_id);
         // open text template
@@ -1545,15 +1557,17 @@ class Notification
             'current_user' => User::getFullName(Auth::getUserID()),
         ));
 
-        for ($i = 0; $i < count($emails); $i++) {
+        foreach ($emails as $email) {
             $text_message = $tpl->getTemplateContents();
-            Language::set(User::getLang(User::getUserIDByEmail(Mail_Helper::getEmailAddress($emails[$i]))));
+            Language::set(User::getLang(User::getUserIDByEmail(Mail_Helper::getEmailAddress($email))));
+            $subject = "[#$issue_id] New Assignment: " . $issue['iss_summary'];
+            $from = self::getFixedFromHeader($issue_id, '', 'issue');
 
             // send email (use PEAR's classes)
             $mail = new Mail_Helper();
             $mail->setTextBody($text_message);
             $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-            $mail->send(self::getFixedFromHeader($issue_id, '', 'issue'), $emails[$i], "[#$issue_id] New Assignment: " . $issue['iss_summary'], true, $issue_id, 'assignment');
+            $mail->send($from, $email, $subject, true, $issue_id, 'assignment');
         }
         Language::restore();
     }
@@ -1645,11 +1659,11 @@ class Notification
             return array();
         }
 
-        for ($i = 0; $i < count($users); $i++) {
-            if ($users[$i]['pru_role'] != User::getRoleID('Customer')) {
-                $subscribers['staff'][] = $users[$i]['usr_full_name'];
+        foreach ($users as $user) {
+            if ($user['pru_role'] != User::getRoleID('Customer')) {
+                $subscribers['staff'][] = $user['usr_full_name'];
             } else {
-                $subscribers['customers'][] = $users[$i]['usr_full_name'];
+                $subscribers['customers'][] = $user['usr_full_name'];
             }
         }
 
@@ -1686,14 +1700,14 @@ class Notification
                 return array();
             }
 
-            for ($i = 0; $i < count($emails); $i++) {
-                if (empty($emails[$i]['sub_email'])) {
+            foreach ($emails as $email) {
+                if (empty($email['sub_email'])) {
                     continue;
                 }
-                if ((!empty($emails[$i]['pru_role'])) && ($emails[$i]['pru_role'] != User::getRoleID('Customer'))) {
-                    $subscribers['staff'][] = $emails[$i]['usr_full_name'];
+                if ((!empty($email['pru_role'])) && ($email['pru_role'] != User::getRoleID('Customer'))) {
+                    $subscribers['staff'][] = $email['usr_full_name'];
                 } else {
-                    $subscribers['customers'][] = $emails[$i]['sub_email'];
+                    $subscribers['customers'][] = $email['sub_email'];
                 }
             }
         }
@@ -1709,7 +1723,7 @@ class Notification
      * Method used to get the details of a given email notification
      * subscription.
      *
-     * @param   integer $sub_id The subcription ID
+     * @param   integer $sub_id The subscription ID
      * @return  array The details of the subscription
      */
     public static function getDetails($sub_id)
@@ -1782,13 +1796,14 @@ class Notification
             return '';
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            if ($res[$i]['sub_usr_id'] != 0) {
-                $res[$i]['sub_email'] = User::getFromHeader($res[$i]['sub_usr_id']);
+        foreach ($res as &$row) {
+            if ($row['sub_usr_id'] != 0) {
+                $row['sub_email'] = User::getFromHeader($row['sub_usr_id']);
             }
+
             // need to get the list of subscribed actions now
-            $actions = self::getSubscribedActions($res[$i]['sub_id']);
-            $res[$i]['actions'] = @implode(', ', array_keys($actions));
+            $actions = self::getSubscribedActions($row['sub_id']);
+            $row['actions'] = implode(', ', array_keys($actions));
         }
 
         return $res;
@@ -1865,8 +1880,10 @@ class Notification
                     sub_id IN ($itemlist)";
         $issue_id = DB_Helper::getInstance()->getOne($stmt, $items);
 
-        for ($i = 0; $i < count($items); $i++) {
-            $sub_id = $items[$i];
+        $usr_id = Auth::getUserID();
+        $user_fullname = User::getFullName($usr_id);
+        $htt_id = History::getTypeID('notification_removed');
+        foreach ($items as $sub_id) {
             $subscriber = self::getSubscriber($sub_id);
             $stmt = 'DELETE FROM
                         {{%subscription}}
@@ -1880,9 +1897,10 @@ class Notification
                         sbt_sub_id=?';
             DB_Helper::getInstance()->query($stmt, array($sub_id));
 
-            // need to save a history entry for this
-            History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_removed'),
-                            ev_gettext('Notification list entry (%1$s) removed by %2$s', $subscriber, User::getFullName(Auth::getUserID())));
+            History::add($issue_id, $usr_id, $htt_id, 'Notification list entry ({email}) removed by {user}', array(
+                'email' => $subscriber,
+                'user' => $user_fullname,
+            ));
         }
         Issue::markAsUpdated($issue_id);
 
@@ -1935,8 +1953,11 @@ class Notification
         }
 
         // need to save a history entry for this
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_removed'),
-                        ev_gettext('Notification list entry (%1$s) removed by %2$s', $email, User::getFullName(Auth::getUserID())));
+        $current_usr_id = Auth::getUserID();
+        History::add($issue_id, $current_usr_id, 'notification_removed', 'Notification list entry ({email}) removed by {user}', array(
+            'email' => $email,
+            'user' => User::getFullName($current_usr_id)
+        ));
 
         Issue::markAsUpdated($issue_id);
 
@@ -2111,15 +2132,17 @@ class Notification
         }
 
         $sub_id = DB_Helper::get_last_insert_id();
-        for ($i = 0; $i < count($actions); $i++) {
-            self::addType($sub_id, $actions[$i]);
+        foreach ($actions as $sbt_type) {
+            self::addType($sub_id, $sbt_type);
         }
         // need to mark the issue as updated
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
         if ($add_history) {
-            History::add($issue_id, $usr_id, History::getTypeID('notification_added'),
-                            ev_gettext('Notification list entry (%1$s) added by %2$s', User::getFromHeader($subscriber_usr_id), User::getFullName($usr_id)));
+            History::add($issue_id, $usr_id, 'notification_added', 'Notification list entry ({email}) added by {user}', array(
+                'email' => User::getFromHeader($subscriber_usr_id),
+                'user' => User::getFullName($usr_id),
+            ));
         }
 
         return 1;
@@ -2195,15 +2218,17 @@ class Notification
         }
 
         $sub_id = DB_Helper::get_last_insert_id();
-        for ($i = 0; $i < count($actions); $i++) {
-            self::addType($sub_id, $actions[$i]);
+        foreach ($actions as $sbt_type) {
+            self::addType($sub_id, $sbt_type);
         }
         // need to mark the issue as updated
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
         // FIXME: XSS possible as $email is not escaped for html?
-        History::add($issue_id, $usr_id, History::getTypeID('notification_added'),
-                        ev_gettext('Notification list entry (\'%1$s\') added by %2$s', $email, User::getFullName($usr_id)));
+        History::add($issue_id, $usr_id, 'notification_added', "Notification list entry ('{subscriber}') added by {user}", array(
+            'subscriber' => $email,
+            'user' => User::getFullName($usr_id)
+        ));
 
         return 1;
     }
@@ -2232,30 +2257,18 @@ class Notification
     /**
      * Method used to update the details of a given subscription.
      *
+     * @param   $issue_id
      * @param   integer $sub_id The subscription ID
+     * @param   $email
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public static function update($sub_id)
+    public static function update($issue_id, $sub_id, $email)
     {
-        $stmt = 'SELECT
-                    sub_iss_id,
-                    sub_usr_id
-                 FROM
-                    {{%subscription}}
-                 WHERE
-                    sub_id=?';
-
-        // FIXME $usr_id unused
-        // TODO: need fetchmode default?
-        list($issue_id, $usr_id) = DB_Helper::getInstance()->getRow($stmt, array($sub_id), DbInterface::DB_FETCHMODE_DEFAULT);
-
-        $email = strtolower(Mail_Helper::getEmailAddress($_POST['email']));
-        $usr_id = User::getUserIDByEmail($email, true);
+        $usr_id = User::getUserIDByEmail(strtolower(Mail_Helper::getEmailAddress($email)), true);
         if (!empty($usr_id)) {
             $email = '';
         } else {
             $usr_id = 0;
-            $email = $_POST['email'];
         }
         $prj_id = Issue::getProjectID($issue_id);
 
@@ -2289,14 +2302,17 @@ class Notification
                     sbt_sub_id=?';
         DB_Helper::getInstance()->query($stmt, array($sub_id));
         // now add them all again
-        for ($i = 0; $i < count($_POST['actions']); $i++) {
-            self::addType($sub_id, $_POST['actions'][$i]);
+        foreach ($_POST['actions'] as $sbt_type) {
+            // FIXME: $sbt_type not validated for sane values
+            self::addType($sub_id, $sbt_type);
         }
         // need to mark the issue as updated
         Issue::markAsUpdated($issue_id);
-        // need to save a history entry for this
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('notification_updated'),
-                        ev_gettext('Notification list entry (\'%1$s\') updated by %2$s', self::getSubscriber($sub_id), User::getFullName(Auth::getUserID())));
+        $current_usr_id = Auth::getUserID();
+        History::add($issue_id, $current_usr_id, 'notification_updated', "Notification list entry ('{subscriber}') updated by {user}", array(
+            'subscriber' => self::getSubscriber($sub_id),
+            'user' => User::getFullName($current_usr_id),
+        ));
 
         return 1;
     }

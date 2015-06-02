@@ -78,11 +78,11 @@ class FAQ
             return '';
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            if (empty($res[$i]['faq_updated_date'])) {
-                $res[$i]['faq_updated_date'] = $res[$i]['faq_created_date'];
+        foreach ($res as &$row) {
+            if (empty($row['faq_updated_date'])) {
+                $row['faq_updated_date'] = $row['faq_created_date'];
             }
-            $res[$i]['faq_updated_date'] = Date_Helper::getSimpleDate($res[$i]['faq_updated_date']);
+            $row['faq_updated_date'] = Date_Helper::getSimpleDate($row['faq_updated_date']);
         }
 
         return $res;
@@ -299,8 +299,9 @@ class FAQ
         }
 
         // get the list of associated support levels
-        for ($i = 0; $i < count($res); $i++) {
-            $res[$i]['support_levels'] = implode(', ', array_values(self::getAssociatedSupportLevels($res[$i]['faq_prj_id'], $res[$i]['faq_id'])));
+        foreach ($res as &$row) {
+            $levels = self::getAssociatedSupportLevels($row['faq_prj_id'], $row['faq_id']);
+            $row['support_levels'] = implode(', ', array_values($levels));
         }
 
         return $res;

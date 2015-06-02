@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2009 - 2014 Eventum Team.                              |
+// | Copyright (c) 2009 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -64,9 +64,14 @@ class Eventum_Autoload
 
             'Smarty' => APP_SMARTY_PATH . '/Smarty.class.php',
             'SphinxClient' => APP_SPHINXAPI_PATH . '/sphinxapi.php',
+            'PHPlot' => APP_PHP_PATH . '/phplot/phplot.php',
 
             'DbPear' => $baseDir . '/db/DbPear.php',
             'DbInterface' => $baseDir . '/db/DbInterface.php',
+            'RemoteApi' => $baseDir . '/rpc/RemoteApi.php',
+            'XmlRpcServer' => $baseDir . '/rpc/XmlRpcServer.php',
+            'PlotHelper' => $baseDir . '/PlotHelper.php',
+            'RecentActivity' => $baseDir . '/report/RecentActivity.php',
 
             'Auth_Backend_Interface' => $baseDir . '/auth/class.auth_backend_interface.php',
             'Mysql_Auth_Backend' => $baseDir . '/auth/class.mysql_auth_backend.php',
@@ -83,6 +88,7 @@ class Eventum_Autoload
         $classMap = self::getMap();
 
         if (isset($classMap[$className])) {
+            /** @noinspection PhpIncludeInspection */
             require_once $classMap[$className];
 
             return;
@@ -96,6 +102,7 @@ class Eventum_Autoload
 
         $className = strtolower($className);
         if (array_key_exists($className, self::$classes)) {
+            /** @noinspection PhpIncludeInspection */
             require_once self::$classes[$className];
 
             return;

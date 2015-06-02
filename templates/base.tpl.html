@@ -17,35 +17,25 @@
   <title>{if $title != '' or isset($extra_title)}{$extra_title|default:$title} - {/if}{$core.app_setup.tool_caption|default:$core.app_title}</title>
   <script type="text/javascript">
   <!--
-  var user_prefs = {ldelim}
-  {if $core.current_user_prefs|default:'' != ''}
-    week_firstday : '{$core.current_user_prefs.week_firstday}' == '1' ? 1 : 0
-  {/if}
-  {rdelim};
+  var user_prefs = {
+    week_firstday : {$core.current_user_prefs.week_firstday|default:0|intval}
+  };
   //-->
   </script>
 
-  {if $core.use_components|default:0}
-    {* use composer component installer *}
-    <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/jquery-ui/themes/base/all.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/jquery-chosen/chosen.css">
-    <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/dropzone/dist/basic.css">
-    <script type="text/javascript" src="{$core.rel_url}components/jquery/jquery.js"></script>
-    <script type="text/javascript" src="{$core.rel_url}components/jquery-blockui/jquery.blockUI.js"></script>
-    <script type="text/javascript" src="{$core.rel_url}components/form/jquery.form.js"></script>
-    <script type="text/javascript" src="{$core.rel_url}components/jquery-cookie/jquery.cookie.js"></script>
-    <script type="text/javascript" src="{$core.rel_url}components/jquery-ui/ui/core.js"></script>
-    <script type="text/javascript" src="{$core.rel_url}components/jquery-ui/ui/datepicker.js"></script>
-    <script type="text/javascript" src="{$core.rel_url}components/jquery-chosen/chosen.jquery.js"></script>
-    <script type="text/javascript" src="{$core.rel_url}components/dropzone/dist/dropzone.js"></script>
-  {else}
-    <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}js/jquery/ui.datepicker.css">
-    <script type="text/javascript" src="{$core.rel_url}js/jquery/jquery.js"></script>
-    <script type="text/javascript" src="{$core.rel_url}js/jquery/blockui.js"></script>
-    <script type="text/javascript" src="{$core.rel_url}js/jquery/form.js"></script>
-    <script type="text/javascript" src="{$core.rel_url}js/jquery/cookie.js"></script>
-    <script type="text/javascript" src="{$core.rel_url}js/jquery/ui.datepicker.js"></script>
-  {/if}
+  {* libraries setup with component installer *}
+  <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/jquery-ui/themes/base/all.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/jquery-chosen/chosen.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/dropzone/dist/basic.css">
+  <script type="text/javascript" src="{$core.rel_url}components/jquery/jquery.js"></script>
+  <script type="text/javascript" src="{$core.rel_url}components/jquery-blockui/jquery.blockUI.js"></script>
+  <script type="text/javascript" src="{$core.rel_url}components/form/jquery.form.js"></script>
+  <script type="text/javascript" src="{$core.rel_url}components/jquery-cookie/jquery.cookie.js"></script>
+  <script type="text/javascript" src="{$core.rel_url}components/jquery-ui/ui/core.js"></script>
+  <script type="text/javascript" src="{$core.rel_url}components/jquery-ui/ui/datepicker.js"></script>
+  <script type="text/javascript" src="{$core.rel_url}components/jquery-chosen/chosen.jquery.js"></script>
+  <script type="text/javascript" src="{$core.rel_url}components/dropzone/dist/dropzone.js"></script>
+
   {* our css/js after remote assets to allow overrides *}
   <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}css/main.css">
   <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}css/page.css">

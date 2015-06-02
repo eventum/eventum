@@ -20,12 +20,7 @@ Additionally you should enable following PHP Core extensions:
  - spl (builtin)
 
 Installation is pretty simple and quick. Eventum already bundles the libraries
-that it needs to work properly:
-
-- JpGraph 1.5.3 (last GPL version)
-- Smarty 3.x (http://smarty.net)
-- PEAR packages (see lib/pear/README for details)
-- A few other small javascript libraries
+that it needs to work properly, see DEPENDENCIES.md for details.
 
 Anyway, all you should have to do is place the Eventum files in a directory,
 point your webserver to that /path-to-eventum/htdocs/. Open it up with your

@@ -6,12 +6,24 @@ bindir          := /usr/bin
 logdir          := /var/log/$(name)
 smartyplugindir := $(datadir)/lib/Smarty/plugins
 
-php-cs-fixer := $(shell PATH=$$PATH:. which php-cs-fixer.phar 2>/dev/null || which php-cs-fixer 2>/dev/null || echo false)
+define find_tool
+$(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
+endef
+
+define fetch_tool
+curl -sS $1 -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
+endef
+
+php-cs-fixer := $(call find_tool, php-cs-fixer)
+phpcompatinfo := $(call find_tool, phpcompatinfo)
 
 all:
 	@echo 'Run "make install" to install eventum.'
 
-install: install-eventum install-cli install-irc install-scm install-libs
+pot:
+	$(MAKE) -C localization pot
+
+install: install-eventum install-cli install-irc install-scm
 
 dist:
 	./bin/release.sh
@@ -29,13 +41,22 @@ composer.phar:
 	curl -sS https://getcomposer.org/installer | php
 
 php-cs-fixer.phar:
-	curl -sS http://get.sensiolabs.org/php-cs-fixer.phar -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
+	$(call fetch_tool,http://get.sensiolabs.org/php-cs-fixer.phar)
+
+phpcompatinfo.phar:
+	$(call fetch_tool,http://bartlett.laurent-laville.org/get/phpcompatinfo-4.1.0.phar)
+
+phpunit.phar:
+	$(call fetch_tool,https://phar.phpunit.de/phpunit.phar)
 
 pear-fix: composer.lock
 	-$(php-cs-fixer) fix vendor/pear-pear.php.net --fixers=php4_constructor --verbose
 
 phpcs-fix: php-cs-fixer.phar
 	-$(php-cs-fixer) fix --verbose
+
+phpcompatinfo: phpcompatinfo.phar
+	$(phpcompatinfo) analyser:run --alias current
 
 composer.lock:
 	composer install
@@ -70,18 +91,13 @@ install-irc:
 	install -d $(DESTDIR)$(sbindir)
 	cp -a irc/eventum-irc-bot.php $(DESTDIR)$(sbindir)/eventum-irc-bot
 
-# install eventum scm (cvs, eventum) hooks
+# install eventum scm (cvs, svn, git) hooks
 install-scm:
 	install -d $(DESTDIR)$(sbindir)
 	install -p scm/eventum-cvs-hook.php $(DESTDIR)$(sbindir)/eventum-cvs-hook
 	install -p scm/eventum-svn-hook.php $(DESTDIR)$(sbindir)/eventum-svn-hook
-
-# install extra libraries for eventum
-install-libs: install-jpgraph
-
-install-jpgraph:
-	install -d $(DESTDIR)$(datadir)/lib
-	cp -a lib/jpgraph $(DESTDIR)$(datadir)/lib
+	install -p scm/eventum-git-hook.php $(DESTDIR)$(sbindir)/eventum-git-hook
+	cp -p scm/helpers.php $(DESTDIR)$(sbindir)
 
 install-localization:
 	$(MAKE) -C localization install

@@ -461,13 +461,14 @@ issue_update.ready = function(page_id)
 {
     var $updateForm = $('#update_form');
 
-    $updateForm.submit(function() {
-        return Validation.checkFormSubmission($('#update_form'), issue_update.validateForm);
-    });
+    var validateAction = function () {
+        return Validation.checkFormSubmission($updateForm, issue_update.validateForm);
+    };
+    $updateForm.submit(validateAction);
 
     // remove validation if hitting cancel
     $updateForm.find('[name=cancel]').click(function() {
-        $updateForm.unbind('submit', issue_update.validateForm);
+        $updateForm.unbind('submit', validateAction);
     });
 
     $('#clear_selected').click(function() {
@@ -481,8 +482,7 @@ issue_update.ready = function(page_id)
     $('.open_history').click(issue_view.openHistory);
     $('.open_nl').click(issue_view.openNotificationList);
     $('.open_ar').click(issue_view.openAuthorizedReplier);
-}
-
+};
 
 issue_update.validateForm = function()
 {
@@ -504,7 +504,7 @@ issue_update.validateForm = function()
         }
     }
     return true;
-}
+};
 
 issue_update.closeIssue = function(e)
 {
@@ -512,8 +512,7 @@ issue_update.closeIssue = function(e)
         window.location.href='close.php?id=' + issue_view.get_issue_id();
     }
     e.preventDefault();
-}
-
+};
 
 
 /*
@@ -586,7 +585,7 @@ close_issue.validateForm = function()
     Validation.checkCustomFields(form);
 
     // TODO: this needs to be double checked with a customer backend
-    var has_per_incident_contract = (('tr.per_incident').length > 0)
+    var has_per_incident_contract = ($('tr.per_incident').length > 0)
     if ((Validation.errors.length < 1) && (has_per_incident_contract)) {
         if ($('input[type=checkbox][name^=redeem]:checked').length > 0) {
             return confirm('This customer has a per incident contract. You have chosen not to redeem any incidents. Press \'OK\' to confirm or \'Cancel\' to revise.');
@@ -898,6 +897,23 @@ anon_post.validateForm = function(form)
 
     Validation.checkCustomFields(form);
 
+}
+
+/*
+ * Stats page
+ */
+function stats() {}
+
+stats.ready = function()
+{
+    $('#hide_closed').change(function hideClosed(e) {
+        var target = $(e.target);
+        if (target.is(':checked')) {
+            window.location.href = "?" + Eventum.replaceParam(window.location.href, 'hide_closed', '1');
+        } else {
+            window.location.href = "?" + Eventum.replaceParam(window.location.href, 'hide_closed', '0');
+        }
+    });
 }
 
 

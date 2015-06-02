@@ -209,17 +209,17 @@ class Reminder_Condition
             return array();
         }
 
-        for ($i = 0; $i < count($res); $i++) {
-            if (!empty($res[$i]['rlc_comparison_rmf_id'])) {
-                $res[$i]['rlc_value'] = ev_gettext('Field') . ': ' . self::getFieldTitle($res[$i]['rlc_comparison_rmf_id']);
-            } elseif (strtolower($res[$i]['rmf_title']) == 'status') {
-                $res[$i]['rlc_value'] = Status::getStatusTitle($res[$i]['rlc_value']);
-            } elseif (strtolower($res[$i]['rmf_title']) == 'category') {
-                $res[$i]['rlc_value'] = Category::getTitle($res[$i]['rlc_value']);
-            } elseif ((strtolower($res[$i]['rmf_title']) == 'group') || (strtolower($res[$i]['rmf_title']) == 'active group')) {
-                $res[$i]['rlc_value'] = Group::getName($res[$i]['rlc_value']);
-            } elseif (strtoupper($res[$i]['rlc_value']) != 'NULL') {
-                $res[$i]['rlc_value'] .= ' ' . ev_gettext('hours');
+        foreach ($res as &$row) {
+            if (!empty($row['rlc_comparison_rmf_id'])) {
+                $row['rlc_value'] = ev_gettext('Field') . ': ' . self::getFieldTitle($row['rlc_comparison_rmf_id']);
+            } elseif (strtolower($row['rmf_title']) == 'status') {
+                $row['rlc_value'] = Status::getStatusTitle($row['rlc_value']);
+            } elseif (strtolower($row['rmf_title']) == 'category') {
+                $row['rlc_value'] = Category::getTitle($row['rlc_value']);
+            } elseif ((strtolower($row['rmf_title']) == 'group') || (strtolower($row['rmf_title']) == 'active group')) {
+                $row['rlc_value'] = Group::getName($row['rlc_value']);
+            } elseif (strtoupper($row['rlc_value']) != 'NULL') {
+                $row['rlc_value'] .= ' ' . ev_gettext('hours');
             }
         }
 

@@ -42,14 +42,14 @@ class Workflow
         $files = Misc::getFileList(APP_INC_PATH . '/workflow');
         $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/workflow'));
         $list = array();
-        for ($i = 0; $i < count($files); $i++) {
+        foreach ($files as $file) {
             // display a prettyfied backend name in the admin section
-            if (preg_match('/^class\.(.*)\.php$/', $files[$i], $matches)) {
+            if (preg_match('/^class\.(.*)\.php$/', $file, $matches)) {
                 if ($matches[1] == 'abstract_workflow_backend') {
                     continue;
                 }
                 $name = ucwords(str_replace('_', ' ', $matches[1]));
-                $list[$files[$i]] = $name;
+                $list[$file] = $name;
             }
         }
 
@@ -108,8 +108,10 @@ class Workflow
             $class_name = $file_name_chunks[1] . '_Workflow_Backend';
 
             if (file_exists(APP_LOCAL_PATH . "/workflow/$backend_class")) {
+                /** @noinspection PhpIncludeInspection */
                 require_once APP_LOCAL_PATH . "/workflow/$backend_class";
             } else {
+                /** @noinspection PhpIncludeInspection */
                 require_once APP_INC_PATH . "/workflow/$backend_class";
             }
 
@@ -173,24 +175,6 @@ class Workflow
         $backend = self::_getBackend($prj_id);
 
         return $backend->preIssueUpdated($prj_id, $issue_id, $usr_id, $changes);
-    }
-
-    /**
-     * Called when an issue is assigned.
-     * FIXME: not used by current eventum code
-     *
-     * @param   integer $prj_id The project ID
-     * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The id of the user who assigned the issue.
-     */
-    public function handleAssignment($prj_id, $issue_id, $usr_id)
-    {
-        if (!self::hasWorkflowIntegration($prj_id)) {
-            return;
-        }
-        $backend = self::_getBackend($prj_id);
-
-        return $backend->handleAssignment($prj_id, $issue_id, $usr_id);
     }
 
     /**
@@ -290,7 +274,7 @@ class Workflow
      *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The id of the user who locked the issue.
+     * @param   integer $usr_id The id of the user who assigned the issue.
      * @param   array $issue_details The old details of the issue.
      * @param   array $new_assignees The new assignees of this issue.
      * @param   boolean $remote_assignment If this issue was remotely assigned.
@@ -302,6 +286,16 @@ class Workflow
         }
 
         $backend = self::_getBackend($prj_id);
+
+        // call deprecated handleAssignment() if it still exists
+        $reflection = new ReflectionClass($backend);
+        if ($reflection->hasMethod('handleAssignment')) {
+            if ($reflection->getMethod('handleAssignment')->isPublic()) {
+                trigger_error("Workflow::handleAssignment is deprecated", E_USER_DEPRECATED);
+                $backend->handleAssignment($prj_id, $issue_id, $usr_id);
+            }
+        }
+
         $backend->handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment);
     }
 
@@ -527,7 +521,7 @@ class Workflow
      *
      * @param   integer $prj_id The project ID.
      * @param   integer $issue_id The ID of the issue
-     * @param   string The email address that is trying to send an email
+     * @param   string $email The email address that is trying to send an email
      * @return  boolean true if the sender can email the issue, false if the sender
      *          should not email the issue and null if the default rules should be used.
      */

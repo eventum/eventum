@@ -644,6 +644,21 @@ $().ready(function() {
           </tr>
           <tr>
             <th width="120">
+              {t}Display Description as Email #0{/t}
+            </th>
+            <td>
+              <label>
+                <input type="radio" name="description_email_0" value="enabled" {if $setup.description_email_0|default:'' == 'enabled'}checked{/if}>
+                {t}Enabled{/t}
+              </label>
+              <label>
+                <input type="radio" name="description_email_0" value="disabled" {if $setup.description_email_0|default:'' != 'enabled'}checked{/if}>
+                {t}Disabled{/t}
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
               {t}Email Spell Checker{/t}
             </th>
             <td>

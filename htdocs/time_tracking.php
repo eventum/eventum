@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,10 +22,11 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once dirname(__FILE__) . '/../init.php';
@@ -45,7 +46,12 @@ if ((!Issue::canAccess($issue_id, Auth::getUserID())) || (Auth::getCurrentRole()
 }
 
 if (@$_POST['cat'] == 'add_time') {
-    $res = Time_Tracking::insertEntry();
+    $date = (array)$_POST['date'];
+    $ttc_id = (int)$_POST['category'];
+    $iss_id = (int)$_POST['issue_id'];
+    $time_spent = (int)$_POST['time_spent'];
+    $summary = (string)$_POST['summary'];
+    $res = Time_Tracking::addTimeEntry($iss_id, $ttc_id, $time_spent, $date, $summary);
     $tpl->assign('time_add_result', $res);
 }
 

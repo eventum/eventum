@@ -203,17 +203,17 @@ class Misc
 
         $misspelled_words = array();
         $spell_suggestions = array();
-        for ($i = 0; $i < count($lines); $i++) {
-            if (substr($lines[$i], 0, 1) == '&') {
+        foreach ($lines as $line) {
+            if (substr($line, 0, 1) == '&') {
                 // found suggestions for this word
-                $first_part = substr($lines[$i], 0, strpos($lines[$i], ':'));
+                $first_part = substr($line, 0, strpos($line, ':'));
                 $pieces = explode(' ', $first_part);
                 $misspelled_word = $pieces[1];
-                $last_part = substr($lines[$i], strpos($lines[$i], ':')+2);
+                $last_part = substr($line, strpos($line, ':')+2);
                 $suggestions = explode(', ', $last_part);
-            } elseif (substr($lines[$i], 0, 1) == '#') {
+            } elseif (substr($line, 0, 1) == '#') {
                 // found no suggestions for this word
-                $pieces = explode(' ', $lines[$i]);
+                $pieces = explode(' ', $line);
                 $misspelled_word = $pieces[1];
                 $suggestions = array();
             } else {
@@ -324,8 +324,10 @@ class Misc
         $last = strtolower($val[strlen($val)-1]);
         switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
+            /** @noinspection PhpMissingBreakStatementInspection */
             case 'g':
                 $val *= 1024;
+            /** @noinspection PhpMissingBreakStatementInspection */
             case 'm':
                 $val *= 1024;
             case 'k':
@@ -411,7 +413,7 @@ class Misc
      * Method used to escape a string before using it in a query.
      *
      * @param   string|array $input The original string
-     * @return  string The escaped (or not) string
+     * @return  string|array The escaped (or not) string
      * @deprecated Using this is bad design, must use placeholders in query
      */
     public static function escapeString($input, $add_quotes = false)
@@ -477,8 +479,8 @@ class Misc
     {
         $boolean = array();
         $pieces = explode(' ', $value);
-        for ($i = 0; $i < count($pieces); $i++) {
-            $boolean[] = "$field LIKE '%" . self::escapeString($pieces[$i]) . "%'";
+        foreach ($pieces as $piece) {
+            $boolean[] = "$field LIKE '%" . self::escapeString($piece) . "%'";
         }
 
         return '(' . implode(' OR ', $boolean) . ')';
@@ -913,5 +915,49 @@ class Misc
         }
 
         return $data->getCode() == $code;
+    }
+
+    /**
+     * Processes a message according to PSR-3 rules
+     *
+     * It replaces {foo} with the value from $context['foo']
+     *
+     * @see \Monolog\Processor\PsrLogMessageProcessor()
+     * @link https://github.com/Seldaek/monolog/blob/master/src/Monolog/Processor/PsrLogMessageProcessor.php
+     * @param string $message
+     * @param  array $context
+     * @return string
+     */
+    public static function processTokens($message, $context)
+    {
+        // shortcut out
+        if (false === strpos($message, '{')) {
+            return $message;
+        }
+
+        // handle empty context
+        if (!$context) {
+            $context = array();
+        }
+
+        // handle raw data from database (json encoded)
+        if (!is_array($context)) {
+            $context = json_decode($context, true);
+        }
+
+        $replacements = array();
+        foreach ($context as $key => $val) {
+            if (is_null($val) || is_scalar($val) || (is_object($val) && method_exists($val, '__toString'))) {
+                $replacements['{' . $key . '}'] = $val;
+            } elseif (is_object($val)) {
+                $replacements['{' . $key . '}'] = '[object ' . get_class($val) . ']';
+            } else {
+                $replacements['{' . $key . '}'] = '[' . gettype($val) . ']';
+            }
+        }
+
+        $message = strtr($message, $replacements);
+
+        return $message;
     }
 }

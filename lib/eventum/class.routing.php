@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
@@ -195,8 +195,8 @@ class Routing
         // remove certain CC addresses
         if ((!empty($structure->headers['cc'])) && (@$setup['smtp']['save_outgoing_email'] == 'yes')) {
             $ccs = explode(',', @$structure->headers['cc']);
-            for ($i = 0; $i < count($ccs); $i++) {
-                if (Mail_Helper::getEmailAddress($ccs[$i]) == $setup['smtp']['save_address']) {
+            foreach ($ccs as $i => $address) {
+                if (Mail_Helper::getEmailAddress($address) == $setup['smtp']['save_address']) {
                     unset($ccs[$i]);
                 }
             }
@@ -274,8 +274,11 @@ class Routing
                     Issue::markAsUpdated($issue_id, 'user response');
                 }
             }
+
             // log routed email
-            History::add($issue_id, $usr_id, History::getTypeID('email_routed'), ev_gettext('Email routed from %1$s', $structure->headers['from']));
+            History::add($issue_id, $usr_id, 'email_routed', 'Email routed from {from}', array(
+                'from' => $structure->headers['from'],
+            ));
         }
 
         return true;
@@ -397,13 +400,18 @@ class Routing
         if (Mime_Helper::hasAttachments($structure)) {
             $_POST['full_message'] = $full_message;
         }
-        $res = Note::insert(Auth::getUserID(), $issue_id, $unknown_user, false);
+
+        $usr_id = Auth::getUserID();
+        $res = Note::insertFromPost($usr_id, $issue_id, $unknown_user, false);
         // need to handle attachments coming from notes as well
         if ($res != -1) {
             Support::extractAttachments($issue_id, $structure, true, $res);
         }
+
         // FIXME! $res == -2 is not handled
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('note_routed'), ev_gettext('Note routed from %1$s', $structure->headers['from']));
+        History::add($issue_id, $usr_id, 'note_routed', 'Note routed from {user}', array(
+            'from' => $structure->headers['from'],
+        ));
 
         return true;
     }
@@ -480,7 +488,8 @@ class Routing
 
         Draft::saveEmail($issue_id, @$structure->headers['to'], @$structure->headers['cc'], @$structure->headers['subject'], $body, false, false, false);
         // XXX: need to handle attachments coming from drafts as well?
-        History::add($issue_id, Auth::getUserID(), History::getTypeID('draft_routed'), ev_gettext('Draft routed from') . ' ' . $structure->headers['from']);
+        $usr_id = Auth::getUserID();
+        History::add($issue_id, $usr_id, 'draft_routed', 'Draft routed from {from}', array('from' =>$structure->headers['from']));
 
         return true;
     }

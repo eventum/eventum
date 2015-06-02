@@ -1,7 +1,24 @@
 Eventum Issue Tracking System
 =============================
 
-2015-??-??, Version 3.0.0
+2015-??-??, Version 3.0.2
+- Fix sql error in disassociate custom field (Elan Ruusamäe)
+- Fix cancel update issue action (Elan Ruusamäe, #47)
+- Add XMLRPC method to upload files to issue (Elan Ruusamäe)
+- RemoteApi: add checkAuthentication method (Elan Ruusamäe)
+- RemoteApi: add getServerParameter method (Elan Ruusamäe)
+- Fix opensearch template Smarty error caused by 09a1da1 (Elan Ruusamäe)
+- RemoteApi: add getWeeklyReportData method to get weekly report data only (Elan Ruusamäe)
+- Avoid associating issue with itself (Elan Ruusamäe, #29)
+- Allow history entries to be fully translated (Elan Ruusamäe, #51)
+- Add associated issues field to New Issue page (Elan Ruusamäe, #52)
+- Added global setting to control if the description is used as email #0 (Bryan Alsdorf)
+- Properly handle handleAssignment workflow method deprecation (Elan Ruusamäe, 539ef83, 8f4eb61, 130ec88, 827089e)
+- Convert user preference timezone in abbreviation to timezone (Elan Ruusamäe, #53)
+- Add select all button to edit notification dialog (Elan Ruusamäe)
+- Use HTTP Referrer when switching projects (Elan Ruusamäe)
+
+2015-04-21, Version 3.0.1
 - Add option to set time summary when sending a note (Bryan)
 - Optionally send reminders to a different IRC channel (Bryan)
 - Fix broken Workflow::handleSCMCheckins call from 3.0.0pre1 (Elan Ruusamäe, GH#15)
@@ -12,6 +29,7 @@ Eventum Issue Tracking System
 - Handle Eventum issue links as well for issue linking (Elan Ruusamäe, GH#15)
 - Discard {literal} from templates (Elan Ruusamäe, 09a1da1)
 - Use mysqli PEAR::DB driver in new installs (Elan Ruusamäe)
+- Replace jpgraph 1.5.3 with phplot 6.1.0 (Elan Ruusamäe, GH#46)
 
 2015-02-03, Version 3.0.0 pre1
 - Make Custom Fields Weekly Report honor Project ID (Raul Raat, GH#6)

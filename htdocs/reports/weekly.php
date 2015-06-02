@@ -78,7 +78,16 @@ if (!empty($_REQUEST['developer'])) {
     }
 
     // print out emails
-    $data = Report::getWeeklyReport($_REQUEST['developer'], $dates[0], $dates[1], @$_REQUEST['separate_closed'], @$_REQUEST['ignore_statuses'], @$_REQUEST['separate_not_assigned_to_user']);
+    $developer = $_REQUEST['developer'];
+    $prj_id = Auth::getCurrentProject();
+    $options = array(
+        'separate_closed' => @$_REQUEST['separate_closed'],
+        'separate_not_assigned_to_user' => @$_REQUEST['separate_not_assigned_to_user'],
+        'ignore_statuses' => @$_REQUEST['ignore_statuses'],
+        'show_per_issue' => !empty($_REQUEST['show_per_issue']),
+        'separate_no_time' => !empty($_REQUEST['separate_no_time']),
+    );
+    $data = Report::getWeeklyReport($developer, $prj_id, $dates[0], $dates[1], $options);
 
     // order issues by time spent on them
     if (isset($_REQUEST['show_per_issue'])) {
