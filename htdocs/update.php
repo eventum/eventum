@@ -167,7 +167,7 @@ $tpl->assign('issue_lock', $issue_lock);
             'field' =>  'customer_1'
         );
     }
-    $categories = Category::getList($prj_id);
+    $categories = Category::getAssocList($prj_id);
     if (count($categories) > 0) {
         $columns[0][] = array(
             'title' =>  ev_gettext('Category'),
@@ -182,7 +182,7 @@ $tpl->assign('issue_lock', $issue_lock);
         'field' =>  'status',
     );
 
-    $severities = Severity::getList($prj_id);
+    $severities = Severity::getAssocList($prj_id);
     if (count($severities) > 0) {
         $columns[0][] = array(
             'title' =>  ev_gettext('Severity'),
