@@ -246,7 +246,7 @@ table.bordered tr:last-child > td:last-child {
 table.bordered th {
     background: #255282;
     color: white;
-    text-align: left;
+    text-align: center;
     padding-left: .3em;
 }
 
