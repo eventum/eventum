@@ -246,8 +246,12 @@ table.bordered tr:last-child > td:last-child {
 table.bordered th {
     background: #255282;
     color: white;
-    text-align: center;
+    text-align: left;
     padding-left: .3em;
+}
+
+table.bordered tr.buttons th {
+    text-align: center;
 }
 
 table.bordered th.internal, table.bordered td.internal {
