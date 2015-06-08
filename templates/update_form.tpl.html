@@ -12,6 +12,8 @@
 <table id="issue_overview" class="bordered" data-issue-id="{$issue_id}">
 <tr class="title">
     <th colspan="2">
+        <b>{t}Update Issue Overview{/t}</b> (ID: <a href="{$core.rel_url}view.php?id={$issue.iss_id}" title="{t}view issue details{/t}">{$issue.iss_id}</a>)
+
         {if $core.current_role >= $core.roles.developer}
         &nbsp;<strong>Project:</strong>
         <select name="new_prj">
