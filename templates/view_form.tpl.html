@@ -1,9 +1,9 @@
 <div id="issue_links">
     {if $previous_issue}
-    <div><a title="{t}previous issue on your current active filter{/t}" href="view.php?id={$previous_issue}">&lt;&lt; {t}Previous Issue{/t}</a></div>
+    <div><a id="prev_issue" title="{t}previous issue on your current active filter{/t}" href="view.php?id={$previous_issue}">&lt;&lt; {t}Previous Issue{/t}</a></div>
     {/if}
     {if $next_issue}
-    <div class="right"><a title="{t}next issue on your current active filter{/t}" href="view.php?id={$next_issue}">{t}Next Issue{/t} &gt;&gt;</a></div>
+    <div class="right"><a id="next_issue" title="{t}next issue on your current active filter{/t}" href="view.php?id={$next_issue}">{t}Next Issue{/t} &gt;&gt;</a></div>
     {/if}
     <div class="clear"></div>
 </div>
@@ -171,7 +171,7 @@
             <table class="grid">
                 <tr>
                     <th>{t}Summary{/t}</th>
-                    <td>{$issue.iss_summary|escape:"html"}</td>
+                    <td id="issue_summary">{$issue.iss_summary|escape:"html"} xxx</td>
                 </tr>
                 <tr>
                     <th class="initial_description">
