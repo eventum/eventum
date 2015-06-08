@@ -336,6 +336,10 @@ class Note
      */
     public static function insertNote($usr_id, $issue_id, $title, $note, $options = array())
     {
+        if (Validation::isWhitespace($note)) {
+            return -2;
+        }
+
         $options = array_merge(array(
             'unknown_user' => null,
             'log' => true,
@@ -356,11 +360,6 @@ class Note
         if ($workflow !== null) {
             // cancel insert of note
             return $workflow;
-        }
-
-        // FIXME: can this be moved before workflow call?
-        if (Validation::isWhitespace($note)) {
-            return -2;
         }
 
         // add the poster to the list of people to be subscribed to the notification list
