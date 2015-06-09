@@ -89,6 +89,7 @@ body#login form#login_form table td.button {
     padding: 0;
     width: 50%;
     vertical-align: top;
+    background: linear-gradient(to right, #255282 30%, #dddddd 30%);
 }
 #issue_overview .grid_cell table {
     width: 100%;
