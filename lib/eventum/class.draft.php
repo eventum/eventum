@@ -420,7 +420,7 @@ class Draft
         $_POST['cc'] = @implode(';', $draft['cc']);
         $_POST['message'] = $draft['emd_body'];
         $_POST['ema_id'] = Email_Account::getEmailAccount();
-        $res = Support::sendEmail();
+        $res = Support::sendEmailFromPost();
         if ($res == 1) {
             self::remove($draft_id);
         }
