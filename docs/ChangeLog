@@ -17,6 +17,7 @@ Eventum Issue Tracking System
 - Convert user preference timezone in abbreviation to timezone (Elan Ruusamäe, #53)
 - Add select all button to edit notification dialog (Elan Ruusamäe)
 - Use HTTP Referrer when switching projects (Elan Ruusamäe)
+- Made "Expected Resolution Date" hideable on new issue page (Bryan Alsdorf)
 
 2015-04-21, Version 3.0.1
 - Add option to set time summary when sending a note (Bryan)

@@ -199,7 +199,7 @@
       </td>
     </tr>
 
-  {if $core.current_role > $core.roles.customer}
+  {if $core.current_role > $core.roles.customer && $core.current_role >= $field_display_settings.expected_res_date}
       <tr>
 
         <th {if $field_display_settings.assignment > $core.roles.customer}class="internal"{/if}>
