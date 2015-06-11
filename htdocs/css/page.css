@@ -182,6 +182,10 @@ body#issue_view td.message > span {
 	max-height: 200px;
 	overflow: auto;
 }
+body#issue_view #issue_summary {
+	font-weight: bold;
+	border-bottom: 1px solid #eeeeee;
+}
 
 /* End View Issue Page */
 
