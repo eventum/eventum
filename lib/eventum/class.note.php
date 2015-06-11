@@ -361,7 +361,7 @@ class Note
             'note' => &$note,
             'options' => $options,
         );
-        $workflow = Workflow::preNoteInsert($prj_id, $issue_id, $options['unknown_user'], $data);
+        $workflow = Workflow::preNoteInsert($prj_id, $issue_id, $data);
         if ($workflow !== null) {
             // cancel insert of note
             return $workflow;

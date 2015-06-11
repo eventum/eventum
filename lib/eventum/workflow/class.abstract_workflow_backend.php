@@ -459,7 +459,7 @@ class Abstract_Workflow_Backend
      * @param   array   $data
      * @return  mixed   Null by default, false if the note should not be inserted
      */
-    public function preNoteInsert($prj_id, $issue_id, $unknown_user, &$data)
+    public function preNoteInsert($prj_id, $issue_id, &$data)
     {
         return null;
     }
