@@ -121,7 +121,7 @@ class Category
                     prc_title=?
                  WHERE
                     prc_prj_id=? AND
-                    prc_id=';
+                    prc_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['prj_id'], $_POST['id']));
         } catch (DbException $e) {
