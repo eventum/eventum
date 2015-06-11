@@ -94,7 +94,7 @@
           alert('{t escape=js}Please enter the updated value.{/t}');
           return false;
       }
-      var option = Eventum.getField('field_options[]').children('option').filter("[value='" + editing_option_id + "']'");
+      var option = Eventum.getField('field_options[]').children('option').filter("[value='" + editing_option_id + "']");
       var params = parseParameters(option.val());
       option.val('existing:' + params.value + ':' + new_value);
       option.text(new_value);
