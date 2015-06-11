@@ -622,14 +622,14 @@ class Workflow
      * @param   array   $data
      * @return  mixed   Null by default, false if the note should not be inserted
      */
-    public static function preNoteInsert($prj_id, $issue_id, $unknown_user, &$data)
+    public static function preNoteInsert($prj_id, $issue_id, &$data)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
         }
         $backend = self::_getBackend($prj_id);
 
-        return $backend->preNoteInsert($prj_id, $issue_id, $unknown_user, $data);
+        return $backend->preNoteInsert($prj_id, $issue_id, $data);
     }
 
     /**

@@ -336,6 +336,10 @@ class Note
      */
     public static function insertNote($usr_id, $issue_id, $title, $note, $options = array())
     {
+        if (Validation::isWhitespace($note)) {
+            return -2;
+        }
+
         $options = array_merge(array(
             'unknown_user' => null,
             'log' => true,
@@ -351,16 +355,16 @@ class Note
 
 
         $prj_id = Issue::getProjectID($issue_id);
-        // XXX FIXME: workflow takes $_POST as input, but we already took values from $_POST
-        $workflow = Workflow::preNoteInsert($prj_id, $issue_id, $options['unknown_user'], $_POST);
+        // NOTE: workflow takes may modify the parameters as $data is passed as reference
+        $data = array(
+            'title' => &$title,
+            'note' => &$note,
+            'options' => $options,
+        );
+        $workflow = Workflow::preNoteInsert($prj_id, $issue_id, $data);
         if ($workflow !== null) {
             // cancel insert of note
             return $workflow;
-        }
-
-        // FIXME: can this be moved before workflow call?
-        if (Validation::isWhitespace($note)) {
-            return -2;
         }
 
         // add the poster to the list of people to be subscribed to the notification list

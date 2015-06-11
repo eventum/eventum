@@ -59,7 +59,7 @@ if ($issue_id) {
 }
 
 if ($cat == 'send_email') {
-    $res = Support::sendEmail($_POST['parent_id']);
+    $res = Support::sendEmailFromPost($_POST['parent_id']);
     $tpl->assign('send_result', $res);
     if (Access::canChangeStatus($issue_id, $usr_id) && isset($_POST['new_status']) &&
         !empty($_POST['new_status'])) {

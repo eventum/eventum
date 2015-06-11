@@ -179,7 +179,7 @@
             <tr>
                 <th>{t}Summary{/t}</th>
                 <td>
-                    <input type="text" size="60" name="summary" value="{$issue.iss_summary|escape:"html"}">
+                    <input type="text" size="60" name="summary" id="issue_summary" value="{$issue.iss_summary|escape:"html"}">
                     {include file="error_icon.tpl.html" field="summary"}
                 </td>
             </tr>

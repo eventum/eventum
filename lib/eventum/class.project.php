@@ -1085,6 +1085,7 @@ class Project
             'assignment'    =>  ev_gettext('Assignment'),
             'release'   =>  ev_gettext('Scheduled Release'),
             'estimated_dev_time'    =>  ev_gettext('Estimated Dev. Time'),
+            'expected_res_date'     =>  ev_gettext('Expected Resolution Date'),
             'group'     =>  ev_gettext('Group'),
             'file'  =>  ev_gettext('File'),
             'private'   =>  ev_gettext('Private'),

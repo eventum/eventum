@@ -2083,83 +2083,123 @@ class Support
     /**
      * Method used to send an email from the user interface.
      *
-     * @return  integer 1 if it worked, -1 otherwise
+     * @param int $parent_sup_id
+     * @return int 1 if it worked, -1 otherwise
+     * @deprecated use sendEmail directly instead
      */
-    public static function sendEmail($parent_sup_id = false)
+    public static function sendEmailFromPost($parent_sup_id = null)
     {
-        $issue_id = isset($_POST['issue_id']) ? (int) $_POST['issue_id'] : 0;
+        // process any files being uploaded
+        // from ajax upload, attachment file ids
+        // if no iaf_ids passed, perhaps it's old style upload
+        // TODO: verify that the uploaded file(s) owner is same as attachment owner.
+        $iaf_ids = !empty($_POST['iaf_ids']) ? explode(',', $_POST['iaf_ids']) : null;
+        if (!$iaf_ids && isset($_FILES['attachment'])) {
+            $iaf_ids = Attachment::addFiles($_FILES['attachment']);
+        }
+
+        $options = array(
+            'issue_id' => isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : 0,
+            'parent_sup_id' => $parent_sup_id,
+            'from' => isset($_POST['from']) ? (string)$_POST['from'] : null,
+            'type' => isset($_POST['type']) ? (string)$_POST['type'] : null,
+            'subject' => isset($_POST['subject']) ? (string)$_POST['subject'] : null,
+            'iaf_ids' => $iaf_ids,
+            'to' => isset($_POST['to']) ? (string)$_POST['to'] : null,
+            'cc' => isset($_POST['cc']) ? (string)$_POST['cc'] : null,
+            'body' => isset($_POST['message']) ? (string)$_POST['message'] : null,
+            'add_unknown' => isset($_POST['add_unknown']) && $_POST['add_unknown'] == 'yes',
+            'ema_id' => isset($_POST['ema_id']) ? (int)$_POST['ema_id'] : null,
+        );
+
+        return self::sendEmail($options);
+    }
+
+    /**
+     * TODO: merge use of $options and $email arrays to just $email
+     *
+     * @param array $options
+     * - (int) issue_id
+     * - (int) parent_sup_id
+     * - (string) type: type of email
+     * - (string) from
+     * - (string) subject
+     * - (string) to
+     * - (string) cc
+     * - (string) body
+     * - (array) iaf_ids attachment file ids
+     * - (bool) add_unknown
+     * - (int) ema_id
+     * @return int 1 if it worked, -1 otherwise
+     */
+    public static function sendEmail($options = array())
+    {
+        $issue_id = $options['issue_id'];
+        $parent_sup_id = $options['parent_sup_id'];
+        $from = $options['from'];
+        $type = $options['type'] ?: '';
+        $subject = $options['subject'];
+        $iaf_ids = $options['iaf_ids'];
+        $to = $options['to'];
+        $cc = $options['cc'];
+        $body = $options['body'];
+        $add_unknown = $options['add_unknown'];
+        $ema_id = $options['ema_id'];
+
+        $current_usr_id = Auth::getUserID();
+        $prj_id = Issue::getProjectID($issue_id);
 
         // if we are replying to an existing email, set the In-Reply-To: header accordingly
-        if ($parent_sup_id) {
-            $in_reply_to = self::getMessageIDByID($parent_sup_id);
-        } else {
-            $in_reply_to = false;
-        }
+        $in_reply_to = $parent_sup_id ? self::getMessageIDByID($parent_sup_id) : false;
 
         // get ID of whoever is sending this.
-        $sender_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($_POST['from']));
-        if (empty($sender_usr_id)) {
-            $sender_usr_id = false;
-        }
-
-        // get type of email this is
-        if (!empty($_POST['type'])) {
-            $type = $_POST['type'];
-        } else {
-            $type = '';
-        }
+        $sender_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($from)) ?: false;
 
         // remove extra 'Re: ' from subject
-        $_POST['subject'] = Mail_Helper::removeExcessRe($_POST['subject'], true);
+        $subject = Mail_Helper::removeExcessRe($subject, true);
         $internal_only = false;
         $message_id = Mail_Helper::generateMessageID();
 
         // process any files being uploaded
         // from ajax upload, attachment file ids
-        $iaf_ids = !empty($_POST['iaf_ids']) ? explode(',', $_POST['iaf_ids']) : null;
-        // if no iaf_ids passed, perhaps it's old style upload
-        // TODO: verify that the uploaded file(s) owner is same as attachment owner.
-        if (!$iaf_ids && isset($_FILES['attachment'])) {
-            $iaf_ids = Attachment::addFiles($_FILES['attachment']);
-        }
-        $current_usr_id = Auth::getUserID();
         if ($iaf_ids) {
             // FIXME: is it correct to use sender from post data?
-            $usr_id = $sender_usr_id ?: $current_usr_id;
-            Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, false, 'Attachment originated from outgoing email');
+            $attach_usr_id = $sender_usr_id ?: $current_usr_id;
+            Attachment::attachFiles($issue_id, $attach_usr_id, $iaf_ids, false, 'Attachment originated from outgoing email');
         }
 
-        // TODO: $_FILES["attachment"] not handled by ajax upload
         // hack needed to get the full headers of this web-based email
-        $full_email = self::buildFullHeaders($issue_id, $message_id, $_POST['from'], $_POST['to'], $_POST['cc'], $_POST['subject'],
-            $_POST['message'], $in_reply_to, $iaf_ids);
+        $full_email = self::buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $iaf_ids);
 
         // email blocking should only be done if this is an email about an associated issue
-        if (!empty($_POST['issue_id'])) {
+        if ($issue_id) {
             $user_info = User::getNameEmail($current_usr_id);
             // check whether the current user is allowed to send this email to customers or not
             if (!self::isAllowedToEmail($issue_id, $user_info['usr_email'])) {
                 // add the message body as a note
-                $_POST['full_message'] = $full_email;
-                $_POST['title'] = $_POST['subject'];
-                $_POST['note'] = Mail_Helper::getCannedBlockedMsgExplanation() . $_POST['message'];
-                Note::insertFromPost($current_usr_id, $issue_id, false, true, false, true, true);
-                Workflow::handleBlockedEmail(Issue::getProjectID($_POST['issue_id']), $_POST['issue_id'], $_POST, 'web');
+                $note = Mail_Helper::getCannedBlockedMsgExplanation() . $body;
+                $note_options = array(
+                    'full_message' => $full_email,
+                    'is_blocked' => true,
+                );
+                Note::insertNote($current_usr_id, $issue_id, $subject, $note, $note_options);
+
+                // FIXME: uses $_POST, what fields are needed there?
+                Workflow::handleBlockedEmail($prj_id, $issue_id, $_POST, 'web');
 
                 return 1;
             }
         }
 
         // only send a direct email if the user doesn't want to add the Cc'ed people to the notification list
-        if (((@$_POST['add_unknown'] == 'yes') || (Workflow::shouldAutoAddToNotificationList(Issue::getProjectID($_POST['issue_id'])))) &&
-                (!empty($_POST['issue_id']))) {
+        if (($add_unknown || Workflow::shouldAutoAddToNotificationList($prj_id)) && $issue_id) {
             // add the recipients to the notification list of the associated issue
-            $recipients = array($_POST['to']);
-            $recipients = array_merge($recipients, self::getRecipientsCC($_POST['cc']));
+            $recipients = array($to);
+            $recipients = array_merge($recipients, self::getRecipientsCC($cc));
 
             foreach ($recipients as $address) {
-                if (!empty($address) && !Notification::isIssueRoutingSender($issue_id, $address)) {
-                    $actions = Notification::getDefaultActions($_POST['issue_id'], $address, 'add_unknown_user');
+                if ($address && !Notification::isIssueRoutingSender($issue_id, $address)) {
+                    $actions = Notification::getDefaultActions($issue_id, $address, 'add_unknown_user');
                     Notification::subscribeEmail($current_usr_id, $issue_id, Mail_Helper::getEmailAddress($address), $actions);
                 }
             }
@@ -2171,31 +2211,32 @@ class Support
             // In the case of replying to an email that is not yet associated with an issue, then
             // we are always directly sending the email, without using any notification list
             // functionality.
-            if (!empty($_POST['issue_id'])) {
+            if ($issue_id) {
                 // send direct emails only to the unknown addresses, and leave the rest to be
                 // catched by the notification list
-                $from = Notification::getFixedFromHeader($_POST['issue_id'], $_POST['from'], 'issue');
+                $from = Notification::getFixedFromHeader($issue_id, $from, 'issue');
                 // build the list of unknown recipients
-                if (!empty($_POST['to'])) {
-                    $recipients = array($_POST['to']);
-                    $recipients = array_merge($recipients, self::getRecipientsCC($_POST['cc']));
+                if ($to) {
+                    $recipients = array($to);
+                    $recipients = array_merge($recipients, self::getRecipientsCC($cc));
                 } else {
-                    $recipients = self::getRecipientsCC($_POST['cc']);
+                    $recipients = self::getRecipientsCC($cc);
                 }
                 $unknowns = array();
 
                 foreach ($recipients as $address) {
-                    if (!Notification::isSubscribedToEmails($_POST['issue_id'], $address)) {
+                    if (!Notification::isSubscribedToEmails($issue_id, $address)) {
                         $unknowns[] = $address;
                     }
                 }
 
-                if (count($unknowns) > 0) {
-                    $to = array_shift($unknowns);
-                    $cc = implode('; ', $unknowns);
+                if ($unknowns) {
+                    $to2 = array_shift($unknowns);
+                    $cc2 = implode('; ', $unknowns);
                     // send direct emails
-                    self::sendDirectEmail($_POST['issue_id'], $from, $to, $cc,
-                        $_POST['subject'], $_POST['message'], $_FILES['attachment'], $message_id, $sender_usr_id);
+                    self::sendDirectEmail(
+                        $issue_id, $from, $to2, $cc2,
+                        $subject, $body, $_FILES['attachment'], $message_id, $sender_usr_id);
                 }
             } else {
                 // send direct emails to all recipients, since we don't have an associated issue
@@ -2208,61 +2249,63 @@ class Support
                     $from = User::getFromHeader($current_usr_id);
                 }
                 // send direct emails
-                self::sendDirectEmail($_POST['issue_id'], $from, $_POST['to'], $_POST['cc'],
-                        $_POST['subject'], $_POST['message'], $_FILES['attachment'], $message_id);
+                self::sendDirectEmail(
+                    $issue_id, $from, $to, $cc,
+                    $subject, $body, $_FILES['attachment'], $message_id);
             }
         }
 
-        $t = array(
+        $email = array(
+            // FIXME: use actual null, not string 'null'
             'customer_id'    => 'NULL',
             'issue_id'       => $issue_id,
-            'ema_id'         => $_POST['ema_id'],
+            'ema_id'         => $ema_id,
             'message_id'     => $message_id,
             'date'           => Date_Helper::getCurrentDateGMT(),
-            'from'           => $_POST['from'],
-            'to'             => $_POST['to'],
-            'cc'             => @$_POST['cc'],
-            'subject'        => @$_POST['subject'],
-            'body'           => $_POST['message'],
+            'from'           => $from,
+            'to'             => $to,
+            'cc'             => $cc,
+            'subject'        => $subject,
+            'body'           => $body,
             'full_email'     => $full_email,
         );
 
         // associate this new email with a customer, if appropriate
         if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
-            if (!empty($_POST['issue_id'])) {
-                $prj_id = Issue::getProjectID($_POST['issue_id']);
+            if ($issue_id) {
                 $crm = CRM::getInstance($prj_id);
                 try {
                     $contact = $crm->getContact(User::getCustomerContactID($current_usr_id));
-                    $issue_contract = $crm->getContract(Issue::getContractID($_POST['issue_id']));
+                    $issue_contract = $crm->getContract(Issue::getContractID($issue_id));
                     if ($contact->canAccessContract($issue_contract)) {
-                        $t['customer_id'] = $issue_contract->getCustomerID();
+                        $email['customer_id'] = $issue_contract->getCustomerID();
                     }
                 } catch (CRMException $e) {
                 }
             } else {
                 $customer_id = User::getCustomerID($current_usr_id);
-                if ((!empty($customer_id)) && ($customer_id != -1)) {
-                    $t['customer_id'] = $customer_id;
+                if ($customer_id && $customer_id != -1) {
+                    $email['customer_id'] = $customer_id;
                 }
             }
         }
 
-        $t['has_attachment'] = $iaf_ids ? 1 : 0;
+        $email['has_attachment'] = $iaf_ids ? 1 : 0;
 
         $structure = Mime_Helper::decode($full_email, true, false);
-        $t['headers'] = $structure->headers;
+        $email['headers'] = $structure->headers;
 
-        self::insertEmail($t, $structure, $sup_id);
+        self::insertEmail($email, $structure, $sup_id);
 
         if ($issue_id) {
             // need to send a notification
-            Notification::notifyNewEmail($current_usr_id, $issue_id, $t, $internal_only, false, $type, $sup_id);
+            Notification::notifyNewEmail($current_usr_id, $issue_id, $email, $internal_only, false, $type, $sup_id);
             // mark this issue as updated
-            if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')))) {
+            $has_customer = $email['customer_id'] && $email['customer_id'] != 'NULL';
+            if ($has_customer && (!$current_usr_id || User::getRoleByUser($current_usr_id, $prj_id) == User::getRoleID('Customer'))) {
                 Issue::markAsUpdated($issue_id, 'customer action');
             } else {
-                if ((!empty($sender_usr_id)) && (User::getRoleByUser($sender_usr_id, Issue::getProjectID($_POST['issue_id'])) > User::getRoleID('Customer'))) {
+                if ($sender_usr_id && User::getRoleByUser($sender_usr_id, $prj_id) > User::getRoleID('Customer')) {
                     Issue::markAsUpdated($issue_id, 'staff response');
                 } else {
                     Issue::markAsUpdated($issue_id, 'user response');

@@ -89,6 +89,7 @@ body#login form#login_form table td.button {
     padding: 0;
     width: 50%;
     vertical-align: top;
+    background: linear-gradient(to right, #255282 30%, #dddddd 30%);
 }
 #issue_overview .grid_cell table {
     width: 100%;
@@ -180,6 +181,10 @@ body#issue_view td.message > span {
 	display: inline-block;
 	max-height: 200px;
 	overflow: auto;
+}
+body#issue_view #issue_summary {
+	font-weight: bold;
+	border-bottom: 1px solid #eeeeee;
 }
 
 /* End View Issue Page */
