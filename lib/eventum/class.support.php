@@ -2184,8 +2184,18 @@ class Support
                 );
                 Note::insertNote($current_usr_id, $issue_id, $subject, $note, $note_options);
 
-                // FIXME: uses $_POST, what fields are needed there?
-                Workflow::handleBlockedEmail($prj_id, $issue_id, $_POST, 'web');
+                $email_details = array(
+                    'from' => $from,
+                    'to' => $to,
+                    'cc' => $cc,
+                    'subject' => $subject,
+                    // we pass as reference, as that may save some memory
+                    'body' => &$body,
+                    // @deprecated, pass 'message' as well for legacy workflow methods
+                    // this should be dropped at some point
+                    'message' => &$body,
+                );
+                Workflow::handleBlockedEmail($prj_id, $issue_id, $email_details, 'web');
 
                 return 1;
             }
@@ -2739,12 +2749,12 @@ class Support
 
         $issue_id = Support::getIssueFromEmail($sup_id);
         $sql = 'SELECT
-                	sup_id,
-                	@sup_seq := @sup_seq+1
+                    sup_id,
+                    @sup_seq := @sup_seq+1
                 FROM
-                	{{%support_email}}
+                    {{%support_email}}
                 WHERE
-                	sup_iss_id = ?
+                    sup_iss_id = ?
                 ORDER BY
                     sup_id ASC';
         try {
