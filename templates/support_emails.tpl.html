@@ -81,7 +81,6 @@
             {if $core.current_role > $core.roles.viewer && $core.current_role != $core.roles.customer &&
                 $core.app_setup.description_email_0|default:'' == 'enabled'}
             <tr class="even">
-                <td align="center">&nbsp;</td>
                 <td align="center" nowrap align="center">
                     {include file="expandable_cell/buttons.tpl.html" ec_id="description" list_id=$issue.iss_id}
                 </td>
@@ -136,13 +135,14 @@
                 </td>
             </tr>
             {include file="expandable_cell/body.tpl.html" ec_id="email" list_id=$emails[i].composite_id colspan=$email_col_count class=$row_class}
-            {sectionelse}
+            {/section}
+            {if $emails|@count < 1 && $core.app_setup.description_email_0|default:'' != 'enabled'}
             <tr class="no_results">
                 <td colspan="{$email_col_count}">
                     {t}No associated emails could be found.{/t}
                 </td>
             </tr>
-            {/section}
+            {/if}
         </table>
 </div>
 {if $core.current_role > $core.roles.viewer}
