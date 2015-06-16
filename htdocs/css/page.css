@@ -165,7 +165,6 @@ body#issue_view #drafts .buttons_div {
 }
 
 body#issue_view .revision {
-	display: inline-block;
 	max-width: 5em;
 	overflow: hidden;
 	text-decoration: underline;
