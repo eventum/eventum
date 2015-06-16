@@ -129,6 +129,9 @@ body#login form#login_form table td.button {
 body#issue_view div#issue_links {
     width: 100%;
 }
+body#issue_view div#issue_links a {
+    text-decoration: none;
+}
 
 body#issue_view div#issue_links div:first-child {
     float: left;
