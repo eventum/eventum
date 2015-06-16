@@ -88,11 +88,11 @@ $().ready(function() {
           </tr>
           <tr>
             <th width="190" nowrap>{t}Summary{/t}</th>
-            <td width="100%"><input type="text" name="summary" size="40">{include file="error_icon.tpl.html" field="summary"}</td>
+            <td><input type="text" name="summary" size="40">{include file="error_icon.tpl.html" field="summary"}</td>
           </tr>
           <tr>
-            <th width="190" nowrap>{t}Category{/t}</th>
-            <td width="100%">
+            <th nowrap>{t}Category{/t}</th>
+            <td>
               <select name="category">
                 <option value="">{t}Please choose a category{/t}</option>
                 {html_options options=$time_categories}
@@ -101,11 +101,11 @@ $().ready(function() {
             </td>
           </tr>
           <tr>
-            <th width="190" nowrap>{t}Time Spent{/t}</th>
-            <td width="100%"><input type="text" size="5" name="time_spent" onChange="Eventum.calcDateDiff(this.form, 0)"> <span>({t}in minutes{/t})</span>{include file="error_icon.tpl.html" field="time_spent"}</td>
+            <th nowrap>{t}Time Spent{/t}</th>
+            <td><input type="text" size="5" name="time_spent" onChange="Eventum.calcDateDiff(this.form, 0)"> <span>({t}in minutes{/t})</span>{include file="error_icon.tpl.html" field="time_spent"}</td>
           </tr>
       <tr>
-        <th width="120" nowrap>{t}Work started{/t}:</th>
+        <th nowrap>{t}Work started{/t}:</th>
         <td>
           {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"'}&nbsp;
           {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"' display_seconds=false}
@@ -113,7 +113,7 @@ $().ready(function() {
         </td>
       </tr>
       <tr>
-        <th width="120" nowrap>{t}Work ended{/t}:</th>
+        <th nowrap>{t}Work ended{/t}:</th>
         <td>
           {html_select_date start_year='-1' day_value_format='%02d' field_array='date2' prefix='' all_extra=' class="default" onChange="Eventum.calcDateDiff(this.form, 2, this.name)"'}&nbsp;
           {html_select_time minute_interval=5 field_array='date2' prefix='' all_extra=' class="default" onChange="Eventum.calcDateDiff(this.form, 2, this.name)"' display_seconds=false}
