@@ -67,7 +67,7 @@
         <div class="content" {get_display_style element_name='support_emails' total=$emails|@count}>
         <table class="grid">
             <tr>
-                {if $emails|@count > 0 && $core.current_role > $core.roles.viewer && $core.current_role != $core.roles.customer}
+                {if $core.current_role > $core.roles.viewer && $core.current_role != $core.roles.customer}
                 <th width="5"><input type="button" value="{t}All{/t}" class="select_all"></th>
                 {/if}
                 <th align="center" NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="email,description"}</th>
@@ -81,6 +81,7 @@
             {if $core.current_role > $core.roles.viewer && $core.current_role != $core.roles.customer &&
                 $core.app_setup.description_email_0|default:'' == 'enabled'}
             <tr class="even">
+                <td>&nbsp;</td>
                 <td align="center" nowrap align="center">
                     {include file="expandable_cell/buttons.tpl.html" ec_id="description" list_id=$issue.iss_id}
                 </td>
