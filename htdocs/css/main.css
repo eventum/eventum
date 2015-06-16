@@ -518,3 +518,6 @@ td.light {
 #add_time_form .title th {
 	text-align: left;
 }
+#add_time_form img {
+	vertical-align: middle;
+}
