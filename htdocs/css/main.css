@@ -13,6 +13,16 @@ input, select {
 a {
     color: #000000;
 }
+#issue_overview .js_link:hover,
+div#header a:hover {
+	color: #c0c0c0;
+}
+.js_link:hover,
+div#header #user_menu a:hover,
+.bordered .title th a:hover,
+a:hover {
+    color: #0066ff;
+}
 
 a.closed {
     text-decoration: line-through;
@@ -498,4 +508,16 @@ td.light {
 
 .chosen-select {
     width:290px;
+}
+
+/* add timetracking box */
+#add_time_form th {
+	text-align: right;
+	padding-right: 0.3em;
+}
+#add_time_form .title th {
+	text-align: left;
+}
+#add_time_form img {
+	vertical-align: middle;
 }
