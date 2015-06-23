@@ -129,6 +129,9 @@ body#login form#login_form table td.button {
 body#issue_view div#issue_links {
     width: 100%;
 }
+body#issue_view div#issue_links a {
+    text-decoration: none;
+}
 
 body#issue_view div#issue_links div:first-child {
     float: left;
@@ -165,7 +168,6 @@ body#issue_view #drafts .buttons_div {
 }
 
 body#issue_view .revision {
-	display: inline-block;
 	max-width: 5em;
 	overflow: hidden;
 	text-decoration: underline;
@@ -236,6 +238,7 @@ body#list_issues #current_filters {
 body#list_issues #current_filters span {
     background: #ffffaa;
     padding: .5em;
+	display: inline-block;
 }
 
 body#list_issues #bulk_update {

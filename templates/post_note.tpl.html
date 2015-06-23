@@ -88,7 +88,7 @@
             </td>
         </tr>
         <tr>
-            <th width="140">
+            <th>
                 {t}Recipients{/t}
             </th>
             <td>
@@ -97,7 +97,7 @@
             </td>
         </tr>
         <tr>
-            <th width="140">
+            <th>
                 {t}Title{/t} *
             </th>
             <td>
@@ -115,7 +115,7 @@
             </td>
         </tr>
         <tr>
-            <th width="140" valign="top">
+            <th valign="top">
                 {t}Extra Note Recipients{/t}
             </th>
             <td>
@@ -127,7 +127,7 @@
             </td>
         </tr>
         <tr>
-            <th width="140">
+            <th>
                 {t}Add Extra Recipients To Notification List?{/t}
             </th>
             <td>
@@ -136,7 +136,7 @@
             </td>
         </tr>
         <tr>
-            <th width="120">
+            <th>
                 {t}New Status for Issue{/t} #{$issue_id}:
             </th>
             <td>
@@ -147,7 +147,7 @@
             </td>
         </tr>
         <tr>
-            <th width="120">
+            <th>
                 {t}Time Spent{/t}:
             </th>
             <td>
@@ -166,7 +166,7 @@
             </td>
         </tr>
         <tr>
-            <th width="120" nowrap>{t}Work started{/t}:</th>
+            <th nowrap>{t}Work started{/t}:</th>
             <td>
                 {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' time=$core.current_user_datetime all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"'}&nbsp;
                 {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"' display_seconds=false time=$core.current_user_datetime}
@@ -174,7 +174,7 @@
             </td>
         </tr>
         <tr>
-            <th width="120" nowrap>{t}Work ended{/t}:</th>
+            <th nowrap>{t}Work ended{/t}:</th>
             <td>
                 {html_select_date start_year='-1' day_value_format='%02d' field_array='date2' prefix='' time=$core.current_user_datetime all_extra=' onChange="Eventum.calcDateDiff(this.form, 2, this.name)"'}&nbsp;
                 {html_select_time minute_interval=5 field_array='date2' prefix='' all_extra=' class="default" onChange="Eventum.calcDateDiff(this.form, 2, this.name)"' display_seconds=false time=$core.current_user_datetime}
