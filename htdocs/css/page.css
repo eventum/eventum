@@ -239,6 +239,7 @@ body#list_issues #current_filters span {
     background: #ffffaa;
     padding: .5em;
 	display: inline-block;
+    width: inherit;
 }
 
 body#list_issues #bulk_update {
