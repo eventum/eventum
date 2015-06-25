@@ -19,14 +19,13 @@ $().ready(function() {
     $('input[name=report_type]').click(changeType);
 });
 </script>
+<h3 align="center">
+    {t}Weekly Report{/t}
+</h3>
+
 <form method="post" name="weekly_report">
 <input type="hidden" name="cat" value="generate">
       <table class="bordered">
-        <tr class="title">
-          <th colspan="2">
-            {t}Weekly Report{/t}
-          </th>
-        </tr>
         <tr>
           <td width="120">
             {t}Report Type{/t}:

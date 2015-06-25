@@ -3,7 +3,6 @@
 {block "title"}Custom Fields{/block}
 
 {block "report_content"}
-<br />
 
 <script type="text/javascript">
 <!--
@@ -18,15 +17,12 @@ function validateForm(f)
 }
 //-->
 </script>
-
+<h3 align="center">
+    {t}Custom Fields Report{/t}
+</h3>
 <form name="custom_fields_report" method="get" onSubmit="return validateForm(this);">
 <input type="hidden" name="cat" value="generate">
       <table class="bordered filters">
-        <tr class="title">
-          <th colspan="3">
-            {t}Custom Fields Report{/t}
-          </th>
-        </tr>
         <tr>
           <th width="30%" align="center">
             <b>{t}Field to Graph{/t}</b>
