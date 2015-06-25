@@ -541,7 +541,7 @@ class Mime_Helper
             // check if this is already named Outlook-2.bmp (or similar)
             if (strstr($first_part, '-')) {
                 // if so, gotta get the number and increment it
-                $numeric_portion = substr($first_part, strrpos($first_part, '-')+1);
+                $numeric_portion = substr($first_part, strrpos($first_part, '-') + 1);
                 if (preg_match('/^[0-9]+$/', $numeric_portion)) {
                     $numeric_portion = intval($numeric_portion) + 1;
                 }
@@ -783,9 +783,9 @@ class Mime_Helper
             foreach ($obj->parts as &$part) {
                 self::parse_output($part, $parts);
             }
+
             return;
         }
-
 
         $ctype = @strtolower($obj->ctype_primary.'/'.$obj->ctype_secondary);
         switch ($ctype) {

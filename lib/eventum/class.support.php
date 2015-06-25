@@ -168,11 +168,11 @@ class Support
 
         $email_ids = array_keys($res);
         $index = array_search($sup_id, $email_ids);
-        if (!empty($email_ids[$index+1])) {
-            $next = $email_ids[$index+1];
+        if (!empty($email_ids[$index + 1])) {
+            $next = $email_ids[$index + 1];
         }
-        if (!empty($email_ids[$index-1])) {
-            $previous = $email_ids[$index-1];
+        if (!empty($email_ids[$index - 1])) {
+            $previous = $email_ids[$index - 1];
         }
 
         return array(
@@ -214,11 +214,11 @@ class Support
 
         $email_ids = array_keys($res);
         $index = array_search($sup_id, $email_ids);
-        if (!empty($email_ids[$index+1])) {
-            $next = $email_ids[$index+1];
+        if (!empty($email_ids[$index + 1])) {
+            $next = $email_ids[$index + 1];
         }
-        if (!empty($email_ids[$index-1])) {
-            $previous = $email_ids[$index-1];
+        if (!empty($email_ids[$index - 1])) {
+            $previous = $email_ids[$index - 1];
         }
 
         return array(
@@ -791,7 +791,7 @@ class Support
                 @imap_delete($mbox, $num);
             } else {
                 // mark the message as already read
-                @imap_setflag_full($mbox, $num, "\\Seen");
+                @imap_setflag_full($mbox, $num, '\\Seen');
             }
         }
     }
@@ -2099,17 +2099,17 @@ class Support
         }
 
         $options = array(
-            'issue_id' => isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : 0,
+            'issue_id' => isset($_POST['issue_id']) ? (int) $_POST['issue_id'] : 0,
             'parent_sup_id' => $parent_sup_id,
-            'from' => isset($_POST['from']) ? (string)$_POST['from'] : null,
-            'type' => isset($_POST['type']) ? (string)$_POST['type'] : null,
-            'subject' => isset($_POST['subject']) ? (string)$_POST['subject'] : null,
+            'from' => isset($_POST['from']) ? (string) $_POST['from'] : null,
+            'type' => isset($_POST['type']) ? (string) $_POST['type'] : null,
+            'subject' => isset($_POST['subject']) ? (string) $_POST['subject'] : null,
             'iaf_ids' => $iaf_ids,
-            'to' => isset($_POST['to']) ? (string)$_POST['to'] : null,
-            'cc' => isset($_POST['cc']) ? (string)$_POST['cc'] : null,
-            'body' => isset($_POST['message']) ? (string)$_POST['message'] : null,
+            'to' => isset($_POST['to']) ? (string) $_POST['to'] : null,
+            'cc' => isset($_POST['cc']) ? (string) $_POST['cc'] : null,
+            'body' => isset($_POST['message']) ? (string) $_POST['message'] : null,
             'add_unknown' => isset($_POST['add_unknown']) && $_POST['add_unknown'] == 'yes',
-            'ema_id' => isset($_POST['ema_id']) ? (int)$_POST['ema_id'] : null,
+            'ema_id' => isset($_POST['ema_id']) ? (int) $_POST['ema_id'] : null,
         );
 
         return self::sendEmail($options);
@@ -2628,7 +2628,7 @@ class Support
             @imap_delete($mbox, $num);
         } else {
             // mark the message as already read
-            @imap_setflag_full($mbox, $num, "\\Seen");
+            @imap_setflag_full($mbox, $num, '\\Seen');
         }
     }
 

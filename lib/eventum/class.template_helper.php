@@ -86,6 +86,7 @@ class Template_Helper
     public function setTemplate($tpl_name)
     {
         $this->tpl_name = $tpl_name;
+
         return $this;
     }
 
@@ -103,6 +104,7 @@ class Template_Helper
         } else {
             $this->smarty->assign($var_name);
         }
+
         return $this;
     }
 
@@ -120,6 +122,7 @@ class Template_Helper
 
         // finally display the parsed template
         $this->smarty->display($this->tpl_name);
+
         return $this;
     }
 
@@ -250,6 +253,7 @@ class Template_Helper
             $this->assign('roles', User::getAssocRoleIDs());
         }
         $this->assign('core', $core);
+
         return $this;
     }
 }

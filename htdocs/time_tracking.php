@@ -46,11 +46,11 @@ if ((!Issue::canAccess($issue_id, Auth::getUserID())) || (Auth::getCurrentRole()
 }
 
 if (@$_POST['cat'] == 'add_time') {
-    $date = (array)$_POST['date'];
-    $ttc_id = (int)$_POST['category'];
-    $iss_id = (int)$_POST['issue_id'];
-    $time_spent = (int)$_POST['time_spent'];
-    $summary = (string)$_POST['summary'];
+    $date = (array) $_POST['date'];
+    $ttc_id = (int) $_POST['category'];
+    $iss_id = (int) $_POST['issue_id'];
+    $time_spent = (int) $_POST['time_spent'];
+    $summary = (string) $_POST['summary'];
     $res = Time_Tracking::addTimeEntry($iss_id, $ttc_id, $time_spent, $date, $summary);
     $tpl->assign('time_add_result', $res);
 }

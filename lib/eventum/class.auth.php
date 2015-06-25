@@ -365,7 +365,7 @@ class Auth
      */
     public static function removeCookie($cookie_name)
     {
-        self::setCookie($cookie_name, '', time()-36000);
+        self::setCookie($cookie_name, '', time() - 36000);
     }
 
     /**

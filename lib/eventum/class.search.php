@@ -58,6 +58,7 @@ class Search
             if ($valid_values && !in_array($value, $valid_values)) {
                 return '';
             }
+
             return $value;
         }
 

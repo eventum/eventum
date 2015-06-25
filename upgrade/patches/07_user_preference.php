@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Move user preferences to a separate table.
  *

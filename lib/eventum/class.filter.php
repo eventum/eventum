@@ -528,7 +528,6 @@ class Filter
         return $url;
     }
 
-
     /**
      * Method used to get an associative array of the full details of
      * a specific custom filter.

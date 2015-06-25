@@ -49,7 +49,7 @@ class Report
      */
     public static function getStalledIssuesByUser($prj_id, $users, $status, $before_date, $after_date, $sort_order)
     {
-        $prj_id = (int)$prj_id;
+        $prj_id = (int) $prj_id;
         $ts = time();
         $before_ts = strtotime($before_date);
         $after_ts = strtotime($after_date);
@@ -96,19 +96,19 @@ class Report
         $params = array($prj_id, $before_ts, $after_ts);
 
         if ($users) {
-            $ids = (array)$users;
+            $ids = (array) $users;
             $list = DB_Helper::buildList($ids);
             $params = array_merge($params, $ids);
             $stmt .= " AND\nisu_usr_id IN($list)";
         }
         if ($groups) {
-            $ids = (array)$groups;
+            $ids = (array) $groups;
             $list = DB_Helper::buildList($ids);
             $params = array_merge($params, $ids);
             $stmt .= " AND\nusr_grp_id IN($list)";
         }
         if ($status) {
-            $ids = (array)$status;
+            $ids = (array) $status;
             $list = DB_Helper::buildList($ids);
             $params = array_merge($params, $ids);
             $stmt .= " AND\niss_sta_id IN($list)";
@@ -162,8 +162,8 @@ class Report
      */
     public static function getOpenIssuesByUser($prj_id, $cutoff_days, $group_by_reporter = false)
     {
-        $prj_id = (int)$prj_id;
-        $cutoff_days = (int)$cutoff_days;
+        $prj_id = (int) $prj_id;
+        $cutoff_days = (int) $cutoff_days;
         $ts = time();
         $ts_diff = $cutoff_days * Date_Helper::DAY;
 
@@ -653,7 +653,7 @@ class Report
     public static function getCustomFieldReport($fld_id, $cfo_ids, $group_by = 'issue', $start_date = null, $end_date = null, $list = false, $interval = null, $assignee = null)
     {
         $prj_id = Auth::getCurrentProject();
-        $fld_id = (int)$fld_id;
+        $fld_id = (int) $fld_id;
 
         // get field values
         $options = Custom_Field::getOptions($fld_id, $cfo_ids);
@@ -720,10 +720,10 @@ class Report
                 $sql .=
                         ' cfo_id = icf_value AND';
             }
-            $sql .= "
+            $sql .= '
                         icf_iss_id = iss_id AND
                         isu_iss_id = iss_id AND
-                        icf_fld_id = ?";
+                        icf_fld_id = ?';
             $params[] = $fld_id;
             if (count($options) > 0) {
                 $ids = array_keys($options);
@@ -868,8 +868,8 @@ class Report
      */
     public static function getCustomFieldWeeklyReport($fld_id, $cfo_ids, $start_date, $end_date, $per_user = false)
     {
-        $fld_id = (int)$fld_id;
-        $cfo_ids = (array)$cfo_ids;
+        $fld_id = (int) $fld_id;
+        $cfo_ids = (array) $cfo_ids;
         // get field values
         $options = Custom_Field::getOptions($fld_id, $cfo_ids);
 
@@ -961,7 +961,7 @@ class Report
     public static function getWorkloadByDateRange($interval, $type, $start, $end, $category_id)
     {
         $data = array();
-        $category_id = (int)$category_id;
+        $category_id = (int) $category_id;
 
         // figure out the correct format code
         switch ($interval) {
@@ -998,23 +998,23 @@ class Report
         }
 
         // get issue counts
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     DATE_FORMAT(iss_created_date, ?),
                     count(*)
                  FROM
                     {{%issue}}
                  WHERE
                     iss_prj_id=? AND
-                    iss_created_date BETWEEN ? AND ?";
+                    iss_created_date BETWEEN ? AND ?';
         $params = array($format, Auth::getCurrentProject(), $start, $end);
         if (!empty($category_id)) {
-            $stmt .= " AND
-                    iss_prc_id = ?";
+            $stmt .= ' AND
+                    iss_prc_id = ?';
             $params[] = $category_id;
         }
-        $stmt .= "
+        $stmt .= '
                  GROUP BY
-                    DATE_FORMAT(iss_created_date, ?)";
+                    DATE_FORMAT(iss_created_date, ?)';
         $params[] = $format;
         if (!empty($order_by)) {
             $stmt .= "\nORDER BY " . sprintf($order_by, 'iss_created_date');
@@ -1047,34 +1047,34 @@ class Report
 
         // get email counts
         $params = array();
-        $stmt = "SELECT
+        $stmt = 'SELECT
                     DATE_FORMAT(sup_date, ?),
                     count(*)
                  FROM
                     {{%support_email}},
-                    {{%email_account}}";
+                    {{%email_account}}';
         $params[] = $format;
         if (!empty($category_id)) {
             $stmt .= ',
                      {{%issue}}';
         }
-        $stmt .= "
+        $stmt .= '
                  WHERE
                     sup_ema_id=ema_id AND
                     ema_prj_id=? AND
-                    sup_date BETWEEN ? AND ?";
+                    sup_date BETWEEN ? AND ?';
         $params[] = Auth::getCurrentProject();
         $params[] = $start;
         $params[] = $end;
         if (!empty($category_id)) {
-            $stmt .= " AND
+            $stmt .= ' AND
                     sup_iss_id = iss_id AND
-                    iss_prc_id = ?";
+                    iss_prc_id = ?';
             $params[] = $category_id;
         }
-        $stmt .= "
+        $stmt .= '
                  GROUP BY
-                    DATE_FORMAT(sup_date, ?)";
+                    DATE_FORMAT(sup_date, ?)';
         $params[] = $format;
         if (!empty($order_by)) {
             $stmt .= "\nORDER BY " . sprintf($order_by, 'sup_date');

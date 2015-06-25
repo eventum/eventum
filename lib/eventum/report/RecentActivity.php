@@ -54,7 +54,8 @@ class RecentActivity
     /** @var CRM */
     private $crm;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->usr_id = Auth::getUserID();
 
         if (!Access::canAccessReports($this->usr_id)) {
@@ -62,8 +63,8 @@ class RecentActivity
         }
 
         $this->prj_id = Auth::getCurrentProject();
-        $this->activity_types = !empty($_REQUEST['activity_types']) ? (array)$_REQUEST['activity_types'] : array();
-        $this->report_type = isset($_REQUEST['report_type']) ? (string)$_REQUEST['report_type'] : null;
+        $this->activity_types = !empty($_REQUEST['activity_types']) ? (array) $_REQUEST['activity_types'] : array();
+        $this->report_type = isset($_REQUEST['report_type']) ? (string) $_REQUEST['report_type'] : null;
         $this->unit = $this->getParam('unit', array('hour', 'day'));
         $this->amount = isset($_REQUEST['amount']) ? $_REQUEST['amount'] : null;
         $this->developer = isset($_REQUEST['developer']) ? $_REQUEST['developer'] : null;
@@ -166,6 +167,7 @@ class RecentActivity
         $this->createWhereClause($sql, $params, 'phs_created_date', 'usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
         $this->processResult($res, 'phs_created_date', 'phs_iss_id');
+
         return $res;
     }
 
@@ -191,6 +193,7 @@ class RecentActivity
         $this->createWhereClause($sql, $params, 'not_created_date', 'not_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
         $this->processResult($res, 'not_created_date', 'not_iss_id');
+
         return $res;
     }
 
@@ -214,6 +217,7 @@ class RecentActivity
         $this->createWhereClause($sql, $params, 'sup_date', 'sup_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
         $this->processResult($res, 'sup_date', 'sup_iss_id');
+
         return $res;
     }
 
@@ -248,6 +252,7 @@ class RecentActivity
                 $draft['to'] = 'Notification List';
             }
         }
+
         return $res;
     }
 
@@ -279,10 +284,12 @@ class RecentActivity
         foreach ($res as &$time) {
             $time['time_spent'] = Misc::getFormattedTime($time['ttr_time_spent'], true);
         }
+
         return $res;
     }
 
-    private function reminderActivity() {
+    private function reminderActivity()
+    {
         $sql
             = "SELECT
                     {{%reminder_history}}.*,
@@ -303,6 +310,7 @@ class RecentActivity
         $this->createWhereClause($sql, $params, 'rmh_created_date');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
         $this->processResult($res, 'rmh_created_date', 'rmh_iss_id');
+
         return $res;
     }
 
@@ -372,7 +380,6 @@ class RecentActivity
         return false;
     }
 
-
     /**
      * Return Request parameter, optionally validating it against whitelist
      *
@@ -380,7 +387,8 @@ class RecentActivity
      * @param array $valid_values
      * @return mixed
      */
-    private function getParam($key, $valid_values = null) {
+    private function getParam($key, $valid_values = null)
+    {
         if (!isset($_REQUEST[$key])) {
             return null;
         }

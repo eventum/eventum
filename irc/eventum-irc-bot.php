@@ -451,7 +451,7 @@ $irc->registerTimehandler(3000, $bot, 'notifyEvents');
 // methods that keep track of who is authenticated
 $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-auth', $bot, 'listAuthenticatedUsers');
 $irc->registerActionhandler(SMARTIRC_TYPE_NICKCHANGE, '.*', $bot, '_updateAuthenticatedUser');
-$irc->registerActionhandler(SMARTIRC_TYPE_KICK|SMARTIRC_TYPE_QUIT|SMARTIRC_TYPE_PART, '.*', $bot, '_removeAuthenticatedUser');
+$irc->registerActionhandler(SMARTIRC_TYPE_KICK | SMARTIRC_TYPE_QUIT | SMARTIRC_TYPE_PART, '.*', $bot, '_removeAuthenticatedUser');
 $irc->registerActionhandler(SMARTIRC_TYPE_LOGIN, '.*', $bot, '_joinChannels');
 
 // real bot commands

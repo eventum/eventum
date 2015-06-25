@@ -163,8 +163,10 @@ class Mail_Helper
      * @param boolean $validate        Whether to validate atoms. Turn this off if you need to run addresses through before encoding the personal names, for instance.
      * @return array A structured array of addresses.
      */
-    public static function parseAddressList($address, $default_domain = null, $nest_groups = null, $validate = null, $limit = null) {
+    public static function parseAddressList($address, $default_domain = null, $nest_groups = null, $validate = null, $limit = null)
+    {
         $obj = new Mail_RFC822($address, $default_domain, $nest_groups, $validate, $limit);
+
         return $obj->parseAddressList();
     }
 
@@ -193,7 +195,7 @@ class Mail_Helper
                     }
                     $first_part = substr($address, 0, $bracket_pos);
                     if (!empty($first_part)) {
-                        $first_part = '"' . str_replace('"', '\"', preg_replace("/(^\")|(\"$)/", '', $first_part)) . '"';
+                        $first_part = '"' . str_replace('"', '\"', preg_replace('/(^")|("$)/', '', $first_part)) . '"';
                     }
                     $second_part = substr($address, strrpos($address, '<'));
                     $address = $first_part . ' ' . $second_part;

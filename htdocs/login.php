@@ -31,12 +31,11 @@
 
 require_once dirname(__FILE__) . '/../init.php';
 
-$login = isset($_POST['email']) ? (string)$_POST['email'] : null;
+$login = isset($_POST['email']) ? (string) $_POST['email'] : null;
 if (Validation::isWhitespace($login)) {
     Auth::redirect('index.php?err=1');
-
 }
-$passwd = isset($_POST['passwd']) ? (string)$_POST['passwd'] : null;
+$passwd = isset($_POST['passwd']) ? (string) $_POST['passwd'] : null;
 if (Validation::isWhitespace($passwd)) {
     Auth::saveLoginAttempt($login, 'failure', 'empty password');
     Auth::redirect('index.php?err=2&email=' . rawurlencode($login));

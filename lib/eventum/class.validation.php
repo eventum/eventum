@@ -98,12 +98,12 @@ class Validation
         }
         // do an extra check for a dot as the last character of an address
         array_shift($extended_chars);
-        if ((substr($str, strlen($str)-1) == '.') &&
+        if ((substr($str, strlen($str) - 1) == '.') &&
                 (substr($str, strrpos($str, '@')) != '@localhost.')) {
             return false;
         }
         // the last character cannot be one of the extended ones
-        if (in_array(substr($str, strlen($str)-1), $extended_chars)) {
+        if (in_array(substr($str, strlen($str) - 1), $extended_chars)) {
             return false;
         }
 

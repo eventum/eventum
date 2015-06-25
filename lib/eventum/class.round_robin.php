@@ -165,7 +165,7 @@ class Round_Robin
             } while (!$found);
             // mark the next user in the list as the 'next' assignment
             $assignee_index = array_search($assignee, $user_ids);
-            if ($assignee_index == (count($user_ids) -1)) {
+            if ($assignee_index == (count($user_ids) - 1)) {
                 $next_assignee = $user_ids[0];
             } else {
                 $next_assignee = $user_ids[++$assignee_index];

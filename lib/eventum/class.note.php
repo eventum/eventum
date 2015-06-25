@@ -63,11 +63,11 @@ class Note
         }
 
         $index = array_search($not_id, $res);
-        if (!empty($res[$index+1])) {
-            $next = $res[$index+1];
+        if (!empty($res[$index + 1])) {
+            $next = $res[$index + 1];
         }
-        if (!empty($res[$index-1])) {
-            $previous = $res[$index-1];
+        if (!empty($res[$index - 1])) {
+            $previous = $res[$index - 1];
         }
 
         return array(
@@ -352,7 +352,6 @@ class Note
             'full_message' => null,
             'parent_id' => null,
         ), $options);
-
 
         $prj_id = Issue::getProjectID($issue_id);
         // NOTE: workflow takes may modify the parameters as $data is passed as reference

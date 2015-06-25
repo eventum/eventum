@@ -52,6 +52,7 @@ class Monitor
             $queue_ids = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DbException $e) {
             echo ev_gettext('ERROR: There was a DB error checking the mail queue status'), "\n";
+
             return;
         }
         $errors = count($queue_ids);

@@ -147,7 +147,6 @@ class History
         return true;
     }
 
-
     /**
      * Returns the id for the history type based on name.
      *

@@ -185,7 +185,7 @@ class Pager
             } else {
                 $temp = array_slice($array, $current, $target_size);
                 if ($size >= $target_size) {
-                    array_push($temp, $array[$size-1]);
+                    array_push($temp, $array[$size - 1]);
                 }
             }
             if ($current > 0) {

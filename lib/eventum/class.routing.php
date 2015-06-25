@@ -489,7 +489,7 @@ class Routing
         Draft::saveEmail($issue_id, @$structure->headers['to'], @$structure->headers['cc'], @$structure->headers['subject'], $body, false, false, false);
         // XXX: need to handle attachments coming from drafts as well?
         $usr_id = Auth::getUserID();
-        History::add($issue_id, $usr_id, 'draft_routed', 'Draft routed from {from}', array('from' =>$structure->headers['from']));
+        History::add($issue_id, $usr_id, 'draft_routed', 'Draft routed from {from}', array('from' => $structure->headers['from']));
 
         return true;
     }

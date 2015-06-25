@@ -158,6 +158,7 @@ class Mail_Queue
                 $res = Mail_Helper::prepareHeaders($headers);
                 if (Misc::isError($res)) {
                     Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+
                     return;
                 }
 

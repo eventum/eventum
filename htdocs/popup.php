@@ -38,12 +38,12 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 
-$iss_id = isset($_GET['iss_id']) ? (int)$_GET['iss_id'] : (isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : null);
-$cat = isset($_GET['cat']) ? (string)$_GET['cat'] : (isset($_POST['cat']) ? (string)$_POST['cat'] : null);
-$id = isset($_GET['id']) ? (int)$_GET['id'] : null;
-$status_id = isset($_GET['new_sta_id']) ? (int)$_GET['new_sta_id'] : null;
-$isr_id = isset($_POST['isr_id']) ? (int)$_POST['isr_id'] : null;
-$items = isset($_POST['item']) ? (array)$_POST['item'] : null;
+$iss_id = isset($_GET['iss_id']) ? (int) $_GET['iss_id'] : (isset($_POST['issue_id']) ? (int) $_POST['issue_id'] : null);
+$cat = isset($_GET['cat']) ? (string) $_GET['cat'] : (isset($_POST['cat']) ? (string) $_POST['cat'] : null);
+$id = isset($_GET['id']) ? (int) $_GET['id'] : null;
+$status_id = isset($_GET['new_sta_id']) ? (int) $_GET['new_sta_id'] : null;
+$isr_id = isset($_POST['isr_id']) ? (int) $_POST['isr_id'] : null;
+$items = isset($_POST['item']) ? (array) $_POST['item'] : null;
 
 if ($cat == 'delete_note') {
     $res = Note::remove($id);
