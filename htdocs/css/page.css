@@ -299,9 +299,12 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 
 #report_sidebar ul {
     margin-left: 0;
-    padding-left: 0;
+    padding-left: 1em;
+	list-style-type: square;
 }
-
+#report_sidebar>ul {
+	list-style-type: disc;
+}
 #report_sidebar ul ul {
     margin-left: 1em;
     padding-left: 0;
@@ -312,6 +315,8 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 }
 #report_content pre {
     font-size: 1.3em;
+	padding: 10px;
+	width: auto;
 }
 
 /* Begin Select Project */
