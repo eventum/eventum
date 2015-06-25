@@ -91,14 +91,14 @@ $().ready(function() {
             <label><input type="checkbox" name="separate_not_assigned_to_user" value="1" {if $smarty.request.separate_not_assigned_to_user|default:'' == 1}checked{/if}>
             {t}Separate Not Assigned to User{/t}</label>&nbsp;
             <br />
-            <label><input type="checkbox" name="separate_no_time" value="1" {if $smarty.request.separate_no_time|default:'' == 1}checked{/if}>
-            {t}Separate No time spent{/t}</label>&nbsp;
-            <br />
             <label><input type="checkbox" name="ignore_statuses" value="1" {if $smarty.request.ignore_statuses|default:'' == 1}checked{/if}>
             {t}Ignore Issue Status Changes{/t}</label>&nbsp;
             <br />
             <label><input type="checkbox" name="show_per_issue" value="1" {if $smarty.request.show_per_issue|default:'' == 1}checked{/if}>
             {t}Show Times spent on issue{/t}</label>&nbsp;
+            <br />
+            <label>&nbsp;&nbsp;<input type="checkbox" name="separate_no_time" value="1" {if $smarty.request.separate_no_time|default:'' == 1}checked{/if}>
+            {t}Separate No time spent{/t}</label>&nbsp;
             <br />
             <label><input type="checkbox" name="show_status" value="1" {if $smarty.request.show_status|default:'' == 1}checked{/if}>
             {t}Show Status{/t}</label>&nbsp;
