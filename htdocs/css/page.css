@@ -343,7 +343,7 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 }
 
 /* Dropzone.js overrides */
-/* color stolen from MailChimp Filemanager background - http://blog.mailchimp.com/wp-content/uploads/2012/02/filemgr2.jpg */
+/* dropzone styles taken from MailChimp Filemanager background - http://blog.mailchimp.com/wp-content/uploads/2012/02/filemgr2.jpg */
 .dz-message {
     background-color: #ebf5f7;
     padding: 10px 5%;
