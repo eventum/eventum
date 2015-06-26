@@ -346,3 +346,12 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 #custom_fields_popup .chosen-select {
     width:360px;
 }
+
+/* Dropzone.js overrides */
+/* dropzone styles taken from MailChimp Filemanager background - http://blog.mailchimp.com/wp-content/uploads/2012/02/filemgr2.jpg */
+.dz-message {
+    background-color: #ebf5f7;
+    padding: 10px 5%;
+    width: 97%;
+    border: 2px dashed #027c99;
+}
