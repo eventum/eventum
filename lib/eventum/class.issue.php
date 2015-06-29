@@ -1574,16 +1574,29 @@ class Issue
             'iss_updated_date' => Date_Helper::getCurrentDateGMT(),
             'iss_last_public_action_date' => Date_Helper::getCurrentDateGMT(),
             'iss_last_public_action_type' => 'updated',
-            'iss_pre_id' => $_POST['release'],
             'iss_sta_id' => $_POST['status'],
-            'iss_res_id' => $_POST['resolution'],
             'iss_summary' => $_POST['summary'],
             'iss_description' => $_POST['description'],
-            'iss_dev_time' => $_POST['estimated_dev_time'],
-            'iss_percent_complete' => $_POST['percent_complete'],
-            'iss_trigger_reminders' => $_POST['trigger_reminders'],
-            'iss_grp_id' => $_POST['group'],
         );
+
+        if (isset($_POST['release'])) {
+            $params['iss_pre_id'] = $_POST['release'];
+        }
+        if (isset($_POST['percent_complete'])) {
+            $params['iss_percent_complete'] = $_POST['percent_complete'];
+        }
+        if (isset($_POST['group'])) {
+            $params['iss_grp_id'] = $_POST['group'];
+        }
+        if (isset($_POST['trigger_reminders'])) {
+            $params['iss_dev_time'] = $_POST['trigger_reminders'];
+        }
+        if (isset($_POST['group'])) {
+            $params['iss_trigger_reminders'] = $_POST['group'];
+        }
+        if (isset($_POST['resolution'])) {
+            $params['iss_res_id'] = $_POST['resolution'];
+        }
 
         if (!empty($_POST['category'])) {
             $params['iss_prc_id'] = $_POST['category'];
@@ -1628,7 +1641,7 @@ class Issue
         if (isset($_POST['category']) && $current['iss_prc_id'] != $_POST['category']) {
             $updated_fields['Category'] = History::formatChanges(Category::getTitle($current['iss_prc_id']), Category::getTitle($_POST['category']));
         }
-        if ($current['iss_pre_id'] != $_POST['release']) {
+        if (isset($_POST['release']) &&$current['iss_pre_id'] != $_POST['release']) {
             $updated_fields['Release'] = History::formatChanges(Release::getTitle($current['iss_pre_id']), Release::getTitle($_POST['release']));
         }
         if (isset($_POST['priority']) && $current['iss_pri_id'] != $_POST['priority']) {
@@ -1639,7 +1652,7 @@ class Issue
             $updated_fields['Severity'] = History::formatChanges(Severity::getTitle($current['iss_sev_id']), Severity::getTitle($_POST['severity']));
             Workflow::handleSeverityChange($prj_id, $issue_id, $usr_id, $current, $_POST);
         }
-        if ($current['iss_sta_id'] != $_POST['status']) {
+        if (isset($_POST['status']) && $current['iss_sta_id'] != $_POST['status']) {
             // clear out the last-triggered-reminder flag when changing the status of an issue
             Reminder_Action::clearLastTriggered($issue_id);
 
@@ -1653,17 +1666,17 @@ class Issue
             }
             $updated_fields['Status'] = History::formatChanges(Status::getStatusTitle($current['iss_sta_id']), Status::getStatusTitle($_POST['status']));
         }
-        if ($current['iss_res_id'] != $_POST['resolution']) {
+        if (isset($_POST['resolution']) && $current['iss_res_id'] != $_POST['resolution']) {
             $updated_fields['Resolution'] = History::formatChanges(Resolution::getTitle($current['iss_res_id']), Resolution::getTitle($_POST['resolution']));
         }
-        if ($current['iss_dev_time'] != $_POST['estimated_dev_time']) {
+        if (isset($_POST['estimated_dev_time']) && $current['iss_dev_time'] != $_POST['estimated_dev_time']) {
             $updated_fields['Estimated Dev. Time'] = History::formatChanges(Misc::getFormattedTime(($current['iss_dev_time'] * 60)), Misc::getFormattedTime(($_POST['estimated_dev_time'] * 60)));
         }
         if ($current['iss_summary'] != $_POST['summary']) {
             $updated_fields['Summary'] = '';
         }
 
-        if ($current['iss_original_percent_complete'] != $_POST['percent_complete']) {
+        if (isset($_POST['percent_complete']) && $current['iss_original_percent_complete'] != $_POST['percent_complete']) {
             $updated_fields['Percent complete'] = History::formatChanges($current['iss_original_percent_complete'], $_POST['percent_complete']);
         }
 
@@ -1700,8 +1713,8 @@ class Issue
             Notification::notifyIssueUpdated($issue_id, $current, $_POST);
         }
 
-        // record group change as a seperate change
-        if ($current['iss_grp_id'] != (int) $_POST['group']) {
+        // record group change as a separate change
+        if (isset($_POST['group']) && $current['iss_grp_id'] != (int) $_POST['group']) {
             History::add($issue_id, $usr_id, 'group_changed', 'Group changed ({changes}) by {user}', array(
                 'changes' => History::formatChanges(Group::getName($current['iss_grp_id']), Group::getName($_POST['group'])),
                 'user' => User::getFullName($usr_id),
