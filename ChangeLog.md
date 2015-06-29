@@ -294,7 +294,7 @@ Eventum Issue Tracking System
 - Fixed bug with sorting by status from advanced search page (bug #37372)
 - Fixed bug with adding attachments when sending emails (Bryan)
 - Send specialized headers to reporters too (Bryan)
-- Make <title> more informative in view.php pages (Elan Ruusamäe)
+- Make `<title>` more informative in view.php pages (Elan Ruusamäe)
 - Fix compatibility with PEAR Date 1.5.0, displaying times in wrong time (Elan Ruusamäe)
 - Added pt_BR translation (Georger Araujo)
 - Added workflow method to control which notification options are set (Bryan)
