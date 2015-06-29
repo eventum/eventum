@@ -21,6 +21,7 @@ Eventum Issue Tracking System
 - Use HTTP Referrer when switching projects (Elan Ruusamäe)
 - Made "Expected Resolution Date" hideable on new issue page (Bryan Alsdorf)
 - [Backwards incompatible change] Changed method signature for Workflow::preNoteInsert (Bryan Alsdorf)
+- UI fixes #54, #55, #56, #57, #58, #59
 
 2015-04-21, Version 3.0.1
 -------------------------
