@@ -933,5 +933,3 @@ Eventum Issue Tracking System
 
 05 Jun 2004, Version 1.1
 - Initial release (João; Bryan)
-
-/* vim: set encoding=utf-8: */
