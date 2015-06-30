@@ -361,6 +361,6 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 }
 .chosen-container .chosen-drop {
     top: -270px;
-    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.8);
+    box-shadow: 4px 0 5px rgba(0, 0, 0, 0.8);
 	border-top: 1px solid #aaaaaa;
 }
