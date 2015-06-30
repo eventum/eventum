@@ -360,7 +360,11 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
     height: 27px;
 }
 .chosen-container .chosen-drop {
+    top: 0;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.3);
+}
+#bulk_update .chosen-container .chosen-drop {
     top: -270px;
-    box-shadow: 4px 0 5px rgba(0, 0, 0, 0.8);
+    box-shadow: 4px -4px 5px rgba(0, 0, 0, 0.3);
 	border-top: 1px solid #aaaaaa;
 }
