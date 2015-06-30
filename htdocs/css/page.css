@@ -355,3 +355,10 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
     width: 97%;
     border: 2px dashed #027c99;
 }
+/* Chosen.js overrides */
+.chosen-container {
+    height: 27px;
+}
+.chosen-container .chosen-drop {
+    top: 0;
+}

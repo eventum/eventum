@@ -23,6 +23,7 @@
         <tr>
           <td>
               <select name="users[]" size="5" multiple data-placeholder="{t}Choose Assignees...{/t}" class="chosen-select">
+              <option></option>
               {html_options options=$users}
               </select>
               {include file="error_icon.tpl.html" field="users[]"}
