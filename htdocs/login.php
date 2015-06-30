@@ -59,26 +59,7 @@ if (!Auth::isCorrectPassword($login, $passwd)) {
     Auth::redirect('index.php?err=3&email=' . rawurlencode($login));
 }
 
-// handle aliases since the user is now authenticated
-$login = User::getEmail(Auth::getUserIDByLogin($login));
-
-// check if this user did already confirm his account
-if (Auth::isPendingUser($login)) {
-    Auth::saveLoginAttempt($login, 'failure', 'pending user');
-    Auth::redirect('index.php?err=9');
-}
-// check if this user is really an active one
-if (!Auth::isActiveUser($login)) {
-    Auth::saveLoginAttempt($login, 'failure', 'inactive user');
-    Auth::redirect('index.php?err=7');
-}
-
-Auth::saveLoginAttempt($login, 'success');
-
-$remember = !empty($_POST['remember']);
-Auth::createLoginCookie(APP_COOKIE, $login, $remember);
-
-Session::init(User::getUserIDByEmail($login));
+Auth::login($login);
 if (!empty($_POST['url'])) {
     $extra = '?url=' . urlencode($_POST['url']);
 } else {

@@ -84,6 +84,8 @@ class Auth
      */
     public static function checkAuthentication($cookie_name, $failed_url = null, $is_popup = false)
     {
+        self::getAuthBackend()->checkAuthentication();
+
         if ($cookie_name == null) {
             $cookie_name = APP_COOKIE;
         }
@@ -171,7 +173,34 @@ class Auth
     }
 
     /**
-     * Method for logging out the currently logged in user.
+     * Performs standard checks when a user logins
+     */
+    public static function login($login)
+    {
+        // handle aliases since the user is now authenticated
+        $login = User::getEmail(Auth::getUserIDByLogin($login));
+
+        // check if this user did already confirm his account
+        if (Auth::isPendingUser($login)) {
+            Auth::saveLoginAttempt($login, 'failure', 'pending user');
+            Auth::redirect('index.php?err=9');
+        }
+        // check if this user is really an active one
+        if (!Auth::isActiveUser($login)) {
+            Auth::saveLoginAttempt($login, 'failure', 'inactive user');
+            Auth::redirect('index.php?err=7');
+        }
+
+        Auth::saveLoginAttempt($login, 'success');
+
+        $remember = !empty($_POST['remember']);
+        Auth::createLoginCookie(APP_COOKIE, $login, $remember);
+
+        Session::init(User::getUserIDByEmail($login));
+    }
+
+    /**
+     * Method for logging out the currently logged in user. Called after the normal logout process has completed.
      *
      * @returns void
      */
@@ -183,6 +212,7 @@ class Auth
         if (empty($project_cookie['remember'])) {
             self::removeCookie(APP_PROJECT_COOKIE);
         }
+        self::getAuthBackend()->logout();
     }
 
     /**
@@ -707,5 +737,15 @@ class Auth
     public static function canUserUpdatePassword($usr_id)
     {
         return self::getAuthBackend()->canUserUpdatePassword($usr_id);
+    }
+
+    public static function getExternalLoginURL()
+    {
+        $backend_login_url = self::getAuthBackend()->getExternalLoginURL();
+        if (!$backend_login_url) {
+            return APP_RELATIVE_URL . "/index.php";
+        } else {
+            return $backend_login_url;
+        }
     }
 }
