@@ -1,5 +1,5 @@
 <?php
-$cas_setup = array(
+return array(
     'host'  =>  'localhost',
     'port'  =>  443,
     'context' =>  '/cas',

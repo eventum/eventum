@@ -29,7 +29,7 @@
 /**
  * This auth backend integrates with a CAS server
  *
- * This backend will look for users in the default mysql backend if no LDAP
+ * This backend will look for users in the default mysql backend if no CAS
  * user is found. This behaviour may be configurable in the future.
  *
  * Set define('APP_AUTH_BACKEND', 'CAS_Auth_Backend') in the config file and
@@ -102,7 +102,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
             // do not reset user password, it maybe be set locally before this
             unset($data['password']);
 
-            // perspective what is main address and what is alias may be different in ldap and in eventum
+            // perspective what is main address and what is alias may be different in CAS and in eventum
             $emails = array($remote['mail']);
             $email = User::getEmail($usr_id);
 
@@ -288,11 +288,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
 
             if (file_exists($configfile)) {
                 /** @noinspection PhpIncludeInspection */
-                require $configfile;
-
-                if (isset($cas_setup)) {
-                    $setup = $cas_setup;
-                }
+                $setup = require $configfile;
             }
 
             // merge with defaults
