@@ -58,6 +58,13 @@ $().ready(function() {
       </td>
     </tr>
     {/if}
+    {if $login_url != ''}
+    <tr align="center">
+      <td colspan="2">
+        {t 1=$login_url escape=off}Click <a href="%1">here</a> to login.{/t}
+      </td>
+    </tr>
+    {else}
     <tr>
       <td class="label">{t}Login{/t}:</td>
       <td>
@@ -93,6 +100,7 @@ $().ready(function() {
         <strong>* {t}Requires support for cookies and javascript in your browser{/t}</strong>
       </td>
     </tr>
+    {/if}
 </table>
 </form>
 {if $anonymous_post}

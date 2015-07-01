@@ -49,8 +49,6 @@ if ($has_valid_cookie && $is_anon_user) {
 }
 
 if ($has_valid_cookie && !$is_anon_user) {
-    // FIXME: $cookie unused?
-    $cookie = Auth::getCookieInfo(APP_COOKIE);
     if (!empty($_REQUEST['url'])) {
         $extra = '?url=' . urlencode($_REQUEST['url']);
     } else {
@@ -65,4 +63,5 @@ if (empty($projects)) {
 } else {
     $tpl->assign('anonymous_post', 1);
 }
+$tpl->assign('login_url', Auth::getExternalLoginURL());
 $tpl->displayTemplate();

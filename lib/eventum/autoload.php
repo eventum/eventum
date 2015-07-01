@@ -76,6 +76,7 @@ class Eventum_Autoload
             'Auth_Backend_Interface' => $baseDir . '/auth/class.auth_backend_interface.php',
             'Mysql_Auth_Backend' => $baseDir . '/auth/class.mysql_auth_backend.php',
             'LDAP_Auth_Backend' => $baseDir . '/auth/class.ldap_auth_backend.php',
+            'CAS_Auth_Backend' => $baseDir . '/auth/class.cas_auth_backend.php',
 
             'Abstract_Fulltext_Search' => $baseDir . '/search/class.abstract_fulltext_search.php',
             'MySQL_Fulltext_Search' => $baseDir . '/search/class.mysql_fulltext_search.php',

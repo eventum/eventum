@@ -2,6 +2,7 @@
 .project
 .settings
 config/config.php
+config/cas.php
 config/ldap.php
 config/private_key.php
 config/setup.php

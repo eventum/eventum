@@ -178,4 +178,35 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
     {
         return true;
     }
+
+    /**
+     * Returns a URL to redirect the user to when they attempt to login or null if the native login pages
+     * should be used.
+     *
+     * @return  string The login url or null
+     */
+    public function getExternalLoginURL()
+    {
+        return null;
+    }
+
+    /**
+     * Called on every page load and can be used to process external authentication checks before the rest of the
+     * authentication process happens.
+     *
+     * @return null
+     */
+    public function checkAuthentication()
+    {
+        return null;
+    }
+
+    /**
+     * Called when a user logs out.
+     * @return mixed
+     */
+    public function logout()
+    {
+        return null;
+    }
 }
