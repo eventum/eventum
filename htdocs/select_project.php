@@ -126,7 +126,7 @@ function checkCustomerAuthentication($prj_id)
         // check if customer is expired
         $usr_id = Auth::getUserID();
         $contact_id = User::getCustomerContactID($usr_id);
-        if ((!empty($contact_id)) && ($contact_id != -1)) {
+        if (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER) {
             $crm->authenticateCustomer();
         }
     }
