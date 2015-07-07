@@ -385,7 +385,7 @@ table.two_column th {
 table.two_column td.footer {
     background: #255282;
     color: white;
-    text-align: left;
+    text-align: center;
 }
 
 table.two_column td.footer .right {
