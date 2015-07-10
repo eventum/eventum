@@ -2336,7 +2336,7 @@ class Issue
         }
 
         // set product and version
-        if (isset($data['product'])) {
+        if (isset($data['product']) && $data['product'] != "-1") {
             Product::addIssueProductVersion($issue_id, $data['product'], $data['product_version']);
         }
 
