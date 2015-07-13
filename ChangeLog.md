@@ -23,6 +23,7 @@ Eventum Issue Tracking System
 - [Backwards incompatible change] Changed method signature for Workflow::preNoteInsert (Bryan Alsdorf)
 - UI fixes #54, #55, #56, #57, #58, #59, #62, #63
 - Add CAS Auth Backend (Bryan Alsdorf, #61)
+- Strikeout inactive accounts on Stats page (Elan Ruusamäe)
 
 2015-04-21, Version 3.0.1
 -------------------------
