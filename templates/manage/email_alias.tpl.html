@@ -8,7 +8,7 @@
 <!--
 function validateForm()
 {
-    if (!Validation.isEmail(Eventum.getField('alias').val())) {
+    if (!Validation.isEmail(Eventum.getField('alias').val().trim())) {
         alert('{t escape=js}Please enter a valid email address.{/t}');
         return false;
     }
