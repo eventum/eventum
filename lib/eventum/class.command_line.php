@@ -228,7 +228,7 @@ class Command_Line
                     continue;
                 }
                 $var = trim(substr($line, 0, strpos($line, '=')));
-                $value = trim(substr($line, strpos($line, '=')+1));
+                $value = trim(substr($line, strpos($line, '=') + 1));
                 if ($var == 'EVENTUM_USER') {
                     $email = $value;
                 } elseif ($var == 'EVENTUM_PASSWORD') {
@@ -823,7 +823,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             if ($note['has_blocked_message'] == 1) {
                 $note['not_title'] = '(BLOCKED) ' . $note['not_title'];
             }
-            $note['id'] = ($i+1);
+            $note['id'] = ($i + 1);
         }
 
         if (count($notes) < 1) {
@@ -1377,7 +1377,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         $usage_text = '';
         $explanation = '';
         foreach ($usage as $command_num => $this_command) {
-            $item_num = sprintf('%2d.) ', ($command_num+1));
+            $item_num = sprintf('%2d.) ', ($command_num + 1));
             $usage_text .= $item_num . "$script ";
             if (is_array($this_command['command'])) {
                 $ncommands = count($this_command['command']);

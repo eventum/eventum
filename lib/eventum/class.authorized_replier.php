@@ -128,7 +128,7 @@ class Authorized_Replier
             }
 
             $usr_id = Auth::getUserID();
-            History::add($issue_id, $usr_id, 'replier_removed', "Authorized replier {replier} removed by {user}", array(
+            History::add($issue_id, $usr_id, 'replier_removed', 'Authorized replier {replier} removed by {user}', array(
                 'replier' => $replier,
                 'user' => User::getFullName($usr_id)
             ));

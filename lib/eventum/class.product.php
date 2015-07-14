@@ -167,6 +167,10 @@ class Product
 
     public static function addIssueProductVersion($issue_id, $pro_id, $version)
     {
+        if ($pro_id == '-1') {
+            return true;
+        }
+
         $sql = 'INSERT INTO
                     {{%issue_product_version}}
                 SET

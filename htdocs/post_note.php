@@ -38,8 +38,8 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
 
-$issue_id = isset($_GET['issue_id']) ? (int)$_GET['issue_id'] : (isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : null);
-$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : (isset($_GET['cat']) ? (string)$_GET['cat'] : null);
+$issue_id = isset($_GET['issue_id']) ? (int) $_GET['issue_id'] : (isset($_POST['issue_id']) ? (int) $_POST['issue_id'] : null);
+$cat = isset($_POST['cat']) ? (string) $_POST['cat'] : (isset($_GET['cat']) ? (string) $_GET['cat'] : null);
 
 $details = Issue::getDetails($issue_id);
 $tpl->assign('issue_id', $issue_id);
@@ -58,7 +58,7 @@ if ($cat == 'post_result' && !empty($_GET['post_result'])) {
     $tpl->assign('post_result', $res);
 } elseif ($cat == 'post_note') {
     // change status
-    $status = isset($_POST['new_status']) ? (int)$_POST['new_status'] : null;
+    $status = isset($_POST['new_status']) ? (int) $_POST['new_status'] : null;
     if ($status) {
         $res = Issue::setStatus($issue_id, $status);
         if ($res != -1) {
@@ -83,13 +83,13 @@ if ($cat == 'post_result' && !empty($_GET['post_result'])) {
     // enter the time tracking entry about this phone support entry
     if (!empty($_POST['time_spent'])) {
         if (isset($_POST['time_summary']) && !empty($_POST['time_summary'])) {
-            $summary = (string)$_POST['time_summary'];
+            $summary = (string) $_POST['time_summary'];
         } else {
             $summary = 'Time entry inserted when sending an internal note.';
         }
-        $date = (array)$_POST['date'];
-        $ttc_id = (int)$_POST['time_category'];
-        $time_spent = (int)$_POST['time_spent'];
+        $date = (array) $_POST['date'];
+        $ttc_id = (int) $_POST['time_category'];
+        $time_spent = (int) $_POST['time_spent'];
         Time_Tracking::addTimeEntry($issue_id, $ttc_id, $time_spent, $date, $summary);
     }
 

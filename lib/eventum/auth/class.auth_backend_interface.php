@@ -101,10 +101,32 @@ interface Auth_Backend_Interface
     public function resetFailedLogins($usr_id);
 
     /**
-     * Returns the true if the account is currently locked becouse of Back-Off locking
+     * Returns the true if the account is currently locked because of Back-Off locking
      *
      * @param   integer $usr_id The ID of the user
      * @return  boolean
      */
     public function isUserBackOffLocked($usr_id);
+
+    /**
+     * Returns a URL to redirect the user to when they attempt to login or null if the native login pages
+     * should be used.
+     *
+     * @return  string The login url or null
+     */
+    public function getExternalLoginURL();
+
+    /**
+     * Called on every page load and can be used to process external authentication checks before the rest of the
+     * authentication process happens.
+     *
+     * @return null
+     */
+    public function checkAuthentication();
+
+    /**
+     * Called when a user logs out.
+     * @return mixed
+     */
+    public function logout();
 }

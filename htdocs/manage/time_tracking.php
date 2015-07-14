@@ -43,8 +43,8 @@ if ($role_id < User::getRoleID('manager')) {
     exit;
 }
 
-$prj_id = isset($_POST['prj_id']) ? (int)$_POST['prj_id'] : (int)$_GET['prj_id'];
-$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : null;
+$prj_id = isset($_POST['prj_id']) ? (int) $_POST['prj_id'] : (int) $_GET['prj_id'];
+$cat = isset($_POST['cat']) ? (string) $_POST['cat'] : null;
 
 $tpl->assign('project', Project::getDetails($prj_id));
 
@@ -57,9 +57,9 @@ if ($cat == 'new') {
             -2  =>  array(ev_gettext('Please enter the title for this new time tracking category.'), Misc::MSG_ERROR),
     ));
 } elseif ($cat == 'update') {
-    $title = (string)$_POST['title'];
-    $prj_id = (int)$_POST['prj_id'];
-    $id = (int)$_POST['id'];
+    $title = (string) $_POST['title'];
+    $prj_id = (int) $_POST['prj_id'];
+    $id = (int) $_POST['id'];
     $res = Time_Tracking::updateCategory($prj_id, $id, $title);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the time tracking category was updated successfully.'), Misc::MSG_INFO),
@@ -67,7 +67,7 @@ if ($cat == 'new') {
             -2  =>  array(ev_gettext('Please enter the title for this time tracking category.'), Misc::MSG_ERROR),
     ));
 } elseif ($cat == 'delete') {
-    $items = (array)$_POST['items'];
+    $items = (array) $_POST['items'];
     Time_Tracking::removeCategory($items);
 }
 

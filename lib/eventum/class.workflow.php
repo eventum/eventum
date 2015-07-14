@@ -291,7 +291,7 @@ class Workflow
         $reflection = new ReflectionClass($backend);
         if ($reflection->hasMethod('handleAssignment')) {
             if ($reflection->getMethod('handleAssignment')->isPublic()) {
-                trigger_error("Workflow::handleAssignment is deprecated", E_USER_DEPRECATED);
+                trigger_error('Workflow::handleAssignment is deprecated', E_USER_DEPRECATED);
                 $backend->handleAssignment($prj_id, $issue_id, $usr_id);
             }
         }

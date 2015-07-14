@@ -38,7 +38,7 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
-$issue_id = isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : (int)$_GET['iss_id'];
+$issue_id = isset($_POST['issue_id']) ? (int) $_POST['issue_id'] : (int) $_GET['iss_id'];
 $tpl->assign('issue_id', $issue_id);
 
 // assign default to avoid warnings
@@ -64,7 +64,7 @@ foreach ($default as $action) {
 }
 $tpl->assign('default_actions', $res);
 
-$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : (isset($_GET['cat']) ? (string)$_GET['cat'] : null);
+$cat = isset($_POST['cat']) ? (string) $_POST['cat'] : (isset($_GET['cat']) ? (string) $_GET['cat'] : null);
 
 if ($cat == 'insert') {
     $res = Notification::subscribeEmail($usr_id, $issue_id, $_POST['email'], $_POST['actions']);
@@ -80,7 +80,7 @@ if ($cat == 'insert') {
     } elseif ($res == -2) {
         Misc::setMessage(ev_gettext('Error: the given email address is not allowed to be added to the notification list.'), Misc::MSG_ERROR);
     }
-    Auth::redirect(APP_RELATIVE_URL . "notification.php?iss_id=" . $issue_id);
+    Auth::redirect(APP_RELATIVE_URL . 'notification.php?iss_id=' . $issue_id);
 } elseif ($cat == 'edit') {
     $res = Notification::getDetails($_GET['id']);
     $tpl->assign('info', $res);

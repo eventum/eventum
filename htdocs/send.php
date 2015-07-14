@@ -39,8 +39,8 @@ Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
 $prj_id = Auth::getCurrentProject();
 $usr_id = Auth::getUserID();
 
-$issue_id = isset($_GET['issue_id']) ? (int)$_GET['issue_id'] : (isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : null);
-$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : (isset($_GET['cat']) ? (string)$_GET['cat'] : null);
+$issue_id = isset($_GET['issue_id']) ? (int) $_GET['issue_id'] : (isset($_POST['issue_id']) ? (int) $_POST['issue_id'] : null);
+$cat = isset($_POST['cat']) ? (string) $_POST['cat'] : (isset($_GET['cat']) ? (string) $_GET['cat'] : null);
 
 $tpl->assign('issue_id', $issue_id);
 
@@ -78,9 +78,9 @@ if ($cat == 'send_email') {
     }
     // enter the time tracking entry about this new email
     if (!empty($_POST['time_spent'])) {
-        $date = (array)$_POST['date'];
+        $date = (array) $_POST['date'];
         $ttc_id = Time_Tracking::getCategoryId($prj_id, 'Email Discussion');
-        $time_spent = (int)$_POST['time_spent'];
+        $time_spent = (int) $_POST['time_spent'];
         $summary = 'Time entry inserted when sending outgoing email.';
         Time_Tracking::addTimeEntry($issue_id, $ttc_id, $time_spent, $date, $summary);
     }
@@ -95,9 +95,9 @@ if ($cat == 'send_email') {
 // enter the time tracking entry about this new email
 if ($cat == 'save_draft' || $cat == 'update_draft') {
     if (!empty($_POST['time_spent'])) {
-        $date = (array)$_POST['date'];
+        $date = (array) $_POST['date'];
         $ttc_id = Time_Tracking::getCategoryId($prj_id, 'Email Discussion');
-        $time_spent = (int)$_POST['time_spent'];
+        $time_spent = (int) $_POST['time_spent'];
         $summary = 'Time entry inserted when saving an email draft.';
         Time_Tracking::addTimeEntry($issue_id, $ttc_id, $time_spent, $date, $summary);
     }
@@ -166,7 +166,7 @@ if (!empty($issue_id)) {
     $tpl->assign('subscribers', Notification::getSubscribers($issue_id, 'emails'));
 }
 if ((!empty($_GET['ema_id'])) || (!empty($_POST['ema_id']))) {
-    $ema_id = isset($_GET['ema_id']) ? (int)$_GET['ema_id'] : (isset($_POST['ema_id']) ? (int)$_POST['ema_id'] : null);
+    $ema_id = isset($_GET['ema_id']) ? (int) $_GET['ema_id'] : (isset($_POST['ema_id']) ? (int) $_POST['ema_id'] : null);
     $tpl->assign('ema_id', $ema_id);
 }
 

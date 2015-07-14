@@ -131,10 +131,10 @@ class Date_Helper
     {
         $now_ts = self::getDateTime($now)->getTimestamp();
         $old_ts = self::getDateTime($date)->getTimestamp();
-        $value = (integer)(($now_ts - $old_ts) / self::DAY);
+        $value = (integer) (($now_ts - $old_ts) / self::DAY);
         $ret = sprintf('%d', round($value, 1)) . 'd';
-        $mod = (integer)(($now_ts - $old_ts) % self::DAY);
-        $mod = (integer)($mod / self::HOUR);
+        $mod = (integer) (($now_ts - $old_ts) % self::DAY);
+        $mod = (integer) ($mod / self::HOUR);
 
         return $ret . ' ' . $mod . 'h';
     }

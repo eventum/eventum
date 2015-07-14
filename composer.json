@@ -82,6 +82,7 @@
 		"sphinx/php-sphinxapi": "2.0.*"
 	},
 	"suggest": {
-		"ext-ldap": "Adds support for LDAP auth backend"
+		"ext-ldap": "Adds support for LDAP auth backend",
+		"jasig/phpcas": "1.3.x-dev"
 	}
 }

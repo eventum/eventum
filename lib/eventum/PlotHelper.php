@@ -166,7 +166,6 @@ class PlotHelper
             $plot = $this->create(500, 300);
             $plot->SetPlotType('pie');
             $plot->SetDataType('text-data-single');
-
         } else {
             // bar chart
             $plot = $this->create(500, 350);
@@ -225,8 +224,8 @@ class PlotHelper
         $i = 1;
         foreach ($data as $performer => $values) {
             foreach ($values as $hour => $value) {
-                $plotData[(int)$hour][0] = $hour;
-                $plotData[(int)$hour][$i] = $value;
+                $plotData[(int) $hour][0] = $hour;
+                $plotData[(int) $hour][$i] = $value;
             }
             $legends[$i] = ucfirst($performer) . ' ' . $event_type;
             $i++;

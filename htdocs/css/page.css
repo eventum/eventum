@@ -123,7 +123,7 @@ body#login form#login_form table td.button {
 }
 #issue_overview .buttons1 td {
     background-color: #255282;
-	text-align: center;
+    text-align: center;
 }
 
 body#issue_view div#issue_links {
@@ -168,25 +168,25 @@ body#issue_view #drafts .buttons_div {
 }
 
 body#issue_view .revision {
-	max-width: 5em;
-	overflow: hidden;
-	text-decoration: underline;
+    max-width: 5em;
+    overflow: hidden;
+    text-decoration: underline;
 }
 
 body#issue_view td.checkins > a {
-	display: inline-block;
-	overflow: hidden;
-	vertical-align: top;
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
 }
 
 body#issue_view td.message > span {
-	display: inline-block;
-	max-height: 200px;
-	overflow: auto;
+    display: inline-block;
+    max-height: 200px;
+    overflow: auto;
 }
 body#issue_view #issue_summary {
-	font-weight: bold;
-	border-bottom: 1px solid #eeeeee;
+    font-weight: bold;
+    border-bottom: 1px solid #eeeeee;
 }
 
 /* End View Issue Page */
@@ -238,7 +238,7 @@ body#list_issues #current_filters {
 body#list_issues #current_filters span {
     background: #ffffaa;
     padding: .5em;
-	display: inline-block;
+    display: inline-block;
     width: inherit;
 }
 
@@ -299,9 +299,12 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 
 #report_sidebar ul {
     margin-left: 0;
-    padding-left: 0;
+    padding-left: 1em;
+	list-style-type: square;
 }
-
+#report_sidebar>ul {
+	list-style-type: disc;
+}
 #report_sidebar ul ul {
     margin-left: 1em;
     padding-left: 0;
@@ -312,6 +315,8 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 }
 #report_content pre {
     font-size: 1.3em;
+	padding: 10px;
+	width: auto;
 }
 
 /* Begin Select Project */
@@ -340,4 +345,26 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 
 #custom_fields_popup .chosen-select {
     width:360px;
+}
+
+/* Dropzone.js overrides */
+/* dropzone styles taken from MailChimp Filemanager background - http://blog.mailchimp.com/wp-content/uploads/2012/02/filemgr2.jpg */
+.dz-message {
+    background-color: #ebf5f7;
+    padding: 10px 5%;
+    width: 97%;
+    border: 2px dashed #027c99;
+}
+/* Chosen.js overrides */
+.chosen-container {
+    height: 27px;
+}
+.chosen-container .chosen-drop {
+    top: 0;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.3);
+}
+#bulk_update .chosen-container .chosen-drop {
+    top: -270px;
+    box-shadow: 4px -4px 5px rgba(0, 0, 0, 0.3);
+	border-top: 1px solid #aaaaaa;
 }

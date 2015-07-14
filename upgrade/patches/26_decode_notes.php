@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Decode note bodies again which have failed to decode unicode html entities
  */
@@ -6,9 +7,10 @@
 // notes that need to be decoded
 $res = $db->getAll('select not_id, not_iss_id, not_is_blocked, not_created_date, not_note, not_full_message from {{%note}} where not_note like ?', array('%&#x00%'));
 
-$render_diff = function($old, $new) {
+$render_diff = function ($old, $new) {
     $diff = new Text_Diff(explode(PHP_EOL, $old), explode(PHP_EOL, $new));
     $renderer = new Text_Diff_Renderer_unified();
+
     return $renderer->render($diff);
 };
 

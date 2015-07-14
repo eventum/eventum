@@ -43,12 +43,12 @@ if (!Access::canAccessReports(Auth::getUserID())) {
 $prj_id = Auth::getCurrentProject();
 
 if (count(@$_REQUEST['before']) < 1) {
-    $before = date('Y-m-d', (time()-Date_Helper::MONTH));
+    $before = date('Y-m-d', (time() - Date_Helper::MONTH));
 } else {
     $before = implode('-', $_REQUEST['before']);
 }
 if (count(@$_REQUEST['after']) < 1) {
-    $after = date('Y-m-d', (time()-Date_Helper::YEAR));
+    $after = date('Y-m-d', (time() - Date_Helper::YEAR));
 } else {
     $after = implode('-', $_REQUEST['after']);
 }

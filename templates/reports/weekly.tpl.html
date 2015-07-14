@@ -19,14 +19,13 @@ $().ready(function() {
     $('input[name=report_type]').click(changeType);
 });
 </script>
+<h3 align="center">
+    {t}Weekly Report{/t}
+</h3>
+
 <form method="post" name="weekly_report">
 <input type="hidden" name="cat" value="generate">
       <table class="bordered">
-        <tr class="title">
-          <th colspan="2">
-            {t}Weekly Report{/t}
-          </th>
-        </tr>
         <tr>
           <td width="120">
             {t}Report Type{/t}:
@@ -91,14 +90,14 @@ $().ready(function() {
             <label><input type="checkbox" name="separate_not_assigned_to_user" value="1" {if $smarty.request.separate_not_assigned_to_user|default:'' == 1}checked{/if}>
             {t}Separate Not Assigned to User{/t}</label>&nbsp;
             <br />
-            <label><input type="checkbox" name="separate_no_time" value="1" {if $smarty.request.separate_no_time|default:'' == 1}checked{/if}>
-            {t}Separate No time spent{/t}</label>&nbsp;
-            <br />
             <label><input type="checkbox" name="ignore_statuses" value="1" {if $smarty.request.ignore_statuses|default:'' == 1}checked{/if}>
             {t}Ignore Issue Status Changes{/t}</label>&nbsp;
             <br />
             <label><input type="checkbox" name="show_per_issue" value="1" {if $smarty.request.show_per_issue|default:'' == 1}checked{/if}>
             {t}Show Times spent on issue{/t}</label>&nbsp;
+            <br />
+            <label>&nbsp;&nbsp;<input type="checkbox" name="separate_no_time" value="1" {if $smarty.request.separate_no_time|default:'' == 1}checked{/if}>
+            {t}Separate No time spent{/t}</label>&nbsp;
             <br />
             <label><input type="checkbox" name="show_status" value="1" {if $smarty.request.show_status|default:'' == 1}checked{/if}>
             {t}Show Status{/t}</label>&nbsp;
@@ -117,7 +116,7 @@ $().ready(function() {
 </form>
 
 {if $data|default:'' != ''}
-<pre>
+<pre class="bordered">
 {include file="reports/weekly_data.tpl.html"}
 </pre>
 {/if}

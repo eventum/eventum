@@ -622,8 +622,8 @@ class Notification
             $diffs[] = '+' . ev_gettext('Resolution') . ': ' . Resolution::getTitle($new['resolution']);
         }
         if (isset($new['estimated_dev_time']) && $old['iss_dev_time'] != $new['estimated_dev_time']) {
-            $diffs[] = '-' . ev_gettext('Estimated Dev. Time') . ': ' . Misc::getFormattedTime($old['iss_dev_time']*60);
-            $diffs[] = '+' . ev_gettext('Estimated Dev. Time') . ': ' . Misc::getFormattedTime($new['estimated_dev_time']*60);
+            $diffs[] = '-' . ev_gettext('Estimated Dev. Time') . ': ' . Misc::getFormattedTime($old['iss_dev_time'] * 60);
+            $diffs[] = '+' . ev_gettext('Estimated Dev. Time') . ': ' . Misc::getFormattedTime($new['estimated_dev_time'] * 60);
         }
         if (isset($new['summary']) && $old['iss_summary'] != $new['summary']) {
             $diffs[] = '-' . ev_gettext('Summary') . ': ' . $old['iss_summary'];

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Migrate timezone abbreviations to timezone identifier
  * The three letter timezone abbreviations do not play well with DST
@@ -21,7 +22,7 @@ foreach (DateTimeZone::listAbbreviations() as $abbrevation => $list) {
 }
 
 /** @var DbInterface $db */
-$res = $db->getAll("select upr_usr_id, upr_timezone from {{%user_preference}}");
+$res = $db->getAll('select upr_usr_id, upr_timezone from {{%user_preference}}');
 
 foreach ($res as $row) {
     $usr_id = $row['upr_usr_id'];
@@ -35,10 +36,8 @@ foreach ($res as $row) {
     if (!$tz) {
         // if empty tz, set default from system
         $new_tz = APP_DEFAULT_TIMEZONE;
-
     } elseif (isset($timezones[$tz])) {
         $new_tz = $timezones[$tz];
-
     } else {
         // no mapping, sorry
         continue;

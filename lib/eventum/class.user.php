@@ -1068,7 +1068,7 @@ class User
             'usr_email' => $data['email'],
         );
 
-        if (isset($params['usr_full_name'])) {
+        if (isset($data['full_name'])) {
             $params['usr_full_name'] = $data['full_name'];
         }
 

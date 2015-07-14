@@ -250,12 +250,12 @@
               <td width="15%">
                 &nbsp;<a href="{$core.rel_url}manage/users.php?cat=edit&id={$list[i].usr_id}" title="{t}update this entry{/t}">{$list[i].usr_full_name|default:$list[i].usr_email}</a>
               </td>
-              <td width="15%" nowrap>
+              <td width="20%" nowrap>
                 {foreach from=$list[i].roles item=role_data}
                   &nbsp;{$role_data.prj_title}: {$role_data.role}<br />
                 {/foreach}
               </td>
-              <td width="30%">
+              <td width="20%">
                 &nbsp;<a href="mailto:{$list[i].usr_email}" title="{t}send email to{/t} {$list[i].usr_email}">{$list[i].usr_email}</a>
 
                 {foreach from=$list[i].aliases item=email}
@@ -268,10 +268,10 @@
               <td width="10%">
                 &nbsp;{$list[i].usr_status|capitalize}
               </td>
-              <td width="20%">
+              <td>
                 &nbsp;{$list[i].group_name|default:''}
               </td>
-              <td width="20%">
+              <td>
                 &nbsp;{$list[i].partner_name|default:''}
               </td>
             </tr>

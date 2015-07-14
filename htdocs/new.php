@@ -71,7 +71,7 @@ if (CRM::hasCustomerIntegration($prj_id)) {
     }
 }
 
-$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : (isset($_GET['cat']) ? (string)$_GET['cat'] : null);
+$cat = isset($_POST['cat']) ? (string) $_POST['cat'] : (isset($_GET['cat']) ? (string) $_GET['cat'] : null);
 if ($cat == 'report') {
     $res = Issue::createFromPost();
     if ($res != -1) {
@@ -86,7 +86,7 @@ if ($cat == 'report') {
 }
 
 if ($cat  == 'associate') {
-    $item = isset($_GET['item']) ? (array)$_GET['item'] : null;
+    $item = isset($_GET['item']) ? (array) $_GET['item'] : null;
     if (count($item) > 0) {
         $res = Support::getListDetails($item);
         $tpl->assign('emails', $res);
@@ -162,7 +162,7 @@ if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
     ));
 }
 
-$clone_iss_id = isset($_GET['clone_iss_id']) ? (int)$_GET['clone_iss_id'] : null;
+$clone_iss_id = isset($_GET['clone_iss_id']) ? (int) $_GET['clone_iss_id'] : null;
 if ($clone_iss_id && Access::canCloneIssue($clone_iss_id, $usr_id)) {
     $tpl->assign(Issue::getCloneIssueTemplateVariables($clone_iss_id));
 } else {

@@ -33,7 +33,7 @@ require_once dirname(__FILE__) . '/../init.php';
 
 Auth::checkAuthentication(APP_COOKIE);
 
-$type = isset($_GET['plot']) ? (string)$_GET['plot'] : null;
+$type = isset($_GET['plot']) ? (string) $_GET['plot'] : null;
 $hide_closed = isset($_REQUEST['hide_closed']) ? $_REQUEST['hide_closed'] : false;
 
 $plot = new PlotHelper();

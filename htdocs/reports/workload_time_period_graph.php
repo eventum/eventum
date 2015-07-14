@@ -38,7 +38,7 @@ if (!Access::canAccessReports(Auth::getUserID())) {
     exit;
 }
 
-$type = isset($_GET['type']) ? $_GET['type']: null;
+$type = isset($_GET['type']) ? $_GET['type'] : null;
 
 $plot = new PlotHelper();
 $plot->WorkloadTimePeriodGraph($type);

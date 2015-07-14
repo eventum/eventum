@@ -45,7 +45,7 @@ if ($role_id < User::getRoleID('manager')) {
 $usr_id = $_REQUEST['id'];
 
 if (@$_POST['cat'] == 'save') {
-    $res = User::addAlias($usr_id, $_POST['alias']);
+    $res = User::addAlias($usr_id, trim($_POST['alias']));
     Misc::mapMessages($res, array(
             true   =>  array(ev_gettext('Thank you, the alias was added successfully.'), Misc::MSG_INFO),
             false  =>  array(ev_gettext('An error occurred while trying to add the alias.'), Misc::MSG_ERROR),

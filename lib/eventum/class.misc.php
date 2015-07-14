@@ -209,7 +209,7 @@ class Misc
                 $first_part = substr($line, 0, strpos($line, ':'));
                 $pieces = explode(' ', $first_part);
                 $misspelled_word = $pieces[1];
-                $last_part = substr($line, strpos($line, ':')+2);
+                $last_part = substr($line, strpos($line, ':') + 2);
                 $suggestions = explode(', ', $last_part);
             } elseif (substr($line, 0, 1) == '#') {
                 // found no suggestions for this word
@@ -321,7 +321,7 @@ class Misc
     public static function return_bytes($val)
     {
         $val = trim($val);
-        $last = strtolower($val[strlen($val)-1]);
+        $last = strtolower($val[strlen($val) - 1]);
         switch ($last) {
             // The 'G' modifier is available since PHP 5.1.0
             /** @noinspection PhpMissingBreakStatementInspection */
@@ -522,9 +522,9 @@ class Misc
         if ((!empty($minutes)) && ($minutes < 6)) {
             $return = sprintf('%02dm', $minutes);
         } elseif ($hours > 24 && $omit_days == false) {
-            $return = sprintf('%dd %dh %dm (%dh %dm)', floor($minutes/24/60), floor($minutes/60)%24, $minutes%60, floor($minutes/60), $minutes%60);
+            $return = sprintf('%dd %dh %dm (%dh %dm)', floor($minutes / 24 / 60), floor($minutes / 60) % 24, $minutes % 60, floor($minutes / 60), $minutes % 60);
         } else {
-            $return = sprintf('%dh %dm', floor($minutes/60), $minutes%60);
+            $return = sprintf('%dh %dm', floor($minutes / 60), $minutes % 60);
         }
         if ($omit_empty) {
             $chunks = explode(' ', $return);

@@ -1085,7 +1085,7 @@ class Custom_Field
         return array(
             'type'  => 'existing',
             'id'    => substr($value, 0, strpos($value, ':')),
-            'value' => substr($value, strpos($value, ':')+1),
+            'value' => substr($value, strpos($value, ':') + 1),
         );
     }
 
@@ -1523,7 +1523,7 @@ class Custom_Field
 
             // this is the field we want to mess with
             if ((($i == 0) && ($direction == -1)) ||
-                ((($i+1) == count($fields)) && ($direction == +1))) {
+                ((($i + 1) == count($fields)) && ($direction == +1))) {
                 // trying to move first entry lower or last entry higher will not work
                 break;
             }

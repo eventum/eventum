@@ -3,15 +3,12 @@
 {block "title"}Recent Activity{/block}
 
 {block "report_content"}
-<br />
+<h3 align="center">
+    {t}Recent Activity Report{/t}
+</h3>
 <form method="post" name="recent_activity">
     <input type="hidden" name="cat" value="generate">
     <table class="bordered filters">
-        <tr class="title">
-            <th colspan="2">
-                {t}Recent Activity Report{/t}
-            </th>
-        </tr>
         <tr>
             <th width="120">
                 {t}Report Type{/t}:

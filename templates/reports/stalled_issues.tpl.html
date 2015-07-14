@@ -3,15 +3,12 @@
 {block "title"}Stalled Issues{/block}
 
 {block "report_content"}
-<br />
+<h3 align="center">
+    {t}Stalled Issues Report{/t}
+</h3>
 <form method="post" name="recent_activity">
     <input type="hidden" name="cat" value="generate">
     <table class="bordered filters">
-        <tr class="title">
-            <th colspan="4">
-                {t}Stalled Issues Report{/t}
-            </th>
-        </tr>
         <tr id="start_row">
             <th width="40%" align="center" nowrap colspan="2">
                 {t}Show Issues with no Response Between{/t}

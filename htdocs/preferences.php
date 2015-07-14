@@ -35,7 +35,7 @@ if (!empty($_POST['language'])) {
 }
 require_once dirname(__FILE__) . '/../init.php';
 
-$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : null;
+$cat = isset($_POST['cat']) ? (string) $_POST['cat'] : null;
 $usr_id = Auth::getUserID();
 
 // must do Language::setPreference before template is initialized

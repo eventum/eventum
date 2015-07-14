@@ -3,14 +3,11 @@
 {block "title"}Workload Date Range{/block}
 
 {block "report_content"}
-<br />
+<h3 align="center">
+    {t}Workload by Date Range Report{/t}
+</h3>
 <form name="workload_report" method="post">
     <table class="bordered filters">
-        <tr class="title">
-            <th colspan="2">
-                {t}Workload by Date Range Report{/t}
-            </th>
-        </tr>
         {if $categories|@count > 0}
         <tr>
             <th align="right">

@@ -266,7 +266,7 @@ class Phone_Support
     public static function insert()
     {
         $usr_id = Auth::getUserID();
-        $iss_id = (int)$_POST['issue_id'];
+        $iss_id = (int) $_POST['issue_id'];
         $date = $_POST['date'];
 
         // format the date from the form
@@ -321,7 +321,7 @@ class Phone_Support
         $phs_id = DB_Helper::get_last_insert_id();
         $prj_id = Auth::getCurrentProject();
         $ttc_id = Time_Tracking::getCategoryId($prj_id, 'Telephone Discussion');
-        $time_spent = (int)$_POST['call_length'];
+        $time_spent = (int) $_POST['call_length'];
         $summary = ev_gettext('Time entry inserted from phone call.');
         Time_Tracking::addTimeEntry($iss_id, $ttc_id, $time_spent, $date, $summary);
         $stmt = 'SELECT

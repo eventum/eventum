@@ -423,6 +423,7 @@ class Stats
         $stmt = 'SELECT
                     DISTINCT isu_usr_id,
                     usr_full_name,
+                    usr_status,
                     SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
                     SUM(CASE WHEN sta_is_closed=1 THEN 1 ELSE 0 END) AS total_closed_items
                  FROM

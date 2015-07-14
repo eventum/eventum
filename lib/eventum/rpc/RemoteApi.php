@@ -174,7 +174,7 @@ class RemoteApi
     {
         $usr_id = Auth::getUserID();
         if (!$usr_id) {
-            throw new RemoteApiException("Not authenticated");
+            throw new RemoteApiException('Not authenticated');
         }
 
         return true;
@@ -473,17 +473,17 @@ class RemoteApi
     {
         $filesize = strlen($contents);
         if (!$filesize) {
-            throw new RemoteApiException("Empty file uploaded");
+            throw new RemoteApiException('Empty file uploaded');
         }
 
         $usr_id = Auth::getUserID();
         if (!$usr_id) {
-            throw new RemoteApiException("Not authenticated");
+            throw new RemoteApiException('Not authenticated');
         }
 
         $iaf_id = Attachment::addFile(0, $filename, $mimetype, $contents);
         if (!$iaf_id) {
-            throw new RemoteApiException("File not uploaded");
+            throw new RemoteApiException('File not uploaded');
         }
 
         $iaf_ids = array($iaf_id);
@@ -494,6 +494,7 @@ class RemoteApi
             'iaf_id' => $iaf_id,
             'filesize' => $filesize,
         );
+
         return $res;
     }
 
@@ -599,7 +600,7 @@ class RemoteApi
         $real_emails = Support::getEmailsByIssue($issue_id);
         if (is_array($real_emails)) {
             foreach ($real_emails as $i => &$email) {
-                $email['id'] = $i+1;
+                $email['id'] = $i + 1;
                 unset($email['seb_body']);
             }
         }

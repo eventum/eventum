@@ -21,7 +21,7 @@ div#header a:hover {
 div#header #user_menu a:hover,
 .bordered .title th a:hover,
 a:hover {
-    color: #0066ff;
+    color: #255282;
 }
 
 a.closed {
@@ -385,7 +385,7 @@ table.two_column th {
 table.two_column td.footer {
     background: #255282;
     color: white;
-    text-align: left;
+    text-align: center;
 }
 
 table.two_column td.footer .right {
