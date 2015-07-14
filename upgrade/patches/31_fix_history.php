@@ -1,0 +1,18 @@
+<?php
+/**
+ * Fix bad history keyword (which was fixed in 3e95aa4)
+ */
+
+$res = $db->getAll("select his_id,his_context from {{%issue_history}} where his_summary='Note routed from {user}' and his_context like '%from%:%'");
+
+foreach ($res as $idx => $row) {
+	$context = json_decode($row['his_context'],1);
+	$user = $context['from'];
+	$context['user'] = $user;
+	unset($context['from']);
+
+	$context = json_encode($context);
+	$params = array($context, $row['his_id']);
+	$db->query('UPDATE {{%issue_history}} SET his_context=? WHERE his_id=?', $params);
+}
+echo "Updated ", count($res), " entries\n";
