@@ -410,7 +410,7 @@ class Routing
 
         // FIXME! $res == -2 is not handled
         History::add($issue_id, $usr_id, 'note_routed', 'Note routed from {user}', array(
-            'from' => $structure->headers['from'],
+            'user' => $structure->headers['from'],
         ));
 
         return true;
