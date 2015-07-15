@@ -374,6 +374,13 @@ table.grid tr.no_results td {
     text-align: center;
     font-style: italic;
 }
+/* if issue description is too wide */
+#issue_description {
+    display: inline-block;
+/* 82% from viewport width */
+    max-width: 82vw;
+    overflow: auto;
+}
 
 /* End Grid */
 
