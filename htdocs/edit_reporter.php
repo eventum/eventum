@@ -46,7 +46,7 @@ if (!Access::canChangeReporter($issue_id, Auth::getUserID())) {
 }
 
 if (@$_POST['cat'] == 'update') {
-    $res = Edit_Reporter::update($issue_id, $_POST['email']);
+    $res = Edit_Reporter::update($issue_id, trim($_POST['email']));
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the Reporter was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to update the Reporter.'), Misc::MSG_ERROR),
