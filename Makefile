@@ -44,7 +44,7 @@ php-cs-fixer.phar:
 	$(call fetch_tool,http://get.sensiolabs.org/php-cs-fixer.phar)
 
 phpcompatinfo.phar:
-	$(call fetch_tool,http://bartlett.laurent-laville.org/get/phpcompatinfo-4.1.0.phar)
+	$(call fetch_tool,http://bartlett.laurent-laville.org/get/phpcompatinfo-4.4.0.phar)
 
 phpunit.phar:
 	$(call fetch_tool,https://phar.phpunit.de/phpunit.phar)
