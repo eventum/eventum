@@ -24,6 +24,7 @@ Eventum Issue Tracking System
 - UI fixes #54, #55, #56, #57, #58, #59, #62, #63, #64, #65
 - Add CAS Auth Backend (Bryan Alsdorf, #61)
 - Strikeout inactive accounts on Stats page (Elan Ruusamäe)
+- Allow customers to export data and only export visible fields (Bryan Alsdorf)
 
 2015-04-21, Version 3.0.1
 -------------------------

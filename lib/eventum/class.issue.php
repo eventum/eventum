@@ -67,47 +67,6 @@ class Issue
     }
 
     /**
-     * Method used to get the list of column heading titles for the
-     * CSV export functionality of the issue listing screen.
-     *
-     * @param   integer $prj_id The project ID
-     * @return  array The list of column heading titles
-     */
-    public static function getColumnHeadings($prj_id)
-    {
-        $headings = array(
-            'Priority',
-            'Issue ID',
-            'Reporter',
-        );
-        // hide the group column from the output if no
-        // groups are available in the database
-        $groups = Group::getAssocList($prj_id);
-        if (count($groups) > 0) {
-            $headings[] = 'Group';
-        }
-        $headings[] = 'Assigned';
-        $headings[] = 'Time Spent';
-        // hide the category column from the output if no
-        // categories are available in the database
-        $categories = Category::getAssocList($prj_id);
-        if (count($categories) > 0) {
-            $headings[] = 'Category';
-        }
-        if (CRM::hasCustomerIntegration($prj_id)) {
-            $headings[] = 'Customer';
-        }
-        $headings[] = 'Status';
-        $headings[] = 'Status Change Date';
-        $headings[] = 'Last Action Date';
-        $headings[] = 'Est. Dev. TIme';
-        $headings[] = 'Summary';
-        $headings[] = 'Expected Resolution Date';
-
-        return $headings;
-    }
-
-    /**
      * Method used to get the full list of date fields available to issues, to
      * be used when customizing the issue listing screen in the 'last status
      * change date' column.
