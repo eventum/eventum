@@ -2098,51 +2098,45 @@ class Support
             $iaf_ids = Attachment::addFiles($_FILES['attachment']);
         }
 
+        $issue_id = isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : 0;
+        $type = isset($_POST['type']) ? (string)$_POST['type'] : null;
+        $from = isset($_POST['from']) ? (string)$_POST['from'] : null;
+        $to = isset($_POST['to']) ? (string)$_POST['to'] : null;
+        $cc = isset($_POST['cc']) ? (string)$_POST['cc'] : null;
+        $subject = isset($_POST['subject']) ? (string)$_POST['subject'] : null;
+        $body = isset($_POST['message']) ? (string)$_POST['message'] : null;
+
         $options = array(
-            'issue_id' => isset($_POST['issue_id']) ? (int) $_POST['issue_id'] : 0,
             'parent_sup_id' => $parent_sup_id,
-            'from' => isset($_POST['from']) ? (string) $_POST['from'] : null,
-            'type' => isset($_POST['type']) ? (string) $_POST['type'] : null,
-            'subject' => isset($_POST['subject']) ? (string) $_POST['subject'] : null,
             'iaf_ids' => $iaf_ids,
-            'to' => isset($_POST['to']) ? (string) $_POST['to'] : null,
-            'cc' => isset($_POST['cc']) ? (string) $_POST['cc'] : null,
-            'body' => isset($_POST['message']) ? (string) $_POST['message'] : null,
             'add_unknown' => isset($_POST['add_unknown']) && $_POST['add_unknown'] == 'yes',
             'ema_id' => isset($_POST['ema_id']) ? (int) $_POST['ema_id'] : null,
         );
 
-        return self::sendEmail($options);
+        return self::sendEmail($issue_id, $type, $from, $to, $cc, $subject, $body, $options);
     }
 
     /**
      * TODO: merge use of $options and $email arrays to just $email
      *
-     * @param array $options
-     * - (int) issue_id
+     * @param int $issue_id
+     * @param string $type type of email
+     * @param string $from
+     * @param string $to
+     * @param string $cc
+     * @param string $subject
+     * @param string $body
+     * @param array $options optional parameters
      * - (int) parent_sup_id
-     * - (string) type: type of email
-     * - (string) from
-     * - (string) subject
-     * - (string) to
-     * - (string) cc
-     * - (string) body
      * - (array) iaf_ids attachment file ids
      * - (bool) add_unknown
      * - (int) ema_id
      * @return int 1 if it worked, -1 otherwise
      */
-    public static function sendEmail($options = array())
+    public static function sendEmail($issue_id, $type, $from, $to, $cc, $subject, $body, $options = array())
     {
-        $issue_id = $options['issue_id'];
         $parent_sup_id = $options['parent_sup_id'];
-        $from = $options['from'];
-        $type = $options['type'] ?: '';
-        $subject = $options['subject'];
         $iaf_ids = $options['iaf_ids'];
-        $to = $options['to'];
-        $cc = $options['cc'];
-        $body = $options['body'];
         $add_unknown = $options['add_unknown'];
         $ema_id = $options['ema_id'];
 
