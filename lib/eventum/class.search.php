@@ -480,7 +480,6 @@ class Search
                 $fields[] = $row[$col_key];
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
-                $fields[] = @$row['customer_title'];
                 // check if current user is a customer and has a per incident contract.
                 // if so, check if issue is redeemed.
                 if (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')) {
