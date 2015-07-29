@@ -25,6 +25,7 @@ Eventum Issue Tracking System
 - Add CAS Auth Backend (Bryan Alsdorf, #61)
 - Strikeout inactive accounts on Stats page (Elan Ruusamäe)
 - Allow customers to export data and only export visible fields (Bryan Alsdorf)
+- Fix "Assignment: Array" bug in template when issue is assigned to multiple assignees (Elan Ruusamäe)
 
 2015-04-21, Version 3.0.1
 -------------------------
