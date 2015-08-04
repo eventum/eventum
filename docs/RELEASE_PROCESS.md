@@ -45,3 +45,4 @@ After release
 
 - add news entry to launchpad page
 - update release number in init.php (APP_VERSION)
+- start new version entry in Changelog.md
