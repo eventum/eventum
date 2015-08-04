@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2015-??-??, Version 3.0.2
+2015-08-04, Version 3.0.2
 -------------------------
 
 - Fix sql error in disassociate custom field (Elan Ruusamäe)
