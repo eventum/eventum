@@ -1,6 +1,5 @@
-
-Creating release notes
-======================
+Notes about creating Eventum Release
+====================================
 
 Test before release
 -------------------
@@ -18,6 +17,10 @@ $ sed -e 's,{{%\([^}]*\)}},eventum_\1,' upgrade/drop.sql
 - Test the new release directory with a quick installation
   * see if a new issue can be created correctly and etc
   * see that tables created are also in upgrade/drop.sql
+
+- update translation keywords to launchpad
+
+this should be done day before release so launchpad cron would update .po files.
 
 Release process
 ---------------
