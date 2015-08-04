@@ -468,6 +468,7 @@ class Access
                 return $partner;
             }
         }
+
         return true;
     }
 }

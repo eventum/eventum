@@ -445,10 +445,13 @@ class Search
         $column_headings = array();
         $columns_to_display = Display_Column::getColumnsToDisplay($prj_id, 'list_issues');
         foreach ($columns_to_display as $col_key => $column) {
-            $column_headings[$col_key] = $column['title'];
-        }
-        if (count($custom_fields) > 0) {
-            $column_headings = array_merge($column_headings, $custom_fields);
+            if ($col_key == 'custom_fields' && count($custom_fields) > 0) {
+                foreach ($custom_fields as $fld_id => $fld_title) {
+                    $column_headings['cstm_' . $fld_id] = $fld_title;
+                }
+            } else {
+                $column_headings[$col_key] = $column['title'];
+            }
         }
         $csv[] = @implode("\t", $column_headings);
 
@@ -477,7 +480,17 @@ class Search
                     case "sev_rank":
                         $col_key = 'sev_title';break;
                 }
-                $fields[] = $row[$col_key];
+                if ($col_key == 'custom_fields' && count($custom_fields) > 0) {
+                    $custom_field_values = Custom_Field::getListByIssue($prj_id, $row['iss_id']);
+                    foreach ($custom_field_values as $this_field) {
+                        if (!empty($custom_fields[$this_field['fld_id']])) {
+                            $row['custom_field'][$this_field['fld_id']] = $this_field['value'];
+                            $fields[] = $this_field['value'];
+                        }
+                    }
+                } else {
+                    $fields[] = $row[$col_key];
+                }
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
                 // check if current user is a customer and has a per incident contract.
@@ -488,17 +501,6 @@ class Search
 //                            (Customer::isRedeemedIncident($prj_id, $res[$i]['iss_id'])))) {
 //                        $res[$i]['redeemed'] = true;
 //                    }
-                }
-            }
-
-            if (count($custom_fields) > 0) {
-                $row['custom_field'] = array();
-                $custom_field_values = Custom_Field::getListByIssue($prj_id, $row['iss_id']);
-                foreach ($custom_field_values as $this_field) {
-                    if (!empty($custom_fields[$this_field['fld_id']])) {
-                        $row['custom_field'][$this_field['fld_id']] = $this_field['value'];
-                        $fields[] = $this_field['value'];
-                    }
                 }
             }
 

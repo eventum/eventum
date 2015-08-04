@@ -12,7 +12,7 @@
           {t escape=no}Summary{/t}: {$issue.iss_summary}
           {t escape=no}Project{/t}: {$issue.prj_title}
       {t escape=no}Reported By{/t}: {$issue.usr_full_name}
-       {t escape=no}Assignment{/t}: {$issue.assigned_users}
+       {t escape=no}Assignment{/t}: {$issue.assignments}
          {t escape=no}Priority{/t}: {$issue.pri_title}
       {t escape=no}Description{/t}:
 ----------------------------------------------------------------------

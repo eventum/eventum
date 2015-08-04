@@ -743,7 +743,7 @@ class Auth
     {
         $backend_login_url = self::getAuthBackend()->getExternalLoginURL();
         if (!$backend_login_url) {
-            return APP_RELATIVE_URL . "/index.php";
+            return null;
         } else {
             return $backend_login_url;
         }
