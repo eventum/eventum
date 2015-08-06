@@ -39,3 +39,4 @@ After release
 - [add news entry](https://launchpad.net/eventum/+announce) to launchpad page
 - update release number in init.php (APP_VERSION)
 - start new version entry in Changelog.md
+- close old milestone and add new one in github https://github.com/eventum/eventum/milestones
