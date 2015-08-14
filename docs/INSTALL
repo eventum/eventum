@@ -68,6 +68,10 @@ server that Eventum should use to send these queued emails, go to:
 
  Administration >>> General Setup > SMTP (Outgoing Email) Settings
 
+If you would like to keep the size of your mail queue table down you can
+truncate (remove the body of) messages that are older then 1 month by running
+the <PATH-TO-EVENTUM>/bin/truncate_mail_queue.php script.
+
 
 2)- Email Download (download_emails.php)
 
