@@ -1020,18 +1020,20 @@ class Project
         }
 
         // insert new values
-        foreach ($settings as $field => $min_role) {
+        foreach ($settings as $field => $details) {
             $stmt = 'INSERT INTO
                         {{%project_field_display}}
                      (
                         pfd_prj_id,
                         pfd_field,
-                        pfd_min_role
+                        pfd_min_role,
+                        pfd_required
                      ) VALUES (
-                        ?, ?, ?
+                        ?, ?, ?, ?
                      )';
             try {
-                DB_Helper::getInstance()->query($stmt, array($prj_id, $field, $min_role));
+                DB_Helper::getInstance()->query($stmt, array($prj_id, $field, $details['min_role'],
+                    (isset($details['required']) ? $details['required'] : 0)));
             } catch (DbException $e) {
                 return -1;
             }
@@ -1050,13 +1052,14 @@ class Project
     {
         $stmt = 'SELECT
                     pfd_field,
-                    pfd_min_role
+                    pfd_min_role as min_role,
+                    pfd_required as required
                  FROM
                     {{%project_field_display}}
                  WHERE
                     pfd_prj_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id), DbInterface::DB_FETCHMODE_ASSOC);
         } catch (DbException $e) {
             return -1;
         }

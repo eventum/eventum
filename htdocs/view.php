@@ -99,9 +99,6 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
                     'old_project'   =>  Project::getName($auto_switched_from),
                 ));
             }
-            $setup = Setup::load();
-            $tpl->assign('allow_unassigned_issues', @$setup['allow_unassigned_issues']);
-
             $issue_fields_display = Issue_Field::getFieldsToDisplay($issue_id, 'view_issue');
 
             // figure out what data to show in each column

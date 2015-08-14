@@ -706,21 +706,6 @@ $().ready(function() {
           </tr>
           <tr>
             <th width="120">
-              {t}Allow Un-Assigned Issues?{/t}
-            </th>
-            <td>
-                <label>
-                    <input type="radio" name="allow_unassigned_issues" value="yes" {if $setup.allow_unassigned_issues|default:'' == 'yes'}checked{/if}>
-                    {t}Yes{/t}
-                </label>
-                <label>
-                    <input type="radio" name="allow_unassigned_issues" value="no" {if $setup.allow_unassigned_issues|default:'' != 'yes'}checked{/if}>
-                    {t}No{/t}
-                </label>
-            </td>
-          </tr>
-          <tr>
-            <th width="120">
               {t}Default Options for Notifications{/t}
             </th>
             <td>

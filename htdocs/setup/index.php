@@ -581,7 +581,6 @@ function write_setup()
     $setup['closed'] = 1;
     $setup['emails'] = 1;
     $setup['files'] = 1;
-    $setup['allow_unassigned_issues'] = 'yes';
     $setup['support_email'] = 'enabled';
 
     $setup['database'] = array(

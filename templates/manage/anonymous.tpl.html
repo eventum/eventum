@@ -28,16 +28,6 @@
                 return false;
             }
 
-            {if $allow_unassigned_issues != 'yes'}
-
-                if (!Validation.hasOneSelected('options[users][]')) {
-                    alert('{t escape=js}Please choose at least one person to assign the new issues created remotely.{/t}');
-                    Validation.selectField('options[users][]');
-                    return false;
-                }
-
-            {/if}
-
                 }
                 return true;
             }
@@ -139,7 +129,7 @@
         </tr>
         <tr>
             <th width="150">
-                {t}Assignment{/t}:{if $allow_unassigned_issues != 'yes'} *{/if}
+                {t}Assignment{/t}:
             </th>
             <td>
                 <select name="options[users][]" multiple size="3" tabindex="4">

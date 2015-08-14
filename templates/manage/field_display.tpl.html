@@ -20,9 +20,12 @@
                 {t 1=$field_title}%1 Field{/t}:
             </th>
             <td>
-                <select name="min_role[{$field_name}]">
-                    {html_options options=$user_roles selected=$display_settings[$field_name]}
+                <select name="fields[{$field_name}][min_role]">
+                    {html_options options=$user_roles selected=$display_settings[$field_name].min_role}
                 </select>
+
+                <label><input type="checkbox" name="fields[{$field_name}][required]" value="1"
+                    {if $display_settings[$field_name].required == 1}checked{/if}>Required</label>
             </td>
         </tr>
         {/foreach}
