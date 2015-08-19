@@ -822,6 +822,11 @@ new_issue.validateForm = function()
         expected_res_date_field.data('required')) {
         Validation.errors[Validation.errors.length] = new Option('Expected Resolution Date', 'expected_resolution_date');
     }
+    var associated_issues_field = Eventum.getField('associated_issues')
+    if (associated_issues_field.attr('type') != 'hidden' && associated_issues_field.val() == '' &&
+        associated_issues_field.data('required')) {
+        Validation.errors[Validation.errors.length] = new Option('Associated Issues', 'associated_issues_field');
+    }
     var group_field = Eventum.getField('group')
     if (group_field.attr('type') != 'hidden' && group_field.val() == '' && group_field.data('required')) {
         Validation.errors[Validation.errors.length] = new Option('Group', 'group');

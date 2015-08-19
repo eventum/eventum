@@ -199,14 +199,18 @@
     </tr>
 
     {* associated issue field *}
+    {if $core.current_role >= $field_display_settings.associated_issues.min_role}
     <tr>
       <th>
         {t}Associated Issues{/t}
       </th>
       <td>
-        <input type="text" name="associated_issues" size="20" tabindex="{$tabindex++}" value="{$associated_issues|default:''|escape:"html"}">
+        <input type="text" name="associated_issues" size="20" tabindex="{$tabindex++}"
+               value="{$associated_issues|default:''|escape:"html"}"
+               {if $field_display_settings.associated_issues.required}data-required="true"{/if}>
       </td>
     </tr>
+    {/if}
 
   {if $core.current_role > $core.roles.customer && $core.current_role >= $field_display_settings.expected_res_date.min_role}
       <tr>

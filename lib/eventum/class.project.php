@@ -1093,6 +1093,7 @@ class Project
             'file'  =>  ev_gettext('File'),
             'private'   =>  ev_gettext('Private'),
             'product'   =>  ev_gettext('Product'),
+            'associated_issues'   =>  ev_gettext('Associated Issues'),
         );
     }
 }
