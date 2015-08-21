@@ -141,9 +141,6 @@ $tpl->assign(array(
     'products'               => Product::getList(false),
 ));
 
-$setup = Setup::load();
-$tpl->assign('allow_unassigned_issues', @$setup['allow_unassigned_issues']);
-
 $prefs = Prefs::get($usr_id);
 $tpl->assign('user_prefs', $prefs);
 $tpl->assign('zones', Date_Helper::getTimezoneList());

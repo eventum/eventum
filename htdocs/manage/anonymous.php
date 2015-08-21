@@ -60,6 +60,5 @@ $tpl->assign('users', Project::getUserAssocList($prj_id, 'active'));
 $tpl->assign('options', Project::getAnonymousPostOptions($prj_id));
 $tpl->assign('prj_id', $prj_id);
 $setup = Setup::load();
-$tpl->assign('allow_unassigned_issues', @$setup['allow_unassigned_issues']);
 
 $tpl->displayTemplate();

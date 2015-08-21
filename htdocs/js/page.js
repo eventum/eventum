@@ -498,11 +498,6 @@ issue_update.validateForm = function()
         Validation.errors[Validation.errors.length] = new Option('Percentage complete should be between 0 and 100', 'percent_complete');
         return false;
     }
-    if (f.attr('data-allow-unassigned') != 'yes' && Eventum.getField('assignments')) {
-        if (!Validation.hasOneSelected('assignments[]')) {
-            Validation.errors[Validation.errors.length] = new Option('Assignment', 'assignments');
-        }
-    }
     return true;
 };
 
@@ -807,19 +802,41 @@ new_issue.validateForm = function()
     var form = $('form#report_form');
 
     var category_field = Eventum.getField('category')
-    if (category_field.attr('type') != 'hidden' && category_field.val() == -1) {
+    if (category_field.attr('type') != 'hidden' && category_field.val() == -1 && category_field.data('required')) {
         Validation.errors[Validation.errors.length] = new Option('Category', 'category');
     }
     var priority_field = Eventum.getField('priority')
-    if (priority_field.attr('type') != 'hidden' && priority_field.val() == -1) {
+    if (priority_field.attr('type') != 'hidden' && priority_field.val() == -1 && priority_field.data('required')) {
         Validation.errors[Validation.errors.length] = new Option('Priority', 'priority');
     }
     var severity_field = Eventum.getField('severity')
-    if (severity_field.attr('type') != 'hidden' && severity_field.val() == -1) {
+    if (severity_field.attr('type') != 'hidden' && severity_field.val() == -1 && severity_field.data('required')) {
         Validation.errors[Validation.errors.length] = new Option('Severity', 'severity');
     }
+    var release_field = Eventum.getField('release')
+    if (release_field.attr('type') != 'hidden' && release_field.val() == 0 && release_field.data('required')) {
+        Validation.errors[Validation.errors.length] = new Option('Scheduled Release', 'release');
+    }
+    var expected_res_date_field = Eventum.getField('expected_resolution_date')
+    if (expected_res_date_field.attr('type') != 'hidden' && expected_res_date_field.val() == '' &&
+        expected_res_date_field.data('required')) {
+        Validation.errors[Validation.errors.length] = new Option('Expected Resolution Date', 'expected_resolution_date');
+    }
+    var associated_issues_field = Eventum.getField('associated_issues')
+    if (associated_issues_field.attr('type') != 'hidden' && associated_issues_field.val() == '' &&
+        associated_issues_field.data('required')) {
+        Validation.errors[Validation.errors.length] = new Option('Associated Issues', 'associated_issues_field');
+    }
+    var group_field = Eventum.getField('group')
+    if (group_field.attr('type') != 'hidden' && group_field.val() == '' && group_field.data('required')) {
+        Validation.errors[Validation.errors.length] = new Option('Group', 'group');
+    }
+    var product_field = Eventum.getField('product')
+    if (product_field.attr('type') != 'hidden' && product_field.val() == '' && product_field.data('required')) {
+        Validation.errors[Validation.errors.length] = new Option('Product', 'product');
+    }
     var user_field = Eventum.getField('users[]');
-    if (user_field.length > 0 && user_field.attr('data-allow-unassigned') != 'yes' && user_field.attr('type') != 'hidden' &&
+    if (user_field.length > 0  && user_field.data('required') && user_field.attr('type') != 'hidden' &&
         !Validation.hasOneSelected(user_field)) {
             Validation.errors[Validation.errors.length] = new Option('Assignment', 'users');
     }
@@ -837,7 +854,7 @@ new_issue.validateForm = function()
 
     var estimated_dev_field = Eventum.getField('estimated_dev_time')
     if (estimated_dev_field.attr('type') != 'hidden' && !Validation.isFieldWhitespace(estimated_dev_field) &&
-        !Validation.isFloat(estimated_dev_field.val())) {
+        !Validation.isFloat(estimated_dev_field.val()) && estimated_dev_field.data('required')) {
         Validation.errors[Validation.errors.length] = new Option('Estimated Dev. Time (only numbers)', 'estimated_dev_time');
     }
     Validation.checkCustomFields(form);

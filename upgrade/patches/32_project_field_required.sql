@@ -1,0 +1,1 @@
+ALTER TABLE {{%project_field_display}} ADD COLUMN pfd_required tinyint(1) NOT NULL DEFAULT 0;

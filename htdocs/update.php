@@ -137,9 +137,6 @@ $tpl->assign('issue_lock', $issue_lock);
 
     $prj_id = Auth::getCurrentProject();
 
-    $setup = Setup::load();
-    $tpl->assign('allow_unassigned_issues', @$setup['allow_unassigned_issues']);
-
     // if currently selected release is in the past, manually add it to list
     $releases = Release::getAssocList($prj_id);
     if ($details['iss_pre_id'] != 0 && empty($releases[$details['iss_pre_id']])) {
@@ -313,7 +310,6 @@ $tpl->assign('issue_lock', $issue_lock);
         'resolutions'  => Resolution::getAssocList(),
         'users'        => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
         'one_week_ts'  => time() + (7 * Date_Helper::DAY),
-        'allow_unassigned_issues'   =>  @$setup['allow_unassigned_issues'],
         'groups'       => Group::getAssocList($prj_id),
         'current_year' =>   date('Y'),
         'products'     => Product::getList(false),
