@@ -50,7 +50,6 @@ if (@$_POST['cat'] == 'update') {
     $setup['description_email_0'] = $_POST['description_email_0'];
     $setup['spell_checker'] = $_POST['spell_checker'];
     $setup['irc_notification'] = $_POST['irc_notification'];
-    $setup['allow_unassigned_issues'] = $_POST['allow_unassigned_issues'];
     $setup['update'] = $_POST['update'];
     $setup['closed'] = $_POST['closed'];
     $setup['emails'] = $_POST['emails'];

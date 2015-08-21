@@ -56,7 +56,7 @@ tools-check: $(tsmarty2c)
 		[ "$$p" -a -x "$$p" ] || { echo "ERROR: Can't find $$t"; exit 1; }; \
 	done
 
-# seupt workdir from git index
+# setup workdir from git index
 SETUP_WORKDIR=git archive HEAD
 
 # build pot from current workdir, not from git index

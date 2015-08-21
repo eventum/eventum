@@ -554,4 +554,28 @@ class Mail_Queue
 
         return $res;
     }
+
+    /**
+     * Truncates the maq_body field of any emails older then one month.
+     *
+     * @return boolean
+     */
+    public static function truncate()
+    {
+        $sql = "UPDATE
+                    {{%mail_queue}}
+                SET
+                  maq_body = '',
+                  maq_status = 'truncated'
+                WHERE
+                    maq_status = 'sent' AND
+                    maq_queued_date <= DATE_SUB(NOW(), INTERVAL 1 MONTH)";
+        try {
+            $res = DB_Helper::getInstance()->query($sql);
+        } catch (DbException $e) {
+            return false;
+        }
+
+        return true;
+    }
 }

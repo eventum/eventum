@@ -489,7 +489,7 @@ class Search
                         }
                     }
                 } else {
-                    $fields[] = $row[$col_key];
+                    $fields[] = isset($row[$col_key]) ? $row[$col_key] : '';
                 }
             }
             if (CRM::hasCustomerIntegration($prj_id)) {

@@ -26,23 +26,23 @@
     <input type="hidden" name="clone_iss_id" value="{$defaults.clone_iss_id}" />
 {/if}
 
-{if $core.current_role < $field_display_settings.assignment}
+{if $core.current_role < $field_display_settings.assignment.min_role}
     <input type="hidden" name="assignment[]" value="">
 {/if}
-{if $releases|@count < 1 || $core.current_role < $field_display_settings.release}
+{if $releases|@count < 1 || $core.current_role < $field_display_settings.release.min_role}
     {* Hidden field if there are no scheduled releases *}
     <input type="hidden" name="release" value="">
 {/if}
-{if $cats|@count < 1 || $core.current_role < $field_display_settings.category}
+{if $cats|@count < 1 || $core.current_role < $field_display_settings.category.min_role}
     <input type="hidden" name="category" value="">
 {/if}
-{if $core.current_role < $field_display_settings.priority}
+{if $core.current_role < $field_display_settings.priority.min_role}
     <input type="hidden" name="priority" value="">
 {/if}
-{if $core.current_role < $field_display_settings.estimated_dev_time}
+{if $core.current_role < $field_display_settings.estimated_dev_time.min_role}
     <input type="hidden" name="estimated_dev_time" value="">
 {/if}
-{if $core.current_role < $field_display_settings.private}
+{if $core.current_role < $field_display_settings.private.min_role}
     <input type="hidden" name="private" value="0">
 {/if}
 <table class="bordered two_column" id="create_issue">
@@ -53,13 +53,15 @@
         <span class="menu">({t}Current Project{/t}: {$core.project_name})</span>
       </th>
     </tr>
-    {if $cats|@count > 0 && $core.current_role >= $field_display_settings.category}
+    {if $cats|@count > 0 && $core.current_role >= $field_display_settings.category.min_role}
     <tr>
-      <th {if $field_display_settings.category > $core.roles.customer}class="internal"{/if}>
-        {t}Category{/t}: * {include file="help_link.tpl.html" topic="report_category"}
+      <th {if $field_display_settings.category.min_role > $core.roles.customer}class="internal"{/if}>
+        {t}Category{/t} {if $field_display_settings.category.required}*{/if}
+            {include file="help_link.tpl.html" topic="report_category"}
       </th>
       <td>
-        <select id="category" name="category" tabindex="{$tabindex++}">
+        <select id="category" name="category" tabindex="{$tabindex++}"
+          {if $field_display_settings.category.required}data-required="true"{/if}>
           <option value="-1">{t}Please choose a category{/t}</option>
           {html_options options=$cats selected=$defaults.category|default:''}
         </select>
@@ -67,13 +69,14 @@
       </td>
     </tr>
     {/if}
-    {if $severities|@count > 0 && $core.current_role >= $field_display_settings.severity}
+    {if $severities|@count > 0 && $core.current_role >= $field_display_settings.severity.min_role}
     <tr>
-      <th width="150" {if $field_display_settings.severity > $core.roles.customer}class="internal"{/if}">
-        {t}Severity{/t}: *
+      <th width="150" {if $field_display_settings.severity.min_role > $core.roles.customer}class="internal"{/if}">
+        {t}Severity{/t} {if $field_display_settings.severity.required}*{/if}
       </th>
       <td>
-        <select id="severity" name="severity" tabindex="{$tabindex++}">
+        <select id="severity" name="severity" tabindex="{$tabindex++}"
+                {if $field_display_settings.severity.required}data-required="true"{/if}>
           <option value="-1">{t}Please choose a severity{/t}</option>
           {foreach from=$severities item=severity}
           <option value="{$severity.sev_id}" {if $severity.sev_id == $defaults.severity|default:''}selected{/if}
@@ -85,10 +88,11 @@
       </td>
     </tr>
     {/if}
-    {if $core.current_role >= $field_display_settings.priority}
+    {if $core.current_role >= $field_display_settings.priority.min_role}
     <tr>
       <th>
-        {t}Priority{/t}: * {include file="help_link.tpl.html" topic="report_priority"}
+        {t}Priority{/t} {if $field_display_settings.priority.required}*{/if}
+        {include file="help_link.tpl.html" topic="report_priority"}
       </th>
       <td>
         {* Figure out default priority *}
@@ -97,7 +101,8 @@
         {else}
           {assign var="priority" value=3}
         {/if}
-        <select id="priority" name="priority" tabindex="{$tabindex++}">
+        <select id="priority" name="priority" tabindex="{$tabindex++}"
+                {if $field_display_settings.priority.required}data-required="true"{/if}>
           <option value="-1">{t}Please choose a priority{/t}</option>
           {html_options options=$priorities selected=$priority}
         </select>
@@ -105,18 +110,19 @@
       </td>
     </tr>
     {/if}
-    {if $core.current_role >= $field_display_settings.assignment}
+    {if $core.current_role >= $field_display_settings.assignment.min_role}
     <tr>
-      <th {if $field_display_settings.assignment > $core.roles.customer}class="internal"{/if}">
-        {t}Assignment{/t}: {if $allow_unassigned_issues != 'yes'}*{/if} {include file="help_link.tpl.html" topic="report_assignment"}
+      <th {if $field_display_settings.assignment.min_role > $core.roles.customer}class="internal"{/if}">
+        {t}Assignment{/t} {if $field_display_settings.assignment.required}*{/if}
+        {include file="help_link.tpl.html" topic="report_assignment"}
       </th>
       <td>
         {if $new_issue_id == ''}
             {assign var='selected_users' value=$defaults.users|default:''}
         {/if}
         <select id="assignment" name="users[]" multiple size="3" tabindex="{$tabindex++}"
-                data-allow-unassigned="{$allow_unassigned_issues}"
-                data-placeholder="{t}Choose Assignees...{/t}" class="chosen-select">
+                data-placeholder="{t}Choose Assignees...{/t}" class="chosen-select"
+                {if $field_display_settings.assignment.required}data-required="true"{/if}>
         {html_options options=$users selected=$selected_users}
         </select>
         {include file="error_icon.tpl.html" field="users[]"}
@@ -124,16 +130,17 @@
     </tr>
     {/if}
 
-  {if $groups|@count > 0 && $core.current_role >= $field_display_settings.group}
+  {if $groups|@count > 0 && $core.current_role >= $field_display_settings.group.min_role}
     <tr>
-      <th {if $field_display_settings.assignment > $core.roles.customer}class="internal"{/if}>
-        {t}Group{/t}:
+      <th {if $field_display_settings.group.min_role > $core.roles.customer}class="internal"{/if}>
+        {t}Group{/t} {if $field_display_settings.group.required}*{/if}
       </th>
       <td>
         {if $new_issue_id == ''}
             {assign var='selected_group' value=$defaults.group|default:''}
         {/if}
-        <select name="group" tabindex="{$tabindex++}">
+        <select name="group" tabindex="{$tabindex++}"
+                {if $field_display_settings.group.required}data-required="true"{/if}>
             <option value=""></option>
             {html_options options=$groups selected=$selected_group}
         </select>
@@ -142,16 +149,18 @@
     </tr>
     {/if}
 
-    {if $releases|@count > 0 && $core.current_role >= $field_display_settings.release}
+    {if $releases|@count > 0 && $core.current_role >= $field_display_settings.release.min_role}
     <tr>
-      <th {if $field_display_settings.release > $core.roles.customer}class="internal"{/if}>
-        {t}Scheduled Release{/t}: {include file="help_link.tpl.html" topic="report_release"}
+      <th {if $field_display_settings.release.min_role > $core.roles.customer}class="internal"{/if}>
+        {t}Scheduled Release{/t} {if $field_display_settings.release.required}*{/if}
+        {include file="help_link.tpl.html" topic="report_release"}
       </th>
       <td>
         {if $new_issue_id == ''}
             {assign var='selected_release' value=$defaults.release|default:''}
         {/if}
-        <select name="release" tabindex="{$tabindex++}">
+        <select name="release" tabindex="{$tabindex++}"
+                {if $field_display_settings.release.required}data-required="true"{/if}>
           <option value="0">{t}un-scheduled{/t}</option>
           {html_options options=$releases selected=$selected_release}
         </select>
@@ -161,7 +170,7 @@
 
     <tr>
       <th>
-        {t}Summary{/t}: * {include file="help_link.tpl.html" topic="report_summary"}
+        {t}Summary{/t} * {include file="help_link.tpl.html" topic="report_summary"}
       </th>
       <td>
         {if $new_issue_id != ''}
@@ -176,7 +185,7 @@
 
     <tr>
       <th class="initial_description">
-        {t}Initial Description{/t}: * {include file="help_link.tpl.html" topic="report_description"}
+        {t}Initial Description{/t} * {include file="help_link.tpl.html" topic="report_description"}
       </th>
       <td>
         {if $new_issue_id != ''}
@@ -190,50 +199,59 @@
     </tr>
 
     {* associated issue field *}
+    {if $core.current_role >= $field_display_settings.associated_issues.min_role}
     <tr>
       <th>
-        {t}Associated Issues{/t}:
+        {t}Associated Issues{/t}
       </th>
       <td>
-        <input type="text" name="associated_issues" size="20" tabindex="{$tabindex++}" value="{$associated_issues|default:''|escape:"html"}">
+        <input type="text" name="associated_issues" size="20" tabindex="{$tabindex++}"
+               value="{$associated_issues|default:''|escape:"html"}"
+               {if $field_display_settings.associated_issues.required}data-required="true"{/if}>
       </td>
     </tr>
+    {/if}
 
-  {if $core.current_role > $core.roles.customer && $core.current_role >= $field_display_settings.expected_res_date}
+  {if $core.current_role > $core.roles.customer && $core.current_role >= $field_display_settings.expected_res_date.min_role}
       <tr>
 
-        <th {if $field_display_settings.assignment > $core.roles.customer}class="internal"{/if}>
-          {t}Expected Resolution Date{/t}:
+        <th {if $field_display_settings.expected_res_date.min_role > $core.roles.customer}class="internal"{/if}>
+          {t}Expected Resolution Date{/t} {if $field_display_settings.expected_res_date.required}*{/if}
         </th>
 
         <td>
-          <input type="text" name="expected_resolution_date" id="expected_resolution" value="{$defaults.expected_resolution_date|default:''}" class="date_picker">
+          <input type="text" name="expected_resolution_date" id="expected_resolution"
+                 value="{$defaults.expected_res_date|default:''}" class="date_picker"
+                  {if $field_display_settings.expected_res_date.required}data-required="true"{/if}>
         </td>
       </tr>
     {/if}
 
-    {if $core.current_role >= $field_display_settings.estimated_dev_time}
+    {if $core.current_role >= $field_display_settings.estimated_dev_time.min_role}
     <tr>
-      <th {if $field_display_settings.estimated_dev_time > $core.roles.customer}class="internal"{/if}>
-        <nobr>{t}Estimated Dev. Time{/t}: {include file="help_link.tpl.html" topic="report_estimated_dev_time"}&nbsp;</nobr>
+      <th {if $field_display_settings.estimated_dev_time.min_role > $core.roles.customer}class="internal"{/if}>
+        <nobr>{t}Estimated Dev. Time{/t} {if $field_display_settings.estimated_dev_time.required}*{/if}
+            {include file="help_link.tpl.html" topic="report_estimated_dev_time"}&nbsp;</nobr>
       </th>
       <td>
         {if $new_issue_id == ''}
             {assign var='estimated_dev_time' value=$defaults.estimated_dev_time|default:''}
         {/if}
-        <input type="text" name="estimated_dev_time" size="10" tabindex="{$tabindex++}" value="{$estimated_dev_time}">
+        <input type="text" name="estimated_dev_time" size="10" tabindex="{$tabindex++}" value="{$estimated_dev_time}"
+                {if $field_display_settings.estimated_dev_time.required}data-required="true"{/if}>
         {include file="error_icon.tpl.html" field="estimated_dev_time"} <span>({t}in hours{/t})</span>
       </td>
     </tr>
     {/if}
 
-    {if $products|@count > 0 && $core.current_role >= $field_display_settings.product}
+    {if $products|@count > 0 && $core.current_role >= $field_display_settings.product.min_role}
     <tr>
-      <th width="150" {if $field_display_settings.product > $core.roles.customer}class="internal"{/if}>
-        {t}Product{/t}
+      <th width="150" {if $field_display_settings.product.min_role > $core.roles.customer}class="internal"{/if}>
+        {t}Product{/t} {if $field_display_settings.product.required}*{/if}
       </th>
       <td>
-        <select class="default" id="product" name="product" tabindex="{$tabindex++}">
+        <select class="default" id="product" name="product" tabindex="{$tabindex++}"
+                {if $field_display_settings.product.required}data-required="true"{/if}>
             <option value="-1"></option>
           {foreach from=$products item=product}
           <option value="{$product.pro_id}" {if $product.pro_id == $defaults.product|default:''}selected{/if}
@@ -244,7 +262,7 @@
       </td>
     </tr>
     <tr>
-      <th width="150" {if $field_display_settings.product > $core.roles.customer}class="internal"{/if}>
+      <th width="150" {if $field_display_settings.product.min_role > $core.roles.customer}class="internal"{/if}>
         {t}Product Version{/t}
       </th>
       <td>
@@ -254,10 +272,10 @@
       </td>
     </tr>
     {/if}
-    {if $core.current_role >= $field_display_settings.private}
+    {if $core.current_role >= $field_display_settings.private.min_role}
     <tr>
-      <th {if $field_display_settings.private > $core.roles.customer}class="internal"{/if}>
-        <nobr>{t}Private{/t}: &nbsp;</nobr>
+      <th {if $field_display_settings.private.min_role > $core.roles.customer}class="internal"{/if}>
+        {t}Private{/t} {if $field_display_settings.private.required}*{/if}
       </th>
       <td>
         <label><input type="radio" name="private" value="1" {if $defaults.private|default:''}checked{/if} tabindex="{$tabindex++}">
@@ -277,7 +295,7 @@
     {assign var="tabindex" value=$tabindex+30}
     {/if}
 
-    {if $core.current_role >= $field_display_settings.file}
+    {if $core.current_role >= $field_display_settings.file.min_role}
     <tr class="title">
       <th colspan="2">
         {t}Add Files{/t}
@@ -285,7 +303,7 @@
     </tr>
     <tr>
       <th>
-        {t}Files{/t}:
+        {t}Files{/t}
       </th>
       <td>
         <div class="dz-message">

@@ -209,9 +209,7 @@
 
             {if $core.current_role > $core.roles.customer}
             {if $is_user_assigned == 1}
-            {if $allow_unassigned_issues == 'yes' || $issue.assigned_users|@count > 1}
             <input type="button" value="{t}Unassign Issue{/t}" class="unassign">
-            {/if}
             {else}
             <input type="button" value="{t}Assign Issue To Myself{/t}" class="self_assign">
             {/if}
