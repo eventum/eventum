@@ -14,10 +14,10 @@
                 {t}Edit Fields to Display{/t} {include file="help_link.tpl.html" topic="field_display"}
             </th>
         </tr>
-        {foreach from=$fields item=field_title key=field_name}
+        {foreach from=$fields item=field_info key=field_name}
         <tr class="{cycle values='odd,even'}">
             <th width="150">
-                {t 1=$field_title}%1 Field{/t}:
+                {t 1=$field_info.title}%1 Field{/t}:
             </th>
             <td>
                 <select name="fields[{$field_name}][min_role]">
