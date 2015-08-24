@@ -1065,9 +1065,12 @@ class Project
         }
 
         $fields = self::getDisplayFields();
-        foreach ($fields as $field_name => $field_title) {
+        foreach ($fields as $field_name => $field_info) {
             if (!isset($res[$field_name])) {
-                $res[$field_name] = 0;
+                $res[$field_name] = array(
+                    "required"  =>  $field_info['required'],
+                    "min_role"  =>  0,
+                );
             }
         }
 
@@ -1082,18 +1085,73 @@ class Project
     public static function getDisplayFields()
     {
         return array(
-            'category'  =>  ev_gettext('Category'),
-            'priority'  =>  ev_gettext('Priority'),
-            'severity'  =>  ev_gettext('Severity'),
-            'assignment'    =>  ev_gettext('Assignment'),
-            'release'   =>  ev_gettext('Scheduled Release'),
-            'estimated_dev_time'    =>  ev_gettext('Estimated Dev. Time'),
-            'expected_res_date'     =>  ev_gettext('Expected Resolution Date'),
-            'group'     =>  ev_gettext('Group'),
-            'file'  =>  ev_gettext('File'),
-            'private'   =>  ev_gettext('Private'),
-            'product'   =>  ev_gettext('Product'),
-            'associated_issues'   =>  ev_gettext('Associated Issues'),
+            'category'  =>  array(
+                'title' =>  ev_gettext('Category'),
+                'required'  =>  1,
+            ),
+            'priority'  =>    array(
+                'title' =>  ev_gettext('Priority'),
+                'required'  =>  1,
+            ),
+            'severity'  =>    array(
+                'title' =>  ev_gettext('Severity'),
+                'required'  =>  1,
+            ),
+            'assignment'    =>    array(
+                'title' =>  ev_gettext('Assignment'),
+                'required'  =>  0,
+            ),
+            'release'   =>    array(
+                'title' =>  ev_gettext('Scheduled Release'),
+                'required'  =>  0,
+            ),
+            'estimated_dev_time'    =>    array(
+                'title' =>  ev_gettext('Estimated Dev. Time'),
+                'required'  =>  0,
+            ),
+            'expected_res_date'     =>    array(
+                'title' =>  ev_gettext('Expected Resolution Date'),
+                'required'  =>  0,
+            ),
+            'group'     =>    array(
+                'title' =>  ev_gettext('Group'),
+                'required'  =>  0,
+            ),
+            'file'  =>    array(
+                'title' =>  ev_gettext('File'),
+                'required'  =>  0,
+            ),
+            'private'   =>    array(
+                'title' =>  ev_gettext('Private'),
+                'required'  =>  0,
+            ),
+            'product'   =>    array(
+                'title' =>  ev_gettext('Product'),
+                'required'  =>  0,
+            ),
+            'associated_issues'   =>    array(
+                'title' =>  ev_gettext('Associated Issues'),
+                'required'  =>  0,
+            ),
         );
+    }
+
+
+    /**
+     * Sets the default display fields for a project
+     *
+     * @param $prj_id
+     */
+    public static function setDefaultDisplayFields($prj_id)
+    {
+        $fields = self::getDisplayFields();
+        $settings = array();
+        foreach ($fields as $field_name => $field_info) {
+            $settings[$field_name] = array(
+                "required"  =>  $field_info['required'],
+                "min_role"  =>  0,
+            );
+        }
+        self::updateFieldDisplaySettings($prj_id, $settings);
     }
 }
