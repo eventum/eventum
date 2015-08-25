@@ -832,7 +832,7 @@ new_issue.validateForm = function()
         Validation.errors[Validation.errors.length] = new Option('Group', 'group');
     }
     var product_field = Eventum.getField('product')
-    if (product_field.attr('type') != 'hidden' && product_field.val() == '' && product_field.data('required')) {
+    if (product_field.attr('type') != 'hidden' && product_field.val() == -1 && product_field.data('required')) {
         Validation.errors[Validation.errors.length] = new Option('Product', 'product');
     }
     var user_field = Eventum.getField('users[]');
