@@ -1,3 +1,5 @@
+### Extending and Integrating Eventum
+
 This will contain more information about extending and integrating Eventum.
 
 -   [Eventum:SCM integration](SCM integration "wikilink")
