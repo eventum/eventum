@@ -171,11 +171,15 @@ When you install for the first time, you have a checkbox to define if you will b
 
 If you install on http, but later you change from http to https, you must manually edit this file and apply the change, from
 
-`define('APP_BASE_URL', '`[`http://`](http://)`' . APP_HOSTNAME . APP_RELATIVE_URL);`
+```php
+define('APP_BASE_URL', 'http://' . APP_HOSTNAME . APP_RELATIVE_URL);
+```
 
 to
 
-`define('APP_BASE_URL', '`[`https://`](https://)`' . APP_HOSTNAME . APP_RELATIVE_URL);`
+```php
+define('APP_BASE_URL', 'https://' . APP_HOSTNAME . APP_RELATIVE_URL);
+```
 
 Installing with PHP on FastCGI
 ------------------------------
