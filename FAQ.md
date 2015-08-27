@@ -74,27 +74,29 @@ Try to increase the *memory_limit* option in your php.ini file from 8MB (default
 
 There might be a problem with the cron script. Check if a mail has been sent to the root user by the script. You should see something like this:
 
-`From root@YOUR-SERVER.com  Thu Jul 12 04:50:01 2007`
-`Return-Path: `<root@YOUR-SERVER.com>
-`X-Original-To: root`
-`Delivered-To: root@YOUR-SERVER.com`
-`Received: by YOUR-SERVER.com (Postfix, from userid 0)`
-`       id DDE17326AF8; Thu, 12 Jul 2007 04:50:01 -0700 (PDT)`
-`From: root@YOUR-SERVER.com (Cron Daemon)`
-`To: root@YOUR-SERVER.com`
-`Subject: Cron `<root@YOUR-SERVER>` cd /var/www/html/eventum/misc; /usr/bin/php -f process_mail_queue.php`
-`Content-Type: text/plain; charset=UTF-8`
-`Auto-Submitted: auto-generated`
-`X-Cron-Env: `<SHELL=/bin/sh>
-`X-Cron-Env: `<HOME=/root>
-`X-Cron-Env: `<PATH=/usr/bin:/bin>
-`X-Cron-Env: `<LOGNAME=root>
-`X-Cron-Env: `<USER=root>
-`Message-Id: <20070712115001.DDE17326AF8@YOUR-SERVER.com>`
-`Date: Thu, 12 Jul 2007 04:50:01 -0700 (PDT)`
-`Status: O`
-`ERROR: There is already a process (pid=329) of this script running. If this is not accurate, `
-`you may fix it by running this script with '--fix-lock' as the only parameter.`
+```
+From root@YOUR-SERVER.com  Thu Jul 12 04:50:01 2007
+Return-Path: <root@YOUR-SERVER.com>
+X-Original-To: root
+Delivered-To: root@YOUR-SERVER.com
+Received: by YOUR-SERVER.com (Postfix, from userid 0)
+       id DDE17326AF8; Thu, 12 Jul 2007 04:50:01 -0700 (PDT)
+From: root@YOUR-SERVER.com (Cron Daemon)
+To: root@YOUR-SERVER.com
+Subject: Cron <root@YOUR-SERVER> cd /var/www/html/eventum/misc; /usr/bin/php -f process_mail_queue.php
+Content-Type: text/plain; charset=UTF-8
+Auto-Submitted: auto-generated
+X-Cron-Env: <SHELL=/bin/sh>
+X-Cron-Env: <HOME=/root>
+X-Cron-Env: <PATH=/usr/bin:/bin>
+X-Cron-Env: <LOGNAME=root>
+X-Cron-Env: <USER=root>
+Message-Id: <20070712115001.DDE17326AF8@YOUR-SERVER.com>
+Date: Thu, 12 Jul 2007 04:50:01 -0700 (PDT)
+Status: O
+ERROR: There is already a process (pid=329) of this script running. If this is not accurate, 
+you may fix it by running this script with '--fix-lock' as the only parameter.
+```
 
 This means that the *process_mail_queue* script got screwed and you need to fix it. Try this:
 
@@ -148,16 +150,18 @@ IMAP extension for PHP is required for automatic email retrieval. [1](http://fi.
 
 When the same email account is used for both non subject based routing (i.e. when option "Use account for non-subject based email/note/draft routing. Note: If you check this, you cannot leave a copy of messages on the server." is checked) the auto creation does not work and you need to patch one line in one class. Here is the patch
 
-`--- eventum/include/class.support.php~ 2006-03-15 17:34:38.094124892 +0200`
-`+++ eventum/include/class.support.php  2006-03-15 17:34:44.914566574 +0200`
-`@@ -570,7 +570,6 @@`
-`                         return $return;`
-`                     }`
-`                 }`
-`-                return false;`
-`             }`
-` `
-`             $sender_email = Mail_API::getEmailAddress($email->fromaddress);`
+```diff
+--- eventum/include/class.support.php~ 2006-03-15 17:34:38.094124892 +0200
++++ eventum/include/class.support.php  2006-03-15 17:34:44.914566574 +0200
+@@ -570,7 +570,6 @@
+                         return $return;
+                     }
+                 }
+-                return false;
+             }
+ 
+             $sender_email = Mail_API::getEmailAddress($email->fromaddress);
+```
 
 i.e, by taking out the line that says "return false", both non subject based routing and email creation works using the same email account.
 
@@ -184,60 +188,62 @@ END OF NOTE
 
 Solution: Run the script below AND PAY A LOT OF ATTENTION AT THE WHERE CLAUSE.
 
-`  `<?php
+```php
+  <?php
    include_once("../config/config.php");
    include_once(APP_INC_PATH . "db_access.php");
 
    $issues = $GLOBALS["db_api"]->`dbh->query('SELECT iss_id FROM eventum_issue WHERE MY_WHERE_CLAUSE');`
-`  // The next two lines inserted by JRM as a fix and it works for me. Note the name of the status I use.`
-`  //$sqlstr  = "SELECT iss_id FROM eventum_issue,eventum_status WHERE iss_sta_id=sta_id AND sta_title='Delete Issue'";`
-`  //$issues = $GLOBALS["db_api"]->dbh->getAll($sqlstr, DB_FETCHMODE_ASSOC);`
+  // The next two lines inserted by JRM as a fix and it works for me. Note the name of the status I use.
+  //$sqlstr  = "SELECT iss_id FROM eventum_issue,eventum_status WHERE iss_sta_id=sta_id AND sta_title='Delete Issue'";
+  //$issues = $GLOBALS["db_api"]->dbh->getAll($sqlstr, DB_FETCHMODE_ASSOC);
 
-`  // With this query instead, you can use Bulk Update to mark issues for deletion without even closing them first (if you like)`
-`  // $sqlstr  = "SELECT iss_id FROM eventum_project_status, eventum_status, eventum_issue WHERE prs_prj_id = iss_prj_id AND prs_sta_id = iss_sta_id AND sta_id = iss_sta_id AND sta_title = 'Delete this issue'";`
+  // With this query instead, you can use Bulk Update to mark issues for deletion without even closing them first (if you like)
+  // $sqlstr  = "SELECT iss_id FROM eventum_project_status, eventum_status, eventum_issue WHERE prs_prj_id = iss_prj_id AND prs_sta_id = iss_sta_id AND sta_id = iss_sta_id AND sta_title = 'Delete this issue'";
 
-`  // This line is for debugging and can be commented out when you are sure the delete is ok.`
-`  echo "<pre>";print_r($issues);exit;`
-`  `
-`  foreach ($issues as $issue_id) {`
-`      // Line added by JRM. This seems necessary to get the issue id. Old code here didn't work right.`
-`      //$issue_id = $issue['iss_id'];`
-`  `
-`      delete_data("DELETE FROM eventum_issue_association WHERE isa_issue_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_issue_attachment WHERE iat_iss_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_issue_checkin WHERE isc_iss_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_issue_history WHERE his_iss_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_issue_requirement WHERE isr_iss_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_issue_user WHERE isu_iss_id = $issue_id");`
-`      `
-`      delete_data("DELETE FROM eventum_note WHERE not_iss_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_subscription WHERE sub_iss_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_support_email WHERE sup_iss_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_time_tracking WHERE ttr_iss_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_issue_custom_field WHERE icf_iss_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_phone_support WHERE phs_iss_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_reminder_requirement WHERE rer_iss_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_reminder_history WHERE rmh_iss_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_email_draft WHERE emd_iss_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_irc_notice WHERE ino_iss_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_issue_user_replier WHERE iur_iss_id = $issue_id");`
-`      delete_data("DELETE FROM eventum_mail_queue WHERE maq_iss_id = $issue_id");`
-`      `
-`      delete_data("DELETE FROM eventum_issue WHERE iss_id = $issue_id");`
-`      `
-`      echo "Issue #$issue_id deleted`
-`\n";`
-`  }`
-`  `
-`  function delete_data($sql)`
-`  {`
-`      $res = $GLOBALS["db_api"]->dbh->query($sql);`
-`      if (DB::isError($res)) {`
-`          echo "<pre>";print_r($res);echo "</pre>";`
-`          exit;`
-`      }`
-`  }`
-`  ?>`
+  // This line is for debugging and can be commented out when you are sure the delete is ok.
+  echo "<pre>";print_r($issues);exit;
+  
+  foreach ($issues as $issue_id) {
+      // Line added by JRM. This seems necessary to get the issue id. Old code here didn't work right.
+      //$issue_id = $issue['iss_id'];
+  
+      delete_data("DELETE FROM eventum_issue_association WHERE isa_issue_id = $issue_id");
+      delete_data("DELETE FROM eventum_issue_attachment WHERE iat_iss_id = $issue_id");
+      delete_data("DELETE FROM eventum_issue_checkin WHERE isc_iss_id = $issue_id");
+      delete_data("DELETE FROM eventum_issue_history WHERE his_iss_id = $issue_id");
+      delete_data("DELETE FROM eventum_issue_requirement WHERE isr_iss_id = $issue_id");
+      delete_data("DELETE FROM eventum_issue_user WHERE isu_iss_id = $issue_id");
+      
+      delete_data("DELETE FROM eventum_note WHERE not_iss_id = $issue_id");
+      delete_data("DELETE FROM eventum_subscription WHERE sub_iss_id = $issue_id");
+      delete_data("DELETE FROM eventum_support_email WHERE sup_iss_id = $issue_id");
+      delete_data("DELETE FROM eventum_time_tracking WHERE ttr_iss_id = $issue_id");
+      delete_data("DELETE FROM eventum_issue_custom_field WHERE icf_iss_id = $issue_id");
+      delete_data("DELETE FROM eventum_phone_support WHERE phs_iss_id = $issue_id");
+      delete_data("DELETE FROM eventum_reminder_requirement WHERE rer_iss_id = $issue_id");
+      delete_data("DELETE FROM eventum_reminder_history WHERE rmh_iss_id = $issue_id");
+      delete_data("DELETE FROM eventum_email_draft WHERE emd_iss_id = $issue_id");
+      delete_data("DELETE FROM eventum_irc_notice WHERE ino_iss_id = $issue_id");
+      delete_data("DELETE FROM eventum_issue_user_replier WHERE iur_iss_id = $issue_id");
+      delete_data("DELETE FROM eventum_mail_queue WHERE maq_iss_id = $issue_id");
+      
+      delete_data("DELETE FROM eventum_issue WHERE iss_id = $issue_id");
+      
+      echo "Issue #$issue_id deleted
+\n";
+  }
+  
+  function delete_data($sql)
+  {
+      $res = $GLOBALS["db_api"]->dbh->query($sql);
+      if (DB::isError($res)) {
+          echo "<pre>";print_r($res);echo "</pre>";
+          exit;
+      }
+  }
+  ?>
+```
 
 ### I want to close multiple issues at once
 
@@ -266,53 +272,65 @@ Change the default value of 6 characters to whatever value you deem adequate.
 
 Back up your DB so you don't do something dangerous before trying this:
 
-` UPDATE issue SET iss_prj_id = `<new prj_id>` WHERE iss_prj_id = `<old_prj_id>
+```sql
+ UPDATE issue SET iss_prj_id = `<new prj_id>` WHERE iss_prj_id = `<old_prj_id>`
+```
 
 From <http://lists.mysql.com/eventum-users/4932>
 
 Projects have their own categories. Issues assigned to redundant categories must be reassigned:
 
-` SELECT * FROM project_category ORDER BY prc_title;`
-` `
-` +--------+------------+-----------------------+`
-` | prc_id | prc_prj_id | prc_title             |`
-` +--------+------------+-----------------------+`
-` |      7 |          1 | Bar                   |`
-` |      8 |          2 | Bar                   |`
-` |      9 |          2 | Foo                   |`
-` +--------+------------+-----------------------+`
+```
+ SELECT * FROM project_category ORDER BY prc_title;
+ 
+ +--------+------------+-----------------------+
+ | prc_id | prc_prj_id | prc_title             |
+ +--------+------------+-----------------------+
+ |      7 |          1 | Bar                   |
+ |      8 |          2 | Bar                   |
+ |      9 |          2 | Foo                   |
+ +--------+------------+-----------------------+
+```
 
 We are merging Project 2 into Project 1. We now need to reassign the moved issues to the correct "Bar" category, then delete the deprecated one:
 
-` UPDATE issue SET iss_prc_id = 7 WHERE iss_prc_id = 8;`
-` DELETE from project_category WHERE prc_id = 8;`
+```sql
+ UPDATE issue SET iss_prc_id = 7 WHERE iss_prc_id = 8;
+ DELETE from project_category WHERE prc_id = 8;
+```
 
 Project 2's "Foo" category is unique, so we simply assign it to Project 1:
 
-` UPDATE project_category SET prc_prj_id = 1 WHERE prc_id = 9;`
+```sql
+ UPDATE project_category SET prc_prj_id = 1 WHERE prc_id = 9;
+```
 
 Projects have their own priorities. These might be completely redundant, and must be reassigned:
 
-` mysql> SELECT * FROM project_priority ORDER BY pri_title;`
-` +--------+------------+-----------------+----------+`
-` | pri_id | pri_prj_id | pri_title       | pri_rank |`
-` +--------+------------+-----------------+----------+`
-` |      1 |          1 | Critical        |        1 |`
-` |      6 |          2 | Critical        |        1 |`
-` |      2 |          1 | High            |        2 |`
-` |      7 |          2 | High            |        2 |`
-` |      4 |          1 | Low             |        4 |`
-` |      9 |          2 | Low             |        4 |`
-` |      3 |          1 | Medium          |        3 |`
-` |      8 |          2 | Medium          |        3 |`
-` |      5 |          1 | Not Prioritized |        5 |`
-` |     10 |          2 | Not Prioritized |        5 |`
-` +--------+------------+-----------------+----------+`
-` 10 rows in set (0.00 sec)`
-` `
-` UPDATE issue SET iss_pri_id = 1 WHERE iss_pri_id = 6;`
-` UPDATE issue SET iss_pri_id = 2 WHERE iss_pri_id = 7;`
-` and so on...`
+```
+ mysql> SELECT * FROM project_priority ORDER BY pri_title;
+ +--------+------------+-----------------+----------+
+ | pri_id | pri_prj_id | pri_title       | pri_rank |
+ +--------+------------+-----------------+----------+
+ |      1 |          1 | Critical        |        1 |
+ |      6 |          2 | Critical        |        1 |
+ |      2 |          1 | High            |        2 |
+ |      7 |          2 | High            |        2 |
+ |      4 |          1 | Low             |        4 |
+ |      9 |          2 | Low             |        4 |
+ |      3 |          1 | Medium          |        3 |
+ |      8 |          2 | Medium          |        3 |
+ |      5 |          1 | Not Prioritized |        5 |
+ |     10 |          2 | Not Prioritized |        5 |
+ +--------+------------+-----------------+----------+
+ 10 rows in set (0.00 sec)
+```
+
+```sql
+ UPDATE issue SET iss_pri_id = 1 WHERE iss_pri_id = 6;
+ UPDATE issue SET iss_pri_id = 2 WHERE iss_pri_id = 7;
+```
+ and so on...
 
 Statuses, resolutions and custom fields are defined globally, and should transfer with the issue when reassigned to another project.
 
