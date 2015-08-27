@@ -1,3 +1,5 @@
+### Become Super Administrator
+
 The first user created during Eventum setup has Administrator access to all Eventum features. However, it is possible for administrators to accidently lose administrative access. If this happens use the following instructions to restore administrative access.
 
 If you want to have an access in "Administration" section with the "Configuration" section as this :
