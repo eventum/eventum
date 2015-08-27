@@ -1,3 +1,5 @@
+### Doing a fresh install
+
 ## Installation Process ##
 
 Installation is pretty simple and quick. Eventum already bundles the libraries that it needs to work properly:
