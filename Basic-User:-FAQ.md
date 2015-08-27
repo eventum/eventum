@@ -1,3 +1,5 @@
+### FAQ
+
 NOTE: this FAQ is a work in progress and will be updated as needed. If you cannot find the answers in this document, please see the eventum mailing list at <http://lists.mysql.com/eventum-users>. You can search the archive for answers, or subscribe and send your own questions to the list.
 
 You may also reach the Eventum developers by joining irc.freenode.net on channel \#eventum. Help on simple problems can be obtained directly through IRC, but for more complex problems, please send an email to the mailing list above.
