@@ -1,3 +1,5 @@
+### Editing Preferences
+
 ![Preferences|right|400px](Preferences.png "fig:Preferences|right|400px") In this section you can change your account password, Full Name and email address (must be valid). This address will be used by the system to send email notifications whenever details about issues you are subscribed to changes.
 
 The default options for email notifications are used to pre-select the notification related fields when you report a new issue, or subscribe manually for changes in the issue details page.
