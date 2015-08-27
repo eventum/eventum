@@ -1,3 +1,5 @@
+### Deleting Issues
+
 It is impossible to delete issues from Eventum through the user interface. However, there currently are two methods of removing issues.
 
 1. Delete the project. By deleting the project, you will delete ALL issues in this project with no way to recover them.
