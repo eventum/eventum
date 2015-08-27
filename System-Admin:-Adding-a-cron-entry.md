@@ -1,3 +1,5 @@
+### Adding a cron entry
+
 All email is sent using a cron script on Unix systems (including OS X) and needs to be added to the cron tables. An example is given in the INSTALL file, but the mechanics are not.
 
 **The PHP switch on this page was incorrect. It should be "`/usr/bin/php -f file`"**
