@@ -1,3 +1,5 @@
+### Creating Issues
+
 There are four ways to create issues.
 
 Create Issue from Anonymous Reporting Link
