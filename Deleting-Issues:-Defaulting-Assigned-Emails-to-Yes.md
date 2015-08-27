@@ -1,3 +1,5 @@
+### Defaulting Assigned Emails to Yes
+
 Diffs for fixing the assigned email feature
 
     Index: preferences.php
