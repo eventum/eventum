@@ -1,3 +1,5 @@
+### Listing Issues
+
 All these sections except for "Search Results" can be toggled on/off by a link in the upper right corner of the "Search Results" section. This page reloads at a user configurable interval (See [Editing Preferences](Editing Preferences "wikilink")).
 
 Quick Search
