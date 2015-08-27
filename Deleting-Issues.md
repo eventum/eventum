@@ -2,10 +2,11 @@ It is impossible to delete issues from Eventum through the user interface. Howev
 
 1. Delete the project. By deleting the project, you will delete ALL issues in this project with no way to recover them.
 
-2. Place the following code in a file in your eventum/misc directory. Change "MY_WHERE_CLAUSE" to be a specific issue ID, or change \$issues to be an array of issue IDs.
+2. Place the following code in a file in your eventum/misc directory. Change "MY_WHERE_CLAUSE" to be a specific issue ID, or change $issues to be an array of issue IDs.
 
 #### Original Script
 
+```php
     <?php
     include_once("../init.php");
     include_once(APP_INC_PATH . "db_access.php");
@@ -49,12 +50,13 @@ It is impossible to delete issues from Eventum through the user interface. Howev
             exit;
         }
     }
-    ?>
+```
 
 #### Modified script
 
 The above script must be modified for Eventum 2.01:
 
+```php
     <?php
     include_once("../init.php");
 
@@ -96,20 +98,19 @@ The above script must be modified for Eventum 2.01:
     {
         $res = $GLOBALS["db_api"]->dbh->query($sql);
         if (DB::isError($res)) {
-            echo "<pre>";print_r($res);echo "
+            echo "<pre>";print_r($res);echo "\n";
+        }
+        exit;
+   }
 
-";
+}
+```
 
-`       exit;`
-`   }`
-
-} ?\>
-
-</pre>
 #### Modified script
 
 A modified script for Eventum 2.1.1: This script use the global variable APP_DEFAULT_DB and APP_TABLE_PREFIX
 
+```php
     <?php
     require_once(dirname(__FILE__) . "/../init.php");
     require_once(APP_INC_PATH . "db_access.php");
@@ -152,16 +153,12 @@ A modified script for Eventum 2.1.1: This script use the global variable APP_DEF
     {
         $res = $GLOBALS["db_api"]->dbh->query($sql);
         if (DB::isError($res)) {
-            echo "<pre>";print_r($res);echo "
-
-";
-
-`       exit;`
-`   }`
+            echo "<pre>";print_r($res);echo "\n";
+        }
+        exit;
+   }
 
 }
+```
 
-?\>
-
-</pre>
 A modified Script can be found on the [discussion page](Talk:Deleting Issues "wikilink")
