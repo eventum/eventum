@@ -2,12 +2,16 @@ If you are getting blank pages in Eventum, this could be caused by a PHP error. 
 
 Change the following lines (near the top) from:
 
-`ini_set("display_errors", 0);`
-`error_reporting(0);`
+```php
+ini_set("display_errors", 0);
+error_reporting(0);
+```
 
 to:
 
-`ini_set("display_errors", 1);`
-`error_reporting(E_ALL);`
+```php
+ini_set("display_errors", 1);
+error_reporting(E_ALL);
+```
 
 and save the file. PHP errors should now be displayed.
