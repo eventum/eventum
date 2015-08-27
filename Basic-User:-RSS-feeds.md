@@ -1,3 +1,5 @@
+### RSS feeds
+
 Eventum has a feature to provide RSS feeds of custom filters, which is basically a way to save advanced search parameters into a special URL that you can call out to check on results.
 
 If you click on the advanced Search link and save a search, this named search will appear on the bottom of the web page with an RSS button. If you copy the link that you get from the button, you may use that link to set up your rss reader or use a browser such as firefox which has an rss reader built in.
