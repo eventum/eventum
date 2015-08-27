@@ -1,3 +1,5 @@
+### Fulltext Search
+
 Fulltext search allows you to search issues by using [MySQL FULLTEXT support](http://dev.mysql.com/doc/refman/5.0/en/fulltext-search.html)
 
 User Hints
