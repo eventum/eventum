@@ -1,3 +1,5 @@
+### Associate new issues
+
 Associate incoming emails only with new issues
 
 On the associate emails page, the selection box to select the issue to associate an email with soon gets too many entries, most of them closed issues. This patch limits the selection to only open issues. (issue closed date is null). A limitation of this is that an email can't be associated with a closed issue, the issue has to be reopened first.
