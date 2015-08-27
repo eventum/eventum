@@ -1,3 +1,5 @@
+### Email integration
+
 ## Overview ##
 
 Eventum's email integration features allow emails to be sent from and received by Eventum.
