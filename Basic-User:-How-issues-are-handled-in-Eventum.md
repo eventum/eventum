@@ -1,3 +1,5 @@
+### How issues are handled in Eventum
+
 This Chapter is intended to be a basic guidline for new users. One of my problems when starting with Eventum was, to understand the 'Big Picture'. Maybe it's useful to place an example here. Maybe someone can write a short issue-story here. How it's handled from the beginning, and how it goes through different statuses until it is finally closed. ----
 
 * * * * *
