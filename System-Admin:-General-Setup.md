@@ -1,3 +1,5 @@
+### General Setup
+
 This is a description of the options you will find in General Setup as an Administrador User in the Administration, Configuration options.
 
 General Setup
