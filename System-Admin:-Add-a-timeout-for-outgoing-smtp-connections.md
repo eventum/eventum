@@ -1,3 +1,5 @@
+### Add a timeout for outgoing smtp connections
+
 A problem apparently quite common with eventum users is the outgoing email queue getting locked up.
 
 One of the reasons of this happening is that there is no timeout set by default on the smpt connection (socket) that the php script in charge of sending email does, and if the connection with the mailserver is flaky, the said php script can hang forever (php.ini setting about max script execution time do not work in this case). If the stalled php script is killed by hand (eg. kill -9), it will not properly release a lock file it has acquired at startup, so that subsequent runs of the same script, eg. via a scheduled cron job will do nothing, and the outgoing mail queue will pile up messages until the admin resolves the problem by hand.
