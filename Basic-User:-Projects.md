@@ -1,3 +1,5 @@
+### Projects
+
 Projects are development projects that are initiated within your organisation regarding a software product, a system or any other type of product.
 
 A project covers the entire life cycle of development, including versioning (releases).
