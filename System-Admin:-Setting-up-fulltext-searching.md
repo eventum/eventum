@@ -1,3 +1,5 @@
+### Setting up fulltext searching
+
 As of version 1.5.4 Eventum supports full-text searching of issue summary, description, notes, emails, phone calls and time tracking entries. By default this is turned on.
 
 To enable this, edit /path-to-eventum/config/config.php and change the line:
