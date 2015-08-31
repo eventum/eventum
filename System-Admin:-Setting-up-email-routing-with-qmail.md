@@ -1,3 +1,5 @@
+### Setting up email routing with qmail
+
 ## Quick Notes ##
 
 When you're setting up Eventum's [Email Routing Interface](Email Routing Interface "wikilink") for qmail, use these options in the Administration -\> General Setup area:
