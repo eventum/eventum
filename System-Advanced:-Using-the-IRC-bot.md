@@ -1,3 +1,5 @@
+### Using the IRC bot
+
 With Eventum you can have an IRCbot if your development team has an IRC channel. The bot's features include, but are not limited to...
 
 -   Authenticating users
