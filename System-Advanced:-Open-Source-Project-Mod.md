@@ -1,3 +1,5 @@
+### Open Source Project Mod
+
 by Bryan Petty ([Tierra](User:Tierra "wikilink") 22:38, 30 Aug 2007 (CEST))
 
 These are some bare minimum instructions for using this Open Source mod to Eventum for allowing anonymous (non-registered) user access to tracker issues. If you have any questions, direct them to the Eventum mailing list. Even if I don't see your post myself, others there may be able to help.
