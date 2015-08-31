@@ -1,3 +1,5 @@
+### WorkflowDocumentation
+
 ## Workflow API ##
 
 The workflow API is used to provide custom functionality to Eventum. Many common events (creating/assigning/updating/closing issues, receiving/associating/blocking email, new notes, etc.) are mapped to corresponding methods in the Abstract_Workflow_Backend class, which can be extended to provide new functionality for those events. Each project can have its own customization of the class, or can share a single customization.
