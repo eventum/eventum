@@ -1,3 +1,5 @@
+### Setting up email routing with postfix
+
 ## Quick Notes ##
 
 When you're setting up Eventum's [Email Routing Interface](Email Routing Interface "wikilink") for postfix, use these options in the Administration -\> General Setup area:
