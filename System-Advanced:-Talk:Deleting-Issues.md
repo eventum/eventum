@@ -1,3 +1,5 @@
+### Deleting Issues
+
 ===Here's an example of how to make this possible through the web interface:=== 1) Create a status of **deleted** with a rank of *x* (*x* can be any unusued number).
 2) Create the php page above replacing **MY_WHERE_CLAUSE** with **iss_sta_id=*x*** (*x* is your selected rank)
 3) Save the file as **delete_issues.php** in your eventum/misc folder.
