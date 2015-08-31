@@ -1,3 +1,5 @@
+### Setting up email routing with 1 email account for multiple projects
+
 ## Note ##
 
 This is an application of the [Eventum:Multiple project email workaround](Multiple project email workaround "wikilink") using the [Eventum:Email Routing Interface](Email Routing Interface "wikilink"). The multiple project email workaround ***does not require*** the use of the Email Routing Interface, and can be applied to the other methods of associating incoming email with issues described in [Eventum:Email integration](Email integration "wikilink")
