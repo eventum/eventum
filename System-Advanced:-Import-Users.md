@@ -1,3 +1,5 @@
+### Import Users
+
 Example script to import users. Put in misc/ You will need to change the name of the project and the role.
 
     <?php
