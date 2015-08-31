@@ -1,3 +1,5 @@
+### Reporting System
+
 Eventum has a set of built-in reports. Each report is automatically generated and available in a dtree menu so you can browse them. Some of them need customization or some minor user input to generate the Report. Overview of available reports:
 
 Issues
