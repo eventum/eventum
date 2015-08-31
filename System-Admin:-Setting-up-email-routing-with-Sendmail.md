@@ -1,3 +1,5 @@
+### Setting up email routing with Sendmail
+
 ## Quick Notes ##
 
 When you're setting up Eventum's [Eventum:Email Routing Interface](Email Routing Interface "wikilink") for Sendmail, use these options in the Administration -\> General Setup area:
