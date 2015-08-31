@@ -1,3 +1,5 @@
+### Subject AND header based routing
+
 In 1.7.0, if subject based routing is enabled, this disables header based routing. This patch lets Eventum check the headers if no issue number is found in the subject. Catch both cases = less manual email association. -- Eliot B
 
     --- eventum-1.7.0/include/class.support.php     2005-12-30 08:27:24.000000000 +1300
