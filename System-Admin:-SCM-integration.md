@@ -1,3 +1,5 @@
+### SCM integration
+
 ## Overview ##
 
 Eventum's SCM integration feature links the commits in a Software Configuration Management system (CVS and Subversion are supported) to issues in Eventum. This is accomplished through the use of scripts that run on the SCM servers when commits occur, which parse the comment looking for references to issues, and notify Eventum when these are found. From the Eventum side, links to pages served by a third-party repository viewer are provided.
