@@ -1,3 +1,5 @@
+### Workflow API
+
 The workflow API is used to provide custom functionality to Eventum. The basic idea is when an event happens (new issue, new note, blocked email, etc.) Eventum calls the workflow class specified for that project.
 
 <h2>
