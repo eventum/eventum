@@ -14,7 +14,8 @@ You can download the dev source directly from [Launchpad](https://launchpad.net/
 `bzr clone lp:eventum`
 
 * * * * *
-# New Documentations - brian
+# New Documentations
+_Under Construction_
 
 * Basic User Information
  * [[Creating Issues|Basic-User:-Creating-Issues]]
@@ -26,6 +27,59 @@ You can download the dev source directly from [Launchpad](https://launchpad.net/
  * [[RSS Feeds|Basic-User:-RSS-feeds]]
  * [[Reports|Basic-User:-Reporting-System]]
  * [[Working with Issues|Basic-User:-Working-with-Issues]]
+* System Administration
+ * [[Add Timeout - Outgoing SMTP (171)|System-Admin:-Add-a-timeout-for-outgoing-smtp-connections-171]]
+ * [[Add Timeout - Outgoing SMTP|System-Admin:-Add-a-timeout-for-outgoing-smtp-connections]]
+ * [[Adding cron entries|System-Admin:-Adding-a-cron-entry]]
+ * [[Become Super Administrator|System-Admin:-Become-Super-Administrator]]
+ * [[Custom Fields|System-Admin:-Custom-Fields]]
+ * [[Doing a Fresh Install|System-Admin:-Doing-a-fresh-install]]
+ * [[Email Intergration|System-Admin:-Email-integration]]
+ * [[Email Routing Interface|System-Admin:-Email-Routing-Interface]]
+ * [[Email Routing: exim|System-Admin:-Setting-up-email-routing-with-exim]]
+ * [[Email Routing: postfix|System-Admin:-Setting-up-email-routing-with-postfix]]
+ * [[Email Routing: qmail|System-Admin:-Setting-up-email-routing-with-qmail]]
+ * [[Email Routing: Sendmail|System-Admin:-Setting-up-email-routing-with-Sendmail]]
+ * [[Email Routing: Single Account/Multiple Projects|System-Admin:-Setting-up-email-routing-with-1-email-account-for-multiple-projects]]
+ * [[Extending and Intergrating|System-Admin:-Extending-and-Integrating-Eventum]]
+ * [[Full Text Search|System-Admin:-Fulltext-Search]]
+ * [[Full Text Search|System-Admin:-Setting-up-fulltext-searching]]
+ * [[General Setup|System-Admin:-General-Setup]]
+ * [[Install Notes: FreeBSD 4.x|System-Admin:-Installation-notes-for-FreeBSD-4.x]]
+ * [[Install Notes: Linux|System-Admin:-Installation-notes-for-Linux-based-Systems]]
+ * [[Install Notes: NetWare|System-Admin:-Installation-notes-for-NetWare]]
+ * [[Install Notes: PLD Linux|System-Admin:-Installation-notes-for-PLD-Linux]]
+ * [[Install Notes: Windows|System-Admin:-Installation-notes-for-Windows]]
+ * [[SCM Intergration|System-Admin:-SCM-integration]]
+ * [[Subversion Intergrations|System-Admin:-Subversion-integration]]
+ * [[Troubleshooting: Displaying PHP Errors|System-Admin:-Displaying-PHP-errors]]
+ * [[Users|System-Admin:-Users]]
+ * [[Workflow API|System-Admin:-Workflow-API]]
+* Advanced System Documentation
+ * [[Associate New Issues|System-Advanced:-Associate-new-issues]]
+ * [[Custom Field API|System-Advanced:-CustomFieldAPI]]
+ * [[Customer API|System-Advanced:-Customer-API]]
+ * [[Default Assigned Emails|System-Advanced:-Defaulting-Assigned-Emails-to-Yes]]
+ * [[Deleting Issues|System-Advanced:-Deleting-Issues]]
+ * [[Deleting Issues|System-Advanced:-Talk:Deleting-Issues]]
+ * [[Dynamic Custom Fields|System-Advanced:-DynamicCustomFieldExample]]
+ * [[Enhanced FAQ I|System-Advanced:-Enhanced-FAQ-part-1]]
+ * [[Enhanced FAQ II|System-Advanced:-Enhanced-FAQ-part-2]]
+ * [[Hide Closed Issues on Stats Page|System-Advanced:-Hide-Closed-Issues-on-Stats-(Main)-Page]]
+ * [[Importing Users|System-Advanced:-Import-Users]]
+ * [[IRC Bot|System-Advanced:-Using-the-IRC-bot]]
+ * [[Limit Project Manager to Project|System-Advanced:-Limit-Project-Managers-to-Only-Their-Projects]]
+ * [[Link Filters|System-Advanced:-Manage-Link-Filters]]
+ * [[Localization: Japanese|System-Advanced:-Localization:Japanese]]
+ * [[Localization: Templates|System-Advanced:-Localization:Templates]]
+ * [[Localization: Untranslated Items|System-Advanced:-Localization:UntranslatedItems]]
+ * [[Localization|System-Advanced:-Localization]]
+ * [[Project Mod|System-Advanced:-Open-Source-Project-Mod]]
+ * [[Reminder Repetition|System-Advanced:-Patch-Reminder-Repetition]]
+ * [[Subject and Header Based Routing|System-Advanced:-Subject-AND-header-based-routing]]
+ * [[Workflow: Docs|System-Advanced:-WorkflowDocumentation]]
+ * [[Workflow: Examples|System-Advanced:-WorkflowExamples]]
+
 
 Documentation
 -------------
