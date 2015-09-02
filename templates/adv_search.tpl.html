@@ -6,9 +6,7 @@
 <script type="text/javascript">
 <!--
 
-{if $options.cst_created_date_filter_type|default:'' != "" OR $options.cst_updated_date_filter_type|default:'' != "" OR
-    $options.cst_first_response_date_filter_type|default:'' != "" OR $options.cst_last_response_date_filter_type|default:'' != "" OR
-    $options.cst_closed_date_filter_type|default:'' != ""}
+{if $options.cst_created_date_filter_type|default:'' != "" OR $options.cst_updated_date_filter_type|default:'' != "" OR $options.cst_first_response_date_filter_type|default:'' != "" OR $options.cst_last_response_date_filter_type|default:'' != "" OR $options.cst_closed_date_filter_type|default:'' != ""}
     $('#show_date_fields_checkbox').attr('checked', true);
 {/if}
 
