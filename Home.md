@@ -22,6 +22,12 @@ _Under Construction_
  * [[Reports|Basic-User:-Reporting-System]]
  * [[Working with Issues|Basic-User:-Working-with-Issues]]
 * System Administration
+ * Installation
+   * Before you start, check the [[prerequisites|Prerequisites]] for Eventum.
+     *  [[System Requirements|Prerequisites#System_Requirements]]
+       * [[Checking PHP Requirements|Prerequisites#Checking_PHP_Requirements]]
+          * [[Via the Command Line|Prerequisites#Via_the_Command_Line]]
+          * [[Via the Web|Prerequisites#Via_the_Web]]
  * [[Add Timeout - Outgoing SMTP (171)|System-Admin:-Add-a-timeout-for-outgoing-smtp-connections-171]]
  * [[Add Timeout - Outgoing SMTP|System-Admin:-Add-a-timeout-for-outgoing-smtp-connections]]
  * [[Adding cron entries|System-Admin:-Adding-a-cron-entry]]
@@ -74,8 +80,9 @@ _Under Construction_
  * [[Workflow: Docs|System-Advanced:-WorkflowDocumentation]]
  * [[Workflow: Examples|System-Advanced:-WorkflowExamples]]
 
-
-Documentation
+* * * * *
+_Original Documentation_  
+_**Most of these links are broken**_
 -------------
 
 -   Installation
