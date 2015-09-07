@@ -71,7 +71,7 @@
     {/if}
     {if $severities|@count > 0 && $core.current_role >= $field_display_settings.severity.min_role}
     <tr>
-      <th width="150"{if $field_display_settings.severity.min_role > $core.roles.customer} class="internal"{/if}">
+      <th width="150"{if $field_display_settings.severity.min_role > $core.roles.customer} class="internal"{/if}>
         {t}Severity{/t} {if $field_display_settings.severity.required}*{/if}
       </th>
       <td>
@@ -112,7 +112,7 @@
     {/if}
     {if $core.current_role >= $field_display_settings.assignment.min_role}
     <tr>
-      <th{if $field_display_settings.assignment.min_role > $core.roles.customer} class="internal"{/if}">
+      <th{if $field_display_settings.assignment.min_role > $core.roles.customer} class="internal"{/if}>
         {t}Assignment{/t} {if $field_display_settings.assignment.required}*{/if}
         {include file="help_link.tpl.html" topic="report_assignment"}
       </th>
