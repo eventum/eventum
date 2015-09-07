@@ -55,7 +55,7 @@
     </tr>
     {if $cats|@count > 0 && $core.current_role >= $field_display_settings.category.min_role}
     <tr>
-      <th {if $field_display_settings.category.min_role > $core.roles.customer}class="internal"{/if}>
+      <th{if $field_display_settings.category.min_role > $core.roles.customer} class="internal"{/if}>
         {t}Category{/t} {if $field_display_settings.category.required}*{/if}
             {include file="help_link.tpl.html" topic="report_category"}
       </th>
@@ -71,7 +71,7 @@
     {/if}
     {if $severities|@count > 0 && $core.current_role >= $field_display_settings.severity.min_role}
     <tr>
-      <th width="150" {if $field_display_settings.severity.min_role > $core.roles.customer}class="internal"{/if}">
+      <th width="150"{if $field_display_settings.severity.min_role > $core.roles.customer} class="internal"{/if}">
         {t}Severity{/t} {if $field_display_settings.severity.required}*{/if}
       </th>
       <td>
@@ -112,7 +112,7 @@
     {/if}
     {if $core.current_role >= $field_display_settings.assignment.min_role}
     <tr>
-      <th {if $field_display_settings.assignment.min_role > $core.roles.customer}class="internal"{/if}">
+      <th{if $field_display_settings.assignment.min_role > $core.roles.customer} class="internal"{/if}">
         {t}Assignment{/t} {if $field_display_settings.assignment.required}*{/if}
         {include file="help_link.tpl.html" topic="report_assignment"}
       </th>
@@ -132,7 +132,7 @@
 
   {if $groups|@count > 0 && $core.current_role >= $field_display_settings.group.min_role}
     <tr>
-      <th {if $field_display_settings.group.min_role > $core.roles.customer}class="internal"{/if}>
+      <th{if $field_display_settings.group.min_role > $core.roles.customer} class="internal"{/if}>
         {t}Group{/t} {if $field_display_settings.group.required}*{/if}
       </th>
       <td>
@@ -151,7 +151,7 @@
 
     {if $releases|@count > 0 && $core.current_role >= $field_display_settings.release.min_role}
     <tr>
-      <th {if $field_display_settings.release.min_role > $core.roles.customer}class="internal"{/if}>
+      <th{if $field_display_settings.release.min_role > $core.roles.customer} class="internal"{/if}>
         {t}Scheduled Release{/t} {if $field_display_settings.release.required}*{/if}
         {include file="help_link.tpl.html" topic="report_release"}
       </th>
@@ -215,7 +215,7 @@
   {if $core.current_role > $core.roles.customer && $core.current_role >= $field_display_settings.expected_res_date.min_role}
       <tr>
 
-        <th {if $field_display_settings.expected_res_date.min_role > $core.roles.customer}class="internal"{/if}>
+        <th{if $field_display_settings.expected_res_date.min_role > $core.roles.customer} class="internal"{/if}>
           {t}Expected Resolution Date{/t} {if $field_display_settings.expected_res_date.required}*{/if}
         </th>
 
@@ -229,7 +229,7 @@
 
     {if $core.current_role >= $field_display_settings.estimated_dev_time.min_role}
     <tr>
-      <th {if $field_display_settings.estimated_dev_time.min_role > $core.roles.customer}class="internal"{/if}>
+      <th{if $field_display_settings.estimated_dev_time.min_role > $core.roles.customer} class="internal"{/if}>
         <nobr>{t}Estimated Dev. Time{/t} {if $field_display_settings.estimated_dev_time.required}*{/if}
             {include file="help_link.tpl.html" topic="report_estimated_dev_time"}&nbsp;</nobr>
       </th>
@@ -246,7 +246,7 @@
 
     {if $products|@count > 0 && $core.current_role >= $field_display_settings.product.min_role}
     <tr>
-      <th width="150" {if $field_display_settings.product.min_role > $core.roles.customer}class="internal"{/if}>
+      <th width="150"{if $field_display_settings.product.min_role > $core.roles.customer} class="internal"{/if}>
         {t}Product{/t} {if $field_display_settings.product.required}*{/if}
       </th>
       <td>
@@ -262,7 +262,7 @@
       </td>
     </tr>
     <tr>
-      <th width="150" {if $field_display_settings.product.min_role > $core.roles.customer}class="internal"{/if}>
+      <th width="150"{if $field_display_settings.product.min_role > $core.roles.customer} class="internal"{/if}>
         {t}Product Version{/t}
       </th>
       <td>
@@ -274,7 +274,7 @@
     {/if}
     {if $core.current_role >= $field_display_settings.private.min_role}
     <tr>
-      <th {if $field_display_settings.private.min_role > $core.roles.customer}class="internal"{/if}>
+      <th{if $field_display_settings.private.min_role > $core.roles.customer} class="internal"{/if}>
         {t}Private{/t} {if $field_display_settings.private.required}*{/if}
       </th>
       <td>
