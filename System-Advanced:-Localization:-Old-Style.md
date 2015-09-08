@@ -18,10 +18,12 @@ How to Localize
 
 We will be using the excellent [smarty-gettext](http://smarty.incutio.com/?page=SmartyGettext) package. This means that templates files will need to be modified to surround text we want to translate with '{t}' and '{/t}'. For text strings found in PHP files, simply wrap them with gettext('string');
 
+`{t}Hello{/t}`
+
 Once all the templates are complete, eventum.po files will be generated. This file will contain name value pairs like:
 
-`msgid "Issue"`
-`msgstr ""`
+`msgid "Hello"`
+`msgstr "nuqneH"`
 
 When you localize the file, you will put the localized version of the string into the msgstr.
 
