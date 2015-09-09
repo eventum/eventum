@@ -517,6 +517,15 @@ td.light {
     width:290px;
 }
 
+.chosen-container {
+    height: 27px;
+}
+
+.chosen-container .chosen-drop {
+    top: 0;
+    box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.3);
+}
+
 /* add timetracking box */
 #add_time_form th {
 	text-align: right;
