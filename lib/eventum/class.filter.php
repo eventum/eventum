@@ -142,15 +142,15 @@ class Filter
                 if ($$filter_type_var == "'between'") {
                     $$date_end_var = "'" . Misc::escapeString($_POST[$date_end_var]['Year'] . '-' . $_POST[$date_end_var]['Month'] . '-' . $_POST[$date_end_var]['Day']) . "'";
                 } elseif (($$filter_type_var == "'null'") || ($$filter_type_var == "'in_past'")) {
-                    $$date_var = 'NULL';
-                    $$date_end_var = 'NULL';
+                    $$date_var = null;
+                    $$date_end_var = null;
                 } else {
-                    $$date_end_var = 'NULL';
+                    $$date_end_var = null;
                 }
             } else {
-                $$date_var = 'NULL';
-                $$filter_type_var = 'NULL';
-                $$date_end_var = 'NULL';
+                $$date_var = null;
+                $$filter_type_var = null;
+                $$date_end_var = null;
             }
         }
 
