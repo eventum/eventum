@@ -19,7 +19,7 @@ body#setup td {
 
 /* New Issue Page */
 body#new_issue #create_issue {
-    width: 80%;
+    width: 100%;
 }
 
 body#new_issue #severity_desc {
