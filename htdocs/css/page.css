@@ -184,6 +184,7 @@ body#issue_view td.message > span {
     max-height: 200px;
     overflow: auto;
 }
+
 body#issue_view #issue_summary {
     font-weight: bold;
     border-bottom: 1px solid #eeeeee;
@@ -206,6 +207,7 @@ body#list_issues div#quick_filter {
     width: 80%;
     margin: 0 auto;
 }
+
 body#list_issues div#quick_filter div#ft_options div {
     width: 50%;
     float: left;
@@ -302,9 +304,11 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
     padding-left: 1em;
 	list-style-type: square;
 }
+
 #report_sidebar>ul {
 	list-style-type: disc;
 }
+
 #report_sidebar ul ul {
     margin-left: 1em;
     padding-left: 0;
@@ -313,6 +317,7 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 #report_content {
     margin-left: 220px;
 }
+
 #report_content pre {
     font-size: 1.3em;
 	padding: 10px;
@@ -355,17 +360,20 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
     width: 97%;
     border: 2px dashed #027c99;
 }
+
 /* Chosen.js overrides */
 #bulk_update .chosen-container .chosen-drop {
     top: -270px;
     box-shadow: 4px -4px 5px rgba(0, 0, 0, 0.3);
 	border-top: 1px solid #aaaaaa;
 }
+
 /* workaround */
 #assignment_chosen {
     min-width: 290px;
     width: auto !important;
 }
+
 #custom_field_14_chosen {
 	width: 75% !important;
 }
