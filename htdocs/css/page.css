@@ -368,3 +368,11 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
     box-shadow: 4px -4px 5px rgba(0, 0, 0, 0.3);
 	border-top: 1px solid #aaaaaa;
 }
+/* workaround */
+#assignment_chosen {
+    min-width: 290px;
+    width: auto !important;
+}
+#custom_field_14_chosen {
+	width: 75% !important;
+}
