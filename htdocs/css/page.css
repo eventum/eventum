@@ -302,11 +302,11 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 #report_sidebar ul {
     margin-left: 0;
     padding-left: 1em;
-	list-style-type: square;
+    list-style-type: square;
 }
 
 #report_sidebar>ul {
-	list-style-type: disc;
+    list-style-type: disc;
 }
 
 #report_sidebar ul ul {
@@ -320,8 +320,8 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 
 #report_content pre {
     font-size: 1.3em;
-	padding: 10px;
-	width: auto;
+    padding: 10px;
+    width: auto;
 }
 
 /* Begin Select Project */
@@ -365,7 +365,7 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 #bulk_update .chosen-container .chosen-drop {
     top: -270px;
     box-shadow: 4px -4px 5px rgba(0, 0, 0, 0.3);
-	border-top: 1px solid #aaaaaa;
+    border-top: 1px solid #aaaaaa;
 }
 
 /* workaround */
@@ -375,5 +375,5 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 }
 
 .custom_field .chosen-container {
-	width: 50% !important;
+    width: 50% !important;
 }
