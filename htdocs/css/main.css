@@ -15,7 +15,7 @@ a {
 }
 #issue_overview .js_link:hover,
 div#header a:hover {
-	color: #c0c0c0;
+    color: #c0c0c0;
 }
 .js_link:hover,
 div#header #user_menu a:hover,
@@ -528,12 +528,12 @@ td.light {
 
 /* add timetracking box */
 #add_time_form th {
-	text-align: right;
-	padding-right: 0.3em;
+    text-align: right;
+    padding-right: 0.3em;
 }
 #add_time_form .title th {
-	text-align: left;
+    text-align: left;
 }
 #add_time_form img {
-	vertical-align: middle;
+    vertical-align: middle;
 }
