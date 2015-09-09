@@ -374,6 +374,6 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
     width: auto !important;
 }
 
-#custom_field_14_chosen {
-	width: 75% !important;
+.custom_field .chosen-container {
+	width: 50% !important;
 }
