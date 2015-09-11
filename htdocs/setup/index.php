@@ -69,7 +69,6 @@ if (defined('APP_PEAR_PATH')) {
     );
 }
 require_once APP_PATH . '/autoload.php';
-require_once 'File/Util.php';
 
 list($warnings, $errors) = checkRequirements();
 if ((count($warnings) > 0) || (count($errors) > 0)) {
