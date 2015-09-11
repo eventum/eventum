@@ -42,7 +42,6 @@
         return @imap_search($mbox, 'UNSEEN UNDELETED UNANSWERED');
     }
 
-
 /**
  * Class to handle the business logic related to the email feature of
  * the application.
@@ -2112,13 +2111,13 @@ class Support
             $iaf_ids = Attachment::addFiles($_FILES['attachment']);
         }
 
-        $issue_id = isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : 0;
-        $type = isset($_POST['type']) ? (string)$_POST['type'] : null;
-        $from = isset($_POST['from']) ? (string)$_POST['from'] : null;
-        $to = isset($_POST['to']) ? (string)$_POST['to'] : null;
-        $cc = isset($_POST['cc']) ? (string)$_POST['cc'] : null;
-        $subject = isset($_POST['subject']) ? (string)$_POST['subject'] : null;
-        $body = isset($_POST['message']) ? (string)$_POST['message'] : null;
+        $issue_id = isset($_POST['issue_id']) ? (int) $_POST['issue_id'] : 0;
+        $type = isset($_POST['type']) ? (string) $_POST['type'] : null;
+        $from = isset($_POST['from']) ? (string) $_POST['from'] : null;
+        $to = isset($_POST['to']) ? (string) $_POST['to'] : null;
+        $cc = isset($_POST['cc']) ? (string) $_POST['cc'] : null;
+        $subject = isset($_POST['subject']) ? (string) $_POST['subject'] : null;
+        $body = isset($_POST['message']) ? (string) $_POST['message'] : null;
 
         $options = array(
             'parent_sup_id' => $parent_sup_id,

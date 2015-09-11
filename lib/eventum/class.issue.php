@@ -1600,7 +1600,7 @@ class Issue
         if (isset($_POST['category']) && $current['iss_prc_id'] != $_POST['category']) {
             $updated_fields['Category'] = History::formatChanges(Category::getTitle($current['iss_prc_id']), Category::getTitle($_POST['category']));
         }
-        if (isset($_POST['release']) &&$current['iss_pre_id'] != $_POST['release']) {
+        if (isset($_POST['release']) && $current['iss_pre_id'] != $_POST['release']) {
             $updated_fields['Release'] = History::formatChanges(Release::getTitle($current['iss_pre_id']), Release::getTitle($_POST['release']));
         }
         if (isset($_POST['priority']) && $current['iss_pri_id'] != $_POST['priority']) {
@@ -2295,7 +2295,7 @@ class Issue
         }
 
         // set product and version
-        if (isset($data['product']) && $data['product'] != "-1") {
+        if (isset($data['product']) && $data['product'] != '-1') {
             Product::addIssueProductVersion($issue_id, $data['product'], $data['product_version']);
         }
 
