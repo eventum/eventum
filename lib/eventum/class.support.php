@@ -402,11 +402,7 @@ class Support
         $mbox = @imap_open(self::getServerURI($info), $info['ema_username'], $info['ema_password']);
         if ($mbox === false) {
             $error = @imap_last_error();
-            if (strstr(strtolower($error), 'certificate failure')) {
-                $mbox = @imap_open(self::getServerURI($info, true), $info['ema_username'], $info['ema_password']);
-            } else {
-                Error_Handler::logError('Error while connecting to the email server - ' . $error, __FILE__, __LINE__);
-            }
+            Error_Handler::logError('Error while connecting to the email server - ' . $error, __FILE__, __LINE__);
         }
 
         return $mbox;
