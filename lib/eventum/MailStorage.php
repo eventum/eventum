@@ -57,6 +57,7 @@ class MailStorage
             'host' => $params['ema_hostname'],
             'user' => $params['ema_username'],
             'password' => $params['ema_password'],
+            'folder' => $params['ema_folder'],
         );
 
         /**
