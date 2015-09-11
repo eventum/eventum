@@ -30,6 +30,18 @@
 // +----------------------------------------------------------------------+
 //
 
+    /**
+     * Method used to get new emails from the mailbox.
+     *
+     * @access public
+     * @param  resource $mbox The mailbox
+     * @return array Array of new message numbers.
+     */
+    function getNewEmails($mbox)
+    {
+        return @imap_search($mbox, 'UNSEEN UNDELETED UNANSWERED');
+    }
+
 
 /**
  * Class to handle the business logic related to the email feature of
@@ -84,7 +96,6 @@ class Support
                             // if the current message also matches the message-id header, then remove it!
                             if ($headers->message_id == $row['sup_message_id']) {
                                 @imap_delete($mbox, $match);
-                                @imap_expunge($mbox);
                                 break;
                             }
                         }
@@ -749,7 +760,9 @@ class Support
                             self::addExtraRecipientsToNotificationList($info['ema_prj_id'], $t, $should_create_issue);
                         }
 
-                        Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $t, $internal_only, $assignee_only, '', $sup_id);
+                        if (self::isAllowedToEmail($t['issue_id'], $sender_email)) {
+                            Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $t, $internal_only, $assignee_only, '', $sup_id);
+                        }
 
                         // try to get usr_id of sender, if not, use system account
                         $addr = Mail_Helper::getEmailAddress($structure->headers['from']);
@@ -984,6 +997,7 @@ class Support
      */
     public function closeEmailServer($mbox)
     {
+        @imap_expunge($mbox);
         @imap_close($mbox);
     }
 

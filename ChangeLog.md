@@ -4,6 +4,7 @@ Eventum Issue Tracking System
 2015-??-??, Version 3.0.3
 -------------------------
 - Remove File/Util.php manual include.  (Elan Ruusamäe, LP#1494536)
+- Eventum Mail Processing Enhancements (Kevin Seymour, LP#1481894)
 
 2015-08-04, Version 3.0.2
 -------------------------
