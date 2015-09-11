@@ -30,17 +30,6 @@
 // +----------------------------------------------------------------------+
 //
 
-    /**
-     * Method used to get new emails from the mailbox.
-     *
-     * @access public
-     * @param  resource $mbox The mailbox
-     * @return array Array of new message numbers.
-     */
-    function getNewEmails($mbox)
-    {
-        return @imap_search($mbox, 'UNSEEN UNDELETED UNANSWERED');
-    }
 
 /**
  * Class to handle the business logic related to the email feature of
@@ -433,6 +422,18 @@ class Support
     public static function getTotalEmails($mbox)
     {
         return @imap_num_msg($mbox);
+    }
+
+    /**
+     * Method used to get new emails from the mailbox.
+     *
+     * @access public
+     * @param  resource $mbox The mailbox
+     * @return array Array of new message numbers.
+     */
+    public static function getNewEmails($mbox)
+    {
+        return @imap_search($mbox, 'UNSEEN UNDELETED UNANSWERED');
     }
 
     /**
