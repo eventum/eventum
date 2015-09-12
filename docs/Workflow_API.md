@@ -1,7 +1,7 @@
 Workflow API
 ============
 
-Author: *Bryan Alsdorf*
+Author: *Bryan Alsdorf*  
 Created: *2004-08-27*
 
 The workflow API is used to provide custom functionality to Eventum. The basic
@@ -12,7 +12,7 @@ Getting Started
 ---------------
 
 To write your own Workflow class create a file named `class.my_name.php` in
-`eventum/config/workflow/`. In that file, create a class named
+`config/workflow/`. In that file, create a class named
 `my_name_Workflow_Backend` that extends `Abstract_Workflow_Backend`. Now you
 can add methods to that class to handle specific events. You can copy the
 method signatures from
