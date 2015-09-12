@@ -1,7 +1,7 @@
 Customer API
 ============
 
-Author: *Bryan Alsdorf*
+Author: *Bryan Alsdorf*  
 Created: *2004-09-07*
 
 The Customer API allows Eventum to interact with with your customer database.
@@ -15,8 +15,7 @@ To write your own Customer class create a file named `class.my_name.php` in
 `config/customer/`. In that file, create a class named
 `my_name_Customer_Backend` that extends `Abstract_Customer_Backend`. Now you
 can add methods to that class to handle specific events. You can copy the
-method signatures from
-`lib/eventum/customer/class.abstract_customer_backend.php` to get started.  An
+method signatures from `lib/eventum/customer/class.abstract_customer_backend.php` to get started.  An
 example customer implementation is in
 `docs/examples/customer/class.example_customer.php`. If you want to use this
 example implemenation, follow the steps below to enable customer integration
