@@ -2,9 +2,6 @@
 set -e
 set -x
 app=eventum
-rc=dev # development version
-#rc=RC1 # release candidate
-#rc= # release
 dir=$app
 podir=po
 
@@ -72,10 +69,6 @@ po_checkout() {
 # setup $version and update APP_VERSION in init.php
 update_version() {
 	version=$(awk -F"'" '/APP_VERSION/{print $4}' init.php)
-
-	if [ "$rc" != "dev" ]; then
-		return
-	fi
 
 	version=$(git describe --tags)
 	# not good tags, try trimming
@@ -181,6 +174,8 @@ cleanup_postdist() {
 }
 
 phplint() {
+	echo "Running php lint on source files using $(php --version | head -n1)"
+
 	find -name '*.php' | xargs -l1 php -n -l
 }
 
@@ -236,13 +231,7 @@ prepare_source() {
 	# cleanup rest of the stuff, that was neccessary for release preparation process
 	cleanup_postdist
 
-	if [ "$rc" != "dev" ]; then
-		phplint
-	fi
-
-	if [ "$rc" = "dev" ]; then
-		rc=
-	fi
+	phplint
 }
 
 # download tools
