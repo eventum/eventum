@@ -41,4 +41,4 @@ Future Direction
 As Eventum is developed more methods will be added to the workflow class. If
 you need a new workflow method, or you need more arguments passed to an
 existing method please email the [Eventum development
-list](eventum-devel@lists.mysql.com).
+list](mailto:eventum-devel@lists.mysql.com).
