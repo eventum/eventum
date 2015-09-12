@@ -818,7 +818,7 @@ class Mail_Helper
         }
         if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
             $references = explode(' ', self::unfold(trim($matches[1])));
-            $references = array_map('trim', $references);
+            $references = array_map(function ($s) { reeturn trim($s); }, $references);
             // return the first message-id in the list of references
             return $references[0];
         }
@@ -840,7 +840,7 @@ class Mail_Helper
         }
         if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
             $references = array_merge($references, explode(' ', self::unfold(trim($matches[1]))));
-            $references = array_map('trim', $references);
+            $references = array_map(function ($s) { return trim($s); }, $references);
             $references = array_unique($references);
         }
         foreach ($references as $key => $reference) {

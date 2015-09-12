@@ -52,7 +52,7 @@ class Notification
             return true;
         }
         $subscribed_emails = self::getSubscribedEmails($issue_id, 'emails');
-        $subscribed_emails = array_map('strtolower', $subscribed_emails);
+        $subscribed_emails = array_map(function ($s) { return strtolower($s); }, $subscribed_emails);
         if (@in_array($email, $subscribed_emails)) {
             return true;
         } else {
@@ -306,7 +306,7 @@ class Notification
 
         // automatically subscribe this sender to email notifications on this issue
         $subscribed_emails = self::getSubscribedEmails($issue_id, 'emails');
-        $subscribed_emails = array_map('strtolower', $subscribed_emails);
+        $subscribed_emails = array_map(function ($s) { return strtolower($s); }, $subscribed_emails);
         if ((!self::isIssueRoutingSender($issue_id, $sender)) &&
                 (!self::isBounceMessage($sender_email)) &&
                 (!in_array($sender_email, $subscribed_emails)) &&
@@ -649,7 +649,7 @@ class Notification
         $users = self::getUsersByIssue($issue_id, 'updated');
         $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
         // FIXME: $user_emails unused
-        $user_emails = array_map('strtolower', $user_emails);
+        $user_emails = array_map(function ($s) { return strtolower($s); }, $user_emails);
 
         foreach ($users as $user) {
             if (empty($user['sub_usr_id'])) {
@@ -754,7 +754,7 @@ class Notification
             $users = array_merge($users, $extra);
         }
         $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
-        $user_emails = array_map('strtolower', $user_emails);
+        $user_emails = array_map(function ($s) { return strtolower($s); }, $user_emails);
 
         foreach ($users as $user) {
             if (empty($user['sub_usr_id'])) {

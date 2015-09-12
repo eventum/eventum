@@ -685,7 +685,7 @@ class Support
                         Auth::createFakeCookie($usr_id, $prj_id);
 
                         $users = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Customer'));
-                        $user_emails = array_map('strtolower', array_values($users));
+                        $user_emails = array_map(function ($s) { return strtolower($s); }, array_values($users));
                         $users = array_flip($users);
 
                         $addresses = array();
@@ -1917,7 +1917,7 @@ class Support
                 try {
                     $contract = $crm->getContract(Issue::getContractID($issue_id));
                     $contact_emails = array_keys($contract->getContactEmailAssocList());
-                    $contact_emails = array_map('strtolower', $contact_emails);
+                    $contact_emails = array_map(function ($s) { return strtolower($s); }, $contact_emails);
                 } catch (CRMException $e) {
                     $contact_emails = array();
                 }

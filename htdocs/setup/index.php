@@ -390,7 +390,7 @@ function getUserList($conn)
     }
 
     // FIXME: why lowercase neccessary?
-    $users = array_map('strtolower', $users);
+    $users = array_map(function ($s) { return strtolower($s); }, $users);
 
     return $users;
 }
@@ -404,7 +404,7 @@ function getTableList($conn)
     $tables = $conn->getColumn('SHOW TABLES');
 
     // FIXME: why lowercase neccessary?
-    $tables = array_map('strtolower', $tables);
+    $tables = array_map(function ($s) { return strtolower($s); }, $tables);
 
     return $tables;
 }
@@ -431,7 +431,7 @@ function get_queries($file)
 {
     $contents = file_get_contents($file);
     $queries = explode(';', $contents);
-    $queries = array_map('trim', $queries);
+    $queries = array_map(function ($s) { return trim($s); }, $queries);
     $queries = array_filter($queries);
 
     return $queries;

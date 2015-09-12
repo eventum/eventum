@@ -583,8 +583,7 @@ class Misc
     public static function formatReply($str)
     {
         $lines = explode("\n", str_replace("\r", '', $str));
-        // COMPAT: the next line requires PHP >= 4.0.6
-        $lines = array_map(array('Misc', 'indent'), $lines);
+        $lines = array_map(function ($s) { return Misc::indent($s); }, $lines);
 
         return implode("\n", $lines);
     }
