@@ -1,4 +1,4 @@
-== System Requirements ==
+# System Requirements
 
 You need:
 
@@ -33,7 +33,7 @@ To see if your webserver handles PHP scripts and meets the requirements from abo
 
 ```php
 <?php
- phpinfo();
+phpinfo();
 ```
 
 Open that file in your browser. If PHP is installed on your webserver you will see information about configuration and extensions installed together with PHP.
