@@ -26,14 +26,17 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
+/**
+ * Class MailStorage
+ */
 class MailStorage
 {
     /** @var \Zend\Mail\Storage\AbstractStorage */
     private $storage;
 
-    public function __construct($params)
+    public function __construct($options)
     {
-        $params = $this->convertParams($params);
+        $params = $this->convertParams($options);
 
         $class = $params['storage_class'];
         $this->storage = new $class($params);
@@ -55,6 +58,7 @@ class MailStorage
         // Simple options
         $res = array(
             'host' => $params['ema_hostname'],
+            'port' => $params['ema_port'],
             'user' => $params['ema_username'],
             'password' => $params['ema_password'],
             'folder' => $params['ema_folder'],
