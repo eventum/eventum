@@ -1547,11 +1547,11 @@ class Issue
         if (isset($_POST['group'])) {
             $params['iss_grp_id'] = $_POST['group'];
         }
-        if (isset($_POST['trigger_reminders'])) {
-            $params['iss_dev_time'] = $_POST['trigger_reminders'];
+        if (isset($_POST['estimated_dev_time'])) {
+            $params['iss_dev_time'] = $_POST['estimated_dev_time'];
         }
-        if (isset($_POST['group'])) {
-            $params['iss_trigger_reminders'] = $_POST['group'];
+        if (isset($_POST['trigger_reminders'])) {
+            $params['iss_trigger_reminders'] = $_POST['trigger_reminders'];
         }
         if (isset($_POST['resolution'])) {
             $params['iss_res_id'] = $_POST['resolution'];
