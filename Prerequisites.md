@@ -13,7 +13,7 @@ You need:
 -   An SMTP and POP Server for email support
 -   MySQL Database Server (you can get it from the [MySQL Download page](http://dev.mysql.com/))
 
-Eventum 2.0.1 may give an SQL syntax error for using 'DEFAULT CHARSET=utf8' with MySQL 4.0.18, The installation worked fine for me on a machine running MySQL 5.0.21`
+Eventum 2.0.1 may give an SQL syntax error for using 'DEFAULT CHARSET=utf8' with MySQL 4.0.18, The installation worked fine for me on a machine running MySQL 5.0.21
 
 ### Checking PHP Requirements
 
