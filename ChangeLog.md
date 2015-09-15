@@ -8,6 +8,7 @@ Eventum Issue Tracking System
 - UI fix for Issue Assignees (Kristo Klausson, #68)
 - Remove File/Util.php manual include (Elan Ruusamäe, LP#1494536)
 - Eventum Mail Processing Enhancements (Kevin Seymour, LP#1481894)
+- Fix bugs with estimated dev time (Bryan Alsdorf, LP#1494723)
 
 2015-08-04, Version 3.0.2
 -------------------------
