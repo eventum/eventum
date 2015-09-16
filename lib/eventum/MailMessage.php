@@ -28,6 +28,7 @@
 
 use Zend\Mail\Storage\Message;
 use Zend\Mail\Headers;
+use Zend\Mail\Header\AbstractAddressList;
 
 class MailMessage extends Message
 {
@@ -135,6 +136,29 @@ class MailMessage extends Message
 
         // return the first message-id in the list of references
         return trim($references[0]);
+    }
+
+    /**
+     * Get email addresses from To: and Cc: headers.
+     *
+     * @return string[]
+     */
+    public function getAddresses()
+    {
+        $addresses = array();
+        foreach (array('To', 'Cc') as $header) {
+            if (!$this->headers->has($header)) {
+                continue;
+            }
+
+            /** @var AbstractAddressList $addresslist */
+            $addresslist = $this->headers->get($header);
+            foreach ($addresslist->getAddressList() as $address) {
+                $addresses[] = $address->getEmail();
+            }
+        }
+
+        return array_unique($addresses);
     }
 
     /**

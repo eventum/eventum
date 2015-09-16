@@ -40,7 +40,8 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($message->hasAttachments());
     }
 
-    public function testReferenceMessageId() {
+    public function testReferenceMessageId()
+    {
         $message = new MailMessage(array('file' => __DIR__ . '/data/in-reply-to.txt'));
         $reference_id = $message->getReferenceMessageId();
         $this->assertEquals('<CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>', $reference_id);
@@ -48,5 +49,15 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $message = new MailMessage(array('file' => __DIR__ . '/data/bug684922.txt'));
         $reference_id = $message->getReferenceMessageId();
         $this->assertEquals('<4d36173add8b60.67944236@origin.com>', $reference_id);
+    }
+
+    public function testGetAddresses()
+    {
+        $message = new MailMessage(array('file' => __DIR__ . '/data/bug684922.txt'));
+        $addresses = $message->getAddresses();
+        $exp = array(
+            'our@email.com',
+        );
+        $this->assertEquals($exp, $addresses);
     }
 }
