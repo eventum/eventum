@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -120,19 +120,19 @@ class Misc
     }
 
     /**
-     * Return the length of a string, even in the presence of
+     * Return bytes count of $data, even in the presence of
      * mbstring.func_overload
      *
-     * @param string $string the string we're measuring
+     * @param string $data the string we're measuring
      * @return int
      */
-    public static function strlen($string)
+    public static function countBytes($data)
     {
         if (function_exists('mb_strlen')) {
-            return mb_strlen($string, '8bit');
+            return mb_strlen($data, '8bit');
         }
 
-        return strlen($string);
+        return strlen($data);
     }
 
     /**
