@@ -523,9 +523,6 @@ class Support
         } else {
             $has_attachments = 0;
         }
-        // we can't trust the in-reply-to from the imap c-client, so let's
-        // try to manually parse that value from the full headers
-        $reference_msg_id = Mail_Helper::getReferenceMessageID($headers);
 
         // pass in $email by reference so it can be modified
         $workflow = Workflow::preEmailDownload($info['ema_prj_id'], $info, $mbox, $num, $message, $email, $structure);
