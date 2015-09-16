@@ -20,16 +20,23 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
 
     }
 
-    public function testHasAttachments() {
+    public function testHasAttachments()
+    {
 
         $headers = "X-foo: 1";
         $body = "nada";
         $message = new MailMessage(array('headers' => $headers, 'content' => $body));
         $has_attachments = $message->countParts();
+        $multipart = $message->isMultipart();
+        $this->assertFalse($multipart);
         $this->assertEquals(0, $has_attachments);
+        $this->assertFalse($message->hasAttachments());
 
-        $message = new MailMessage(array('file' => __DIR__.'/data/bug684922.txt'));
+        $message = new MailMessage(array('file' => __DIR__ . '/data/bug684922.txt'));
+        $multipart = $message->isMultipart();
+        $this->assertTrue($multipart);
         $has_attachments = $message->countParts();
         $this->assertEquals(2, $has_attachments);
+        $this->assertTrue($message->hasAttachments());
     }
 }

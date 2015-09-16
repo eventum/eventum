@@ -107,6 +107,16 @@ class MailMessage extends Message
     }
 
     /**
+     * Return true if mail has attachments
+     *
+     * @return  boolean
+     */
+    public function hasAttachments()
+    {
+        return $this->isMultipart() && $this->countParts() > 0;
+    }
+
+    /**
      * Return true if message is \Seen, \Deleted or \Answered
      *
      * @return bool
