@@ -27,6 +27,7 @@
 // +----------------------------------------------------------------------+
 
 use Zend\Mail\Storage\Message;
+use Zend\Mail\Headers;
 
 class MailMessage extends Message
 {
@@ -42,8 +43,16 @@ class MailMessage extends Message
         parent::__construct($params);
 
         // set messageId if that is missing
+        // FIXME: do not set this for "child" messages (attachments)
         if (!$this->headers->has('Message-Id')) {
-            $messageId = Mail_Helper::generateMessageID($params['headers'], $params['content']);
+            /** @var string|Headers $headers */
+            if ($params['headers'] instanceof Headers) {
+                $headers = $params['headers']->toString();
+            } else {
+                // use reference. maybe saves memory
+                $headers = &$params['headers'];
+            }
+            $messageId = Mail_Helper::generateMessageID($headers, $params['content']);
             $header = new Zend\Mail\Header\MessageId();
             $this->headers->addHeader($header->setId(trim($messageId, "<>")));
         }
@@ -95,5 +104,18 @@ class MailMessage extends Message
     public function getMessageId()
     {
         return $this->getHeader('Message-Id')->getFieldValue();
+    }
+
+    /**
+     * Return true if message is \Seen, \Deleted or \Answered
+     *
+     * @return bool
+     */
+    public function isSeen()
+    {
+        return
+            $this->hasFlag(Zend\Mail\Storage::FLAG_SEEN) ||
+            $this->hasFlag(Zend\Mail\Storage::FLAG_DELETED) ||
+            $this->hasFlag(Zend\Mail\Storage::FLAG_ANSWERED);
     }
 }
