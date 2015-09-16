@@ -31,6 +31,25 @@ use Zend\Mail\Storage\Message;
 class MailMessage extends Message
 {
     /**
+     * Public constructor
+     *
+     * Generates MessageId header in case it is missing:
+     *
+     * @param array $params
+     */
+    public function __construct(array $params)
+    {
+        parent::__construct($params);
+
+        // set messageId if that is missing
+        if (!$this->headers->has('Message-Id')) {
+            $messageId = Mail_Helper::generateMessageID($params['headers'], $params['content']);
+            $header = new Zend\Mail\Header\MessageId();
+            $this->headers->addHeader($header->setId(trim($messageId, "<>")));
+        }
+    }
+
+    /**
      * Method to read email from imap extension and return Zend Mail Message object.
      *
      * This is bridge while migrating to Zend Mail package supporting reading from imap extension functions.
@@ -66,5 +85,15 @@ class MailMessage extends Message
         $message = new self(array('headers' => $header, 'content' => $content, 'flags' => $flags));
 
         return $message;
+    }
+
+    /**
+     * Return Message-Id Value
+     *
+     * @return string
+     */
+    public function getMessageId()
+    {
+        return $this->getHeader('Message-Id')->getFieldValue();
     }
 }
