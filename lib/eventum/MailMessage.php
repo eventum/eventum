@@ -117,6 +117,27 @@ class MailMessage extends Message
     }
 
     /**
+     * Returns the referenced message-id for a given reply.
+     *
+     * @return string|null
+     */
+    public function getReferenceMessageId()
+    {
+        if ($this->headers->has('In-Reply-To')) {
+            return $this->headers->get('In-Reply-To')->getFieldValue();
+        }
+
+        if (!$this->headers->has('References')) {
+            return null;
+        }
+
+        $references = explode(' ', $this->headers->get('References')->getFieldValue());
+
+        // return the first message-id in the list of references
+        return trim($references[0]);
+    }
+
+    /**
      * Return true if message is \Seen, \Deleted or \Answered
      *
      * @return bool
