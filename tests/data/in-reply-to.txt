@@ -1,0 +1,34 @@
+Message-ID: <55E6B616.2050305@3.example.org>
+Date: Wed, 02 Sep 2015 11:40:54 +0300
+From: =?UTF-8?B?RWxhbiBSdXVzYW3DpGU=?= <glen@3.example.org>
+Organization: Eventum
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:24.0) Gecko/20100101 Icedove/24.5.0
+MIME-Version: 1.0
+To: Brian LaVallee <brian.lavallee@1.example.org>,
+ Bryan Alsdorf <bryan@2.example.org>
+Subject: Re: Eventum Wiki: Localization: Useless Tickets:
+References: <CAAaem7eL8Tz0LBqncnX6O+SVBPBXZe+-YFmfdCPfuAFLfjk2YQ@4.example.org> <55D2DF21.4090409@3.example.org> <CAAaem7eobVjOPoZSUbG34AXkwVhoK19HpW+Bc-VgXRqmCc_3FA@4.example.org> <55D44224.6050503@3.example.org> <CAAaem7fhEfPyksxO45NKph7VQ=F-4r2KwP2P3hzQB0yT=Z-Okg@4.example.org> <55DEC5DF.8030103@3.example.org> <CAG5u9y8dtK1-9Dx3uvetcJOENiYM6yT7N0kmiT8kLyQYahnKeA@4.example.org> <55DED903.9080304@3.example.org> <55E59719.5010303@3.example.org> <CAG5u9y9xfjVDL4nb=dGpZG2vpEuUgCTaNbxsVxh_Nd5MLRrJrQ@4.example.org> <55E59AF9.7040903@3.example.org> <CAG5u9y9384O3zSZcp4DZEkXt5Fjh3Ga+0wvQnKg5CUTpyeFbOw@4.example.org> <CAG5u9y-V1Qfwfv0jQzpspQ=6ak55vD1=9y6B4kqkcj1sR5fXHQ@4.example.org> <55E6A4E4.4060201@3.example.org> <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>
+In-Reply-To: <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>
+Content-Type: multipart/alternative;
+ boundary="------------020406080008030306040208"
+
+This is a multi-part message in MIME format.
+--------------020406080008030306040208
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+meh
+
+--------------020406080008030306040208
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+  </body>
+</html>
+
+--------------020406080008030306040208--

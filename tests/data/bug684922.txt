@@ -12,7 +12,6 @@ From: "Some Guy" <abcd@origin.com>
 To: Us <our@email.com>
 Subject: =?ISO-8859-2?Q?PD=3A_My=3A_Go=B3?= =?ISO-8859-2?Q?blahblah?=
 Message-ID: <4d36173add8b60.67944236@origin.com>
-In-Reply-To: <4d36173add8b60.67944236@origin.com>
 References: <4d36173add8b60.67944236@origin.com>
 MIME-Version: 1.0
 Content-Type: multipart/related; boundary="part4d361736dd7165.17138776"
