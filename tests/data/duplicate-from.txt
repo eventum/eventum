@@ -5,7 +5,7 @@ From: IT <help2@localhost>
 To: <issue-73358@eventum.example.org>
 Cc: "Some Guy" <abcd@origin.com>, Us <our@email.com>
 Message-ID: <33237888.1235.1415370268211.JavaMail.JON$@JON>
-Subject: meh
+Subject: Re: Re: Re[2]: meh
 MIME-Version: 1.0
 Content-Type: multipart/mixed;
   boundary="----=_Part_1234_14857120.1415370268195"
