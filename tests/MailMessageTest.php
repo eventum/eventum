@@ -60,4 +60,11 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         );
         $this->assertEquals($exp, $addresses);
     }
+
+    public function testCreateFromString()
+    {
+        $raw = file_get_contents(__DIR__ . '/data/bug684922.txt');
+        $message = MailMessage::createFromString($raw);
+        $this->assertInstanceOf('MailMessage', $message);
+    }
 }

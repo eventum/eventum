@@ -60,6 +60,18 @@ class MailMessage extends Message
     }
 
     /**
+     * Create Mail object from raw email message.
+     *
+     * @param string $raw The full email message
+     * @return MailMessage
+     */
+    public static function createFromString($raw)
+    {
+        $message = new self(array('raw' => $raw));
+        return $message;
+    }
+
+    /**
      * Method to read email from imap extension and return Zend Mail Message object.
      *
      * This is bridge while migrating to Zend Mail package supporting reading from imap extension functions.
