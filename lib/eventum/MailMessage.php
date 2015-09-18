@@ -240,4 +240,15 @@ class MailMessage extends Message
             $this->hasFlag(Zend\Mail\Storage::FLAG_DELETED) ||
             $this->hasFlag(Zend\Mail\Storage::FLAG_ANSWERED);
     }
+
+    /**
+     * Set Body of a message.
+     *
+     * IMPORTANT: it should not contain any multipart changes,
+     * as then everything will blow up as it is not parsed again.
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+    }
 }

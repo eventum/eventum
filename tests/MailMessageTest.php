@@ -105,4 +105,13 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('IT <help@localhost>', $from->toString());
         $this->assertEquals('help@localhost', $from->getEmail());
     }
+
+    public function testModifyBody()
+    {
+        $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
+        $this->assertInstanceOf('MailMessage', $message);
+
+        $content = Mail_Helper::stripWarningMessage($message->getContent());
+        $message->setContent($content);
+    }
 }
