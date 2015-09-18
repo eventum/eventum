@@ -114,4 +114,17 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $content = Mail_Helper::stripWarningMessage($message->getContent());
         $message->setContent($content);
     }
+
+    public function testRemoveCc() {
+        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+        $this->assertInstanceOf('MailMessage', $message);
+
+        $cc = join(',', $message->getAddresses('Cc'));
+        $this->assertEquals('abcd@origin.com,our@email.com', $cc);
+
+        $message->removeFromAddressList('Cc', 'our@email.com');
+
+        $cc = join(',', $message->getAddresses('Cc'));
+        $this->assertEquals('abcd@origin.com', $cc);
+    }
 }

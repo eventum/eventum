@@ -183,8 +183,12 @@ class MailMessage extends Message
      */
     public function getAddresses($headers = array('To', 'Cc'))
     {
+        if (!$headers) {
+            throw new InvalidArgumentException('No header field specified');
+        }
+
         $addresses = array();
-        foreach ($headers as $header) {
+        foreach ((array)$headers as $header) {
             if (!$this->headers->has($header)) {
                 continue;
             }
@@ -226,6 +230,26 @@ class MailMessage extends Message
 
         $value = current($addressList);
         return $value;
+    }
+
+    /**
+     * Convenience method to remove address from $headerName AddressList.
+     *
+     * @param string $header
+     * @param string $address
+     * @return bool
+     */
+    public function removeFromAddressList($header, $address)
+    {
+        if (!$this->headers->has($header)) {
+            return false;
+        }
+
+        /** @var AbstractAddressList $h */
+        $h = $this->headers->get($header);
+        $addressList = $h->getAddressList();
+
+        return $addressList->delete($address);
     }
 
     /**
