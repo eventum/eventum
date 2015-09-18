@@ -72,6 +72,19 @@ class MailMessage extends Message
     }
 
     /**
+     * Create Mail object from specified filename
+     *
+     * @param string $filename Path to the file to read in
+     * @return MailMessage
+     */
+    public static function createFromFile($filename)
+    {
+        $message = new self(array('file' => $filename));
+
+        return $message;
+    }
+
+    /**
      * Method to read email from imap extension and return Zend Mail Message object.
      *
      * This is bridge while migrating to Zend Mail package supporting reading from imap extension functions.
