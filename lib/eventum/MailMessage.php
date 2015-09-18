@@ -29,6 +29,8 @@
 use Zend\Mail\Storage\Message;
 use Zend\Mail\Headers;
 use Zend\Mail\Header\AbstractAddressList;
+use Zend\Mail\Header\HeaderInterface;
+use Zend\Mail\Address;
 
 class MailMessage extends Message
 {
@@ -195,6 +197,35 @@ class MailMessage extends Message
         }
 
         return array_unique($addresses);
+    }
+
+    /**
+     * Get From header. In case multiple headers present, return just first one.
+     *
+     * @return Address
+     */
+    public function getFromHeader()
+    {
+        if (!$this->headers->has('From')) {
+            return null;
+        }
+
+        // take long path to get multiple headers to single item
+        // and multiple addresses from addresslist to single one.
+
+        $header = $this->getHeader('From');
+
+        if (!$header instanceof HeaderInterface) {
+            $header = iterator_to_array($header);
+            // take first header
+            $header = current($header);
+        }
+
+        $addressList = $header->getAddressList();
+        $addressList = iterator_to_array($addressList);
+
+        $value = current($addressList);
+        return $value;
     }
 
     /**

@@ -94,4 +94,15 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         // this should not throw
         $headers->removeHeader('In-Reply-To');
     }
+
+    public function testDuplicateFrom()
+    {
+        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+        $this->assertInstanceOf('MailMessage', $message);
+
+        $from = $message->getFromHeader();
+        $this->assertInstanceOf('Zend\Mail\Address', $from);
+        $this->assertEquals('IT <help@localhost>', $from->toString());
+        $this->assertEquals('help@localhost', $from->getEmail());
+    }
 }
