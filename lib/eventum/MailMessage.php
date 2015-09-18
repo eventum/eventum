@@ -31,6 +31,7 @@ use Zend\Mail\Headers;
 use Zend\Mail\Header\AbstractAddressList;
 use Zend\Mail\Header\HeaderInterface;
 use Zend\Mail\Address;
+use Zend\Mail\Header\Subject;
 
 class MailMessage extends Message
 {
@@ -230,6 +231,16 @@ class MailMessage extends Message
 
         $value = current($addressList);
         return $value;
+    }
+
+    /**
+     * Get Subject header object.
+     *
+     * @return Subject
+     */
+    public function getSubject()
+    {
+        return $this->headers->get('Subject');
     }
 
     /**
