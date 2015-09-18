@@ -120,6 +120,16 @@ class MailMessage extends Message
     }
 
     /**
+     * Assemble email into raw format.
+     *
+     * @return string
+     */
+    public function getRawContent()
+    {
+        return $this->headers->toString() . Headers::EOL . $this->getContent();
+    }
+
+    /**
      * Return true if mail has attachments
      *
      * @return  boolean

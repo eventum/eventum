@@ -63,8 +63,13 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
 
     public function testCreateFromString()
     {
-        $raw = file_get_contents(__DIR__ . '/data/bug684922.txt');
+        $raw = file_get_contents(__DIR__ . '/data/in-reply-to.txt');
         $message = MailMessage::createFromString($raw);
         $this->assertInstanceOf('MailMessage', $message);
+
+        // test that getting back raw content works
+        // NOTE: the result is not always identical, however this is saved from this same method before manually verifying result is okay
+        $content = $message->getRawContent();
+        $this->assertEquals($raw, $content);
     }
 }
