@@ -72,4 +72,24 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $content = $message->getRawContent();
         $this->assertEquals($raw, $content);
     }
+
+    public function testRemoveHeader()
+    {
+        // test if header exists
+        $message = new MailMessage(array('file' => __DIR__ . '/data/in-reply-to.txt'));
+        $this->assertInstanceOf('MailMessage', $message);
+        $headers = $message->getHeaders();
+
+        $this->assertTrue($headers->has('In-Reply-To'));
+        $headers->removeHeader('In-Reply-To');
+        $this->assertFalse($headers->has('In-Reply-To'));
+
+        // test if header already does not exist
+        $message = new MailMessage(array('file' => __DIR__ . '/data/bug684922.txt'));
+        $this->assertInstanceOf('MailMessage', $message);
+        $headers = $message->getHeaders();
+
+        $this->assertFalse($headers->has('In-Reply-To'));
+        $headers->removeHeader('In-Reply-To');
+    }
 }
