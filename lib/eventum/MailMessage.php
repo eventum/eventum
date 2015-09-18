@@ -161,14 +161,15 @@ class MailMessage extends Message
     }
 
     /**
-     * Get email addresses from To: and Cc: headers.
+     * Get email addresses from specified headers, default from "To:" and "Cc:".
      *
+     * @param array $headers
      * @return string[]
      */
-    public function getAddresses()
+    public function getAddresses($headers = array('To', 'Cc'))
     {
         $addresses = array();
-        foreach (array('To', 'Cc') as $header) {
+        foreach ($headers as $header) {
             if (!$this->headers->has($header)) {
                 continue;
             }

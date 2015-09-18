@@ -81,6 +81,8 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $headers = $message->getHeaders();
 
         $this->assertTrue($headers->has('In-Reply-To'));
+        $value = $headers->get('In-Reply-To');
+        $this->assertEquals('<CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>', $value->getFieldValue());
         $headers->removeHeader('In-Reply-To');
         $this->assertFalse($headers->has('In-Reply-To'));
 
@@ -90,6 +92,7 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $headers = $message->getHeaders();
 
         $this->assertFalse($headers->has('In-Reply-To'));
+        // this should not throw
         $headers->removeHeader('In-Reply-To');
     }
 }
