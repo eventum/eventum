@@ -148,7 +148,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      * @param string $uid login or email
      * @return array
      */
-    private function getRemoteUserInfo($uid)
+    public function getRemoteUserInfo($uid)
     {
         if (strpos($uid, '@') === false) {
             $filter = Net_LDAP2_Filter::create('uid', 'equals', $uid);
