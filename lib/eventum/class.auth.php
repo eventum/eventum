@@ -84,92 +84,100 @@ class Auth
      */
     public static function checkAuthentication($cookie_name, $failed_url = null, $is_popup = false)
     {
-        self::getAuthBackend()->checkAuthentication();
+        try {
+            self::getAuthBackend()->checkAuthentication();
 
-        if ($cookie_name == null) {
-            $cookie_name = APP_COOKIE;
-        }
-        if ($failed_url == null) {
-            $failed_url = APP_RELATIVE_URL . 'index.php?err=5';
-        }
-        $failed_url .= '&url=' . urlencode($_SERVER['REQUEST_URI']);
-        if (!isset($_COOKIE[$cookie_name])) {
-            if (APP_ANON_USER) {
-                $anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
-                $prj_id = reset(array_keys(Project::getAssocList($anon_usr_id)));
-                self::createFakeCookie($anon_usr_id, $prj_id);
-                self::createLoginCookie(APP_COOKIE, APP_ANON_USER, false);
-                self::setCurrentProject($prj_id, true);
-                Session::init($anon_usr_id);
-            } else {
-                // check for valid HTTP_BASIC params
-                if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
-                    if (Auth::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
-                        $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER'], true);
-                        $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
-                        self::createFakeCookie($usr_id, $prj_id);
-                        self::createLoginCookie(APP_COOKIE, APP_ANON_USER);
-                        self::setCurrentProject($prj_id, true);
-                    } else {
-                        header('WWW-Authenticate: Basic realm="Eventum"');
-                        header('HTTP/1.0 401 Unauthorized');
-                        echo 'Login Failed';
-
-                        return;
-                    }
+            if ($cookie_name == null) {
+                $cookie_name = APP_COOKIE;
+            }
+            if ($failed_url == null) {
+                $failed_url = APP_RELATIVE_URL . 'index.php?err=5';
+            }
+            $failed_url .= '&url=' . urlencode($_SERVER['REQUEST_URI']);
+            if (!isset($_COOKIE[$cookie_name])) {
+                if (APP_ANON_USER) {
+                    $anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
+                    $prj_id = reset(array_keys(Project::getAssocList($anon_usr_id)));
+                    self::createFakeCookie($anon_usr_id, $prj_id);
+                    self::createLoginCookie(APP_COOKIE, APP_ANON_USER, false);
+                    self::setCurrentProject($prj_id, true);
+                    Session::init($anon_usr_id);
                 } else {
-                    self::redirect($failed_url, $is_popup);
+                    // check for valid HTTP_BASIC params
+                    if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
+                        if (Auth::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
+                            $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER'], true);
+                            $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
+                            self::createFakeCookie($usr_id, $prj_id);
+                            self::createLoginCookie(APP_COOKIE, APP_ANON_USER);
+                            self::setCurrentProject($prj_id, true);
+                        } else {
+                            header('WWW-Authenticate: Basic realm="Eventum"');
+                            header('HTTP/1.0 401 Unauthorized');
+                            echo 'Login Failed';
+
+                            return;
+                        }
+                    } else {
+                        self::redirect($failed_url, $is_popup);
+                    }
                 }
             }
-        }
-        $cookie = $_COOKIE[$cookie_name];
-        $cookie = unserialize(base64_decode($cookie));
-        if (!self::isValidCookie($cookie)) {
-            self::removeCookie($cookie_name);
-            self::redirect($failed_url, $is_popup);
-        }
-        if (self::isPendingUser($cookie['email'])) {
-            self::removeCookie($cookie_name);
-            self::redirect('index.php?err=9', $is_popup);
-        }
-        if (!self::isActiveUser($cookie['email'])) {
-            self::removeCookie($cookie_name);
-            self::redirect('index.php?err=7', $is_popup);
-        }
+            $cookie = $_COOKIE[$cookie_name];
+            $cookie = unserialize(base64_decode($cookie));
+            if (!self::isValidCookie($cookie)) {
+                self::removeCookie($cookie_name);
+                self::redirect($failed_url, $is_popup);
+            }
+            if (self::isPendingUser($cookie['email'])) {
+                self::removeCookie($cookie_name);
+                self::redirect('index.php?err=9', $is_popup);
+            }
+            if (!self::isActiveUser($cookie['email'])) {
+                self::removeCookie($cookie_name);
+                self::redirect('index.php?err=7', $is_popup);
+            }
 
-        $usr_id = self::getUserID();
+            $usr_id = self::getUserID();
 
-        // check the session
-        Session::verify($usr_id);
+            // check the session
+            Session::verify($usr_id);
 
-        if (!defined('SKIP_LANGUAGE_INIT')) {
-            Language::setPreference();
+            if (!defined('SKIP_LANGUAGE_INIT')) {
+                Language::setPreference();
+            }
+
+            // check whether the project selection is set or not
+            $prj_id = self::getCurrentProject();
+            if (empty($prj_id)) {
+                // redirect to select project page
+                self::redirect(APP_RELATIVE_URL . 'select_project.php?url=' . urlencode($_SERVER['REQUEST_URI']), $is_popup);
+            }
+            // check the expiration date for a 'Customer' type user
+            $contact_id = User::getCustomerContactID($usr_id);
+            if ((!empty($contact_id)) && (CRM::hasCustomerIntegration($prj_id))) {
+                $crm = CRM::getInstance($prj_id);
+                $crm->authenticateCustomer();
+            }
+
+            // auto switch project
+            if (isset($_GET['switch_prj_id'])) {
+                self::setCurrentProject($_GET['switch_prj_id'], false);
+                self::redirect($_SERVER['PHP_SELF'] . '?' . str_replace('switch_prj_id=' . $_GET['switch_prj_id'], '', $_SERVER['QUERY_STRING']));
+            }
+
+            // if the current session is still valid, then renew the expiration
+            self::createLoginCookie($cookie_name, $cookie['email'], $cookie['permanent']);
+            // renew the project cookie as well
+            $prj_cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
+            self::setCurrentProject($prj_id, $prj_cookie['remember']);
+        } catch (AuthException $e) {
+            $tpl = new Template_Helper();
+            $tpl->setTemplate("authentication_error.tpl.html");
+            $tpl->assign("error_message", $e->getMessage());
+            $tpl->displayTemplate();
+            exit;
         }
-
-        // check whether the project selection is set or not
-        $prj_id = self::getCurrentProject();
-        if (empty($prj_id)) {
-            // redirect to select project page
-            self::redirect(APP_RELATIVE_URL . 'select_project.php?url=' . urlencode($_SERVER['REQUEST_URI']), $is_popup);
-        }
-        // check the expiration date for a 'Customer' type user
-        $contact_id = User::getCustomerContactID($usr_id);
-        if ((!empty($contact_id)) && (CRM::hasCustomerIntegration($prj_id))) {
-            $crm = CRM::getInstance($prj_id);
-            $crm->authenticateCustomer();
-        }
-
-        // auto switch project
-        if (isset($_GET['switch_prj_id'])) {
-            self::setCurrentProject($_GET['switch_prj_id'], false);
-            self::redirect($_SERVER['PHP_SELF'] . '?' . str_replace('switch_prj_id=' . $_GET['switch_prj_id'], '', $_SERVER['QUERY_STRING']));
-        }
-
-        // if the current session is still valid, then renew the expiration
-        self::createLoginCookie($cookie_name, $cookie['email'], $cookie['permanent']);
-        // renew the project cookie as well
-        $prj_cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
-        self::setCurrentProject($prj_id, $prj_cookie['remember']);
     }
 
     /**
