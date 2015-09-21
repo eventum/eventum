@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -36,7 +36,6 @@
  * as functions to work around PHP bugs or incompatibilities between separate
  * PHP configurations.
  */
-
 class Misc
 {
     /**
@@ -118,6 +117,22 @@ class Misc
         }
 
         return $a;
+    }
+
+    /**
+     * Return bytes count of $data, even in the presence of
+     * mbstring.func_overload
+     *
+     * @param string $data the string we're measuring
+     * @return int
+     */
+    public static function countBytes($data)
+    {
+        if (function_exists('mb_strlen')) {
+            return mb_strlen($data, '8bit');
+        }
+
+        return strlen($data);
     }
 
     /**
@@ -230,7 +245,7 @@ class Misc
 
         return array(
             'total_words' => count($misspelled_words),
-            'words'       => $misspelled_words,
+            'words' => $misspelled_words,
             'suggestions' => $spell_suggestions,
         );
     }
@@ -270,7 +285,7 @@ class Misc
         }
         foreach (array_keys($in_array) as $key) {
             // we need a reference, not a copy, normal foreach won't do
-            $value = & $in_array[$key];
+            $value = &$in_array[$key];
             // we need to copy args because we are doing
             // manipulation on it farther down
             $args = $in_args;
@@ -315,7 +330,7 @@ class Misc
      * The available options are K (for Kilobytes), M (for Megabytes) and G
      * (for Gigabytes; available since PHP 5.1.0).
      *
-     * @param   string  $val The size to format
+     * @param   string $val The size to format
      * @return  integer size in bytes
      */
     public static function return_bytes($val)
@@ -337,23 +352,23 @@ class Misc
         return $val;
     }
 
-/**
- * The Util:: class provides generally useful methods of different kinds.
- *
- * $Horde: framework/Util/Util.php,v 1.366 2004/03/30 17:03:58 jan Exp $
- *
- * Copyright 1999-2004 Chuck Hagenbuch <chuck@horde.org>
- * Copyright 1999-2004 Jon Parise <jon@horde.org>
- *
- * See the enclosed file COPYING for license information (LGPL). If you
- * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
- *
- * @author  Chuck Hagenbuch <chuck@horde.org>
- * @author  Jon Parise <jon@horde.org>
- * @version $Revision: 1.366 $
- * @since   Horde 3.0
- * @package Horde_Util
- */
+    /**
+     * The Util:: class provides generally useful methods of different kinds.
+     *
+     * $Horde: framework/Util/Util.php,v 1.366 2004/03/30 17:03:58 jan Exp $
+     *
+     * Copyright 1999-2004 Chuck Hagenbuch <chuck@horde.org>
+     * Copyright 1999-2004 Jon Parise <jon@horde.org>
+     *
+     * See the enclosed file COPYING for license information (LGPL). If you
+     * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
+     *
+     * @author  Chuck Hagenbuch <chuck@horde.org>
+     * @author  Jon Parise <jon@horde.org>
+     * @version $Revision: 1.366 $
+     * @since   Horde 3.0
+     * @package Horde_Util
+     */
     public static function dispelMagicQuotes(&$var)
     {
         static $magic_quotes;
@@ -583,8 +598,7 @@ class Misc
     public static function formatReply($str)
     {
         $lines = explode("\n", str_replace("\r", '', $str));
-        // COMPAT: the next line requires PHP >= 4.0.6
-        $lines = array_map(array('Misc', 'indent'), $lines);
+        $lines = array_map(function ($s) { return Misc::indent($s); }, $lines);
 
         return implode("\n", $lines);
     }
@@ -762,8 +776,8 @@ class Misc
     {
         $messages = Session::get('messages', array());
         $messages[] = array(
-            'text'  =>  $msg,
-            'type'  =>  $type,
+            'text' => $msg,
+            'type' => $type,
         );
         Session::set('messages', $messages);
     }
@@ -801,9 +815,9 @@ class Misc
      * Shortcut method to check if if an element is set in the array and if not
      * return a default value.
      *
-     * @param  array   $array The array to check if the element is in
-     * @param  string  $var_name The name of the element to check for
-     * @param  mixed   $default The default value to return if the element is not set
+     * @param  array $array The array to check if the element is in
+     * @param  string $var_name The name of the element to check for
+     * @param  mixed $default The default value to return if the element is not set
      * @return mixed
      */
     public static function ifSet($array, $var_name, $default = null)

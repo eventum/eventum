@@ -222,7 +222,7 @@ if (!Issue::canAccess($issue_id, $usr_id)) {
                 ($issue_fields_display['estimated_dev_time'] != false)) {
                 $columns[1][] = array(
                     'title' =>  ev_gettext('Estimated Dev. Time'),
-                    'data'  =>  $details['iss_dev_time'] . empty($details['iss_dev_time']) ? '' : ' hours',
+                    'data'  =>  empty($details['iss_dev_time']) ? '' : $details['iss_dev_time'] . ' hours',
                     'field' =>  'estimated_dev_time',
                 );
             }

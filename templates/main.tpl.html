@@ -86,7 +86,7 @@
               <table width="100%">
                 {section name="i" loop=$users}
                 <tr>
-                  <td><a href="list.php?keywords=&category=&release=&status=&priority=&users={$users[i].isu_usr_id}">{if $users[i].usr_status != 'active'}<strike>{/if}{$users[i].usr_full_name|escape:html}{if $users[i].usr.status != 'active'}</strike>{/if}</a></td>
+                  <td><a href="list.php?keywords=&category=&release=&status=&priority=&users={$users[i].isu_usr_id}">{if $users[i].usr_status != 'active'}<strike>{/if}{$users[i].usr_full_name|escape:html}{if $users[i].usr_status != 'active'}</strike>{/if}</a></td>
                   <td align="right">{$users[i].total_open_items}{if !$hide_closed} / {$users[i].total_closed_items}{/if}</td>
                 </tr>
                 {sectionelse}

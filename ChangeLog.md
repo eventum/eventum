@@ -3,6 +3,13 @@ Eventum Issue Tracking System
 
 2015-??-??, Version 3.0.3
 -------------------------
+- Added bin/truncate_mail_queue.php (Bryan Alsdorf)
+- Add admin interface for required fields (Bryan Alsdorf, #67)
+- UI fix for Issue Assignees (Kristo Klausson, #68)
+- Remove File/Util.php manual include (Elan Ruusamäe, LP#1494536)
+- Eventum Mail Processing Enhancements (Kevin Seymour, LP#1481894)
+- Fix bugs with estimated dev time (Bryan Alsdorf, LP#1494723)
+- Display pretty error page for auth exceptions (Bryan Alsdorf)
 
 2015-08-04, Version 3.0.2
 -------------------------

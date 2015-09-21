@@ -1,3 +1,6 @@
 [submodule "scm"]
 	path = scm
 	url = git://github.com/eventum/scm.git
+[submodule "docs/wiki"]
+	path = docs/wiki
+	url = https://github.com/eventum/eventum.wiki.git

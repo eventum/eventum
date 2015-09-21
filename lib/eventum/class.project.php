@@ -1068,8 +1068,8 @@ class Project
         foreach ($fields as $field_name => $field_info) {
             if (!isset($res[$field_name])) {
                 $res[$field_name] = array(
-                    "required"  =>  $field_info['required'],
-                    "min_role"  =>  0,
+                    'required'  =>  $field_info['required'],
+                    'min_role'  =>  0,
                 );
             }
         }
@@ -1136,7 +1136,6 @@ class Project
         );
     }
 
-
     /**
      * Sets the default display fields for a project
      *
@@ -1148,8 +1147,8 @@ class Project
         $settings = array();
         foreach ($fields as $field_name => $field_info) {
             $settings[$field_name] = array(
-                "required"  =>  $field_info['required'],
-                "min_role"  =>  0,
+                'required'  =>  $field_info['required'],
+                'min_role'  =>  0,
             );
         }
         self::updateFieldDisplaySettings($prj_id, $settings);

@@ -84,7 +84,6 @@ class Support
                             // if the current message also matches the message-id header, then remove it!
                             if ($headers->message_id == $row['sup_message_id']) {
                                 @imap_delete($mbox, $match);
-                                @imap_expunge($mbox);
                                 break;
                             }
                         }
@@ -403,11 +402,7 @@ class Support
         $mbox = @imap_open(self::getServerURI($info), $info['ema_username'], $info['ema_password']);
         if ($mbox === false) {
             $error = @imap_last_error();
-            if (strstr(strtolower($error), 'certificate failure')) {
-                $mbox = @imap_open(self::getServerURI($info, true), $info['ema_username'], $info['ema_password']);
-            } else {
-                Error_Handler::logError('Error while connecting to the email server - ' . $error, __FILE__, __LINE__);
-            }
+            Error_Handler::logError('Error while connecting to the email server - ' . $error, __FILE__, __LINE__);
         }
 
         return $mbox;
@@ -423,6 +418,18 @@ class Support
     public static function getTotalEmails($mbox)
     {
         return @imap_num_msg($mbox);
+    }
+
+    /**
+     * Method used to get new emails from the mailbox.
+     *
+     * @access public
+     * @param  resource $mbox The mailbox
+     * @return array Array of new message numbers.
+     */
+    public static function getNewEmails($mbox)
+    {
+        return @imap_search($mbox, 'UNSEEN UNDELETED UNANSWERED');
     }
 
     /**
@@ -516,9 +523,6 @@ class Support
         } else {
             $has_attachments = 0;
         }
-        // we can't trust the in-reply-to from the imap c-client, so let's
-        // try to manually parse that value from the full headers
-        $reference_msg_id = Mail_Helper::getReferenceMessageID($headers);
 
         // pass in $email by reference so it can be modified
         $workflow = Workflow::preEmailDownload($info['ema_prj_id'], $info, $mbox, $num, $message, $email, $structure);
@@ -678,7 +682,7 @@ class Support
                         Auth::createFakeCookie($usr_id, $prj_id);
 
                         $users = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Customer'));
-                        $user_emails = array_map('strtolower', array_values($users));
+                        $user_emails = array_map(function ($s) { return strtolower($s); }, array_values($users));
                         $users = array_flip($users);
 
                         $addresses = array();
@@ -749,7 +753,9 @@ class Support
                             self::addExtraRecipientsToNotificationList($info['ema_prj_id'], $t, $should_create_issue);
                         }
 
-                        Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $t, $internal_only, $assignee_only, '', $sup_id);
+                        if (self::isAllowedToEmail($t['issue_id'], $sender_email)) {
+                            Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $t, $internal_only, $assignee_only, '', $sup_id);
+                        }
 
                         // try to get usr_id of sender, if not, use system account
                         $addr = Mail_Helper::getEmailAddress($structure->headers['from']);
@@ -984,6 +990,7 @@ class Support
      */
     public function closeEmailServer($mbox)
     {
+        @imap_expunge($mbox);
         @imap_close($mbox);
     }
 
@@ -1907,7 +1914,7 @@ class Support
                 try {
                     $contract = $crm->getContract(Issue::getContractID($issue_id));
                     $contact_emails = array_keys($contract->getContactEmailAssocList());
-                    $contact_emails = array_map('strtolower', $contact_emails);
+                    $contact_emails = array_map(function ($s) { return strtolower($s); }, $contact_emails);
                 } catch (CRMException $e) {
                     $contact_emails = array();
                 }
@@ -2098,13 +2105,13 @@ class Support
             $iaf_ids = Attachment::addFiles($_FILES['attachment']);
         }
 
-        $issue_id = isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : 0;
-        $type = isset($_POST['type']) ? (string)$_POST['type'] : null;
-        $from = isset($_POST['from']) ? (string)$_POST['from'] : null;
-        $to = isset($_POST['to']) ? (string)$_POST['to'] : null;
-        $cc = isset($_POST['cc']) ? (string)$_POST['cc'] : null;
-        $subject = isset($_POST['subject']) ? (string)$_POST['subject'] : null;
-        $body = isset($_POST['message']) ? (string)$_POST['message'] : null;
+        $issue_id = isset($_POST['issue_id']) ? (int) $_POST['issue_id'] : 0;
+        $type = isset($_POST['type']) ? (string) $_POST['type'] : null;
+        $from = isset($_POST['from']) ? (string) $_POST['from'] : null;
+        $to = isset($_POST['to']) ? (string) $_POST['to'] : null;
+        $cc = isset($_POST['cc']) ? (string) $_POST['cc'] : null;
+        $subject = isset($_POST['subject']) ? (string) $_POST['subject'] : null;
+        $body = isset($_POST['message']) ? (string) $_POST['message'] : null;
 
         $options = array(
             'parent_sup_id' => $parent_sup_id,

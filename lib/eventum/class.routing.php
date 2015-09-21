@@ -528,7 +528,7 @@ class Routing
             } else {
                 $host_aliases = explode(' ', $settings['host_alias']);
             }
-            $host_aliases = implode('|', array_map('quotemeta', $host_aliases));
+            $host_aliases = implode('|', array_map(function ($s) { return quotemeta($s); }, $host_aliases));
 
             $mail_domain = '(?:' . $mail_domain . '|' . $host_aliases . ')';
         }

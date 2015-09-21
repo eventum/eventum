@@ -89,8 +89,8 @@ class Command_Line
             }
             $prompt .= 'Please enter the status';
             $status = CLI_Misc::prompt($prompt, false);
-            $lowercase_keys = array_map('strtolower', array_keys($list));
-            $lowercase_values = array_map('strtolower', array_values($list));
+            $lowercase_keys = array_map(function ($s) { return strtolower($s); }, array_keys($list));
+            $lowercase_values = array_map(function ($s) { return strtolower($s); }, array_values($list));
 
             if ((!in_array(strtolower($status), $lowercase_keys)) &&
                     (!in_array(strtolower($status), $lowercase_values))) {
@@ -468,8 +468,8 @@ class Command_Line
         // check if the given status is a valid option
         $statuses = $client->getAbbreviationAssocList($auth[0], $auth[1], (int) $details['iss_prj_id'], false);
 
-        $titles = array_map('strtolower', array_values($statuses));
-        $abbreviations = array_map('strtolower', array_keys($statuses));
+        $titles = array_map(function ($s) { return strtolower($s); }, array_values($statuses));
+        $abbreviations = array_map(function ($s) { return strtolower($s); }, array_keys($statuses));
         if ((!in_array(strtolower($new_status), $titles)) &&
                 (!in_array(strtolower($new_status), $abbreviations))) {
             self::quit("Status '$new_status' could not be matched against the list of available statuses");
@@ -610,8 +610,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         if (!empty($status)) {
             $statuses = $client->getAbbreviationAssocList($auth[0], $auth[1], $project_id, true);
 
-            $titles = array_map('strtolower', array_values($statuses));
-            $abbreviations = array_map('strtolower', array_keys($statuses));
+            $titles = array_map(function ($s) { return strtolower($s); }, array_values($statuses));
+            $abbreviations = array_map(function ($s) { return strtolower($s); }, array_keys($statuses));
             if ((!in_array(strtolower($status), $titles)) &&
                     (!in_array(strtolower($status), $abbreviations))) {
                 self::quit("Status '$status' could not be matched against the list of available statuses");

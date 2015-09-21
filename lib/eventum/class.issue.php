@@ -1417,7 +1417,7 @@ class Issue
         global $errors;
 
         // trim and remove empty values
-        $associated_issues = array_filter(array_map('trim', $associated_issues));
+        $associated_issues = array_filter(array_map(function ($s) { return trim($s); }, $associated_issues));
 
         // make sure all associated issues are valid (and in this project)
         foreach ($associated_issues as $i => $iss_id) {
@@ -1547,11 +1547,11 @@ class Issue
         if (isset($_POST['group'])) {
             $params['iss_grp_id'] = $_POST['group'];
         }
-        if (isset($_POST['trigger_reminders'])) {
-            $params['iss_dev_time'] = $_POST['trigger_reminders'];
+        if (isset($_POST['estimated_dev_time'])) {
+            $params['iss_dev_time'] = $_POST['estimated_dev_time'];
         }
-        if (isset($_POST['group'])) {
-            $params['iss_trigger_reminders'] = $_POST['group'];
+        if (isset($_POST['trigger_reminders'])) {
+            $params['iss_trigger_reminders'] = $_POST['trigger_reminders'];
         }
         if (isset($_POST['resolution'])) {
             $params['iss_res_id'] = $_POST['resolution'];
@@ -1600,7 +1600,7 @@ class Issue
         if (isset($_POST['category']) && $current['iss_prc_id'] != $_POST['category']) {
             $updated_fields['Category'] = History::formatChanges(Category::getTitle($current['iss_prc_id']), Category::getTitle($_POST['category']));
         }
-        if (isset($_POST['release']) &&$current['iss_pre_id'] != $_POST['release']) {
+        if (isset($_POST['release']) && $current['iss_pre_id'] != $_POST['release']) {
             $updated_fields['Release'] = History::formatChanges(Release::getTitle($current['iss_pre_id']), Release::getTitle($_POST['release']));
         }
         if (isset($_POST['priority']) && $current['iss_pri_id'] != $_POST['priority']) {
@@ -2295,7 +2295,7 @@ class Issue
         }
 
         // set product and version
-        if (isset($data['product']) && $data['product'] != "-1") {
+        if (isset($data['product']) && $data['product'] != '-1') {
             Product::addIssueProductVersion($issue_id, $data['product'], $data['product_version']);
         }
 

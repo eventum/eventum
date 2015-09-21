@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -86,7 +87,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
 
         $data = array(
             'password' => '',
-            'full_name' => $remote['firstname'] . " " . $remote['lastname'],
+            'full_name' => $remote['firstname'] . ' ' . $remote['lastname'],
             'external_id' => $remote['uid'],
         );
 
@@ -164,7 +165,6 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
             User::addAlias($usr_id, $alias);
         }
     }
-
 
     /**
      * With CAS we cannot do a simple password check like this. This will prevent the CLI from working
@@ -276,7 +276,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
      */
     public function getExternalLoginURL()
     {
-        return APP_RELATIVE_URL . "main.php";
+        return APP_RELATIVE_URL . 'main.php';
     }
 
     public static function loadSetup($force = false)

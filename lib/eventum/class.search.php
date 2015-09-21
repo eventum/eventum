@@ -469,15 +469,15 @@ class Search
             $fields = array();
             foreach (array_keys($columns_to_display) as $col_key) {
                 switch ($col_key) {
-                    case "pri_rank":
+                    case 'pri_rank':
                         $col_key = 'pri_title';break;
-                    case "assigned":
+                    case 'assigned':
                         $col_key = 'assigned_users';break;
-                    case "sta_rank":
+                    case 'sta_rank':
                         $col_key = 'sta_title';break;
-                    case "sta_change_date":
+                    case 'sta_change_date':
                         $col_key = 'status_change_date';break;
-                    case "sev_rank":
+                    case 'sev_rank':
                         $col_key = 'sev_title';break;
                 }
                 if ($col_key == 'custom_fields' && count($custom_fields) > 0) {

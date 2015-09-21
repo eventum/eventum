@@ -237,12 +237,22 @@ if ($mbox == false) {
     );
 }
 
-$total_emails = Support::getTotalEmails($mbox);
+// if we only want new emails
+if ($account['ema_get_only_new']) {
+    $new_emails = Support::getNewEmails($mbox);
 
-if ($total_emails > 0) {
-    for ($i = 1; $i <= $total_emails; $i++) {
-        Support::getEmailInfo($mbox, $account, $i);
+    foreach ($new_emails as $new_email) {
+        Support::getEmailInfo($mbox, $account, $new_email);
+    }
+} else {
+    $total_emails = Support::getTotalEmails($mbox);
+
+    if ($total_emails > 0) {
+        for ($i = 1; $i <= $total_emails; $i++) {
+            Support::getEmailInfo($mbox, $account, $i);
+        }
     }
 }
-imap_expunge($mbox);
+
+Support::closeEmailServer($mbox);
 Support::clearErrors();

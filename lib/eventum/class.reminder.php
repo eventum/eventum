@@ -1032,7 +1032,7 @@ class Reminder
             $addresses = $setup['email_reminder']['addresses'];
             $emails = explode(',', $addresses);
         }
-        $emails = array_map('trim', $emails);
+        $emails = array_map(function ($s) { return trim($s); }, $emails);
 
         return $emails;
     }
