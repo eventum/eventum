@@ -241,8 +241,10 @@ if ($mbox == false) {
 if ($account['ema_get_only_new']) {
     $new_emails = Support::getNewEmails($mbox);
 
-    foreach ($new_emails as $new_email) {
-        Support::getEmailInfo($mbox, $account, $new_email);
+    if (is_array($new_emails)) {
+        foreach ($new_emails as $new_email) {
+            Support::getEmailInfo($mbox, $account, $new_email);
+        }
     }
 } else {
     $total_emails = Support::getTotalEmails($mbox);
