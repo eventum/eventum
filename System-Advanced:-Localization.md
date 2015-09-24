@@ -2,7 +2,8 @@
 
 ## smarty-gettext
 
-Eventum uses the [smarty-gettext](https://github.com/smarty-gettext/smarty-gettext) package to handle localization.   
+Eventum uses the [smarty-gettext](https://github.com/smarty-gettext/smarty-gettext) package to handle localization.  
+Strings that require translation can be found in the HTML templates or PHP.
 
 * HTML templates files will surround the text to be translated with '`{t}`' and '`{/t}`'.  
 `<html> <body> {t}Hello world{/t} </body> </html>`  
