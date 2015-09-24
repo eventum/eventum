@@ -67,24 +67,8 @@ _Under Construction_
  * [x] [[Localization|System-Advanced:-Localization]]
  * [[Workflow: Docs|System-Advanced:-WorkflowDocumentation]]
  * [[Workflow: Examples|System-Advanced:-WorkflowExamples]]
- * [[Patches and Modifications|System Advanced:-Patches]]
-    * 1.1.1.2
-      * [[Default Assigned Emails|System-Advanced:-Defaulting-Assigned-Emails-to-Yes]]
-    * 1.7.0
-      * [[Associate New Issues|System-Advanced:-Associate-new-issues]]
-      * [[Subject and Header Based Routing|System-Advanced:-Subject-AND-header-based-routing]]
-    * 1.7.1
-      * [[Deleting Issues|System-Advanced:-Talk:Deleting-Issues]] 
-    * 2.1.0 
-      * [[Limit Project Manager to Project|System-Advanced:-Limit-Project-Managers-to-Only-Their-Projects]]
-    * 2.1.1
-      * [[Deleting Issues|System-Advanced:-Deleting-Issues]] 
-    * 2.0.1
-      * [[Project Mod|System-Advanced:-Open-Source-Project-Mod]]
-      * [[Hide Closed Issues on Stats Page|System-Advanced:-Hide-Closed-Issues-on-Stats-(Main)-Page]]  
-      * [[Deleting Issues|System-Advanced:-Deleting-Issues]] 
-    * 2.2.0
-      * [[Reminder Repetition|System-Advanced:-Patch-Reminder-Repetition]] 
+ * [x] [[Patches and Modifications|System Advanced:-Patches]]
+   
 
 * * * * *
 _Original Documentation_  
