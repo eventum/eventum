@@ -82,18 +82,18 @@ Programs that make the job much easier.
 
 Standalone
 
--   [KBabel](http://kbabel.kde.org/) (Linux)
+-   <del>[KBabel](http://kbabel.kde.org/) (Linux)</del>
 -   [poEdit](http://www.poedit.net/) (Linux & Windows)
 
 Web-based
 
--   [Pootle](http://translate.sourceforge.net/) (Python), e.g [WordForge](http://pootle.wordforge.org/)
--   [Webabel](http://kazit.berlios.de/webabel/) (PHP) - **A Challenge to Get Working & No Documentation**
--   [Kartouche](http://www.dotmon.com/kartouche/) (PHP), e.g [<http://www.kyfieithu.co.uk/index.php?lg=en>& Kyfieithu] - **A Challenge to Get Working - Strange Includes**
+-   [Pootle](http://translate.sourceforge.net/) (Python), e.g <del>[WordForge](http://pootle.wordforge.org/)</dev>
+-   <del>[Webabel](http://kazit.berlios.de/webabel/)</del> (PHP) - **A Challenge to Get Working & No Documentation**
+-   <del>[Kartouche](http://www.dotmon.com/kartouche/)</del> (PHP), e.g <del>[<http://www.kyfieithu.co.uk/index.php?lg=en>& Kyfieithu]</del> - **A Challenge to Get Working - Strange Includes**
 -   [Rosetta](https://translations.launchpad.net/)(?)
     -   "...Rosetta is not Open or Free Software at the moment. Rosetta will become open source sometime in the future but we don't have a date, although some parts of the Launchpad have already been released under the GPL by Canonical Ltd." Source: [Rosetta FAQ](https://help.launchpad.net/RosettaFAQ)
 
--   [Pootle Installed](http://translate.unixlan.com.ar/projects/eventum/) Pootle is installed and available for translating languages which already have some advance. Mailing List archive available [HERE](http://www.unixlan.com.ar/list/).
+-   <del>[Pootle Installed](http://translate.unixlan.com.ar/projects/eventum/)</del> Pootle is installed and available for translating languages which already have some advance. Mailing List archive available <del>[HERE](http://www.unixlan.com.ar/list/)</del>.
 
 Planned Languages
 -----------------
