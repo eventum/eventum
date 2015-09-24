@@ -24,7 +24,8 @@ The localization of Eventum into other languages is currently handled through th
 
 You can find a list of the available languages and status, please see the [[Translation Status page|https://translations.launchpad.net/eventum/trunk/+pots/eventum]].  
 
+## Imported from Launchpad
 
-[release script](https://github.com/eventum/eventum/blob/master/bin/release.sh#L59-L70)
+The [localization files](https://github.com/eventum/eventum/tree/master/localization) shown in GitHub appear to be out-of-date, but don't worry, localization files are imported from Launchpad for each release.  See the [release script](https://github.com/eventum/eventum/blob/master/bin/release.sh#L50-L70) for additional details.
 
 [[PO Edit|System-Advanced:-Localization:-Old-Style]]
