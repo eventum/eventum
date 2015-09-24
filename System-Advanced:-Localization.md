@@ -1,9 +1,9 @@
 # Localization
 
-The localization of Eventum into other languages is currently handled through the [Launchpad Project Page](https://launchpad.net/eventum/).  
-
 **We need your help!**  
 Please consider contributing to the translation effort.
+
+The localization of Eventum into other languages is currently handled through the [Launchpad Project Page](https://launchpad.net/eventum/).  
 
 ## Translation Status  
 
