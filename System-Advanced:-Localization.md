@@ -26,6 +26,8 @@ You can find a list of the available languages and status, please see the [[Tran
 
 ## Imported from Launchpad
 
-The [localization files](https://github.com/eventum/eventum/tree/master/localization) shown in GitHub appear to be out-of-date, but don't worry, localization files are imported from Launchpad for each release.  See the [release script](https://github.com/eventum/eventum/blob/master/bin/release.sh#L50-L70) for additional details.
+The [localization files](https://github.com/eventum/eventum/tree/master/localization) shown in GitHub appear to be out-of-date, but don't worry.  The localization files are imported from Launchpad for every release, see the [release script](https://github.com/eventum/eventum/blob/master/bin/release.sh#L50-L70) for additional details.
 
-[[PO Edit|System-Advanced:-Localization:-Old-Style]]
+## Adding a new language to Eventum
+
+To add a language not shown in the [[translation status page|https://translations.launchpad.net/eventum/trunk/+pots/eventum]], please review the [[older documentation|System-Advanced:-Localization:-Old-Style]] covering gettext, Poedit, and how localization is added to Eventum.
