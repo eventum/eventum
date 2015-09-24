@@ -1,3 +1,6 @@
+_The methods described described below are for older versions of Eventum, but the process still works with current versions._  
+_The localization of Eventum into other languages is currently handled through the [Launchpad Project Page](https://launchpad.net/eventum/)._
+
 ## Localization ##
 
 This is the project page for localizing Eventum into different languages.
@@ -95,18 +98,10 @@ Web-based
 
 -   <del>[Pootle Installed](http://translate.unixlan.com.ar/projects/eventum/)</del> Pootle is installed and available for translating languages which already have some advance. Mailing List archive available <del>[HERE](http://www.unixlan.com.ar/list/)</del>.
 
-Planned Languages
------------------
-
-Translation status
-------------------
-[[Translation Status|https://translations.launchpad.net/eventum/trunk/+pots/eventum]]  
-[release script](https://github.com/eventum/eventum/blob/master/bin/release.sh#L59-L70)
-
 Translating PO Files
 --------------------
 
-[This tarball](http://glen.alkohol.ee/pld/eventum/eventum-r3471.tar.bz2) contains the latest development version of Eventum which contains PO files to be translated. The PO files will be located in /eventum/localization/<LANGUAGE>.po.
+[This tarball](http://glen.alkohol.ee/pld/eventum/eventum-r3471.tar.bz2) contains <del>the latest</del> `an old`  development version of Eventum which contains PO files to be translated. The PO files will be located in /eventum/localization/<LANGUAGE>.po.
 
 Once you have put the translated strings into the eventum file, run "msgfmt -f -o <LANGUAGE>/LC_MESSAGES/.mo <LANGUAGE>.po" to convert the PO file to a MO file, the binary format that gettext understands. If you have done this correctly, set APP_DEFAULT_LOCALE to your locale or change your language on the preferences page, you should see Eventum in your own language!
 
