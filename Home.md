@@ -67,7 +67,7 @@ _Under Construction_
  * [x] [[Localization|System-Advanced:-Localization]]
  * [[Workflow: Docs|System-Advanced:-WorkflowDocumentation]]
  * [[Workflow: Examples|System-Advanced:-WorkflowExamples]]
- * Patches and Custom Modifications
+ * [[Patches and Modifications|System Advanced:-Patches]]
     * 1.1.1.2
       * [[Default Assigned Emails|System-Advanced:-Defaulting-Assigned-Emails-to-Yes]]
     * 1.7.0
