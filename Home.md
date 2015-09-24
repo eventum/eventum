@@ -56,26 +56,35 @@ _Under Construction_
  * [[Users|System-Admin:-Users]]
  * [[Workflow API|System-Admin:-Workflow-API]]
 * Advanced System Documentation
- * [[Associate New Issues|System-Advanced:-Associate-new-issues]]
  * [[Custom Field API|System-Advanced:-CustomFieldAPI]]
  * [[Customer API|System-Advanced:-Customer-API]]
- * [[Default Assigned Emails|System-Advanced:-Defaulting-Assigned-Emails-to-Yes]]
- * [[Deleting Issues|System-Advanced:-Deleting-Issues]]
- * [[Deleting Issues|System-Advanced:-Talk:Deleting-Issues]]
  * [[Dynamic Custom Fields|System-Advanced:-DynamicCustomFieldExample]]
  * [[Enhanced FAQ I|System-Advanced:-Enhanced-FAQ-part-1]]
  * [[Enhanced FAQ II|System-Advanced:-Enhanced-FAQ-part-2]]
- * [[Hide Closed Issues on Stats Page|System-Advanced:-Hide-Closed-Issues-on-Stats-(Main)-Page]]
  * [[Importing Users|System-Advanced:-Import-Users]]
  * [[IRC Bot|System-Advanced:-Using-the-IRC-bot]]
- * [[Limit Project Manager to Project|System-Advanced:-Limit-Project-Managers-to-Only-Their-Projects]]
  * [[Link Filters|System-Advanced:-Manage-Link-Filters]]
  * [x] [[Localization|System-Advanced:-Localization]]
- * [[Project Mod|System-Advanced:-Open-Source-Project-Mod]]
- * [[Reminder Repetition|System-Advanced:-Patch-Reminder-Repetition]]
- * [[Subject and Header Based Routing|System-Advanced:-Subject-AND-header-based-routing]]
  * [[Workflow: Docs|System-Advanced:-WorkflowDocumentation]]
  * [[Workflow: Examples|System-Advanced:-WorkflowExamples]]
+ * Patches and Custom Modifications
+    * 1.1.1.2
+      * [[Default Assigned Emails|System-Advanced:-Defaulting-Assigned-Emails-to-Yes]]
+    * 1.7.0
+      * [[Associate New Issues|System-Advanced:-Associate-new-issues]]
+      * [[Subject and Header Based Routing|System-Advanced:-Subject-AND-header-based-routing]]
+    * 1.7.1
+      * [[Deleting Issues|System-Advanced:-Talk:Deleting-Issues]] 
+    * 2.1.0 
+      * [[Limit Project Manager to Project|System-Advanced:-Limit-Project-Managers-to-Only-Their-Projects]]
+    * 2.1.1
+      * [[Deleting Issues|System-Advanced:-Deleting-Issues]] 
+    * 2.0.1
+      * [[Project Mod|System-Advanced:-Open-Source-Project-Mod]]
+      * [[Hide Closed Issues on Stats Page|System-Advanced:-Hide-Closed-Issues-on-Stats-(Main)-Page]]  
+      * [[Deleting Issues|System-Advanced:-Deleting-Issues]] 
+    * 2.2.0
+      * [[Reminder Repetition|System-Advanced:-Patch-Reminder-Repetition]] 
 
 * * * * *
 _Original Documentation_  
