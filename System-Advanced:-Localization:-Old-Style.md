@@ -1,4 +1,5 @@
 _The methods described described below are for older versions of Eventum, but the process still works with current versions._  
+  
 _The localization of Eventum into other languages is currently handled through the [Launchpad Project Page](https://launchpad.net/eventum/)._
 
 ## Localization ##
