@@ -30,6 +30,14 @@ This localization files contain name value pairs for each translation item.  The
 
 > Spanish Output: Hola mundo
 
+### System Variables & Example Strings
+
+When making contributions to the localization effort, there are system variables and example strings that do not require translation. 
+ 
+`%1$s`  
+`%2$s`  
+`@example.com`
+
 ## Adding a new language to Eventum
 
 To add a language not shown in the [[translation status page|https://translations.launchpad.net/eventum/trunk/+pots/eventum]], please review the [[older documentation|System-Advanced:-Localization:-Old-Style]] covering gettext, Poedit, and how localization is added to Eventum.  
