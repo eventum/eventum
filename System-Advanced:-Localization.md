@@ -11,7 +11,7 @@ You can find a list of the available languages and status, please see the [Trans
 
 ## Imported from Launchpad
 
-The [localization files](https://github.com/eventum/eventum/tree/master/localization) shown in GitHub appear to be out-of-date, but don't worry.  The localization files are imported from Launchpad for every release, see this area of the [release script](https://github.com/eventum/eventum/blob/v3.0.2/bin/release.sh#L55-L75) for additional details.
+The [localization files](https://github.com/eventum/eventum/tree/master/localization) shown in GitHub appear to be out-of-date, but don't worry.  The localization files are imported from Launchpad for every release, see the [release script](https://github.com/eventum/eventum/blob/v3.0.2/bin/release.sh#L59-L70) for additional details.
 
 ## How Localization Works
 
