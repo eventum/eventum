@@ -32,4 +32,6 @@ This localization files contain name value pairs for each translation item.  The
 
 ## Adding a new language to Eventum
 
-To add a language not shown in the [[translation status page|https://translations.launchpad.net/eventum/trunk/+pots/eventum]], please review the [[older documentation|System-Advanced:-Localization:-Old-Style]] covering gettext, Poedit, and how localization is added to Eventum.
+To add a language not shown in the [[translation status page|https://translations.launchpad.net/eventum/trunk/+pots/eventum]], please review the [[older documentation|System-Advanced:-Localization:-Old-Style]] covering gettext, Poedit, and how localization is added to Eventum.  
+
+The information covered in the older documentation, covers how to create localization files for your own language.  Once the files have been created, they can be included in Eventum by [reporting a bug](https://bugs.launchpad.net/eventum/+filebug) on the LaunchPad project page.
