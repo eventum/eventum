@@ -676,7 +676,11 @@ class Auth
                 Error_Handler::logError($message);
 
                 if (APP_AUTH_BACKEND_ALLOW_FALLBACK != true) {
-                    die('Unable to use auth backend: ' . $class);
+                    $tpl = new Template_Helper();
+                    $tpl->setTemplate("authentication_error.tpl.html");
+                    $tpl->assign("error_message", $e->getMessage());
+                    $tpl->displayTemplate();
+                    exit;
                 }
 
                 $instance = self::getFallBackAuthBackend();
