@@ -1,3 +1,4 @@
+{if $previous_issue or $next_issue}
 <div id="issue_links">
     {if $previous_issue}
     <div><a id="prev_issue" title="{t}previous issue on your current active filter{/t}" href="view.php?id={$previous_issue}">&lt;&lt; {t}Previous Issue{/t}</a></div>
@@ -7,6 +8,7 @@
     {/if}
     <div class="clear"></div>
 </div>
+{/if}
 
 {if $quarantine.iqu_status > 0}
 <div class="note_box">
