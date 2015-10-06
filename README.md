@@ -9,7 +9,7 @@ or by a software development team to quickly organize tasks and bugs.
 
 More information can be found at the following URL:
 
-  https://launchpad.net/eventum/
+  https://github.com/eventum/eventum/
 
 We have also provided mailing lists related to Eventum, both for users and
 potential developers at http://lists.mysql.com/:
@@ -24,5 +24,5 @@ Bryan Alsdorf
 Elan Ruusamäe  
 The Eventum Team
 
-  [1]: http://lists.mysql.com/eventum-users
-  [2]: http://lists.mysql.com/eventum-devel
+  [1]: http://news.gmane.org/gmane.comp.bug-tracking.eventum.user
+  [2]: http://news.gmane.org/gmane.comp.bug-tracking.eventum.devel
