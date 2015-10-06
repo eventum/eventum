@@ -125,14 +125,12 @@ class Email_Account
                     ema_username=? AND
                     ema_hostname=?';
         try {
-            if ($mailbox === null) {
-                $res = DB_Helper::getInstance()->getOne($stmt, array($username, $hostname));
-            } else {
+            $params = array($username, $hostname);
+            if ($mailbox !== null) {
                 $stmt .= ' AND ema_folder=?';
-                $res = DB_Helper::getInstance()->getOne($stmt, array($username, $hostname, $mailbox));
+                $params[] = $mailbox;
             }
-
-            $res = DB_Helper::getInstance()->getOne($stmt, array($username, $hostname, $mailbox));
+            $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DbException $e) {
             return 0;
         }
