@@ -302,10 +302,10 @@ class MailMessage extends Message
     }
 
     /**
-     * Convenience method to remove address from $headerName AddressList.
+     * Convenience method to remove address from $header AddressList.
      *
-     * @param string $header
-     * @param string $address
+     * @param string $header A header name, like 'To', or 'Cc'.
+     * @param string $address An email address to remove
      * @return bool
      */
     public function removeFromAddressList($header, $address)
