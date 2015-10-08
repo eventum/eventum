@@ -355,6 +355,19 @@ class MailMessage extends Message
     }
 
     /**
+     * Method used to check whether the current sender of the email is the
+     * mailer daemon responsible for dealing with bounces.
+     *
+     * @return bool
+     */
+    public function isBounceMessage()
+    {
+        $email = $this->getFromHeader();
+
+        return strtolower(substr($email, 0, 14)) == 'mailer-daemon@';
+    }
+
+    /**
      * Set Body of a message.
      *
      * IMPORTANT: it should not contain any multipart changes,
