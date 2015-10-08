@@ -104,7 +104,7 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $addresses);
     }
 
-    public function testCreateFromString()
+    public function testGetRawContent()
     {
         $raw = file_get_contents(__DIR__ . '/data/in-reply-to.txt');
         $message = MailMessage::createFromString($raw);
@@ -113,7 +113,10 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         // test that getting back raw content works
         // NOTE: the result is not always identical, however this is saved from this same method before manually verifying result is okay
         $content = $message->getRawContent();
-        $this->assertEquals($raw, $content);
+
+        $raw = preg_split("/\r?\n/", $raw);
+        $content = preg_split("/\r?\n/", $content);
+        $this->assertSame($raw, $content);
     }
 
     public function testRemoveHeader()
