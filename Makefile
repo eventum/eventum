@@ -14,7 +14,7 @@ $(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo 
 endef
 
 define fetch_tool
-curl -sS $1 -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
+curl -sSf $1 -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
 endef
 
 php-cs-fixer := $(call find_tool, php-cs-fixer)
