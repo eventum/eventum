@@ -2655,7 +2655,7 @@ class Support
             $_POST = array(
                 'full_message' => $email['full_email'],
                 'title'       => @$email['headers']['subject'],
-                'note'        => Mail_Helper::getCannedBlockedMsgExplanation($issue_id) . $email['body'],
+                'note'        => Mail_Helper::getCannedBlockedMsgExplanation() . $email['body'],
                 'message_id'  => Mail_Helper::getMessageID($text_headers, $body),
             );
             // avoid having this type of message re-open the issue
