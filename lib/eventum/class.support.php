@@ -2677,8 +2677,16 @@ class Support
                 self::extractAttachments($issue_id, $email['full_email'], true, $res);
             }
 
-            $_POST['issue_id'] = $issue_id;
-            $_POST['from'] = $sender_email;
+            $email_details = array();
+            $email_details['issue_id'] = $issue_id;
+            $email_details['from'] = $sender_email;
+
+            // XXX: review and remove unneeded ones
+            // these are from 01c7db33
+            $email_details['full_message'] = $email['full_email'];
+            $email_details['title'] = @$email['headers']['subject'];
+            $email_details['note'] = $body;
+            $email_details['message_id'] = $options['message_id'];
 
             // avoid having this type of message re-open the issue
             if (Mail_Helper::isVacationAutoResponder($email['headers'])) {
@@ -2686,7 +2694,7 @@ class Support
             } else {
                 $email_type = 'routed';
             }
-            Workflow::handleBlockedEmail($prj_id, $issue_id, $_POST, $email_type);
+            Workflow::handleBlockedEmail($prj_id, $issue_id, $email_details, $email_type);
 
             // try to get usr_id of sender, if not, use system account
             $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($email['from']), true);
