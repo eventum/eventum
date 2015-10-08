@@ -146,8 +146,10 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
      */
     public function testIsVacationAutoResponder()
     {
-        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+        $mail = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+        $this->assertFalse($mail->isVacationAutoResponder());
 
-        $this->assertFalse($message->isVacationAutoResponder());
+        $mail = MailMessage::createFromFile(__DIR__ . '/data/cron.txt');
+        $this->assertTrue($mail->isVacationAutoResponder());
     }
 }
