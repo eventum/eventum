@@ -39,6 +39,44 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($message->hasAttachments());
     }
 
+    public function testGetAttachments()
+    {
+        $raw = file_get_contents(__DIR__ . '/data/bug684922.txt');
+
+        // old code
+        $mail = Mime_Helper::decode($raw, true, true);
+        $att1 = Mime_Helper::getAttachments($mail);
+        // it returned in reverse order. wtf. but ok
+        $att1 = array_reverse($att1);
+
+        $this->assertEquals(2, count($att1));
+        $att = $att1[0];
+        /**
+         * [filename] => smiley-money-mouth1.gif
+         * [cid] => <smiley-money-mouth2.gif>
+         * [filetype] => image/gif
+         * [blob] =>
+         */
+        $this->assertArrayHasKey('filename', $att);
+        $this->assertArrayHasKey('cid', $att);
+        $this->assertArrayHasKey('filetype', $att);
+        $this->assertArrayHasKey('blob', $att);
+
+        // new code
+        $mail = MailMessage::createFromString($raw);
+        $this->assertTrue($mail->hasAttachments());
+        $att2 = $mail->getAttachments();
+
+        $this->assertEquals(2, count($att2));
+        $att = $att2[0];
+        $this->assertArrayHasKey('filename', $att);
+        $this->assertArrayHasKey('cid', $att);
+        $this->assertArrayHasKey('filetype', $att);
+        $this->assertArrayHasKey('blob', $att);
+
+        $this->assertSame($att1, $att2);
+    }
+
     public function testReferenceMessageId()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/in-reply-to.txt');
