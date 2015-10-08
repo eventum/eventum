@@ -34,17 +34,17 @@ Content-Disposition: inline
 <blockquote><!-- blockquote {padding-left: 1ex; margin: 0px 0px 0px 0.8ex; border-left: #cccccc 1px solid;} p {margin: 0px;padding: 0px;} -->
 <p>Text.&nbsp;</p>
 <p>&nbsp;</p>
-<p>More Text<img title="Laughing" src="cid:smiley-laughing.gif" border="0" alt="Laughing" /></p>
+<p>More Text<img title="Laughing" src="cid:smiley-laughing2.gif" border="0" alt="Laughing" /></p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <br /></blockquote>
 <br /></p><br />
 
 --part4d361736dd7165.17138776
-Content-Type: image/gif; name="smiley-laughing.gif"
+Content-Type: image/gif; name="smiley-laughing1.gif"
 Content-Transfer-Encoding: base64
-Content-ID: <smiley-laughing.gif>
-Content-Disposition: attachment; filename="smiley-laughing.gif"
+Content-ID: <smiley-laughing2.gif>
+Content-Disposition: attachment; filename="smiley-laughing3.gif"
 
 R0lGODlhEgASANQTAFI9Da6qpuPQHKOGBqGVjPXnLO/v7r+qTnJeSPPwWdK+H8OrGsjHxWpTEsS8
 nfbYEPryR+DYurebE/r6+v79cf32N4h1WtjV07qfLsq2at7SMnljE9XDMcKmMv77WgAAACH5BAEA
@@ -55,10 +55,10 @@ r7MCHl22HxMXHQoJFQsbAwsVCQodF0EfBhcHCxpKRxoLBxdPKdQOBx0LCx0HDuI10+UM/8CkjQgB
 ADs=
 
 --part4d361736dd7165.17138776
-Content-Type: image/gif; name="smiley-money-mouth.gif"
+Content-Type: image/gif; name="smiley-money-mouth1.gif"
 Content-Transfer-Encoding: base64
-Content-ID: <smiley-money-mouth.gif>
-Content-Disposition: attachment; filename="smiley-money-mouth.gif"
+Content-ID: <smiley-money-mouth2.gif>
+Content-Disposition: attachment; filename="smiley-money-mouth3.gif"
 
 R0lGODlhEgASANQUACkYBr62mpiMHMKoIsKsUffaE25YNvn0UoS1auPYMdra2T5eKrSXCvz6bvz0
 ObKbJEozB4lzE8rCoK6iVvb29k13OVpGPjJCGrHlmZqGNtG+JtnTv3J4JJJ+FcLCwgAAACH5BAEA
