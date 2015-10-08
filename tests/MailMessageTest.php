@@ -19,6 +19,12 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
 
     }
 
+    public function testIsBounceMessage()
+    {
+        $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
+        $this->assertFalse($message->isBounceMessage());
+    }
+
     public function testHasAttachments()
     {
 

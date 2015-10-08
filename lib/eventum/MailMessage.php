@@ -362,7 +362,7 @@ class MailMessage extends Message
      */
     public function isBounceMessage()
     {
-        $email = $this->getFromHeader();
+        $email = $this->getFromHeader()->toString();
 
         return strtolower(substr($email, 0, 14)) == 'mailer-daemon@';
     }
