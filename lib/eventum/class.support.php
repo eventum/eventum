@@ -2635,8 +2635,6 @@ class Support
 
     /**
      * Check if this email needs to be blocked and if so, block it.
-     *
-     *
      */
     public static function blockEmailIfNeeded($email)
     {
@@ -2652,12 +2650,6 @@ class Support
                 (Notification::isBounceMessage($sender_email)) ||
                 (!self::isAllowedToEmail($issue_id, $sender_email))) {
             // add the message body as a note
-            $_POST = array(
-                'full_message' => $email['full_email'],
-                'title'       => @$email['headers']['subject'],
-                'note'        => Mail_Helper::getCannedBlockedMsgExplanation() . $email['body'],
-                'message_id'  => Mail_Helper::getMessageID($text_headers, $body),
-            );
             // avoid having this type of message re-open the issue
             if (Mail_Helper::isVacationAutoResponder($email['headers'])) {
                 $closing = true;
@@ -2666,7 +2658,20 @@ class Support
                 $closing = false;
                 $notify = true;
             }
-            $res = Note::insertFromPost(Auth::getUserID(), $issue_id, $email['headers']['from'], false, $closing, $notify, true);
+
+            $options = array(
+                'unknown_user' => $email['headers']['from'],
+                'log' => false,
+                'closing' => $closing,
+                'send_notification' => $notify,
+                'is_blocked' => true,
+                'full_message' => $email['full_email'],
+                'message_id'  => Mail_Helper::getMessageID($text_headers, $body),
+            );
+
+            $body = Mail_Helper::getCannedBlockedMsgExplanation() . $email['body'];
+            $res = Note::insertNote(Auth::getUserID(), $issue_id, @$email['headers']['subject'], $body, $options);
+
             // associate the email attachments as internal-only files on this issue
             if ($res != -1) {
                 self::extractAttachments($issue_id, $email['full_email'], true, $res);
