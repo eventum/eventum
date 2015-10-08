@@ -277,6 +277,26 @@ class MailMessage extends Message
     }
 
     /**
+     * Checks whether the given headers are from a vacation auto-responder message or not.
+     *
+     * @return bool
+     */
+    public function isVacationAutoResponder()
+    {
+        // has 'auto-submitted' header?
+        if ($this->headers->has('auto-submitted')) {
+            return true;
+        }
+
+        // return true if 'x-vacationmessage' is set and not empty
+        if (!$this->headers->has('x-vacationmessage')) {
+            return false;
+        }
+
+        return $this->headers->get('x-vacationmessage') != '';
+    }
+
+    /**
      * Set Body of a message.
      *
      * IMPORTANT: it should not contain any multipart changes,

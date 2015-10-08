@@ -139,4 +139,15 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         // Note: the method will still keep one 'Re'
         $this->assertEquals('Re: meh', $subject->getFieldValue());
     }
+
+    /**
+     * Checks whether the given headers are from a vacation
+     * auto-responder message or not.
+     */
+    public function testIsVacationAutoResponder()
+    {
+        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+
+        $this->assertFalse($message->isVacationAutoResponder());
+    }
 }
