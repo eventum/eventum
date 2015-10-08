@@ -1,0 +1,13 @@
+Return-Path: <glen@example.org>
+From: "(Cron Daemon)" <glen@example.org>
+To: glen@example.org
+Subject: Cron
+Content-Type: text/plain; charset=UTF-8
+Auto-Submitted: auto-generated
+Precedence: bulk
+X-Cron-Env: <LC_ALL=C>
+X-Cron-Env: <SHELL=/bin/sh>
+Message-Id: <E1ZiNMq-00081t-Vm@example.org>
+Date: Sat, 03 Oct 2015 16:00:52 +0200
+
+Traceback (most recent call last):
