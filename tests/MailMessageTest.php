@@ -200,4 +200,25 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $mail = MailMessage::createFromFile(__DIR__ . '/data/cron.txt');
         $this->assertTrue($mail->isVacationAutoResponder());
     }
+
+    public function testStripHeaders()
+    {
+        $mail = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+        $before = array_keys($mail->getHeaders()->toArray());
+
+        $mail->stripHeaders();
+
+        $after = array_keys($mail->getHeaders()->toArray());
+        $this->assertNotSame($before, $after);
+
+        $exp = array(
+            'Date',
+            'From',
+            'Message-ID',
+            'Subject',
+            'MIME-Version',
+            'Content-Type',
+        );
+        $this->assertSame($exp, $after);
+    }
 }

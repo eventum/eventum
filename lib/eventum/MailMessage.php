@@ -267,7 +267,8 @@ class MailMessage extends Message
      *
      * @return string
      */
-    public function getSender() {
+    public function getSender()
+    {
         return strtolower($this->getFromHeader()->getEmail());
     }
 
@@ -374,6 +375,42 @@ class MailMessage extends Message
         $email = $this->getSender();
 
         return substr($email, 0, 14) == 'mailer-daemon@';
+    }
+
+    /**
+     * Strips out email headers that should not be sent over to the recipient
+     * of the routed email. The 'Received:' header was sometimes being used to
+     * validate the sender of the message, and because of that some emails were
+     * not being delivered correctly.
+     *
+     * FIXME: think of better method name
+     * @see Mail_Helper::stripHeaders
+     */
+    public function stripHeaders()
+    {
+        $headers = $this->headers;
+
+        // process exact matches
+        $ignore_headers = array(
+            'to',
+            'cc',
+            'bcc',
+            'return-path',
+            'received',
+            'Disposition-Notification-To',
+        );
+        foreach ($ignore_headers as $name) {
+            if ($headers->has($name)) {
+                $headers->removeHeader($name);
+            }
+        }
+
+        // process patterns
+        array_walk($headers->toArray(), function($value, $name) use ($headers) {
+            if (preg_match('/^resent.*/i', $name)) {
+                $headers->removeHeader($name);
+            }
+        });
     }
 
     /**
