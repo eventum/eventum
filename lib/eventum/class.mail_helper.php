@@ -665,7 +665,7 @@ class Mail_Helper
             $headers += self::getSpecializedHeaders($issue_id, $email['maq_type'], $sender_usr_id);
         }
 
-        $params = self::getSMTPSettings($address);
+        $params = self::getSMTPSettings();
         $mail = Mail::factory('smtp', $params);
         $res = $mail->send($address, $headers, $body);
         if (Misc::isError($res)) {
