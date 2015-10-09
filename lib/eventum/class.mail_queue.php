@@ -120,7 +120,7 @@ class Mail_Queue
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
-            return $res;
+            return false;
         }
 
         return true;
