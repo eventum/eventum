@@ -320,11 +320,32 @@ class MailMessage extends Message
      */
     public function setTo($value)
     {
-        /** @var To $to */
-        $to = $this->getHeader('To');
+        $this->setAddressListHeader('To', $value);
+    }
+
+    /**
+     * Set From: header
+     *
+     * @param string $value
+     */
+    public function setFrom($value)
+    {
+        $this->setAddressListHeader('From', $value);
+    }
+
+    /**
+     * Set AddressList type header a value
+     *
+     * @param string $name
+     * @param string $value
+     */
+    public function setAddressListHeader($name, $value)
+    {
+        /** @var AbstractAddressList $header */
+        $header = $this->getHeader($name);
         $addresslist = new AddressList();
         $addresslist->addFromString($value);
-        $to->setAddressList($addresslist);
+        $header->setAddressList($addresslist);
     }
 
     /**
