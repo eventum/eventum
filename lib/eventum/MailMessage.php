@@ -460,4 +460,14 @@ class MailMessage extends Message
     {
         $this->content = $content;
     }
+
+    /**
+     * Deep clone handling.
+     *
+     * Zend Does not handle this, do it ourselves.
+     */
+    public function __clone()
+    {
+        $this->headers = clone $this->headers;
+    }
 }

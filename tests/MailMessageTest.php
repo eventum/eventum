@@ -234,4 +234,16 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $mail->setTo($to);
         $this->assertEquals($to, $mail->getHeader('To')->getFieldValue());
     }
+
+    public function testHeadersCloning()
+    {
+        $mail = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+        $clone = clone $mail;
+
+        $to = "root@example.org";
+        $clone->setTo($to);
+        $this->assertEquals($to, $clone->getHeader('To')->getFieldValue());
+
+        $this->assertNotEquals($mail->getRawContent(), $clone->getRawContent());
+    }
 }
