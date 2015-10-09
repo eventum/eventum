@@ -10,6 +10,7 @@ Eventum Issue Tracking System
 - Eventum Mail Processing Enhancements (Kevin Seymour, LP#1481894)
 - Fix bugs with estimated dev time (Bryan Alsdorf, LP#1494723)
 - Display pretty error page for auth exceptions (Bryan Alsdorf)
+- Fix POP3 download bug (Craig Pinfold, #66, #69)
 
 2015-08-04, Version 3.0.2
 -------------------------
