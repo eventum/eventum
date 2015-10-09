@@ -4,6 +4,7 @@ Notes about creating Eventum Release
 Test before release
 -------------------
 
+- install yourself lowest supported php and it's modules (5.3 as of now) as depending on php version different PEAR modules may be installed
 - create release tarball, unpack and run setup
 `$ make dist`
 - make sure upgrade/drop.sql lists all created tables
