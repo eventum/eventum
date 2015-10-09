@@ -263,6 +263,15 @@ class MailMessage extends Message
     }
 
     /**
+     * Shortcut to get mail sender email address.
+     *
+     * @return string
+     */
+    public function getSender() {
+        return strtolower($this->getFromHeader()->toString());
+    }
+
+    /**
      * Get From header. In case multiple headers present, return just first one.
      *
      * @return Address
@@ -362,9 +371,9 @@ class MailMessage extends Message
      */
     public function isBounceMessage()
     {
-        $email = $this->getFromHeader()->toString();
+        $email = $this->getSender();
 
-        return strtolower(substr($email, 0, 14)) == 'mailer-daemon@';
+        return substr($email, 0, 14) == 'mailer-daemon@';
     }
 
     /**
