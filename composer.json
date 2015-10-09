@@ -23,7 +23,7 @@
 	"repositories": [
 		{
 			"type": "composer",
-			"url": "https://raw.githubusercontent.com/eventum/composer/repo/"
+			"url": "https://eventum.github.io/composer/"
 		}
 	],
 	"config": {
