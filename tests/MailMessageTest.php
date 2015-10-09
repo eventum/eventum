@@ -221,4 +221,17 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         );
         $this->assertSame($exp, $after);
     }
+
+    public function testSetTo()
+    {
+        $mail = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+
+        $to = "root@example.org";
+        $mail->setTo($to);
+        $this->assertEquals($to, $mail->getHeader('To')->getFieldValue());
+
+        $to = '"test to" <root@example.org>';
+        $mail->setTo($to);
+        $this->assertEquals($to, $mail->getHeader('To')->getFieldValue());
+    }
 }

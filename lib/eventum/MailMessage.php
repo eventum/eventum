@@ -31,9 +31,11 @@ use Zend\Mail\Headers;
 use Zend\Mail\Header\AbstractAddressList;
 use Zend\Mail\Header\HeaderInterface;
 use Zend\Mail\Address;
+use Zend\Mail\AddressList;
 use Zend\Mail\Header\Subject;
 use Zend\Mail\Header\ContentType;
 use Zend\Mail\Header\ContentTransferEncoding;
+use Zend\Mail\Header\To;
 use Zend\Mime;
 
 class MailMessage extends Message
@@ -312,6 +314,20 @@ class MailMessage extends Message
     }
 
     /**
+     * Set To: header
+     *
+     * @param string $value
+     */
+    public function setTo($value)
+    {
+        /** @var To $to */
+        $to = $this->getHeader('To');
+        $addresslist = new AddressList();
+        $addresslist->addFromString($value);
+        $to->setAddressList($addresslist);
+    }
+
+    /**
      * Convenience method to remove address from $header AddressList.
      *
      * @param string $header A header name, like 'To', or 'Cc'.
@@ -406,7 +422,7 @@ class MailMessage extends Message
         }
 
         // process patterns
-        array_walk($headers->toArray(), function($value, $name) use ($headers) {
+        array_walk($headers->toArray(), function ($value, $name) use ($headers) {
             if (preg_match('/^resent.*/i', $name)) {
                 $headers->removeHeader($name);
             }
