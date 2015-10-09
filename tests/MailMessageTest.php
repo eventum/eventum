@@ -266,6 +266,9 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
             'X-Eventum-Priority' => 'kümme',
             'X-Eventum-CustomField-Foo' => 'maha kali',
             'X-Eventum-Type' => 'elisabeth bathory',
+
+            'precedence' => 'bulk', // the 'classic' way, works with e.g. the unix 'vacation' tool
+            'Auto-submitted' => 'auto-generated', // the RFC 3834 way
         );
         $mail->setHeaders($headers);
 
@@ -282,6 +285,8 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
             'X-Eventum-Priority: =?UTF-8?Q?k=C3=BCmme?=',
             'X-Eventum-CustomField-Foo: maha kali',
             'X-Eventum-Type: elisabeth bathory',
+            'Precedence: bulk',
+            'Auto-Submitted: auto-generated',
             ''
         ));
         $this->assertEquals($exp, $mail->getHeaders()->toString());
