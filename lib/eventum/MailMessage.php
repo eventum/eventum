@@ -263,12 +263,12 @@ class MailMessage extends Message
     }
 
     /**
-     * Shortcut to get mail sender email address.
+     * Shortcut to get lowercased mail sender email address.
      *
      * @return string
      */
     public function getSender() {
-        return strtolower($this->getFromHeader()->toString());
+        return strtolower($this->getFromHeader()->getEmail());
     }
 
     /**
