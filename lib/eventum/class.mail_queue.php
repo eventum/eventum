@@ -67,7 +67,7 @@ class Mail_Queue
         // add specialized headers
         if ((!empty($issue_id)) && ((!empty($to_usr_id)) && (User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID('Customer'))) ||
                 (@in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses))) {
-            $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id);
+            $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type, $sender_usr_id);
         }
 
         // try to prevent triggering absence auto responders

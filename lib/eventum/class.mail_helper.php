@@ -662,7 +662,7 @@ class Mail_Helper
 
         // add specialized headers if they are not already added
         if (empty($headers['X-Eventum-Type'])) {
-            $headers += self::getSpecializedHeaders($issue_id, $email['maq_type'], $headers, $sender_usr_id);
+            $headers += self::getSpecializedHeaders($issue_id, $email['maq_type'], $sender_usr_id);
         }
 
         $params = self::getSMTPSettings($address);
@@ -702,11 +702,10 @@ class Mail_Helper
      *
      * @param   integer $issue_id The issue ID
      * @param   string $type The type of message this is
-     * @param   string $headers The existing headers of this message.
      * @param   integer $sender_usr_id The id of the user sending this email.
      * @return  array An array of specialized headers
      */
-    public static function getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id)
+    public static function getSpecializedHeaders($issue_id, $type, $sender_usr_id)
     {
         $new_headers = array();
         if (!empty($issue_id)) {
