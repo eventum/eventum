@@ -36,6 +36,7 @@ use Zend\Mail\Header\Subject;
 use Zend\Mail\Header\ContentType;
 use Zend\Mail\Header\ContentTransferEncoding;
 use Zend\Mail\Header\To;
+use Zend\Mail\Header\GenericHeader;
 use Zend\Mime;
 
 class MailMessage extends Message
@@ -346,6 +347,30 @@ class MailMessage extends Message
         $addresslist = new AddressList();
         $addresslist->addFromString($value);
         $header->setAddressList($addresslist);
+    }
+
+    /**
+     * Set many headers at once
+     *
+     * Expects an array (or Traversable object) of name/value pairs.
+     *
+     * @param array|Traversable $headerlist
+     */
+    public function setHeaders(array $headerlist) {
+        // NOTE: could use addHeaders() but that blows if value is not mime encoded. wtf
+        //$this->headers->addHeaders($headerlist);
+
+        $headers = $this->headers;
+        foreach ($headerlist as $name => $value) {
+            /** @var $header GenericHeader */
+            if ($headers->has($name)) {
+                $header = $headers->get($name);
+                $header->setFieldValue($value);
+            } else {
+                $header = new GenericHeader($name, $value);
+                $this->headers->addHeader($header);
+            }
+        }
     }
 
     /**

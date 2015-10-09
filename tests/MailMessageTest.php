@@ -246,4 +246,44 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
 
         $this->assertNotEquals($mail->getRawContent(), $clone->getRawContent());
     }
+
+    public function testAddHeaders()
+    {
+        $raw = "Message-ID: <33@JON>\nX-Eventum-Level: 1\n\nBody";
+        $mail = MailMessage::createFromString($raw);
+
+        $this->assertEquals("1", $mail->getHeader('X-Eventum-Level')->getFieldValue());
+
+        $headers = array(
+            'X-Eventum-Group-Issue' => 'something 123 143',
+            'X-Eventum-Group-Replier' => 'mõmin',
+            'X-Eventum-Group-Assignee' => 'UUser1, juusõr2',
+            'X-Eventum-Customer' => "cust om er",
+            'X-Eventum-Level' => 10,
+            'X-Eventum-Assignee' => "foo, bar",
+            'X-Eventum-Category' => 'Title Cat',
+            'X-Eventum-Project' => 'prjnma',
+            'X-Eventum-Priority' => 'kümme',
+            'X-Eventum-CustomField-Foo' => 'maha kali',
+            'X-Eventum-Type' => 'elisabeth bathory',
+        );
+        $mail->setHeaders($headers);
+
+        $exp = join("\r\n", array(
+            'Message-ID: <33@JON>',
+            'X-Eventum-Level: 10',
+            'X-Eventum-Group-Issue: something 123 143',
+            'X-Eventum-Group-Replier: =?UTF-8?Q?m=C3=B5min?=',
+            'X-Eventum-Group-Assignee: =?UTF-8?Q?UUser1,=20juus=C3=B5r2?=',
+            'X-Eventum-Customer: cust om er',
+            'X-Eventum-Assignee: foo, bar',
+            'X-Eventum-Category: Title Cat',
+            'X-Eventum-Project: prjnma',
+            'X-Eventum-Priority: =?UTF-8?Q?k=C3=BCmme?=',
+            'X-Eventum-CustomField-Foo: maha kali',
+            'X-Eventum-Type: elisabeth bathory',
+            ''
+        ));
+        $this->assertEquals($exp, $mail->getHeaders()->toString());
+    }
 }
