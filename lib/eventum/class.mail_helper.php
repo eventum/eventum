@@ -466,34 +466,34 @@ class Mail_Helper
     public static function addWarningMessage($issue_id, $to, $body, $headers)
     {
         $setup = Setup::load();
-        if ((@$setup['email_routing']['status'] == 'enabled') &&
-                ($setup['email_routing']['warning']['status'] == 'enabled')) {
-            // check if the recipient can send emails to the customer
-            $recipient_email = self::getEmailAddress($to);
-            $recipient_usr_id = User::getUserIDByEmail($recipient_email);
-            // don't add the warning message if the recipient is an unknown email address
-            if (empty($recipient_usr_id)) {
-                return $body;
-            } else {
-                // don't add anything if the recipient is a known customer contact
-                $recipient_role_id = User::getRoleByUser($recipient_usr_id, Issue::getProjectID($issue_id));
-                if ($recipient_role_id == User::getRoleID('Customer')) {
-                    return $body;
-                } else {
-                    if (!Support::isAllowedToEmail($issue_id, $recipient_email)) {
-                        $warning = self::getWarningMessage('blocked');
-                    } else {
-                        $warning = self::getWarningMessage('allowed');
-                    }
-                    if (@$headers['Content-Transfer-Encoding'] == 'base64') {
-                        return base64_encode($warning . "\n\n" . trim(base64_decode($body)));
-                    } else {
-                        return $warning . "\n\n" . $body;
-                    }
-                }
-            }
-        } else {
+        $enabled = @$setup['email_routing']['status'] == 'enabled' && $setup['email_routing']['warning']['status'] == 'enabled';
+        if (!$enabled) {
             return $body;
+        }
+
+        // check if the recipient can send emails to the customer
+        $recipient_email = self::getEmailAddress($to);
+        $recipient_usr_id = User::getUserIDByEmail($recipient_email);
+        // don't add the warning message if the recipient is an unknown email address
+        if (empty($recipient_usr_id)) {
+            return $body;
+        }
+
+        // don't add anything if the recipient is a known customer contact
+        $recipient_role_id = User::getRoleByUser($recipient_usr_id, Issue::getProjectID($issue_id));
+        if ($recipient_role_id == User::getRoleID('Customer')) {
+            return $body;
+        }
+
+        if (!Support::isAllowedToEmail($issue_id, $recipient_email)) {
+            $warning = self::getWarningMessage('blocked');
+        } else {
+            $warning = self::getWarningMessage('allowed');
+        }
+        if (@$headers['Content-Transfer-Encoding'] == 'base64') {
+            return base64_encode($warning . "\n\n" . trim(base64_decode($body)));
+        } else {
+            return $warning . "\n\n" . $body;
         }
     }
 
