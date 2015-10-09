@@ -8,9 +8,14 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $headers = "X-foo: 1";
         $body = "nada";
         $message = new MailMessage(array('headers' => $headers, 'content' => $body));
-
         $message_id = $message->getMessageId();
-        $exp = "<eventum.56uh2ycutz8kcg.clqtuo3skl4w0gc@eventum.example.org>";
+        $exp = "<eventum.68gm8417ga.clqtuo3skl4w0gc@eventum.example.org>";
+        $this->assertEquals($exp, $message_id);
+
+        $raw = "X-foo: 1\r\n\r\nnada";
+        $message = MailMessage::createFromString($raw);
+        $message_id = $message->getMessageId();
+        $exp = "<eventum.68gm8417ga.clqtuo3skl4w0gc@eventum.example.org>";
         $this->assertEquals($exp, $message_id);
     }
 
@@ -27,10 +32,8 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
 
     public function testHasAttachments()
     {
-
-        $headers = "X-foo: 1";
-        $body = "nada";
-        $message = new MailMessage(array('headers' => $headers, 'content' => $body));
+        $raw = "Message-ID: <33@JON>X-foo: 1\r\n\r\nada";
+        $message = MailMessage::createFromString($raw);
         $has_attachments = $message->countParts();
         $multipart = $message->isMultipart();
         $this->assertFalse($multipart);

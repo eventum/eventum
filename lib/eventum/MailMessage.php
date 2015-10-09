@@ -37,6 +37,7 @@ use Zend\Mail\Header\ContentType;
 use Zend\Mail\Header\ContentTransferEncoding;
 use Zend\Mail\Header\To;
 use Zend\Mail\Header\GenericHeader;
+use Zend\Mail\Header\MessageId;
 use Zend\Mime;
 
 class MailMessage extends Message
@@ -55,15 +56,9 @@ class MailMessage extends Message
         // set messageId if that is missing
         // FIXME: do not set this for "child" messages (attachments)
         if (!$this->headers->has('Message-Id')) {
-            /** @var string|Headers $headers */
-            if ($params['headers'] instanceof Headers) {
-                $headers = $params['headers']->toString();
-            } else {
-                // use reference. maybe saves memory
-                $headers = &$params['headers'];
-            }
-            $messageId = Mail_Helper::generateMessageID($headers, $params['content']);
-            $header = new Zend\Mail\Header\MessageId();
+            $headers = rtrim($this->headers->toString(), Headers::EOL);
+            $messageId = Mail_Helper::generateMessageID($headers, $this->getContent());
+            $header = new MessageId();
             $this->headers->addHeader($header->setId(trim($messageId, "<>")));
         }
     }
@@ -356,7 +351,8 @@ class MailMessage extends Message
      *
      * @param array|Traversable $headerlist
      */
-    public function setHeaders(array $headerlist) {
+    public function setHeaders(array $headerlist)
+    {
         // NOTE: could use addHeaders() but that blows if value is not mime encoded. wtf
         //$this->headers->addHeaders($headerlist);
 
