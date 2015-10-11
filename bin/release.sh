@@ -144,13 +144,11 @@ cleanup_dist() {
 	rm -rf vendor/smarty/smarty/demo
 	rm -f vendor/smarty/smarty/{[A-Z]*,*.txt}
 
-	# pear
-	for dir in vendor/pear*; do
-		cd $dir
-		clean_scripts
-		cd -
-	done
+	cd vendor
+	clean_scripts
+	cd ..
 
+	# pear
 	rm vendor/pear*/*/package.xml
 	rm -r vendor/pear*/*/tests
 	rm -r vendor/pear*/*/doc
