@@ -886,6 +886,11 @@ class Mail_Helper
             $headers['message-id'] = $msg_id;
         }
 
+        /**
+         * Make sure that In-Reply-To and References headers are set and reference a message in this issue.
+         * If not, set to be the root message ID of the issue. This is to ensure messages are threaded by
+         * issue in mail clients.
+         */
         if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers) > 0) {
             // replace existing header
             $text_headers = preg_replace('/^In-Reply-To: (.*)/mi', 'In-Reply-To: ' . $reference_msg_id, $text_headers, 1);
