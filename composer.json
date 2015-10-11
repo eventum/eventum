@@ -72,6 +72,7 @@
 		"pear/net_smtp": "*",
 		"pear/net_socket": "*",
 		"pear/pear": "*",
+		"pear/pear-core-minimal": "~1.9,<1.10",
 		"pear/xml_rpc": "*",
 		"php": ">=5.3.3",
 		"php-gettext/php-gettext": "1.0.*",
