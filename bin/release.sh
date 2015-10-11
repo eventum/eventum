@@ -84,8 +84,6 @@ update_version() {
 
 # setup composer deps
 composer_install() {
-	# composer hack, see .travis.yml
-	sed -i -e 's#pear/#pear-pear.php.net/#' composer.json
 	$composer install --prefer-dist --no-dev --ignore-platform-reqs
 	$composer licenses --no-dev --no-ansi > deps
 	# avoid composer warning in resulting doc file
