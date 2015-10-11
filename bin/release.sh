@@ -96,12 +96,35 @@ phpcompatinfo_report() {
 	$phpcompatinfo analyser:run --alias current --output docs/PhpCompatInfo.txt
 }
 
+# common cleanups:
+# - remove closing php tag
+# - strip trailing whitespace
+# - use unix newlines
+clean_scripts() {
+	# here's shell oneliner to remove ?> from all files which have it on their last line:
+	find -name '*.php' | xargs -r sed -i -e '${/^?>$/d}'
+	# sometimes if you are hit by this problem, you need to kill last empty line first:
+	find -name '*.php' | xargs -r sed -i -e '${/^$/d}'
+	# and as well can remove trailing spaces/tabs:
+	find -name '*.php' | xargs -r sed -i -e 's/[\t ]\+$//'
+	# remove DOS EOL
+	find -name '*.php' | xargs -r sed -i -e 's,\r$,,'
+}
+
 # remove bundled deps
 cleanup_dist() {
+	local dir
+
+	# not ready yet
+	rm lib/eventum/db/DbYii.php
+
 	# cleanup vendors
+	rm -r vendor/bin
+	rm vendor/composer/*.json
+
+	# php-gettext
 	rm -r vendor/php-gettext/php-gettext/{tests,examples}
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
-	rm -r vendor/bin
 
 	# smarty: use -f, as dist and src packages differ
 	# smarty src
@@ -111,7 +134,16 @@ cleanup_dist() {
 	rm -rf vendor/smarty/smarty/demo
 	rm -f vendor/smarty/smarty/{[A-Z]*,*.txt}
 
-	rm vendor/composer/*.json
+	# pear
+	for dir in vendor/pear-*; do
+		cd $dir
+		clean_scripts
+		cd -
+	done
+
+	rm -r vendor/pear-pear.php.net/Console_Getopt
+	rm -r vendor/pear-pear.php.net/Math_Stats/{data,contrib}
+	rm vendor/pear-pear.php.net/XML_RPC/XML/RPC/Dump.php
 
 	# we need just LiberationSans-Regular.ttf
 	mv vendor/fonts/liberation/{,.}LiberationSans-Regular.ttf
@@ -143,14 +175,6 @@ cleanup_dist() {
 	rm -r htdocs/components/jquery-ui/ui/minified
 	rm -r htdocs/components/jquery-ui/ui/i18n
 	rm htdocs/components/dropzone/index.js
-
-	# not ready yet
-	rm lib/eventum/db/DbYii.php
-
-	# this will do clean pear in vendor dir
-	touch pear.download pear.install pear.clean
-	./bin/update-pear.sh
-	rm pear.download pear.install pear.clean
 
 	# auto-fix pear packages
 	make pear-fix php-cs-fixer=$phpcsfixer
@@ -245,7 +269,7 @@ vcs_checkout
 # tidy up
 cd $dir
 	prepare_source
-cd -
+cd ..
 
 make_tarball
 sign_tarball
