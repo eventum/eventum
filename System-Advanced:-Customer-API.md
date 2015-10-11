@@ -1,6 +1,6 @@
 ### Customer API
 
-<span style="background:yellow; color:black"> This is a work in progress... </span>
+This is a work in progress...
 
 The most useful information for now is located [here](Extending and Integrating Eventum "wikilink").
 
@@ -25,7 +25,7 @@ Eventum uses the Pear Database Abstraction Layer [Pear::DB] for its database con
 
 Pear::DB Package [Documentation](http://pear.php.net/package/DB/docs)
 
-`
+```php
  class CRM_Customer_Backend extends Abstract_Customer_Backend
  {
 
@@ -56,12 +56,12 @@ Pear::DB Package [Documentation](http://pear.php.net/package/DB/docs)
     $this->dbh->query("SET NAMES utf8");
   }
  }
-`
+```
 
 Running a Query
 ---------------
 
-`
+```php
  function getAssocList()
  {
 
@@ -82,7 +82,7 @@ Running a Query
   // Return the array
   return $assoc;
  }
-`
+```
 
 Customer Data
 =============
@@ -147,19 +147,8 @@ path_to_eventum/templates/customer/example/report_form_fields.tpl.html
 Notes
 =====
 
-`With `**`any`**` type of software, customization will be needed to meet the `*`specific`*` needs of your business.`
+With **any** type of software, customization will be needed to meet the **specific** needs of your business.
 
-<table width=55%>
-<tr>
-<td>
 Out-of-the-box, Eventum will meet many of your business needs. But with any type business software, customization to will be needed to address the specifics of your business processes. The 'Customer API' if one of the tools available to modify the system to your needs.
 
-</td>
-</tr>
-</table>
-Thanks:
-
-<div class="references-small">
-[Martin Svangren](http://lists.mysql.org/eventum-devel/766)
-
-</div>
+Thanks: [Martin Svangren](http://lists.mysql.org/eventum-devel/766)
