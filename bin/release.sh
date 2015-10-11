@@ -135,7 +135,7 @@ cleanup_dist() {
 	rm -f vendor/smarty/smarty/{[A-Z]*,*.txt}
 
 	# pear
-	for dir in vendor/pear-*; do
+	for dir in vendor/pear*; do
 		cd $dir
 		clean_scripts
 		cd -
