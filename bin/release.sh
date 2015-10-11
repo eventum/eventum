@@ -121,10 +121,20 @@ cleanup_dist() {
 	# cleanup vendors
 	rm -r vendor/bin
 	rm vendor/composer/*.json
+	rm vendor/*/*/composer.json
+	rm vendor/*/*/.gitattributes
+	rm vendor/*/*/.gitignore
+	rm vendor/*/*/LICENSE*
+	rm vendor/*/*/COPYING
+	rm vendor/*/*/ChangeLog*
+	rm vendor/*/*/README*
+	rm vendor/*/*/.travis.yml
 
 	# php-gettext
 	rm -r vendor/php-gettext/php-gettext/{tests,examples}
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
+
+	rm vendor/smarty-gettext/smarty-gettext/tsmarty2c.1
 
 	# smarty: use -f, as dist and src packages differ
 	# smarty src
@@ -141,9 +151,20 @@ cleanup_dist() {
 		cd -
 	done
 
+	rm vendor/pear*/*/package.xml
+	rm -r vendor/pear*/*/tests
+	rm -r vendor/pear*/*/doc
+	rm -r vendor/pear*/*/docs
+	rm -r vendor/pear*/*/examples
 	rm -r vendor/pear-pear.php.net/Console_Getopt
 	rm -r vendor/pear-pear.php.net/Math_Stats/{data,contrib}
 	rm vendor/pear-pear.php.net/XML_RPC/XML/RPC/Dump.php
+	rm vendor/pear/pear-core-minimal/src/OS/Guess.php
+	rm vendor/pear/net_smtp/phpdoc.sh
+
+	mv vendor/pear/db/DB/{common,mysql*}.php vendor
+	rm -r vendor/pear/db/DB/*.php
+	mv vendor/*.php vendor/pear/db/DB
 
 	# we need just LiberationSans-Regular.ttf
 	mv vendor/fonts/liberation/{,.}LiberationSans-Regular.ttf
