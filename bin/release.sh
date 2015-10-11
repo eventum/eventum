@@ -160,9 +160,11 @@ cleanup_dist() {
 	rm vendor/pear/pear-core-minimal/src/OS/Guess.php
 	rm vendor/pear/net_smtp/phpdoc.sh
 
-	mv vendor/pear/db/DB/{common,mysql*}.php vendor
+	mkdir tmp
+	mv vendor/pear/db/DB/{common,mysql*}.php tmp
 	rm -r vendor/pear/db/DB/*.php
-	mv vendor/*.php vendor/pear/db/DB
+	mv tmp/*.php vendor/pear/db/DB
+	rmdir tmp
 
 	# we need just LiberationSans-Regular.ttf
 	mv vendor/fonts/liberation/{,.}LiberationSans-Regular.ttf
