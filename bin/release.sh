@@ -84,10 +84,21 @@ update_version() {
 
 # setup composer deps
 composer_install() {
+	# first install with dev to get assets installed
+	$composer install --prefer-dist --ignore-platform-reqs
+
+	# and then without dev to get clean autoloader
+	mv $dir/htdocs/components $dir/htdocs/components.save
 	$composer install --prefer-dist --no-dev --ignore-platform-reqs
+	mv $dir/htdocs/components.save/* $dir/htdocs/components
+	rmdir $dir/htdocs/components.save
+
+	# save dependencies information
 	$composer licenses --no-dev --no-ansi > deps
 	# avoid composer warning in resulting doc file
 	grep Warning: deps && exit 1
+	# clean trailing spaces/tabs
+	sed -i -e 's/[\t ]\+$//' deps
 	cat deps >> docs/DEPENDENCIES.md && rm deps
 }
 
@@ -174,20 +185,9 @@ cleanup_dist() {
 	# need just phplot.php and maybe rgb.php
 	rm -r vendor/phplot/phplot/{contrib,[A-Z]*}
 
-	# component related deps, not needed runtime
-	rm -r vendor/symfony/process
-	rm -r vendor/kriswallsmith/assetic
-	rm -r vendor/robloach/component-installer
-	rm -r vendor/components
-	rm -r vendor/malsup/form
-	rm -r vendor/enyo/dropzone
-	rm -r vendor/jackmoore/autosize
-	install -d vendor/kriswallsmith/assetic/src
-	touch vendor/kriswallsmith/assetic/src/functions.php
-	echo '<?php return array();' > vendor/composer/autoload_namespaces.php
-	rmdir --ignore-fail-on-non-empty vendor/*/
-	# cleanup components
+	# component related sources, not needed runtime
 	rm htdocs/components/*/*-built.js
+	rm htdocs/components/*/*-built.css
 	rm htdocs/components/*-built.js
 	rm htdocs/components/jquery-ui/*.js
 	rm htdocs/components/require.*

@@ -39,14 +39,7 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"require": {
-		"components/jquery": "~1.8.3",
-		"components/jquery-blockui": "*@dev",
-		"components/jquery-chosen": "*",
-		"components/jquery-cookie": "~1.4.1",
-		"components/jqueryui": "*",
-		"enyo/dropzone": "~4.0.1",
 		"eventum/rpc": "~3.0.0",
-		"jackmoore/autosize":"*",
 		"ext-filter": "*",
 		"ext-iconv": "*",
 		"ext-imap": "*",
@@ -57,7 +50,6 @@
 		"ext-session": "*",
 		"ext-spl": "*",
 		"fonts/liberation":"*",
-		"malsup/form" :"*",
 		"pear-pear.php.net/file_util": "*",
 		"pear-pear.php.net/mail_mimedecode": "*",
 		"pear-pear.php.net/math_stats": "*",
@@ -84,6 +76,14 @@
 		"pear/pear-core-minimal": ">=1.10"
 	},
 	"require-dev": {
+		"components/jquery": "~1.8.3",
+		"components/jquery-blockui": "*@dev",
+		"components/jquery-chosen": "*",
+		"components/jquery-cookie": "~1.4.1",
+		"components/jqueryui": "*",
+		"enyo/dropzone": "~4.0.1",
+		"jackmoore/autosize":"*",
+		"malsup/form" :"*",
 		"roave/security-advisories": "dev-master",
 		"symfony/var-dumper": "~2.7.3"
 	},
