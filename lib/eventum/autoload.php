@@ -68,6 +68,7 @@ class Eventum_Autoload
 
             'DbPear' => $baseDir . '/db/DbPear.php',
             'DbInterface' => $baseDir . '/db/DbInterface.php',
+            'DbException' => $baseDir . '/db/DbException.php',
             'RemoteApi' => $baseDir . '/rpc/RemoteApi.php',
             'XmlRpcServer' => $baseDir . '/rpc/XmlRpcServer.php',
             'PlotHelper' => $baseDir . '/PlotHelper.php',
