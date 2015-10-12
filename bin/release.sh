@@ -222,7 +222,6 @@ clean_vendor() {
 	rm lib/eventum/db/DbYii.php
 }
 
-
 build_phars() {
 	# eventum standalone cli
 	make -C cli eventum.phar composer=$composer box=$box
@@ -237,6 +236,7 @@ cleanup_postdist() {
 	# cleanup vendors
 	rm vendor/composer/*.json
 	rm vendor/*/*/composer.json
+	rm vendor/*/LICENSE
 	rm composer.lock
 }
 
