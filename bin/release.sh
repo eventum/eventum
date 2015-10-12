@@ -96,10 +96,10 @@ composer_install() {
 	$composer install --prefer-dist --ignore-platform-reqs
 
 	# and then without dev to get clean autoloader
-	mv $dir/htdocs/components $dir/htdocs/components.save
+	mv htdocs/components htdocs/components.save
 	$composer install --prefer-dist --no-dev --ignore-platform-reqs
-	mv $dir/htdocs/components.save/* $dir/htdocs/components
-	rmdir $dir/htdocs/components.save
+	mv htdocs/components.save/* htdocs/components
+	rmdir htdocs/components.save
 
 	# save dependencies information
 	$composer licenses --no-dev --no-ansi > deps
