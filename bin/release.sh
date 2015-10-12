@@ -180,7 +180,7 @@ clean_vendor() {
 	rm vendor/pear/pear-core-minimal/src/OS/Guess.php
 	rm vendor/pear/net_smtp/phpdoc.sh
 
-	rm -r vendor/pear-pear.php.net/Console_Getopt
+	rm -r vendor/pear/console_getopt
 
 	mkdir tmp
 	mv vendor/pear/db/DB/{common,mysql*}.php tmp
