@@ -173,8 +173,8 @@ class Auth
             self::setCurrentProject($prj_id, $prj_cookie['remember']);
         } catch (AuthException $e) {
             $tpl = new Template_Helper();
-            $tpl->setTemplate("authentication_error.tpl.html");
-            $tpl->assign("error_message", $e->getMessage());
+            $tpl->setTemplate('authentication_error.tpl.html');
+            $tpl->assign('error_message', $e->getMessage());
             $tpl->displayTemplate();
             exit;
         }
@@ -677,8 +677,8 @@ class Auth
 
                 if (APP_AUTH_BACKEND_ALLOW_FALLBACK != true) {
                     $tpl = new Template_Helper();
-                    $tpl->setTemplate("authentication_error.tpl.html");
-                    $tpl->assign("error_message", $e->getMessage());
+                    $tpl->setTemplate('authentication_error.tpl.html');
+                    $tpl->assign('error_message', $e->getMessage());
                     $tpl->displayTemplate();
                     exit;
                 }
