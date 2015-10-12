@@ -181,6 +181,7 @@ cleanup_dist() {
 	rm -r vendor/components
 	rm -r vendor/malsup/form
 	rm -r vendor/enyo/dropzone
+	rm -r vendor/jackmoore/autosize
 	install -d vendor/kriswallsmith/assetic/src
 	touch vendor/kriswallsmith/assetic/src/functions.php
 	echo '<?php return array();' > vendor/composer/autoload_namespaces.php
