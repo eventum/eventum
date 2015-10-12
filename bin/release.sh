@@ -101,6 +101,10 @@ composer_install() {
 	mv htdocs/components.save/* htdocs/components
 	rmdir htdocs/components.save
 
+	# clean vendor and dump autoloader again
+	clean_vendor
+	$composer dump-autoload
+
 	# save dependencies information
 	$composer licenses --no-dev --no-ansi > deps
 	# avoid composer warning in resulting doc file
@@ -130,17 +134,9 @@ clean_scripts() {
 	find -name '*.php' | xargs -r sed -i -e 's,\r$,,'
 }
 
-# remove bundled deps
-cleanup_dist() {
-	local dir
-
-	# not ready yet
-	rm lib/eventum/db/DbYii.php
-
-	# cleanup vendors
-	rm -r vendor/bin
-	rm vendor/composer/*.json
-	rm vendor/*/*/composer.json
+# cleanup excess files from vendor
+# but not that much that composer won't work
+clean_vendor() {
 	rm vendor/*/*/.gitattributes
 	rm vendor/*/*/.gitignore
 	rm vendor/*/*/LICENSE*
@@ -148,6 +144,8 @@ cleanup_dist() {
 	rm vendor/*/*/ChangeLog*
 	rm vendor/*/*/README*
 	rm vendor/*/*/.travis.yml
+
+	rm -r vendor/bin
 
 	# php-gettext
 	rm -r vendor/php-gettext/php-gettext/{tests,examples}
@@ -163,21 +161,18 @@ cleanup_dist() {
 	rm -rf vendor/smarty/smarty/demo
 	rm -f vendor/smarty/smarty/{[A-Z]*,*.txt}
 
-	cd vendor
-	clean_scripts
-	cd ..
-
 	# pear
 	rm vendor/pear*/*/package.xml
 	rm -r vendor/pear*/*/tests
 	rm -r vendor/pear*/*/doc
 	rm -r vendor/pear*/*/docs
 	rm -r vendor/pear*/*/examples
-	rm -r vendor/pear-pear.php.net/Console_Getopt
 	rm -r vendor/pear-pear.php.net/Math_Stats/{data,contrib}
 	rm vendor/pear-pear.php.net/XML_RPC/XML/RPC/Dump.php
 	rm vendor/pear/pear-core-minimal/src/OS/Guess.php
 	rm vendor/pear/net_smtp/phpdoc.sh
+
+	rm -r vendor/pear-pear.php.net/Console_Getopt
 
 	mkdir tmp
 	mv vendor/pear/db/DB/{common,mysql*}.php tmp
@@ -193,6 +188,15 @@ cleanup_dist() {
 	# need just phplot.php and maybe rgb.php
 	rm -r vendor/phplot/phplot/{contrib,[A-Z]*}
 
+	cd vendor
+	clean_scripts
+	cd ..
+
+	# auto-fix pear packages
+	make pear-fix php-cs-fixer=$phpcsfixer
+	# run twice, to fix all occurrences
+	make pear-fix php-cs-fixer=$phpcsfixer
+
 	# component related sources, not needed runtime
 	rm htdocs/components/*/*-built.js
 	rm htdocs/components/*/*-built.css
@@ -206,22 +210,26 @@ cleanup_dist() {
 	rm -r htdocs/components/jquery-ui/ui/i18n
 	rm htdocs/components/dropzone/index.js
 
-	# auto-fix pear packages
-	make pear-fix php-cs-fixer=$phpcsfixer
-	# run twice, to fix all occurrences
-	make pear-fix php-cs-fixer=$phpcsfixer
+	# not ready yet
+	rm lib/eventum/db/DbYii.php
+}
 
+
+build_phars() {
 	# eventum standalone cli
 	make -C cli eventum.phar composer=$composer box=$box
 	# eventum scm
 	make -C scm phar box=$box
-
-	rm composer.lock
 }
 
 cleanup_postdist() {
-	rm -f composer.json bin/{dyncontent-chksum.pl,update-pear.sh}
-	rm -f cli/{composer.json,box.json.dist,Makefile}
+	rm composer.json bin/dyncontent-chksum.pl
+	rm cli/{composer.json,box.json.dist,Makefile}
+
+	# cleanup vendors
+	rm vendor/composer/*.json
+	rm vendor/*/*/composer.json
+	rm composer.lock
 }
 
 phplint() {
@@ -268,7 +276,7 @@ prepare_source() {
 	# update to include checksums of js/css files
 	./bin/dyncontent-chksum.pl
 
-	cleanup_dist
+	build_phars
 
 	# setup locatlization
 	make -C localization install clean
