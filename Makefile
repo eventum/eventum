@@ -8,7 +8,7 @@ smartyplugindir := $(datadir)/lib/Smarty/plugins
 
 PHPCOMPATINFO_VERSION := 4.4.0
 PHPUNIT_VERSION := 4.8.11
-PHPAB_VERSION := 1.16.1
+PHPAB_VERSION := 1.20.3
 
 define find_tool
 $(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
