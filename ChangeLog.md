@@ -11,6 +11,7 @@ Eventum Issue Tracking System
 - Fix bugs with estimated dev time (Bryan Alsdorf, LP#1494723)
 - Display pretty error page for auth exceptions (Bryan Alsdorf)
 - Fix POP3 download bug (Craig Pinfold, #66, #69)
+- Add autosize plugin to all TEXAREAs (Elan Ruusamäe, #70)
 
 2015-08-04, Version 3.0.2
 -------------------------
