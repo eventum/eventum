@@ -90,6 +90,11 @@ update_version() {
 		}" init.php
 }
 
+# clean trailing spaces/tabs
+clean_whitespace() {
+	sed -i -e 's/[\t ]\+$//' "$@"
+}
+
 # setup composer deps
 composer_install() {
 	# first install with dev to get assets installed
@@ -109,14 +114,14 @@ composer_install() {
 	$composer licenses --no-dev --no-ansi > deps
 	# avoid composer warning in resulting doc file
 	grep Warning: deps && exit 1
-	# clean trailing spaces/tabs
-	sed -i -e 's/[\t ]\+$//' deps
+	clean_whitespace deps
 	cat deps >> docs/DEPENDENCIES.md && rm deps
 }
 
 # create phpcompatinfo report
 phpcompatinfo_report() {
 	$phpcompatinfo analyser:run --alias current --output docs/PhpCompatInfo.txt
+	clean_whitespace docs/PhpCompatInfo.txt
 }
 
 # common cleanups:
