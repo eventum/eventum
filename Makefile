@@ -8,6 +8,7 @@ smartyplugindir := $(datadir)/lib/Smarty/plugins
 
 PHPCOMPATINFO_VERSION := 4.4.0
 PHPUNIT_VERSION := 4.8.11
+PHPAB_VERSION := 1.16.1
 
 define find_tool
 $(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
@@ -51,6 +52,9 @@ phpcompatinfo.phar:
 
 phpunit.phar:
 	$(call fetch_tool,https://phar.phpunit.de/phpunit-$(PHPUNIT_VERSION).phar)
+
+phpab.phar:
+	$(call fetch_tool,http://phpab.net/phpab-$(PHPAB_VERSION).phar)
 
 pear-fix: composer.lock
 	-$(php-cs-fixer) fix vendor/pear-pear.php.net --fixers=php4_constructor --verbose
