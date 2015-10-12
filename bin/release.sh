@@ -4,6 +4,7 @@ set -x
 app=eventum
 dir=$app
 podir=po
+topdir=$(pwd)
 
 find_prog() {
 	set +x
@@ -25,7 +26,7 @@ find_prog() {
 # see http://stackoverflow.com/a/5531813
 update_timestamps() {
 	set +x
-	echo "Updating timestamps from last commit of each file, please wait..."
+	echo >&2 "Updating timestamps from last commit of each file in ${dir#$topdir/}, please wait..."
 	git ls-files | while read file; do
 		# skip files which were not exported
 		test -f "$dir/$file" || continue
@@ -36,9 +37,11 @@ update_timestamps() {
 }
 
 vcs_checkout() {
+	local submodule dir=$dir absdir
+
 	rm -rf $dir
 	install -d $dir
-	dir=$(readlink -f $dir)
+	absdir=$(readlink -f $dir)
 
 	# setup submodules
 	git submodule init
@@ -47,10 +50,15 @@ vcs_checkout() {
 	git archive HEAD | tar -x -C $dir
 	# include submodules
 	# see http://stackoverflow.com/a/16843717
-	dir=$dir git submodule foreach 'cd $toplevel/$path && git archive HEAD | tar -x -C $dir/$path/'
+	dir=$absdir git submodule foreach 'cd $toplevel/$path && git archive HEAD | tar -x -C $dir/$path/'
 
 	update_timestamps
-	po_checkout
+	local submodule
+	for submodule in $(git submodule -q foreach 'echo $path'); do
+		cd $submodule
+		dir=$absdir/$submodule update_timestamps
+		cd $topdir
+	done
 }
 
 # checkout localizations from launchpad
@@ -58,7 +66,7 @@ po_checkout() {
 	if [ -d $podir ]; then
 	  cd $podir
 	  bzr pull
-	  cd -
+	  cd ..
 	else
 	  bzr branch lp:~glen666/eventum/po $podir
 	fi
@@ -287,6 +295,7 @@ phpcompatinfo=$(find_prog phpcompatinfo)
 
 # checkout
 vcs_checkout
+po_checkout
 
 # tidy up
 cd $dir
