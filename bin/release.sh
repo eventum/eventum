@@ -47,6 +47,9 @@ vcs_checkout() {
 	git submodule init
 	git submodule update
 
+	# ensure we have latest master in submodules
+	git submodule foreach 'cd $toplevel/$path && git checkout master && git pull'
+
 	git archive HEAD | tar -x -C $dir
 	# include submodules
 	# see http://stackoverflow.com/a/16843717
