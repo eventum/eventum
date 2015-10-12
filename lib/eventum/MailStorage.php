@@ -31,15 +31,42 @@
  */
 class MailStorage
 {
-    /** @var \Zend\Mail\Storage\AbstractStorage */
+    /** @var \Zend\Mail\Protocol\Imap|\Zend\Mail\Protocol\Pop3 */
+    private $protocol;
+
+    /** @var \Zend\Mail\Storage\Imap|\Zend\Mail\Storage\Pop3 */
     private $storage;
 
     public function __construct($options)
     {
         $params = $this->convertParams($options);
 
+        $class = $params['protocol_class'];
+        $this->protocol = new $class($params['host'], $params['port'], $params['ssl']);
+        $this->protocol->login($params['user'], $params['password']);
+
         $class = $params['storage_class'];
-        $this->storage = new $class($params);
+        $this->storage = new $class($this->protocol);
+    }
+
+    public function countMessages($flags)
+    {
+        return $this->storage->countMessages($flags);
+    }
+
+    public function getMails()
+    {
+        return $this->storage;
+    }
+
+    public function getStorage()
+    {
+        return $this->storage;
+    }
+
+    public function getProtocol()
+    {
+        return $this->protocol;
     }
 
     /**
@@ -81,7 +108,9 @@ class MailStorage
          */
         $type = explode('/', $params['ema_type']);
 
-        $res['storage_class'] = '\\Zend\\Mail\\Storage\\' . ucfirst($type[0]);
+        $classname = ucfirst($type[0]);
+        $res['storage_class'] = '\\Zend\\Mail\\Storage\\' . $classname;
+        $res['protocol_class'] = '\\Zend\\Mail\\Protocol\\' . $classname;
         $res['ssl'] = in_array($type[1], array('ssl', 'tls')) ? $type[1] : false;
 
         // NOTE: novalidate and notls are not supported
