@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
@@ -229,7 +229,7 @@ function getPermissionError($file, $desc, $is_directory, $exists)
     } else {
         $title = 'File';
     }
-    $error = "$title <b>'" . File_Util::realPath($file) . ($is_directory ? '/' : '') . "'</b> ";
+    $error = "$title <b>'" . $file . ($is_directory ? '/' : '') . "'</b> ";
 
     if (!$exists) {
         $error .= "does not exist. Please create the $title and reload this page.";

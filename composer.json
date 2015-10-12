@@ -51,7 +51,6 @@
 		"ext-session": "*",
 		"ext-spl": "*",
 		"fonts/liberation":"*",
-		"pear-pear.php.net/file_util": "*",
 		"pear-pear.php.net/mail_mimedecode": "*",
 		"pear-pear.php.net/math_stats": "*",
 		"pear-pear.php.net/net_ldap2": "*",
