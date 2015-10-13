@@ -44,7 +44,12 @@ $cat = isset($_POST['cat']) ? (string)$_POST['cat'] : null;
 
 if ($cat == 'update') {
     // regenerate key
-    // TODO
+    try {
+        Auth::generatePrivateKey();
+        Misc::setMessage(ev_gettext('Thank you, the private key was regenerated.'));
+    } catch (Exception $e) {
+        Misc::setMessage(ev_gettext('Private key regeneration error. Check server error logs.'), Misc::MSG_ERROR);
+    }
 }
 
 $tpl->displayTemplate();
