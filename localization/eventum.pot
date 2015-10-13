@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-21 22:17+0300\n"
+"POT-Creation-Date: 2015-10-14 00:32+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -255,23 +255,23 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:52
+#: templates/manage/manage.tpl.html:53
 msgid "Add / Edit Categories"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:55
+#: templates/manage/manage.tpl.html:56
 msgid "Add / Edit Phone Support Categories"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:53
+#: templates/manage/manage.tpl.html:54
 msgid "Add / Edit Priorities"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:51
+#: templates/manage/manage.tpl.html:52
 msgid "Add / Edit Releases"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:54
+#: templates/manage/manage.tpl.html:55
 msgid "Add / Edit Severities"
 msgstr ""
 
@@ -299,7 +299,7 @@ msgstr ""
 msgid "Add Files"
 msgstr ""
 
-#: templates/view_form.tpl.html:205 templates/view_form.tpl.html:240
+#: templates/view_form.tpl.html:207 templates/view_form.tpl.html:242
 msgid "Add Me To Notification List"
 msgstr ""
 
@@ -804,7 +804,7 @@ msgstr ""
 msgid "Anonymous Reporting"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:57
+#: templates/manage/manage.tpl.html:58
 msgid "Anonymous Reporting Options"
 msgstr ""
 
@@ -821,7 +821,7 @@ msgstr ""
 msgid "Archived"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:35
+#: templates/manage/manage.tpl.html:36
 msgid "Areas"
 msgstr ""
 
@@ -842,7 +842,7 @@ msgstr ""
 msgid "Ascending"
 msgstr ""
 
-#: templates/view_form.tpl.html:214
+#: templates/view_form.tpl.html:216
 msgid "Assign Issue To Myself"
 msgstr ""
 
@@ -1237,7 +1237,7 @@ msgstr ""
 msgid "Change Password"
 msgstr ""
 
-#: templates/view_form.tpl.html:248
+#: templates/view_form.tpl.html:250
 msgid "Change Status To"
 msgstr ""
 
@@ -1299,7 +1299,7 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: templates/view_form.tpl.html:221
+#: templates/view_form.tpl.html:223
 msgid "Clear Duplicate Status"
 msgstr ""
 
@@ -1327,11 +1327,11 @@ msgstr ""
 msgid "Clocked In handling"
 msgstr ""
 
-#: templates/view_form.tpl.html:46
+#: templates/view_form.tpl.html:48
 msgid "Clone Issue"
 msgstr ""
 
-#: templates/view_form.tpl.html:46
+#: templates/view_form.tpl.html:48
 msgid "Clone this issue"
 msgstr ""
 
@@ -1350,7 +1350,7 @@ msgid "Close Form"
 msgstr ""
 
 #: templates/close.tpl.html:21 templates/close.tpl.html:125
-#: templates/update_form.tpl.html:244 templates/view_form.tpl.html:226
+#: templates/update_form.tpl.html:244 templates/view_form.tpl.html:228
 msgid "Close Issue"
 msgstr ""
 
@@ -1412,7 +1412,7 @@ msgstr ""
 msgid "Comparison Field"
 msgstr ""
 
-#: templates/view_form.tpl.html:75
+#: templates/view_form.tpl.html:77
 msgid "Complete Details"
 msgstr ""
 
@@ -1675,19 +1675,19 @@ msgstr ""
 #: lib/eventum/class.help.php:141 templates/help/customize_listing.tpl.html:2
 #: templates/help/main.tpl.html:22
 #: templates/manage/customize_listing.tpl.html:60
-#: templates/manage/manage.tpl.html:23
+#: templates/manage/manage.tpl.html:24
 msgid "Customize Issue Listing Screen"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:26
+#: templates/manage/manage.tpl.html:27
 msgid "Customize LDAP Config"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:24
+#: templates/manage/manage.tpl.html:25
 msgid "Customize Monitoring Parameters"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:28
+#: templates/manage/manage.tpl.html:29
 msgid "Customize SCM Integration"
 msgstr ""
 
@@ -1848,7 +1848,7 @@ msgstr ""
 msgid "Description Field"
 msgstr ""
 
-#: templates/view_form.tpl.html:186
+#: templates/view_form.tpl.html:188
 msgid "Description is currently collapsed"
 msgstr ""
 
@@ -1932,7 +1932,7 @@ msgstr ""
 msgid "Duplicate flag was reset by {user}"
 msgstr ""
 
-#: templates/update_form.tpl.html:113 templates/view_form.tpl.html:111
+#: templates/update_form.tpl.html:113 templates/view_form.tpl.html:113
 msgid "Duplicate of"
 msgstr ""
 
@@ -1940,7 +1940,7 @@ msgstr ""
 msgid "Duplicated Issue"
 msgstr ""
 
-#: templates/update_form.tpl.html:117 templates/view_form.tpl.html:115
+#: templates/update_form.tpl.html:117 templates/view_form.tpl.html:117
 msgid "Duplicated by"
 msgstr ""
 
@@ -2066,7 +2066,7 @@ msgstr ""
 msgid "ERROR: There was a DB error checking the mail queue status"
 msgstr ""
 
-#: templates/update_form.tpl.html:27 templates/view_form.tpl.html:50
+#: templates/update_form.tpl.html:27 templates/view_form.tpl.html:52
 msgid "Edit Authorized Replier List"
 msgstr ""
 
@@ -2076,22 +2076,22 @@ msgstr ""
 
 #: lib/eventum/class.help.php:137 templates/help/column_display.tpl.html:2
 #: templates/manage/column_display.tpl.html:6
-#: templates/manage/manage.tpl.html:59 templates/manage/projects.tpl.html:290
+#: templates/manage/manage.tpl.html:60 templates/manage/projects.tpl.html:290
 msgid "Edit Columns to Display"
 msgstr ""
 
 #: lib/eventum/class.help.php:133 templates/help/field_display.tpl.html:2
 #: templates/help/main.tpl.html:24 templates/manage/field_display.tpl.html:6
 #: templates/manage/field_display.tpl.html:14
-#: templates/manage/manage.tpl.html:58 templates/manage/projects.tpl.html:289
+#: templates/manage/manage.tpl.html:59 templates/manage/projects.tpl.html:289
 msgid "Edit Fields to Display"
 msgstr ""
 
-#: templates/view_form.tpl.html:243
+#: templates/view_form.tpl.html:245
 msgid "Edit Incident Redemption"
 msgstr ""
 
-#: templates/update_form.tpl.html:28 templates/view_form.tpl.html:51
+#: templates/update_form.tpl.html:28 templates/view_form.tpl.html:53
 msgid "Edit Notification List"
 msgstr ""
 
@@ -2111,7 +2111,7 @@ msgstr ""
 msgid "Edit Releases"
 msgstr ""
 
-#: templates/update_form.tpl.html:26 templates/view_form.tpl.html:49
+#: templates/update_form.tpl.html:26 templates/view_form.tpl.html:51
 msgid "Edit Reporter"
 msgstr ""
 
@@ -2123,7 +2123,7 @@ msgstr ""
 msgid "Edit Signature"
 msgstr ""
 
-#: templates/update_form.tpl.html:26 templates/view_form.tpl.html:49
+#: templates/update_form.tpl.html:26 templates/view_form.tpl.html:51
 msgid "Edit the Reporter for this issue"
 msgstr ""
 
@@ -2236,7 +2236,7 @@ msgstr ""
 msgid "Email by Time Period"
 msgstr ""
 
-#: lib/eventum/class.support.php:2692
+#: lib/eventum/class.support.php:2705
 msgid "Email from '{from}' blocked"
 msgstr ""
 
@@ -2909,7 +2909,7 @@ msgstr ""
 msgid "Hide Closed Issues"
 msgstr ""
 
-#: templates/update_form.tpl.html:30 templates/view_form.tpl.html:53
+#: templates/update_form.tpl.html:30 templates/view_form.tpl.html:55
 msgid "History of Changes"
 msgstr ""
 
@@ -3107,7 +3107,7 @@ msgid "Indonesian"
 msgstr ""
 
 #: templates/new_form.tpl.html:188 templates/update_form.tpl.html:188
-#: templates/view_form.tpl.html:178
+#: templates/view_form.tpl.html:180
 msgid "Initial Description"
 msgstr ""
 
@@ -3253,7 +3253,7 @@ msgstr ""
 msgid "Issue ID:"
 msgstr ""
 
-#: templates/view_form.tpl.html:43
+#: templates/view_form.tpl.html:45
 msgid "Issue Overview"
 msgstr ""
 
@@ -3594,7 +3594,7 @@ msgid "Mailbox"
 msgstr ""
 
 #: templates/manage/email_responses.tpl.html:52
-#: templates/manage/manage.tpl.html:65
+#: templates/manage/manage.tpl.html:66
 msgid "Manage Canned Email Responses"
 msgstr ""
 
@@ -3607,51 +3607,51 @@ msgid "Manage Columns to Display"
 msgstr ""
 
 #: templates/manage/custom_fields.tpl.html:196
-#: templates/manage/manage.tpl.html:22
+#: templates/manage/manage.tpl.html:23
 msgid "Manage Custom Fields"
 msgstr ""
 
 #: templates/manage/account_managers.tpl.html:51
-#: templates/manage/manage.tpl.html:45
+#: templates/manage/manage.tpl.html:46
 msgid "Manage Customer Account Managers"
 msgstr ""
 
 #: templates/manage/customer_notes.tpl.html:60
-#: templates/manage/manage.tpl.html:46
+#: templates/manage/manage.tpl.html:47
 msgid "Manage Customer Quick Notes"
 msgstr ""
 
 #: templates/manage/email_accounts.tpl.html:108
-#: templates/manage/manage.tpl.html:21
+#: templates/manage/manage.tpl.html:22
 msgid "Manage Email Accounts"
 msgstr ""
 
-#: templates/manage/groups.tpl.html:68 templates/manage/manage.tpl.html:63
+#: templates/manage/groups.tpl.html:68 templates/manage/manage.tpl.html:64
 msgid "Manage Groups"
 msgstr ""
 
-#: templates/manage/faq.tpl.html:89 templates/manage/manage.tpl.html:41
+#: templates/manage/faq.tpl.html:89 templates/manage/manage.tpl.html:42
 msgid "Manage Internal FAQ"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:44 templates/manage/reminders.tpl.html:138
+#: templates/manage/manage.tpl.html:45 templates/manage/reminders.tpl.html:138
 msgid "Manage Issue Reminders"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:64 templates/manage/resolution.tpl.html:52
+#: templates/manage/manage.tpl.html:65 templates/manage/resolution.tpl.html:52
 msgid "Manage Issue Resolutions"
 msgstr ""
 
 #: templates/manage/link_filters.tpl.html:61
-#: templates/manage/manage.tpl.html:66
+#: templates/manage/manage.tpl.html:67
 msgid "Manage Link Filters"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:43 templates/manage/news.tpl.html:57
+#: templates/manage/manage.tpl.html:44 templates/manage/news.tpl.html:57
 msgid "Manage News"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:68 templates/manage/partners.tpl.html:12
+#: templates/manage/manage.tpl.html:69 templates/manage/partners.tpl.html:12
 msgid "Manage Partners"
 msgstr ""
 
@@ -3663,13 +3663,13 @@ msgstr ""
 msgid "Manage Priorities"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:67 templates/manage/products.tpl.html:52
+#: templates/manage/manage.tpl.html:68 templates/manage/products.tpl.html:52
 msgid "Manage Products"
 msgstr ""
 
 #: templates/manage/column_display.tpl.html:7
 #: templates/manage/field_display.tpl.html:7
-#: templates/manage/manage.tpl.html:49 templates/manage/projects.tpl.html:100
+#: templates/manage/manage.tpl.html:50 templates/manage/projects.tpl.html:100
 msgid "Manage Projects"
 msgstr ""
 
@@ -3685,7 +3685,7 @@ msgstr ""
 msgid "Manage Reminder Conditions"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:42
+#: templates/manage/manage.tpl.html:43
 #: templates/manage/round_robin.tpl.html:55
 msgid "Manage Round Robin Assignments"
 msgstr ""
@@ -3694,16 +3694,16 @@ msgstr ""
 msgid "Manage Severities"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:47 templates/manage/statuses.tpl.html:68
+#: templates/manage/manage.tpl.html:48 templates/manage/statuses.tpl.html:68
 msgid "Manage Statuses"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:56 templates/manage/projects.tpl.html:287
+#: templates/manage/manage.tpl.html:57 templates/manage/projects.tpl.html:287
 #: templates/manage/time_tracking.tpl.html:52
 msgid "Manage Time Tracking Categories"
 msgstr ""
 
-#: templates/manage/manage.tpl.html:62 templates/manage/users.tpl.html:123
+#: templates/manage/manage.tpl.html:63 templates/manage/users.tpl.html:123
 msgid "Manage Users"
 msgstr ""
 
@@ -3716,7 +3716,7 @@ msgstr ""
 msgid "Mark Issue as Duplicate"
 msgstr ""
 
-#: templates/view_form.tpl.html:223
+#: templates/view_form.tpl.html:225
 msgid "Mark as Duplicate"
 msgstr ""
 
@@ -3922,7 +3922,7 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: templates/view_form.tpl.html:6
+#: templates/view_form.tpl.html:7
 msgid "Next Issue"
 msgstr ""
 
@@ -4091,7 +4091,7 @@ msgstr ""
 msgid "No internal notes could be found."
 msgstr ""
 
-#: templates/view_form.tpl.html:101
+#: templates/view_form.tpl.html:103
 msgid "No issues associated"
 msgstr ""
 
@@ -4169,7 +4169,7 @@ msgstr ""
 msgid "No reminders could be found."
 msgstr ""
 
-#: templates/view_form.tpl.html:105
+#: templates/view_form.tpl.html:107
 msgid "No resolution date given"
 msgstr ""
 
@@ -4210,7 +4210,7 @@ msgid "No users could be found."
 msgstr ""
 
 #: templates/current_filters.tpl.html:8 templates/update_form.tpl.html:162
-#: templates/view_form.tpl.html:160
+#: templates/view_form.tpl.html:162
 msgid "None"
 msgstr ""
 
@@ -4223,7 +4223,7 @@ msgstr ""
 #: templates/manage/email_accounts.tpl.html:207
 #: templates/manage/time_tracking.tpl.html:114 templates/setup.tpl.html:271
 #: templates/setup.tpl.html:349 templates/setup.tpl.html:398
-#: templates/view_form.tpl.html:34
+#: templates/view_form.tpl.html:36
 msgid "Note"
 msgstr ""
 
@@ -4401,8 +4401,8 @@ msgid "Order"
 msgstr ""
 
 #: templates/add_phone_entry.tpl.html:122 templates/update_form.tpl.html:108
-#: templates/update_form.tpl.html:137 templates/view_form.tpl.html:93
-#: templates/view_form.tpl.html:135
+#: templates/update_form.tpl.html:137 templates/view_form.tpl.html:95
+#: templates/view_form.tpl.html:137
 msgid "Other"
 msgstr ""
 
@@ -5315,7 +5315,7 @@ msgid ""
 "parts of the application:"
 msgstr ""
 
-#: templates/view_form.tpl.html:18
+#: templates/view_form.tpl.html:20
 msgid ""
 "Please see the <a href=\"%1\">FAQ</a> for information regarding quarantined "
 "issues."
@@ -5523,7 +5523,7 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
-#: templates/view_form.tpl.html:3
+#: templates/view_form.tpl.html:4
 msgid "Previous Issue"
 msgstr ""
 
@@ -5562,6 +5562,14 @@ msgstr ""
 #: lib/eventum/class.project.php:1125 templates/file_upload.tpl.html:72
 #: templates/new_form.tpl.html:278 templates/update_form.tpl.html:205
 msgid "Private"
+msgstr ""
+
+#: templates/manage/manage.tpl.html:21 templates/manage/private_key.tpl.html:9
+msgid "Private Key"
+msgstr ""
+
+#: htdocs/manage/private_key.php:51
+msgid "Private key regeneration error. Check server error logs."
 msgstr ""
 
 #: lib/eventum/class.reminder_action.php:575
@@ -5623,7 +5631,7 @@ msgstr ""
 msgid "Public"
 msgstr ""
 
-#: templates/view_form.tpl.html:16
+#: templates/view_form.tpl.html:18
 msgid "Quarantine expires in %1"
 msgstr ""
 
@@ -5777,7 +5785,7 @@ msgstr ""
 msgid "Redeem Incidents"
 msgstr ""
 
-#: templates/update_form.tpl.html:153 templates/view_form.tpl.html:151
+#: templates/update_form.tpl.html:153 templates/view_form.tpl.html:153
 msgid "Redeemed Incident Types"
 msgstr ""
 
@@ -5787,6 +5795,14 @@ msgstr ""
 
 #: templates/preferences.tpl.html:244
 msgid "Refresh Rate for Issue Listing Page"
+msgstr ""
+
+#: templates/manage/private_key.tpl.html:27
+msgid "Regenerate Private Key"
+msgstr ""
+
+#: templates/manage/private_key.tpl.html:20
+msgid "Regenerating Private Key will invalidate all logged in user sessions."
 msgstr ""
 
 #: templates/base_full.tpl.html:60
@@ -5838,7 +5854,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: templates/view_form.tpl.html:21
+#: templates/view_form.tpl.html:23
 msgid "Remove Quarantine"
 msgstr ""
 
@@ -5888,7 +5904,7 @@ msgid "Replacement: \"%1\""
 msgstr ""
 
 #: templates/notes.tpl.html:59 templates/support_emails.tpl.html:75
-#: templates/view_email.tpl.html:232 templates/view_form.tpl.html:201
+#: templates/view_email.tpl.html:232 templates/view_form.tpl.html:203
 #: templates/view_note.tpl.html:135
 msgid "Reply"
 msgstr ""
@@ -6195,7 +6211,7 @@ msgid "Select closed status to close issue"
 msgstr ""
 
 #: templates/send.tpl.html:181 templates/send.tpl.html:304
-#: templates/support_emails.tpl.html:152 templates/view_form.tpl.html:203
+#: templates/support_emails.tpl.html:152 templates/view_form.tpl.html:205
 msgid "Send Email"
 msgstr ""
 
@@ -6330,7 +6346,7 @@ msgstr ""
 msgid "Showing all open issues older than "
 msgstr ""
 
-#: templates/view_form.tpl.html:237
+#: templates/view_form.tpl.html:239
 msgid "Signup as Authorized Replier"
 msgstr ""
 
@@ -6413,8 +6429,9 @@ msgstr ""
 #: htdocs/manage/groups.php:40 htdocs/manage/link_filters.php:40
 #: htdocs/manage/monitor.php:39 htdocs/manage/news.php:40
 #: htdocs/manage/partners.php:39 htdocs/manage/phone_categories.php:40
-#: htdocs/manage/priorities.php:40 htdocs/manage/projects.php:40
-#: htdocs/manage/releases.php:40 htdocs/manage/reminder_actions.php:42
+#: htdocs/manage/priorities.php:40 htdocs/manage/private_key.php:38
+#: htdocs/manage/projects.php:40 htdocs/manage/releases.php:40
+#: htdocs/manage/reminder_actions.php:42
 #: htdocs/manage/reminder_conditions.php:43 htdocs/manage/reminders.php:40
 #: htdocs/manage/resolution.php:40 htdocs/manage/round_robin.php:40
 #: htdocs/manage/scm.php:38 htdocs/manage/statuses.php:40
@@ -6468,7 +6485,7 @@ msgid "Spell Check"
 msgstr ""
 
 #: templates/update_form.tpl.html:106 templates/update_form.tpl.html:127
-#: templates/view_form.tpl.html:91 templates/view_form.tpl.html:125
+#: templates/view_form.tpl.html:93 templates/view_form.tpl.html:127
 msgid "Staff"
 msgstr ""
 
@@ -6605,7 +6622,7 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html:305
 #: templates/reports/stalled_issues.tpl.html:68
 #: templates/time_tracking.tpl.html:44 templates/update_form.tpl.html:180
-#: templates/view_form.tpl.html:173
+#: templates/view_form.tpl.html:175
 msgid "Summary"
 msgstr ""
 
@@ -6624,7 +6641,7 @@ msgstr ""
 #: lib/eventum/class.display_column.php:211
 #: templates/reminders/alert_no_recipients.tpl.text:11
 #: templates/reminders/email_alert.tpl.text:8
-#: templates/update_form.tpl.html:146 templates/view_form.tpl.html:144
+#: templates/update_form.tpl.html:146 templates/view_form.tpl.html:146
 msgid "Support Level"
 msgstr ""
 
@@ -6632,7 +6649,7 @@ msgstr ""
 msgid "Support Levels"
 msgstr ""
 
-#: templates/update_form.tpl.html:149 templates/view_form.tpl.html:147
+#: templates/update_form.tpl.html:149 templates/view_form.tpl.html:149
 msgid "Support Options"
 msgstr ""
 
@@ -6999,6 +7016,10 @@ msgstr ""
 msgid "Thank you, the priority was updated successfully."
 msgstr ""
 
+#: htdocs/manage/private_key.php:49
+msgid "Thank you, the private key was regenerated."
+msgstr ""
+
 #: htdocs/manage/projects.php:47
 msgid "Thank you, the project was added successfully."
 msgstr ""
@@ -7347,7 +7368,7 @@ msgstr ""
 msgid "These are the current issue details"
 msgstr ""
 
-#: templates/view_form.tpl.html:13
+#: templates/view_form.tpl.html:15
 msgid "This Issue is Currently Quarantined"
 msgstr ""
 
@@ -7539,7 +7560,7 @@ msgstr ""
 msgid "This is an automated message sent from %1"
 msgstr ""
 
-#: templates/view_form.tpl.html:34
+#: templates/view_form.tpl.html:36
 msgid ""
 "This issue is marked private. Only Managers, the reporter and users assigned "
 "to the issue can view it."
@@ -7589,6 +7610,10 @@ msgstr ""
 msgid ""
 "This page allows you to dynamically control which fields are displayed to "
 "users of a certain minimum role."
+msgstr ""
+
+#: templates/manage/private_key.tpl.html:16
+msgid "This page allows you to regenerate Eventum private key."
 msgstr ""
 
 #: templates/manage/column_display.tpl.html:6
@@ -7853,7 +7878,7 @@ msgstr ""
 msgid "Ukrainian"
 msgstr ""
 
-#: templates/view_form.tpl.html:212
+#: templates/view_form.tpl.html:214
 msgid "Unassign Issue"
 msgstr ""
 
@@ -7927,7 +7952,7 @@ msgstr ""
 msgid "Update Group"
 msgstr ""
 
-#: templates/view_form.tpl.html:197
+#: templates/view_form.tpl.html:199
 msgid "Update Issue"
 msgstr ""
 
@@ -8644,11 +8669,11 @@ msgstr ""
 msgid "download file (%1$s - %2$s)"
 msgstr ""
 
-#: templates/update_form.tpl.html:27 templates/view_form.tpl.html:50
+#: templates/update_form.tpl.html:27 templates/view_form.tpl.html:52
 msgid "edit the authorized repliers list for this issue"
 msgstr ""
 
-#: templates/update_form.tpl.html:28 templates/view_form.tpl.html:51
+#: templates/update_form.tpl.html:28 templates/view_form.tpl.html:53
 msgid "edit the notification list for this issue"
 msgstr ""
 
@@ -8674,7 +8699,7 @@ msgstr ""
 msgid "first name"
 msgstr ""
 
-#: templates/view_form.tpl.html:181
+#: templates/view_form.tpl.html:183
 msgid "fixed width"
 msgstr ""
 
@@ -8752,8 +8777,8 @@ msgid "internal faq"
 msgstr ""
 
 #: templates/update_form.tpl.html:113 templates/update_form.tpl.html:120
-#: templates/view_form.tpl.html:97 templates/view_form.tpl.html:111
-#: templates/view_form.tpl.html:118
+#: templates/view_form.tpl.html:99 templates/view_form.tpl.html:113
+#: templates/view_form.tpl.html:120
 msgid "issue"
 msgstr ""
 
@@ -8845,7 +8870,7 @@ msgstr ""
 msgid "myself, un-assigned and my group"
 msgstr ""
 
-#: templates/view_form.tpl.html:6
+#: templates/view_form.tpl.html:7
 msgid "next issue on your current active filter"
 msgstr ""
 
@@ -8875,7 +8900,7 @@ msgstr ""
 msgid "pending"
 msgstr ""
 
-#: templates/view_form.tpl.html:3
+#: templates/view_form.tpl.html:4
 msgid "previous issue on your current active filter"
 msgstr ""
 
@@ -9034,7 +9059,7 @@ msgstr ""
 #: templates/reports/open_issues.tpl.html:46
 #: templates/reports/stalled_issues.tpl.html:81
 #: templates/reports/stalled_issues.tpl.html:82
-#: templates/update_form.tpl.html:15 templates/view_form.tpl.html:43
+#: templates/update_form.tpl.html:15 templates/view_form.tpl.html:45
 msgid "view issue details"
 msgstr ""
 
@@ -9051,7 +9076,7 @@ msgstr ""
 msgid "view reminder details"
 msgstr ""
 
-#: templates/update_form.tpl.html:30 templates/view_form.tpl.html:53
+#: templates/update_form.tpl.html:30 templates/view_form.tpl.html:55
 msgid "view the full history of changes on this issue"
 msgstr ""
 
