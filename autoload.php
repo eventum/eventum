@@ -31,7 +31,7 @@ if (defined('APP_LOCAL_PATH')) {
     set_include_path(APP_LOCAL_PATH . '/include/' . PATH_SEPARATOR . get_include_path());
 }
 
-if (!file_exists($autoload = APP_PATH . '/vendor/autoload2.php')) {
+if (!file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
     echo <<<EOF
 
     You must set up the project dependencies, run the following commands:
