@@ -607,7 +607,7 @@ function write_privatekey()
 {
     $private_key_path = APP_CONFIG_PATH . '/private_key.php';
 
-    $private_key = '<' . "?php\n\$private_key = " . var_export(md5(microtime()), 1) . ";\n";
+    $private_key = '<' . "?php\n\$private_key = " . var_export(md5(Misc::generateRandom(32)), 1) . ";\n";
     write_file($private_key_path, $private_key);
 }
 

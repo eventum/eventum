@@ -932,6 +932,23 @@ class Misc
     }
 
     /**
+     * Generate a random byte string of the requested size.
+     *
+     * Uses Medium Strength Generator
+     * @link https://github.com/ircmaxell/RandomLib#factory-getlowstrengthgenerator
+     *
+     * @param int $size
+     * @return string
+     */
+    public static function generateRandom($size)
+    {
+        $factory = new RandomLib\Factory;
+        $generator = $factory->getMediumStrengthGenerator();
+
+        return $generator->generate($size);
+    }
+
+    /**
      * Processes a message according to PSR-3 rules
      *
      * It replaces {foo} with the value from $context['foo']
