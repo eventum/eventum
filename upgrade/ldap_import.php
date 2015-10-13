@@ -7,7 +7,7 @@
  * This will match users by email and call local system update if it finds a match
  */
 
-require_once dirname(__FILE__) . '/../init.php';
+require_once __DIR__ . '/../init.php';
 
 class UserEntry
 {

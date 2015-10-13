@@ -29,7 +29,7 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-require_once dirname(__FILE__) . '/../init.php';
+require_once __DIR__ . '/../init.php';
 
 $tpl = new Template_Helper();
 $tpl->setTemplate('close.tpl.html');

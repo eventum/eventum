@@ -21,15 +21,15 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-if (!file_exists(dirname(__FILE__) . '/config/config.php') || !filesize(dirname(__FILE__) . '/config/config.php')) {
-    Header('Location: setup/');
+if (!file_exists(__DIR__ . '/config/config.php') || !filesize(__DIR__ . '/config/config.php')) {
+    header('Location: setup/');
     exit(0);
 }
 
@@ -43,7 +43,7 @@ define('APP_URL', 'https://launchpad.net/eventum/');
 define('APP_VERSION', '3.0.4-dev');
 
 // define base path
-define('APP_PATH', realpath(dirname(__FILE__)));
+define('APP_PATH', __DIR__);
 if (!defined('APP_CONFIG_PATH')) {
     define('APP_CONFIG_PATH', APP_PATH . '/config');
 }

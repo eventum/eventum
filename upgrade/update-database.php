@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 // common init for upgrade scripts
-define('INSTALL_PATH', dirname(__FILE__) . '/..');
+define('INSTALL_PATH', __DIR__ . '/..');
 define('CONFIG_PATH', INSTALL_PATH . '/config');
 
 // avoid setup redirecting us

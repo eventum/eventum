@@ -99,7 +99,7 @@ class Eventum_Autoload
         // Eventum own classes
         if (!is_array(self::$classes)) {
             self::$classes = array();
-            self::scan(dirname(__FILE__));
+            self::scan(__DIR__);
         }
 
         $className = strtolower($className);

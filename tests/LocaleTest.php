@@ -2,7 +2,7 @@
 
 class LocaleTest extends PHPUnit_Framework_TestCase {
     public static function setUpBeforeClass() {
-        $localeStamp = dirname(__FILE__) . '/_locales.stamp';
+        $localeStamp = __DIR__ . '/_locales.stamp';
         if (!file_exists($localeStamp)) {
             self::installLocales();
             touch($localeStamp);

@@ -33,7 +33,7 @@
 if (!empty($_POST['language'])) {
     define('SKIP_LANGUAGE_INIT', true);
 }
-require_once dirname(__FILE__) . '/../init.php';
+require_once __DIR__ . '/../init.php';
 
 $cat = isset($_POST['cat']) ? (string) $_POST['cat'] : null;
 $usr_id = Auth::getUserID();

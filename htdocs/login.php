@@ -29,7 +29,7 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-require_once dirname(__FILE__) . '/../init.php';
+require_once __DIR__ . '/../init.php';
 
 $login = isset($_POST['email']) ? (string) $_POST['email'] : null;
 if (Validation::isWhitespace($login)) {

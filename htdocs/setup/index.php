@@ -41,7 +41,7 @@ set_time_limit(0);
 define('APP_NAME', 'Eventum');
 define('APP_CHARSET', 'UTF-8');
 define('APP_DEFAULT_LOCALE', 'en_US');
-define('APP_PATH', realpath(dirname(__FILE__) . '/../..'));
+define('APP_PATH', realpath(__DIR__ . '/../..'));
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
 define('APP_CONFIG_PATH', APP_PATH . '/config');
 define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');

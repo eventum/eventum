@@ -27,8 +27,8 @@
 
 // we init paths ourselves like init.php does, to be independent and not
 // needing actual config being present.
-define('APP_PATH', realpath(dirname(__FILE__) . '/..'));
-define('APP_CONFIG_PATH', dirname(__FILE__));
+define('APP_PATH', realpath(__DIR__ . '/..'));
+define('APP_CONFIG_PATH', __DIR__);
 define('APP_SETUP_FILE', APP_CONFIG_PATH . '/_setup.php');
 define('APP_ERROR_LOG', STDERR);
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');

@@ -5,7 +5,7 @@
 // | Eventum - Defect Tracking System                                     |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 Joao Prado Maia                                   |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -21,14 +21,14 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@impleo.net>                            |
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-define('APP_PATH', dirname(__FILE__) . '/..');
+define('APP_PATH', __DIR__ . '/..');
 require_once APP_PATH . '/autoload.php';
 
 list($user_email, $user_password, $hostname, $port, $relative_url) = Command_Line::getEnvironmentSettings();
