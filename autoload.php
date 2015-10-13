@@ -21,7 +21,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
@@ -31,55 +31,21 @@ if (defined('APP_LOCAL_PATH')) {
     set_include_path(APP_LOCAL_PATH . '/include/' . PATH_SEPARATOR . get_include_path());
 }
 
-// if autoloader (from composer) in place, use it and skip the rest
-if (file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
-    require $autoload;
+if (!file_exists($autoload = APP_PATH . '/vendor/autoload2.php')) {
+    echo <<<EOF
 
-    // needed for init.php and gettext.inc
-    define('APP_PHP_GETTEXT_PATH', APP_PATH . '/vendor/php-gettext/php-gettext');
+    You must set up the project dependencies, run the following commands:
 
-    // fonts directory for phplot
-    define('APP_FONTS_PATH', APP_PATH . '/vendor/fonts/liberation');
+    $ curl -sS https://getcomposer.org/installer | php
+    $ php composer.phar install
 
-    return;
+EOF;
+    exit(1);
 }
+require $autoload;
 
-/*
+// needed for init.php and gettext.inc
+define('APP_PHP_GETTEXT_PATH', APP_PATH . '/vendor/php-gettext/php-gettext');
 
-You must set up the project dependencies, run the following commands:
-
-$ curl -sS https://getcomposer.org/installer | php
-$ php composer.phar install
-
- */
-
-if (!defined('APP_PEAR_PATH')) {
-    define('APP_PEAR_PATH', '');
-}
-
-if (!defined('APP_PHP_PATH')) {
-    define('APP_PHP_PATH', '');
-}
-
-if (!defined('APP_FONTS_PATH')) {
-    define('APP_FONTS_PATH', '/usr/share/fonts/TTF');
-}
-
-if (!defined('APP_SPHINXAPI_PATH')) {
-    define('APP_SPHINXAPI_PATH', '');
-}
-
-if (!defined('APP_PHP_GETTEXT_PATH')) {
-    define('APP_PHP_GETTEXT_PATH', '');
-}
-
-if (!defined('APP_SMARTY_PATH')) {
-    define('APP_SMARTY_PATH', '');
-}
-
-// add PEAR to the include path, required by PEAR classes
-if (defined('APP_PEAR_PATH') && APP_PEAR_PATH) {
-    set_include_path(APP_PEAR_PATH . PATH_SEPARATOR . get_include_path());
-}
-
-require_once APP_INC_PATH . '/autoload.php';
+// fonts directory for phplot
+define('APP_FONTS_PATH', APP_PATH . '/vendor/fonts/liberation');
