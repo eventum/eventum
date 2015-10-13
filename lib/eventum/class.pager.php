@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -53,13 +53,13 @@ class Pager
             // go the extra mile and try to use the grouped by column in the count() call
             preg_match("/.*\s+GROUP BY\s+(\w*)\s+.*/i", $stmt, $matches);
             if (!empty($matches[1])) {
-                $stmt = preg_replace('/SELECT (.*?) FROM /sei', "'SELECT COUNT(DISTINCT " . $matches[1] . ") AS total_rows FROM '", $stmt);
+                $stmt = preg_replace('/SELECT (.*?) FROM /si', "SELECT COUNT(DISTINCT " . $matches[1] . ") AS total_rows FROM ", $stmt);
             }
         } else {
-            $stmt = preg_replace('/SELECT (.*?) FROM /sei', "'SELECT COUNT(*) AS total_rows FROM '", $stmt);
+            $stmt = preg_replace('/SELECT (.*?) FROM /si', "SELECT COUNT(*) AS total_rows FROM ", $stmt);
         }
         // remove any order by clauses
-        $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)(?:,\s+\w+\s+\w+)*(.*)/sei", "'\\1\\3'", $stmt);
+        $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)(?:,\s+\w+\s+\w+)*(.*)/si", "\\1\\3", $stmt);
         try {
             $rows = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {

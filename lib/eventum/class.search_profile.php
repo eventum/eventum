@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -107,7 +107,7 @@ class Search_Profile
      * @param   string $type The type of the search profile ('issue' or 'email')
      * @return  boolean
      */
-    private function _exists($usr_id, $prj_id, $type)
+    private static function _exists($usr_id, $prj_id, $type)
     {
         $stmt = 'SELECT
                     COUNT(*) AS total
@@ -190,7 +190,7 @@ class Search_Profile
      * @param   string $profile The search profile to be saved
      * @return  boolean
      */
-    private function _update($usr_id, $prj_id, $type, $profile)
+    private static function _update($usr_id, $prj_id, $type, $profile)
     {
         $stmt = 'UPDATE
                     {{%search_profile}}

@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
@@ -379,7 +379,7 @@ class Group
      * @param   integer $grp_id The ID of the group.
      * @return  array An array of usr ids
      */
-    public function getUsers($grp_id)
+    public static function getUsers($grp_id)
     {
         $stmt = 'SELECT
                     usr_id
@@ -402,7 +402,7 @@ class Group
      * @param   integer $grp_id The ID of the group.
      * @return  array An array of project ids
      */
-    public function getProjects($grp_id)
+    public static function getProjects($grp_id)
     {
         $stmt = 'SELECT
                     pgr_prj_id,

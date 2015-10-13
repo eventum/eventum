@@ -1710,7 +1710,7 @@ class Custom_Field
      * @param   integer $issue_id The ID of the issue
      * @return  mixed   the formatted value.
      */
-    public function formatValue($value, $fld_id, $issue_id)
+    public static function formatValue($value, $fld_id, $issue_id)
     {
         $backend = self::getBackend($fld_id);
         if ((is_object($backend)) && (method_exists($backend, 'formatValue'))) {
@@ -1756,7 +1756,7 @@ class Custom_Field
         }
     }
 
-    public function getDBValueFieldSQL()
+    public static function getDBValueFieldSQL()
     {
         return "(CASE
         WHEN fld_type = 'date' THEN icf_value_date
