@@ -1,6 +1,9 @@
 Eventum Issue Tracking System
 =============================
 
+2015-??-??, Version 3.0.4
+-------------------------
+
 2015-10-13, Version 3.0.3
 -------------------------
 - Added bin/truncate_mail_queue.php (Bryan Alsdorf)
