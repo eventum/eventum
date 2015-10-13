@@ -112,7 +112,7 @@ if ($cat == 'delete_note') {
     $res = Authorized_Replier::addUser($iss_id, $usr_id);
     $tpl->assign('authorize_reply_result', $res);
 } elseif ($cat == 'remove_quarantine') {
-    if (Auth::getCurrentRole() > User::getRoleID('Developer')) {
+    if (Auth::getCurrentRole() > User::ROLE_DEVELOPER) {
         $res = Issue::setQuarantine($iss_id, 0);
         $tpl->assign('remove_quarantine_result', $res);
     }

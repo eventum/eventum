@@ -582,7 +582,7 @@ class Filter
             $params = array();
 
             if (self::isGlobal($cst_id)) {
-                if (Auth::getCurrentRole() >= User::getRoleID('Manager')) {
+                if (Auth::getCurrentRole() >= User::ROLE_MANAGER) {
                     $stmt .= ' cst_is_global=1 AND ';
                 } else {
                     $stmt .= '

@@ -475,7 +475,7 @@ class Note
                     not_id=?';
 
         $details = DB_Helper::getInstance()->getRow($stmt, array($note_id));
-        if ($details['not_usr_id'] != Auth::getUserID() && $details['has_blocked_message'] != 1 && Auth::getCurrentRole() < User::getRoleID('Manager')) {
+        if ($details['not_usr_id'] != Auth::getUserID() && $details['has_blocked_message'] != 1 && Auth::getCurrentRole() < User::ROLE_MANAGER) {
             return -2;
         }
 
@@ -547,7 +547,7 @@ class Note
 
         // only show the internal notes for users with the appropriate permission level
         $role_id = Auth::getCurrentRole();
-        $user_role_id = User::getRoleID('standard user');
+        $user_role_id = User::ROLE_USER;
         $t = array();
         foreach ($res as &$row) {
             if ($role_id < $user_role_id) {

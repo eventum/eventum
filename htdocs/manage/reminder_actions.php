@@ -38,7 +38,7 @@ Auth::checkAuthentication(APP_COOKIE);
 $rem_id = @$_POST['rem_id'] ? $_POST['rem_id'] : $_GET['rem_id'];
 
 $role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('manager')) {
+if ($role_id < User::ROLE_MANAGER) {
     Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
@@ -72,6 +72,6 @@ $tpl->assign('rem_id', $rem_id);
 $tpl->assign('rem_title', Reminder::getTitle($rem_id));
 $tpl->assign('action_types', Reminder_Action::getActionTypeList());
 $tpl->assign('list', Reminder_Action::getAdminList($rem_id));
-$tpl->assign('user_options', User::getActiveAssocList(Reminder::getProjectID($rem_id), User::getRoleID('Customer')));
+$tpl->assign('user_options', User::getActiveAssocList(Reminder::getProjectID($rem_id), User::ROLE_CUSTOMER));
 
 $tpl->displayTemplate();

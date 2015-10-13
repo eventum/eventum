@@ -60,7 +60,7 @@ if ($issue_prj_id > 0 && $issue_prj_id != $prj_id) {
 }
 
 if (CRM::hasCustomerIntegration($prj_id)) {
-    if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
+    if (Auth::getCurrentRole() == User::ROLE_CUSTOMER) {
         $crm = CRM::getInstance($prj_id);
         $customer_id = Auth::getCurrentCustomerID();
         $customer = $crm->getCustomer($customer_id);
@@ -131,7 +131,7 @@ $tpl->assign(array(
     'cats'                   => Category::getAssocList($prj_id),
     'priorities'             => Priority::getAssocList($prj_id),
     'severities'             => Severity::getList($prj_id),
-    'users'                  => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
+    'users'                  => Project::getUserAssocList($prj_id, 'active', User::ROLE_CUSTOMER),
     'releases'               => Release::getAssocList($prj_id),
     'custom_fields'          => Custom_Field::getListByProject($prj_id, 'report_form'),
     'max_attachment_size'    => Attachment::getMaxAttachmentSize(),
@@ -144,7 +144,7 @@ $tpl->assign(array(
 $prefs = Prefs::get($usr_id);
 $tpl->assign('user_prefs', $prefs);
 $tpl->assign('zones', Date_Helper::getTimezoneList());
-if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
+if (Auth::getCurrentRole() == User::ROLE_CUSTOMER) {
     $crm = CRM::getInstance(Auth::getCurrentProject());
     $customer_contact_id = User::getCustomerContactID($usr_id);
     $contact = $crm->getContact($customer_contact_id);

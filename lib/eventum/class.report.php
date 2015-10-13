@@ -540,7 +540,7 @@ class Report
         }
 
         // get all developer email addresses
-        $users = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'));
+        $users = User::getActiveAssocList(Auth::getCurrentProject(), User::ROLE_CUSTOMER);
         $emails = array();
         foreach ($users as $usr_id => $usr_full_name) {
             $emails[] = User::getFromHeader($usr_id);

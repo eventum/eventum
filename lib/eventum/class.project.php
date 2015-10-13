@@ -433,10 +433,10 @@ class Project
         self::removeUserByProjects(array($_POST['id']), $_POST['users']);
         foreach ($_POST['users'] as $user) {
             if ($user == $_POST['lead_usr_id']) {
-                self::associateUser($_POST['id'], $user, User::getRoleID('Manager'));
+                self::associateUser($_POST['id'], $user, User::ROLE_MANAGER);
             } elseif (User::getRoleByUser($user, $_POST['id']) == '') {
                 // users who are now being associated with this project should be set to 'Standard User'
-                self::associateUser($_POST['id'], $user, User::getRoleID('Standard User'));
+                self::associateUser($_POST['id'], $user, User::ROLE_USER);
             }
         }
 
@@ -547,9 +547,9 @@ class Project
         $new_prj_id = DB_Helper::get_last_insert_id();
         foreach ($_POST['users'] as $user) {
             if ($user == $_POST['lead_usr_id']) {
-                $role_id = User::getRoleID('Manager');
+                $role_id = User::ROLE_MANAGER;
             } else {
-                $role_id = User::getRoleID('Standard User');
+                $role_id = User::ROLE_USER;
             }
             self::associateUser($new_prj_id, $user, $role_id);
         }
@@ -635,7 +635,7 @@ class Project
             $params = array(
                 $usr_id,
                 'archived',
-                User::getRoleID('Manager'),
+                User::ROLE_MANAGER,
             );
             if ($include_extra) {
                 $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DB_FETCHMODE_ASSOC);

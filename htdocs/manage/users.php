@@ -38,7 +38,7 @@ Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
 
-if ($role_id < User::getRoleID('manager')) {
+if ($role_id < User::ROLE_MANAGER) {
     Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
@@ -68,13 +68,13 @@ if (@$_GET['cat'] == 'edit') {
 }
 foreach ($project_list as $prj_id => $prj_title) {
     $excluded_roles = array('Customer');
-    if (@$info['roles'][$prj_id]['pru_role'] == User::getRoleID('Customer')) {
+    if (@$info['roles'][$prj_id]['pru_role'] == User::ROLE_CUSTOMER) {
         if (count($excluded_roles) == 1) {
             $excluded_roles = false;
         } else {
             $excluded_roles = array('administrator');
         }
-        if (@$info['roles'][$prj_id]['pru_role'] == User::getRoleID('administrator')) {
+        if (@$info['roles'][$prj_id]['pru_role'] == User::ROLE_REPORTER) {
             $excluded_roles = false;
         }
     }

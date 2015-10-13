@@ -105,7 +105,7 @@ $tpl->assign('sorting', Search::getSortingInfo($options));
 
 // generate options for assign list. If there are groups and user is above a customer, include groups
 $groups = Group::getAssocList($prj_id);
-$users = Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer'));
+$users = Project::getUserAssocList($prj_id, 'active', User::ROLE_CUSTOMER);
 $assign_options = array(
     ''      =>  ev_gettext('Any'),
     '-1'    =>  ev_gettext('un-assigned'),
@@ -117,7 +117,7 @@ if (Auth::isAnonUser()) {
     $assign_options['-3'] = ev_gettext('myself and my group');
     $assign_options['-4'] = ev_gettext('myself, un-assigned and my group');
 }
-if ((count($groups) > 0) && (Auth::getCurrentRole() > User::getRoleID('Customer'))) {
+if ((count($groups) > 0) && (Auth::getCurrentRole() > User::ROLE_CUSTOMER)) {
     foreach ($groups as $grp_id => $grp_name) {
         $assign_options["grp:$grp_id"] = ev_gettext('Group') . ': ' . $grp_name;
     }
@@ -151,7 +151,7 @@ $tpl->assign('refresh_rate', $prefs['list_refresh_rate'] * 60);
 $tpl->assign('refresh_page', 'list.php');
 
 // items needed for bulk update tool
-if (Auth::getCurrentRole() > User::getRoleID('Developer')) {
+if (Auth::getCurrentRole() > User::ROLE_DEVELOPER) {
     $tpl->assign('users', $users);
 
     if (Workflow::hasWorkflowIntegration($prj_id)) {

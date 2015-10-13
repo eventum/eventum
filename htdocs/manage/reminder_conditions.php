@@ -39,7 +39,7 @@ $rem_id = @$_POST['rem_id'] ? $_POST['rem_id'] : $_GET['rem_id'];
 $rma_id = @$_POST['rma_id'] ? $_POST['rma_id'] : $_GET['rma_id'];
 
 $role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('manager')) {
+if ($role_id < User::ROLE_MANAGER) {
     Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;

@@ -287,7 +287,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         if (!empty($data['customer_id']) && !empty($data['contact_id'])) {
             foreach ($data['role'] as $prj_id => $role) {
                 if ($role > 0) {
-                    $data['role'][$prj_id] = User::getRoleID('Customer');
+                    $data['role'][$prj_id] = User::ROLE_CUSTOMER;
                 }
             }
         }

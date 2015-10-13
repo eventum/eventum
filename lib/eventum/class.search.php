@@ -343,7 +343,7 @@ class Search
                  ON
                     ipa_iss_id=iss_id';
         }
-        if ((!empty($options['show_authorized_issues'])) || (($role_id == User::getRoleID('Reporter')) && (Project::getSegregateReporters($prj_id)))) {
+        if ((!empty($options['show_authorized_issues'])) || (($role_id == User::ROLE_REPORTER) && (Project::getSegregateReporters($prj_id)))) {
             $stmt .= '
                  LEFT JOIN
                     {{%issue_user_replier}}
@@ -495,7 +495,7 @@ class Search
             if (CRM::hasCustomerIntegration($prj_id)) {
                 // check if current user is a customer and has a per incident contract.
                 // if so, check if issue is redeemed.
-                if (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')) {
+                if (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER) {
                     // TODOCRM: Fix per incident usage
 //                    if ((Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($res[$i]['iss_id'])) &&
 //                            (Customer::isRedeemedIncident($prj_id, $res[$i]['iss_id'])))) {
@@ -541,12 +541,12 @@ class Search
         $usr_details = User::getDetails($usr_id);
 
         $stmt = ' AND iss_usr_id = usr_id';
-        if ($role_id == User::getRoleID('Customer')) {
+        if ($role_id == User::ROLE_CUSTOMER) {
             $crm = CRM::getInstance($prj_id);
             $contact = $crm->getContact($usr_details['usr_customer_contact_id']);
             $stmt .= " AND iss_customer_contract_id IN('" . implode("','", $contact->getContractIDS()) . "')";
             $stmt .= " AND iss_customer_id ='" . Auth::getCurrentCustomerID() . "'";
-        } elseif (($role_id == User::getRoleID('Reporter')) && (Project::getSegregateReporters($prj_id))) {
+        } elseif (($role_id == User::ROLE_REPORTER) && (Project::getSegregateReporters($prj_id))) {
             $stmt .= " AND (
                         iss_usr_id = $usr_id OR
                         iur_usr_id = $usr_id

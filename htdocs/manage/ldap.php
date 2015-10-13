@@ -35,7 +35,7 @@ $tpl->setTemplate('manage/ldap.tpl.html');
 Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('administrator')) {
+if ($role_id < User::ROLE_REPORTER) {
     Misc::setMessage('Sorry, you are not allowed to access this page.', Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;

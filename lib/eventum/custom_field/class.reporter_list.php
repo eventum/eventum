@@ -39,6 +39,6 @@ class Reporter_List_Custom_Field_Backend
 {
     public function getList($fld_id)
     {
-        return User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('Viewer'));
+        return User::getActiveAssocList(Auth::getCurrentProject(), User::ROLE_VIEWER);
     }
 }

@@ -45,7 +45,7 @@ if (!$issue_id || !Issue::exists($issue_id)) {
 $usr_id = Auth::getUserID();
 
 // check if user role is above "Standard User"
-if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) < User::getRoleID('Standard User')) {
+if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) < User::ROLE_USER) {
     die('Forbidden');
 }
 

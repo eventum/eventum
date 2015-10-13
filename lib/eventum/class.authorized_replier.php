@@ -202,7 +202,7 @@ class Authorized_Replier
     public static function addUser($issue_id, $usr_id, $add_history = true)
     {
         // don't add customers to this list. They should already be able to send
-        if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) == User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) == User::ROLE_CUSTOMER) {
             return -2;
         }
 

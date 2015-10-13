@@ -38,7 +38,7 @@ $prj_id = Auth::getCurrentProject();
 
 // only customers should be able to use this page
 $role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('Developer')) {
+if ($role_id < User::ROLE_DEVELOPER) {
     Auth::redirect("list.php");
 }
 

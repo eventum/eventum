@@ -37,7 +37,7 @@ $prj_id = Auth::getCurrentProject();
 $issue_id = $_REQUEST['iss_id'];
 $usr_id = Auth::getUserID();
 
-if ((!Issue::canAccess($issue_id, $usr_id)) || (Auth::getCurrentRole() <= User::getRoleID('Customer'))) {
+if ((!Issue::canAccess($issue_id, $usr_id)) || (Auth::getCurrentRole() <= User::ROLE_CUSTOMER)) {
     $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;

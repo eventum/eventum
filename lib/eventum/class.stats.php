@@ -382,7 +382,7 @@ class Stats
     public static function getAssocUser($hide_closed = false)
     {
         $prj_id = Auth::getCurrentProject();
-        $list = Project::getUserAssocList($prj_id, 'stats', User::getRoleID('Customer'));
+        $list = Project::getUserAssocList($prj_id, 'stats', User::ROLE_CUSTOMER);
         $stats = array();
         foreach ($list as $usr_id => $usr_full_name) {
             $stmt = 'SELECT

@@ -95,7 +95,7 @@ class RecentActivity
 
         $tpl->assign(array(
             'units' => $units,
-            'users' => Project::getUserAssocList($this->prj_id, 'active', User::getRoleID('Customer')),
+            'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
             'developer' => $this->usr_id,
             'type_list' => $type_list,
             'activity_types' => $this->activity_types ?: array_keys($type_list),

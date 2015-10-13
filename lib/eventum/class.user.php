@@ -635,7 +635,7 @@ class User
         static $returns;
 
         if ($usr_id == APP_SYSTEM_USER_ID) {
-            return self::getRoleID('Administrator');
+            return User::ROLE_ADMINISTRATOR;
         }
 
         if (!empty($returns[$usr_id][$prj_id])) {
@@ -1282,8 +1282,8 @@ class User
             $role = current($roles);
             $role = $role['pru_role'];
             if ($show_customers == false && (
-                ((@$roles[Auth::getCurrentProject()]['pru_role']) == self::getRoleID('Customer')) ||
-                (count($roles) == 1 && $role == self::getRoleID('Customer')))) {
+                ((@$roles[Auth::getCurrentProject()]['pru_role']) == User::ROLE_CUSTOMER) ||
+                (count($roles) == 1 && $role == User::ROLE_CUSTOMER))) {
                 continue;
             }
 

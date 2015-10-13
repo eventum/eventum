@@ -213,7 +213,7 @@ class Template_Helper
                 if ($has_crm) {
                     $crm = CRM::getInstance($prj_id);
                     $core['crm_template_path'] = $crm->getTemplatePath();
-                    if ($role_id == User::getRoleID('Customer')) {
+                    if ($role_id == User::ROLE_CUSTOMER) {
                         try {
                             $contact = $crm->getContact($core['user']['usr_customer_contact_id']);
                             $core['allowed_customers'] = $contact->getCustomers();

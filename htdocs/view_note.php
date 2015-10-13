@@ -49,7 +49,7 @@ if ($note == '') {
     $usr_id = Auth::getUserID();
 }
 
-if ((User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) < User::getRoleID('Standard User')) || (!Access::canViewInternalNotes($issue_id, Auth::getUserID()))) {
+if ((User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) < User::ROLE_USER) || (!Access::canViewInternalNotes($issue_id, Auth::getUserID()))) {
     $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;

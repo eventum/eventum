@@ -154,7 +154,7 @@ class Issue_Field
         $prj_id = Issue::getProjectID($issue_id);
         switch ($field_name) {
             case 'assignee':
-                $users = Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer'));
+                $users = Project::getUserAssocList($prj_id, 'active', User::ROLE_CUSTOMER);
                 $current_assignees = Issue::getAssignedUserIDs($issue_id);
                 foreach ($current_assignees as $usr_id) {
                     if (!isset($users[$usr_id])) {

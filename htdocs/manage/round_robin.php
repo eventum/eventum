@@ -36,7 +36,7 @@ $tpl->setTemplate('manage/round_robin.tpl.html');
 Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('manager')) {
+if ($role_id < User::ROLE_MANAGER) {
     Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
@@ -70,7 +70,7 @@ if (@$_GET['cat'] == 'edit') {
 
 $tpl->assign('list', Round_Robin::getList());
 if (!empty($_REQUEST['prj_id'])) {
-    $tpl->assign('user_options', User::getActiveAssocList($_REQUEST['prj_id'], User::getRoleID('Customer')));
+    $tpl->assign('user_options', User::getActiveAssocList($_REQUEST['prj_id'], User::ROLE_CUSTOMER));
 }
 $tpl->assign('project_list', Project::getAll());
 $tpl->displayTemplate();

@@ -268,7 +268,7 @@ class Routing
                 Issue::markAsUpdated($issue_id, 'customer action');
             } else {
                 if ((!empty($usr_id)) && ($usr_id != APP_SYSTEM_USER_ID) &&
-                        (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer'))) {
+                        (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER)) {
                     Issue::markAsUpdated($issue_id, 'staff response');
                 } else {
                     Issue::markAsUpdated($issue_id, 'user response');
@@ -345,7 +345,7 @@ class Routing
         // check if the sender is allowed in this issue' project and if it is an internal user
         $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
-        if (((empty($sender_usr_id)) || (User::getRoleByUser($sender_usr_id, $prj_id) < User::getRoleID('Standard User')) ||
+        if (((empty($sender_usr_id)) || (User::getRoleByUser($sender_usr_id, $prj_id) < User::ROLE_USER) ||
                 (User::isPartner($sender_usr_id) && !Access::canViewInternalNotes($issue_id, $sender_usr_id))) &&
                 ((!Workflow::canSendNote($prj_id, $issue_id, $sender_email, $structure)))) {
             return array(self::EX_NOPERM, ev_gettext("Error: The sender of this email is not allowed in the project associated with issue #$issue_id.") . "\n");
@@ -372,7 +372,7 @@ class Routing
         $cc_users = array();
         foreach ($addresses as $email) {
             $cc_usr_id = User::getUserIDByEmail(strtolower($email), true);
-            if ((!empty($cc_usr_id)) && (User::getRoleByUser($cc_usr_id, $prj_id) >= User::getRoleID('Standard User'))) {
+            if ((!empty($cc_usr_id)) && (User::getRoleByUser($cc_usr_id, $prj_id) >= User::ROLE_USER)) {
                 $cc_users[] = $cc_usr_id;
             }
         }
@@ -477,7 +477,7 @@ class Routing
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (!empty($sender_usr_id)) {
             $sender_role = User::getRoleByUser($sender_usr_id, $prj_id);
-            if ($sender_role < User::getRoleID('Standard User')) {
+            if ($sender_role < User::ROLE_USER) {
                 return array(self::EX_NOPERM, ev_gettext("Error: The sender of this email is not allowed in the project associated with issue #$issue_id.") . "\n");
             }
         }

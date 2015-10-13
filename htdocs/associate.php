@@ -99,7 +99,7 @@ if (@$_POST['cat'] == 'associate') {
                     } else {
                         // if we got a real user ID, check if the customer user is the correct one
                         // (e.g. a contact from the customer associated with the selected issue)
-                        if (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')) {
+                        if (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER) {
                             if (!Issue::canAccess($_GET['issue_id'], $usr_id)) {
                                 $unknown_contacts[] = $address;
                             }

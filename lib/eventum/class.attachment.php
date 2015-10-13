@@ -121,7 +121,7 @@ class Attachment
                     iat_id=iaf_iat_id';
 
         $params = array($iaf_id);
-        if (Auth::getCurrentRole() < User::getRoleID('Manager')) {
+        if (Auth::getCurrentRole() < User::ROLE_MANAGER) {
             $stmt .= ' AND
                     iat_usr_id=?';
             $params[] = $usr_id;
@@ -181,7 +181,7 @@ class Attachment
 
         // don't allow customers to reach internal only files
         $user_role_id = User::getRoleByUser(Auth::getUserID(), Issue::getProjectID($res['iat_iss_id']));
-        if (($res['iat_status'] == 'internal') && $user_role_id <= User::getRoleID('Customer')) {
+        if (($res['iat_status'] == 'internal') && $user_role_id <= User::ROLE_CUSTOMER) {
             return '';
         } else {
             return $res;
@@ -234,7 +234,7 @@ class Attachment
                  WHERE
                     iat_id=?';
         $params = array($iat_id);
-        if (Auth::getCurrentRole() < User::getRoleID('Manager')) {
+        if (Auth::getCurrentRole() < User::ROLE_MANAGER) {
             $stmt .= ' AND
                     iat_usr_id=?';
             $params[] = $usr_id;
@@ -355,7 +355,7 @@ class Attachment
                  WHERE
                     iat_iss_id=? AND
                     iat_usr_id=usr_id';
-        if (User::getRoleByUser($usr_id, $prj_id) <= User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) <= User::ROLE_CUSTOMER) {
             $stmt .= " AND iat_status='public' ";
         }
         $stmt .= '
@@ -433,7 +433,7 @@ class Attachment
         // if there is customer integration, mark last customer action
         $prj_id = Issue::getProjectID($issue_id);
         $has_crm = CRM::hasCustomerIntegration($prj_id);
-        $is_customer = User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer');
+        $is_customer = User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER;
         if ($has_crm && $is_customer) {
             Issue::recordLastCustomerAction($issue_id);
         }

@@ -481,7 +481,7 @@ class Mail_Helper
 
         // don't add anything if the recipient is a known customer contact
         $recipient_role_id = User::getRoleByUser($recipient_usr_id, Issue::getProjectID($issue_id));
-        if ($recipient_role_id == User::getRoleID('Customer')) {
+        if ($recipient_role_id == User::ROLE_CUSTOMER) {
             return $body;
         }
 

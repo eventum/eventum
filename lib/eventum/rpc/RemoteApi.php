@@ -516,7 +516,7 @@ class RemoteApi
 
         // only customers should be able to use this page
         $role_id = User::getRoleByUser($usr_id, $prj_id);
-        if ($role_id < User::getRoleID('Developer')) {
+        if ($role_id < User::ROLE_DEVELOPER) {
             throw new RemoteApiException("You don't have the appropriate permissions to lookup customer information");
         }
 

@@ -39,6 +39,6 @@ class Developer_List_Custom_Field_Backend
 {
     public function getList($fld_id)
     {
-        return User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('Standard User'));
+        return User::getActiveAssocList(Auth::getCurrentProject(), User::ROLE_USER);
     }
 }

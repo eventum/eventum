@@ -35,7 +35,7 @@ Auth::checkAuthentication(APP_COOKIE);
 $tpl->assign('type', 'partners');
 
 $role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('manager')) {
+if ($role_id < User::ROLE_MANAGER) {
     Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;

@@ -1694,7 +1694,7 @@ class Issue
         }
 
         // if there is customer integration, mark last customer action
-        if ((CRM::hasCustomerIntegration($prj_id)) && (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer'))) {
+        if ((CRM::hasCustomerIntegration($prj_id)) && (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER)) {
             self::recordLastCustomerAction($issue_id);
         }
 
@@ -1705,10 +1705,10 @@ class Issue
 
         Workflow::handleIssueUpdated($prj_id, $issue_id, $usr_id, $current, $_POST);
         // Move issue to another project
-        if (isset($_POST['move_issue']) and (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID('Developer'))) {
+        if (isset($_POST['move_issue']) and (User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_DEVELOPER)) {
             $new_prj_id = (int) @$_POST['new_prj'];
             if (($prj_id != $new_prj_id) && (array_key_exists($new_prj_id, Project::getAssocList($usr_id)))) {
-                if (User::getRoleByUser($usr_id, $new_prj_id) >= User::getRoleID('Reporter')) {
+                if (User::getRoleByUser($usr_id, $new_prj_id) >= User::ROLE_REPORTER) {
                     $res = self::moveIssue($issue_id, $new_prj_id);
                     if ($res == -1) {
                         return $res;
@@ -2469,7 +2469,7 @@ class Issue
         $last_action_fields = array(
             'iss_last_public_action_date',
         );
-        if (Auth::getCurrentRole() > User::getRoleID('Customer')) {
+        if (Auth::getCurrentRole() > User::ROLE_CUSTOMER) {
             $last_action_fields[] = 'iss_last_internal_action_date';
         }
         if (count($last_action_fields) > 1) {
@@ -2487,7 +2487,7 @@ class Issue
     public static function formatLastActionDates(&$result)
     {
         $role_id = Auth::getCurrentRole();
-        $customer_role_id = User::getRoleID('Customer');
+        $customer_role_id = User::ROLE_CUSTOMER;
         foreach ($result as &$row) {
             if ($row['action_type'] == 'internal' && $role_id > $customer_role_id) {
                 $label = $row['iss_last_internal_action_type'];
@@ -2606,7 +2606,7 @@ class Issue
                  ON
                     isu_iss_id=iss_id';
         }
-        if ((!empty($options['show_authorized_issues'])) || (($role_id == User::getRoleID('Reporter')) && (Project::getSegregateReporters(Auth::getCurrentProject())))) {
+        if ((!empty($options['show_authorized_issues'])) || (($role_id == User::ROLE_REPORTER) && (Project::getSegregateReporters(Auth::getCurrentProject())))) {
             $stmt .= '
                  LEFT JOIN
                     {{%issue_user_replier}}
@@ -3107,7 +3107,7 @@ class Issue
     public static function bulkUpdate()
     {
         // check if user performing this chance has the proper role
-        if (Auth::getCurrentRole() < User::getRoleID('Manager')) {
+        if (Auth::getCurrentRole() < User::ROLE_MANAGER) {
             return -1;
         }
 

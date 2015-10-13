@@ -45,7 +45,7 @@ $details = Issue::getDetails($issue_id);
 $tpl->assign('issue_id', $issue_id);
 $tpl->assign('issue', $details);
 
-if ((!Issue::canAccess($issue_id, $usr_id)) || (Auth::getCurrentRole() <= User::getRoleID('Customer'))) {
+if ((!Issue::canAccess($issue_id, $usr_id)) || (Auth::getCurrentRole() <= User::ROLE_CUSTOMER)) {
     $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;
@@ -114,9 +114,9 @@ if (empty($reply_subject)) {
 
 $tpl->assign(array(
     'from'               => User::getFromHeader($usr_id),
-    'users'              => Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
+    'users'              => Project::getUserAssocList($prj_id, 'active', User::ROLE_CUSTOMER),
     'current_user_prefs' => Prefs::get($usr_id),
-    'subscribers'        => Notification::getSubscribers($issue_id, false, User::getRoleID('Standard User')),
+    'subscribers'        => Notification::getSubscribers($issue_id, false, User::ROLE_USER),
     'statuses'           => Status::getAssocStatusList($prj_id, false),
     'current_issue_status'  =>  Issue::getStatusID($issue_id),
     'time_categories'    => Time_Tracking::getAssocCategories($prj_id),

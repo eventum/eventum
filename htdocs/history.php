@@ -46,7 +46,7 @@ $tpl->assign('changes', History::getListing($iss_id));
 $tpl->assign('issue_id', $iss_id);
 
 $role_id = Auth::getCurrentRole();
-if ($role_id > User::getRoleID('Customer')) {
+if ($role_id > User::ROLE_CUSTOMER) {
     $tpl->assign('reminders', Reminder::getHistoryList($_GET['iss_id']));
 }
 

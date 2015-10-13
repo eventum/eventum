@@ -63,7 +63,7 @@ class PlotHelper
     {
         // don't bother if user has no access
         $prj_id = Auth::getCurrentProject();
-        if (Auth::getCurrentRole() <= User::getRoleID('Reporter') && Project::getSegregateReporters($prj_id)) {
+        if (Auth::getCurrentRole() <= User::ROLE_REPORTER && Project::getSegregateReporters($prj_id)) {
             return false;
         }
 

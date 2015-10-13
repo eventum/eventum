@@ -55,7 +55,7 @@ if (isset($_COOKIE[APP_HIDE_CLOSED_STATS_COOKIE])) {
 }
 $tpl->assign('hide_closed', $hide_closed);
 
-if ($role_id == User::getRoleID('customer')) {
+if ($role_id == User::ROLE_CUSTOMER) {
     $crm = CRM::getInstance($prj_id);
     // need the activity dashboard here
     $contact_id = User::getCustomerContactID($usr_id);
@@ -65,7 +65,7 @@ if ($role_id == User::getRoleID('customer')) {
         'customer'  =>  $crm->getCustomer($customer_id),
     ));
 } else {
-    if ((Auth::getCurrentRole() <= User::getRoleID('Reporter')) && (Project::getSegregateReporters($prj_id))) {
+    if ((Auth::getCurrentRole() <= User::ROLE_REPORTER) && (Project::getSegregateReporters($prj_id))) {
         $tpl->assign('hide_stats', true);
     } else {
         $tpl->assign('hide_stats', false);

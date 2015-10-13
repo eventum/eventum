@@ -87,7 +87,7 @@ $tpl->assign(array(
     'data'  =>  @$data,
     'start_date' =>  $start,
     'end_date'  =>  $end,
-    'assignees' =>  Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer')),
+    'assignees' =>  Project::getUserAssocList($prj_id, 'active', User::ROLE_CUSTOMER),
     'assignee'  =>  @$_REQUEST['assignee'],
 ));
 

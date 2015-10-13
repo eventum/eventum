@@ -72,7 +72,7 @@ class Display_Column
             unset($data['custom_fields']);
         }
         // remove customer field if user has a role of customer
-        if ($current_role == User::getRoleID('Customer')) {
+        if ($current_role == User::ROLE_CUSTOMER) {
             unset($data['iss_customer_id']);
         }
 

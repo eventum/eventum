@@ -166,7 +166,7 @@ function getPhoneSupport($id)
  */
 function getMailQueue($id)
 {
-    if (Auth::getCurrentRole() < User::getRoleID('Developer')) {
+    if (Auth::getCurrentRole() < User::ROLE_DEVELOPER) {
         return;
     }
 

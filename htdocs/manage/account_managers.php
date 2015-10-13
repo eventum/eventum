@@ -36,7 +36,7 @@ $tpl->setTemplate('manage/account_managers.tpl.html');
 Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('manager')) {
+if ($role_id < User::ROLE_MANAGER) {
     Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
@@ -68,13 +68,13 @@ if (@$_GET['cat'] == 'edit') {
         $info['cam_prj_id'] = $_GET['prj_id'];
     }
     $tpl->assign('customers', CRM::getInstance($info['cam_prj_id'])->getCustomerAssocList());
-    $tpl->assign('user_options', User::getActiveAssocList($info['cam_prj_id'], User::getRoleID('Customer')));
+    $tpl->assign('user_options', User::getActiveAssocList($info['cam_prj_id'], User::ROLE_CUSTOMER));
     $tpl->assign('info', $info);
 }
 
 $tpl->assign('list', CRM::getAccountManagerList());
 if (!empty($_REQUEST['prj_id'])) {
-    $tpl->assign('user_options', User::getActiveAssocList($_REQUEST['prj_id'], User::getRoleID('Customer')));
+    $tpl->assign('user_options', User::getActiveAssocList($_REQUEST['prj_id'], User::ROLE_CUSTOMER));
 }
 $tpl->assign('project_list', Project::getAll(false));
 

@@ -43,7 +43,7 @@ if (!CRM::hasCustomerIntegration($prj_id)) {
     $support_level_ids = array();
 } else {
     $crm = CRM::getInstance($prj_id);
-    if (Auth::getCurrentRole() != User::getRoleID('Customer')) {
+    if (Auth::getCurrentRole() != User::ROLE_CUSTOMER) {
         // show all FAQ entries
         $support_level_ids = array();
     } else {

@@ -72,7 +72,7 @@ class Access
         if (empty($usr_role)) {
             // check if they are even allowed to access the project
             $return = false;
-        } elseif ((CRM::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::getRoleID('Customer')) &&
+        } elseif ((CRM::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::ROLE_CUSTOMER) &&
                 ($can_access_contract === false)) {
             // check customer permissions
             $return = false;
@@ -84,7 +84,7 @@ class Access
             // check if the issue is even private
 
             // check role, reporter, assignment and group
-            if ($usr_role > User::getRoleID('Developer')) {
+            if ($usr_role > User::ROLE_DEVELOPER) {
                 $return = true;
             } elseif ($details['iss_usr_id'] == $usr_id) {
                 $return = true;
@@ -98,7 +98,7 @@ class Access
             } else {
                 $return = false;
             }
-        } elseif ((Auth::getCurrentRole() == User::getRoleID('Reporter')) && (Project::getSegregateReporters($prj_id)) &&
+        } elseif ((Auth::getCurrentRole() == User::ROLE_REPORTER) && (Project::getSegregateReporters($prj_id)) &&
                 ($details['iss_usr_id'] != $usr_id) && (!Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id))) {
             return false;
         } else {
@@ -122,7 +122,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -141,7 +141,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -160,7 +160,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -179,7 +179,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -198,7 +198,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -217,7 +217,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -252,7 +252,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -271,7 +271,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -290,7 +290,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -348,7 +348,7 @@ class Access
             }
         }
 
-        if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID('Standard User')) {
+        if (User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_USER) {
             return true;
         }
 
@@ -394,7 +394,7 @@ class Access
             }
         }
 
-        if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -404,7 +404,7 @@ class Access
     public static function canCreateIssue($usr_id)
     {
         $prj_id = Auth::getCurrentProject();
-        if (User::getRoleByUser($usr_id, $prj_id) < User::getRoleID('Reporter')) {
+        if (User::getRoleByUser($usr_id, $prj_id) < User::ROLE_REPORTER) {
             return false;
         }
         if (User::isPartner($usr_id)) {
@@ -426,7 +426,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -442,7 +442,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 

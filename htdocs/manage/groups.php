@@ -36,7 +36,7 @@ $tpl->setTemplate('manage/groups.tpl.html');
 Auth::checkAuthentication(APP_COOKIE);
 
 $role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('manager')) {
+if ($role_id < User::ROLE_MANAGER) {
     Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
@@ -61,9 +61,9 @@ if (@$_POST['cat'] == 'new') {
 if (@$_GET['cat'] == 'edit') {
     $info = Group::getDetails($_GET['id']);
     $tpl->assign('info', $info);
-    $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), false, $_GET['id']);
+    $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::ROLE_CUSTOMER, false, $_GET['id']);
 } else {
-    $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), true);
+    $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::ROLE_CUSTOMER, true);
 }
 
 if (@$_GET['show_customers'] == 1) {

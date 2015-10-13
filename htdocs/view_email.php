@@ -64,7 +64,7 @@ if (@$_GET['cat'] == 'list_emails') {
         'previous' => $sides['previous'],
         'next'     => $sides['next'],
     ));
-} elseif ((@$_GET['cat'] == 'move_email') && (Auth::getCurrentRole() >= User::getRoleID('Standard User'))) {
+} elseif ((@$_GET['cat'] == 'move_email') && (Auth::getCurrentRole() >= User::ROLE_USER)) {
     $res = Support::moveEmail(@$_GET['id'], @$_GET['ema_id'], @$_GET['new_ema_id']);
     $tpl->assign('move_email_result', $res);
     $tpl->assign('current_user_prefs', Prefs::get(Auth::getUserID()));

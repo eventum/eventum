@@ -36,7 +36,7 @@ $tpl->setTemplate('manage/email_alias.tpl.html');
 Auth::checkAuthentication(APP_COOKIE, null, true);
 
 $role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('manager')) {
+if ($role_id < User::ROLE_MANAGER) {
     $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;

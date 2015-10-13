@@ -676,12 +676,12 @@ class Support
                 $usr_id = User::getUserIDByEmail($sender_email);
                 if (!empty($usr_id)) {
                     $role_id = User::getRoleByUser($usr_id, $prj_id);
-                    if ($role_id > User::getRoleID('Customer')) {
+                    if ($role_id > User::ROLE_CUSTOMER) {
                         // actually a valid user so insert the note
 
                         Auth::createFakeCookie($usr_id, $prj_id);
 
-                        $users = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Customer'));
+                        $users = Project::getUserEmailAssocList($prj_id, 'active', User::ROLE_CUSTOMER);
                         $user_emails = array_map(function ($s) { return strtolower($s); }, array_values($users));
                         $users = array_flip($users);
 
@@ -771,10 +771,10 @@ class Support
                         }
 
                         // mark this issue as updated
-                        if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')))) {
+                        if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER))) {
                             Issue::markAsUpdated($t['issue_id'], 'customer action');
                         } else {
-                            if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer'))) {
+                            if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER)) {
                                 Issue::markAsUpdated($t['issue_id'], 'staff response');
                             } else {
                                 Issue::markAsUpdated($t['issue_id'], 'user response');
@@ -1409,7 +1409,7 @@ class Support
         }
 
         // handle 'private' issues.
-        if (Auth::getCurrentRole() < User::getRoleID('Manager')) {
+        if (Auth::getCurrentRole() < User::ROLE_MANAGER) {
             $stmt .= ' AND (iss_private = 0 OR iss_private IS NULL)';
         }
 
@@ -1941,7 +1941,7 @@ class Support
                 $is_allowed = false;
             } elseif ((!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email)) &&
                     (!Issue::isAssignedToUser($issue_id, $sender_usr_id)) &&
-                    (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID('Customer'))) {
+                    (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) != User::ROLE_CUSTOMER)) {
                 $is_allowed = false;
             }
         }
@@ -2053,7 +2053,7 @@ class Support
             } else {
                 $fixed_body = $body;
             }
-            if (User::getRoleByUser(User::getUserIDByEmail(Mail_Helper::getEmailAddress($from)), Issue::getProjectID($issue_id)) == User::getRoleID('Customer')) {
+            if (User::getRoleByUser(User::getUserIDByEmail(Mail_Helper::getEmailAddress($from)), Issue::getProjectID($issue_id)) == User::ROLE_CUSTOMER) {
                 $type = 'customer_email';
             } else {
                 $type = 'other_email';
@@ -2285,7 +2285,7 @@ class Support
         );
 
         // associate this new email with a customer, if appropriate
-        if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
+        if (Auth::getCurrentRole() == User::ROLE_CUSTOMER) {
             if ($issue_id) {
                 $crm = CRM::getInstance($prj_id);
                 try {
@@ -2316,10 +2316,10 @@ class Support
             Notification::notifyNewEmail($current_usr_id, $issue_id, $email, $internal_only, false, $type, $sup_id);
             // mark this issue as updated
             $has_customer = $email['customer_id'] && $email['customer_id'] != 'NULL';
-            if ($has_customer && (!$current_usr_id || User::getRoleByUser($current_usr_id, $prj_id) == User::getRoleID('Customer'))) {
+            if ($has_customer && (!$current_usr_id || User::getRoleByUser($current_usr_id, $prj_id) == User::ROLE_CUSTOMER)) {
                 Issue::markAsUpdated($issue_id, 'customer action');
             } else {
-                if ($sender_usr_id && User::getRoleByUser($sender_usr_id, $prj_id) > User::getRoleID('Customer')) {
+                if ($sender_usr_id && User::getRoleByUser($sender_usr_id, $prj_id) > User::ROLE_CUSTOMER) {
                     Issue::markAsUpdated($issue_id, 'staff response');
                 } else {
                     Issue::markAsUpdated($issue_id, 'user response');

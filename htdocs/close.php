@@ -48,7 +48,7 @@ if (!Issue::exists($issue_id, false)) {
     $tpl->assign('no_issue', true);
     $tpl->displayTemplate();
     exit;
-} elseif ($role_id == User::getRoleID('customer') || !Issue::canAccess($issue_id, $usr_id)) {
+} elseif ($role_id == User::ROLE_CUSTOMER || !Issue::canAccess($issue_id, $usr_id)) {
     $tpl->assign('auth_customer', 'denied');
     $tpl->displayTemplate();
     exit;
@@ -58,7 +58,7 @@ $details = Issue::getDetails($issue_id);
 $notification_list = Notification::getSubscribers($issue_id, 'closed');
 $tpl->assign('notification_list_all', $notification_list['all']);
 
-$notification_list_internal = Notification::getSubscribers($issue_id, 'closed', User::getRoleID('Standard User'));
+$notification_list_internal = Notification::getSubscribers($issue_id, 'closed', User::ROLE_USER);
 $tpl->assign('notification_list_internal', $notification_list_internal['all']);
 
 $cat = isset($_REQUEST['cat']) ? (string) $_REQUEST['cat'] : null;
