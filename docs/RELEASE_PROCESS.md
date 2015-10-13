@@ -22,7 +22,7 @@ Release process
 - Update the ChangeLog.md file with the correct version number and release date
 
 - create git tag
-`$ git tag -s v3.0.3`
+`$ git tag -s v3.0.4`
 
 - build tarball again
 `$ make dist`
@@ -32,12 +32,16 @@ Release process
 
 - go to github releases page, edit the new tag
 - fill release title and release notes
-- upload tarball to the release
+- upload tarball and signature to the release
+- to create a digital signature, use the following command:
+`% gpg --armor --sign --detach-sig eventum-3.0.4.tar.gz`
 
 After release
 -------------
 
-- [add news entry](https://launchpad.net/eventum/+announce) to launchpad page
+- [add news entry](https://launchpad.net/eventum/+announce) to launchpad page (copy release note from github)
 - update release number in init.php (APP_VERSION)
 - start new version entry in Changelog.md
-- close old milestone and add new one in github https://github.com/eventum/eventum/milestones
+- add new milestone in github. just fill version number in Title field https://github.com/eventum/eventum/milestones
+- move open tickets/pull requests to new milestone
+- close old milestone
