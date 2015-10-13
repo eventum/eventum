@@ -19,10 +19,10 @@ Additionally you should enable following PHP Core extensions:
  - session (builtin)
  - spl (builtin)
 
-Installation is pretty simple and quick. Download the release tarball from
-[release page](https://github.com/eventum/eventum/releases), and unpack it.
+Installation is pretty simple and quick. 
+Download the [latest release](https://github.com/eventum/eventum/releases/latest) tarball, and unpack it.
 Eventum already bundles PHP libraries that it needs to work properly, see
-`docs/DEPENDENCIES.md` for details
+`docs/DEPENDENCIES.md` for details.
 
 Point your webserver to that /path-to-eventum/htdocs/. Open it up with your
 browser and Eventum should redirect you to the installation screen, and it will
