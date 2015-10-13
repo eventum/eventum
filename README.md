@@ -18,7 +18,7 @@ potential developers at http://lists.mysql.com/:
  - [eventum-devel@lists.mysql.com][2] - A mailing list for developers of the Eventum issue tracking tool
 
 We welcome you to send patches, bug fixes and other contributions to Eventum.
-Please see the CONTRIB file for more details into how to do so.
+Please see the [CONTRIBUTING.md](CONTRIBUTING.md) file for more details into how to do so.
 
 Bryan Alsdorf  
 Elan Ruusamäe  
