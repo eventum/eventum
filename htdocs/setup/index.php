@@ -600,17 +600,6 @@ function write_setup()
     Setup::save($setup);
 }
 
-/**
- * create a random private key variable
- */
-function write_privatekey()
-{
-    $private_key_path = APP_CONFIG_PATH . '/private_key.php';
-
-    $private_key = '<' . "?php\n\$private_key = " . var_export(md5(Misc::generateRandom(32)), 1) . ";\n";
-    write_file($private_key_path, $private_key);
-}
-
 function write_config()
 {
     $config_file_path = APP_CONFIG_PATH . '/config.php';
@@ -640,7 +629,7 @@ function write_config()
 function install()
 {
     try {
-        write_privatekey();
+        Auth::generatePrivateKey();
         write_setup();
         setup_database();
         write_config();
