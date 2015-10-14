@@ -90,7 +90,7 @@ if (@$_GET['err'] == '') {
 }
 
 if (@$_GET['err'] != '') {
-    Auth::removeCookie(APP_PROJECT_COOKIE);
+    AuthCookie::removeProjectCookie();
     $tpl->assign('err', $_GET['err']);
 }
 
