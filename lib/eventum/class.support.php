@@ -488,7 +488,7 @@ class Support
      */
     public static function getEmailInfo($mbox, $info, $num)
     {
-        Auth::createFakeCookie(APP_SYSTEM_USER_ID);
+        AuthCookie::setDelegateCookies(APP_SYSTEM_USER_ID);
 
         // check if the current message was already seen
         if ($info['ema_get_only_new']) {
@@ -665,7 +665,7 @@ class Support
             $t['issue_id'] = 0;
         } else {
             $prj_id = Issue::getProjectID($t['issue_id']);
-            Auth::createFakeCookie(APP_SYSTEM_USER_ID, $prj_id);
+            AuthCookie::setDelegateCookies(APP_SYSTEM_USER_ID, $prj_id);
         }
         if ($should_create_array['type'] == 'note') {
             // assume that this is not a valid note
@@ -679,7 +679,7 @@ class Support
                     if ($role_id > User::ROLE_CUSTOMER) {
                         // actually a valid user so insert the note
 
-                        Auth::createFakeCookie($usr_id, $prj_id);
+                        AuthCookie::setDelegateCookies($usr_id, $prj_id);
 
                         $users = Project::getUserEmailAssocList($prj_id, 'active', User::ROLE_CUSTOMER);
                         $user_emails = array_map(function ($s) { return strtolower($s); }, array_values($users));
@@ -935,7 +935,7 @@ class Support
         // check whether we need to create a new issue or not
         if (($info['ema_issue_auto_creation'] == 'enabled') && ($should_create_issue) && (!Notification::isBounceMessage($sender_email))) {
             $options = Email_Account::getIssueAutoCreationOptions($info['ema_id']);
-            Auth::createFakeCookie(APP_SYSTEM_USER_ID, $info['ema_prj_id']);
+            AuthCookie::setDelegateCookies(APP_SYSTEM_USER_ID, $info['ema_prj_id']);
             $issue_id = Issue::createFromEmail($info['ema_prj_id'], APP_SYSTEM_USER_ID,
                     $from, Mime_Helper::decodeQuotedPrintable($subject), $message_body, @$options['category'],
                     @$options['priority'], @$options['users'], $date, $message_id, $severity, $customer_id, $contact_id,

@@ -35,7 +35,7 @@ require_once __DIR__ . '/../../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('reports/recent_activity.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 try {
     $controller = new RecentActivity();

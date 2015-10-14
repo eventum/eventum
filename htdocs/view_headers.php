@@ -33,7 +33,7 @@ require_once __DIR__ . '/../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('view_headers.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
+Auth::checkAuthentication('index.php?err=5', true);
 
 if (@$_GET['cat'] == 'note') {
     $headers = Note::getBlockedMessage($_GET['id']);

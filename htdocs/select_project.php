@@ -36,17 +36,17 @@ $tpl->setTemplate('select_project.tpl.html');
 session_start();
 
 // check if cookies are enabled, first of all
-if (!Auth::hasCookieSupport(APP_COOKIE)) {
+if (!AuthCookie::hasCookieSupport()) {
     Auth::redirect('index.php?err=11');
 }
 
-if (!Auth::hasValidCookie(APP_COOKIE)) {
+if (!AuthCookie::hasAuthCookie()) {
     Auth::redirect('index.php?err=5');
 }
 
 if (@$_GET['err'] == '') {
-    $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
-    if ($cookie['remember'] && $cookie['prj_id'] != false) {
+    $cookie = AuthCookie::getProjectCookie();
+    if ($cookie['remember'] && $cookie['prj_id']) {
         if (!empty($_GET['url'])) {
             Auth::redirect($_GET['url']);
         } else {

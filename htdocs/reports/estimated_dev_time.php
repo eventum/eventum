@@ -34,7 +34,7 @@ require_once __DIR__ . '/../../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('reports/estimated_dev_time.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 if (!Access::canAccessReports(Auth::getUserID())) {
     echo 'Invalid role';

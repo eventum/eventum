@@ -40,7 +40,7 @@ $tpl = new Template_Helper();
 $tpl->setTemplate('update.tpl.html');
 $tpl->assign('user_prefs', Prefs::get($usr_id));
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 $issue_id = @$_POST['issue_id'] ? $_POST['issue_id'] : @$_GET['id'];
 $tpl->assign('issue_id', $issue_id);
@@ -57,9 +57,9 @@ Workflow::prePage($prj_id, 'update');
 // check if issue exists in another project and if it does, switch projects
 $iss_prj_id = Issue::getProjectID($issue_id);
 $auto_switched_from = false;
-if ((!empty($iss_prj_id)) && ($iss_prj_id != $prj_id) && (in_array($iss_prj_id, $associated_projects))) {
-    $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
-    Auth::setCurrentProject($iss_prj_id, $cookie['remember'], true);
+if (!empty($iss_prj_id) && $iss_prj_id != $prj_id && in_array($iss_prj_id, $associated_projects)) {
+    $cookie = AuthCookie::getProjectCookie();
+    Auth::setCurrentProject($iss_prj_id, $cookie['remember']);
     $auto_switched_from = $iss_prj_id;
     $prj_id = $iss_prj_id;
     Misc::setMessage(ev_gettext('Note: Project automatically switched to "%1$s" from "%2$s".',

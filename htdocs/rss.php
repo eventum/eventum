@@ -138,7 +138,7 @@ function authorizeRequest()
         }
 
         $usr_id = User::getUserIDByEmail($authUser);
-        Auth::createFakeCookie($usr_id);
+        AuthCookie::setDelegateCookies($usr_id);
     }
 
     // check if the required parameter 'custom_id' is really being passed

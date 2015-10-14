@@ -30,7 +30,7 @@
 
 require_once __DIR__ . '/../init.php';
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 if (@$_GET['cat'] == 'blocked_email') {
     $email = Note::getBlockedMessage($_GET['note_id']);

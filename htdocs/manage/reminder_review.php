@@ -32,7 +32,7 @@ require_once __DIR__ . '/../../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('get_emails.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE, null, true);
+Auth::checkAuthentication(null, true);
 
 $tpl->displayTemplate();
 flush();

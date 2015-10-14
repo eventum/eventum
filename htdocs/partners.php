@@ -31,7 +31,7 @@ require_once __DIR__ . '/../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('select_partners.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
+Auth::checkAuthentication('index.php?err=5', true);
 
 $issue_id = @$_POST['issue_id'] ? $_POST['issue_id'] : $_GET['iss_id'];
 

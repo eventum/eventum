@@ -31,13 +31,13 @@
 
 require_once __DIR__ . '/../init.php';
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 $prj_id = $_POST['current_project'];
 $url = $_SERVER['HTTP_REFERER'];
 
 // get the 'remember' setting of the project cookie
-$cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
+$cookie = AuthCookie::getProjectCookie();
 Auth::setCurrentProject($prj_id, $cookie['remember']);
 Misc::setMessage(ev_gettext('The project has been switched'), Misc::MSG_INFO);
 

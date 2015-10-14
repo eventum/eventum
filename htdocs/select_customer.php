@@ -34,11 +34,11 @@ $tpl->setTemplate('select_customer.tpl.html');
 session_start();
 
 // check if cookies are enabled, first of all
-if (!Auth::hasCookieSupport(APP_COOKIE)) {
+if (!AuthCookie::hasCookieSupport()) {
     Auth::redirect('index.php?err=11');
 }
 
-if (!Auth::hasValidCookie(APP_COOKIE)) {
+if (!AuthCookie::hasAuthCookie()) {
     Auth::redirect('index.php?err=5');
 }
 

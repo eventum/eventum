@@ -33,7 +33,7 @@ require_once __DIR__ . '/../../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('manage/anonymous.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 @$prj_id = $_POST['prj_id'] ? $_POST['prj_id'] : $_GET['prj_id'];
 

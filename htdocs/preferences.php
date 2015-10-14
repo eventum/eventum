@@ -49,7 +49,7 @@ if ($cat == 'update_account') {
 $tpl = new Template_Helper();
 $tpl->setTemplate('preferences.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 if (Auth::isAnonUser()) {
     Auth::redirect('index.php');

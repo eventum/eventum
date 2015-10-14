@@ -33,7 +33,7 @@ require_once __DIR__ . '/../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('emails.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 if (!Access::canAccessAssociateEmails(Auth::getUserID())) {
     $tpl->assign('no_access', 1);

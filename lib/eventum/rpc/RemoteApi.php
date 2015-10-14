@@ -41,27 +41,14 @@ class RemoteApiException extends RuntimeException
 class RemoteApi
 {
     /**
-     * Fakes the creation of the login cookie
+     * Setups creation of the auth cookie
      *
      * @param string $email
      * @param bool $project
      */
-    public static function createFakeCookie($email, $project = false)
+    public static function createFakeCookie($email, $project = null)
     {
-        if ($email) {
-            $cookie = array(
-                'email' => $email,
-            );
-            $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
-        }
-
-        if ($project) {
-            $cookie = array(
-                'prj_id'   => $project,
-                'remember' => false,
-            );
-            $_COOKIE[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
-        }
+        AuthCookie::setDelegateCookies($email, $project);
     }
 
     /**

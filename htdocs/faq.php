@@ -33,7 +33,7 @@ require_once __DIR__ . '/../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('faq.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
+Auth::checkAuthentication('index.php?err=5', true);
 
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();

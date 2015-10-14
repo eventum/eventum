@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../init.php';
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 if (Auth::getCurrentRole() < User::ROLE_DEVELOPER) {
     echo 'Invalid role';

@@ -33,7 +33,7 @@ require_once __DIR__ . '/../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('removed_emails.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE, null, true);
+Auth::checkAuthentication(null, true);
 
 if (@$_POST['cat'] == 'restore') {
     $res = Support::restoreEmails();

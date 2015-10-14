@@ -31,7 +31,7 @@
 require_once __DIR__ . '/../init.php';
 
 // This page handles marking an issue as 'redeeming' an incident.
-Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
+Auth::checkAuthentication('index.php?err=5', true);
 
 $prj_id = Auth::getCurrentProject();
 $issue_id = $_REQUEST['iss_id'];

@@ -463,7 +463,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             'default_role' => array(),
         );
 
-        if (Auth::hasValidCookie(APP_COOKIE)) {
+        if (AuthCookie::hasAuthCookie()) {
             // ensure there is entry for current project
             $prj_id = Auth::getCurrentProject();
 

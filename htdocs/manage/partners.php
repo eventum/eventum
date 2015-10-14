@@ -31,7 +31,7 @@ require_once __DIR__ . '/../../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('manage/partners.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 $tpl->assign('type', 'partners');
 
 $role_id = Auth::getCurrentRole();

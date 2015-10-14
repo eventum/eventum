@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -41,7 +41,7 @@ class Auth
      */
     public static function privateKey()
     {
-        static $private_key = null;
+        static $private_key;
         if ($private_key === null) {
             require_once APP_CONFIG_PATH . '/private_key.php';
         }
@@ -76,7 +76,7 @@ class Auth
      * @param   string $type Whether it was a successful login or not
      * @param   string $extra The reason for not being a successful login
      */
-    public static function saveLoginAttempt($email, $type, $extra = false)
+    public static function saveLoginAttempt($email, $type, $extra = null)
     {
         $msg = Date_Helper::getCurrentDateGMT() . " - Login attempt by '$email' was ";
         if ($type == 'success') {
@@ -92,29 +92,25 @@ class Auth
      * page. It will check for the cookie name provided and redirect the user
      * to another page if needed.
      *
-     * @param   string $cookie_name The name of the cookie to check for
      * @param   string $failed_url The URL to redirect to if the user is not authenticated
      * @param   boolean $is_popup Flag to tell the function if the current page is a popup window or not
      * @return  void
      */
-    public static function checkAuthentication($cookie_name, $failed_url = null, $is_popup = false)
+    public static function checkAuthentication($failed_url = null, $is_popup = false)
     {
         try {
             self::getAuthBackend()->checkAuthentication();
 
-            if ($cookie_name == null) {
-                $cookie_name = APP_COOKIE;
-            }
             if ($failed_url == null) {
                 $failed_url = APP_RELATIVE_URL . 'index.php?err=5';
             }
             $failed_url .= '&url=' . urlencode($_SERVER['REQUEST_URI']);
-            if (!isset($_COOKIE[$cookie_name])) {
+            if (!AuthCookie::hasAuthCookie()) {
                 if (APP_ANON_USER) {
                     $anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
                     $prj_id = reset(array_keys(Project::getAssocList($anon_usr_id)));
-                    self::createFakeCookie($anon_usr_id, $prj_id);
-                    self::createLoginCookie(APP_COOKIE, APP_ANON_USER, false);
+                    AuthCookie::setDelegateCookies($anon_usr_id, $prj_id);
+                    AuthCookie::setAuthCookie(APP_ANON_USER, false);
                     self::setCurrentProject($prj_id, true);
                     Session::init($anon_usr_id);
                 } else {
@@ -123,8 +119,8 @@ class Auth
                         if (Auth::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
                             $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER'], true);
                             $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
-                            self::createFakeCookie($usr_id, $prj_id);
-                            self::createLoginCookie(APP_COOKIE, APP_ANON_USER);
+                            AuthCookie::setDelegateCookies($usr_id, $prj_id);
+                            AuthCookie::setAuthCookie(APP_ANON_USER);
                             self::setCurrentProject($prj_id, true);
                         } else {
                             header('WWW-Authenticate: Basic realm="Eventum"');
@@ -138,18 +134,18 @@ class Auth
                     }
                 }
             }
-            $cookie = $_COOKIE[$cookie_name];
-            $cookie = unserialize(base64_decode($cookie));
-            if (!self::isValidCookie($cookie)) {
-                self::removeCookie($cookie_name);
+
+            $cookie = AuthCookie::getAuthCookie();
+            if (!$cookie) {
+                AuthCookie::removeAuthCookie();
                 self::redirect($failed_url, $is_popup);
             }
             if (self::isPendingUser($cookie['email'])) {
-                self::removeCookie($cookie_name);
+                AuthCookie::removeAuthCookie();
                 self::redirect('index.php?err=9', $is_popup);
             }
             if (!self::isActiveUser($cookie['email'])) {
-                self::removeCookie($cookie_name);
+                AuthCookie::removeAuthCookie();
                 self::redirect('index.php?err=7', $is_popup);
             }
 
@@ -182,9 +178,9 @@ class Auth
             }
 
             // if the current session is still valid, then renew the expiration
-            self::createLoginCookie($cookie_name, $cookie['email'], $cookie['permanent']);
+            AuthCookie::setAuthCookie($cookie['email'], $cookie['permanent']);
             // renew the project cookie as well
-            $prj_cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
+            $prj_cookie = AuthCookie::getProjectCookie();
             self::setCurrentProject($prj_id, $prj_cookie['remember']);
         } catch (AuthException $e) {
             $tpl = new Template_Helper();
@@ -217,7 +213,7 @@ class Auth
         Auth::saveLoginAttempt($login, 'success');
 
         $remember = !empty($_POST['remember']);
-        Auth::createLoginCookie(APP_COOKIE, $login, $remember);
+        AuthCookie::setAuthCookie($login, $remember);
 
         Session::init(User::getUserIDByEmail($login));
     }
@@ -229,11 +225,11 @@ class Auth
      */
     public static function logout()
     {
-        self::removeCookie(APP_COOKIE);
+        AuthCookie::removeAuthCookie();
         // if 'remember projects' is true don't remove project cookie
-        $project_cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
-        if (empty($project_cookie['remember'])) {
-            self::removeCookie(APP_PROJECT_COOKIE);
+        $cookie = AuthCookie::getProjectCookie();
+        if (empty($cookie['remember'])) {
+            AuthCookie::removeProjectCookie();
         }
         self::getAuthBackend()->logout();
     }
@@ -272,39 +268,6 @@ class Auth
     }
 
     /**
-     * Method to check if the user has cookie support enabled in his browser or
-     * not.
-     *
-     * @param   string $cookie_name The name of the cookie to check for
-     * @return  boolean
-     */
-    public static function hasCookieSupport($cookie_name)
-    {
-        if (@!in_array($cookie_name, array_keys($_COOKIE))) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * Method to check if the user has a valid cookie.
-     *
-     * @param   string $cookie_name The name of the cookie to check for
-     * @return  boolean
-     */
-    public static function hasValidCookie($cookie_name)
-    {
-        $cookie = @$_COOKIE[$cookie_name];
-        $cookie = unserialize(base64_decode($cookie));
-        if (!self::isValidCookie($cookie)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    /**
      * Method to check if the current user is an anonymous user.
      *
      * @return  boolean
@@ -312,68 +275,6 @@ class Auth
     public static function isAnonUser()
     {
         return self::getUserID() == User::getUserIDByEmail(APP_ANON_USER);
-    }
-
-    /**
-     * Method used to get the unserialized contents of the specified cookie
-     * name.
-     *
-     * @param   string $cookie_name The name of the cookie to check for
-     * @return  array The unserialized contents of the cookie
-     */
-    public static function getCookieInfo($cookie_name)
-    {
-        if (!isset($_COOKIE[$cookie_name])) {
-            return null;
-        }
-        $data = base64_decode($_COOKIE[$cookie_name], true);
-        if ($data === false) {
-            return null;
-        }
-
-        return unserialize($data);
-    }
-
-    /**
-     * Method used to check whether a cookie is valid or not.
-     *
-     * @param   array $cookie The unserialized contents of the cookie
-     * @return  boolean
-     */
-    public static function isValidCookie($cookie)
-    {
-        if ((empty($cookie['email'])) || (empty($cookie['hash'])) ||
-               ($cookie['hash'] != md5(self::privateKey() . $cookie['login_time'] . $cookie['email']))) {
-            return false;
-        } else {
-            $usr_id = User::getUserIDByEmail(@$cookie['email']);
-            if (empty($usr_id)) {
-                return false;
-            } else {
-                return true;
-            }
-        }
-    }
-
-    /**
-     * Method used to create the login cookie in the user's machine.
-     *
-     * @param   string $cookie_name The cookie name to be created
-     * @param   string $email The email address to be stored in the cookie
-     * @param   boolean $permanent Set to false to make session cookie (Expires when browser is closed)
-     * @return  void
-     */
-    public static function createLoginCookie($cookie_name, $email, $permanent = true)
-    {
-        $time = time();
-        $cookie = array(
-            'email'      => $email,
-            'login_time' => $time,
-            'permanent'  => $permanent,
-            'hash'       => md5(self::privateKey() . $time . $email),
-        );
-        $cookie = base64_encode(serialize($cookie));
-        self::setCookie($cookie_name, $cookie, $permanent ? APP_COOKIE_EXPIRE : 0);
     }
 
     /**
@@ -495,8 +396,8 @@ class Auth
      */
     public static function getUserID()
     {
-        $info = self::getCookieInfo(APP_COOKIE);
-        if (empty($info)) {
+        $info = AuthCookie::getAuthCookie();
+        if ($info) {
             return '';
         }
 
@@ -510,8 +411,8 @@ class Auth
      */
     public static function getUserLogin()
     {
-        $info = self::getCookieInfo(APP_COOKIE);
-        if (empty($info) || !isset($info['email'])) {
+        $info = AuthCookie::getAuthCookie();
+        if (!$info) {
             return null;
         }
 
@@ -525,8 +426,8 @@ class Auth
      */
     public static function getCurrentProject($redirect = true)
     {
-        $cookie = self::getCookieInfo(APP_PROJECT_COOKIE);
-        if (empty($cookie) || @$cookie['prj_id'] == false) {
+        $cookie = AuthCookie::getProjectCookie();
+        if (!$cookie) {
             return '';
         }
         $usr_id = self::getUserID();
@@ -621,32 +522,6 @@ class Auth
         $cookie = base64_encode(serialize($cookie));
         self::setCookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE);
         $_COOKIE[APP_PROJECT_COOKIE] = $cookie;
-    }
-
-    /**
-     * Creates a fake cookie so processes not run from a browser can access current user and project
-     *
-     * @param   integer $usr_id The ID of the user.
-     * @param   bool|int $prj_id The ID of the project.
-     */
-    public static function createFakeCookie($usr_id, $prj_id = false)
-    {
-        $user_details = User::getDetails($usr_id);
-
-        $time = time();
-        $cookie = array(
-            'email' => $user_details['usr_email'],
-            'login_time'    =>  $time,
-            'hash'       => md5(self::privateKey() . $time . $user_details['usr_email']),
-        );
-        $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
-        if ($prj_id) {
-            $cookie = array(
-                'prj_id'   => $prj_id,
-                'remember' => false,
-            );
-        }
-        $_COOKIE[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
     }
 
     /**
