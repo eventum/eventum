@@ -188,15 +188,23 @@ class AuthCookie
     /**
      * Method used to set auth cookie in user's browser.
      *
-     * @param   string $email The email address to be stored in the cookie
-     * @param   boolean $permanent Set to false to make session cookie (Expires when browser is closed)
-     * @return  void
+     * @param int|string $user User Id or User email.
+     * @param boolean $permanent Set to false to make session cookie (Expires when browser is closed)
      */
-    public static function setAuthCookie($email, $permanent = true)
+    public static function setAuthCookie($user, $permanent = true)
     {
-        $ac = new self(null, $email);
+        if (is_numeric($user)) {
+            $user_id = $user;
+            $email = null;
+        } else {
+            $user_id = null;
+            $email = $user;
+        }
+
+        $ac = new self($user_id, $email);
         $cookie = $ac->generateCookie($permanent);
         Auth::setCookie(APP_COOKIE, $cookie, $permanent ? APP_COOKIE_EXPIRE : null);
+        $_COOKIE[APP_COOKIE] = $cookie;
     }
 
     /**
@@ -214,7 +222,7 @@ class AuthCookie
     }
 
     /**
-     * Creates a fake $_COOKIE entries so processes not run from a browser can access current user and project
+     * Setups $_COOKIE entries so processes not run from a browser can access current user and project
      *
      * @param int|string $user User Id or User email.
      * @param int $prj_id The ID of the project.
@@ -222,19 +230,11 @@ class AuthCookie
     public static function setDelegateCookies($user = null, $prj_id = null)
     {
         if ($user) {
-            if (is_numeric($user)) {
-                $user_id = $user;
-                $email = null;
-            } else {
-                $user_id = null;
-                $email = $user;
-            }
-            $ac = new self($user_id, $email);
-            $_COOKIE[APP_COOKIE] = $ac->generateCookie();
+            self::setAuthCookie($user);
         }
 
         if ($prj_id) {
-            $_COOKIE[APP_PROJECT_COOKIE] = self::generateProjectCookie($prj_id);
+            self::setProjectCookie($prj_id);
         }
     }
 
