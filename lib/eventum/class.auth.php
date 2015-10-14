@@ -397,7 +397,7 @@ class Auth
     public static function getUserID()
     {
         $info = AuthCookie::getAuthCookie();
-        if ($info) {
+        if (!$info) {
             return '';
         }
 
