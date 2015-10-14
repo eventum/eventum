@@ -66,15 +66,17 @@ class AuthCookie
     /**
      * Get cookie used for user authentication
      *
+     * @param bool|true $permanent
      * @return string
      */
-    public function generateCookie()
+    public function generateCookie($permanent = true)
     {
         $time = time();
         $email = $this->getEmail();
         $cookie = array(
             'email' => $email,
             'login_time' => $time,
+            'permanent' => $permanent,
             'hash' => $this->generateHash($time, $email),
         );
 
@@ -193,7 +195,7 @@ class AuthCookie
     public static function setAuthCookie($email, $permanent = true)
     {
         $ac = new self(null, $email);
-        $cookie = $ac->generateCookie();
+        $cookie = $ac->generateCookie($permanent);
         Auth::setCookie(APP_COOKIE, $cookie, $permanent ? APP_COOKIE_EXPIRE : null);
     }
 
