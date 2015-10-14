@@ -209,7 +209,7 @@ class AuthCookie
     {
         $ac = new AuthCookie(null, $email);
         $cookie = $ac->generateCookie();
-        Auth::setCookie(APP_COOKIE, $cookie, $permanent ? APP_COOKIE_EXPIRE : 0);
+        Auth::setCookie(APP_COOKIE, $cookie, $permanent ? APP_COOKIE_EXPIRE : null);
     }
 
     /**
