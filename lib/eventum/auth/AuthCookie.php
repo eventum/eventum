@@ -154,9 +154,9 @@ class AuthCookie
      * Method used to check whether a cookie is valid or not.
      *
      * @param array $cookie The unserialized contents of the cookie
-     * @return  boolean
+     * @return boolean
      */
-    public static function isValidCookie($cookie)
+    private static function isValidCookie($cookie)
     {
         if (empty($cookie['email']) || empty($cookie['hash'])) {
             return false;
@@ -183,7 +183,7 @@ class AuthCookie
         }
         $cookie = unserialize(base64_decode($_COOKIE[APP_COOKIE]));
 
-        return AuthCookie::isValidCookie($cookie);
+        return self::isValidCookie($cookie);
     }
 
     /**

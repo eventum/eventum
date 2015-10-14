@@ -54,12 +54,12 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
 
     public function checkAuthentication()
     {
-        if (phpCAS::isAuthenticated() && !AuthCookie::isValidCookie(AuthCookie::getAuthCookie())) {
+        if (phpCAS::isAuthenticated() && !AuthCookie::hasAuthCookie()) {
             $this->loginCallback();
         }
 
         // force CAS authentication
-        $auth = phpCAS::forceAuthentication();
+        phpCAS::forceAuthentication();
     }
 
     public function logout()
