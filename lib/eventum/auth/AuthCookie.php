@@ -28,6 +28,136 @@
 class AuthCookie
 {
     /**
+     * Method to check if the user has cookie support enabled in his browser or not.
+     *
+     * @return bool
+     */
+    public static function hasCookieSupport()
+    {
+        // check for any cookie being present
+        return !empty($_COOKIE);
+    }
+
+    /**
+     * Method used to set auth cookie in user's browser.
+     *
+     * @param int|string $user User Id or User email.
+     * @param boolean $permanent Set to false to make session cookie (Expires when browser is closed)
+     */
+    public static function setAuthCookie($user, $permanent = true)
+    {
+        if (!$user) {
+            throw new LogicException("Need usr_id or email");
+        }
+
+        if (is_numeric($user)) {
+            $user_details = User::getDetails($user);
+            $email = $user_details['usr_email'];
+        } else {
+            $email = $user;
+        }
+
+        $cookie = self::generateAuthCookie($email, $permanent);
+        Auth::setCookie(APP_COOKIE, $cookie, $permanent ? APP_COOKIE_EXPIRE : null);
+        $_COOKIE[APP_COOKIE] = $cookie;
+    }
+
+    /**
+     * Get structure of authentication cookie.
+     * Requires cookie being valid and 'email' key being present
+     *
+     * @return array|null
+     */
+    public static function getAuthCookie()
+    {
+        if (!self::hasAuthCookie()) {
+            return null;
+        }
+
+        $cookie = self::getDecodedCookie(APP_COOKIE);
+        if (!$cookie || empty($cookie['email'])) {
+            return null;
+        }
+
+        return $cookie;
+    }
+
+    /**
+     * Method to check if the user has a valid auth cookie.
+     * The cookie contents is validated for hash matching and user id from database.
+     *
+     * @return boolean
+     */
+    public static function hasAuthCookie()
+    {
+        $cookie = self::getDecodedCookie(APP_COOKIE);
+        if (!$cookie || empty($cookie['email']) || empty($cookie['hash'])) {
+            return false;
+        }
+
+        $hash = self::generateHash($cookie['login_time'], $cookie['email']);
+        if ($cookie['hash'] != $hash) {
+            return false;
+        }
+
+        $usr_id = User::getUserIDByEmail($cookie['email']);
+        return !!$usr_id;
+    }
+
+    /**
+     * Method used to remove auth cookie from the user's browser.
+     */
+    public static function removeAuthCookie()
+    {
+        Auth::removeCookie(APP_COOKIE);
+    }
+
+    /**
+     * Sets the current selected project for the user session.
+     * If rememner is NULL, then existing value is attempted to autodetect from existing cookie
+     *
+     * @param int $prj_id The project ID
+     * @param bool $remember Whether to automatically remember the setting or not
+     */
+    public static function setProjectCookie($prj_id, $remember = null)
+    {
+        // try to preserve "remember" from existing cookie
+        if ($remember === null) {
+            $cookie = self::getProjectCookie();
+            $remember = $cookie ? (bool)$cookie['remember'] : false;
+        }
+
+        $cookie = self::generateProjectCookie($prj_id, $remember);
+
+        Auth::setCookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE);
+        $_COOKIE[APP_PROJECT_COOKIE] = $cookie;
+    }
+
+    /**
+     * Get structure of project cookie.
+     * Requires prj_id being present or returns null.
+     *
+     * @return array|null
+     */
+    public static function getProjectCookie()
+    {
+        $cookie = self::getDecodedCookie(APP_PROJECT_COOKIE);
+        if (!$cookie || empty($cookie['prj_id'])) {
+            return null;
+        }
+
+        return $cookie;
+    }
+
+    /**
+     * Method used to remove project cookie from the user's browser.
+     */
+    public static function removeProjectCookie()
+    {
+        Auth::removeCookie(APP_PROJECT_COOKIE);
+    }
+
+    /**
      * Get cookie string used for user authentication
      *
      * @param bool|true $permanent
@@ -65,148 +195,6 @@ class AuthCookie
     }
 
     /**
-     * Get structure of authentication cookie.
-     * Requires cookie being valid and 'email' key being present
-     *
-     * @return array|null
-     */
-    public static function getAuthCookie()
-    {
-        if (!self::hasAuthCookie()) {
-            return null;
-        }
-
-        $cookie = self::getDecodedCookie(APP_COOKIE);
-        if (!$cookie || empty($cookie['email'])) {
-            return null;
-        }
-
-        return $cookie;
-    }
-
-    /**
-     * Get structure of project cookie.
-     * Requires prj_id being present or returns null.
-     *
-     * @return array|null
-     */
-    public static function getProjectCookie()
-    {
-        $cookie = self::getDecodedCookie(APP_PROJECT_COOKIE);
-        if (!$cookie || empty($cookie['prj_id'])) {
-            return null;
-        }
-
-        return $cookie;
-    }
-
-    /**
-     * Method used to remove auth cookie from the user's browser.
-     */
-    public static function removeAuthCookie()
-    {
-        Auth::removeCookie(APP_COOKIE);
-    }
-
-    /**
-     * Method used to remove project cookie from the user's browser.
-     */
-    public static function removeProjectCookie()
-    {
-        Auth::removeCookie(APP_PROJECT_COOKIE);
-    }
-
-    /**
-     * Method to check if the user has a valid auth cookie.
-     * The cookie contents is validated for hash matching and user id from database.
-     *
-     * @return boolean
-     */
-    public static function hasAuthCookie()
-    {
-        $cookie = self::getDecodedCookie(APP_COOKIE);
-        if (!$cookie || empty($cookie['email']) || empty($cookie['hash'])) {
-            return false;
-        }
-
-        $hash = self::generateHash($cookie['login_time'], $cookie['email']);
-        if ($cookie['hash'] != $hash) {
-            return false;
-        }
-
-        $usr_id = User::getUserIDByEmail($cookie['email']);
-        return !!$usr_id;
-    }
-
-    /**
-     * Method to check if the user has cookie support enabled in his browser or not.
-     *
-     * @return bool
-     */
-    public static function hasCookieSupport()
-    {
-        // check for any cookie being present
-        return !empty($_COOKIE);
-    }
-
-    /**
-     * Method used to set auth cookie in user's browser.
-     *
-     * @param int|string $user User Id or User email.
-     * @param boolean $permanent Set to false to make session cookie (Expires when browser is closed)
-     */
-    public static function setAuthCookie($user, $permanent = true)
-    {
-        if (!$user) {
-            throw new LogicException("Need usr_id or email");
-        }
-
-        if (is_numeric($user)) {
-            $user_details = User::getDetails($user);
-            $email = $user_details['usr_email'];
-        } else {
-            $email = $user;
-        }
-
-        $cookie = self::generateAuthCookie($email, $permanent);
-        Auth::setCookie(APP_COOKIE, $cookie, $permanent ? APP_COOKIE_EXPIRE : null);
-        $_COOKIE[APP_COOKIE] = $cookie;
-    }
-
-    /**
-     * Sets the current selected project for the user session.
-     * If rememner is NULL, then existing value is attempted to autodetect from existing cookie
-     *
-     * @param int $prj_id The project ID
-     * @param bool $remember Whether to automatically remember the setting or not
-     */
-    public static function setProjectCookie($prj_id, $remember = null)
-    {
-        // try to preserve "remember" from existing cookie
-        if ($remember === null) {
-            $cookie = self::getProjectCookie();
-            $remember = $cookie ? (bool)$cookie['remember'] : false;
-        }
-
-        $cookie = self::generateProjectCookie($prj_id, $remember);
-
-        Auth::setCookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE);
-        $_COOKIE[APP_PROJECT_COOKIE] = $cookie;
-    }
-
-    /**
-     * Generate hash based on time and email
-     *
-     * @param int $time
-     * @param string $email
-     * @return string
-     */
-    private static function generateHash($time, $email)
-    {
-        return md5(Auth::privateKey() . $time . $email);
-    }
-
-    /**
      * Method used to get the unserialized contents of the specified cookie
      * name.
      *
@@ -224,5 +212,17 @@ class AuthCookie
         }
 
         return unserialize($data);
+    }
+
+    /**
+     * Generate hash based on time and email
+     *
+     * @param int $time
+     * @param string $email
+     * @return string
+     */
+    private static function generateHash($time, $email)
+    {
+        return md5(Auth::privateKey() . $time . $email);
     }
 }
