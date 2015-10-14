@@ -192,7 +192,7 @@ class AuthCookie
      */
     public static function setAuthCookie($email, $permanent = true)
     {
-        $ac = new AuthCookie(null, $email);
+        $ac = new self(null, $email);
         $cookie = $ac->generateCookie();
         Auth::setCookie(APP_COOKIE, $cookie, $permanent ? APP_COOKIE_EXPIRE : null);
     }
@@ -227,7 +227,7 @@ class AuthCookie
                 $user_id = null;
                 $email = $user;
             }
-            $ac = new AuthCookie($user_id, $email);
+            $ac = new self($user_id, $email);
             $_COOKIE[APP_COOKIE] = $ac->generateCookie();
         }
 
