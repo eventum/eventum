@@ -94,7 +94,8 @@ class AuthCookie
     {
         $cookie = array(
             'prj_id' => $prj_id,
-            'remember' => $remember,
+            // it's stored as number, probably to save bytes in cookie size
+            'remember' => (int)$remember,
         );
 
         return base64_encode(serialize($cookie));
@@ -209,12 +210,19 @@ class AuthCookie
 
     /**
      * Sets the current selected project for the user session.
+     * If rememner is NULL, then existing value is attempted to autodetect from existing cookie
      *
      * @param int $prj_id The project ID
      * @param bool $remember Whether to automatically remember the setting or not
      */
-    public static function setProjectCookie($prj_id, $remember = false)
+    public static function setProjectCookie($prj_id, $remember = null)
     {
+        // try to preserve "remember" from existing cookie
+        if ($remember === null) {
+            $cookie = self::getProjectCookie();
+            $remember = $cookie ? (bool)$cookie['remember'] : false;
+        }
+
         $cookie = self::generateProjectCookie($prj_id, $remember);
 
         Auth::setCookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE);

@@ -110,7 +110,7 @@ class Auth
                     $anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
                     $prj_id = reset(array_keys(Project::getAssocList($anon_usr_id)));
                     AuthCookie::setAuthCookie(APP_ANON_USER, false);
-                    AuthCookie::setProjectCookie($prj_id, true);
+                    AuthCookie::setProjectCookie($prj_id);
                     Session::init($anon_usr_id);
                 } else {
                     // check for valid HTTP_BASIC params
@@ -119,7 +119,7 @@ class Auth
                             $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER'], true);
                             $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
                             AuthCookie::setAuthCookie(APP_ANON_USER);
-                            AuthCookie::setProjectCookie($prj_id, true);
+                            AuthCookie::setProjectCookie($prj_id);
                         } else {
                             header('WWW-Authenticate: Basic realm="Eventum"');
                             header('HTTP/1.0 401 Unauthorized');
@@ -178,8 +178,7 @@ class Auth
             // if the current session is still valid, then renew the expiration
             AuthCookie::setAuthCookie($cookie['email'], $cookie['permanent']);
             // renew the project cookie as well
-            $prj_cookie = AuthCookie::getProjectCookie();
-            AuthCookie::setProjectCookie($prj_id, $prj_cookie['remember']);
+            AuthCookie::setProjectCookie($prj_id);
         } catch (AuthException $e) {
             $tpl = new Template_Helper();
             $tpl->setTemplate('authentication_error.tpl.html');
