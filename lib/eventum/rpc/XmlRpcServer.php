@@ -264,7 +264,7 @@ class XmlRpcServer
                     );
                 }
 
-                RemoteApi::createFakeCookie($email);
+                AuthCookie::setDelegateCookies($email);
             }
 
             if ($pdesc) {
