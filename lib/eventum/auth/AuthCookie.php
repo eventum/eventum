@@ -27,40 +27,25 @@
 
 class AuthCookie
 {
-    /** @var int */
-    private $usr_id;
-
     /** @var string */
     private $email;
 
     /**
-     * @param int $usr_id optional user id
-     * @param string $email optional user email
+     * @param int|string $user User Id or User email.
      */
-    public function __construct($usr_id = null, $email = null)
+    public function __construct($user)
     {
-        $this->usr_id = $usr_id;
-        $this->email = $email;
-    }
-
-    /**
-     * Get email. Retrieve by user id if neccessary.
-     *
-     * @return string
-     */
-    private function getEmail()
-    {
-        if (!$this->email) {
-            if (!$this->usr_id) {
-                throw new LogicException("Need usr_id or email");
-            }
-
-            $user_details = User::getDetails($this->usr_id);
-            $this->email = $user_details['usr_email'];
+        if (!$user) {
+            throw new LogicException("Need usr_id or email");
         }
 
-        return $this->email;
-
+        if (is_numeric($user)) {
+            // Retrieve by user id if neccessary.
+            $user_details = User::getDetails($user);
+            $this->email = $user_details['usr_email'];
+        } else {
+            $this->email = $user;
+        }
     }
 
     /**
@@ -72,12 +57,11 @@ class AuthCookie
     public function generateCookie($permanent = true)
     {
         $time = time();
-        $email = $this->getEmail();
         $cookie = array(
-            'email' => $email,
+            'email' => $this->email,
             'login_time' => $time,
             'permanent' => $permanent,
-            'hash' => $this->generateHash($time, $email),
+            'hash' => $this->generateHash($time, $this->email),
         );
 
         return base64_encode(serialize($cookie));
@@ -194,15 +178,7 @@ class AuthCookie
      */
     public static function setAuthCookie($user, $permanent = true)
     {
-        if (is_numeric($user)) {
-            $user_id = $user;
-            $email = null;
-        } else {
-            $user_id = null;
-            $email = $user;
-        }
-
-        $ac = new self($user_id, $email);
+        $ac = new self($user);
         $cookie = $ac->generateCookie($permanent);
         Auth::setCookie(APP_COOKIE, $cookie, $permanent ? APP_COOKIE_EXPIRE : null);
         $_COOKIE[APP_COOKIE] = $cookie;
