@@ -51,7 +51,7 @@ $iss_prj_id = Issue::getProjectID($issue_id);
 $auto_switched_from = false;
 if ((!empty($iss_prj_id)) && ($iss_prj_id != $prj_id) && (in_array($iss_prj_id, $associated_projects))) {
     $cookie = AuthCookie::getProjectCookie();
-    Auth::setCurrentProject($iss_prj_id, $cookie['remember']);
+    AuthCookie::setProjectCookie($iss_prj_id, $cookie['remember']);
     $auto_switched_from = $prj_id;
     $prj_id = $iss_prj_id;
 }

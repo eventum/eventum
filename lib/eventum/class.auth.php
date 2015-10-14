@@ -111,7 +111,7 @@ class Auth
                     $prj_id = reset(array_keys(Project::getAssocList($anon_usr_id)));
                     AuthCookie::setDelegateCookies($anon_usr_id, $prj_id);
                     AuthCookie::setAuthCookie(APP_ANON_USER, false);
-                    self::setCurrentProject($prj_id, true);
+                    AuthCookie::setProjectCookie($prj_id, true);
                     Session::init($anon_usr_id);
                 } else {
                     // check for valid HTTP_BASIC params
@@ -121,7 +121,7 @@ class Auth
                             $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
                             AuthCookie::setDelegateCookies($usr_id, $prj_id);
                             AuthCookie::setAuthCookie(APP_ANON_USER);
-                            self::setCurrentProject($prj_id, true);
+                            AuthCookie::setProjectCookie($prj_id, true);
                         } else {
                             header('WWW-Authenticate: Basic realm="Eventum"');
                             header('HTTP/1.0 401 Unauthorized');
@@ -173,7 +173,7 @@ class Auth
 
             // auto switch project
             if (isset($_GET['switch_prj_id'])) {
-                self::setCurrentProject($_GET['switch_prj_id'], false);
+                AuthCookie::setProjectCookie($_GET['switch_prj_id']);
                 self::redirect($_SERVER['PHP_SELF'] . '?' . str_replace('switch_prj_id=' . $_GET['switch_prj_id'], '', $_SERVER['QUERY_STRING']));
             }
 
@@ -181,7 +181,7 @@ class Auth
             AuthCookie::setAuthCookie($cookie['email'], $cookie['permanent']);
             // renew the project cookie as well
             $prj_cookie = AuthCookie::getProjectCookie();
-            self::setCurrentProject($prj_id, $prj_cookie['remember']);
+            AuthCookie::setProjectCookie($prj_id, $prj_cookie['remember']);
         } catch (AuthException $e) {
             $tpl = new Template_Helper();
             $tpl->setTemplate('authentication_error.tpl.html');
@@ -504,24 +504,6 @@ class Auth
         $crm = CRM::getInstance(self::getCurrentProject());
 
         return $crm->getContact(User::getCustomerContactID(self::getUserID()));
-    }
-
-    /**
-     * Sets the current selected project for the user session.
-     *
-     * @param   integer $prj_id The project ID
-     * @param   integer $remember Whether to automatically remember the setting or not
-     * @return  void
-     */
-    public static function setCurrentProject($prj_id, $remember)
-    {
-        $cookie = array(
-            'prj_id'   => $prj_id,
-            'remember' => $remember,
-        );
-        $cookie = base64_encode(serialize($cookie));
-        self::setCookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE);
-        $_COOKIE[APP_PROJECT_COOKIE] = $cookie;
     }
 
     /**

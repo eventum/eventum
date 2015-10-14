@@ -51,7 +51,7 @@ if ($issue_prj_id > 0 && $issue_prj_id != $prj_id) {
     $assigned_projects = Project::getAssocList($usr_id);
     if (isset($assigned_projects[$issue_prj_id])) {
         $cookie = AuthCookie::getProjectCookie();
-        Auth::setCurrentProject($issue_prj_id, $cookie['remember']);
+        AuthCookie::setProjectCookie($issue_prj_id, $cookie['remember']);
         $prj_id = $issue_prj_id;
     } else {
         Misc::setMessage(ev_gettext('There was an error creating your issue.'), Misc::MSG_ERROR);

@@ -85,13 +85,14 @@ class AuthCookie
      * Get cookie used to save project id
      *
      * @param int $prj_id
+     * @param bool $remember
      * @return string
      */
-    public static function generateProjectCookie($prj_id)
+    public static function generateProjectCookie($prj_id, $remember = false)
     {
         $cookie = array(
             'prj_id' => $prj_id,
-            'remember' => false,
+            'remember' => $remember,
         );
 
         return base64_encode(serialize($cookie));
@@ -209,6 +210,20 @@ class AuthCookie
         $ac = new AuthCookie(null, $email);
         $cookie = $ac->generateCookie();
         Auth::setCookie(APP_COOKIE, $cookie, $permanent ? APP_COOKIE_EXPIRE : 0);
+    }
+
+    /**
+     * Sets the current selected project for the user session.
+     *
+     * @param int $prj_id The project ID
+     * @param bool $remember Whether to automatically remember the setting or not
+     */
+    public static function setProjectCookie($prj_id, $remember = false)
+    {
+        $cookie = self::generateProjectCookie($prj_id, $remember);
+
+        Auth::setCookie(APP_PROJECT_COOKIE, $cookie, APP_PROJECT_COOKIE_EXPIRE);
+        $_COOKIE[APP_PROJECT_COOKIE] = $cookie;
     }
 
     /**

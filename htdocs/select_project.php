@@ -62,7 +62,7 @@ if (@$_GET['err'] == '') {
     $assigned_projects = Project::getAssocList(Auth::getUserID());
     if (count($assigned_projects) == 1) {
         list($prj_id) = each($assigned_projects);
-        Auth::setCurrentProject($prj_id, 0);
+        AuthCookie::setProjectCookie($prj_id);
         checkCustomerAuthentication($prj_id);
 
         if (!empty($_GET['url'])) {
@@ -81,7 +81,7 @@ if (@$_GET['err'] == '') {
             $prj_id = $matches[1];
         }
         if (!empty($assigned_projects[$prj_id])) {
-            Auth::setCurrentProject($prj_id, 0);
+            AuthCookie::setProjectCookie($prj_id);
             checkCustomerAuthentication($prj_id);
             Auth::redirect($_GET['url']);
         }
@@ -107,7 +107,7 @@ if ($select_prj) {
         if (empty($_POST['remember'])) {
             $_POST['remember'] = 0;
         }
-        Auth::setCurrentProject($prj_id, $_POST['remember']);
+        AuthCookie::setProjectCookie($prj_id, $_POST['remember']);
         checkCustomerAuthentication($prj_id);
 
         if (!empty($_POST['url'])) {

@@ -38,7 +38,7 @@ $url = $_SERVER['HTTP_REFERER'];
 
 // get the 'remember' setting of the project cookie
 $cookie = AuthCookie::getProjectCookie();
-Auth::setCurrentProject($prj_id, $cookie['remember']);
+AuthCookie::setProjectCookie($prj_id, $cookie['remember']);
 Misc::setMessage(ev_gettext('The project has been switched'), Misc::MSG_INFO);
 
 // if url is 'view.php', use 'list.php',
