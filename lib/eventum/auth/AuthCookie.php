@@ -158,12 +158,8 @@ class AuthCookie
      */
     public static function hasAuthCookie()
     {
-        if (empty($_COOKIE[APP_COOKIE])) {
-            return false;
-        }
-        $cookie = unserialize(base64_decode($_COOKIE[APP_COOKIE]));
-
-        if (empty($cookie['email']) || empty($cookie['hash'])) {
+        $cookie = self::getDecodedCookie(APP_COOKIE);
+        if (!$cookie || empty($cookie['email']) || empty($cookie['hash'])) {
             return false;
         }
 
@@ -186,7 +182,6 @@ class AuthCookie
         // check for any cookie being present
         return !empty($_COOKIE);
     }
-
 
     /**
      * Method used to set auth cookie in user's browser.
