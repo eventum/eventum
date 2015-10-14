@@ -4,6 +4,7 @@ Eventum Issue Tracking System
 2015-??-??, Version 3.0.4
 -------------------------
 - Fix few Static & Deprecated calls (Craig Pinfold, #72)
+- Use randomlib for private key generation, add UI to regenerate it (Elan Ruusamäe, #73)
 
 2015-10-13, Version 3.0.3
 -------------------------
