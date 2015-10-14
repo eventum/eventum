@@ -203,7 +203,7 @@ class AuthCookie
      */
     private static function getDecodedCookie($cookie_name)
     {
-        if (!isset($_COOKIE[$cookie_name])) {
+        if (empty($_COOKIE[$cookie_name])) {
             return null;
         }
         $data = base64_decode($_COOKIE[$cookie_name], true);
