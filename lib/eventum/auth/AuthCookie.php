@@ -34,14 +34,14 @@ class AuthCookie
     private $email;
 
     /**
-     * @param int $usr_id
+     * @param int $usr_id optional user id
+     * @param string $email optional user email
      */
     public function __construct($usr_id = null, $email = null)
     {
         $this->usr_id = $usr_id;
         $this->email = $email;
     }
-
 
     /**
      * Get email. Retrieve by user id if neccessary.
