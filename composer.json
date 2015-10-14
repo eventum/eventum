@@ -84,12 +84,12 @@
 		"components/jqueryui": "*",
 		"enyo/dropzone": "~4.0.1",
 		"jackmoore/autosize":"*",
+		"jasig/phpcas":"~1.3.3",
 		"malsup/form" :"*",
 		"roave/security-advisories": "dev-master",
 		"symfony/var-dumper": "~2.7.3"
 	},
 	"suggest": {
-		"ext-ldap": "Adds support for LDAP auth backend",
-		"jasig/phpcas": "1.3.x-dev"
+		"ext-ldap": "Adds support for LDAP auth backend"
 	}
 }
