@@ -222,23 +222,6 @@ class AuthCookie
     }
 
     /**
-     * Setups $_COOKIE entries so processes not run from a browser can access current user and project
-     *
-     * @param int|string $user User Id or User email.
-     * @param int $prj_id The ID of the project.
-     */
-    public static function setDelegateCookies($user = null, $prj_id = null)
-    {
-        if ($user) {
-            self::setAuthCookie($user);
-        }
-
-        if ($prj_id) {
-            self::setProjectCookie($prj_id);
-        }
-    }
-
-    /**
      * Generate hash based on time and email
      *
      * @param int $time

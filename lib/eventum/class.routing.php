@@ -135,7 +135,7 @@ class Routing
             $full_message = preg_replace("/^(reply-to:).*\n/im", '', $full_message, 1);
         }
 
-        AuthCookie::setDelegateCookies(APP_SYSTEM_USER_ID);
+        AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
 
         $structure = Mime_Helper::decode($full_message, true, true);
 
@@ -184,7 +184,8 @@ class Routing
         }
 
         $prj_id = Issue::getProjectID($issue_id);
-        AuthCookie::setDelegateCookies(APP_SYSTEM_USER_ID, $prj_id);
+        AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
+        AuthCookie::setProjectCookie($prj_id);
 
         if (Mime_Helper::hasAttachments($structure)) {
             $has_attachments = 1;
@@ -357,7 +358,8 @@ class Routing
         } else {
             $unknown_user = false;
         }
-        AuthCookie::setDelegateCookies($sender_usr_id, $prj_id);
+        AuthCookie::setAuthCookie($sender_usr_id);
+        AuthCookie::setProjectCookie($prj_id);
 
         // parse the Cc: list, if any, and add these internal users to the issue notification list
         $addresses = array();
@@ -482,7 +484,8 @@ class Routing
             }
         }
 
-        AuthCookie::setDelegateCookies(User::getUserIDByEmail($sender_email), $prj_id);
+        AuthCookie::setAuthCookie(User::getUserIDByEmail($sender_email));
+        AuthCookie::setProjectCookie($prj_id);
 
         $body = $structure->body;
 

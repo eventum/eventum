@@ -264,7 +264,7 @@ class XmlRpcServer
                     );
                 }
 
-                AuthCookie::setDelegateCookies($email);
+                AuthCookie::setAuthCookie($email);
             }
 
             if ($pdesc) {

@@ -109,7 +109,6 @@ class Auth
                 if (APP_ANON_USER) {
                     $anon_usr_id = User::getUserIDByEmail(APP_ANON_USER);
                     $prj_id = reset(array_keys(Project::getAssocList($anon_usr_id)));
-                    AuthCookie::setDelegateCookies($anon_usr_id, $prj_id);
                     AuthCookie::setAuthCookie(APP_ANON_USER, false);
                     AuthCookie::setProjectCookie($prj_id, true);
                     Session::init($anon_usr_id);
@@ -119,7 +118,6 @@ class Auth
                         if (Auth::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
                             $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER'], true);
                             $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
-                            AuthCookie::setDelegateCookies($usr_id, $prj_id);
                             AuthCookie::setAuthCookie(APP_ANON_USER);
                             AuthCookie::setProjectCookie($prj_id, true);
                         } else {
