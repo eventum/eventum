@@ -1,0 +1,32 @@
+{extends "manage/manage.tpl.html"}
+
+{block "manage_content"}
+    <form id="private_key_form" method="post">
+      <input type="hidden" name="cat" value="update">
+      <table class="bordered">
+        <tr class="title">
+          <th colspan="2">
+            {t}Private Key{/t}
+          </th>
+        </tr>
+
+        <tr>
+          <td>
+            <p>
+              {t}This page allows you to regenerate Eventum private key.{/t}
+            </p>
+
+            <p>
+              {t}Regenerating Private Key will invalidate all logged in user sessions.{/t}
+            </p>
+          </td>
+        </tr>
+
+        <tr class="buttons">
+          <td colspan="2">
+            <input class="button" type="submit" value="{t}Regenerate Private Key{/t}">
+          </td>
+        </tr>
+      </table>
+    </form>
+{/block}

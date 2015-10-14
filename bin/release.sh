@@ -147,19 +147,23 @@ clean_scripts() {
 clean_vendor() {
 	rm vendor/*/*/.gitattributes
 	rm vendor/*/*/.gitignore
-	rm vendor/*/*/LICENSE*
+	rm vendor/*/*/.travis.yml
 	rm vendor/*/*/COPYING
 	rm vendor/*/*/ChangeLog*
+	rm vendor/*/*/LICENSE*
 	rm vendor/*/*/README*
-	rm vendor/*/*/.travis.yml
-
+	rm vendor/*/*/composer.lock
+	rm vendor/*/*/phpunit.xml*
+	rm -r vendor/*/*/tests
+	rm -r vendor/*/*/test
+	rm -r vendor/*/*/doc
+	rm -r vendor/*/*/docs
+	rm -r vendor/*/*/examples
 	rm -r vendor/bin
 
-	# php-gettext
-	rm -r vendor/php-gettext/php-gettext/{tests,examples}
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
-
 	rm vendor/smarty-gettext/smarty-gettext/tsmarty2c.1
+	rm vendor/ircmaxell/security-lib/lib/SecurityLib/composer.json
 
 	# smarty: use -f, as dist and src packages differ
 	# smarty src
@@ -171,10 +175,6 @@ clean_vendor() {
 
 	# pear
 	rm vendor/pear*/*/package.xml
-	rm -r vendor/pear*/*/tests
-	rm -r vendor/pear*/*/doc
-	rm -r vendor/pear*/*/docs
-	rm -r vendor/pear*/*/examples
 	rm -r vendor/pear-pear.php.net/Math_Stats/{data,contrib}
 	rm vendor/pear-pear.php.net/XML_RPC/XML/RPC/Dump.php
 	rm vendor/pear/pear-core-minimal/src/OS/Guess.php

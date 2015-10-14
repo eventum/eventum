@@ -31,9 +31,6 @@
 
 /**
  * Class to handle authentication issues.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 class Auth
 {
@@ -50,6 +47,24 @@ class Auth
         }
 
         return $private_key;
+    }
+
+    /**
+     * Method used to regenerate private key.
+     *
+     * IMPORTANT: regenerating private key will invalidate all user sessions.
+     */
+    public static function generatePrivateKey()
+    {
+        $path = APP_CONFIG_PATH . '/private_key.php';
+        $private_key = md5(Misc::generateRandom(32));
+
+        $contents = '<' . "?php\n\$private_key = " . var_export($private_key, 1) . ";\n";
+
+        $res = file_put_contents($path, $contents);
+        if ($res === false) {
+            throw new RuntimeException("Can't write {$path}", -2);
+        }
     }
 
     /**

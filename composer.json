@@ -51,6 +51,7 @@
 		"ext-session": "*",
 		"ext-spl": "*",
 		"fonts/liberation":"*",
+		"ircmaxell/random-lib": "~1.1.0",
 		"pear-pear.php.net/mail_mimedecode": "*",
 		"pear-pear.php.net/math_stats": "*",
 		"pear-pear.php.net/net_ldap2": "*",
