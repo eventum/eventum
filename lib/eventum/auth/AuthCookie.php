@@ -192,7 +192,8 @@ class AuthCookie
      */
     public static function hasCookieSupport()
     {
-        return in_array(APP_COOKIE, array_keys($_COOKIE));
+        // check for any cookie being present
+        return !empty($_COOKIE);
     }
 
 
