@@ -151,13 +151,18 @@ class AuthCookie
     }
 
     /**
-     * Method used to check whether a cookie is valid or not.
+     * Method to check if the user has a valid auth cookie.
+     * The cookie contents is validated for hash matching and user id from database.
      *
-     * @param array $cookie The unserialized contents of the cookie
      * @return boolean
      */
-    private static function isValidCookie($cookie)
+    public static function hasAuthCookie()
     {
+        if (empty($_COOKIE[APP_COOKIE])) {
+            return false;
+        }
+        $cookie = unserialize(base64_decode($_COOKIE[APP_COOKIE]));
+
         if (empty($cookie['email']) || empty($cookie['hash'])) {
             return false;
         }
@@ -169,21 +174,6 @@ class AuthCookie
 
         $usr_id = User::getUserIDByEmail($cookie['email']);
         return !!$usr_id;
-    }
-
-    /**
-     * Method to check if the user has a valid auth cookie.
-     *
-     * @return boolean
-     */
-    public static function hasAuthCookie()
-    {
-        if (empty($_COOKIE[APP_COOKIE])) {
-            return false;
-        }
-        $cookie = unserialize(base64_decode($_COOKIE[APP_COOKIE]));
-
-        return self::isValidCookie($cookie);
     }
 
     /**
