@@ -1,43 +1,47 @@
 
 <script type="text/javascript">
 <!--
-function deleteNote(note_id)
+function deleteNote(el)
 {
     if (!confirm('{t escape=js}This action will permanently delete the specified note.{/t}')) {
         return false;
     }
 
     var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=delete_note&id=' + note_id, '_popup_' + note_id, features);
+    var popupWin = window.open(el.getAttribute('href'), null, features);
     popupWin.focus();
+    return false;
 }
-function convertNote(note_id)
+function convertNote(el)
 {
     if (!confirm('{t escape=js}This note will be deleted & converted to an email, one either sent immediately or saved as a draft.{/t}')) {
         return false;
     }
 
     var features = 'width=420,height=180,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('convert_note.php?id=' + note_id, '_convertNote_'+note_id, features);
+    var popupWin = window.open(el.getAttribute('href'), null, features);
     popupWin.focus();
+    return false;
 }
-function viewNote(note_id)
+function viewNote(el)
 {
     var features = 'width=560,height=500,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var noteWin = window.open('view_note.php?id=' + note_id, '_note_' + note_id, features);
+    var noteWin = window.open(el.getAttribute('href'), null, features);
     noteWin.focus();
+    return false;
 }
 function postInternalNote(issue_id)
 {
     var features = 'width=600,height=700,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var noteWin = window.open('post_note.php?issue_id=' + issue_id, '_postNote_' + issue_id, features);
+    var noteWin = window.open('post_note.php?issue_id=' + issue_id, null, features);
     noteWin.focus();
 }
-function replyNote(note_id, issue_id)
+function replyNote(el)
 {
     var features = 'width=600,height=700,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var noteWin = window.open('post_note.php?cat=reply&id=' + note_id + '&issue_id=' + issue_id, '_postNote_'+ issue_id, features);
+    var noteWin = window.open(el.getAttribute('href'), null, features);
     noteWin.focus();
+    return false;
 }
 //-->
 </script>
@@ -67,19 +71,19 @@ function replyNote(note_id, issue_id)
             <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="note" list_id=$notes[i].not_id}</td>
             <td align="center">{$smarty.section.i.iteration}</td>
             <td align="center">
-              <a title="{t}reply to this note{/t}" href="javascript:void(null);" onClick="replyNote({$notes[i].not_id}, {$smarty.get.id|intval});"><img src="{$core.rel_url}images/icons/reply.gif" border="0"></a>
+              <a title="{t}reply to this note{/t}" href="post_note.php?cat=reply&id={$notes[i].not_id}&issue_id={$smarty.get.id|intval}" onClick="return replyNote(this);"><img src="{$core.rel_url}images/icons/reply.gif" border="0"></a>
             </td>
             <td>{$notes[i].not_created_date}</td>
             <td>
               {$notes[i].usr_full_name|escape:"html"}
-              {if $core.user.usr_id == $notes[i].not_usr_id OR $core.current_role >= $core.roles.manager}[ <a href="javascript:void(null);" onClick="deleteNote({$notes[i].not_id});">{t}delete{/t}</a> ]{/if}
+              {if $core.user.usr_id == $notes[i].not_usr_id OR $core.current_role >= $core.roles.manager}[ <a href="popup.php?cat=delete_note&id={$notes[i].not_id}" onClick="return deleteNote(this)">{t}delete{/t}</a> ]{/if}
             </td>
             <td>
-              <a title="{t}view note details{/t}" href="javascript:void(null);" onClick="viewNote({$notes[i].not_id});">{$notes[i].not_title|default:"<Empty Title>"|escape:"html"}</a>
+              <a title="{t}view note details{/t}" href="view_note.php?id={$notes[i].not_id}" onClick="return viewNote(this)">{$notes[i].not_title|default:"<Empty Title>"|escape:"html"}</a>
               {if $notes[i].not_has_attachment}
-              <a title="{t}view note details{/t}" href="javascript:void(null);" onClick="viewNote({$notes[i].not_id});"><img src="{$core.rel_url}images/attachment.gif" border="0"></a>
+              <a title="{t}view note details{/t}" href="view_note.php?id={$notes[i].not_id}" onClick="return viewNote(this)"><img src="{$core.rel_url}images/attachment.gif" border="0"></a>
               {/if}
-              {if $notes[i].has_blocked_message} (<a href="javascript:void(null);" onClick="convertNote({$notes[i].not_id});">{t}convert note{/t}</a>){/if}
+              {if $notes[i].has_blocked_message} (<a href="convert_note.php?id={$notes[i].not_id}" onClick="return convertNote(this)">{t}convert note{/t}</a>){/if}
             </td>
           </tr>
           {include file="expandable_cell/body.tpl.html" ec_id="note" list_id=$notes[i].not_id colspan="6" class=$row_class}
