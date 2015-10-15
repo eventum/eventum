@@ -948,39 +948,6 @@ class User
     }
 
     /**
-     * Method used to update the account password for a specific user.
-     *
-     * @param   integer $usr_id The user ID
-     * @param   boolean $send_notification Whether to send the notification email or not
-     * @return  integer 1 if the update worked, -1 otherwise
-     */
-    public static function updatePassword($usr_id, $send_notification = false)
-    {
-        if ($_POST['new_password'] != $_POST['confirm_password']) {
-            return -2;
-        }
-        $stmt = 'UPDATE
-                    {{%user}}
-                 SET
-                    usr_password=?
-                 WHERE
-                    usr_id=?';
-        try {
-            DB_Helper::getInstance()->query(
-                $stmt, array(Auth::hashPassword($_POST['new_password']), $usr_id)
-            );
-        } catch (DbException $e) {
-            return -1;
-        }
-
-        if ($send_notification) {
-            Notification::notifyUserPassword($usr_id, $_POST['new_password']);
-        }
-
-        return 1;
-    }
-
-    /**
      * Method used to update the account full name for a specific user.
      *
      * @param   integer $usr_id The user ID
