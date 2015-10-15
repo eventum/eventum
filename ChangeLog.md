@@ -299,6 +299,7 @@ Eventum Issue Tracking System
 - Fixed bug with displaying help (Bryan)
 - Fixed bug with dynamic custom fields (Bryan)
 - Fixed formatting bug in email accounts admin page (Bryan)
+- Fixed bug with fix-charset script (Bryan Alsdorf, Bug #42294)
 
 2009-01-14, Version 2.2
 -----------------------
