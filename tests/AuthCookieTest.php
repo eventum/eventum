@@ -2,6 +2,13 @@
 
 class AuthCookieTest extends PHPUnit_Framework_TestCase
 {
+    public function setUp()
+    {
+        if (getenv('TRAVIS')) {
+            $this->markTestSkipped("Missing Travis setup");
+        }
+    }
+
     public function testAuthCookie()
     {
         $usr_id = APP_ADMIN_USER_ID;
