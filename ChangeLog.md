@@ -5,6 +5,7 @@ Eventum Issue Tracking System
 -------------------------
 - Fix few Static & Deprecated calls (Craig Pinfold, #72)
 - Use randomlib for private key generation, add UI to regenerate it (Elan Ruusamäe, #73)
+- Fix misplaced {if} in preferences template. (Robbert-Jan Roos, LP#1506279)
 
 2015-10-13, Version 3.0.3
 -------------------------
