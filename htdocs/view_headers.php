@@ -26,6 +26,7 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once __DIR__ . '/../init.php';
@@ -35,7 +36,8 @@ $tpl->setTemplate('view_headers.tpl.html');
 
 Auth::checkAuthentication('index.php?err=5', true);
 
-if (@$_GET['cat'] == 'note') {
+$cat = isset($_GET['cat']) ? (string)$_GET['cat'] : null;
+if ($cat == 'note') {
     $headers = Note::getBlockedMessage($_GET['id']);
 } else {
     $headers = Support::getFullEmail($_GET['id']);
