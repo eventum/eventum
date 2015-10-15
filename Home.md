@@ -24,7 +24,7 @@ _Under Construction_
 * System Administration
  * Installation
     * [[System Requirements|Prerequisites]]
-    * DOWNLOAD
+    * Download the latest release ___[[here|https://github.com/eventum/eventum/releases/latest]]___.
     * [[Doing a Fresh Install|System-Admin:-Doing-a-fresh-install]]
       * [[Troubleshooting: Displaying PHP Errors|System-Admin:-Displaying-PHP-errors]]
       * [[Installation Notes|System-Admin:-Installation-Notes]]
