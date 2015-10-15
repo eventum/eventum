@@ -36,17 +36,17 @@ $tpl->setTemplate('select_project.tpl.html');
 session_start();
 
 // check if cookies are enabled, first of all
-if (!Auth::hasCookieSupport(APP_COOKIE)) {
+if (!AuthCookie::hasCookieSupport()) {
     Auth::redirect('index.php?err=11');
 }
 
-if (!Auth::hasValidCookie(APP_COOKIE)) {
+if (!AuthCookie::hasAuthCookie()) {
     Auth::redirect('index.php?err=5');
 }
 
 if (@$_GET['err'] == '') {
-    $cookie = Auth::getCookieInfo(APP_PROJECT_COOKIE);
-    if ($cookie['remember'] && $cookie['prj_id'] != false) {
+    $cookie = AuthCookie::getProjectCookie();
+    if ($cookie['remember'] && $cookie['prj_id']) {
         if (!empty($_GET['url'])) {
             Auth::redirect($_GET['url']);
         } else {
@@ -62,7 +62,7 @@ if (@$_GET['err'] == '') {
     $assigned_projects = Project::getAssocList(Auth::getUserID());
     if (count($assigned_projects) == 1) {
         list($prj_id) = each($assigned_projects);
-        Auth::setCurrentProject($prj_id, 0);
+        AuthCookie::setProjectCookie($prj_id);
         checkCustomerAuthentication($prj_id);
 
         if (!empty($_GET['url'])) {
@@ -81,7 +81,7 @@ if (@$_GET['err'] == '') {
             $prj_id = $matches[1];
         }
         if (!empty($assigned_projects[$prj_id])) {
-            Auth::setCurrentProject($prj_id, 0);
+            AuthCookie::setProjectCookie($prj_id);
             checkCustomerAuthentication($prj_id);
             Auth::redirect($_GET['url']);
         }
@@ -90,7 +90,7 @@ if (@$_GET['err'] == '') {
 }
 
 if (@$_GET['err'] != '') {
-    Auth::removeCookie(APP_PROJECT_COOKIE);
+    AuthCookie::removeProjectCookie();
     $tpl->assign('err', $_GET['err']);
 }
 
@@ -107,7 +107,7 @@ if ($select_prj) {
         if (empty($_POST['remember'])) {
             $_POST['remember'] = 0;
         }
-        Auth::setCurrentProject($prj_id, $_POST['remember']);
+        AuthCookie::setProjectCookie($prj_id, $_POST['remember']);
         checkCustomerAuthentication($prj_id);
 
         if (!empty($_POST['url'])) {

@@ -33,7 +33,7 @@ require_once __DIR__ . '/../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('custom_fields_form.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 $prj_id = Auth::getCurrentProject();
 $issue_id = @$_POST['issue_id'] ? $_POST['issue_id'] : $_GET['issue_id'];

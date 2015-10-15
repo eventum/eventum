@@ -32,7 +32,7 @@
 require_once __DIR__ . '/../../init.php';
 
 // check login
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 $field_name = !empty($_POST['field_name']) ? $_POST['field_name'] : null;
 $issue_id = !empty($_POST['issue_id']) ? (int) $_POST['issue_id'] : null;

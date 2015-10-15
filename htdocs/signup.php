@@ -34,7 +34,7 @@ $tpl = new Template_Helper();
 $tpl->setTemplate('signup.tpl.html');
 
 // log anonymous users out so they can use the signup form
-if (Auth::hasValidCookie(APP_COOKIE) && Auth::isAnonUser()) {
+if (AuthCookie::hasAuthCookie() && Auth::isAnonUser()) {
     Auth::logout();
 }
 

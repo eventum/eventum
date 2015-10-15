@@ -30,7 +30,7 @@
 
 require_once __DIR__ . '/../init.php';
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 if (stristr(APP_BASE_URL, 'https:')) {
     // fix for IE 5.5/6 with SSL sites

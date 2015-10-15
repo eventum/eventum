@@ -33,7 +33,7 @@ require_once __DIR__ . '/../../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('manage/email_alias.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE, null, true);
+Auth::checkAuthentication(null, true);
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::ROLE_MANAGER) {

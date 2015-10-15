@@ -33,7 +33,7 @@ require_once __DIR__ . '/../../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('manage/reminder_actions.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 $rem_id = @$_POST['rem_id'] ? $_POST['rem_id'] : $_GET['rem_id'];
 

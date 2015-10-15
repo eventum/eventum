@@ -41,30 +41,6 @@ class RemoteApiException extends RuntimeException
 class RemoteApi
 {
     /**
-     * Fakes the creation of the login cookie
-     *
-     * @param string $email
-     * @param bool $project
-     */
-    public static function createFakeCookie($email, $project = false)
-    {
-        if ($email) {
-            $cookie = array(
-                'email' => $email,
-            );
-            $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
-        }
-
-        if ($project) {
-            $cookie = array(
-                'prj_id'   => $project,
-                'remember' => false,
-            );
-            $_COOKIE[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
-        }
-    }
-
-    /**
      * @param int $prj_id
      * @return struct
      * @access protected
@@ -95,7 +71,7 @@ class RemoteApi
      */
     public function getSimpleIssueDetails($issue_id)
     {
-        self::createFakeCookie(null, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         $details = Issue::getDetails($issue_id);
         if (empty($details)) {
@@ -121,7 +97,7 @@ class RemoteApi
      */
     public function getOpenIssues($prj_id, $show_all_issues, $status)
     {
-        self::createFakeCookie(false, $prj_id);
+        AuthCookie::setProjectCookie($prj_id);
         $status_id = Status::getStatusID($status);
         $usr_id = Auth::getUserID();
 
@@ -229,7 +205,7 @@ class RemoteApi
      */
     public function getIssueDetails($issue_id)
     {
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         $res = Issue::getDetails($issue_id);
 
@@ -322,7 +298,7 @@ class RemoteApi
      */
     public function assignIssue($issue_id, $project_id, $developer)
     {
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         $usr_id = Auth::getUserID();
 
@@ -355,7 +331,7 @@ class RemoteApi
      */
     public function takeIssue($issue_id, $project_id)
     {
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         // check if issue currently is un-assigned
         $current_assignees = Issue::getAssignedUsers($issue_id);
@@ -431,7 +407,7 @@ class RemoteApi
      */
     public function getFileList($issue_id)
     {
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         $res = Attachment::getList($issue_id);
         if (empty($res)) {
@@ -543,7 +519,7 @@ class RemoteApi
         $usr_id = Auth::getUserID();
         $status_id = Status::getStatusID($new_status);
 
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         $res = Issue::close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $note);
         if ($res == -1) {
@@ -670,7 +646,7 @@ class RemoteApi
      */
     public function getNoteListing($issue_id)
     {
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
         $notes = Note::getListing($issue_id);
 
         return $notes;
@@ -703,7 +679,7 @@ class RemoteApi
      */
     public function convertNote($issue_id, $note_id, $target, $authorize_sender)
     {
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         $res = Note::convertNote($note_id, $target, $authorize_sender);
         if (empty($res)) {
@@ -770,7 +746,8 @@ class RemoteApi
 
         // we have to set a project so the template class works, even though the weekly report doesn't actually need it
         $projects = Project::getAssocList(Auth::getUserID());
-        self::createFakeCookie(false, current(array_keys($projects)));
+        $prj_id = current(array_keys($projects));
+        AuthCookie::setProjectCookie($prj_id);
         $prj_id = Auth::getCurrentProject();
 
         // figure out the correct week
@@ -888,7 +865,7 @@ class RemoteApi
     public function sendDraft($issue_id, $draft_id)
     {
         $draft = Draft::getDraftBySequence($issue_id, $draft_id);
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         if (count($draft) < 1 || !is_array($draft)) {
             throw new RemoteApiException('Draft #' . $draft_id . " does not exist for issue #$issue_id");
@@ -911,7 +888,7 @@ class RemoteApi
     public function redeemIssue($issue_id, $types)
     {
         $prj_id = Issue::getProjectID($issue_id);
-        self::createFakeCookie(false, $prj_id);
+        AuthCookie::setProjectCookie($prj_id);
         $customer_id = Issue::getCustomerID($issue_id);
 
         if (!CRM::hasCustomerIntegration($prj_id)) {
@@ -960,7 +937,7 @@ class RemoteApi
     public function unredeemIssue($issue_id, $types)
     {
         $prj_id = Issue::getProjectID($issue_id);
-        self::createFakeCookie(false, $prj_id);
+        AuthCookie::setProjectCookie($prj_id);
 
         // FIXME: $customer_id unused
         $customer_id = Issue::getCustomerID($issue_id);
@@ -1007,7 +984,7 @@ class RemoteApi
     public function getIncidentTypes($issue_id, $redeemed_only)
     {
         $prj_id = Issue::getProjectID($issue_id);
-        self::createFakeCookie(false, $prj_id);
+        AuthCookie::setProjectCookie($prj_id);
         // FIXME: $customer_id unused
         $customer_id = Issue::getCustomerID($issue_id);
 

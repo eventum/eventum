@@ -26,12 +26,11 @@
 // +----------------------------------------------------------------------+
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
 
 require_once __DIR__ . '/../init.php';
 
-if (!Auth::hasValidCookie(APP_COOKIE)) {
-    Header('HTTP/1.0 403 Forbidden');
+if (!AuthCookie::hasAuthCookie()) {
+    header('HTTP/1.0 403 Forbidden');
     exit(0);
 }
 

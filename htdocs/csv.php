@@ -30,7 +30,7 @@
 
 require_once __DIR__ . '/../init.php';
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 if (!Access::canExportData(Auth::getUserID())) {
     exit;

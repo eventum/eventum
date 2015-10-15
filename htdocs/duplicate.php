@@ -33,7 +33,7 @@ require_once __DIR__ . '/../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('duplicate.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 if (@$_POST['cat'] == 'mark') {
     Misc::mapMessages(Issue::markAsDuplicate($_POST['issue_id']), array(

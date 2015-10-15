@@ -33,7 +33,7 @@ require_once __DIR__ . '/../../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('reports/workload_date_range.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 if (!Access::canAccessReports(Auth::getUserID())) {
     echo 'Invalid role';

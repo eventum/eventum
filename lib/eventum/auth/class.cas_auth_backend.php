@@ -54,12 +54,12 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
 
     public function checkAuthentication()
     {
-        if (phpCAS::isAuthenticated() && !Auth::isValidCookie(Auth::getCookieInfo(APP_COOKIE))) {
+        if (phpCAS::isAuthenticated() && !AuthCookie::hasAuthCookie()) {
             $this->loginCallback();
         }
 
         // force CAS authentication
-        $auth = phpCAS::forceAuthentication();
+        phpCAS::forceAuthentication();
     }
 
     public function logout()
@@ -76,7 +76,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
         $usr_id = User::getUserIDByEmail($attributes['mail'], true);
         $user = User::getDetails($usr_id);
 
-        Auth::createLoginCookie(APP_COOKIE, $user['usr_email'], true);
+        AuthCookie::setAuthCookie($user['usr_email'], true);
     }
 
     public function updateLocalUserFromBackend($remote)
@@ -340,7 +340,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
             'default_role' => array(),
         );
 
-        if (Auth::hasValidCookie(APP_COOKIE)) {
+        if (AuthCookie::hasAuthCookie()) {
             // ensure there is entry for current project
             $prj_id = Auth::getCurrentProject();
 

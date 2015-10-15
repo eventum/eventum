@@ -33,7 +33,7 @@ require_once __DIR__ . '/../../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('get_emails.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE, null, true);
+Auth::checkAuthentication(null, true);
 
 // we need the IMAP extension for this to work
 if (!function_exists('imap_open')) {

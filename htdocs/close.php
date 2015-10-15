@@ -34,7 +34,7 @@ require_once __DIR__ . '/../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('close.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();

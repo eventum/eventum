@@ -36,7 +36,7 @@ $prj_id = Auth::getCurrentProject();
 $tpl = new Template_Helper();
 $tpl->setTemplate('view_email.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
+Auth::checkAuthentication('index.php?err=5', true);
 $issue_id = Support::getIssueFromEmail($_GET['id']);
 
 if (($issue_id != 0 && !Issue::canAccess($issue_id, $usr_id)) ||

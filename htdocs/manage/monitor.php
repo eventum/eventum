@@ -32,7 +32,7 @@ require_once __DIR__ . '/../../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('manage/monitor.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::ROLE_REPORTER) {

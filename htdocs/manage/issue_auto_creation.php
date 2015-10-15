@@ -33,7 +33,7 @@ require_once __DIR__ . '/../../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('manage/issue_auto_creation.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 @$ema_id = $_POST['ema_id'] ? $_POST['ema_id'] : $_GET['ema_id'];
 

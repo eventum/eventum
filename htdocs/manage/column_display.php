@@ -35,7 +35,7 @@ $prj_id = $_REQUEST['prj_id'];
 $tpl = new Template_Helper();
 $tpl->setTemplate('manage/column_display.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::ROLE_MANAGER) {
