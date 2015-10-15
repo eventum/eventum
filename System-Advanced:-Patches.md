@@ -15,3 +15,5 @@ Many of these are _version specific_ and should be **carefully reviewed** before
 | [[Hide Closed Issues on Stats Page|System-Advanced:-Hide-Closed-Issues-on-Stats-(Main)-Page]] | 2.0.1 | Hide Closed Issues in Report |
 | [[Deleting Issues|System-Advanced:-Deleting-Issues]] | 2.1.1 | Permanently Delete Issue |
 | [[Reminder Repetition|System-Advanced:-Patch-Reminder-Repetition]] | 2.2.0 | Increase E-Mail Reminders |
+| [[ Enhanced FAQ I|System-Advanced:-Enhanced-FAQ-part-1]] | Unknown | Enhanced FAQ (Part 1) |
+| [[ Enhanced FAQ II|System-Advanced:-Enhanced-FAQ-part-2]] | Unknown | Enhanced FAQ (Part 2) |
