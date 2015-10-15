@@ -395,7 +395,7 @@ class User
         $usr_id = self::getUserIDByEmail($email);
         // create the new password
         $password = substr(md5(microtime() . uniqid('')), 0, 12);
-        Auth::updatePassword($usr_id, $password, $password, true);
+        Auth::updatePassword($usr_id, $password, true);
     }
 
     public static function getUserIDByExternalID($external_id)
