@@ -63,7 +63,7 @@
 		"pear/db": "*",
 		"pear/mail": "*",
 		"pear/mail_mime": "*",
-		"pear/net_smtp": "*",
+		"pear/net_smtp": "1.6.*",
 		"pear/net_socket": "*",
 		"pear/xml_rpc": "*",
 		"php": ">=5.3.3",
