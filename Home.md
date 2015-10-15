@@ -59,8 +59,6 @@ _Under Construction_
  * [[Custom Field API|System-Advanced:-CustomFieldAPI]]
  * [[Customer API|System-Advanced:-Customer-API]]
  * [[Dynamic Custom Fields|System-Advanced:-DynamicCustomFieldExample]]
- * [[Enhanced FAQ I|System-Advanced:-Enhanced-FAQ-part-1]]
- * [[Enhanced FAQ II|System-Advanced:-Enhanced-FAQ-part-2]]
  * [[Importing Users|System-Advanced:-Import-Users]]
  * [[IRC Bot|System-Advanced:-Using-the-IRC-bot]]
  * [[Link Filters|System-Advanced:-Manage-Link-Filters]]
