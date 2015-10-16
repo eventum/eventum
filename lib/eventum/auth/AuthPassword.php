@@ -34,11 +34,16 @@ class AuthPassword
      * Hash the password
      *
      * @param string $password The password to hash
-     * @return string|false The hashed password, or false on error.
+     * @return string The hashed password, throws on error.
+     * @throws RuntimeException
      */
     public static function hash($password)
     {
-        return password_hash($password, PASSWORD_DEFAULT);
+        $res = password_hash($password, PASSWORD_DEFAULT);
+        if (!$res) {
+            throw new RuntimeException("password hashing failed");
+        }
+        return $res;
     }
 
     /**
