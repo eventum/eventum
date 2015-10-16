@@ -56,14 +56,35 @@ class AuthPassword
         }
 
         // try legacy authentication methods
-        if (base64_encode(pack('H*', md5($password))) == $hash) {
-            return true;
+        // try to do in constant time, i.e always do both checks
+        $md5_64 = base64_encode(pack('H*', md5($password)));
+        $md5 = md5($password);
+
+        $cmp = 0;
+        $cmp |= (int)self::cmp($hash, $md5_64);
+        $cmp |= (int)self::cmp($hash, $md5);
+        return (bool)$cmp;
+    }
+
+    /**
+     * Compare strings using a timing attack resistant approach
+     *
+     * @param string $str1
+     * @param string $str2
+     * @return bool
+     */
+    private static function cmp($str1, $str2)
+    {
+        if (!is_string($str1) || Misc::countBytes($str1) != Misc::countBytes($str2) || Misc::countBytes($str1) <= 13) {
+            return false;
         }
 
-        if (md5($password) == $hash) {
-            return true;
+        $status = 0;
+        $length = Misc::countBytes($str1);
+        for ($i = 0; $i < $length; $i++) {
+            $status |= (ord($str1[$i]) ^ ord($str2[$i]));
         }
 
-        return false;
+        return $status === 0;
     }
 }
