@@ -82,7 +82,7 @@ if ($cat == 'update_account') {
 
 if ($res == 1) {
     Misc::setMessage(ev_gettext('Your information has been updated'));
-} else {
+} elseif ($res !== null) {
     Misc::setMessage(ev_gettext('Sorry, there was an error updating your information'), Misc::MSG_ERROR);
 }
 
