@@ -360,6 +360,11 @@ class Auth
      */
     public static function updatePassword($usr_id, $password, $send_notification = false)
     {
+        // reject setting empty password
+        if ($password == '') {
+            return -1;
+        }
+
         $res = self::getAuthBackend()->updatePassword($usr_id, $password);
         if (!$res) {
             return -1;
