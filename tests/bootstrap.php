@@ -45,6 +45,12 @@ define('APP_DEFAULT_REFRESH_RATE', 0);
 define('APP_DEFAULT_ASSIGNED_EMAILS', true);
 define('APP_DEFAULT_NEW_EMAILS', false);
 define('APP_DEFAULT_COPY_OF_OWN_ACTION', 0);
+define('APP_RELATIVE_URL', '/eventum/');
+define('APP_COOKIE_DOMAIN', null);
+define('APP_COOKIE_EXPIRE', time() + (60 * 60 * 8));
+define('APP_COOKIE_URL', APP_RELATIVE_URL);
+define('APP_PROJECT_COOKIE', 'eventum_project');
+define('APP_PROJECT_COOKIE_EXPIRE', time() + (60 * 60 * 24));
 
 require_once APP_PATH . '/autoload.php';
 

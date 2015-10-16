@@ -2,6 +2,14 @@
 
 class AuthCookieTest extends PHPUnit_Framework_TestCase
 {
+    public static function setupBeforeClass()
+    {
+        if (file_exists(APP_CONFIG_PATH . '/private_key.php')) {
+            return;
+        }
+        Auth::generatePrivateKey();
+    }
+
     public function setUp()
     {
         if (getenv('TRAVIS')) {
