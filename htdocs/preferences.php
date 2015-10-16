@@ -72,8 +72,15 @@ if ($cat == 'update_account') {
 } elseif ($cat == 'update_email') {
     $res = User::updateEmail($usr_id);
 } elseif ($cat == 'update_password') {
-
-    if ($_POST['new_password'] != $_POST['confirm_password']) {
+    // verify current password
+    if (!Auth::isCorrectPassword(Auth::getUserLogin(), $_POST['password'])) {
+        Misc::setMessage(ev_gettext('Incorrect password'), Misc::MSG_ERROR);
+        $res = -3;
+    } elseif ($_POST['new_password'] != $_POST['confirm_password']) {
+        Misc::setMessage(ev_gettext('New passwords mismatch'), Misc::MSG_ERROR);
+        $res = -2;
+    } elseif ($_POST['password'] == $_POST['new_password']) {
+        Misc::setMessage(ev_gettext('Please set different password than current'), Misc::MSG_ERROR);
         $res = -2;
     } else {
         $res = Auth::updatePassword($usr_id, $_POST['new_password']);
