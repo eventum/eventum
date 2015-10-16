@@ -50,19 +50,15 @@ class AuthPassword
      */
     public static function verify($password, $hash)
     {
-        $res = password_verify($password, $hash);
-        if ($res) {
-            return $res;
-        }
-
-        // try legacy authentication methods
-        // try to do in constant time, i.e always do both checks
-        $md5_64 = base64_encode(pack('H*', md5($password)));
-        $md5 = md5($password);
-
+        // verify passwords do in constant time, i.e always do all checks
         $cmp = 0;
-        $cmp |= (int)self::cmp($hash, $md5_64);
-        $cmp |= (int)self::cmp($hash, $md5);
+
+        $cmp |= (int)password_verify($password, $hash);
+
+        // legacy authentication methods
+        $cmp |= (int)self::cmp($hash, base64_encode(pack('H*', md5($password))));
+        $cmp |= (int)self::cmp($hash, md5($password));
+
         return (bool)$cmp;
     }
 
