@@ -325,7 +325,12 @@ class User
 
         $usr_id = DB_Helper::get_last_insert_id();
 
-        Auth::updatePassword($usr_id, $_POST['passwd']);
+        try {
+            User::updatePassword($usr_id, $_POST['passwd']);
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return -1;
+        }
 
         // add the project associations!
         foreach ($projects as $prj_id) {
@@ -389,14 +394,13 @@ class User
      * to the user with the new random password.
      *
      * @param   string $email The email address
-     * @return  void
      */
     public static function confirmNewPassword($email)
     {
         $usr_id = self::getUserIDByEmail($email);
         // create the new password
         $password = substr(md5(microtime() . uniqid('')), 0, 12);
-        Auth::updatePassword($usr_id, $password, true);
+        User::updatePassword($usr_id, $password, true);
     }
 
     public static function getUserIDByExternalID($external_id)
@@ -999,6 +1003,32 @@ class User
         return 1;
     }
 
+    /**
+     * Method to set the user password.
+     * It calls out auth backend, which will store the password hash.
+     *
+     * @param integer $usr_id The user ID
+     * @param string $password Plain text user password
+     * @param boolean $send_notification Whether to send the notification email or not
+     * @throw InvalidArgumentException|BadMethodCallException in case password was not set
+     */
+    public static function updatePassword($usr_id, $password, $send_notification = false)
+    {
+        // reject setting empty password
+        if ($password == '') {
+            throw new InvalidArgumentException("Can't set empty password");
+        }
+
+        $res = Auth::getAuthBackend()->updatePassword($usr_id, $password);
+        if (!$res) {
+            throw new BadMethodCallException("Password set rejected by auth backend");
+        }
+
+        if ($send_notification) {
+            Notification::notifyUserPassword($usr_id, $password);
+        }
+    }
+
     public static function updateFromPost()
     {
         $usr_id = $_POST['id'];
@@ -1064,7 +1094,12 @@ class User
         }
 
         if (!empty($data['password'])) {
-            Auth::updatePassword($usr_id, $data['password']);
+            try {
+                User::updatePassword($usr_id, $data['password']);
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+                return -1;
+            }
         }
 
         if (isset($data['role'])) {
@@ -1186,7 +1221,11 @@ class User
 
         $usr_id = DB_Helper::get_last_insert_id();
 
-        Auth::updatePassword($usr_id, $user['password']);
+        try {
+            User::updatePassword($usr_id, $user['password']);
+        } catch (Exception $e) {
+            return -1;
+        }
 
         // add the project associations!
         $projects = array();

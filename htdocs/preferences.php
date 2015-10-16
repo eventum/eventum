@@ -83,7 +83,13 @@ if ($cat == 'update_account') {
         Misc::setMessage(ev_gettext('Please set different password than current'), Misc::MSG_ERROR);
         $res = -2;
     } else {
-        $res = Auth::updatePassword($usr_id, $_POST['new_password']);
+        try {
+            User::updatePassword($usr_id, $_POST['new_password']);
+            $res = 1;
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            $res = -1;
+        }
     }
 }
 

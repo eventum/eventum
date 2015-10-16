@@ -350,34 +350,6 @@ class Auth
     }
 
     /**
-     * Method to set the user password.
-     * It calls out auth backend, which will store the password hash.
-     *
-     * @param integer $usr_id The user ID
-     * @param string $password Plain text user password
-     * @param boolean $send_notification Whether to send the notification email or not
-     * @return integer 1 if the update worked, -1 otherwise
-     */
-    public static function updatePassword($usr_id, $password, $send_notification = false)
-    {
-        // reject setting empty password
-        if ($password == '') {
-            return -1;
-        }
-
-        $res = self::getAuthBackend()->updatePassword($usr_id, $password);
-        if (!$res) {
-            return -1;
-        }
-
-        if ($send_notification) {
-            Notification::notifyUserPassword($usr_id, $password);
-        }
-
-        return 1;
-    }
-
-    /**
      * Returns the true if the account is currently locked becouse of Back-Off lock
      *
      * @param   string $usr_id The user id to check for
