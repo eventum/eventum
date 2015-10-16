@@ -17,6 +17,28 @@ class PasswordAuthTest extends PHPUnit_Framework_TestCase
         'md5' => '6125582d980e736238e9eb1ab73d6517',
     );
 
+
+    public function testAuthPassword()
+    {
+        // success
+        $res = AuthPassword::verify($this->password, $this->hashes['password_hash']);
+        $this->assertTrue($res);
+        $res = AuthPassword::verify($this->password, $this->hashes['md5-64']);
+        $this->assertTrue($res);
+        $res = AuthPassword::verify($this->password, $this->hashes['md5']);
+        $this->assertTrue($res);
+
+        // failures
+        $password = 'meh';
+        $res = AuthPassword::verify($password, $this->hashes['password_hash']);
+        $this->assertFalse($res);
+        $res = AuthPassword::verify($password, $this->hashes['md5-64']);
+        $this->assertFalse($res);
+        $res = AuthPassword::verify($password, $this->hashes['md5']);
+        $this->assertFalse($res);
+    }
+
+
     public function testPasswordHash()
     {
         $hash = password_hash($this->password, PASSWORD_DEFAULT);

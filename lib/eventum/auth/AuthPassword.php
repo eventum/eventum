@@ -38,16 +38,11 @@ class AuthPassword
      */
     public static function hash($password)
     {
-        if (APP_HASH_TYPE == 'MD5-64') {
-            return base64_encode(pack('H*', md5($password)));
-        } else {
-            // default to md5
-            return md5($password);
-        }
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 
     /**
-     * Verify a password against a hash
+     * Verify a password against a hash using a timing attack resistant approach
      *
      * @param string $hash The hash to verify against
      * @param string $password The password to verify
@@ -55,6 +50,20 @@ class AuthPassword
      */
     public static function verify($password, $hash)
     {
-        return $hash == self::hash($password);
+        $res = password_verify($password, $hash);
+        if ($res) {
+            return $res;
+        }
+
+        // try legacy authentication methods
+        if (base64_encode(pack('H*', md5($password))) == $hash) {
+            return true;
+        }
+
+        if (md5($password) == $hash) {
+            return true;
+        }
+
+        return false;
     }
 }
