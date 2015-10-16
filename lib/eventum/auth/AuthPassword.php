@@ -60,7 +60,7 @@ class AuthPassword
             throw new InvalidArgumentException("password and hash need to be strings");
         }
 
-        // verify passwords do in constant time, i.e always do all checks
+        // verify passwords in constant time, i.e always do all checks
         $cmp = 0;
 
         $cmp |= (int)password_verify($password, $hash);
