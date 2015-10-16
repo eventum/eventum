@@ -38,6 +38,28 @@ class PasswordAuthTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($res);
     }
 
+    /**
+     * @expectedException InvalidArgumentException
+     * @dataProvider AuthPasswordInvalidArgumentData
+     */
+    public function testAuthPasswordInvalidArguments($password, $hash)
+    {
+        AuthPassword::verify($password, $hash);
+    }
+
+    public function AuthPasswordInvalidArgumentData()
+    {
+        return array(
+            array(null, '123'),
+            array('a', null),
+            array('a', 10),
+            array(-1, "10"),
+            array("", array()),
+            array(array(), ""),
+            array("", new stdClass()),
+            array(new stdClass(), ""),
+        );
+    }
 
     public function testPasswordHash()
     {

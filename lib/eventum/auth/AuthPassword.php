@@ -52,9 +52,14 @@ class AuthPassword
      * @param string $hash The hash to verify against
      * @param string $password The password to verify
      * @return boolean If the password matches the hash
+     * @throws InvalidArgumentException in case non-strings were passed as hash or password
      */
     public static function verify($password, $hash)
     {
+        if (!is_string($password) || !is_string($hash)) {
+            throw new InvalidArgumentException("password and hash need to be strings");
+        }
+
         // verify passwords do in constant time, i.e always do all checks
         $cmp = 0;
 
@@ -76,7 +81,7 @@ class AuthPassword
      */
     private static function cmp($str1, $str2)
     {
-        if (!is_string($str1) || Misc::countBytes($str1) != Misc::countBytes($str2) || Misc::countBytes($str1) <= 13) {
+        if (Misc::countBytes($str1) != Misc::countBytes($str2) || Misc::countBytes($str1) <= 13) {
             return false;
         }
 
