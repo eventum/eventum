@@ -44,7 +44,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
     {
         $usr_id = User::getUserIDByEmail($login, true);
         $user = User::getDetails($usr_id);
-        if ($user['usr_password'] == Auth::hashPassword($password)) {
+        if ($user['usr_password'] == self::hashPassword($password)) {
             self::resetFailedLogins($usr_id);
 
             return true;
@@ -70,7 +70,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
                     usr_password=?
                  WHERE
                     usr_id=?';
-        $params = array(Auth::hashPassword($password), $usr_id);
+        $params = array(self::hashPassword($password), $usr_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
@@ -162,6 +162,22 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
         }
 
         return $res == 1;
+    }
+
+    /**
+     * Hashes the password according to APP_HASH_TYPE constant
+     *
+     * @param   string $password The plain text password
+     * @return  string The hashed password
+     */
+    private static function hashPassword($password)
+    {
+        if (APP_HASH_TYPE == 'MD5-64') {
+            return base64_encode(pack('H*', md5($password)));
+        } else {
+            // default to md5
+            return md5($password);
+        }
     }
 
     public function canUserUpdateName($usr_id)

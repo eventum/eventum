@@ -574,22 +574,6 @@ class Auth
     }
 
     /**
-     * Hashes the password according to APP_HASH_TYPE constant
-     *
-     * @param   string $password The plain text password
-     * @return  string The hashed password
-     */
-    public static function hashPassword($password)
-    {
-        if (APP_HASH_TYPE == 'MD5-64') {
-            return base64_encode(pack('H*', md5($password)));
-        } else {
-            // default to md5
-            return md5($password);
-        }
-    }
-
-    /**
      * Returns the user ID for the specified login. This can be the email address, an alias,
      * the external login id or any other info the backend can handle.
      *
