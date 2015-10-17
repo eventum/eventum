@@ -68,11 +68,13 @@ Solution: In 'Manage Projects' check to see if you have selected a 'Customer Int
 
 ### Problem: Eventum is using UTC as the default time zone
 
-Solution: Log in and click "Preferences". On the Account Preferences frame, pick your time zone from the Timezone: list. To set the default time zone for new users, add this statement to line 102 (this is just my preference, you may add it to some other line if you feel like it) of the file /path-to-eventum/config/config.php:
+Solution: Log in and click `Preferences`. On the `Account Preferences` frame, pick your time zone from the `Timezone:` list. To set the default time zone for new users, add this statement to `config/config.php`:
 
-`define('APP_DEFAULT_TIMEZONE', 'UTC');`
+```php
+define('APP_DEFAULT_TIMEZONE', 'Europe/Tallinn');
+```
 
-Change 'UTC' to be whatever time zone you are in. Beware that you need to use the time zone ID as specified on /path-to-eventum/include/pear/Date/TimeZone.php (the \$_DATE_TIMEZONE_DATA array). The valid IDs are whatever key names defined on that array.
+The value should be one of the items you see in `Preferences` dropdown.
 
 ### Problem: Graph and diagram images not working
 
