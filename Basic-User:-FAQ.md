@@ -52,6 +52,12 @@ Solution: Many things can cause this error. Here are a few to check.
 -   Your hostname is set correctly.
 -   Email information is filled out correctly in manage/general.php (web admin page).
 
+### Problem: I get the error "Fatal error: Allowed memory size of 8388608 bytes exhausted"
+
+Solution: Your PHP memory limit is too low. Try increasing it by adding the line
+
+ini_set('memory_limit', '256M'); to /path-to-eventum/config/config.php
+
 ### Problem: I want to close an issue but I don't see any Statuses
 
 Solution: Statuses are defined by the Administrator on the Areas/Manage Statuses page. Only those statuses that have been marked as **Closed Context? "Yes"** will show when closing an item, and **Closed Context? "Yes"** statuses are only available when closing an item. These statuses are special because issues that are **Closed** can be hidden in the list view of issues by using the **Hide Close Issues** check box in the lower right hand corner of the footer.
