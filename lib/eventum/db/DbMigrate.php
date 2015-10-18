@@ -34,8 +34,12 @@ class DbMigrate
     /** @var DbInterface */
     private $db;
 
+    /** @var array */
+    private $config;
+
     /**
      * Top directory where SQL schema and patches are
+     *
      * @var string
      */
     private $dir;
@@ -47,9 +51,8 @@ class DbMigrate
     {
         $this->db = DB_Helper::getInstance();
         $this->dir = $schema_dir;
-
-        $config = DB_Helper::getConfig();
-        $this->table_prefix = $config['table_prefix'];
+        $this->config = DB_Helper::getConfig();
+        $this->table_prefix = $this->config['table_prefix'];
     }
 
     public function patch_database()
@@ -103,7 +106,7 @@ class DbMigrate
         // use *.php for complex updates
         if (substr($input_file, -4) == '.php') {
             $queries = array();
-            require $input_file;
+            self::include_file($input_file, $this->db, $this->config);
         } else {
             $queries = explode(';', file_get_contents($input_file));
         }
@@ -116,6 +119,19 @@ class DbMigrate
         }
     }
 
+    /**
+     * isolate, prevent access to class properties.
+     * php patches have access to $db and $dbconfig variables.
+     *
+     * @param string $file
+     * @param DbInterface $db
+     * @param array $dbconfig
+     */
+    private static function include_file($file, $db, $dbconfig)
+    {
+        require_once $file;
+    }
+
     private function read_patches($update_path)
     {
         $handle = opendir($update_path);
@@ -125,7 +141,7 @@ class DbMigrate
         while (false !== ($file = readdir($handle))) {
             $number = substr($file, 0, strpos($file, '_'));
             if (in_array(substr($file, -4), array('.sql', '.php')) && is_numeric($number)) {
-                $files[(int) $number] = "$update_path/$file";
+                $files[(int)$number] = "$update_path/$file";
             }
         }
         closedir($handle);
