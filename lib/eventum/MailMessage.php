@@ -102,7 +102,7 @@ class MailMessage extends Message
         // check if the current message was already seen
         list($overview) = imap_fetch_overview($mbox, $num);
 
-        $header = imap_fetchheader($mbox, $num);
+        $headers = imap_fetchheader($mbox, $num);
         $content = imap_body($mbox, $num);
 
         // fill with "\Seen", "\Deleted", "\Answered", ... etc
@@ -121,7 +121,13 @@ class MailMessage extends Message
             }
         }
 
-        $message = new self(array('headers' => $header, 'content' => $content, 'flags' => $flags));
+        $message = new self(array('headers' => $headers, 'content' => $content, 'flags' => $flags));
+
+        // set MailDate to $message object, as it's not available in message headers, only in IMAP itself
+        // this likely "message received date"
+        $imapheaders = imap_headerinfo($mbox, $num);
+        $header = new GenericHeader('X-IMAP-UnixDate', $imapheaders->udate);
+        $message->getHeaders()->addHeader($header);
 
         return $message;
     }
@@ -138,6 +144,28 @@ class MailMessage extends Message
             $header = current($header);
         }
         return $header->getFieldValue();
+    }
+
+    /**
+     * Get Mail date.
+     * Uses IMAP Date, and fallbacks to Date header.
+     *
+     * @return DateTime
+     */
+    public function getMailDate()
+    {
+        $headers = $this->headers;
+        if ($headers->has('X-IMAP-UnixDate')) {
+            // does it have imap date?
+            $date = $headers->get('X-IMAP-UnixDate')->getFieldValue();
+        } elseif ($headers->has('Date')) {
+            // fallback to date header
+            $date = $headers->get('Date')->getFieldValue();
+        } else {
+            throw new InvalidArgumentException("No date header for mail");
+        }
+
+        return Date_Helper::getDateTime($date);
     }
 
     /**

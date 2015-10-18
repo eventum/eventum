@@ -20,6 +20,14 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $message_id);
     }
 
+
+    public function testDateHeader() {
+        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-msgid.txt');
+        $date = Date_Helper::convertDateGMT($message->getMailDate());
+        $exp = '2012-12-16 20:21:05';
+        $this->assertEquals($exp, $date);
+    }
+
     public function testIsBounceMessage()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
