@@ -794,13 +794,7 @@ class Support
         }
 
         if ($res > 0) {
-            // need to delete the message from the server?
-            if (!$info['ema_leave_copy']) {
-                @imap_delete($mbox, $num);
-            } else {
-                // mark the message as already read
-                @imap_setflag_full($mbox, $num, '\\Seen');
-            }
+            self::deleteMessage($info, $mbox, $num);
         }
     }
 
