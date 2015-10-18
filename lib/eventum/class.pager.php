@@ -53,13 +53,13 @@ class Pager
             // go the extra mile and try to use the grouped by column in the count() call
             preg_match("/.*\s+GROUP BY\s+(\w*)\s+.*/i", $stmt, $matches);
             if (!empty($matches[1])) {
-                $stmt = preg_replace('/SELECT (.*?) FROM /si', "SELECT COUNT(DISTINCT " . $matches[1] . ") AS total_rows FROM ", $stmt);
+                $stmt = preg_replace('/SELECT (.*?) FROM /si', 'SELECT COUNT(DISTINCT ' . $matches[1] . ') AS total_rows FROM ', $stmt);
             }
         } else {
-            $stmt = preg_replace('/SELECT (.*?) FROM /si', "SELECT COUNT(*) AS total_rows FROM ", $stmt);
+            $stmt = preg_replace('/SELECT (.*?) FROM /si', 'SELECT COUNT(*) AS total_rows FROM ', $stmt);
         }
         // remove any order by clauses
-        $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)(?:,\s+\w+\s+\w+)*(.*)/si", "\\1\\3", $stmt);
+        $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)(?:,\s+\w+\s+\w+)*(.*)/si", '\\1\\3', $stmt);
         try {
             $rows = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {

@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -47,7 +48,7 @@ class AuthCookie
     public static function setAuthCookie($user, $permanent = true)
     {
         if (!$user) {
-            throw new LogicException("Need usr_id or email");
+            throw new LogicException('Need usr_id or email');
         }
 
         if (is_numeric($user)) {
@@ -101,6 +102,7 @@ class AuthCookie
         }
 
         $usr_id = User::getUserIDByEmail($cookie['email']);
+
         return !!$usr_id;
     }
 
@@ -124,7 +126,7 @@ class AuthCookie
         // try to preserve "remember" from existing cookie
         if ($remember === null) {
             $cookie = self::getProjectCookie();
-            $remember = $cookie ? (bool)$cookie['remember'] : false;
+            $remember = $cookie ? (bool) $cookie['remember'] : false;
         }
 
         $cookie = self::generateProjectCookie($prj_id, $remember);
@@ -188,7 +190,7 @@ class AuthCookie
         $cookie = array(
             'prj_id' => $prj_id,
             // it's stored as number, probably to save bytes in cookie size
-            'remember' => (int)$remember,
+            'remember' => (int) $remember,
         );
 
         return base64_encode(serialize($cookie));

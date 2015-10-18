@@ -347,7 +347,7 @@ class Mail_Queue
                  ORDER BY
                     MIN(maq_id) ASC';
 
-        $limit = (int)$limit;
+        $limit = (int) $limit;
         if ($limit) {
             $sql .= " LIMIT 0, $limit";
         }
@@ -436,7 +436,7 @@ class Mail_Queue
         $sql = 'select count(*) from {{%mail_queue_log}} where mql_maq_id=? and mql_status=?';
         $res = DB_Helper::getInstance()->getOne($sql, array($maq_id, 'error'));
 
-        return (int)$res;
+        return (int) $res;
     }
 
     /**

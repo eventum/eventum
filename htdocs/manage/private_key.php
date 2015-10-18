@@ -40,7 +40,7 @@ if ($role_id < User::ROLE_ADMINISTRATOR) {
     exit;
 }
 
-$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : null;
+$cat = isset($_POST['cat']) ? (string) $_POST['cat'] : null;
 
 if ($cat == 'update') {
     // regenerate key

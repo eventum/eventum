@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -32,7 +33,6 @@
 
 class RemoteDataController
 {
-
     public function __construct()
     {
         Auth::checkAuthentication();
@@ -40,7 +40,7 @@ class RemoteDataController
         $this->usr_id = Auth::getUserID();
     }
 
-    function run()
+    public function run()
     {
         $valid_functions = array(
             'email' => 'getEmail',
@@ -73,7 +73,7 @@ class RemoteDataController
         }
     }
 
-    function getIssueDescription($issue_id)
+    public function getIssueDescription($issue_id)
     {
         if (Issue::canAccess($issue_id, $this->usr_id)) {
             $details = Issue::getDetails($issue_id);
@@ -90,7 +90,7 @@ class RemoteDataController
      * @param   string $id The sup_ema_id and sup_id seperated by a -.
      * @return  string A string containing the body of the email,
      */
-    function getEmail($id)
+    public function getEmail($id)
     {
         $split = explode('-', $id);
         $info = Support::getEmailDetails($split[0], $split[1]);
@@ -112,7 +112,7 @@ class RemoteDataController
      * @param   string $id The ID of this note.
      * @return  string A string containing the note.
      */
-    function getNote($id)
+    public function getNote($id)
     {
         $note = Note::getDetails($id);
         if (!Issue::canAccess($note['not_iss_id'], $this->usr_id)) {
@@ -131,7 +131,7 @@ class RemoteDataController
      * @param   string $id The ID of this draft.
      * @return  string A string containing the note.
      */
-    function getDraft($id)
+    public function getDraft($id)
     {
         $info = Draft::getDetails($id);
         if (!Issue::canAccess($info['emd_iss_id'], $this->usr_id)) {
@@ -150,7 +150,7 @@ class RemoteDataController
      * @param   string $id The phone support entry ID.
      * @return  string A string containing the description.
      */
-    function getPhoneSupport($id)
+    public function getPhoneSupport($id)
     {
         $res = Phone_Support::getDetails($id);
         if (!Issue::canAccess($res['phs_iss_id'], $this->usr_id)) {
@@ -169,7 +169,7 @@ class RemoteDataController
      * @param   string $id The mail queue entry ID.
      * @return  string A string containing the body.
      */
-    function getMailQueue($id)
+    public function getMailQueue($id)
     {
         if (Auth::getCurrentRole() < User::ROLE_DEVELOPER) {
             return null;

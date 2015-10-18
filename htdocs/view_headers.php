@@ -36,7 +36,7 @@ $tpl->setTemplate('view_headers.tpl.html');
 
 Auth::checkAuthentication('index.php?err=5', true);
 
-$cat = isset($_GET['cat']) ? (string)$_GET['cat'] : null;
+$cat = isset($_GET['cat']) ? (string) $_GET['cat'] : null;
 if ($cat == 'note') {
     $headers = Note::getBlockedMessage($_GET['id']);
 } else {
