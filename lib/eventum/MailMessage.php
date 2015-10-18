@@ -346,6 +346,21 @@ class MailMessage extends Message
     }
 
     /**
+     * Get value of $headerName. returns NULL if header is not present.
+     *
+     * @param string $headerName
+     * @param bool $format Return the value in Mime::Encoded or in Raw format
+     * @return null|string
+     */
+    public function getHeaderValue($headerName, $format = HeaderInterface::FORMAT_RAW)
+    {
+        if (!$this->headers->has($headerName)) {
+            return null;
+        }
+        return $this->headers->get($headerName)->getFieldValue($format);
+    }
+
+    /**
      * Get From header. In case multiple headers present, return just first one.
      *
      * @return Address

@@ -47,6 +47,10 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $res = join(',', $recipients);
         $this->assertEquals($exp, $res);
 
+        // note it does not return the original header, but what ZF_Mail has encoded it back
+        $exp = "Some Guy <abcd@origin.com>,\r\n Us <our@email.com>";
+        $this->assertEquals($exp, $message->getHeaderValue('Cc'));
+
         $exp = '<issue-73358@eventum.example.org>';
         $res = array_map(function(\Zend\Mail\Address $a) { return $a->toString(); }, iterator_to_array($message->getTo()));
         $this->assertEquals($exp, join(',', $res));
