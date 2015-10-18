@@ -324,6 +324,28 @@ class MailMessage extends Message
     }
 
     /**
+     * Access the address list of the To header
+     *
+     * @return AddressList
+     * @see Zend\Mail\Message::getTo
+     */
+    public function getTo()
+    {
+        return $this->getAddressListFromHeader('to', '\Zend\Mail\Header\To');
+    }
+
+    /**
+     * Retrieve list of CC recipients
+     *
+     * @return AddressList
+     * @see Zend\Mail\Message::getCc
+     */
+    public function getCc()
+    {
+        return $this->getAddressListFromHeader('cc', '\Zend\Mail\Header\Cc');
+    }
+
+    /**
      * Get From header. In case multiple headers present, return just first one.
      *
      * @return Address
@@ -543,5 +565,51 @@ class MailMessage extends Message
     public function __clone()
     {
         $this->headers = clone $this->headers;
+    }
+
+    /**
+     * Retrieve a header by name
+     *
+     * If not found, instantiates one based on $headerClass.
+     *
+     * @param  string $headerName
+     * @param  string $headerClass
+     * @return HeaderInterface|\ArrayIterator header instance or collection of headers
+     * @see Zend\Mail\Message::getHeaderByName
+     */
+    protected function getHeaderByName($headerName, $headerClass)
+    {
+        $headers = $this->headers;
+        if ($headers->has($headerName)) {
+            $header = $headers->get($headerName);
+        } else {
+            $header = new $headerClass();
+            $headers->addHeader($header);
+        }
+        return $header;
+    }
+
+    /**
+     * Retrieve the AddressList from a named header
+     *
+     * Used with To, From, Cc, Bcc, and ReplyTo headers. If the header does not
+     * exist, instantiates it.
+     *
+     * @param  string $headerName
+     * @param  string $headerClass
+     * @throws DomainException
+     * @return AddressList
+     * @see Zend\Mail\Message::getAddressListFromHeader
+     */
+    protected function getAddressListFromHeader($headerName, $headerClass)
+    {
+        $header = $this->getHeaderByName($headerName, $headerClass);
+        if (!$header instanceof AbstractAddressList) {
+            throw new DomainException(sprintf(
+                'Cannot grab address list from header of type "%s"; not an AbstractAddressList implementation',
+                get_class($header)
+            ));
+        }
+        return $header->getAddressList();
     }
 }

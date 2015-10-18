@@ -29,6 +29,29 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $date);
     }
 
+    public function testGetToCc()
+    {
+        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+
+        $recipients = array();
+        foreach ($message->getTo() as $address) {
+            $recipients[] = $address->getEmail();
+        }
+        foreach ($message->getCc() as $address) {
+            $recipients[] = $address->getEmail();
+        }
+
+        $recipients = array_unique($recipients);
+
+        $exp = 'issue-73358@eventum.example.org,abcd@origin.com,our@email.com';
+        $res = join(',', $recipients);
+        $this->assertEquals($exp, $res);
+
+        $exp = '<issue-73358@eventum.example.org>';
+        $res = array_map(function(\Zend\Mail\Address $a) { return $a->toString(); }, iterator_to_array($message->getTo()));
+        $this->assertEquals($exp, join(',', $res));
+    }
+
     public function testIsBounceMessage()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
