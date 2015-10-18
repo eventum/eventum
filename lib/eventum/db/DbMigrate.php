@@ -105,12 +105,11 @@ class DbMigrate
 
         // use *.php for complex updates
         if (substr($input_file, -4) == '.php') {
-            $queries = array();
             self::include_file($input_file, $this->db, $this->config);
-        } else {
-            $queries = explode(';', file_get_contents($input_file));
+            return;
         }
 
+        $queries = explode(';', file_get_contents($input_file));
         foreach ($queries as $query) {
             $query = trim($query);
             if ($query) {
@@ -129,7 +128,7 @@ class DbMigrate
      */
     private static function include_file($file, $db, $dbconfig)
     {
-        require_once $file;
+        require $file;
     }
 
     private function read_patches($update_path)
