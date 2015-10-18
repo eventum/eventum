@@ -133,7 +133,11 @@ class MailMessage extends Message
      */
     public function getMessageId()
     {
-        return $this->getHeader('Message-Id')->getFieldValue();
+        $header = $this->getHeader('Message-Id');
+        if ($header instanceof ArrayIterator) {
+            $header = current($header);
+        }
+        return $header->getFieldValue();
     }
 
     /**
