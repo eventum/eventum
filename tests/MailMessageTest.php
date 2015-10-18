@@ -21,7 +21,8 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
     }
 
 
-    public function testDateHeader() {
+    public function testDateHeader()
+    {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-msgid.txt');
         $date = Date_Helper::convertDateGMT($message->getMailDate());
         $exp = '2012-12-16 20:21:05';
@@ -99,6 +100,19 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
         $reference_id = $message->getReferenceMessageId();
         $this->assertEquals('<4d36173add8b60.67944236@origin.com>', $reference_id);
+    }
+
+    /**
+     * @covers Mail_Helper::getAllReferences()
+     */
+    public function testReferences()
+    {
+        $mail = MailMessage::createFromFile(__DIR__ . '/data/in-reply-to.txt');
+
+        $ref1 = Mail_Helper::getAllReferences($mail->getHeaders()->toString());
+        $ref2 = $mail->getAllReferences();
+
+        $this->assertSame(join("\n", $ref1), join("\n", $ref2));
     }
 
     public function testGetAddresses()

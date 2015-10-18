@@ -147,7 +147,7 @@ class MailMessage extends Message
     }
 
     /**
-     * Get Mail date.
+     * Get date this message was sent.
      * Uses IMAP Date, and fallbacks to Date header.
      *
      * @return DateTime
@@ -262,6 +262,27 @@ class MailMessage extends Message
 
         // return the first message-id in the list of references
         return trim($references[0]);
+    }
+
+    /**
+     * Returns the message IDs of all emails this message references.
+     *
+     * @return string[] An array of message-ids
+     */
+    public function getAllReferences()
+    {
+        $references = array();
+
+        if ($this->headers->has('In-Reply-To')) {
+            $references[] = $this->headers->get('In-Reply-To')->getFieldValue();
+        }
+
+        if ($this->headers->has('References')) {
+            $values = explode(' ', $this->headers->get('References')->getFieldValue());
+            $references = array_merge($references, $values);
+        }
+
+        return array_unique($references);
     }
 
     /**
