@@ -224,12 +224,13 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
     public function testReplaceSubject()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
-        $subject = $message->getSubject();
 
-        $this->assertEquals('Re: Re: Re[2]: meh', $subject->getFieldValue());
-        $subject->setSubject(Mail_Helper::removeExcessRe($subject->getFieldValue()));
+        $subject = $message->getSubject();
+        $this->assertEquals('Re: Re: Re[2]: meh', $subject);
+        $message->setSubject(Mail_Helper::removeExcessRe($subject));
+
         // Note: the method will still keep one 'Re'
-        $this->assertEquals('Re: meh', $subject->getFieldValue());
+        $this->assertEquals('Re: meh', $message->getSubject());
     }
 
     /**
