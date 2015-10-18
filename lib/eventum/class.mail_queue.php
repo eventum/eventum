@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -31,6 +31,11 @@
 
 class Mail_Queue
 {
+    /**
+     * Number of times to retry 'error' status mails before giving up.
+     */
+    const MAX_RETRIES = 20;
+
     /**
      * Adds an email to the outgoing mail queue.
      *
@@ -116,7 +121,7 @@ class Mail_Queue
             $params['maq_type_id'] = $type_id;
         }
 
-        $stmt = 'INSERT INTO {{%mail_queue}} SET '.DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO {{%mail_queue}} SET ' . DB_Helper::buildSet($params);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
@@ -138,6 +143,7 @@ class Mail_Queue
     public static function send($status, $limit = null, $merge = false)
     {
         if ($merge !== false) {
+            // TODO: handle self::MAX_RETRIES, but that should be done per queue item
             foreach (self::_getMergedList($status, $limit) as $maq_ids) {
                 $emails = self::_getEntries($maq_ids);
                 $recipients = array();
@@ -193,6 +199,12 @@ class Mail_Queue
         }
 
         foreach (self::_getList($status, $limit) as $maq_id) {
+            $errors = self::getQueueErrorCount($maq_id);
+            if ($errors > self::MAX_RETRIES) {
+                // TODO: mark as status 'failed'
+                continue;
+            }
+
             $email = self::_getEntry($maq_id);
             $result = self::_sendEmail($email['recipient'], $email['headers'], $email['body'], $status);
 
@@ -335,7 +347,7 @@ class Mail_Queue
                  ORDER BY
                     MIN(maq_id) ASC';
 
-        $limit = (int) $limit;
+        $limit = (int)$limit;
         if ($limit) {
             $sql .= " LIMIT 0, $limit";
         }
@@ -411,6 +423,20 @@ class Mail_Queue
         }
 
         return $res;
+    }
+
+    /**
+     * Return number of errors for this queue item
+     *
+     * @param int $maq_id
+     * @return int
+     */
+    private function getQueueErrorCount($maq_id)
+    {
+        $sql = 'select count(*) from {{%mail_queue_log}} where mql_maq_id=? and mql_status=?';
+        $res = DB_Helper::getInstance()->getOne($sql, array($maq_id, 'error'));
+
+        return (int)$res;
     }
 
     /**

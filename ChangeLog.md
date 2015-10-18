@@ -7,6 +7,7 @@ Eventum Issue Tracking System
 - Use randomlib for private key generation, add UI to regenerate it (Elan Ruusamäe, #73)
 - Fix misplaced {if} in preferences template. (Robbert-Jan Roos, LP#1506279)
 - Auth and Project cookie related internal refactor (Elan Ruusamäe, #74)
+- Set limit 20 retries to try to send one mail (Elan Ruusamäe)
 
 2015-10-13, Version 3.0.3
 -------------------------
