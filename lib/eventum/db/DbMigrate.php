@@ -125,7 +125,7 @@ class DbMigrate
         while (false !== ($file = readdir($handle))) {
             $number = substr($file, 0, strpos($file, '_'));
             if (in_array(substr($file, -4), array('.sql', '.php')) && is_numeric($number)) {
-                $files[(int) $number] = trim($update_path) . (substr(trim($update_path), -1) == '/' ? '' : '/') . $file;
+                $files[(int) $number] = "$update_path/$file";
             }
         }
         closedir($handle);
