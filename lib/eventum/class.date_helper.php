@@ -61,7 +61,7 @@ class Date_Helper
         } else {
             if ($ts === false || $ts === null) {
                 $ts = 'now';
-            } elseif (is_int($ts)) {
+            } elseif (is_numeric($ts)) {
                 $ts = "@$ts";
             }
 
