@@ -35,13 +35,13 @@ list_issues.ready = function(page_id)
 
     $('.select_all').click(function() { Eventum.toggleCheckAll('item[]'); });
 
-    Eventum.getField('first').click(function() { list_issues.setPage(0)});
-    Eventum.getField('previous').click(function() { list_issues.setPage(list_issues.current_page-1)});
-    Eventum.getField('next').click(function() { list_issues.setPage(list_issues.current_page+1)});
-    Eventum.getField('last').click(function() { list_issues.setPage(list_issues.last_page)});
+    Eventum.getField('first').click(function () {list_issues.setPage(0);});
+    Eventum.getField('previous').click(function() { list_issues.setPage(list_issues.current_page-1); });
+    Eventum.getField('next').click(function() { list_issues.setPage(list_issues.current_page+1); });
+    Eventum.getField('last').click(function() { list_issues.setPage(list_issues.last_page); });
     Eventum.getField('go').click(list_issues.goPage);
     Eventum.getField('page').keydown(function(e) {
-        if (e.which == 13) {
+        if (e.which === 13) {
             list_issues.goPage();
         }
     });
@@ -54,7 +54,7 @@ list_issues.ready = function(page_id)
     setTimeout(function() {
         location.reload();
     }, parseInt(list_form.attr('data-refresh-rate')) * 1000);
-}
+};
 
 list_issues.reset_bulk_update = function(e)
 {
@@ -64,7 +64,7 @@ list_issues.reset_bulk_update = function(e)
     Eventum.clearSelectedOptions('priority');
     Eventum.clearSelectedOptions('category');
     Eventum.clearSelectedOptions('closed_status');
-}
+};
 
 list_issues.bulk_update = function(e)
 {
@@ -80,19 +80,19 @@ list_issues.bulk_update = function(e)
     if (Validation.hasOneSelected('users[]')) {
         changed[changed.length] = 'Assignment';
     }
-    if (Eventum.getField('status').val() != '') {
+    if (Eventum.getField('status').val() !== '') {
         changed[changed.length] = 'Status';
     }
-    if (Eventum.getField('release', form).val() != '') {
+    if (Eventum.getField('release', form).val() !== '') {
         changed[changed.length] = 'Release';
     }
-    if (Eventum.getField('priority').val() != '') {
+    if (Eventum.getField('priority').val() !== '') {
         changed[changed.length] = 'Priority';
     }
-    if (Eventum.getField('category').val() != '') {
+    if (Eventum.getField('category').val() !== '') {
         changed[changed.length] = 'Category';
     }
-    if (Eventum.getField('closed_status').val() != '') {
+    if (Eventum.getField('closed_status').val() !== '') {
         changed[changed.length] = 'Closed Status';
     }
     if (changed.length < 1) {
@@ -102,10 +102,10 @@ list_issues.bulk_update = function(e)
     var msg = 'Warning: If you continue, you will change the ';
     for (var i = 0; i < changed.length; i++) {
         msg += changed[i];
-        if ((changed.length > 1) && (i == (changed.length-2))) {
+        if ((changed.length > 1) && (i === (changed.length-2))) {
             msg += ' and ';
         } else {
-            if (i != (changed.length-1)) {
+            if (i !== (changed.length-1)) {
                 msg += ', ';
             }
         }
@@ -120,14 +120,14 @@ list_issues.bulk_update = function(e)
     form.action = 'popup.php';
     form.target = '_popup';
     form.submit();
-}
+};
 
 list_issues.clearFilters = function()
 {
     var form = $('#quick_filter_form');
     form.find('input,select').val('');
     form.submit();
-}
+};
 
 list_issues.runCustomFilter = function()
 {
@@ -139,7 +139,7 @@ list_issues.runCustomFilter = function()
     }
     location.href = 'list.php?cat=search&' + cst_url;
     return false;
-}
+};
 
 list_issues.hideClosed = function()
 {
@@ -148,55 +148,55 @@ list_issues.hideClosed = function()
     } else {
         window.location.href = list_issues.page_url + "?" + Eventum.replaceParam(window.location.href, 'hide_closed', '0');
     }
-}
+};
 
 list_issues.resizePager = function()
 {
     window.location.href = list_issues.page_url + "?" + Eventum.replaceParam(window.location.href, 'rows', $('#page_size').val());
-}
+};
 
 
 list_issues.setPage =  function(new_page)
 {
     if ((new_page > list_issues.last_page) || (new_page < 0) ||
-            (new_page == list_issues.current_page)) {
+            (new_page === list_issues.current_page)) {
         return false;
     }
     window.location.href = list_issues.page_url + "?" + Eventum.replaceParam(window.location.href, 'pagerRow', new_page);
-}
+};
 
 list_issues.goPage = function()
 {
     var new_page = Eventum.getField('page').val();
     if ((new_page > list_issues.last_page+1) || (new_page <= 0) ||
-            (new_page == list_issues.current_page+1) || (!Validation.isNumberOnly(new_page))) {
+            (new_page === list_issues.current_page+1) || (!Validation.isNumberOnly(new_page))) {
         Eventum.getField('page').val(list_issues.current_page+1);
         return false;
     }
     list_issues.setPage(new_page-1);
-}
+};
 
 list_issues.disableFields = function ()
 {
-    if (list_issues.current_page == 0) {
+    if (list_issues.current_page === 0) {
         Eventum.getField('first').attr('disabled', 'disabled');
         Eventum.getField('previous').attr('disabled', 'disabled');
     }
-    if ((list_issues.current_page == list_issues.last_page) || (list_issues.last_page <= 0)) {
+    if ((list_issues.current_page === list_issues.last_page) || (list_issues.last_page <= 0)) {
         Eventum.getField('next').attr('disabled', 'disabled');
         Eventum.getField('last').attr('disabled', 'disabled');
     }
-    if ((list_issues.current_page == 0) && (list_issues.last_page <= 0)) {
+    if ((list_issues.current_page === 0) && (list_issues.last_page <= 0)) {
         Eventum.getField('page').attr('disabled', 'disabled');
         Eventum.getField('go').attr('disabled', 'disabled');
     }
-}
+};
 
 list_issues.downloadCSV = function()
 {
     $('#csv_form').submit();
     return false;
-}
+};
 
 list_issues.updateCustomFields = function(e)
 {
@@ -206,7 +206,7 @@ list_issues.updateCustomFields = function(e)
     var customWin = window.open('custom_fields.php?issue_id=' + issue_id, '_custom_fields', features);
     customWin.focus();
     return false;
-}
+};
 
 
 /*
@@ -219,12 +219,12 @@ function issue_view()
 issue_view.get_issue_id = function()
 {
     return $('#issue_overview').attr('data-issue-id');
-}
+};
 
 issue_view.get_ema_id = function()
 {
     return $('#issue_overview').attr('data-ema-id');
-}
+};
 
 issue_view.ready = function(page_id)
 {
@@ -265,14 +265,14 @@ issue_view.ready = function(page_id)
     $('#attachments .delete_file').click(issue_view.delete_file);
 
     $('#update_custom_fields').click(issue_view.updateCustomFields);
-}
+};
 
 issue_view.toggle_issue_description = function()
 {
     Eventum.toggle_section_visibility('issue_description');
 
     issue_view.display_description_collapse_message();
-}
+};
 
 issue_view.display_description_collapse_message = function()
 {
@@ -282,13 +282,13 @@ issue_view.display_description_collapse_message = function()
     } else {
         hidden.show();
     }
-}
+};
 
 issue_view.toggle_issue_section = function(id)
 {
     var element = $('#' + id + ' div.content');
     var display = '';
-    var link_title = ''
+    var link_title = '';
     if (element.is(':visible')) {
         display = 'none';
         element.hide();
@@ -302,7 +302,7 @@ issue_view.toggle_issue_section = function(id)
     $('#toggle_' + id).text(link_title);
 
     $.cookie('visibility_' + id, display, {expires: Eventum.expires});
-}
+};
 
 issue_view.openHistory = function()
 {
@@ -310,7 +310,7 @@ issue_view.openHistory = function()
     var popupWin = window.open('history.php?iss_id=' + issue_view.get_issue_id(), '_history', features);
     popupWin.focus();
     return false;
-}
+};
 
 issue_view.openNotificationList = function()
 {
@@ -318,7 +318,7 @@ issue_view.openNotificationList = function()
     var popupWin = window.open('notification.php?iss_id=' + issue_view.get_issue_id(), '_notification', features);
     popupWin.focus();
     return false;
-}
+};
 
 issue_view.openAuthorizedReplier = function()
 {
@@ -326,7 +326,7 @@ issue_view.openAuthorizedReplier = function()
     var popupWin = window.open('authorized_replier.php?iss_id=' + issue_view.get_issue_id(), '_replier', features);
     popupWin.focus();
     return false;
-}
+};
 
 
 issue_view.selfAssign = function()
@@ -334,35 +334,35 @@ issue_view.selfAssign = function()
     var features = 'width=420,height=170,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('self_assign.php?iss_id=' + issue_view.get_issue_id(), '_selfAssign', features);
     popupWin.focus();
-}
+};
 
 issue_view.unassign = function()
 {
     var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('popup.php?cat=unassign&iss_id=' + issue_view.get_issue_id(), '_unassign', features);
     popupWin.focus();
-}
+};
 
 issue_view.selfNotification = function()
 {
     var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('popup.php?iss_id=' + issue_view.get_issue_id() + '&cat=selfnotify', '_notification', features);
     popupWin.focus();
-}
+};
 
 issue_view.signupAsAuthorizedReplier = function()
 {
     var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('popup.php?cat=authorize_reply&iss_id=' + issue_view.get_issue_id(), '_authorizeReply', features);
     popupWin.focus();
-}
+};
 
 
 issue_view.changeIssueStatus = function(e)
 {
     var current_status_id = $(e.target).attr('data-status-id');
     var new_status = $('#new_status').val();
-    if (new_status == current_status_id) {
+    if (new_status === current_status_id) {
         Validation.selectField($('#new_status'));
         alert('Please select the new status for this issue.');
     } else {
@@ -370,7 +370,7 @@ issue_view.changeIssueStatus = function(e)
         var popupWin = window.open('popup.php?cat=new_status&iss_id=' + issue_view.get_issue_id() + '&new_sta_id=' + new_status, '_newStatus', features);
         popupWin.focus();
     }
-}
+};
 
 
 issue_view.updateCustomFields = function(e)
@@ -379,7 +379,7 @@ issue_view.updateCustomFields = function(e)
     var features = 'width=560,height=460,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var customWin = window.open('custom_fields.php?issue_id=' + issue_id, '_custom_fields', features);
     customWin.focus();
-}
+};
 
 issue_view.upload_file = function(e)
 {
@@ -387,7 +387,7 @@ issue_view.upload_file = function(e)
     var features = 'width=600,height=350,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('file_upload.php?iss_id=' + issue_id, 'file_upload_' + issue_id, features);
     popupWin.focus();
-}
+};
 
 issue_view.delete_attachment = function(e)
 {
@@ -399,7 +399,7 @@ issue_view.delete_attachment = function(e)
         var popupWin = window.open('popup.php?cat=delete_attachment&id=' + iat_id, '_popup', features);
         popupWin.focus();
     }
-}
+};
 
 issue_view.delete_file = function(e)
 {
@@ -411,44 +411,42 @@ issue_view.delete_file = function(e)
         var popupWin = window.open('popup.php?cat=delete_file&id=' + iaf_id, '_popup', features);
         popupWin.focus();
     }
-}
+};
 
 issue_view.removeQuarantine = function()
 {
     var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('popup.php?cat=remove_quarantine&iss_id=' + issue_view.get_issue_id(), '_removeQuarantine', features);
     popupWin.focus();
-}
+};
 
 issue_view.replyIssue = function()
 {
     var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('send.php?cat=reply&ema_id=' + issue_view.get_ema_id() + '&issue_id=' + issue_view.get_issue_id(), '_replyIssue' + issue_view.get_issue_id(), features);
     popupWin.focus();
-}
+};
 
 issue_view.clearDuplicateStatus = function()
 {
     var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('popup.php?cat=clear_duplicate&iss_id=' + issue_view.get_issue_id(), '_clearDuplicate', features);
     popupWin.focus();
-}
+};
 
 issue_view.editIncidentRedemption = function()
 {
     var features = 'width=300,height=300,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('redeem_incident.php?iss_id=' + issue_view.get_issue_id(), '_flagIncident', features);
     popupWin.focus();
-}
-
+};
 
 issue_view.openReporter = function(issue_id)
 {
     var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('edit_reporter.php?iss_id=' + issue_id, '_reporter', features);
     popupWin.focus();
-}
-
+};
 
 /*
  * Update Issue Page
@@ -533,7 +531,7 @@ close_issue.ready = function()
     if (status_options.length == 2) {
         status_options[1].selected = true;
     }
-}
+};
 
 close_issue.toggleNotificationList = function()
 {
@@ -544,7 +542,7 @@ close_issue.toggleNotificationList = function()
     } else {
         cell.removeClass("internal");
     }
-}
+};
 
 close_issue.toggleEmailSignature = function()
 {
@@ -555,7 +553,7 @@ close_issue.toggleEmailSignature = function()
     } else {
         reason.val(reason.val().replace("\n" + sig, ''));
     }
-}
+};
 
 close_issue.validateForm = function()
 {
@@ -587,8 +585,7 @@ close_issue.validateForm = function()
         }
     }
     return true;
-}
-
+};
 
 /*
  * Adv search page
@@ -643,7 +640,7 @@ adv_search.ready = function()
     if ($('#show_custom_fields_checkbox').is(':checked')) {
         adv_search.toggle_custom_fields(true);
     }
-}
+};
 
 adv_search.checkDateFilterType = function(field_name)
 {
@@ -662,7 +659,7 @@ adv_search.checkDateFilterType = function(field_name)
         Eventum.changeVisibility(field_name + '2', false);
         Eventum.changeVisibility(field_name + '_last', false);
     }
-}
+};
 
 adv_search.toggle_custom_fields = function(show)
 {
@@ -681,7 +678,7 @@ adv_search.toggle_custom_fields = function(show)
 
     // enable/disable hidden field
     $('#custom_field_hidden').attr('disabled', show);
-}
+};
 
 adv_search.toggle_date_row = function(show)
 {
@@ -700,9 +697,7 @@ adv_search.toggle_date_row = function(show)
         });
         $('.date_filter_checkbox').attr('checked', false);
     }
-}
-
-
+};
 
 adv_search.validateForm = function()
 {
@@ -716,8 +711,7 @@ adv_search.validateForm = function()
         Eventum.getField('hidden3').attr('name', 'show_notification_list_issues').val('');
     }
     return true;
-}
-
+};
 
 adv_search.toggle_date_field = function(field_name)
 {
@@ -745,8 +739,7 @@ adv_search.toggle_date_field = function(field_name)
     time_period_field.attr('disabled', disabled);
 
     Eventum.getField(field_name + '_hidden').disabled = !disabled;
-}
-
+};
 
 adv_search.saveCustomFilter = function()
 {
@@ -762,7 +755,7 @@ adv_search.saveCustomFilter = function()
 
     Eventum.getField('cat').val('save_filter');
     form.attr('target', '_customFilter').attr('method', 'post').attr('action', 'popup.php').submit();
-}
+};
 
 adv_search.validateRemove = function()
 {
@@ -778,8 +771,7 @@ adv_search.validateRemove = function()
         popupWin.focus();
         return true;
     }
-}
-
+};
 
 /*
  * New Issue
@@ -795,7 +787,7 @@ new_issue.ready = function()
 
     $('#severity').bind('change', new_issue.display_severity_description).change();
     product.ready();
-}
+};
 
 new_issue.validateForm = function()
 {
@@ -863,7 +855,7 @@ new_issue.validateForm = function()
     if (window.validateCustomer) {
         validateCustomer();
     }
-}
+};
 
 new_issue.display_severity_description = function()
 {
@@ -873,7 +865,7 @@ new_issue.display_severity_description = function()
     } else {
         $('#severity_desc').text(description).show();
     }
-}
+};
 
 function anon_post() {}
 
@@ -888,7 +880,7 @@ anon_post.ready = function()
     report_form.find('input,select').filter(':visible').first().focus();
 
     report_form.submit(function() { return Validation.checkFormSubmission(report_form, anon_post.validateForm) });
-}
+};
 
 anon_post.validateProjectForm = function(form)
 {
@@ -896,7 +888,7 @@ anon_post.validateProjectForm = function(form)
     if (project_field.val() == '-1') {
         Validation.errors[Validation.errors.length] = new Option('Project', 'project');
     }
-}
+};
 
 anon_post.validateForm = function(form)
 {
@@ -914,7 +906,7 @@ anon_post.validateForm = function(form)
 
     Validation.checkCustomFields(form);
 
-}
+};
 
 /*
  * Stats page
@@ -931,7 +923,7 @@ stats.ready = function()
             window.location.href = "?" + Eventum.replaceParam(window.location.href, 'hide_closed', '0');
         }
     });
-}
+};
 
 
 /*
@@ -942,7 +934,7 @@ function product() {}
 product.ready = function()
 {
     $('#product').bind('change', product.display_product_version_howto).change();
-}
+};
 
 product.display_product_version_howto = function()
 {
@@ -952,4 +944,4 @@ product.display_product_version_howto = function()
     } else {
         $('#product_version_howto').text(howto).show();
     }
-}
+};
