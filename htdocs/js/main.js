@@ -178,9 +178,9 @@ Eventum.selectOption = function(field, new_values)
 {
     // adds the specified values to the list of select options
 
-    field = Eventum.getField(field)
+    field = Eventum.getField(field);
 
-    var values = field.val()
+    var values = field.val();
 
     if (!jQuery.isArray(values)) {
         field.val(new_values);
@@ -210,7 +210,7 @@ Eventum.selectAllOptions = function(field)
 
 Eventum.addOptions = function(field, options)
 {
-    var field = Eventum.getField(field);
+    field = Eventum.getField(field);
     $.each(options, function(index, value) {
         var option = new Option(value.text, value.value);
         if (!Eventum.optionExists(field, option)) {
@@ -221,8 +221,8 @@ Eventum.addOptions = function(field, options)
 
 Eventum.optionExists = function(field, option)
 {
-    var field = Eventum.getField(field);
-    var option = $(option);
+    field = Eventum.getField(field);
+    option = $(option);
     if (field.find('option[value="' + Eventum.escapeSelector(option.val()) + '"]').length > 0) {
         return true;
     }
@@ -643,7 +643,7 @@ Validation.checkCustomFields = function(form)
     $.each(CustomField.getFieldInfo(), function(index, info) {
         var field = Eventum.getField('custom_fields[' + info.id + ']');
         if (field.length < 1) {
-            var field = Eventum.getField('custom_fields[' + info.id + '][]');
+            field = Eventum.getField('custom_fields[' + info.id + '][]');
         }
 
         if (((field.val() == null || field.val().length < 1) ||
