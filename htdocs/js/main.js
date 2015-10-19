@@ -5,8 +5,9 @@ $(document).ready(function() {
     jQuery.ajaxSettings.traditional = true;
 
     // check the class of the body and try to execute the prep functions if there is a class defined for that
-    var page_id = $("body").attr('id');
-    $.each($("body").attr('class').split(" "), function(indexInArray, valueOfElement) {
+    var $body = $("body");
+    var page_id = $body.attr('id');
+    $.each($body.attr('class').split(" "), function(indexInArray, valueOfElement) {
         if (valueOfElement == '') {
             return
         }
@@ -95,7 +96,7 @@ Eventum.rel_url = '';
 Eventum.toggle_section_visibility = function(id) {
     var element = $('#' + id);
     var display = '';
-    var link_title = ''
+    var link_title = '';
     if (element.is(':visible')) {
         display = 'none';
         element.hide();
@@ -109,7 +110,7 @@ Eventum.toggle_section_visibility = function(id) {
     $('#' + id + '_link').text(link_title);
 
     $.cookie('visibility_' + id, display, {expires: Eventum.expires});
-}
+};
 
 Eventum.close_and_refresh = function(noparent)
 {
@@ -117,12 +118,12 @@ Eventum.close_and_refresh = function(noparent)
         opener.location.href = opener.location;
     }
     window.close();
-}
+};
 
 Eventum.displayFixedWidth = function(element)
 {
     element.addClass('fixed_width')
-}
+};
 
 Eventum.selectOnlyValidOption = function(select)
 {
@@ -137,12 +138,12 @@ Eventum.selectOnlyValidOption = function(select)
             return;
         }
     }
-}
+};
 
 Eventum.escapeSelector = function(selector)
 {
     return selector.replace(/(\[|\])/g, '\\$1')
-}
+};
 
 Eventum.getField = function(name_or_obj, form)
 {
@@ -154,32 +155,32 @@ Eventum.getField = function(name_or_obj, form)
         }
     }
     return name_or_obj;
-}
+};
 
 Eventum.getOpenerPageElement = function(id)
 {
     return window.opener.$('#' + id);
-}
+};
 
 Eventum.toggleCheckAll = function(field_name)
 {
     var fields = Eventum.getField(field_name).not(':disabled');
     fields.prop('checked', !fields.prop('checked'));
-}
+};
 
 Eventum.clearSelectedOptions = function(field)
 {
     field = Eventum.getField(field);
     field.val('');
-}
+};
 
 Eventum.selectOption = function(field, new_values)
 {
     // adds the specified values to the list of select options
 
-    field = Eventum.getField(field)
+    field = Eventum.getField(field);
 
-    var values = field.val()
+    var values = field.val();
 
     if (!jQuery.isArray(values)) {
         field.val(new_values);
@@ -200,41 +201,39 @@ Eventum.removeOptionByValue = function(field, value)
             field[0].options[i] = null;
         }
     }
-}
+};
 
 Eventum.selectAllOptions = function(field)
 {
     Eventum.getField(field).find('option').each(function() { this.selected = true; });
-}
+};
 
 Eventum.addOptions = function(field, options)
 {
-    var field = Eventum.getField(field);
+    field = Eventum.getField(field);
     $.each(options, function(index, value) {
         var option = new Option(value.text, value.value);
         if (!Eventum.optionExists(field, option)) {
             field.append(option);
         }
     });
-}
+};
 
 Eventum.optionExists = function(field, option)
 {
-    var field = Eventum.getField(field);
-    var option = $(option);
+    field = Eventum.getField(field);
+    option = $(option);
     if (field.find('option[value="' + Eventum.escapeSelector(option.val()) + '"]').length > 0) {
         return true;
     }
     return false;
-}
+};
 
 Eventum.removeAllOptions = function(field)
 {
-    var field = Eventum.getField(field);
+    field = Eventum.getField(field);
     field.html('');
-}
-
-
+};
 
 Eventum.replaceParam = function(str, param, new_value)
 {
@@ -256,16 +255,14 @@ Eventum.replaceParam = function(str, param, new_value)
         }
         return new_params.join("&");
     }
-}
+};
 
 Eventum.handleClose = function()
 {
     if (Eventum.checkClose == true) {
         return Eventum.closeConfirmMessage;
-    } else {
-        return;
     }
-}
+};
 
 Eventum.checkWindowClose = function(msg)
 {
@@ -275,9 +272,7 @@ Eventum.checkWindowClose = function(msg)
         Eventum.checkClose = true;
         Eventum.closeConfirmMessage = msg;
     }
-}
-
-
+};
 
 Eventum.updateTimeFields = function(f, year_field, month_field, day_field, hour_field, minute_field, date)
 {
@@ -299,13 +294,13 @@ Eventum.updateTimeFields = function(f, year_field, month_field, day_field, hour_
     // minutes need special case due the 5 minute granularity
     var minutes = Math.floor(date.getMinutes() / 5) * 5;
     Eventum.selectOption(minute_field, padDateValue(minutes));
-}
+};
 
 Eventum.setupShowSelections = function(select_box)
 {
     select_box.change(Eventum.showSelections);
     select_box.change();
-}
+};
 
 Eventum.showSelections = function(e)
 {
@@ -321,13 +316,12 @@ Eventum.showSelections = function(e)
         display_div.text("Current Selection: " +select_box.children(':selected').map(function(){
             return this.text
         }).get().join(", "));
-}
-
+};
 
 Eventum.changeVisibility = function(dom_id, visibility)
 {
     $('#' + dom_id).toggle(visibility);
-}
+};
 
 // Replace special characters MS uses for quotes with normal versions
 Eventum.replaceSpecialCharacters = function(s)
@@ -352,13 +346,12 @@ Eventum.replaceSpecialCharacters = function(s)
         newString = newString + thisChar;
     }
     return newString;
-}
-
+};
 
 /**
  * Make javascript Date() object from datetime form selection.
  *
- * @param   String  name    Form element prefix for date.
+ * @param   {String}  name    Form element prefix for date.
  */
 Eventum.makeDate = function(name) {
     var d = new Date();
@@ -369,17 +362,17 @@ Eventum.makeDate = function(name) {
     d.setMinutes(Eventum.getField(name + '[Minute]').val());
     d.setSeconds(0);
     return d;
-}
+};
 
 /**
- * @param   Object  f       Form object
- * @param   Integer type    The type of update occurring.
+ * @param   {Object}  f       Form object
+ * @param   {int} type    The type of update occurring.
  *                          0 = Duration was updated.
  *                          1 = Start time was updated.
  *                          2 = End time was updated.
  *                          11 = Start time refresh icon was clicked.
  *                          12 = End time refresh icon was clicked.
- * @param String element Name of the element changed
+ * @param {String} element Name of the element changed
  */
 Eventum.calcDateDiff = function(f, type, element)
 {
@@ -430,13 +423,13 @@ Eventum.calcDateDiff = function(f, type, element)
     if (duration > 0) {
         Eventum.getField('time_spent').val(duration);
     }
-}
+};
 
 Eventum.changeClockStatus = function()
 {
     window.location.href = Eventum.rel_url + 'clock_status.php?current_page=' + window.location.href;
     return false;
-}
+};
 
 Eventum.openHelp = function(e)
 {
@@ -455,8 +448,7 @@ Eventum.openHelp = function(e)
     helpWin.focus();
 
     return false;
-}
-
+};
 
 function Validation()
 {
@@ -475,7 +467,7 @@ Validation.selectField = function(field)
     if (Validation.isWhitespace(field.val())) {
         return false;
     }
-}
+};
 
 Validation.showErrorIcon = function(field, show)
 {
@@ -490,13 +482,13 @@ Validation.showErrorIcon = function(field, show)
         icon.hide();
         field.removeClass('error_field');
     }
-}
+};
 
 Validation.isFieldWhitespace = function(field)
 {
     field = Eventum.getField(field);
     return Validation.isWhitespace(field.val());
-}
+};
 
 Validation.isWhitespace = function(s)
 {
@@ -518,7 +510,7 @@ Validation.isWhitespace = function(s)
         }
         return true;
     }
-}
+};
 
 Validation.isNumberOnly = function(s)
 {
@@ -528,17 +520,13 @@ Validation.isNumberOnly = function(s)
     } else {
         return false;
     }
-}
+};
 
 Validation.hasOneSelected = function(field)
 {
     field = Eventum.getField(field);
-    if (field.val() != null && field.val().length > 0) {
-        return true;
-    } else {
-        return false;
-    }
-}
+    return (field.val() != null && field.val().length > 0);
+};
 
 Validation.isEmail = function(s)
 {
@@ -576,18 +564,13 @@ Validation.isEmail = function(s)
     }
 
     return true;
-}
-
+};
 
 Validation.hasOneChecked = function(field)
 {
     field = Eventum.getField(field);
-    if (field.filter(':checked').length > 0) {
-        return true;
-    } else {
-        return false;
-    }
-}
+    return (field.filter(':checked').length > 0);
+};
 
 Validation.isValidDate = function(field_prefix)
 {
@@ -596,13 +579,8 @@ Validation.isValidDate = function(field_prefix)
     selected_date.setDate(Eventum.getField(field_prefix + '[Day]').val());
     selected_date.setYear(Eventum.getField(field_prefix + '[Year]').val());
 
-    if (selected_date.getDate() != Eventum.getField(field_prefix + '[Day]').val()) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
+    return selected_date.getDate() == Eventum.getField(field_prefix + '[Day]').val();
+};
 
 Validation.errors = null;
 Validation.errors_extra = null;
@@ -651,7 +629,7 @@ Validation.checkCustomFields = function(form)
     $.each(CustomField.getFieldInfo(), function(index, info) {
         var field = Eventum.getField('custom_fields[' + info.id + ']');
         if (field.length < 1) {
-            var field = Eventum.getField('custom_fields[' + info.id + '][]');
+            field = Eventum.getField('custom_fields[' + info.id + '][]');
         }
 
         if (((field.val() == null || field.val().length < 1) ||
@@ -693,18 +671,18 @@ Validation.checkCustomFields = function(form)
             }
         }
     });
-}
+};
 
 Validation.callback = function(e)
 {
     var f = $(e.target);
     return Validation.checkFormSubmission(f, $(e.target).attr('data-validation-function'))
-}
+};
 
 Validation.isDigit = function(c)
 {
     return ((c >= "0") && (c <= "9"));
-}
+};
 
 Validation.isFloat = function(s)
 {
@@ -731,7 +709,7 @@ Validation.isFloat = function(s)
 
     // All characters are numbers.
     return true;
-}
+};
 
 Validation.last_issue_number_validation_value = '';
 Validation.validateIssueNumberField = function(e)
@@ -748,7 +726,7 @@ Validation.validateIssueNumberField = function(e)
         exclude_issue: target.attr('data-exclude-issue'),
         exclude_duplicates: target.attr('data-exclude-duplicates'),
         error_message: target.attr('data-error-message')
-    }
+    };
 
     jQuery.ajax({
             url: Eventum.rel_url + 'validate.php',
@@ -776,24 +754,20 @@ Validation.validateIssueNumberField = function(e)
                 }
             }
      });
-}
-
-
-
+};
 
 
 function CustomField()
 {
 }
 
-CustomField.field_info = []
+CustomField.field_info = [];
 
 CustomField.ready = function()
 {
     // load information from the current page regarding fields
     CustomField.loadFieldInfo();
-}
-
+};
 
 CustomField.loadFieldInfo = function()
 {
@@ -807,13 +781,12 @@ CustomField.loadFieldInfo = function()
             validation_js: field.attr('data-custom-validation-js')
         })
     });
-}
+};
 
 CustomField.getFieldInfo = function()
 {
     return CustomField.field_info;
-}
-
+};
 
 
 function ExpandableCell()
@@ -851,7 +824,7 @@ ExpandableCell.ready = function()
             });
         }
     });
-}
+};
 
 ExpandableCell.expand = function(expand_type, list_id) {
     var row = $('#ec_' + expand_type + '_item_' + list_id + '_row');
@@ -861,12 +834,12 @@ ExpandableCell.expand = function(expand_type, list_id) {
             '&list_id=' + list_id);
     }
     row.show();
-}
+};
 
 ExpandableCell.collapse = function(expand_type, list_id) {
     var row = $('#ec_' + expand_type + '_item_' + list_id + '_row');
     row.hide();
-}
+};
 
 function GrowingFileField() {
 }
@@ -874,7 +847,7 @@ function GrowingFileField() {
 GrowingFileField.ready = function()
 {
     $('.growing_file_field').bind('change', GrowingFileField.copy_row);
-}
+};
 
 GrowingFileField.copy_row = function(e)
 {
@@ -884,4 +857,4 @@ GrowingFileField.copy_row = function(e)
     }
     var new_row = target.parents('tr').first().clone(true);
     target.parents('tbody').first().append(new_row);
-}
+};
