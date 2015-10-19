@@ -231,7 +231,7 @@ Eventum.optionExists = function(field, option)
 
 Eventum.removeAllOptions = function(field)
 {
-    var field = Eventum.getField(field);
+    field = Eventum.getField(field);
     field.html('');
 };
 
