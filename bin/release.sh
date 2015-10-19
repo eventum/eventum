@@ -232,7 +232,7 @@ build_phars() {
 }
 
 cleanup_postdist() {
-	rm composer.json bin/dyncontent-chksum.pl
+	rm composer.json phpcompatinfo.json
 	rm cli/{composer.json,box.json.dist,Makefile}
 
 	# cleanup vendors
@@ -288,7 +288,7 @@ prepare_source() {
 
 	build_phars
 
-	# setup locatlization
+	# setup localization
 	make -C localization install clean
 
 	# install dirs and fix permissions
