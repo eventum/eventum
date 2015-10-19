@@ -9,6 +9,7 @@ Eventum Issue Tracking System
 - Auth and Project cookie related internal refactor (Elan Ruusamäe, #74)
 - Set limit 20 retries to try to send one mail (Elan Ruusamäe)
 - Add html_charset to be APP_CHARSET (Elan Ruusamäe, LP#741768)
+- Use password_hash family functions for password hashing (Elan Ruusamäe, GH#77)
 
 2015-10-13, Version 3.0.3
 -------------------------
