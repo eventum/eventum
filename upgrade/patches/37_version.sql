@@ -1,7 +1,6 @@
 -- change version table to be log based
 alter table {{%version}}
-    add `ver_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    add `ver_comment` varchar(255) DEFAULT NULL;
+    add `ver_timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP;
 
 -- fill old entries being applied
 -- note "36" is not in the list, as that will be present via alter statement
