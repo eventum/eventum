@@ -38,12 +38,12 @@ if (@$_GET['cat'] == 'blocked_email') {
     $email = Support::getFullEmail($_GET['sup_id']);
 }
 if (!empty($_GET['raw'])) {
-    Attachment::outputDownload($email, 'message.eml', strlen($email), 'message/rfc822');
+    Attachment::outputDownload($email, 'message.eml', Misc::countBytes($email), 'message/rfc822');
 } else {
     if (!empty($_GET['cid'])) {
         list($mimetype, $data) = Mime_Helper::getAttachment($email, $_GET['filename'], $_GET['cid']);
     } else {
         list($mimetype, $data) = Mime_Helper::getAttachment($email, $_GET['filename']);
     }
-    Attachment::outputDownload($data, $_GET['filename'], strlen($data), $mimetype);
+    Attachment::outputDownload($data, $_GET['filename'], Misc::countBytes($data), $mimetype);
 }

@@ -45,5 +45,5 @@ header('Cache-Control: must-revalidate, post-check=0,pre-check=0');
 
 $filename = uniqid('csv') . '.xls';
 $mimetype = 'application/vnd.ms-excel';
-$filesize = strlen($csv);
+$filesize = Misc::countBytes($csv);
 Attachment::outputDownload($csv, $filename, $filesize, $mimetype);

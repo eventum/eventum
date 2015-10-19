@@ -504,7 +504,7 @@ class Attachment
             DB_Helper::getInstance()->query($stmt, array(
                 $attachment_id,
                 $filename,
-                strlen($blob),
+                Misc::countBytes($blob),
                 $filetype,
                 Date_Helper::getCurrentDateGMT(),
                 $blob,
