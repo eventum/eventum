@@ -350,32 +350,6 @@ class Auth
     }
 
     /**
-     * Method used to update the account password for a specific user.
-     *
-     * @param   integer $usr_id The user ID
-     * @param $password
-     * @param $password_confirm
-     * @param   boolean $send_notification Whether to send the notification email or not
-     * @return  integer 1 if the update worked, -1 otherwise
-     */
-    public static function updatePassword($usr_id, $password, $password_confirm, $send_notification = false)
-    {
-        if ($password != $password_confirm) {
-            return -2;
-        }
-
-        $res = self::getAuthBackend()->updatePassword($usr_id, $password);
-        if (!$res) {
-            return -1;
-        }
-        if ($send_notification) {
-            Notification::notifyUserPassword($usr_id, $password);
-        }
-
-        return 1;
-    }
-
-    /**
      * Returns the true if the account is currently locked becouse of Back-Off lock
      *
      * @param   string $usr_id The user id to check for
@@ -574,22 +548,6 @@ class Auth
         }
 
         return $instance;
-    }
-
-    /**
-     * Hashes the password according to APP_HASH_TYPE constant
-     *
-     * @param   string $password The plain text password
-     * @return  string The hashed password
-     */
-    public static function hashPassword($password)
-    {
-        if (APP_HASH_TYPE == 'MD5-64') {
-            return base64_encode(pack('H*', md5($password)));
-        } else {
-            // default to md5
-            return md5($password);
-        }
     }
 
     /**

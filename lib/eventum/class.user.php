@@ -306,7 +306,6 @@ class User
                     {{%user}}
                  (
                     usr_created_date,
-                    usr_password,
                     usr_full_name,
                     usr_email,
                     usr_status
@@ -315,7 +314,6 @@ class User
             DB_Helper::getInstance()->query(
                 $stmt, array(
                     Date_Helper::getCurrentDateGMT(),
-                    Auth::hashPassword($_POST['passwd']),
                     $_POST['full_name'],
                     $_POST['email'],
                     'pending',
@@ -325,13 +323,21 @@ class User
             return -1;
         }
 
-        $new_usr_id = DB_Helper::get_last_insert_id();
-        // add the project associations!
-        foreach ($projects as $prj_id) {
-            Project::associateUser($prj_id, $new_usr_id, $role);
+        $usr_id = DB_Helper::get_last_insert_id();
+
+        try {
+            User::updatePassword($usr_id, $_POST['passwd']);
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+            return -1;
         }
 
-        Prefs::set($new_usr_id, Prefs::getDefaults($projects));
+        // add the project associations!
+        foreach ($projects as $prj_id) {
+            Project::associateUser($prj_id, $usr_id, $role);
+        }
+
+        Prefs::set($usr_id, Prefs::getDefaults($projects));
 
         // send confirmation email to user
         $hash = md5($_POST['full_name'] . $_POST['email'] . Auth::privateKey());
@@ -388,14 +394,13 @@ class User
      * to the user with the new random password.
      *
      * @param   string $email The email address
-     * @return  void
      */
     public static function confirmNewPassword($email)
     {
         $usr_id = self::getUserIDByEmail($email);
         // create the new password
         $password = substr(md5(microtime() . uniqid('')), 0, 12);
-        Auth::updatePassword($usr_id, $password, $password, true);
+        User::updatePassword($usr_id, $password, true);
     }
 
     public static function getUserIDByExternalID($external_id)
@@ -948,39 +953,6 @@ class User
     }
 
     /**
-     * Method used to update the account password for a specific user.
-     *
-     * @param   integer $usr_id The user ID
-     * @param   boolean $send_notification Whether to send the notification email or not
-     * @return  integer 1 if the update worked, -1 otherwise
-     */
-    public static function updatePassword($usr_id, $send_notification = false)
-    {
-        if ($_POST['new_password'] != $_POST['confirm_password']) {
-            return -2;
-        }
-        $stmt = 'UPDATE
-                    {{%user}}
-                 SET
-                    usr_password=?
-                 WHERE
-                    usr_id=?';
-        try {
-            DB_Helper::getInstance()->query(
-                $stmt, array(Auth::hashPassword($_POST['new_password']), $usr_id)
-            );
-        } catch (DbException $e) {
-            return -1;
-        }
-
-        if ($send_notification) {
-            Notification::notifyUserPassword($usr_id, $_POST['new_password']);
-        }
-
-        return 1;
-    }
-
-    /**
      * Method used to update the account full name for a specific user.
      *
      * @param   integer $usr_id The user ID
@@ -1031,6 +1003,32 @@ class User
         return 1;
     }
 
+    /**
+     * Method to set the user password.
+     * It calls out auth backend, which will store the password hash.
+     *
+     * @param integer $usr_id The user ID
+     * @param string $password Plain text user password
+     * @param boolean $send_notification Whether to send the notification email or not
+     * @throw InvalidArgumentException|BadMethodCallException in case password was not set
+     */
+    public static function updatePassword($usr_id, $password, $send_notification = false)
+    {
+        // reject setting empty password
+        if ($password == '') {
+            throw new InvalidArgumentException("Can't set empty password");
+        }
+
+        $res = Auth::getAuthBackend()->updatePassword($usr_id, $password);
+        if (!$res) {
+            throw new BadMethodCallException("Password set rejected by auth backend");
+        }
+
+        if ($send_notification) {
+            Notification::notifyUserPassword($usr_id, $password);
+        }
+    }
+
     public static function updateFromPost()
     {
         $usr_id = $_POST['id'];
@@ -1076,10 +1074,6 @@ class User
             $params['usr_grp_id'] = !empty($data['grp_id']) ? $data['grp_id'] : null;
         }
 
-        if (!empty($data['password'])) {
-            $params['usr_password'] = Auth::hashPassword($data['password']);
-        }
-
         if (isset($data['external_id'])) {
             $params['usr_external_id'] = $data['external_id'];
         }
@@ -1097,6 +1091,15 @@ class User
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
+        }
+
+        if (!empty($data['password'])) {
+            try {
+                User::updatePassword($usr_id, $data['password']);
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+                return -1;
+            }
         }
 
         if (isset($data['role'])) {
@@ -1190,7 +1193,6 @@ class User
             isset($user['customer_id']) ? $user['customer_id'] : null,
             isset($user['contact_id']) ? $user['contact_id'] : null,
             Date_Helper::getCurrentDateGMT(),
-            Auth::hashPassword($user['password']),
             $user['full_name'],
             $user['email'],
             !empty($user['grp_id']) ? $user['grp_id'] : null,
@@ -1203,22 +1205,13 @@ class User
                     usr_customer_id,
                     usr_customer_contact_id,
                     usr_created_date,
-                    usr_password,
                     usr_full_name,
                     usr_email,
                     usr_grp_id,
                     usr_external_id,
                     usr_par_code
                  ) VALUES (
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?
+                    ?, ?, ?, ?, ?, ?, ?, ?
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -1226,23 +1219,30 @@ class User
             return -1;
         }
 
-        $new_usr_id = DB_Helper::get_last_insert_id();
+        $usr_id = DB_Helper::get_last_insert_id();
+
+        try {
+            User::updatePassword($usr_id, $user['password']);
+        } catch (Exception $e) {
+            return -1;
+        }
+
         // add the project associations!
         $projects = array();
         foreach ($user['role'] as $prj_id => $role) {
             if ($role < 1) {
                 continue;
             }
-            Project::associateUser($prj_id, $new_usr_id, $role);
+            Project::associateUser($prj_id, $usr_id, $role);
             $projects[] = $prj_id;
         }
 
-        Prefs::set($new_usr_id, Prefs::getDefaults($projects));
+        Prefs::set($usr_id, Prefs::getDefaults($projects));
 
         // send email to user
-        Notification::notifyNewUser($new_usr_id, $user['password']);
+        Notification::notifyNewUser($usr_id, $user['password']);
 
-        return $new_usr_id;
+        return $usr_id;
     }
 
     /**
