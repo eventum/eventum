@@ -63,6 +63,9 @@ vcs_checkout() {
 		dir=$absdir/$submodule update_timestamps
 		cd $topdir
 	done
+
+	# reset submodules to previous state
+	git submodule update
 }
 
 # checkout localizations from launchpad
