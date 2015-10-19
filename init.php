@@ -210,7 +210,6 @@ Misc::stripInput($_POST);
 // set default timezone
 date_default_timezone_set(APP_DEFAULT_TIMEZONE);
 
-require_once APP_INC_PATH . '/gettext.php';
 Language::setup();
 
 // set charset

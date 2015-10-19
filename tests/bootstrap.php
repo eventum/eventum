@@ -54,8 +54,6 @@ define('APP_PROJECT_COOKIE_EXPIRE', time() + (60 * 60 * 24));
 
 require_once APP_PATH . '/autoload.php';
 
-require_once APP_INC_PATH . '/gettext.php';
-
 // set default timezone
 date_default_timezone_set(APP_DEFAULT_TIMEZONE);
 
