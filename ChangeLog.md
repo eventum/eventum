@@ -10,6 +10,7 @@ Eventum Issue Tracking System
 - Set limit 20 retries to try to send one mail (Elan Ruusamäe)
 - Add html_charset to be APP_CHARSET (Elan Ruusamäe, LP#741768)
 - Use password_hash family functions for password hashing (Elan Ruusamäe, GH#77)
+- Unify size of pri_id in databases (Elan Ruusamäe, LP#1450152)
 
 2015-10-13, Version 3.0.3
 -------------------------
