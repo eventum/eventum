@@ -101,7 +101,6 @@ $define('APP_DEFAULT_COPY_OF_OWN_ACTION', 0);
 $define('APP_RELATIVE_URL', '/');
 $define('APP_COOKIE_URL', APP_RELATIVE_URL);
 $define('APP_COOKIE_DOMAIN', null);
-$define('APP_HASH_TYPE', 'MD5');
 $define('APP_DEFAULT_LOCALE', 'en_US');
 $define('APP_CHARSET', 'UTF-8');
 $define('APP_DEFAULT_TIMEZONE', 'UTC');
