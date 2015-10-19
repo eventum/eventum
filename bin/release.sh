@@ -56,6 +56,7 @@ vcs_checkout() {
 	dir=$absdir git submodule foreach 'cd $toplevel/$path && git archive HEAD | tar -x -C $dir/$path/'
 
 	update_timestamps
+
 	local submodule
 	for submodule in $(git submodule -q foreach 'echo $path'); do
 		cd $submodule
@@ -164,6 +165,7 @@ clean_vendor() {
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
 	rm vendor/smarty-gettext/smarty-gettext/tsmarty2c.1
 	rm vendor/ircmaxell/security-lib/lib/SecurityLib/composer.json
+	rm vendor/ircmaxell/password-compat/version-test.php
 
 	# smarty: use -f, as dist and src packages differ
 	# smarty src
@@ -282,7 +284,7 @@ prepare_source() {
 	phpcompatinfo_report
 
 	# update to include checksums of js/css files
-	./bin/dyncontent-chksum.pl
+	$topdir/bin/dyncontent-chksum.pl
 
 	build_phars
 
