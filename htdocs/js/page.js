@@ -131,10 +131,11 @@ list_issues.clearFilters = function()
 
 list_issues.runCustomFilter = function()
 {
-    var cst_url = $('#custom_filter').val();
+    var $customFilter = $('#custom_filter');
+    var cst_url = $customFilter.val();
     if (Validation.isWhitespace(cst_url)) {
         alert('Please select the custom filter to search against.');
-        $('#custom_filter').focus();
+        $customFilter.focus();
         return false;
     }
     location.href = 'list.php?cat=search&' + cst_url;
@@ -361,9 +362,10 @@ issue_view.signupAsAuthorizedReplier = function()
 issue_view.changeIssueStatus = function(e)
 {
     var current_status_id = $(e.target).attr('data-status-id');
-    var new_status = $('#new_status').val();
+    var $newStatus = $('#new_status');
+    var new_status = $newStatus.val();
     if (new_status === current_status_id) {
-        Validation.selectField($('#new_status'));
+        Validation.selectField($newStatus);
         alert('Please select the new status for this issue.');
     } else {
         var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -594,7 +596,8 @@ function adv_search() {}
 
 adv_search.ready = function()
 {
-    $('#show_date_fields_checkbox').click(function() {
+    var $showDateFieldsCheckbox = $('#show_date_fields_checkbox');
+    $showDateFieldsCheckbox.click(function() {
         adv_search.toggle_date_row();
     });
 
@@ -603,7 +606,8 @@ adv_search.ready = function()
         adv_search.checkDateFilterType(target.attr('name').replace("[filter_type]", ""));
     });
 
-    $('#show_custom_fields_checkbox').click(function() {
+    var $showCustomFieldsCheckbox = $('#show_custom_fields_checkbox');
+    $showCustomFieldsCheckbox.click(function() {
         adv_search.toggle_custom_fields()
     });
 
@@ -633,11 +637,11 @@ adv_search.ready = function()
         return Validation.checkFormSubmission($('form[name=custom_filter_form]'), adv_search.validateForm);
     });
 
-    if ($('#show_date_fields_checkbox').is(':checked')) {
+    if ($showDateFieldsCheckbox.is(':checked')) {
         adv_search.toggle_date_row(true);
     }
 
-    if ($('#show_custom_fields_checkbox').is(':checked')) {
+    if ($showCustomFieldsCheckbox.is(':checked')) {
         adv_search.toggle_custom_fields(true);
     }
 };
@@ -724,11 +728,7 @@ adv_search.toggle_date_field = function(field_name)
     var day_end_field = Eventum.getField(field_name + '_end[Day]');
     var year_end_field = Eventum.getField(field_name + '_end[Year]');
     var time_period_field = Eventum.getField(field_name + '[time_period]');
-    if (checkbox.is(':checked')) {
-        var disabled = false;
-    } else {
-        var disabled = true;
-    }
+    var disabled = !checkbox.is(':checked');
     filter_type.attr('disabled', disabled);
     month_field.attr('disabled', disabled);
     day_field.attr('disabled', disabled);
