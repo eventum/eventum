@@ -5,8 +5,9 @@ $(document).ready(function() {
     jQuery.ajaxSettings.traditional = true;
 
     // check the class of the body and try to execute the prep functions if there is a class defined for that
-    var page_id = $("body").attr('id');
-    $.each($("body").attr('class').split(" "), function(indexInArray, valueOfElement) {
+    var $body = $("body");
+    var page_id = $body.attr('id');
+    $.each($body.attr('class').split(" "), function(indexInArray, valueOfElement) {
         if (valueOfElement == '') {
             return
         }
@@ -95,7 +96,7 @@ Eventum.rel_url = '';
 Eventum.toggle_section_visibility = function(id) {
     var element = $('#' + id);
     var display = '';
-    var link_title = ''
+    var link_title = '';
     if (element.is(':visible')) {
         display = 'none';
         element.hide();
@@ -301,7 +302,7 @@ Eventum.setupShowSelections = function(select_box)
 {
     select_box.change(Eventum.showSelections);
     select_box.change();
-}
+};
 
 Eventum.showSelections = function(e)
 {
@@ -739,7 +740,7 @@ Validation.validateIssueNumberField = function(e)
         exclude_issue: target.attr('data-exclude-issue'),
         exclude_duplicates: target.attr('data-exclude-duplicates'),
         error_message: target.attr('data-error-message')
-    }
+    };
 
     jQuery.ajax({
             url: Eventum.rel_url + 'validate.php',
