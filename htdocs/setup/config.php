@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
@@ -33,7 +33,7 @@
 // This file will not be overwritten when upgrading Eventum
 
 // NOTE: if you are looking for database connection info in this file,
-// then since 2.4.0 database configuration lies in setup.php
+// then since 2.4.0 database configuration is in setup.php file.
 
 define('APP_NAME', 'Eventum');
 define('APP_SHORT_NAME', APP_NAME); // used in the subject of notification emails
@@ -89,5 +89,5 @@ define('APP_FULLTEXT_SEARCH_CLASS', 'mysql_fulltext_search');
 // such as language switching randomly, try php
 define('APP_GETTEXT_MODE', 'native');
 
-// directory where to save routed drafts/notes/emails. leave empty/undefined to disable.
+// directory where to save routed drafts/notes/emails. use NULL or '' to disable.
 define('APP_ROUTED_MAILS_SAVEDIR', APP_PATH . '/misc');
