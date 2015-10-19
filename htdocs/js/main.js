@@ -261,8 +261,6 @@ Eventum.handleClose = function()
 {
     if (Eventum.checkClose == true) {
         return Eventum.closeConfirmMessage;
-    } else {
-        return;
     }
 };
 
@@ -527,11 +525,7 @@ Validation.isNumberOnly = function(s)
 Validation.hasOneSelected = function(field)
 {
     field = Eventum.getField(field);
-    if (field.val() != null && field.val().length > 0) {
-        return true;
-    } else {
-        return false;
-    }
+    return (field.val() != null && field.val().length > 0);
 };
 
 Validation.isEmail = function(s)
@@ -575,11 +569,7 @@ Validation.isEmail = function(s)
 Validation.hasOneChecked = function(field)
 {
     field = Eventum.getField(field);
-    if (field.filter(':checked').length > 0) {
-        return true;
-    } else {
-        return false;
-    }
+    return (field.filter(':checked').length > 0);
 };
 
 Validation.isValidDate = function(field_prefix)
@@ -589,11 +579,7 @@ Validation.isValidDate = function(field_prefix)
     selected_date.setDate(Eventum.getField(field_prefix + '[Day]').val());
     selected_date.setYear(Eventum.getField(field_prefix + '[Year]').val());
 
-    if (selected_date.getDate() != Eventum.getField(field_prefix + '[Day]').val()) {
-        return false;
-    } else {
-        return true;
-    }
+    return selected_date.getDate() == Eventum.getField(field_prefix + '[Day]').val();
 };
 
 Validation.errors = null;
