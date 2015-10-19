@@ -6,8 +6,8 @@ class AuthLdapTest extends PHPUnit_Framework_TestCase
     static $ldap;
 
     public static function setupBeforeClass() {
-        if (getenv('TRAVIS')) {
-            self::markTestSkipped('Skip LDAP test on Travis');
+        if (getenv('TRAVIS') || getenv('JENKINS_HOME')) {
+            self::markTestSkipped('Skip LDAP test on Travis/Jenkins');
         }
 
         self::$ldap = new LDAP_Auth_Backend();

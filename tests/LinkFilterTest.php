@@ -4,8 +4,8 @@ class LinkFilterTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        if (getenv('TRAVIS')) {
-            $this->markTestSkipped("No DB tests in Travis");
+        if (getenv('TRAVIS') || getenv('JENKINS_HOME')) {
+            $this->markTestSkipped("No DB tests in Travis/Jenkins");
         }
     }
 

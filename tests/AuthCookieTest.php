@@ -12,8 +12,8 @@ class AuthCookieTest extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        if (getenv('TRAVIS')) {
-            $this->markTestSkipped("Missing Travis setup");
+        if (getenv('TRAVIS') || getenv('JENKINS_HOME')) {
+            $this->markTestSkipped("Missing Travis/Jenkins setup");
         }
     }
 
