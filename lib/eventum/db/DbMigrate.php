@@ -58,35 +58,34 @@ class DbMigrate
     public function patch_database()
     {
         // sanity check. check that the version table exists.
-        $has_table = $this->db->getOne("SHOW TABLES LIKE '{$this->table_prefix}version'");
-        if (!$has_table) {
+        if (!$this->hasVersionTable()) {
             $this->init_database();
         }
 
-        $last_patch = $this->db->getOne('SELECT ver_version FROM {{%version}}');
-        if (!isset($last_patch)) {
-            // insert initial value
-            $this->db->query('INSERT INTO {{%version}} SET ver_version=0');
-            $last_patch = 0;
-        }
-
+        $patches = $this->applied_patches();
         $files = $this->read_patches("{$this->dir}/patches");
 
         $addCount = 0;
+        $maxpatch = max(array_keys($files)) ?: 0;
         foreach ($files as $number => $file) {
-            if ($number > $last_patch) {
-                echo '* Applying patch: ', $number, ' (', basename($file), ")\n";
-                $this->exec_sql_file($file);
-                $this->db->query("UPDATE {{%version}} SET ver_version=$number");
-                $addCount++;
+            if (isset($patches[$number])) {
+                // patch already applied. next please
+                continue;
             }
+
+            echo '* Applying patch: ', $number, ' (', basename($file), ")\n";
+            $this->exec_sql_file($file);
+            $this->add_version($number);
+            $addCount++;
+
+            // rescan patches, in case the patch modified version table
+            $patches = $this->applied_patches();
         }
 
-        $version = max(array_keys($files));
         if ($addCount == 0) {
-            echo "* Your database is already up-to-date. Version $version\n";
+            echo "* Your database is already up-to-date. Version $maxpatch\n";
         } else {
-            echo "* Your database is now up-to-date. Updated from $last_patch to $version\n";
+            echo "* Your database is now up-to-date. Version $maxpatch\n";
         }
     }
 
@@ -148,4 +147,59 @@ class DbMigrate
 
         return $files;
     }
+
+    /**
+     * Return true if version table exists
+     * @return bool
+     */
+    private function hasVersionTable() {
+        $res = $this->db->getOne("SHOW TABLES LIKE '{$this->table_prefix}version'");
+        return $res !== null;
+    }
+
+    /**
+     * Return true if versio table is log based
+     */
+    private function hasVersionLog() {
+        // check if ver_patch column exists
+        $res = $this->db->getOne("SHOW FIELDS FROM {{%version}} LIKE 'ver_timestamp'");
+        return $res !== null;
+    }
+
+    /**
+     * get applied patches from version table
+     * returns null if version table is not found
+     */
+    private function applied_patches()
+    {
+        if (!$this->hasVersionTable()) {
+            return null;
+        }
+
+        $patches = array();
+
+        // check for old table format
+        if (!$this->hasVersionLog()) {
+            // old table, return versions based ver_version value
+            $last_patch = $this->db->getOne('SELECT ver_version FROM {{%version}}');
+
+            for ($i = 1; $i <= $last_patch; $i++) {
+                $patches[$i] = time();
+            }
+            return $patches;
+        }
+
+        $patches = $this->db->getPair("SELECT ver_version,ver_timestamp FROM {{%version}} ORDER BY 1");
+        return $patches;
+    }
+
+    private function add_version($number)
+    {
+        if ($this->hasVersionLog()) {
+            $this->db->query("INSERT INTO {{%version}} SET ver_version=$number, ver_timestamp=NOW()");
+        } else {
+            $this->db->query("UPDATE {{%version}} SET ver_version=$number");
+        }
+    }
+
 }

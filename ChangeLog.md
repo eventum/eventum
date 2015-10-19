@@ -12,6 +12,7 @@ Eventum Issue Tracking System
 - Use password_hash family functions for password hashing (Elan Ruusamäe, GH#77)
 - Unify size of pri_id in databases (Elan Ruusamäe, LP#1450152)
 - Handle mbstring function overload (Elan Ruusamäe, LP#1494732)
+- Make version table log based (Elan Ruusamäe)
 
 2015-10-13, Version 3.0.3
 -------------------------
