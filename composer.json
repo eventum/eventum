@@ -32,7 +32,7 @@
 		"component-dir": "htdocs/components"
 	},
 	"autoload": {
-		"classmap": [ "lib/eventum/" ],
+		"classmap": [ "lib/eventum/", "local/include/"],
 		"files": [ "lib/eventum/gettext.php" ]
 	},
 	"scripts": {

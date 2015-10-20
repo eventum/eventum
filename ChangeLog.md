@@ -13,6 +13,7 @@ Eventum Issue Tracking System
 - Unify size of pri_id in databases (Elan Ruusamäe, LP#1450152)
 - Handle mbstring function overload (Elan Ruusamäe, LP#1494732)
 - Make version table log based (Elan Ruusamäe)
+- Removed local/include/ from include path and added to composer instead (Bryan Alsdorf)
 
 2015-10-13, Version 3.0.3
 -------------------------

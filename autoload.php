@@ -25,12 +25,6 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-// add APP_LOCAL_PATH to include_path
-if (defined('APP_LOCAL_PATH')) {
-    set_include_path(APP_LOCAL_PATH . PATH_SEPARATOR . get_include_path());
-    set_include_path(APP_LOCAL_PATH . '/include/' . PATH_SEPARATOR . get_include_path());
-}
-
 if (!file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
     echo <<<EOF
 
