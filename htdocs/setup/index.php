@@ -61,9 +61,8 @@ if ($have_config) {
     exit(0);
 }
 
-if (defined('APP_PEAR_PATH')) {
+if (defined('APP_INC_PATH')) {
     set_include_path(
-        APP_PEAR_PATH . PATH_SEPARATOR .
         APP_INC_PATH . PATH_SEPARATOR .
         get_include_path()
     );
