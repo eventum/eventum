@@ -13,6 +13,5 @@ ratings:
   - "**.js"
   - "**.css"
   - "**.php"
-  - "**.inc"
 exclude_paths:
 - config/**/*
