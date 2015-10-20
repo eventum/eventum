@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -82,20 +82,27 @@ class Setup
      */
     private static function loadConfig($path, $defaults)
     {
+        $migrate = false;
         $eventum_setup_string = $eventum_setup = null;
 
         // config array is supposed to be returned from that path
         /** @noinspection PhpIncludeInspection */
         $config = require $path;
-
         // fall back to old modes:
         // 1. $eventum_setup string
         // 2. base64 encoded $eventum_setup_string
         // TODO: save it over so the support could be removed soon
         if (isset($eventum_setup)) {
             $config = $eventum_setup;
+            $migrate = true;
         } elseif (isset($eventum_setup_string)) {
             $config = unserialize(base64_decode($eventum_setup_string));
+            $migrate = true;
+        }
+
+        if ($migrate) {
+            // save config in new format
+            Setup::save($config);
         }
 
         // merge with defaults
@@ -143,7 +150,7 @@ class Setup
      */
     private static function dumpConfig($config)
     {
-        return '<' . "?php\nreturn \$eventum_setup = " . var_export($config, 1) . ";\n";
+        return '<' . "?php\nreturn " . var_export($config, 1) . ";\n";
     }
 
     /**
