@@ -244,7 +244,7 @@ class SCM
             return $instances[$scm_name];
         }
 
-        $setup = &Setup::load();
+        $setup = Setup::load();
 
         // handle legacy setup, convert existing config to be known under name 'default'
         if (!isset($setup['scm'])) {
@@ -254,8 +254,7 @@ class SCM
                 'diff_url' => $setup['diff_url'],
                 'log_url' => $setup['scm_log_url'],
             );
-            $setup['scm'][$scm['name']] = $scm;
-            Setup::save($setup);
+            Setup::save(array('scm' => array($scm['name'] => $scm)));
         }
 
         if (!isset($setup['scm'][$scm_name])) {

@@ -73,7 +73,8 @@
 		"phplot/phplot": "~6.1.0",
 		"smarty-gettext/smarty-gettext": "~1.0",
 		"smarty/smarty": "~3.1.12",
-		"sphinx/php-sphinxapi": "2.0.*"
+		"sphinx/php-sphinxapi": "2.0.*",
+		"zendframework/zend-config": "2.4.*"
 	},
 	"conflict": {
 		"pear/pear-core-minimal": ">=1.10"

@@ -79,10 +79,10 @@ class DB_Helper
      */
     public static function getConfig()
     {
-        $setup = &Setup::load();
+        $setup = Setup::load();
 
         if (isset($setup['database'])) {
-            $config = $setup['database'];
+            $config = $setup['database']->toArray();
         } else {
             // legacy: import from constants
             $config = array(
@@ -106,8 +106,7 @@ class DB_Helper
             );
 
             // save it back. this will effectively do the migration
-            $setup['database'] = $config;
-            Setup::save($setup);
+            Setup::save(array('database' => $config));
         }
 
         return $config;
