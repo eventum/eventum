@@ -9,13 +9,16 @@ The following archives contain the patched files and the diff files.
 
 Database Patch
 
+```sql
     ALTER TABLE `eventum_reminder_action` ADD `rma_repetition` MEDIUMINT( 7 ) UNSIGNED DEFAULT NULL ;
     ALTER TABLE `eventum_reminder_triggered_action` ADD `rta_last_exec_date` DATETIME DEFAULT NULL ;
+```
 
 **Patches for eventum 2.2**
 
 include/class.misc.php
 
+```diff
     --- ../../eventum-2.2/include/class.misc.php    2009-01-12 21:14:39.000000000 +0100
     +++ ../include/class.misc.php   2009-05-07 15:30:30.000000000 +0200
     @@ -396,6 +396,28 @@
@@ -47,9 +50,11 @@ include/class.misc.php
 
          /**
           * Method used to prepare a set of fields and values for a boolean search
+```
 
 include/class.reminder_action.php
 
+```diff
     --- ../../eventum-2.2/include/class.reminder_action.php 2009-01-12 21:14:39.000000000 +0100
     +++ ../include/class.reminder_action.php    2009-05-07 15:41:32.000000000 +0200
     @@ -201,7 +201,8 @@
@@ -141,9 +146,11 @@ include/class.reminder_action.php
                           )";
              }
              $res = $GLOBALS["db_api"]->dbh->query($stmt);
+```
 
 misc/check_reminders.php
 
+```diff
     --- ../../eventum-2.2/misc/check_reminders.php  2008-03-15 17:45:34.000000000 +0100
     +++ ../misc/check_reminders.php 2009-05-07 15:22:22.000000000 +0200
     @@ -88,7 +88,10 @@
@@ -190,3 +197,4 @@ templates/manage/reminder_actions.tpl.html
                      <td colspan="2" bgcolor="{$cell_color}" align="center">
                        {if $smarty.get.cat == 'edit'}
                        <input class="button" type="submit" value="{t}Update Action{/t}">
+```
