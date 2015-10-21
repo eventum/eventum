@@ -80,7 +80,7 @@ class DB_Helper
      */
     public static function getConfig()
     {
-        $setup = Setup::load();
+        $setup = Setup::get();
 
         if (isset($setup['database'])) {
             $config = $setup['database']->toArray();

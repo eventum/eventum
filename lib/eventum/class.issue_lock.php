@@ -44,7 +44,7 @@ class Issue_Lock
      */
     public static function acquire($issue_id, $usr_id)
     {
-        $setup = Setup::load();
+        $setup = Setup::get();
         $lock_ttl = $setup['issue_lock'];
         $expires = time() + $lock_ttl;
 

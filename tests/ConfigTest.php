@@ -4,7 +4,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 {
     public function testConfig()
     {
-        $config = Setup::load();
+        $config = Setup::get();
 
         $config['item1'] = 'one';
         $this->assertEquals('one', $config['item1'], "config as array set works");
@@ -40,7 +40,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(300, $config->issue_lock, "the other entries are not lost");
         $this->assertEquals('localhost', $config->smtp->host, "config change is present");
 
-        $config = Setup::load();
+        $config = Setup::get();
         $this->assertEquals('one', $config->item1, "config change is present");
     }
 
@@ -52,7 +52,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
      */
     public function testSetType()
     {
-        $config = Setup::load();
+        $config = Setup::get();
 
         $config['smtp'] = array(
             'from' => 'admin@example.org',

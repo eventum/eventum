@@ -244,7 +244,7 @@ class SCM
             return $instances[$scm_name];
         }
 
-        $setup = Setup::load();
+        $setup = Setup::get();
 
         if (!isset($setup['scm'][$scm_name])) {
             throw new Exception("SCM '$scm_name' not defined");

@@ -38,11 +38,12 @@ use Zend\Config\Config;
 class Setup
 {
     /**
-     * Method used to load the setup options for the application.
+     * Get system setup options for the application.
+     * The configuration is loaded from config/setup.php file
      *
      * @return Config The system-wide preferences
      */
-    public static function load()
+    public static function get()
     {
         static $config;
         if (!$config) {
@@ -61,7 +62,7 @@ class Setup
      */
     public static function set($options)
     {
-        $config = self::load();
+        $config = self::get();
         $config->merge(new Config($options));
 
         return $config;

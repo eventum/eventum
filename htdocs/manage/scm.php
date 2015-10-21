@@ -57,6 +57,6 @@ if (@$_POST['cat'] == 'update') {
     ));
 }
 
-$tpl->assign('setup', Setup::load());
+$tpl->assign('setup', Setup::get());
 
 $tpl->displayTemplate();

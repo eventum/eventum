@@ -78,7 +78,7 @@ if (!file_exists(APP_SETUP_FILE)) {
 
 if (!getenv('TRAVIS')) {
     // init these from setup file
-    $setup = Setup::load();
+    $setup = Setup::get();
 
     // used for tests
     define('APP_ADMIN_USER_ID', $setup['admin_user']);

@@ -85,7 +85,7 @@ if (@$_POST['cat'] == 'update') {
 }
 
 $tpl->assign(array(
-    'setup' => Setup::load(),
+    'setup' => Setup::get(),
     'user_roles' => User::getRoles(array('Customer')),
 ));
 

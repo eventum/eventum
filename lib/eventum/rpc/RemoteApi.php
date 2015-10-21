@@ -581,7 +581,7 @@ class RemoteApi
             }
         }
 
-        $setup = Setup::load();
+        $setup = Setup::get();
 
         if (isset($setup['description_email_0']) && $setup['description_email_0'] == 'enabled') {
             $issue = Issue::getDetails($issue_id);

@@ -12,7 +12,7 @@ class RemoteApiTest extends PHPUnit_Framework_TestCase
 
     public static function setupBeforeClass()
     {
-        $setup = Setup::load();
+        $setup = Setup::get();
         if (!isset($setup['tests.xmlrpc_url'])) {
             self::markTestSkipped("tests.xmlrpc_url not set in setup");
         }

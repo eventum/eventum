@@ -76,7 +76,7 @@ $quiet = isset($opt['q']);
 
 $errors = 0;
 // load prefs
-$setup = Setup::load();
+$setup = Setup::get();
 $prefs = $setup['monitor'];
 
 $errors += Monitor::checkDatabase();

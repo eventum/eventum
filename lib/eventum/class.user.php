@@ -351,7 +351,7 @@ class User
         ));
         $text_message = $tpl->getTemplateContents();
 
-        $setup = Setup::load();
+        $setup = Setup::get();
         $mail = new Mail_Helper();
         // need to make this message MIME based
         $mail->setTextBody($text_message);
@@ -382,7 +382,7 @@ class User
         ));
         $text_message = $tpl->getTemplateContents();
 
-        $setup = Setup::load();
+        $setup = Setup::get();
         $mail = new Mail_Helper();
         // need to make this message MIME based
         $mail->setTextBody($text_message);
@@ -1483,7 +1483,7 @@ class User
      */
     public static function isClockedIn($usr_id)
     {
-        $setup = Setup::load();
+        $setup = Setup::get();
         // If clock in handling is disabled, say that we are always clocked in
         if ($setup['handle_clock_in'] == 'disabled') {
             return true;

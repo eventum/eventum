@@ -59,6 +59,5 @@ $tpl->assign('priorities', Priority::getList($prj_id));
 $tpl->assign('users', Project::getUserAssocList($prj_id, 'active'));
 $tpl->assign('options', Project::getAnonymousPostOptions($prj_id));
 $tpl->assign('prj_id', $prj_id);
-$setup = Setup::load();
 
 $tpl->displayTemplate();

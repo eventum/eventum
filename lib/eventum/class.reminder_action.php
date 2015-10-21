@@ -699,7 +699,7 @@ class Reminder_Action
             Notification::notifyIRC(Issue::getProjectID($issue_id), $irc_notice, $issue_id, false,
                 APP_EVENTUM_IRC_CATEGORY_REMINDER);
         }
-        $setup = Setup::load();
+        $setup = Setup::get();
         // if there are no recipients, then just skip to the next action
         if (count($to) == 0) {
             if (Reminder::isDebug()) {

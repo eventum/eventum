@@ -142,7 +142,7 @@ class Misc
      */
     public static function getToolCaption()
     {
-        $setup = Setup::load();
+        $setup = Setup::get();
 
         return !empty($setup['tool_caption']) ? $setup['tool_caption'] : APP_NAME;
     }

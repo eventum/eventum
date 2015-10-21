@@ -172,7 +172,7 @@ class Notification
      */
     public static function getFixedFromHeader($issue_id, $sender, $type)
     {
-        $setup = Setup::load();
+        $setup = Setup::get();
         if ($type == 'issue') {
             $routing = 'email_routing';
         } else {
@@ -1335,7 +1335,7 @@ class Notification
                                      $type = false)
     {
         // don't save any irc notification if this feature is disabled
-        $setup = Setup::load();
+        $setup = Setup::get();
         if (@$setup['irc_notification'] != 'enabled') {
             return false;
         }
@@ -2060,7 +2060,7 @@ class Notification
         }
 
         $actions = array();
-        $setup = Setup::load();
+        $setup = Setup::get();
 
         if (@$setup['update'] == 1) {
             $actions[] = 'updated';

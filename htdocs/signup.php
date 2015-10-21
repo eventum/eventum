@@ -39,7 +39,7 @@ if (AuthCookie::hasAuthCookie() && Auth::isAnonUser()) {
 }
 
 if (@$_POST['cat'] == 'signup') {
-    $setup = Setup::load();
+    $setup = Setup::get();
     $res = User::createVisitorAccount($setup['accounts_role'], $setup['accounts_projects']);
     $tpl->assign('signup_result', $res);
     Misc::mapMessages($res, array(

@@ -532,7 +532,7 @@ class Support
 
         // route emails if necessary
         if ($info['ema_use_routing'] == 1) {
-            $setup = Setup::load();
+            $setup = Setup::get();
 
             // we create addresses array so it can be reused
             $addresses = array();
@@ -853,7 +853,7 @@ class Support
         } elseif (is_numeric($workflow)) {
             $issue_id = $workflow;
         } else {
-            $setup = Setup::load();
+            $setup = Setup::get();
             if (@$setup['subject_based_routing']['status'] == 'enabled') {
                 // Look for issue ID in the subject line
 

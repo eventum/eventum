@@ -3,7 +3,7 @@
  * Migrate config to new schema
  */
 
-$setup = Setup::load();
+$setup = Setup::get();
 
 // NOTE: db config migration can't be done due simple chicken-egg problem ;)
 

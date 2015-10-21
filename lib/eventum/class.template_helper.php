@@ -176,7 +176,7 @@ class Template_Helper
             'base_url' => APP_BASE_URL,
             'app_title' => APP_NAME,
             'app_version' => APP_VERSION,
-            'app_setup' => Setup::load(),
+            'app_setup' => Setup::get(),
             'messages' => Misc::getMessages(),
             'roles' => User::getAssocRoleIDs(),
             'auth_backend' => APP_AUTH_BACKEND,
@@ -198,7 +198,7 @@ class Template_Helper
         if ($usr_id) {
             $core['user'] = User::getDetails($usr_id);
             $prj_id = Auth::getCurrentProject();
-            $setup = Setup::load();
+            $setup = Setup::get();
             if (!empty($prj_id)) {
                 $role_id = User::getRoleByUser($usr_id, $prj_id);
                 $has_crm = CRM::hasCustomerIntegration($prj_id);

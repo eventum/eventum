@@ -68,7 +68,7 @@ $tpl->assign(array(
         'enabled' => ev_gettext('Enabled'),
         'disabled' => ev_gettext('Disabled'),
     ),
-    'setup' => Setup::load(),
+    'setup' => Setup::get(),
 ));
 
 $tpl->displayTemplate();

@@ -105,7 +105,7 @@ class Routing
         Support::saveRoutedEmail($full_message);
 
         // check if the email routing interface is even supposed to be enabled
-        $setup = Setup::load();
+        $setup = Setup::get();
         if ($setup['email_routing']['status'] != 'enabled') {
             return array(self::EX_CONFIG, ev_gettext('Error: The email routing interface is disabled.') . "\n");
         }
@@ -316,7 +316,7 @@ class Routing
         }
 
         // check if the email routing interface is even supposed to be enabled
-        $setup = Setup::load();
+        $setup = Setup::get();
         if (@$setup['note_routing']['status'] != 'enabled') {
             return array(self::EX_CONFIG, ev_gettext('Error: The internal note routing interface is disabled.') . "\n");
         }
@@ -446,7 +446,7 @@ class Routing
         }
 
         // check if the draft interface is even supposed to be enabled
-        $setup = Setup::load();
+        $setup = Setup::get();
         if (@$setup['draft_routing']['status'] != 'enabled') {
             return array(self::EX_CONFIG, ev_gettext('Error: The email draft interface is disabled.') . "\n");
         }
@@ -506,7 +506,7 @@ class Routing
      */
     public static function getMatchingIssueIDs($addresses, $type)
     {
-        $setup = Setup::load();
+        $setup = Setup::get();
         $settings = $setup["${type}_routing"];
         if (!is_array($settings)) {
             return false;

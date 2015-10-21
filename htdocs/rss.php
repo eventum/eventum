@@ -174,7 +174,7 @@ Issue::getDescriptionByIssues($issues);
 $tpl->assign(array(
     'charset' => APP_CHARSET,
     'project_title' => Project::getName($filter['cst_prj_id']),
-    'setup' => Setup::load(),
+    'setup' => Setup::get(),
     'filter' => $filter,
     'issues' => $issues,
 ));

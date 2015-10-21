@@ -320,7 +320,7 @@ class Mail_Helper
      */
     public static function getSMTPSettings()
     {
-        $settings = Setup::load();
+        $settings = Setup::get();
 
         if (file_exists('/etc/mailname')) {
             $settings['smtp']['localhost'] = trim(file_get_contents('/etc/mailname'));
@@ -465,7 +465,7 @@ class Mail_Helper
      */
     public static function addWarningMessage($issue_id, $to, $body, $headers)
     {
-        $setup = Setup::load();
+        $setup = Setup::get();
         $enabled = @$setup['email_routing']['status'] == 'enabled' && $setup['email_routing']['warning']['status'] == 'enabled';
         if (!$enabled) {
             return $body;
@@ -624,7 +624,7 @@ class Mail_Helper
     public static function saveOutgoingEmailCopy(&$email)
     {
         // check early: do we really want to save every outgoing email?
-        $setup = Setup::load();
+        $setup = Setup::get();
         $save_outgoing_email = !empty($setup['smtp']['save_outgoing_email']) && $setup['smtp']['save_outgoing_email'] == 'yes';
         if (!$save_outgoing_email || empty($setup['smtp']['save_address'])) {
             return false;

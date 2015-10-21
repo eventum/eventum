@@ -5,7 +5,7 @@
 
 /** @var DbInterface $db */
 
-$setup = Setup::load();
+$setup = Setup::get();
 
 // check if the table has any entries. If so, update, otherwise create defaults.
 // do this project by project in case additional projects were never setup
