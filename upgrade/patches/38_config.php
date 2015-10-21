@@ -21,3 +21,6 @@ if (!isset($setup['scm'])) {
 
 // 2. fix smtp.auth boolean cast
 $setup['smtp']['auth'] = (bool)$setup['smtp']['auth'];
+
+// save it back
+Setup::save();
