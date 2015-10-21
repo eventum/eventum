@@ -246,17 +246,6 @@ class SCM
 
         $setup = Setup::load();
 
-        // handle legacy setup, convert existing config to be known under name 'default'
-        if (!isset($setup['scm'])) {
-            $scm = array(
-                'name' => 'default',
-                'checkout_url' => $setup['checkout_url'],
-                'diff_url' => $setup['diff_url'],
-                'log_url' => $setup['scm_log_url'],
-            );
-            Setup::save(array('scm' => array($scm['name'] => $scm)));
-        }
-
         if (!isset($setup['scm'][$scm_name])) {
             throw new Exception("SCM '$scm_name' not defined");
         }
