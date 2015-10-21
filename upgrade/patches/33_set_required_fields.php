@@ -1,8 +1,9 @@
 <?php
-
 /**
  * Set required fields to match old default configuration
  */
+
+/** @var DbInterface $db */
 
 $setup = Setup::load();
 
