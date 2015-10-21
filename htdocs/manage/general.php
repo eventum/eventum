@@ -44,6 +44,8 @@ if ($role_id < User::ROLE_REPORTER) {
 $tpl->assign('project_list', Project::getAll());
 
 if (@$_POST['cat'] == 'update') {
+    $smtp = $_POST['smtp'];
+    $smtp['auth'] = (bool)$smtp['auth'];
     $setup = array(
         'tool_caption' => $_POST['tool_caption'],
         'support_email' => $_POST['support_email'],
@@ -54,7 +56,7 @@ if (@$_POST['cat'] == 'update') {
         'closed' => $_POST['closed'],
         'emails' => $_POST['emails'],
         'files' => $_POST['files'],
-        'smtp' => $_POST['smtp'],
+        'smtp' => $smtp,
         'open_signup' => $_POST['open_signup'],
         'accounts_projects' => isset($_POST['accounts_projects']) ? $_POST['accounts_projects'] : null,
         'accounts_role' => isset($_POST['accounts_role']) ? $_POST['accounts_role'] : null,

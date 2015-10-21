@@ -322,9 +322,6 @@ class Mail_Helper
     {
         $settings = Setup::load();
 
-        // TODO: fix places that require this instead
-        $settings['smtp']['auth'] = (bool)$settings['smtp']['auth'];
-
         if (file_exists('/etc/mailname')) {
             $settings['smtp']['localhost'] = trim(file_get_contents('/etc/mailname'));
         }

@@ -5,7 +5,9 @@
 
 $setup = Setup::load();
 
-// scm config
+// NOTE: db config migration can't be done due simple chicken-egg problem ;)
+
+// 1. scm config
 // handle legacy setup, convert existing config to be known under name 'default'
 if (!isset($setup['scm'])) {
     $scm = array(
@@ -17,4 +19,5 @@ if (!isset($setup['scm'])) {
     Setup::save(array('scm' => array($scm['name'] => $scm)));
 }
 
-// note: db config migration can't be done due simple chicken-egg problem ;)
+// 2. fix smtp.auth boolean cast
+$setup['smtp']['auth'] = (bool)$setup['smtp']['auth'];
