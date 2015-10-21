@@ -44,11 +44,12 @@ if ($role_id < User::ROLE_REPORTER) {
 $tpl->assign('project_list', Project::getAll());
 
 if (!empty($_POST['cat']) && $_POST['cat'] == 'update') {
-    $setup = Setup::load();
-    $setup['monitor']['diskcheck'] = $_POST['diskcheck'];
-    $setup['monitor']['paths'] = $_POST['paths'];
-    $setup['monitor']['ircbot'] = $_POST['ircbot'];
-    $res = Setup::save($setup);
+    $setup = array(
+        'diskcheck' => $_POST['diskcheck'],
+        'paths' => $_POST['paths'],
+        'ircbot' => $_POST['ircbot'],
+    );
+    $res = Setup::save(array('monitor' => $setup));
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the setup information was saved successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext(
@@ -62,12 +63,12 @@ if (!empty($_POST['cat']) && $_POST['cat'] == 'update') {
     ));
 }
 
-$tpl->assign('enable_disable', array(
-    'enabled' => ev_gettext('Enabled'),
-    'disabled' => ev_gettext('Disabled'),
+$tpl->assign(array(
+    'enable_disable', array(
+        'enabled' => ev_gettext('Enabled'),
+        'disabled' => ev_gettext('Disabled'),
+    ),
+    'setup' => Setup::load(),
 ));
-
-$options = Setup::load(true);
-$tpl->assign('setup', $options);
 
 $tpl->displayTemplate();

@@ -29,6 +29,8 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
+use Zend\Config\Config;
+
 /**
  * Class to handle the business logic related to setting and updating
  * the setup information of the system.
@@ -38,29 +40,45 @@ class Setup
     /**
      * Method used to load the setup options for the application.
      *
-     * @param   boolean $force If the data should be forced to be loaded again.
-     * @return  array The system-wide preferences
+     * @return Config The system-wide preferences
      */
-    public static function &load($force = false)
+    public static function load()
     {
-        static $setup;
-        if (!$setup || $force == true) {
-            $setup = self::loadConfig(APP_SETUP_FILE, self::getDefaults());
+        static $config;
+        if (!$config) {
+            $config = self::initialize();
         }
 
-        return $setup;
+        return $config;
+    }
+
+    /**
+     * Set options to system config.
+     * The changes are not stored to disk.
+     *
+     * @param array $options
+     * @return Config returns the root config object
+     */
+    public static function set($options)
+    {
+        $config = self::load();
+        $config->merge(new Config($options));
+
+        return $config;
     }
 
     /**
      * Method used to save the setup options for the application.
+     * The $options are merged with existing config and then saved.
      *
-     * @param   array $options The system-wide preferences
-     * @return  integer 1 if the update worked, -1 or -2 otherwise
+     * @param array $options Options to modify (does not need to be full setup)
+     * @return integer 1 if the update worked, -1 or -2 otherwise
      */
-    public static function save($options)
+    public static function save($options = array())
     {
+        $config = self::set($options);
         try {
-            self::saveConfig(APP_SETUP_FILE, $options);
+            self::saveConfig(APP_SETUP_FILE, $config);
         } catch (Exception $e) {
             $code = $e->getCode();
             error_log($e->getMessage());
@@ -73,16 +91,32 @@ class Setup
     }
 
     /**
-     * Load config from $path and merge with $defaults.
+     * Initialize config object, load it from setup file, merge defaults.
+     *
+     * @return Config
+     */
+    private static function initialize()
+    {
+        $config = new Config(self::getDefaults(), true);
+        $config->merge(new Config(self::loadConfigFile(APP_SETUP_FILE, $migrate)));
+
+        if ($migrate) {
+            // save config in new format
+            self::saveConfig(APP_SETUP_FILE, $config);
+        }
+
+        return $config;
+    }
+
+    /**
+     * Load config from $path.
      * Config file should return configuration array.
      *
      * @param string $path
-     * @param array $defaults
      * @return array
      */
-    private static function loadConfig($path, $defaults)
+    private static function loadConfigFile($path, &$migrate)
     {
-        $migrate = false;
         $eventum_setup_string = $eventum_setup = null;
 
         // config array is supposed to be returned from that path
@@ -91,23 +125,12 @@ class Setup
         // fall back to old modes:
         // 1. $eventum_setup string
         // 2. base64 encoded $eventum_setup_string
-        // TODO: save it over so the support could be removed soon
         if (isset($eventum_setup)) {
             $config = $eventum_setup;
             $migrate = true;
         } elseif (isset($eventum_setup_string)) {
             $config = unserialize(base64_decode($eventum_setup_string));
             $migrate = true;
-        }
-
-        if ($migrate) {
-            // save config in new format
-            Setup::save($config);
-        }
-
-        // merge with defaults
-        if ($defaults) {
-            $config = Misc::array_extend($defaults, $config);
         }
 
         return $config;
@@ -117,9 +140,9 @@ class Setup
      * Save config to filesystem
      *
      * @param string $path
-     * @param array $config
+     * @param Config $config
      */
-    private static function saveConfig($path, $config)
+    private static function saveConfig($path, Config $config)
     {
         // if file exists, the file must be writable
         if (file_exists($path)) {
@@ -145,12 +168,12 @@ class Setup
     /**
      * Export config in a format to be stored to config file
      *
-     * @param array $config
+     * @param Config $config
      * @return string
      */
-    private static function dumpConfig($config)
+    private static function dumpConfig(Config $config)
     {
-        return '<' . "?php\nreturn " . var_export($config, 1) . ";\n";
+        return '<' . "?php\nreturn " . var_export($config->toArray(), 1) . ";\n";
     }
 
     /**
@@ -158,7 +181,7 @@ class Setup
      *
      * @return  string array of the default preferences
      */
-    public static function getDefaults()
+    private static function getDefaults()
     {
         $defaults = array(
             'monitor' => array(

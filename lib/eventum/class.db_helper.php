@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,7 +22,7 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: João Prado Maia <jpm@mysql.com>                             |
@@ -33,7 +33,6 @@
  * Class to manage all tasks related to the DB abstraction module. This is only
  * useful to maintain a data dictionary of the current database schema tables.
  */
-
 class DB_Helper
 {
     /**
@@ -76,13 +75,15 @@ class DB_Helper
     /**
      * Get database config.
      * load it from setup, fall back to legacy config.php constants
+     *
+     * @return array
      */
     public static function getConfig()
     {
-        $setup = &Setup::load();
+        $setup = Setup::load();
 
         if (isset($setup['database'])) {
-            $config = $setup['database'];
+            $config = $setup['database']->toArray();
         } else {
             // legacy: import from constants
             $config = array(
@@ -106,8 +107,7 @@ class DB_Helper
             );
 
             // save it back. this will effectively do the migration
-            $setup['database'] = $config;
-            Setup::save($setup);
+            Setup::save(array('database' => $config));
         }
 
         return $config;
@@ -126,7 +126,7 @@ class DB_Helper
         try {
             $stmt = "show variables like 'max_allowed_packet'";
             $res = DB_Helper::getInstance(false)->getPair($stmt);
-            $max_allowed_packet = (int) $res['max_allowed_packet'];
+            $max_allowed_packet = (int)$res['max_allowed_packet'];
         } catch (DbException $e) {
         }
 
@@ -148,7 +148,7 @@ class DB_Helper
     public static function get_last_insert_id()
     {
         $stmt = 'SELECT last_insert_id()';
-        $res = (integer) DB_Helper::getInstance()->getOne($stmt);
+        $res = (integer)DB_Helper::getInstance()->getOne($stmt);
 
         return $res;
     }
@@ -172,7 +172,7 @@ class DB_Helper
         }
 
         if ($add_quotes) {
-            $res = "'". $res . "'";
+            $res = "'" . $res . "'";
         }
 
         return $res;
@@ -237,7 +237,8 @@ class DB_Helper
         }
 
         // this is crazy, but it does work. Anyone with a better solution email balsdorf@gmail.com
-        $sql = "((UNIX_TIMESTAMP($end_date_field) - UNIX_TIMESTAMP($start_date_field)) - (CASE
+        $sql
+            = "((UNIX_TIMESTAMP($end_date_field) - UNIX_TIMESTAMP($start_date_field)) - (CASE
             WHEN DAYOFWEEK($start_date_field) = 1 THEN (floor(((TO_DAYS($end_date_field) - TO_DAYS($start_date_field))-1)/7) * 86400 * 2)
             WHEN DAYOFWEEK($start_date_field) = 2 THEN (floor(((TO_DAYS($end_date_field) - TO_DAYS($start_date_field)))/7) * 86400 *2)
             WHEN DAYOFWEEK($start_date_field) = 3 THEN (floor(((TO_DAYS($end_date_field) - TO_DAYS($start_date_field))+1)/7) * 86400 *2)
@@ -262,7 +263,7 @@ class DB_Helper
     {
         /** @var $e PEAR_Error */
         Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), __FILE__, __LINE__);
-        /** @global $error_type  */
+        /** @global $error_type */
         $error_type = 'db';
         require_once APP_PATH . '/htdocs/offline.php';
         exit(2);

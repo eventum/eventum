@@ -537,17 +537,17 @@ function setup_database()
         throw new RuntimeException("Database setup failed on upgrade:<br/><tt>{$e->getMessage()}</tt><br/><br/>You may want run update script <tt>$upgrade_script</tt> manually");
     }
 
-    $setup = Setup::load();
     // write db name now that it has been created
-    $setup['database']['database'] = $_POST['db_name'];
+    $setup = array();
+    $setup['database'] = $_POST['db_name'];
 
     // substitute the appropriate values in config.php!!!
     if (@$_POST['alternate_user'] == 'yes') {
-        $setup['database']['username'] = $_POST['eventum_user'];
-        $setup['database']['password'] = $_POST['eventum_password'];
+        $setup['username'] = $_POST['eventum_user'];
+        $setup['password'] = $_POST['eventum_password'];
     }
 
-    Setup::save($setup);
+    Setup::save(array('database' => $setup));
 }
 
 function write_file($file, $contents)

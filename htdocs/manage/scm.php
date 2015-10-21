@@ -41,11 +41,7 @@ if ($role_id < User::ROLE_REPORTER) {
 }
 
 if (@$_POST['cat'] == 'update') {
-    $setup = Setup::load();
-
-    $setup['scm_integration'] = $_POST['scm_integration'];
-
-    $res = Setup::save($setup);
+    $res = Setup::save(array('scm_integration' => $_POST['scm_integration']));
     $tpl->assign('result', $res);
 
     Misc::mapMessages($res, array(
@@ -60,7 +56,7 @@ if (@$_POST['cat'] == 'update') {
                 Misc::MSG_NOTE_BOX),
     ));
 }
-$options = Setup::load(true);
-$tpl->assign('setup', $options);
+
+$tpl->assign('setup', Setup::load());
 
 $tpl->displayTemplate();

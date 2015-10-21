@@ -30,17 +30,10 @@
 
 require_once __DIR__ . '/../init.php';
 
-$setup = Setup::load();
-if (empty($setup['tool_caption'])) {
-    $setup['tool_caption'] = APP_NAME;
-}
-
 function sendAuthenticateHeader()
 {
-    global $setup;
-
     // FIXME: escape tool_caption properly
-    header('WWW-Authenticate: Basic realm="' . $setup['tool_caption'] . '"');
+    header('WWW-Authenticate: Basic realm="' . Misc::getToolCaption() . '"');
     header('HTTP/1.0 401 Unauthorized');
 }
 
@@ -173,14 +166,15 @@ $options = array(
     'custom_field'  => $filter['cst_custom_field'],
     'search_type'   => $filter['cst_search_type'],
 );
-$issues = Search::getListing($filter['cst_prj_id'], $options, 0, 'ALL', true);
+
+$issues = Search::getListing($filter['cst_prj_id'], $options, 0, 'ALL');
 $issues = $issues['list'];
 Issue::getDescriptionByIssues($issues);
 
 $tpl->assign(array(
     'charset' => APP_CHARSET,
     'project_title' => Project::getName($filter['cst_prj_id']),
-    'setup' => $setup,
+    'setup' => Setup::load(),
     'filter' => $filter,
     'issues' => $issues,
 ));

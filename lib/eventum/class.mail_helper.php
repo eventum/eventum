@@ -321,7 +321,7 @@ class Mail_Helper
     public static function getSMTPSettings()
     {
         $settings = Setup::load();
-        settype($settings['smtp']['auth'], 'boolean');
+
         if (file_exists('/etc/mailname')) {
             $settings['smtp']['localhost'] = trim(file_get_contents('/etc/mailname'));
         }
@@ -619,6 +619,7 @@ class Mail_Helper
      * Method used to save a copy of the given email to a configurable address.
      *
      * @param   array $email The email to save.
+     * @return bool
      */
     public static function saveOutgoingEmailCopy(&$email)
     {

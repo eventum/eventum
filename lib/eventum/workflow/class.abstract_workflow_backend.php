@@ -55,20 +55,9 @@ class Abstract_Workflow_Backend
      */
 
     /**
-     * array to hold workflow settings, best accessed via ->getConfig()
+     * hold workflow settings, best accessed via ->getConfig()
      */
-    protected $config = array();
-
-    /**
-     * Copy of whole loaded setup, needed if you need to save Setup data within workflow
-     * TODO: this would not be probably needed if Setup is not static.
-     */
-    private $config_setup_copy;
-
-    /**
-     * set to true by loadConfig() after loading workflow configuration variables
-     */
-    private $configLoaded = false;
+    protected $config = null;
 
     /**
      * use this function to access workflow configuration variables
@@ -78,7 +67,7 @@ class Abstract_Workflow_Backend
      */
     protected function getConfig($option)
     {
-        if (!$this->configLoaded) {
+        if (!isset($this->config)) {
             $this->loadConfig();
         }
 
@@ -95,17 +84,23 @@ class Abstract_Workflow_Backend
         $defaults = $this->getConfigDefaults();
         $name = $this->getWorkflowName();
         $setup = Setup::load();
-        $this->config_setup_copy = &$setup;
 
-        foreach ($defaults as $key => $value) {
-            if (isset($setup['workflow'][$name][$key])) {
-                continue;
-            }
-            $setup['workflow'][$name][$key] = $value;
+        if (!isset($setup['workflow'])) {
+            $setup['workflow'] = array();
         }
 
-        $this->configLoaded = true;
-        $this->config = &$setup['workflow'][$name];
+        // create copy, this avoids the "indirect" error
+        $config = $setup['workflow'][$name];
+        // merge defaults
+        foreach ($defaults as $key => $value) {
+            if (isset($config[$key])) {
+                continue;
+            }
+            $config[$key] = $value;
+        }
+
+        // save back to config tree
+        $this->config = $setup['workflow'][$name] = $config;
     }
 
     /**
@@ -114,11 +109,11 @@ class Abstract_Workflow_Backend
      */
     protected function saveConfig()
     {
-        if (!$this->configLoaded || !$this->config_setup_copy) {
+        if (!isset($this->config)) {
             return;
         }
 
-        Setup::save($this->config_setup_copy);
+        Setup::save();
     }
 
     /**
