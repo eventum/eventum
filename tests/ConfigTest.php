@@ -42,8 +42,28 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
         $config = Setup::load();
         $this->assertEquals('one', $config->item1, "config change is present");
+    }
 
-        $config = Setup::load(true);
-        $this->assertNull($config->item1, "config is now lost");
+    /**
+     * @see Mail_Helper::getSMTPSettings does this weird settype:
+     * settype($config['smtp']['auth'], 'boolean');
+     * that does not work (Indirect modification error),
+     * so test version that works
+     */
+    public function testSetType()
+    {
+        $config = Setup::load();
+
+        $config['smtp'] = array(
+            'from' => 'admin@example.org',
+            'host' => 'localhost',
+            'port' => '25',
+            'auth' => '0',
+        );
+
+        $this->assertSame('0', $config['smtp']['auth']);
+
+        $config['smtp']['auth']= (bool)$config['smtp']['auth'];
+        $this->assertFalse($config['smtp']['auth']);
     }
 }

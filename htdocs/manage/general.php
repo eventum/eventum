@@ -81,8 +81,10 @@ if (@$_POST['cat'] == 'update') {
                 Misc::MSG_NOTE_BOX),
     ));
 }
-$options = Setup::load(true);
-$tpl->assign('setup', $options);
-$tpl->assign('user_roles', User::getRoles(array('Customer')));
+
+$tpl->assign(array(
+    'setup' => Setup::load(),
+    'user_roles' => User::getRoles(array('Customer')),
+));
 
 $tpl->displayTemplate();

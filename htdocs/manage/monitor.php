@@ -66,9 +66,7 @@ if (!empty($_POST['cat']) && $_POST['cat'] == 'update') {
 $tpl->assign('enable_disable', array(
     'enabled' => ev_gettext('Enabled'),
     'disabled' => ev_gettext('Disabled'),
+    'setup' => Setup::load(),
 ));
-
-$options = Setup::load(true);
-$tpl->assign('setup', $options);
 
 $tpl->displayTemplate();

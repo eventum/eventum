@@ -40,13 +40,12 @@ class Setup
     /**
      * Method used to load the setup options for the application.
      *
-     * @param bool $reload If the data should be forced to be loaded again.
      * @return Config The system-wide preferences
      */
-    public static function load($reload = false)
+    public static function load()
     {
         static $config;
-        if (!$config || $reload == true) {
+        if (!$config) {
             $config = self::initialize();
         }
 
