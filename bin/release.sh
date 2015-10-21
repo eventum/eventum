@@ -282,6 +282,9 @@ upload_tarball() {
 }
 
 prepare_source() {
+	# add dirs for customization
+	install -d config/{workflow,custom_field,templates,crm,partner,include}
+
 	update_version
 	composer_install
 	phpcompatinfo_report
@@ -296,8 +299,6 @@ prepare_source() {
 
 	# install dirs and fix permissions
 	install -d logs templates_c locks htdocs/customer
-	# add dirs for customization
-	install -d config/{workflow,custom_field,templates,crm,partner,include}
 	touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 	chmod -R a+rX .
 	chmod -R a+rwX templates_c locks logs config
