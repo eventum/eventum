@@ -14,6 +14,7 @@ Eventum Issue Tracking System
 - Handle mbstring function overload (Elan Ruusamäe, LP#1494732)
 - Make version table log based (Elan Ruusamäe)
 - Removed local/include/ from include path and added to composer instead (Bryan Alsdorf)
+- Use zf2 config for setup config (Elan Ruusamäe, #80)
 
 2015-10-13, Version 3.0.3
 -------------------------
