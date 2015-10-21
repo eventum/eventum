@@ -85,7 +85,7 @@ class Abstract_Workflow_Backend
         $name = $this->getWorkflowName();
         $setup = Setup::load();
 
-        if (isset($setup['workflow'])) {
+        if (!isset($setup['workflow'])) {
             $setup['workflow'] = array();
         }
 
