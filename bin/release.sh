@@ -178,6 +178,10 @@ clean_vendor() {
 	rm -rf vendor/smarty/smarty/demo
 	rm -f vendor/smarty/smarty/{[A-Z]*,*.txt}
 
+	# not used, and fails php lint under 5.3
+	rm vendor/zendframework/zend-stdlib/src/Guard/*Trait.php
+	rm vendor/zendframework/zend-stdlib/src/Hydrator/*Trait.php
+
 	# pear
 	rm vendor/pear*/*/package.xml
 	rm -r vendor/pear-pear.php.net/Math_Stats/{data,contrib}
