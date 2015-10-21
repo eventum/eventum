@@ -1,9 +1,11 @@
-### Deleting Issues
+# Deleting Issues
 
-===Here's an example of how to make this possible through the web interface:=== 1) Create a status of **deleted** with a rank of *x* (*x* can be any unusued number).
-2) Create the php page above replacing **MY_WHERE_CLAUSE** with **iss_sta_id=*x*** (*x* is your selected rank)
-3) Save the file as **delete_issues.php** in your eventum/misc folder.
-4) Add **delete_issues.php** to your cron jobs to run as often as you would like this delete task to run.
+## Here's an example of how to make this possible through the web interface ##
+
+1. Create a status of **deleted** with a rank of *x* (*x* can be any unusued number).
+2. Create the php page above replacing **MY_WHERE_CLAUSE** with **iss_sta_id=*x*** (*x* is your selected rank)
+3. Save the file as **delete_issues.php** in your eventum/misc folder.
+4. Add **delete_issues.php** to your cron jobs to run as often as you would like this delete task to run.
 
 ### Some more explanation
 
@@ -14,7 +16,7 @@
 
 The following script worked for me:
 
-
+```php
      <?php
      include_once("../config.inc.php");
      include_once(APP_INC_PATH . "db_access.php");
@@ -51,7 +53,7 @@ The following script worked for me:
             exit;
         }
      }
-     ?>
+```
 
 -   The important first line is the ending: The Issues will be selected by the value of the field of the the status title name, which is in this case "Delete this Issue".
 -   you can also change the first line is the ending to the internal status id: **WHERE iss_sta_id = 8** the Status field number is the *selector*. It is the **internal number** of the status field. Do not confuse it with the **"RANK"**number which can be inserted in the "Custom fields" Backend mask.
