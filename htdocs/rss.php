@@ -166,7 +166,8 @@ $options = array(
     'custom_field'  => $filter['cst_custom_field'],
     'search_type'   => $filter['cst_search_type'],
 );
-$issues = Search::getListing($filter['cst_prj_id'], $options, 0, 'ALL', true);
+
+$issues = Search::getListing($filter['cst_prj_id'], $options, 0, 'ALL');
 $issues = $issues['list'];
 Issue::getDescriptionByIssues($issues);
 
