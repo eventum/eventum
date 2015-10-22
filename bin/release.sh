@@ -149,15 +149,18 @@ clean_scripts() {
 # cleanup excess files from vendor
 # but not that much that composer won't work
 clean_vendor() {
+	rm vendor/*/*/.coveralls.yml
 	rm vendor/*/*/.gitattributes
 	rm vendor/*/*/.gitignore
 	rm vendor/*/*/.travis.yml
+	rm vendor/*/*/CONTRIBUTING.md
 	rm vendor/*/*/COPYING
 	rm vendor/*/*/ChangeLog*
 	rm vendor/*/*/LICENSE*
 	rm vendor/*/*/README*
 	rm vendor/*/*/composer.lock
 	rm vendor/*/*/phpunit.xml*
+
 	rm -r vendor/*/*/tests
 	rm -r vendor/*/*/test
 	rm -r vendor/*/*/doc
@@ -182,6 +185,13 @@ clean_vendor() {
 	rm vendor/zendframework/zend-stdlib/src/Guard/*Trait.php
 	rm vendor/zendframework/zend-stdlib/src/Hydrator/*Trait.php
 
+	# we need *only* zf-config Config.php class
+	rm -r vendor/zendframework/zend-stdlib
+	mkdir tmp
+	mv vendor/zendframework/zend-config/src/{Config.php,Exception} tmp
+	rm -r vendor/zendframework/zend-config/*
+	mv tmp vendor/zendframework/zend-config/src
+
 	# pear
 	rm vendor/pear*/*/package.xml
 	rm -r vendor/pear-pear.php.net/Math_Stats/{data,contrib}
@@ -189,6 +199,7 @@ clean_vendor() {
 	rm vendor/pear/pear-core-minimal/src/OS/Guess.php
 	rm vendor/pear/net_smtp/phpdoc.sh
 
+	# not used
 	rm -r vendor/pear/console_getopt
 
 	mkdir tmp
