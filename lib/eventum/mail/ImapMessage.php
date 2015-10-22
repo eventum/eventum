@@ -36,15 +36,35 @@ use Zend\Mime;
 class ImapMessage extends MailMessage
 {
     /**
+     * message index related to imap connection
+     * @var int
+     */
+    public $num;
+
+    /**
+     * imap connection obtained from imap_open
+     * @var resource
+     */
+    public $mbox;
+
+    /**
+     * Server parameters for IMAP connection
+     *
+     * @var array
+     */
+    public $info;
+
+    /**
      * Method to read email from imap extension and return Zend Mail Message object.
      *
      * This is bridge while migrating to Zend Mail package supporting reading from imap extension functions.
      *
      * @param resource $mbox
      * @param integer $num
+     * @param array $info connection information about connection
      * @return MailMessage
      */
-    public static function createFromImap($mbox, $num)
+    public static function createFromImap($mbox, $num, $info)
     {
         // check if the current message was already seen
         list($overview) = imap_fetch_overview($mbox, $num);
@@ -76,9 +96,12 @@ class ImapMessage extends MailMessage
         $header = new GenericHeader('X-IMAP-UnixDate', $imapheaders->udate);
         $message->getHeaders()->addHeader($header);
 
+        $message->mbox = $mbox;
+        $message->num = $num;
+        $message->infp = $info;
+
         return $message;
     }
-
 
     /**
      * Get date this message was sent.
@@ -100,5 +123,20 @@ class ImapMessage extends MailMessage
         }
 
         return Date_Helper::getDateTime($date);
+    }
+
+    /**
+     * Deletes the specified message from the IMAP/POP server
+     * NOTE: YOU STILL MUST call imap_expunge($mbox) to permanently delete the message.
+     */
+    public function deleteMessage()
+    {
+        // need to delete the message from the server?
+        if (!$this->info['ema_leave_copy']) {
+            imap_delete($this->mbox, $this->num);
+        } else {
+            // mark the message as already read
+            imap_setflag_full($this->mbox, $this->num, '\\Seen');
+        }
     }
 }
