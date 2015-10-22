@@ -2,7 +2,7 @@
 	"name": "eventum/eventum",
 	"description": "Eventum Issue / Bug tracking system",
 	"type": "project",
-	"homepage": "https://launchpad.net/eventum",
+	"homepage": "https://github.com/eventum/eventum",
 	"license": "GPL-2.0",
 	"authors": [
 		{
@@ -18,7 +18,7 @@
 	],
 	"support": {
 		"irc": "irc://irc.freenode.org/eventum",
-		"issues": "https://bugs.launchpad.net/eventum"
+		"issues": "https://github.com/eventum/eventum/issues"
 	},
 	"repositories": [
 		{

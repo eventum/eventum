@@ -39,7 +39,7 @@ ini_set('memory_limit', '512M');
 // prevent session from messing up the browser cache
 ini_set('session.cache_limiter', 'nocache');
 
-define('APP_URL', 'https://launchpad.net/eventum/');
+define('APP_URL', 'https://github.com/eventum/eventum');
 define('APP_VERSION', '3.0.4-dev');
 
 // define base path
