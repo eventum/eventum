@@ -62,7 +62,7 @@ class ImapMessage extends MailMessage
      * @param resource $mbox
      * @param integer $num
      * @param array $info connection information about connection
-     * @return MailMessage
+     * @return ImapMessage
      */
     public static function createFromImap($mbox, $num, $info)
     {

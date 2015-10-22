@@ -29,6 +29,28 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $date);
     }
 
+
+    public function testFrom() {
+        /**
+         * Test what gives similar output:
+         * $email = imap_headerinfo($mbox, $i);
+         * print_r($email);
+         * [fromaddress] => Gemius Monitoring 24/7 <monitoring@gemius.com>
+         */
+
+        $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
+        $from = $message->getFromHeader()->toString();
+        $this->assertEquals('Some Guy <abcd@origin.com>', $from);
+
+        // or simplier variants:
+        $this->assertEquals('Some Guy <abcd@origin.com>', $message->getHeaderValue('From'));
+        $this->assertEquals('Us <our@email.com>', $message->getHeaderValue('To'));
+        $this->assertEquals('', $message->getHeaderValue('Cc'));
+
+        // TODO test with duplicate from as well:
+//        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+    }
+
     public function testGetToCc()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');

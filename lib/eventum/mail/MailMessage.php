@@ -257,6 +257,16 @@ class MailMessage extends Message
     }
 
     /**
+     * Retrieve list of From senders
+     *
+     * @return AddressList
+     */
+    public function getFrom()
+    {
+        return $this->getAddressListFromHeader('from', '\Zend\Mail\Header\From');
+    }
+
+    /**
      * Access the address list of the To header
      *
      * @return AddressList
