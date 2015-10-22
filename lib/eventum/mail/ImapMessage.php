@@ -139,4 +139,14 @@ class ImapMessage extends MailMessage
             imap_setflag_full($this->mbox, $this->num, '\\Seen');
         }
     }
+
+    /**
+     * Get Project Id associated with this email account
+     *
+     * @return int
+     */
+    public function getProjectId()
+    {
+        return $this->info['ema_prj_id'];
+    }
 }
