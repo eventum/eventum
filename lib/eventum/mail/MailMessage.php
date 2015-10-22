@@ -87,51 +87,6 @@ class MailMessage extends Message
 
         return $message;
     }
-
-    /**
-     * Method to read email from imap extension and return Zend Mail Message object.
-     *
-     * This is bridge while migrating to Zend Mail package supporting reading from imap extension functions.
-     *
-     * @param resource $mbox
-     * @param integer $num
-     * @return MailMessage
-     */
-    public static function createFromImap($mbox, $num)
-    {
-        // check if the current message was already seen
-        list($overview) = imap_fetch_overview($mbox, $num);
-
-        $headers = imap_fetchheader($mbox, $num);
-        $content = imap_body($mbox, $num);
-
-        // fill with "\Seen", "\Deleted", "\Answered", ... etc
-        $knownFlags = array(
-            'recent' => Zend\Mail\Storage::FLAG_RECENT,
-            'flagged' => Zend\Mail\Storage::FLAG_FLAGGED,
-            'answered' => Zend\Mail\Storage::FLAG_ANSWERED,
-            'deleted' => Zend\Mail\Storage::FLAG_DELETED,
-            'seen' => Zend\Mail\Storage::FLAG_SEEN,
-            'draft' => Zend\Mail\Storage::FLAG_DRAFT,
-        );
-        $flags = array();
-        foreach ($knownFlags as $flag => $value) {
-            if ($overview->$flag) {
-                $flags[] = $value;
-            }
-        }
-
-        $message = new self(array('headers' => $headers, 'content' => $content, 'flags' => $flags));
-
-        // set MailDate to $message object, as it's not available in message headers, only in IMAP itself
-        // this likely "message received date"
-        $imapheaders = imap_headerinfo($mbox, $num);
-        $header = new GenericHeader('X-IMAP-UnixDate', $imapheaders->udate);
-        $message->getHeaders()->addHeader($header);
-
-        return $message;
-    }
-
     /**
      * Return Message-Id Value
      *
@@ -144,28 +99,6 @@ class MailMessage extends Message
             $header = current($header);
         }
         return $header->getFieldValue();
-    }
-
-    /**
-     * Get date this message was sent.
-     * Uses IMAP Date, and fallbacks to Date header.
-     *
-     * @return DateTime
-     */
-    public function getMailDate()
-    {
-        $headers = $this->headers;
-        if ($headers->has('X-IMAP-UnixDate')) {
-            // does it have imap date?
-            $date = $headers->get('X-IMAP-UnixDate')->getFieldValue();
-        } elseif ($headers->has('Date')) {
-            // fallback to date header
-            $date = $headers->get('Date')->getFieldValue();
-        } else {
-            throw new InvalidArgumentException("No date header for mail");
-        }
-
-        return Date_Helper::getDateTime($date);
     }
 
     /**
