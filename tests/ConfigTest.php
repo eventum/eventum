@@ -82,7 +82,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($setup['email_reminder']['status'] == 'enabled' && $setup['email_reminder']['addresses']);
 
         $setup['email_reminder'] = array(
-            'enabled' => true,
+            'status' => 'enabled',
             'aadresses' => array(),
         );
         // that empty addresses list is also false
