@@ -57,7 +57,8 @@ class Setup
      * @return Config
      * @deprecated wrapper for Setup::get() for legacy compatibility
      */
-    public static function load() {
+    public static function load()
+    {
         return self::get();
     }
 
@@ -192,7 +193,10 @@ class Setup
      */
     private static function getDefaults()
     {
-        $defaults = array(
+
+        // at minimum should define top level array elements
+        // so that fluent access works without errors and notices
+        return array(
             'monitor' => array(
                 'diskcheck' => array(
                     'status' => 'enabled',
@@ -205,12 +209,23 @@ class Setup
                     'status' => 'enabled',
                 ),
             ),
+
+            'smtp' => array(),
+
+            'email_routing' => array(
+                'warning' => array(),
+            ),
+            'note_routing' => array(),
+            'draft_routing' => array(),
+
+            'subject_based_routing' => array(),
+
+            'email_reminder' => array(),
+
             'handle_clock_in' => 'enabled',
 
             // default expiry: 5 minutes
             'issue_lock' => 300,
         );
-
-        return $defaults;
     }
 }

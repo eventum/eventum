@@ -63,7 +63,29 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame('0', $config['smtp']['auth']);
 
-        $config['smtp']['auth']= (bool)$config['smtp']['auth'];
+        $config['smtp']['auth'] = (bool)$config['smtp']['auth'];
         $this->assertFalse($config['smtp']['auth']);
+    }
+
+    public function testArrayEmpty()
+    {
+        $setup = Setup::get();
+
+        // init
+        $setup['email_reminder'] = array();
+
+        // pre-requirements
+        $this->assertNull($setup['email_reminder']['status']);
+        $this->assertNull($setup['email_reminder']['addresses']);
+
+        // check that this is false and does not trigger errors/notices
+        $this->assertFalse($setup['email_reminder']['status'] == 'enabled' && $setup['email_reminder']['addresses']);
+
+        $setup['email_reminder'] = array(
+            'enabled' => true,
+            'aadresses' => array(),
+        );
+        // that empty addresses list is also false
+        $this->assertFalse($setup['email_reminder']['status'] == 'enabled' && $setup['email_reminder']['addresses']);
     }
 }

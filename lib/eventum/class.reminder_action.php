@@ -708,7 +708,7 @@ class Reminder_Action
             // if not even an irc alert was sent, then save
             // a notice about this on reminder_sent@, if needed
             if (!$action['rma_alert_irc']) {
-                if (@$setup['email_reminder']['status'] == 'enabled') {
+                if ($setup['email_reminder']['status'] == 'enabled') {
                     self::_recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions);
                 }
 
@@ -723,8 +723,7 @@ class Reminder_Action
         // - perform the action
         if (count($to) > 0) {
             // send a copy of this reminder to reminder_sent@, if needed
-            if ((@$setup['email_reminder']['status'] == 'enabled') &&
-                    (!empty($setup['email_reminder']['addresses']))) {
+            if ($setup['email_reminder']['status'] == 'enabled' && $setup['email_reminder']['addresses']) {
                 $addresses = Reminder::_getReminderAlertAddresses();
                 if (count($addresses) > 0) {
                     $to = array_merge($to, $addresses);

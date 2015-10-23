@@ -194,7 +194,7 @@ class Routing
         }
 
         // remove certain CC addresses
-        if ((!empty($structure->headers['cc'])) && (@$setup['smtp']['save_outgoing_email'] == 'yes')) {
+        if ((!empty($structure->headers['cc'])) && ($setup['smtp']['save_outgoing_email'] == 'yes')) {
             $ccs = explode(',', @$structure->headers['cc']);
             foreach ($ccs as $i => $address) {
                 if (Mail_Helper::getEmailAddress($address) == $setup['smtp']['save_address']) {
@@ -317,7 +317,7 @@ class Routing
 
         // check if the email routing interface is even supposed to be enabled
         $setup = Setup::get();
-        if (@$setup['note_routing']['status'] != 'enabled') {
+        if ($setup['note_routing']['status'] != 'enabled') {
             return array(self::EX_CONFIG, ev_gettext('Error: The internal note routing interface is disabled.') . "\n");
         }
         if (empty($setup['note_routing']['address_prefix'])) {
@@ -447,7 +447,7 @@ class Routing
 
         // check if the draft interface is even supposed to be enabled
         $setup = Setup::get();
-        if (@$setup['draft_routing']['status'] != 'enabled') {
+        if ($setup['draft_routing']['status'] != 'enabled') {
             return array(self::EX_CONFIG, ev_gettext('Error: The email draft interface is disabled.') . "\n");
         }
         if (empty($setup['draft_routing']['address_prefix'])) {

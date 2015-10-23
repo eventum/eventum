@@ -466,7 +466,7 @@ class Mail_Helper
     public static function addWarningMessage($issue_id, $to, $body, $headers)
     {
         $setup = Setup::get();
-        $enabled = @$setup['email_routing']['status'] == 'enabled' && $setup['email_routing']['warning']['status'] == 'enabled';
+        $enabled = $setup['email_routing']['status'] == 'enabled' && $setup['email_routing']['warning']['status'] == 'enabled';
         if (!$enabled) {
             return $body;
         }

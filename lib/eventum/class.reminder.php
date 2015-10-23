@@ -1027,12 +1027,10 @@ class Reminder
     {
         $emails = array();
         $setup = Setup::get();
-        if ((@$setup['email_reminder']['status'] == 'enabled') &&
-                (!empty($setup['email_reminder']['addresses']))) {
-            $addresses = $setup['email_reminder']['addresses'];
-            $emails = explode(',', $addresses);
+        if ($setup['email_reminder']['status'] == 'enabled' && $setup['email_reminder']['addresses']) {
+            $emails = explode(',', $setup['email_reminder']['addresses']);
+            $emails = array_map(function ($s) { return trim($s); }, $emails);
         }
-        $emails = array_map(function ($s) { return trim($s); }, $emails);
 
         return $emails;
     }

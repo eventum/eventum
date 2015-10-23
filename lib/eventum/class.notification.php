@@ -201,7 +201,7 @@ class Notification
         } else {
             $flag = '';
         }
-        if (@$setup[$routing]['status'] != 'enabled') {
+        if ($setup[$routing]['status'] != 'enabled') {
             // let's use the custom outgoing sender address
             $project_info = Project::getOutgoingSenderAddress($project_id);
             if (empty($project_info['email'])) {
@@ -225,13 +225,13 @@ class Notification
         }
         // also check where we need to append/prepend a special string to the sender name
         if (substr($info['sender_name'], strlen($info['sender_name']) - 1) == '"') {
-            if (@$setup[$routing]['flag_location'] == 'before') {
+            if ($setup[$routing]['flag_location'] == 'before') {
                 $info['sender_name'] = '"' . $flag . substr($info['sender_name'], 1);
             } else {
                 $info['sender_name'] = substr($info['sender_name'], 0, strlen($info['sender_name']) - 1) . ' ' . trim($flag) . '"';
             }
         } else {
-            if (@$setup[$routing]['flag_location'] == 'before') {
+            if ($setup[$routing]['flag_location'] == 'before') {
                 $info['sender_name'] = '"' . $flag . $info['sender_name'] . '"';
             } else {
                 $info['sender_name'] = '"' . $info['sender_name'] . ' ' . trim($flag) . '"';
@@ -1336,7 +1336,7 @@ class Notification
     {
         // don't save any irc notification if this feature is disabled
         $setup = Setup::get();
-        if (@$setup['irc_notification'] != 'enabled') {
+        if ($setup['irc_notification'] != 'enabled') {
             return false;
         }
 
@@ -2062,16 +2062,16 @@ class Notification
         $actions = array();
         $setup = Setup::get();
 
-        if (@$setup['update'] == 1) {
+        if ($setup['update'] == 1) {
             $actions[] = 'updated';
         }
-        if (@$setup['closed'] == 1) {
+        if ($setup['closed'] == 1) {
             $actions[] = 'closed';
         }
-        if (@$setup['files'] == 1) {
+        if ($setup['files'] == 1) {
             $actions[] = 'files';
         }
-        if (@$setup['emails'] == 1) {
+        if ($setup['emails'] == 1) {
             $actions[] = 'emails';
         }
 
