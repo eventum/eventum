@@ -2,27 +2,29 @@
 
 ## Installation Process ##
 
-Installation is pretty simple and quick. Eventum already bundles the libraries that it needs to work properly:
+Installation is pretty simple and quick.
+Download the [latest release](https://github.com/eventum/eventum/releases/latest) tarball, and unpack it.
+Eventum already bundles PHP libraries that it needs to work properly, see
+`docs/DEPENDENCIES.md` from release tarball for details.
 
--   JpGraph 1.5.3 (last GPL version)
--   Smarty 2.3.0 (http://smarty.php.net/)
--   PEAR packages (http://pear.php.net/)
--   dTree 2.0.5 (http://www.destroydrop.com/javascript/tree/)
--   dynCalendar.js (http://www.phpguru.org/static/dyncalendar.html)
--   overLIB 3.5.1 (http://www.bosrup.com/web/overlib/)
--   A few other small javascript libraries
+Point your webserver to that /path-to-eventum/htdocs/. Open it up with your
+browser and Eventum should redirect you to the installation screen, and it will
+try to guess some of required parameters, like path in the server and etc.
 
-Anyway, all you should have to do is place the Eventum files in a directory that is viewable from the web, and open it up with your browser. Eventum should redirect you to the installation screen, and it will try to guess some of required parameters, like path in the server and etc.
+  http://yourserver.com/eventum/
 
-` http://yourserver.com/eventum/`
+**PLEASE NOTE**: The whole eventum directory should *NOT* be accessible under the
+webserver, only /path-to-eventum/htdocs/
 
 If Eventum's installation script finds that it needs a few directories or permissions changed, it will print the warnings before actually displaying the installation screen. Just fix what it says is wrong/missing and everything should go well.
 
-After the installation is done, you should go and take all of the available privileges from the '/setup' directory, so other people are not allowed to go in there and mess with your configuration.
+After the installation is done, you should go and take all of the available
+privileges from the `htdocs/setup` directory, so other people are not allowed
+to go in there and mess with your configuration.
 
-**IMPORTANT:** If you already have an installation of Eventum, please read the [UPGRADE](Upgrading "wikilink") file.
+**IMPORTANT:** If you already have an installation of Eventum, please read the [UPGRADE](Upgrading) file.
 
-**IMPORTANT:** If you are having trouble getting Eventum to work, please read the trouble shooting section of the [FAQ](FAQ "wikilink") file.
+**IMPORTANT:** If you are having trouble getting Eventum to work, please read the trouble shooting section of the [FAQ](Basic-User:-FAQ) file.
 
 **IMPORTANT:** By default, the admin user login is set to to admin@example.com during installation. **Be sure to change this to a valid email address with a new password immediately**. Note that eventum will attempt to send the new password to the specified address, which should be valid to prevent the password from being exposed if the email is bounced.
 
