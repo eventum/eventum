@@ -1,19 +1,23 @@
 # System Requirements
 
-You need:
+You will need:
 
 -   A Webserver that is capable of handling PHP scripts (i.e [Apache HTTPD Server](http://httpd.apache.org/))
--   PHP 5.1.0 or newer with the following extensions
-    -   PCRE Extension
-    -   Session handling enabled
-    -   MySQL Extension
-    -   GD Extension
-    -   IMAP Extension (c-client imap library)
-    -   gettext support if you want to use localization
+-    [PHP](http://www.php.net/) >= 5.3.3 (PHP >= 5.5.0 is the recommended version) with the following extensions
+    - date (builtin)
+    - filter
+    - gd - GD Extension
+    - gettext - gettext support if you want to use localization
+    - iconv
+    - imap - IMAP Extension (c-client imap library)
+    - json
+    - mbstring
+    - mysqli - MySQL Extension
+    - pcre - PCRE Extension
+    - session (builtin) - Session handling enabled
+    - spl (builtin)
 -   An SMTP and POP Server for email support
--   MySQL Database Server (you can get it from the [MySQL Download page](http://dev.mysql.com/))
-
-Eventum 2.0.1 may give an SQL syntax error for using 'DEFAULT CHARSET=utf8' with MySQL 4.0.18, The installation worked fine for me on a machine running MySQL 5.0.21
+-   MySQL Database Server (you can get it from the [MySQL Download page](http://dev.mysql.com/downloads/mysql/))
 
 ### Checking PHP Requirements
 
@@ -29,7 +33,7 @@ Type this command as any user:
 
 #### Via the Web
 
-To see if your webserver handles PHP scripts and meets the requirements from above, just place a file with the extension '.php' somewhere in your webspace and put the following content into it:
+To see if your webserver handles PHP scripts and meets the requirements from above, just place a file with the extension `.php` somewhere in your webspace and put the following content into it:
 
 ```php
 <?php
