@@ -345,7 +345,7 @@ class MailMessage extends Message
      * Get From header. In case multiple headers present, return just first one.
      *
      * @return Address
-     * @deprecated, use $this->from or $this->getHeader('From')
+     * @deprecated, use $this->from, $this->getFrom() or $this->getHeader('From')
      */
     public function getFromHeader()
     {
