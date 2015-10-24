@@ -684,11 +684,14 @@ class Misc
      * Method used to display a nice error message when one (or more) of the
      * system requirements for Eventum is not found.
      *
-     * @param   array $errors The list of errors
-     * @return  void
+     * @param array $errors The list of errors
+     * @param string $title HTML page title
+     * @return string
      */
-    public static function displayRequirementErrors($errors)
+    public static function displayRequirementErrors($errors, $title = 'Configuration Error')
     {
+        $rel_path = APP_RELATIVE_URL;
+        $messages = implode("\n<br>\n", $errors);
         echo '<html>
 <head>
 <style type="text/css">
@@ -701,28 +704,28 @@ class Misc
 }
 -->
 </style>
-<title>Configuration Error</title>
+<title>', $title, '</title>
 </head>
 <body>
 
 <br /><br />
 
-<table width="500" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="600" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td><img src="../images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
+          <td><img src="', $rel_path, 'images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
           <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">Configuration Error:</span></td>
         </tr>
         <tr>
           <td colspan="2" class="default">
             <br />
-            <b>The following problems regarding file and/or directory permissions were found:</b>
+            <b>The following problems were found:</b>
             <br /><br />
-            ' . implode('<br />', $errors) . '
+            ', $messages, '
             <br /><br />
-            <b>Please provide the appropriate permissions to the user that the web server run as to write in the directories and files specified above.</b>
+            <b>Please resolve the issues described above. For file permission errors, please provide the appropriate permissions to the user that the web server run as to write in the directories and files specified above.</b>
             <br /><br />
           </td>
         </tr>
