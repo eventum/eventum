@@ -19,3 +19,11 @@ Before opening [new issue](https://github.com/eventum/eventum/issues/new), first
 - Create a new pull request.
 
 Do not update changelog or attempt to change version, the changes may not be merged on codebase you created patch for and it will just create annoying merge conflicts later.
+
+## Mailing Lists
+
+ - [eventum-users@lists.mysql.com][1] - A general mailing list for users of the Eventum issue tracking tool
+ - [eventum-devel@lists.mysql.com][2] - A mailing list for developers of the Eventum issue tracking tool
+
+  [1]: http://news.gmane.org/gmane.comp.bug-tracking.eventum.user
+  [2]: http://news.gmane.org/gmane.comp.bug-tracking.eventum.devel
