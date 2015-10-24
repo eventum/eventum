@@ -185,9 +185,9 @@ Assuming you have the requirements properly set up:
  - Add that location to your `PATH` environment variable
  - Set the required permission in the script (`chmod +x ~/bin/cli/eventum`)
  - Copy the new `.eventumrc` example file to your home directory (`cp cli/eventumrc ~/.eventumrc`)
- - Edit `~/.eventumrc` and set the appropriate values, be sure to secure the file permissions (chmod 600 ~/.evenumrc)
+ - Edit `~/.eventumrc` and set the appropriate values, be sure to secure the file permissions (`chmod 600 ~/.evenumrc`)
  - Run it (`eventum --help`)
- - Test it with 'eventum 1' (display issue #1 details)
+ - Test it with `eventum 1` (display issue #1 details)
 
 Installing on SSL (https)
 -------------------------
