@@ -39,7 +39,7 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
          */
 
         $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
-        $from = $message->getFromHeader()->toString();
+        $from = $message->from;
         $this->assertEquals('Some Guy <abcd@origin.com>', $from);
 
         // or simplier variants:
@@ -226,7 +226,7 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $from = $message->from;
         $this->assertEquals('IT <help@localhost>', $from);
 
-        $address = $message->getFromHeader();
+        $address = $message->getFrom();
         $this->assertInstanceOf('Zend\Mail\Address', $address);
         $this->assertEquals('IT <help@localhost>', $address->toString());
         $this->assertEquals('help@localhost', $address->getEmail());

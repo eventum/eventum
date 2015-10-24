@@ -291,17 +291,22 @@ class MailMessage extends Message
      */
     public function getSender()
     {
-        return strtolower($this->getFromHeader()->getEmail());
+        return strtolower($this->getFrom()->getEmail());
     }
 
     /**
-     * Retrieve list of From senders
+     * Get Address object for From header
      *
-     * @return AddressList
+     * @return Address
      */
     public function getFrom()
     {
-        return $this->getAddressListFromHeader('from', '\Zend\Mail\Header\From');
+        $addresslist = $this->getAddressListFromHeader('from', '\Zend\Mail\Header\From');
+
+        // obtain first address from addresses list
+        $addresses = current($addresslist);
+        $address = current($addresses);
+        return $address;
     }
 
     /**
@@ -339,36 +344,6 @@ class MailMessage extends Message
             return null;
         }
         return $this->headers->get($headerName)->getFieldValue($format);
-    }
-
-    /**
-     * Get From header. In case multiple headers present, return just first one.
-     *
-     * @return Address
-     * @deprecated, use $this->from, $this->getFrom() or $this->getHeader('From')
-     */
-    public function getFromHeader()
-    {
-        if (!$this->headers->has('From')) {
-            return null;
-        }
-
-        // take long path to get multiple headers to single item
-        // and multiple addresses from addresslist to single one.
-
-        $header = $this->getHeader('From');
-
-        if (!$header instanceof HeaderInterface) {
-            $header = iterator_to_array($header);
-            // take first header
-            $header = current($header);
-        }
-
-        $addressList = $header->getAddressList();
-        $addressList = iterator_to_array($addressList);
-
-        $value = current($addressList);
-        return $value;
     }
 
     /**
