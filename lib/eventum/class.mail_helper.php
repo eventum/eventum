@@ -809,6 +809,8 @@ class Mail_Helper
     {
         if ($headers) {
             // calculate hash to make fake message ID
+            // NOTE: note the base_convert "10" should be "16" really here
+            // but can't fix this because need to generate same message-id for same headers+body.
             $first = base_convert(md5($headers), 10, 36);
             $second = base_convert(md5($body), 10, 36);
         } else {
