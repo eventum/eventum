@@ -45,16 +45,25 @@ class MailMessage extends Message
     /**
      * Public constructor
      *
-     * Generates MessageId header in case it is missing:
-     *
      * @param array $params
      */
     public function __construct(array $params)
     {
         parent::__construct($params);
 
+        // TODO: do not set this for "child" messages (attachments)
+        $this->sanitizeHeaders();
+    }
+
+    /**
+     * Sanitize Mail headers:
+     *
+     * - generate MessageId header in case it is missing
+     *
+     */
+    private function sanitizeHeaders()
+    {
         // set messageId if that is missing
-        // FIXME: do not set this for "child" messages (attachments)
         if (!$this->headers->has('Message-Id')) {
             $headers = rtrim($this->headers->toString(), Headers::EOL);
             $messageId = Mail_Helper::generateMessageID($headers, $this->getContent());
