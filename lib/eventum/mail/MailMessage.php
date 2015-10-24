@@ -61,7 +61,7 @@ class MailMessage extends Message
         parent::__construct($params);
 
         // TODO: do not set this for "child" messages (attachments)
-        $this->sanitizeHeaders();
+        $this->sanitizeHeaders($this->headers);
     }
 
     /**
@@ -69,32 +69,42 @@ class MailMessage extends Message
      *
      * - generate MessageId header in case it is missing
      *
+     * @param Headers $headers
      */
-    private function sanitizeHeaders()
+    private function sanitizeHeaders(Headers $headers)
     {
-        $headers = $this->headers;
+        // ensure there's only one "From" header
+        $this->removeDuplicateHeader($headers, 'From');
 
         // ensure there's only one Message-Id header
         if ($headers->has('Message-Id')) {
-            $header = $headers->get('Message-Id');
-            if ($header instanceof ArrayIterator) {
-                $headers->removeHeader('Message-Id');
-                $headers->addHeader($header[0]);
-            }
+             $this->removeDuplicateHeader($headers, 'Message-Id');
         } else {
-            // set messageId if that is missing
+            // add Message-Id header as it is missing
             $text_headers = rtrim($headers->toString(), Headers::EOL);
             $messageId = Mail_Helper::generateMessageID($text_headers, $this->getContent());
             $header = new MessageId();
             $headers->addHeader($header->setId(trim($messageId, '<>')));
         }
+    }
+
+    /**
+     * Helper to remove duplicate headers, but keep only one.
+     *
+     * @param Headers $headers
+     * @param string $headerName
+     */
+    private function removeDuplicateHeader(Headers $headers, $headerName)
+    {
+        if (!$headers->has($headerName)) {
+            return;
+        }
 
         // ensure there's only one "From" header
-        if ($headers->has('From') && $header = $headers->get('From')) {
-            if (!$header instanceof HeaderInterface) {
-                $headers->removeHeader('From');
-                $headers->addHeader($header[0]);
-            }
+        $header = $headers->get($headerName);
+        if (!$header instanceof HeaderInterface) {
+            $headers->removeHeader($headerName);
+            $headers->addHeader($header[0]);
         }
     }
 
