@@ -1,4 +1,4 @@
-As the main page is not editable to add more contributions, add your contributions here:
+The recommended way of adding contributions is to submit [Pull Request in GitHub](https://github.com/eventum/eventum/blob/master/CONTRIBUTING.md).
 
 Patches for Eventum 1.7.0
 -------------------------
