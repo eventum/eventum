@@ -1,4 +1,8 @@
-### Doing a fresh install
+# Doing a fresh install
+
+### Navigate this page:
+
+[[_TOC_]]
 
 ## Installation Process ##
 
