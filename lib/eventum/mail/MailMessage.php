@@ -63,12 +63,21 @@ class MailMessage extends Message
      */
     private function sanitizeHeaders()
     {
-        // set messageId if that is missing
-        if (!$this->headers->has('Message-Id')) {
-            $headers = rtrim($this->headers->toString(), Headers::EOL);
-            $messageId = Mail_Helper::generateMessageID($headers, $this->getContent());
+        $headers = $this->headers;
+
+        if ($headers->has('Message-Id')) {
+            // ensure there's only one Message-Id header
+            $header = $headers->get('Message-Id');
+            if ($header instanceof ArrayIterator) {
+                $headers->removeHeader('Message-Id');
+                $headers->addHeader($header[0]);
+            }
+        } else {
+            // set messageId if that is missing
+            $text_headers = rtrim($headers->toString(), Headers::EOL);
+            $messageId = Mail_Helper::generateMessageID($text_headers, $this->getContent());
             $header = new MessageId();
-            $this->headers->addHeader($header->setId(trim($messageId, "<>")));
+            $headers->addHeader($header->setId(trim($messageId, "<>")));
         }
     }
 
@@ -99,15 +108,12 @@ class MailMessage extends Message
     /**
      * Return Message-Id Value
      *
+     * @deprecated, use $this->messageId
      * @return string
      */
     public function getMessageId()
     {
-        $header = $this->getHeader('Message-Id');
-        if ($header instanceof ArrayIterator) {
-            $header = current($header);
-        }
-        return $header->getFieldValue();
+        return $this->getHeader('Message-Id')->getFieldValue();
     }
 
     /**
