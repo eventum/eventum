@@ -306,7 +306,7 @@ class MailMessage extends Message
         // obtain first address from addresses list
         $addresses = current($addresslist);
         $address = current($addresses);
-        return $address;
+        return $address ?: null;
     }
 
     /**

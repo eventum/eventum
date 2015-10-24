@@ -233,6 +233,16 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('IT', $address->getName());
     }
 
+    public function testMissingFrom()
+    {
+        // test with no From header
+        $raw = "X-foo: 1\r\n\r\nnada";
+        $message = MailMessage::createFromString($raw);
+        $headers = $message->getHeaders();
+        $this->assertFalse($headers->has('From'));
+        $this->assertSame(null, $message->getFrom());
+    }
+
     public function testModifyBody()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
@@ -354,22 +364,22 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
 
         $exp = join(
             "\r\n", array(
-            'Message-ID: <33@JON>',
-            'X-Eventum-Level: 10',
-            'X-Eventum-Group-Issue: something 123 143',
-            'X-Eventum-Group-Replier: =?UTF-8?Q?m=C3=B5min?=',
-            'X-Eventum-Group-Assignee: =?UTF-8?Q?UUser1,=20juus=C3=B5r2?=',
-            'X-Eventum-Customer: cust om er',
-            'X-Eventum-Assignee: foo, bar',
-            'X-Eventum-Category: Title Cat',
-            'X-Eventum-Project: prjnma',
-            'X-Eventum-Priority: =?UTF-8?Q?k=C3=BCmme?=',
-            'X-Eventum-CustomField-Foo: maha kali',
-            'X-Eventum-Type: elisabeth bathory',
-            'Precedence: bulk',
-            'Auto-Submitted: auto-generated',
-            ''
-        )
+                'Message-ID: <33@JON>',
+                'X-Eventum-Level: 10',
+                'X-Eventum-Group-Issue: something 123 143',
+                'X-Eventum-Group-Replier: =?UTF-8?Q?m=C3=B5min?=',
+                'X-Eventum-Group-Assignee: =?UTF-8?Q?UUser1,=20juus=C3=B5r2?=',
+                'X-Eventum-Customer: cust om er',
+                'X-Eventum-Assignee: foo, bar',
+                'X-Eventum-Category: Title Cat',
+                'X-Eventum-Project: prjnma',
+                'X-Eventum-Priority: =?UTF-8?Q?k=C3=BCmme?=',
+                'X-Eventum-CustomField-Foo: maha kali',
+                'X-Eventum-Type: elisabeth bathory',
+                'Precedence: bulk',
+                'Auto-Submitted: auto-generated',
+                ''
+            )
         );
         $this->assertEquals($exp, $mail->getHeaders()->toString());
     }
