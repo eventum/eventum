@@ -40,12 +40,19 @@ use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Header\MessageId;
 use Zend\Mime;
 
+/**
+ * Class MailMessage
+ *
+ * @property-read string $messageId a Message-Id header value
+ * @property-read string $from a From header value
+ * @property-read string $to a To header value
+ * @property-read string $cc a Cc header value
+ * @property-read string $subject a Subject header value
+ */
 class MailMessage extends Message
 {
     /**
      * Public constructor
-     *
-     * Generates MessageId header in case it is missing:
      *
      * @param array $params
      */
@@ -53,14 +60,63 @@ class MailMessage extends Message
     {
         parent::__construct($params);
 
-        // set messageId if that is missing
-        // FIXME: do not set this for "child" messages (attachments)
-        if (!$this->headers->has('Message-Id')) {
-            $headers = rtrim($this->headers->toString(), Headers::EOL);
-            $messageId = Mail_Helper::generateMessageID($headers, $this->getContent());
+        // TODO: do not set this for "child" messages (attachments)
+        $this->sanitizeHeaders($this->headers);
+    }
+
+    /**
+     * Sanitize Mail headers:
+     *
+     * - generate MessageId header in case it is missing
+     *
+     * @param Headers $headers
+     */
+    private function sanitizeHeaders(Headers $headers)
+    {
+        // add Message-Id, this needs to be first before we modify more headers
+        if (!$headers->has('Message-Id')) {
+            // add Message-Id header as it is missing
+            $text_headers = rtrim($headers->toString(), Headers::EOL);
+            $messageId = Mail_Helper::generateMessageID($text_headers, $this->getContent());
             $header = new MessageId();
-            $this->headers->addHeader($header->setId(trim($messageId, "<>")));
+            $headers->addHeader($header->setId(trim($messageId, '<>')));
         }
+
+        // headers to check and whether they need to be unique
+        $checkHeaders = array(
+            'From' => true,
+            'Subject' => true,
+            'Message-Id' => true,
+            'To' => false,
+            'Cc' => false,
+        );
+        foreach ($checkHeaders as $headerName => $unique) {
+            $headerClass = '\\Zend\\Mail\\Header\\' . $headerName;
+            $header = $this->getHeaderByName($headerName, $headerClass);
+            if ($unique) {
+                $this->removeDuplicateHeader($headers, $header);
+            }
+        }
+    }
+
+    /**
+     * Helper to remove duplicate headers, but keep only one.
+     *
+     * Note: headers order is changed when duplicate header is removed (header is removed and appended to the headers array)
+     *
+     * @param Headers $headers
+     * @param HeaderInterface|HeaderInterface[] $header
+     */
+    private function removeDuplicateHeader(Headers $headers, $header)
+    {
+        if ($header instanceof HeaderInterface) {
+            // all good
+            return;
+        }
+
+        $headerName = $header[0]->getFieldName();
+        $headers->removeHeader($headerName);
+        $headers->addHeader($header[0]);
     }
 
     /**
@@ -86,19 +142,6 @@ class MailMessage extends Message
         $message = new self(array('file' => $filename));
 
         return $message;
-    }
-    /**
-     * Return Message-Id Value
-     *
-     * @return string
-     */
-    public function getMessageId()
-    {
-        $header = $this->getHeader('Message-Id');
-        if ($header instanceof ArrayIterator) {
-            $header = current($header);
-        }
-        return $header->getFieldValue();
     }
 
     /**
@@ -253,17 +296,22 @@ class MailMessage extends Message
      */
     public function getSender()
     {
-        return strtolower($this->getFromHeader()->getEmail());
+        return strtolower($this->getFrom()->getEmail());
     }
 
     /**
-     * Retrieve list of From senders
+     * Get Address object for From header
      *
-     * @return AddressList
+     * @return Address
      */
     public function getFrom()
     {
-        return $this->getAddressListFromHeader('from', '\Zend\Mail\Header\From');
+        $addresslist = $this->getAddressListFromHeader('from', '\Zend\Mail\Header\From');
+
+        // obtain first address from addresses list
+        $addresses = current($addresslist);
+        $address = current($addresses);
+        return $address ?: null;
     }
 
     /**
@@ -289,79 +337,25 @@ class MailMessage extends Message
     }
 
     /**
-     * Get value of $headerName. returns NULL if header is not present.
+     * Get the message Subject header object
      *
-     * @param string $headerName
-     * @param bool $format Return the value in Mime::Encoded or in Raw format
-     * @return null|string
+     * @return Subject
      */
-    public function getHeaderValue($headerName, $format = HeaderInterface::FORMAT_RAW)
+    protected function getSubject()
     {
-        if (!$this->headers->has($headerName)) {
-            return null;
-        }
-        return $this->headers->get($headerName)->getFieldValue($format);
+        // NOTE: Subject header is always present,
+        // so it's safe to call this without checking for header presence
+        return $this->getHeader('Subject');
     }
 
     /**
-     * Get From header. In case multiple headers present, return just first one.
+     * Set the message subject header value, return Subject object
      *
-     * @return Address
-     */
-    public function getFromHeader()
-    {
-        if (!$this->headers->has('From')) {
-            return null;
-        }
-
-        // take long path to get multiple headers to single item
-        // and multiple addresses from addresslist to single one.
-
-        $header = $this->getHeader('From');
-
-        if (!$header instanceof HeaderInterface) {
-            $header = iterator_to_array($header);
-            // take first header
-            $header = current($header);
-        }
-
-        $addressList = $header->getAddressList();
-        $addressList = iterator_to_array($addressList);
-
-        $value = current($addressList);
-        return $value;
-    }
-
-    /**
-     * Get the message subject header value
-     *
-     * @return null|string
-     */
-    public function getSubject()
-    {
-        $headers = $this->getHeaders();
-        if (!$headers->has('subject')) {
-            return null;
-        }
-        $header = $headers->get('subject');
-        return $header->getFieldValue();
-    }
-
-    /**
-     * Set the message subject header value
-     *
-     * @param string $subject
+     * @return Subject
      */
     public function setSubject($subject)
     {
-        $headers = $this->getHeaders();
-        if (!$headers->has('subject')) {
-            $header = new Subject();
-            $headers->addHeader($header);
-        } else {
-            $header = $headers->get('subject');
-        }
-        $header->setSubject($subject);
+        return $this->getSubject()->setSubject($subject);
     }
 
     /**
@@ -452,9 +446,9 @@ class MailMessage extends Message
     public function isSeen()
     {
         return
-            $this->hasFlag(Zend\Mail\Storage::FLAG_SEEN) ||
-            $this->hasFlag(Zend\Mail\Storage::FLAG_DELETED) ||
-            $this->hasFlag(Zend\Mail\Storage::FLAG_ANSWERED);
+            $this->hasFlag(Zend\Mail\Storage::FLAG_SEEN)
+            || $this->hasFlag(Zend\Mail\Storage::FLAG_DELETED)
+            || $this->hasFlag(Zend\Mail\Storage::FLAG_ANSWERED);
     }
 
     /**
@@ -497,6 +491,7 @@ class MailMessage extends Message
      * not being delivered correctly.
      *
      * FIXME: think of better method name
+     *
      * @see Mail_Helper::stripHeaders
      */
     public function stripHeaders()
@@ -519,11 +514,13 @@ class MailMessage extends Message
         }
 
         // process patterns
-        array_walk($headers->toArray(), function ($value, $name) use ($headers) {
+        array_walk(
+            $headers->toArray(), function ($value, $name) use ($headers) {
             if (preg_match('/^resent.*/i', $name)) {
                 $headers->removeHeader($name);
             }
-        });
+        }
+        );
     }
 
     /**
@@ -585,10 +582,12 @@ class MailMessage extends Message
     {
         $header = $this->getHeaderByName($headerName, $headerClass);
         if (!$header instanceof AbstractAddressList) {
-            throw new DomainException(sprintf(
-                'Cannot grab address list from header of type "%s"; not an AbstractAddressList implementation',
-                get_class($header)
-            ));
+            throw new DomainException(
+                sprintf(
+                    'Cannot grab address list from header of type "%s"; not an AbstractAddressList implementation',
+                    get_class($header)
+                )
+            );
         }
         return $header->getAddressList();
     }
