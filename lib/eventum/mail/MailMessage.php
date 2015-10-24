@@ -114,16 +114,6 @@ class MailMessage extends Message
 
         return $message;
     }
-    /**
-     * Return Message-Id Value
-     *
-     * @deprecated, use $this->messageId
-     * @return string
-     */
-    public function getMessageId()
-    {
-        return $this->getHeader('Message-Id')->getFieldValue();
-    }
 
     /**
      * Assemble email into raw format.

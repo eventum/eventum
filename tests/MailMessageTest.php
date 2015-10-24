@@ -15,7 +15,7 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
     public function testDuplicateMessageId()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-msgid.txt');
-        $message_id = $message->getMessageId();
+        $message_id = $message->messageId;
         $exp = "<81421718b55935a2f5105705f8baf571@lookout.example.org>";
         $this->assertEquals($exp, $message_id);
     }
