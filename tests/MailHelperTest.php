@@ -71,7 +71,7 @@ class MailHelperTest extends PHPUnit_Framework_TestCase
     public function testGenerateMessageId() {
         $msgid = Mail_Helper::generateMessageID();
         // <eventum.md5.54hebbwge.myyt4c@eventum.example.org>
-        $exp = '<eventum\.md5\.[0-9a-z]{8,64}\.[0-9A-Za-z/+]{8,64}@' . APP_HOSTNAME . '>';
+        $exp = '<eventum\.md5\.[0-9a-z]{8,64}\.[0-9a-z]{8,64}@' . APP_HOSTNAME . '>';
         $this->assertRegExp($exp, $msgid, 'Missing msg-id header');
     }
 

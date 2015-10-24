@@ -812,13 +812,12 @@ class Mail_Helper
             $first = base_convert(md5($headers), 10, 36);
             $second = base_convert(md5($body), 10, 36);
         } else {
-            // generate totally random one
-            list($usec, $sec) = explode(' ', microtime());
-            $time = ((float) $usec + (float) $sec);
-            $first = base_convert($time, 10, 36);
-            mt_srand(hexdec(substr(md5(microtime()), -8)) & 0x7fffffff);
-            $rand = mt_rand();
-            $second = base_convert($rand, 10, 36);
+            // generate random one
+            // first part is time based
+            $first = base_convert(microtime(true), 10, 36);
+
+            // second part is random string
+            $second = base_convert(bin2hex(Misc::generateRandom(8)), 16, 36);
         }
 
         return '<eventum.md5.' . $first . '.' . $second . '@' . APP_HOSTNAME . '>';
