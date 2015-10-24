@@ -127,6 +127,29 @@ This script also saves any routed messages it receives in a separate directory, 
 
 **IMPORTANT:** Please be aware that depending on the MTA/MDA that you are using (qmail, postfix, procmail or whatever), you may need to manually change the exit codes used in this script to handle the proper signals to the MDA. For example, postfix uses exit code `78` to signal a configuration problem, but other agents may need different exit codes.
 
+### Draft Routing Script (route_drafts.php)
+
+The draft routing feature is used to automatically associate a thread of drafts
+into an Eventum issue. By setting up qmail (or even postfix) to deliver emails
+sent to a specific address (usually `draft-<number>@<domain>`) to the above
+script, users are able to send drafts written in their mail client to be stored
+in Eventum. These drafts will NOT broadcasted to the notification list.
+
+The entire email message should be passed as standard input to the script. The
+following is an example of a successful run of this script:
+
+    bin/route_drafts.php < example_note_email.txt
+
+This script also saves any routed messages it receives in a separate directory,
+so you would never lose drafts. Create a 'routed_drafts' sub-directory under
+`misc/` and setup the proper permission bits on it.
+
+**IMPORTANT**: Please be aware that depending on the MDA that you are using (qmail,
+postfix or whatever), you may need to manually change the exit codes used in
+this script to handle the proper signals to the MDA. For example, postfix uses
+exit code 78 to signal a configuration problem, but other agents may need
+different exit codes.
+
 ### IRC Notification Bot (irc/eventum-irc-bot)
 
 The IRC notification bot is a nice feature for remote teams that want to handle issues and want to have a quick and easy way to get simple notifications. The bot currently notifies of the following actions:
