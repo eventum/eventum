@@ -78,7 +78,7 @@ class MailMessage extends Message
 
         // ensure there's only one Message-Id header
         if ($headers->has('Message-Id')) {
-             $this->removeDuplicateHeader($headers, 'Message-Id');
+            $this->removeDuplicateHeader($headers, 'Message-Id');
         } else {
             // add Message-Id header as it is missing
             $text_headers = rtrim($headers->toString(), Headers::EOL);
@@ -91,21 +91,27 @@ class MailMessage extends Message
     /**
      * Helper to remove duplicate headers, but keep only one.
      *
+     * Note: headers order is changed when duplicate header is removed (header is removed and appended to the headers array)
+     *
      * @param Headers $headers
      * @param string $headerName
      */
     private function removeDuplicateHeader(Headers $headers, $headerName)
     {
         if (!$headers->has($headerName)) {
+            // no header, pass
             return;
         }
 
         // ensure there's only one "From" header
         $header = $headers->get($headerName);
-        if (!$header instanceof HeaderInterface) {
-            $headers->removeHeader($headerName);
-            $headers->addHeader($header[0]);
+        if ($header instanceof HeaderInterface) {
+            // all good
+            return;
         }
+
+        $headers->removeHeader($headerName);
+        $headers->addHeader($header[0]);
     }
 
     /**
