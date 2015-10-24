@@ -2,7 +2,7 @@
 
 ### Navigate this page:
 
-[[_TOC_]]
+[_TOC_]
 
 ## Installation Process ##
 
