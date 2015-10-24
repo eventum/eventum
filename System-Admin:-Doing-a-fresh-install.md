@@ -7,14 +7,14 @@ Download the [latest release](https://github.com/eventum/eventum/releases/latest
 Eventum already bundles PHP libraries that it needs to work properly, see
 `docs/DEPENDENCIES.md` from release tarball for details.
 
-Point your webserver to that /path-to-eventum/htdocs/. Open it up with your
+Point your webserver to that `/path-to-eventum/htdocs/`. Open it up with your
 browser and Eventum should redirect you to the installation screen, and it will
 try to guess some of required parameters, like path in the server and etc.
 
   http://yourserver.com/eventum/
 
 **PLEASE NOTE**: The whole eventum directory should *NOT* be accessible under the
-webserver, only /path-to-eventum/htdocs/
+webserver, only `/path-to-eventum/htdocs/`
 
 If Eventum's installation script finds that it needs a few directories or permissions changed, it will print the warnings before actually displaying the installation screen. Just fix what it says is wrong/missing and everything should go well.
 
@@ -24,7 +24,7 @@ to go in there and mess with your configuration.
 
 **IMPORTANT:** If you already have an installation of Eventum, please read the [UPGRADE](Upgrading) file.
 
-**IMPORTANT:** If you are having trouble getting Eventum to work, please read the trouble shooting section of the [FAQ](Basic-User:-FAQ) file.
+**IMPORTANT:** If you are having trouble getting Eventum to work, please read the trouble shooting section of the [FAQ](Basic-User%3A-FAQ) file.
 
 **IMPORTANT:** By default, the admin user login is set to to admin@example.com during installation. **Be sure to change this to a valid email address with a new password immediately**. Note that eventum will attempt to send the new password to the specified address, which should be valid to prevent the password from being exposed if the email is bounced.
 
