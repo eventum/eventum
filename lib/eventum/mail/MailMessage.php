@@ -354,35 +354,25 @@ class MailMessage extends Message
     }
 
     /**
-     * Get the message subject header value
+     * Get the message Subject header object
      *
-     * @return null|string
+     * @return Subject
      */
-    public function getSubject()
+    protected function getSubject()
     {
-        $headers = $this->getHeaders();
-        if (!$headers->has('subject')) {
-            return null;
-        }
-        $header = $headers->get('subject');
-        return $header->getFieldValue();
+        // NOTE: Subject header is always present,
+        // so it's safe to call this without checking for header presence
+        return $this->getHeader('Subject');
     }
 
     /**
-     * Set the message subject header value
+     * Set the message subject header value, return Subject object
      *
-     * @param string $subject
+     * @return Subject
      */
     public function setSubject($subject)
     {
-        $headers = $this->getHeaders();
-        if (!$headers->has('subject')) {
-            $header = new Subject();
-            $headers->addHeader($header);
-        } else {
-            $header = $headers->get('subject');
-        }
-        $header->setSubject($subject);
+        return $this->getSubject()->setSubject($subject);
     }
 
     /**
