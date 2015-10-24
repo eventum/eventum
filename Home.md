@@ -163,7 +163,7 @@ _**Most of these links are broken**_
         -   [Custom Field API](CustomFieldAPI "wikilink")
         -   [Dynamic Custom Field Example](DynamicCustomFieldExample "wikilink")
     -   [Pending Contributions](Pending Contributions "wikilink") (not yet merged into Eventum)
-    -   [How to Contribute to the Project](HowToContribute "wikilink")
+    -   [How to Contribute to the Project](https://github.com/eventum/eventum/blob/master/CONTRIBUTING.md)
     -   [Article on setting up LDAP Authentication in Eventum](http://www.bieberlabs.com/wordpress/archives/2007/10/20/ldap-enabling-the-eventum-defect-tracking-system/)
 -   Debugging Problems
     -   [Displaying PHP errors](Displaying PHP errors "wikilink")
