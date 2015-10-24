@@ -324,11 +324,11 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
 
         $to = "root@example.org";
         $mail->setTo($to);
-        $this->assertEquals($to, $mail->getHeader('To')->getFieldValue());
+        $this->assertEquals($to, $mail->to);
 
         $to = '"test to" <root@example.org>';
         $mail->setTo($to);
-        $this->assertEquals($to, $mail->getHeader('To')->getFieldValue());
+        $this->assertEquals($to, $mail->to);
     }
 
     public function testHeadersCloning()
