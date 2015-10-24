@@ -30,7 +30,7 @@ Upgrading from version 2.2 and from versions upwards
 require_once(APP_INC_PATH."workflow/class.abstract_workflow_backend.php");
 require_once(APP_INC_PATH."customer/class.abstract_customer_backend.php");
 ```
-* Update your cron jobs to point to the scripts in the new location (see INSTALL.md).
+* Update your cron jobs to point to the scripts in the new location (see [INSTALL](System-Admin%3A-Doing-a-fresh-install)).
 	Previously the scripts were in 'crons', now in 'bin', eg:
 ```
 	0 * * * * <PATH-TO-EVENTUM>/bin/download_emails.php username_here mail.domain.com INBOX
