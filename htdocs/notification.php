@@ -95,8 +95,10 @@ if ($cat == 'insert') {
 }
 
 $tpl->assign('list', Notification::getSubscriberListing($issue_id));
-$t = Project::getAddressBook($prj_id, $issue_id);
-$tpl->assign('assoc_users', $t);
+/*
+// the autocomplete is removed, no need to fetch the data
+$tpl->assign('assoc_users', Project::getAddressBook($prj_id, $issue_id));
 $tpl->assign('allowed_emails', Project::getAddressBookEmails($prj_id, $issue_id));
+*/
 
 $tpl->displayTemplate();
