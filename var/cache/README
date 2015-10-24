@@ -1,0 +1,2 @@
+This directory holds Smarty templates cache.
+Configured with APP_TPL_COMPILE_PATH constant.

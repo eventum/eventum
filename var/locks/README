@@ -1,0 +1,2 @@
+This directory holds various lock and pid files.
+Configured with APP_LOCKS_PATH constant.
