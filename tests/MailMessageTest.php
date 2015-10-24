@@ -20,8 +20,8 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $message_id);
     }
 
-    public function testMissingSubject() {
-
+    public function testMissingSubject()
+    {
         $raw = "Message-ID: 1\r\n\r\n";
         $message = MailMessage::createFromString($raw);
         $this->assertSame('', $message->subject);
@@ -245,7 +245,7 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $raw = "X-foo: 1\r\n\r\nnada";
         $message = MailMessage::createFromString($raw);
         $headers = $message->getHeaders();
-        $this->assertFalse($headers->has('From'));
+        $this->assertTrue($headers->has('From'));
         $this->assertSame(null, $message->getFrom());
     }
 
@@ -372,6 +372,7 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
             "\r\n", array(
                 'Message-ID: <33@JON>',
                 'X-Eventum-Level: 10',
+                'Subject: ',
                 'X-Eventum-Group-Issue: something 123 143',
                 'X-Eventum-Group-Replier: =?UTF-8?Q?m=C3=B5min?=',
                 'X-Eventum-Group-Assignee: =?UTF-8?Q?UUser1,=20juus=C3=B5r2?=',
