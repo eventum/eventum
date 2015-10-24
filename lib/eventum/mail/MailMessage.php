@@ -73,19 +73,24 @@ class MailMessage extends Message
      */
     private function sanitizeHeaders(Headers $headers)
     {
-        $uniqueHeaders = array(
-            'From',
-            'Subject',
+        // headers to check and whether they need to be unique
+        $checkHeaders = array(
+            'From' => true,
+            'Subject' => true,
+            'To' => false,
+            'Cc' => false,
         );
-        foreach ($uniqueHeaders as $headerName) {
+        foreach ($checkHeaders as $headerName => $unique) {
             $headerClass = '\\Zend\\Mail\\Header\\' . $headerName;
             $header = $this->getHeaderByName($headerName, $headerClass);
-            $this->removeDuplicateHeader($headers, $header);
+            if ($unique) {
+                $this->removeDuplicateHeader($headers, $header);
+            }
         }
 
         // ensure there's only one Message-Id header
         if ($headers->has('Message-Id')) {
-            $this->removeDuplicateHeader($headers, $headers->get('Message-Id'));
+            $this->removeDuplicateHeader($headers, $headers->get('MessageId'));
         } else {
             // add Message-Id header as it is missing
             $text_headers = rtrim($headers->toString(), Headers::EOL);
