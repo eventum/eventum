@@ -8,7 +8,7 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $raw = "X-foo: 1\r\n\r\nnada";
         $message = MailMessage::createFromString($raw);
         $message_id = $message->getMessageId();
-        $exp = "<eventum.68gm8417ga.clqtuo3skl4w0gc@eventum.example.org>";
+        $exp = "<eventum.md5.68gm8417ga.clqtuo3skl4w0gc@eventum.example.org>";
         $this->assertEquals($exp, $message_id);
     }
 
