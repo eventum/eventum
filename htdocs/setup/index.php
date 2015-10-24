@@ -172,6 +172,11 @@ $tpl->assign('default_weekday', getFirstWeekday());
 $tpl->setTemplate('setup.tpl.html');
 $tpl->displayTemplate(false);
 
+/**
+ * Checks for $file for write permission.
+ *
+ * IMPORTANT: if the file does not exist, an empty file is created.
+ */
 function checkPermissions($file, $desc, $is_directory = false)
 {
     clearstatcache();
