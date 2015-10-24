@@ -49,9 +49,9 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('Some Guy <abcd@origin.com>', $from);
 
         // or simplier variants:
-        $this->assertEquals('Some Guy <abcd@origin.com>', $message->getHeaderValue('From'));
-        $this->assertEquals('Us <our@email.com>', $message->getHeaderValue('To'));
-        $this->assertEquals('', $message->getHeaderValue('Cc'));
+        $this->assertEquals('Some Guy <abcd@origin.com>', $message->from);
+        $this->assertEquals('Us <our@email.com>', $message->to);
+        $this->assertEquals('', $message->cc);
 
         // TODO test with duplicate from as well:
 //        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
@@ -77,7 +77,7 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
 
         // note it does not return the original header, but what ZF_Mail has encoded it back
         $exp = "Some Guy <abcd@origin.com>,\r\n Us <our@email.com>";
-        $this->assertEquals($exp, $message->getHeaderValue('Cc'));
+        $this->assertEquals($exp, $message->cc);
 
         $exp = '<issue-73358@eventum.example.org>';
         $res = array_map(
