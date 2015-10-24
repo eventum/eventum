@@ -160,40 +160,34 @@ The IRC notification bot is a nice feature for remote teams that want to handle 
 
 The bot also provides a simple set of commands which can be invoked in a query to the bot user:
 
-` `<user>` help`
-` `<EventumBOT>` This is the list of available commands:`
-` `<EventumBOT>` auth: Format is "auth user@example.com password"`
-` `<EventumBOT>` clock: Format is "clock [in|out]"`
-` `<EventumBOT>` list-clocked-in: Format is "list-clocked-in"`
-` `<EventumBOT>` list-quarantined: Format is "list-quarantined"`
+```
+<user> help
+<EventumBOT> This is the list of available commands:
+<EventumBOT> auth: Format is "auth user@example.com password"
+<EventumBOT> clock: Format is "clock [in|out]"
+<EventumBOT> list-clocked-in: Format is "list-clocked-in"
+<EventumBOT> list-quarantined: Format is "list-quarantined"
+```
 
 To invoke the notification bot and let it run on the server, run this command:
 
-`php -q eventum-irc-bot &`
+    ./irc/eventum-irc-bot &
 
-**NOTE:** You will need to provide a config/irc_config.php file with appropriate preferences, such as the IRC server and channel that the bot should join. An example setup file can be found in htdocs/setup/irc_config.php
+**NOTE:** You will need to provide a `config/irc_config.php` file with appropriate preferences, such as the IRC server and channel that the bot should join. An example setup file can be found in `htdocs/setup/irc_config.php`
 
-### Command Line Interface (misc/cli/eventum)
+### Command Line Interface (cli/eventum)
 
-The Eventum command line interface allows you to access most of the features of the web interface straight from a command shell. In order to install it, you will need PHP. If you use SSL, you will also need the curl and openssl PHP extensions.
+The Eventum command line interface allows you to access most of the features of the web interface straight from a command shell. In order to install it, you will need PHP. If you use SSL, you will also need the `curl` and `openssl` PHP extensions.
 
 Assuming you have the requirements properly set up:
 
--   Just copy the path-to-eventum/misc/cli directory to another location (i.e. copy to \~/bin/)
--   Add that location to your PATH environment variable
--   Set the required permission in the script (chmod 700 \~/bin/cli/eventum)
--   Copy the new .eventumrc example file to your home directory:
-
-`  cp ~/bin/cli/eventumrc_example ~/.eventumrc`
-
--   Edit \~/.eventumrc and set the appropriate values
--   Run it:
-
-` eventum --help`
-
--   Test it by displaying issue \#1 details:
-
-` eventum 1`
+ - Copy the `cli` directory to another location (i.e. copy to `~/bin`)
+ - Add that location to your `PATH` environment variable
+ - Set the required permission in the script (`chmod +x ~/bin/cli/eventum`)
+ - Copy the new `.eventumrc` example file to your home directory (`cp cli/eventumrc ~/.eventumrc`)
+ - Edit `~/.eventumrc` and set the appropriate values, be sure to secure the file permissions (chmod 600 ~/.evenumrc)
+ - Run it (`eventum --help`)
+ - Test it with 'eventum 1' (display issue #1 details)
 
 Installing on SSL (https)
 -------------------------
