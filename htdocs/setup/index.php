@@ -48,9 +48,9 @@ define('APP_CONFIG_PATH', APP_PATH . '/config');
 define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
 define('APP_TPL_PATH', APP_PATH . '/templates');
 define('APP_TPL_COMPILE_PATH', APP_VAR_PATH . '/cache');
-define('APP_LOG_PATH', APP_VAR_PATH . '/logs');
+define('APP_LOG_PATH', APP_VAR_PATH . '/log');
 define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
-define('APP_LOCKS_PATH', APP_VAR_PATH . '/locks');
+define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
 define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 
 header('Content-Type: text/html; charset=' . APP_CHARSET);

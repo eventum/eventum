@@ -313,8 +313,8 @@ prepare_source() {
 	make -C localization install clean
 
 	# install dirs and fix permissions
-	install -d var/{logs,cache,locks}
-	touch var/logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
+	install -d var/{log,cache,lock}
+	touch var/log/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 	chmod -R a+rX .
 	chmod -R a+rwX config var
 
