@@ -35,45 +35,49 @@ Regular maintenance in Eventum is accomplished by running scheduled tasks or cro
 
 **NOTE:** Be sure to specify the path to the same PHP binary used by the web server in all cron entries. This is especially important on machines with multiple installations of PHP.
 
-### Mail Queue Process (crons/process_mail_queue.php)
+### Mail Queue Process (process_mail_queue.php)
 
-In Eventum, emails are not sent immediately after clicking on the send button. Instead, they are added to a mail queue table that is periodically processed by a cron job or scheduled task. If an email cannot be sent, it will be marked as such in the mail queue log, and sending will be retried whenever the process_mail_queue.php script is run.
+In Eventum, emails are not sent immediately after clicking on the send button. Instead, they are added to a mail queue table that is periodically processed by a cron job or scheduled task. If an email cannot be sent, it will be marked as such in the mail queue log, and sending will be retried whenever the `process_mail_queue.php` script is run.
 
 The SMTP server that Eventum uses to send these queued emails must be specified in:
 
-`Administration >>> General Setup > SMTP (Outgoing Email) Settings`
+`Administration` >>> `General Setup` > `SMTP (Outgoing Email) Settings`
 
 This cron example will run the script every minute:
 
-`* * * * * /usr/bin/php /path-to-eventum/crons/process_mail_queue.php`
+    * * * * * <PATH-TO-EVENTUM>/bin/process_mail_queue.php
 
 There is a lock file that prevents the system from running multiple instances of the mail queue process. It is not common, but the lock file has been know to occasionally get stuck.
 
-You may want to periodically process the mail queue with the 'fix lock' switch. Running it daily is more that sufficient enough to overcome any lock file issues.
+You may want to periodically process the mail queue with the `--fix-lock` switch. Running it daily is more that sufficient enough to overcome any lock file issues.
 
-`0 3 * * * /usr/bin/php /path-to-eventum/crons/process_mail_queue.php --fix-lock`
+    0 3 * * * <PATH-TO-EVENTUM>/bin/process_mail_queue.php --fix-lock
 
-### Email Download (crons/download_emails.php)
+If you would like to keep the size of your mail queue table down you can
+truncate (remove the body of) messages that are older then 1 month by running
+the `bin/truncate_mail_queue.php` script.
+
+### Email Download (download_emails.php)
 
 To use email integration, you must check the Enabled button for:
 
-`Administration >>> General Setup > Email Integration Feature`
+`Administration` >>> `General Setup` > `Email Integration Feature`
 
 To configure the accounts used with the email integration feature, go to:
 
-`Administration >>> Manage Email Accounts`
+`Administration` >>> `Manage Email Accounts`
 
-In order for Eventum's email integration feature to work, you need to set up a cron job to run the download_emails.php script every so often. The following is an example of the required crontab line (using an IMAP account):
+In order for Eventum's email integration feature to work, you need to set up a cron job to run the `download_emails.php` script every so often. The following is an example of the required crontab line (using an IMAP account):
 
-`0 * * * * /usr/bin/php -f /path-to-eventum/crons/download_emails.php username mail.example.com INBOX`
+    0 * * * * <PATH-TO-EVENTUM>/bin/download_emails.php username mail.example.com INBOX
 
-The above will run the command every hour, and will download emails associated with the given email account and IMAP mailbox. If you have more than one email account, you may add another crontab entry for the other accounts (or poll different IMAP mailboxes of the same account).
+The above will run the command every hour, and will download emails associated with the given email account and `IMAP` mailbox. If you have more than one email account, you may add another crontab entry for the other accounts (or poll different `IMAP` mailboxes of the same account).
 
-You can also call the download_emails script via the web, using the following URL:
+**NOTE:** The mailbox parameter shown in the examples as `INBOX` is __ONLY__ required for `IMAP` accounts. Using that parameter on `POP` accounts causes "Error: Could not find a email account with the parameter provided. Please verify your email account settings and try again."
 
-`http://eventum_server/path-to-eventum/crons/download_emails.php?username=username&hostname=mail.example.com&mailbox=INBOX`
+You can also call the `download_emails.php` script via the web using the following URL: `http://eventum_server/path-to-eventum/rpc/download_emails.php?username=username&hostname=mail.example.com&mailbox=INBOX`
 
-**NOTE:** The mailbox parameter shown in the examples as INBOX is ONLY required for IMAP accounts. Using that parameter on POP accounts causes "Error: Could not find a email account with the parameter provided. Please verify your email account settings and try again."
+**NB:** the web trick no longer works!
 
 ### Reminder System (crons/check_reminders.php)
 
