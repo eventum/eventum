@@ -73,19 +73,19 @@ class MailMessage extends Message
      */
     private function sanitizeHeaders(Headers $headers)
     {
-        // ensure there's only one "From" header
-        $this->removeDuplicateHeader($headers, 'From');
-
-        // ensure Subject is present and unique
-        if ($headers->has('Subject')) {
-            $this->removeDuplicateHeader($headers, 'Subject');
-        } else {
-            $headers->addHeader(new Subject());
+        $uniqueHeaders = array(
+            'From',
+            'Subject',
+        );
+        foreach ($uniqueHeaders as $headerName) {
+            $headerClass = '\\Zend\\Mail\\Header\\' . $headerName;
+            $header = $this->getHeaderByName($headerName, $headerClass);
+            $this->removeDuplicateHeader($headers, $header);
         }
 
         // ensure there's only one Message-Id header
         if ($headers->has('Message-Id')) {
-            $this->removeDuplicateHeader($headers, 'Message-Id');
+            $this->removeDuplicateHeader($headers, $headers->get('Message-Id'));
         } else {
             // add Message-Id header as it is missing
             $text_headers = rtrim($headers->toString(), Headers::EOL);
@@ -101,22 +101,16 @@ class MailMessage extends Message
      * Note: headers order is changed when duplicate header is removed (header is removed and appended to the headers array)
      *
      * @param Headers $headers
-     * @param string $headerName
+     * @param HeaderInterface|HeaderInterface[] $header
      */
-    private function removeDuplicateHeader(Headers $headers, $headerName)
+    private function removeDuplicateHeader(Headers $headers, $header)
     {
-        if (!$headers->has($headerName)) {
-            // no header, pass
-            return;
-        }
-
-        // ensure there's only one "From" header
-        $header = $headers->get($headerName);
         if ($header instanceof HeaderInterface) {
             // all good
             return;
         }
 
+        $headerName = $header[0]->getFieldName();
         $headers->removeHeader($headerName);
         $headers->addHeader($header[0]);
     }
