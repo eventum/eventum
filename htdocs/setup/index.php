@@ -120,18 +120,6 @@ if ((count($warnings) > 0) || (count($errors) > 0)) {
     }
 }
 
-if (!function_exists('gettext')) {
-    function gettext($str)
-    {
-        return $str;
-    }
-}
-
-function ev_gettext($str)
-{
-    return $str;
-}
-
 $tpl = new Template_Helper();
 
 if (@$_POST['cat'] == 'install') {
