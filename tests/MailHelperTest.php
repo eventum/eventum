@@ -68,6 +68,13 @@ class MailHelperTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $msgid, 'msg-id header with newline, following next header');
     }
 
+    public function testGenerateMessageId() {
+        $msgid = Mail_Helper::generateMessageID();
+        // <eventum.md5.54hebbwge.myyt4c@eventum.example.org>
+        $exp = '<eventum\.md5\.[0-9a-z]{8,64}\.[0-9a-z]{8,64}@' . APP_HOSTNAME . '>';
+        $this->assertRegExp($exp, $msgid, 'Missing msg-id header');
+    }
+
     public function testRemoveExcessReSubjectOnly()
     {
         $subject = 'subject';

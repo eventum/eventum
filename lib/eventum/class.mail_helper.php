@@ -798,21 +798,31 @@ class Mail_Helper
     }
 
     /**
-     * Method used to get the appropriate Message-ID header for a
-     * given issue.
+     * Method used to generate Message-ID header for mail.
+     * To be used if message does not include "Message-Id" header.
      *
+     * @param string $headers
+     * @param string $body
      * @return  string The Message-ID header
      */
-    public static function generateMessageID()
+    public static function generateMessageID($headers = null, $body = null)
     {
-        list($usec, $sec) = explode(' ', microtime());
-        $time = ((float) $usec + (float) $sec);
-        $first = base_convert($time, 10, 36);
-        mt_srand(hexdec(substr(md5(microtime()), -8)) & 0x7fffffff);
-        $rand = mt_rand();
-        $second = base_convert($rand, 10, 36);
+        if ($headers) {
+            // calculate hash to make fake message ID
+            // NOTE: note the base_convert "10" should be "16" really here
+            // but can't fix this because need to generate same message-id for same headers+body.
+            $first = base_convert(md5($headers), 10, 36);
+            $second = base_convert(md5($body), 10, 36);
+        } else {
+            // generate random one
+            // first part is time based
+            $first = base_convert(microtime(true), 10, 36);
 
-        return '<eventum.' . $first . '.' . $second . '@' . APP_HOSTNAME . '>';
+            // second part is random string
+            $second = base_convert(bin2hex(Misc::generateRandom(8)), 16, 36);
+        }
+
+        return '<eventum.md5.' . $first . '.' . $second . '@' . APP_HOSTNAME . '>';
     }
 
     /**
@@ -1002,8 +1012,9 @@ class Mail_Helper
      * Returns the Message-ID from an email. If no message ID is found (Outlook 2003 doesn't
      * generate them in some cases) a "fake" message-id will be calculated.
      *
-     * @param   string $headers The message headers
-     * @param   string $body The message body
+     * @param string $headers The message headers
+     * @param string $body The message body
+     * @return string
      */
     public static function getMessageID($headers, $body)
     {
@@ -1015,15 +1026,12 @@ class Mail_Helper
         // (presented as Array by PEAR Mail_mimeDecode class)
         if ($has_message_id && is_string($structure->headers['message-id'])) {
             return $structure->headers['message-id'];
+
         } elseif ($has_message_id && is_array($structure->headers['message-id'])) {
             return current($structure->headers['message-id']);
         }
 
-        // no match, calculate hash to make fake message ID
-        $first = base_convert(md5($headers), 10, 36);
-        $second = base_convert(md5($body), 10, 36);
-
-        return '<eventum.md5.' . $first . '.' . $second . '@' . APP_HOSTNAME . '>';
+        return self::generateMessageID($headers, $body);
     }
 
     public static function splitAddresses($addresses)
