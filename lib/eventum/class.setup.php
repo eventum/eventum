@@ -129,6 +129,12 @@ class Setup
     {
         $eventum_setup_string = $eventum_setup = null;
 
+        // return empty array if the file is empty
+        // this is to help eventum installation wizard to proceed
+        if (!filesize($path)) {
+            return array();
+        }
+
         // config array is supposed to be returned from that path
         /** @noinspection PhpIncludeInspection */
         $config = require $path;
