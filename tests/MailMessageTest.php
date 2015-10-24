@@ -24,7 +24,7 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
     public function testDateHeader()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-msgid.txt');
-        $date = Date_Helper::convertDateGMT($message->getMailDate());
+        $date = Date_Helper::convertDateGMT($message->date);
         $exp = '2012-12-16 20:21:05';
         $this->assertEquals($exp, $date);
     }
