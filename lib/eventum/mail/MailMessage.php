@@ -74,8 +74,8 @@ class MailMessage extends Message
     {
         $headers = $this->headers;
 
+        // ensure there's only one Message-Id header
         if ($headers->has('Message-Id')) {
-            // ensure there's only one Message-Id header
             $header = $headers->get('Message-Id');
             if ($header instanceof ArrayIterator) {
                 $headers->removeHeader('Message-Id');
@@ -86,7 +86,15 @@ class MailMessage extends Message
             $text_headers = rtrim($headers->toString(), Headers::EOL);
             $messageId = Mail_Helper::generateMessageID($text_headers, $this->getContent());
             $header = new MessageId();
-            $headers->addHeader($header->setId(trim($messageId, "<>")));
+            $headers->addHeader($header->setId(trim($messageId, '<>')));
+        }
+
+        // ensure there's only one "From" header
+        if ($headers->has('From') && $header = $headers->get('From')) {
+            if (!$header instanceof HeaderInterface) {
+                $headers->removeHeader('From');
+                $headers->addHeader($header[0]);
+            }
         }
     }
 
@@ -321,6 +329,7 @@ class MailMessage extends Message
      * Get From header. In case multiple headers present, return just first one.
      *
      * @return Address
+     * @deprecated, use $this->from or $this->getHeader('From')
      */
     public function getFromHeader()
     {
@@ -466,9 +475,9 @@ class MailMessage extends Message
     public function isSeen()
     {
         return
-            $this->hasFlag(Zend\Mail\Storage::FLAG_SEEN) ||
-            $this->hasFlag(Zend\Mail\Storage::FLAG_DELETED) ||
-            $this->hasFlag(Zend\Mail\Storage::FLAG_ANSWERED);
+            $this->hasFlag(Zend\Mail\Storage::FLAG_SEEN)
+            || $this->hasFlag(Zend\Mail\Storage::FLAG_DELETED)
+            || $this->hasFlag(Zend\Mail\Storage::FLAG_ANSWERED);
     }
 
     /**
@@ -511,6 +520,7 @@ class MailMessage extends Message
      * not being delivered correctly.
      *
      * FIXME: think of better method name
+     *
      * @see Mail_Helper::stripHeaders
      */
     public function stripHeaders()
@@ -533,11 +543,13 @@ class MailMessage extends Message
         }
 
         // process patterns
-        array_walk($headers->toArray(), function ($value, $name) use ($headers) {
+        array_walk(
+            $headers->toArray(), function ($value, $name) use ($headers) {
             if (preg_match('/^resent.*/i', $name)) {
                 $headers->removeHeader($name);
             }
-        });
+        }
+        );
     }
 
     /**
@@ -599,10 +611,12 @@ class MailMessage extends Message
     {
         $header = $this->getHeaderByName($headerName, $headerClass);
         if (!$header instanceof AbstractAddressList) {
-            throw new DomainException(sprintf(
-                'Cannot grab address list from header of type "%s"; not an AbstractAddressList implementation',
-                get_class($header)
-            ));
+            throw new DomainException(
+                sprintf(
+                    'Cannot grab address list from header of type "%s"; not an AbstractAddressList implementation',
+                    get_class($header)
+                )
+            );
         }
         return $header->getAddressList();
     }

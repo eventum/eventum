@@ -20,7 +20,6 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $message_id);
     }
 
-
     public function testDateHeader()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-msgid.txt');
@@ -30,7 +29,8 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
     }
 
 
-    public function testFrom() {
+    public function testFrom()
+    {
         /**
          * Test what gives similar output:
          * $email = imap_headerinfo($mbox, $i);
@@ -74,7 +74,11 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $message->getHeaderValue('Cc'));
 
         $exp = '<issue-73358@eventum.example.org>';
-        $res = array_map(function(\Zend\Mail\Address $a) { return $a->toString(); }, iterator_to_array($message->getTo()));
+        $res = array_map(
+            function (\Zend\Mail\Address $a) {
+                return $a->toString();
+            }, iterator_to_array($message->getTo())
+        );
         $this->assertEquals($exp, join(',', $res));
     }
 
@@ -198,7 +202,9 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
 
         $this->assertTrue($headers->has('In-Reply-To'));
         $value = $headers->get('In-Reply-To');
-        $this->assertEquals('<CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>', $value->getFieldValue());
+        $this->assertEquals(
+            '<CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>', $value->getFieldValue()
+        );
         $headers->removeHeader('In-Reply-To');
         $this->assertFalse($headers->has('In-Reply-To'));
 
@@ -216,6 +222,9 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
         $this->assertInstanceOf('MailMessage', $message);
+
+        $from = $message->from;
+        $this->assertEquals('IT <help@localhost>', $from);
 
         $address = $message->getFromHeader();
         $this->assertInstanceOf('Zend\Mail\Address', $address);
@@ -284,11 +293,11 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
 
         $exp = array(
             'Date',
-            'From',
             'Message-ID',
             'Subject',
             'MIME-Version',
             'Content-Type',
+            'From',
         );
         $this->assertSame($exp, $after);
     }
@@ -343,7 +352,8 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         );
         $mail->setHeaders($headers);
 
-        $exp = join("\r\n", array(
+        $exp = join(
+            "\r\n", array(
             'Message-ID: <33@JON>',
             'X-Eventum-Level: 10',
             'X-Eventum-Group-Issue: something 123 143',
@@ -359,7 +369,8 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
             'Precedence: bulk',
             'Auto-Submitted: auto-generated',
             ''
-        ));
+        )
+        );
         $this->assertEquals($exp, $mail->getHeaders()->toString());
     }
 }
