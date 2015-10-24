@@ -100,7 +100,8 @@ Note: Starting with Eventum 1.5.2 there is a new (optional) way of routing email
 
 `Administration` >>> `Manage Email Accounts`
 
-When setting up the account, check `Use account for email/note/draft routing`. Once the account is added, set the account to be downloaded as described above (in Email Download).
+When setting up the account, check `Use account for email/note/draft routing`. Once the account is added, set the account to be downloaded as described above (in [Email Download](#email-download-download_emailsphp)).
+
 
 ### Email Routing Script (route_emails.php)
 
