@@ -76,6 +76,13 @@ class MailMessage extends Message
         // ensure there's only one "From" header
         $this->removeDuplicateHeader($headers, 'From');
 
+        // ensure Subject is present and unique
+        if ($headers->has('Subject')) {
+            $this->removeDuplicateHeader($headers, 'Subject');
+        } else {
+            $headers->addHeader(new Subject());
+        }
+
         // ensure there's only one Message-Id header
         if ($headers->has('Message-Id')) {
             $this->removeDuplicateHeader($headers, 'Message-Id');

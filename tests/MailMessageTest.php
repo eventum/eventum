@@ -20,6 +20,13 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($exp, $message_id);
     }
 
+    public function testMissingSubject() {
+
+        $raw = "Message-ID: 1\r\n\r\n";
+        $message = MailMessage::createFromString($raw);
+        $this->assertSame('', $message->subject);
+    }
+
     public function testDateHeader()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-msgid.txt');
@@ -27,7 +34,6 @@ class MailMessageTest extends PHPUnit_Framework_TestCase
         $exp = '2012-12-16 20:21:05';
         $this->assertEquals($exp, $date);
     }
-
 
     public function testFrom()
     {
