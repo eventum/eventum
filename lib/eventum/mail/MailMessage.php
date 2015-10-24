@@ -40,6 +40,15 @@ use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Header\MessageId;
 use Zend\Mime;
 
+/**
+ * Class MailMessage
+ *
+ * @property-read string $messageId a Message-Id header value
+ * @property-read string $from a From header value
+ * @property-read string $to a To header value
+ * @property-read string $cc a Cc header value
+ * @property-read string $subject a Subject header value
+ */
 class MailMessage extends Message
 {
     /**
