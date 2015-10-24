@@ -19,6 +19,8 @@
 
 ## Installation Process ##
 
+Before starting, check [System Requirements](Prerequisites) first.
+
 Installation is pretty simple and quick.
 Download the [latest release](https://github.com/eventum/eventum/releases/latest) tarball, and unpack it.
 Eventum already bundles PHP libraries that it needs to work properly, see
