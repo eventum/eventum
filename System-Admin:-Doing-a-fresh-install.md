@@ -79,53 +79,52 @@ You can also call the `download_emails.php` script via the web using the followi
 
 **NB:** the web trick no longer works!
 
-### Reminder System (crons/check_reminders.php)
+### Reminder System (check_reminders.php)
 
 The reminder system was designed to serve as a safety net for issues that need attention. Depending on what configuration you create, you may have several reminders (or alerts) to send out whenever an issue needs attention, for whatever parameter you may deem necessary.
 
-`*/10 * * * * /usr/bin/php -f /path-to-eventum/crons/check_reminders.php `
+    */10 * * * * <PATH-TO-EVENTUM>/bin/check_reminders.php
 
 It is recommended that you run the reminder cron job every 10 minutes, so it won't flood you with alerts, but it would still be enough to handle most cases.
 
-### Heartbeat Monitor (misc/monitor.php)
+### Heartbeat Monitor (monitor.php)
 
-The heartbeat monitor alerts the administrator whenever a common problem in Eventum is detected, such as the database server becoming unavailable, or if the recommended permissions for certain configuration files are changed. Please note that before running the heartbeat monitor, you may need to customize some of the checks to be appropriate for your own system, particularly the permission and file checks on Monitor::checkConfiguration().
+The heartbeat monitor alerts the administrator whenever a common problem in Eventum is detected, such as the database server becoming unavailable, or if the recommended permissions for certain configuration files are changed. Please note that before running the heartbeat monitor, you may need to customize some of the checks to be appropriate for your own system, particularly the permission and file checks on `Monitor::checkConfiguration()`.
 
-`*/10 * * * * /usr/bin/php -f /path-to-eventum/crons/monitor.php`
+    */10 * * * * <PATH-TO-EVENTUM>/bin/monitor.php
 
 Other Features Requiring System Setup
 -------------------------------------
 
-Note: Starting with Eventum 1.5.2 there is a new (optional) way of routing emails,notes and drafts. You will need to setup up a wild card address to route all messages that should be in eventum (usually issue-<number>@<domain>, note-<number>@<domain> and draft-<number>@<domain>) to an email account. Then add that email account to eventum by going to the email account administration page:
+Note: Starting with Eventum 1.5.2 there is a new (optional) way of routing emails, notes and drafts. You will need to setup up a wildcard address to route all messages that should be in Eventum (usually `issue-<number>@<domain>`, `note-<number>@<domain>` and `draft-<number>@<domain>`) to an email account. Then add that email account to Eventum by going to the email account administration page:
 
-` Administration >>> Manage Email Accounts`
-` `
+`Administration` >>> `Manage Email Accounts`
 
-When setting up the account, check 'Use account for email/note/draft routing'. Once the account is added, set the account to be downloaded as described above (in Email Download).
+When setting up the account, check `Use account for email/note/draft routing`. Once the account is added, set the account to be downloaded as described above (in Email Download).
 
-### Email Routing Script (/route_emails.php)
+### Email Routing Script (route_emails.php)
 
-The email routing feature is used to automatically associate a thread of emails into an Eventum issue. By setting up the mail server (MTA) to pipe emails sent to a specific address (usually issue-<number>@<domain>) into the above script, users are able to use their email clients to reply to emails coming from Eventum, and those replies will be automatically associated with the issue and broadcast to the issue's notification list.
+The email routing feature is used to automatically associate a thread of emails into an Eventum issue. By setting up the mail server (MTA) to pipe emails sent to a specific address (usually `issue-<number>@<domain>`) into the above script, users are able to use their email clients to reply to emails coming from Eventum, and those replies will be automatically associated with the issue and broadcast to the issue's notification list.
 
 The entire email message should be passed as standard input to the script, and the only parameter to it should be the email account to which this email should be associated. The following is an example of a successful run of this script:
 
-`cat example_email.txt | php -f route_emails.php 1`
+    bin/route_emails.php "1" < example_note_email.txt
 
-This script also saves any routed messages it receives in a separate directory, so you would never lose email. Create a 'routed_emails' subdirectory under /path-to-eventum/misc/ and setup the proper permission bits on it.
+This script also saves any routed messages it receives in a separate directory, so you would never lose email. Create a `routed_emails` subdirectory under `misc/` and setup the proper permission bits on it.
 
-**IMPORTANT:** Please be aware that depending on the MTA/MDA that you are using (qmail, postfix, procmail or whatever), you may need to manually change the exit codes used in this script to return the proper signals. For example, postfix uses exit code 78 to signal a configuration problem, but other agents may need different exit codes.
+**IMPORTANT:** Please be aware that depending on the MTA/MDA that you are using (qmail, postfix, procmail or whatever), you may need to manually change the exit codes used in this script to return the proper signals. For example, postfix uses exit code `78` to signal a configuration problem, but other agents may need different exit codes.
 
-### Note Routing Script (/route_notes.php)
+### Note Routing Script (route_notes.php)
 
-The note routing feature is used to automatically associate a thread of notes into an Eventum issue. By setting up the MTA/MDA to pipe email sent to a specific address (usually note-<number>@<domain>) into the above script, users are able to use their email clients to reply to internal notes coming from Eventum, and those replies will be automatically associated with the issue and broadcast to the issue's notification list staff members.
+The note routing feature is used to automatically associate a thread of notes into an Eventum issue. By setting up the MTA/MDA to pipe email sent to a specific address (usually `note-<number>@<domain>`) into the above script, users are able to use their email clients to reply to internal notes coming from Eventum, and those replies will be automatically associated with the issue and broadcast to the issue's notification list staff members.
 
 The entire email message should be passed as standard input to the script. The following is an example of a successful run of this script:
 
-`cat example_note_email.txt | php -f route_notes.php`
+    bin/route_notes.php < example_note_email.txt
 
-This script also saves any routed messages it receives in a separate directory, so you would never lose notes. Create a 'routed_notes' subdirectory under /path-to-eventum/ and set the proper permission bits on it.
+This script also saves any routed messages it receives in a separate directory, so you would never lose notes. Create a `routed_notes` subdirectory under `misc/` and set the proper permission bits on it.
 
-**IMPORTANT:** Please be aware that depending on the MTA/MDA that you are using (qmail, postfix, procmail or whatever), you may need to manually change the exit codes used in this script to handle the proper signals to the MDA. For example, postfix uses exit code 78 to signal a configuration problem, but other agents may need different exit codes.
+**IMPORTANT:** Please be aware that depending on the MTA/MDA that you are using (qmail, postfix, procmail or whatever), you may need to manually change the exit codes used in this script to handle the proper signals to the MDA. For example, postfix uses exit code `78` to signal a configuration problem, but other agents may need different exit codes.
 
 ### IRC Notification Bot (irc/eventum-irc-bot)
 
