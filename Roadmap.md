@@ -1,17 +1,7 @@
-Please send feature requests to the users list, eventum-users [at] lists [dot] mysql [dot] com
-
-2.1
----
-
--   Move issues between projects [done for 2.1]
--   Hide closed issues from stats. [done for 2.1]
-
-2.x
----
+Please send feature requests to [Issue Tracker](https://github.com/eventum/eventum/blob/master/CONTRIBUTING.md)
 
 -   Profile system
     -   visually setup the table cells of view.tpl.html
--   UTF-8 everything
 -   Restrict list of projects a manager user is allowed to tweak on the administration section
 -   Map categories/priorities/etc between multiple projects (project mapping tables are needed)
 -   When creating a project, ask the user for the priorities and categories (need the above mapping first)
@@ -25,4 +15,4 @@ Feature Requests
 ----------------
 
 -   Allow security level on News items, based on user Roles
--   Wiki system integration for documentation/knowledgebase. Will allow use of the more advanced system such as used here. Hopefully allowing wiki syntax to be used in issue notes?
+-   Wiki system integration for documentation/knowledge base. Will allow use of the more advanced system such as used here. Hopefully allowing wiki syntax to be used in issue notes?
