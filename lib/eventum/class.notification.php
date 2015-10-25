@@ -1752,7 +1752,7 @@ class Notification
      * Method used to get the subscribed actions for a given
      * subscription ID.
      *
-     * @param   integer $sub_id The subcription ID
+     * @param   integer $sub_id The subscription ID
      * @return  array The subscribed actions
      */
     public function getSubscribedActions($sub_id)
