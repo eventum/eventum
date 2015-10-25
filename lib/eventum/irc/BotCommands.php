@@ -53,6 +53,8 @@ class BotCommands extends AbstractBotCommands
     }
 
     /**
+     * Format is "auth user@example.com password"
+     *
      * @param Net_SmartIRC $irc
      * @param Net_SmartIRC_data $data
      */
@@ -114,6 +116,8 @@ class BotCommands extends AbstractBotCommands
     }
 
     /**
+     * Format is "clock [in|out]"
+     *
      * @param Net_SmartIRC $irc
      * @param Net_SmartIRC_data $data
      */
@@ -167,6 +171,8 @@ class BotCommands extends AbstractBotCommands
     }
 
     /**
+     * Format is "list-clocked-in"
+     *
      * @param Net_SmartIRC $irc
      * @param Net_SmartIRC_data $data
      */
@@ -189,6 +195,8 @@ class BotCommands extends AbstractBotCommands
     }
 
     /**
+     * Format is "list-quarantined"
+     *
      * @param Net_SmartIRC $irc
      * @param Net_SmartIRC_data $data
      */
