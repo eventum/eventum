@@ -31,7 +31,7 @@ Setup
 You will need to provide a `config/irc_config.php` file with appropriate preferences, such as the IRC server and channel that the bot should join. An example setup file can be found in `htdocs/setup/irc_config.php`
 
 - `$channels` : This array lists what channels belong to what projects, so the bot can be of use to several different projects, as long as they are on the same IRC network. You can also have more than one channel per project, like this:
-```
+```php
     $channels = array(
         Project::getID('Default Project') => array(
             '#issues','#myIssues ThisIsMyPassword'
