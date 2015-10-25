@@ -25,7 +25,7 @@ _Under Construction_
  * Installation
     * [[System Requirements|Prerequisites]]
     * Download the latest release ___[[here|https://github.com/eventum/eventum/releases/latest]]___.
-    * [[Doing a Fresh Install|System-Admin:-Doing-a-fresh-install]]
+    * [x] [[Doing a Fresh Install|System-Admin:-Doing-a-fresh-install]]
       * [[Troubleshooting: Displaying PHP Errors|System-Admin:-Displaying-PHP-errors]]
       * [[Installation Notes|System-Admin:-Installation-Notes]]
     * [[Email Intergration|System-Admin:-Email-integration]]
@@ -47,8 +47,8 @@ _Under Construction_
  * [[Custom Field API|System-Advanced:-CustomFieldAPI]]
  * [[Customer API|System-Advanced:-Customer-API]]
  * [[Dynamic Custom Fields|System-Advanced:-DynamicCustomFieldExample]]
- * [[Importing Users|System-Advanced:-Import-Users]]
- * [[IRC Bot|System-Advanced:-Using-the-IRC-bot]]
+ * [x] [[Importing Users|System-Advanced:-Import-Users]]
+ * [x] [[IRC Bot|System-Advanced:-Using-the-IRC-bot]]
  * [[Link Filters|System-Advanced:-Manage-Link-Filters]]
  * [x] [[Localization|System-Advanced:-Localization]]
  * [[Workflow: Docs|System-Advanced:-WorkflowDocumentation]]
