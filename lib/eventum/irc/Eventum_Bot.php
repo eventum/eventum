@@ -158,6 +158,7 @@ class Eventum_Bot
         }
 
         $irc->setAutoRetry(true);
+        $irc->setAutoRetryMax(PHP_INT_MAX);
         $irc->setReceiveTimeout(600);
         $irc->setTransmitTimeout(600);
 
