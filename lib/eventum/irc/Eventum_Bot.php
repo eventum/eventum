@@ -30,12 +30,15 @@
 
 class Eventum_Bot
 {
+    /**
+     * List of authenticated users
+     *
+     * @var array
+     */
+    private $auth = array();
+
     public function __construct($config)
     {
-        global $auth;
-
-        $auth = array();
-
         // map project_id => channel(s)
         // TODO: Map old config to new config
         $channels = array();
@@ -110,40 +113,33 @@ class Eventum_Bot
 
     public function _isAuthenticated(&$irc, &$data)
     {
-        global $auth;
-
-        if (in_array($data->nick, array_keys($auth))) {
+        if (in_array($data->nick, array_keys($this->auth))) {
             return true;
-        } else {
-            $this->sendResponse($irc, $data->nick, 'Error: You need to be authenticated to run this command.');
-
-            return false;
         }
+
+        $this->sendResponse($irc, $data->nick, 'Error: You need to be authenticated to run this command.');
+        return false;
     }
 
     public function _getEmailByNickname($nickname)
     {
-        global $auth;
-
-        if (in_array($nickname, array_keys($auth))) {
-            return $auth[$nickname];
-        } else {
-            return '';
+        if (in_array($nickname, array_keys($this->auth))) {
+            return $this->auth[$nickname];
         }
+
+        return '';
     }
 
     public function _getNicknameByUser($usr_id)
     {
-        global $auth;
-
         $email = User::getEmail($usr_id);
 
-        $key = array_search($email, $auth);
+        $key = array_search($email, $this->auth);
         if ($key) {
             return $key;
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     public function clockUser(&$irc, &$data)
@@ -239,38 +235,30 @@ class Eventum_Bot
 
     public function _updateAuthenticatedUser(&$irc, &$data)
     {
-        global $auth;
-
         $old_nick = $data->nick;
         $new_nick = $data->message;
-        if (in_array($data->nick, array_keys($auth))) {
-            $auth[$new_nick] = $auth[$old_nick];
-            unset($auth[$old_nick]);
+        if (in_array($data->nick, array_keys($this->auth))) {
+            $this->auth[$new_nick] = $this->auth[$old_nick];
+            unset($this->auth[$old_nick]);
         }
     }
 
     public function _removeAuthenticatedUser(&$irc, &$data)
     {
-        global $auth;
-
-        if (in_array($data->nick, array_keys($auth))) {
-            unset($auth[$data->nick]);
+        if (in_array($data->nick, array_keys($this->auth))) {
+            unset($this->auth[$data->nick]);
         }
     }
 
     public function listAuthenticatedUsers(&$irc, &$data)
     {
-        global $auth;
-
-        foreach ($auth as $nickname => $email) {
+        foreach ($this->auth as $nickname => $email) {
             $this->sendResponse($irc, $data->nick, "$nickname => $email");
         }
     }
 
     public function authenticate(&$irc, &$data)
     {
-        global $auth;
-
         $pieces = explode(' ', $data->message);
         if (count($pieces) != 3) {
             $this->sendResponse(
@@ -280,8 +268,10 @@ class Eventum_Bot
 
             return;
         }
+
         $email = $pieces[1];
         $password = $pieces[2];
+
         // check if the email exists
         if (!Auth::userExists($email)) {
             $this->sendResponse(
@@ -290,6 +280,7 @@ class Eventum_Bot
 
             return;
         }
+
         // check if the given password is correct
         if (!Auth::isCorrectPassword($email, $password)) {
             $this->sendResponse(
@@ -298,6 +289,7 @@ class Eventum_Bot
 
             return;
         }
+
         // check if the user account is activated
         if (!Auth::isActiveUser($email)) {
             $this->sendResponse(
@@ -306,12 +298,10 @@ class Eventum_Bot
             );
 
             return;
-        } else {
-            $auth[$data->nick] = $email;
-            $this->sendResponse($irc, $data->nick, 'Thank you, you have been successfully authenticated.');
-
-            return;
         }
+
+        $auth[$data->nick] = $email;
+        $this->sendResponse($irc, $data->nick, 'Thank you, you have been successfully authenticated.');
     }
 
     /**
