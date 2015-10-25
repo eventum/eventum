@@ -44,8 +44,24 @@ class Eventum_Bot
      */
     private $channels = array();
 
+    /**
+     * Configuration for the bot
+     *
+     * @var array
+     */
+    private $config;
+
+    /**
+     * The IRC connection handle
+     *
+     * @var Net_SmartIRC
+     */
+    private $irc;
+
     public function __construct($config)
     {
+        $this->config = $config;
+
         // map project_id => channel(s)
         // TODO: Map old config to new config
         foreach ($config['channels'] as $proj => $chan) {
@@ -70,8 +86,15 @@ class Eventum_Bot
 
             $this->channels[$proj_id] = $options;
         }
+    }
 
-        $irc = new Net_SmartIRC();
+    /**
+     * Create IRC Bot, connect, login and listen for events, and finally disconnect.
+     */
+    public function run()
+    {
+        $config = $this->config;
+        $this->irc = $irc = new Net_SmartIRC();
 
         if (isset($config['logfile'])) {
             $irc->setLogdestination(SMARTIRC_FILE);
@@ -83,7 +106,8 @@ class Eventum_Bot
         $irc->setAutoRetry(true);
         $irc->setReceiveTimeout(600);
         $irc->setTransmitTimeout(600);
-        $this->registerHandlers($irc);
+
+        $this->registerHandlers($this->irc);
 
         $irc->connect($config['hostname'], $config['port']);
         if (empty($config['username'])) {
@@ -100,7 +124,6 @@ class Eventum_Bot
 
     private function registerHandlers(Net_SmartIRC $irc)
     {
-
         $irc->registerTimehandler(3000, $this, 'notifyEvents');
 
         // methods that keep track of who is authenticated
