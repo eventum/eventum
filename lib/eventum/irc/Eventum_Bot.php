@@ -96,6 +96,14 @@ class Eventum_Bot
         $config = $this->config;
         $this->irc = $irc = new Net_SmartIRC();
 
+        if (isset($config['debuglevel'])) {
+            $const = "SMARTIRC_DEBUG_" . strtoupper($config['debuglevel']);
+            if (!defined($const)) {
+                throw new InvalidArgumentException("Bad value for debuglevel: {$config['debuglevel']}");
+            }
+            $irc->setDebugLevel(constant($const));
+        }
+
         if (isset($config['logfile'])) {
             $irc->setLogdestination(SMARTIRC_FILE);
             $irc->setLogfile($config['logfile']);
@@ -142,6 +150,11 @@ class Eventum_Bot
         $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-quarantined', $this, 'listQuarantinedIssues');
     }
 
+    /**
+     * @param $irc
+     * @param $data
+     * @return bool
+     */
     public function _isAuthenticated(&$irc, &$data)
     {
         if (in_array($data->nick, array_keys($this->auth))) {

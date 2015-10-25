@@ -78,7 +78,13 @@ $config = array(
 
     'channels' => $irc_channels,
     'default_category' => APP_EVENTUM_IRC_CATEGORY_DEFAULT,
+
     'logfile' => APP_IRC_LOG,
+
+    /**
+     * @see Net_SmartIRC::setDebugLevel
+     */
+    'debuglevel' => 'notice',
 );
 
 $bot = new Eventum_Bot($config);
