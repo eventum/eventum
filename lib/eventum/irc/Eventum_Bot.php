@@ -116,6 +116,11 @@ class Eventum_Bot
         $irc->setReceiveTimeout(600);
         $irc->setTransmitTimeout(600);
 
+        // enable user and channel syncing,
+        // users are accessible via $irc->user array, i.e $irc->user['meebey']->host;
+        $irc->setChannelSyncing(true);
+        $irc->setUserSyncing(true);
+
         $this->registerHandlers($this->irc);
 
         $irc->connect($config['hostname'], $config['port']);
@@ -275,6 +280,7 @@ class Eventum_Bot
             'list-clocked-in' => 'Format is "list-clocked-in"',
             'list-quarantined' => 'Format is "list-quarantined"',
         );
+
         $this->sendResponse($irc, $data->nick, 'This is the list of available commands:');
         foreach ($commands as $command => $description) {
             $this->sendResponse($irc, $data->nick, "$command: $description");
