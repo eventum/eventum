@@ -517,24 +517,18 @@ class Eventum_Bot
     /**
      * Method used to send a message to the given target.
      *
-     * @param   string $target The target for this message
-     * @param   string $response The message to send
+     * @param string $target The target for this message
+     * @param string|string[] $response The message to send
+     * @param integer $priority the priority level of the message
      */
-    public function sendResponse($target, $response)
+    public function sendResponse($target, $response, $priority = SMARTIRC_MEDIUM)
     {
-        // XXX: need way to handle messages with length bigger than 255 chars
-        if (!is_array($response)) {
-            $response = array($response);
+        if (substr($target, 0, 1) != '#') {
+            $type = SMARTIRC_TYPE_QUERY;
+        } else {
+            $type = SMARTIRC_TYPE_CHANNEL;
         }
-        foreach ($response as $line) {
-            if (substr($target, 0, 1) != '#') {
-                $type = SMARTIRC_TYPE_QUERY;
-            } else {
-                $type = SMARTIRC_TYPE_CHANNEL;
-            }
-            $this->irc->message($type, $target, $line, SMARTIRC_CRITICAL);
-            sleep(1);
-        }
+        $this->irc->message($type, $target, $response, $priority);
     }
 
     private function joinChannels(Net_SmartIRC $irc)
