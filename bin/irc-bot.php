@@ -53,15 +53,6 @@ if (in_array('--check-process', $argv)) {
     $check = false;
 }
 
-// acquire a lock to prevent multiple scripts from
-// running at the same time
-if (!Lock::acquire('irc_bot', $check)) {
-    echo 'Error: Another instance of the script is still running. ',
-    "If this is not accurate, you may fix it by running this script with '--fix-lock' ",
-    "as the only parameter.\n";
-    exit;
-}
-
 // NB: must require this in global context
 // otherise $SMARTIRC_nreplycodes from defines.php is not initialized
 require_once 'Net/SmartIRC/defines.php';
@@ -79,6 +70,8 @@ $config = array(
     'channels' => $irc_channels,
     'default_category' => APP_EVENTUM_IRC_CATEGORY_DEFAULT,
 
+    'lock' => 'irc_bot',
+
     'logfile' => APP_IRC_LOG,
 
     /**
@@ -88,7 +81,14 @@ $config = array(
 );
 
 $bot = new Eventum_Bot($config);
-$bot->run();
 
-// release the lock
-Lock::release('irc_bot');
+// acquire a lock to prevent multiple scripts from
+// running at the same time
+if (!$bot->lock($check)) {
+    echo 'Error: Another instance of the script is still running. ',
+    "If this is not accurate, you may fix it by running this script with '--fix-lock' as the only parameter.\n";
+    exit;
+}
+
+$bot->run();
+$bot->unlock();

@@ -92,6 +92,41 @@ class Eventum_Bot
     }
 
     /**
+     * acquire a lock to prevent multiple scripts from running at the same time.
+     * if the lock was acquired, setup event handler to release lock on shutdown
+     *
+     * @param bool|true $check
+     * @return bool
+     */
+    public function lock($check = true)
+    {
+        $locked = Lock::acquire($this->config['lock'], $check);
+
+        if (!$locked) {
+            return $locked;
+        }
+
+        // setup signal handler to be able to remove lock and shutdown cleanly
+        $bot = $this;
+        $irc = $this->irc;
+        $handler = function ($signal) use ($bot, &$irc) {
+            $irc->log(SMARTIRC_DEBUG_NOTICE, "Got signal[$signal]; shutdown", __FILE__, __LINE__);
+            $bot->detach();
+            $bot->unlock();
+        };
+
+        pcntl_signal(SIGINT, $handler);
+        pcntl_signal(SIGTERM, $handler);
+
+        return $locked;
+    }
+
+    public function unlock()
+    {
+        Lock::release($this->config['lock']);
+    }
+
+    /**
      * Create IRC Bot, connect, login and listen for events, and finally disconnect.
      */
     public function run()
@@ -137,11 +172,20 @@ class Eventum_Bot
     }
 
     /**
+     * detach and disconnect from irc
+     */
+    public function detach()
+    {
+        $this->irc->disconnect();
+    }
+
+    /**
      * @param Net_SmartIRC $irc
      */
     private function registerHandlers(Net_SmartIRC $irc)
     {
         $irc->registerTimehandler(3000, $this, 'notifyEvents');
+        $irc->registerTimehandler(1000, $this, 'signalDispatch');
 
         // methods that keep track of who is authenticated
         $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-auth', $this, 'listAuthenticatedUsers');
@@ -157,6 +201,11 @@ class Eventum_Bot
         $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?clock', $this, 'clockUser');
         $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-clocked-in', $this, 'listClockedInUsers');
         $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-quarantined', $this, 'listQuarantinedIssues');
+    }
+
+    public function signalDispatch()
+    {
+        pcntl_signal_dispatch();
     }
 
     /**
