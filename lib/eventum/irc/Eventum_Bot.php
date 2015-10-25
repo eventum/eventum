@@ -108,8 +108,8 @@ class Eventum_Bot
 
         // setup signal handler to be able to remove lock and shutdown cleanly
         $bot = $this;
-        $irc = $this->irc;
-        $handler = function ($signal = null) use ($bot, $irc) {
+        $irc = &$this->irc;
+        $handler = function ($signal = null) use ($bot, &$irc) {
             if ($signal) {
                 $irc->log(SMARTIRC_DEBUG_NOTICE, "Got signal[$signal]; shutdown", __FILE__, __LINE__);
             } else {
