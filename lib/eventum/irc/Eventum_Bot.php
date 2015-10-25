@@ -354,7 +354,7 @@ class Eventum_Bot
             return;
         }
 
-        $auth[$data->nick] = $email;
+        $this->auth[$data->nick] = $email;
         $this->sendResponse($irc, $data->nick, 'Thank you, you have been successfully authenticated.');
     }
 
