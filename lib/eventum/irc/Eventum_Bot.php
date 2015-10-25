@@ -475,7 +475,7 @@ class Eventum_Bot
         $res = DB_Helper::getInstance()->getAll($stmt);
         for ($i = 0; $i < count($res); $i++) {
             if (empty($res[$i]['ino_category'])) {
-                $res[$i]['ino_category'] = APP_EVENTUM_IRC_CATEGORY_DEFAULT;
+                $res[$i]['ino_category'] = $this->config['default_category'];
             }
 
             // check if this is a targeted message
