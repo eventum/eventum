@@ -27,7 +27,9 @@
 // +----------------------------------------------------------------------+
 
 /**
- * Class containing IRC Bot command handlers
+ * Class containing IRC Bot command handlers.
+ *
+ * All public final methods are taken as commands.
  */
 class BotCommands extends AbstractBotCommands
 {

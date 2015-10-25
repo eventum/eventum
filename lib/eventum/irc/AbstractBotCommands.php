@@ -88,7 +88,7 @@ class AbstractBotCommands
         $methods = $this->getMethods();
         foreach ($methods as $methodName => $method) {
             $commandName = $this->getCommandName($methodName);
-            $regex = "^!?{$commandName}";
+            $regex = "^!?{$commandName}\b";
             $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, $regex, $this, $methodName);
         }
     }
