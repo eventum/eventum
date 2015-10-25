@@ -191,11 +191,11 @@ class Eventum_Bot
 
         // methods that keep track of who is authenticated
         $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-auth', $this, 'listAuthenticatedUsers');
-        $irc->registerActionhandler(SMARTIRC_TYPE_NICKCHANGE, '.*', $this, '_updateAuthenticatedUser');
+        $irc->registerActionhandler(SMARTIRC_TYPE_NICKCHANGE, '.*', $this, 'updateAuthenticatedUser');
         $irc->registerActionhandler(
-            SMARTIRC_TYPE_KICK | SMARTIRC_TYPE_QUIT | SMARTIRC_TYPE_PART, '.*', $this, '_removeAuthenticatedUser'
+            SMARTIRC_TYPE_KICK | SMARTIRC_TYPE_QUIT | SMARTIRC_TYPE_PART, '.*', $this, 'removeAuthenticatedUser'
         );
-        $irc->registerActionhandler(SMARTIRC_TYPE_LOGIN, '.*', $this, '_joinChannels');
+        $irc->registerActionhandler(SMARTIRC_TYPE_LOGIN, '.*', $this, 'joinChannels');
 
         // real bot commands
         $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?help', $this, 'listAvailableCommands');
@@ -215,26 +215,26 @@ class Eventum_Bot
      * @param Net_SmartIRC_data $data
      * @return bool
      */
-    public function _isAuthenticated(Net_SmartIRC $irc, Net_SmartIRC_data $data)
+    private function isAuthenticated(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         if (in_array($data->nick, array_keys($this->auth))) {
             return true;
         }
 
-        $this->sendResponse($irc, $data->nick, 'Error: You need to be authenticated to run this command.');
+        $this->sendResponse($data->nick, 'Error: You need to be authenticated to run this command.');
         return false;
     }
 
-    public function _getEmailByNickname($nickname)
+    public function getEmailByNickname($nickname)
     {
         if (in_array($nickname, array_keys($this->auth))) {
             return $this->auth[$nickname];
         }
 
-        return '';
+        return null;
     }
 
-    public function _getNicknameByUser($usr_id)
+    public function getNicknameByUser($usr_id)
     {
         $email = User::getEmail($usr_id);
 
@@ -243,21 +243,20 @@ class Eventum_Bot
             return $key;
         }
 
-        return '';
+        return null;
     }
 
     public function clockUser(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
-        if (!$this->_isAuthenticated($irc, $data)) {
+        if (!$this->isAuthenticated($irc, $data)) {
             return;
         }
-        $email = $this->_getEmailByNickname($data->nick);
+        // FIXME: handle if $email is empty
+        $email = $this->getEmailByNickname($data->nick);
 
         $pieces = explode(' ', $data->message);
         if ((count($pieces) == 2) && ($pieces[1] != 'in') && ($pieces[1] != 'out')) {
-            $this->sendResponse(
-                $irc, $data->nick, 'Error: wrong parameter count for "CLOCK" command. Format is "!clock [in|out]".'
-            );
+            $this->sendResponse($data->nick, 'Error: wrong parameter count for "CLOCK" command. Format is "!clock [in|out]".');
 
             return;
         }
@@ -271,55 +270,56 @@ class Eventum_Bot
             } else {
                 $msg = 'clocked out';
             }
-            $this->sendResponse($irc, $data->nick, "You are currently $msg.");
+            $this->sendResponse($data->nick, "You are currently $msg.");
 
             return;
         }
         if ($res == 1) {
-            $this->sendResponse($irc, $data->nick, 'Thank you, you are now clocked ' . $pieces[1] . '.');
+            $this->sendResponse($data->nick, 'Thank you, you are now clocked ' . $pieces[1] . '.');
         } else {
-            $this->sendResponse($irc, $data->nick, 'Error clocking ' . $pieces[1] . '.');
+            $this->sendResponse($data->nick, 'Error clocking ' . $pieces[1] . '.');
         }
     }
 
     public function listClockedInUsers(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
-        if (!$this->_isAuthenticated($irc, $data)) {
+        if (!$this->isAuthenticated($irc, $data)) {
             return;
         }
 
         $list = User::getClockedInList();
         if (count($list) == 0) {
-            $this->sendResponse($irc, $data->nick, 'There are no clocked-in users as of now.');
-        } else {
-            $this->sendResponse($irc, $data->nick, 'The following is the list of clocked-in users:');
-            foreach ($list as $name => $email) {
-                $this->sendResponse($irc, $data->nick, "$name: $email");
-            }
+            $this->sendResponse($data->nick, 'There are no clocked-in users as of now.');
+            return;
+        }
+
+        $this->sendResponse($data->nick, 'The following is the list of clocked-in users:');
+        foreach ($list as $name => $email) {
+            $this->sendResponse($data->nick, "$name: $email");
         }
     }
 
     public function listQuarantinedIssues(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
-        if (!$this->_isAuthenticated($irc, $data)) {
+        if (!$this->isAuthenticated($irc, $data)) {
             return;
         }
 
         $list = Issue::getQuarantinedIssueList();
-        if (count($list) == 0) {
-            $this->sendResponse($irc, $data->nick, 'There are no quarantined issues as of now.');
-        } else {
-            $this->sendResponse(
-                $irc, $data->nick, 'The following are the details of the ' . count($list) . ' quarantined issue(s):'
+        $count = count($list);
+        if ($count == 0) {
+            $this->sendResponse($data->nick, 'There are no quarantined issues as of now.');
+            return;
+        }
+
+        $this->sendResponse($data->nick, "The following are the details of the {$count} quarantined issue(s):");
+        foreach ($list as $row) {
+            $url = APP_BASE_URL . 'view.php?id=' . $row['iss_id'];
+            $msg = sprintf(
+                'Issue #%d: %s, Assignment: %s, %s', $row['iss_id'], $row['iss_summary'],
+                $row['assigned_users'], $url
             );
-            for ($i = 0; $i < count($list); $i++) {
-                $url = APP_BASE_URL . 'view.php?id=' . $list[$i]['iss_id'];
-                $msg = sprintf(
-                    'Issue #%d: %s, Assignment: %s, %s', $list[$i]['iss_id'], $list[$i]['iss_summary'],
-                    $list[$i]['assigned_users'], $url
-                );
-                $this->sendResponse($irc, $data->nick, $msg);
-            }
+            $this->sendResponse($data->nick, $msg);
         }
     }
 
@@ -332,13 +332,13 @@ class Eventum_Bot
             'list-quarantined' => 'Format is "list-quarantined"',
         );
 
-        $this->sendResponse($irc, $data->nick, 'This is the list of available commands:');
+        $this->sendResponse($data->nick, 'This is the list of available commands:');
         foreach ($commands as $command => $description) {
-            $this->sendResponse($irc, $data->nick, "$command: $description");
+            $this->sendResponse($data->nick, "$command: $description");
         }
     }
 
-    public function _updateAuthenticatedUser(Net_SmartIRC $irc, Net_SmartIRC_data $data)
+    public function updateAuthenticatedUser(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         $old_nick = $data->nick;
         $new_nick = $data->message;
@@ -348,7 +348,7 @@ class Eventum_Bot
         }
     }
 
-    public function _removeAuthenticatedUser(Net_SmartIRC $irc, Net_SmartIRC_data $data)
+    public function removeAuthenticatedUser(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         if (in_array($data->nick, array_keys($this->auth))) {
             unset($this->auth[$data->nick]);
@@ -358,7 +358,7 @@ class Eventum_Bot
     public function listAuthenticatedUsers(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         foreach ($this->auth as $nickname => $email) {
-            $this->sendResponse($irc, $data->nick, "$nickname => $email");
+            $this->sendResponse($data->nick, "$nickname => $email");
         }
     }
 
@@ -366,10 +366,7 @@ class Eventum_Bot
     {
         $pieces = explode(' ', $data->message);
         if (count($pieces) != 3) {
-            $this->sendResponse(
-                $irc, $data->nick,
-                'Error: wrong parameter count for "AUTH" command. Format is "!auth user@example.com password".'
-            );
+            $this->sendResponse($data->nick, 'Error: wrong parameter count for "AUTH" command. Format is "!auth user@example.com password".');
 
             return;
         }
@@ -379,45 +376,37 @@ class Eventum_Bot
 
         // check if the email exists
         if (!Auth::userExists($email)) {
-            $this->sendResponse(
-                $irc, $data->nick, 'Error: could not find a user account for the given email address "$email".'
-            );
+            $this->sendResponse($data->nick, 'Error: could not find a user account for the given email address "$email".');
 
             return;
         }
 
         // check if the given password is correct
         if (!Auth::isCorrectPassword($email, $password)) {
-            $this->sendResponse(
-                $irc, $data->nick, 'Error: The email address / password combination could not be found in the system.'
-            );
+            $this->sendResponse($data->nick, 'Error: The email address / password combination could not be found in the system.');
 
             return;
         }
 
         // check if the user account is activated
         if (!Auth::isActiveUser($email)) {
-            $this->sendResponse(
-                $irc, $data->nick,
-                'Error: Your user status is currently set as inactive. Please contact your local system administrator for further information.'
-            );
+            $this->sendResponse($data->nick, 'Error: Your user status is currently set as inactive. Please contact your local system administrator for further information.');
 
             return;
         }
 
         $this->auth[$data->nick] = $email;
-        $this->sendResponse($irc, $data->nick, 'Thank you, you have been successfully authenticated.');
+        $this->sendResponse($data->nick, 'Thank you, you have been successfully authenticated.');
     }
 
     /**
      * Helper method to get the list of channels that should be used in the
      * notifications
      *
-     * @access  private
      * @param   integer $prj_id The project ID
      * @return  array The list of channels
      */
-    public function _getChannels($prj_id)
+    private function getChannels($prj_id)
     {
         if (isset($this->channels[$prj_id])) {
             return $this->channels[$prj_id];
@@ -429,11 +418,10 @@ class Eventum_Bot
     /**
      * Helper method to the projects a channel displays messages for.
      *
-     * @access  private
      * @param   string $channel The name of the channel
      * @return  array The projects displayed in the channel
      */
-    public function _getProjectsForChannel($channel)
+    private function getProjectsForChannel($channel)
     {
         $projects = array();
         foreach ($this->channels as $prj_id => $prj_channels) {
@@ -471,46 +459,48 @@ class Eventum_Bot
                  ON
                     iss_id=ino_iss_id
                  WHERE
-                    ino_status='pending'";
-        $res = DB_Helper::getInstance()->getAll($stmt);
-        for ($i = 0; $i < count($res); $i++) {
-            if (empty($res[$i]['ino_category'])) {
-                $res[$i]['ino_category'] = $this->config['default_category'];
+                    ino_status=?";
+        $res = DB_Helper::getInstance()->getAll($stmt, array('pending'));
+        foreach ($res as $row) {
+            if (empty($row['ino_category'])) {
+                $row['ino_category'] = $this->config['default_category'];
             }
 
             // check if this is a targeted message
-            if (!empty($res[$i]['ino_target_usr_id'])) {
-                $nick = $this->_getNicknameByUser($res[$i]['ino_target_usr_id']);
-                if (!empty($nick)) {
-                    $this->sendResponse($irc, $nick, $res[$i]['ino_message']);
+            if (!empty($row['ino_target_usr_id'])) {
+                $nick = $this->getNicknameByUser($row['ino_target_usr_id']);
+                if ($nick) {
+                    $this->sendResponse($nick, $row['ino_message']);
                 }
-                $this->_markEventSent($res[$i]['ino_id']);
+                // FIXME: why mark it sent if user is not online?
+                $this->markEventSent($row['ino_id']);
                 continue;
             }
 
-            $channels = $this->_getChannels($res[$i]['ino_prj_id']);
-            if (count($channels) > 0) {
-                foreach ($channels as $channel => $categories) {
-                    $message = $res[$i]['ino_message'];
-                    if ($res[$i]['ino_iss_id'] > 0) {
-                        $message .= ' - ' . APP_BASE_URL . 'view.php?id=' . $res[$i]['ino_iss_id'];
-                    } elseif (substr($res[$i]['ino_message'], 0, strlen('New Pending Email')) == 'New Pending Email') {
-                        $message .= ' - ' . APP_BASE_URL . 'emails.php';
-                    }
-                    if (count($this->_getProjectsForChannel($channel)) > 1) {
-                        // if multiple projects display in the same channel, display project in message
-                        $message = '[' . Project::getName($res[$i]['ino_prj_id']) . '] ' . $message;
-                    }
-                    if (in_array($res[$i]['ino_category'], $categories)) {
-                        $this->sendResponse($irc, $channel, $message);
-                    }
-                }
-                $this->_markEventSent($res[$i]['ino_id']);
+            $channels = $this->getChannels($row['ino_prj_id']);
+            if (!$channels) {
+                continue;
             }
+            foreach ($channels as $channel => $categories) {
+                $message = $row['ino_message'];
+                if ($row['ino_iss_id'] > 0) {
+                    $message .= ' - ' . APP_BASE_URL . 'view.php?id=' . $row['ino_iss_id'];
+                } elseif (substr($row['ino_message'], 0, strlen('New Pending Email')) == 'New Pending Email') {
+                    $message .= ' - ' . APP_BASE_URL . 'emails.php';
+                }
+                if (count($this->getProjectsForChannel($channel)) > 1) {
+                    // if multiple projects display in the same channel, display project in message
+                    $message = '[' . Project::getName($row['ino_prj_id']) . '] ' . $message;
+                }
+                if (in_array($row['ino_category'], $categories)) {
+                    $this->sendResponse($channel, $message);
+                }
+            }
+            $this->markEventSent($row['ino_id']);
         }
     }
 
-    private function _markEventSent($ino_id)
+    private function markEventSent($ino_id)
     {
         // mark message as sent
         $stmt
@@ -526,12 +516,10 @@ class Eventum_Bot
     /**
      * Method used to send a message to the given target.
      *
-     * @param   Net_SmartIRC $irc The IRC connection handle
      * @param   string $target The target for this message
      * @param   string $response The message to send
-     * @return  void
      */
-    public function sendResponse(Net_SmartIRC $irc, $target, $response)
+    public function sendResponse($target, $response)
     {
         // XXX: need way to handle messages with length bigger than 255 chars
         if (!is_array($response)) {
@@ -543,12 +531,12 @@ class Eventum_Bot
             } else {
                 $type = SMARTIRC_TYPE_CHANNEL;
             }
-            $irc->message($type, $target, $line, SMARTIRC_CRITICAL);
+            $this->irc->message($type, $target, $line, SMARTIRC_CRITICAL);
             sleep(1);
         }
     }
 
-    public function _joinChannels(Net_SmartIRC $irc)
+    public function joinChannels(Net_SmartIRC $irc)
     {
         foreach ($this->channels as $prj_id => $options) {
             foreach ($options as $chan => $categories) {
