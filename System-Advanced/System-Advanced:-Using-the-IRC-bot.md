@@ -66,4 +66,4 @@ When done, it might look something like this...
 
 To invoke the notification bot and let it run on the server, run this command:
 
-    irc/eventum-irc-bot.php &
+    bin/irc-bot.php &
