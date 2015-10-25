@@ -62,6 +62,10 @@ if (!Lock::acquire('irc_bot', $check)) {
     exit;
 }
 
+// NB: must require this in global context
+// otherise $SMARTIRC_nreplycodes from defines.php is not initialized
+require_once 'Net/SmartIRC/defines.php';
+
 $config = array(
     'hostname' => $irc_server_hostname,
     'port' => $irc_server_port,
