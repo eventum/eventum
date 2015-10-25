@@ -30,6 +30,84 @@
 
 class Eventum_Bot
 {
+    public function __construct($config)
+    {
+        global $auth;
+
+        $auth = array();
+
+        // map project_id => channel(s)
+        // TODO: Map old config to new config
+        $channels = array();
+        foreach ($config['channels'] as $proj => $chan) {
+            $proj_id = Project::getID($proj);
+
+            // we need to map old configs with just channels to new config with categories as well
+            if (!is_array($chan)) {
+                // old config, one channel
+                $options = array(
+                    $chan => array($config['default_category']),
+                );
+            } elseif (isset($chan[0]) and !is_array($chan[0])) {
+                // old config with multiple channels
+                $options = array();
+                foreach ($chan as $individual_chan) {
+                    $options[$individual_chan] = array($config['default_category']);
+                }
+            } else {
+                // new format
+                $options = $chan;
+            }
+
+            $channels[$proj_id] = $options;
+        }
+
+        $irc = new Net_SmartIRC();
+
+        if (isset($config['logfile'])) {
+            $irc->setLogdestination(SMARTIRC_FILE);
+            $irc->setLogfile($config['logfile']);
+        }
+
+        $irc->setUseSockets(true);
+        $irc->setAutoReconnect(true);
+        $irc->setAutoRetry(true);
+        $irc->setReceiveTimeout(600);
+        $irc->setTransmitTimeout(600);
+        $this->registerHandlers($irc);
+
+        $irc->connect($config['hostname'], $config['port']);
+        if (empty($config['username'])) {
+            $irc->login($config['nickname'], $config['realname']);
+        } elseif (empty($config['password'])) {
+            $irc->login($config['nickname'], $config['realname'], 0, $config['username']);
+        } else {
+            $irc->login($config['nickname'], $config['realname'], 0, $config['username'], $config['password']);
+        }
+
+        $irc->listen();
+        $irc->disconnect();
+    }
+
+    private function registerHandlers(Net_SmartIRC $irc)
+    {
+
+        $irc->registerTimehandler(3000, $this, 'notifyEvents');
+
+        // methods that keep track of who is authenticated
+        $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-auth', $this, 'listAuthenticatedUsers');
+        $irc->registerActionhandler(SMARTIRC_TYPE_NICKCHANGE, '.*', $this, '_updateAuthenticatedUser');
+        $irc->registerActionhandler(SMARTIRC_TYPE_KICK | SMARTIRC_TYPE_QUIT | SMARTIRC_TYPE_PART, '.*', $this, '_removeAuthenticatedUser');
+        $irc->registerActionhandler(SMARTIRC_TYPE_LOGIN, '.*', $this, '_joinChannels');
+
+        // real bot commands
+        $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?help', $this, 'listAvailableCommands');
+        $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?auth ', $this, 'authenticate');
+        $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?clock', $this, 'clockUser');
+        $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-clocked-in', $this, 'listClockedInUsers');
+        $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-quarantined', $this, 'listQuarantinedIssues');
+    }
+
     public function _isAuthenticated(&$irc, &$data)
     {
         global $auth;

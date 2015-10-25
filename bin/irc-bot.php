@@ -57,75 +57,26 @@ if (in_array('--check-process', $argv)) {
 // running at the same time
 if (!Lock::acquire('irc_bot', $check)) {
     echo 'Error: Another instance of the script is still running. ',
-                "If this is not accurate, you may fix it by running this script with '--fix-lock' ",
-                "as the only parameter.\n";
+    "If this is not accurate, you may fix it by running this script with '--fix-lock' ",
+    "as the only parameter.\n";
     exit;
 }
 
-$auth = array();
+$config = array(
+    'hostname' => $irc_server_hostname,
+    'port' => $irc_server_port,
 
-// map project_id => channel(s)
+    'nickname' => $nickname,
+    'realname' => $realname,
 
-// TODO: Map old config to new config
-$channels = array();
-foreach ($irc_channels as $proj => $chan) {
-    $proj_id = Project::getID($proj);
+    'username' => $username,
+    'password' => $password,
 
-    // we need to map old configs with just channels to new config with categories as well
-    if (!is_array($chan)) {
-        // old config, one channel
-        $options = array(
-            $chan   =>  array(APP_EVENTUM_IRC_CATEGORY_DEFAULT),
-        );
-    } elseif (isset($chan[0]) and !is_array($chan[0])) {
-        // old config with multiple channels
-        $options = array();
-        foreach ($chan as $individual_chan) {
-            $options[$individual_chan] = array(APP_EVENTUM_IRC_CATEGORY_DEFAULT);
-        }
-    } else {
-        // new format
-        $options = $chan;
-    }
-
-    $channels[$proj_id] = $options;
-}
-
-$bot = new Eventum_Bot();
-$irc = new Net_SmartIRC();
-$irc->setLogdestination(SMARTIRC_FILE);
-$irc->setLogfile(APP_IRC_LOG);
-$irc->setUseSockets(true);
-$irc->setAutoReconnect(true);
-$irc->setAutoRetry(true);
-$irc->setReceiveTimeout(600);
-$irc->setTransmitTimeout(600);
-
-$irc->registerTimehandler(3000, $bot, 'notifyEvents');
-
-// methods that keep track of who is authenticated
-$irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-auth', $bot, 'listAuthenticatedUsers');
-$irc->registerActionhandler(SMARTIRC_TYPE_NICKCHANGE, '.*', $bot, '_updateAuthenticatedUser');
-$irc->registerActionhandler(SMARTIRC_TYPE_KICK | SMARTIRC_TYPE_QUIT | SMARTIRC_TYPE_PART, '.*', $bot, '_removeAuthenticatedUser');
-$irc->registerActionhandler(SMARTIRC_TYPE_LOGIN, '.*', $bot, '_joinChannels');
-
-// real bot commands
-$irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?help', $bot, 'listAvailableCommands');
-$irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?auth ', $bot, 'authenticate');
-$irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?clock', $bot, 'clockUser');
-$irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-clocked-in', $bot, 'listClockedInUsers');
-$irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-quarantined', $bot, 'listQuarantinedIssues');
-
-$irc->connect($irc_server_hostname, $irc_server_port);
-if (empty($username)) {
-    $irc->login($nickname, $realname);
-} elseif (empty($password)) {
-    $irc->login($nickname, $realname, 0, $username);
-} else {
-    $irc->login($nickname, $realname, 0, $username, $password);
-}
-$irc->listen();
-$irc->disconnect();
+    'channels' => $irc_channels,
+    'default_category' => APP_EVENTUM_IRC_CATEGORY_DEFAULT,
+    'logfile' => APP_IRC_LOG,
+);
+$bot = new Eventum_Bot($config);
 
 // release the lock
 Lock::release('irc_bot');
