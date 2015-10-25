@@ -8,6 +8,7 @@ Then create another custom field, named whatever you like, set the type to "comb
 
 Also, please make sure that **either fields got a ranking \> 0** (the default), otherwise the setup will not work (press up arrow in one will probably do).
 
+```php
     <?php
     /* vim: set expandtab tabstop=4 shiftwidth=4: */
     // +----------------------------------------------------------------------+
@@ -36,16 +37,9 @@ Also, please make sure that **either fields got a ranking \> 0** (the default), 
     // +----------------------------------------------------------------------+
     //
 
-    include_once(APP_INC_PATH . "custom_field/class.dynamic.php");
-    include_once(APP_INC_PATH . "class.custom_field.php");
-    include_once(APP_INC_PATH . "db_access.php");
-
-
     /**
      * Example dynamic custom field. This requires you create a custom field with the name "Dynamic Controller" and the options "red",
      * "blue" and "yellow". You also must create another custom field named whatever you like, with this file as the "Custom Field Backend".
-     *
-     * @author Bryan Alsdorf <bryan@mysql.com>
      */
     class Dynamic_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
     {
@@ -94,3 +88,4 @@ Also, please make sure that **either fields got a ranking \> 0** (the default), 
             return 'Dynamic Controller';
         }
     }
+```
