@@ -37,11 +37,17 @@ class Eventum_Bot
      */
     private $auth = array();
 
+    /**
+     * List of IRC channels where to join, notify and listen for commands
+     *
+     * @var array
+     */
+    private $channels = array();
+
     public function __construct($config)
     {
         // map project_id => channel(s)
         // TODO: Map old config to new config
-        $channels = array();
         foreach ($config['channels'] as $proj => $chan) {
             $proj_id = Project::getID($proj);
 
@@ -62,7 +68,7 @@ class Eventum_Bot
                 $options = $chan;
             }
 
-            $channels[$proj_id] = $options;
+            $this->channels[$proj_id] = $options;
         }
 
         $irc = new Net_SmartIRC();
@@ -100,7 +106,9 @@ class Eventum_Bot
         // methods that keep track of who is authenticated
         $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?list-auth', $this, 'listAuthenticatedUsers');
         $irc->registerActionhandler(SMARTIRC_TYPE_NICKCHANGE, '.*', $this, '_updateAuthenticatedUser');
-        $irc->registerActionhandler(SMARTIRC_TYPE_KICK | SMARTIRC_TYPE_QUIT | SMARTIRC_TYPE_PART, '.*', $this, '_removeAuthenticatedUser');
+        $irc->registerActionhandler(
+            SMARTIRC_TYPE_KICK | SMARTIRC_TYPE_QUIT | SMARTIRC_TYPE_PART, '.*', $this, '_removeAuthenticatedUser'
+        );
         $irc->registerActionhandler(SMARTIRC_TYPE_LOGIN, '.*', $this, '_joinChannels');
 
         // real bot commands
@@ -314,9 +322,8 @@ class Eventum_Bot
      */
     public function _getChannels($prj_id)
     {
-        global $channels;
-        if (isset($channels[$prj_id])) {
-            return $channels[$prj_id];
+        if (isset($this->channels[$prj_id])) {
+            return $this->channels[$prj_id];
         }
 
         return array();
@@ -331,9 +338,8 @@ class Eventum_Bot
      */
     public function _getProjectsForChannel($channel)
     {
-        global $channels;
         $projects = array();
-        foreach ($channels as $prj_id => $prj_channels) {
+        foreach ($this->channels as $prj_id => $prj_channels) {
             foreach ($prj_channels as $prj_channel) {
                 if ($prj_channel == $channel) {
                     $projects[] = $prj_id;
@@ -450,8 +456,7 @@ class Eventum_Bot
 
     public function _joinChannels(&$irc)
     {
-        global $channels;
-        foreach ($channels as $prj_id => $options) {
+        foreach ($this->channels as $prj_id => $options) {
             foreach ($options as $chan => $categories) {
                 $irc->join($chan);
             }
