@@ -112,10 +112,12 @@ class Eventum_Bot
         $handler = function ($signal = null) use ($bot, &$irc) {
             if ($signal) {
                 $irc->log(SMARTIRC_DEBUG_NOTICE, "Got signal[$signal]; shutdown", __FILE__, __LINE__);
+                $irc->quit('Terminated');
             } else {
                 $irc->log(SMARTIRC_DEBUG_NOTICE, "shutdown handler", __FILE__, __LINE__);
+                $irc->quit('Bye');
             }
-            $bot->detach();
+
             $bot->unlock();
         };
 
@@ -177,14 +179,6 @@ class Eventum_Bot
 
         $irc->listen();
         $irc->disconnect();
-    }
-
-    /**
-     * detach and disconnect from irc
-     */
-    public function detach()
-    {
-        $this->irc->disconnect();
     }
 
     /**
