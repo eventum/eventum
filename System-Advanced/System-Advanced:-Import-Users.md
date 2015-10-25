@@ -14,6 +14,10 @@ require_once __DIR__ . '/../init.php';
 
 $prj_id = Project::getID('MyProject');
 
+// default values for these users
+$role = User::ROLE_USER;
+$prefs = Prefs::getDefaults(array($prj_id));
+
 $lines = file($file_path);
 $lines = array_map('trim', $lines);
 
@@ -30,10 +34,6 @@ foreach ($lines as $employee) {
         echo "User $name already exists in database, skipping\n";
         continue;
     }
-
-    // default values for these users
-    $role = User::getRoleID('Standard User');
-    $prefs = Prefs::getDefaults(array(Project::getID(1)));
 
     $stmt = "INSERT INTO {{%user}} (
                             usr_created_date,
