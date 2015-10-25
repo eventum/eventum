@@ -254,21 +254,32 @@ class Eventum_Bot
         if (!$this->isAuthenticated($irc, $data)) {
             return;
         }
+
+        switch (count($data->messageex)) {
+            case 1:
+                break;
+            case 2:
+                if (in_array($data->messageex[1], array('in', 'out'))) {
+                    break;
+                }
+                // fall through to an error
+            default:
+                $this->sendResponse($data->nick, 'Error: wrong parameter count for "CLOCK" command. Format is "!clock [in|out]".');
+                return;
+        }
+
+        $command = $data->messageex[1];
+
         // FIXME: handle if $email is empty
         $email = $this->getEmailByNickname($data->nick);
+        $usr_id = User::getUserIDByEmail($email);
 
-        $pieces = explode(' ', $data->message);
-        if ((count($pieces) == 2) && ($pieces[1] != 'in') && ($pieces[1] != 'out')) {
-            $this->sendResponse($data->nick, 'Error: wrong parameter count for "CLOCK" command. Format is "!clock [in|out]".');
-
-            return;
-        }
-        if (@$pieces[1] == 'in') {
-            $res = User::clockIn(User::getUserIDByEmail($email));
-        } elseif (@$pieces[1] == 'out') {
-            $res = User::clockOut(User::getUserIDByEmail($email));
+        if ($command  == 'in') {
+            $res = User::clockIn($usr_id);
+        } elseif ($command  == 'out') {
+            $res = User::clockOut($usr_id);
         } else {
-            if (User::isClockedIn(User::getUserIDByEmail($email))) {
+            if (User::isClockedIn($usr_id)) {
                 $msg = 'clocked in';
             } else {
                 $msg = 'clocked out';
@@ -277,10 +288,11 @@ class Eventum_Bot
 
             return;
         }
+
         if ($res == 1) {
-            $this->sendResponse($data->nick, 'Thank you, you are now clocked ' . $pieces[1] . '.');
+            $this->sendResponse($data->nick, "Thank you, you are now clocked $command.");
         } else {
-            $this->sendResponse($data->nick, 'Error clocking ' . $pieces[1] . '.');
+            $this->sendResponse($data->nick, "Error clocking $command.");
         }
     }
 
@@ -367,15 +379,14 @@ class Eventum_Bot
 
     public function authenticate(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
-        $pieces = explode(' ', $data->message);
-        if (count($pieces) != 3) {
+        if (count($data->messageex) != 3) {
             $this->sendResponse($data->nick, 'Error: wrong parameter count for "AUTH" command. Format is "!auth user@example.com password".');
 
             return;
         }
 
-        $email = $pieces[1];
-        $password = $pieces[2];
+        $email = $data->messageex[1];
+        $password = $data->messageex[2];
 
         // check if the email exists
         if (!Auth::userExists($email)) {
