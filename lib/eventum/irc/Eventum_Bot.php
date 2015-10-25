@@ -177,6 +177,8 @@ class Eventum_Bot
             $irc->login($config['nickname'], $config['realname'], 0, $config['username'], $config['password']);
         }
 
+        $this->joinChannels($irc);
+
         $irc->listen();
         $irc->disconnect();
     }
@@ -195,7 +197,6 @@ class Eventum_Bot
         $irc->registerActionhandler(
             SMARTIRC_TYPE_KICK | SMARTIRC_TYPE_QUIT | SMARTIRC_TYPE_PART, '.*', $this, 'removeAuthenticatedUser'
         );
-        $irc->registerActionhandler(SMARTIRC_TYPE_LOGIN, '.*', $this, 'joinChannels');
 
         // real bot commands
         $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, '^!?help', $this, 'listAvailableCommands');
@@ -536,7 +537,7 @@ class Eventum_Bot
         }
     }
 
-    public function joinChannels(Net_SmartIRC $irc)
+    private function joinChannels(Net_SmartIRC $irc)
     {
         foreach ($this->channels as $prj_id => $options) {
             foreach ($options as $chan => $categories) {
