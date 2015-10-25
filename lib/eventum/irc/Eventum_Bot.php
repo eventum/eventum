@@ -58,6 +58,9 @@ class Eventum_Bot
      */
     private $irc;
 
+    /**
+     * @param array $config
+     */
     public function __construct($config)
     {
         $this->config = $config;
@@ -130,6 +133,9 @@ class Eventum_Bot
         $irc->disconnect();
     }
 
+    /**
+     * @param Net_SmartIRC $irc
+     */
     private function registerHandlers(Net_SmartIRC $irc)
     {
         $irc->registerTimehandler(3000, $this, 'notifyEvents');
@@ -151,11 +157,11 @@ class Eventum_Bot
     }
 
     /**
-     * @param $irc
-     * @param $data
+     * @param Net_SmartIRC $irc
+     * @param Net_SmartIRC_data $data
      * @return bool
      */
-    public function _isAuthenticated(&$irc, &$data)
+    public function _isAuthenticated(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         if (in_array($data->nick, array_keys($this->auth))) {
             return true;
@@ -186,7 +192,7 @@ class Eventum_Bot
         return '';
     }
 
-    public function clockUser(&$irc, &$data)
+    public function clockUser(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         if (!$this->_isAuthenticated($irc, $data)) {
             return;
@@ -222,7 +228,7 @@ class Eventum_Bot
         }
     }
 
-    public function listClockedInUsers(&$irc, &$data)
+    public function listClockedInUsers(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         if (!$this->_isAuthenticated($irc, $data)) {
             return;
@@ -239,7 +245,7 @@ class Eventum_Bot
         }
     }
 
-    public function listQuarantinedIssues(&$irc, &$data)
+    public function listQuarantinedIssues(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         if (!$this->_isAuthenticated($irc, $data)) {
             return;
@@ -263,7 +269,7 @@ class Eventum_Bot
         }
     }
 
-    public function listAvailableCommands(&$irc, &$data)
+    public function listAvailableCommands(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         $commands = array(
             'auth' => 'Format is "auth user@example.com password"',
@@ -277,7 +283,7 @@ class Eventum_Bot
         }
     }
 
-    public function _updateAuthenticatedUser(&$irc, &$data)
+    public function _updateAuthenticatedUser(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         $old_nick = $data->nick;
         $new_nick = $data->message;
@@ -287,21 +293,21 @@ class Eventum_Bot
         }
     }
 
-    public function _removeAuthenticatedUser(&$irc, &$data)
+    public function _removeAuthenticatedUser(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         if (in_array($data->nick, array_keys($this->auth))) {
             unset($this->auth[$data->nick]);
         }
     }
 
-    public function listAuthenticatedUsers(&$irc, &$data)
+    public function listAuthenticatedUsers(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         foreach ($this->auth as $nickname => $email) {
             $this->sendResponse($irc, $data->nick, "$nickname => $email");
         }
     }
 
-    public function authenticate(&$irc, &$data)
+    public function authenticate(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         $pieces = explode(' ', $data->message);
         if (count($pieces) != 3) {
@@ -390,11 +396,9 @@ class Eventum_Bot
      * Method used as a callback to send notification events to the proper
      * recipients.
      *
-     * @access  public
-     * @param   resource $irc The IRC connection handle
-     * @return  void
+     * @param   Net_SmartIRC $irc The IRC connection handle
      */
-    public function notifyEvents(&$irc)
+    public function notifyEvents(Net_SmartIRC $irc)
     {
         // check the message table
         $stmt
@@ -467,13 +471,12 @@ class Eventum_Bot
     /**
      * Method used to send a message to the given target.
      *
-     * @access  public
-     * @param   resource $irc The IRC connection handle
+     * @param   Net_SmartIRC $irc The IRC connection handle
      * @param   string $target The target for this message
      * @param   string $response The message to send
      * @return  void
      */
-    public function sendResponse(&$irc, $target, $response)
+    public function sendResponse(Net_SmartIRC $irc, $target, $response)
     {
         // XXX: need way to handle messages with length bigger than 255 chars
         if (!is_array($response)) {
@@ -490,7 +493,7 @@ class Eventum_Bot
         }
     }
 
-    public function _joinChannels(&$irc)
+    public function _joinChannels(Net_SmartIRC $irc)
     {
         foreach ($this->channels as $prj_id => $options) {
             foreach ($options as $chan => $categories) {
