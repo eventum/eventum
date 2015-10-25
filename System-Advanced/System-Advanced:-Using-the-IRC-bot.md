@@ -30,15 +30,13 @@ Setup
 
 You will need to provide a `config/irc_config.php` file with appropriate preferences, such as the IRC server and channel that the bot should join. An example setup file can be found in `htdocs/setup/irc_config.php`
 
-- `$channels` : This array lists what channels belong to what projects, so the bot can be of use to several different projects, as long as they are on the same IRC network. You can also have more than one channel per project, like this:
+- `$irc_channels` : This array lists what channels belong to what projects, so the bot can be of use to several different projects, as long as they are on the same IRC network. You can also have more than one channel per project, like this:
 ```php
-    $channels = array(
-        Project::getID('Default Project') => array(
-            '#issues','#myIssues ThisIsMyPassword'
+    $irc_channels = array(
+        'Default Project' => array(
+            '#issues', '#myIssues ThisIsMyPassword'
         ),
-        Project::getID('My Second Project') => array(
-            '#moreissues'
-        )
+        'My Second Project' => '#moreissues',
     );
 ```
 - `$irc_server_hostname` : This variable holds the hostname or IP of the IRC server. Examples are `irc.freenode.net` or `localhost` if you use a private one hosted on the same server as Eventum.
@@ -51,8 +49,8 @@ You will need to provide a `config/irc_config.php` file with appropriate prefere
 When done, it might look something like this...
 
 ```php
-    $channels = array(
-        Project::getID('TvT2') => array(
+    $irc_channels = array(
+        'TvT2' => array(
             '#tvt-dev aPassword',
         )
     );
