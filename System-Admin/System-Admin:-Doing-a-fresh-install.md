@@ -171,28 +171,9 @@ different exit codes.
 
 ### IRC Notification Bot (irc/eventum-irc-bot)
 
-The IRC notification bot is a nice feature for remote teams that want to handle issues and want to have a quick and easy way to get simple notifications. The bot currently notifies of the following actions:
+The IRC notification bot is a nice feature for remote teams that want to handle issues and want to have a quick and easy way to get simple notifications. 
 
--   New Issues
--   Blocked emails
--   Issues with assignment list changes
-
-The bot also provides a simple set of commands which can be invoked in a query to the bot user:
-
-```
-<user> help
-<EventumBOT> This is the list of available commands:
-<EventumBOT> auth: Format is "auth user@example.com password"
-<EventumBOT> clock: Format is "clock [in|out]"
-<EventumBOT> list-clocked-in: Format is "list-clocked-in"
-<EventumBOT> list-quarantined: Format is "list-quarantined"
-```
-
-To invoke the notification bot and let it run on the server, run this command:
-
-    ./irc/eventum-irc-bot &
-
-**NOTE:** You will need to provide a `config/irc_config.php` file with appropriate preferences, such as the IRC server and channel that the bot should join. An example setup file can be found in `htdocs/setup/irc_config.php`
+See [IRC Bot page](System-Advanced%3A-Using-the-IRC-bot) for details.
 
 ### Command Line Interface (cli/eventum)
 
