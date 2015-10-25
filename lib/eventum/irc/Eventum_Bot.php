@@ -112,7 +112,6 @@ class Eventum_Bot
             $irc->setLogfile($config['logfile']);
         }
 
-        $irc->setAutoReconnect(true);
         $irc->setAutoRetry(true);
         $irc->setReceiveTimeout(600);
         $irc->setTransmitTimeout(600);
