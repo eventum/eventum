@@ -268,7 +268,7 @@ class Eventum_Bot
                 return;
         }
 
-        $command = $data->messageex[1];
+        $command = isset($data->messageex[1]) ? $data->messageex[1] : null;
 
         // FIXME: handle if $email is empty
         $email = $this->getEmailByNickname($data->nick);
