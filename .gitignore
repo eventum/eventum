@@ -14,10 +14,10 @@ config/workflow/
 *.gz.md5
 cli/*.phar
 cli/build/
-/var/locks/*
-!/var/locks/README
-/var/logs/*
-!/var/logs/README
+/var/lock/*
+!/var/lock/README
+/var/log/*
+!/var/log/README
 /var/cache/*
 !/var/cache/README
 misc/routed_emails/*
