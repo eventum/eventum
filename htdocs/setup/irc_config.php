@@ -26,15 +26,14 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 // | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 // This is an example config file for the IRC bot. This file should be
 // placed in the config/ directory.
 
-
-// IRC server address
-$irc_server_hostname = 'localhost';
-$irc_server_port = 6667;
+// the file should return array with configuration,
+// you are free to use local variables if that makes config more readable for you.
 
 // the following is the list of IRC channels that the bot should connect to,
 // and the associated project name
@@ -50,10 +49,20 @@ $irc_channels = array(
     'Default Project' => '#issues',
 );
 
-$nickname = 'EventumBOT';
-$realname = 'Eventum Issue Tracking System';
+return array(
+    /// connection parameters
+    // IRC server address
+    'hostname' => 'localhost',
+    'port' => 6667,
+    'nickname' => 'EventumBOT',
+    'realname' => 'Eventum Issue Tracking System',
+    // do you need a username/password to connect to this server?
+    // if so, fill in the next two variables
+    'username' => '',
+    'password' => '',
 
-// do you need a username/password to connect to this server? if
-// so, fill in the next two variables
-$username = '';
-$password = '';
+    // configured IRC channels
+    'channels' => $irc_channels,
+
+    'default_category' => APP_EVENTUM_IRC_CATEGORY_DEFAULT,
+);

@@ -58,12 +58,9 @@ class Eventum_Bot
      */
     private $irc;
 
-    /**
-     * @param array $config
-     */
-    public function __construct($config)
+    public function __construct()
     {
-        $this->config = $config;
+        $this->config = $config = $this->getConfig();
 
         // map project_id => channel(s)
         foreach ($config['channels'] as $proj => $chan) {
@@ -88,6 +85,54 @@ class Eventum_Bot
 
             $this->channels[$proj_id] = $options;
         }
+    }
+
+    /**
+     * Read in config/irc_config.php
+     *
+     * @return array
+     */
+    private function getConfig()
+    {
+        $config_file = APP_CONFIG_PATH . '/irc_config.php';
+        if (!file_exists($config_file)) {
+            throw new InvalidArgumentException("Config file '$config_file' does not exist");
+        }
+
+        $default_config = array(
+            'default_category' => APP_EVENTUM_IRC_CATEGORY_DEFAULT,
+            'lock' => 'irc_bot',
+            'logfile' => APP_IRC_LOG,
+            /**
+             * Bitwise debug level out of SMARTIRC_DEBUG_* constants
+             *
+             * @see Net_SmartIRC::setDebugLevel
+             */
+            'debuglevel' => SMARTIRC_DEBUG_NOTICE
+        );
+
+        $config = require $config_file;
+        if ($config == 1) {
+            // handle legacy config format
+            /** @var string $irc_server_hostname */
+            /** @var int $irc_server_port */
+            /** @var string $nickname */
+            /** @var string $realname */
+            /** @var string $username */
+            /** @var string $password */
+            /** @var array $irc_channels */
+            $config = array(
+                'hostname' => $irc_server_hostname,
+                'port' => $irc_server_port,
+                'nickname' => $nickname,
+                'realname' => $realname,
+                'username' => $username,
+                'password' => $password,
+                'channels' => $irc_channels,
+            );
+        }
+
+        return array_merge($default_config, $config);
     }
 
     /**
