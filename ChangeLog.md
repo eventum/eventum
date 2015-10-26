@@ -16,6 +16,7 @@ Eventum Issue Tracking System
 - Removed local/include/ from include path and added to composer instead (Bryan Alsdorf)
 - Use zf2 config for setup config (Elan Ruusamäe, #80)
 - Improvements to messageId generator, make it use RandomLib (Elan Ruusamäe)
+- IRC bot improvements (Elan Ruusamäe, #82)
 
 2015-10-13, Version 3.0.3
 -------------------------
