@@ -1,5 +1,5 @@
 * Basic User
 * System Admin
 * Advanced Topics
-* Download
+* [[Download|https://github.com/eventum/eventum/releases/latest]]
 * Installation
