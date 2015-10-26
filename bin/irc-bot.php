@@ -33,13 +33,6 @@ ini_set('memory_limit', '1024M');
 
 require_once __DIR__ . '/../init.php';
 
-if (!file_exists(APP_CONFIG_PATH . '/irc_config.php')) {
-    fwrite(STDERR, "ERROR: No config specified. Please see htdocs/setup/irc_config.php for config information.\n\n");
-    exit(1);
-}
-
-require_once APP_CONFIG_PATH . '/irc_config.php';
-
 // if requested, clear the lock
 if (in_array('--fix-lock', $argv)) {
     Lock::release('irc_bot');
@@ -56,6 +49,13 @@ if (in_array('--check-process', $argv)) {
 // NB: must require this in global context
 // otherise $SMARTIRC_nreplycodes from defines.php is not initialized
 require_once 'Net/SmartIRC/defines.php';
+
+if (!file_exists(APP_CONFIG_PATH . '/irc_config.php')) {
+    fwrite(STDERR, "ERROR: No config specified. Please see htdocs/setup/irc_config.php for config information.\n\n");
+    exit(1);
+}
+
+require APP_CONFIG_PATH . '/irc_config.php';
 
 $config = array(
     'hostname' => $irc_server_hostname,
