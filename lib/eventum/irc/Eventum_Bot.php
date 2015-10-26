@@ -154,13 +154,22 @@ class Eventum_Bot
         $bot = $this;
         $irc = &$this->irc;
         $handler = function ($signal = null) use ($bot, &$irc) {
+            // if stream_select receives signal, SmartIRC will automatically retry
+            // disable reconnect, and die
+            // this is not needed if we are connected,
+            // but unable to query such state, all variables and methods related to it are not public
+            $irc->setAutoRetry(false);
+
             if ($signal) {
                 $irc->log(SMARTIRC_DEBUG_NOTICE, "Got signal[$signal]; shutdown", __FILE__, __LINE__);
                 $irc->quit('Terminated');
             } else {
-                $irc->log(SMARTIRC_DEBUG_NOTICE, "shutdown handler", __FILE__, __LINE__);
+                $irc->log(SMARTIRC_DEBUG_NOTICE, "Shutdown handler", __FILE__, __LINE__);
                 $irc->quit('Bye');
             }
+
+            // QUIT has no effect if not connected
+            $irc->disconnect();
 
             $bot->unlock();
         };
@@ -230,7 +239,10 @@ class Eventum_Bot
      */
     private function registerHandlers(Net_SmartIRC $irc)
     {
-        $irc->registerTimehandler(1000, $this, 'signalDispatch');
+        // doing it cleanly with dispatch is not possible currently
+        // @see http://pear.php.net/bugs/bug.php?id=20973
+        declare(ticks=1);
+        //$irc->registerTimehandler(1000, $this, 'signalDispatch');
 
         // methods that keep track of who is authenticated
         $irc->registerActionhandler(SMARTIRC_TYPE_NICKCHANGE, '.*', $this, 'updateAuthenticatedUser');
