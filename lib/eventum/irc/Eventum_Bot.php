@@ -144,11 +144,7 @@ class Eventum_Bot
         $this->irc = $irc = new Net_SmartIRC();
 
         if (isset($config['debuglevel'])) {
-            $const = "SMARTIRC_DEBUG_" . strtoupper($config['debuglevel']);
-            if (!defined($const)) {
-                throw new InvalidArgumentException("Bad value for debuglevel: {$config['debuglevel']}");
-            }
-            $irc->setDebugLevel(constant($const));
+            $irc->setDebugLevel($config['debuglevel']);
         }
 
         if (isset($config['logfile'])) {

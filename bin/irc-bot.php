@@ -75,9 +75,22 @@ $config = array(
     'logfile' => APP_IRC_LOG,
 
     /**
+     * Bitwise debug level out of SMARTIRC_DEBUG_* constants
+     *
      * @see Net_SmartIRC::setDebugLevel
      */
-    'debuglevel' => 'notice',
+    'debuglevel' => SMARTIRC_DEBUG_NOTICE
+//        | SMARTIRC_DEBUG_CONNECTION
+//        | SMARTIRC_DEBUG_SOCKET
+//        | SMARTIRC_DEBUG_IRCMESSAGES
+//        | SMARTIRC_DEBUG_MESSAGETYPES
+//        | SMARTIRC_DEBUG_ACTIONHANDLER
+//        | SMARTIRC_DEBUG_TIMEHANDLER
+//        | SMARTIRC_DEBUG_MESSAGEHANDLER
+//        | SMARTIRC_DEBUG_CHANNELSYNCING
+//        | SMARTIRC_DEBUG_MODULES
+//        | SMARTIRC_DEBUG_USERSYNCING
+    ,
 );
 
 $bot = new Eventum_Bot($config);
