@@ -17,6 +17,7 @@ Eventum Issue Tracking System
 - Use zf2 config for setup config (Elan Ruusamäe, #80)
 - Improvements to messageId generator, make it use RandomLib (Elan Ruusamäe)
 - IRC bot improvements (Elan Ruusamäe, #82)
+- Use var/ path for writable data (Elan Ruusamäe, #81)
 
 2015-10-13, Version 3.0.3
 -------------------------
