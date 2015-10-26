@@ -29,13 +29,13 @@
 // | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
-// This is an example config file for the IRC bot. This file should be
-// placed in the config/ directory.
+// This is an example config file for the IRC bot.
+// This file should be renamed to irc_config.php and customized for your needs.
 
-// the file should return array with configuration,
-// you are free to use local variables if that makes config more readable for you.
+// The file should return array with configuration,
+// You are free to use local variables if that makes config more readable for You.
 
-// the following is the list of IRC channels that the bot should connect to,
+// The following is the list of IRC channels that the bot should connect to,
 // and the associated project name
 //      Project Name -> IRC Channel(s),
 //      Second Project' => array('#issues_2', '#byrocrate'),
