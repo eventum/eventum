@@ -243,8 +243,9 @@ class Eventum_Bot
         $commands->register($irc);
     }
 
-    public function signalDispatch()
+    public function signalDispatch(Net_SmartIRC $irc)
     {
+        $irc->log(SMARTIRC_DEBUG_ACTIONHANDLER, "signal dispatch", __FILE__, __LINE__);
         pcntl_signal_dispatch();
     }
 
