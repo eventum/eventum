@@ -64,8 +64,6 @@ return array(
     // configured IRC channels
     'channels' => $irc_channels,
 
-    'default_category' => APP_EVENTUM_IRC_CATEGORY_DEFAULT,
-
     /**
      * Bitwise debug level out of SMARTIRC_DEBUG_* constants
      *
@@ -83,4 +81,6 @@ return array(
     //            | SMARTIRC_DEBUG_MODULES
     //            | SMARTIRC_DEBUG_USERSYNCING
     ,
+
+    'default_category' => APP_EVENTUM_IRC_CATEGORY_DEFAULT,
 );
