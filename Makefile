@@ -27,7 +27,7 @@ all:
 pot:
 	$(MAKE) -C localization pot
 
-install: install-eventum install-cli install-irc install-scm
+install: install-eventum install-cli install-scm
 
 dist:
 	./bin/release.sh
@@ -92,11 +92,6 @@ install-eventum:
 install-cli:
 	install -d $(DESTDIR)$(bindir)
 	install -p cli/$(name).phar $(DESTDIR)$(bindir)/$(name)
-
-# install eventum irc bot
-install-irc:
-	install -d $(DESTDIR)$(sbindir)
-	cp -a irc/eventum-irc-bot.php $(DESTDIR)$(sbindir)/eventum-irc-bot
 
 # install eventum scm (cvs, svn, git) hooks
 install-scm:
