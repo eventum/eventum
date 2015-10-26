@@ -14,9 +14,12 @@ config/workflow/
 *.gz.md5
 cli/*.phar
 cli/build/
-locks/
-logs/
-templates_c/*
+/var/locks/*
+!/var/locks/README
+/var/logs/*
+!/var/logs/README
+/var/cache/*
+!/var/cache/README
 misc/routed_emails/*
 misc/routed_notes/*
 localization/*.mo

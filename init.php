@@ -45,7 +45,7 @@ define('APP_VERSION', '3.0.4-dev');
 // define base path
 define('APP_PATH', __DIR__);
 
-$define = function($name, $value) {
+$define = function ($name, $value) {
     if (defined($name)) {
         return;
     }
@@ -69,13 +69,16 @@ require_once APP_CONFIG_PATH . '/config.php';
 $define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 $define('APP_COOKIE', 'eventum');
 
+// /var path for writable data
+$define('APP_VAR_PATH', APP_PATH . '/var');
+
 // define other paths
 $define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
-$define('APP_TPL_PATH', APP_PATH . '/templates');
-$define('APP_TPL_COMPILE_PATH', APP_PATH . '/templates_c');
 $define('APP_INC_PATH', APP_PATH . '/lib/eventum');
-$define('APP_LOCKS_PATH', APP_PATH . '/locks');
-$define('APP_LOG_PATH', APP_PATH . '/logs');
+$define('APP_TPL_PATH', APP_PATH . '/templates');
+$define('APP_TPL_COMPILE_PATH', APP_VAR_PATH . '/cache');
+$define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
+$define('APP_LOG_PATH', APP_VAR_PATH . '/log');
 $define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
 $define('APP_CLI_LOG', APP_LOG_PATH . '/cli.log');
 $define('APP_IRC_LOG', APP_LOG_PATH . '/irc_bot.log');

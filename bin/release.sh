@@ -316,10 +316,10 @@ prepare_source() {
 	make -C localization install clean
 
 	# install dirs and fix permissions
-	install -d logs templates_c locks htdocs/customer
-	touch logs/{cli.log,errors.log,irc_bot.log,login_attempts.log}
+	install -d var/{log,cache,lock}
+	touch var/log/{cli.log,errors.log,irc_bot.log,login_attempts.log}
 	chmod -R a+rX .
-	chmod -R a+rwX templates_c locks logs config
+	chmod -R a+rwX config var
 
 	# cleanup rest of the stuff, that was neccessary for release preparation process
 	cleanup_postdist
