@@ -6,6 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -21,39 +22,73 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <bryan@montyprogram.com>                      |
+// | Authors: João Prado Maia <jpm@mysql.com>                             |
+// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
-//
-
-/**
- * Starts the IRC bot and automatically restarts it if it dies
- */
 
 ini_set('memory_limit', '1024M');
 
 require_once __DIR__ . '/../init.php';
 
+if (!file_exists(APP_CONFIG_PATH . '/irc_config.php')) {
+    fwrite(STDERR, "ERROR: No config specified. Please see htdocs/setup/irc_config.php for config information.\n\n");
+    exit(1);
+}
+
+require_once APP_CONFIG_PATH . '/irc_config.php';
+
 // if requested, clear the lock
 if (in_array('--fix-lock', $argv)) {
-    Lock::release('irc_bot_runner');
+    Lock::release('irc_bot');
     echo "The lock file was removed successfully.\n";
     exit;
 }
 
+if (in_array('--check-process', $argv)) {
+    $check = true;
+} else {
+    $check = false;
+}
+
+// NB: must require this in global context
+// otherise $SMARTIRC_nreplycodes from defines.php is not initialized
+require_once 'Net/SmartIRC/defines.php';
+
+$config = array(
+    'hostname' => $irc_server_hostname,
+    'port' => $irc_server_port,
+
+    'nickname' => $nickname,
+    'realname' => $realname,
+
+    'username' => $username,
+    'password' => $password,
+
+    'channels' => $irc_channels,
+    'default_category' => APP_EVENTUM_IRC_CATEGORY_DEFAULT,
+
+    'lock' => 'irc_bot',
+
+    'logfile' => APP_IRC_LOG,
+
+    /**
+     * @see Net_SmartIRC::setDebugLevel
+     */
+    'debuglevel' => 'notice',
+);
+
+$bot = new Eventum_Bot($config);
+
 // acquire a lock to prevent multiple scripts from
 // running at the same time
-if (!Lock::acquire('irc_bot_runner', $check)) {
+if (!$bot->lock($check)) {
     echo 'Error: Another instance of the script is still running. ',
-                "If this is not accurate, you may fix it by running this script with '--fix-lock' ",
-                "as the only parameter.\n";
+    "If this is not accurate, you may fix it by running this script with '--fix-lock' as the only parameter.\n";
     exit;
 }
 
-while (true) {
-    $command = APP_PATH . '/irc/eventum-irc-bot.php';
-    `$command`;
-    `$command --fix-lock`;
-}
+$bot->run();
+$bot->unlock();
