@@ -1,5 +1,4 @@
-* Sidebar
-* Test
-* One
-* Two
-* Three
+* Basic User
+* System Admin
+* Advanced Topics
+* Download
