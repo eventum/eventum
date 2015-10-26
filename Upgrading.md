@@ -35,6 +35,13 @@ require_once(APP_INC_PATH."customer/class.abstract_customer_backend.php");
 ```
 	0 * * * * <PATH-TO-EVENTUM>/bin/download_emails.php username_here mail.domain.com INBOX
 ```
+* Since 3.0.4 directory for writable data [was moved](https://github.com/eventum/eventum/pull/81):
+
+Old Value  | New Value | Description
+------------- | ------------- | -------------
+`templates_c`  | `var/cache` | templates cache
+`locks`  | `var/lock` | various lock and pid files
+`logs`  | `var/log` | directory for logs
 
 Upgrading from versions before 2.2
 ----------------------------------
