@@ -66,7 +66,6 @@ class Eventum_Bot
         $this->config = $config;
 
         // map project_id => channel(s)
-        // TODO: Map old config to new config
         foreach ($config['channels'] as $proj => $chan) {
             $proj_id = Project::getID($proj);
 
