@@ -106,7 +106,12 @@ class Eventum_Bot
         $default_config = array(
             'default_category' => APP_EVENTUM_IRC_CATEGORY_DEFAULT,
             'lock' => 'irc_bot',
-            'logfile' => APP_IRC_LOG,
+
+            // smartirc logger
+            'logfile' => APP_LOG_PATH . '/irc_bot_smartirc.log',
+            // error logs
+            'error_log' => APP_LOG_PATH . '/irc_bot_error.log',
+
             /**
              * Bitwise debug level out of SMARTIRC_DEBUG_* constants
              *
@@ -199,7 +204,15 @@ class Eventum_Bot
      */
     public function run()
     {
+
+
         $config = $this->config;
+
+        // setup logging
+        // redirect stderr to a log
+        ini_set('log_errors', 'On');
+        ini_set('error_log', $config['error_log']);
+
         $this->irc = $irc = new Net_SmartIRC();
 
         if (isset($config['debuglevel'])) {
