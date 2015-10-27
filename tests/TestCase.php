@@ -9,6 +9,13 @@ class TestCase extends PHPUnit_Framework_TestCase
         }
     }
 
+    public static function skipJenkins($message = 'Disabled Jenkins')
+    {
+        if (getenv('JENKINS_HOME')) {
+            self::markTestSkipped($message);
+        }
+    }
+
     public static function skipCi($message = 'Disabled in Travis/Jenkins')
     {
         if (getenv('TRAVIS') || getenv('JENKINS_HOME')) {
