@@ -570,7 +570,7 @@ function write_config()
         "'%{APP_ENABLE_FULLTEXT}%'" => e($enable_fulltext),
     );
 
-    $config_contents = file_get_contents('config.php');
+    $config_contents = file_get_contents(APP_CONFIG_PATH . '/config.dist.php');
     $config_contents = str_replace(array_keys($replace), array_values($replace), $config_contents);
 
     write_file($config_file_path, $config_contents);
