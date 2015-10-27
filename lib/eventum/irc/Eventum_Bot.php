@@ -31,6 +31,10 @@
 class Eventum_Bot
 {
     /**
+     * @var bool flag indicating that we should shut down
+     */
+    public $shutdown = false;
+    /**
      * List of authenticated users
      *
      * @var array
@@ -154,6 +158,7 @@ class Eventum_Bot
         $bot = $this;
         $irc = &$this->irc;
         $handler = function ($signal = null) use ($bot, &$irc) {
+            $bot->shutdown = true;
             // if stream_select receives signal, SmartIRC will automatically retry
             // disable reconnect, and die
             // this is not needed if we are connected,
@@ -206,9 +211,13 @@ class Eventum_Bot
             $irc->setLogfile($config['logfile']);
         }
 
-        $irc->setAutoRetry(true);
+        // reconnect is poorly designed, do not use it
+        // @see https://pear.php.net/bugs/bug.php?id=20974
+        //$irc->setAutoRetry(true);
+        $irc->setAutoRetry(false);
         $irc->setAutoRetryMax(PHP_INT_MAX);
         $irc->setReconnectDelay(10000);
+
         $irc->setReceiveTimeout(600);
         $irc->setTransmitTimeout(600);
 
@@ -230,7 +239,13 @@ class Eventum_Bot
 
         $this->joinChannels($irc);
 
-        $irc->listen();
+        // loop forever, reconnect and retry
+        // @see https://pear.php.net/bugs/bug.php?id=20974
+        while (!$this->shutdown) {
+            $irc->listen();
+            $irc->reconnect();
+        }
+
         $irc->disconnect();
     }
 
