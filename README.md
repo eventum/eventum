@@ -1,6 +1,8 @@
 Eventum Issue Tracking System
 =============================
 
+[![Join the chat at https://gitter.im/eventum/eventum](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/eventum/eventum?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/eventum/eventum.png?branch=master)](http://travis-ci.org/eventum/eventum)
 
 Eventum is a user friendly and very flexible issue tracking system, that can
