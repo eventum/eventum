@@ -31,12 +31,15 @@
 		"component-baseurl": "/components",
 		"component-dir": "htdocs/components"
 	},
+	"scripts": {
+		"test": "phpunit"
+	},
 	"autoload": {
 		"classmap": [ "lib/eventum/" ],
 		"files": [ "lib/eventum/gettext.php" ]
 	},
-	"scripts": {
-		"test": "phpunit"
+	"autoload-dev": {
+		"classmap": [ "tests/TestCase.php" ]
 	},
 	"minimum-stability": "dev",
 	"prefer-stable": true,

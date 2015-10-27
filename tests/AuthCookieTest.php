@@ -1,6 +1,6 @@
 <?php
 
-class AuthCookieTest extends PHPUnit_Framework_TestCase
+class AuthCookieTest extends TestCase
 {
     public static function setupBeforeClass()
     {

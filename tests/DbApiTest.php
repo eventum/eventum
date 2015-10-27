@@ -1,6 +1,6 @@
 <?php
 
-class DbApiTest extends PHPUnit_Framework_TestCase
+class DbApiTest extends TestCase
 {
     public function testPearApi()
     {

@@ -1,6 +1,6 @@
 <?php
 
-class DbHelperTest extends PHPUnit_Framework_TestCase
+class DbHelperTest extends TestCase
 {
     public function testBuildSet()
     {

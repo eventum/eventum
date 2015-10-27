@@ -28,7 +28,7 @@
 /**
  * Test class for Mail_Helper.
  */
-class MailHelperTest extends PHPUnit_Framework_TestCase
+class MailHelperTest extends TestCase
 {
     public function testGetMessageID()
     {

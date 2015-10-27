@@ -1,7 +1,7 @@
 <?php
 use Zend\Mail;
 
-class MailStorageTest extends PHPUnit_Framework_TestCase
+class MailStorageTest extends TestCase
 {
     /** @var array */
     private $account;

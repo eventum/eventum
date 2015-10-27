@@ -1,6 +1,6 @@
 <?php
 
-class PasswordAuthTest extends PHPUnit_Framework_TestCase
+class PasswordAuthTest extends TestCase
 {
     /** @var string */
     private $password = 'Tr0ub4dour&3';

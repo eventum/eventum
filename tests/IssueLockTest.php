@@ -1,6 +1,6 @@
 <?php
 
-class IssueLockTest extends PHPUnit_Framework_TestCase {
+class IssueLockTest extends TestCase {
 
     /**
      * @group slow

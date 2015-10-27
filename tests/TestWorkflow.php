@@ -3,7 +3,7 @@
 class TestWorkflow extends Abstract_Workflow_Backend {
 }
 
-class WorkflowTest extends PHPUnit_Framework_TestCase {
+class WorkflowTest extends TestCase {
 	protected $workflow_class = 'TestWorkflow';
 
 	/**

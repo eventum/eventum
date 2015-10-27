@@ -28,7 +28,7 @@
 /**
  * Test class for Misc.
  */
-class MiscTest extends PHPUnit_Framework_TestCase
+class MiscTest extends TestCase
 {
     /**
      * Method used to strip HTML from a string or array

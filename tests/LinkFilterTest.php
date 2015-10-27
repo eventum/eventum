@@ -1,6 +1,6 @@
 <?php
 
-class LinkFilterTest extends PHPUnit_Framework_TestCase
+class LinkFilterTest extends TestCase
 {
     public function setUp()
     {

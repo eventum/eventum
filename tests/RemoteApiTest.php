@@ -1,6 +1,6 @@
 <?php
 
-class RemoteApiTest extends PHPUnit_Framework_TestCase
+class RemoteApiTest extends TestCase
 {
     const DEBUG = 0;
 

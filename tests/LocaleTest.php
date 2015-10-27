@@ -1,6 +1,6 @@
 <?php
 
-class LocaleTest extends PHPUnit_Framework_TestCase {
+class LocaleTest extends TestCase {
     public static function setUpBeforeClass() {
         if (!getenv('TRAVIS')) {
             self::markTestSkipped('Tests require full localedb installation');

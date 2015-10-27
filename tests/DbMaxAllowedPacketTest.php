@@ -3,7 +3,7 @@
 /**
  * Separate test to use different getInstance call
  */
-class DbMaxAllowedPacketTest extends PHPUnit_Framework_TestCase {
+class DbMaxAllowedPacketTest extends TestCase {
     public function setUp()
     {
         if (getenv('TRAVIS')) {

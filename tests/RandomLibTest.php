@@ -1,6 +1,6 @@
 <?php
 
-class RandomLibTest extends PHPUnit_Framework_TestCase
+class RandomLibTest extends TestCase
 {
     public function testRandom()
     {

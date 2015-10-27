@@ -1,6 +1,6 @@
 <?php
 
-class AuthLdapTest extends PHPUnit_Framework_TestCase
+class AuthLdapTest extends TestCase
 {
     /** @var LDAP_Auth_Backend */
     static $ldap;

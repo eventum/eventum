@@ -28,7 +28,7 @@
 /**
  * Test class for Mime_Helper.
  */
-class MimeHelperTest extends PHPUnit_Framework_TestCase
+class MimeHelperTest extends TestCase
 {
     public function testEncodeQuotedPrintable()
     {

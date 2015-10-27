@@ -1,6 +1,6 @@
 <?php
 
-class DateHelperTest extends PHPUnit_Framework_TestCase
+class DateHelperTest extends TestCase
 {
     /**
      * timezone used for preferred user timezone tests

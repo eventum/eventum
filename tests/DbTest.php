@@ -3,7 +3,7 @@
 /**
  * Test DB layer to work as expected
  */
-class DbTest extends PHPUnit_Framework_TestCase
+class DbTest extends TestCase
 {
     /**
      * @var DbInterface
