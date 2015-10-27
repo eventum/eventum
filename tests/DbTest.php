@@ -12,9 +12,7 @@ class DbTest extends TestCase
 
     public function setUp()
     {
-        if (getenv('TRAVIS')) {
-            $this->markTestSkipped("No DB tests in Travis");
-        }
+        $this->skipTravis("No DB tests in Travis");
 
         $this->db = DB_Helper::getInstance(false);
     }
@@ -28,7 +26,8 @@ class DbTest extends TestCase
         $this->assertEquals($exp, $res);
     }
 
-    public function quoteData() {
+    public function quoteData()
+    {
         return array(
             array("C'est La Vie", "C\\'est La Vie"),
             array(array("Jää-äär"), null),
@@ -70,16 +69,16 @@ class DbTest extends TestCase
         $this->assertInternalType('array', $res);
         $exp = array(
             0 => array(
-                'usr_id'        => 1,
+                'usr_id' => 1,
                 'usr_full_name' => 'system',
-                'usr_email'     => 'system-account@example.com',
-                'usr_lang'      => '',
+                'usr_email' => 'system-account@example.com',
+                'usr_lang' => '',
             ),
             1 => array(
-                'usr_id'        => 2,
+                'usr_id' => 2,
                 'usr_full_name' => 'Admin User',
-                'usr_email'     => 'admin@example.com',
-                'usr_lang'      => null,
+                'usr_email' => 'admin@example.com',
+                'usr_lang' => null,
             ),
         );
         $this->assertEquals($exp, $res);
@@ -151,13 +150,13 @@ class DbTest extends TestCase
         $exp = array(
             1 => array(
                 'usr_full_name' => 'system',
-                'usr_email'     => 'system-account@example.com',
-                'usr_lang'      => null,
+                'usr_email' => 'system-account@example.com',
+                'usr_lang' => null,
             ),
             2 => array(
                 'usr_full_name' => 'Admin User',
-                'usr_email'     => 'admin@example.com',
-                'usr_lang'      => null,
+                'usr_email' => 'admin@example.com',
+                'usr_lang' => null,
             ),
         );
         $this->assertEquals($exp, $res);
@@ -176,13 +175,13 @@ class DbTest extends TestCase
         $exp = array(
             1 => array(
                 'usr_full_name' => 'system',
-                'usr_email'     => 'system-account@example.com',
-                'usr_lang'      => null,
+                'usr_email' => 'system-account@example.com',
+                'usr_lang' => null,
             ),
             2 => array(
                 'usr_full_name' => 'Admin User',
-                'usr_email'     => 'admin@example.com',
-                'usr_lang'      => null,
+                'usr_email' => 'admin@example.com',
+                'usr_lang' => null,
             ),
         );
         $this->assertEquals($exp, $res);
@@ -226,13 +225,13 @@ class DbTest extends TestCase
         $exp = array(
             1 => array(
                 'usr_full_name' => 'system',
-                'usr_email'     => 'system-account@example.com',
-                'usr_lang'      => null,
+                'usr_email' => 'system-account@example.com',
+                'usr_lang' => null,
             ),
             2 => array(
                 'usr_full_name' => 'Admin User',
-                'usr_email'     => 'admin@example.com',
-                'usr_lang'      => null,
+                'usr_email' => 'admin@example.com',
+                'usr_lang' => null,
             ),
         );
         $this->assertEquals($exp, $res);
@@ -313,10 +312,10 @@ class DbTest extends TestCase
 
         $this->assertInternalType('array', $res);
         $exp = array(
-            'usr_id'        => '1',
+            'usr_id' => '1',
             'usr_full_name' => 'system',
-            'usr_email'     => 'system-account@example.com',
-            'usr_lang'      => null,
+            'usr_email' => 'system-account@example.com',
+            'usr_lang' => null,
         );
         $this->assertEquals($exp, $res);
     }

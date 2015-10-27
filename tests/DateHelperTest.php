@@ -12,9 +12,7 @@ class DateHelperTest extends TestCase
      */
     public function hasDatabase()
     {
-        if (getenv('TRAVIS')) {
-            $this->markTestSkipped('Test requires database');
-        }
+        $this->skipTravis('Test requires database');
         $this->assertTrue(true, "has database");
     }
 

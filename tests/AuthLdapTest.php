@@ -5,10 +5,9 @@ class AuthLdapTest extends TestCase
     /** @var LDAP_Auth_Backend */
     static $ldap;
 
-    public static function setupBeforeClass() {
-        if (getenv('TRAVIS') || getenv('JENKINS_HOME')) {
-            self::markTestSkipped('Skip LDAP test on Travis/Jenkins');
-        }
+    public static function setupBeforeClass()
+    {
+        self::skipCi('Skip LDAP test on Travis/Jenkins');
 
         self::$ldap = new LDAP_Auth_Backend();
     }

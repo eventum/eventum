@@ -12,9 +12,7 @@ class AuthCookieTest extends TestCase
 
     public function setUp()
     {
-        if (getenv('TRAVIS') || getenv('JENKINS_HOME')) {
-            $this->markTestSkipped("Missing Travis/Jenkins setup");
-        }
+        $this->skipCi("Missing Travis/Jenkins setup");
     }
 
     public function testAuthCookie()

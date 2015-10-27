@@ -4,9 +4,7 @@ class LinkFilterTest extends TestCase
 {
     public function setUp()
     {
-        if (getenv('TRAVIS') || getenv('JENKINS_HOME')) {
-            $this->markTestSkipped("No DB tests in Travis/Jenkins");
-        }
+        $this->skipCi("No DB tests in Travis/Jenkins");
     }
 
     /**
