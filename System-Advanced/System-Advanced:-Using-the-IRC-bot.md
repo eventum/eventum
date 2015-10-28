@@ -75,4 +75,4 @@ To invoke the notification bot and let it run on the server, run this command:
 
     bin/irc-bot.php &
 
-It is recommended to enable [pcntl](http://php.net/pcntl) extension to handle `Ctrl`+`C` and `SIGTERM` gracefully (automatically cleaning up pid file).
+It is recommended to enable [PCNTL](http://php.net/pcntl) extension to handle `Ctrl`+`C` and `SIGTERM` gracefully (automatically cleaning up pid file). The extension is not available on Windows platforms.
