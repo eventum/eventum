@@ -62,9 +62,13 @@ class Eventum_Bot
      */
     private $irc;
 
+    /** @var bool */
+    private $have_pcntl = false;
+
     public function __construct()
     {
         $this->config = $config = $this->getConfig();
+        $this->have_pcntl = function_exists('pcntl_signal');
 
         // map project_id => channel(s)
         foreach ($config['channels'] as $proj => $chan) {
@@ -184,8 +188,12 @@ class Eventum_Bot
             $bot->unlock();
         };
 
-        pcntl_signal(SIGINT, $handler);
-        pcntl_signal(SIGTERM, $handler);
+        if ($this->have_pcntl) {
+            pcntl_signal(SIGINT, $handler);
+            pcntl_signal(SIGTERM, $handler);
+        } else {
+            error_log("pcntl extension not present, signal processing not enabled");
+        }
 
         // NOTE: signal handler is not enough because stream_select() also catches the signals and aborts the process
         // so register the shutdown handler as well
@@ -204,8 +212,6 @@ class Eventum_Bot
      */
     public function run()
     {
-
-
         $config = $this->config;
 
         // setup logging
@@ -269,8 +275,10 @@ class Eventum_Bot
     {
         // doing it cleanly with dispatch is not possible currently
         // @see http://pear.php.net/bugs/bug.php?id=20973
-        declare(ticks=1);
-        //$irc->registerTimehandler(1000, $this, 'signalDispatch');
+        if ($this->have_pcntl) {
+            declare(ticks = 1);
+            //$irc->registerTimehandler(1000, $this, 'signalDispatch');
+        }
 
         // methods that keep track of who is authenticated
         $irc->registerActionhandler(SMARTIRC_TYPE_NICKCHANGE, '.*', $this, 'updateAuthenticatedUser');
