@@ -104,6 +104,9 @@ clean_whitespace() {
 
 # setup composer deps
 composer_install() {
+	# this file does not exist in git export, but referenced in composer.json
+	install -d tests
+	touch tests/TestCase.php
 	# first install with dev to get assets installed
 	$composer install --prefer-dist --ignore-platform-reqs
 
@@ -116,6 +119,9 @@ composer_install() {
 	# clean vendor and dump autoloader again
 	clean_vendor
 	$composer dump-autoload
+
+	# cleanup again
+	rm -r tests
 
 	# save dependencies information
 	$composer licenses --no-dev --no-ansi > deps
