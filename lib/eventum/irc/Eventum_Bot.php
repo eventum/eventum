@@ -297,11 +297,23 @@ class Eventum_Bot
         pcntl_signal_dispatch();
     }
 
+    /**
+     * Join configured channels.
+     * If channel name contains space, everything after space is considered channel key.
+     *
+     * @param Net_SmartIRC $irc
+     */
     private function joinChannels(Net_SmartIRC $irc)
     {
         foreach ($this->channels as $prj_id => $options) {
             foreach ($options as $chan => $categories) {
-                $irc->join($chan);
+                $parts = explode(' ', $chan, 2);
+                if (count($parts) > 1) {
+                    // join with key
+                    $irc->join($parts[0], $parts[1]);
+                } else {
+                    $irc->join($chan);
+                }
             }
         }
     }
