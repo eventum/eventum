@@ -421,15 +421,16 @@ class Workflow
      * @param   integer $issue_id The ID of the issue
      * @param   array $old The custom fields before the update.
      * @param   array $new The custom fields after the update.
+     * @param   array $changed An array containing what was changed.
      */
-    public static function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new)
+    public static function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new, $changed)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
 
         $backend = self::_getBackend($prj_id);
-        $backend->handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new);
+        $backend->handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new, $changed);
     }
 
     /**
