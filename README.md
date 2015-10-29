@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-[![Build Status](https://travis-ci.org/eventum/eventum.png?branch=master)](http://travis-ci.org/eventum/eventum)
+[![Build Status](https://travis-ci.org/eventum/eventum.png?branch=master)](http://travis-ci.org/eventum/eventum) [![Join the chat at https://gitter.im/eventum/eventum](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/eventum/eventum)
 
 Eventum is a user friendly and very flexible issue tracking system, that can
 be used by a support department to track incoming technical support requests,
