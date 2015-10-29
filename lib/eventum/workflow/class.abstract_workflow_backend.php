@@ -321,8 +321,9 @@ class Abstract_Workflow_Backend
      * @param   integer $issue_id The ID of the issue
      * @param   array $old The custom fields before the update.
      * @param   array $new The custom fields after the update.
+     * @param   array $changed An array containing what was changed.
      */
-    public function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new)
+    public function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new, $changed)
     {
     }
 
