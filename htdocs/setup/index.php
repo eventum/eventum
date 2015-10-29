@@ -49,6 +49,7 @@ define('APP_LOG_PATH', APP_VAR_PATH . '/log');
 define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
 define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
 define('APP_LOCAL_PATH', APP_CONFIG_PATH);
+define('APP_RELATIVE_URL', '../');
 
 header('Content-Type: text/html; charset=' . APP_CHARSET);
 
