@@ -275,8 +275,7 @@ class Custom_Field
                 }
             }
 
-            Workflow::handleCustomFieldsUpdated($prj_id, $issue_id, $old_values,
-                self::getValuesByIssue($prj_id, $issue_id), $updated_fields);
+            Workflow::handleCustomFieldsUpdated($prj_id, $issue_id, $old_values, self::getValuesByIssue($prj_id, $issue_id), $updated_fields);
             Issue::markAsUpdated($issue_id);
             // need to save a history entry for this
 
