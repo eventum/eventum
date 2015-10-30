@@ -168,3 +168,8 @@ if (!defined('APP_DEFAULT_DB') || !defined('APP_TABLE_PREFIX')) {
     unset($dbconfig);
 }
 */
+
+use DebugBar\StandardDebugBar;
+
+$debugbar = new StandardDebugBar();
+$debugbar["messages"]->addMessage("hello world!");

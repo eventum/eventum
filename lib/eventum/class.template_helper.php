@@ -165,6 +165,7 @@ class Template_Helper
 
     /**
      * Processes the template and assign common variables automatically.
+     *
      * @return $this
      */
     private function processTemplate()
@@ -251,6 +252,24 @@ class Template_Helper
             $this->assign('roles', User::getAssocRoleIDs());
         }
         $this->assign('core', $core);
+
+        global $debugbar;
+        if ($debugbar) {
+            $debugbar->addCollector(
+                new DebugBar\DataCollector\ConfigCollector($this->smarty->tpl_vars, 'Smarty')
+            );
+            $debugbarRenderer = $debugbar->getJavascriptRenderer("{$core['rel_url']}debugbar");
+            $debugbarRenderer->addControl(
+                'Smarty', array(
+                    'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
+                    'map' => 'Smarty',
+                    'default' => '[]'
+                )
+            );
+
+            $this->assign('debugbar_head', $debugbarRenderer->renderHead());
+            $this->assign('debugbar_body', $debugbarRenderer->render());
+        }
 
         return $this;
     }
