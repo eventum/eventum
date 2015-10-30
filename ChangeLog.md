@@ -20,6 +20,7 @@ Eventum Issue Tracking System
 - Use var/ path for writable data (Elan Ruusamäe, #81)
 - Pass array of changed fields to Workflow::handleCustomFieldsUpdated (Bryan Alsdorf)
 - Custom Fields Weekly report: take also params from GET (Kristo Klausson, #86)
+- Manage Emails: Accept prj_id from GET to allow link bookmarking (Elan Ruusamäe)
 
 2015-10-13, Version 3.0.3
 -------------------------
