@@ -19,6 +19,7 @@ Eventum Issue Tracking System
 - IRC bot improvements (Elan Ruusamäe, #82)
 - Use var/ path for writable data (Elan Ruusamäe, #81)
 - Pass array of changed fields to Workflow::handleCustomFieldsUpdated (Bryan Alsdorf)
+- Custom Fields Weekly report: take also params from GET (Kristo Klausson, #86)
 
 2015-10-13, Version 3.0.3
 -------------------------
