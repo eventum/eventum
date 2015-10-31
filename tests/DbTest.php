@@ -156,13 +156,18 @@ class DbTest extends TestCase
     }
 
     /**
-     * fetchAssoc with tow columns behaves differently with DbPear
+     * fetchAssoc with tow columns behaves differently with DbPear.
+     * you should really use fetchpair then
      * @group fetchAssoc
      */
     public function testFetchAssoc()
     {
         $stmt = 'SELECT sta_id, sta_title FROM {{%status}} ORDER BY sta_rank ASC';
-        $res = $this->db->fetchAssoc($stmt);
+        if ($this->db instanceof DbPear) {
+            $res = $this->db->fetchAssoc($stmt);
+        } else {
+            $res = $this->db->getPair($stmt);
+        }
         $exp = array(
             1 => 'discovery',
             2 => 'requirements',
