@@ -63,7 +63,7 @@ class DbTest extends TestCase
     public function testGetAllAssoc()
     {
         $res = $this->db->getAll(
-            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?', array(2),
+            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=? AND usr_id!=42', array(2),
             DbInterface::DB_FETCHMODE_ASSOC
         );
         $this->assertInternalType('array', $res);
