@@ -14,10 +14,12 @@ Session.vim
 /.project
 /.settings
 /dropin
+/TODO.*
 
 /box.phar
 /php-cs-fixer.phar
 /phpcompatinfo.phar
+/phpab.phar
 /cli/*.phar
 /cli/build/
 
@@ -27,21 +29,26 @@ Session.vim
 
 /config/cas.php
 /config/config.php
-/config/custom_field/
+/config/irc_config.php
 /config/ldap.php
 /config/private_key.php
 /config/setup.php
 /config/sphinx.conf
+/config/custom_field/
 /config/templates/
 /config/workflow/
 
 /htdocs/components
+/htdocs/debugbar
+/eventum-setup
 
 /localization/*.mo
 /localization/*/
 
 /po
 /tests/_*
+/tests/ldap.php
+/tests/private_key.php
 
 /misc/routed_emails/*
 /misc/routed_notes/*
