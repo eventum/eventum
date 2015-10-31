@@ -89,33 +89,6 @@ class DbYii extends DbBasePdo implements DbInterface
         return $command->queryAll($fetchmode);
     }
 
-    /**
-     * @deprecated use getPair where possible
-     */
-    public function getAssoc(
-        $query, $force_array = false, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT, $group = false
-    ) {
-        if (is_array($force_array)) {
-            throw new LogicException('force_array passed as array, did you mean fetchPair or forgot extra arg?');
-        }
-        if (!$force_array && $fetchmode == DbInterface::DB_FETCHMODE_DEFAULT) {
-            return $this->getPair($query, $params);
-        }
-
-        if ($fetchmode != DbInterface::DB_FETCHMODE_ASSOC) {
-            throw new UnexpectedValueException(__FUNCTION__ . ' unsupported fetchmode');
-        }
-
-        if ($group !== false) {
-            throw new UnexpectedValueException(__FUNCTION__ . ' unsupported group mode');
-        }
-
-        $this->convertParams($params);
-        $command = $this->connection->createCommand($query, $params);
-
-        return $command->queryAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE | PDO::FETCH_ASSOC);
-    }
-
     public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT)
     {
         $this->convertParams($params);

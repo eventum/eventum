@@ -93,9 +93,22 @@ class DbPear implements DbInterface
     }
 
     /**
-     * @see DB_common::getAssoc
+     * Fetches an entire query result and returns it as an
+     * associative array using the first column as the key
+     *
+     * Keep in mind that database functions in PHP usually return string
+     * values for results regardless of the database's internal type.
+     *
+     * @param string $query
+     * @param bool $force_array
+     * @param mixed $params
+     * @param int $fetchmode
+     * @param bool $group
+     * @return array  the associative array containing the query results.
+     * @throws DbException on failure.
+     * @deprecated use fetchAssoc() instead for cleaner interface
      */
-    public function getAssoc(
+    private function getAssoc(
         $query, $force_array = false, $params = array(),
         $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT, $group = false
     ) {
