@@ -3,4 +3,4 @@
 	url = git://github.com/eventum/scm.git
 [submodule "docs/wiki"]
 	path = docs/wiki
-	url = https://github.com/eventum/eventum.wiki.git
+	url = git://github.com/eventum/eventum.wiki.git
