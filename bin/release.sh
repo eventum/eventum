@@ -246,6 +246,7 @@ clean_vendor() {
 
 	# not ready yet
 	rm lib/eventum/db/DbYii.php
+	rm lib/eventum/db/Db*Pdo.php
 	rm lib/eventum/mail/ImapMessage.php
 	rm lib/eventum/mail/MailMessage.php
 	rm lib/eventum/mail/MailStorage.php
