@@ -779,8 +779,8 @@ class Report
         }
 
         $data = array();
-        $fields = 1;
         foreach ($options as $cfo_id => $value) {
+            $fields = 1;
             $stmt = 'SELECT';
             if ($label_field != '') {
                 $stmt .= "
