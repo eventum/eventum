@@ -168,3 +168,8 @@ if (!defined('APP_DEFAULT_DB') || !defined('APP_TABLE_PREFIX')) {
     unset($dbconfig);
 }
 */
+
+// setup debugbar, if it can be autoloaded
+if (class_exists('DebugBar\StandardDebugBar')) {
+    $debugbar = new DebugBar\StandardDebugBar();
+}

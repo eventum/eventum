@@ -46,6 +46,7 @@
   {* allow pages to inject to <head> block *}
   {block "stylesheets"}{/block}
   {block "javascripts"}{/block}
+  {$debugbar_head|default:''}
 
   {* local directory can add overrides *}
   {include file="extra_header.tpl.html"}
@@ -71,6 +72,7 @@
     </div>
 
     {block "footer"}{/block}
+    {$debugbar_body|default:''}
 </div>
 </body>
 </html>

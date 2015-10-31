@@ -92,6 +92,7 @@
 		"jackmoore/autosize":"*",
 		"jasig/phpcas":"~1.3.3",
 		"malsup/form" :"*",
+		"maximebf/debugbar": "1.*",
 		"roave/security-advisories": "dev-master",
 		"symfony/var-dumper": "~2.7.3"
 	},
