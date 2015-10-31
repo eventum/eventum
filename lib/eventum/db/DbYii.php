@@ -24,8 +24,6 @@
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
 
-require_once 'DB.php';
-
 /**
  * Class DbYii
  *
@@ -207,6 +205,11 @@ class DbYii implements DbInterface
      */
     public function escapeSimple($str)
     {
+        // doesn't do arrays
+        if (!is_scalar($str)) {
+            return null;
+        }
+
         $str = $this->connection->quoteValue($str);
 
         if ($str[0] == "'") {
