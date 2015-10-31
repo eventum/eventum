@@ -43,7 +43,8 @@ class DbTest extends TestCase
     }
 
     /** @group query */
-    public function testQuerySelect() {
+    public function testQuerySelect()
+    {
         if (!$this->db instanceof DbPear) {
             $this->markTestSkipped('Only possible with DbPear');
         }
@@ -130,7 +131,7 @@ class DbTest extends TestCase
     }
 
     /** @group fetchAssoc */
-    public function testFetchAssoc()
+    public function testFetchAssocAssoc()
     {
         $res = $this->db->fetchAssoc(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
@@ -150,6 +151,25 @@ class DbTest extends TestCase
                 'usr_email' => 'admin@example.com',
                 'usr_lang' => null,
             ),
+        );
+        $this->assertEquals($exp, $res);
+    }
+
+    /**
+     * fetchAssoc with tow columns behaves differently with DbPear
+     * @group fetchAssoc
+     */
+    public function testFetchAssoc()
+    {
+        $stmt = 'SELECT sta_id, sta_title FROM {{%status}} ORDER BY sta_rank ASC';
+        $res = $this->db->fetchAssoc($stmt);
+        $exp = array(
+            1 => 'discovery',
+            2 => 'requirements',
+            3 => 'implementation',
+            4 => 'evaluation and testing',
+            5 => 'released',
+            6 => 'killed',
         );
         $this->assertEquals($exp, $res);
     }
