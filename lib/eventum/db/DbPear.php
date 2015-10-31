@@ -273,15 +273,9 @@ class DbPear implements DbInterface
     }
 
     /**
-     * Processes a SQL statement by quoting table and column names that are enclosed within double brackets.
-     * Tokens enclosed within double curly brackets are treated as table names, while
-     * tokens enclosed within double square brackets are column names. They will be quoted accordingly.
-     * Also, the percentage character "%" at the beginning or ending of a table name will be replaced
-     * with [[tablePrefix]].
-     *
      * @param string $sql the SQL to be quoted
+     * @param array $params
      * @return string the quoted SQL
-     * @see https://github.com/yiisoft/yii2/blob/2.0.0/framework/db/Connection.php#L761-L783
      */
     private function quoteSql($sql, $params)
     {
@@ -295,22 +289,6 @@ class DbPear implements DbInterface
             $sql = preg_replace('/((?<!\\\)[&!])/', '\\\$1', $sql);
         }
 
-        // needed for PHP 5.3
-        $that = $this;
-        $tablePrefix = $this->tablePrefix;
-
-        $sql = preg_replace_callback(
-            '/(\\{\\{(%?[\w\-\. ]+%?)\\}\\}|\\[\\[([\w\-\. ]+)\\]\\])/',
-            function ($matches) use ($that, $tablePrefix) {
-                if (isset($matches[3])) {
-                    return $that->quoteIdentifier($matches[3]);
-                } else {
-                    return str_replace('%', $tablePrefix, $that->quoteIdentifier($matches[2]));
-                }
-            },
-            $sql
-        );
-
-        return $sql;
+        return DB_Helper::quoteTableName($this, $this->tablePrefix, $sql);
     }
 }

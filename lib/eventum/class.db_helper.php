@@ -137,6 +137,36 @@ class DB_Helper
     }
 
     /**
+     * Processes a SQL statement by quoting table and column names that are enclosed within double brackets.
+     * Tokens enclosed within double curly brackets are treated as table names, while
+     * tokens enclosed within double square brackets are column names. They will be quoted accordingly.
+     * Also, the percentage character "%" at the beginning or ending of a table name will be replaced
+     * with [[tablePrefix]].
+     *
+     * @param DbInterface $db
+     * @param string $tablePrefix
+     * @param string $sql
+     * @return string
+     * @see https://github.com/yiisoft/yii2/blob/2.0.0/framework/db/Connection.php#L761-L783
+     * @internal
+     */
+    public static function quoteTableName(DbInterface $db, $tablePrefix , $sql) {
+        $sql = preg_replace_callback(
+            '/(\\{\\{(%?[\w\-\. ]+%?)\\}\\}|\\[\\[([\w\-\. ]+)\\]\\])/',
+            function ($matches) use ($db, $tablePrefix) {
+                if (isset($matches[3])) {
+                    return $db->quoteIdentifier($matches[3]);
+                } else {
+                    return str_replace('%', $tablePrefix, $db->quoteIdentifier($matches[2]));
+                }
+            },
+            $sql
+        );
+
+        return $sql;
+    }
+
+    /**
      * Method used to get the last inserted ID. This is a simple
      * wrapper to the mysql_insert_id function, as a work around to
      * the somewhat annoying implementation of PEAR::DB to create
