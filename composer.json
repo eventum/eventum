@@ -71,7 +71,7 @@
 		"pear/net_smtp": "1.6.*",
 		"pear/net_socket": "*",
 		"pear/xml_rpc": "*",
-		"php": ">=5.3.3",
+		"php": ">=5.3.7",
 		"php-gettext/php-gettext": "1.0.*",
 		"phplot/phplot": "~6.1.0",
 		"smarty-gettext/smarty-gettext": "~1.0",
