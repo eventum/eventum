@@ -253,8 +253,12 @@ class Template_Helper
         }
         $this->assign('core', $core);
 
+        // setup debugbar:
+        // - if initialized
+        // - if role_id is set
+        // - if user is administrator
         global $debugbar;
-        if ($debugbar) {
+        if ($debugbar && $role_id && $role_id >= User::ROLE_ADMINISTRATOR) {
             $debugbar->addCollector(
                 new DebugBar\DataCollector\ConfigCollector($this->smarty->tpl_vars, 'Smarty')
             );

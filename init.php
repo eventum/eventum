@@ -169,7 +169,7 @@ if (!defined('APP_DEFAULT_DB') || !defined('APP_TABLE_PREFIX')) {
 }
 */
 
-use DebugBar\StandardDebugBar;
-
-$debugbar = new StandardDebugBar();
-$debugbar["messages"]->addMessage("hello world!");
+// setup debugbar, if it can be autoloaded
+if (class_exists('DebugBar\StandardDebugBar')) {
+    $debugbar = new DebugBar\StandardDebugBar();
+}
