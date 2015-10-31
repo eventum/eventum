@@ -609,7 +609,7 @@ class Time_Tracking
         $params = array($prj_id, $usr_id, $start, $end);
 
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DbInterface::DB_FETCHMODE_ASSOC);
         } catch (DbException $e) {
             return array();
         }

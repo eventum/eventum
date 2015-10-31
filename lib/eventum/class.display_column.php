@@ -124,7 +124,7 @@ class Display_Column
                 ORDER BY
                     ctd_rank';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id, $page), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id, $page), DbInterface::DB_FETCHMODE_ASSOC);
         } catch (DbException $e) {
             return array();
         }

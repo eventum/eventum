@@ -143,8 +143,9 @@ $total = $res->numRows();
 $current = $updated = 0;
 
 echo "Total $total rows, this may take time. Please be patient.\n";
+// FIXME: PEAR::DB specific
 /** @var DB_result $res */
-while ($res->fetchInto($row, DB_FETCHMODE_ASSOC)) {
+while ($res->fetchInto($row, DbInterface::DB_FETCHMODE_ASSOC)) {
     $current++;
     $m = $find($row['his_summary']);
     if (!$m) {

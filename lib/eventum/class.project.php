@@ -635,7 +635,7 @@ class Project
                 User::ROLE_MANAGER,
             );
             if ($include_extra) {
-                $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DB_FETCHMODE_ASSOC);
+                $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DbInterface::DB_FETCHMODE_ASSOC);
             } else {
                 $res = DB_Helper::getInstance()->getPair($stmt, $params);
             }
