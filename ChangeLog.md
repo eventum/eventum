@@ -1,6 +1,9 @@
 Eventum Issue Tracking System
 =============================
 
+2015-??-??, Version 3.0.5
+-------------------------
+
 2015-10-31, Version 3.0.4
 -------------------------
 - Fix few Static & Deprecated calls (Craig Pinfold, #72)
