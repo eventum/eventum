@@ -281,11 +281,21 @@ class Template_Helper
         $debugbar->addCollector(
             new DebugBar\DataCollector\ConfigCollector($this->smarty->tpl_vars, 'Smarty')
         );
+        $debugbar->addCollector(
+            new DebugBar\DataCollector\ConfigCollector(Setup::get()->toArray(), 'Config')
+        );
         $debugbarRenderer = $debugbar->getJavascriptRenderer("{$rel_url}debugbar");
         $debugbarRenderer->addControl(
             'Smarty', array(
                 'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
                 'map' => 'Smarty',
+                'default' => '[]'
+            )
+        );
+        $debugbarRenderer->addControl(
+            'Smarty', array(
+                'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
+                'map' => 'Config',
                 'default' => '[]'
             )
         );
