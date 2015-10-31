@@ -887,7 +887,7 @@ class Custom_Field
                     ?, ?
                  )';
         try {
-            $res = DB_Helper::getInstance()->query($stmt, array($prj_id, $fld_id));
+            DB_Helper::getInstance()->query($stmt, array($prj_id, $fld_id));
         } catch (DbException $e) {
             return false;
         }

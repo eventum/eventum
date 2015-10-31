@@ -191,7 +191,7 @@ class Round_Robin
                  WHERE
                     rru_prr_id=?';
         try {
-            $res = DB_Helper::getInstance()->query($stmt, array($prr_id));
+            DB_Helper::getInstance()->query($stmt, array($prr_id));
         } catch (DbException $e) {
             return false;
         }

@@ -61,11 +61,9 @@ foreach ($customers as $customer_id => $customer_name) {
                 Prefs::getDefaults(array($prj_id)),
             );
             try {
-                $res = DB_Helper::getInstance()->query($sql, $params);
+                DB_Helper::getInstance()->query($sql, $params);
             } catch (DbException $e) {
-                echo "Error inserting user<br /><pre>";
-                print_r($res);
-                echo "</pre>";
+                echo "Error inserting user<br />";
             }
             $new_usr_id = DB_Helper::get_last_insert_id();
             Project::associateUser($prj_id, $new_usr_id, User::ROLE_CUSTOMER);

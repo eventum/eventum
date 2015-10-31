@@ -594,7 +594,7 @@ class Mail_Queue
                     maq_status = 'sent' AND
                     maq_queued_date <= DATE_SUB(NOW(), INTERVAL 1 MONTH)";
         try {
-            $res = DB_Helper::getInstance()->query($sql);
+            DB_Helper::getInstance()->query($sql);
         } catch (DbException $e) {
             return false;
         }
