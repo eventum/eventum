@@ -2762,7 +2762,7 @@ class Issue
                     iss_id IN ($ids)";
 
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return;
         }
@@ -2847,7 +2847,7 @@ class Issue
                  WHERE
                     iss_id in ($ids)";
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return;
         }
@@ -3334,7 +3334,7 @@ class Issue
                  ORDER BY
                     iss_id ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }

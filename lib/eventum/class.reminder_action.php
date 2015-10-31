@@ -419,7 +419,7 @@ class Reminder_Action
                  ORDER BY
                     rmt_title ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -808,7 +808,7 @@ class Reminder_Action
                  WHERE
                     rta_iss_id IN ($idlist)";
         try {
-            $triggered_actions = DB_Helper::getInstance()->fetchAssoc($stmt, $issues);
+            $triggered_actions = DB_Helper::getInstance()->getPair($stmt, $issues);
         } catch (DbException $e) {
             return $issues;
         }

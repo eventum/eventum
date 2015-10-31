@@ -157,7 +157,7 @@ class Support
                  ORDER BY
                     ' . $options['sort_by'] . ' ' . $options['sort_order'];
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }
@@ -1868,7 +1868,7 @@ class Support
                     {{%support_email}}
                  WHERE
                     sup_id IN ($list)";
-        $subjects = DB_Helper::getInstance()->fetchAssoc($stmt, $items);
+        $subjects = DB_Helper::getInstance()->getPair($stmt, $items);
 
         $usr_id = Auth::getUserID();
         foreach ($items as $item) {

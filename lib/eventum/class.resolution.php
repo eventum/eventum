@@ -207,7 +207,7 @@ class Resolution
                     res_rank ASC,
                     res_title ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }

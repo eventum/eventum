@@ -161,7 +161,7 @@ class Project
                  ORDER BY
                     prj_title";
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }
@@ -685,7 +685,7 @@ class Project
                  ORDER BY
                     usr_full_name ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return '';
         }
@@ -742,7 +742,7 @@ class Project
                  ORDER BY
                     prj_title';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }
@@ -837,7 +837,7 @@ class Project
                     usr_customer_id DESC,
                     usr_full_name ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return '';
         }
@@ -863,7 +863,7 @@ class Project
                  ORDER BY
                     prj_title";
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }
@@ -905,7 +905,7 @@ class Project
                  ORDER BY
                     prj_title';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($usr_id, User::ROLE_CUSTOMER));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($usr_id, User::ROLE_CUSTOMER));
         } catch (DbException $e) {
             return '';
         }
@@ -954,7 +954,7 @@ class Project
                  ORDER BY
                     usr_email ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return '';
         }

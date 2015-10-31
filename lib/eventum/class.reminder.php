@@ -114,7 +114,7 @@ class Reminder
                  ORDER BY
                     rem_rank ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -843,7 +843,7 @@ class Reminder
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
         $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "')", $stmt);
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return array();
         }

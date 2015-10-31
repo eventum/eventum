@@ -415,7 +415,7 @@ class Email_Account
                  ORDER BY
                     ema_title';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $projects);
+            $res = DB_Helper::getInstance()->getPair($stmt, $projects);
         } catch (DbException $e) {
             return '';
         }

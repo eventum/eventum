@@ -104,7 +104,7 @@ class Time_Tracking
                     ttr_ttc_id IN (' . DB_Helper::buildList($ttc_ids) . ')
                  GROUP BY 1';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $ttc_ids);
+            $res = DB_Helper::getInstance()->getPair($stmt, $ttc_ids);
         } catch (DbException $e) {
             return null;
         }
@@ -307,7 +307,7 @@ class Time_Tracking
                  GROUP BY
                     ttr_iss_id';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $ids);
+            $res = DB_Helper::getInstance()->getPair($stmt, $ids);
         } catch (DbException $e) {
             return;
         }
