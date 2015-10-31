@@ -30,11 +30,7 @@
 /**
  * Wrapper class for sessions. This is an initial bare bones implementation.
  * Additional methods will be later as needed.
- *
- * @version 1.0
- * @author Bryan Alsdorf <bryan@mysql.com>
  */
-
 class Session
 {
     /**

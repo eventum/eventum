@@ -25,13 +25,9 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-//
-
 
 /**
  * Manages fields that are associated with an issue but can be displayed in many different places.
- *
- * @author  Bryan Alsdorf <bryan@mysql.com>
  */
 class Issue_Field
 {

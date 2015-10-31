@@ -30,10 +30,6 @@
 /**
  * Class to manage all tasks related to error conditions of the site, such as
  * logging facilities or alert notifications to the site administrators.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
- * @author Elan Ruusamäe <glen@delfi.ee>
  */
 
 class Error_Handler

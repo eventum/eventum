@@ -31,9 +31,6 @@
  * Class to handle the business logic related to the help
  * documentation, such as providing a dynamic list of topics related
  * to the current topic and such.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Help

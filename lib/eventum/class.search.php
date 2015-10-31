@@ -27,8 +27,6 @@
 
 /**
  * Holding all search relevant methods
- *
- * @author Elan Ruusamäe <glen@delfi.ee>
  */
 class Search
 {

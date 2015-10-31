@@ -31,9 +31,6 @@
  * Class to handle form validation in the server-side, duplicating the
  * javascript based validation available in most forms, to make sure
  * the data integrity is the best possible.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 
 class Validation

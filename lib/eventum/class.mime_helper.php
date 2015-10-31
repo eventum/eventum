@@ -45,9 +45,6 @@
  * the excellent Horde package at http://www.horde.org. These functions are
  * licensed under the LGPL, and Horde's copyright notice is available
  * above.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 class Mime_Helper
 {

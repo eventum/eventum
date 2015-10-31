@@ -30,8 +30,6 @@ require_once 'class.dynamic.php';
 /**
  * Example dynamic custom field. This requires you create a custom field with the name "Dynamic Controller" and the options "red",
  * "blue" and "yellow". You also must create another custom field named whatever you like, with this file as the "Custom Field Backend".
- *
- * @author Bryan Alsdorf <bryan@mysql.com>
  */
 class Dynamic_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
 {

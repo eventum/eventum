@@ -27,8 +27,6 @@
 
 /**
  * Manages issue specific locks
- *
- * @author  Elan Ruusamäe <glen@delfi.ee>
  */
 class Issue_Lock
 {

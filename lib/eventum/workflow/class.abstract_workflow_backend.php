@@ -30,9 +30,6 @@
 /**
  * Abstract Class that all workflow backends should extend. This is so any new
  * workflow methods added in future releases will not break current backends.
- *
- * @author  Bryan Alsdorf <bryan@mysql.com>
- * @author  Elan Ruusamäe <glen@delfi.ee>
  */
 class Abstract_Workflow_Backend
 {

@@ -30,9 +30,6 @@
 /**
  * Class to handle the logic behind the internationalization issues
  * of the application.
- *
- * @version 1.0
- * @author Bryan Alsdorf <bryan@mysql.com>
  */
 class Language
 {
