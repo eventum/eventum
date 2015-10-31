@@ -105,6 +105,29 @@ class DbTest extends TestCase
         $this->assertEquals($exp, $res);
     }
 
+    /** @group getAll */
+    public function testGetAllOrdered()
+    {
+        if (!$this->db instanceof DbPear) {
+            $this->markTestSkipped('Only possible with DbPear');
+        }
+
+        $stmt
+            = "SELECT
+                    CONCAT('/', lfi_pattern, '/i'),
+                    lfi_replacement
+                FROM
+                    {{%link_filter}},
+                    {{%project_link_filter}}
+                WHERE
+                    lfi_id = plf_lfi_id
+                ORDER BY
+                    lfi_id";
+        $res1 = $this->db->getAll($stmt, array(), DbInterface::DB_FETCHMODE_ORDERED);
+        $res2 = $this->db->getAll($stmt, array(), DbInterface::DB_FETCHMODE_DEFAULT);
+        $this->assertSame($res1, $res2);
+    }
+
     /** @group fetchAssoc */
     public function testFetchAssocDefault()
     {
@@ -158,6 +181,7 @@ class DbTest extends TestCase
     /**
      * fetchAssoc with tow columns behaves differently with DbPear.
      * you should really use fetchpair then
+     *
      * @group fetchAssoc
      */
     public function testFetchAssoc()
