@@ -222,14 +222,6 @@ class DbPear implements DbInterface
         return $res;
     }
 
-    public function affectedRows()
-    {
-        $res = $this->db->affectedRows();
-        $this->assertError($res);
-
-        return $res;
-    }
-
     /**
      * Check if $e is PEAR error, if so, throw as DbException
      *

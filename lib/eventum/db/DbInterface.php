@@ -55,16 +55,6 @@ interface DbInterface
     public function __construct(array $config);
 
     /**
-     * Determines the number of rows affected by a data manipulation query
-     *
-     * 0 is returned for queries that don't manipulate data.
-     *
-     * @return int  the number of rows
-     * @throws DbException on failure.
-     */
-    public function affectedRows();
-
-    /**
      * Escapes a string according to the current DBMS's standards
      *
      * @param string $str the string to be escaped

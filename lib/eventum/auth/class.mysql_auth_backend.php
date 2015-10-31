@@ -73,10 +73,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
             return false;
         }
 
-        # NOTE: this will say update failed if password is identical to old one
-        $updated = DB_Helper::getInstance()->affectedRows();
-
-        return $updated > 0;
+        return true;
     }
 
     public function getUserIDByLogin($login)

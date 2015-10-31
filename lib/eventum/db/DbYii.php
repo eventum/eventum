@@ -196,11 +196,6 @@ class DbYii extends DbBasePdo implements DbInterface
         return $this->connection->quoteColumnName($str);
     }
 
-    public function affectedRows()
-    {
-        throw new RuntimeException(__FUNCTION__ . ' not implemented');
-    }
-
     /**
      * PEAR DB allowed to switch $params and $fetchmode
      *

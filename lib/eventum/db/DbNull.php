@@ -35,10 +35,6 @@ class DbNull implements DbInterface
     {
     }
 
-    public function affectedRows()
-    {
-    }
-
     public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
     {
     }

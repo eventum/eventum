@@ -152,11 +152,6 @@ class DbPdo extends DbBasePdo implements DbInterface
         return "`" . str_replace("`", "``", $str) . "`";
     }
 
-    public function affectedRows()
-    {
-        throw new RuntimeException(__FUNCTION__ . ' not implemented');
-    }
-
     /**
      * Common method for API
      */
