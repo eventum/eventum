@@ -253,28 +253,44 @@ class Template_Helper
         }
         $this->assign('core', $core);
 
-        // setup debugbar:
-        // - if initialized
-        // - if role_id is set
-        // - if user is administrator
-        global $debugbar;
-        if ($debugbar && $role_id && $role_id >= User::ROLE_ADMINISTRATOR) {
-            $debugbar->addCollector(
-                new DebugBar\DataCollector\ConfigCollector($this->smarty->tpl_vars, 'Smarty')
-            );
-            $debugbarRenderer = $debugbar->getJavascriptRenderer("{$core['rel_url']}debugbar");
-            $debugbarRenderer->addControl(
-                'Smarty', array(
-                    'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
-                    'map' => 'Smarty',
-                    'default' => '[]'
-                )
-            );
-
-            $this->assign('debugbar_head', $debugbarRenderer->renderHead());
-            $this->assign('debugbar_body', $debugbarRenderer->render());
-        }
+        $this->addDebugbar(isset($role_id) ? $role_id : null);
 
         return $this;
+    }
+
+    /**
+     * Setup Debug Bar:
+     * - if initialized
+     * - if role_id is set
+     * - if user is administrator
+     *
+     * @throws \DebugBar\DebugBarException
+     */
+    private function addDebugbar($role_id)
+    {
+        if (!$role_id || $role_id < User::ROLE_ADMINISTRATOR) {
+            return;
+        }
+
+        global $debugbar;
+        if (!$debugbar) {
+            return;
+        }
+
+        $rel_url = APP_RELATIVE_URL;
+        $debugbar->addCollector(
+            new DebugBar\DataCollector\ConfigCollector($this->smarty->tpl_vars, 'Smarty')
+        );
+        $debugbarRenderer = $debugbar->getJavascriptRenderer("{$rel_url}debugbar");
+        $debugbarRenderer->addControl(
+            'Smarty', array(
+                'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
+                'map' => 'Smarty',
+                'default' => '[]'
+            )
+        );
+
+        $this->assign('debugbar_head', $debugbarRenderer->renderHead());
+        $this->assign('debugbar_body', $debugbarRenderer->render());
     }
 }
