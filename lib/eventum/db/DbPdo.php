@@ -39,8 +39,16 @@ class DbPdo extends DbBasePdo implements DbInterface
         $options = array(
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         );
-        $this->db = new PDO($dsn, $config['username'], $config['password'], $options);
 
+        $pdo = new PDO($dsn, $config['username'], $config['password'], $options);
+
+        global $debugbar;
+        if ($debugbar) {
+            $pdo = new DebugBar\DataCollector\PDO\TraceablePDO($pdo);
+            $debugbar->addCollector(new DebugBar\DataCollector\PDO\PDOCollector($pdo));
+        }
+
+        $this->db = $pdo;
         $this->tablePrefix = $config['table_prefix'];
     }
 
