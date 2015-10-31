@@ -93,6 +93,8 @@ class MailMessage extends Message
             $header = $this->getHeaderByName($headerName, $headerClass);
             if ($unique) {
                 $this->removeDuplicateHeader($headers, $header);
+            } else {
+                $this->mergeDuplicateHeader($headers, $header);
             }
         }
     }
@@ -102,19 +104,53 @@ class MailMessage extends Message
      *
      * Note: headers order is changed when duplicate header is removed (header is removed and appended to the headers array)
      *
-     * @param Headers $headers
-     * @param HeaderInterface|HeaderInterface[] $header
+     * @param Headers $headerBag
+     * @param HeaderInterface|HeaderInterface[] $headers
      */
-    private function removeDuplicateHeader(Headers $headers, $header)
+    private function removeDuplicateHeader(Headers $headerBag, $headers)
     {
-        if ($header instanceof HeaderInterface) {
+        if ($headers instanceof HeaderInterface) {
             // all good
             return;
         }
 
-        $headerName = $header[0]->getFieldName();
-        $headers->removeHeader($headerName);
-        $headers->addHeader($header[0]);
+        $headerBag->removeHeader($headers[0]->getFieldName());
+        $headerBag->addHeader($headers[0]);
+    }
+
+    /**
+     * Merge duplicate header fields into single headers field.
+     * The headers must be AbstractAddressList.
+     *
+     * @param Headers $headerBag
+     * @param HeaderInterface|AbstractAddressList[] $headers
+     */
+    private function mergeDuplicateHeader(Headers $headerBag, $headers)
+    {
+        if ($headers instanceof HeaderInterface) {
+            // all good
+            return;
+        }
+
+        // use first headers as base and collect addresses there
+        $header = $headers[0];
+        unset($headers[0]);
+
+        if (!$header instanceof AbstractAddressList) {
+            throw new DomainException(
+                sprintf(
+                    'Cannot grab address list from headers of type "%s"; not an AbstractAddressList implementation',
+                    get_class($header)
+                )
+            );
+        }
+
+        $addressList = $header->getAddressList();
+        foreach ($headers as $h) {
+            $addressList->merge($h->getAddressList());
+        }
+        $headerBag->removeHeader($header->getFieldName());
+        $headerBag->addHeader($header);
     }
 
     /**
@@ -260,7 +296,7 @@ class MailMessage extends Message
     }
 
     /**
-     * Get email addresses from specified headers, default from "To:" and "Cc:".
+     * Get email addresses from specified headerBag, default from "To:" and "Cc:".
      *
      * @param array $headers
      * @return string[]

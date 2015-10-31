@@ -92,6 +92,19 @@ class MailMessageTest extends TestCase
         $this->assertEquals($exp, join(',', $res));
     }
 
+    public function testMultipleToHeaders() {
+        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+
+        $to = $message->getTo();
+        $this->assertInstanceOf('Zend\Mail\AddressList', $to);
+        $this->assertEquals('issue-73358@eventum.example.org', $message->to);
+
+        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-msgid.txt');
+        $to = $message->getTo();
+        $this->assertInstanceOf('Zend\Mail\AddressList', $to);
+        $this->assertEquals("support@example.org,\r\n support-2@example.org", $message->to);
+    }
+
     public function testIsBounceMessage()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
