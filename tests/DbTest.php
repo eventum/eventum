@@ -34,6 +34,13 @@ class DbTest extends TestCase
         );
     }
 
+    /** @group query */
+    public function testQuery()
+    {
+        $res = $this->db->query('update eventum_user set usr_lang=? where 1=0', array('en_US'));
+        $this->assertEquals(1, $res);
+    }
+
     /** @group getAll */
     public function testGetAllDefault()
     {
