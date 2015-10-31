@@ -3,7 +3,7 @@
 You will need:
 
 -   A Webserver that is capable of handling PHP scripts (i.e [Apache HTTPD Server](http://httpd.apache.org/))
--    [PHP](http://www.php.net/) >= 5.3.3 (PHP >= 5.5.0 is the recommended version) with the following extensions
+-    [PHP](http://www.php.net/) >= 5.3.7 (PHP >= 5.5.0 is the recommended version) with the following extensions
     - date (builtin)
     - filter
     - gd - GD Extension
