@@ -293,7 +293,7 @@ class Template_Helper
             )
         );
         $debugbarRenderer->addControl(
-            'Smarty', array(
+            'Config', array(
                 'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
                 'map' => 'Config',
                 'default' => '[]'
