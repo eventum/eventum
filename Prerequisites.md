@@ -27,7 +27,7 @@ If a requirement is missing from your PHP installation, Eventum will output info
 
 Type this command as any user:
 
-`php -m | grep -Ei '(gd|imap|mysql|pcre|session)'`
+`php -m | grep -Ei '(gd|imap|mysql|pcre|session)'`
 
 **NOTE:** If your system has multiple PHP installations, be sure to use the complete path to the same php binary that is used by your web server.
 
