@@ -162,9 +162,9 @@ interface DbInterface
      * Fetches an entire query result and returns it as an
      * associative array using the first column as the key
      *
-     * This mode requires the result set to contain exactly 2 columns use getAssoc() if you need more.
+     * This mode requires the result set to contain exactly 2 columns use fetchAssoc() if you need more.
      *
-     * @see DbInterface::getAssoc
+     * @see DbInterface::fetchAssoc
      * @param string $query
      * @param mixed $params
      * @return array  the associative array containing the query results.
