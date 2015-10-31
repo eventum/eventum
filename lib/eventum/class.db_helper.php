@@ -32,6 +32,8 @@
  */
 class DB_Helper
 {
+    const DEFAULT_ADAPTER = 'DbPear';
+
     /**
      * @param bool $fallback
      * @return DbInterface
@@ -49,7 +51,7 @@ class DB_Helper
         $instance = false;
 
         $config = self::getConfig();
-        $className = isset($config['classname']) ? $config['classname'] : 'DbPear';
+        $className = isset($config['classname']) ? $config['classname'] : self::DEFAULT_ADAPTER;
 
         try {
             $instance = new $className($config);
