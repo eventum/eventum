@@ -29,7 +29,7 @@
  *
  * Proxy PEAR::DB like interface to Yii2
  */
-class DbYii implements DbInterface
+class DbYii extends DbBasePdo implements DbInterface
 {
     /**
      * @var \yii\db\Connection
@@ -46,7 +46,7 @@ class DbYii implements DbInterface
 
         /** @noinspection PhpIncludeInspection */
         require_once APP_PATH . '/vendor/yiisoft/yii2/Yii.php';
-        $yiiConfig = self::getYiiConfig($config);
+        $yiiConfig = $this->getYiiConfig($config);
 
         $this->app = new \yii\web\Application($yiiConfig);
         $this->connection = \Yii::$app->db;
@@ -58,25 +58,19 @@ class DbYii implements DbInterface
      * @param array $config
      * @return array
      */
-    private static function getYiiConfig($config)
+    private function getYiiConfig($config)
     {
-        $dsn = "{$config['driver']}:host={$config['hostname']};dbname={$config['database']}";
-
-        // no dash variant listed, blindly reap "UTF-8" to "UTF8"
-        // http://dev.mysql.com/doc/refman/5.0/en/charset-charsets.html
-        $charset = strtolower(str_replace('-', '', APP_CHARSET));
-
         $yiiConfig = array(
-            'id'         => 'eventum',
-            'basePath'   => APP_PATH,
+            'id' => 'eventum',
+            'basePath' => APP_PATH,
 
             'components' => array(
                 'db' => array(
-                    'class'       => 'yii\db\Connection',
-                    'dsn'         => $dsn,
-                    'username'    => $config['username'],
-                    'password'    => $config['password'],
-                    'charset'     => $charset,
+                    'class' => 'yii\db\Connection',
+                    'dsn' => $this->getDsn($config),
+                    'username' => $config['username'],
+                    'password' => $config['password'],
+                    'charset' => $this->getCharset(),
 
                     'tablePrefix' => $config['table_prefix'],
                 ),
@@ -108,11 +102,6 @@ class DbYii implements DbInterface
             return $this->getPair($query, $params);
         }
 
-//        if ($force_array) {
-//            var_dump($force_array, $fetchmode == DB_FETCHMODE_ASSOC);
-//            throw new UnexpectedValueException(__FUNCTION__ . " unsupported force array");
-//        }
-
         if ($fetchmode != DbInterface::DB_FETCHMODE_ASSOC) {
             throw new UnexpectedValueException(__FUNCTION__ . ' unsupported fetchmode');
         }
@@ -138,7 +127,7 @@ class DbYii implements DbInterface
         } elseif ($fetchmode == DbInterface::DB_FETCHMODE_DEFAULT) {
             $flags |= PDO::FETCH_NUM;
         } else {
-            throw new UnexpectedValueException(__FUNCTION__ . ' unsupported fetchmode: '. $fetchmode);
+            throw new UnexpectedValueException(__FUNCTION__ . ' unsupported fetchmode: ' . $fetchmode);
         }
 
         return $command->queryAll($flags);
@@ -234,7 +223,7 @@ class DbYii implements DbInterface
 
     public function affectedRows()
     {
-        throw new RuntimeException(__FUNCTION__.' not implemented');
+        throw new RuntimeException(__FUNCTION__ . ' not implemented');
     }
 
     /**
