@@ -37,8 +37,21 @@ class DbTest extends TestCase
     /** @group query */
     public function testQuery()
     {
-        $res = $this->db->query('update eventum_user set usr_lang=? where 1=0', array('en_US'));
-        $this->assertEquals(1, $res);
+        $res = $this->db->query('update {{%user}} set usr_lang=? where 1=0', array('en_US'));
+        $this->assertEquals(true, $res);
+
+    }
+
+    /** @group query */
+    public function testQuerySelect() {
+        if (!$this->db instanceof DbPear) {
+            $this->markTestSkipped('Only possible with DbPear');
+        }
+
+        // only DbPear returns resultset for SELECT statements
+        $res = $this->db->query("select usr_id from {{%user}} where usr_id=?", array(2));
+        $this->assertNotSame(true, $res);
+        print_r($res);
     }
 
     /** @group getAll */

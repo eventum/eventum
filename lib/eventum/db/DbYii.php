@@ -186,7 +186,9 @@ class DbYii extends DbBasePdo implements DbInterface
         $this->convertParams($params);
         $command = $this->connection->createCommand($query, $params);
 
-        return $command->execute();
+        $command->execute();
+
+        return true;
     }
 
     public function quoteIdentifier($str)

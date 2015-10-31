@@ -74,12 +74,14 @@ interface DbInterface
     public function escapeSimple($str);
 
     /**
-     * Sends a query to the database server
+     * Executes the SQL statement.
+     *
+     * This method should only be used for executing non-query SQL statement, such as `INSERT`, `DELETE`, `UPDATE` SQLs.
      *
      * @param string $query the SQL query or the statement to prepare
      * @param mixed $params array, string or numeric data
-     * @return mixed  a new DB_result object for successful SELECT queries
-     *                 or DB_OK for successful data manipulation queries.
+     * @return bool|object A new DB_result object for successful SELECT queries
+     * or true for successful data manipulation queries.
      * @throws DbException on failure.
      */
     public function query($query, $params = array());

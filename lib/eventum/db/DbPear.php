@@ -148,7 +148,11 @@ class DbPear implements DbInterface
         $res = $this->db->query($query, $params);
         $this->assertError($res);
 
-        return $res;
+        if ($res instanceof DB_result) {
+            return $res;
+        }
+
+        return $res == DB_OK;
     }
 
     /**
