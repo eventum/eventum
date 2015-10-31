@@ -24,6 +24,7 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
+use Eventum\Mail\Helper\SanitizeHeaders;
 use Zend\Mail\Storage\Message;
 use Zend\Mail\Headers;
 use Zend\Mail\Header\AbstractAddressList;
@@ -33,9 +34,7 @@ use Zend\Mail\AddressList;
 use Zend\Mail\Header\Subject;
 use Zend\Mail\Header\ContentType;
 use Zend\Mail\Header\ContentTransferEncoding;
-use Zend\Mail\Header\To;
 use Zend\Mail\Header\GenericHeader;
-use Zend\Mail\Header\MessageId;
 use Zend\Mime;
 
 /**
@@ -59,98 +58,8 @@ class MailMessage extends Message
         parent::__construct($params);
 
         // TODO: do not set this for "child" messages (attachments)
-        $this->sanitizeHeaders($this->headers);
-    }
-
-    /**
-     * Sanitize Mail headers:
-     *
-     * - generate MessageId header in case it is missing
-     *
-     * @param Headers $headers
-     */
-    private function sanitizeHeaders(Headers $headers)
-    {
-        // add Message-Id, this needs to be first before we modify more headers
-        if (!$headers->has('Message-Id')) {
-            // add Message-Id header as it is missing
-            $text_headers = rtrim($headers->toString(), Headers::EOL);
-            $messageId = Mail_Helper::generateMessageID($text_headers, $this->getContent());
-            $header = new MessageId();
-            $headers->addHeader($header->setId(trim($messageId, '<>')));
-        }
-
-        // headers to check and whether they need to be unique
-        $checkHeaders = array(
-            'From' => true,
-            'Subject' => true,
-            'Message-Id' => true,
-            'To' => false,
-            'Cc' => false,
-        );
-        foreach ($checkHeaders as $headerName => $unique) {
-            $headerClass = '\\Zend\\Mail\\Header\\' . $headerName;
-            $header = $this->getHeaderByName($headerName, $headerClass);
-            if ($unique) {
-                $this->removeDuplicateHeader($headers, $header);
-            } else {
-                $this->mergeDuplicateHeader($headers, $header);
-            }
-        }
-    }
-
-    /**
-     * Helper to remove duplicate headers, but keep only one.
-     *
-     * Note: headers order is changed when duplicate header is removed (header is removed and appended to the headers array)
-     *
-     * @param Headers $headerBag
-     * @param HeaderInterface|HeaderInterface[] $headers
-     */
-    private function removeDuplicateHeader(Headers $headerBag, $headers)
-    {
-        if ($headers instanceof HeaderInterface) {
-            // all good
-            return;
-        }
-
-        $headerBag->removeHeader($headers[0]->getFieldName());
-        $headerBag->addHeader($headers[0]);
-    }
-
-    /**
-     * Merge duplicate header fields into single headers field.
-     * The headers must be AbstractAddressList.
-     *
-     * @param Headers $headerBag
-     * @param HeaderInterface|AbstractAddressList[] $headers
-     */
-    private function mergeDuplicateHeader(Headers $headerBag, $headers)
-    {
-        if ($headers instanceof HeaderInterface) {
-            // all good
-            return;
-        }
-
-        // use first headers as base and collect addresses there
-        $header = $headers[0];
-        unset($headers[0]);
-
-        if (!$header instanceof AbstractAddressList) {
-            throw new DomainException(
-                sprintf(
-                    'Cannot grab address list from headers of type "%s"; not an AbstractAddressList implementation',
-                    get_class($header)
-                )
-            );
-        }
-
-        $addressList = $header->getAddressList();
-        foreach ($headers as $h) {
-            $addressList->merge($h->getAddressList());
-        }
-        $headerBag->removeHeader($header->getFieldName());
-        $headerBag->addHeader($header);
+        $helper = new SanitizeHeaders();
+        $helper($this);
     }
 
     /**
@@ -588,7 +497,7 @@ class MailMessage extends Message
      * @return HeaderInterface|\ArrayIterator header instance or collection of headers
      * @see Zend\Mail\Message::getHeaderByName
      */
-    protected function getHeaderByName($headerName, $headerClass)
+    public function getHeaderByName($headerName, $headerClass)
     {
         $headers = $this->headers;
         if ($headers->has($headerName)) {
