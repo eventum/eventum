@@ -181,23 +181,14 @@ class DbPear implements DbInterface
 
     /**
      * @see DB_common::getCol
-     * @deprecated
-     */
-    public function getCol($query, $col = 0, $params = array())
-    {
-        $query = $this->quoteSql($query, $params);
-        $res = $this->db->getCol($query, $col, $params);
-        $this->assertError($res);
-
-        return $res;
-    }
-
-    /**
-     * @see DbPear::getCol
      */
     public function getColumn($query, $params = array())
     {
-        return $this->getCol($query, 0, $params);
+        $query = $this->quoteSql($query, $params);
+        $res = $this->db->getCol($query, 0, $params);
+        $this->assertError($res);
+
+        return $res;
     }
 
     /**

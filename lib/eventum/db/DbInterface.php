@@ -113,25 +113,12 @@ interface DbInterface
     public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT);
 
     /**
-     * Fetches a single column from a query result and returns it as an
-     * indexed array
-     *
-     * @param string $query the SQL query
-     * @param mixed $col which column to return
-     * @param mixed $params array, string or numeric data
-     * @return array  the results as an array.
-     * @throws DbException on failure.
-     * @deprecated use getColumn() instead and reorder select fields if need some other index
-     */
-    public function getCol($query, $col = 0, $params = array());
-
-    /**
      * Fetches a first column from a query result and returns it as an
      * indexed array
      *
      * @param string $query the SQL query
      * @param mixed $params array, string or numeric data
-     * @return array  the results as an array.
+     * @return array the results as an array.
      * @throws DbException on failure.
      */
     public function getColumn($query, $params = array());

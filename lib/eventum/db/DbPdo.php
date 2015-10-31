@@ -70,22 +70,6 @@ class DbPdo extends DbBasePdo implements DbInterface
         return $this->fetchAll($query, $params, PDO::FETCH_KEY_PAIR);
     }
 
-    /**
-     * @deprecated use getColumn instead
-     */
-    public function getCol($query, $col = 0, $params = array())
-    {
-        if (is_array($col)) {
-            throw new LogicException('col passed as array, did you mean to use getColumn?');
-        }
-
-        if ($col !== 0) {
-            throw new UnexpectedValueException(__FUNCTION__ . ' - col != 0 not implemented');
-        }
-
-        return $this->getColumn($query, $params);
-    }
-
     public function getColumn($query, $params = array())
     {
         return $this->fetchAll($query, $params, PDO::FETCH_COLUMN);

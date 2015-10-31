@@ -39,16 +39,7 @@ class DbNull implements DbInterface
     {
     }
 
-    public function getAssoc(
-        $query, $force_array = false, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT, $group = false
-    ) {
-    }
-
     public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT)
-    {
-    }
-
-    public function getCol($query, $col = 0, $params = array())
     {
     }
 
