@@ -172,20 +172,4 @@ class DbPdo extends DbBasePdo implements DbInterface
     {
         return DB_Helper::quoteTableName($this, $this->tablePrefix, $sql);
     }
-
-    private function convertFetchMode(&$fetchmode)
-    {
-        switch ($fetchmode) {
-            case DbInterface::DB_FETCHMODE_ASSOC:
-                $fetchmode = PDO::FETCH_ASSOC;
-                break;
-
-            case DbInterface::DB_FETCHMODE_DEFAULT:
-                $fetchmode = PDO::FETCH_NUM;
-                break;
-
-            default:
-                throw new UnexpectedValueException('Unsupported fetchmode');
-        }
-    }
 }

@@ -231,20 +231,4 @@ class DbYii extends DbBasePdo implements DbInterface
             unset($params[0]);
         }
     }
-
-    private function convertFetchMode(&$fetchmode)
-    {
-        switch ($fetchmode) {
-            case DbInterface::DB_FETCHMODE_ASSOC:
-                $fetchmode = PDO::FETCH_ASSOC;
-                break;
-
-            case DbInterface::DB_FETCHMODE_DEFAULT:
-                $fetchmode = PDO::FETCH_NUM;
-                break;
-
-            default:
-                throw new UnexpectedValueException('Unsupported fetchmode');
-        }
-    }
 }

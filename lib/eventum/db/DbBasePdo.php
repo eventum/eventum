@@ -95,4 +95,25 @@ abstract class DbBasePdo
 
         return $driver;
     }
+
+    /**
+     * Convert DbInterface fetchmode to PDO Fetch mode
+     *
+     * @param int $fetchmode
+     */
+    protected function convertFetchMode(&$fetchmode)
+    {
+        switch ($fetchmode) {
+            case DbInterface::DB_FETCHMODE_ASSOC:
+                $fetchmode = PDO::FETCH_ASSOC;
+                break;
+
+            case DbInterface::DB_FETCHMODE_DEFAULT:
+                $fetchmode = PDO::FETCH_NUM;
+                break;
+
+            default:
+                throw new UnexpectedValueException('Unsupported fetchmode');
+        }
+    }
 }
