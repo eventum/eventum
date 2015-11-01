@@ -35,6 +35,7 @@ Release process
 - upload tarball and signature to the release
 - to create a digital signature, use the following command:
 `% gpg --armor --sign --detach-sig eventum-3.0.4.tar.gz`
+- create tags also in scm and wiki submodules
 
 After release
 -------------
