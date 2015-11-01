@@ -980,9 +980,8 @@ class Support
      * server.
      *
      * @param   resource $mbox The mailbox
-     * @return  void
      */
-    public function closeEmailServer($mbox)
+    public static function closeEmailServer($mbox)
     {
         @imap_expunge($mbox);
         @imap_close($mbox);
