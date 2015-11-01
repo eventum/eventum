@@ -87,6 +87,7 @@ class DbPdo extends DbBasePdo implements DbInterface
     {
         $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
+        $this->convertParams($params);
         $stmt->execute($params);
 
         $res = $stmt->fetchColumn();
@@ -103,6 +104,7 @@ class DbPdo extends DbBasePdo implements DbInterface
     {
         $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
+        $this->convertParams($params);
         $stmt->execute($params);
 
         $this->convertFetchMode($fetchmode);
@@ -134,6 +136,7 @@ class DbPdo extends DbBasePdo implements DbInterface
     {
         $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
+        $this->convertParams($params);
         $stmt->execute($params);
 
         return true;
@@ -151,6 +154,7 @@ class DbPdo extends DbBasePdo implements DbInterface
     {
         $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
+        $this->convertParams($params);
         $stmt->execute($params);
         return $stmt->fetchAll($fetchmode);
     }
@@ -158,5 +162,16 @@ class DbPdo extends DbBasePdo implements DbInterface
     private function quoteSql($sql)
     {
         return DB_Helper::quoteTableName($this, $this->tablePrefix, $sql);
+    }
+
+    /**
+     * Convert params to be indexed array instead of hash:
+     * To avoid PDO error "SQLSTATE[HY093]: Invalid parameter number: parameter was not defined"
+     *
+     * The error comes mostly with BuildSet
+     */
+    private function convertParams(&$params)
+    {
+        $params = array_values($params);
     }
 }
