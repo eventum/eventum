@@ -285,4 +285,19 @@ class DbTest extends TestCase
         );
         $this->assertEquals($exp, $res);
     }
+
+    public function testBuildSet()
+    {
+        $table = "test_" . __FUNCTION__;
+        $this->db->query("CREATE TEMPORARY TABLE $table (id INT, v1 CHAR(1), v2 CHAR(2))");
+
+        $params = array(
+            'id' => 1,
+            'v1' => 'a',
+            'v2' => '22',
+        );
+        $stmt = "INSERT INTO $table SET " . DB_Helper::buildSet($params);
+
+        DB_Helper::getInstance()->query($stmt, $params);
+    }
 }
