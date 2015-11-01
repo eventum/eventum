@@ -505,7 +505,7 @@ class Routing
     {
         $setup = Setup::get();
         $settings = $setup["${type}_routing"];
-        if (!is_array($settings)) {
+        if (!$settings) {
             return false;
         }
 
