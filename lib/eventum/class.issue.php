@@ -1646,6 +1646,13 @@ class Issue
         if (isset($_POST['product']) && count($product_changes) > 0) {
             $updated_fields['Product'] = implode('; ', $product_changes);
         }
+
+        if (isset($_POST['custom_fields']) && count($_POST['custom_fields']) > 0) {
+            $updated_custom_fields = Custom_Field::updateValues($issue_id, $_POST['custom_fields']);
+        } else {
+            $updated_custom_fields = array();
+        }
+
         if (count($updated_fields) > 0) {
             // log the changes
             $changes = '';
@@ -1665,8 +1672,11 @@ class Issue
                 'changes' => $changes,
                 'user' => User::getFullName($usr_id)
             ));
+        }
+
+        if (count($updated_fields) > 0 || count($updated_custom_fields) > 0) {
             // send notifications for the issue being updated
-            Notification::notifyIssueUpdated($issue_id, $current, $_POST);
+            Notification::notifyIssueUpdated($issue_id, $current, $_POST, $updated_custom_fields);
         }
 
         // record group change as a separate change

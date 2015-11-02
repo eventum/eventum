@@ -19,7 +19,7 @@
     data-custom-title="{$custom_fields[i].fld_title}"
     data-custom-required="{$cf_required}"
     data-custom-validation-js="{$custom_fields[i].validation_js|default:''}">
-  <th>
+  <th class="{if $custom_fields[i].fld_min_role > $core.roles.customer}internal{/if}">
     {$custom_fields[i].fld_title}{if $cf_required} *{/if}
   </th>
   <td>
@@ -45,6 +45,7 @@
         {assign var="selected_cfo_ids" value=$custom_fields[i].selected_cfo_id|default:''}
       {/if}
       <ul class="custom_field_checkbox" id="custom_field_{$custom_fields[i].fld_id}">
+          <input type="hidden" name="custom_fields[{$custom_field_id}][]" value="" />
       {foreach $custom_fields[i].field_options as $key => $display}
           <li><label><input type="checkbox" name="custom_fields[{$custom_field_id}][]" value="{$key}"
                   {if in_array($key, $selected_cfo_ids)}checked{/if} />{$display}</label></li>

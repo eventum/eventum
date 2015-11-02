@@ -44,7 +44,10 @@ if (!Issue::canUpdate($issue_id, Auth::getUserID())) {
 }
 
 if (@$_POST['cat'] == 'update_values') {
-    $res = Custom_Field::updateValues();
+    $res = Custom_Field::updateFromPost(true);
+    if (is_array($res)) {
+        $res = 1;
+    }
     $tpl->assign('update_result', $res);
 }
 
