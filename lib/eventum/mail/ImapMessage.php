@@ -96,7 +96,7 @@ class ImapMessage extends MailMessage
 
         $message->mbox = $mbox;
         $message->num = $num;
-        $message->infp = $info;
+        $message->info = $info;
 
         return $message;
     }
