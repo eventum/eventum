@@ -123,6 +123,10 @@ class MailMessageTest extends TestCase
         $has_attachments = $message->countParts();
         $this->assertEquals(2, $has_attachments);
         $this->assertTrue($message->hasAttachments());
+
+        // this one does not have "Attachments" even it is multipart
+        $message = MailMessage::createFromFile(__DIR__ . '/data/multipart-text-html.txt');
+        $this->assertFalse($message->hasAttachments());
     }
 
     public function testGetAttachments()
@@ -190,7 +194,7 @@ class MailMessageTest extends TestCase
     /**
      * @covers Mail_Helper::rewriteThreadingHeaders()
      */
-    public function testrewriteThreadingHeaders()
+    public function testRewriteThreadingHeaders()
     {
         $mail = MailMessage::createFromFile(__DIR__ . '/data/in-reply-to.txt');
         $msg_id = $mail->getReferenceMessageId();
@@ -205,8 +209,12 @@ class MailMessageTest extends TestCase
 
         $references = array(1, 2, $exp, $msg_id);
         $mail->setReferences($references);
-        $exp = '1 2 <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org> <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
+        $exp
+            = '1 2 <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org> <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
         $this->assertEquals($exp, $mail->References);
+
+        // test that the result can be assembled!
+        $raw = $mail->getRawContent();
     }
 
     public function testGetAddresses()

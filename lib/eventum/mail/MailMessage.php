@@ -105,13 +105,41 @@ class MailMessage extends Message
     }
 
     /**
-     * Return true if mail has attachments
+     * Return true if mail has attachments,
+     * inline text messages are not accounted as attachments.
      *
      * @return  boolean
      */
     public function hasAttachments()
     {
-        return $this->isMultipart() && $this->countParts() > 0;
+        $have_multipart = $this->isMultipart() && $this->countParts() > 0;
+        if (!$have_multipart) {
+            return false;
+        }
+
+        $has_attachments = false;
+
+        // check what really the attachments are
+        foreach ($this as $part) {
+            $ctype = $part->getHeaderField('Content-Type');
+            $disposition = $part->getHeaderField('Content-Disposition');
+            $filename = $part->getHeaderField('Content-Disposition', 'filename');
+            $is_attachment = $disposition == 'attachment' || $filename;
+
+            if (in_array($ctype, array('text/plain', 'text/html', 'text/enriched'))) {
+                $has_attachments |= $is_attachment;
+            } else {
+                // avoid treating forwarded messages as attachments
+                $is_attachment |= ($disposition == 'inline' && $ctype != 'message/rfc822');
+                // handle inline images
+                $type = current(explode('/', $ctype));
+                $is_attachment |= $type == 'image';
+
+                $has_attachments |= $is_attachment;
+            }
+        }
+
+        return (bool)$has_attachments;
     }
 
     /**
