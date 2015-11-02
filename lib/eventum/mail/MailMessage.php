@@ -205,6 +205,37 @@ class MailMessage extends Message
     }
 
     /**
+     * Set In-Reply-To header value.
+     * The header is added if missing, otherwise value is replaced
+     *
+     * @param string $value
+     */
+    public function setInReplyTo($value)
+    {
+        $headerClass = '\\Zend\\Mail\\Header\\GenericHeader';
+        /** @var GenericHeader $header */
+        $header = $this->getHeaderByName('In-Reply-To', $headerClass);
+        $header->setFieldValue($value);
+    }
+
+    /**
+     * Set References header value.
+     *
+     * @param string|string[] $value
+     */
+    public function setReferences($value)
+    {
+        if (is_array($value)) {
+            $value = join(' ', $value);
+        }
+
+        $headerClass = '\\Zend\\Mail\\Header\\GenericHeader';
+        /** @var GenericHeader $header */
+        $header = $this->getHeaderByName('References', $headerClass);
+        $header->setFieldValue($value);
+    }
+
+    /**
      * Get email addresses from specified headerBag, default from "To:" and "Cc:".
      *
      * @param array $headers

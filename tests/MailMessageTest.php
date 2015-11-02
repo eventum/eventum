@@ -186,6 +186,27 @@ class MailMessageTest extends TestCase
         $this->assertSame(join("\n", $ref1), join("\n", $ref2));
     }
 
+    /**
+     * @covers Mail_Helper::rewriteThreadingHeaders()
+     */
+    public function testrewriteThreadingHeaders() {
+        $mail = MailMessage::createFromFile(__DIR__ . '/data/in-reply-to.txt');
+        $msg_id = $mail->getReferenceMessageId();
+        $exp = '<CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
+        $this->assertEquals($exp, $msg_id);
+
+        $this->assertEquals($exp, $mail->InReplyTo);
+
+        $mail->setInReplyTo('foo-bar-123');
+        $value = 'foo-bar-123';
+        $this->assertEquals($value, $mail->InReplyTo);
+
+        $references = array(1, 2, $exp, $msg_id);
+        $mail->setReferences($references);
+        $exp = '1 2 <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org> <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
+        $this->assertEquals($exp, $mail->References);
+    }
+
     public function testGetAddresses()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
