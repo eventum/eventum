@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2015-??-??, Version 3.0.5
+2015-11-02, Version 3.0.5
 -------------------------
 
 - Fix routing settings read error (Elan Ruusamäe, #80)
