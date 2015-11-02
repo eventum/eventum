@@ -67,8 +67,7 @@ class SanitizeHeaders
             'Cc' => false,
         );
         foreach ($checkHeaders as $headerName => $unique) {
-            $headerClass = '\\Zend\\Mail\\Header\\' . $headerName;
-            $header = $mail->getHeaderByName($headerName, $headerClass);
+            $header = $mail->getHeaderByName($headerName, $headerName);
             if ($unique) {
                 $this->removeDuplicateHeader($headers, $header);
             } else {

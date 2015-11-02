@@ -49,6 +49,11 @@ use Zend\Mime;
 class MailMessage extends Message
 {
     /**
+     * Namespace for Header classes
+     */
+    const HEADER_NS = '\\Zend\\Mail\\Header\\';
+
+    /**
      * Public constructor
      *
      * @param array $params
@@ -212,9 +217,8 @@ class MailMessage extends Message
      */
     public function setInReplyTo($value)
     {
-        $headerClass = '\\Zend\\Mail\\Header\\GenericHeader';
         /** @var GenericHeader $header */
-        $header = $this->getHeaderByName('In-Reply-To', $headerClass);
+        $header = $this->getHeaderByName('In-Reply-To');
         $header->setFieldValue($value);
     }
 
@@ -229,9 +233,8 @@ class MailMessage extends Message
             $value = join(' ', $value);
         }
 
-        $headerClass = '\\Zend\\Mail\\Header\\GenericHeader';
         /** @var GenericHeader $header */
-        $header = $this->getHeaderByName('References', $headerClass);
+        $header = $this->getHeaderByName('References');
         $header->setFieldValue($value);
     }
 
@@ -523,13 +526,18 @@ class MailMessage extends Message
      *
      * If not found, instantiates one based on $headerClass.
      *
-     * @param  string $headerName
-     * @param  string $headerClass
+     * @param string $headerName
+     * @param string $headerClass Header Class name, defaults to GenericHeader
      * @return HeaderInterface|\ArrayIterator header instance or collection of headers
      * @see Zend\Mail\Message::getHeaderByName
      */
-    public function getHeaderByName($headerName, $headerClass)
+    public function getHeaderByName($headerName, $headerClass = 'GenericHeader')
     {
+        // add namespace if called without namespace
+        if ($headerClass[0] != '\\') {
+            $headerClass = self::HEADER_NS . $headerClass;
+        }
+
         $headers = $this->headers;
         if ($headers->has($headerName)) {
             $header = $headers->get($headerName);
