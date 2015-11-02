@@ -207,14 +207,19 @@ class MailMessageTest extends TestCase
         $value = 'foo-bar-123';
         $this->assertEquals($value, $mail->InReplyTo);
 
-        $references = array(1, 2, $exp, $msg_id);
+        $references = array(1, $msg_id);
         $mail->setReferences($references);
-        $exp
-            = '1 2 <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org> <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
+        $exp = '1 <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
         $this->assertEquals($exp, $mail->References);
+    }
 
-        // test that the result can be assembled!
-        $raw = $mail->getRawContent();
+    /**
+     * @test that the result can be assembled after adding generic header!
+     */
+    public function testInReplyTo() {
+        $mail = MailMessage::createFromFile(__DIR__ . '/data/multipart-text-html.txt');
+        $mail->setInReplyTo('fu!');
+        $mail->getRawContent();
     }
 
     public function testGetAddresses()

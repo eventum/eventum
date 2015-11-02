@@ -653,6 +653,9 @@ class MailMessage extends Message
             $header = $headers->get($headerName);
         } else {
             $header = new $headerClass();
+            if ($header instanceof GenericHeader) {
+                $header->setFieldName($headerName);
+            }
             $headers->addHeader($header);
         }
         return $header;
