@@ -35,12 +35,14 @@ class ImapMessage extends MailMessage
 {
     /**
      * message index related to imap connection
+     *
      * @var int
      */
     public $num;
 
     /**
      * imap connection obtained from imap_open
+     *
      * @var resource
      */
     public $mbox;
@@ -146,5 +148,15 @@ class ImapMessage extends MailMessage
     public function getProjectId()
     {
         return $this->info['ema_prj_id'];
+    }
+
+    /**
+     * Get The email account ID
+     *
+     * @return int
+     */
+    public function getEmailAccountId()
+    {
+        return $this->info['ema_id'];
     }
 }
