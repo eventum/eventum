@@ -88,7 +88,7 @@ class ImapMessage extends MailMessage
             }
         }
 
-        $message = new self(array('headers' => $headers, 'content' => $content, 'flags' => $flags));
+        $message = new self(array('root' => true, 'headers' => $headers, 'content' => $content, 'flags' => $flags));
 
         // set MailDate to $message object, as it's not available in message headers, only in IMAP itself
         // this likely "message received date"

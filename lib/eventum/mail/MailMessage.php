@@ -62,9 +62,11 @@ class MailMessage extends Message
     {
         parent::__construct($params);
 
-        // TODO: do not set this for "child" messages (attachments)
-        $helper = new SanitizeHeaders();
-        $helper($this);
+        // do not do this for "child" messages (attachments)
+        if (!empty($params['root'])) {
+            $helper = new SanitizeHeaders();
+            $helper($this);
+        }
     }
 
     /**
@@ -75,7 +77,7 @@ class MailMessage extends Message
      */
     public static function createFromString($raw)
     {
-        $message = new self(array('raw' => $raw));
+        $message = new self(array('root' => true, 'raw' => $raw));
         return $message;
     }
 
@@ -87,7 +89,7 @@ class MailMessage extends Message
      */
     public static function createFromFile($filename)
     {
-        $message = new self(array('file' => $filename));
+        $message = new self(array('root' => true, 'file' => $filename));
 
         return $message;
     }
