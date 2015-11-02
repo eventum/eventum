@@ -753,9 +753,9 @@ class Mime_Helper
      * @param   string $source_charset
      * @return  string The converted string
      */
-    private static function convertString($string, $source_charset)
+    public static function convertString($string, $source_charset)
     {
-        if (($source_charset == false) || ($source_charset == APP_CHARSET)) {
+        if ($source_charset == false || $source_charset == APP_CHARSET) {
             return $string;
         } else {
             $res = iconv($source_charset, APP_CHARSET, $string);
@@ -883,7 +883,7 @@ class Mime_Helper
      * @param   string $delsp If spaces should be deleted
      * @return  string The decoded body
      */
-    public function decodeFlowedBodies($body, $delsp)
+    public static function decodeFlowedBodies($body, $delsp)
     {
         if ($delsp == 'yes') {
             $delsp = true;

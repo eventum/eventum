@@ -87,7 +87,8 @@ class MailMessageTest extends TestCase
         $this->assertEquals($exp, join(',', $res));
     }
 
-    public function testMultipleToHeaders() {
+    public function testMultipleToHeaders()
+    {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
 
         $to = $message->getTo();
@@ -189,7 +190,8 @@ class MailMessageTest extends TestCase
     /**
      * @covers Mail_Helper::rewriteThreadingHeaders()
      */
-    public function testrewriteThreadingHeaders() {
+    public function testrewriteThreadingHeaders()
+    {
         $mail = MailMessage::createFromFile(__DIR__ . '/data/in-reply-to.txt');
         $msg_id = $mail->getReferenceMessageId();
         $exp = '<CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
@@ -425,5 +427,21 @@ class MailMessageTest extends TestCase
             )
         );
         $this->assertEquals($exp, $mail->getHeaders()->toString());
+    }
+
+    /**
+     * @test $structure->body getting textual mail body from multipart message
+     */
+    public function testGetMailBody()
+    {
+        $filename = __DIR__ . '/data/multipart-text-html.txt';
+        $message = file_get_contents($filename);
+
+        $structure = Mime_Helper::decode($message, true, true);
+        $body1 = $structure->body;
+
+        $mail = MailMessage::createFromFile($filename);
+        $body2 = $mail->getMessageBody();
+        $this->assertEquals($body1, $body2);
     }
 }
