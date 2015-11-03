@@ -362,19 +362,6 @@ function e($s)
     return var_export($s, 1);
 }
 
-/**
- * @param $str
- * @return string
- */
-function strip_hashbang($str)
-{
-    $str = explode(PHP_EOL, $str);
-    array_shift($str);
-    $str = implode(PHP_EOL, $str);
-
-    return $str;
-}
-
 function get_queries($file)
 {
     $contents = file_get_contents($file);
@@ -467,23 +454,27 @@ function setup_database()
     }
 
     // setup database with upgrade script
-    $upgrade_script = APP_PATH . '/upgrade/update-database.php';
-    // use ob_ to strip out hashbang
     ob_start();
     try {
-        define('IN_SETUP', true);
-        require $upgrade_script;
-        $out = ob_get_clean();
+        $dbmigrate = new DbMigrate(APP_PATH . '/upgrade');
+        $dbmigrate->patch_database();
         $e = false;
     } catch (Exception $e) {
-        $out = ob_get_clean();
     }
+    $out = ob_get_clean();
 
     global $tpl;
-    $tpl->assign('db_result', strip_hashbang($out));
+    $tpl->assign('db_result', $out);
 
     if ($e) {
-        throw new RuntimeException("Database setup failed on upgrade:<br/><tt>{$e->getMessage()}</tt><br/><br/>You may want run update script <tt>$upgrade_script</tt> manually");
+        $upgrade_script = APP_PATH . '/upgrade/update-database.php';
+        $error = array(
+            "Database setup failed on upgrade:",
+            "<tt>{$e->getMessage()}</tt>",
+            "",
+            "You may want run update script <tt>$upgrade_script</tt> manually"
+        );
+        throw new RuntimeException(join("<br/>", $error));
     }
 
     // write db name now that it has been created
