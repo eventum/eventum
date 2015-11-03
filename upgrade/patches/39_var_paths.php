@@ -24,6 +24,8 @@ if (!$files) {
     return;
 }
 
+/** @var Closure $log */
+
 $count = count($files);
 $log("Migrating $count files from $old_dir to $new_dir");
 foreach ($files as $file) {

@@ -4,6 +4,9 @@
  * Decode note bodies again which have failed to decode unicode html entities
  */
 
+/** @var DbInterface $db */
+/** @var Closure $log */
+
 // notes that need to be decoded
 $res = $db->getAll('select not_id, not_iss_id, not_is_blocked, not_created_date, not_note, not_full_message from {{%note}} where not_note like ?', array('%&#x00%'));
 

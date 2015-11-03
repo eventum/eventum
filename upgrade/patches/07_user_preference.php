@@ -41,6 +41,8 @@ $sql = 'SELECT
             usr_id DESC';
 $res = $db->getAll($sql);
 
+/** @var Closure $log */
+
 foreach ($res as $row) {
     $usr_id = $row['usr_id'];
     $log($usr_id);
