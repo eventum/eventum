@@ -128,7 +128,7 @@ class DbMigrate
 
         // use *.php for complex updates
         if (substr($input_file, -4) == '.php') {
-            self::include_file($input_file, $this->db, $this->config);
+            self::include_file($input_file, $this->db, $this->config, $this->logger);
             return;
         }
 
@@ -142,14 +142,16 @@ class DbMigrate
     }
 
     /**
-     * isolate, prevent access to class properties.
-     * php patches have access to $db and $dbconfig variables.
+     * Isolate, to prevent access to class properties.
+     * PHP patches have access to $db and $dbconfig variables,
+     * and if they wish to echo something, should use $log() closure.
      *
      * @param string $file
      * @param DbInterface $db
      * @param array $dbconfig
+     * @param Closure $log
      */
-    private static function include_file($file, $db, $dbconfig)
+    private static function include_file($file, $db, $dbconfig, $log)
     {
         require $file;
     }

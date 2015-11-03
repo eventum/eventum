@@ -142,14 +142,14 @@ $res = $db->query("select his_id,his_summary from {{%issue_history}} where his_c
 $total = $res->numRows();
 $current = $updated = 0;
 
-echo "Total $total rows, this may take time. Please be patient.\n";
+$log("Total $total rows, this may take time. Please be patient.");
 // FIXME: PEAR::DB specific
 /** @var DB_result $res */
 while ($res->fetchInto($row, DbInterface::DB_FETCHMODE_ASSOC)) {
     $current++;
     $m = $find($row['his_summary']);
     if (!$m) {
-        echo "No substitution: {$row['his_id']} '{$row['his_summary']}'\n";
+        $log("No substitution: {$row['his_id']} '{$row['his_summary']}'");
         continue;
     }
 
@@ -162,8 +162,8 @@ while ($res->fetchInto($row, DbInterface::DB_FETCHMODE_ASSOC)) {
 
     if ($current % 5000 == 0) {
         $p = round($current / $total * 100, 2);
-        echo "... updated $current rows, $p%\n";
+        $log("... updated $current rows, $p%");
     }
 }
 
-echo "$current history entries matched, $updated updated\n";
+$log("$current history entries matched, $updated updated");

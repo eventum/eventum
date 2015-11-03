@@ -45,6 +45,6 @@ foreach ($res as $row) {
 
     $prefs = Prefs::get($usr_id);
     $prefs['timezone'] = $new_tz;
-    echo "Updating user #$usr_id timezone: $tz => {$prefs['timezone']}\n";
+    $log("Updating user #$usr_id timezone: $tz => {$prefs['timezone']}");
     Prefs::set($usr_id, $prefs);
 }

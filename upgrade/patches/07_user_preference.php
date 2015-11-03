@@ -43,11 +43,11 @@ $res = $db->getAll($sql);
 
 foreach ($res as $row) {
     $usr_id = $row['usr_id'];
-    echo "$usr_id\n";
+    $log($usr_id);
 
     $old_preferences = unserialize($row['usr_preferences']);
     if ($old_preferences === false) {
-        echo "... skipped\n";
+        $log("... skipped");
         continue;
     }
 

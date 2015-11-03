@@ -23,12 +23,14 @@ foreach ($res as $i => $row) {
     }
 
     $diff = $render_diff($row['not_note'], $note);
-    echo "--- issue #{$row['not_iss_id']} {$row['not_created_date']} GMT\n";
-    echo "+++ issue #{$row['not_iss_id']} $now GMT\n";
-    echo $diff;
+    $log("--- issue #{$row['not_iss_id']} {$row['not_created_date']} GMT");
+    $log("+++ issue #{$row['not_iss_id']} $now GMT");
+    $log($diff);
     $db->query('UPDATE {{%note}} '.
         'SET not_note=? '.
         'WHERE not_id=?', array($note, $row['not_id'])
     );
 }
-echo count($res), " notes updated\n";
+
+$count = count($res);
+$log("$count notes updated");

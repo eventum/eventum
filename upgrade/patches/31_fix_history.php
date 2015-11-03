@@ -15,4 +15,5 @@ foreach ($res as $idx => $row) {
     $params = array($context, $row['his_id']);
     $db->query('UPDATE {{%issue_history}} SET his_context=? WHERE his_id=?', $params);
 }
-echo 'Updated ', count($res), " entries\n";
+$count = count($res);
+$log("Updated $count entries");
