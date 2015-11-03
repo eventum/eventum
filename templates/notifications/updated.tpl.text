@@ -12,7 +12,12 @@
           {t escape=no}Summary{/t}: {$data.iss_summary}
    {t escape=no}Changed Fields{/t}:
 ----------------------------------------------------------------------
+{if $data.diffs != ''}
 {$data.diffs}
+{/if}
+{if $data.custom_field_diffs != ''}
+{$data.custom_field_diffs}
+{/if}
 ----------------------------------------------------------------------
 
 {textformat style="email"}

@@ -179,7 +179,7 @@ class Issue_Field
         $fields = self::getFieldsToDisplay($issue_id, $location);
         foreach ($fields as $field_name => $field_options) {
             if ($field_name == 'custom') {
-                Custom_Field::updateValues();
+                Custom_Field::updateFromPost();
             } else {
                 self::setValue($issue_id, $field_name, $values[$field_name]);
             }

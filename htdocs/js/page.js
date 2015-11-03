@@ -264,8 +264,6 @@ issue_view.ready = function(page_id)
     $('#upload_file').click(issue_view.upload_file);
     $('#attachments .delete_attachment').click(issue_view.delete_attachment);
     $('#attachments .delete_file').click(issue_view.delete_file);
-
-    $('#update_custom_fields').click(issue_view.updateCustomFields);
 };
 
 issue_view.toggle_issue_description = function()

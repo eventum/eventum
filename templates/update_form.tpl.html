@@ -224,6 +224,8 @@
             <input type="hidden" name="trigger_reminders" value="{$issue.iss_trigger_reminders}">
             {/if}
 
+            {include file="edit_custom_fields.tpl.html" form_type='edit'}
+
             {if $core.has_crm}
             {include file="`$core.crm_template_path`/update_report_form_fields.tpl.html"}
             {/if}

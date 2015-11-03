@@ -34,6 +34,9 @@
 
 class Custom_Field
 {
+
+    public static $option_types = array('combo', 'multiple', 'checkbox');
+
     /**
      * Method used to remove a group of custom field options.
      *
@@ -130,21 +133,35 @@ class Custom_Field
         return true;
     }
 
+
+    /**
+     * Updates custom field values from the $_POST array.
+     */
+    public static function updateFromPost($send_notification = false)
+    {
+        if (isset($_POST['custom_fields'])) {
+            $updated_fields = self::updateValues($_POST['issue_id'], $_POST['custom_fields']);
+            if ($send_notification) {
+                Notification::notifyIssueUpdated($_POST['issue_id'], array(), array(), $updated_fields);
+            }
+            return $updated_fields;
+        }
+    }
+
     /**
      * Method used to update the values stored in the database.
      *
-     * @return  integer 1 if the update worked properly, any other value otherwise
+     * @param $issue_id
+     * @param $custom_fields
+     * @return array|int -1 if there is an error, otherwise an array of the updated fields
      */
-    public static function updateValues()
+    public static function updateValues($issue_id, $custom_fields)
     {
         $prj_id = Auth::getCurrentProject();
-        $issue_id = $_POST['issue_id'];
 
         $old_values = self::getValuesByIssue($prj_id, $issue_id);
 
-        if ((isset($_POST['custom_fields'])) && (count($_POST['custom_fields']) > 0)) {
-            $custom_fields = $_POST['custom_fields'];
-
+        if (count($custom_fields) > 0) {
             // get the types for all of the custom fields being submitted
             $cf = array_keys($custom_fields);
             $cf_list = DB_Helper::buildList($cf);
@@ -182,12 +199,15 @@ class Custom_Field
                     continue;
                 }
 
-                $option_types = array(
-                    'multiple',
-                    'combo',
-                    'checkbox',
+                $updated_fields[$fld_id] = array(
+                    'title' =>  $field_titles[$fld_id],
+                    'type'  =>  $field_types[$fld_id],
+                    'min_role'  =>  $min_role,
+                    'changes'   =>  '',
+                    'old_display'   =>  '',
+                    'new_display'   =>  '',
                 );
-                if (!in_array($field_types[$fld_id], $option_types)) {
+                if (!in_array($field_types[$fld_id], self::$option_types)) {
                     // check if this is a date field
                     $fld_db_name = self::getDBValueFieldNameByType($field_types[$fld_id]);
 
@@ -210,6 +230,7 @@ class Custom_Field
                     $old_value = $res['value'];
 
                     if ($old_value == $value) {
+                        unset($updated_fields[$fld_id]);
                         continue;
                     }
 
@@ -247,13 +268,20 @@ class Custom_Field
                             return -1;
                         }
                     }
+                    $updated_fields[$fld_id]['old_display'] = $old_value;
+                    $updated_fields[$fld_id]['new_display'] = $value;
                     if ($field_types[$fld_id] == 'textarea') {
-                        $updated_fields[$field_titles[$fld_id]] = '';
+                        $updated_fields[$fld_id]['changes'] = '';
                     } else {
-                        $updated_fields[$field_titles[$fld_id]] = History::formatChanges($old_value, $value);
+                        $updated_fields[$fld_id]['changes'] = History::formatChanges($old_value, $value);
                     }
                 } else {
                     $old_value = self::getDisplayValue($issue_id, $fld_id, true);
+
+                    // remove dummy value from checkboxes. This dummy value is required so all real values can be unchecked.
+                    if ($field_types[$fld_id] == 'checkbox') {
+                        $value = array_filter($value);
+                    }
 
                     if (!is_array($old_value)) {
                         $old_value = array($old_value);
@@ -270,40 +298,101 @@ class Custom_Field
                             self::associateIssue($issue_id, $fld_id, $value);
                         }
                         $new_display_value = self::getDisplayValue($issue_id, $fld_id);
-                        $updated_fields[$field_titles[$fld_id]] = History::formatChanges($old_display_value, $new_display_value);
+                        $updated_fields[$fld_id]['changes'] = History::formatChanges($old_display_value, $new_display_value);
+                        $updated_fields[$fld_id]['old_display'] = $old_display_value;
+                        $updated_fields[$fld_id]['new_display'] = $new_display_value;
+                    } else {
+                        unset($updated_fields[$fld_id]);
                     }
                 }
             }
 
             Workflow::handleCustomFieldsUpdated($prj_id, $issue_id, $old_values, self::getValuesByIssue($prj_id, $issue_id), $updated_fields);
             Issue::markAsUpdated($issue_id);
-            // need to save a history entry for this
 
             if (count($updated_fields) > 0) {
                 // log the changes
-                $changes = '';
-                $i = 0;
-                foreach ($updated_fields as $key => $value) {
-                    if ($i > 0) {
-                        $changes .= '; ';
+                $changes = array();
+                foreach ($updated_fields as $fld_id => $updated_field) {
+                    if (!isset($changes[$updated_field['min_role']])) {
+                        $changes[$updated_field['min_role']] = array();
                     }
+                    $title = $updated_field['title'];
+                    $value = $updated_field['changes'];
+
                     if (!empty($value)) {
-                        $changes .= "$key: $value";
+                        $changes[$updated_field['min_role']][] = "$title: $value";
                     } else {
-                        $changes .= "$key";
+                        $changes[$updated_field['min_role']][] = $title;
                     }
-                    $i++;
                 }
 
                 $usr_id = Auth::getUserID();
-                History::add($issue_id, $usr_id, 'custom_field_updated', 'Custom field updated ({changes}) by {user}', array(
-                    'changes' => $changes,
-                    'user' => User::getFullName($usr_id)
-                ));
+                $usr_full_name = User::getFullName($usr_id);
+                foreach ($changes as $min_role => $role_changes) {
+                    History::add($issue_id, $usr_id, 'custom_field_updated', 'Custom field updated ({changes}) by {user}', array(
+                        'changes' => join('; ', $role_changes),
+                        'user' => $usr_full_name
+                    ), $min_role);
+                }
             }
+            return $updated_fields;
         }
 
-        return 1;
+        return array();
+    }
+
+    /**
+     * Returns custom field updates that are visible to the specified role
+     *
+     * @param   array $updated_fields
+     * @param   int $role
+     * @return  array
+     */
+    public static function getUpdatedFieldsForRole($updated_fields, $role)
+    {
+        $role_updates = array();
+        foreach ($updated_fields as $fld_id => $field) {
+            if ($role >= $field['min_role']) {
+                $role_updates[$fld_id] = $field;
+            }
+        }
+        return $role_updates;
+    }
+
+    /**
+     * Returns custom field updates in a diff format
+     *
+     * @param   array $updated_fields
+     * @param   bool $role If specified only fields that $role can see will be returned
+     * @return  array
+     */
+    public static function formatUpdatesToDiffs($updated_fields, $role=false)
+    {
+        if ($role) {
+            $updated_fields = self::getUpdatedFieldsForRole($updated_fields, $role);
+        }
+        $diffs = array();
+        foreach ($updated_fields as $fld_id => $field) {
+            if ($field['old_display'] != $field['new_display']) {
+                if ($field['type'] == 'textarea') {
+                    $old = explode("\n", $field['old_display']);
+                    $new = explode("\n", $field['new_display']);
+                    $diff = new Text_Diff($old, $new);
+                    $renderer = new Text_Diff_Renderer_unified();
+                    $desc_diff = explode("\n", trim($renderer->render($diff)));
+                    $diffs[] = $field['title'] . ':';
+                    foreach ($desc_diff as $diff) {
+                        $diffs[] = $diff;
+                    }
+                    $diffs[] = '';
+                } else {
+                    $diffs[] = '-' . $field['title'] . ': ' . $field['old_display'];
+                    $diffs[] = '+' . $field['title'] . ': ' . $field['new_display'];
+                }
+            }
+        }
+        return $diffs;
     }
 
     /**
@@ -326,7 +415,7 @@ class Custom_Field
             $params = array($iss_id, $fld_id);
             if ($fld_details['fld_type'] == 'integer') {
                 $params[] = $item;
-            } elseif ((in_array($fld_details['fld_type'], array('combo', 'multiple')) && ($item == -1))) {
+            } elseif ((in_array($fld_details['fld_type'], self::$option_types) && ($item == -1))) {
                 continue;
             } else {
                 $params[] = $item;
@@ -640,7 +729,7 @@ class Custom_Field
                 }
 
                 $fields[] = $row;
-            } elseif ($row['fld_type'] == 'multiple' || $row['fld_type'] == 'checkbox') {
+            } elseif (in_array($row['fld_type'], self::$option_types)) {
                 // check whether this field is already in the array
                 $found = 0;
                 foreach ($fields as $y => $field) {
@@ -713,7 +802,7 @@ class Custom_Field
                 $values[$field['fld_id']] = array(
                     $field['selected_cfo_id'] => $field['value'],
                 );
-            } elseif ($field['fld_type'] == 'multiple') {
+            } elseif ($field['fld_type'] == 'multiple' || $field['fld_type'] == 'checkbox') {
                 $selected = $field['selected_cfo_id'];
                 foreach ($selected as $cfo_id) {
                     $values[$field['fld_id']][$cfo_id] = @$field['field_options'][$cfo_id];
@@ -854,8 +943,7 @@ class Custom_Field
         }
 
         $new_id = DB_Helper::get_last_insert_id();
-        if (($_POST['field_type'] == 'combo') || ($_POST['field_type'] == 'multiple')
-             || ($_POST['field_type'] == 'checkbox')) {
+        if (in_array($_POST['field_type'], self::$option_types)) {
             foreach ($_POST['field_options'] as $option_value) {
                 $params = self::parseParameters($option_value);
                 self::addOptions($new_id, $params['value']);
@@ -917,7 +1005,7 @@ class Custom_Field
 
         foreach ($res as &$row) {
             $row['projects'] = @implode(', ', array_values(self::getAssociatedProjects($row['fld_id'])));
-            if (($row['fld_type'] == 'combo') || ($row['fld_type'] == 'multiple')) {
+            if (in_array($row['fld_type'], self::$option_types)) {
                 if (!empty($row['fld_backend'])) {
                     $row['field_options'] = implode(', ', array_values(self::getOptions($row['fld_id'])));
                 }
@@ -1161,7 +1249,7 @@ class Custom_Field
         }
 
         // if the current custom field is a combo box, get all of the current options
-        if (in_array($_POST['field_type'], array('combo', 'multiple'))) {
+        if (in_array($_POST['field_type'], self::$option_types)) {
             $stmt = 'SELECT
                         cfo_id
                      FROM
@@ -1174,7 +1262,7 @@ class Custom_Field
         if ($old_details['fld_type'] != $_POST['field_type']) {
             // gotta remove all custom field options if the field is being changed from a combo box to a text field
             if ((!in_array($old_details['fld_type'], array('text', 'textarea'))) &&
-                  (!in_array($_POST['field_type'], array('combo', 'multiple')))) {
+                  (!in_array($_POST['field_type'], self::$option_types))) {
                 self::removeOptionsByFields($_POST['id']);
             }
             if (in_array($_POST['field_type'], array('text', 'textarea', 'date', 'integer'))) {
@@ -1183,8 +1271,7 @@ class Custom_Field
             }
         }
         // update the custom field options, if any
-        if (($_POST['field_type'] == 'combo') || ($_POST['field_type'] == 'multiple') ||
-            ($_POST['field_type'] == 'checkbox')) {
+        if (in_array($_POST['field_type'], self::$option_types)) {
             $updated_options = array();
             foreach ($_POST['field_options'] as $option_value) {
                 $params = self::parseParameters($option_value);
@@ -1201,7 +1288,7 @@ class Custom_Field
         }
         // get the diff between the current options and the ones posted by the form
         // and then remove the options not found in the form submissions
-        if (in_array($_POST['field_type'], array('combo', 'multiple'))) {
+        if (in_array($_POST['field_type'], self::$option_types)) {
             $diff_ids = @array_diff($current_options, $updated_options);
             if (@count($diff_ids) > 0) {
                 self::removeOptions($_POST['id'], array_values($diff_ids));
@@ -1470,7 +1557,7 @@ class Custom_Field
 
         $values = array();
         foreach ($res as $row) {
-            if ($row['fld_type'] == 'combo' || $row['fld_type'] == 'multiple') {
+            if (in_array($row['fld_type'], self::$option_types)) {
                 if ($raw) {
                     $values[] = $row['value'];
                 } else {
