@@ -377,3 +377,8 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 .custom_field .chosen-container {
     width: 50% !important;
 }
+
+/* PHP Debugbar overrides */
+div.phpdebugbar {
+    box-shadow: 0 -1px 5px #666666;
+}
