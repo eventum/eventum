@@ -6,6 +6,8 @@ dir=$app
 podir=po
 topdir=$(pwd)
 
+quick=${QUICK-false}
+
 find_prog() {
 	set +x
 	local c prog=$1
@@ -48,9 +50,12 @@ vcs_checkout() {
 	git submodule update
 
 	# ensure we have latest master in submodules
-	git submodule foreach 'cd $toplevel/$path && git checkout master && git pull'
+	$quick || git submodule foreach 'cd $toplevel/$path && git checkout master && git pull'
 
 	git archive HEAD | tar -x -C $dir
+
+	$quick && return
+
 	# include submodules
 	# see http://stackoverflow.com/a/16843717
 	dir=$absdir git submodule foreach 'cd $toplevel/$path && git archive HEAD | tar -x -C $dir/$path/'
@@ -72,7 +77,7 @@ vcs_checkout() {
 po_checkout() {
 	if [ -d $podir ]; then
 	  cd $podir
-	  bzr pull
+	  $quick || bzr pull
 	  cd ..
 	else
 	  bzr branch lp:~glen666/eventum/po $podir
@@ -107,6 +112,7 @@ composer_install() {
 	# this file does not exist in git export, but referenced in composer.json
 	install -d tests
 	touch tests/TestCase.php
+	$quick && test -f ../composer.lock && cp ../composer.lock .
 	# first install with dev to get assets installed
 	$composer install --prefer-dist --ignore-platform-reqs
 
@@ -133,6 +139,7 @@ composer_install() {
 
 # create phpcompatinfo report
 phpcompatinfo_report() {
+	$quick && return
 	$phpcompatinfo analyser:run --alias current --output docs/PhpCompatInfo.txt
 	clean_whitespace docs/PhpCompatInfo.txt
 }
@@ -227,9 +234,9 @@ clean_vendor() {
 	cd ..
 
 	# auto-fix pear packages
-	make pear-fix php-cs-fixer=$phpcsfixer
+	$quick || make pear-fix php-cs-fixer=$phpcsfixer
 	# run twice, to fix all occurrences
-	make pear-fix php-cs-fixer=$phpcsfixer
+	$quick || make pear-fix php-cs-fixer=$phpcsfixer
 
 	# component related sources, not needed runtime
 	rm htdocs/components/*/*-built.js
@@ -253,6 +260,7 @@ clean_vendor() {
 }
 
 build_phars() {
+	$quick && return
 	# eventum standalone cli
 	make -C cli eventum.phar composer=$composer box=$box
 	# eventum scm
@@ -271,6 +279,8 @@ cleanup_postdist() {
 }
 
 phplint() {
+	$quick && return
+
 	echo "Running php lint on source files using $(php --version | head -n1)"
 
 	find -name '*.php' | xargs -l1 php -n -l
