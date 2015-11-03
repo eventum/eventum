@@ -454,17 +454,19 @@ function setup_database()
     }
 
     // setup database with upgrade script
-    ob_start();
+    $buffer = array();
     try {
         $dbmigrate = new DbMigrate(APP_PATH . '/upgrade');
+        $dbmigrate->setLogger(function($e) use (&$buffer) {
+            $buffer[] = $e;
+        });
         $dbmigrate->patch_database();
         $e = false;
     } catch (Exception $e) {
     }
-    $out = ob_get_clean();
 
     global $tpl;
-    $tpl->assign('db_result', $out);
+    $tpl->assign('db_result', join("\n", $buffer));
 
     if ($e) {
         $upgrade_script = APP_PATH . '/upgrade/update-database.php';
