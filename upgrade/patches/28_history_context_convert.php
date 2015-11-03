@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Try to find placeholders to old history entries not containing context information
  */
@@ -142,7 +141,14 @@ $res = $db->query("select his_id,his_summary from {{%issue_history}} where his_c
 $total = $res->numRows();
 $current = $updated = 0;
 
+if (!$total) {
+    // nothing to do
+    return;
+}
+
+/** @var Closure $log */
 $log("Total $total rows, this may take time. Please be patient.");
+
 // FIXME: PEAR::DB specific
 /** @var DB_result $res */
 while ($res->fetchInto($row, DbInterface::DB_FETCHMODE_ASSOC)) {
