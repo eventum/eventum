@@ -459,7 +459,10 @@ class MailMessageTest extends TestCase
         $this->assertEquals($body1, $body2);
     }
 
-    public function testMailSend()
+    /**
+     * Test mail sending with Mail_Helper
+     */
+    public function testMailSendMH()
     {
         $this->skipCi("Uses database");
 
@@ -468,11 +471,12 @@ class MailMessageTest extends TestCase
         $from = 'Eventum <support@example.org>';
         $recipient = 'Eventum <support@example.org>';
         $subject = "[#1] Issue Created";
+        $msg_id = '<eventum@eventum.example.org>';
 
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $headers = array(
-            'Message-ID' => '<eventum@eventum.example.org>',
+            'Message-ID' => $msg_id,
         );
         $mail->setHeaders($headers);
         // mail_send adds message to queue and returns headers+body
@@ -494,4 +498,30 @@ class MailMessageTest extends TestCase
         );
         $this->assertEquals($exp, $res);
     }
+
+    /**
+     * Test mail sending with ZendFramework Mail (MailMessage)
+     */
+    public function testMailSendZF()
+    {
+        $this->skipCi("Uses database");
+
+        $text_message = 'tere';
+        $issue_id = 1;
+        $from = 'Eventum <support@example.org>';
+        $recipient = 'Eventum <support@example.org>';
+        $subject = "[#1] Issue Created";
+        $msg_id = '<eventum@eventum.example.org>';
+
+
+        $raw = "Message-ID: $msg_id\n\n\n$text_message";
+        $mail = MailMessage::createFromString($raw);
+        $mail->setSubject($subject);
+        $mail->setFrom($from);
+        $mail->setTo($recipient);
+
+        // add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
+        $res = Mail_Queue::add($mail);
+    }
+
 }
