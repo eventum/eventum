@@ -464,8 +464,9 @@ class Support
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup['from'], $sender_email,
-            APP_SHORT_NAME . ': ' . ev_gettext('Postmaster notify: see transcript for details'));
+        // TRANSLATORS: %s: APP_SHORT_NAME
+        $subject = ev_gettext('%s: Postmaster notify: see transcript for details', APP_SHORT_NAME);
+        $mail->send($setup['from'], $sender_email, $subject);
 
         if ($usr_id) {
             Language::restore();

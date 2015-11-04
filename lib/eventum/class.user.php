@@ -351,7 +351,9 @@ class User
         $setup = Setup::get();
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
-        $subject = APP_SHORT_NAME . ': New Account - Confirmation Required';
+
+        // TRANSLATORS: %1 - APP_SHORT_NAME
+        $subject = ev_gettext('%s: New Account - Confirmation Required', APP_SHORT_NAME);
         $mail->send($setup['smtp']['from'], $_POST['email'], $subject);
 
         return 1;
@@ -382,7 +384,9 @@ class User
         $setup = Setup::get();
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
-        $subject = APP_SHORT_NAME . ': New Password - Confirmation Required';
+
+        // TRANSLATORS: %s - APP_SHORT_NAME
+        $subject = ev_gettext('%s: New Password - Confirmation Required', APP_SHORT_NAME);
         $mail->send($setup['smtp']['from'], $info['usr_email'], $subject);
     }
 
