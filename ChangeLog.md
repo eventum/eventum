@@ -5,6 +5,7 @@ Eventum Issue Tracking System
 -------------------------
 
 - Update custom fields from update issue page (Bryan Alsdorf, #88)
+- Allow time category/summary to be set when sending emails (Bryan Alsdorf)
 
 2015-11-02, Version 3.0.5
 -------------------------
