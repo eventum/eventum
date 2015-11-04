@@ -65,7 +65,7 @@ local-pot:
 
 # generate .pot file from clean copy
 pot: tools-check
-	# note about History::add: it's little hack, as can't specicy :: in --keyword arg
+	# note about History::add: it's little hack, as can't specify :: in --keyword arg
 	set -x -e; \
 	umask 002; \
 	rm -rf workdir; \
