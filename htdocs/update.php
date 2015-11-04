@@ -205,8 +205,8 @@ $tpl->assign('issue_lock', $issue_lock);
     if ((count($releases) > 0) && ($role_id != User::ROLE_CUSTOMER)) {
         $columns[0][] = array(
             'title' =>  ev_gettext('Scheduled Release'),
-            'data'  =>  $details['pre_title'],
             'title_bgcolor' =>  APP_INTERNAL_COLOR,
+            'field' =>  'scheduled_release',
         );
     }
     if ($role_id > User::ROLE_CUSTOMER) {

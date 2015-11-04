@@ -88,6 +88,13 @@
                         {html_options options=$users selected=$issue.assigned_users}
                         {/if}
                     </select>
+                {elseif $row.field == 'scheduled_release'}
+                    <select name="scheduled_release">
+                        <option value="0"></option>
+                        {html_options options=$releases selected=$issue.iss_pre_id}
+                    </select>
+                {elseif $row.field == 'reporter'}
+                    <a href="list.php?reporter={$issue.iss_usr_id}&hide_closed=1">{$issue.reporter|escape:html}</a></div>
                 {/if}
                 </td>
             </tr>

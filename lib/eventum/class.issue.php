@@ -1574,6 +1574,9 @@ class Issue
         if (isset($_POST['severity'])) {
             $params['iss_sev_id'] = $_POST['severity'];
         }
+        if (isset($_POST['scheduled_release'])) {
+            $params['iss_pre_id'] = $_POST['scheduled_release'];
+        }
 
         $stmt = 'UPDATE {{%issue}} SET ' . DB_Helper::buildSet($params). ' WHERE iss_id=?';
         $params[] = $issue_id;
@@ -1607,6 +1610,9 @@ class Issue
         if (isset($_POST['severity']) && $current['iss_sev_id'] != $_POST['severity']) {
             $updated_fields['Severity'] = History::formatChanges(Severity::getTitle($current['iss_sev_id']), Severity::getTitle($_POST['severity']));
             Workflow::handleSeverityChange($prj_id, $issue_id, $usr_id, $current, $_POST);
+        }
+        if (isset($_POST['scheduled_release']) && $current['iss_pre_id'] != $_POST['scheduled_release']) {
+            $updated_fields['Scheduled Release'] = History::formatChanges(Release::getTitle($current['iss_pre_id']), Release::getTitle($_POST['scheduled_release']));
         }
         if (isset($_POST['status']) && $current['iss_sta_id'] != $_POST['status']) {
             // clear out the last-triggered-reminder flag when changing the status of an issue
