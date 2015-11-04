@@ -396,7 +396,7 @@ class Notification
             $fixed_body = Mail_Helper::addWarningMessage($issue_id, $to, $body, $headers);
             $headers['To'] = Mime_Helper::encodeAddress($to);
 
-            Mail_Queue::add($to, $headers, $fixed_body, 1, $issue_id, $type, $sender_usr_id, $sup_id);
+            Mail_Queue::__add($to, $headers, $fixed_body, 1, $issue_id, $type, $sender_usr_id, $sup_id);
         }
     }
 

@@ -557,7 +557,7 @@ class Mail_Helper
 
         $this->setHeaders($headers);
         $hdrs = $this->mime->headers($this->headers);
-        $res = Mail_Queue::add($to, $hdrs, $body, $save_email_copy, $issue_id, $type, $sender_usr_id, $type_id);
+        $res = Mail_Queue::__add($to, $hdrs, $body, $save_email_copy, $issue_id, $type, $sender_usr_id, $type_id);
         if (Misc::isError($res) || $res == false) {
             return $res;
         }
