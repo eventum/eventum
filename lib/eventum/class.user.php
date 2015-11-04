@@ -350,9 +350,9 @@ class User
 
         $setup = Setup::get();
         $mail = new Mail_Helper();
-        // need to make this message MIME based
         $mail->setTextBody($text_message);
-        $mail->send($setup['smtp']['from'], $_POST['email'], APP_SHORT_NAME . ': New Account - Confirmation Required');
+        $subject = APP_SHORT_NAME . ': New Account - Confirmation Required';
+        $mail->send($setup['smtp']['from'], $_POST['email'], $subject);
 
         return 1;
     }
@@ -381,9 +381,9 @@ class User
 
         $setup = Setup::get();
         $mail = new Mail_Helper();
-        // need to make this message MIME based
         $mail->setTextBody($text_message);
-        $mail->send($setup['smtp']['from'], $info['usr_email'], APP_SHORT_NAME . ': New Password - Confirmation Required');
+        $subject = APP_SHORT_NAME . ': New Password - Confirmation Required';
+        $mail->send($setup['smtp']['from'], $info['usr_email'], $subject);
     }
 
     /**

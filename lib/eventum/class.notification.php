@@ -1247,7 +1247,8 @@ class Notification
             $setup = $mail->getSMTPSettings();
             $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
             $recipient = Mime_Helper::fixEncoding($recipient);
-            $mail->send($from, $recipient, "[#$issue_id] Issue Created: " . $data['iss_summary'], 0, $issue_id, 'auto_created_issue');
+            $subject = "[#$issue_id] Issue Created: {$data['iss_summary']}";
+            $mail->send($from, $recipient, $subject, 0, $issue_id, 'auto_created_issue');
 
             Language::restore();
         }
@@ -1324,7 +1325,8 @@ class Notification
                 $setup = $mail->getSMTPSettings();
                 $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
                 $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-                $mail->send($from, $recipient, "[#$issue_id] Issue Created: " . $data['iss_summary'], 1, $issue_id, 'email_converted_to_issue');
+                $subject = "[#$issue_id] Issue Created: {$data['iss_summary']}";
+                $mail->send($from, $recipient, $subject, 1, $issue_id, 'email_converted_to_issue');
             }
             Language::restore();
 
@@ -1430,7 +1432,9 @@ class Notification
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup['from'], $mail->getFormattedName($info['usr_full_name'], $info['usr_email']), APP_SHORT_NAME . ': ' . ev_gettext('User account information updated'));
+        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+        $subject = APP_SHORT_NAME . ': ' . ev_gettext('User account information updated');
+        $mail->send($setup['from'], $to, $subject);
 
         Language::restore();
     }
@@ -1465,7 +1469,9 @@ class Notification
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup['from'], $mail->getFormattedName($info['usr_full_name'], $info['usr_email']), APP_SHORT_NAME . ': ' . ev_gettext('User account password changed'));
+        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+        $subject = APP_SHORT_NAME . ': ' . ev_gettext('User account password changed');
+        $mail->send($setup['from'], $to, $subject);
 
         Language::restore();
     }
@@ -1500,7 +1506,9 @@ class Notification
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup['from'], $mail->getFormattedName($info['usr_full_name'], $info['usr_email']), APP_SHORT_NAME . ': ' . ev_gettext('New User information'));
+        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+        $subject = APP_SHORT_NAME . ': ' . ev_gettext('New User information');
+        $mail->send($setup['from'], $to, $subject);
 
         Language::restore();
     }
@@ -1628,7 +1636,9 @@ class Notification
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup['from'], $mail->getFormattedName($info['usr_full_name'], $info['usr_email']), APP_SHORT_NAME . ': ' . ev_gettext('Your User Account Details'));
+        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+        $subject = APP_SHORT_NAME . ': ' . ev_gettext('Your User Account Details');
+        $mail->send($setup['from'], $to, $subject);
         Language::restore();
     }
 
