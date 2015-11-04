@@ -34,6 +34,7 @@ define('APP_ERROR_LOG', STDERR);
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
 define('APP_SYSTEM_USER_ID', 1);
 define('APP_CHARSET', 'UTF-8');
+define('APP_EMAIL_ENCODING', 'APP_CHARSET');
 define('APP_DEFAULT_LOCALE', 'en_US');
 define('APP_HOSTNAME', 'eventum.example.org');
 define('APP_LOCKS_PATH', sys_get_temp_dir());

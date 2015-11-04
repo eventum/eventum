@@ -216,7 +216,8 @@ class MailMessageTest extends TestCase
     /**
      * @test that the result can be assembled after adding generic header!
      */
-    public function testInReplyTo() {
+    public function testInReplyTo()
+    {
         $mail = MailMessage::createFromFile(__DIR__ . '/data/multipart-text-html.txt');
         $mail->setInReplyTo('fu!');
         $mail->getRawContent();
@@ -456,5 +457,41 @@ class MailMessageTest extends TestCase
         $mail = MailMessage::createFromFile($filename);
         $body2 = $mail->getMessageBody();
         $this->assertEquals($body1, $body2);
+    }
+
+    public function testMailSend()
+    {
+        $this->skipCi("Uses database");
+
+        $text_message = 'tere';
+        $issue_id = 1;
+        $from = 'Eventum <support@example.org>';
+        $recipient = 'Eventum <support@example.org>';
+        $subject = "[#1] Issue Created";
+
+        $mail = new Mail_Helper();
+        $mail->setTextBody($text_message);
+        $headers = array(
+            'Message-ID' => '<eventum@eventum.example.org>',
+        );
+        $mail->setHeaders($headers);
+        // mail_send adds message to queue and returns headers+body
+        // somewhy it adds Date with current timestamp, plus rest of the headers
+        $res = $mail->send($from, $recipient, $subject, 0, $issue_id, 'auto_created_issue');
+        $res = explode("\r\n", $res);
+        // remove date header, it's hard to compare
+        array_shift($res);
+        $exp = array(
+            'MIME-Version: 1.0',
+            'Content-Type: text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding: 7bit',
+            'Message-ID: <eventum@eventum.example.org>',
+            'From: "Eventum" <support@example.org>',
+            'To: "Eventum" <support@example.org>',
+            'Subject: [#1] Issue Created',
+            '',
+            'tere',
+        );
+        $this->assertEquals($exp, $res);
     }
 }
