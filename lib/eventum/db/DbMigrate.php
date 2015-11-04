@@ -23,8 +23,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
 
 /**
  * Class handling database migrations
@@ -47,12 +45,37 @@ class DbMigrate
     /** @var string */
     private $table_prefix;
 
+    /** @var Closure */
+    private $logger;
+
     public function __construct($schema_dir)
     {
         $this->db = DB_Helper::getInstance();
         $this->dir = $schema_dir;
         $this->config = DB_Helper::getConfig();
         $this->table_prefix = $this->config['table_prefix'];
+        $this->logger = function ($e) {
+            echo $e, "\n";
+        };
+    }
+
+    public function setLogger($e)
+    {
+        if (!is_callable($e)) {
+            throw new InvalidArgumentException("Passed argument is not callable");
+        }
+        $this->logger = $e;
+    }
+
+    /**
+     * Log a message
+     *
+     * @param string $e
+     */
+    private function log($e)
+    {
+        $logger = $this->logger;
+        $logger($e);
     }
 
     public function patch_database()
@@ -73,7 +96,8 @@ class DbMigrate
                 continue;
             }
 
-            echo '* Applying patch: ', $number, ' (', basename($file), ")\n";
+            $basename = basename($file);
+            $this->log("* Applying patch: $number ($basename)");
             $this->exec_sql_file($file);
             $this->add_version($number);
             $addCount++;
@@ -83,17 +107,17 @@ class DbMigrate
         }
 
         if ($addCount == 0) {
-            echo "* Your database is already up-to-date. Version $maxpatch\n";
+            $this->log("* Your database is already up-to-date. Version $maxpatch");
         } else {
-            echo "* Your database is now up-to-date. Version $maxpatch\n";
+            $this->log("* Your database is now up-to-date. Version $maxpatch");
         }
     }
 
     private function init_database()
     {
-        $file = "{$this->dir}/schema.sql";
-        echo '* Creating database: ', basename($file), "\n";
-        $this->exec_sql_file($file);
+        $schemafile = 'schema.sql';
+        $this->log("* Creating database: $schemafile ");
+        $this->exec_sql_file("{$this->dir}/{$schemafile}");
     }
 
     private function exec_sql_file($input_file)
@@ -104,7 +128,7 @@ class DbMigrate
 
         // use *.php for complex updates
         if (substr($input_file, -4) == '.php') {
-            self::include_file($input_file, $this->db, $this->config);
+            self::include_file($input_file, $this->db, $this->config, $this->logger);
             return;
         }
 
@@ -118,14 +142,16 @@ class DbMigrate
     }
 
     /**
-     * isolate, prevent access to class properties.
-     * php patches have access to $db and $dbconfig variables.
+     * Isolate, to prevent access to class properties.
+     * PHP patches have access to $db and $dbconfig variables,
+     * and if they wish to echo something, should use $log() closure.
      *
      * @param string $file
      * @param DbInterface $db
      * @param array $dbconfig
+     * @param Closure $log
      */
-    private static function include_file($file, $db, $dbconfig)
+    private static function include_file($file, $db, $dbconfig, $log)
     {
         require $file;
     }
@@ -150,9 +176,11 @@ class DbMigrate
 
     /**
      * Return true if version table exists
+     *
      * @return bool
      */
-    private function hasVersionTable() {
+    private function hasVersionTable()
+    {
         $res = $this->db->getOne("SHOW TABLES LIKE '{$this->table_prefix}version'");
         return $res !== null;
     }
@@ -160,7 +188,8 @@ class DbMigrate
     /**
      * Return true if versio table is log based
      */
-    private function hasVersionLog() {
+    private function hasVersionLog()
+    {
         // check if ver_patch column exists
         $res = $this->db->getOne("SHOW FIELDS FROM {{%version}} LIKE 'ver_timestamp'");
         return $res !== null;

@@ -25,8 +25,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// +----------------------------------------------------------------------+
 
 require_once __DIR__ . '/../../init.php';
 
@@ -52,10 +50,10 @@ if (@$_POST['cat'] == 'update') {
         'description_email_0' => $_POST['description_email_0'],
         'spell_checker' => $_POST['spell_checker'],
         'irc_notification' => $_POST['irc_notification'],
-        'update' => $_POST['update'],
-        'closed' => $_POST['closed'],
-        'emails' => $_POST['emails'],
-        'files' => $_POST['files'],
+        'update' => (bool)Misc::ifSet($_POST, 'update'),
+        'closed' => (bool)Misc::ifSet($_POST, 'closed'),
+        'emails' => (bool)Misc::ifSet($_POST, 'emails'),
+        'files' => (bool)Misc::ifSet($_POST, 'files'),
         'smtp' => $smtp,
         'open_signup' => $_POST['open_signup'],
         'accounts_projects' => isset($_POST['accounts_projects']) ? $_POST['accounts_projects'] : null,

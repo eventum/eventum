@@ -24,13 +24,9 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
 
 /**
  * Holding all search relevant methods
- *
- * @author Elan Ruusamäe <glen@delfi.ee>
  */
 class Search
 {

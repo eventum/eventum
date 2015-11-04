@@ -24,8 +24,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Raul Raat <raul.raat@delfi.ee>                              |
-// +----------------------------------------------------------------------+
 
 require_once __DIR__ . '/../../init.php';
 
@@ -55,55 +53,55 @@ if (is_array($fields) && count($fields) > 0) {
     exit;
 }
 
-if (count(@$_POST['start']) > 0 &&
-        (@$_POST['start']['Year'] != 0) &&
-        (@$_POST['start']['Month'] != 0) &&
-        (@$_POST['start']['Day'] != 0)) {
-    $start_date = implode('-', $_POST['start']);
+if (count(@$_REQUEST['start']) > 0 &&
+        (@$_REQUEST['start']['Year'] != 0) &&
+        (@$_REQUEST['start']['Month'] != 0) &&
+        (@$_REQUEST['start']['Day'] != 0)) {
+    $start_date = implode('-', $_REQUEST['start']);
 }
 
-if (count(@$_POST['end']) > 0 &&
-        (@$_POST['end']['Year'] != 0) &&
-        (@$_POST['end']['Month'] != 0) &&
-        (@$_POST['end']['Day'] != 0)) {
-    $end_date = implode('-', $_POST['end']);
+if (count(@$_REQUEST['end']) > 0 &&
+        (@$_REQUEST['end']['Year'] != 0) &&
+        (@$_REQUEST['end']['Month'] != 0) &&
+        (@$_REQUEST['end']['Day'] != 0)) {
+    $end_date = implode('-', $_REQUEST['end']);
 }
-$per_user = empty($_POST['time_per_user']) ? false : true;
+$per_user = empty($_REQUEST['time_per_user']) ? false : true;
 
 $tpl->assign(array(
     'custom_fields' =>  $custom_fields,
-    'custom_field'  =>  @$_POST['custom_field'],
+    'custom_field'  =>  @$_REQUEST['custom_field'],
     'options'   =>  $options,
-    'custom_options'    =>  @$_POST['custom_options'],
+    'custom_options'    =>  @$_REQUEST['custom_options'],
     'selected_options'  => @$_REQUEST['custom_options'],
     'start_date'    =>  @$start_date,
     'end_date'      =>  @$end_date,
-    'report_type'   =>  @$_POST['report_type'],
+    'report_type'   =>  @$_REQUEST['report_type'],
     'per_user'   =>  $per_user,
     'weeks' => Date_Helper::getWeekOptions(3, 0),
 ));
 
-if (empty($_POST['week'])) {
+if (empty($_REQUEST['week'])) {
     $tpl->assign('week', Date_Helper::getCurrentWeek());
 } else {
-    $tpl->assign('week', $_POST['week']);
+    $tpl->assign('week', $_REQUEST['week']);
 }
 
-if (isset($_POST['custom_field'])) {
+if (isset($_REQUEST['custom_field'])) {
     $tpl->assign(array(
-        'field_info'  =>  Custom_Field::getDetails($_POST['custom_field']),
+        'field_info'  =>  Custom_Field::getDetails($_REQUEST['custom_field']),
     ));
 }
 
 // split date up
-if (@$_POST['report_type'] == 'weekly') {
-    $dates = explode('_', $_POST['week']);
+if (@$_REQUEST['report_type'] == 'weekly') {
+    $dates = explode('_', $_REQUEST['week']);
 } else {
     $dates = array(@$start_date, @$end_date);
 }
 
-if (count(@$_POST['custom_field']) > 0) {
-    $data = Report::getCustomFieldWeeklyReport(@$_POST['custom_field'], @$_POST['custom_options'], $dates[0], $dates[1], $per_user);
+if (count(@$_REQUEST['custom_field']) > 0) {
+    $data = Report::getCustomFieldWeeklyReport(@$_REQUEST['custom_field'], @$_REQUEST['custom_options'], $dates[0], $dates[1], $per_user);
     $tpl->assign(array(
         'data'  =>  $data,
     ));

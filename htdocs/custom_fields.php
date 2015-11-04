@@ -25,8 +25,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// +----------------------------------------------------------------------+
 
 require_once __DIR__ . '/../init.php';
 
@@ -46,7 +44,10 @@ if (!Issue::canUpdate($issue_id, Auth::getUserID())) {
 }
 
 if (@$_POST['cat'] == 'update_values') {
-    $res = Custom_Field::updateValues();
+    $res = Custom_Field::updateFromPost(true);
+    if (is_array($res)) {
+        $res = 1;
+    }
     $tpl->assign('update_result', $res);
 }
 

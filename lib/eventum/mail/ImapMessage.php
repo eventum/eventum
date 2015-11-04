@@ -22,8 +22,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
 
 use Zend\Mail\Storage\Message;
 use Zend\Mail\Address;
@@ -37,12 +35,14 @@ class ImapMessage extends MailMessage
 {
     /**
      * message index related to imap connection
+     *
      * @var int
      */
     public $num;
 
     /**
      * imap connection obtained from imap_open
+     *
      * @var resource
      */
     public $mbox;
@@ -88,7 +88,7 @@ class ImapMessage extends MailMessage
             }
         }
 
-        $message = new self(array('headers' => $headers, 'content' => $content, 'flags' => $flags));
+        $message = new self(array('root' => true, 'headers' => $headers, 'content' => $content, 'flags' => $flags));
 
         // set MailDate to $message object, as it's not available in message headers, only in IMAP itself
         // this likely "message received date"
@@ -98,7 +98,7 @@ class ImapMessage extends MailMessage
 
         $message->mbox = $mbox;
         $message->num = $num;
-        $message->infp = $info;
+        $message->info = $info;
 
         return $message;
     }
@@ -148,5 +148,15 @@ class ImapMessage extends MailMessage
     public function getProjectId()
     {
         return $this->info['ema_prj_id'];
+    }
+
+    /**
+     * Get The email account ID
+     *
+     * @return int
+     */
+    public function getEmailAccountId()
+    {
+        return $this->info['ema_id'];
     }
 }

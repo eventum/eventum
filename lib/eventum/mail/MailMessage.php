@@ -23,9 +23,8 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
 
+use Eventum\Mail\Helper\SanitizeHeaders;
 use Zend\Mail\Storage\Message;
 use Zend\Mail\Headers;
 use Zend\Mail\Header\AbstractAddressList;
@@ -35,9 +34,7 @@ use Zend\Mail\AddressList;
 use Zend\Mail\Header\Subject;
 use Zend\Mail\Header\ContentType;
 use Zend\Mail\Header\ContentTransferEncoding;
-use Zend\Mail\Header\To;
 use Zend\Mail\Header\GenericHeader;
-use Zend\Mail\Header\MessageId;
 use Zend\Mime;
 
 /**
@@ -52,6 +49,11 @@ use Zend\Mime;
 class MailMessage extends Message
 {
     /**
+     * Namespace for Header classes
+     */
+    const HEADER_NS = '\\Zend\\Mail\\Header\\';
+
+    /**
      * Public constructor
      *
      * @param array $params
@@ -60,63 +62,11 @@ class MailMessage extends Message
     {
         parent::__construct($params);
 
-        // TODO: do not set this for "child" messages (attachments)
-        $this->sanitizeHeaders($this->headers);
-    }
-
-    /**
-     * Sanitize Mail headers:
-     *
-     * - generate MessageId header in case it is missing
-     *
-     * @param Headers $headers
-     */
-    private function sanitizeHeaders(Headers $headers)
-    {
-        // add Message-Id, this needs to be first before we modify more headers
-        if (!$headers->has('Message-Id')) {
-            // add Message-Id header as it is missing
-            $text_headers = rtrim($headers->toString(), Headers::EOL);
-            $messageId = Mail_Helper::generateMessageID($text_headers, $this->getContent());
-            $header = new MessageId();
-            $headers->addHeader($header->setId(trim($messageId, '<>')));
+        // do not do this for "child" messages (attachments)
+        if (!empty($params['root'])) {
+            $helper = new SanitizeHeaders();
+            $helper($this);
         }
-
-        // headers to check and whether they need to be unique
-        $checkHeaders = array(
-            'From' => true,
-            'Subject' => true,
-            'Message-Id' => true,
-            'To' => false,
-            'Cc' => false,
-        );
-        foreach ($checkHeaders as $headerName => $unique) {
-            $headerClass = '\\Zend\\Mail\\Header\\' . $headerName;
-            $header = $this->getHeaderByName($headerName, $headerClass);
-            if ($unique) {
-                $this->removeDuplicateHeader($headers, $header);
-            }
-        }
-    }
-
-    /**
-     * Helper to remove duplicate headers, but keep only one.
-     *
-     * Note: headers order is changed when duplicate header is removed (header is removed and appended to the headers array)
-     *
-     * @param Headers $headers
-     * @param HeaderInterface|HeaderInterface[] $header
-     */
-    private function removeDuplicateHeader(Headers $headers, $header)
-    {
-        if ($header instanceof HeaderInterface) {
-            // all good
-            return;
-        }
-
-        $headerName = $header[0]->getFieldName();
-        $headers->removeHeader($headerName);
-        $headers->addHeader($header[0]);
     }
 
     /**
@@ -127,7 +77,7 @@ class MailMessage extends Message
      */
     public static function createFromString($raw)
     {
-        $message = new self(array('raw' => $raw));
+        $message = new self(array('root' => true, 'raw' => $raw));
         return $message;
     }
 
@@ -139,13 +89,13 @@ class MailMessage extends Message
      */
     public static function createFromFile($filename)
     {
-        $message = new self(array('file' => $filename));
+        $message = new self(array('root' => true, 'file' => $filename));
 
         return $message;
     }
 
     /**
-     * Assemble email into raw format.
+     * Assemble email into raw format including headers.
      *
      * @return string
      */
@@ -155,13 +105,41 @@ class MailMessage extends Message
     }
 
     /**
-     * Return true if mail has attachments
+     * Return true if mail has attachments,
+     * inline text messages are not accounted as attachments.
      *
      * @return  boolean
      */
     public function hasAttachments()
     {
-        return $this->isMultipart() && $this->countParts() > 0;
+        $have_multipart = $this->isMultipart() && $this->countParts() > 0;
+        if (!$have_multipart) {
+            return false;
+        }
+
+        $has_attachments = false;
+
+        // check what really the attachments are
+        foreach ($this as $part) {
+            $ctype = $part->getHeaderField('Content-Type');
+            $disposition = $part->getHeaderField('Content-Disposition');
+            $filename = $part->getHeaderField('Content-Disposition', 'filename');
+            $is_attachment = $disposition == 'attachment' || $filename;
+
+            if (in_array($ctype, array('text/plain', 'text/html', 'text/enriched'))) {
+                $has_attachments |= $is_attachment;
+            } else {
+                // avoid treating forwarded messages as attachments
+                $is_attachment |= ($disposition == 'inline' && $ctype != 'message/rfc822');
+                // handle inline images
+                $type = current(explode('/', $ctype));
+                $is_attachment |= $type == 'image';
+
+                $has_attachments |= $is_attachment;
+            }
+        }
+
+        return (bool)$has_attachments;
     }
 
     /**
@@ -220,6 +198,86 @@ class MailMessage extends Message
     }
 
     /**
+     * Returns the text message body.
+     *
+     * @return string The message body
+     * @see Mime_Helper::getMessageBody()
+     */
+    public function getMessageBody()
+    {
+        $parts = array();
+        foreach ($this as $part) {
+            $ctype = $part->getHeaderField('Content-Type');
+            $disposition = $part->getHeaderField('Content-Disposition');
+            $filename = $part->getHeaderField('Content-Disposition', 'filename');
+            $is_attachment = $disposition == 'attachment' || $filename;
+
+            $charset = $part->getHeaderField('Content-Type', 'charset');
+
+            switch ($ctype) {
+                case 'text/plain':
+                    if (!$is_attachment) {
+                        $format = $part->getHeaderField('Content-Type', 'format');
+                        $delsp = $part->getHeaderField('Content-Type', 'delsp');
+
+                        $text = Mime_Helper::convertString($part->getContent(), $charset);
+                        if ($format == 'flowed') {
+                            $text = Mime_Helper::decodeFlowedBodies($text, $delsp);
+                        }
+                        $parts['text'][] = $text;
+                    }
+                    break;
+
+                case 'text/html':
+                    if (!$is_attachment) {
+                        $parts['html'][] = Mime_Helper::convertString($part->getContent(), $charset);
+                    }
+                    break;
+
+                // special case for Apple Mail
+                case 'text/enriched':
+                    if (!$is_attachment) {
+                        $parts['html'][] = Mime_Helper::convertString($part->getContent(), $charset);
+                    }
+                    break;
+
+                default:
+                    // avoid treating forwarded messages as attachments
+                    $is_attachment |= ($disposition == 'inline' && $ctype != 'message/rfc822');
+                    // handle inline images
+                    $type = current(explode('/', $ctype));
+                    $is_attachment |= $type == 'image';
+
+                    if (!$is_attachment) {
+                        $parts['text'][] = $part->getContent();
+                    }
+            }
+        }
+
+        // now we have $parts with type 'text' and type 'html'
+        if (isset($parts['text'])) {
+            return implode("\n\n", $parts['text']);
+        }
+
+        if (isset($parts['html'])) {
+            $str = implode("\n\n", $parts['html']);
+
+            // hack for inotes to prevent content from being displayed all on one line.
+            $str = str_replace('</DIV><DIV>', "\n", $str);
+            $str = str_replace(array('<br>', '<br />', '<BR>', '<BR />'), "\n", $str);
+            // XXX: do we also need to do something here about base64 encoding?
+            $str = strip_tags($str);
+
+            // convert html entities. this should be done after strip tags
+            $str = html_entity_decode($str, ENT_QUOTES, APP_CHARSET);
+
+            return $str;
+        }
+
+        return null;
+    }
+
+    /**
      * Returns the referenced message-id for a given reply.
      *
      * @return string|null
@@ -262,7 +320,36 @@ class MailMessage extends Message
     }
 
     /**
-     * Get email addresses from specified headers, default from "To:" and "Cc:".
+     * Set In-Reply-To header value.
+     * The header is added if missing, otherwise value is replaced
+     *
+     * @param string $value
+     */
+    public function setInReplyTo($value)
+    {
+        /** @var GenericHeader $header */
+        $header = $this->getHeaderByName('In-Reply-To');
+        $header->setFieldValue($value);
+    }
+
+    /**
+     * Set References header value.
+     *
+     * @param string|string[] $value
+     */
+    public function setReferences($value)
+    {
+        if (is_array($value)) {
+            $value = join(' ', $value);
+        }
+
+        /** @var GenericHeader $header */
+        $header = $this->getHeaderByName('References');
+        $header->setFieldValue($value);
+    }
+
+    /**
+     * Get email addresses from specified headerBag, default from "To:" and "Cc:".
      *
      * @param array $headers
      * @return string[]
@@ -549,18 +636,26 @@ class MailMessage extends Message
      *
      * If not found, instantiates one based on $headerClass.
      *
-     * @param  string $headerName
-     * @param  string $headerClass
+     * @param string $headerName
+     * @param string $headerClass Header Class name, defaults to GenericHeader
      * @return HeaderInterface|\ArrayIterator header instance or collection of headers
      * @see Zend\Mail\Message::getHeaderByName
      */
-    protected function getHeaderByName($headerName, $headerClass)
+    public function getHeaderByName($headerName, $headerClass = 'GenericHeader')
     {
+        // add namespace if called without namespace
+        if ($headerClass[0] != '\\') {
+            $headerClass = self::HEADER_NS . $headerClass;
+        }
+
         $headers = $this->headers;
         if ($headers->has($headerName)) {
             $header = $headers->get($headerName);
         } else {
             $header = new $headerClass();
+            if ($header instanceof GenericHeader) {
+                $header->setFieldName($headerName);
+            }
             $headers->addHeader($header);
         }
         return $header;

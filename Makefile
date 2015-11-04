@@ -32,6 +32,9 @@ install: install-eventum install-cli install-scm
 dist:
 	./bin/release.sh
 
+quickdist:
+	QUICK=true ./bin/release.sh
+
 test:
 	phpunit
 

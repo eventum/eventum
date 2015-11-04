@@ -25,9 +25,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
 
 
 /**
@@ -63,11 +60,16 @@ class History
      * @param integer|string $htt_id The type ID of this history event.
      * @param string $summary The summary of the changes
      * @param array $context parameters used in summary
+     * @param null $min_role The minimum role that can view this entry. If null will default to role from $htt_id
      */
-    public static function add($iss_id, $usr_id, $htt_id, $summary, $context = array())
+    public static function add($iss_id, $usr_id, $htt_id, $summary, $context = array(), $min_role = null)
     {
         if (!is_numeric($htt_id)) {
             $htt_id = History::getTypeID($htt_id);
+        }
+
+        if (is_null($min_role)) {
+            $min_role = History::getTypeRole($htt_id);
         }
 
         $params = array(
@@ -77,6 +79,7 @@ class History
             'his_summary' => $summary,
             'his_context' => json_encode($context),
             'his_htt_id' => $htt_id,
+            'his_min_role'  =>  $min_role,
         );
 
         $stmt = 'INSERT INTO {{%issue_history}} SET '. DB_Helper::buildSet($params);
@@ -106,7 +109,7 @@ class History
                     htt_id = his_htt_id AND
                     his_is_hidden != 1 AND
                     his_iss_id=? AND
-                    htt_role <= ?
+                    his_min_role <= ?
                  ORDER BY
                     his_id $order_by";
         $params = array($iss_id, Auth::getCurrentRole());
@@ -182,6 +185,36 @@ class History
             $res = current($res);
         }
         $returns[$serialized] = $res;
+
+        return $res;
+    }
+
+    /**
+     * Returns the role for the history type based on id.
+     *
+     * @param   integer $id The id of the history type
+     * @return  integer The role of this type.
+     */
+    public static function getTypeRole($id)
+    {
+        static $returns;
+
+        if (!empty($returns[$id])) {
+            return $returns[$id];
+        }
+
+        $sql = "SELECT
+                    htt_role
+                FROM
+                    {{%history_type}}
+                WHERE
+                    htt_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->getOne($sql, array($id));
+        } catch (DbException $e) {
+            return null;
+        }
+        $returns[$id] = $res;
 
         return $res;
     }

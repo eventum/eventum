@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2014 Eventum Team.                                     |
+// | Copyright (c) 2014-2015 Eventum Team.                                |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -20,10 +20,8 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 class DbPear implements DbInterface
@@ -95,11 +93,24 @@ class DbPear implements DbInterface
     }
 
     /**
-     * @see DB_common::getAssoc
+     * Fetches an entire query result and returns it as an
+     * associative array using the first column as the key
+     *
+     * Keep in mind that database functions in PHP usually return string
+     * values for results regardless of the database's internal type.
+     *
+     * @param string $query
+     * @param bool $force_array
+     * @param mixed $params
+     * @param int $fetchmode
+     * @param bool $group
+     * @return array  the associative array containing the query results.
+     * @throws DbException on failure.
+     * @deprecated use fetchAssoc() instead for cleaner interface
      */
-    public function getAssoc(
+    private function getAssoc(
         $query, $force_array = false, $params = array(),
-        $fetchmode = DB_FETCHMODE_DEFAULT, $group = false
+        $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT, $group = false
     ) {
         if (is_array($force_array)) {
             throw new LogicException('force_array passed as array, did you mean fetchPair or forgot extra arg?');
@@ -114,7 +125,7 @@ class DbPear implements DbInterface
     /**
      * @see DB_common::getAssoc
      */
-    public function fetchAssoc($query, $params = array(), $fetchmode = DB_FETCHMODE_DEFAULT)
+    public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT)
     {
         $query = $this->quoteSql($query, $params);
         $res = $this->db->getAssoc($query, false, $params, $fetchmode, false);
@@ -137,7 +148,11 @@ class DbPear implements DbInterface
         $res = $this->db->query($query, $params);
         $this->assertError($res);
 
-        return $res;
+        if ($res instanceof DB_result) {
+            return $res;
+        }
+
+        return $res == DB_OK;
     }
 
     /**
@@ -166,23 +181,14 @@ class DbPear implements DbInterface
 
     /**
      * @see DB_common::getCol
-     * @deprecated
-     */
-    public function getCol($query, $col = 0, $params = array())
-    {
-        $query = $this->quoteSql($query, $params);
-        $res = $this->db->getCol($query, $col, $params);
-        $this->assertError($res);
-
-        return $res;
-    }
-
-    /**
-     * @see DbPear::getCol
      */
     public function getColumn($query, $params = array())
     {
-        return $this->getCol($query, 0, $params);
+        $query = $this->quoteSql($query, $params);
+        $res = $this->db->getCol($query, 0, $params);
+        $this->assertError($res);
+
+        return $res;
     }
 
     /**
@@ -202,14 +208,6 @@ class DbPear implements DbInterface
     public function escapeSimple($str)
     {
         $res = $this->db->escapeSimple($str);
-        $this->assertError($res);
-
-        return $res;
-    }
-
-    public function affectedRows()
-    {
-        $res = $this->db->affectedRows();
         $this->assertError($res);
 
         return $res;
@@ -258,15 +256,9 @@ class DbPear implements DbInterface
     }
 
     /**
-     * Processes a SQL statement by quoting table and column names that are enclosed within double brackets.
-     * Tokens enclosed within double curly brackets are treated as table names, while
-     * tokens enclosed within double square brackets are column names. They will be quoted accordingly.
-     * Also, the percentage character "%" at the beginning or ending of a table name will be replaced
-     * with [[tablePrefix]].
-     *
      * @param string $sql the SQL to be quoted
+     * @param array $params
      * @return string the quoted SQL
-     * @see https://github.com/yiisoft/yii2/blob/2.0.0/framework/db/Connection.php#L761-L783
      */
     private function quoteSql($sql, $params)
     {
@@ -280,22 +272,6 @@ class DbPear implements DbInterface
             $sql = preg_replace('/((?<!\\\)[&!])/', '\\\$1', $sql);
         }
 
-        // needed for PHP 5.3
-        $that = $this;
-        $tablePrefix = $this->tablePrefix;
-
-        $sql = preg_replace_callback(
-            '/(\\{\\{(%?[\w\-\. ]+%?)\\}\\}|\\[\\[([\w\-\. ]+)\\]\\])/',
-            function ($matches) use ($that, $tablePrefix) {
-                if (isset($matches[3])) {
-                    return $that->quoteIdentifier($matches[3]);
-                } else {
-                    return str_replace('%', $tablePrefix, $that->quoteIdentifier($matches[2]));
-                }
-            },
-            $sql
-        );
-
-        return $sql;
+        return DB_Helper::quoteTableName($this, $this->tablePrefix, $sql);
     }
 }

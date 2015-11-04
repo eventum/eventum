@@ -5,6 +5,8 @@
  * Also set Untitled.jpg to unnamed attachments (Usually inline).
  */
 
+/** @var DbInterface $db */
+
 // Attachments that need to be decoded
 $res = $db->getAll('SELECT iaf_id, iaf_filename FROM {{%issue_attachment_file}} WHERE iaf_filename LIKE ?', array('%=?%'));
 

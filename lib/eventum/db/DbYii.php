@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2014 Eventum Team.                                     |
+// | Copyright (c) 2014-2015 Eventum Team.                                |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -23,17 +23,13 @@
 // | 59 Temple Place - Suite 330                                          |
 // | Boston, MA 02111-1307, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-
-require_once 'DB.php';
 
 /**
  * Class DbYii
  *
  * Proxy PEAR::DB like interface to Yii2
  */
-class DbYii implements DbInterface
+class DbYii extends DbBasePdo implements DbInterface
 {
     /**
      * @var \yii\db\Connection
@@ -50,7 +46,7 @@ class DbYii implements DbInterface
 
         /** @noinspection PhpIncludeInspection */
         require_once APP_PATH . '/vendor/yiisoft/yii2/Yii.php';
-        $yiiConfig = self::getYiiConfig($config);
+        $yiiConfig = $this->getYiiConfig($config);
 
         $this->app = new \yii\web\Application($yiiConfig);
         $this->connection = \Yii::$app->db;
@@ -62,25 +58,19 @@ class DbYii implements DbInterface
      * @param array $config
      * @return array
      */
-    private static function getYiiConfig($config)
+    private function getYiiConfig($config)
     {
-        $dsn = "{$config['driver']}:host={$config['hostname']};dbname={$config['database']}";
-
-        // no dash variant listed, blindly reap "UTF-8" to "UTF8"
-        // http://dev.mysql.com/doc/refman/5.0/en/charset-charsets.html
-        $charset = strtolower(str_replace('-', '', APP_CHARSET));
-
         $yiiConfig = array(
-            'id'         => 'eventum',
-            'basePath'   => APP_PATH,
+            'id' => 'eventum',
+            'basePath' => APP_PATH,
 
             'components' => array(
                 'db' => array(
-                    'class'       => 'yii\db\Connection',
-                    'dsn'         => $dsn,
-                    'username'    => $config['username'],
-                    'password'    => $config['password'],
-                    'charset'     => $charset,
+                    'class' => 'yii\db\Connection',
+                    'dsn' => $this->getDsn($config),
+                    'username' => $config['username'],
+                    'password' => $config['password'],
+                    'charset' => $this->getCharset(),
 
                     'tablePrefix' => $config['table_prefix'],
                 ),
@@ -99,38 +89,6 @@ class DbYii implements DbInterface
         return $command->queryAll($fetchmode);
     }
 
-    /**
-     * @deprecated use getPair where possible
-     */
-    public function getAssoc(
-        $query, $force_array = false, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT, $group = false
-    ) {
-        if (is_array($force_array)) {
-            throw new LogicException('force_array passed as array, did you mean fetchPair or forgot extra arg?');
-        }
-        if (!$force_array && $fetchmode == DbInterface::DB_FETCHMODE_DEFAULT) {
-            return $this->getPair($query, $params);
-        }
-
-//        if ($force_array) {
-//            var_dump($force_array, $fetchmode == DB_FETCHMODE_ASSOC);
-//            throw new UnexpectedValueException(__FUNCTION__ . " unsupported force array");
-//        }
-
-        if ($fetchmode != DbInterface::DB_FETCHMODE_ASSOC) {
-            throw new UnexpectedValueException(__FUNCTION__ . ' unsupported fetchmode');
-        }
-
-        if ($group !== false) {
-            throw new UnexpectedValueException(__FUNCTION__ . ' unsupported group mode');
-        }
-
-        $this->convertParams($params);
-        $command = $this->connection->createCommand($query, $params);
-
-        return $command->queryAll(PDO::FETCH_GROUP | PDO::FETCH_UNIQUE | PDO::FETCH_ASSOC);
-    }
-
     public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT)
     {
         $this->convertParams($params);
@@ -142,7 +100,7 @@ class DbYii implements DbInterface
         } elseif ($fetchmode == DbInterface::DB_FETCHMODE_DEFAULT) {
             $flags |= PDO::FETCH_NUM;
         } else {
-            throw new UnexpectedValueException(__FUNCTION__ . ' unsupported fetchmode: '. $fetchmode);
+            throw new UnexpectedValueException(__FUNCTION__ . ' unsupported fetchmode: ' . $fetchmode);
         }
 
         return $command->queryAll($flags);
@@ -154,22 +112,6 @@ class DbYii implements DbInterface
         $command = $this->connection->createCommand($query, $params);
 
         return $command->queryAll(PDO::FETCH_KEY_PAIR);
-    }
-
-    /**
-     * @deprecated use getColumn instead
-     */
-    public function getCol($query, $col = 0, $params = array())
-    {
-        if (is_array($col)) {
-            throw new LogicException('col passed as array, did you mean to use getColumn?');
-        }
-
-        if ($col !== 0) {
-            throw new UnexpectedValueException(__FUNCTION__ . ' - col != 0 not implemented');
-        }
-
-        return $this->getColumn($query, $params);
     }
 
     public function getColumn($query, $params = array())
@@ -209,6 +151,11 @@ class DbYii implements DbInterface
      */
     public function escapeSimple($str)
     {
+        // doesn't do arrays
+        if (!is_scalar($str)) {
+            return null;
+        }
+
         $str = $this->connection->quoteValue($str);
 
         if ($str[0] == "'") {
@@ -223,17 +170,14 @@ class DbYii implements DbInterface
         $this->convertParams($params);
         $command = $this->connection->createCommand($query, $params);
 
-        return $command->execute();
+        $command->execute();
+
+        return true;
     }
 
     public function quoteIdentifier($str)
     {
         return $this->connection->quoteColumnName($str);
-    }
-
-    public function affectedRows()
-    {
-        throw new RuntimeException(__FUNCTION__.' not implemented');
     }
 
     /**
@@ -264,22 +208,6 @@ class DbYii implements DbInterface
         if (array_key_exists(0, $params)) {
             array_unshift($params, false);
             unset($params[0]);
-        }
-    }
-
-    private function convertFetchMode(&$fetchmode)
-    {
-        switch ($fetchmode) {
-            case DbInterface::DB_FETCHMODE_ASSOC:
-                $fetchmode = PDO::FETCH_ASSOC;
-                break;
-
-            case DbInterface::DB_FETCHMODE_DEFAULT:
-                $fetchmode = PDO::FETCH_NUM;
-                break;
-
-            default:
-                throw new UnexpectedValueException('Unsupported fetchmode');
         }
     }
 }

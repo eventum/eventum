@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,11 +22,8 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 
@@ -164,7 +161,7 @@ class Project
                  ORDER BY
                     prj_title";
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }
@@ -638,7 +635,7 @@ class Project
                 User::ROLE_MANAGER,
             );
             if ($include_extra) {
-                $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DB_FETCHMODE_ASSOC);
+                $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DbInterface::DB_FETCHMODE_ASSOC);
             } else {
                 $res = DB_Helper::getInstance()->getPair($stmt, $params);
             }
@@ -688,7 +685,7 @@ class Project
                  ORDER BY
                     usr_full_name ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return '';
         }
@@ -745,7 +742,7 @@ class Project
                  ORDER BY
                     prj_title';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }
@@ -840,7 +837,7 @@ class Project
                     usr_customer_id DESC,
                     usr_full_name ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return '';
         }
@@ -866,7 +863,7 @@ class Project
                  ORDER BY
                     prj_title";
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }
@@ -908,7 +905,7 @@ class Project
                  ORDER BY
                     prj_title';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($usr_id, User::ROLE_CUSTOMER));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($usr_id, User::ROLE_CUSTOMER));
         } catch (DbException $e) {
             return '';
         }
@@ -957,7 +954,7 @@ class Project
                  ORDER BY
                     usr_email ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return '';
         }

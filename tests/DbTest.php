@@ -34,6 +34,27 @@ class DbTest extends TestCase
         );
     }
 
+    /** @group query */
+    public function testQuery()
+    {
+        $res = $this->db->query('update {{%user}} set usr_lang=? where 1=0', array('en_US'));
+        $this->assertEquals(true, $res);
+
+    }
+
+    /** @group query */
+    public function testQuerySelect()
+    {
+        if (!$this->db instanceof DbPear) {
+            $this->markTestSkipped('Only possible with DbPear');
+        }
+
+        // only DbPear returns resultset for SELECT statements
+        $res = $this->db->query("select usr_id from {{%user}} where usr_id=?", array(2));
+        $this->assertNotSame(true, $res);
+        print_r($res);
+    }
+
     /** @group getAll */
     public function testGetAllDefault()
     {
@@ -63,7 +84,7 @@ class DbTest extends TestCase
     public function testGetAllAssoc()
     {
         $res = $this->db->getAll(
-            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?', array(2),
+            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=? AND usr_id!=42', array(2),
             DbInterface::DB_FETCHMODE_ASSOC
         );
         $this->assertInternalType('array', $res);
@@ -84,107 +105,27 @@ class DbTest extends TestCase
         $this->assertEquals($exp, $res);
     }
 
-    /** @group getAssoc */
-    public function testGetAssocTrueDefault()
+    /** @group getAll */
+    public function testGetAllOrdered()
     {
-        $this->markTestSkipped("this combination is never used in eventum code");
-        $res = $this->db->getAssoc(
-            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
-            true, array(2),
-            DbInterface::DB_FETCHMODE_DEFAULT
-        );
+        if (!$this->db instanceof DbPear) {
+            $this->markTestSkipped('Only possible with DbPear');
+        }
 
-        $this->assertInternalType('array', $res);
-        $exp = array(
-            1 => array(
-                0 => 'system',
-                1 => 'system-account@example.com',
-                2 => null,
-            ),
-            2 => array(
-                0 => 'Admin User',
-                1 => 'admin@example.com',
-                2 => 'en_US',
-            ),
-        );
-        $this->assertEquals($exp, $res);
-    }
-
-    /** @group getAssoc */
-    public function testGetAssocFalseDefault()
-    {
-        $this->markTestSkipped("this fails under yii as it tries to switch to fetchPair");
-
-        $res = $this->db->getAssoc(
-            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
-            false, array(2),
-            DbInterface::DB_FETCHMODE_DEFAULT
-        );
-
-        $this->assertInternalType('array', $res);
-        $exp = array(
-            1 => array(
-                0 => 'system',
-                1 => 'system-account@example.com',
-                2 => null,
-            ),
-            2 => array(
-                0 => 'Admin User',
-                1 => 'admin@example.com',
-                2 => 'en_US',
-            ),
-        );
-        $this->assertEquals($exp, $res);
-    }
-
-    /** @group getAssoc */
-    public function testGetAssocFalseAssoc()
-    {
-        $res = $this->db->getAssoc(
-            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
-            false, array(2),
-            DbInterface::DB_FETCHMODE_ASSOC
-        );
-
-        $this->assertInternalType('array', $res);
-        $exp = array(
-            1 => array(
-                'usr_full_name' => 'system',
-                'usr_email' => 'system-account@example.com',
-                'usr_lang' => null,
-            ),
-            2 => array(
-                'usr_full_name' => 'Admin User',
-                'usr_email' => 'admin@example.com',
-                'usr_lang' => null,
-            ),
-        );
-        $this->assertEquals($exp, $res);
-    }
-
-    /** @group getAssoc */
-    public function testGetAssocTrueAssoc()
-    {
-        $res = $this->db->getAssoc(
-            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
-            true, array(2),
-            DbInterface::DB_FETCHMODE_ASSOC
-        );
-
-        $this->assertInternalType('array', $res);
-        $exp = array(
-            1 => array(
-                'usr_full_name' => 'system',
-                'usr_email' => 'system-account@example.com',
-                'usr_lang' => null,
-            ),
-            2 => array(
-                'usr_full_name' => 'Admin User',
-                'usr_email' => 'admin@example.com',
-                'usr_lang' => null,
-            ),
-        );
-        $this->assertEquals($exp, $res);
+        $stmt
+            = "SELECT
+                    CONCAT('/', lfi_pattern, '/i'),
+                    lfi_replacement
+                FROM
+                    {{%link_filter}},
+                    {{%project_link_filter}}
+                WHERE
+                    lfi_id = plf_lfi_id
+                ORDER BY
+                    lfi_id";
+        $res1 = $this->db->getAll($stmt, array(), DbInterface::DB_FETCHMODE_ORDERED);
+        $res2 = $this->db->getAll($stmt, array(), DbInterface::DB_FETCHMODE_DEFAULT);
+        $this->assertSame($res1, $res2);
     }
 
     /** @group fetchAssoc */
@@ -213,7 +154,7 @@ class DbTest extends TestCase
     }
 
     /** @group fetchAssoc */
-    public function testFetchAssoc()
+    public function testFetchAssocAssoc()
     {
         $res = $this->db->fetchAssoc(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
@@ -233,6 +174,31 @@ class DbTest extends TestCase
                 'usr_email' => 'admin@example.com',
                 'usr_lang' => null,
             ),
+        );
+        $this->assertEquals($exp, $res);
+    }
+
+    /**
+     * fetchAssoc with tow columns behaves differently with DbPear.
+     * you should really use fetchpair then
+     *
+     * @group fetchAssoc
+     */
+    public function testFetchAssoc()
+    {
+        $stmt = 'SELECT sta_id, sta_title FROM {{%status}} ORDER BY sta_rank ASC';
+        if ($this->db instanceof DbPear) {
+            $res = $this->db->fetchAssoc($stmt);
+        } else {
+            $res = $this->db->getPair($stmt);
+        }
+        $exp = array(
+            1 => 'discovery',
+            2 => 'requirements',
+            3 => 'implementation',
+            4 => 'evaluation and testing',
+            5 => 'released',
+            6 => 'killed',
         );
         $this->assertEquals($exp, $res);
     }
@@ -318,5 +284,20 @@ class DbTest extends TestCase
             'usr_lang' => null,
         );
         $this->assertEquals($exp, $res);
+    }
+
+    public function testBuildSet()
+    {
+        $table = "test_" . __FUNCTION__;
+        $this->db->query("CREATE TEMPORARY TABLE $table (id INT, v1 CHAR(1), v2 CHAR(2))");
+
+        $params = array(
+            'id' => 1,
+            'v1' => 'a',
+            'v2' => '22',
+        );
+        $stmt = "INSERT INTO $table SET " . DB_Helper::buildSet($params);
+
+        DB_Helper::getInstance()->query($stmt, $params);
     }
 }

@@ -3,6 +3,8 @@ Eventum Code Contributions
 
 The Eventum project welcomes all contributions under a GPL license.
 
+Submission of a patch implies that the submmitter acknowledges that they are the author of the code (or have permission from the author to release the code) and agree that the code can be released under the GPL. The copyright for the changes will then revert to the Eventum Development Team - this is required so that any copyright infringements can be investigated quickly without contacting a huge list of copyright holders. Credit will always be given for any patches through a [AUTHORS](AUTHORS) file in the distribution.
+
 ## Reporting issues
 
 Bugs should be reported to [issue tracker](https://github.com/eventum/eventum/issues).

@@ -25,8 +25,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// +----------------------------------------------------------------------+
 
 require_once __DIR__ . '/../init.php';
 
@@ -313,6 +311,7 @@ $tpl->assign('issue_lock', $issue_lock);
         'current_year' =>   date('Y'),
         'products'     => Product::getList(false),
         'grid'         => $columns,
+        'custom_fields'=> Custom_Field::getListByIssue($prj_id, $issue_id, $usr_id)
     ));
 
 $tpl->assign('usr_role_id', User::getRoleByUser($usr_id, $prj_id));

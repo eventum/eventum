@@ -32,9 +32,10 @@
         </table>
     </div>
       {if $issue_access.update and $custom_fields != "" }
-      <form>
+      <form method="get" action="update.php">
+      <input type="hidden" name="id" value="{$issue.iss_id}">
       <div class="buttons">
-          <input type="button" value="{t}Update{/t}" id='update_custom_fields' data-issue-id="{$issue_id}">
+          <input type="submit" value="{t}Update Issue{/t}">
       </div>
       </form>
       {/if}

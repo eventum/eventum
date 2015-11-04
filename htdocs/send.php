@@ -25,9 +25,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
 
 require_once __DIR__ . '/../init.php';
 
@@ -78,11 +75,14 @@ if ($cat == 'send_email') {
     }
     // enter the time tracking entry about this new email
     if (!empty($_POST['time_spent'])) {
-        $date = (array) $_POST['date'];
-        $ttc_id = Time_Tracking::getCategoryId($prj_id, 'Email Discussion');
+        if (isset($_POST['time_summary']) && !empty($_POST['time_summary'])) {
+            $summary = (string) $_POST['time_summary'];
+        } else {
+            $summary = 'Time entry inserted when sending outgoing email.';
+        }
+        $ttc_id = (int) $_POST['time_category'];
         $time_spent = (int) $_POST['time_spent'];
-        $summary = 'Time entry inserted when sending outgoing email.';
-        Time_Tracking::addTimeEntry($issue_id, $ttc_id, $time_spent, $date, $summary);
+        Time_Tracking::addTimeEntry($issue_id, $ttc_id, $time_spent, false, $summary);
     }
 } elseif ($cat == 'save_draft') {
     $res = Draft::saveEmail($issue_id, $_POST['to'], $_POST['cc'], $_POST['subject'], $_POST['message'], $_POST['parent_id']);
@@ -95,11 +95,14 @@ if ($cat == 'send_email') {
 // enter the time tracking entry about this new email
 if ($cat == 'save_draft' || $cat == 'update_draft') {
     if (!empty($_POST['time_spent'])) {
-        $date = (array) $_POST['date'];
-        $ttc_id = Time_Tracking::getCategoryId($prj_id, 'Email Discussion');
+        if (isset($_POST['time_summary']) && !empty($_POST['time_summary'])) {
+            $summary = (string) $_POST['time_summary'];
+        } else {
+            $summary = 'Time entry inserted when saving an email draft.';
+        }
+        $ttc_id = (int) $_POST['time_category'];
         $time_spent = (int) $_POST['time_spent'];
-        $summary = 'Time entry inserted when saving an email draft.';
-        Time_Tracking::addTimeEntry($issue_id, $ttc_id, $time_spent, $date, $summary);
+        Time_Tracking::addTimeEntry($issue_id, $ttc_id, $time_spent, false, $summary);
     }
 }
 
@@ -184,6 +187,8 @@ $tpl->assign(array(
     'issue_access' => Access::getIssueAccessArray($issue_id, $usr_id),
     'max_attachment_size' => Attachment::getMaxAttachmentSize(),
     'max_attachment_bytes' => Attachment::getMaxAttachmentSize(true),
+    'time_categories'    => Time_Tracking::getAssocCategories($prj_id),
+    'email_category_id'   => Time_Tracking::getCategoryId($prj_id, 'Email Discussion'),
 ));
 
 // don't add signature if it already exists. Note: This won't handle multiple user duplicate sigs.

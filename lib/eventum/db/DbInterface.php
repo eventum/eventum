@@ -4,7 +4,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2014 Eventum Team.                                     |
+// | Copyright (c) 2014-2015 Eventum Team.                                |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -20,10 +20,8 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 /**
@@ -57,16 +55,6 @@ interface DbInterface
     public function __construct(array $config);
 
     /**
-     * Determines the number of rows affected by a data manipulation query
-     *
-     * 0 is returned for queries that don't manipulate data.
-     *
-     * @return int  the number of rows
-     * @throws DbException on failure.
-     */
-    public function affectedRows();
-
-    /**
      * Escapes a string according to the current DBMS's standards
      *
      * @param string $str the string to be escaped
@@ -76,12 +64,14 @@ interface DbInterface
     public function escapeSimple($str);
 
     /**
-     * Sends a query to the database server
+     * Executes the SQL statement.
+     *
+     * This method should only be used for executing non-query SQL statement, such as `INSERT`, `DELETE`, `UPDATE` SQLs.
      *
      * @param string $query the SQL query or the statement to prepare
      * @param mixed $params array, string or numeric data
-     * @return mixed  a new DB_result object for successful SELECT queries
-     *                 or DB_OK for successful data manipulation queries.
+     * @return bool|object A new DB_result object for successful SELECT queries
+     * or true for successful data manipulation queries.
      * @throws DbException on failure.
      */
     public function query($query, $params = array());
@@ -116,24 +106,6 @@ interface DbInterface
      * values for results regardless of the database's internal type.
      *
      * @param string $query
-     * @param bool $force_array
-     * @param mixed $params
-     * @param int $fetchmode
-     * @param bool $group
-     * @return array  the associative array containing the query results.
-     * @throws DbException on failure.
-     * @deprecated use fetchAssoc() instead for cleaner interface
-     */
-    public function getAssoc($query, $force_array = false, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT, $group = false);
-
-    /**
-     * Fetches an entire query result and returns it as an
-     * associative array using the first column as the key
-     *
-     * Keep in mind that database functions in PHP usually return string
-     * values for results regardless of the database's internal type.
-     *
-     * @param string $query
      * @param mixed $params
      * @param int $fetchmode
      * @throws DbException on failure.
@@ -141,25 +113,12 @@ interface DbInterface
     public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT);
 
     /**
-     * Fetches a single column from a query result and returns it as an
-     * indexed array
-     *
-     * @param string $query the SQL query
-     * @param mixed $col which column to return
-     * @param mixed $params array, string or numeric data
-     * @return array  the results as an array.
-     * @throws DbException on failure.
-     * @deprecated use getColumn() instead and reorder select fields if need some other index
-     */
-    public function getCol($query, $col = 0, $params = array());
-
-    /**
      * Fetches a first column from a query result and returns it as an
      * indexed array
      *
      * @param string $query the SQL query
      * @param mixed $params array, string or numeric data
-     * @return array  the results as an array.
+     * @return array the results as an array.
      * @throws DbException on failure.
      */
     public function getColumn($query, $params = array());
@@ -180,9 +139,9 @@ interface DbInterface
      * Fetches an entire query result and returns it as an
      * associative array using the first column as the key
      *
-     * This mode requires the result set to contain exactly 2 columns use getAssoc() if you need more.
+     * This mode requires the result set to contain exactly 2 columns use fetchAssoc() if you need more.
      *
-     * @see DbInterface::getAssoc
+     * @see DbInterface::fetchAssoc
      * @param string $query
      * @param mixed $params
      * @return array  the associative array containing the query results.

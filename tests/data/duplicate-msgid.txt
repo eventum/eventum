@@ -1,0 +1,24 @@
+Return-Path: <support-bounces@example.org>
+Delivered-To: eventum-imap@example.org
+Received: from localhost ([127.0.0.1] helo=lookout.example.org)
+	by lookout.example.org with esmtp (Exim 4.63)
+	(envelope-from <monitoring@example.com>) id 1TkKht-0006aj-IP
+	for support@example.org; Sun, 16 Dec 2012 21:21:05 +0100
+Date: Sun, 16 Dec 2012 21:21:05 +0100
+To: support@example.org
+To: support-2@example.org
+From: Gemius Monitoring 24/7  <monitoring@example.com>
+Subject: [FAILURE] AO emitter and hitcollectors
+Message-ID: <81421718b55935a2f5105705f8baf571@lookout.example.org>
+X-Priority: 3
+Message-ID: <fb9b070b03993cb452c2959a3a35781d@unix.gem.pl>
+x-mailer: Lookout ver.2.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+X-BeenThere: support@example.org
+Precedence: list
+Sender: support-bounces@example.org
+Errors-To: support-bounces@example.org
+
+Hello

@@ -25,9 +25,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
 
 class Mail_Queue
 {
@@ -597,7 +594,7 @@ class Mail_Queue
                     maq_status = 'sent' AND
                     maq_queued_date <= DATE_SUB(NOW(), INTERVAL 1 MONTH)";
         try {
-            $res = DB_Helper::getInstance()->query($sql);
+            DB_Helper::getInstance()->query($sql);
         } catch (DbException $e) {
             return false;
         }

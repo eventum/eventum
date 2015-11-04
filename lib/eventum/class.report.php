@@ -25,9 +25,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
 
 /**
  * Class to handle the business logic related to all aspects of the
@@ -534,7 +531,7 @@ class Report
                  GROUP BY
                     time_period';
         try {
-            $total = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $total = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -558,7 +555,7 @@ class Report
                  GROUP BY
                     time_period";
         try {
-            $dev_stats = DB_Helper::getInstance()->fetchAssoc($stmt, $emails);
+            $dev_stats = DB_Helper::getInstance()->getPair($stmt, $emails);
         } catch (DbException $e) {
             return array();
         }
@@ -783,11 +780,12 @@ class Report
 
         $data = array();
         foreach ($options as $cfo_id => $value) {
-            $params = array();
+            $fields = 1;
             $stmt = 'SELECT';
             if ($label_field != '') {
                 $stmt .= "
                         $label_field as label,";
+                $fields++;
             }
             $stmt .= "
                         COUNT(DISTINCT $group_by_field)
@@ -817,7 +815,11 @@ class Report
                     ORDER BY
                         $label_field ASC";
                 try {
-                    $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+                    if ($fields > 2) {
+                        $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+                    } else {
+                        $res = DB_Helper::getInstance()->getPair($stmt, $params);
+                    }
                 } catch (DbException $e) {
                     return array();
                 }
@@ -1020,7 +1022,7 @@ class Report
             $stmt .= "\nORDER BY " . sprintf($order_by, 'iss_created_date');
         }
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -1081,7 +1083,7 @@ class Report
         }
 
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return array();
         }

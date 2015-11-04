@@ -25,9 +25,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
 
 require_once __DIR__ . '/../init.php';
 
@@ -63,7 +60,7 @@ $tpl->assign('notification_list_internal', $notification_list_internal['all']);
 
 $cat = isset($_REQUEST['cat']) ? (string) $_REQUEST['cat'] : null;
 if ($cat == 'close') {
-    Custom_Field::updateValues();
+    Custom_Field::updateFromPost();
     $res = Issue::close(Auth::getUserID(), $issue_id, $_REQUEST['send_notification'], $_REQUEST['resolution'], $_REQUEST['status'], $_REQUEST['reason'], @$_REQUEST['notification_list']);
 
     if (!empty($_POST['time_spent'])) {

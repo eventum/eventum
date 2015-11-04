@@ -25,9 +25,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
 //
 
 // XXX: try reading $_ENV['HOSTNAME'] and then ask the user if nothing could be found
@@ -52,6 +49,7 @@ define('APP_LOG_PATH', APP_VAR_PATH . '/log');
 define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
 define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
 define('APP_LOCAL_PATH', APP_CONFIG_PATH);
+define('APP_RELATIVE_URL', '../');
 
 header('Content-Type: text/html; charset=' . APP_CHARSET);
 
@@ -364,19 +362,6 @@ function e($s)
     return var_export($s, 1);
 }
 
-/**
- * @param $str
- * @return string
- */
-function strip_hashbang($str)
-{
-    $str = explode(PHP_EOL, $str);
-    array_shift($str);
-    $str = implode(PHP_EOL, $str);
-
-    return $str;
-}
-
 function get_queries($file)
 {
     $contents = file_get_contents($file);
@@ -469,23 +454,29 @@ function setup_database()
     }
 
     // setup database with upgrade script
-    $upgrade_script = APP_PATH . '/upgrade/update-database.php';
-    // use ob_ to strip out hashbang
-    ob_start();
+    $buffer = array();
     try {
-        define('IN_SETUP', true);
-        require $upgrade_script;
-        $out = ob_get_clean();
+        $dbmigrate = new DbMigrate(APP_PATH . '/upgrade');
+        $dbmigrate->setLogger(function($e) use (&$buffer) {
+            $buffer[] = $e;
+        });
+        $dbmigrate->patch_database();
         $e = false;
     } catch (Exception $e) {
-        $out = ob_get_clean();
     }
 
     global $tpl;
-    $tpl->assign('db_result', strip_hashbang($out));
+    $tpl->assign('db_result', join("\n", $buffer));
 
     if ($e) {
-        throw new RuntimeException("Database setup failed on upgrade:<br/><tt>{$e->getMessage()}</tt><br/><br/>You may want run update script <tt>$upgrade_script</tt> manually");
+        $upgrade_script = APP_PATH . '/upgrade/update-database.php';
+        $error = array(
+            "Database setup failed on upgrade:",
+            "<tt>{$e->getMessage()}</tt>",
+            "",
+            "You may want run update script <tt>$upgrade_script</tt> manually"
+        );
+        throw new RuntimeException(join("<br/>", $error));
     }
 
     // write db name now that it has been created

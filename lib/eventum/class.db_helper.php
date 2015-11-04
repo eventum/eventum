@@ -25,9 +25,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
 
 /**
  * Class to manage all tasks related to the DB abstraction module. This is only
@@ -35,6 +32,8 @@
  */
 class DB_Helper
 {
+    const DEFAULT_ADAPTER = 'DbPear';
+
     /**
      * @param bool $fallback
      * @return DbInterface
@@ -52,7 +51,7 @@ class DB_Helper
         $instance = false;
 
         $config = self::getConfig();
-        $className = isset($config['classname']) ? $config['classname'] : 'DbPear';
+        $className = isset($config['classname']) ? $config['classname'] : self::DEFAULT_ADAPTER;
 
         try {
             $instance = new $className($config);
@@ -135,6 +134,36 @@ class DB_Helper
         }
 
         return $max_allowed_packet;
+    }
+
+    /**
+     * Processes a SQL statement by quoting table and column names that are enclosed within double brackets.
+     * Tokens enclosed within double curly brackets are treated as table names, while
+     * tokens enclosed within double square brackets are column names. They will be quoted accordingly.
+     * Also, the percentage character "%" at the beginning or ending of a table name will be replaced
+     * with [[tablePrefix]].
+     *
+     * @param DbInterface $db
+     * @param string $tablePrefix
+     * @param string $sql
+     * @return string
+     * @see https://github.com/yiisoft/yii2/blob/2.0.0/framework/db/Connection.php#L761-L783
+     * @internal
+     */
+    public static function quoteTableName(DbInterface $db, $tablePrefix , $sql) {
+        $sql = preg_replace_callback(
+            '/(\\{\\{(%?[\w\-\. ]+%?)\\}\\}|\\[\\[([\w\-\. ]+)\\]\\])/',
+            function ($matches) use ($db, $tablePrefix) {
+                if (isset($matches[3])) {
+                    return $db->quoteIdentifier($matches[3]);
+                } else {
+                    return str_replace('%', $tablePrefix, $db->quoteIdentifier($matches[2]));
+                }
+            },
+            $sql
+        );
+
+        return $sql;
     }
 
     /**

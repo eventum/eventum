@@ -1,7 +1,18 @@
 Eventum Issue Tracking System
 =============================
 
-2015-??-??, Version 3.0.4
+2015-??-??, Version 3.0.6
+-------------------------
+
+- Update custom fields from update issue page (Bryan Alsdorf, #88)
+- Allow time category/summary to be set when sending emails (Bryan Alsdorf)
+
+2015-11-02, Version 3.0.5
+-------------------------
+
+- Fix routing settings read error (Elan Ruusamäe, #80)
+
+2015-10-31, Version 3.0.4
 -------------------------
 - Fix few Static & Deprecated calls (Craig Pinfold, #72)
 - Use randomlib for private key generation, add UI to regenerate it (Elan Ruusamäe, #73)
@@ -19,6 +30,9 @@ Eventum Issue Tracking System
 - IRC bot improvements (Elan Ruusamäe, #82)
 - Use var/ path for writable data (Elan Ruusamäe, #81)
 - Pass array of changed fields to Workflow::handleCustomFieldsUpdated (Bryan Alsdorf)
+- Custom Fields Weekly report: take also params from GET (Kristo Klausson, #86)
+- Manage Emails: Accept prj_id from GET to allow link bookmarking (Elan Ruusamäe)
+- Add DebugBar debug bar in development mode (Elan Ruusamäe, #87)
 
 2015-10-13, Version 3.0.3
 -------------------------

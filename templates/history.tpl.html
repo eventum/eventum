@@ -15,7 +15,7 @@
       </tr>
       {section name="i" loop=$changes}
       <tr class="{cycle values='odd,even'}">
-        <th {if $changes[i].htt_role > $core.roles.customer}class="internal"{/if} nowrap>
+        <th {if $changes[i].his_min_role > $core.roles.customer}class="internal"{/if} nowrap>
           {$changes[i].his_created_date}
         </th>
         <td width="85%">

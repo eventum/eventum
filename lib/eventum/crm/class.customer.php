@@ -2,8 +2,6 @@
 
 /**
  * Abstract class representing a customer
- *
- * @author Bryan Alsdorf <balsdorf@gmail.com>
  */
 abstract class Customer
 {

@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,10 +22,8 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
 
@@ -47,9 +45,6 @@
  * the excellent Horde package at http://www.horde.org. These functions are
  * licensed under the LGPL, and Horde's copyright notice is available
  * above.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 class Mime_Helper
 {
@@ -758,9 +753,9 @@ class Mime_Helper
      * @param   string $source_charset
      * @return  string The converted string
      */
-    private static function convertString($string, $source_charset)
+    public static function convertString($string, $source_charset)
     {
-        if (($source_charset == false) || ($source_charset == APP_CHARSET)) {
+        if ($source_charset == false || $source_charset == APP_CHARSET) {
             return $string;
         } else {
             $res = iconv($source_charset, APP_CHARSET, $string);
@@ -888,7 +883,7 @@ class Mime_Helper
      * @param   string $delsp If spaces should be deleted
      * @return  string The decoded body
      */
-    public function decodeFlowedBodies($body, $delsp)
+    public static function decodeFlowedBodies($body, $delsp)
     {
         if ($delsp == 'yes') {
             $delsp = true;

@@ -88,4 +88,34 @@ class ConfigTest extends TestCase
         // that empty addresses list is also false
         $this->assertFalse($setup['email_reminder']['status'] == 'enabled' && $setup['email_reminder']['addresses']);
     }
+
+    public function testArrayMerge()
+    {
+        $defaults = array(
+            'email_routing' => array(
+                'warning' => array(),
+            ),
+            'note_routing' => array(),
+            'draft_routing' => array(),
+            'subject_based_routing' => array(),
+        );
+        $config = array(
+            'email_routing' => array(
+                'recipient_type_flag' => 'Eventum',
+                'flag_location' => 'before',
+                'status' => 'enabled',
+                'address_prefix' => 'issue-',
+                'address_host' => 'eventum.example.org',
+                'host_alias' => 'eventum.example.net',
+                'warning' => array(
+                    'status' => 'disabled',
+                ),
+            ),
+        );
+        Setup::set($defaults);
+        Setup::set($config);
+
+        $config = Setup::get()->toArray();
+        $this->assertEquals('enabled', $config['email_routing']['status']);
+    }
 }

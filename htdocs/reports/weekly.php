@@ -25,8 +25,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
-// +----------------------------------------------------------------------+
 
 require_once __DIR__ . '/../../init.php';
 
@@ -42,20 +40,20 @@ if (!Access::canAccessReports(Auth::getUserID())) {
 
 $prj_id = Auth::getCurrentProject();
 
-if (count(@$_POST['start']) > 0 &&
-        (@$_POST['start']['Year'] != 0) &&
-        (@$_POST['start']['Month'] != 0) &&
-        (@$_POST['start']['Day'] != 0)) {
-    $start_date = implode('-', $_POST['start']);
+if (count(@$_REQUEST['start']) > 0 &&
+        (@$_REQUEST['start']['Year'] != 0) &&
+        (@$_REQUEST['start']['Month'] != 0) &&
+        (@$_REQUEST['start']['Day'] != 0)) {
+    $start_date = implode('-', $_REQUEST['start']);
 } elseif (!empty($_GET['start_date'])) {
     $start_date = $_GET['start_date'];
 }
 
-if (count(@$_POST['end']) > 0 &&
-        (@$_POST['end']['Year'] != 0) &&
-        (@$_POST['end']['Month'] != 0) &&
-        (@$_POST['end']['Day'] != 0)) {
-    $end_date = implode('-', $_POST['end']);
+if (count(@$_REQUEST['end']) > 0 &&
+        (@$_REQUEST['end']['Year'] != 0) &&
+        (@$_REQUEST['end']['Month'] != 0) &&
+        (@$_REQUEST['end']['Day'] != 0)) {
+    $end_date = implode('-', $_REQUEST['end']);
 } elseif (!empty($_GET['end_date'])) {
     $end_date = $_GET['end_date'];
 }

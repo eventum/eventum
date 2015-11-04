@@ -6,7 +6,7 @@
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -22,18 +22,12 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
-// +----------------------------------------------------------------------+
-//
-
 
 /**
  * Manages fields that are associated with an issue but can be displayed in many different places.
- *
- * @author  Bryan Alsdorf <bryan@mysql.com>
  */
 class Issue_Field
 {
@@ -185,7 +179,7 @@ class Issue_Field
         $fields = self::getFieldsToDisplay($issue_id, $location);
         foreach ($fields as $field_name => $field_options) {
             if ($field_name == 'custom') {
-                Custom_Field::updateValues();
+                Custom_Field::updateFromPost();
             } else {
                 self::setValue($issue_id, $field_name, $values[$field_name]);
             }

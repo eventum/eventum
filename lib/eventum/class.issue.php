@@ -25,9 +25,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
 
 /**
  * Class designed to handle all business logic related to the issues in the
@@ -1649,6 +1646,13 @@ class Issue
         if (isset($_POST['product']) && count($product_changes) > 0) {
             $updated_fields['Product'] = implode('; ', $product_changes);
         }
+
+        if (isset($_POST['custom_fields']) && count($_POST['custom_fields']) > 0) {
+            $updated_custom_fields = Custom_Field::updateValues($issue_id, $_POST['custom_fields']);
+        } else {
+            $updated_custom_fields = array();
+        }
+
         if (count($updated_fields) > 0) {
             // log the changes
             $changes = '';
@@ -1668,8 +1672,11 @@ class Issue
                 'changes' => $changes,
                 'user' => User::getFullName($usr_id)
             ));
+        }
+
+        if (count($updated_fields) > 0 || count($updated_custom_fields) > 0) {
             // send notifications for the issue being updated
-            Notification::notifyIssueUpdated($issue_id, $current, $_POST);
+            Notification::notifyIssueUpdated($issue_id, $current, $_POST, $updated_custom_fields);
         }
 
         // record group change as a separate change
@@ -2084,7 +2091,7 @@ class Issue
 
         $emails = array();
         // if there are any technical account managers associated with this customer, add these users to the notification list
-        if (isset($data['customer'])) {
+        if ($data['customer']) {
             $managers = CRM::getAccountManagers($prj_id, $data['customer']);
             foreach ($managers as $manager) {
                 $emails[] = $manager['usr_email'];
@@ -2765,7 +2772,7 @@ class Issue
                     iss_id IN ($ids)";
 
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return;
         }
@@ -2850,7 +2857,7 @@ class Issue
                  WHERE
                     iss_id in ($ids)";
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return;
         }
@@ -3337,7 +3344,7 @@ class Issue
                  ORDER BY
                     iss_id ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }

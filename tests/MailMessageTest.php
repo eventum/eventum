@@ -2,11 +2,6 @@
 
 class MailMessageTest extends TestCase
 {
-    public static function setUpBeforeClass()
-    {
-        self::skipCi("Not ready yet");
-    }
-
     public function testMissingMessageId()
     {
         $raw = "X-foo: 1\r\n\r\nnada";
@@ -92,6 +87,20 @@ class MailMessageTest extends TestCase
         $this->assertEquals($exp, join(',', $res));
     }
 
+    public function testMultipleToHeaders()
+    {
+        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+
+        $to = $message->getTo();
+        $this->assertInstanceOf('Zend\Mail\AddressList', $to);
+        $this->assertEquals('issue-73358@eventum.example.org', $message->to);
+
+        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-msgid.txt');
+        $to = $message->getTo();
+        $this->assertInstanceOf('Zend\Mail\AddressList', $to);
+        $this->assertEquals("support@example.org,\r\n support-2@example.org", $message->to);
+    }
+
     public function testIsBounceMessage()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
@@ -114,6 +123,10 @@ class MailMessageTest extends TestCase
         $has_attachments = $message->countParts();
         $this->assertEquals(2, $has_attachments);
         $this->assertTrue($message->hasAttachments());
+
+        // this one does not have "Attachments" even it is multipart
+        $message = MailMessage::createFromFile(__DIR__ . '/data/multipart-text-html.txt');
+        $this->assertFalse($message->hasAttachments());
     }
 
     public function testGetAttachments()
@@ -176,6 +189,37 @@ class MailMessageTest extends TestCase
         $ref2 = $mail->getAllReferences();
 
         $this->assertSame(join("\n", $ref1), join("\n", $ref2));
+    }
+
+    /**
+     * @covers Mail_Helper::rewriteThreadingHeaders()
+     */
+    public function testRewriteThreadingHeaders()
+    {
+        $mail = MailMessage::createFromFile(__DIR__ . '/data/in-reply-to.txt');
+        $msg_id = $mail->getReferenceMessageId();
+        $exp = '<CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
+        $this->assertEquals($exp, $msg_id);
+
+        $this->assertEquals($exp, $mail->InReplyTo);
+
+        $mail->setInReplyTo('foo-bar-123');
+        $value = 'foo-bar-123';
+        $this->assertEquals($value, $mail->InReplyTo);
+
+        $references = array(1, $msg_id);
+        $mail->setReferences($references);
+        $exp = '1 <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
+        $this->assertEquals($exp, $mail->References);
+    }
+
+    /**
+     * @test that the result can be assembled after adding generic header!
+     */
+    public function testInReplyTo() {
+        $mail = MailMessage::createFromFile(__DIR__ . '/data/multipart-text-html.txt');
+        $mail->setInReplyTo('fu!');
+        $mail->getRawContent();
     }
 
     public function testGetAddresses()
@@ -396,5 +440,21 @@ class MailMessageTest extends TestCase
             )
         );
         $this->assertEquals($exp, $mail->getHeaders()->toString());
+    }
+
+    /**
+     * @test $structure->body getting textual mail body from multipart message
+     */
+    public function testGetMailBody()
+    {
+        $filename = __DIR__ . '/data/multipart-text-html.txt';
+        $message = file_get_contents($filename);
+
+        $structure = Mime_Helper::decode($message, true, true);
+        $body1 = $structure->body;
+
+        $mail = MailMessage::createFromFile($filename);
+        $body2 = $mail->getMessageBody();
+        $this->assertEquals($body1, $body2);
     }
 }

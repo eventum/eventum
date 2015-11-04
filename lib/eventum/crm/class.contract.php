@@ -2,8 +2,6 @@
 
 /**
  * Abstract class representing a contract
- *
- * @author Bryan Alsdorf <balsdorf@gmail.com>
  */
 abstract class Contract
 {

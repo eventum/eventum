@@ -25,9 +25,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
 
 class Email_Account
 {
@@ -418,7 +415,7 @@ class Email_Account
                  ORDER BY
                     ema_title';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $projects);
+            $res = DB_Helper::getInstance()->getPair($stmt, $projects);
         } catch (DbException $e) {
             return '';
         }

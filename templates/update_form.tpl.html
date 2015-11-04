@@ -200,6 +200,9 @@
                     {include file="error_icon.tpl.html" field="description"}
                 </td>
             </tr>
+
+            {include file="edit_custom_fields.tpl.html" form_type='edit'}
+
             {if $core.current_role >= $core.roles.developer}
             <tr>
                 <th>{t}Private{/t}</th>

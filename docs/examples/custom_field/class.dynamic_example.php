@@ -4,7 +4,7 @@
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2008 MySQL AB                                          |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -20,10 +20,8 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
 // +----------------------------------------------------------------------+
 //
 
@@ -32,8 +30,6 @@ require_once 'class.dynamic.php';
 /**
  * Example dynamic custom field. This requires you create a custom field with the name "Dynamic Controller" and the options "red",
  * "blue" and "yellow". You also must create another custom field named whatever you like, with this file as the "Custom Field Backend".
- *
- * @author Bryan Alsdorf <bryan@mysql.com>
  */
 class Dynamic_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
 {

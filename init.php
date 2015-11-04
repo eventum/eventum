@@ -24,9 +24,6 @@
 // | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
 
 if (!file_exists(__DIR__ . '/config/config.php') || !filesize(__DIR__ . '/config/config.php')) {
     header('Location: setup/');
@@ -40,7 +37,7 @@ ini_set('memory_limit', '512M');
 ini_set('session.cache_limiter', 'nocache');
 
 define('APP_URL', 'https://github.com/eventum/eventum');
-define('APP_VERSION', '3.0.4-dev');
+define('APP_VERSION', '3.0.6-dev');
 
 // define base path
 define('APP_PATH', __DIR__);
@@ -171,3 +168,8 @@ if (!defined('APP_DEFAULT_DB') || !defined('APP_TABLE_PREFIX')) {
     unset($dbconfig);
 }
 */
+
+// setup debugbar, if it can be autoloaded
+if (class_exists('DebugBar\StandardDebugBar')) {
+    $debugbar = new DebugBar\StandardDebugBar();
+}

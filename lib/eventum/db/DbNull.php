@@ -20,10 +20,8 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 /**
@@ -37,24 +35,11 @@ class DbNull implements DbInterface
     {
     }
 
-    public function affectedRows()
-    {
-    }
-
     public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
     {
     }
 
-    public function getAssoc(
-        $query, $force_array = false, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT, $group = false
-    ) {
-    }
-
     public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT)
-    {
-    }
-
-    public function getCol($query, $col = 0, $params = array())
     {
     }
 
