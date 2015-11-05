@@ -254,7 +254,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $usr_id = $this->getLocalUserId($login, $remote['emails']);
 
         $data = array(
-            'password' => '',
+            // do not add 'password' field here.
+            // it maybe be set locally before ldap
+            // and we don't want to store it in mysql at all
             'full_name' => $remote['full_name'],
             'external_id' => $remote['uid'],
             'customer_id' => $remote['customer_id'],
@@ -263,9 +265,6 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
 
         // if local user found, update it and return usr id
         if ($usr_id) {
-            // do not reset user password, it maybe be set locally before ldap
-            unset($data['password']);
-
             $emails = $this->sortEmails($usr_id, $remote['emails']);
             if (!$emails) {
                 throw new AuthException('E-mail is required');
