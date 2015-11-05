@@ -6,7 +6,7 @@ This is a description of the options you will find in General Setup as an Admini
  * Configuration
    * General Setup
 
-[test](#Open Account Signup)
+[test](#open-account-signup)
 
 General Setup
 -------------
