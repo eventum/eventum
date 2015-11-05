@@ -6,14 +6,12 @@ This is a description of the options you will find in General Setup as an Admini
  * Configuration
    * General Setup
 
-[test](#open-account-signup)
-
 General Setup
 -------------
 
 #### Tool Caption
 
-The Tool Caption is the name for this particular Eventum Instance. The default value is "Eventum", but you can change it to something like "MyCompany Tracking System", "MyCompany Tickets" or "Tech Support". This caption will be displayed for all projects, in the main login screen, inside Eventum Header menu, at the upper left corner and within email notifications, so choose wisely, or even better, just leave "Eventum".
+The Tool Caption is the name for this particular Eventum Instance. The default value is "Eventum", but you can change it to something like "MyCompany Tracking System", "MyCompany Tickets" or "Tech Support". This caption will be displayed for all projects, on the browser tab, in the main login screen, inside Eventum Header menu, at the upper left corner and within email notifications, so choose wisely, or even better, just leave "Eventum".
 
 ### SMTP (Outgoing Email) Settings
 
