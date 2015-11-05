@@ -56,7 +56,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      */
     public function __construct()
     {
-        $setup = Setup::get()->ldap->toArray();
+        $setup = Setup::get()->ldap;
 
         $this->basedn = $setup['basedn'];
         $this->user_dn_string = $setup['userdn'];

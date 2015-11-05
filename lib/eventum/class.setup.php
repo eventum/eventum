@@ -75,6 +75,26 @@ class Setup
     }
 
     /**
+     * Set default values for specific section of config
+     *
+     * @param string $section
+     * @param array $defaults
+     * @return Config returns section that was just configured
+     */
+    public static function setDefaults($section, array $defaults)
+    {
+        $config = self::get();
+        $existing = $config[$section]->toArray();
+
+        // add defaults
+        $config->merge(new Config(array($section => $defaults)));
+        // and then whatever was already there
+        $config->merge(new Config(array($section => $existing)));
+
+        return $config[$section];
+    }
+
+    /**
      * Method used to save the setup options for the application.
      * The $options are merged with existing config and then saved.
      *
@@ -245,6 +265,7 @@ class Setup
             ),
 
             'smtp' => array(),
+            'ldap' => array(),
 
             'email_routing' => array(
                 'warning' => array(),
@@ -261,10 +282,6 @@ class Setup
             // default expiry: 5 minutes
             'issue_lock' => 300,
         );
-
-        if (APP_AUTH_BACKEND == 'ldap_auth_backend') {
-            $defaults['ldap'] = LDAP_Auth_Backend::getDefaults();
-        }
 
         return $defaults;
     }

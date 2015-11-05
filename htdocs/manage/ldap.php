@@ -64,7 +64,9 @@ if (@$_POST['cat'] == 'update') {
     $tpl->assign('result', $res);
 }
 
-$tpl->assign('setup', Setup::get()->ldap);
+$setup = Setup::setDefaults('ldap', LDAP_Auth_Backend::getDefaults());
+
+$tpl->assign('setup', $setup);
 $tpl->assign('project_list', Project::getAll());
 $tpl->assign('project_roles', array(0 => 'No Access') + User::getRoles());
 $tpl->assign('user_roles', User::getRoles(array('Customer')));
