@@ -273,15 +273,26 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             return $usr_id;
         }
 
-        // create new local user
-        $setup = Setup::get()->ldap->toArray();
-        $data['role'] = $setup['default_role'];
+        return $this->createUser($remote);
+    }
 
+    /**
+     * Create new local user.
+     *
+     * @param array $remote
+     * @return int usr_id
+     */
+    private function createUser($remote)
+    {
         $emails = $remote['emails'];
         if (!$emails) {
             throw new AuthException('E-mail is required');
         }
+
+        // set first email as default
         $data['email'] = array_shift($emails);
+
+        $data['role'] = Setup::get()->ldap->default_role;
 
         if (!empty($data['customer_id']) && !empty($data['contact_id'])) {
             foreach ($data['role'] as $prj_id => $role) {
@@ -290,6 +301,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
                 }
             }
         }
+
         $usr_id = User::insert($data);
         if ($usr_id > 0 && $emails) {
             $this->updateAliases($usr_id, $emails);
