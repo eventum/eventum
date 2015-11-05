@@ -218,6 +218,27 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     }
 
     /**
+     * Sort user emails so that primary is what Eventum has as primary
+     * Perspective what is main address and what is alias may be different in ldap and in Eventum.
+     *
+     * @param int $usr_id
+     * @param array $emails
+     * @return string[]
+     */
+    private function sortEmails($usr_id, $emails)
+    {
+        $email = User::getEmail($usr_id);
+
+        if (($key = array_search($email, $emails)) !== false) {
+            // email was found, ensure it's first item
+            unset($emails[$key]);
+            array_unshift($emails, $email);
+        }
+
+        return $emails;
+    }
+
+    /**
      * Creates or updates local user entry for the specified ID.
      *
      * @param string $login The login or email of the user to create or update
@@ -245,20 +266,12 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             // do not reset user password, it maybe be set locally before ldap
             unset($data['password']);
 
-            // perspective what is main address and what is alias may be different in ldap and in eventum
-            $emails = $remote['emails'];
-            $email = User::getEmail($usr_id);
-
-            if (($key = array_search($email, $emails)) !== false) {
-                unset($emails[$key]);
-                $data['email'] = $email;
-            } else {
-                if (!$emails) {
-                    throw new AuthException('E-mail is required');
-                }
-                // just use first email
-                $data['email'] = array_shift($emails);
+            $emails = $this->sortEmails($usr_id, $remote['emails']);
+            if (!$emails) {
+                throw new AuthException('E-mail is required');
             }
+            // use first email as primary from sorted list
+            $data['email'] = array_shift($emails);
 
             // do not clear full name if for some reason it is empty
             if (empty($data['full_name'])) {
