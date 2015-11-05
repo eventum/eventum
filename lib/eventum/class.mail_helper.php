@@ -406,17 +406,6 @@ class Mail_Helper
     }
 
     /**
-     * Method used to add a message/rfc822 attachment to the message.
-     *
-     * @param   string $message_body The attachment data
-     * @return  void
-     */
-    public function addMessageRfc822($message_body)
-    {
-        $this->mime->addMessageRfc822($message_body, '8bit');
-    }
-
-    /**
      * Removes the warning message contained in a message, so that certain users
      * don't receive that extra information as it may not be relevant to them.
      *
