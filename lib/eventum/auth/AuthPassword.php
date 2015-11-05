@@ -28,6 +28,8 @@
  */
 class AuthPassword
 {
+    const HASH_ALGO = PASSWORD_DEFAULT;
+
     /**
      * Hash the password
      *
@@ -37,7 +39,7 @@ class AuthPassword
      */
     public static function hash($password)
     {
-        $res = password_hash($password, PASSWORD_DEFAULT);
+        $res = password_hash($password, self::HASH_ALGO);
         if (!$res) {
             throw new RuntimeException("password hashing failed");
         }
@@ -68,6 +70,19 @@ class AuthPassword
         $cmp |= (int)self::cmp($hash, md5($password));
 
         return (bool)$cmp;
+    }
+
+    /**
+     * Determine if the password hash needs to be rehashed according to the options provided
+     *
+     * If the answer is true, after validating the password using password_verify, rehash it.
+     *
+     * @param string $hash The hash to test
+     * @return boolean True if the password needs to be rehashed.
+     */
+    public static function needs_rehash($hash)
+    {
+        return password_needs_rehash($hash, self::HASH_ALGO);
     }
 
     /**
