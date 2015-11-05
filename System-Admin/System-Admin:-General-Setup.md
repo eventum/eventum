@@ -17,6 +17,8 @@ The Tool Caption is the name for this particular Eventum Instance. The default v
 
 Here you can define the settings for the SMTP server. A typical configuration will require setting only the Sender Email (the "From:" in the email), the Hostname or IP of the server, and the TCP/IP port, usually 25 for SMTP. The Sender Email MUST contain a real email address, e.g. "eventum@example.com" or "Eventum <eventum@example.com>"
 
+For outgoing email to work, the [crontab](System-Admin%3A-Adding-a-cron-entry#adding-a-cron-entry) settings need to be in place.
+
 ### Open Account Signup
 
 If enabled, a link will be displayed in the login screen, where any user will be able to signup for an account, only by entering Name, Email and Password. A confirmation email with an activation link is sent in order verificate and activate the account. The account is created with selected profile for the selected projects from multiple combo.
