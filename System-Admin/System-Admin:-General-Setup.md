@@ -15,7 +15,7 @@ The Tool Caption is the name for this particular Eventum Instance. The default v
 
 ### SMTP (Outgoing Email) Settings
 
-Here you can define the settings for the SMTP server. A typical configuration will require setting only the Sender Email (the "From:" in the email), the Hostname or IP of the server, and the TCP/IP port, usually 25 for SMTP. The Sender Email MUST contain a real email address, e.g. "eventum@example.com" or "Eventum <eventum@example.com>"
+Here you can define the settings for the SMTP server. A typical configuration will require setting only the Sender Email (the "From:" in the email), the Hostname or IP of the server, and the TCP/IP port, usually 25 for SMTP. The Sender Email MUST contain a real email address, e.g. `eventum@example.com` or `Eventum <eventum@example.com>`
 
 For outgoing email to work, the [crontab](System-Admin%3A-Adding-a-cron-entry#adding-a-cron-entry) settings need to be in place.
 
@@ -35,7 +35,7 @@ This will be included in the From address of all emails sent by Eventum, before 
 
 The [Email Routing Interface](System-Admin:-Email-Routing-Interface) is an optional way to automatically associate emails (or notes or drafts) with an Eventum issue, with Email Integration feature enabled.
 
-The default behavior is header (Message-ID/In-Reply-To) routing. Mail clients sometimes mangle these headers which cause problems for Eventum. Using subject based routing is better then header based while the most reliable is address (issue-XXX@example.com) based.
+The default behavior is header (Message-ID/In-Reply-To) routing. Mail clients sometimes mangle these headers which cause problems for Eventum. Using subject based routing is better then header based while the most reliable is address `issue-XXX@example.com` based.
 
 By setting up the mail server (MTA) to pipe emails sent to a specific address into PHP scripts, users are able to use their email clients to reply to emails coming from Eventum, and those replies will be automatically associated with the issue and broadcast to the issue's notification list.
 
