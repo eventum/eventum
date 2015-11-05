@@ -63,29 +63,31 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $this->user_filter_string = $setup['user_filter'];
         $this->customer_id_attribute = $setup['customer_id_attribute'];
         $this->contact_id_attribute = $setup['contact_id_attribute'];
-
-        $options = array(
-            'host' => $setup['host'],
-            'port' => $setup['port'],
-            'binddn' => $setup['binddn'],
-            'bindpw' => $setup['bindpw'],
-            'basedn' => $this->basedn,
-        );
-
-        $this->conn = $this->connect($options);
     }
 
     /**
      * Create LDAP connection.
      *
-     * @param array $options
      * @return Net_LDAP2
      */
-    private function connect($options)
+    protected function connect()
     {
-        $conn = Net_LDAP2::connect($options);
-        if (Misc::isError($conn)) {
-            throw new AuthException($conn->getMessage(), $conn->getCode());
+        static $conn;
+        if (!$conn) {
+            $setup = Setup::get()->ldap;
+
+            $options = array(
+                'host' => $setup['host'],
+                'port' => $setup['port'],
+                'binddn' => $setup['binddn'],
+                'bindpw' => $setup['bindpw'],
+                'basedn' => $this->basedn,
+            );
+
+            $conn = Net_LDAP2::connect($options);
+            if (Misc::isError($conn)) {
+                throw new AuthException($conn->getMessage(), $conn->getCode());
+            }
         }
 
         return $conn;
@@ -104,7 +106,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             $filter = Net_LDAP2_Filter::combine('and', array($filter, $user_filter));
         }
 
-        $search = $this->conn->search($this->basedn, $filter);
+        $search = $this->connect()->search($this->basedn, $filter);
 
         if (Misc::isError($search)) {
             throw new AuthException($search->getMessage(), $search->getCode());
@@ -120,7 +122,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         foreach (explode('|', $this->getUserDNstring($uid)) as $userDNstring) {
             // Connecting using the configuration
             try {
-                $res = $this->conn->bind($userDNstring, $password);
+                $res = $this->connect()->bind($userDNstring, $password);
                 if (Misc::isError($res)) {
                     throw new AuthException($res->getMessage(), $res->getCode());
                 }
@@ -156,7 +158,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             $user_filter = Net_LDAP2_Filter::parse($this->user_filter_string);
             $filter = Net_LDAP2_Filter::combine('and', array($filter, $user_filter));
         }
-        $search = $this->conn->search($this->basedn, $filter, array('sizelimit' => 1));
+        $search = $this->connect()->search($this->basedn, $filter, array('sizelimit' => 1));
         $entry = $search->shiftEntry();
 
         if (!$entry || Misc::isError($entry)) {

@@ -30,7 +30,7 @@ class LDAP_Wrapper extends LDAP_Auth_Backend
     {
         $filter = Net_LDAP2_Filter::create('mail', 'equals', $usr->email);
         $requested_attributes = array('cn', 'uid', 'mail');
-        $search = $this->conn->search($this->basedn, $filter, array('attributes' => $requested_attributes));
+        $search = $this->connect()->search($this->basedn, $filter, array('attributes' => $requested_attributes));
 
         if (Misc::isError($search)) {
             $entry = $search;
