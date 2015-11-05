@@ -278,8 +278,22 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
                 unset($data['full_name']);
             }
 
-            $update = User::update($usr_id, $data, false);
-            if ($update > 0) {
+            // read in details, and make modification only if data has changed
+            $user_details = User::getDetails($usr_id);
+            $stored_data = array(
+                'full_name' => $user_details['usr_full_name'],
+                'external_id' => $user_details['usr_external_id'],
+                'customer_id' => $user_details['usr_customer_id'],
+                'contact_id' => $user_details['usr_customer_contact_id'],
+                'email' => $user_details['usr_email'],
+            );
+
+            if ($stored_data != $data) {
+                User::update($usr_id, $data, false);
+            }
+
+            $aliases = User::getAliases($usr_id);
+            if (array_diff($aliases, $emails) || array_diff($emails, $aliases)) {
                 $this->updateAliases($usr_id, $emails);
             }
 
