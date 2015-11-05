@@ -289,7 +289,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             }
 
             $aliases = User::getAliases($usr_id);
-            if (array_diff($aliases, $emails) || array_diff($emails, $aliases)) {
+            // as we are only adding aliases (never removing)
+            // check only one way
+            if (array_diff($emails, $aliases)) {
                 $this->updateAliases($usr_id, $emails);
             }
 
