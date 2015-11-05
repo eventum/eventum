@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-05 00:01+0200\n"
+"POT-Creation-Date: 2015-11-05 19:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1231,7 +1231,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: templates/update_form.tpl.html:250
+#: templates/update_form.tpl.html:255
 msgid "Cancel Update"
 msgstr ""
 
@@ -1392,7 +1392,7 @@ msgid "Close Form"
 msgstr ""
 
 #: templates/close.tpl.html:21 templates/close.tpl.html:125
-#: templates/update_form.tpl.html:254 templates/view_form.tpl.html:228
+#: templates/update_form.tpl.html:259 templates/view_form.tpl.html:228
 msgid "Close Issue"
 msgstr ""
 
@@ -1878,7 +1878,7 @@ msgstr ""
 #: templates/manage/link_filters.tpl.html:84
 #: templates/manage/link_filters.tpl.html:137
 #: templates/manage/severities.tpl.html:70
-#: templates/manage/severities.tpl.html:112
+#: templates/manage/severities.tpl.html:112 templates/new_form.tpl.html:188
 #: templates/notifications/assigned.tpl.text:17
 #: templates/notifications/closed.tpl.text:24
 #: templates/notifications/files.tpl.text:16
@@ -1887,6 +1887,7 @@ msgstr ""
 #: templates/notifications/new_issue.tpl.text:39
 #: templates/notifications/notes.tpl.text:15 templates/post.tpl.html:81
 #: templates/reports/recent_activity.tpl.html:127
+#: templates/update_form.tpl.html:200 templates/view_form.tpl.html:180
 msgid "Description"
 msgstr ""
 
@@ -3156,11 +3157,6 @@ msgstr ""
 msgid "Indonesian"
 msgstr ""
 
-#: templates/new_form.tpl.html:188 templates/update_form.tpl.html:195
-#: templates/view_form.tpl.html:180
-msgid "Initial Description"
-msgstr ""
-
 #: templates/impact_analysis.tpl.html:61
 msgid "Initial Impact Analysis"
 msgstr ""
@@ -3996,7 +3992,7 @@ msgstr ""
 #: templates/post_note.tpl.html:135 templates/preferences.tpl.html:201
 #: templates/preferences.tpl.html:223 templates/preferences.tpl.html:234
 #: templates/preferences.tpl.html:245 templates/setup.tpl.html:440
-#: templates/update_form.tpl.html:218 templates/update_form.tpl.html:230
+#: templates/update_form.tpl.html:223 templates/update_form.tpl.html:235
 msgid "No"
 msgstr ""
 
@@ -4512,7 +4508,7 @@ msgstr ""
 msgid "POP3, with TLS (self-signed)"
 msgstr ""
 
-#: templates/update_form.tpl.html:200
+#: templates/update_form.tpl.html:205
 msgid "Page is locked by <b>%1</b>. Lock expires at %2"
 msgstr ""
 
@@ -5614,7 +5610,7 @@ msgid "Priority Field"
 msgstr ""
 
 #: lib/eventum/class.project.php:1122 templates/file_upload.tpl.html:72
-#: templates/new_form.tpl.html:278 templates/update_form.tpl.html:215
+#: templates/new_form.tpl.html:278 templates/update_form.tpl.html:220
 msgid "Private"
 msgstr ""
 
@@ -6073,7 +6069,7 @@ msgstr ""
 #: templates/notification.tpl.html:77 templates/post.tpl.html:107
 #: templates/preferences.tpl.html:73 templates/preferences.tpl.html:100
 #: templates/preferences.tpl.html:139 templates/preferences.tpl.html:314
-#: templates/send.tpl.html:315 templates/update_form.tpl.html:251
+#: templates/send.tpl.html:315 templates/update_form.tpl.html:256
 msgid "Reset"
 msgstr ""
 
@@ -6670,7 +6666,7 @@ msgstr ""
 #: templates/reports/open_issues.tpl.html:33
 #: templates/reports/recent_activity.tpl.html:305
 #: templates/reports/stalled_issues.tpl.html:68
-#: templates/time_tracking.tpl.html:44 templates/update_form.tpl.html:187
+#: templates/time_tracking.tpl.html:44 templates/update_form.tpl.html:192
 #: templates/view_form.tpl.html:175
 msgid "Summary"
 msgstr ""
@@ -7886,7 +7882,7 @@ msgstr ""
 msgid "Total Time Spent"
 msgstr ""
 
-#: templates/update_form.tpl.html:227
+#: templates/update_form.tpl.html:232
 msgid "Trigger Reminders"
 msgstr ""
 
@@ -7946,7 +7942,7 @@ msgstr ""
 msgid "Untitled.%s"
 msgstr ""
 
-#: templates/impact_analysis.tpl.html:74 templates/update_form.tpl.html:248
+#: templates/impact_analysis.tpl.html:74 templates/update_form.tpl.html:253
 msgid "Update"
 msgstr ""
 
@@ -8443,7 +8439,7 @@ msgstr ""
 #: templates/post_note.tpl.html:134 templates/preferences.tpl.html:200
 #: templates/preferences.tpl.html:222 templates/preferences.tpl.html:233
 #: templates/preferences.tpl.html:244 templates/setup.tpl.html:438
-#: templates/update_form.tpl.html:217 templates/update_form.tpl.html:229
+#: templates/update_form.tpl.html:222 templates/update_form.tpl.html:234
 msgid "Yes"
 msgstr ""
 
