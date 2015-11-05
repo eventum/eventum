@@ -60,7 +60,7 @@ class Mail_Queue
      * Adds an email to the outgoing mail queue.
      *
      * @param array $mail Info about mail:
-     * - string $recipient The recipient of this email
+     * - string $to The recipient of this email
      * - array $headers The list of headers that should be sent with this email
      * - string $body The body of the message
      * @param array $options Optional options:
@@ -71,7 +71,7 @@ class Mail_Queue
      * - integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @return bool or a PEAR_Error object
      */
-    public static function addMail(array $mail, array $options)
+    public static function addMail(array $mail, array $options = array())
     {
         $recipient = $mail['to'];
         $headers = $mail['headers'];
@@ -83,7 +83,8 @@ class Mail_Queue
         $sender_usr_id = isset($options['sender_usr_id']) ? $options['sender_usr_id'] : false;
         $type_id = isset($options['type_id']) ? $options['type_id'] : false;
 
-        Workflow::modifyMailQueue(Auth::getCurrentProject(false), $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
+        $prj_id = Auth::getCurrentProject(false);
+        Workflow::modifyMailQueue($prj_id, $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
 
         // avoid sending emails out to users with inactive status
         $recipient_email = Mail_Helper::getEmailAddress($recipient);
@@ -91,7 +92,7 @@ class Mail_Queue
         if (!empty($usr_id)) {
             $user_status = User::getStatusByEmail($recipient_email);
             // if user is not set to an active status, then silently ignore
-            if ((!User::isActiveStatus($user_status)) && (!User::isPendingStatus($user_status))) {
+            if (!User::isActiveStatus($user_status) && !User::isPendingStatus($user_status)) {
                 return false;
             }
         }
@@ -101,9 +102,9 @@ class Mail_Queue
 
         $reminder_addresses = Reminder::_getReminderAlertAddresses();
 
-        // add specialized headers
-        if ((!empty($issue_id)) && ((!empty($to_usr_id)) && (User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id)) != User::ROLE_CUSTOMER)) ||
-                (@in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses))) {
+        $role_id = User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id));
+        $is_reminder_address = in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses);
+        if ($issue_id && ($to_usr_id && $role_id != User::ROLE_CUSTOMER) || $is_reminder_address) {
             $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type, $sender_usr_id);
         }
 

@@ -391,12 +391,27 @@ class Notification
             }
         }
 
+        $options = array(
+            'save_email_copy' => 1,
+            'issue_id' => $issue_id,
+            'type' => $type,
+            'sender_usr_id' => $sender_usr_id,
+            'type_id' => $sup_id,
+        );
+
         foreach ($emails as $to) {
             // add the warning message about replies being blocked or not
+            // FIXME: $headers contains $headers['To'] from previous iteration
             $fixed_body = Mail_Helper::addWarningMessage($issue_id, $to, $body, $headers);
             $headers['To'] = Mime_Helper::encodeAddress($to);
 
-            Mail_Queue::__add($to, $headers, $fixed_body, 1, $issue_id, $type, $sender_usr_id, $sup_id);
+            $mail = array(
+                'to' => $to,
+                'headers' => $headers,
+                'body' => $fixed_body,
+            );
+
+            Mail_Queue::addMail($mail, $options);
         }
     }
 

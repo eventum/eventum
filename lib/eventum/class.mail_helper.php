@@ -557,7 +557,21 @@ class Mail_Helper
 
         $this->setHeaders($headers);
         $hdrs = $this->mime->headers($this->headers);
-        $res = Mail_Queue::__add($to, $hdrs, $body, $save_email_copy, $issue_id, $type, $sender_usr_id, $type_id);
+
+        $mail = array(
+            'to' => $to,
+            'headers' => $hdrs,
+            'body' => $body,
+        );
+        $options = array(
+            'save_email_copy' => $save_email_copy,
+            'issue_id' => $issue_id,
+            'type' => $type,
+            'sender_usr_id' => $sender_usr_id,
+            'type_id' => $type_id,
+        );
+
+        $res = Mail_Queue::addMail($mail, $options);
         if (Misc::isError($res) || $res == false) {
             return $res;
         }
