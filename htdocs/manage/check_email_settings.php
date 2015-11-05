@@ -46,7 +46,7 @@ if (!function_exists('imap_open')) {
             'ema_hostname' => $_POST['hostname'],
             'ema_port'     => $_POST['port'],
             'ema_type'     => $_POST['type'],
-            'ema_folder'   => $_POST['folder'],
+            'ema_folder'   => isset($_POST['folder']) ? $_POST['folder'] : null,
             'ema_username' => $_POST['username'],
             'ema_password' => $_POST['password'],
         );
