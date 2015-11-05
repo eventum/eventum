@@ -9,7 +9,7 @@ This is a description of the options you will find in General Setup as an Admini
 General Setup
 -------------
 
-#### Tool Caption
+### Tool Caption
 
 The Tool Caption is the name for this particular Eventum Instance. The default value is "Eventum", but you can change it to something like "MyCompany Tracking System", "MyCompany Tickets" or "Tech Support". This caption will be displayed for all projects, on the browser tab, in the main login screen, inside Eventum Header menu, at the upper left corner and within email notifications, so choose wisely, or even better, just leave "Eventum".
 
@@ -33,7 +33,7 @@ This will be included in the From address of all emails sent by Eventum, before 
 
 ### Email Routing Interface
 
-The [Email Routing Interface](Email Routing Interface "wikilink") is an optional way to automatically associate emails (or notes or drafts) with an Eventum issue, with Email Integration feature enabled.
+The [Email Routing Interface](System-Admin:-Email-Routing-Interface) is an optional way to automatically associate emails (or notes or drafts) with an Eventum issue, with Email Integration feature enabled.
 
 The default behavior is header (Message-ID/In-Reply-To) routing. Mail clients sometimes mangle these headers which cause problems for Eventum. Using subject based routing is better then header based while the most reliable is address (issue-XXX@example.com) based.
 
@@ -45,48 +45,25 @@ This will be included in the From address of all notes sent by Eventum, before o
 
 ### Internal Note Routing Interface
 
-Same as [Email Routing Interface](General Setup#Email_Routing_Interface "wikilink") for Internal Notes.
+Same as [Email Routing Interface](System-Admin:-Email-Routing-Interface) for Internal Notes.
 
 ### Email Draft Interface
 
-Same as [Email Routing Interface](General Setup#Email_Routing_Interface "wikilink") for Drafts.
-
-### SCM Integration
-
-This feature allows your software development teams to integrate your Source Control Management system with your Issue Tracking System.
-
-The integration is implemented in such a way that it will be forward compatible with pretty much any SCM system, such as CVS. When entering the required information for the checkout page and diff page input fields, use the following placeholders:
-
--   `{MODULE}` - The CVS module name
--   `{FILE}` - The filename that was committed
--   `{OLD_VERSION}` - The old revision of the file
--   `{NEW_VERSION}` - The new revision of the file
-
-Further information can be found in Eventum Internal Help.
-
-You should add to your `CVSROOT/loginfo` catchall entry:
-
-for older CVS (1.11):
-
-    # process any message with Eventum
-    ALL /path/to/eventum-cvs-hook $USER %{sVv}
-
-for newer CVS (1.12+):
-
-    # process any message with Eventum
-    ALL /path/to/eventum-cvs-hook $USER "%p" %{sVv}
-
-for CVS 1.12+, you need at least r4452
+Same as [Email Routing Interface](System-Admin:-Email-Routing-Interface) for Drafts.
 
 ### Email Integration Feature
 
 Enable or disable the [Email Integration Feature](Email integration "wikilink"). If enabled it will allow to download the emails from configured accounts available in Manage Email Accounts.
 
+### Display Description as Email #0 
+
+***
 ### Daily Tips
 
 Enable or disable the Daily Tips displayed in Stats (general statistics) start page. The daily tips are selected randomly from the template files in /templates/tips directory.
 
 You might add new Tip files with any name, but keeping the .tpl.html extension. Do not create any directories inside tips folder, since it could be considered as a tip file.
+***
 
 ### Email Spell Checker
 
@@ -95,10 +72,6 @@ Enable or disable Email Spell Checker, requires aspell installed in your server.
 ### IRC Notifications
 
 Lorem Ipsum.
-
-### Allow Un-Assigned Issues?
-
-If disabled, the issues must be assigned to an Eventum User.
 
 ### Default Options for Notifications
 
@@ -113,7 +86,7 @@ For a particular issue, you may change the notification options for each single 
 
 ### Email Reminder System Status Information
 
-The reminder system was designed to serve as a safety net for issues that need attention. Depending on what configuration you create, you may have several reminders (or alerts) to send out whenever an issue needs attention, for whatever parameter you may deem necessary. It requires to set a [cron job](Doing a fresh install "wikilink"). To add a reminder:
+The reminder system was designed to serve as a safety net for issues that need attention. Depending on what configuration you create, you may have several reminders (or alerts) to send out whenever an issue needs attention, for whatever parameter you may deem necessary. It requires to set a For outgoing email to work, the [crontab](System-Admin%3A-Adding-a-cron-entry#adding-a-cron-entry) settings need to be in place. To add a reminder:
 
 1. Go to Manage Issue Reminders
 
@@ -134,3 +107,12 @@ Notice that you can add multiple simultaneous Conditions for a single Action.
 ### Email Error Logging System
 
 When an error is detected in Eventum, it is recorded in the log file [path-to-eventum]/log/errors.log; additionally if this option is enabled, the error will be sent by email to the addresses defined here.
+
+Requires the [crontab](System-Admin%3A-Adding-a-cron-entry#adding-a-cron-entry) settings to be in place. 
+
+
+***
+
+### Allow Un-Assigned Issues?
+
+If disabled, the issues must be assigned to an Eventum User.

@@ -25,3 +25,34 @@ Subversion Setup
 ----------------
 
 Subversion Setup is described [here](Subversion integration "wikilink").
+
+
+***
+#### From General Setup
+
+### SCM Integration
+
+This feature allows your software development teams to integrate your Source Control Management system with your Issue Tracking System.
+
+The integration is implemented in such a way that it will be forward compatible with pretty much any SCM system, such as CVS. When entering the required information for the checkout page and diff page input fields, use the following placeholders:
+
+-   `{MODULE}` - The CVS module name
+-   `{FILE}` - The filename that was committed
+-   `{OLD_VERSION}` - The old revision of the file
+-   `{NEW_VERSION}` - The new revision of the file
+
+Further information can be found in Eventum Internal Help.
+
+You should add to your `CVSROOT/loginfo` catchall entry:
+
+for older CVS (1.11):
+
+    # process any message with Eventum
+    ALL /path/to/eventum-cvs-hook $USER %{sVv}
+
+for newer CVS (1.12+):
+
+    # process any message with Eventum
+    ALL /path/to/eventum-cvs-hook $USER "%p" %{sVv}
+
+for CVS 1.12+, you need at least r4452
