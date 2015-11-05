@@ -56,7 +56,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      */
     public function __construct()
     {
-        $setup = self::loadSetup();
+        $setup = Setup::get()->ldap->toArray();
 
         $this->basedn = $setup['basedn'];
         $this->user_dn_string = $setup['userdn'];
@@ -272,7 +272,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         }
 
         // create new local user
-        $setup = self::loadSetup();
+        $setup = Setup::get()->ldap->toArray();
         $data['role'] = $setup['default_role'];
 
         $emails = $remote['emails'];
@@ -346,11 +346,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         }
 
         $user_info = $this->validatePassword($local_user_info['usr_external_id'], $password);
-        if ($user_info == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return $user_info != null;
     }
 
     public function canUserUpdateName($usr_id)
@@ -384,69 +380,14 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     }
 
     /**
-     * TODO: discard this loadSetup/saveSetup, and use plain Setup class
-     */
-    public static function loadSetup($force = false)
-    {
-        static $setup;
-        if (empty($setup) || $force == true) {
-            $setup = array();
-            $configfile = APP_CONFIG_PATH . '/ldap.php';
-
-            if (file_exists($configfile)) {
-                $ldap_setup_string = $ldap_setup = null;
-
-                /** @noinspection PhpIncludeInspection */
-                require $configfile;
-
-                if (isset($ldap_setup)) {
-                    $setup = $ldap_setup;
-                } elseif (isset($ldap_setup_string)) {
-                    // support reading legacy base64 encoded config
-                    $setup = unserialize(base64_decode($ldap_setup_string));
-                }
-            }
-
-            // merge with defaults
-            $setup = Misc::array_extend(self::getDefaults(), $setup);
-        }
-
-        return $setup;
-    }
-
-    public static function saveSetup($options)
-    {
-        // this is needed to check if the file can be created or not
-        if (!file_exists(APP_CONFIG_PATH . '/ldap.php')) {
-            if (!is_writable(APP_CONFIG_PATH)) {
-                clearstatcache();
-
-                return -1;
-            }
-        } else {
-            if (!is_writable(APP_CONFIG_PATH . '/ldap.php')) {
-                clearstatcache();
-
-                return -2;
-            }
-        }
-        $contents = '<' . "?php\n\$ldap_setup = " . var_export($options, 1) . ";\n";
-        $res = file_put_contents(APP_CONFIG_PATH . '/ldap.php', $contents);
-        if ($res === false) {
-            return -2;
-        }
-
-        return 1;
-    }
-
-    /**
      * Method used to get the system-wide defaults.
      *
      * @return  string array of the default parameters
      */
     public static function getDefaults()
     {
-        $defaults = array(
+        // don't do anything complex here that would load setup
+        return array(
             'host' => 'localhost',
             'port' => '389',
             'binddn' => '',
@@ -459,15 +400,6 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             'create_users' => null,
             'default_role' => array(),
         );
-
-        if (AuthCookie::hasAuthCookie()) {
-            // ensure there is entry for current project
-            $prj_id = Auth::getCurrentProject();
-
-            $defaults['default_role'][$prj_id] = 0;
-        }
-
-        return $defaults;
     }
 
     /**
@@ -525,6 +457,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
 
     /**
      * Called when a user logs out.
+     *
      * @return mixed
      */
     public function logout()
