@@ -7,6 +7,7 @@ Eventum Issue Tracking System
 - Update custom fields from update issue page (Bryan Alsdorf, #88)
 - Allow time category/summary to be set when sending emails (Bryan Alsdorf)
 - Add missing 'Scheduled Release' and 'Group' field back to update page (Bryan Alsdorf, #89)
+- Tiny change to submit on project selection (Craig Pinfold, #92)
 
 2015-11-02, Version 3.0.5
 -------------------------
