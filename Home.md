@@ -30,7 +30,7 @@ _Under Construction_
       * [[Installation Notes|System-Admin:-Installation-Notes]]
     * [[Email Intergration|System-Admin:-Email-integration]]
     * [[Email Routing Interface|System-Admin:-Email-Routing-Interface]]
- * [[General Setup|System-Admin:-General-Setup]]
+ * [x] [[General Setup|System-Admin:-General-Setup]]
  * [[Adding Users|System-Admin:-Users]]
  * [[Adding cron entries|System-Admin:-Adding-a-cron-entry]]
  * [[SCM Intergration|System-Admin:-SCM-integration]]

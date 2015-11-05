@@ -53,7 +53,7 @@ Same as [Email Routing Interface](System-Admin:-Email-Routing-Interface) for Dra
 
 ### Email Integration Feature
 
-Enable or disable the [Email Integration Feature](Email integration "wikilink"). If enabled it will allow to download the emails from configured accounts available in Manage Email Accounts.
+Enable or disable the [Email Integration Feature](System-Admin:-Email-integration). If enabled it will allow to download the emails from configured accounts available in Manage Email Accounts.
 
 ### Display Description as Email #0 
 
@@ -100,7 +100,7 @@ The reminder system was designed to serve as a safety net for issues that need a
 
 6. Create 1 (or more) Condition, Choose - Field "Last Update Date" Choose - Operator "greater or equal than" Enter - Value "2" (hours) or other condition.
 
-7. Verify if the reminder emails are sent before and after the condition is true, from command line, run the [reminder script](Doing a fresh install#Reminder_System_.28misc.2Fcheck_reminders.php.29 "wikilink").
+7. Verify if the reminder emails are sent before and after the condition is true, from command line, run the [reminder script](System-Admin:-Doing-a-fresh-install#reminder-system-check_remindersphp).
 
 Notice that you can add multiple simultaneous Conditions for a single Action.
 
