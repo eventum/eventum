@@ -68,6 +68,9 @@ $(document).ready(function() {
 
     $("input.issue_field").blur(Validation.validateIssueNumberField);
 
+    $('#project_select_form').on('change', function() {
+	        $(this).closest("form").submit();
+    });
     // chosen config
     var config = {
         '.chosen-select'           : {},
