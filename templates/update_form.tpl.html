@@ -173,6 +173,11 @@
                 {elseif $row.field == 'estimated_dev_time'}
                     <input type="text" name="estimated_dev_time" value="{$issue.iss_dev_time}" size="4">
                     <span>({t}in hours{/t})</span>
+                {elseif $row.field == 'group'}
+                    <select name="group">
+                        <option value=""></option>
+                        {html_options options=$groups selected=$issue.iss_grp_id}
+                    </select>
                 {/if}
                 </td>
             </tr>

@@ -295,6 +295,7 @@ $tpl->assign('issue_lock', $issue_lock);
             'title' =>  ev_gettext('Group'),
             'data' =>  isset($details['group']) ? $details['group']['grp_name'] : '',
             'title_bgcolor' =>  APP_INTERNAL_COLOR,
+            'field' =>  'group',
         );
     }
     $tpl->assign(array(
