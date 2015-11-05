@@ -1,11 +1,17 @@
 ### General Setup
 
-This is a description of the options you will find in General Setup as an Administrador User in the Administration, Configuration options.
+This is a description of the options you will find in General Setup as an Administrator User in the Administration, Configuration options.
+
+* Administration
+ * Configuration
+   * General Setup
+
+[test](#Open Account Signup)
 
 General Setup
 -------------
 
-### Tool Caption
+#### Tool Caption
 
 The Tool Caption is the name for this particular Eventum Instance. The default value is "Eventum", but you can change it to something like "MyCompany Tracking System", "MyCompany Tickets" or "Tech Support". This caption will be displayed for all projects, in the main login screen, inside Eventum Header menu, at the upper left corner and within email notifications, so choose wisely, or even better, just leave "Eventum".
 
