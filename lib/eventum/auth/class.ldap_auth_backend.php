@@ -37,9 +37,6 @@
  */
 class LDAP_Auth_Backend implements Auth_Backend_Interface
 {
-    /** @var Net_LDAP2 $conn The admin LDAP connection */
-    protected $conn;
-
     /** @var string */
     protected $basedn;
     /** @var string */
