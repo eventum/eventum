@@ -61,7 +61,7 @@ class DbPear implements DbInterface
         }
 
         $db = DB::connect($dsn);
-        $this->assertError($db, 1);
+        $this->assertError($db);
 
         // DBTYPE specific session setup commands
         switch ($dsn['phptype']) {
@@ -218,7 +218,7 @@ class DbPear implements DbInterface
      *
      * @param $e PEAR_Error|array|object|int
      */
-    private function assertError($e, $depth = 2)
+    private function assertError($e)
     {
         if (!Misc::isError($e)) {
             return;
