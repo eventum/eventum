@@ -1538,8 +1538,8 @@ class Issue
         if (isset($_POST['release'])) {
             $params['iss_pre_id'] = $_POST['release'];
         }
-        if (isset($_POST['percent_complete'])) {
-            $params['iss_percent_complete'] = $_POST['percent_complete'];
+        if (isset($_POST['percentage_complete'])) {
+            $params['iss_percent_complete'] = $_POST['percentage_complete'];
         }
         if (isset($_POST['group'])) {
             $params['iss_grp_id'] = $_POST['group'];
@@ -1638,8 +1638,8 @@ class Issue
             $updated_fields['Summary'] = '';
         }
 
-        if (isset($_POST['percent_complete']) && $current['iss_original_percent_complete'] != $_POST['percent_complete']) {
-            $updated_fields['Percent complete'] = History::formatChanges($current['iss_original_percent_complete'], $_POST['percent_complete']);
+        if (isset($_POST['percentage_complete']) && $current['iss_original_percent_complete'] != $_POST['percentage_complete']) {
+            $updated_fields['Percentage complete'] = History::formatChanges($current['iss_original_percent_complete'], $_POST['percentage_complete']);
         }
 
         if ($current['iss_original_description'] != $_POST['description']) {
