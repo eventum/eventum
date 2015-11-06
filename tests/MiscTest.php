@@ -31,6 +31,15 @@
 class MiscTest extends TestCase
 {
     /**
+     * @dataProvider caseData
+     */
+    public function testLowercase($str, $exp)
+    {
+        $res = Misc::lowercase($str);
+        $this->assertSame($exp, $res);
+    }
+
+    /**
      * Method used to strip HTML from a string or array
      *
      * @param   string $str The original string or array
@@ -75,9 +84,23 @@ class MiscTest extends TestCase
             ),
             // some emoji
             array(
-                array('a' => self::unichr(0x1F6B2).self::unichr(0x1F4A8)),
+                array('a' => self::unichr(0x1F6B2) . self::unichr(0x1F4A8)),
                 array('a' => ''),
             ),
+        );
+    }
+
+    public function caseData()
+    {
+        return array(
+            array(null, null),
+            array(array(), array()),
+            array('', ''),
+
+            array('A', 'a'),
+
+            array(array('AA', 'B'), array('aa', 'b')),
+            array(array('z' => 'AA', 3 => 'B'), array('z' => 'aa', 3 => 'b')),
         );
     }
 
@@ -85,7 +108,6 @@ class MiscTest extends TestCase
      * Return unicode char by its code
      *
      * @link http://php.net/manual/en/function.chr.php#88611
-
      * @param int $u
      * @return string
      */
