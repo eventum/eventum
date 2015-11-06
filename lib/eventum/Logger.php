@@ -45,10 +45,13 @@ class Logger extends Monolog\Registry
         $path = APP_LOG_PATH . '/eventum.log';
         $logfile = new StreamHandler($path, Monolog\Logger::WARNING);
 
-        static::createLogger('app', array(), array())->pushHandler($logfile);
+        $app = static::createLogger('app', array(), array())->pushHandler($logfile);
 
         // add logger for database
         static::createLogger('db');
+
+        // attach php errorhandler to app logger
+        Monolog\ErrorHandler::register($app);
     }
 
     /**
