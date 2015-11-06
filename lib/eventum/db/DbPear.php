@@ -228,19 +228,18 @@ class DbPear implements DbInterface
             'debuginfo' => $e->getDebugInfo(),
         );
 
-        // walk up in $e->backtrace until we find object DB_mysql/DB_mysqli
-        // and from it we can get 'last_query' and 'last_parameters'
+        // walk up in $e->backtrace until we find ourself
+        // and from it we can get method name and it's arguments
         foreach ($e->backtrace as $i => $stack) {
             if (!isset($stack['object'])) {
                 continue;
             }
-            $object = $stack['object'];
-            if (!$object instanceof DB_mysql && !$object instanceof DB_mysqli) {
+            if (!$stack['object'] instanceof self) {
                 continue;
             }
 
-            $context['query'] = $object->last_query;
-            $context['parameters'] = $object->last_parameters;
+            $context['method'] = $stack['function'];
+            $context['arguments'] = $stack['args'];
             break;
         }
 
