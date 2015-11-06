@@ -165,7 +165,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $details = array(
             'uid' => $entry->get_value('uid'),
             'full_name' => $entry->get_value('cn'),
-            'emails' => $entry->get_value('mail', 'all'),
+            'emails' => Misc::lowercase($entry->get_value('mail', 'all')),
             'customer_id' => $entry->get_value($this->customer_id_attribute) ?: null,
             'contact_id' => $entry->get_value($this->contact_id_attribute) ?: null,
         );
