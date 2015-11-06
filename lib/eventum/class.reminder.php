@@ -1026,7 +1026,7 @@ class Reminder
         $setup = Setup::get();
         if ($setup['email_reminder']['status'] == 'enabled' && $setup['email_reminder']['addresses']) {
             $emails = explode(',', $setup['email_reminder']['addresses']);
-            $emails = array_map(function ($s) { return trim($s); }, $emails);
+            $emails = Misc::trim($emails);
         }
 
         return $emails;

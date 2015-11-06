@@ -171,6 +171,20 @@ class Misc
     }
 
     /**
+     * Removes leading and trailing whitespace from input.
+     *
+     * @param string|string[] $mixed
+     * @return string|string[]
+     */
+    public static function trim($mixed)
+    {
+        $converter = function ($str) {
+            return trim($str);
+        };
+        return self::walk($mixed, $converter);
+    }
+
+    /**
      * Method used to get the title given to the current installation of Eventum.
      *
      * @return  string The installation title

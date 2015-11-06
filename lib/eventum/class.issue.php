@@ -1414,7 +1414,7 @@ class Issue
         global $errors;
 
         // trim and remove empty values
-        $associated_issues = array_filter(array_map(function ($s) { return trim($s); }, $associated_issues));
+        $associated_issues = array_filter(Misc::trim($associated_issues));
 
         // make sure all associated issues are valid (and in this project)
         foreach ($associated_issues as $i => $iss_id) {

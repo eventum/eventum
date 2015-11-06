@@ -366,7 +366,7 @@ function get_queries($file)
 {
     $contents = file_get_contents($file);
     $queries = explode(';', $contents);
-    $queries = array_map(function ($s) { return trim($s); }, $queries);
+    $queries = Misc::trim($queries);
     $queries = array_filter($queries);
 
     return $queries;
