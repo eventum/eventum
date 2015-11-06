@@ -338,7 +338,7 @@ function getUserList($conn)
     }
 
     // FIXME: why lowercase neccessary?
-    $users = array_map(function ($s) { return strtolower($s); }, $users);
+    $users = Misc::lowercase($users);
 
     return $users;
 }
@@ -352,7 +352,7 @@ function getTableList($conn)
     $tables = $conn->getColumn('SHOW TABLES');
 
     // FIXME: why lowercase neccessary?
-    $tables = array_map(function ($s) { return strtolower($s); }, $tables);
+    $tables = Misc::lowercase($tables);
 
     return $tables;
 }
