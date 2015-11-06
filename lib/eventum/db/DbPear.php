@@ -240,41 +240,22 @@ class DbPear implements DbInterface
 
             $context['method'] = $stack['function'];
             $context['arguments'] = $stack['args'];
+
+            // add these last, they are least interesting ones
+            $context['code'] = $e->getCode();
+            $context['file'] = $stack['file'];
+            $context['line'] = $stack['line'];
             break;
         }
-
-        list($file, $line) = self::getTrace($depth);
-        // add these last, they are least interesting ones
-        $context['code'] = $e->getCode();
-        $context['file'] = $file;
-        $context['line'] = $line;
 
         Logger::db()->error($e->getMessage(), $context);
 
         $de = new DbException($e->getMessage(), $e->getCode());
-        $de->setExceptionLocation($file, $line);
+        if (isset($context['file'])) {
+            $de->setExceptionLocation($context['file'], $context['line']);
+        }
 
         throw $de;
-    }
-
-    /**
-     * Get array of FILE and LOCATION from backtrace
-     *
-     * @param int $depth
-     * @return array
-     */
-    private static function getTrace($depth = 1)
-    {
-        $trace = debug_backtrace();
-        if (!isset($trace[$depth])) {
-            return null;
-        }
-        $caller = (object)$trace[$depth];
-        if (!isset($caller->file)) {
-            return null;
-        }
-
-        return array($caller->file, $caller->line);
     }
 
     /**
