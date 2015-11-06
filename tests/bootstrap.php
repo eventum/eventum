@@ -52,6 +52,7 @@ define('APP_COOKIE_URL', APP_RELATIVE_URL);
 define('APP_PROJECT_COOKIE', 'eventum_project');
 define('APP_PROJECT_COOKIE_EXPIRE', time() + (60 * 60 * 24));
 define('APP_BASE_URL', 'http://localhost');
+define('APP_LOG_PATH', APP_CONFIG_PATH);
 
 require_once APP_PATH . '/autoload.php';
 
