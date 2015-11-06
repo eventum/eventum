@@ -9,6 +9,7 @@ Eventum Issue Tracking System
 - Add missing 'Scheduled Release' and 'Group' field back to update page (Bryan Alsdorf, #89)
 - Tiny change to submit on project selection (Craig Pinfold, #92)
 - Fix error updating 'Completion Percentage' #94
+- Upgrade password hash on successful login (Elan Ruusamäe, #93)
 
 2015-11-02, Version 3.0.5
 -------------------------
