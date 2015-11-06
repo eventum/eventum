@@ -33,4 +33,13 @@ class LoggerTest extends PHPUnit_Framework_TestCase
         $logger->error('ldap error 1');
         $logger->debug('ldap debug');
     }
+
+    public function testDbError()
+    {
+        try {
+            DB_Helper::getInstance()->query('here -->?<-- be dragons?', array('param1', 'param2'));
+        } catch (DbException $e) {
+        }
+    }
+
 }

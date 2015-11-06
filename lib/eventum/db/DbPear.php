@@ -37,7 +37,7 @@ class DbPear implements DbInterface
     public function __construct(array $config)
     {
         $dsn = array(
-            'phptype'  => $config['driver'],
+            'phptype' => $config['driver'],
             'hostspec' => $config['hostname'],
             'database' => $config['database'],
             'username' => $config['username'],
@@ -224,14 +224,37 @@ class DbPear implements DbInterface
             return;
         }
 
+        $context = array(
+            'debuginfo' => $e->getDebugInfo(),
+        );
+
+        // walk up in $e->backtrace until we find object DB_mysql/DB_mysqli
+        // and from it we can get 'last_query' and 'last_parameters'
+        foreach ($e->backtrace as $i => $stack) {
+            if (!isset($stack['object'])) {
+                continue;
+            }
+            $object = $stack['object'];
+            if (!$object instanceof DB_mysql && !$object instanceof DB_mysqli) {
+                continue;
+            }
+
+            $context['query'] = $object->last_query;
+            $context['parameters'] = $object->last_parameters;
+            break;
+        }
+
         list($file, $line) = self::getTrace($depth);
-        Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), $file, $line);
+        // add these last, they are least interesting ones
+        $context['code'] = $e->getCode();
+        $context['file'] = $file;
+        $context['line'] = $line;
+
+        Logger::db()->error($e->getMessage(), $context);
 
         $de = new DbException($e->getMessage(), $e->getCode());
         $de->setExceptionLocation($file, $line);
 
-        error_log($de->getMessage());
-        error_log($de->getTraceAsString());
         throw $de;
     }
 
@@ -247,7 +270,7 @@ class DbPear implements DbInterface
         if (!isset($trace[$depth])) {
             return null;
         }
-        $caller = (object) $trace[$depth];
+        $caller = (object)$trace[$depth];
         if (!isset($caller->file)) {
             return null;
         }
