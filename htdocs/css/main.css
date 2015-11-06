@@ -448,8 +448,26 @@ div#full_width_messages div#global_messages span {
     display: block;
 }
 
-div#global_messages div.error span {
+div#full_width_messages {
+    margin-bottom: 2px;
+}
+
+div#full_width_messages.error {
     background: #cc0029;
+    color: #000000;
+}
+
+div#full_width_messages.info {
+    background: #076486;
+    color: #ffffff;
+}
+
+div#full_width_messages.warning {
+    background: #ef6830;
+}
+
+div#global_messages div.error span {
+    background: rgba(204,00,41,0.5);
     color: #000000;
 }
 
