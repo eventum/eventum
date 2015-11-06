@@ -53,6 +53,12 @@ define('APP_PROJECT_COOKIE', 'eventum_project');
 define('APP_PROJECT_COOKIE_EXPIRE', time() + (60 * 60 * 24));
 define('APP_BASE_URL', 'http://localhost');
 define('APP_LOG_PATH', APP_CONFIG_PATH);
+define('APP_LOCAL_PATH', APP_CONFIG_PATH);
+define('APP_TPL_COMPILE_PATH', APP_CONFIG_PATH.'/tpl_c');
+define('APP_TPL_PATH', APP_PATH . '/templates');
+define('APP_NAME', 'Eventum Tests');
+define('APP_VERSION', '3.x.y-dev');
+define('APP_AUTH_BACKEND', 'mysql_auth_backend');
 
 require_once APP_PATH . '/autoload.php';
 
