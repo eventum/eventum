@@ -7,7 +7,17 @@ class MailMessageTest extends TestCase
         $raw = "X-foo: 1\r\n\r\nnada";
         $message = MailMessage::createFromString($raw);
         $message_id = $message->messageId;
-        $exp = "<eventum.md5.68gm8417ga.clqtuo3skl4w0gc@eventum.example.org>";
+
+        /**
+         * due bad conversion in Mail_Helper::generateMessageID(),
+         * the result is different on 32bit systems.
+         * @see Mail_Helper::generateMessageID()
+         */
+        if (PHP_INT_SIZE == 4) {
+            $exp = "<eventum.md5.68gm8417ga.clqtuo3sklwsgok@eventum.example.org>";
+        } else {
+            $exp = "<eventum.md5.68gm8417ga.clqtuo3skl4w0gc@eventum.example.org>";
+        }
         $this->assertEquals($exp, $message_id);
     }
 

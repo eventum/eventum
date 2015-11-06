@@ -811,6 +811,8 @@ class Mail_Helper
             // calculate hash to make fake message ID
             // NOTE: note the base_convert "10" should be "16" really here
             // but can't fix this because need to generate same message-id for same headers+body.
+            // TODO: this can be fixed once we store the generated message-id in database,
+            // TODO: i.e work on ZF-MAIL devel branch gets merged
             $first = base_convert(md5($headers), 10, 36);
             $second = base_convert(md5($body), 10, 36);
         } else {
