@@ -127,7 +127,8 @@ class Logger extends Monolog\Registry
         $handler = new Monolog\Handler\NativeMailerHandler(
             $to,
             $subject,
-            $setup['smtp']['from']
+            $setup['smtp']['from'],
+            Monolog\Logger::ERROR
         );
 
         return $handler;
