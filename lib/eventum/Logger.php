@@ -41,6 +41,9 @@ class Logger extends Monolog\Registry
      */
     public static function initialize()
     {
+        // Configure it use Eventum timezone
+        Monolog\Logger::setTimezone(new DateTimeZone(APP_DEFAULT_TIMEZONE));
+
         // create 'app' instance, it will be used base of other loggers
         $path = APP_LOG_PATH . '/eventum.log';
         $logfile = new StreamHandler($path, Monolog\Logger::WARNING);
