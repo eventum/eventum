@@ -53,6 +53,17 @@ class Logger extends Monolog\Registry
             $app->pushHandler($mailer);
         }
 
+        $app->pushProcessor(new Monolog\Processor\WebProcessor());
+        $app->pushProcessor(new Monolog\Processor\MemoryUsageProcessor());
+        $app->pushProcessor(new Monolog\Processor\MemoryPeakUsageProcessor());
+        $app->pushProcessor(
+            function (array $record) {
+                $record['extra']['version'] = APP_VERSION;
+
+                return $record;
+            }
+        );
+
         // add logger for database
         static::createLogger('db');
 
