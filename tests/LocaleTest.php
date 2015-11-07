@@ -4,7 +4,9 @@ class LocaleTest extends TestCase
 {
     public static function setUpBeforeClass()
     {
-        self::skipJenkins('Tests require full localedb installation');
+        if (!getenv('TRAVIS')) {
+            self::markTestSkipped('Tests require full localedb installation');
+        }
 
         $localeStamp = __DIR__ . '/_locales.stamp';
         if (!file_exists($localeStamp)) {
