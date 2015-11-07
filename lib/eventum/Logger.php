@@ -47,6 +47,12 @@ class Logger extends Monolog\Registry
 
         $app = static::createLogger('app', array(), array())->pushHandler($logfile);
 
+        // setup mail logger if enabled
+        $mailer = self::getMailHandler();
+        if ($mailer) {
+            $app->pushHandler($mailer);
+        }
+
         // add logger for database
         static::createLogger('db');
 
@@ -82,5 +88,34 @@ class Logger extends Monolog\Registry
         Monolog\Registry::addLogger($logger);
 
         return $logger;
+    }
+
+    /**
+     * Get mail handler if configured
+     *
+     * @return \Monolog\Handler\MailHandler
+     */
+    private static function getMailHandler()
+    {
+        $setup = Setup::get();
+        if ($setup['email_error']['status'] != 'enabled') {
+            return null;
+        }
+
+        $notify_list = trim($setup['email_error']['addresses']);
+        if (!$notify_list) {
+            return null;
+        }
+
+        // recipient list can be comma separated
+        $to = Misc::trim(explode(',', $notify_list));
+        $subject = APP_SITE_NAME . ' - Error found!';
+        $handler = new Monolog\Handler\NativeMailerHandler(
+            $to,
+            $subject,
+            $setup['smtp']['from']
+        );
+
+        return $handler;
     }
 }
