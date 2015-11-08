@@ -49,5 +49,8 @@ class LoggerTest extends PHPUnit_Framework_TestCase
     {
         $e = new Exception('It happened');
         Logger::app()->error($e);
+
+        $e = new Exception('It happened');
+        Logger::app()->error($e->getMessage(), array('exception' => $e));
     }
 }
