@@ -42,4 +42,12 @@ class LoggerTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @test what happens if i just log exception object
+     */
+    public function testLogException()
+    {
+        $e = new Exception('It happened');
+        Logger::app()->error($e);
+    }
 }
