@@ -45,9 +45,9 @@ class Lock
                 if ($exists) {
                     return false;
                 }
+            } else {
+                return false;
             }
-
-            return false;
         }
 
         // create the pid file
