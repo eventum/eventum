@@ -38,17 +38,10 @@ class Lock
     public static function acquire($name, $check = false)
     {
         $pid = self::getProcessID($name);
-        if (!empty($pid)) {
+        if ($pid) {
             // Test asks us to check if the process is still running
             if ($check) {
-                if (function_exists('posix_kill')) {
-                    $exists = posix_kill($pid, 0);
-                } else {
-                    $retval = 0;
-                    $out = array();
-                    exec('kill -s 0 ' . $pid, $out, $retval);
-                    $exists = $retval == 0;
-                }
+                $exists = self::checkPid($pid);
                 if ($exists) {
                     return false;
                 }
@@ -85,6 +78,24 @@ class Lock
     }
 
     /**
+     * Checks whether $pid is still running.
+     *
+     * @param int $pid
+     * @return bool
+     */
+    private static function checkPid($pid)
+    {
+        if (function_exists('posix_kill')) {
+            return posix_kill($pid, 0);
+        }
+
+        $retval = 0;
+        $out = array();
+        exec('kill -s 0 ' . $pid, $out, $retval);
+        return $retval == 0;
+    }
+
+    /**
      * Returns the full path to the file that keeps the process
      * ID of the running script.
      *
@@ -93,7 +104,7 @@ class Lock
      */
     private static function getProcessFilename($name)
     {
-        return APP_LOCKS_PATH . '/'. $name . '.pid';
+        return APP_LOCKS_PATH . '/' . $name . '.pid';
     }
 
     /**
