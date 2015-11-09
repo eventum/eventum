@@ -113,22 +113,28 @@ class Lock
      * @param   string $name The name of this lock file
      * @return  integer The process ID of the script
      */
-    public static function getProcessID($name)
+    public static function getProcessID($name, $check = false)
     {
         static $pids;
 
         // poor man's cache system
-        if (!empty($pids[$name])) {
+        if (isset($pids[$name])) {
             return $pids[$name];
         }
 
         $pid_file = self::getProcessFilename($name);
         if (!file_exists($pid_file)) {
-            return 0;
-        } else {
-            $pids[$name] = trim(file_get_contents($pid_file));
-
-            return $pids[$name];
+            return null;
         }
+
+        $pid = trim(file_get_contents($pid_file));
+        if ($check) {
+            if (!self::checkPid($pid)) {
+                // behave like the pid did not exist
+                return null;
+            }
+        }
+
+        return $pids[$name] = $pid;
     }
 }
