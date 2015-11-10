@@ -183,7 +183,7 @@ class Setup
         // fall back to old modes:
         // 1. $eventum_setup string
         // 2. base64 encoded $eventum_setup_string
-        // 3. 4ldap_setup
+        // 3. $ldap_setup
         if (isset($eventum_setup)) {
             $config = $eventum_setup;
             $migrate = true;
