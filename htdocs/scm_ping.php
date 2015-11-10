@@ -42,8 +42,7 @@ try {
         'code' => $code ? $code : -1,
         'message' => $e->getMessage(),
     );
-    error_log($e->getMessage());
-    error_log($e->getTraceAsString());
+    Logger::app()->error($e);
 }
 
 if (!empty($_GET['json'])) {

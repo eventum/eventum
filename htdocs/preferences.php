@@ -84,7 +84,7 @@ if ($cat == 'update_account') {
             User::updatePassword($usr_id, $_POST['new_password']);
             $res = 1;
         } catch (Exception $e) {
-            error_log($e->getMessage());
+            Logger::app()->error($e);
             $res = -1;
         }
     }

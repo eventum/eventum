@@ -512,9 +512,8 @@ class Auth
             try {
                 $instance = new $class();
             } catch (AuthException $e) {
-                $message = "Unable to use auth backend '$class': {$e->getMessage()}";
-                error_log($message);
-                Error_Handler::logError($message);
+                $message = "Unable to use auth backend '$class'";
+                Logger::app()->critical($message, array('exception' => $e));
 
                 if (APP_AUTH_BACKEND_ALLOW_FALLBACK != true) {
                     $tpl = new Template_Helper();
