@@ -670,7 +670,6 @@ class Notification
         $data['diffs'] = implode("\n", $diffs);
         $data['updated_by'] = User::getFullName(Auth::getUserID());
 
-
         $all_emails = array();
         $role_emails = array(
             User::ROLE_VIEWER => array(),

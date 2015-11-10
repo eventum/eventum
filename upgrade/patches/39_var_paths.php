@@ -1,4 +1,5 @@
 <?php
+
 /*
  * migrate pids and locks to new location
  *
@@ -15,7 +16,7 @@ if (realpath($old_dir) == realpath($new_dir)) {
 
 if (!Misc::isWritableDirectory($new_dir)) {
     // shouldn't happen
-    throw new UnexpectedValueException("APP_LOCKS_PATH is not writable");
+    throw new UnexpectedValueException('APP_LOCKS_PATH is not writable');
 }
 
 $files = Misc::getFileList($old_dir);

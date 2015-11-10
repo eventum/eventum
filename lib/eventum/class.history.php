@@ -203,12 +203,12 @@ class History
             return $returns[$id];
         }
 
-        $sql = "SELECT
+        $sql = 'SELECT
                     htt_role
                 FROM
                     {{%history_type}}
                 WHERE
-                    htt_id = ?";
+                    htt_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($id));
         } catch (DbException $e) {

@@ -35,7 +35,7 @@ class BotCommands extends AbstractBotCommands
      * @param Net_SmartIRC $irc
      * @param Net_SmartIRC_data $data
      */
-    public final function help(Net_SmartIRC $irc, Net_SmartIRC_data $data)
+    final public function help(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         $commands = array(
             'auth' => 'Format is "auth user@example.com password"',
@@ -56,7 +56,7 @@ class BotCommands extends AbstractBotCommands
      * @param Net_SmartIRC $irc
      * @param Net_SmartIRC_data $data
      */
-    public final function auth(Net_SmartIRC $irc, Net_SmartIRC_data $data)
+    final public function auth(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         if (count($data->messageex) != 3) {
             $this->sendResponse(
@@ -106,7 +106,7 @@ class BotCommands extends AbstractBotCommands
      * @param Net_SmartIRC $irc
      * @param Net_SmartIRC_data $data
      */
-    public final function listAuth(Net_SmartIRC $irc, Net_SmartIRC_data $data)
+    final public function listAuth(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         foreach ($this->bot->getUsers() as $nickname => $email) {
             $this->sendResponse($data->nick, "$nickname => $email");
@@ -119,7 +119,7 @@ class BotCommands extends AbstractBotCommands
      * @param Net_SmartIRC $irc
      * @param Net_SmartIRC_data $data
      */
-    public final function clock(Net_SmartIRC $irc, Net_SmartIRC_data $data)
+    final public function clock(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         if (!$this->isAuthenticated($data)) {
             return;
@@ -137,6 +137,7 @@ class BotCommands extends AbstractBotCommands
                 $this->sendResponse(
                     $data->nick, 'Error: wrong parameter count for "CLOCK" command. Format is "!clock [in|out]".'
                 );
+
                 return;
         }
 
@@ -174,7 +175,7 @@ class BotCommands extends AbstractBotCommands
      * @param Net_SmartIRC $irc
      * @param Net_SmartIRC_data $data
      */
-    public final function listClockedIn(Net_SmartIRC $irc, Net_SmartIRC_data $data)
+    final public function listClockedIn(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         if (!$this->isAuthenticated($data)) {
             return;
@@ -183,6 +184,7 @@ class BotCommands extends AbstractBotCommands
         $list = User::getClockedInList();
         if (count($list) == 0) {
             $this->sendResponse($data->nick, 'There are no clocked-in users as of now.');
+
             return;
         }
 
@@ -198,7 +200,7 @@ class BotCommands extends AbstractBotCommands
      * @param Net_SmartIRC $irc
      * @param Net_SmartIRC_data $data
      */
-    public final function listQuarantined(Net_SmartIRC $irc, Net_SmartIRC_data $data)
+    final public function listQuarantined(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
         if (!$this->isAuthenticated($data)) {
             return;
@@ -208,6 +210,7 @@ class BotCommands extends AbstractBotCommands
         $count = count($list);
         if ($count == 0) {
             $this->sendResponse($data->nick, 'There are no quarantined issues as of now.');
+
             return;
         }
 
@@ -232,7 +235,7 @@ class BotCommands extends AbstractBotCommands
     {
         // check the message table
         $stmt
-            = "SELECT
+            = 'SELECT
                     ino_id,
                     ino_iss_id,
                     ino_prj_id,
@@ -246,7 +249,7 @@ class BotCommands extends AbstractBotCommands
                  ON
                     iss_id=ino_iss_id
                  WHERE
-                    ino_status=?";
+                    ino_status=?';
         $res = DB_Helper::getInstance()->getAll($stmt, array('pending'));
         foreach ($res as $row) {
             if (empty($row['ino_category'])) {

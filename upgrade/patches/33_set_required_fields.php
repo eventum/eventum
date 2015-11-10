@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Set required fields to match old default configuration
  */

@@ -149,6 +149,7 @@ class Misc
             foreach ($mixed as $i => $item) {
                 $mixed[$i] = $callback($item);
             }
+
             return $mixed;
         } else {
             return $callback($mixed);
@@ -167,6 +168,7 @@ class Misc
         $converter = function ($str) use ($encoding) {
             return mb_convert_case($str, MB_CASE_LOWER, $encoding);
         };
+
         return self::walk($mixed, $converter);
     }
 
@@ -181,6 +183,7 @@ class Misc
         $converter = function ($str) {
             return trim($str);
         };
+
         return self::walk($mixed, $converter);
     }
 

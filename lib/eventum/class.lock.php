@@ -92,6 +92,7 @@ class Lock
         $retval = 0;
         $out = array();
         exec('kill -s 0 ' . $pid, $out, $retval);
+
         return $retval == 0;
     }
 

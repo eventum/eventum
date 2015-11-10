@@ -326,6 +326,7 @@ class User
             User::updatePassword($usr_id, $_POST['passwd']);
         } catch (Exception $e) {
             error_log($e->getMessage());
+
             return -1;
         }
 
@@ -1022,7 +1023,7 @@ class User
 
         $res = Auth::getAuthBackend()->updatePassword($usr_id, $password);
         if (!$res) {
-            throw new BadMethodCallException("Password set rejected by auth backend");
+            throw new BadMethodCallException('Password set rejected by auth backend');
         }
 
         if ($send_notification) {
@@ -1099,6 +1100,7 @@ class User
                 User::updatePassword($usr_id, $data['password']);
             } catch (Exception $e) {
                 error_log($e->getMessage());
+
                 return -1;
             }
         }

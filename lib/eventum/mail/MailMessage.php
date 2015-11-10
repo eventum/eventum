@@ -25,16 +25,16 @@
 // +----------------------------------------------------------------------+
 
 use Eventum\Mail\Helper\SanitizeHeaders;
-use Zend\Mail\Storage\Message;
-use Zend\Mail\Headers;
-use Zend\Mail\Header\AbstractAddressList;
-use Zend\Mail\Header\HeaderInterface;
 use Zend\Mail\Address;
 use Zend\Mail\AddressList;
-use Zend\Mail\Header\Subject;
-use Zend\Mail\Header\ContentType;
+use Zend\Mail\Header\AbstractAddressList;
 use Zend\Mail\Header\ContentTransferEncoding;
+use Zend\Mail\Header\ContentType;
 use Zend\Mail\Header\GenericHeader;
+use Zend\Mail\Header\HeaderInterface;
+use Zend\Mail\Header\Subject;
+use Zend\Mail\Headers;
+use Zend\Mail\Storage\Message;
 use Zend\Mime;
 
 /**
@@ -78,6 +78,7 @@ class MailMessage extends Message
     public static function createFromString($raw)
     {
         $message = new self(array('root' => true, 'raw' => $raw));
+
         return $message;
     }
 
@@ -139,7 +140,7 @@ class MailMessage extends Message
             }
         }
 
-        return (bool)$has_attachments;
+        return (bool) $has_attachments;
     }
 
     /**
@@ -340,7 +341,7 @@ class MailMessage extends Message
     public function setReferences($value)
     {
         if (is_array($value)) {
-            $value = join(' ', $value);
+            $value = implode(' ', $value);
         }
 
         /** @var GenericHeader $header */
@@ -361,7 +362,7 @@ class MailMessage extends Message
         }
 
         $addresses = array();
-        foreach ((array)$headers as $header) {
+        foreach ((array) $headers as $header) {
             if (!$this->headers->has($header)) {
                 continue;
             }
@@ -398,6 +399,7 @@ class MailMessage extends Message
         // obtain first address from addresses list
         $addresses = current($addresslist);
         $address = current($addresses);
+
         return $address ?: null;
     }
 
@@ -658,6 +660,7 @@ class MailMessage extends Message
             }
             $headers->addHeader($header);
         }
+
         return $header;
     }
 
@@ -684,6 +687,7 @@ class MailMessage extends Message
                 )
             );
         }
+
         return $header->getAddressList();
     }
 }

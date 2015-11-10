@@ -385,6 +385,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         }
 
         $user_info = $this->validatePassword($local_user_info['usr_external_id'], $password);
+
         return $user_info != null;
     }
 

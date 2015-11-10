@@ -45,6 +45,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
 
         if (!AuthPassword::verify($password, $hash)) {
             self::incrementFailedLogins($usr_id);
+
             return false;
         }
 

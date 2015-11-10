@@ -34,7 +34,6 @@
 
 class Custom_Field
 {
-
     public static $option_types = array('combo', 'multiple', 'checkbox');
 
     /**
@@ -133,7 +132,6 @@ class Custom_Field
         return true;
     }
 
-
     /**
      * Updates custom field values from the $_POST array.
      */
@@ -144,6 +142,7 @@ class Custom_Field
             if ($send_notification) {
                 Notification::notifyIssueUpdated($_POST['issue_id'], array(), array(), $updated_fields);
             }
+
             return $updated_fields;
         }
     }
@@ -331,11 +330,12 @@ class Custom_Field
                 $usr_full_name = User::getFullName($usr_id);
                 foreach ($changes as $min_role => $role_changes) {
                     History::add($issue_id, $usr_id, 'custom_field_updated', 'Custom field updated ({changes}) by {user}', array(
-                        'changes' => join('; ', $role_changes),
+                        'changes' => implode('; ', $role_changes),
                         'user' => $usr_full_name
                     ), $min_role);
                 }
             }
+
             return $updated_fields;
         }
 
@@ -357,6 +357,7 @@ class Custom_Field
                 $role_updates[$fld_id] = $field;
             }
         }
+
         return $role_updates;
     }
 
@@ -367,7 +368,7 @@ class Custom_Field
      * @param   bool $role If specified only fields that $role can see will be returned
      * @return  array
      */
-    public static function formatUpdatesToDiffs($updated_fields, $role=false)
+    public static function formatUpdatesToDiffs($updated_fields, $role = false)
     {
         if ($role) {
             $updated_fields = self::getUpdatedFieldsForRole($updated_fields, $role);
@@ -392,6 +393,7 @@ class Custom_Field
                 }
             }
         }
+
         return $diffs;
     }
 

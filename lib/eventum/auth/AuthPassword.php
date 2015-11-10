@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -41,8 +42,9 @@ class AuthPassword
     {
         $res = password_hash($password, self::HASH_ALGO);
         if (!$res) {
-            throw new RuntimeException("password hashing failed");
+            throw new RuntimeException('password hashing failed');
         }
+
         return $res;
     }
 
@@ -57,19 +59,19 @@ class AuthPassword
     public static function verify($password, $hash)
     {
         if (!is_string($password) || !is_string($hash)) {
-            throw new InvalidArgumentException("password and hash need to be strings");
+            throw new InvalidArgumentException('password and hash need to be strings');
         }
 
         // verify passwords in constant time, i.e always do all checks
         $cmp = 0;
 
-        $cmp |= (int)password_verify($password, $hash);
+        $cmp |= (int) password_verify($password, $hash);
 
         // legacy authentication methods
-        $cmp |= (int)self::cmp($hash, base64_encode(pack('H*', md5($password))));
-        $cmp |= (int)self::cmp($hash, md5($password));
+        $cmp |= (int) self::cmp($hash, base64_encode(pack('H*', md5($password))));
+        $cmp |= (int) self::cmp($hash, md5($password));
 
-        return (bool)$cmp;
+        return (bool) $cmp;
     }
 
     /**
