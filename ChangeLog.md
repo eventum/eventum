@@ -10,6 +10,7 @@ Eventum Issue Tracking System
 - Tiny change to submit on project selection (Craig Pinfold, #92)
 - Fix error updating 'Completion Percentage' #94
 - Upgrade password hash on successful login (Elan Ruusamäe, #93)
+- Use AJAX for /manage/email_accounts.php test (Craig Pinfold, #96)
 
 2015-11-02, Version 3.0.5
 -------------------------
