@@ -68,7 +68,7 @@ class History
             $htt_id = History::getTypeID($htt_id);
         }
 
-        if (is_null($min_role)) {
+        if ($min_role === null) {
             $min_role = History::getTypeRole($htt_id);
         }
 
