@@ -7,7 +7,6 @@
  * https://github.com/eventum/eventum/wiki/Upgrading
  */
 
-// common init for upgrade scripts
 define('INSTALL_PATH', __DIR__ . '/..');
 define('CONFIG_PATH', INSTALL_PATH . '/config');
 
@@ -18,19 +17,10 @@ if (!file_exists(CONFIG_PATH . '/setup.php') || !filesize(CONFIG_PATH . '/setup.
     exit(1);
 }
 
-// load init only if no autoloader present
-if (!class_exists('DB_Helper')) {
-    require_once INSTALL_PATH . '/init.php';
-}
-
-$in_setup = defined('IN_SETUP');
-
-if (!$in_setup && php_sapi_name() != 'cli') {
-    echo "<pre>\n";
-}
+require_once INSTALL_PATH . '/init.php';
 
 try {
-    $dbmigrate = new DbMigrate(__DIR__);
+    $dbmigrate = new DbMigrate(INSTALL_PATH . '/upgrade');
     $dbmigrate->patch_database();
 } catch (Exception $e) {
     if ($in_setup) {
@@ -38,8 +28,4 @@ try {
     }
     echo $e->getMessage(), "\n";
     exit(1);
-}
-
-if (!$in_setup && php_sapi_name() != 'cli') {
-    echo "</pre>\n";
 }
