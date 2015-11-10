@@ -4,11 +4,9 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
 	->in(__DIR__ . '/cli')
 	->in(__DIR__ . '/bin')
 	->in(__DIR__ . '/htdocs')
-	->in(__DIR__ . '/irc')
 	->in(__DIR__ . '/lib/eventum')
 	->in(__DIR__ . '/scm')
 	->in(__DIR__ . '/upgrade')
-	->exclude('pear')
 	->exclude('smarty')
 ;
 
