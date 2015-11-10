@@ -1,5 +1,12 @@
 #!/usr/bin/php
 <?php
+/**
+ * Tool for helping Eventum upgrades.
+ *
+ * See our Wiki for documentation:
+ * https://github.com/eventum/eventum/wiki/Upgrading
+ */
+
 // common init for upgrade scripts
 define('INSTALL_PATH', __DIR__ . '/..');
 define('CONFIG_PATH', INSTALL_PATH . '/config');
