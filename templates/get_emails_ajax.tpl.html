@@ -1,0 +1,14 @@
+{* AJAX response message *}
+<span class="default">
+
+  {if $error == "imap_extension_missing"}
+    <b>Error: Eventum requires the IMAP extension in order to connect to IMAP/POP3 servers.<br /><br />
+    Please refer to the PHP manual for more details about how to enable the IMAP extension.</b>
+  {elseif $error == "hostname_resolv_error"}
+    <b>The provided hostname could not be resolved. Please check your information and try again.</b>
+  {elseif $error == "could_not_connect"}
+    <b>Could not connect to the server with the provided information.</b>
+  {else}
+    <b>Thank you, the connection to the email server was created successfully.</b>
+  {/if}
+</span>

@@ -29,7 +29,7 @@
 require_once __DIR__ . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate('get_emails.tpl.html');
+$tpl->setTemplate('get_emails_ajax.tpl.html');
 
 Auth::checkAuthentication(null, true);
 
