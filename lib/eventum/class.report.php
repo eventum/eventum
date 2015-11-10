@@ -969,7 +969,7 @@ class Report
         switch ($interval) {
             case 'day':
                 $format = '%m/%d/%y';
-                $order_by = "%1\$s";
+                $order_by = '%1$s';
                 break;
             case 'dow':
                 $format = '%W';
@@ -981,7 +981,7 @@ class Report
                 } else {
                     $format = '%v/%y';
                 }
-                $order_by = "%1\$s";
+                $order_by = '%1$s';
                 break;
             case 'dom':
                 $format = '%d';
@@ -992,7 +992,7 @@ class Report
                     $order_by = "DATE_FORMAT(%1\$s, '%%m')";
                 } else {
                     $format = '%b/%y';
-                    $order_by = "%1\$s";
+                    $order_by = '%1$s';
                 }
                 break;
             default:
