@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2015-??-??, Version 3.0.6
+2015-11-10, Version 3.0.6
 -------------------------
 
 - Update custom fields from update issue page (Bryan Alsdorf, #88)
@@ -11,6 +11,7 @@ Eventum Issue Tracking System
 - Fix error updating 'Completion Percentage' #94
 - Upgrade password hash on successful login (Elan Ruusamäe, #93)
 - Use AJAX for /manage/email_accounts.php test (Craig Pinfold, #96)
+- LDAP auth backend: create connection only if needed (Elan Ruusamäe)
 
 2015-11-02, Version 3.0.5
 -------------------------
