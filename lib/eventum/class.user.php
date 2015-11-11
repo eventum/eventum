@@ -1224,10 +1224,12 @@ class User
 
         $usr_id = DB_Helper::get_last_insert_id();
 
-        try {
-            User::updatePassword($usr_id, $user['password']);
-        } catch (Exception $e) {
-            return -1;
+        if ($user['password'] != '') {
+            try {
+                User::updatePassword($usr_id, $user['password']);
+            } catch (Exception $e) {
+                return -1;
+            }
         }
 
         // add the project associations!
