@@ -1,5 +1,5 @@
 # Makefile for Eventum po files.
-# (c) 2007-2014 Elan Ruusamäe <glen@delfi.ee>
+# (c) 2007-2015 Elan Ruusamäe <glen@delfi.ee>
 
 localedir   := .
 DOMAIN      := eventum
