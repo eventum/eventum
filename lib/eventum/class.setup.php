@@ -75,6 +75,26 @@ class Setup
     }
 
     /**
+     * Set default values for specific section of config
+     *
+     * @param string $section
+     * @param array $defaults
+     * @return Config returns section that was just configured
+     */
+    public static function setDefaults($section, array $defaults)
+    {
+        $config = self::get();
+        $existing = $config[$section]->toArray();
+
+        // add defaults
+        $config->merge(new Config(array($section => $defaults)));
+        // and then whatever was already there
+        $config->merge(new Config(array($section => $existing)));
+
+        return $config[$section];
+    }
+
+    /**
      * Method used to save the setup options for the application.
      * The $options are merged with existing config and then saved.
      *
@@ -85,7 +105,15 @@ class Setup
     {
         $config = self::set($options);
         try {
-            self::saveConfig(APP_SETUP_FILE, $config);
+            $clone = clone $config;
+            // save ldap config to separate file
+            $ldap = $clone->ldap;
+            unset($clone->ldap);
+
+            self::saveConfig(APP_SETUP_FILE, $clone);
+            if ($ldap) {
+                self::saveConfig(APP_CONFIG_PATH . '/ldap.php', $ldap);
+            }
         } catch (Exception $e) {
             $code = $e->getCode();
             error_log($e->getMessage());
@@ -98,7 +126,7 @@ class Setup
     }
 
     /**
-     * Initialize config object, load it from setup file, merge defaults.
+     * Initialize config object, load it from setup files, merge defaults.
      *
      * @return Config
      */
@@ -106,6 +134,22 @@ class Setup
     {
         $config = new Config(self::getDefaults(), true);
         $config->merge(new Config(self::loadConfigFile(APP_SETUP_FILE, $migrate)));
+
+        // some subtrees are saved to different files
+        $extra_configs = array(
+            'ldap' => APP_CONFIG_PATH . '/ldap.php',
+        );
+
+        foreach ($extra_configs as $section => $filename) {
+            if (!file_exists($filename)) {
+                continue;
+            }
+
+            $subconfig = self::loadConfigFile($filename, $migrate);
+            if ($subconfig) {
+                $config->merge(new Config(array($section => $subconfig)));
+            }
+        }
 
         if ($migrate) {
             // save config in new format
@@ -125,6 +169,7 @@ class Setup
     private static function loadConfigFile($path, &$migrate)
     {
         $eventum_setup_string = $eventum_setup = null;
+        $ldap_setup = null;
 
         // return empty array if the file is empty
         // this is to help eventum installation wizard to proceed
@@ -138,12 +183,19 @@ class Setup
         // fall back to old modes:
         // 1. $eventum_setup string
         // 2. base64 encoded $eventum_setup_string
+        // 3. $ldap_setup
         if (isset($eventum_setup)) {
             $config = $eventum_setup;
             $migrate = true;
         } elseif (isset($eventum_setup_string)) {
             $config = unserialize(base64_decode($eventum_setup_string));
             $migrate = true;
+        } elseif (isset($ldap_setup)) {
+            $config = $ldap_setup;
+            $migrate = true;
+        } elseif ($config == 1) {
+            // something went wrong, do not return "1", but empty array
+            $config = array();
         }
 
         return $config;
@@ -196,10 +248,9 @@ class Setup
      */
     private static function getDefaults()
     {
-
         // at minimum should define top level array elements
         // so that fluent access works without errors and notices
-        return array(
+        $defaults = array(
             'monitor' => array(
                 'diskcheck' => array(
                     'status' => 'enabled',
@@ -214,6 +265,7 @@ class Setup
             ),
 
             'smtp' => array(),
+            'ldap' => array(),
 
             'email_routing' => array(
                 'warning' => array(),
@@ -230,5 +282,7 @@ class Setup
             // default expiry: 5 minutes
             'issue_lock' => 300,
         );
+
+        return $defaults;
     }
 }

@@ -406,17 +406,6 @@ class Mail_Helper
     }
 
     /**
-     * Method used to add a message/rfc822 attachment to the message.
-     *
-     * @param   string $message_body The attachment data
-     * @return  void
-     */
-    public function addMessageRfc822($message_body)
-    {
-        $this->mime->addMessageRfc822($message_body, '8bit');
-    }
-
-    /**
      * Removes the warning message contained in a message, so that certain users
      * don't receive that extra information as it may not be relevant to them.
      *
@@ -557,7 +546,21 @@ class Mail_Helper
 
         $this->setHeaders($headers);
         $hdrs = $this->mime->headers($this->headers);
-        $res = Mail_Queue::add($to, $hdrs, $body, $save_email_copy, $issue_id, $type, $sender_usr_id, $type_id);
+
+        $mail = array(
+            'to' => $to,
+            'headers' => $hdrs,
+            'body' => $body,
+        );
+        $options = array(
+            'save_email_copy' => $save_email_copy,
+            'issue_id' => $issue_id,
+            'type' => $type,
+            'sender_usr_id' => $sender_usr_id,
+            'type_id' => $type_id,
+        );
+
+        $res = Mail_Queue::addMail($mail, $options);
         if (Misc::isError($res) || $res == false) {
             return $res;
         }
@@ -808,6 +811,8 @@ class Mail_Helper
             // calculate hash to make fake message ID
             // NOTE: note the base_convert "10" should be "16" really here
             // but can't fix this because need to generate same message-id for same headers+body.
+            // TODO: this can be fixed once we store the generated message-id in database,
+            // TODO: i.e work on ZF-MAIL devel branch gets merged
             $first = base_convert(md5($headers), 10, 36);
             $second = base_convert(md5($body), 10, 36);
         } else {
@@ -835,7 +840,7 @@ class Mail_Helper
         }
         if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
             $references = explode(' ', self::unfold(trim($matches[1])));
-            $references = array_map(function ($s) { return trim($s); }, $references);
+            $references = Misc::trim($references);
             // return the first message-id in the list of references
             return $references[0];
         }
@@ -857,7 +862,7 @@ class Mail_Helper
         }
         if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
             $references = array_merge($references, explode(' ', self::unfold(trim($matches[1]))));
-            $references = array_map(function ($s) { return trim($s); }, $references);
+            $references = Misc::trim($references);
             $references = array_unique($references);
         }
         foreach ($references as $key => $reference) {
@@ -1023,7 +1028,6 @@ class Mail_Helper
         // (presented as Array by PEAR Mail_mimeDecode class)
         if ($has_message_id && is_string($structure->headers['message-id'])) {
             return $structure->headers['message-id'];
-
         } elseif ($has_message_id && is_array($structure->headers['message-id'])) {
             return current($structure->headers['message-id']);
         }

@@ -350,7 +350,7 @@ class Note
         ), $options);
 
         $prj_id = Issue::getProjectID($issue_id);
-        // NOTE: workflow takes may modify the parameters as $data is passed as reference
+        // NOTE: workflow may modify the parameters as $data is passed as reference
         $data = array(
             'title' => &$title,
             'note' => &$note,

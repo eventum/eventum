@@ -94,7 +94,8 @@
 		"malsup/form" :"*",
 		"maximebf/debugbar": "1.*",
 		"roave/security-advisories": "dev-master",
-		"symfony/var-dumper": "~2.7.3"
+		"symfony/var-dumper": "~2.7.3",
+		"zendframework/zend-mail": "2.4.*"
 	},
 	"suggest": {
 		"ext-ldap": "Adds support for LDAP auth backend"

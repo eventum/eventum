@@ -66,8 +66,10 @@ class AbstractBotCommands
     {
         if (!$this->bot->isAuthenticated($data)) {
             $this->sendResponse($data->nick, 'Error: You need to be authenticated to run this command.');
+
             return false;
         }
+
         return true;
     }
 

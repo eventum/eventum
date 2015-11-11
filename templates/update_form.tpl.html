@@ -88,6 +88,13 @@
                         {html_options options=$users selected=$issue.assigned_users}
                         {/if}
                     </select>
+                {elseif $row.field == 'scheduled_release'}
+                    <select name="scheduled_release">
+                        <option value="0"></option>
+                        {html_options options=$releases selected=$issue.iss_pre_id}
+                    </select>
+                {elseif $row.field == 'reporter'}
+                    <a href="list.php?reporter={$issue.iss_usr_id}&hide_closed=1">{$issue.reporter|escape:html}</a></div>
                 {/if}
                 </td>
             </tr>
@@ -166,6 +173,11 @@
                 {elseif $row.field == 'estimated_dev_time'}
                     <input type="text" name="estimated_dev_time" value="{$issue.iss_dev_time}" size="4">
                     <span>({t}in hours{/t})</span>
+                {elseif $row.field == 'group'}
+                    <select name="group">
+                        <option value=""></option>
+                        {html_options options=$groups selected=$issue.iss_grp_id}
+                    </select>
                 {/if}
                 </td>
             </tr>
@@ -185,7 +197,7 @@
             </tr>
             <tr>
                 <th class="initial_description">
-                    {t}Initial Description{/t}
+                    {t}Description{/t}
                 </th>
                 <td>
                     {if $issue_lock}

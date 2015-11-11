@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -175,7 +176,7 @@ class Eventum_Bot
                 $irc->log(SMARTIRC_DEBUG_NOTICE, "Got signal[$signal]; shutdown", __FILE__, __LINE__);
                 $irc->quit('Terminated');
             } else {
-                $irc->log(SMARTIRC_DEBUG_NOTICE, "Shutdown handler", __FILE__, __LINE__);
+                $irc->log(SMARTIRC_DEBUG_NOTICE, 'Shutdown handler', __FILE__, __LINE__);
                 $irc->quit('Bye');
             }
 
@@ -189,7 +190,7 @@ class Eventum_Bot
             pcntl_signal(SIGINT, $handler);
             pcntl_signal(SIGTERM, $handler);
         } else {
-            error_log("pcntl extension not present, signal processing not enabled");
+            error_log('pcntl extension not present, signal processing not enabled');
         }
 
         // NOTE: signal handler is not enough because stream_select() also catches the signals and aborts the process
@@ -273,7 +274,7 @@ class Eventum_Bot
         // doing it cleanly with dispatch is not possible currently
         // @see http://pear.php.net/bugs/bug.php?id=20973
         if ($this->have_pcntl) {
-            declare(ticks = 1);
+            declare (ticks = 1);
             //$irc->registerTimehandler(1000, $this, 'signalDispatch');
         }
 
@@ -290,7 +291,7 @@ class Eventum_Bot
 
     public function signalDispatch(Net_SmartIRC $irc)
     {
-        $irc->log(SMARTIRC_DEBUG_ACTIONHANDLER, "signal dispatch", __FILE__, __LINE__);
+        $irc->log(SMARTIRC_DEBUG_ACTIONHANDLER, 'signal dispatch', __FILE__, __LINE__);
         pcntl_signal_dispatch();
     }
 

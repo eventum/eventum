@@ -39,7 +39,6 @@ if ($role_id < User::ROLE_REPORTER) {
 }
 
 if (@$_POST['cat'] == 'update') {
-    $setup = LDAP_Auth_Backend::loadSetup();
     $setup['host'] = $_POST['host'];
     $setup['port'] = $_POST['port'];
     $setup['binddn'] = $_POST['binddn'];
@@ -51,7 +50,7 @@ if (@$_POST['cat'] == 'update') {
     $setup['contact_id_attribute'] = $_POST['contact_id_attribute'];
     $setup['create_users'] = $_POST['create_users'];
     $setup['default_role'] = $_POST['default_role'];
-    $res = LDAP_Auth_Backend::saveSetup($setup);
+    $res = Setup::save(array('ldap' => $setup));
     Misc::mapMessages($res, array(
             1   =>  array('Thank you, the setup information was saved successfully.', Misc::MSG_INFO),
             -1  =>  array("ERROR: The system doesn't have the appropriate permissions to create the configuration file
@@ -64,8 +63,10 @@ if (@$_POST['cat'] == 'update') {
 
     $tpl->assign('result', $res);
 }
-$options = LDAP_Auth_Backend::loadSetup(true);
-$tpl->assign('setup', $options);
+
+$setup = Setup::setDefaults('ldap', LDAP_Auth_Backend::getDefaults());
+
+$tpl->assign('setup', $setup);
 $tpl->assign('project_list', Project::getAll());
 $tpl->assign('project_roles', array(0 => 'No Access') + User::getRoles());
 $tpl->assign('user_roles', User::getRoles(array('Customer')));

@@ -326,6 +326,7 @@ class User
             User::updatePassword($usr_id, $_POST['passwd']);
         } catch (Exception $e) {
             error_log($e->getMessage());
+
             return -1;
         }
 
@@ -350,9 +351,11 @@ class User
 
         $setup = Setup::get();
         $mail = new Mail_Helper();
-        // need to make this message MIME based
         $mail->setTextBody($text_message);
-        $mail->send($setup['smtp']['from'], $_POST['email'], APP_SHORT_NAME . ': New Account - Confirmation Required');
+
+        // TRANSLATORS: %1 - APP_SHORT_NAME
+        $subject = ev_gettext('%s: New Account - Confirmation Required', APP_SHORT_NAME);
+        $mail->send($setup['smtp']['from'], $_POST['email'], $subject);
 
         return 1;
     }
@@ -381,9 +384,11 @@ class User
 
         $setup = Setup::get();
         $mail = new Mail_Helper();
-        // need to make this message MIME based
         $mail->setTextBody($text_message);
-        $mail->send($setup['smtp']['from'], $info['usr_email'], APP_SHORT_NAME . ': New Password - Confirmation Required');
+
+        // TRANSLATORS: %s - APP_SHORT_NAME
+        $subject = ev_gettext('%s: New Password - Confirmation Required', APP_SHORT_NAME);
+        $mail->send($setup['smtp']['from'], $info['usr_email'], $subject);
     }
 
     /**
@@ -1018,7 +1023,7 @@ class User
 
         $res = Auth::getAuthBackend()->updatePassword($usr_id, $password);
         if (!$res) {
-            throw new BadMethodCallException("Password set rejected by auth backend");
+            throw new BadMethodCallException('Password set rejected by auth backend');
         }
 
         if ($send_notification) {
@@ -1095,6 +1100,7 @@ class User
                 User::updatePassword($usr_id, $data['password']);
             } catch (Exception $e) {
                 error_log($e->getMessage());
+
                 return -1;
             }
         }
@@ -1218,10 +1224,12 @@ class User
 
         $usr_id = DB_Helper::get_last_insert_id();
 
-        try {
-            User::updatePassword($usr_id, $user['password']);
-        } catch (Exception $e) {
-            return -1;
+        if ($user['password'] != '') {
+            try {
+                User::updatePassword($usr_id, $user['password']);
+            } catch (Exception $e) {
+                return -1;
+            }
         }
 
         // add the project associations!

@@ -7,7 +7,17 @@ class MailMessageTest extends TestCase
         $raw = "X-foo: 1\r\n\r\nnada";
         $message = MailMessage::createFromString($raw);
         $message_id = $message->messageId;
-        $exp = "<eventum.md5.68gm8417ga.clqtuo3skl4w0gc@eventum.example.org>";
+
+        /**
+         * due bad conversion in Mail_Helper::generateMessageID(),
+         * the result is different on 32bit systems.
+         * @see Mail_Helper::generateMessageID()
+         */
+        if (PHP_INT_SIZE == 4) {
+            $exp = "<eventum.md5.68gm8417ga.clqtuo3sklwsgok@eventum.example.org>";
+        } else {
+            $exp = "<eventum.md5.68gm8417ga.clqtuo3skl4w0gc@eventum.example.org>";
+        }
         $this->assertEquals($exp, $message_id);
     }
 
@@ -216,7 +226,8 @@ class MailMessageTest extends TestCase
     /**
      * @test that the result can be assembled after adding generic header!
      */
-    public function testInReplyTo() {
+    public function testInReplyTo()
+    {
         $mail = MailMessage::createFromFile(__DIR__ . '/data/multipart-text-html.txt');
         $mail->setInReplyTo('fu!');
         $mail->getRawContent();
@@ -457,4 +468,70 @@ class MailMessageTest extends TestCase
         $body2 = $mail->getMessageBody();
         $this->assertEquals($body1, $body2);
     }
+
+    /**
+     * Test mail sending with Mail_Helper
+     */
+    public function testMailSendMH()
+    {
+        $this->skipCi("Uses database");
+
+        $text_message = 'tere';
+        $issue_id = 1;
+        $from = 'Eventum <support@example.org>';
+        $recipient = 'Eventum <support@example.org>';
+        $subject = "[#1] Issue Created";
+        $msg_id = '<eventum@eventum.example.org>';
+
+        $mail = new Mail_Helper();
+        $mail->setTextBody($text_message);
+        $headers = array(
+            'Message-ID' => $msg_id,
+        );
+        $mail->setHeaders($headers);
+        // mail_send adds message to queue and returns headers+body
+        // somewhy it adds Date with current timestamp, plus rest of the headers
+        $res = $mail->send($from, $recipient, $subject, 0, $issue_id, 'auto_created_issue');
+        $res = explode("\r\n", $res);
+        // remove date header, it's hard to compare
+        array_shift($res);
+        $exp = array(
+            'MIME-Version: 1.0',
+            'Content-Type: text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding: 7bit',
+            'Message-ID: <eventum@eventum.example.org>',
+            'From: "Eventum" <support@example.org>',
+            'To: "Eventum" <support@example.org>',
+            'Subject: [#1] Issue Created',
+            '',
+            'tere',
+        );
+        $this->assertEquals($exp, $res);
+    }
+
+    /**
+     * Test mail sending with ZendFramework Mail (MailMessage)
+     */
+    public function testMailSendZF()
+    {
+        $this->skipCi("Uses database");
+
+        $text_message = 'tere';
+        $issue_id = 1;
+        $from = 'Eventum <support@example.org>';
+        $recipient = 'Eventum <support@example.org>';
+        $subject = "[#1] Issue Created";
+        $msg_id = '<eventum@eventum.example.org>';
+
+
+        $raw = "Message-ID: $msg_id\n\n\n$text_message";
+        $mail = MailMessage::createFromString($raw);
+        $mail->setSubject($subject);
+        $mail->setFrom($from);
+        $mail->setTo($recipient);
+
+        // add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
+        $res = Mail_Queue::addMail($mail);
+    }
+
 }

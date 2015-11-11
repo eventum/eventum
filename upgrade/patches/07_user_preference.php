@@ -49,7 +49,7 @@ foreach ($res as $row) {
 
     $old_preferences = unserialize($row['usr_preferences']);
     if ($old_preferences === false) {
-        $log("... skipped");
+        $log('... skipped');
         continue;
     }
 

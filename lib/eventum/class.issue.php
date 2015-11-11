@@ -1414,7 +1414,7 @@ class Issue
         global $errors;
 
         // trim and remove empty values
-        $associated_issues = array_filter(array_map(function ($s) { return trim($s); }, $associated_issues));
+        $associated_issues = array_filter(Misc::trim($associated_issues));
 
         // make sure all associated issues are valid (and in this project)
         foreach ($associated_issues as $i => $iss_id) {
@@ -1538,8 +1538,8 @@ class Issue
         if (isset($_POST['release'])) {
             $params['iss_pre_id'] = $_POST['release'];
         }
-        if (isset($_POST['percent_complete'])) {
-            $params['iss_percent_complete'] = $_POST['percent_complete'];
+        if (isset($_POST['percentage_complete'])) {
+            $params['iss_percent_complete'] = $_POST['percentage_complete'];
         }
         if (isset($_POST['group'])) {
             $params['iss_grp_id'] = $_POST['group'];
@@ -1573,6 +1573,9 @@ class Issue
         }
         if (isset($_POST['severity'])) {
             $params['iss_sev_id'] = $_POST['severity'];
+        }
+        if (isset($_POST['scheduled_release'])) {
+            $params['iss_pre_id'] = $_POST['scheduled_release'];
         }
 
         $stmt = 'UPDATE {{%issue}} SET ' . DB_Helper::buildSet($params). ' WHERE iss_id=?';
@@ -1608,6 +1611,9 @@ class Issue
             $updated_fields['Severity'] = History::formatChanges(Severity::getTitle($current['iss_sev_id']), Severity::getTitle($_POST['severity']));
             Workflow::handleSeverityChange($prj_id, $issue_id, $usr_id, $current, $_POST);
         }
+        if (isset($_POST['scheduled_release']) && $current['iss_pre_id'] != $_POST['scheduled_release']) {
+            $updated_fields['Scheduled Release'] = History::formatChanges(Release::getTitle($current['iss_pre_id']), Release::getTitle($_POST['scheduled_release']));
+        }
         if (isset($_POST['status']) && $current['iss_sta_id'] != $_POST['status']) {
             // clear out the last-triggered-reminder flag when changing the status of an issue
             Reminder_Action::clearLastTriggered($issue_id);
@@ -1632,8 +1638,8 @@ class Issue
             $updated_fields['Summary'] = '';
         }
 
-        if (isset($_POST['percent_complete']) && $current['iss_original_percent_complete'] != $_POST['percent_complete']) {
-            $updated_fields['Percent complete'] = History::formatChanges($current['iss_original_percent_complete'], $_POST['percent_complete']);
+        if (isset($_POST['percentage_complete']) && $current['iss_original_percent_complete'] != $_POST['percentage_complete']) {
+            $updated_fields['Percentage complete'] = History::formatChanges($current['iss_original_percent_complete'], $_POST['percentage_complete']);
         }
 
         if ($current['iss_original_description'] != $_POST['description']) {

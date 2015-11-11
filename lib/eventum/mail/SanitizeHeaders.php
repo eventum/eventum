@@ -24,15 +24,16 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
+
 namespace Eventum\Mail\Helper;
 
-use Zend\Mail\Headers;
+use DomainException;
+use Mail_Helper;
+use MailMessage;
 use Zend\Mail\Header\AbstractAddressList;
 use Zend\Mail\Header\HeaderInterface;
 use Zend\Mail\Header\MessageId;
-use MailMessage;
-use Mail_Helper;
-use DomainException;
+use Zend\Mail\Headers;
 
 class SanitizeHeaders
 {

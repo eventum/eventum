@@ -49,8 +49,8 @@ class Notification
             return true;
         }
         $subscribed_emails = self::getSubscribedEmails($issue_id, 'emails');
-        $subscribed_emails = array_map(function ($s) { return strtolower($s); }, $subscribed_emails);
-        if (@in_array($email, $subscribed_emails)) {
+        $subscribed_emails = Misc::lowercase($subscribed_emails);
+        if (in_array($email, $subscribed_emails)) {
             return true;
         } else {
             return false;
@@ -303,7 +303,7 @@ class Notification
 
         // automatically subscribe this sender to email notifications on this issue
         $subscribed_emails = self::getSubscribedEmails($issue_id, 'emails');
-        $subscribed_emails = array_map(function ($s) { return strtolower($s); }, $subscribed_emails);
+        $subscribed_emails = Misc::lowercase($subscribed_emails);
         if ((!self::isIssueRoutingSender($issue_id, $sender)) &&
                 (!self::isBounceMessage($sender_email)) &&
                 (!in_array($sender_email, $subscribed_emails)) &&
@@ -391,12 +391,27 @@ class Notification
             }
         }
 
+        $options = array(
+            'save_email_copy' => 1,
+            'issue_id' => $issue_id,
+            'type' => $type,
+            'sender_usr_id' => $sender_usr_id,
+            'type_id' => $sup_id,
+        );
+
         foreach ($emails as $to) {
             // add the warning message about replies being blocked or not
+            // FIXME: $headers contains $headers['To'] from previous iteration
             $fixed_body = Mail_Helper::addWarningMessage($issue_id, $to, $body, $headers);
             $headers['To'] = Mime_Helper::encodeAddress($to);
 
-            Mail_Queue::add($to, $headers, $fixed_body, 1, $issue_id, $type, $sender_usr_id, $sup_id);
+            $mail = array(
+                'to' => $to,
+                'headers' => $headers,
+                'body' => $fixed_body,
+            );
+
+            Mail_Queue::addMail($mail, $options);
         }
     }
 
@@ -655,7 +670,6 @@ class Notification
         $data['diffs'] = implode("\n", $diffs);
         $data['updated_by'] = User::getFullName(Auth::getUserID());
 
-
         $all_emails = array();
         $role_emails = array(
             User::ROLE_VIEWER => array(),
@@ -785,7 +799,7 @@ class Notification
             $users = array_merge($users, $extra);
         }
         $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::ROLE_CUSTOMER);
-        $user_emails = array_map(function ($s) { return strtolower($s); }, $user_emails);
+        $user_emails = Misc::lowercase($user_emails);
 
         foreach ($users as $user) {
             if (empty($user['sub_usr_id'])) {
@@ -1247,7 +1261,9 @@ class Notification
             $setup = $mail->getSMTPSettings();
             $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
             $recipient = Mime_Helper::fixEncoding($recipient);
-            $mail->send($from, $recipient, "[#$issue_id] Issue Created: " . $data['iss_summary'], 0, $issue_id, 'auto_created_issue');
+            // TRANSLATORS: %1: $issue_id, %2 = iss_summary
+            $subject = ev_gettext('[#%1$s] Issue Created: %2$s', $issue_id, $data['iss_summary']);
+            $mail->send($from, $recipient, $subject, 0, $issue_id, 'auto_created_issue');
 
             Language::restore();
         }
@@ -1324,7 +1340,10 @@ class Notification
                 $setup = $mail->getSMTPSettings();
                 $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
                 $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-                $mail->send($from, $recipient, "[#$issue_id] Issue Created: " . $data['iss_summary'], 1, $issue_id, 'email_converted_to_issue');
+
+                // TRANSLATORS: %1 - issue_id, %2 - iss_summary
+                $subject = ev_gettext('[#%1$s] Issue Created: %2$s', $issue_id, $data['iss_summary']);
+                $mail->send($from, $recipient, $subject, 1, $issue_id, 'email_converted_to_issue');
             }
             Language::restore();
 
@@ -1426,11 +1445,14 @@ class Notification
 
         $text_message = $tpl->getTemplateContents();
 
-        // send email (use PEAR's classes)
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup['from'], $mail->getFormattedName($info['usr_full_name'], $info['usr_email']), APP_SHORT_NAME . ': ' . ev_gettext('User account information updated'));
+        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+
+        // TRANSLATORS: %s - APP_SHORT_NAME
+        $subject = ev_gettext('%s: User account information updated', APP_SHORT_NAME);
+        $mail->send($setup['from'], $to, $subject);
 
         Language::restore();
     }
@@ -1465,7 +1487,11 @@ class Notification
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup['from'], $mail->getFormattedName($info['usr_full_name'], $info['usr_email']), APP_SHORT_NAME . ': ' . ev_gettext('User account password changed'));
+        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+
+        // TRANSLATORS: %s - APP_SHORT_NAME
+        $subject = ev_gettext('%s: User account password changed', APP_SHORT_NAME);
+        $mail->send($setup['from'], $to, $subject);
 
         Language::restore();
     }
@@ -1500,7 +1526,11 @@ class Notification
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup['from'], $mail->getFormattedName($info['usr_full_name'], $info['usr_email']), APP_SHORT_NAME . ': ' . ev_gettext('New User information'));
+        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+
+        // TRANSLATORS: %s - APP_SHORT_NAME
+        $subject = ev_gettext('%s: New User information', APP_SHORT_NAME);
+        $mail->send($setup['from'], $to, $subject);
 
         Language::restore();
     }
@@ -1628,7 +1658,10 @@ class Notification
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup['from'], $mail->getFormattedName($info['usr_full_name'], $info['usr_email']), APP_SHORT_NAME . ': ' . ev_gettext('Your User Account Details'));
+        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+        // TRANSLATORS: %s = APP_SHORT_NAME
+        $subject = ev_gettext('%s: Your User Account Details', APP_SHORT_NAME);
+        $mail->send($setup['from'], $to, $subject);
         Language::restore();
     }
 

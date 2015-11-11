@@ -96,7 +96,7 @@ foreach ($pieces as $piece) {
 }
 $relative_url[] = '';
 $relative_url = implode('/', $relative_url);
-define('APP_REL_URL',$relative_url);
+define('APP_REL_URL', $relative_url);
 $tpl->assign('phpversion', phpversion());
 $tpl->assign('core', array(
     'rel_url'   =>  $relative_url,
@@ -338,7 +338,7 @@ function getUserList($conn)
     }
 
     // FIXME: why lowercase neccessary?
-    $users = array_map(function ($s) { return strtolower($s); }, $users);
+    $users = Misc::lowercase($users);
 
     return $users;
 }
@@ -352,7 +352,7 @@ function getTableList($conn)
     $tables = $conn->getColumn('SHOW TABLES');
 
     // FIXME: why lowercase neccessary?
-    $tables = array_map(function ($s) { return strtolower($s); }, $tables);
+    $tables = Misc::lowercase($tables);
 
     return $tables;
 }
@@ -366,7 +366,7 @@ function get_queries($file)
 {
     $contents = file_get_contents($file);
     $queries = explode(';', $contents);
-    $queries = array_map(function ($s) { return trim($s); }, $queries);
+    $queries = Misc::trim($queries);
     $queries = array_filter($queries);
 
     return $queries;
@@ -457,7 +457,7 @@ function setup_database()
     $buffer = array();
     try {
         $dbmigrate = new DbMigrate(APP_PATH . '/upgrade');
-        $dbmigrate->setLogger(function($e) use (&$buffer) {
+        $dbmigrate->setLogger(function ($e) use (&$buffer) {
             $buffer[] = $e;
         });
         $dbmigrate->patch_database();
@@ -466,17 +466,17 @@ function setup_database()
     }
 
     global $tpl;
-    $tpl->assign('db_result', join("\n", $buffer));
+    $tpl->assign('db_result', implode("\n", $buffer));
 
     if ($e) {
         $upgrade_script = APP_PATH . '/upgrade/update-database.php';
         $error = array(
-            "Database setup failed on upgrade:",
+            'Database setup failed on upgrade:',
             "<tt>{$e->getMessage()}</tt>",
-            "",
+            '',
             "You may want run update script <tt>$upgrade_script</tt> manually"
         );
-        throw new RuntimeException(join("<br/>", $error));
+        throw new RuntimeException(implode('<br/>', $error));
     }
 
     // write db name now that it has been created

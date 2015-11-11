@@ -131,7 +131,8 @@ function getParams()
 if (!function_exists('imap_open')) {
     fatal(
         'Eventum requires the IMAP extension in order to download messages saved on a IMAP/POP3 mailbox.',
-        'Please refer to the PHP manual for more details about how to enable the IMAP extension.'
+        'See Prerequisites on the Wiki https://github.com/eventum/eventum/wiki/Prerequisites',
+        'Please refer to the PHP manual for more details about how to install and enable the IMAP extension.'
     );
 }
 

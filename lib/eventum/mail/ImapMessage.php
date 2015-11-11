@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -23,10 +24,8 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-use Zend\Mail\Storage\Message;
-use Zend\Mail\Address;
 use Zend\Mail\Header\GenericHeader;
-use Zend\Mime;
+use Zend\Mail\Storage\Message;
 
 /**
  * Class ImapMessage
@@ -119,7 +118,7 @@ class ImapMessage extends MailMessage
             // fallback to date header
             $date = $headers->get('Date')->getFieldValue();
         } else {
-            throw new InvalidArgumentException("No date header for mail");
+            throw new InvalidArgumentException('No date header for mail');
         }
 
         return Date_Helper::getDateTime($date);

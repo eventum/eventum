@@ -29,7 +29,7 @@
 require_once __DIR__ . '/../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate('get_emails.tpl.html');
+$tpl->setTemplate('get_emails_ajax.tpl.html');
 
 Auth::checkAuthentication(null, true);
 
@@ -46,7 +46,7 @@ if (!function_exists('imap_open')) {
             'ema_hostname' => $_POST['hostname'],
             'ema_port'     => $_POST['port'],
             'ema_type'     => $_POST['type'],
-            'ema_folder'   => $_POST['folder'],
+            'ema_folder'   => Misc::ifSet($_POST, 'folder'),
             'ema_username' => $_POST['username'],
             'ema_password' => $_POST['password'],
         );

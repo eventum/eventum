@@ -133,6 +133,61 @@ class Misc
     }
 
     /**
+     * Process string with callback function. Input can be string or array of strings
+     *
+     * @param string|string[] $mixed
+     * @param callable $callback
+     * @return string|string[]
+     */
+    private static function walk($mixed, $callback)
+    {
+        if (!$mixed) {
+            return $mixed;
+        }
+
+        if (is_array($mixed)) {
+            foreach ($mixed as $i => $item) {
+                $mixed[$i] = $callback($item);
+            }
+
+            return $mixed;
+        } else {
+            return $callback($mixed);
+        }
+    }
+
+    /**
+     * Lowercase string, it can be array of strings
+     *
+     * @param string|string[] $mixed
+     * @param string $encoding The string encoding. Default UTF-8.
+     * @return string|string[]
+     */
+    public static function lowercase($mixed, $encoding = APP_CHARSET)
+    {
+        $converter = function ($str) use ($encoding) {
+            return mb_convert_case($str, MB_CASE_LOWER, $encoding);
+        };
+
+        return self::walk($mixed, $converter);
+    }
+
+    /**
+     * Removes leading and trailing whitespace from input.
+     *
+     * @param string|string[] $mixed
+     * @return string|string[]
+     */
+    public static function trim($mixed)
+    {
+        $converter = function ($str) {
+            return trim($str);
+        };
+
+        return self::walk($mixed, $converter);
+    }
+
+    /**
      * Method used to get the title given to the current installation of Eventum.
      *
      * @return  string The installation title
@@ -935,6 +990,7 @@ class Misc
      * Generate a random byte string of the requested size.
      *
      * Uses Medium Strength Generator
+     *
      * @link https://github.com/ircmaxell/RandomLib#factory-getlowstrengthgenerator
      *
      * @param int $size

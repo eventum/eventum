@@ -51,7 +51,7 @@ try {
     $bot = new Eventum_Bot();
 } catch (InvalidArgumentException $e) {
     error_log($e->getMessage());
-    error_log("Please see config/irc_config.dist.php for sample config.");
+    error_log('Please see config/irc_config.dist.php for sample config.');
     exit(1);
 }
 

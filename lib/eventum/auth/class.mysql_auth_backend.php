@@ -41,18 +41,27 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
     {
         $usr_id = User::getUserIDByEmail($login, true);
         $user = User::getDetails($usr_id);
+        $hash = $user['usr_password'];
 
-        if (AuthPassword::verify($password, $user['usr_password'])) {
-            self::resetFailedLogins($usr_id);
-            return true;
+        if (!AuthPassword::verify($password, $hash)) {
+            self::incrementFailedLogins($usr_id);
+
+            return false;
         }
 
-        self::incrementFailedLogins($usr_id);
-        return false;
+        self::resetFailedLogins($usr_id);
+
+        // check if hash needs rehashing,
+        // old md5 or more secure default
+        if (AuthPassword::needs_rehash($hash)) {
+            self::updatePassword($usr_id, $password);
+        }
+
+        return true;
     }
 
     /**
-     * Method used to update the account password for a specific user.
+     * Update the account password hash for a specific user.
      *
      * @param   integer $usr_id The user ID
      * @param   string $password The password.

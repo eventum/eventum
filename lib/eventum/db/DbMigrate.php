@@ -62,7 +62,7 @@ class DbMigrate
     public function setLogger($e)
     {
         if (!is_callable($e)) {
-            throw new InvalidArgumentException("Passed argument is not callable");
+            throw new InvalidArgumentException('Passed argument is not callable');
         }
         $this->logger = $e;
     }
@@ -129,6 +129,7 @@ class DbMigrate
         // use *.php for complex updates
         if (substr($input_file, -4) == '.php') {
             self::include_file($input_file, $this->db, $this->config, $this->logger);
+
             return;
         }
 
@@ -165,7 +166,7 @@ class DbMigrate
         while (false !== ($file = readdir($handle))) {
             $number = substr($file, 0, strpos($file, '_'));
             if (in_array(substr($file, -4), array('.sql', '.php')) && is_numeric($number)) {
-                $files[(int)$number] = "$update_path/$file";
+                $files[(int) $number] = "$update_path/$file";
             }
         }
         closedir($handle);
@@ -182,6 +183,7 @@ class DbMigrate
     private function hasVersionTable()
     {
         $res = $this->db->getOne("SHOW TABLES LIKE '{$this->table_prefix}version'");
+
         return $res !== null;
     }
 
@@ -192,6 +194,7 @@ class DbMigrate
     {
         // check if ver_patch column exists
         $res = $this->db->getOne("SHOW FIELDS FROM {{%version}} LIKE 'ver_timestamp'");
+
         return $res !== null;
     }
 
@@ -215,10 +218,12 @@ class DbMigrate
             for ($i = 1; $i <= $last_patch; $i++) {
                 $patches[$i] = time();
             }
+
             return $patches;
         }
 
-        $patches = $this->db->getPair("SELECT ver_version,ver_timestamp FROM {{%version}} ORDER BY 1");
+        $patches = $this->db->getPair('SELECT ver_version,ver_timestamp FROM {{%version}} ORDER BY 1');
+
         return $patches;
     }
 
@@ -230,5 +235,4 @@ class DbMigrate
             $this->db->query("UPDATE {{%version}} SET ver_version=$number");
         }
     }
-
 }

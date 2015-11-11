@@ -33,7 +33,7 @@ $tpl->setTemplate('notification.tpl.html');
 
 Auth::checkAuthentication('index.php?err=5', true);
 
-$issue_id = isset($_POST['issue_id']) ? (int)$_POST['issue_id'] : (int)$_GET['iss_id'];
+$issue_id = isset($_POST['issue_id']) ? (int) $_POST['issue_id'] : (int) $_GET['iss_id'];
 $usr_id = Auth::getUserID();
 
 if (!Access::canViewNotificationList($issue_id, $usr_id)) {
@@ -42,7 +42,7 @@ if (!Access::canViewNotificationList($issue_id, $usr_id)) {
     exit;
 }
 
-$sub_id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+$sub_id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 $prj_id = Auth::getCurrentProject();
 $default_actions = Notification::getDefaultActions();
 
@@ -66,7 +66,7 @@ $tpl->assign(array(
     'info' => $info,
 ));
 
-$cat = isset($_POST['cat']) ? (string)$_POST['cat'] : (isset($_GET['cat']) ? (string)$_GET['cat'] : null);
+$cat = isset($_POST['cat']) ? (string) $_POST['cat'] : (isset($_GET['cat']) ? (string) $_GET['cat'] : null);
 
 if ($cat == 'insert') {
     $res = Notification::subscribeEmail($usr_id, $issue_id, $_POST['email'], $_POST['actions']);

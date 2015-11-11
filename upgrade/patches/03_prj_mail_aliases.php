@@ -1,4 +1,5 @@
 <?php
+
 /** @var Closure $log */
 
 $res = $db->getOne("SELECT count(*) as count FROM INFORMATION_SCHEMA.COLUMNS WHERE

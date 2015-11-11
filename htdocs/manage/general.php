@@ -43,17 +43,17 @@ $tpl->assign('project_list', Project::getAll());
 
 if (@$_POST['cat'] == 'update') {
     $smtp = $_POST['smtp'];
-    $smtp['auth'] = (bool)$smtp['auth'];
+    $smtp['auth'] = (bool) $smtp['auth'];
     $setup = array(
         'tool_caption' => $_POST['tool_caption'],
         'support_email' => $_POST['support_email'],
         'description_email_0' => $_POST['description_email_0'],
         'spell_checker' => $_POST['spell_checker'],
         'irc_notification' => $_POST['irc_notification'],
-        'update' => (bool)Misc::ifSet($_POST, 'update'),
-        'closed' => (bool)Misc::ifSet($_POST, 'closed'),
-        'emails' => (bool)Misc::ifSet($_POST, 'emails'),
-        'files' => (bool)Misc::ifSet($_POST, 'files'),
+        'update' => (bool) Misc::ifSet($_POST, 'update'),
+        'closed' => (bool) Misc::ifSet($_POST, 'closed'),
+        'emails' => (bool) Misc::ifSet($_POST, 'emails'),
+        'files' => (bool) Misc::ifSet($_POST, 'files'),
         'smtp' => $smtp,
         'open_signup' => $_POST['open_signup'],
         'accounts_projects' => isset($_POST['accounts_projects']) ? $_POST['accounts_projects'] : null,

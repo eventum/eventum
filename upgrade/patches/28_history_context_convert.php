@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Try to find placeholders to old history entries not containing context information
  */

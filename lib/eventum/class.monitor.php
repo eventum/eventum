@@ -289,13 +289,8 @@ class Monitor
      */
     public static function checkIRCBot()
     {
-        // check if any bot.php process is still running (lame, but oh well)
-        ob_start();
-        passthru('ps -ef | grep [e]ventum-irc-bot');
-        $contents = ob_get_contents();
-        ob_end_clean();
-        $lines = explode("\n", $contents);
-        if (count($lines) <= 1) {
+        $pid = Lock::getProcessID('irc_bot', true);
+        if (!$pid) {
             echo ev_gettext('ERROR: Could not find IRC bot pid from process list.'), "\n";
 
             return 1;

@@ -53,7 +53,7 @@ if (@$_POST['cat'] == 'new') {
             1   =>  array(ev_gettext('Thank you, the custom field was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to update the custom field information.'), Misc::MSG_ERROR),
     ));
-    Auth::redirect(APP_RELATIVE_URL . "manage/custom_fields.php");
+    Auth::redirect(APP_RELATIVE_URL . 'manage/custom_fields.php');
 } elseif (@$_POST['cat'] == 'delete') {
     $res = Custom_Field::remove();
     Misc::mapMessages($res, array(

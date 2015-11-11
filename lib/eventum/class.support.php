@@ -464,8 +464,9 @@ class Support
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup['from'], $sender_email,
-            APP_SHORT_NAME . ': ' . ev_gettext('Postmaster notify: see transcript for details'));
+        // TRANSLATORS: %s: APP_SHORT_NAME
+        $subject = ev_gettext('%s: Postmaster notify: see transcript for details', APP_SHORT_NAME);
+        $mail->send($setup['from'], $sender_email, $subject);
 
         if ($usr_id) {
             Language::restore();
@@ -681,7 +682,7 @@ class Support
                         AuthCookie::setProjectCookie($prj_id);
 
                         $users = Project::getUserEmailAssocList($prj_id, 'active', User::ROLE_CUSTOMER);
-                        $user_emails = array_map(function ($s) { return strtolower($s); }, array_values($users));
+                        $user_emails = Misc::lowercase(array_values($users));
                         $users = array_flip($users);
 
                         $addresses = array();
@@ -1907,7 +1908,7 @@ class Support
                 try {
                     $contract = $crm->getContract(Issue::getContractID($issue_id));
                     $contact_emails = array_keys($contract->getContactEmailAssocList());
-                    $contact_emails = array_map(function ($s) { return strtolower($s); }, $contact_emails);
+                    $contact_emails = Misc::lowercase($contact_emails);
                 } catch (CRMException $e) {
                     $contact_emails = array();
                 }

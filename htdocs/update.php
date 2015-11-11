@@ -205,8 +205,8 @@ $tpl->assign('issue_lock', $issue_lock);
     if ((count($releases) > 0) && ($role_id != User::ROLE_CUSTOMER)) {
         $columns[0][] = array(
             'title' =>  ev_gettext('Scheduled Release'),
-            'data'  =>  $details['pre_title'],
             'title_bgcolor' =>  APP_INTERNAL_COLOR,
+            'field' =>  'scheduled_release',
         );
     }
     if ($role_id > User::ROLE_CUSTOMER) {
@@ -295,6 +295,7 @@ $tpl->assign('issue_lock', $issue_lock);
             'title' =>  ev_gettext('Group'),
             'data' =>  isset($details['group']) ? $details['group']['grp_name'] : '',
             'title_bgcolor' =>  APP_INTERNAL_COLOR,
+            'field' =>  'group',
         );
     }
     $tpl->assign(array(
@@ -311,7 +312,7 @@ $tpl->assign('issue_lock', $issue_lock);
         'current_year' =>   date('Y'),
         'products'     => Product::getList(false),
         'grid'         => $columns,
-        'custom_fields'=> Custom_Field::getListByIssue($prj_id, $issue_id, $usr_id)
+        'custom_fields' => Custom_Field::getListByIssue($prj_id, $issue_id, $usr_id)
     ));
 
 $tpl->assign('usr_role_id', User::getRoleByUser($usr_id, $prj_id));

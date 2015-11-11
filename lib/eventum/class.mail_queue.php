@@ -34,21 +34,57 @@ class Mail_Queue
     const MAX_RETRIES = 20;
 
     /**
+     * @deprecated
+     * @see Mail_Queue::addMail()
+     */
+    public static function __add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
+    {
+        $mail = array(
+            'to' => $recipient,
+            'headers' => $headers,
+            'body' => $body,
+        );
+
+        $options = array(
+            'save_email_copy' => $save_email_copy,
+            'issue_id' => $issue_id,
+            'type' => $type,
+            'sender_usr_id' => $sender_usr_id,
+            'type_id' => $type_id,
+        );
+
+        return self::addMail($mail, $options);
+    }
+
+    /**
      * Adds an email to the outgoing mail queue.
      *
-     * @param   string $recipient The recipient of this email
-     * @param   array $headers The list of headers that should be sent with this email
-     * @param   string $body The body of the message
-     * @param   integer $save_email_copy Whether to send a copy of this email to a configurable address or not (eventum_sent@)
-     * @param   integer $issue_id The ID of the issue. If false, email will not be associated with issue.
-     * @param   string $type The type of message this is.
-     * @param   integer $sender_usr_id The id of the user sending this email.
-     * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
-     * @return  true, or a PEAR_Error object
+     * @param array $mail Info about mail:
+     * - string $to The recipient of this email
+     * - array $headers The list of headers that should be sent with this email
+     * - string $body The body of the message
+     * @param array $options Optional options:
+     * - integer $save_email_copy Whether to send a copy of this email to a configurable address or not (eventum_sent@)
+     * - integer $issue_id The ID of the issue. If false, email will not be associated with issue.
+     * - string $type The type of message this is.
+     * - integer $sender_usr_id The id of the user sending this email.
+     * - integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
+     * @return bool or a PEAR_Error object
      */
-    public static function add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
+    public static function addMail(array $mail, array $options = array())
     {
-        Workflow::modifyMailQueue(Auth::getCurrentProject(false), $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
+        $recipient = $mail['to'];
+        $headers = $mail['headers'];
+        $body = $mail['body'];
+
+        $save_email_copy = isset($options['save_email_copy']) ? $options['save_email_copy'] : 0;
+        $issue_id = isset($options['issue_id']) ? $options['issue_id'] : false;
+        $type = isset($options['type']) ? $options['type'] : '';
+        $sender_usr_id = isset($options['sender_usr_id']) ? $options['sender_usr_id'] : false;
+        $type_id = isset($options['type_id']) ? $options['type_id'] : false;
+
+        $prj_id = Auth::getCurrentProject(false);
+        Workflow::modifyMailQueue($prj_id, $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
 
         // avoid sending emails out to users with inactive status
         $recipient_email = Mail_Helper::getEmailAddress($recipient);
@@ -56,7 +92,7 @@ class Mail_Queue
         if (!empty($usr_id)) {
             $user_status = User::getStatusByEmail($recipient_email);
             // if user is not set to an active status, then silently ignore
-            if ((!User::isActiveStatus($user_status)) && (!User::isPendingStatus($user_status))) {
+            if (!User::isActiveStatus($user_status) && !User::isPendingStatus($user_status)) {
                 return false;
             }
         }
@@ -66,9 +102,9 @@ class Mail_Queue
 
         $reminder_addresses = Reminder::_getReminderAlertAddresses();
 
-        // add specialized headers
-        if ((!empty($issue_id)) && ((!empty($to_usr_id)) && (User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id)) != User::ROLE_CUSTOMER)) ||
-                (@in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses))) {
+        $role_id = User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id));
+        $is_reminder_address = in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses);
+        if ($issue_id && ($to_usr_id && $role_id != User::ROLE_CUSTOMER) || $is_reminder_address) {
             $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type, $sender_usr_id);
         }
 

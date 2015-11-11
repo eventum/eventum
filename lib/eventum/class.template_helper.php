@@ -150,11 +150,18 @@ class Template_Helper
 
         // if version ends with "-dev", try look into VCS
         if (substr(APP_VERSION, -4) == '-dev' && file_exists($file = APP_PATH . '/.git/HEAD')) {
-            list(, $refname) = explode(': ', file_get_contents($file));
-            if (!file_exists($file = APP_PATH . '/.git/' . trim($refname))) {
-                return null;
-            }
             $hash = file_get_contents($file);
+            // it can be branch:
+            // "ref: refs/heads/master"
+            // or some tag:
+            // "fc334abadfd480820071c1415723c7de0216eb6f"
+            if (substr($hash, 0, 4) == 'ref:') {
+                list(, $refname) = explode(': ', $hash);
+                if (!file_exists($file = APP_PATH . '/.git/' . trim($refname))) {
+                    return null;
+                }
+                $hash = file_get_contents($file);
+            }
 
             return substr($hash, 0, 7);
         }

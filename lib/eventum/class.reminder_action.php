@@ -741,7 +741,10 @@ class Reminder_Action
                 $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup['from'], $address, "[#$issue_id] " . ev_gettext('Reminder') . ': ' . $action['rma_title'], 0, $issue_id, 'reminder');
+
+                // TRANSLATORS: %1 - issue_id, %2 - rma_title
+                $subject = ev_gettext('[#%1$s] Reminder: %2$s', $issue_id, $action['rma_title']);
+                $mail->send($setup['from'], $address, $subject, 0, $issue_id, 'reminder');
             }
         }
         // - eventum saves the day once again
@@ -779,7 +782,9 @@ class Reminder_Action
                 $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup['from'], $address, "[#$issue_id] " . ev_gettext('Reminder Not Triggered') . ': ' . $action['rma_title'], 0, $issue_id);
+                // TRANSLATORS: %1 = issue_id, %2 - rma_title
+                $subject = ev_gettext('[#%1$s] Reminder Not Triggered: [#%2$s]', $issue_id, $action['rma_title']);
+                $mail->send($setup['from'], $address, $subject, 0, $issue_id);
             }
         }
     }

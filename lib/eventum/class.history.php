@@ -68,7 +68,7 @@ class History
             $htt_id = History::getTypeID($htt_id);
         }
 
-        if (is_null($min_role)) {
+        if ($min_role === null) {
             $min_role = History::getTypeRole($htt_id);
         }
 
@@ -203,12 +203,12 @@ class History
             return $returns[$id];
         }
 
-        $sql = "SELECT
+        $sql = 'SELECT
                     htt_role
                 FROM
                     {{%history_type}}
                 WHERE
-                    htt_id = ?";
+                    htt_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($id));
         } catch (DbException $e) {
