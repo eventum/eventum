@@ -289,7 +289,7 @@ class Monitor
      */
     public static function checkIRCBot()
     {
-        $pid = Lock::getProcessID('irc-bot', true);
+        $pid = Lock::getProcessID('irc_bot', true);
         if (!$pid) {
             echo ev_gettext('ERROR: Could not find IRC bot pid from process list.'), "\n";
 
