@@ -1,9 +1,8 @@
 Eventum Issue Tracking System
 =============================
 
-2015-11-10, Version 3.0.6
--------------------------
-
+2015-11-10, Version [3.0.6]
+--------------------
 - Update custom fields from update issue page (Bryan Alsdorf, #88)
 - Allow time category/summary to be set when sending emails (Bryan Alsdorf)
 - Add missing 'Scheduled Release' and 'Group' field back to update page (Bryan Alsdorf, #89)
@@ -13,12 +12,16 @@ Eventum Issue Tracking System
 - Use AJAX for /manage/email_accounts.php test (Craig Pinfold, #96)
 - LDAP auth backend: create connection only if needed (Elan Ruusamäe)
 
-2015-11-02, Version 3.0.5
+[3.0.6]: https://github.com/eventum/eventum/compare/v3.0.5...v3.0.6
+
+2015-11-02, Version [3.0.5]
 -------------------------
 
 - Fix routing settings read error (Elan Ruusamäe, #80)
 
-2015-10-31, Version 3.0.4
+[3.0.5]: https://github.com/eventum/eventum/compare/v3.0.4...v3.0.5
+
+2015-10-31, Version [3.0.4]
 -------------------------
 - Fix few Static & Deprecated calls (Craig Pinfold, #72)
 - Use randomlib for private key generation, add UI to regenerate it (Elan Ruusamäe, #73)
@@ -40,7 +43,9 @@ Eventum Issue Tracking System
 - Manage Emails: Accept prj_id from GET to allow link bookmarking (Elan Ruusamäe)
 - Add DebugBar debug bar in development mode (Elan Ruusamäe, #87)
 
-2015-10-13, Version 3.0.3
+[3.0.4]: https://github.com/eventum/eventum/compare/v3.0.3...v3.0.4
+
+2015-10-13, Version [3.0.3]
 -------------------------
 - Added bin/truncate_mail_queue.php (Bryan Alsdorf)
 - Add admin interface for required fields (Bryan Alsdorf, #67)
@@ -52,7 +57,9 @@ Eventum Issue Tracking System
 - Fix POP3 download bug (Craig Pinfold, #66, #69)
 - Add autosize plugin to all TEXAREAs (Elan Ruusamäe, #70)
 
-2015-08-04, Version 3.0.2
+[3.0.3]: https://github.com/eventum/eventum/compare/v3.0.2...v3.0.3
+
+2015-08-04, Version [3.0.2]
 -------------------------
 
 - Fix sql error in disassociate custom field (Elan Ruusamäe)
@@ -78,7 +85,9 @@ Eventum Issue Tracking System
 - Allow customers to export data and only export visible fields (Bryan Alsdorf)
 - Fix "Assignment: Array" bug in template when issue is assigned to multiple assignees (Elan Ruusamäe)
 
-2015-04-21, Version 3.0.1
+[3.0.2]: https://github.com/eventum/eventum/compare/v3.0.1...v3.0.2
+
+2015-04-21, Version [3.0.1]
 -------------------------
 
 - Add option to set time summary when sending a note (Bryan)
@@ -92,6 +101,8 @@ Eventum Issue Tracking System
 - Discard {literal} from templates (Elan Ruusamäe, 09a1da1)
 - Use mysqli PEAR::DB driver in new installs (Elan Ruusamäe)
 - Replace jpgraph 1.5.3 with phplot 6.1.0 (Elan Ruusamäe, GH#46)
+
+[3.0.1]: https://github.com/eventum/eventum/compare/v3.0.0-pre1...v3.0.1
 
 2015-02-03, Version 3.0.0 pre1
 ------------------------------
