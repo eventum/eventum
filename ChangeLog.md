@@ -1062,5 +1062,5 @@ Eventum Issue Tracking System
 [3.0.3]: https://github.com/eventum/eventum/compare/v3.0.2...v3.0.3
 [3.0.2]: https://github.com/eventum/eventum/compare/v3.0.1...v3.0.2
 [3.0.1]: https://github.com/eventum/eventum/compare/v3.0.0-pre1...v3.0.1
-[3.0.0-pre1]: https://github.com/eventum/eventum/compare/2.4.0-pre1...v3.0.0-pre1
-[2.4.0-pre1]: https://github.com/eventum/eventum/compare/2.3.4...2.4.0-pre1
+[3.0.0-pre1]: https://github.com/eventum/eventum/compare/v2.4.0-pre1...v3.0.0-pre1
+[2.4.0-pre1]: https://github.com/eventum/eventum/compare/v2.3.4...v2.4.0-pre1
