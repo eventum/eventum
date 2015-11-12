@@ -232,12 +232,23 @@ class Mail_Helper
 
         $returns = array();
         foreach ($addresslist as $row) {
+            // skip "group" type addresses that are empty
+            if (isset($row->groupname)) {
+                if ($row->addresses) {
+                    throw new InvalidArgumentException("Unpexpected data, please report this to Eventum bug tracker");
+                }
+                continue;
+            }
             $returns[] = array(
                 'sender_name' => $row->personal,
                 'email' => $row->mailbox . '@' . $row->host,
                 'username' => $row->mailbox,
                 'host' => $row->host,
             );
+        }
+
+        if (!$returns) {
+            return $returns;
         }
 
         if (!$multiple) {

@@ -68,7 +68,8 @@ class MailHelperTest extends TestCase
         $this->assertEquals($exp, $msgid, 'msg-id header with newline, following next header');
     }
 
-    public function testGenerateMessageId() {
+    public function testGenerateMessageId()
+    {
         $msgid = Mail_Helper::generateMessageID();
         // <eventum.md5.54hebbwge.myyt4c@eventum.example.org>
         $exp = '<eventum\.md5\.[0-9a-z]{8,64}\.[0-9a-z]{8,64}@' . APP_HOSTNAME . '>';
@@ -133,8 +134,12 @@ class MailHelperTest extends TestCase
     public function testGetAddressInfo($input, $sender_name, $email)
     {
         $res = Mail_Helper::getAddressInfo($input);
-        $this->assertEquals($sender_name, $res['sender_name']);
-        $this->assertEquals($email, $res['email']);
+        if ($sender_name !== null) {
+            $this->assertEquals($sender_name, $res['sender_name']);
+        }
+        if ($email !== null) {
+            $this->assertEquals($email, $res['email']);
+        }
     }
 
     public function testGetAddressInfo_data()
@@ -164,6 +169,13 @@ class MailHelperTest extends TestCase
                 '"Test User <test@example.com>" <test@example.com>',
                 '"Test User <test@example.com>"',
                 "test@example.com",
+            ),
+            // test for "addressgroup" with empty list
+            // see https://github.com/eventum/eventum/issues/91
+            5 => array(
+                'destinatarios-no-revelados: ',
+                null,
+                null,
             ),
         );
     }
