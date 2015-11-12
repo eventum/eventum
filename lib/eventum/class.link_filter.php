@@ -306,7 +306,7 @@ class Link_Filter
      * @param   integer $issue_id The ID of the issue from where attachment list is taken
      * @return  string the processed text.
      */
-    public function activateAttachmentLinks($text, $issue_id)
+    public static function activateAttachmentLinks($text, $issue_id)
     {
         // build list of files to replace, so duplicate matches will always
         // take last matching filename.
