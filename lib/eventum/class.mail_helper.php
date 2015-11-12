@@ -214,6 +214,8 @@ class Mail_Helper
      * Method used to break down the email address information and
      * return it for easy manipulation.
      *
+     * Expands "Groups" into single addresses.
+     *
      * @param   string $address The email address value
      * @param   boolean $multiple If multiple addresses should be returned
      * @return  array The address information
@@ -232,13 +234,19 @@ class Mail_Helper
 
         $returns = array();
         foreach ($addresslist as $row) {
-            // skip "group" type addresses that are empty
+            // handle "group" type addresses
             if (isset($row->groupname)) {
-                if ($row->addresses) {
-                    throw new InvalidArgumentException("Unpexpected data, please report this to Eventum bug tracker");
+                foreach ($row->addresses as $address) {
+                    $returns[] = array(
+                        'sender_name' => $address->personal,
+                        'email' => $address->mailbox . '@' . $address->host,
+                        'username' => $address->mailbox,
+                        'host' => $address->host,
+                    );
                 }
                 continue;
             }
+
             $returns[] = array(
                 'sender_name' => $row->personal,
                 'email' => $row->mailbox . '@' . $row->host,

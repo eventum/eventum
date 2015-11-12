@@ -194,7 +194,10 @@ class MailHelperTest extends TestCase
                 'My Group: "Richard" <richard@localhost> (A comment), ted@example.com (Ted Bloggs), Barney;',
                 array(
                     array(
+                        // this is how it currently is parsed
                         'sender_name' => '"My Group: \"Richard"',
+                        // this is how it should be parsed if fixAddressQuoting didn't break it
+//                        'sender_name' => '"Richard"',
                         'email' => 'richard@localhost',
                         'username' => 'richard',
                         'host' => 'localhost',
