@@ -187,6 +187,32 @@ class MailHelperTest extends TestCase
                 'destinatarios-no-revelados: ',
                 array(),
             ),
+            // example taken from RFC822.php class source
+            // this doesn't parse correctly, because fixAddressQuoting() breaks it
+            // but at least document what it does
+            2 => array(
+                'My Group: "Richard" <richard@localhost> (A comment), ted@example.com (Ted Bloggs), Barney;',
+                array(
+                    array(
+                        'sender_name' => '"My Group: \"Richard"',
+                        'email' => 'richard@localhost',
+                        'username' => 'richard',
+                        'host' => 'localhost',
+                    ),
+                    array(
+                        'sender_name' => '',
+                        'email' => 'ted@example.com',
+                        'username' => 'ted',
+                        'host' => 'example.com',
+                    ),
+                    array(
+                        'sender_name' => '',
+                        'email' => 'Barney@localhost',
+                        'username' => 'Barney',
+                        'host' => 'localhost',
+                    ),
+                ),
+            ),
         );
     }
 }
