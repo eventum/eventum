@@ -680,7 +680,7 @@ class Mail_Helper
         $mail = Mail::factory('smtp', $params);
         $res = $mail->send($address, $headers, $body);
         if (Misc::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
         }
 
         $subjects[] = $subject;

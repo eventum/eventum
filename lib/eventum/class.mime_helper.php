@@ -92,9 +92,10 @@ class Mime_Helper
         $parts = array();
         self::parse_output($output, $parts);
         if (empty($parts)) {
-            Error_Handler::logError(array('self::parse_output failed. Corrupted MIME in email?', $output), __FILE__, __LINE__);
+            Logger::app()->debug('parse_output failed. Corrupted MIME in email?', array('output' => $output));
             // we continue as if nothing happened until it's clear it's right check to do.
         }
+
         $str = '';
         $is_html = false;
         if (isset($parts['text'])) {

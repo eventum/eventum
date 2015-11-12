@@ -434,12 +434,12 @@ class User
 
         if (!is_string($email)) {
             if (Misc::isError($email)) {
-                Error_Handler::logError(array($email->getMessage(), $email->getDebugInfo()), __FILE__, __LINE__);
+                Logger::app()->error($email->getMessage(), array('debug' => $email->getDebugInfo()));
 
                 return null;
             }
 
-            Error_Handler::logError('$email parameter is not a string: '.gettype($email), __FILE__, __LINE__);
+            Logger::app()->error('$email parameter is not a string', array('type' => gettype($email)));
 
             return null;
         }

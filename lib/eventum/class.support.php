@@ -399,7 +399,7 @@ class Support
         $mbox = @imap_open(self::getServerURI($info), $info['ema_username'], $info['ema_password']);
         if ($mbox === false) {
             $error = @imap_last_error();
-            Error_Handler::logError('Error while connecting to the email server - ' . $error, __FILE__, __LINE__);
+            Logger::app()->error("Error while connecting to the email server - {$error}");
         }
 
         return $mbox;
@@ -761,7 +761,8 @@ class Support
                         $addr = Mail_Helper::getEmailAddress($structure->headers['from']);
                         if (Misc::isError($addr)) {
                             // XXX should we log or is this expected?
-                            Error_Handler::logError(array($addr->getMessage()." addr: $addr", $addr->getDebugInfo()), __FILE__, __LINE__);
+                            Logger::app()->error($addr->getMessage(), array('debug' => $res->getDebugInfo(), 'address' => $structure->headers['from']));
+
                             $usr_id = APP_SYSTEM_USER_ID;
                         } else {
                             $usr_id = User::getUserIDByEmail($addr);
