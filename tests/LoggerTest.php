@@ -63,4 +63,9 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 
         Logger::app()->error($e->getMessage(), array('debug' => $e->getDebugInfo()));
     }
+
+    public function testCliLog()
+    {
+        Logger::cli()->info('moo');
+    }
 }
