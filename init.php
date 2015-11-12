@@ -78,7 +78,6 @@ $define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
 $define('APP_LOG_PATH', APP_VAR_PATH . '/log');
 $define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
 $define('APP_CLI_LOG', APP_LOG_PATH . '/cli.log');
-$define('APP_LOGIN_LOG', APP_LOG_PATH . '/login_attempts.log');
 
 // define the user_id of system user
 $define('APP_SYSTEM_USER_ID', 1);

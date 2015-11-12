@@ -28,6 +28,7 @@ use Monolog\Handler\StreamHandler;
 /**
  * @method static Monolog\Logger app() Application log channel
  * @method static Monolog\Logger db() Database log channel
+ * @method static Monolog\Logger auth() Auth log channel
  */
 class Logger extends Monolog\Registry
 {
@@ -67,8 +68,9 @@ class Logger extends Monolog\Registry
             }
         );
 
-        // add logger for database
+        // add logger for database and auth
         static::createLogger('db');
+        static::createLogger('auth');
 
         // attach php errorhandler to app logger
         Monolog\ErrorHandler::register($app);
