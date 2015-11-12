@@ -65,9 +65,11 @@ class Logger extends Monolog\Registry
             }
         );
 
-        // add logger for database and auth
+        // add logger for database
         static::createLogger('db');
-        static::createLogger('auth');
+
+        // log auth channel to auth.log
+        static::createLogger('auth', array(self::createFileHandler('auth.log')));
 
         // add cli logger with different output file
         static::createLogger('cli', array(self::createFileHandler('cli.log')));
