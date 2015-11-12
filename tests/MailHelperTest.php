@@ -134,12 +134,8 @@ class MailHelperTest extends TestCase
     public function testGetAddressInfo($input, $sender_name, $email)
     {
         $res = Mail_Helper::getAddressInfo($input);
-        if ($sender_name !== null) {
-            $this->assertEquals($sender_name, $res['sender_name']);
-        }
-        if ($email !== null) {
-            $this->assertEquals($email, $res['email']);
-        }
+        $this->assertEquals($sender_name, $res['sender_name']);
+        $this->assertEquals($email, $res['email']);
     }
 
     public function testGetAddressInfo_data()
@@ -170,12 +166,26 @@ class MailHelperTest extends TestCase
                 '"Test User <test@example.com>"',
                 "test@example.com",
             ),
+        );
+    }
+
+    /**
+     * @dataProvider testGetAddressInfoMultiple_data
+     */
+    public function testGetAddressInfoMultiple($input, $exp)
+    {
+        $res = Mail_Helper::getAddressInfo($input, true);
+        $this->assertEquals($exp, $res);
+    }
+
+    public function testGetAddressInfoMultiple_data()
+    {
+        return array(
             // test for "addressgroup" with empty list
             // see https://github.com/eventum/eventum/issues/91
-            5 => array(
+            1 => array(
                 'destinatarios-no-revelados: ',
-                null,
-                null,
+                array(),
             ),
         );
     }
