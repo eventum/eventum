@@ -1364,7 +1364,7 @@ class Support
      * @param   array $options The search parameters
      * @return  string The where clause
      */
-    public function buildWhereClause($options)
+    public static function buildWhereClause($options)
     {
         $stmt = '
                  WHERE

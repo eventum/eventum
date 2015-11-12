@@ -835,7 +835,7 @@ class Mime_Helper
      *
      * @return array The list of content types
      */
-    private function _getInvalidContentTypes()
+    private static function _getInvalidContentTypes()
     {
         return array(
             'message/rfc822',
@@ -850,7 +850,7 @@ class Mime_Helper
      *
      * @return array The list of valid dispositions
      */
-    private function _getValidDispositions()
+    private static function _getValidDispositions()
     {
         return array(
             'attachment',

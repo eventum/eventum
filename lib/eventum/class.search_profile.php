@@ -156,7 +156,7 @@ class Search_Profile
      * @param   string $profile The search profile to be saved
      * @return  boolean
      */
-    private function _insert($usr_id, $prj_id, $type, $profile)
+    private static function _insert($usr_id, $prj_id, $type, $profile)
     {
         $stmt = 'INSERT INTO
                     {{%search_profile}}
