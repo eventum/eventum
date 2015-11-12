@@ -48,9 +48,19 @@ class LoggerTest extends PHPUnit_Framework_TestCase
     public function testLogException()
     {
         $e = new Exception('It happened');
+
+        Logger::app()->error($e);
+        Logger::app()->error($e->getMessage(), array('exception' => $e));
+    }
+
+    public function testLogPearException()
+    {
+        $e = new PEAR_Error('It happened');
+
+        // toString pear error object is not useful:
+        // "app.ERROR: It happened []"
         Logger::app()->error($e);
 
-        $e = new Exception('It happened');
-        Logger::app()->error($e->getMessage(), array('exception' => $e));
+        Logger::app()->error($e->getMessage(), array('debug' => $e->getDebugInfo()));
     }
 }
