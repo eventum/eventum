@@ -113,7 +113,10 @@ class Logger extends Monolog\Registry
     {
         $path = APP_LOG_PATH . '/' . $filename;
 
-        return new Monolog\Handler\StreamHandler($path, $level);
+        // make files not world readable by default
+        $filePermission = 0640;
+
+        return new Monolog\Handler\StreamHandler($path, $level, true, $filePermission, false);
     }
 
     /**
