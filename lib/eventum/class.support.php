@@ -1289,7 +1289,7 @@ class Support
         $stmt .= self::buildWhereClause($options);
         $stmt .= '
                  ORDER BY
-                    ' . Misc::escapeString($options['sort_by']) . ' ' . Misc::escapeString($options['sort_order']);
+                    ' . Misc::escapeString($options['sort_by']) . ' ' . DB_Helper::orderBy($options['sort_order']);
         $total_rows = Pager::getTotalRows($stmt);
         $stmt .= '
                  LIMIT
