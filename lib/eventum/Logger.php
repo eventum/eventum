@@ -23,8 +23,6 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-use Monolog\Handler\StreamHandler;
-
 /**
  * @method static Monolog\Logger app() Application log channel
  * @method static Monolog\Logger db() Database log channel
@@ -46,13 +44,11 @@ class Logger extends Monolog\Registry
         Monolog\Logger::setTimezone(new DateTimeZone(APP_DEFAULT_TIMEZONE));
 
         // create 'app' instance, it will be used base of other loggers
-        $path = APP_LOG_PATH . '/eventum.log';
-        $logfile = new StreamHandler($path, Monolog\Logger::WARNING);
-
+        $logfile = self::createFileHandler('eventum.log');
         $app = static::createLogger('app', array(), array())->pushHandler($logfile);
 
         // setup mail logger if enabled
-        $mailer = self::getMailHandler();
+        $mailer = self::createMailHandler();
         if ($mailer) {
             $app->pushHandler($mailer);
         }
@@ -107,11 +103,25 @@ class Logger extends Monolog\Registry
     }
 
     /**
+     * Create Handler that logs to a file in APP_LOG_PATH directory
+     *
+     * @param string $filename
+     * @param integer $level The minimum logging level at which this handler will be triggered
+     * @return \Monolog\Handler\StreamHandler
+     */
+    private function createFileHandler($filename, $level = Monolog\Logger::INFO)
+    {
+        $path = APP_LOG_PATH . '/' . $filename;
+
+        return new Monolog\Handler\StreamHandler($path, $level);
+    }
+
+    /**
      * Get mail handler if configured
      *
      * @return \Monolog\Handler\MailHandler
      */
-    private static function getMailHandler()
+    private static function createMailHandler()
     {
         $setup = Setup::get();
         if ($setup['email_error']['status'] != 'enabled') {
