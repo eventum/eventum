@@ -74,14 +74,15 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         $res = $this->sphinx->Query($options['keywords'], $indexes);
 
         // TODO: report these somehow back to the UI
+        // probably easy to do with Logger framework (add new handler?)
         if (method_exists($this->sphinx, 'IsConnectError') && $this->sphinx->IsConnectError()) {
-            error_log('sphinx_fulltext_search: Network Error');
+            Logger::app()->error('sphinx_fulltext_search: Network Error');
         }
         if ($this->sphinx->GetLastWarning()) {
-            error_log('sphinx_fulltext_search: WARNING: ' . $this->sphinx->GetLastWarning());
+            Logger::app()->warning('sphinx_fulltext_search: ' . $this->sphinx->GetLastWarning());
         }
         if ($this->sphinx->GetLastError()) {
-            error_log('sphinx_fulltext_search: ERROR: ' . $this->sphinx->GetLastError());
+            Logger::app()->error('sphinx_fulltext_search: ' . $this->sphinx->GetLastError());
         }
 
         $issue_ids = array();
@@ -146,7 +147,6 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                     $res = $this->sphinx->BuildExcerpts($documents, 'issue_stemmed', $this->keywords, $excerpt_options);
                     if ($res[0] != $issue['iss_original_description']) {
                         $excerpt['issue']['description'] = self::cleanUpExcerpt($res[0]);
-                        error_log(print_r($excerpt['issue']['description'], 1));
                     }
                 } elseif ($match['index'] == 'email') {
                     $email = Support::getEmailDetails(null, $match['match_id']);
