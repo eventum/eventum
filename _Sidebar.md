@@ -4,3 +4,4 @@
 * [[Advanced Topics|System-Advanced]]
 * [[Download|https://github.com/eventum/eventum/releases/latest]]
 * [[Installation|System-Admin]]
+* [[Upgrading|Upgrading]]
