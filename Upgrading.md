@@ -24,7 +24,7 @@ Upgrading from version 2.2 and from versions upwards
 	 - `eventum.old/lib/eventum/workflow/` -> `eventum/config/workflow/`
 	 - `eventum.old/lib/eventum/customer/` -> `eventum/config/customer/`
 	 - `eventum.old/lib/eventum/custom_field/` -> `eventum/config/custom_field/`
-* Ensure your database database partition has enough disk space and run upgrade script: `php upgrade/update-database.php`
+* Ensure your database database partition has enough disk space and run upgrade script: `php bin/upgrade.php`
 * Modify your workflow/customer classes not to require any Eventum core classes, they are autoloaded now. So you can just remove such lines:
 ```php
 require_once(APP_INC_PATH."workflow/class.abstract_workflow_backend.php");
