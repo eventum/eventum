@@ -176,7 +176,7 @@ class Help
      * @param   string $topic The topic title
      * @return  array The information related to the parent help topic
      */
-    public function getParent($topic)
+    public static function getParent($topic)
     {
         $topics = self::getTopics();
 

@@ -195,10 +195,12 @@
                 {if $sorting.images.sup_subject|default:'' != ""}<a title="{t}sort by subject{/t}" href="{$sorting.links.sup_subject}" class="white_link"><img border="0" src="{$sorting.images.sup_subject}"></a>{/if}
             </th>
         </tr>
+
+        {capture assign="hidden_sender"}{t}Hidden Sender{/t}{/capture}
         {section name="i" loop=$list}
         <tr class="{cycle values='odd,even'}">
             <td align="center" width="1%"><input type="checkbox" name="item[]" value="{$list[i].sup_id}" {if $list[i].sup_iss_id != 0}disabled{/if}></td>
-            <td>{$list[i].sup_from|escape:"html"}</td>
+            <td>{$list[i].sup_from|default:$hidden_sender|escape:"html"}</td>
             {if $core.has_crm}
             <td nowrap>{$list[i].customer_title|escape:"html"}</td>
             {/if}

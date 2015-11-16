@@ -1,0 +1,22 @@
+#
+# You should not expose Eventum to web root.
+# Only htdocs directory should be exposed to webroot
+#
+# See installation documentation from wiki:
+# https://github.com/eventum/eventum/wiki/System-Admin%3A-Doing-a-fresh-install
+#
+
+# This is just workaround to redirect all requests outside /htdocs/ to /htdocs/.
+# Not perfect, but covers likely most of the cases.
+
+RewriteEngine On
+
+# Capture $BASE variable
+# http://stackoverflow.com/a/18589126/2314626
+RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
+RewriteRule ^(.*)$ - [E=BASE:%1]
+
+# Redirect to htdocs/ if url already does not match 'htdocs'
+RewriteCond %{REQUEST_URI} !/htdocs/
+RewriteCond %{REQUEST_FILENAME} !/htdocs/
+RewriteRule ^(.*)$ %{ENV:BASE}/htdocs/$1 [R=302,L]

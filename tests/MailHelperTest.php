@@ -68,7 +68,8 @@ class MailHelperTest extends TestCase
         $this->assertEquals($exp, $msgid, 'msg-id header with newline, following next header');
     }
 
-    public function testGenerateMessageId() {
+    public function testGenerateMessageId()
+    {
         $msgid = Mail_Helper::generateMessageID();
         // <eventum.md5.54hebbwge.myyt4c@eventum.example.org>
         $exp = '<eventum\.md5\.[0-9a-z]{8,64}\.[0-9a-z]{8,64}@' . APP_HOSTNAME . '>';
@@ -164,6 +165,56 @@ class MailHelperTest extends TestCase
                 '"Test User <test@example.com>" <test@example.com>',
                 '"Test User <test@example.com>"',
                 "test@example.com",
+            ),
+        );
+    }
+
+    /**
+     * @dataProvider testGetAddressInfoMultiple_data
+     */
+    public function testGetAddressInfoMultiple($input, $exp)
+    {
+        $res = Mail_Helper::getAddressInfo($input, true);
+        $this->assertEquals($exp, $res);
+    }
+
+    public function testGetAddressInfoMultiple_data()
+    {
+        return array(
+            // test for "addressgroup" with empty list
+            // see https://github.com/eventum/eventum/issues/91
+            1 => array(
+                'destinatarios-no-revelados: ',
+                array(),
+            ),
+            // example taken from RFC822.php class source
+            // this doesn't parse correctly, because fixAddressQuoting() breaks it
+            // but at least document what it does
+            2 => array(
+                'My Group: "Richard" <richard@localhost> (A comment), ted@example.com (Ted Bloggs), Barney;',
+                array(
+                    array(
+                        // this is how it currently is parsed
+                        'sender_name' => '"My Group: \"Richard"',
+                        // this is how it should be parsed if fixAddressQuoting didn't break it
+//                        'sender_name' => '"Richard"',
+                        'email' => 'richard@localhost',
+                        'username' => 'richard',
+                        'host' => 'localhost',
+                    ),
+                    array(
+                        'sender_name' => '',
+                        'email' => 'ted@example.com',
+                        'username' => 'ted',
+                        'host' => 'example.com',
+                    ),
+                    array(
+                        'sender_name' => '',
+                        'email' => 'Barney@localhost',
+                        'username' => 'Barney',
+                        'host' => 'localhost',
+                    ),
+                ),
             ),
         );
     }

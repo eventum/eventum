@@ -949,7 +949,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of duplicates
      */
-    public function getDuplicateList($issue_id)
+    public static function getDuplicateList($issue_id)
     {
         $res = self::getDuplicateDetailsList($issue_id);
         if (count($res) == 0) {
@@ -971,7 +971,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of duplicates
      */
-    public function getDuplicateDetailsList($issue_id)
+    public static function getDuplicateDetailsList($issue_id)
     {
         static $returns;
 
@@ -1106,7 +1106,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of users
      */
-    public function getAssignedUsersStatus($issue_id)
+    public static function getAssignedUsersStatus($issue_id)
     {
         $stmt = 'SELECT
                     usr_id,
@@ -3364,7 +3364,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of associated issues
      */
-    public function getAssociatedIssues($issue_id)
+    public static function getAssociatedIssues($issue_id)
     {
         $issues = self::getAssociatedIssuesDetails($issue_id);
         $associated = array();
@@ -3382,7 +3382,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of associated issues
      */
-    public function getAssociatedIssuesDetails($issue_id)
+    public static function getAssociatedIssuesDetails($issue_id)
     {
         static $returns;
 

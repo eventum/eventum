@@ -1229,18 +1229,20 @@ class Support
             'images' => array(),
         );
 
+        $sort_order_option = strtolower(DB_Helper::orderBy($options['sort_order']));
+        $sort_order_image = "images/{$sort_order_option}.gif";
+
         foreach ($fields as $field) {
+            $sort_order = 'asc';
             if ($options['sort_by'] == $field) {
-                $items['images'][$field] = 'images/' . strtolower($options['sort_order']) . '.gif';
-                if (strtolower($options['sort_order']) == 'asc') {
+                $items['images'][$field] = $sort_order_image;
+                if ($sort_order_option == 'asc') {
                     $sort_order = 'desc';
                 } else {
                     $sort_order = 'asc';
                 }
-                $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=' . $sort_order;
-            } else {
-                $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=asc';
             }
+            $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=' . $sort_order;
         }
 
         return $items;
@@ -1289,7 +1291,7 @@ class Support
         $stmt .= self::buildWhereClause($options);
         $stmt .= '
                  ORDER BY
-                    ' . Misc::escapeString($options['sort_by']) . ' ' . Misc::escapeString($options['sort_order']);
+                    ' . Misc::escapeString($options['sort_by']) . ' ' . DB_Helper::orderBy($options['sort_order']);
         $total_rows = Pager::getTotalRows($stmt);
         $stmt .= '
                  LIMIT
@@ -1364,7 +1366,7 @@ class Support
      * @param   array $options The search parameters
      * @return  string The where clause
      */
-    public function buildWhereClause($options)
+    public static function buildWhereClause($options)
     {
         $stmt = '
                  WHERE

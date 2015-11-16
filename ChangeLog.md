@@ -1,6 +1,11 @@
 Eventum Issue Tracking System
 =============================
 
+2015-??-??, Version 3.0.7
+--------------------
+
+- emails.php: handle better empty "From:" header. (@glensc, #91)
+
 2015-11-10, Version [3.0.6]
 --------------------
 - Update custom fields from update issue page (Bryan Alsdorf, #88)
