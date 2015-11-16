@@ -11,7 +11,7 @@
 {elseif $form_type == 'close'}
   {assign var="cf_required" value=$custom_fields[i].fld_close_form_required}
 {elseif $form_type == 'edit'}
-  {assign var="cf_required" value=''}
+  {assign var="cf_required" value=$custom_fields[i].fld_edit_form_required}
 {/if}
 <tr class="custom_field"
     data-custom-id="{$custom_fields[i].fld_id}"

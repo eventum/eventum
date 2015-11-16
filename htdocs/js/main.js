@@ -806,7 +806,6 @@ ExpandableCell.ready = function()
             ExpandableCell.expand(expand_type, list_id);
         } else {
             $.each(expand_type.split(","), function(index, value) {
-                console.debug(value);
                 $('.expandable_buttons.' + value + ' .expand').each(function() {
                     this.click();
                 })
