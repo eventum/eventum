@@ -18,4 +18,5 @@ RewriteRule ^(.*)$ - [E=BASE:%1]
 
 # Redirect to htdocs/ if url already does not match 'htdocs'
 RewriteCond %{REQUEST_URI} !/htdocs/
-RewriteRule ^(.*)$ %{ENV:BASE}/htdocs/ [R=302,L]
+RewriteCond %{REQUEST_FILENAME} !/htdocs/
+RewriteRule ^(.*)$ %{ENV:BASE}/htdocs/$1 [R=302,L]
