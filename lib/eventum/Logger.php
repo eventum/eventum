@@ -74,8 +74,28 @@ class Logger extends Monolog\Registry
         // add cli logger with different output file
         static::createLogger('cli', array(self::createFileHandler('cli.log')));
 
+        static::registerErrorHandler($app);
+    }
+
+    /**
+     * create php errorhandler, which also logs to php error_log
+     *
+     * @param Monolog\Logger $app
+     */
+    private static function registerErrorHandler($app)
+    {
+        // get base logger
+        $logger = clone $app;
+        // add extra handler
+        $handler = new Monolog\Handler\ErrorLogHandler();
+        // set formatter without datetime
+        $handler->setFormatter(
+            new Monolog\Formatter\LineFormatter('%channel%.%level_name%: %message% %context% %extra%')
+        );
+        $logger->pushHandler($handler);
+
         // attach php errorhandler to app logger
-        Monolog\ErrorHandler::register($app);
+        Monolog\ErrorHandler::register($logger);
     }
 
     /**
