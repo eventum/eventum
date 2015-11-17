@@ -58,7 +58,7 @@ abstract class Customer
     public function __construct(CRM $crm, $customer_id)
     {
         $this->crm = $crm;
-        $this->connection = & $crm->getConnection();
+        $this->connection = &$crm->getConnection();
         $this->customer_id = $customer_id;
 
         // attempt to load the data

@@ -226,7 +226,6 @@ class Mime_Helper
      * @param   string $string The string in APP_CHARSET encoding
      * @return  string encoded string
      */
-
     public static function encodeQuotedPrintable($string)
     {
         if (function_exists('iconv_mime_encode')) {
@@ -504,8 +503,8 @@ class Mime_Helper
 
         $return = array();
         // Unfold the input
-        $input   = preg_replace("/\r?\n/", "\r\n", $input);
-        $input   = preg_replace("/\r\n(\t| )+/", ' ', $input);
+        $input = preg_replace("/\r?\n/", "\r\n", $input);
+        $input = preg_replace("/\r\n(\t| )+/", ' ', $input);
         $headers = explode("\r\n", trim($input));
         foreach ($headers as $value) {
             $hdr_name = substr($value, 0, strpos($value, ':'));

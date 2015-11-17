@@ -47,7 +47,7 @@ $tpl->assign('project', Project::getDetails($prj_id));
 
 if ($cat == 'new') {
     $title = $_POST['title'];
-    $res =  Time_Tracking::insertCategory($prj_id, $title);
+    $res = Time_Tracking::insertCategory($prj_id, $title);
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the time tracking category was added successfully.'), Misc::MSG_INFO),
             -1   =>  array(ev_gettext('An error occurred while trying to add the new time tracking category.'), Misc::MSG_INFO),

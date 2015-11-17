@@ -26,7 +26,6 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-
 /**
  * Wrapper class for sessions. This is an initial bare bones implementation.
  * Additional methods will be later as needed.

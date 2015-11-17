@@ -26,7 +26,6 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-
 /**
  * Class to handle the business logic related to the history information for
  * the issues entered in the system.
@@ -65,11 +64,11 @@ class History
     public static function add($iss_id, $usr_id, $htt_id, $summary, $context = array(), $min_role = null)
     {
         if (!is_numeric($htt_id)) {
-            $htt_id = History::getTypeID($htt_id);
+            $htt_id = self::getTypeID($htt_id);
         }
 
         if ($min_role === null) {
-            $min_role = History::getTypeRole($htt_id);
+            $min_role = self::getTypeRole($htt_id);
         }
 
         $params = array(

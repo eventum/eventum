@@ -26,7 +26,6 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-
 /**
  * Class designed to handle all business logic related to attachments being
  * uploaded to issues in the application.

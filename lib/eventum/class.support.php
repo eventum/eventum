@@ -27,7 +27,6 @@
 // +----------------------------------------------------------------------+
 //
 
-
 /**
  * Class to handle the business logic related to the email feature of
  * the application.
@@ -420,7 +419,6 @@ class Support
     /**
      * Method used to get new emails from the mailbox.
      *
-     * @access public
      * @param  resource $mbox The mailbox
      * @return array Array of new message numbers.
      */
@@ -714,7 +712,7 @@ class Support
 
                         // need to handle attachments coming from notes as well
                         if ($res != -1) {
-                            Support::extractAttachments($t['issue_id'], $structure, true, $res);
+                            self::extractAttachments($t['issue_id'], $structure, true, $res);
                         }
                     }
                 }
@@ -2761,7 +2759,7 @@ class Support
             return 0;
         }
 
-        $issue_id = Support::getIssueFromEmail($sup_id);
+        $issue_id = self::getIssueFromEmail($sup_id);
         $sql = 'SELECT
                     sup_id,
                     @sup_seq := @sup_seq+1

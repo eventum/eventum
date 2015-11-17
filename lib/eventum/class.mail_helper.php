@@ -140,7 +140,7 @@ class Mail_Helper
     {
         $str = self::fixAddressQuoting($str);
         $str = Mime_Helper::encode($str);
-        $structs = Mail_Helper::parseAddressList($str);
+        $structs = self::parseAddressList($str);
         $addresses = array();
         foreach ($structs as $structure) {
             if ((!empty($structure->mailbox)) && (!empty($structure->host))) {
@@ -223,7 +223,7 @@ class Mail_Helper
     public static function getAddressInfo($address, $multiple = false)
     {
         $address = self::fixAddressQuoting($address);
-        $addresslist = Mail_Helper::parseAddressList($address, null, null, false);
+        $addresslist = self::parseAddressList($address, null, null, false);
         if (Misc::isError($addresslist)) {
             return $addresslist;
         }
@@ -659,7 +659,7 @@ class Mail_Helper
         // ok, now parse the headers text and build the assoc array
         $full_email = $hdrs . "\n\n" . $body;
         $structure = Mime_Helper::decode($full_email, false, false);
-        $_headers = & $structure->headers;
+        $_headers = &$structure->headers;
         $header_names = Mime_Helper::getHeaderNames($hdrs);
         $headers = array();
         foreach ($_headers as $lowercase_name => $value) {

@@ -377,7 +377,7 @@ class Date_Helper
 
         // previous weeks
         for ($week = $weeks_past; $week > 0; $week--) {
-            $option = self::formatWeekOption($current_start - ($week * Date_Helper::WEEK));
+            $option = self::formatWeekOption($current_start - ($week * self::WEEK));
             $options[$option[0]] = $option[1];
         }
 
@@ -386,7 +386,7 @@ class Date_Helper
 
         // future weeks
         for ($week = 1; $week <= $weeks_future; $week++) {
-            $option = self::formatWeekOption($current_start + ($week * Date_Helper::WEEK));
+            $option = self::formatWeekOption($current_start + ($week * self::WEEK));
             $options[$option[0]] = $option[1];
         }
 
@@ -403,7 +403,7 @@ class Date_Helper
         $value_format = 'Y-m-d';
         $start = date('U') - (self::DAY * (date('w') - 1));
 
-        return date($value_format, $start) . '_' . date($value_format, ($start + (Date_Helper::DAY * 6)));
+        return date($value_format, $start) . '_' . date($value_format, ($start + (self::DAY * 6)));
     }
 
     /**

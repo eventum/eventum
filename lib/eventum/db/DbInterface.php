@@ -96,7 +96,7 @@ interface DbInterface
      * @return array the nested array.
      * @throws DbException on failure.
      */
-    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC);
+    public function getAll($query, $params = array(), $fetchmode = self::DB_FETCHMODE_ASSOC);
 
     /**
      * Fetches an entire query result and returns it as an
@@ -110,7 +110,7 @@ interface DbInterface
      * @param int $fetchmode
      * @throws DbException on failure.
      */
-    public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT);
+    public function fetchAssoc($query, $params = array(), $fetchmode = self::DB_FETCHMODE_DEFAULT);
 
     /**
      * Fetches a first column from a query result and returns it as an
@@ -158,5 +158,5 @@ interface DbInterface
      * @return array  the first row of results as an array.
      * @throws DbException on failure.
      */
-    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC);
+    public function getRow($query, $params = array(), $fetchmode = self::DB_FETCHMODE_ASSOC);
 }

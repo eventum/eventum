@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -28,7 +29,7 @@
 require_once __DIR__ . '/../../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("customer/customer_lookup.tpl.html");
+$tpl->setTemplate('customer/customer_lookup.tpl.html');
 
 Auth::checkAuthentication();
 $usr_id = Auth::getUserID();
@@ -37,11 +38,11 @@ $prj_id = Auth::getCurrentProject();
 // only customers should be able to use this page
 $role_id = Auth::getCurrentRole();
 if ($role_id < User::ROLE_DEVELOPER) {
-    Auth::redirect("list.php");
+    Auth::redirect('list.php');
 }
 
 if (@$_POST['cat'] == 'lookup') {
-    $tpl->assign("results", Customer_OLD::lookup($prj_id, $_POST['field'], $_POST['value']));
+    $tpl->assign('results', Customer_OLD::lookup($prj_id, $_POST['field'], $_POST['value']));
 }
 
 $tpl->displayTemplate();

@@ -201,7 +201,6 @@ class Command_Line
      * Method used to parse the eventum command line configuration file
      * and return the appropriate configuration settings.
      *
-     * @access  public
      * @return  array The configuration settings
      */
     public static function getEnvironmentSettings()
@@ -591,6 +590,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
 
         echo $msg;
     }
+
     /**
      * Method used to print the list of open issues.
      *
@@ -1234,7 +1234,6 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Method used to check whether the current execution needs to have a
      * confirmation message shown before performing the requested action or not.
      *
-     * @access  public
      * @return  boolean
      */
     public static function isSafeExecution()
@@ -1252,7 +1251,6 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
     /**
      * Method used to print a usage statement for the command line interface.
      *
-     * @access  public
      * @param   string $script The current script name
      */
     public static function usage($script)
@@ -1402,7 +1400,6 @@ $explanation
     /**
      * Method used to print a message to standard output and halt processing.
      *
-     * @access  public
      * @param   string $msg The message that needs to be printed
      */
     public static function quit($msg)

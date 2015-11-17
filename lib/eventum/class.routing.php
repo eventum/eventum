@@ -70,11 +70,11 @@ class Routing
         $types = array('email', 'note', 'draft');
         foreach ($addresses as $address) {
             foreach ($types as $type) {
-                if (Routing::getMatchingIssueIDs($address, $type) === false) {
+                if (self::getMatchingIssueIDs($address, $type) === false) {
                     continue;
                 }
                 $method = "route_{$type}s";
-                $return = Routing::$method($full_message);
+                $return = self::$method($full_message);
                 if ($return === true || is_array($return)) {
                     return $return;
                 }
@@ -523,7 +523,7 @@ class Routing
 
         if (!empty($settings['host_alias'])) {
             // XXX: legacy split by '|' as well
-            if (strchr($settings['host_alias'], '|')) {
+            if (strstr($settings['host_alias'], '|')) {
                 $host_aliases = explode('|', $settings['host_alias']);
             } else {
                 $host_aliases = explode(' ', $settings['host_alias']);

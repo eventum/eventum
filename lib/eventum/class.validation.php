@@ -26,7 +26,6 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-
 /**
  * Class to handle form validation in the server-side, duplicating the
  * javascript based validation available in most forms, to make sure
