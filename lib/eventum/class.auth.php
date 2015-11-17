@@ -78,7 +78,7 @@ class Auth
     {
         $msg = "Login attempt by '$email' was ";
         if ($type == 'success') {
-            $msg .= "successful.";
+            $msg .= 'successful.';
         } else {
             $msg .= "not successful because of '$extra'.";
         }

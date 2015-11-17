@@ -326,6 +326,7 @@ class User
             User::updatePassword($usr_id, $_POST['passwd']);
         } catch (Exception $e) {
             Logger::app()->error($e);
+
             return -1;
         }
 
@@ -1099,6 +1100,7 @@ class User
                 User::updatePassword($usr_id, $data['password']);
             } catch (Exception $e) {
                 Logger::app()->error($e);
+
                 return -1;
             }
         }

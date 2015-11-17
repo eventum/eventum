@@ -1019,7 +1019,6 @@ class RemoteApi
      */
     public function logCommand($command)
     {
-
         $usr_id = Auth::getUserID();
         $email = User::getEmail($usr_id);
 
