@@ -76,13 +76,13 @@ class Auth
      */
     public static function saveLoginAttempt($email, $type, $extra = null)
     {
-        $msg = Date_Helper::getCurrentDateGMT() . " - Login attempt by '$email' was ";
+        $msg = "Login attempt by '$email' was ";
         if ($type == 'success') {
-            $msg .= "successful.\n";
+            $msg .= "successful.";
         } else {
-            $msg .= "not successful because of '$extra'.\n";
+            $msg .= "not successful because of '$extra'.";
         }
-        file_put_contents(APP_LOGIN_LOG, $msg, FILE_APPEND);
+        Logger::auth()->info($msg, array('user' => $email, 'type' => $type, 'extra' => $extra));
     }
 
     /**
@@ -512,9 +512,8 @@ class Auth
             try {
                 $instance = new $class();
             } catch (AuthException $e) {
-                $message = "Unable to use auth backend '$class': {$e->getMessage()}";
-                error_log($message);
-                Error_Handler::logError($message);
+                $message = "Unable to use auth backend '$class'";
+                Logger::app()->critical($message, array('exception' => $e));
 
                 if (APP_AUTH_BACKEND_ALLOW_FALLBACK != true) {
                     $tpl = new Template_Helper();

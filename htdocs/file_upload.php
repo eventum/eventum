@@ -58,8 +58,7 @@ if ($cat == 'upload_file') {
         Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description);
         $res = 1;
     } catch (Exception $e) {
-        error_log($e->getMessage());
-        error_log($e->getTraceAsString());
+        Logger::app()->error($e);
         $res = -1;
     }
 

@@ -116,8 +116,7 @@ class Setup
             }
         } catch (Exception $e) {
             $code = $e->getCode();
-            error_log($e->getMessage());
-            error_log($e->getTraceAsString());
+            Logger::app()->error($e);
 
             return $code ?: -1;
         }

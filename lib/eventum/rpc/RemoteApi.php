@@ -1011,6 +1011,7 @@ class RemoteApi
         return $incidents;
     }
 
+    // FIXME: this method should be used by SERVER, not by CLIENT
     /**
      * @param string $command
      * @return string
@@ -1018,14 +1019,11 @@ class RemoteApi
      */
     public function logCommand($command)
     {
+
         $usr_id = Auth::getUserID();
         $email = User::getEmail($usr_id);
 
-        $msg = $email . "\t" . $command . "\n";
-
-        $fp = @fopen(APP_CLI_LOG, 'a');
-        @fwrite($fp, $msg);
-        @fclose($fp);
+        Logger::cli()->info($command, array('usr_id' => $usr_id, 'email' => $email));
 
         return 'OK';
     }
