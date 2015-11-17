@@ -276,7 +276,7 @@ class Status
      *
      * @return  integer 1 if the update worked properly, any other value otherwise
      */
-    public static function update()
+    public static function updateFromPost()
     {
         if (Validation::isWhitespace($_POST['title'])) {
             return -2;
@@ -312,6 +312,7 @@ class Status
                 $removed_projects[] = $project_id;
             }
         }
+
         if (count($removed_projects) > 0) {
             $stmt = 'UPDATE
                         {{%issue}}

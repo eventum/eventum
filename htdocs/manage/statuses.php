@@ -48,7 +48,7 @@ if (@$_POST['cat'] == 'new') {
             -2  =>  array(ev_gettext('Please enter the title for this status.'), Misc::MSG_ERROR),
     ));
 } elseif (@$_POST['cat'] == 'update') {
-    $res = Status::update();
+    $res = Status::updateFromPost();
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the status was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to add the status.'), Misc::MSG_ERROR),
