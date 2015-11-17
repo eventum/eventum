@@ -47,7 +47,7 @@
       }
   }
   $().ready(function() {
-      $('#faq_form').submit(validateForm);
+      $('#status_form').submit(validateForm);
       $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
 
       $('#delete_form').submit(checkDelete);
@@ -55,7 +55,7 @@
   //-->
   </script>
 
-  <form name="status_form" method="post">
+  <form id="status_form" method="post">
   {if $smarty.get.cat|default:'' == 'edit'}
   <input type="hidden" name="cat" value="update">
   <input type="hidden" name="id" value="{$smarty.get.id|intval}">
