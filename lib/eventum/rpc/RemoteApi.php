@@ -1012,6 +1012,7 @@ class RemoteApi
     }
 
     // FIXME: this method should be used by SERVER, not by CLIENT
+
     /**
      * @param string $command
      * @return string
