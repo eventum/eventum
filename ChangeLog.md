@@ -5,6 +5,7 @@ Eventum Issue Tracking System
 --------------------
 
 - emails.php: handle better empty "From:" header. (@glensc, #91)
+- Added ability to require custom fields on the edit form. (@balsdorf, #107)
 
 2015-11-10, Version [3.0.6]
 --------------------
