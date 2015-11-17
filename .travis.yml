@@ -26,6 +26,9 @@ before_install:
   - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - locale -a
   - make php-cs-fixer.phar
+# pull translations from launchpad
+  - bzr branch lp:~glen666/eventum/po po
+  - cp -af po/localization/*.po localization
 
 install:
   - composer install --no-interaction --prefer-source
