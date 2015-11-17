@@ -281,6 +281,13 @@ class Status
         if (Validation::isWhitespace($_POST['title'])) {
             return -2;
         }
+        $color = $_POST['color'];
+
+        // validate that it is valid RGB hex color
+        if (!preg_match('/^#[a-f\d]{6}$/i', $color)) {
+            return -3;
+        }
+
         $stmt = 'UPDATE
                     {{%status}}
                  SET
@@ -291,7 +298,7 @@ class Status
                     sta_is_closed=?
                  WHERE
                     sta_id=?';
-        $params = array($_POST['title'], $_POST['abbreviation'], $_POST['rank'], $_POST['color'], $_POST['is_closed'], $_POST['id']);
+        $params = array($_POST['title'], $_POST['abbreviation'], $_POST['rank'], $color, $_POST['is_closed'], $_POST['id']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
