@@ -165,7 +165,9 @@ clean_vendor() {
 	rm vendor/*/*/.coveralls.yml
 	rm vendor/*/*/.gitattributes
 	rm vendor/*/*/.gitignore
+	rm vendor/*/*/.php_cs
 	rm vendor/*/*/.travis.yml
+	rm vendor/*/*/CHANGELOG.mdown
 	rm vendor/*/*/CONTRIBUTING.md
 	rm vendor/*/*/COPYING
 	rm vendor/*/*/ChangeLog*
