@@ -40,6 +40,6 @@ notifications:
     skip_join: true
 
 script:
-  - phpunit -v
+  - phpunit -v --debug
 
 # vim:ts=2:sw=2:et
