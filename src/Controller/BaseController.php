@@ -70,7 +70,7 @@ abstract class BaseController
     protected function getRequest()
     {
         static $request;
-        if ($request) {
+        if (!$request) {
             $request = Request::createFromGlobals();
         }
         return $request;
