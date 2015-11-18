@@ -172,7 +172,7 @@ class Setup
 
         // return empty array if the file is empty
         // this is to help eventum installation wizard to proceed
-        if (!filesize($path)) {
+        if (!file_exists($path) || filesize($path)) {
             return array();
         }
 
