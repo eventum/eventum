@@ -36,7 +36,7 @@ class LoggerTest extends TestCase
 
     public function testDbError()
     {
-        $this->skipTravis();
+        $this->assertDatabase();
         try {
             DB_Helper::getInstance()->query('here -->?<-- be dragons?', array('param1', 'param2'));
         } catch (DbException $e) {

@@ -22,4 +22,12 @@ class TestCase extends PHPUnit_Framework_TestCase
             self::markTestSkipped($message);
         }
     }
+
+    /**
+     * skip test if database is not available
+     */
+    public static function assertDatabase()
+    {
+        self::skipTravis();
+    }
 }
