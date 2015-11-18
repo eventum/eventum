@@ -198,8 +198,7 @@ class SendController extends BaseController
         }
 
         // enter the time tracking entry about this new email
-        // FIXME: translate
-        $summary = 'Time entry inserted when sending outgoing email.';
+        $summary = ev_gettext('Time entry inserted when sending outgoing email.');
         $this->addTimeTracking($summary);
 
         return true;
@@ -216,8 +215,7 @@ class SendController extends BaseController
         );
         $this->tpl->assign('draft_result', $res);
 
-        // FIXME: translate
-        $summary = 'Time entry inserted when saving an email draft.';
+        $summary = ev_gettext('Time entry inserted when saving an email draft.');
         $this->addTimeTracking($summary);
     }
 
@@ -231,8 +229,7 @@ class SendController extends BaseController
         );
         $this->tpl->assign('draft_result', $res);
 
-        // FIXME: translate
-        $summary = 'Time entry inserted when saving an email draft.';
+        $summary = ev_gettext('Time entry inserted when saving an email draft.');
         $this->addTimeTracking($summary);
     }
 
