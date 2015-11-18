@@ -198,13 +198,9 @@ class SendController extends BaseController
         }
 
         // enter the time tracking entry about this new email
-        if ($post->get('time_spent')) {
-            // FIXME: translate
-            $summary = $post->get('time_summary') ?: 'Time entry inserted when sending outgoing email.';
-            $ttc_id = (int)$post->get('time_category');
-            $time_spent = (int)$post->get('time_spent');
-            Time_Tracking::addTimeEntry($this->issue_id, $ttc_id, $time_spent, null, $summary);
-        }
+        // FIXME: translate
+        $summary = 'Time entry inserted when sending outgoing email.';
+        $this->addTimeTracking($summary);
 
         return true;
     }
@@ -220,7 +216,9 @@ class SendController extends BaseController
         );
         $this->tpl->assign('draft_result', $res);
 
-        $this->addTimeTracking();
+        // FIXME: translate
+        $summary = 'Time entry inserted when saving an email draft.';
+        $this->addTimeTracking($summary);
     }
 
     private function updateDraftAction()
@@ -233,7 +231,9 @@ class SendController extends BaseController
         );
         $this->tpl->assign('draft_result', $res);
 
-        $this->addTimeTracking();
+        // FIXME: translate
+        $summary = 'Time entry inserted when saving an email draft.';
+        $this->addTimeTracking($summary);
     }
 
     private function viewDraftAction()
@@ -318,7 +318,7 @@ class SendController extends BaseController
     /**
      * Enter the time tracking entry about this new email
      */
-    private function addTimeTracking()
+    private function addTimeTracking($default_summary)
     {
         $post = $this->getRequest()->request;
 
@@ -326,9 +326,7 @@ class SendController extends BaseController
             return;
         }
 
-        // FIXME: translate
-        $summary = $post->get('time_summary') ?: 'Time entry inserted when saving an email draft.';
-
+        $summary = $post->get('time_summary') ?: $default_summary;
         $ttc_id = (int)$post->get('time_category');
         $time_spent = (int)$post->get('time_spent');
         Time_Tracking::addTimeEntry($this->issue_id, $ttc_id, $time_spent, null, $summary);
