@@ -171,11 +171,12 @@ class SendController extends BaseController
 
     private function sendEmailAction()
     {
-        $request = $this->getRequest();
-        $res = Support::sendEmailFromPost($request->request->get('parent_id'));
+        $post = $this->getRequest()->request;
+
+        $res = Support::sendEmailFromPost($post->get('parent_id'));
         $this->tpl->assign('send_result', $res);
 
-        $new_status = $request->request->get('new_status');
+        $new_status = $post->get('new_status');
         if ($new_status && Access::canChangeStatus($this->issue_id, $this->usr_id)) {
             $res = Issue::setStatus($this->issue_id, $new_status);
             if ($res != -1) {
@@ -191,17 +192,17 @@ class SendController extends BaseController
         }
 
         // remove the existing email draft, if appropriate
-        $draft_id = (int)$request->request->get('draft_id');
+        $draft_id = (int)$post->get('draft_id');
         if ($draft_id) {
             Draft::remove($draft_id);
         }
 
         // enter the time tracking entry about this new email
-        if ($request->request->get('time_spent')) {
+        if ($post->get('time_spent')) {
             // FIXME: translate
-            $summary = $request->request->get('time_summary') ?: 'Time entry inserted when sending outgoing email.';
-            $ttc_id = (int)$request->request->get('time_category');
-            $time_spent = (int)$request->request->get('time_spent');
+            $summary = $post->get('time_summary') ?: 'Time entry inserted when sending outgoing email.';
+            $ttc_id = (int)$post->get('time_category');
+            $time_spent = (int)$post->get('time_spent');
             Time_Tracking::addTimeEntry($this->issue_id, $ttc_id, $time_spent, null, $summary);
         }
 
