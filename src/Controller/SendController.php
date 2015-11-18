@@ -139,11 +139,7 @@ class SendController extends BaseController
             );
         }
 
-        if ((!empty($_GET['ema_id'])) || (!empty($_POST['ema_id']))) {
-            $ema_id = isset($_GET['ema_id']) ? (int)$_GET['ema_id']
-                : (isset($_POST['ema_id']) ? (int)$_POST['ema_id'] : null);
-            $this->tpl->assign('ema_id', $ema_id);
-        }
+        $this->tpl->assign('ema_id', $this->getRequest()->get('ema_id'));
 
         $user_prefs = Prefs::get($this->usr_id);
         // list of users to display in the lookup field in the To: and Cc: fields
@@ -175,19 +171,19 @@ class SendController extends BaseController
 
     private function sendEmailAction()
     {
-        $res = Support::sendEmailFromPost($_POST['parent_id']);
+        $request = $this->getRequest();
+        $res = Support::sendEmailFromPost($request->request->get('parent_id'));
         $this->tpl->assign('send_result', $res);
 
-        if (Access::canChangeStatus($this->issue_id, $this->usr_id) && isset($_POST['new_status'])
-            && !empty($_POST['new_status'])
-        ) {
-            $res = Issue::setStatus($this->issue_id, $_POST['new_status']);
+        $new_status = $request->request->get('new_status');
+        if ($new_status && Access::canChangeStatus($this->issue_id, $this->usr_id)) {
+            $res = Issue::setStatus($this->issue_id, $new_status);
             if ($res != -1) {
-                $new_status = Status::getStatusTitle($_POST['new_status']);
+                $status_title = Status::getStatusTitle($new_status);
                 History::add(
                     $this->issue_id, $this->usr_id, 'status_changed',
                     "Status changed to '{status}' by {user} when sending an email", array(
-                        'status' => $new_status,
+                        'status' => $status_title,
                         'user' => User::getFullName($this->usr_id),
                     )
                 );
@@ -195,19 +191,17 @@ class SendController extends BaseController
         }
 
         // remove the existing email draft, if appropriate
-        if (!empty($_POST['draft_id'])) {
-            Draft::remove($_POST['draft_id']);
+        $draft_id = (int)$request->request->get('draft_id');
+        if ($draft_id) {
+            Draft::remove($draft_id);
         }
 
         // enter the time tracking entry about this new email
-        if (!empty($_POST['time_spent'])) {
-            if (isset($_POST['time_summary']) && !empty($_POST['time_summary'])) {
-                $summary = (string)$_POST['time_summary'];
-            } else {
-                $summary = 'Time entry inserted when sending outgoing email.';
-            }
-            $ttc_id = (int)$_POST['time_category'];
-            $time_spent = (int)$_POST['time_spent'];
+        if ($request->request->get('time_spent')) {
+            // FIXME: translate
+            $summary = $request->request->get('time_summary') ?: 'Time entry inserted when sending outgoing email.';
+            $ttc_id = (int)$request->request->get('time_category');
+            $time_spent = (int)$request->request->get('time_spent');
             Time_Tracking::addTimeEntry($this->issue_id, $ttc_id, $time_spent, null, $summary);
         }
 
@@ -216,8 +210,12 @@ class SendController extends BaseController
 
     private function saveDraftAction()
     {
+        $post = $this->getRequest()->request;
+
         $res = Draft::saveEmail(
-            $this->issue_id, $_POST['to'], $_POST['cc'], $_POST['subject'], $_POST['message'], $_POST['parent_id']
+            $this->issue_id,
+            $post->get('to'), $post->get('cc'), $post->get('subject'), $post->get('message'),
+            $post->get('parent_id')
         );
         $this->tpl->assign('draft_result', $res);
 
@@ -226,9 +224,11 @@ class SendController extends BaseController
 
     private function updateDraftAction()
     {
+        $post = $this->getRequest()->request;
         $res = Draft::update(
-            $this->issue_id, $_POST['draft_id'], $_POST['to'], $_POST['cc'], $_POST['subject'], $_POST['message'],
-            $_POST['parent_id']
+            $this->issue_id,
+            $post->get('draft_id'), $post->get('to'), $post->get('cc'), $post->get('subject'), $post->get('message'),
+            $post->get('parent_id')
         );
         $this->tpl->assign('draft_result', $res);
 
