@@ -2,7 +2,7 @@
 
 use Monolog\Handler\StreamHandler;
 
-class LoggerTest extends PHPUnit_Framework_TestCase
+class LoggerTest extends TestCase
 {
     public static function setUpBeforeClass()
     {
@@ -36,6 +36,7 @@ class LoggerTest extends PHPUnit_Framework_TestCase
 
     public function testDbError()
     {
+        $this->skipTravis();
         try {
             DB_Helper::getInstance()->query('here -->?<-- be dragons?', array('param1', 'param2'));
         } catch (DbException $e) {
