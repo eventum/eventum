@@ -35,7 +35,7 @@
 		"test": "phpunit"
 	},
 	"autoload": {
-		"classmap": [ "lib/eventum/" ],
+		"classmap": [ "src", "lib/eventum" ],
 		"files": [ "lib/eventum/gettext.php" ]
 	},
 	"autoload-dev": {

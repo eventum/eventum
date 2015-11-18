@@ -168,7 +168,4 @@ if (!defined('APP_DEFAULT_DB') || !defined('APP_TABLE_PREFIX')) {
 }
 */
 
-// setup debugbar, if it can be autoloaded
-if (class_exists('DebugBar\StandardDebugBar')) {
-    $debugbar = new DebugBar\StandardDebugBar();
-}
+Eventum\DebugBar::initialize();
