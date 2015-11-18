@@ -192,7 +192,7 @@ class SendController extends BaseController
         }
 
         // remove the existing email draft, if appropriate
-        $draft_id = (int)$post->get('draft_id');
+        $draft_id = $post->getInt('draft_id');
         if ($draft_id) {
             Draft::remove($draft_id);
         }
@@ -275,17 +275,19 @@ class SendController extends BaseController
 
     private function otherAction()
     {
-        if (empty($_GET['id'])) {
+        $get = $this->getRequest()->query;
+
+        if (!$get->has('id')) {
             return;
         }
 
-        $email = Support::getEmailDetails($_GET['ema_id'], $_GET['id']);
+        $email = Support::getEmailDetails($get->getInt('ema_id'), $get->getInt('id'));
         $header = Misc::formatReplyPreamble($email['timestamp'], $email['sup_from']);
         $email['seb_body'] = $header . Misc::formatReply($email['seb_body']);
         $this->tpl->assign(
             array(
                 'email' => $email,
-                'parent_email_id' => $_GET['id'],
+                'parent_email_id' => $get->getInt('id'),
             )
         );
     }
@@ -318,17 +320,17 @@ class SendController extends BaseController
      */
     private function addTimeTracking()
     {
-        if (empty($_POST['time_spent'])) {
+        $post = $this->getRequest()->request;
+
+        if (!$post->has('time_spent')) {
             return;
         }
 
-        if (isset($_POST['time_summary']) && !empty($_POST['time_summary'])) {
-            $summary = (string)$_POST['time_summary'];
-        } else {
-            $summary = 'Time entry inserted when saving an email draft.';
-        }
-        $ttc_id = (int)$_POST['time_category'];
-        $time_spent = (int)$_POST['time_spent'];
+        // FIXME: translate
+        $summary = $post->get('time_summary') ?: 'Time entry inserted when saving an email draft.';
+
+        $ttc_id = (int)$post->get('time_category');
+        $time_spent = (int)$post->get('time_spent');
         Time_Tracking::addTimeEntry($this->issue_id, $ttc_id, $time_spent, null, $summary);
     }
 }
