@@ -27,8 +27,9 @@
 namespace Eventum\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Template_Helper;
+use Auth;
 use LogicException;
+use Template_Helper;
 
 abstract class BaseController
 {
@@ -50,6 +51,8 @@ abstract class BaseController
      */
     public function run()
     {
+        Auth::checkAuthentication('index.php?err=5', true);
+
         // NOTE: canAccess needs $issue_id for the template
         if (!$this->canAccess()) {
             $this->displayTemplate('permission_denied.tpl.html');
@@ -62,6 +65,9 @@ abstract class BaseController
         if ($res === null) {
             throw new LogicException("Bad action");
         }
+
+        $this->prepareTemplate();
+        $this->displayTemplate();
     }
 
     /**
@@ -100,6 +106,8 @@ abstract class BaseController
      * $this->cat = $request->request->get('cat');
      * // from GET
      * $this->cat = $request->query->get('cat');
+     * // if you need POST -> GET, then do:
+     * $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
      */
     protected abstract function configure();
 
@@ -115,4 +123,9 @@ abstract class BaseController
      * controller may chose sub-actions from there
      */
     protected abstract function defaultAction();
+
+    /**
+     * Setup variables needed to render a template.
+     */
+    protected abstract function prepareTemplate();
 }
