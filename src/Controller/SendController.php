@@ -143,13 +143,13 @@ class SendController extends BaseController
 
         $user_prefs = Prefs::get($this->usr_id);
         // list of users to display in the lookup field in the To: and Cc: fields
-        $t = Project::getAddressBook($this->prj_id, $this->issue_id);
+        $address_book = Project::getAddressBook($this->prj_id, $this->issue_id);
 
         $this->tpl->assign(
             array(
                 'from' => User::getFromHeader($this->usr_id),
-                'assoc_users' => $t,
-                'assoc_emails' => array_keys($t),
+                'assoc_users' => $address_book,
+                'assoc_emails' => array_keys($address_book),
                 'canned_responses' => Email_Response::getAssocList($this->prj_id),
                 'js_canned_responses' => Email_Response::getAssocListBodies($this->prj_id),
                 'current_user_prefs' => $user_prefs,
