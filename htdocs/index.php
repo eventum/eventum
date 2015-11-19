@@ -53,6 +53,8 @@ if ($has_valid_cookie && !$is_anon_user) {
         $extra = '';
     }
     Auth::redirect('select_project.php' . $extra);
+} elseif (Auth::autoRedirectToExternalLogin()) {
+    Auth::redirect(Auth::getExternalLoginURL());
 }
 
 $projects = Project::getAnonymousList();

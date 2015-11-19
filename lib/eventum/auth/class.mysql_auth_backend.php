@@ -212,4 +212,14 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
     {
         return null;
     }
+
+    /**
+     * Returns true if the user should automatically be redirected to the external login URL, false otherwise
+     *
+     * @return  boolean
+     */
+    public function autoRedirectToExternalLogin()
+    {
+        return false;
+    }
 }
