@@ -51,8 +51,6 @@ abstract class BaseController
      */
     public function run()
     {
-        Auth::checkAuthentication();
-
         // NOTE: canAccess needs $issue_id for the template
         if (!$this->canAccess()) {
             $this->displayTemplate('permission_denied.tpl.html');

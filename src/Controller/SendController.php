@@ -79,6 +79,8 @@ class SendController extends BaseController
 
     protected function canAccess()
     {
+        Auth::checkAuthentication();
+
         return Issue::canAccess($this->issue_id, $this->usr_id);
     }
 

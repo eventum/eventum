@@ -93,6 +93,8 @@ class ViewController extends BaseController
      */
     protected function canAccess()
     {
+        Auth::checkAuthentication();
+
         return true;
     }
 
@@ -167,7 +169,6 @@ class ViewController extends BaseController
      */
     protected function prepareTemplate()
     {
-
         $options = Search::saveSearchParams();
         $sides = Issue::getSides($this->issue_id, $options);
 
