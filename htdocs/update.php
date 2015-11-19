@@ -201,7 +201,6 @@ $tpl->assign('issue_lock', $issue_lock);
             'field' =>  'priority',
         );
     }
-    $releases = Release::getAssocList($prj_id);
     if ((count($releases) > 0) && ($role_id != User::ROLE_CUSTOMER)) {
         $columns[0][] = array(
             'title' =>  ev_gettext('Scheduled Release'),
