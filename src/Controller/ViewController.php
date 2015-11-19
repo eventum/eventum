@@ -156,8 +156,6 @@ class ViewController extends BaseController
                     $options = Search::saveSearchParams();
                     $sides = Issue::getSides($this->issue_id, $options);
 
-                    // FIXME: this $cookie seems unused
-                    $cookie = AuthCookie::getProjectCookie();
                     if (!empty($auto_switched_from)) {
                         $this->tpl->assign(
                             array(
