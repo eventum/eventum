@@ -8,6 +8,7 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
 	->in(__DIR__ . '/scm')
 	->in(__DIR__ . '/upgrade')
 	->exclude('smarty')
+	->exclude('var')
 ;
 
 return Symfony\CS\Config\Config::create()
