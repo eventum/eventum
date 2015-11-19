@@ -4,8 +4,7 @@
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2009 Sun Microsystem Inc.                              |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
+// | Copyright (c) 2015 Eventum Team.                                     |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -25,7 +24,54 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-require_once __DIR__ . '/../init.php';
+namespace Eventum\Controller;
 
-$controller = new Eventum\Controller\OpenSearchController();
-$controller->run();
+use AuthCookie;
+
+/**
+ * Render OpenSearch description document (OSDD)
+ *
+ * @link http://www.opensearch.org/
+ *
+ * @package Eventum\Controller
+ */
+class OpenSearchController extends BaseController
+{
+    /** @var string */
+    protected $tpl_name = 'opensearch.tpl.xml';
+
+    /**
+     * @inheritdoc
+     */
+    protected function configure()
+    {
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function canAccess()
+    {
+        if (!AuthCookie::hasAuthCookie()) {
+            header('HTTP/1.0 403 Forbidden');
+            exit(0);
+        }
+        return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function defaultAction()
+    {
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function prepareTemplate()
+    {
+        header('Content-Type: text/xml; charset=' . APP_CHARSET);
+        $this->tpl->assign('app_charset', APP_CHARSET);
+    }
+}
