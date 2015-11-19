@@ -96,16 +96,9 @@ class ViewController extends BaseController
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function defaultAction()
+    private function checkProject()
     {
-        $this->prj_id = Auth::getCurrentProject();
-        $this->usr_id = Auth::getUserID();
-        $this->role_id = Auth::getCurrentRole();
-
-        $associated_projects = @array_keys(Project::getAssocList($this->usr_id));
+        $associated_projects = array_keys(Project::getAssocList($this->usr_id));
 
         // check if the requested issue is a part of the 'current' project. If it doesn't
         // check if issue exists in another project and if it does, switch projects
@@ -117,6 +110,33 @@ class ViewController extends BaseController
             $this->prj_id = $iss_prj_id;
         }
 
+        // check if the requested issue is a part of one of the projects
+        // associated with this user
+        if (!in_array($iss_prj_id, $associated_projects)) {
+            $this->error(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
+        }
+
+        if ($auto_switched_from) {
+            $this->tpl->assign(
+                array(
+                    'project_auto_switched' => 1,
+                    'old_project' => Project::getName($auto_switched_from),
+                )
+            );
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function defaultAction()
+    {
+        $this->prj_id = Auth::getCurrentProject();
+        $this->usr_id = Auth::getUserID();
+        $this->role_id = Auth::getCurrentRole();
+
+        $this->checkProject();
+
         $this->details = $details = Issue::getDetails($this->issue_id);
         if (!$details) {
             $this->error(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
@@ -127,36 +147,20 @@ class ViewController extends BaseController
             $this->error(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
         }
 
-            // if the issue has a different customer then the currently selected one, switch customers
-            if (Auth::getCurrentRole() == User::ROLE_CUSTOMER
-                && Auth::getCurrentCustomerID() != $details['iss_customer_id']
-            ) {
-                Auth::setCurrentCustomerID($details['iss_customer_id']);
-                // TRANSLATORS: %1 - customer name
-                Misc::setMessage(ev_gettext("Active customer changed to '%s'", $details['customer']->getName()));
-                Auth::redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
-            }
+        // if the issue has a different customer then the currently selected one, switch customers
+        if (Auth::getCurrentRole() == User::ROLE_CUSTOMER
+            && Auth::getCurrentCustomerID() != $details['iss_customer_id']
+        ) {
+            Auth::setCurrentCustomerID($details['iss_customer_id']);
+            // TRANSLATORS: %1 - customer name
+            Misc::setMessage(ev_gettext("Active customer changed to '%s'", $details['customer']->getName()));
+            Auth::redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
+        }
 
-            if ($details['iss_prj_id'] != $this->prj_id) {
-                $this->error(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
-            }
-
-                // check if the requested issue is a part of one of the projects
-                // associated with this user
-                if (!@in_array($details['iss_prj_id'], $associated_projects)) {
-                    $this->error(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
-                }
-
-                    if (!empty($auto_switched_from)) {
-                        $this->tpl->assign(
-                            array(
-                                'project_auto_switched' => 1,
-                                'old_project' => Project::getName($auto_switched_from),
-                            )
-                        );
-                    }
+        if ($details['iss_prj_id'] != $this->prj_id) {
+            $this->error(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
+        }
     }
-
 
     /**
      * @inheritdoc
