@@ -28,7 +28,7 @@ namespace Eventum\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Auth;
-use LogicException;
+use Misc;
 use Template_Helper;
 
 abstract class BaseController
@@ -86,6 +86,17 @@ abstract class BaseController
             $this->tpl->setTemplate($tpl_name);
         }
         $this->tpl->displayTemplate();
+    }
+
+    /**
+     * Display error message $msg and exit
+     *
+     * @param string $msg
+     */
+    protected function error($msg) {
+        // TODO: move Misc::displayErrorMessage contents here,
+        // once this is only place it's called from
+        Misc::displayErrorMessage($msg);
     }
 
     /**

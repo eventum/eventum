@@ -119,14 +119,14 @@ class ViewController extends BaseController
 
         $details = Issue::getDetails($this->issue_id);
         if (!$details) {
-            Misc::displayErrorMessage(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
+            $this->error(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
         }
 
         $this->tpl->assign('issue', $details);
 
         // in the case of a customer user, also need to check if that customer has access to this issue
         if (!Issue::canAccess($this->issue_id, $this->usr_id)) {
-            Misc::displayErrorMessage(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
+            $this->error(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
         }
 
 
@@ -141,7 +141,7 @@ class ViewController extends BaseController
 
             $associated_projects = @array_keys(Project::getAssocList($this->usr_id));
             if ((empty($details)) || ($details['iss_prj_id'] != $this->prj_id)) {
-                Misc::displayErrorMessage(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
+                $this->error(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
             }
                 // now that we can access to the issue, add more verbose HTML <title>
                 // TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
@@ -150,9 +150,7 @@ class ViewController extends BaseController
                 // check if the requested issue is a part of one of the projects
                 // associated with this user
                 if (!@in_array($details['iss_prj_id'], $associated_projects)) {
-                    Misc::displayErrorMessage(
-                        ev_gettext('Sorry, you do not have the required privileges to view this issue.')
-                    );
+                    $this->error(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
                 }
 
                     $options = Search::saveSearchParams();
