@@ -140,7 +140,7 @@ class ViewController extends BaseController
             }
 
             $associated_projects = @array_keys(Project::getAssocList($this->usr_id));
-            if ((empty($details)) || ($details['iss_prj_id'] != $this->prj_id)) {
+            if ($details['iss_prj_id'] != $this->prj_id) {
                 $this->error(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
             }
                 // now that we can access to the issue, add more verbose HTML <title>
