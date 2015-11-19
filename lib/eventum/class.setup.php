@@ -157,7 +157,6 @@ class Setup
                 }
                 $config->merge(new Config(array($section => $subconfig)));
             }
-
         }
 
         return $config;

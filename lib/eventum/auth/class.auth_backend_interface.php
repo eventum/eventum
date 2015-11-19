@@ -113,7 +113,6 @@ interface Auth_Backend_Interface
      */
     public function getExternalLoginURL();
 
-
     /**
      * Returns true if the user should automatically be redirected to the external login URL, false otherwise
      *
