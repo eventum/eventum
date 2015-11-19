@@ -209,11 +209,8 @@ class ViewController extends BaseController
      */
     private function setTemplateNonCustomer()
     {
-        if (@$_COOKIE['show_all_drafts'] == 1) {
-            $show_all_drafts = true;
-        } else {
-            $show_all_drafts = false;
-        }
+        $cookie = $this->getRequest()->cookies;
+        $show_all_drafts = $cookie->get('show_all_drafts') == 1;
 
         if (Workflow::hasWorkflowIntegration($this->prj_id)) {
             $statuses = Workflow::getAllowedStatuses($this->prj_id, $this->issue_id);
