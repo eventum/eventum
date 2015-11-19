@@ -59,13 +59,7 @@ abstract class BaseController
             exit;
         }
 
-        $res = $this->defaultAction();
-
-        // if method returns NULL, it has failed (methods with no return keyword return NULL as well)
-        if ($res === null) {
-            throw new LogicException("Bad action");
-        }
-
+        $this->defaultAction();
         $this->prepareTemplate();
         $this->displayTemplate();
     }

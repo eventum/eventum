@@ -117,8 +117,6 @@ class SendController extends BaseController
         if ($this->cat == 'reply') {
             $this->replyAction();
         }
-
-        return true;
     }
 
     protected function prepareTemplate()

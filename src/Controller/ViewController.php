@@ -381,8 +381,6 @@ class ViewController extends BaseController
                 }
             }
         }
-
-        return true;
     }
 
     /**
