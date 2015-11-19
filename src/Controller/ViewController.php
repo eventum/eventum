@@ -165,157 +165,7 @@ class ViewController extends BaseController
                             )
                         );
                     }
-                    $issue_fields_display = Issue_Field::getFieldsToDisplay($this->issue_id, 'view_issue');
 
-                    // figure out what data to show in each column
-                    $columns = array(0 => array(), 1 => array());
-                    if (CRM::hasCustomerIntegration($this->prj_id) and !empty($details['iss_customer_id'])) {
-                        $columns[0][] = array(
-                            'title' => 'Customer',
-                            'field' => 'customer_0'
-                        );
-                        $columns[1][] = array(
-                            'title' => 'Customer Contract',
-                            'field' => 'customer_1'
-                        );
-                    }
-                    $cats = Category::getList($this->prj_id);
-                    if (count($cats) > 0) {
-                        $columns[0][] = array(
-                            'title' => ev_gettext('Category'),
-                            'data' => $details['prc_title'],
-                            'field' => 'category',
-                        );
-                    }
-                    $columns[0][] = array(
-                        'title' => ev_gettext('Status'),
-                        'data' => $details['sta_title'],
-                        'data_bgcolor' => $details['status_color'],
-                        'field' => 'status',
-                    );
-
-                    $severities = Severity::getList($this->prj_id);
-                    if (count($severities) > 0) {
-                        $columns[0][] = array(
-                            'title' => ev_gettext('Severity'),
-                            'data' => $details['sev_title'],
-                            'field' => 'severity'
-                        );
-                    }
-
-                    if ((!isset($issue_fields_display['priority'])) || ($issue_fields_display['priority'] != false)) {
-                        if ((isset($issue_fields_display['priority']['min_role']))
-                            && ($issue_fields_display['priority']['min_role'] > User::ROLE_CUSTOMER)
-                        ) {
-                            $bgcolor = APP_INTERNAL_COLOR;
-                        } else {
-                            $bgcolor = '';
-                        }
-                        $columns[0][] = array(
-                            'title' => ev_gettext('Priority'),
-                            'data' => $details['pri_title'],
-                            'title_bgcolor' => $bgcolor,
-                            'field' => 'priority',
-                        );
-                    }
-                    $releases = Release::getAssocList($this->prj_id);
-                    if ((count($releases) > 0) && ($this->role_id != User::ROLE_CUSTOMER)) {
-                        $columns[0][] = array(
-                            'title' => ev_gettext('Scheduled Release'),
-                            'data' => $details['pre_title'],
-                            'title_bgcolor' => APP_INTERNAL_COLOR,
-                        );
-                    }
-                    $columns[0][] = array(
-                        'title' => ev_gettext('Resolution'),
-                        'data' => $details['iss_resolution'],
-                        'field' => 'resolution',
-                    );
-
-                    if ((!isset($issue_fields_display['percent_complete']))
-                        || ($issue_fields_display['percent_complete'] != false)
-                    ) {
-                        $columns[0][] = array(
-                            'title' => ev_gettext('Percentage Complete'),
-                            'data' => (empty($details['iss_percent_complete']) ? 0 : $details['iss_percent_complete'])
-                                . '%',
-                            'field' => 'percentage_complete',
-                        );
-                    }
-                    $columns[0][] = array(
-                        'title' => ev_gettext('Reporter'),
-                        'field' => 'reporter',
-                    );
-                    $products = Product::getAssocList(false);
-                    if (count($products) > 0) {
-                        $columns[0][] = array(
-                            'title' => ev_gettext('Product'),
-                            'field' => 'product',
-                        );
-                        $columns[0][] = array(
-                            'title' => ev_gettext('Product Version'),
-                            'field' => 'product_version',
-                        );
-                    }
-                    $columns[0][] = array(
-                        'title' => ev_gettext('Assignment'),
-                        'data' => $details['assignments'],
-                        'field' => 'assignment',
-                    );
-
-                    $columns[1][] = array(
-                        'title' => ev_gettext('Notification List'),
-                        'field' => 'notification_list',
-                    );
-                    $columns[1][] = array(
-                        'title' => ev_gettext('Submitted Date'),
-                        'data' => $details['iss_created_date'],
-                    );
-                    $columns[1][] = array(
-                        'title' => ev_gettext('Last Updated Date'),
-                        'data' => $details['iss_updated_date'],
-                    );
-                    $columns[1][] = array(
-                        'title' => ev_gettext('Associated Issues'),
-                        'field' => 'associated_issues',
-                    );
-                    if ((!isset($issue_fields_display['expected_resolution']))
-                        || ($issue_fields_display['expected_resolution'] != false)
-                    ) {
-                        $columns[1][] = array(
-                            'title' => ev_gettext('Expected Resolution Date'),
-                            'field' => 'expected_resolution',
-                        );
-                    }
-                    if ((!isset($issue_fields_display['estimated_dev_time']))
-                        || ($issue_fields_display['estimated_dev_time'] != false)
-                    ) {
-                        $columns[1][] = array(
-                            'title' => ev_gettext('Estimated Dev. Time'),
-                            'data' => empty($details['iss_dev_time']) ? '' : $details['iss_dev_time'] . ' hours',
-                            'field' => 'estimated_dev_time',
-                        );
-                    }
-                    if ($this->role_id > User::ROLE_CUSTOMER) {
-                        $columns[1][] = array(
-                            'title' => ev_gettext('Duplicates'),
-                            'field' => 'duplicates',
-                            'title_bgcolor' => APP_INTERNAL_COLOR,
-                        );
-                        $columns[1][] = array(
-                            'title' => ev_gettext('Authorized Repliers'),
-                            'field' => 'authorized_repliers',
-                            'title_bgcolor' => APP_INTERNAL_COLOR,
-                        );
-                    }
-                    $groups = Group::getAssocList($this->prj_id);
-                    if (($this->role_id > User::ROLE_CUSTOMER) && (count($groups) > 0)) {
-                        $columns[1][] = array(
-                            'title' => ev_gettext('Group'),
-                            'data' => isset($details['group']) ? $details['group']['grp_name'] : '',
-                            'title_bgcolor' => APP_INTERNAL_COLOR,
-                        );
-                    }
 
                     $this->tpl->assign(
                         array(
@@ -330,7 +180,7 @@ class ViewController extends BaseController
                             'ema_id' => Email_Account::getEmailAccount(),
                             'max_attachment_size' => Attachment::getMaxAttachmentSize(),
                             'quarantine' => Issue::getQuarantineInfo($this->issue_id),
-                            'grid' => $columns,
+                            'grid' => $this->getColumnsForDisplay($details),
                             'can_update' => Issue::canUpdate($this->issue_id, $this->usr_id),
                             'enabled_partners' => Partner::getPartnersByProject($this->prj_id),
                             'partners' => Partner::getPartnersByIssue($this->issue_id),
@@ -377,6 +227,162 @@ class ViewController extends BaseController
                             )
                         );
                     }
+    }
+
+    private function getColumnsForDisplay($details)
+    {
+        $display = Issue_Field::getFieldsToDisplay($this->issue_id, 'view_issue');
+
+        // figure out what data to show in each column
+        $columns = array(0 => array(), 1 => array());
+
+        if (CRM::hasCustomerIntegration($this->prj_id) and !empty($details['iss_customer_id'])) {
+            $columns[0][] = array(
+                'title' => 'Customer',
+                'field' => 'customer_0'
+            );
+            $columns[1][] = array(
+                'title' => 'Customer Contract',
+                'field' => 'customer_1'
+            );
+        }
+
+        if (Category::getList($this->prj_id)) {
+            $columns[0][] = array(
+                'title' => ev_gettext('Category'),
+                'data' => $details['prc_title'],
+                'field' => 'category',
+            );
+        }
+
+        $columns[0][] = array(
+            'title' => ev_gettext('Status'),
+            'data' => $details['sta_title'],
+            'data_bgcolor' => $details['status_color'],
+            'field' => 'status',
+        );
+
+        if (Severity::getList($this->prj_id)) {
+            $columns[0][] = array(
+                'title' => ev_gettext('Severity'),
+                'data' => $details['sev_title'],
+                'field' => 'severity'
+            );
+        }
+
+        if (!isset($display['priority']) || $display['priority'] != false) {
+            if (isset($display['priority']['min_role']) && $display['priority']['min_role'] > User::ROLE_CUSTOMER) {
+                $bgcolor = APP_INTERNAL_COLOR;
+            } else {
+                $bgcolor = '';
+            }
+            $columns[0][] = array(
+                'title' => ev_gettext('Priority'),
+                'data' => $details['pri_title'],
+                'title_bgcolor' => $bgcolor,
+                'field' => 'priority',
+            );
+        }
+
+        if ($this->role_id != User::ROLE_CUSTOMER && Release::getAssocList($this->prj_id)) {
+            $columns[0][] = array(
+                'title' => ev_gettext('Scheduled Release'),
+                'data' => $details['pre_title'],
+                'title_bgcolor' => APP_INTERNAL_COLOR,
+            );
+        }
+
+        $columns[0][] = array(
+            'title' => ev_gettext('Resolution'),
+            'data' => $details['iss_resolution'],
+            'field' => 'resolution',
+        );
+
+        if (!isset($display['percent_complete']) || $display['percent_complete'] != false) {
+            $percent = empty($details['iss_percent_complete']) ? 0 : $details['iss_percent_complete'];
+            $columns[0][] = array(
+                'title' => ev_gettext('Percentage Complete'),
+                'data' => "{$percent}%",
+                'field' => 'percentage_complete',
+            );
+        }
+
+        $columns[0][] = array(
+            'title' => ev_gettext('Reporter'),
+            'field' => 'reporter',
+        );
+
+        if (Product::getAssocList(false)) {
+            $columns[0][] = array(
+                'title' => ev_gettext('Product'),
+                'field' => 'product',
+            );
+            $columns[0][] = array(
+                'title' => ev_gettext('Product Version'),
+                'field' => 'product_version',
+            );
+        }
+
+        $columns[0][] = array(
+            'title' => ev_gettext('Assignment'),
+            'data' => $details['assignments'],
+            'field' => 'assignment',
+        );
+
+        $columns[1][] = array(
+            'title' => ev_gettext('Notification List'),
+            'field' => 'notification_list',
+        );
+        $columns[1][] = array(
+            'title' => ev_gettext('Submitted Date'),
+            'data' => $details['iss_created_date'],
+        );
+        $columns[1][] = array(
+            'title' => ev_gettext('Last Updated Date'),
+            'data' => $details['iss_updated_date'],
+        );
+        $columns[1][] = array(
+            'title' => ev_gettext('Associated Issues'),
+            'field' => 'associated_issues',
+        );
+
+        if (!isset($display['expected_resolution']) || $display['expected_resolution'] != false) {
+            $columns[1][] = array(
+                'title' => ev_gettext('Expected Resolution Date'),
+                'field' => 'expected_resolution',
+            );
+        }
+
+        if (!isset($display['estimated_dev_time']) || $display['estimated_dev_time'] != false) {
+            $columns[1][] = array(
+                'title' => ev_gettext('Estimated Dev. Time'),
+                'data' => empty($details['iss_dev_time']) ? '' : $details['iss_dev_time'] . ' hours',
+                'field' => 'estimated_dev_time',
+            );
+        }
+
+        if ($this->role_id > User::ROLE_CUSTOMER) {
+            $columns[1][] = array(
+                'title' => ev_gettext('Duplicates'),
+                'field' => 'duplicates',
+                'title_bgcolor' => APP_INTERNAL_COLOR,
+            );
+            $columns[1][] = array(
+                'title' => ev_gettext('Authorized Repliers'),
+                'field' => 'authorized_repliers',
+                'title_bgcolor' => APP_INTERNAL_COLOR,
+            );
+        }
+
+        if ($this->role_id > User::ROLE_CUSTOMER && Group::getAssocList($this->prj_id)) {
+            $columns[1][] = array(
+                'title' => ev_gettext('Group'),
+                'data' => isset($details['group']) ? $details['group']['grp_name'] : '',
+                'title_bgcolor' => APP_INTERNAL_COLOR,
+            );
+        }
+
+        return $columns;
     }
 
     /**
