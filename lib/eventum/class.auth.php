@@ -585,4 +585,9 @@ class Auth
             return $backend_login_url;
         }
     }
+
+    public static function autoRedirectToExternalLogin()
+    {
+        return self::getAuthBackend()->autoRedirectToExternalLogin();
+    }
 }
