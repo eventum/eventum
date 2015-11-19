@@ -111,7 +111,7 @@ class ViewController extends BaseController
         // check if issue exists in another project and if it does, switch projects
         $iss_prj_id = Issue::getProjectID($this->issue_id);
         $auto_switched_from = false;
-        if ((!empty($iss_prj_id)) && ($iss_prj_id != $this->prj_id) && (in_array($iss_prj_id, $associated_projects))) {
+        if (!empty($iss_prj_id) && $iss_prj_id != $this->prj_id && in_array($iss_prj_id, $associated_projects)) {
             AuthCookie::setProjectCookie($iss_prj_id);
             $auto_switched_from = $this->prj_id;
             $this->prj_id = $iss_prj_id;
@@ -202,7 +202,7 @@ class ViewController extends BaseController
                         } else {
                             $statuses = Status::getAssocStatusList($this->prj_id, false);
                         }
-                        if ((!empty($details['iss_sta_id'])) && (empty($statuses[$details['iss_sta_id']]))) {
+                        if (!empty($details['iss_sta_id']) && empty($statuses[$details['iss_sta_id']])) {
                             $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
                         }
 
