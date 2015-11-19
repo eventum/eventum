@@ -118,7 +118,7 @@ class ViewController extends BaseController
         }
 
         $details = Issue::getDetails($this->issue_id);
-        if ($details == '') {
+        if (!$details) {
             Misc::displayErrorMessage(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
         }
 
@@ -127,7 +127,8 @@ class ViewController extends BaseController
         // in the case of a customer user, also need to check if that customer has access to this issue
         if (!Issue::canAccess($this->issue_id, $this->usr_id)) {
             Misc::displayErrorMessage(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
-        } else {
+        }
+
 
             // if the issue has a different customer then the currently selected one, switch customers
             if (Auth::getCurrentRole() == User::ROLE_CUSTOMER
@@ -380,7 +381,6 @@ class ViewController extends BaseController
                     }
                 }
             }
-        }
     }
 
     /**
