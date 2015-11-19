@@ -135,7 +135,8 @@ class ViewController extends BaseController
                 && Auth::getCurrentCustomerID() != $details['iss_customer_id']
             ) {
                 Auth::setCurrentCustomerID($details['iss_customer_id']);
-                Misc::setMessage("Active customer changed to '" . $details['customer']->getName() . '"');
+                // TRANSLATORS: %1 - customer name
+                Misc::setMessage(ev_gettext("Active customer changed to '%s'", $details['customer']->getName()));
                 Auth::redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
             }
 
