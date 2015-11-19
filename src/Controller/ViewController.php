@@ -80,6 +80,9 @@ class ViewController extends BaseController
      */
     protected function configure()
     {
+        $request = $this->getRequest();
+
+        $this->issue_id = $request->request->getInt('issue_id') ?: $request->query->getInt('id');
     }
 
     /**
@@ -98,10 +101,6 @@ class ViewController extends BaseController
         $this->prj_id = Auth::getCurrentProject();
         $this->usr_id = Auth::getUserID();
         $this->role_id = Auth::getCurrentRole();
-
-        $request = $this->getRequest();
-
-        $this->issue_id = $request->request->getInt('issue_id') ?: $request->query->getInt('id');
 
         $associated_projects = @array_keys(Project::getAssocList($this->usr_id));
 

@@ -100,7 +100,8 @@ abstract class BaseController
     }
 
     /**
-     * Create class variables from request, etc
+     * Create class variables from request.
+     * Creating variables that require user to be authenticated, will mostly not work.
      *
      * Use one of these to obtain data from GET/POST or both:
      * $request = $this->getRequest();
