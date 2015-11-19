@@ -51,7 +51,7 @@ abstract class BaseController
      */
     public function run()
     {
-        Auth::checkAuthentication('index.php?err=5', true);
+        Auth::checkAuthentication();
 
         // NOTE: canAccess needs $issue_id for the template
         if (!$this->canAccess()) {
