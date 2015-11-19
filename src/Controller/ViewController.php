@@ -75,6 +75,9 @@ class ViewController extends BaseController
     /** @var int */
     private $issue_id;
 
+    /** @var array */
+    private $details;
+
     /**
      * @inheritdoc
      */
@@ -104,8 +107,6 @@ class ViewController extends BaseController
 
         $associated_projects = @array_keys(Project::getAssocList($this->usr_id));
 
-        $this->tpl->assign('issue_id', $this->issue_id);
-
         // check if the requested issue is a part of the 'current' project. If it doesn't
         // check if issue exists in another project and if it does, switch projects
         $iss_prj_id = Issue::getProjectID($this->issue_id);
@@ -116,18 +117,15 @@ class ViewController extends BaseController
             $this->prj_id = $iss_prj_id;
         }
 
-        $details = Issue::getDetails($this->issue_id);
+        $this->details = $details = Issue::getDetails($this->issue_id);
         if (!$details) {
             $this->error(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
         }
-
-        $this->tpl->assign('issue', $details);
 
         // in the case of a customer user, also need to check if that customer has access to this issue
         if (!Issue::canAccess($this->issue_id, $this->usr_id)) {
             $this->error(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
         }
-
 
             // if the issue has a different customer then the currently selected one, switch customers
             if (Auth::getCurrentRole() == User::ROLE_CUSTOMER
@@ -143,18 +141,12 @@ class ViewController extends BaseController
             if ($details['iss_prj_id'] != $this->prj_id) {
                 $this->error(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
             }
-                // now that we can access to the issue, add more verbose HTML <title>
-                // TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
-                $this->tpl->assign('extra_title', ev_gettext('#%1$s - %2$s', $this->issue_id, $details['iss_summary']));
 
                 // check if the requested issue is a part of one of the projects
                 // associated with this user
                 if (!@in_array($details['iss_prj_id'], $associated_projects)) {
                     $this->error(ev_gettext('Sorry, you do not have the required privileges to view this issue.'));
                 }
-
-                    $options = Search::saveSearchParams();
-                    $sides = Issue::getSides($this->issue_id, $options);
 
                     if (!empty($auto_switched_from)) {
                         $this->tpl->assign(
@@ -164,72 +156,98 @@ class ViewController extends BaseController
                             )
                         );
                     }
-
-
-                    $this->tpl->assign(
-                        array(
-                            'next_issue' => @$sides['next'],
-                            'previous_issue' => @$sides['previous'],
-                            'subscribers' => Notification::getSubscribers($this->issue_id),
-                            'custom_fields' => Custom_Field::getListByIssue($this->prj_id, $this->issue_id),
-                            'files' => Attachment::getList($this->issue_id),
-                            'emails' => Support::getEmailsByIssue($this->issue_id),
-                            'zones' => Date_Helper::getTimezoneList(),
-                            'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
-                            'ema_id' => Email_Account::getEmailAccount(),
-                            'max_attachment_size' => Attachment::getMaxAttachmentSize(),
-                            'quarantine' => Issue::getQuarantineInfo($this->issue_id),
-                            'grid' => $this->getColumnsForDisplay($details),
-                            'can_update' => Issue::canUpdate($this->issue_id, $this->usr_id),
-                            'enabled_partners' => Partner::getPartnersByProject($this->prj_id),
-                            'partners' => Partner::getPartnersByIssue($this->issue_id),
-                            'issue_access' => Access::getIssueAccessArray($this->issue_id, $this->usr_id),
-                            'is_user_notified' => Notification::isUserNotified($this->issue_id, $this->usr_id),
-                        )
-                    );
-
-                    if ($this->role_id != User::ROLE_CUSTOMER) {
-                        if (@$_COOKIE['show_all_drafts'] == 1) {
-                            $show_all_drafts = true;
-                        } else {
-                            $show_all_drafts = false;
-                        }
-
-                        if (Workflow::hasWorkflowIntegration($this->prj_id)) {
-                            $statuses = Workflow::getAllowedStatuses($this->prj_id, $this->issue_id);
-                            // if currently selected release is not on list, go ahead and add it.
-                        } else {
-                            $statuses = Status::getAssocStatusList($this->prj_id, false);
-                        }
-                        if (!empty($details['iss_sta_id']) && empty($statuses[$details['iss_sta_id']])) {
-                            $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
-                        }
-
-                        $time_entries = Time_Tracking::getTimeEntryListing($this->issue_id);
-
-                        $this->tpl->assign(
-                            array(
-                                'notes' => Note::getListing($this->issue_id),
-                                'is_user_assigned' => Issue::isAssignedToUser($this->issue_id, $this->usr_id),
-                                'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($this->issue_id, $this->usr_id),
-                                'phone_entries' => Phone_Support::getListing($this->issue_id),
-                                'phone_categories' => Phone_Support::getCategoryAssocList($this->prj_id),
-                                'checkins' => SCM::getCheckinList($this->issue_id),
-                                'time_categories' => Time_Tracking::getAssocCategories($this->prj_id),
-                                'time_entries' => $time_entries['list'],
-                                'total_time_by_user' => $time_entries['total_time_by_user'],
-                                'total_time_spent' => $time_entries['total_time_spent'],
-                                'impacts' => Impact_Analysis::getListing($this->issue_id),
-                                'statuses' => $statuses,
-                                'drafts' => Draft::getList($this->issue_id, $show_all_drafts),
-                                'groups' => Group::getAssocList($this->prj_id),
-                            )
-                        );
-                    }
     }
 
-    private function getColumnsForDisplay($details)
+
+    /**
+     * @inheritdoc
+     */
+    protected function prepareTemplate()
     {
+
+        $options = Search::saveSearchParams();
+        $sides = Issue::getSides($this->issue_id, $options);
+
+        $this->tpl->assign(
+            array(
+                'issue_id' => $this->issue_id,
+                'issue' => $this->details,
+
+                // TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
+                'extra_title' => ev_gettext('#%1$s - %2$s', $this->issue_id, $this->details['iss_summary']),
+
+                'next_issue' => @$sides['next'],
+                'previous_issue' => @$sides['previous'],
+                'subscribers' => Notification::getSubscribers($this->issue_id),
+                'custom_fields' => Custom_Field::getListByIssue($this->prj_id, $this->issue_id),
+                'files' => Attachment::getList($this->issue_id),
+                'emails' => Support::getEmailsByIssue($this->issue_id),
+                'zones' => Date_Helper::getTimezoneList(),
+                'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
+                'ema_id' => Email_Account::getEmailAccount(),
+                'max_attachment_size' => Attachment::getMaxAttachmentSize(),
+                'quarantine' => Issue::getQuarantineInfo($this->issue_id),
+                'grid' => $this->getColumnsForDisplay(),
+                'can_update' => Issue::canUpdate($this->issue_id, $this->usr_id),
+                'enabled_partners' => Partner::getPartnersByProject($this->prj_id),
+                'partners' => Partner::getPartnersByIssue($this->issue_id),
+                'issue_access' => Access::getIssueAccessArray($this->issue_id, $this->usr_id),
+                'is_user_notified' => Notification::isUserNotified($this->issue_id, $this->usr_id),
+            )
+        );
+
+        if ($this->role_id != User::ROLE_CUSTOMER) {
+            $this->setTemplateNonCustomer();
+        }
+    }
+
+    /**
+     * Set template variables for non-customers
+     */
+    private function setTemplateNonCustomer()
+    {
+        if (@$_COOKIE['show_all_drafts'] == 1) {
+            $show_all_drafts = true;
+        } else {
+            $show_all_drafts = false;
+        }
+
+        if (Workflow::hasWorkflowIntegration($this->prj_id)) {
+            $statuses = Workflow::getAllowedStatuses($this->prj_id, $this->issue_id);
+            // if currently selected release is not on list, go ahead and add it.
+        } else {
+            $statuses = Status::getAssocStatusList($this->prj_id, false);
+        }
+
+        if (!empty($details['iss_sta_id']) && empty($statuses[$details['iss_sta_id']])) {
+            $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
+        }
+
+        $time_entries = Time_Tracking::getTimeEntryListing($this->issue_id);
+
+        $this->tpl->assign(
+            array(
+                'notes' => Note::getListing($this->issue_id),
+                'is_user_assigned' => Issue::isAssignedToUser($this->issue_id, $this->usr_id),
+                'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($this->issue_id, $this->usr_id),
+                'phone_entries' => Phone_Support::getListing($this->issue_id),
+                'phone_categories' => Phone_Support::getCategoryAssocList($this->prj_id),
+                'checkins' => SCM::getCheckinList($this->issue_id),
+                'time_categories' => Time_Tracking::getAssocCategories($this->prj_id),
+                'time_entries' => $time_entries['list'],
+                'total_time_by_user' => $time_entries['total_time_by_user'],
+                'total_time_spent' => $time_entries['total_time_spent'],
+                'impacts' => Impact_Analysis::getListing($this->issue_id),
+                'statuses' => $statuses,
+                'drafts' => Draft::getList($this->issue_id, $show_all_drafts),
+                'groups' => Group::getAssocList($this->prj_id),
+            )
+        );
+    }
+
+    private function getColumnsForDisplay()
+    {
+        $details = $this->details;
         $display = Issue_Field::getFieldsToDisplay($this->issue_id, 'view_issue');
 
         // figure out what data to show in each column
@@ -382,12 +400,5 @@ class ViewController extends BaseController
         }
 
         return $columns;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function prepareTemplate()
-    {
     }
 }
