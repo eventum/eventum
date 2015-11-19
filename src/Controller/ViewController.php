@@ -142,7 +142,7 @@ class ViewController extends BaseController
             $associated_projects = @array_keys(Project::getAssocList($this->usr_id));
             if ((empty($details)) || ($details['iss_prj_id'] != $this->prj_id)) {
                 Misc::displayErrorMessage(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
-            } else {
+            }
                 // now that we can access to the issue, add more verbose HTML <title>
                 // TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
                 $this->tpl->assign('extra_title', ev_gettext('#%1$s - %2$s', $this->issue_id, $details['iss_summary']));
@@ -153,7 +153,8 @@ class ViewController extends BaseController
                     Misc::displayErrorMessage(
                         ev_gettext('Sorry, you do not have the required privileges to view this issue.')
                     );
-                } else {
+                }
+
                     $options = Search::saveSearchParams();
                     $sides = Issue::getSides($this->issue_id, $options);
 
@@ -379,8 +380,6 @@ class ViewController extends BaseController
                             )
                         );
                     }
-                }
-            }
     }
 
     /**
