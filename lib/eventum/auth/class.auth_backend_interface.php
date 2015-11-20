@@ -114,6 +114,13 @@ interface Auth_Backend_Interface
     public function getExternalLoginURL();
 
     /**
+     * Returns true if the user should automatically be redirected to the external login URL, false otherwise
+     *
+     * @return  boolean
+     */
+    public function autoRedirectToExternalLogin();
+
+    /**
      * Called on every page load and can be used to process external authentication checks before the rest of the
      * authentication process happens.
      *
