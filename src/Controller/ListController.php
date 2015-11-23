@@ -233,7 +233,7 @@ class ListController extends BaseController
                 'severities' => Severity::getAssocList($this->prj_id),
                 'status' => Status::getAssocStatusList($this->prj_id),
                 'assign_options' => $assign_options,
-                'custom' => Filter::getAssocList($this->prj_id),
+                'custom' => Filter::getAssocList(),
                 'csts' => Filter::getListing(true),
                 'active_filters' => Filter::getActiveFilters($options),
                 'categories' => Category::getAssocList($this->prj_id),
