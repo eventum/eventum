@@ -191,13 +191,6 @@ class ListController extends BaseController
         $options += $this->options_override;
         $options = array_merge($options, $this->options_override);
 
-        $this->tpl->assign(
-            array(
-                'options' => $options,
-                'sorting' => Search::getSortingInfo($options),
-            )
-        );
-
         // generate options for assign list. If there are groups and user is above a customer, include groups
         $groups = Group::getAssocList($this->prj_id);
         $users = Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER);
@@ -223,6 +216,8 @@ class ListController extends BaseController
         $list = Search::getListing($this->prj_id, $options, $this->pagerRow, $this->rows);
         $this->tpl->assign(
             array(
+                'options' => $options,
+                'sorting' => Search::getSortingInfo($options),
                 'list' => $list['list'],
                 'list_info' => $list['info'],
                 'csv_data' => base64_encode($list['csv']),
