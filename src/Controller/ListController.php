@@ -178,6 +178,38 @@ class ListController extends BaseController
     }
 
     /**
+     * Generate options for assign list.
+     * If there are groups and user is above a customer, include groups
+     *
+     * @param array $users
+     * @return array
+     */
+    private function getAssignOptions($users)
+    {
+        $groups = Group::getAssocList($this->prj_id);
+
+        $assign_options = array(
+            '' => ev_gettext('Any'),
+            '-1' => ev_gettext('un-assigned'),
+            '-2' => ev_gettext('myself and un-assigned'),
+        );
+
+        if (Auth::isAnonUser()) {
+            unset($assign_options['-2']);
+        } elseif (User::getGroupID($this->usr_id)) {
+            $assign_options['-3'] = ev_gettext('myself and my group');
+            $assign_options['-4'] = ev_gettext('myself, un-assigned and my group');
+        }
+
+        if ($groups && Auth::getCurrentRole() > User::ROLE_CUSTOMER) {
+            foreach ($groups as $grp_id => $grp_name) {
+                $assign_options["grp:$grp_id"] = ev_gettext('Group') . ': ' . $grp_name;
+            }
+        }
+        return $assign_options + $users;
+    }
+
+    /**
      * @inheritdoc
      */
     protected function prepareTemplate()
@@ -191,26 +223,8 @@ class ListController extends BaseController
         $options += $this->options_override;
         $options = array_merge($options, $this->options_override);
 
-        // generate options for assign list. If there are groups and user is above a customer, include groups
-        $groups = Group::getAssocList($this->prj_id);
         $users = Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER);
-        $assign_options = array(
-            '' => ev_gettext('Any'),
-            '-1' => ev_gettext('un-assigned'),
-            '-2' => ev_gettext('myself and un-assigned'),
-        );
-        if (Auth::isAnonUser()) {
-            unset($assign_options['-2']);
-        } elseif (User::getGroupID($this->usr_id)) {
-            $assign_options['-3'] = ev_gettext('myself and my group');
-            $assign_options['-4'] = ev_gettext('myself, un-assigned and my group');
-        }
-        if ((count($groups) > 0) && (Auth::getCurrentRole() > User::ROLE_CUSTOMER)) {
-            foreach ($groups as $grp_id => $grp_name) {
-                $assign_options["grp:$grp_id"] = ev_gettext('Group') . ': ' . $grp_name;
-            }
-        }
-        $assign_options += $users;
+        $assign_options = $this->getAssignOptions($users);
 
         $prefs = Prefs::get($this->usr_id);
         $list = Search::getListing($this->prj_id, $options, $this->pagerRow, $this->rows);
