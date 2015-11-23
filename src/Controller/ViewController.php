@@ -156,7 +156,7 @@ class ViewController extends BaseController
             Auth::setCurrentCustomerID($details['iss_customer_id']);
             // TRANSLATORS: %1 - customer name
             Misc::setMessage(ev_gettext("Active customer changed to '%s'", $details['customer']->getName()));
-            Auth::redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
+            $this->redirect(APP_RELATIVE_URL . 'view.php', array('id' => $this->issue_id));
         }
 
         if ($details['iss_prj_id'] != $this->prj_id) {

@@ -91,10 +91,29 @@ abstract class BaseController
      *
      * @param string $msg
      */
-    protected function error($msg) {
+    protected function error($msg)
+    {
         // TODO: move Misc::displayErrorMessage contents here,
         // once this is only place it's called from
         Misc::displayErrorMessage($msg);
+    }
+
+    /**
+     * Redirect to an url with optional GET parameters.
+     * This method never returns.
+     *
+     * @param string $url
+     * @param array $params
+     */
+    protected function redirect($url, $params = array())
+    {
+        if ($params) {
+            $q = strstr($url, '?') ? '&' : '?';
+            $url .= $q . http_build_query($params, null, '&');
+        }
+
+        // TODO: drop Auth::redirect once this is only place Auth::redirect is used
+        Auth::redirect($url);
     }
 
     /**

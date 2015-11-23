@@ -110,9 +110,14 @@ class ListController extends BaseController
             case 'my_assignments':
                 $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
                 Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
-                Auth::redirect(
-                    "list.php?users={$this->usr_id}&hide_closed=1&rows={$this->rows}&sort_by=" .
-                    $profile['sort_by'] . '&sort_order=' . $profile['sort_order']
+                $this->redirect(
+                    'list.php', array(
+                        'users' => $this->usr_id,
+                        'hide_closed' => 1,
+                        'rows' => $this->rows,
+                        'sort_by' => $profile['sort_by'],
+                        'sort_order' => $profile['sort_order'],
+                    )
                 );
                 break;
 
@@ -147,10 +152,15 @@ class ListController extends BaseController
                 $this->nosave = true;
                 $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
                 Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
-                Auth::redirect(
-                    "list.php?customer_id={$customer_id}" .
-                    "&hide_closed=1&rows={$this->rows}&sort_by={$profile['sort_by']}" .
-                    "&sort_order={$profile['sort_order']}&nosave=1"
+                $this->redirect(
+                    'list.php', array(
+                        'customer_id' => $customer_id,
+                        'hide_closed' => 1,
+                        'rows' => $this->rows,
+                        'sort_by' => $profile['sort_by'],
+                        'sort_order' => $profile['sort_order'],
+                        'nosave' => 1,
+                    )
                 );
                 break;
 
@@ -161,21 +171,28 @@ class ListController extends BaseController
                 }
 
                 $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
-                Auth::redirect(
-                    "list.php?reporter={$reporter_id}" .
-                    "&hide_closed=1&rows={$this->rows}&sort_by={$profile['sort_by']}" .
-                    "&sort_order={$profile['sort_order']}&nosave=1"
+                $this->redirect(
+                    'list.php', array(
+                        'reporter' => $reporter_id,
+                        'hide_closed' => 1,
+                        'rows' => $this->rows,
+                        'sort_by' => $profile['sort_by'],
+                        'sort_order' => $profile['sort_order'],
+                        'nosave' => 1,
+                    )
                 );
                 break;
 
             case 'clear':
                 Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
-                Auth::redirect('list.php');
+                $this->redirect('list.php');
                 break;
 
             case 'clearandfilter':
                 Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
-                Auth::redirect('list.php?' . str_replace('view=clearandfilter&', '', $_SERVER['QUERY_STRING']));
+                $params = $request->query->all();
+                unset($params['view']);
+                $this->redirect('list.php', $params);
                 break;
         }
     }
