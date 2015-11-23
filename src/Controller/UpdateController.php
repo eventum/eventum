@@ -222,8 +222,8 @@ class UpdateController extends BaseController
             $statuses = Status::getAssocStatusList($this->prj_id, false);
         }
 
-        if (!empty($details['iss_sta_id']) && empty($statuses[$details['iss_sta_id']])) {
-            $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
+        if (!empty($this->details['iss_sta_id']) && empty($statuses[$this->details['iss_sta_id']])) {
+            $statuses[$this->details['iss_sta_id']] = Status::getStatusTitle($this->details['iss_sta_id']);
         }
 
         $priorities = Priority::getAssocList($this->prj_id);
@@ -244,7 +244,7 @@ class UpdateController extends BaseController
                 'current_year' => date('Y'),
                 'products' => Product::getList(false),
                 'grid' => $this->getColumnsForDisplay(
-                    $details, $this->prj_id, $this->role_id, $categories, $priorities, $severities
+                    $this->details, $this->prj_id, $this->role_id, $categories, $priorities, $severities
                 ),
                 'custom_fields' => Custom_Field::getListByIssue($this->prj_id, $this->issue_id, $this->usr_id),
                 'usr_role_id' => User::getRoleByUser($this->usr_id, $this->prj_id),
