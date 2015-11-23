@@ -1471,9 +1471,6 @@ class Issue
      */
     public static function update($issue_id)
     {
-        global $errors;
-        $errors = array();
-
         $issue_id = (int) $issue_id;
 
         $usr_id = Auth::getUserID();
