@@ -186,8 +186,6 @@ class ListController extends BaseController
      */
     private function getAssignOptions($users)
     {
-        $groups = Group::getAssocList($this->prj_id);
-
         $assign_options = array(
             '' => ev_gettext('Any'),
             '-1' => ev_gettext('un-assigned'),
@@ -201,7 +199,7 @@ class ListController extends BaseController
             $assign_options['-4'] = ev_gettext('myself, un-assigned and my group');
         }
 
-        if ($groups && Auth::getCurrentRole() > User::ROLE_CUSTOMER) {
+        if (Auth::getCurrentRole() > User::ROLE_CUSTOMER && ($groups = Group::getAssocList($this->prj_id))) {
             foreach ($groups as $grp_id => $grp_name) {
                 $assign_options["grp:$grp_id"] = ev_gettext('Group') . ': ' . $grp_name;
             }
