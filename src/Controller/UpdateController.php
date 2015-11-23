@@ -171,7 +171,7 @@ class UpdateController extends BaseController
         }
 
         $notify_list = Notification::getLastNotifiedAddresses($this->issue_id);
-        $has_duplicates = Issue::hasDuplicates($_POST['issue_id']);
+        $has_duplicates = Issue::hasDuplicates($this->issue_id);
 
         /**
          *
