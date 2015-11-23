@@ -30,7 +30,6 @@ use Category;
 use Display_Column;
 use Filter;
 use Group;
-use Misc;
 use Prefs;
 use Priority;
 use Product;
@@ -63,11 +62,15 @@ class ListController extends BaseController
     /** @var array */
     private $options_override;
 
+    /** @var bool */
+    private $nosave;
+
     /**
      * @inheritdoc
      */
     protected function configure()
     {
+        $this->nosave = (bool)$this->getRequest()->get('nosave');
     }
 
     /**
@@ -125,7 +128,7 @@ class ListController extends BaseController
                 if (Search::getParam('hide_closed', true) === '') {
                     $options_override['hide_closed'] = 1;
                 }
-                $_REQUEST['nosave'] = 1;
+                $this->nosave = true;
                 break;
 
             case 'customer_all':
@@ -141,7 +144,7 @@ class ListController extends BaseController
                 if (Search::getParam('hide_closed', true) === '') {
                     $this->options_override['hide_closed'] = 0;
                 }
-                $_REQUEST['nosave'] = 1;
+                $this->nosave = true;
                 $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
                 Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
                 Auth::redirect(
@@ -204,6 +207,7 @@ class ListController extends BaseController
                 $assign_options["grp:$grp_id"] = ev_gettext('Group') . ': ' . $grp_name;
             }
         }
+
         return $assign_options + $users;
     }
 
@@ -212,7 +216,7 @@ class ListController extends BaseController
      */
     protected function prepareTemplate()
     {
-        if (!empty($_REQUEST['nosave'])) {
+        if ($this->nosave) {
             $options = Search::saveSearchParams(false);
         } else {
             $options = Search::saveSearchParams();
