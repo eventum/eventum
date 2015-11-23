@@ -87,32 +87,55 @@ class ListController extends BaseController
     {
         $this->usr_id = Auth::getUserID();
         $this->prj_id = Auth::getCurrentProject();
-        $this->pagerRow = Misc::escapeInteger(Search::getParam('pagerRow')) ?: 0;
+        $this->pagerRow = (int)Search::getParam('pagerRow');
 
         $rows = Search::getParam('rows');
-        $this->rows = ($rows == 'ALL' ? $rows : Misc::escapeInteger($rows)) ?: APP_DEFAULT_PAGER_SIZE;
+        $this->rows = ($rows == 'ALL' ? $rows : (int)$rows) ?: APP_DEFAULT_PAGER_SIZE;
 
         $this->options_override = array();
-        if (isset($_REQUEST['view'])) {
-            if ($_REQUEST['view'] == 'my_assignments') {
+        $this->viewAction();
+    }
+
+    /**
+     * handle $view parameter actions
+     */
+    private function viewAction()
+    {
+        $request = $this->getRequest();
+
+        switch ($request->get('view')) {
+            case 'my_assignments':
                 $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
                 Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
                 Auth::redirect(
                     "list.php?users={$this->usr_id}&hide_closed=1&rows={$this->rows}&sort_by=" .
                     $profile['sort_by'] . '&sort_order=' . $profile['sort_order']
                 );
-            } elseif (($_REQUEST['view'] == 'customer') && (isset($_REQUEST['customer_id']))) {
+                break;
+
+            case 'customer':
+                $customer_id = (int)$request->get('customer_id');
+                if (!$customer_id) {
+                    return;
+                }
                 $this->options_override = array(
-                    'customer_id' => Misc::escapeString($_REQUEST['customer_id']),
+                    'customer_id' => $customer_id,
                     'rows' => $this->rows,
                 );
                 if (Search::getParam('hide_closed', true) === '') {
                     $options_override['hide_closed'] = 1;
                 }
                 $_REQUEST['nosave'] = 1;
-            } elseif (($_REQUEST['view'] == 'customer_all') && (isset($_REQUEST['customer_id']))) {
+                break;
+
+            case 'customer_all':
+                $customer_id = (int)$request->get('customer_id');
+                if (!$customer_id) {
+                    return;
+                }
+
                 $this->options_override = array(
-                    'customer_id' => Misc::escapeString($_REQUEST['customer_id']),
+                    'customer_id' => $customer_id,
                     'rows' => $this->rows,
                 );
                 if (Search::getParam('hide_closed', true) === '') {
@@ -122,24 +145,35 @@ class ListController extends BaseController
                 $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
                 Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
                 Auth::redirect(
-                    'list.php?customer_id=' . Misc::escapeString($_REQUEST['customer_id']) .
-                    "&hide_closed=1&rows={$this->rows}&sort_by=" . $profile['sort_by'] .
-                    '&sort_order=' . $profile['sort_order'] . '&nosave=1'
+                    "list.php?customer_id={$customer_id}" .
+                    "&hide_closed=1&rows={$this->rows}&sort_by={$profile['sort_by']}" .
+                    "&sort_order={$profile['sort_order']}&nosave=1"
                 );
-            } elseif (($_REQUEST['view'] == 'reporter') && (isset($_REQUEST['reporter_id']))) {
+                break;
+
+            case 'reporter':
+                $reporter_id = (int)$request->get('reporter_id');
+                if (!$reporter_id) {
+                    return;
+                }
+
                 $profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'issue');
                 Auth::redirect(
-                    'list.php?reporter=' . Misc::escapeInteger($_REQUEST['reporter_id']) .
-                    "&hide_closed=1&rows={$this->rows}&sort_by=" . $profile['sort_by'] .
-                    '&sort_order=' . $profile['sort_order'] . '&nosave=1'
+                    "list.php?reporter={$reporter_id}" .
+                    "&hide_closed=1&rows={$this->rows}&sort_by={$profile['sort_by']}" .
+                    "&sort_order={$profile['sort_order']}&nosave=1"
                 );
-            } elseif ($_REQUEST['view'] == 'clear') {
+                break;
+
+            case 'clear':
                 Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
                 Auth::redirect('list.php');
-            } elseif ($_REQUEST['view'] == 'clearandfilter') {
+                break;
+
+            case 'clearandfilter':
                 Search_Profile::remove($this->usr_id, $this->prj_id, 'issue');
                 Auth::redirect('list.php?' . str_replace('view=clearandfilter&', '', $_SERVER['QUERY_STRING']));
-            }
+                break;
         }
     }
 
