@@ -56,6 +56,18 @@ class UpdateController extends BaseController
     /** @var int */
     private $issue_id;
 
+    /** @var int */
+    private $usr_id;
+
+    /** @var int */
+    private $prj_id;
+
+    /** @var int */
+    private $role_id;
+
+    /** @var array */
+    private $details;
+
     /**
      * @inheritdoc
      */
@@ -81,27 +93,27 @@ class UpdateController extends BaseController
      */
     protected function defaultAction()
     {
-        $prj_id = Auth::getCurrentProject();
-        $usr_id = Auth::getUserID();
-        $role_id = Auth::getCurrentRole();
+        $this->prj_id = Auth::getCurrentProject();
+        $this->usr_id = Auth::getUserID();
+        $this->role_id = Auth::getCurrentRole();
 
-        $associated_projects = @array_keys(Project::getAssocList($usr_id));
+        $associated_projects = @array_keys(Project::getAssocList($this->usr_id));
 
-        $this->tpl->assign('user_prefs', Prefs::get($usr_id));
+        $this->tpl->assign('user_prefs', Prefs::get($this->usr_id));
         $this->tpl->assign('issue_id', $this->issue_id);
-        $details = Issue::getDetails($this->issue_id);
+        $this->details = $details = Issue::getDetails($this->issue_id);
         if (!$details) {
             Misc::setMessage(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id), Misc::MSG_ERROR);
             $this->tpl->displayTemplate();
             exit;
         }
 
-        Workflow::prePage($prj_id, 'update');
+        Workflow::prePage($this->prj_id, 'update');
 
         // check if the requested issue is a part of the 'current' project. If it doesn't
         // check if issue exists in another project and if it does, switch projects
         $iss_prj_id = Issue::getProjectID($this->issue_id);
-        if (!empty($iss_prj_id) && $iss_prj_id != $prj_id && in_array($iss_prj_id, $associated_projects)) {
+        if (!empty($iss_prj_id) && $iss_prj_id != $this->prj_id && in_array($iss_prj_id, $associated_projects)) {
             AuthCookie::setProjectCookie($iss_prj_id);
             Misc::setMessage(ev_gettext('Note: Project automatically switched to "%1$s" from "%2$s".',
                 Auth::getCurrentProjectName(), Project::getName($iss_prj_id)));
@@ -111,16 +123,16 @@ class UpdateController extends BaseController
         $this->tpl->assign('extra_title', ev_gettext('Update Issue #%1$s', $this->issue_id));
 
         // in the case of a customer user, also need to check if that customer has access to this issue
-        if (($role_id == User::ROLE_CUSTOMER) && ((empty($details)) || (User::getCustomerID($usr_id) != $details['iss_customer_id'])) ||
-            !Issue::canAccess($this->issue_id, $usr_id) ||
-            !($role_id > User::ROLE_REPORTER) || !Issue::canUpdate($this->issue_id, $usr_id)) {
+        if (($this->role_id == User::ROLE_CUSTOMER) && ((empty($details)) || (User::getCustomerID($this->usr_id) != $details['iss_customer_id'])) ||
+            !Issue::canAccess($this->issue_id, $this->usr_id) ||
+            !($this->role_id > User::ROLE_REPORTER) || !Issue::canUpdate($this->issue_id, $this->usr_id)) {
             $this->tpl->setTemplate('base_full.tpl.html');
             Misc::setMessage(ev_gettext('Sorry, you do not have the required privileges to update this issue.'), Misc::MSG_ERROR);
             $this->tpl->displayTemplate();
             exit;
         }
 
-        if (Issue_Lock::acquire($this->issue_id, $usr_id)) {
+        if (Issue_Lock::acquire($this->issue_id, $this->usr_id)) {
             $issue_lock = false;
         } else {
             $issue_lock = Issue_Lock::getInfo($this->issue_id);
@@ -175,26 +187,54 @@ class UpdateController extends BaseController
             Auth::redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
             exit;
         }
+    }
 
-        $prj_id = Auth::getCurrentProject();
-
+    /**
+     * @inheritdoc
+     */
+    protected function prepareTemplate()
+    {
         // if currently selected release is in the past, manually add it to list
-        $releases = Release::getAssocList($prj_id);
-        if ($details['iss_pre_id'] != 0 && empty($releases[$details['iss_pre_id']])) {
-            // FIXME: $releases is not used
-            $releases = array($details['iss_pre_id'] => $details['pre_title']) + $releases;
+        $releases = Release::getAssocList($this->prj_id);
+        if ($this->details['iss_pre_id'] != 0 && empty($releases[$this->details['iss_pre_id']])) {
+            $releases = array($this->details['iss_pre_id'] => $this->details['pre_title']) + $releases;
         }
 
-        if (Workflow::hasWorkflowIntegration($prj_id)) {
-            $statuses = Workflow::getAllowedStatuses($prj_id, $this->issue_id);
+        if (Workflow::hasWorkflowIntegration($this->prj_id)) {
+            $statuses = Workflow::getAllowedStatuses($this->prj_id, $this->issue_id);
             // if currently selected release is not on list, go ahead and add it.
         } else {
-            $statuses = Status::getAssocStatusList($prj_id, false);
+            $statuses = Status::getAssocStatusList($this->prj_id, false);
         }
-        if ((!empty($details['iss_sta_id'])) && (empty($statuses[$details['iss_sta_id']]))) {
+
+        if (!empty($details['iss_sta_id']) && empty($statuses[$details['iss_sta_id']])) {
             $statuses[$details['iss_sta_id']] = Status::getStatusTitle($details['iss_sta_id']);
         }
 
+        $priorities = Priority::getAssocList($this->prj_id);
+        $categories = Category::getAssocList($this->prj_id);
+        $severities = Severity::getAssocList($this->prj_id);
+        $this->tpl->assign(array(
+            'subscribers'  => Notification::getSubscribers($this->issue_id),
+            'categories'   => $categories,
+            'priorities'   => $priorities,
+            'severities'   => $severities,
+            'status'       => $statuses,
+            'releases'     => $releases,
+            'resolutions'  => Resolution::getAssocList(),
+            'users'        => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
+            'one_week_ts'  => time() + (7 * Date_Helper::DAY),
+            'groups'       => Group::getAssocList($this->prj_id),
+            'current_year' =>   date('Y'),
+            'products'     => Product::getList(false),
+            'grid'         => $this->getColumnsForDisplay($details, $this->prj_id, $this->role_id, $categories, $priorities, $severities),
+            'custom_fields' => Custom_Field::getListByIssue($this->prj_id, $this->issue_id, $this->usr_id),
+            'usr_role_id'=> User::getRoleByUser($this->usr_id, $this->prj_id),
+        ));
+    }
+
+    private function getColumnsForDisplay($details, $prj_id, $role_id, $categories, $priorities, $severities)
+    {
         $columns = array(0 => array(), 1 => array());
         if (CRM::hasCustomerIntegration($prj_id) and !empty($details['iss_customer_id'])) {
             $columns[0][] = array(
@@ -206,8 +246,8 @@ class UpdateController extends BaseController
                 'field' =>  'customer_1'
             );
         }
-        $categories = Category::getAssocList($prj_id);
-        if (count($categories) > 0) {
+
+        if ($categories) {
             $columns[0][] = array(
                 'title' =>  ev_gettext('Category'),
                 'data'  =>  $details['prc_title'],
@@ -221,8 +261,7 @@ class UpdateController extends BaseController
             'field' =>  'status',
         );
 
-        $severities = Severity::getAssocList($prj_id);
-        if (count($severities) > 0) {
+        if ($severities) {
             $columns[0][] = array(
                 'title' =>  ev_gettext('Severity'),
                 'data'  =>  $details['sev_title'],
@@ -230,9 +269,7 @@ class UpdateController extends BaseController
             );
         }
 
-        $priorities = Priority::getAssocList($prj_id);
-        if (count($priorities) > 0 && ((!isset($issue_fields_display['priority'])) ||
-                ($issue_fields_display['priority'] != false))) {
+        if ($priorities && ((!isset($issue_fields_display['priority'])) || ($issue_fields_display['priority'] != false))) {
             if ((isset($issue_fields_display['priority']['min_role'])) &&
                 ($issue_fields_display['priority']['min_role'] > User::ROLE_CUSTOMER)) {
                 $bgcolor = APP_INTERNAL_COLOR;
@@ -246,8 +283,8 @@ class UpdateController extends BaseController
                 'field' =>  'priority',
             );
         }
-        $releases = Release::getAssocList($prj_id);
-        if ((count($releases) > 0) && ($role_id != User::ROLE_CUSTOMER)) {
+
+        if (Release::getAssocList($prj_id) && ($role_id != User::ROLE_CUSTOMER)) {
             $columns[0][] = array(
                 'title' =>  ev_gettext('Scheduled Release'),
                 'title_bgcolor' =>  APP_INTERNAL_COLOR,
@@ -274,8 +311,8 @@ class UpdateController extends BaseController
             'title' =>  ev_gettext('Reporter'),
             'field' =>  'reporter',
         );
-        $products = Product::getAssocList(false);
-        if (count($products) > 0) {
+
+        if (Product::getAssocList(false)) {
             $columns[0][] = array(
                 'title' =>  ev_gettext('Product'),
                 'field' =>  'product',
@@ -307,6 +344,7 @@ class UpdateController extends BaseController
             'title' =>  ev_gettext('Associated Issues'),
             'field' =>  'associated_issues',
         );
+
         if ((!isset($issue_fields_display['expected_resolution'])) ||
             ($issue_fields_display['expected_resolution'] != false)) {
             $columns[1][] = array(
@@ -314,6 +352,7 @@ class UpdateController extends BaseController
                 'field' =>  'expected_resolution',
             );
         }
+
         if ((!isset($issue_fields_display['estimated_dev_time'])) ||
             ($issue_fields_display['estimated_dev_time'] != false)) {
             $columns[1][] = array(
@@ -322,6 +361,7 @@ class UpdateController extends BaseController
                 'field' =>  'estimated_dev_time',
             );
         }
+
         if ($role_id > User::ROLE_CUSTOMER) {
             $columns[1][] = array(
                 'title' =>  ev_gettext('Duplicates'),
@@ -334,8 +374,8 @@ class UpdateController extends BaseController
                 'title_bgcolor' =>  APP_INTERNAL_COLOR,
             );
         }
-        $groups = Group::getAssocList($prj_id);
-        if (($role_id > User::ROLE_CUSTOMER) && (count($groups) > 0)) {
+
+        if ($role_id > User::ROLE_CUSTOMER && Group::getAssocList($prj_id)) {
             $columns[1][] = array(
                 'title' =>  ev_gettext('Group'),
                 'data' =>  isset($details['group']) ? $details['group']['grp_name'] : '',
@@ -343,31 +383,8 @@ class UpdateController extends BaseController
                 'field' =>  'group',
             );
         }
-        $this->tpl->assign(array(
-            'subscribers'  => Notification::getSubscribers($this->issue_id),
-            'categories'   => $categories,
-            'priorities'   => $priorities,
-            'severities'   => $severities,
-            'status'       => $statuses,
-            'releases'     => $releases,
-            'resolutions'  => Resolution::getAssocList(),
-            'users'        => Project::getUserAssocList($prj_id, 'active', User::ROLE_CUSTOMER),
-            'one_week_ts'  => time() + (7 * Date_Helper::DAY),
-            'groups'       => Group::getAssocList($prj_id),
-            'current_year' =>   date('Y'),
-            'products'     => Product::getList(false),
-            'grid'         => $columns,
-            'custom_fields' => Custom_Field::getListByIssue($prj_id, $this->issue_id, $usr_id)
-        ));
 
-        $this->tpl->assign('usr_role_id', User::getRoleByUser($usr_id, $prj_id));
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function prepareTemplate()
-    {
+        return $columns;
     }
 }
 
