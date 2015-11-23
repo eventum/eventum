@@ -82,9 +82,6 @@ class UpdateController extends BaseController
         $associated_projects = @array_keys(Project::getAssocList($usr_id));
 
         $this->tpl->assign('user_prefs', Prefs::get($usr_id));
-
-//        Auth::checkAuthentication();
-
         $issue_id = @$_POST['issue_id'] ? $_POST['issue_id'] : @$_GET['id'];
         $this->tpl->assign('issue_id', $issue_id);
         $details = Issue::getDetails($issue_id);
@@ -99,11 +96,8 @@ class UpdateController extends BaseController
         // check if the requested issue is a part of the 'current' project. If it doesn't
         // check if issue exists in another project and if it does, switch projects
         $iss_prj_id = Issue::getProjectID($issue_id);
-        $auto_switched_from = false;
         if (!empty($iss_prj_id) && $iss_prj_id != $prj_id && in_array($iss_prj_id, $associated_projects)) {
             AuthCookie::setProjectCookie($iss_prj_id);
-            $auto_switched_from = $iss_prj_id;
-            $prj_id = $iss_prj_id;
             Misc::setMessage(ev_gettext('Note: Project automatically switched to "%1$s" from "%2$s".',
                 Auth::getCurrentProjectName(), Project::getName($iss_prj_id)));
         }
@@ -130,7 +124,6 @@ class UpdateController extends BaseController
         }
         $this->tpl->assign('issue_lock', $issue_lock);
 
-        $new_prj_id = Issue::getProjectID($issue_id);
         $cancel_update = isset($_POST['cancel']);
 
         if ($cancel_update) {
@@ -162,6 +155,7 @@ class UpdateController extends BaseController
 
             $notify_list = Notification::getLastNotifiedAddresses($issue_id);
             $has_duplicates = Issue::hasDuplicates($_POST['issue_id']);
+            // FIXME: $errors is not defined
             if ($has_duplicates || count($errors) > 0 || count($notify_list) > 0) {
                 $update_tpl = new Template_Helper();
                 $update_tpl->setTemplate('include/update_msg.tpl.html');
@@ -182,6 +176,7 @@ class UpdateController extends BaseController
         // if currently selected release is in the past, manually add it to list
         $releases = Release::getAssocList($prj_id);
         if ($details['iss_pre_id'] != 0 && empty($releases[$details['iss_pre_id']])) {
+            // FIXME: $releases is not used
             $releases = array($details['iss_pre_id'] => $details['pre_title']) + $releases;
         }
 
