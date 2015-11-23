@@ -53,11 +53,17 @@ class UpdateController extends BaseController
     /** @var string */
     protected $tpl_name = 'update.tpl.html';
 
+    /** @var int */
+    private $issue_id;
+
     /**
      * @inheritdoc
      */
     protected function configure()
     {
+        $request = $this->getRequest();
+
+        $this->issue_id = $request->request->getInt('issue_id') ?: $request->query->getInt('id');
     }
 
     /**
@@ -82,11 +88,10 @@ class UpdateController extends BaseController
         $associated_projects = @array_keys(Project::getAssocList($usr_id));
 
         $this->tpl->assign('user_prefs', Prefs::get($usr_id));
-        $issue_id = @$_POST['issue_id'] ? $_POST['issue_id'] : @$_GET['id'];
-        $this->tpl->assign('issue_id', $issue_id);
-        $details = Issue::getDetails($issue_id);
-        if ($details == '') {
-            Misc::setMessage(ev_gettext('Error: The issue #%1$s could not be found.', $issue_id), Misc::MSG_ERROR);
+        $this->tpl->assign('issue_id', $this->issue_id);
+        $details = Issue::getDetails($this->issue_id);
+        if (!$details) {
+            Misc::setMessage(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id), Misc::MSG_ERROR);
             $this->tpl->displayTemplate();
             exit;
         }
@@ -95,7 +100,7 @@ class UpdateController extends BaseController
 
         // check if the requested issue is a part of the 'current' project. If it doesn't
         // check if issue exists in another project and if it does, switch projects
-        $iss_prj_id = Issue::getProjectID($issue_id);
+        $iss_prj_id = Issue::getProjectID($this->issue_id);
         if (!empty($iss_prj_id) && $iss_prj_id != $prj_id && in_array($iss_prj_id, $associated_projects)) {
             AuthCookie::setProjectCookie($iss_prj_id);
             Misc::setMessage(ev_gettext('Note: Project automatically switched to "%1$s" from "%2$s".',
@@ -103,22 +108,22 @@ class UpdateController extends BaseController
         }
 
         $this->tpl->assign('issue', $details);
-        $this->tpl->assign('extra_title', ev_gettext('Update Issue #%1$s', $issue_id));
+        $this->tpl->assign('extra_title', ev_gettext('Update Issue #%1$s', $this->issue_id));
 
         // in the case of a customer user, also need to check if that customer has access to this issue
         if (($role_id == User::ROLE_CUSTOMER) && ((empty($details)) || (User::getCustomerID($usr_id) != $details['iss_customer_id'])) ||
-            !Issue::canAccess($issue_id, $usr_id) ||
-            !($role_id > User::ROLE_REPORTER) || !Issue::canUpdate($issue_id, $usr_id)) {
+            !Issue::canAccess($this->issue_id, $usr_id) ||
+            !($role_id > User::ROLE_REPORTER) || !Issue::canUpdate($this->issue_id, $usr_id)) {
             $this->tpl->setTemplate('base_full.tpl.html');
             Misc::setMessage(ev_gettext('Sorry, you do not have the required privileges to update this issue.'), Misc::MSG_ERROR);
             $this->tpl->displayTemplate();
             exit;
         }
 
-        if (Issue_Lock::acquire($issue_id, $usr_id)) {
+        if (Issue_Lock::acquire($this->issue_id, $usr_id)) {
             $issue_lock = false;
         } else {
-            $issue_lock = Issue_Lock::getInfo($issue_id);
+            $issue_lock = Issue_Lock::getInfo($this->issue_id);
             $issue_lock['locker'] = User::getDetails($issue_lock['usr_id']);
             $issue_lock['expires_formatted_time'] = Date_Helper::getFormattedDate($issue_lock['expires']);
         }
@@ -129,11 +134,11 @@ class UpdateController extends BaseController
         if ($cancel_update) {
             // be sure not to unlock somebody else's lock
             if (!$issue_lock) {
-                Issue_Lock::release($issue_id);
-                Misc::setMessage(ev_gettext('Cancelled Issue #%1$s update.', $issue_id), Misc::MSG_INFO);
+                Issue_Lock::release($this->issue_id);
+                Misc::setMessage(ev_gettext('Cancelled Issue #%1$s update.', $this->issue_id), Misc::MSG_INFO);
             }
 
-            Auth::redirect(APP_RELATIVE_URL . 'view.php?id=' . $issue_id);
+            Auth::redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
             exit;
         } elseif (@$_POST['cat'] == 'update') {
             if ($issue_lock) {
@@ -142,18 +147,18 @@ class UpdateController extends BaseController
                 exit;
             }
 
-            $res = Issue::update($issue_id);
-            Issue_Lock::release($issue_id);
+            $res = Issue::update($this->issue_id);
+            Issue_Lock::release($this->issue_id);
 
             if ($res == -1) {
                 Misc::setMessage(ev_gettext('Sorry, an error happened while trying to update this issue.'), Misc::MSG_ERROR);
                 $this->tpl->displayTemplate();
                 exit;
             } elseif ($res == 1) {
-                Misc::setMessage(ev_gettext('Thank you, issue #%1$s was updated successfully.', $issue_id), Misc::MSG_INFO);
+                Misc::setMessage(ev_gettext('Thank you, issue #%1$s was updated successfully.', $this->issue_id), Misc::MSG_INFO);
             }
 
-            $notify_list = Notification::getLastNotifiedAddresses($issue_id);
+            $notify_list = Notification::getLastNotifiedAddresses($this->issue_id);
             $has_duplicates = Issue::hasDuplicates($_POST['issue_id']);
             // FIXME: $errors is not defined
             if ($has_duplicates || count($errors) > 0 || count($notify_list) > 0) {
@@ -167,7 +172,7 @@ class UpdateController extends BaseController
                 }
                 Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
             }
-            Auth::redirect(APP_RELATIVE_URL . 'view.php?id=' . $issue_id);
+            Auth::redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
             exit;
         }
 
@@ -181,7 +186,7 @@ class UpdateController extends BaseController
         }
 
         if (Workflow::hasWorkflowIntegration($prj_id)) {
-            $statuses = Workflow::getAllowedStatuses($prj_id, $issue_id);
+            $statuses = Workflow::getAllowedStatuses($prj_id, $this->issue_id);
             // if currently selected release is not on list, go ahead and add it.
         } else {
             $statuses = Status::getAssocStatusList($prj_id, false);
@@ -339,7 +344,7 @@ class UpdateController extends BaseController
             );
         }
         $this->tpl->assign(array(
-            'subscribers'  => Notification::getSubscribers($issue_id),
+            'subscribers'  => Notification::getSubscribers($this->issue_id),
             'categories'   => $categories,
             'priorities'   => $priorities,
             'severities'   => $severities,
@@ -352,7 +357,7 @@ class UpdateController extends BaseController
             'current_year' =>   date('Y'),
             'products'     => Product::getList(false),
             'grid'         => $columns,
-            'custom_fields' => Custom_Field::getListByIssue($prj_id, $issue_id, $usr_id)
+            'custom_fields' => Custom_Field::getListByIssue($prj_id, $this->issue_id, $usr_id)
         ));
 
         $this->tpl->assign('usr_role_id', User::getRoleByUser($usr_id, $prj_id));
