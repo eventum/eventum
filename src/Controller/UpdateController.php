@@ -107,9 +107,7 @@ class UpdateController extends BaseController
         $this->tpl->assign('issue_id', $this->issue_id);
         $this->details = $details = Issue::getDetails($this->issue_id);
         if (!$details) {
-            Misc::setMessage(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id), Misc::MSG_ERROR);
-            $this->tpl->displayTemplate();
-            exit;
+            $this->error(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
         }
 
         Workflow::prePage($this->prj_id, 'update');
@@ -133,10 +131,7 @@ class UpdateController extends BaseController
             || !($this->role_id > User::ROLE_REPORTER)
             || !Issue::canUpdate($this->issue_id, $this->usr_id)
         ) {
-            $this->tpl->setTemplate('base_full.tpl.html');
-            Misc::setMessage(ev_gettext('Sorry, you do not have the required privileges to update this issue.'), Misc::MSG_ERROR);
-            $this->tpl->displayTemplate();
-            exit;
+            $this->error(ev_gettext('Sorry, you do not have the required privileges to update this issue.'));
         }
 
         if (Issue_Lock::acquire($this->issue_id, $this->usr_id)) {
@@ -162,9 +157,7 @@ class UpdateController extends BaseController
 
         if ($this->cat == 'update') {
             if ($issue_lock) {
-                Misc::setMessage(ev_gettext("Sorry, you can't update issue if it's locked by another user"), Misc::MSG_ERROR);
-                $this->tpl->displayTemplate();
-                exit;
+                $this->error(ev_gettext("Sorry, you can't update issue if it's locked by another user"));
             }
 
             $this->updateAction();
@@ -177,9 +170,7 @@ class UpdateController extends BaseController
         Issue_Lock::release($this->issue_id);
 
         if ($res == -1) {
-            Misc::setMessage(ev_gettext('Sorry, an error happened while trying to update this issue.'), Misc::MSG_ERROR);
-            $this->tpl->displayTemplate();
-            exit;
+            $this->error(ev_gettext('Sorry, an error happened while trying to update this issue.'));
         }
 
         if ($res == 1) {
