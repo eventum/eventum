@@ -179,7 +179,16 @@ class UpdateController extends BaseController
 
         $notify_list = Notification::getLastNotifiedAddresses($this->issue_id);
         $has_duplicates = Issue::hasDuplicates($_POST['issue_id']);
-        // FIXME: $errors is not defined
+
+        /**
+         *
+         *  FIXME: refactor this global $errors
+         * it's filled by Issue::updateAssociatedIssuesRelations via Issue::update
+         * https://github.com/eventum/eventum/blob/v3.0.6/lib/eventum/class.issue.php#L1474
+         * @see Issue::update()
+         * @see Issue::updateAssociatedIssuesRelations()
+         */
+        global $errors;
         if ($has_duplicates || count($errors) > 0 || count($notify_list) > 0) {
             $update_tpl = new Template_Helper();
             $update_tpl->setTemplate('include/update_msg.tpl.html');
