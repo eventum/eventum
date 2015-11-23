@@ -89,6 +89,34 @@ class UpdateController extends BaseController
     {
         Auth::checkAuthentication();
 
+        $this->prj_id = Auth::getCurrentProject();
+        $this->usr_id = Auth::getUserID();
+        $this->role_id = Auth::getCurrentRole();
+
+        $this->details = $details = Issue::getDetails($this->issue_id);
+        if (!$details) {
+            $this->error(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
+        }
+
+        $associated_projects = array_keys(Project::getAssocList($this->usr_id));
+
+        // check if the requested issue is a part of the 'current' project. If it doesn't
+        // check if issue exists in another project and if it does, switch projects
+        $iss_prj_id = Issue::getProjectID($this->issue_id);
+        if ($iss_prj_id && $iss_prj_id != $this->prj_id && in_array($iss_prj_id, $associated_projects)) {
+            AuthCookie::setProjectCookie($iss_prj_id);
+            Misc::setMessage(ev_gettext('Note: Project automatically switched to "%1$s" from "%2$s".', Auth::getCurrentProjectName(), Project::getName($iss_prj_id)));
+        }
+
+        // in the case of a customer user, also need to check if that customer has access to this issue
+        if (($this->role_id == User::ROLE_CUSTOMER) && (!$details || (User::getCustomerID($this->usr_id) != $details['iss_customer_id']))
+            || !Issue::canAccess($this->issue_id, $this->usr_id)
+            || !($this->role_id > User::ROLE_REPORTER)
+            || !Issue::canUpdate($this->issue_id, $this->usr_id)
+        ) {
+            $this->error(ev_gettext('Sorry, you do not have the required privileges to update this issue.'));
+        }
+
         return true;
     }
 
@@ -97,42 +125,7 @@ class UpdateController extends BaseController
      */
     protected function defaultAction()
     {
-        $this->prj_id = Auth::getCurrentProject();
-        $this->usr_id = Auth::getUserID();
-        $this->role_id = Auth::getCurrentRole();
-
-        $associated_projects = @array_keys(Project::getAssocList($this->usr_id));
-
-        $this->tpl->assign('user_prefs', Prefs::get($this->usr_id));
-        $this->tpl->assign('issue_id', $this->issue_id);
-        $this->details = $details = Issue::getDetails($this->issue_id);
-        if (!$details) {
-            $this->error(ev_gettext('Error: The issue #%1$s could not be found.', $this->issue_id));
-        }
-
         Workflow::prePage($this->prj_id, 'update');
-
-        // check if the requested issue is a part of the 'current' project. If it doesn't
-        // check if issue exists in another project and if it does, switch projects
-        $iss_prj_id = Issue::getProjectID($this->issue_id);
-        if (!empty($iss_prj_id) && $iss_prj_id != $this->prj_id && in_array($iss_prj_id, $associated_projects)) {
-            AuthCookie::setProjectCookie($iss_prj_id);
-            Misc::setMessage(ev_gettext('Note: Project automatically switched to "%1$s" from "%2$s".', Auth::getCurrentProjectName(), Project::getName($iss_prj_id)));
-        }
-
-        $this->tpl->assign('issue', $details);
-        $this->tpl->assign('extra_title', ev_gettext('Update Issue #%1$s', $this->issue_id));
-
-        // in the case of a customer user, also need to check if that customer has access to this issue
-        if (($this->role_id == User::ROLE_CUSTOMER)
-            && ((empty($details))
-                || (User::getCustomerID($this->usr_id) != $details['iss_customer_id']))
-            || !Issue::canAccess($this->issue_id, $this->usr_id)
-            || !($this->role_id > User::ROLE_REPORTER)
-            || !Issue::canUpdate($this->issue_id, $this->usr_id)
-        ) {
-            $this->error(ev_gettext('Sorry, you do not have the required privileges to update this issue.'));
-        }
 
         if (Issue_Lock::acquire($this->issue_id, $this->usr_id)) {
             $issue_lock = false;
@@ -231,6 +224,10 @@ class UpdateController extends BaseController
         $severities = Severity::getAssocList($this->prj_id);
         $this->tpl->assign(
             array(
+                'user_prefs' => Prefs::get($this->usr_id),
+                'issue_id' => $this->issue_id,
+                'issue' => $this->details,
+                'extra_title' => ev_gettext('Update Issue #%1$s', $this->issue_id),
                 'subscribers' => Notification::getSubscribers($this->issue_id),
                 'categories' => $categories,
                 'priorities' => $priorities,
