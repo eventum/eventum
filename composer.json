@@ -47,7 +47,6 @@
 		"eventum/rpc": "~3.0.0",
 		"ext-filter": "*",
 		"ext-iconv": "*",
-		"ext-imap": "*",
 		"ext-json": "*",
 		"ext-mbstring": "*",
 		"ext-mysqli": "*",
@@ -99,6 +98,7 @@
 		"zendframework/zend-mail": "2.4.*"
 	},
 	"suggest": {
+		"ext-imap": "Support for fetching mail over IMAP/POP3",
 		"ext-ldap": "Adds support for LDAP auth backend"
 	}
 }
