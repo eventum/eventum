@@ -333,6 +333,10 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
     font-size: 2em;
 }
 
+#select_project .project_label {
+    display: block;
+}
+
 /* Begin Select Customer */
 #select_customer ul {
     list-style: none;
