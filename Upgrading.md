@@ -12,7 +12,7 @@ When upgrading to a new version of Eventum, please follow these instructions:
 
 1.  Backup your copy of Eventum - files and data.
 2.  Extract your new Eventum copy over your existing folder structure
-3.  Run the upgrade scripts described in each section below by opening these scripts in your web browser
+3.  Run the upgrade scripts described in below
 
 Upgrading from version 2.2 and from versions upwards
 ----------------------------------------------------
