@@ -16,7 +16,7 @@ Automatically Create Issue using Email Integration
 
 Enable [email integration](Email integration "wikilink") and set the download_mail function as a cron job or [windows schedule](Installation notes for Windows "wikilink"). Eventum is able to see relations between issues and email based upon a reference to the issue number spelled like [\#1234] in the title of an e-mail.
 
-When issue is auto-created from Email, the default initial status is defined from each project configuration; default category and priority are defined from Manage Emai, Auto-Creation of Issues Configuration.
+When issue is auto-created from Email, the default initial status is defined from each project configuration; default category and priority are defined from Manage Email, Auto-Creation of Issues Configuration.
 
 Create an Issue Manually
 ------------------------
