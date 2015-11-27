@@ -143,6 +143,12 @@ class Logger extends Monolog\Registry
         // make files not world readable by default
         $filePermission = 0640;
 
+        // only set the filePermission if the log does not exist, this allows to chmod it later.
+        // Monolog keeps insisting the permission if we pass it on existing log files.
+        if (file_exists($path)) {
+            $filePermission = null;
+        }
+
         return new Monolog\Handler\StreamHandler($path, $level, true, $filePermission, false);
     }
 
