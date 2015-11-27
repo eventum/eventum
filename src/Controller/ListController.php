@@ -122,7 +122,7 @@ class ListController extends BaseController
                 break;
 
             case 'customer':
-                $customer_id = (int)$request->get('customer_id');
+                $customer_id = $request->get('customer_id');
                 if (!$customer_id) {
                     return;
                 }
@@ -131,13 +131,13 @@ class ListController extends BaseController
                     'rows' => $this->rows,
                 );
                 if (Search::getParam('hide_closed', true) === '') {
-                    $options_override['hide_closed'] = 1;
+                    $this->options_override['hide_closed'] = 1;
                 }
                 $this->nosave = true;
                 break;
 
             case 'customer_all':
-                $customer_id = (int)$request->get('customer_id');
+                $customer_id = $request->get('customer_id');
                 if (!$customer_id) {
                     return;
                 }
