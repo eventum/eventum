@@ -1,5 +1,18 @@
 <?php
 
+$header = <<<EOF
+This file is part of the Eventum package.
+
+@copyright (c) Eventum Team
+@license GNU General Public License, version 2 (GPL-2.0)
+
+For the full copyright and license information,
+please see the COPYING and AUTHORS files
+that were distributed with this source code.
+EOF;
+
+Symfony\CS\Fixer\Contrib\HeaderCommentFixer::setHeader($header);
+
 $finder = Symfony\CS\Finder\DefaultFinder::create()
 	->in(__DIR__ . '/cli')
 	->in(__DIR__ . '/bin')
@@ -16,6 +29,7 @@ return Symfony\CS\Config\Config::create()
 	->setUsingCache(true)
 	->level(Symfony\CS\FixerInterface::NONE_LEVEL)
 	->fixers(array(
+		'header_comment',
 		'encoding',
 		'short_tag',
 		'braces',
