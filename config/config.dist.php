@@ -43,11 +43,6 @@ define('APP_DEFAULT_WEEKDAY', '%{APP_DEFAULT_WEEKDAY}%');
 define('APP_CHARSET', '%{CHARSET}%');
 
 // define colors used by eventum
-define('APP_CELL_COLOR', '#255282');
-define('APP_LIGHT_COLOR', '#DDDDDD');
-define('APP_MIDDLE_COLOR', '#CACACA');
-define('APP_DARK_COLOR', '#CACACA');
-define('APP_CYCLE_COLORS', '#DDDDDD,#CACACA');
 define('APP_INTERNAL_COLOR', '#9C494B');
 
 // define the user_id of system user
