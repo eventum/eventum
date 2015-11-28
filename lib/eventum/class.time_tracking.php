@@ -379,7 +379,6 @@ class Time_Tracking
         foreach ($res as &$row) {
             $row['ttr_summary'] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($row['ttr_summary'])));
             $row['formatted_time'] = Misc::getFormattedTime($row['ttr_time_spent']);
-            $row['ttr_created_date'] = Date_Helper::getFormattedDate($row['ttr_created_date']);
 
             if (isset($total_time_by_user[$row['ttr_usr_id']])) {
                 $total_time_by_user[$row['ttr_usr_id']]['time_spent'] += $row['ttr_time_spent'];
