@@ -136,7 +136,7 @@ class Logger extends Monolog\Registry
      * @param integer $level The minimum logging level at which this handler will be triggered
      * @return \Monolog\Handler\StreamHandler
      */
-    private function createFileHandler($filename, $level = Monolog\Logger::INFO)
+    private static function createFileHandler($filename, $level = Monolog\Logger::INFO)
     {
         $path = APP_LOG_PATH . '/' . $filename;
 
