@@ -27,7 +27,7 @@ class FileUploadController extends BaseController
         $request = $this->getRequest();
 
         $this->issue_id = $request->request->getInt('issue_id') ?: $request->query->getInt('iss_id');
-        $this->cat = $request->request->getAlpha('cat');
+        $this->cat = (string)$request->request->get('cat');
     }
 
     /**
