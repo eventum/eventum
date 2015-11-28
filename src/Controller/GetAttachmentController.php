@@ -4,7 +4,6 @@ namespace Eventum\Controller;
 
 use Attachment;
 use Auth;
-use InvalidArgumentException;
 use Mime_Helper;
 use Misc;
 use Note;
@@ -71,7 +70,5 @@ class GetAttachmentController extends BaseController
      */
     protected function prepareTemplate()
     {
-        // there's no template to render
-        throw new InvalidArgumentException();
     }
 }

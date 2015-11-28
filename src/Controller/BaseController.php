@@ -30,6 +30,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Auth;
 use Misc;
 use Template_Helper;
+use InvalidArgumentException;
 
 abstract class BaseController
 {
@@ -59,6 +60,11 @@ abstract class BaseController
 
         $this->defaultAction();
         $this->prepareTemplate();
+
+        if (!$this->tpl_name) {
+            throw new InvalidArgumentException('No template to render');
+        }
+
         $this->displayTemplate();
     }
 
