@@ -65,6 +65,9 @@ class SendController extends BaseController
     /** @var int */
     private $prj_id;
 
+    /** @var int */
+    private $ema_id;
+
     /**
      * create variables from request, etc
      */
@@ -73,13 +76,15 @@ class SendController extends BaseController
         $request = $this->getRequest();
         $this->issue_id = (int)$request->get('issue_id');
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
-        $this->prj_id = Auth::getCurrentProject();
-        $this->usr_id = Auth::getUserID();
+        $this->ema_id = (int)$request->get('ema_id');
     }
 
     protected function canAccess()
     {
         Auth::checkAuthentication();
+
+        $this->prj_id = Auth::getCurrentProject();
+        $this->usr_id = Auth::getUserID();
 
         return Issue::canAccess($this->issue_id, $this->usr_id);
     }
@@ -139,7 +144,7 @@ class SendController extends BaseController
             );
         }
 
-        $this->tpl->assign('ema_id', $this->getRequest()->get('ema_id'));
+        $this->tpl->assign('ema_id', $this->ema_id);
 
         $user_prefs = Prefs::get($this->usr_id);
         // list of users to display in the lookup field in the To: and Cc: fields
@@ -245,10 +250,10 @@ class SendController extends BaseController
 
         // try to guess the correct email account to be associated with this email
         if (!empty($draft['emd_sup_id'])) {
-            $_GET['ema_id'] = Email_Account::getAccountByEmail($draft['emd_sup_id']);
+            $this->ema_id = Email_Account::getAccountByEmail($draft['emd_sup_id']);
         } else {
             // if we are not replying to an existing message, just get the first email account you can find...
-            $_GET['ema_id'] = Email_Account::getEmailAccount();
+            $this->ema_id = Email_Account::getEmailAccount();
         }
 
         $this->tpl->assign(
@@ -278,7 +283,7 @@ class SendController extends BaseController
             return;
         }
 
-        $email = Support::getEmailDetails($get->getInt('ema_id'), $get->getInt('id'));
+        $email = Support::getEmailDetails($this->ema_id, $get->getInt('id'));
         $header = Misc::formatReplyPreamble($email['timestamp'], $email['sup_from']);
         $email['seb_body'] = $header . Misc::formatReply($email['seb_body']);
         $this->tpl->assign(
