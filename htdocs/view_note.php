@@ -28,48 +28,5 @@
 
 require_once __DIR__ . '/../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate('view_note.tpl.html');
-
-Auth::checkAuthentication('index.php?err=5', true);
-$usr_id = Auth::getUserID();
-
-$note_id = $_GET['id'];
-$note = Note::getDetails($note_id);
-
-if ($note == '') {
-    $tpl->assign('note', '');
-    $tpl->displayTemplate();
-    exit;
-} else {
-    $note['message'] = $note['not_note'];
-    $issue_id = Note::getIssueID($note_id);
-    $usr_id = Auth::getUserID();
-}
-
-if ((User::getRoleByUser($usr_id, Issue::getProjectID($issue_id)) < User::ROLE_USER) || (!Access::canViewInternalNotes($issue_id, Auth::getUserID()))) {
-    $tpl->setTemplate('permission_denied.tpl.html');
-    $tpl->displayTemplate();
-    exit;
-}
-
-$note = Note::getDetails($_GET['id']);
-$note['message'] = $note['not_note'];
-
-$issue_id = Note::getIssueID($_GET['id']);
-$tpl->assign(array(
-    'note'        => $note,
-    'issue_id'    => $issue_id,
-    'extra_title' => 'Note #' . Note::getNoteSequenceNumber($issue_id, $note_id) . ': ' . $note['not_title'],
-    'recipients'  => Mail_Queue::getMessageRecipients('notes', $note_id),
-));
-
-if (!empty($issue_id)) {
-    $sides = Note::getSideLinks($issue_id, $_GET['id']);
-    $tpl->assign(array(
-        'previous' => $sides['previous'],
-        'next'     => $sides['next'],
-    ));
-}
-
-$tpl->displayTemplate();
+$controller = new Eventum\Controller\ViewNoteController();
+$controller->run();
