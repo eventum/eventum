@@ -337,7 +337,8 @@ prepare_source() {
 
 	# install dirs and fix permissions
 	install -d var/{log,cache,lock}
-	touch var/log/{cli.log,errors.log,irc_bot.log,login_attempts.log}
+	touch var/log/{auth.log,cli.log,errors.log,login_attempts.log}
+	touch var/log/{irc_bot_error.log,irc_bot_smartirc.log}
 	chmod -R a+rX .
 	chmod -R a+rwX config var
 
