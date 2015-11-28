@@ -27,16 +27,5 @@
 
 require_once __DIR__ . '/../init.php';
 
-if (!AuthCookie::hasAuthCookie()) {
-    header('HTTP/1.0 403 Forbidden');
-    exit(0);
-}
-
-// Render OpenSearch description document (OSDD), http://www.opensearch.org/
-
-header('Content-Type: text/xml; charset=' . APP_CHARSET);
-
-$tpl = new Template_Helper();
-$tpl->assign('app_charset', APP_CHARSET);
-$tpl->setTemplate('opensearch.tpl.xml');
-$tpl->displayTemplate();
+$controller = new Eventum\Controller\OpenSearchController();
+$controller->run();
