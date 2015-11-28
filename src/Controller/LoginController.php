@@ -7,11 +7,25 @@ use Validation;
 
 class LoginController extends BaseController
 {
+    /** @var string */
+    private $login;
+    /** @var string */
+    private $passwd;
+
+    /** @var string */
+    private $url;
+
     /**
      * @inheritdoc
      */
     protected function configure()
     {
+        $post = $this->getRequest()->request;
+
+        $this->login = (string)$post->get('email');
+        $this->passwd = (string)$post->get('passwd');
+
+        $this->url = (string)$post->get('url');
     }
 
     /**
@@ -27,46 +41,53 @@ class LoginController extends BaseController
      */
     protected function defaultAction()
     {
-        $post = $this->getRequest()->request;
-
-        $login = (string)$post->get('email');
-        if (Validation::isWhitespace($login)) {
+        if (Validation::isWhitespace($this->login)) {
             $this->redirect('index.php?err=1');
         }
 
-        $passwd = (string)$post->get('passwd');
-        if (Validation::isWhitespace($passwd)) {
-            Auth::saveLoginAttempt($login, 'failure', 'empty password');
-            $this->redirect('index.php?err=2', array('email' => $login));
+        if (Validation::isWhitespace($this->passwd)) {
+            $this->loginFailure(2, 'empty password', array('email' => $this->login));
         }
 
         // check if user exists
-        if (!Auth::userExists($login)) {
-            Auth::saveLoginAttempt($login, 'failure', 'unknown user');
-            $this->redirect('index.php?err=3');
+        if (!Auth::userExists($this->login)) {
+            $this->loginFailure(3, 'unknown user');
         }
 
         // check if user is locked
-        $usr_id = Auth::getUserIDByLogin($login);
+        $usr_id = Auth::getUserIDByLogin($this->login);
         if (Auth::isUserBackOffLocked($usr_id)) {
-            Auth::saveLoginAttempt($login, 'failure', 'account back-off locked');
-            $this->redirect('index.php?err=13');
+            $this->loginFailure(13, 'account back-off locked');
         }
 
         // check if the password matches
-        if (!Auth::isCorrectPassword($login, $passwd)) {
-            Auth::saveLoginAttempt($login, 'failure', 'wrong password');
-            $this->redirect('index.php?err=3', array('email' => $login));
+        if (!Auth::isCorrectPassword($this->login, $this->passwd)) {
+            $this->loginFailure(3, 'wrong password', array('email' => $this->login));
         }
 
-        Auth::login($login);
+        Auth::login($this->login);
 
         $params = array();
-        if ($url = $post->get('url')) {
-            $params['url'] = (string)$url;
+        if ($this->url) {
+            $params['url'] = $this->url;
         }
 
         $this->redirect('select_project.php', $params);
+    }
+
+    /**
+     * Log login failure and redirect to login form
+     *
+     * @param int $error
+     * @param string $reason
+     * @param array $params
+     */
+    private function loginFailure($error, $reason, $params = array())
+    {
+        Auth::saveLoginAttempt($this->login, 'failure', $reason);
+
+        $params['err'] = $error;
+        $this->redirect('index.php', $params);
     }
 
     /**
