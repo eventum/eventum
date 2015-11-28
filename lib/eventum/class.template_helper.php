@@ -58,6 +58,7 @@ class Template_Helper
         $smarty->registerPlugin('modifier', 'formatCustomValue', array('Custom_Field', 'formatValue'));
         $smarty->registerPlugin('modifier', 'bool', array('Misc', 'getBooleanDisplayValue'));
         $smarty->registerPlugin('modifier', 'format_date', array('Date_Helper', 'getFormattedDate'));
+        $smarty->registerPlugin('modifier', 'timeago', array('Date_Helper', 'formatTimeAgo'));
 
         // Fixes problem with CRM API and dynamic includes.
         // See https://code.google.com/p/smarty-php/source/browse/trunk/distribution/3.1.16_RELEASE_NOTES.txt?spec=svn4800&r=4800
