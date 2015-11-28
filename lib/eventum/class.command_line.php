@@ -1006,7 +1006,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         self::checkIssuePermissions($client, $auth, $issue_id);
 
         $draft = self::getDraft($client, $auth, $issue_id, $draft_id);
-        echo sprintf("%15s: %s\n", 'Date', $draft['emd_updated_date']);
+        $emd_updated_date = Date_Helper::getFormattedDate($draft['emd_updated_date']);
+        echo sprintf("%15s: %s\n", 'Date', $emd_updated_date);
         echo sprintf("%15s: %s\n", 'From', $draft['from']);
         echo sprintf("%15s: %s\n", 'To', $draft['to']);
         if (!empty($draft['cc'])) {
