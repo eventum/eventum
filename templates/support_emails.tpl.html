@@ -93,7 +93,7 @@
                 <td>
                     <em>{t}sent to notification list{/t}</em>
                 </td>
-                <td nowrap>{$issue.iss_created_date}</td>
+                <td nowrap>{$issue.iss_created_date|timeago}</td>
                 <td>
                     {$issue.iss_summary|escape:"html"}
                 </td>

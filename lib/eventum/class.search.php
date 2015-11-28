@@ -458,7 +458,6 @@ class Search
         foreach ($res as &$row) {
             $issue_id = $row['iss_id'];
             $row['time_spent'] = Misc::getFormattedTime($row['time_spent']);
-            $row['iss_created_date'] = Date_Helper::getFormattedDate($row['iss_created_date']);
             $row['iss_expected_resolution_date'] = Date_Helper::getSimpleDate($row['iss_expected_resolution_date'], false);
             $row['excerpts'] = isset($excerpts[$issue_id]) ? $excerpts[$issue_id] : '';
 

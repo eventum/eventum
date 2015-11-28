@@ -3025,7 +3025,6 @@ class Issue
         $res['iss_description'] = nl2br(htmlspecialchars($res['iss_description']));
         $res['iss_resolution'] = Resolution::getTitle($res['iss_res_id']);
         $res['iss_impact_analysis'] = nl2br(htmlspecialchars($res['iss_impact_analysis']));
-        $res['iss_created_date'] = Date_Helper::getFormattedDate($res['iss_created_date']);
         $res['iss_created_date_ts'] = $created_date_ts;
         $res['assignments'] = @implode(', ', array_values(self::getAssignedUsers($res['iss_id'])));
         list($res['authorized_names'], $res['authorized_repliers']) = Authorized_Replier::getAuthorizedRepliers($res['iss_id']);
