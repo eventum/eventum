@@ -96,6 +96,7 @@
 		"maximebf/debugbar": "1.*",
 		"rmm5t/jquery-timeago": "*",
 		"roave/security-advisories": "dev-master",
+		"robloach/component-installer": "*",
 		"symfony/var-dumper": "~2.7.3",
 		"zendframework/zend-mail": "2.4.*"
 	},
