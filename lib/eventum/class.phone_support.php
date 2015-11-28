@@ -248,7 +248,6 @@ class Phone_Support
         foreach ($res as &$row) {
             $row['phs_description'] = Misc::activateLinks(nl2br(htmlspecialchars($row['phs_description'])));
             $row['phs_description'] = Link_Filter::processText($row['iss_prj_id'], $row['phs_description']);
-            $row['phs_created_date'] = Date_Helper::getFormattedDate($row['phs_created_date']);
         }
 
         return $res;
