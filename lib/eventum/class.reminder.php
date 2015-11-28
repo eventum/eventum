@@ -757,7 +757,6 @@ class Reminder
         }
 
         foreach ($res as &$row) {
-            $row['rem_created_date'] = Date_Helper::getFormattedDate($row['rem_created_date']);
             $actions = Reminder_Action::getList($row['rem_id']);
             $row['total_actions'] = count($actions);
             $priorities = self::getAssociatedPriorities($row['rem_id']);
