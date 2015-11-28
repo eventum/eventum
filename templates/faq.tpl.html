@@ -34,7 +34,7 @@
         <th>{t}Last Updated Date{/t}</th>
     </tr>
     {section name="i" loop=$faqs}
-    <tr class="{cycle value='odd,even'}">
+    <tr class="{cycle values='odd,even'}">
         <td><b><a href="faq.php?id={$faqs[i].faq_id}" title="{t}read faq entry{/t}">{$faqs[i].faq_title}</a></b></td>
         <td>{$faqs[i].faq_updated_date}</td>
     </tr>
