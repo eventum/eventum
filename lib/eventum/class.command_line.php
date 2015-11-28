@@ -557,9 +557,10 @@ Support Options: ' . @$details['contract']['options_display'] . '
        Timezone: ' . $details['iss_contact_timezone'] . '
 Account Manager: ' . @$details['customer']['account_manager_name'];
         }
+        $iss_updated_date = Date_Helper::getFormattedDate($details['iss_updated_date']);
         $msg .= '
   Last Response: ' . $details['iss_last_response_date'] . '
-   Last Updated: ' . $details['iss_updated_date'] . "\n";
+   Last Updated: ' . $iss_updated_date . "\n";
         echo $msg;
 
         if ($full) {

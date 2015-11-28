@@ -88,7 +88,7 @@
                     <th {if isset($row.title_bgcolor)}style="background-color: {$row.title_bgcolor}"{/if}>{$row.title}</th>
                     <td {if isset($row.data_bgcolor)}style="background-color: {$row.data_bgcolor}"{/if}>
 
-                    {if $row.field|default:'' == 'iss_created_date'}
+                    {if in_array($row.field|default:'', array('iss_created_date', 'iss_updated_date'))}
                       {$row.data|timeago}
 
                     {elseif array_key_exists('data', $row)}
