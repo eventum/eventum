@@ -82,6 +82,9 @@ $(document).ready(function() {
 
     // autosize
     autosize($('textarea'));
+
+    // jquery timeago
+    $('abbr.timeago').timeago();
 });
 
 function Eventum()
