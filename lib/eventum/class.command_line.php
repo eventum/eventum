@@ -864,7 +864,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         self::checkIssuePermissions($client, $auth, $issue_id);
 
         $note = self::getNote($client, $auth, $issue_id, $note_id);
-        echo sprintf("%15s: %s\n", 'Date', $note['not_created_date']);
+        $not_created_date = Date_Helper::getFormattedDate($note['not_created_date']);
+        echo sprintf("%15s: %s\n", 'Date', $not_created_date);
         echo sprintf("%15s: %s\n", 'From', $note['not_from']);
         echo sprintf("%15s: %s\n", 'Title', $note['not_title']);
         echo "------------------------------------------------------------------------\n";
@@ -1176,8 +1177,9 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             case 'convert-note':
             case 'cn':
                 $note_details = self::getNote($client, $auth, $issue_id, $args[3]);
+                $not_created_date = Date_Helper::getFormattedDate($note_details['not_created_date']);
                 $msg = "These are the current details for issue #$issue_id, note #" . $args[3] . ":\n" .
-                        '   Date: ' . $note_details['not_created_date'] . "\n" .
+                        '   Date: ' . $not_created_date . "\n" .
                         '   From: ' . $note_details['not_from'] . "\n" .
                         '  Title: ' . $note_details['not_title'] . "\n" .
                         'Are you sure you want to convert this note into a ' . $args[4] . '?';

@@ -73,7 +73,7 @@ function replyNote(el)
             <td align="center">
               <a title="{t}reply to this note{/t}" href="post_note.php?cat=reply&id={$notes[i].not_id}&issue_id={$smarty.get.id|intval}" onClick="return replyNote(this);"><img src="{$core.rel_url}images/icons/reply.gif" border="0"></a>
             </td>
-            <td>{$notes[i].not_created_date}</td>
+            <td>{$notes[i].not_created_date|timeago}</td>
             <td>
               {$notes[i].usr_full_name|escape:"html"}
               {if $core.user.usr_id == $notes[i].not_usr_id OR $core.current_role >= $core.roles.manager}[ <a href="popup.php?cat=delete_note&id={$notes[i].not_id}" onClick="return deleteNote(this)">{t}delete{/t}</a> ]{/if}
