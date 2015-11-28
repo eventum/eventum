@@ -78,7 +78,8 @@ class ViewNoteController extends BaseController
         $note['message'] = $note['not_note'];
 
         $seq_no = Note::getNoteSequenceNumber($this->issue_id, $this->note_id);
-        $extra_title = "Note #{$seq_no}: {$note['not_title']}";
+        // TRANSLATORS: %1: note sequence number, %2: note title
+        $extra_title = ev_gettext('Note #%1$s: %2$s', $seq_no, $note['not_title']);
         $this->tpl->assign(
             array(
                 'note' => $note,
