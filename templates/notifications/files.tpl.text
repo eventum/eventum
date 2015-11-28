@@ -7,7 +7,7 @@
 {t escape=no}New Attachment{/t}:
 ----------------------------------------------------------------------
       {t escape=no}Owner{/t}: {$data.attachment.usr_full_name}
-       {t escape=no}Date{/t}: {$data.attachment.iat_created_date}
+       {t escape=no}Date{/t}: {$data.attachment.iat_created_date|format_date}
       {t escape=no}Files{/t}:
 {section name="i" loop=$data.attachment.files}
              {$data.attachment.files[i].iaf_filename} ({$data.attachment.files[i].iaf_filesize})

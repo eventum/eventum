@@ -260,7 +260,8 @@ class Command_Line
         $i = 1;
         foreach ($list as $attachment) {
             echo "--------------------------------------------------------------\n";
-            echo ' Attachment sent by ' . $attachment['usr_full_name'] . ' on ' . $attachment['iat_created_date'] . "\n";
+            $iat_created_date = Date_Helper::getFormattedDate($attachment['iat_created_date']);
+            echo ' Attachment sent by ' . $attachment['usr_full_name'] . ' on ' . $iat_created_date . "\n";
             foreach ($attachment['files'] as $file) {
                 echo "  [$i] => " . $file['iaf_filename'] . ' (' . $file['iaf_filesize'] . ")\n";
                 $i++;

@@ -367,7 +367,6 @@ class Attachment
         foreach ($res as &$row) {
             $row['iat_description'] = Link_Filter::processText($prj_id, nl2br(htmlspecialchars($row['iat_description'])));
             $row['files'] = self::getFileList($row['iat_id']);
-            $row['iat_created_date'] = Date_Helper::getFormattedDate($row['iat_created_date']);
 
             // if there is an unknown user, user that instead of the user_full_name
             if (!empty($row['iat_unknown_user'])) {
