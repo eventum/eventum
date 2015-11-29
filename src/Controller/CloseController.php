@@ -37,6 +37,10 @@ class CloseController extends BaseController
     /** @var array */
     private $details;
 
+    // FIXME missing Interface for this type of object
+    /** @var object */
+    private $contract;
+
     /**
      * @inheritdoc
      */
@@ -117,12 +121,12 @@ class CloseController extends BaseController
             $this->addTimeEntry();
         }
 
-        if (isset($this->details['contract']) && ($crm = CRM::getInstance($this->prj_id))) {
-            // TODO: missing Interface for $contract
-            $contract = $this->details['contract'];
-            if ($contract->hasPerIncident()) {
+        // FIXME: is CRM::hasCustomerIntegration check necessary?
+        if (isset($this->details['contract']) && (CRM::hasCustomerIntegration($this->prj_id))) {
+            $this->contract = $this->details['contract'];
+            if ($this->contract->hasPerIncident()) {
                 $redeem = $request->get('redeem');
-                $contract->updateRedeemedIncidents($this->issue_id, $redeem);
+                $this->contract->updateRedeemedIncidents($this->issue_id, $redeem);
             }
         }
 
@@ -165,16 +169,13 @@ class CloseController extends BaseController
             )
         );
 
-        if (isset($this->details['contract']) && ($crm = CRM::getInstance($this->prj_id))) {
-            $contract = $this->details['contract'];
-            if ($contract->hasPerIncident()) {
-                $this->tpl->assign(
-                    array(
-                        'redeemed' => $contract->getRedeemedIncidentDetails($this->issue_id),
-                        'incident_details' => $this->details['customer']['incident_details'],
-                    )
-                );
-            }
+        if ($this->contract && $this->contract->hasPerIncident()) {
+            $this->tpl->assign(
+                array(
+                    'redeemed' => $this->contract->getRedeemedIncidentDetails($this->issue_id),
+                    'incident_details' => $this->details['customer']['incident_details'],
+                )
+            );
         }
     }
 }
