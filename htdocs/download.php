@@ -28,26 +28,5 @@
 
 require_once __DIR__ . '/../init.php';
 
-Auth::checkAuthentication();
-
-if (stristr(APP_BASE_URL, 'https:')) {
-    // fix for IE 5.5/6 with SSL sites
-    header('Pragma: cache');
-}
-// fix for IE6 (KB812935)
-header('Cache-Control: must-revalidate');
-
-if ($_GET['cat'] == 'attachment') {
-    $file = Attachment::getDetails($_GET['id']);
-    if (!empty($file)) {
-        if (!Issue::canAccess($file['iat_iss_id'], Auth::getUserID())) {
-            $tpl = new Template_Helper();
-            $tpl->setTemplate('permission_denied.tpl.html');
-            $tpl->displayTemplate();
-            exit;
-        }
-        $force_inline = filter_input(INPUT_GET, 'force_inline');
-        Attachment::outputDownload($file['iaf_file'], $file['iaf_filename'], $file['iaf_filesize'],
-                                   $file['iaf_filetype'], $force_inline);
-    }
-}
+$controller = new Eventum\Controller\DownloadController();
+$controller->run();
