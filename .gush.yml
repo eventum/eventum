@@ -1,0 +1,7 @@
+# Gush configuration file, any comments will be lost.
+repo_adapter: github
+issue_tracker: github
+repo_org: eventum
+repo_name: eventum
+issue_project_org: eventum
+issue_project_name: eventum
