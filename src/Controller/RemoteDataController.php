@@ -93,20 +93,33 @@ class RemoteDataController extends BaseController
      */
     protected function defaultAction()
     {
-        $valid_functions = array(
-            'email' => 'getEmail',
-            'note' => 'getNote',
-            'draft' => 'getDraft',
-            'phone' => 'getPhoneSupport',
-            'mailqueue' => 'getMailQueue',
-            'description' => 'getIssueDescription',
-        );
+        switch ($this->action) {
+            case 'email':
+                $res = $this->getEmail($this->list_id);
+                break;
 
-        if (in_array($this->action, array_keys($valid_functions))) {
-            $method = $valid_functions[$this->action];
-            $res = $this->$method($this->list_id);
-        } else {
-            $res = 'ERROR: Unable to call function ' . htmlspecialchars($this->action);
+            case 'note':
+                $res = $this->getNote($this->list_id);
+                break;
+
+            case 'draft':
+                $res = $this->getDraft($this->list_id);
+                break;
+
+            case 'phone':
+                $res = $this->getPhoneSupport($this->list_id);
+                break;
+
+            case 'mailqueue':
+                $res = $this->getMailQueue($this->list_id);
+                break;
+
+            case 'description':
+                $res = $this->getIssueDescription($this->list_id);
+                break;
+
+            default:
+                $res = 'ERROR: Unable to call function ' . htmlspecialchars($this->action);
         }
 
         // convert to wanted format
@@ -124,15 +137,7 @@ class RemoteDataController extends BaseController
         exit;
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function prepareTemplate()
-    {
-    }
-
-
-    public function getIssueDescription($issue_id)
+    private function getIssueDescription($issue_id)
     {
         if (Issue::canAccess($issue_id, $this->usr_id)) {
             $details = Issue::getDetails($issue_id);
@@ -149,7 +154,7 @@ class RemoteDataController extends BaseController
      * @param   string $id The sup_ema_id and sup_id seperated by a -.
      * @return  string A string containing the body of the email,
      */
-    public function getEmail($id)
+    private function getEmail($id)
     {
         $split = explode('-', $id);
         $info = Support::getEmailDetails($split[0], $split[1]);
@@ -171,7 +176,7 @@ class RemoteDataController extends BaseController
      * @param   string $id The ID of this note.
      * @return  string A string containing the note.
      */
-    public function getNote($id)
+    private function getNote($id)
     {
         $note = Note::getDetails($id);
         if (!Issue::canAccess($note['not_iss_id'], $this->usr_id)) {
@@ -190,12 +195,13 @@ class RemoteDataController extends BaseController
      * @param   string $id The ID of this draft.
      * @return  string A string containing the note.
      */
-    public function getDraft($id)
+    private function getDraft($id)
     {
         $info = Draft::getDetails($id);
         if (!Issue::canAccess($info['emd_iss_id'], $this->usr_id)) {
             return '';
         }
+
         if (!$this->ec_id) {
             return $info['emd_body'];
         }
@@ -209,7 +215,7 @@ class RemoteDataController extends BaseController
      * @param   string $id The phone support entry ID.
      * @return  string A string containing the description.
      */
-    public function getPhoneSupport($id)
+    private function getPhoneSupport($id)
     {
         $res = Phone_Support::getDetails($id);
         if (!Issue::canAccess($res['phs_iss_id'], $this->usr_id)) {
@@ -228,7 +234,7 @@ class RemoteDataController extends BaseController
      * @param   string $id The mail queue entry ID.
      * @return  string A string containing the body.
      */
-    public function getMailQueue($id)
+    private function getMailQueue($id)
     {
         if (Auth::getCurrentRole() < User::ROLE_DEVELOPER) {
             return null;
@@ -238,10 +244,18 @@ class RemoteDataController extends BaseController
         if (!Issue::canAccess($res['maq_iss_id'], $this->usr_id)) {
             return '';
         }
+
         if (!$this->ec_id) {
             return $res['maq_body'];
         }
 
         return Link_Filter::processText($this->prj_id, nl2br(htmlspecialchars($res['maq_headers'] . "\n" . $res['maq_body'])));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function prepareTemplate()
+    {
     }
 }
