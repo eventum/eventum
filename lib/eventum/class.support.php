@@ -335,7 +335,6 @@ class Support
         }
 
         foreach ($res as &$row) {
-            $row['sup_date'] = Date_Helper::getFormattedDate($row['sup_date']);
             $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
             $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
         }
@@ -1323,7 +1322,6 @@ class Support
         }
 
         foreach ($res as &$row) {
-            $row['sup_date'] = Date_Helper::getFormattedDate($row['sup_date']);
             $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
             $row['sup_from'] = implode(', ', Mail_Helper::getName($row['sup_from'], true));
             if ((empty($row['sup_to'])) && (!empty($row['sup_iss_id']))) {
@@ -1626,7 +1624,6 @@ class Support
         $res['message'] = $res['seb_body'];
         $res['attachments'] = Mime_Helper::getAttachmentCIDs($res['seb_full_email']);
         $res['timestamp'] = Date_Helper::getUnixTimestamp($res['sup_date'], 'GMT');
-        $res['sup_date'] = Date_Helper::getFormattedDate($res['sup_date']);
         $res['sup_subject'] = Mime_Helper::fixEncoding($res['sup_subject']);
         // TRANSLATORS: %1 = email subject
         $res['reply_subject'] = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $res['sup_subject']), true);
@@ -1795,7 +1792,6 @@ class Support
         }
 
         foreach ($res as &$row) {
-            $row['sup_date'] = Date_Helper::getFormattedDate($row['sup_date']);
             $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
             $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
             $row['sup_to'] = Mime_Helper::fixEncoding($row['sup_to']);

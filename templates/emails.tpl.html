@@ -204,7 +204,7 @@
             {if $core.has_crm}
             <td nowrap>{$list[i].customer_title|escape:"html"}</td>
             {/if}
-            <td align="center" nowrap>{$list[i].sup_date}</td>
+            <td align="center" nowrap>{$list[i].sup_date|timeago}</td>
             <td>{$list[i].sup_to|escape:"html"|replace:",":" "}</td>
             <td align="center" nowrap>
                 {if $list[i].sup_iss_id != 0}

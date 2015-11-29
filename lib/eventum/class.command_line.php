@@ -791,7 +791,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         if ($display_full) {
             echo $email['seb_full_email'];
         } else {
-            echo sprintf("%15s: %s\n", 'Date', $email['sup_date']);
+            $sup_date = Date_Helper::getFormattedDate($email['sup_date']);
+            echo sprintf("%15s: %s\n", 'Date', $sup_date);
             echo sprintf("%15s: %s\n", 'From', $email['sup_from']);
             echo sprintf("%15s: %s\n", 'To', $email['sup_to']);
             echo sprintf("%15s: %s\n", 'CC', $email['sup_cc']);
