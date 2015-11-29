@@ -1601,6 +1601,8 @@ class Support
     /**
      * Method used to get the support email entry details.
      *
+     * FIXME: $ema_id is unused
+     *
      * @param   integer $ema_id The support email account ID
      * @param   integer $sup_id The support email ID
      * @return  array The email entry details

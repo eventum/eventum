@@ -140,12 +140,11 @@ class RemoteDataController extends BaseController
     private function getIssueDescription($issue_id)
     {
         if (Issue::canAccess($issue_id, $this->usr_id)) {
-            $details = Issue::getDetails($issue_id);
-
-            return Link_Filter::processText($this->prj_id, $details['iss_description']);
+            return null;
         }
+        $details = Issue::getDetails($issue_id);
 
-        return null;
+        return $this->processText($details['iss_description']);
     }
 
     /**
@@ -156,18 +155,18 @@ class RemoteDataController extends BaseController
      */
     private function getEmail($id)
     {
-        $split = explode('-', $id);
-        $info = Support::getEmailDetails($split[0], $split[1]);
+        list($ema_id, $sup_id) = explode('-', $id);
+        $info = Support::getEmailDetails($ema_id, $sup_id);
 
         if (!Issue::canAccess($info['sup_iss_id'], $this->usr_id)) {
-            return '';
+            return null;
         }
 
         if (!$this->ec_id) {
             return $info['seb_body'];
         }
 
-        return Link_Filter::processText($this->prj_id, nl2br(Misc::highlightQuotedReply($info['seb_body'])));
+        return $this->processText(nl2br(Misc::highlightQuotedReply($info['seb_body'])));
     }
 
     /**
@@ -180,13 +179,14 @@ class RemoteDataController extends BaseController
     {
         $note = Note::getDetails($id);
         if (!Issue::canAccess($note['not_iss_id'], $this->usr_id)) {
-            return '';
+            return null;
         }
+
         if (!$this->ec_id) {
             return $note['not_note'];
         }
 
-        return Link_Filter::processText($this->prj_id, nl2br(Misc::highlightQuotedReply($note['not_note'])));
+        return $this->processText(nl2br(Misc::highlightQuotedReply($note['not_note'])));
     }
 
     /**
@@ -199,14 +199,14 @@ class RemoteDataController extends BaseController
     {
         $info = Draft::getDetails($id);
         if (!Issue::canAccess($info['emd_iss_id'], $this->usr_id)) {
-            return '';
+            return null;
         }
 
         if (!$this->ec_id) {
             return $info['emd_body'];
         }
 
-        return Link_Filter::processText($this->prj_id, nl2br(htmlspecialchars($info['emd_body'])));
+        return $this->processText(nl2br(htmlspecialchars($info['emd_body'])));
     }
 
     /**
@@ -225,7 +225,7 @@ class RemoteDataController extends BaseController
             return $res['phs_description'];
         }
 
-        return Link_Filter::processText($this->prj_id, nl2br(htmlspecialchars($res['phs_description'])));
+        return $this->processText(nl2br(htmlspecialchars($res['phs_description'])));
     }
 
     /**
@@ -249,7 +249,12 @@ class RemoteDataController extends BaseController
             return $res['maq_body'];
         }
 
-        return Link_Filter::processText($this->prj_id, nl2br(htmlspecialchars($res['maq_headers'] . "\n" . $res['maq_body'])));
+        return $this->processText(nl2br(htmlspecialchars($res['maq_headers'] . "\n" . $res['maq_body'])));
+    }
+
+    private function processText($text)
+    {
+        return Link_Filter::processText($this->prj_id, $text);
     }
 
     /**
