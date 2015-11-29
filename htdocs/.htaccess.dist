@@ -16,8 +16,10 @@ ExpiresByType image/jpeg "now plus 6 weeks"
 ExpiresByType text/javascript "now plus 6 weeks"
 ExpiresByType text/css "now plus 6 weeks"
 ExpiresByType font/woff2 "access plus 1 month"
+ExpiresByType image/x-icon "access plus 1 month"
 </IfModule>
 
 <IfModule mod_mime.c>
 AddType font/woff2 woff2
+AddType image/x-icon ico
 </IfModule>
