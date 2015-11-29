@@ -1,0 +1,16 @@
+#
+# .htaccess for development.
+# symlink or copy this to .htaccess.
+#
+# For production, you should put equivalent contents to Apache main config.
+#
+
+AddDefaultCharset "utf-8"
+
+# Optimize caching
+ExpiresActive On
+ExpiresByType image/gif "now plus 6 weeks"
+ExpiresByType image/png "now plus 6 weeks"
+ExpiresByType image/jpeg "now plus 6 weeks"
+ExpiresByType text/javascript "now plus 6 weeks"
+ExpiresByType text/css "now plus 6 weeks"
