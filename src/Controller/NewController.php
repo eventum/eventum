@@ -87,15 +87,12 @@ class NewController extends BaseController
     {
         $this->tpl->assign('new_issue_id', '');
 
-        if (CRM::hasCustomerIntegration($this->prj_id)) {
-            if (Auth::getCurrentRole() == User::ROLE_CUSTOMER) {
-                $crm = CRM::getInstance($this->prj_id);
-                $customer_id = Auth::getCurrentCustomerID();
-                $customer = $crm->getCustomer($customer_id);
-                $new_issue_message = $customer->getNewIssueMessage();
-                if ($new_issue_message) {
-                    Misc::setMessage($new_issue_message, Misc::MSG_INFO);
-                }
+        if (Auth::getCurrentRole() == User::ROLE_CUSTOMER && ($crm = CRM::getInstance($this->prj_id))) {
+            $customer_id = Auth::getCurrentCustomerID();
+            $customer = $crm->getCustomer($customer_id);
+            $new_issue_message = $customer->getNewIssueMessage();
+            if ($new_issue_message) {
+                Misc::setMessage($new_issue_message, Misc::MSG_INFO);
             }
         }
 
@@ -132,8 +129,9 @@ class NewController extends BaseController
         $this->tpl->assign('emails', $res);
         $this->tpl->assign('attached_emails', implode(',', $item));
 
-        if (CRM::hasCustomerIntegration($this->prj_id)) {
-            $crm = CRM::getInstance($this->prj_id);
+        $crm = CRM::getInstance($this->prj_id);
+
+        if ($crm) {
             // also need to guess the contact_id from any attached emails
             try {
                 $info = $crm->getCustomerInfoFromEmails($this->prj_id, $item);
@@ -162,7 +160,7 @@ class NewController extends BaseController
             );
 
             // also auto pre-fill the customer contact text fields
-            if (CRM::hasCustomerIntegration($this->prj_id)) {
+            if ($crm) {
                 $sender_email = Mail_Helper::getEmailAddress($email_details['sup_from']);
                 try {
                     $contact = $crm->getContactByEmail($sender_email);
@@ -199,8 +197,7 @@ class NewController extends BaseController
         $prefs = Prefs::get($this->usr_id);
         $this->tpl->assign('user_prefs', $prefs);
         $this->tpl->assign('zones', Date_Helper::getTimezoneList());
-        if (Auth::getCurrentRole() == User::ROLE_CUSTOMER) {
-            $crm = CRM::getInstance(Auth::getCurrentProject());
+        if (Auth::getCurrentRole() == User::ROLE_CUSTOMER && ($crm = CRM::getInstance($this->prj_id))) {
             $customer_contact_id = User::getCustomerContactID($this->usr_id);
             $contact = $crm->getContact($customer_contact_id);
             $customer_id = Auth::getCurrentCustomerID();
