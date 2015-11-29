@@ -47,6 +47,9 @@ class RemoteDataController extends BaseController
     /** @var int */
     private $usr_id;
 
+    /** @var int */
+    private $prj_id;
+
     /** @var string */
     private $action;
 
@@ -80,6 +83,7 @@ class RemoteDataController extends BaseController
         Auth::checkAuthentication();
 
         $this->usr_id = Auth::getUserID();
+        $this->prj_id = Auth::getCurrentProject();
 
         return true;
     }
@@ -133,7 +137,7 @@ class RemoteDataController extends BaseController
         if (Issue::canAccess($issue_id, $this->usr_id)) {
             $details = Issue::getDetails($issue_id);
 
-            return Link_Filter::processText(Auth::getCurrentProject(), $details['iss_description']);
+            return Link_Filter::processText($this->prj_id, $details['iss_description']);
         }
 
         return null;
@@ -158,7 +162,7 @@ class RemoteDataController extends BaseController
             return $info['seb_body'];
         }
 
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(Misc::highlightQuotedReply($info['seb_body'])));
+        return Link_Filter::processText($this->prj_id, nl2br(Misc::highlightQuotedReply($info['seb_body'])));
     }
 
     /**
@@ -177,7 +181,7 @@ class RemoteDataController extends BaseController
             return $note['not_note'];
         }
 
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(Misc::highlightQuotedReply($note['not_note'])));
+        return Link_Filter::processText($this->prj_id, nl2br(Misc::highlightQuotedReply($note['not_note'])));
     }
 
     /**
@@ -196,7 +200,7 @@ class RemoteDataController extends BaseController
             return $info['emd_body'];
         }
 
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($info['emd_body'])));
+        return Link_Filter::processText($this->prj_id, nl2br(htmlspecialchars($info['emd_body'])));
     }
 
     /**
@@ -215,7 +219,7 @@ class RemoteDataController extends BaseController
             return $res['phs_description'];
         }
 
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($res['phs_description'])));
+        return Link_Filter::processText($this->prj_id, nl2br(htmlspecialchars($res['phs_description'])));
     }
 
     /**
@@ -238,6 +242,6 @@ class RemoteDataController extends BaseController
             return $res['maq_body'];
         }
 
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($res['maq_headers'] . "\n" . $res['maq_body'])));
+        return Link_Filter::processText($this->prj_id, nl2br(htmlspecialchars($res['maq_headers'] . "\n" . $res['maq_body'])));
     }
 }
