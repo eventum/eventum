@@ -1005,10 +1005,6 @@ class Reminder
             return array();
         }
 
-        foreach ($res as &$row) {
-            $row['rmh_created_date'] = Date_Helper::getFormattedDate($row['rmh_created_date']);
-        }
-
         return $res;
     }
 
