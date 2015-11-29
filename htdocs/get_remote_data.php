@@ -28,5 +28,5 @@
 
 require_once __DIR__ . '/../init.php';
 
-$c = new RemoteDataController();
-$c->run();
+$controller = new Eventum\Controller\RemoteDataController();
+$controller->run();

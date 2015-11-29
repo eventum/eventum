@@ -24,20 +24,70 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
+namespace Eventum\Controller;
+
+use Auth;
+use Draft;
+use Issue;
+use Link_Filter;
+use Mail_Queue;
+use Misc;
+use Note;
+use Phone_Support;
+use Support;
+use User;
+
 /*
  * This page is used to return a single content to the expandable table using
  * httpClient library or jQuery.
  */
-class RemoteDataController
+
+class RemoteDataController extends BaseController
 {
-    public function __construct()
+    /** @var int */
+    private $usr_id;
+
+    /** @var string */
+    private $action;
+
+    /** @var string */
+    private $callback;
+
+    /** @var string */
+    private $list_id;
+
+    /** @var string */
+    private $ec_id;
+
+    /**
+     * @inheritdoc
+     */
+    protected function configure()
+    {
+        $request = $this->getRequest();
+
+        $this->action = (string)$request->get('action');
+        $this->callback = (string)$request->query->get('callback');
+        $this->list_id = (string)$request->get('list_id');
+        $this->ec_id = (string)$request->get('ec_id');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function canAccess()
     {
         Auth::checkAuthentication();
 
         $this->usr_id = Auth::getUserID();
+
+        return true;
     }
 
-    public function run()
+    /**
+     * @inheritdoc
+     */
+    protected function defaultAction()
     {
         $valid_functions = array(
             'email' => 'getEmail',
@@ -47,28 +97,36 @@ class RemoteDataController
             'mailqueue' => 'getMailQueue',
             'description' => 'getIssueDescription',
         );
-        $action = Misc::escapeString($_REQUEST['action']);
-        if (in_array($action, array_keys($valid_functions))) {
-            $method = $valid_functions[$action];
-            $res = $this->$method($_REQUEST['list_id']);
+
+        if (in_array($this->action, array_keys($valid_functions))) {
+            $method = $valid_functions[$this->action];
+            $res = $this->$method($this->list_id);
         } else {
-            $res = 'ERROR: Unable to call function ' . htmlspecialchars($action);
+            $res = 'ERROR: Unable to call function ' . htmlspecialchars($this->action);
         }
 
-        $callback = !empty($_GET['callback']) ? $_GET['callback'] : null;
         // convert to wanted format
         $res = array(
-            'ec_id' => $_REQUEST['ec_id'],
-            'list_id' => $_REQUEST['list_id'],
+            'ec_id' => $this->ec_id,
+            'list_id' => $this->list_id,
             'message' => $res,
         );
 
-        if ($callback) {
-            echo $callback, '(', json_encode($res), ')';
+        if ($this->callback) {
+            echo $this->callback, '(', json_encode($res), ')';
         } else {
             echo $res['message'];
         }
+        exit;
     }
+
+    /**
+     * @inheritdoc
+     */
+    protected function prepareTemplate()
+    {
+    }
+
 
     public function getIssueDescription($issue_id)
     {
@@ -96,7 +154,7 @@ class RemoteDataController
             return '';
         }
 
-        if (empty($_GET['ec_id'])) {
+        if (!$this->ec_id) {
             return $info['seb_body'];
         }
 
@@ -115,7 +173,7 @@ class RemoteDataController
         if (!Issue::canAccess($note['not_iss_id'], $this->usr_id)) {
             return '';
         }
-        if (empty($_GET['ec_id'])) {
+        if (!$this->ec_id) {
             return $note['not_note'];
         }
 
@@ -134,7 +192,7 @@ class RemoteDataController
         if (!Issue::canAccess($info['emd_iss_id'], $this->usr_id)) {
             return '';
         }
-        if (empty($_GET['ec_id'])) {
+        if (!$this->ec_id) {
             return $info['emd_body'];
         }
 
@@ -153,7 +211,7 @@ class RemoteDataController
         if (!Issue::canAccess($res['phs_iss_id'], $this->usr_id)) {
             return '';
         }
-        if (empty($_GET['ec_id'])) {
+        if (!$this->ec_id) {
             return $res['phs_description'];
         }
 
@@ -176,7 +234,7 @@ class RemoteDataController
         if (!Issue::canAccess($res['maq_iss_id'], $this->usr_id)) {
             return '';
         }
-        if (empty($_GET['ec_id'])) {
+        if (!$this->ec_id) {
             return $res['maq_body'];
         }
 
