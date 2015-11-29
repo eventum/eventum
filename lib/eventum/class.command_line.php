@@ -558,8 +558,9 @@ Support Options: ' . @$details['contract']['options_display'] . '
 Account Manager: ' . @$details['customer']['account_manager_name'];
         }
         $iss_updated_date = Date_Helper::getFormattedDate($details['iss_updated_date']);
+        $iss_last_response_date = Date_Helper::getFormattedDate($details['iss_last_response_date']);
         $msg .= '
-  Last Response: ' . $details['iss_last_response_date'] . '
+  Last Response: ' . $iss_last_response_date . '
    Last Updated: ' . $iss_updated_date . "\n";
         echo $msg;
 

@@ -83,7 +83,7 @@
         <td bgcolor="{$issue.status_color}" align="center">{$issue.sta_title|escape:"html"}</td>
         <td bgcolor="{$issue.status_color}" align="center">{$issue.time_spent}</td>
         <td bgcolor="{$issue.status_color}" align="center">{$issue.iss_created_date|timeago}</td>
-        <td bgcolor="{$issue.status_color}" align="center">{$issue.iss_last_response_date}</td>
+        <td bgcolor="{$issue.status_color}" align="center">{$issue.iss_last_response_date|timeago}</td>
         <td bgcolor="{$issue.status_color}" align="center">{$issue.last_update}</td>
         <td bgcolor="{$issue.status_color}" align="center">{$issue.last_email_response}</td>
     </tr>
