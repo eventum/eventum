@@ -131,7 +131,6 @@ class SCM
             $checkin['checkout_url'] = $scm->getCheckoutUrl($checkin);
             $checkin['diff_url'] = $scm->getDiffUrl($checkin);
             $checkin['scm_log_url'] = $scm->getLogUrl($checkin);
-            $checkin['isc_created_date'] = Date_Helper::getFormattedDate($checkin['isc_created_date']);
         }
 
         return $res;
