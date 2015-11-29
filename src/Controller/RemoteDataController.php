@@ -28,7 +28,6 @@
  * This page is used to return a single content to the expandable table using
  * httpClient library or jQuery.
  */
-
 class RemoteDataController
 {
     public function __construct()
