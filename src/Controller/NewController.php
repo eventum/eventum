@@ -218,11 +218,66 @@ class NewController extends BaseController
 
         $clone_iss_id = $request->query->getInt('clone_iss_id');
         if ($clone_iss_id && Access::canCloneIssue($clone_iss_id, $this->usr_id)) {
-            $this->tpl->assign(Issue::getCloneIssueTemplateVariables($clone_iss_id));
+            $this->tpl->assign($this->getCloneIssueTemplateVariables($clone_iss_id));
         } else {
             // take POST and GET data, so that POST data overrides
             $data = $request->request->all() + $request->query->all();
             $this->tpl->assign('defaults', $data);
         }
+    }
+
+    /**
+     * Returns an array of variables to be set on the new issue page when cloning an issue.
+     *
+     * @param integer $issue_id The ID of the issue to clone
+     * @return array
+     */
+    private function getCloneIssueTemplateVariables($issue_id)
+    {
+        $prj_id = Issue::getProjectID($issue_id);
+        $details = Issue::getDetails($issue_id);
+
+        $defaults = array(
+            'clone_iss_id' => $issue_id,
+            'category' => $details['iss_prc_id'],
+            'group' => $details['iss_grp_id'],
+            'severity' => $details['iss_sev_id'],
+            'priority' => $details['iss_pri_id'],
+            'users' => $details['assigned_users'],
+            'summary' => $details['iss_summary'],
+            'description' => $details['iss_original_description'],
+            'expected_resolution_date' => $details['iss_expected_resolution_date'],
+            'estimated_dev_time' => $details['iss_dev_time'],
+            'private' => $details['iss_private'],
+        );
+
+        if (count($details['products']) > 0) {
+            $defaults['product'] = $details['products'][0]['pro_id'];
+            $defaults['product_version'] = $details['products'][0]['version'];
+        }
+
+        $defaults['custom_fields'] = array();
+        foreach (Custom_Field::getListByIssue($prj_id, $issue_id) as $field) {
+            if (isset($field['selected_cfo_id'])) {
+                $defaults['custom_fields'][$field['fld_id']] = $field['selected_cfo_id'];
+            } else {
+                $defaults['custom_fields'][$field['fld_id']] = $field['value'];
+            }
+        }
+
+        $vars = array(
+            'defaults' => $defaults,
+        );
+
+        if (isset($details['customer']) && isset($details['contact'])) {
+            $vars += array(
+                'customer_id' => $details['iss_customer_id'],
+                'contact_id' => $details['iss_customer_contact_id'],
+                'customer' => $details['customer'],
+                'contact' => $details['contact'],
+            );
+        }
+
+        return $vars;
     }
 }
