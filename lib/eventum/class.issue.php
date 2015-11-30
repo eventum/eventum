@@ -3049,8 +3049,7 @@ class Issue
         $res['associated_issues'] = self::getAssociatedIssues($res['iss_id']);
         $res['reporter'] = User::getFullName($res['iss_usr_id']);
         if (empty($res['iss_updated_date'])) {
-            // FIXME: translations, or just fill iss_created_date here?
-            $res['iss_updated_date'] = 'not updated yet';
+            $res['iss_updated_date'] = $res['iss_created_date'];
         }
         $res['estimated_formatted_time'] = Misc::getFormattedTime($res['iss_dev_time']);
         if (Release::isAssignable($res['iss_pre_id'])) {
