@@ -24,62 +24,127 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
+namespace Eventum\Controller;
+
+use Auth;
+use Draft;
+use Issue;
+use Link_Filter;
+use Mail_Queue;
+use Misc;
+use Note;
+use Phone_Support;
+use Support;
+use User;
+
 /*
  * This page is used to return a single content to the expandable table using
  * httpClient library or jQuery.
  */
 
-class RemoteDataController
+class RemoteDataController extends BaseController
 {
-    public function __construct()
+    /** @var int */
+    private $usr_id;
+
+    /** @var int */
+    private $prj_id;
+
+    /** @var string */
+    private $action;
+
+    /** @var string */
+    private $callback;
+
+    /** @var string */
+    private $list_id;
+
+    /** @var string */
+    private $ec_id;
+
+    /**
+     * @inheritdoc
+     */
+    protected function configure()
+    {
+        $request = $this->getRequest();
+
+        $this->action = (string)$request->get('action');
+        $this->callback = (string)$request->query->get('callback');
+        $this->list_id = (string)$request->get('list_id');
+        $this->ec_id = (string)$request->get('ec_id');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function canAccess()
     {
         Auth::checkAuthentication();
 
         $this->usr_id = Auth::getUserID();
+        $this->prj_id = Auth::getCurrentProject();
+
+        return true;
     }
 
-    public function run()
+    /**
+     * @inheritdoc
+     */
+    protected function defaultAction()
     {
-        $valid_functions = array(
-            'email' => 'getEmail',
-            'note' => 'getNote',
-            'draft' => 'getDraft',
-            'phone' => 'getPhoneSupport',
-            'mailqueue' => 'getMailQueue',
-            'description' => 'getIssueDescription',
-        );
-        $action = Misc::escapeString($_REQUEST['action']);
-        if (in_array($action, array_keys($valid_functions))) {
-            $method = $valid_functions[$action];
-            $res = $this->$method($_REQUEST['list_id']);
-        } else {
-            $res = 'ERROR: Unable to call function ' . htmlspecialchars($action);
+        switch ($this->action) {
+            case 'email':
+                $res = $this->getEmail($this->list_id);
+                break;
+
+            case 'note':
+                $res = $this->getNote($this->list_id);
+                break;
+
+            case 'draft':
+                $res = $this->getDraft($this->list_id);
+                break;
+
+            case 'phone':
+                $res = $this->getPhoneSupport($this->list_id);
+                break;
+
+            case 'mailqueue':
+                $res = $this->getMailQueue($this->list_id);
+                break;
+
+            case 'description':
+                $res = $this->getIssueDescription($this->list_id);
+                break;
+
+            default:
+                $res = 'ERROR: Unable to call function ' . htmlspecialchars($this->action);
         }
 
-        $callback = !empty($_GET['callback']) ? $_GET['callback'] : null;
         // convert to wanted format
         $res = array(
-            'ec_id' => $_REQUEST['ec_id'],
-            'list_id' => $_REQUEST['list_id'],
+            'ec_id' => $this->ec_id,
+            'list_id' => $this->list_id,
             'message' => $res,
         );
 
-        if ($callback) {
-            echo $callback, '(', json_encode($res), ')';
+        if ($this->callback) {
+            echo $this->callback, '(', json_encode($res), ')';
         } else {
             echo $res['message'];
         }
+        exit;
     }
 
-    public function getIssueDescription($issue_id)
+    private function getIssueDescription($issue_id)
     {
         if (Issue::canAccess($issue_id, $this->usr_id)) {
-            $details = Issue::getDetails($issue_id);
-
-            return Link_Filter::processText(Auth::getCurrentProject(), $details['iss_description']);
+            return null;
         }
+        $details = Issue::getDetails($issue_id);
 
-        return null;
+        return $this->processText($details['iss_description']);
     }
 
     /**
@@ -88,20 +153,20 @@ class RemoteDataController
      * @param   string $id The sup_ema_id and sup_id seperated by a -.
      * @return  string A string containing the body of the email,
      */
-    public function getEmail($id)
+    private function getEmail($id)
     {
-        $split = explode('-', $id);
-        $info = Support::getEmailDetails($split[0], $split[1]);
+        list($ema_id, $sup_id) = explode('-', $id);
+        $info = Support::getEmailDetails($ema_id, $sup_id);
 
         if (!Issue::canAccess($info['sup_iss_id'], $this->usr_id)) {
-            return '';
+            return null;
         }
 
-        if (empty($_GET['ec_id'])) {
+        if (!$this->ec_id) {
             return $info['seb_body'];
         }
 
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(Misc::highlightQuotedReply($info['seb_body'])));
+        return $this->processText(nl2br(Misc::highlightQuotedReply($info['seb_body'])));
     }
 
     /**
@@ -110,17 +175,18 @@ class RemoteDataController
      * @param   string $id The ID of this note.
      * @return  string A string containing the note.
      */
-    public function getNote($id)
+    private function getNote($id)
     {
         $note = Note::getDetails($id);
         if (!Issue::canAccess($note['not_iss_id'], $this->usr_id)) {
-            return '';
+            return null;
         }
-        if (empty($_GET['ec_id'])) {
+
+        if (!$this->ec_id) {
             return $note['not_note'];
         }
 
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(Misc::highlightQuotedReply($note['not_note'])));
+        return $this->processText(nl2br(Misc::highlightQuotedReply($note['not_note'])));
     }
 
     /**
@@ -129,17 +195,18 @@ class RemoteDataController
      * @param   string $id The ID of this draft.
      * @return  string A string containing the note.
      */
-    public function getDraft($id)
+    private function getDraft($id)
     {
         $info = Draft::getDetails($id);
         if (!Issue::canAccess($info['emd_iss_id'], $this->usr_id)) {
-            return '';
+            return null;
         }
-        if (empty($_GET['ec_id'])) {
+
+        if (!$this->ec_id) {
             return $info['emd_body'];
         }
 
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($info['emd_body'])));
+        return $this->processText(nl2br(htmlspecialchars($info['emd_body'])));
     }
 
     /**
@@ -148,17 +215,17 @@ class RemoteDataController
      * @param   string $id The phone support entry ID.
      * @return  string A string containing the description.
      */
-    public function getPhoneSupport($id)
+    private function getPhoneSupport($id)
     {
         $res = Phone_Support::getDetails($id);
         if (!Issue::canAccess($res['phs_iss_id'], $this->usr_id)) {
             return '';
         }
-        if (empty($_GET['ec_id'])) {
+        if (!$this->ec_id) {
             return $res['phs_description'];
         }
 
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($res['phs_description'])));
+        return $this->processText(nl2br(htmlspecialchars($res['phs_description'])));
     }
 
     /**
@@ -167,7 +234,7 @@ class RemoteDataController
      * @param   string $id The mail queue entry ID.
      * @return  string A string containing the body.
      */
-    public function getMailQueue($id)
+    private function getMailQueue($id)
     {
         if (Auth::getCurrentRole() < User::ROLE_DEVELOPER) {
             return null;
@@ -177,10 +244,23 @@ class RemoteDataController
         if (!Issue::canAccess($res['maq_iss_id'], $this->usr_id)) {
             return '';
         }
-        if (empty($_GET['ec_id'])) {
+
+        if (!$this->ec_id) {
             return $res['maq_body'];
         }
 
-        return Link_Filter::processText(Auth::getCurrentProject(), nl2br(htmlspecialchars($res['maq_headers'] . "\n" . $res['maq_body'])));
+        return $this->processText(nl2br(htmlspecialchars($res['maq_headers'] . "\n" . $res['maq_body'])));
+    }
+
+    private function processText($text)
+    {
+        return Link_Filter::processText($this->prj_id, $text);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function prepareTemplate()
+    {
     }
 }

@@ -28,40 +28,5 @@
 
 require_once __DIR__ . '/../init.php';
 
-// check if templates_c is writable by the web server user
-if (!Misc::isWritableDirectory(APP_TPL_COMPILE_PATH)) {
-    $errors = array("Directory '" . APP_TPL_COMPILE_PATH . "' is not writable.");
-    Misc::displayRequirementErrors($errors);
-    exit;
-}
-
-$tpl = new Template_Helper();
-$tpl->setTemplate('index.tpl.html');
-
-$has_valid_cookie = AuthCookie::hasAuthCookie();
-$is_anon_user = Auth::isAnonUser();
-
-// log anonymous users out so they can use the login form
-if ($has_valid_cookie && $is_anon_user) {
-    Auth::logout();
-}
-
-if ($has_valid_cookie && !$is_anon_user) {
-    if (!empty($_REQUEST['url'])) {
-        $extra = '?url=' . urlencode($_REQUEST['url']);
-    } else {
-        $extra = '';
-    }
-    Auth::redirect('select_project.php' . $extra);
-} elseif (Auth::autoRedirectToExternalLogin()) {
-    Auth::redirect(Auth::getExternalLoginURL());
-}
-
-$projects = Project::getAnonymousList();
-if (empty($projects)) {
-    $tpl->assign('anonymous_post', 0);
-} else {
-    $tpl->assign('anonymous_post', 1);
-}
-$tpl->assign('login_url', Auth::getExternalLoginURL());
-$tpl->displayTemplate();
+$controller = new Eventum\Controller\IndexController();
+$controller->run();

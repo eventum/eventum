@@ -28,38 +28,6 @@
 
 require_once __DIR__ . '/../init.php';
 
-$login = isset($_POST['email']) ? (string) $_POST['email'] : null;
-if (Validation::isWhitespace($login)) {
-    Auth::redirect('index.php?err=1');
-}
-$passwd = isset($_POST['passwd']) ? (string) $_POST['passwd'] : null;
-if (Validation::isWhitespace($passwd)) {
-    Auth::saveLoginAttempt($login, 'failure', 'empty password');
-    Auth::redirect('index.php?err=2&email=' . rawurlencode($login));
-}
+$controller = new Eventum\Controller\LoginController();
+$controller->run();
 
-// check if user exists
-if (!Auth::userExists($login)) {
-    Auth::saveLoginAttempt($login, 'failure', 'unknown user');
-    Auth::redirect('index.php?err=3');
-}
-
-// check if user is locked
-if (Auth::isUserBackOffLocked(Auth::getUserIDByLogin($login))) {
-    Auth::saveLoginAttempt($login, 'failure', 'account back-off locked');
-    Auth::redirect('index.php?err=13');
-}
-
-// check if the password matches
-if (!Auth::isCorrectPassword($login, $passwd)) {
-    Auth::saveLoginAttempt($login, 'failure', 'wrong password');
-    Auth::redirect('index.php?err=3&email=' . rawurlencode($login));
-}
-
-Auth::login($login);
-if (!empty($_POST['url'])) {
-    $extra = '?url=' . urlencode($_POST['url']);
-} else {
-    $extra = '';
-}
-Auth::redirect('select_project.php' . $extra);
