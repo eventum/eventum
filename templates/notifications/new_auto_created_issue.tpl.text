@@ -25,4 +25,4 @@ To view more details of this issue, or to update it, please visit the following 
      {t escape=no}Issue{/t} #: {$data.iss_id}
      {t escape=no}Summary{/t}: {$data.iss_summary}
     {t escape=no}Priority{/t}: {$data.pri_title}
-   {t escape=no}Submitted{/t}: {$data.iss_created_date}
+   {t escape=no}Submitted{/t}: {$data.iss_created_date|format_date}

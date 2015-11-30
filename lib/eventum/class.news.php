@@ -57,7 +57,6 @@ class News
         }
 
         foreach ($res as &$row) {
-            $row['nws_created_date'] = Date_Helper::getSimpleDate($row['nws_created_date']);
             if ((!$show_full_message) && (strlen($row['nws_message']) > 300)) {
                 $next_space = strpos($row['nws_message'], ' ', 254);
                 if (empty($next_space)) {

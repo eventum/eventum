@@ -89,7 +89,7 @@ $(function() {
             <td valign="top">
               <input type="checkbox" name="item[]" value="{$checkins[i].isc_id}">
             </td>
-            <td valign="top" nowrap>{$checkins[i].isc_created_date}</td>
+            <td valign="top" nowrap>{$checkins[i].isc_created_date|timeago}</td>
             <td valign="top" >{$checkins[i].isc_username|escape:"html"}</td>
             <td valign="top">{$checkins[i].isc_module|escape:"html"}</td>
             <td valign="top" nowrap class="checkins">

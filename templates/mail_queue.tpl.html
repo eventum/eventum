@@ -25,7 +25,7 @@
         <tr class="{cycle values='odd,even'}">
             <td NOWRAP>{include file="expandable_cell/buttons.tpl.html" ec_id="mailqueue" list_id=$data[i].maq_id}</td>
             <td width="20%">{$data[i].maq_recipient|escape:"html"}</td>
-            <td width="20%" nowrap>{$data[i].maq_queued_date}</td>
+            <td width="20%" nowrap>{$data[i].maq_queued_date|timeago}</td>
             <td width="10%">{$data[i].maq_status}</td>
             <td width="50%">{$data[i].maq_subject|escape:"html"}</td>
         </tr>

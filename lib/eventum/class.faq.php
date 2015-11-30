@@ -79,7 +79,6 @@ class FAQ
             if (empty($row['faq_updated_date'])) {
                 $row['faq_updated_date'] = $row['faq_created_date'];
             }
-            $row['faq_updated_date'] = Date_Helper::getSimpleDate($row['faq_updated_date']);
         }
 
         return $res;
@@ -267,7 +266,6 @@ class FAQ
         if (empty($res['faq_updated_date'])) {
             $res['faq_updated_date'] = $res['faq_created_date'];
         }
-        $res['faq_updated_date'] = Date_Helper::getFormattedDate($res['faq_updated_date']);
         $res['message'] = Misc::activateLinks(nl2br(htmlspecialchars($res['faq_message'])));
 
         return $res;

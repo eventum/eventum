@@ -407,6 +407,20 @@ class Date_Helper
     }
 
     /**
+     * Smarty helper formatting date value suitable for jquery-timeago
+     *
+     * @param string $date
+     * @return string
+     */
+    public static function formatTimeAgo($date)
+    {
+        $formatted_date = Date_Helper::getFormattedDate($date);
+        $gmt_date = self::getDateTime($date, 'GMT')->format('Y-m-d\TH:i:s\Z');
+
+        return sprintf('<abbr class="timeago" title="%s">%s</abbr>', $gmt_date, $formatted_date);
+    }
+
+    /**
      * Formats a given week start and week end to a format useable by getWeekOptions().
      *
      * @param   integer $start The start date of the week.

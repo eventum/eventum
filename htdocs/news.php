@@ -36,7 +36,6 @@ Auth::checkAuthentication('index.php?err=5', true);
 $prj_id = Auth::getCurrentProject();
 if (!empty($_GET['id'])) {
     $t = News::getDetails($_GET['id']);
-    $t['nws_created_date'] = Date_Helper::getFormattedDate($t['nws_created_date']);
     $tpl->assign('news', array($t));
 } else {
     $tpl->assign('news', News::getListByProject($prj_id, true));

@@ -119,7 +119,6 @@ class History
         }
 
         foreach ($res as &$row) {
-            $row['his_created_date'] = Date_Helper::getFormattedDate($row['his_created_date']);
             $row['his_summary'] = Misc::processTokens(ev_gettext($row['his_summary']), $row['his_context']);
         }
 

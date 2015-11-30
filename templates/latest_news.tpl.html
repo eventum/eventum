@@ -9,7 +9,7 @@
               <tr>
                 <td>
                   {section name="i" loop=$news}
-                  <b>{$news[i].nws_created_date} - <a href="news.php?id={$news[i].nws_id}" title="{t}full news entry{/t}">{$news[i].nws_title}</a></b>
+                  <b>{$news[i].nws_created_date|timeago} - <a href="news.php?id={$news[i].nws_id}" title="{t}full news entry{/t}">{$news[i].nws_title}</a></b>
                   <br /><br />
                   {$news[i].nws_message|activateLinks:"links"}
                   <br /><br />

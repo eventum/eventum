@@ -97,7 +97,7 @@ class Note
 
         if (count($res) > 0) {
             $res['timestamp'] = Date_Helper::getUnixTimestamp($res['not_created_date'], 'GMT');
-            $res['not_created_date'] = Date_Helper::getFormattedDate($res['not_created_date']);
+
             if ($res['not_is_blocked'] == 1) {
                 $res['has_blocked_message'] = true;
             } else {
@@ -555,7 +555,6 @@ class Note
                 $row['usr_full_name'] = $row['not_unknown_user'];
             }
 
-            $row['not_created_date'] = Date_Helper::getFormattedDate($row['not_created_date']);
             $t[] = $row;
             unset($row);
         }

@@ -354,10 +354,12 @@ class ViewController extends BaseController
         $columns[1][] = array(
             'title' => ev_gettext('Submitted Date'),
             'data' => $details['iss_created_date'],
+            'field' => 'iss_created_date',
         );
         $columns[1][] = array(
             'title' => ev_gettext('Last Updated Date'),
             'data' => $details['iss_updated_date'],
+            'field' => 'iss_updated_date',
         );
         $columns[1][] = array(
             'title' => ev_gettext('Associated Issues'),

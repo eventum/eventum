@@ -62,7 +62,6 @@ if (!empty($_GET['id'])) {
     if ((count($support_level_ids) > 0) && (count(array_intersect($support_level_ids, $t['support_levels'])) < 1)) {
         $tpl->assign('faq', -1);
     } else {
-        $t['faq_created_date'] = Date_Helper::getFormattedDate($t['faq_created_date']);
         $tpl->assign('faq', $t);
     }
 }

@@ -557,9 +557,11 @@ Support Options: ' . @$details['contract']['options_display'] . '
        Timezone: ' . $details['iss_contact_timezone'] . '
 Account Manager: ' . @$details['customer']['account_manager_name'];
         }
+        $iss_updated_date = Date_Helper::getFormattedDate($details['iss_updated_date']);
+        $iss_last_response_date = Date_Helper::getFormattedDate($details['iss_last_response_date']);
         $msg .= '
-  Last Response: ' . $details['iss_last_response_date'] . '
-   Last Updated: ' . $details['iss_updated_date'] . "\n";
+  Last Response: ' . $iss_last_response_date . '
+   Last Updated: ' . $iss_updated_date . "\n";
         echo $msg;
 
         if ($full) {
@@ -790,7 +792,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         if ($display_full) {
             echo $email['seb_full_email'];
         } else {
-            echo sprintf("%15s: %s\n", 'Date', $email['sup_date']);
+            $sup_date = Date_Helper::getFormattedDate($email['sup_date']);
+            echo sprintf("%15s: %s\n", 'Date', $sup_date);
             echo sprintf("%15s: %s\n", 'From', $email['sup_from']);
             echo sprintf("%15s: %s\n", 'To', $email['sup_to']);
             echo sprintf("%15s: %s\n", 'CC', $email['sup_cc']);
@@ -864,7 +867,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         self::checkIssuePermissions($client, $auth, $issue_id);
 
         $note = self::getNote($client, $auth, $issue_id, $note_id);
-        echo sprintf("%15s: %s\n", 'Date', $note['not_created_date']);
+        $not_created_date = Date_Helper::getFormattedDate($note['not_created_date']);
+        echo sprintf("%15s: %s\n", 'Date', $not_created_date);
         echo sprintf("%15s: %s\n", 'From', $note['not_from']);
         echo sprintf("%15s: %s\n", 'Title', $note['not_title']);
         echo "------------------------------------------------------------------------\n";
@@ -1005,7 +1009,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         self::checkIssuePermissions($client, $auth, $issue_id);
 
         $draft = self::getDraft($client, $auth, $issue_id, $draft_id);
-        echo sprintf("%15s: %s\n", 'Date', $draft['emd_updated_date']);
+        $emd_updated_date = Date_Helper::getFormattedDate($draft['emd_updated_date']);
+        echo sprintf("%15s: %s\n", 'Date', $emd_updated_date);
         echo sprintf("%15s: %s\n", 'From', $draft['from']);
         echo sprintf("%15s: %s\n", 'To', $draft['to']);
         if (!empty($draft['cc'])) {
@@ -1176,8 +1181,9 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             case 'convert-note':
             case 'cn':
                 $note_details = self::getNote($client, $auth, $issue_id, $args[3]);
+                $not_created_date = Date_Helper::getFormattedDate($note_details['not_created_date']);
                 $msg = "These are the current details for issue #$issue_id, note #" . $args[3] . ":\n" .
-                        '   Date: ' . $note_details['not_created_date'] . "\n" .
+                        '   Date: ' . $not_created_date . "\n" .
                         '   From: ' . $note_details['not_from'] . "\n" .
                         '  Title: ' . $note_details['not_title'] . "\n" .
                         'Are you sure you want to convert this note into a ' . $args[4] . '?';

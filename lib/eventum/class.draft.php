@@ -267,7 +267,6 @@ class Draft
             throw new RuntimeException('email not found');
         }
 
-        $res['emd_updated_date'] = Date_Helper::getFormattedDate($res['emd_updated_date']);
         if (!empty($res['emd_unknown_user'])) {
             $res['from'] = $res['emd_unknown_user'];
         } else {
@@ -312,7 +311,6 @@ class Draft
         }
 
         foreach ($res as &$row) {
-            $row['emd_updated_date'] = Date_Helper::getFormattedDate($row['emd_updated_date']);
             if (!empty($row['emd_unknown_user'])) {
                 $row['from'] = $row['emd_unknown_user'];
             } else {

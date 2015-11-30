@@ -12,7 +12,7 @@
     <tr>
         <td>
             {section name="i" loop=$news}
-            <h3>{$news[i].nws_created_date} - {$news[i].nws_title}</h3>
+            <h3>{$news[i].nws_created_date|timeago} - {$news[i].nws_title}</h3>
             <p>{$news[i].nws_message|activateLinks:"links"}</p>
             {/section}
         </td>
