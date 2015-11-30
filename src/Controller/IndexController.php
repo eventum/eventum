@@ -1,11 +1,22 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 namespace Eventum\Controller;
 
 use Auth;
+use AuthCookie;
 use Misc;
 use Project;
-use AuthCookie;
 
 class IndexController extends BaseController
 {
@@ -30,7 +41,7 @@ class IndexController extends BaseController
     {
         $request = $this->getRequest();
 
-        $this->url = (string)$request->get('url');
+        $this->url = (string) $request->get('url');
     }
 
     /**
@@ -86,7 +97,7 @@ class IndexController extends BaseController
     protected function prepareTemplate()
     {
         $projects = Project::getAnonymousList();
-        $anonymous_post = (int)!empty($projects);
+        $anonymous_post = (int) !empty($projects);
 
         $this->tpl->assign(
             array(

@@ -1,27 +1,15 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2015 Eventum Team.                                     |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 namespace Eventum\Controller;
 
@@ -70,7 +58,7 @@ class ListController extends BaseController
      */
     protected function configure()
     {
-        $this->nosave = (bool)$this->getRequest()->get('nosave');
+        $this->nosave = (bool) $this->getRequest()->get('nosave');
     }
 
     /**
@@ -90,10 +78,10 @@ class ListController extends BaseController
     {
         $this->usr_id = Auth::getUserID();
         $this->prj_id = Auth::getCurrentProject();
-        $this->pagerRow = (int)Search::getParam('pagerRow');
+        $this->pagerRow = (int) Search::getParam('pagerRow');
 
         $rows = Search::getParam('rows');
-        $this->rows = ($rows == 'ALL' ? $rows : (int)$rows) ?: APP_DEFAULT_PAGER_SIZE;
+        $this->rows = ($rows == 'ALL' ? $rows : (int) $rows) ?: APP_DEFAULT_PAGER_SIZE;
 
         $this->options_override = array();
         $this->viewAction();
@@ -165,7 +153,7 @@ class ListController extends BaseController
                 break;
 
             case 'reporter':
-                $reporter_id = (int)$request->get('reporter_id');
+                $reporter_id = (int) $request->get('reporter_id');
                 if (!$reporter_id) {
                     return;
                 }
@@ -275,7 +263,6 @@ class ListController extends BaseController
 
         // items needed for bulk update tool
         if (Auth::getCurrentRole() > User::ROLE_DEVELOPER) {
-
             if (Workflow::hasWorkflowIntegration($this->prj_id)) {
                 $open_statuses = Workflow::getAllowedStatuses($this->prj_id);
             } else {

@@ -1,10 +1,21 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 namespace Eventum\Controller;
 
 use Auth;
-use CRM;
 use Contract;
+use CRM;
 use Custom_Field;
 use Issue;
 use Misc;
@@ -142,7 +153,7 @@ class CloseController extends BaseController
     {
         $post = $this->getRequest()->request;
 
-        $date = (array)$post->get('date');
+        $date = (array) $post->get('date');
         $ttc_id = $post->getInt('category');
         $time_spent = $post->getInt('time_spent');
         $summary = ev_gettext('Time entry inserted when closing issue.');

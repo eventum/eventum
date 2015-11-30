@@ -1,3 +1,14 @@
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 (function (exports, dynamic_options) {
 
     exports.custom_field_init_dynamic_options = custom_field_init_dynamic_options;

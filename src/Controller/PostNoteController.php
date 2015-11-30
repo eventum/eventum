@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 namespace Eventum\Controller;
 
 use Auth;
@@ -44,7 +55,7 @@ class PostNoteController extends BaseController
     {
         $request = $this->getRequest();
 
-        $this->issue_id = (int)$request->get('issue_id');
+        $this->issue_id = (int) $request->get('issue_id');
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
     }
 
@@ -88,10 +99,8 @@ class PostNoteController extends BaseController
 
         if ($this->cat == 'post_result' && ($post_result = $get->getInt('post_result'))) {
             $this->tpl->assign('post_result', $post_result);
-
         } elseif ($this->cat == 'post_note') {
             $this->postNoteAction();
-
         } elseif ($this->cat == 'reply' && ($note_id = $get->getInt('id'))) {
             $this->replyAction($note_id);
         }

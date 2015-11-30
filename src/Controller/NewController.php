@@ -1,14 +1,25 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 namespace Eventum\Controller;
 
 use Access;
 use Attachment;
 use Auth;
 use AuthCookie;
+use Category;
 use CRM;
 use CRMException;
-use Category;
 use Custom_Field;
 use Date_Helper;
 use Email_Account;
@@ -64,7 +75,7 @@ class NewController extends BaseController
         }
 
         // If the project has changed since the new issue form was requested, then change it back
-        $issue_prj_id = (int)$this->getRequest()->get('prj_id');
+        $issue_prj_id = (int) $this->getRequest()->get('prj_id');
         if ($issue_prj_id > 0 && $issue_prj_id != $this->prj_id) {
             // Switch the project back
             $assigned_projects = Project::getAssocList($this->usr_id);
