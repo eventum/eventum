@@ -84,7 +84,13 @@ $(document).ready(function() {
     autosize($('textarea'));
 
     // jquery timeago
-    $('abbr.timeago').timeago();
+    $('abbr.timeago').timeago().click(function() {
+        var $el = $(this);
+        // on click toggle between views
+        var old = $el.attr('title');
+        $el.attr('title', $el.text());
+        $el.text(old);
+    });
 });
 
 function Eventum()
