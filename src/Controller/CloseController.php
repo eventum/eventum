@@ -4,6 +4,7 @@ namespace Eventum\Controller;
 
 use Auth;
 use CRM;
+use Contract;
 use Custom_Field;
 use Issue;
 use Misc;
@@ -37,8 +38,7 @@ class CloseController extends BaseController
     /** @var array */
     private $details;
 
-    // FIXME missing Interface for this type of object
-    /** @var object */
+    /** @var Contract */
     private $contract;
 
     /**
