@@ -50,7 +50,7 @@
       {section name="i" loop=$reminders}
       <tr class="{cycle values='odd,even'}">
         <td nowrap>
-          {$reminders[i].rmh_created_date}
+          {$reminders[i].rmh_created_date|timeago}
         </td>
         <td width="85%">
           {$reminders[i].rma_title|escape:"html"}
