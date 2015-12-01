@@ -100,14 +100,15 @@ class RssController extends BaseController
     private function authorizeRequest()
     {
         // Setup from HTTP Auth headers
-        $authData = $this->getAuthData();
-        if (!$authData) {
+        $request = $this->getRequest();
+        $authUser = $request->getUser();
+        $authPassword = $request->getPassword();
+
+        if (!$authUser || !$authPassword) {
             throw new InvalidArgumentException(
                 'You are required to authenticate in order to access the requested RSS feed.'
             );
         }
-
-        list($authUser, $authPassword) = $authData;
 
         // check the authentication
         if (Validation::isWhitespace($authUser)) {
@@ -150,32 +151,6 @@ class RssController extends BaseController
         // FIXME: escape tool_caption properly
         header('WWW-Authenticate: Basic realm="' . Misc::getToolCaption() . '"');
         header('HTTP/1.0 401 Unauthorized');
-    }
-
-    /**
-     * Extract HTTP Authorization data from HTTP headers
-     *
-     * TODO: check if Symfony provides easy access to this data
-     *
-     * @return array($username, $password)
-     */
-    private function getAuthData()
-    {
-        // Extra tweak needed for IIS/ISAPI users since the PHP_AUTH_USER/PW variables are
-        // not set on that particular platform. Instead what you get is a base64 encoded
-        // value of the username:password under HTTP_AUTHORIZATION
-        if (!empty($_SERVER['HTTP_AUTHORIZATION'])) {
-            return explode(':', base64_decode(substr($_SERVER['HTTP_AUTHORIZATION'], 6)));
-        }
-
-        if (!empty($_SERVER['ALL_HTTP']) && strstr($_SERVER['ALL_HTTP'], 'HTTP_AUTHORIZATION')) {
-            preg_match('/HTTP_AUTHORIZATION:Basic (.*)/', $_SERVER['ALL_HTTP'], $matches);
-            if (count($matches) > 0) {
-                return explode(':', base64_decode($matches[1]));
-            }
-        }
-
-        return null;
     }
 
     /**
