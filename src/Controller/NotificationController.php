@@ -133,7 +133,7 @@ class NotificationController extends BaseController
                 'emails' => 0,
             );
             foreach ($default_actions as $action) {
-                $res[$action] = 1;
+                $info[$action] = 1;
             }
         }
 
