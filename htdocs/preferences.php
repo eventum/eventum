@@ -88,6 +88,12 @@ if ($cat == 'update_account') {
             $res = -1;
         }
     }
+} elseif ($cat == 'regenerate_token') {
+    $res = APIAuthToken::regenerateKey($usr_id);
+    if ($res == 1) {
+        Misc::setMessage(ev_gettext('Your key has been regenerated. All previous keys are now invalid.'));
+        $res = null;
+    }
 }
 
 if ($res == 1) {
@@ -110,5 +116,9 @@ $tpl->assign(array(
     'can_update_email' => Auth::canUserUpdateEmail($usr_id),
     'can_update_password' => Auth::canUserUpdatePassword($usr_id),
 ));
+
+if (Auth::getCurrentRole() >= User::ROLE_USER) {
+    $tpl->assign("api_tokens", APIAuthToken::getTokensForUser($usr_id, true));
+}
 
 $tpl->displayTemplate();

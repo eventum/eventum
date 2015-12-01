@@ -130,7 +130,7 @@ class XmlRpcServer
      * Extract parameter types for XMLRPC from PHP docBlock
      *
      * @param array $tags
-     * @param bool $public true if method not should be protected with username/password
+     * @param bool $public true if method not should be protected with token
      * @return array
      */
     private function getSignature($tags, $public)
@@ -147,8 +147,7 @@ class XmlRpcServer
 
         // for protected add email and password strings
         // skip adding if HTTP Authorization header is present
-        if (!$public && !isset($_SERVER['PHP_AUTH_USER'])) {
-            $signature[] = $this->getXmlRpcType('string');
+        if (!$public) {
             $signature[] = $this->getXmlRpcType('string');
         }
 
@@ -253,16 +252,14 @@ class XmlRpcServer
 
         try {
             if (!$public) {
-                list($email, $password) = $this->getAuthParams($params);
+                $token = array_shift($params);
 
-                if (!Auth::isCorrectPassword($email, $password)) {
-                    // FIXME: role is not checked here
-                    throw new RemoteApiException(
-                        "Authentication failed for $email. Your login/password is invalid or you do not have the proper role."
-                    );
+                try {
+                    $usr_id = APIAuthToken::getUserIDByToken($token);
+                    AuthCookie::setAuthCookie(User::getEmail($usr_id));
+                } catch (AuthException $e) {
+                    throw new RemoteApiException("Authentication failed. Your token is invalid or you do not have the proper role.");
                 }
-
-                AuthCookie::setAuthCookie($email);
             }
 
             if ($pdesc) {
@@ -281,21 +278,5 @@ class XmlRpcServer
         }
 
         return $res;
-    }
-
-    /**
-     * Get auth username and password.
-     * Take credentials from HTTP Authorization, otherwise chop off from parameters.
-     *
-     * @param array $params
-     * @return array
-     */
-    private function getAuthParams(&$params)
-    {
-        if (isset($_SERVER['PHP_AUTH_USER'])) {
-            return array($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
-        }
-
-        return array_splice($params, 0, 2);
     }
 }

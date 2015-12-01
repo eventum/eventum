@@ -28,7 +28,7 @@
 define('APP_PATH', __DIR__ . '/..');
 require_once APP_PATH . '/autoload.php';
 
-list($user_email, $user_password, $hostname, $port, $relative_url) = Command_Line::getEnvironmentSettings();
+list($auth, $hostname, $port, $relative_url) = Command_Line::getEnvironmentSettings();
 if (empty($port)) {
     $port = 80;
 }
@@ -55,8 +55,6 @@ if (in_array('--debug', $argv)) {
 } else {
     $debug = false;
 }
-
-$auth = array($user_email, $user_password);
 
 $issue_id = (integer) $argv[1];
 try {
