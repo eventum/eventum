@@ -13,6 +13,12 @@ Outgoing emails are put into a queue, and sent out by a cron job (scheduled task
 
 See the [installation guide](Doing a fresh install "wikilink") for information on setting up the cron jobs, and [Email Routing Interface](Email Routing Interface "wikilink") for information on setting up that feature.
 
+### Outgoing Mail
+
+Eventum supports a single SMTP account for sending mail, but each project can have it's own mail address.  The mail settings found under ```General Setup``` to define the system wide SMTP account.  The ```Sender Email``` setting is used for ```Email Reminder System Status Information``` and ```Email Error Logging System``` messages.  
+
+Each project uses it's own dedicated mail address, but relies on the system wide SMTP settings.  The project mail address setting can be found on the ```Manage Projects``` screen.
+
 ### Incoming mail
 
 Once inside Eventum, incoming email messages can be associated with issues:
