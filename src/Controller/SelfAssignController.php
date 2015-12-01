@@ -67,11 +67,11 @@ class SelfAssignController extends BaseController
     protected function defaultAction()
     {
         // check if issue is assigned to someone else and if so, confirm change.
-        if (!$this->target && ($assigned_user_ids = Issue::getAssignedUserIDs($this->issue_id))) {
+        if (!$this->target && ($assigned_users = Issue::getAssignedUsers($this->issue_id))) {
             $this->tpl->assign(
                 array(
                     'prompt_override' => 1,
-                    'assigned_users' => Issue::getAssignedUsers($this->issue_id),
+                    'assigned_users' => $assigned_users,
                 )
             );
 
@@ -79,11 +79,13 @@ class SelfAssignController extends BaseController
         }
 
         $issue_details = Issue::getDetails($this->issue_id);
+
         // force assignment change
         if ($this->target == 'replace') {
             // remove current user(s) first
             Issue::deleteUserAssociations($this->issue_id, $this->usr_id);
         }
+
         $res = Issue::addUserAssociation($this->usr_id, $this->issue_id, $this->usr_id);
         $this->tpl->assign('self_assign_result', $res);
 
@@ -91,9 +93,9 @@ class SelfAssignController extends BaseController
         $actions = Notification::getDefaultActions($this->issue_id, $usr_email, 'self_assign');
         Notification::subscribeUser($this->usr_id, $this->issue_id, $this->usr_id, $actions);
 
+        $assigned_usr_ids = Issue::getAssignedUserIDs($this->issue_id);
         Workflow::handleAssignmentChange(
-            $this->prj_id, $this->issue_id, $this->usr_id, $issue_details,
-            Issue::getAssignedUserIDs($this->issue_id), false
+            $this->prj_id, $this->issue_id, $this->usr_id, $issue_details, $assigned_usr_ids, false
         );
     }
 
