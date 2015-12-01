@@ -19,6 +19,7 @@ use CRM;
 use InvalidArgumentException;
 use Issue;
 use Language;
+use LogicException;
 use Project;
 use User;
 
@@ -107,6 +108,11 @@ class SelectProjectController extends BaseController
             $this->tpl->assign('err', 1);
 
             return;
+        }
+
+        if (!$prj_id) {
+            // this should never happen
+            throw new LogicException('No project id selected');
         }
 
         AuthCookie::setProjectCookie($prj_id, $this->remember);
