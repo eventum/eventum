@@ -15,7 +15,7 @@ See the [installation guide](Doing a fresh install "wikilink") for information o
 
 ### Outgoing Mail
 
-Eventum supports a single SMTP account for sending mail, but each project can have it's own mail address.  The mail settings found under ```General Setup``` to define the system wide SMTP account.  The ```Sender Email``` setting is used for ```Email Reminder System Status Information``` and ```Email Error Logging System``` messages.  
+Eventum supports a single SMTP account for sending mail, but each project can have it's own mail address.  The mail settings found under ```General Setup``` define the system wide SMTP account.  The ```Sender Email``` setting is used for ```Email Reminder System Status Information``` and ```Email Error Logging System``` messages.  
 
 Each project uses it's own dedicated mail address, but relies on the system wide SMTP settings.  The project mail address setting can be found on the ```Manage Projects``` screen.
 
