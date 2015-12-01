@@ -218,7 +218,7 @@ class Template_Helper
                 }
             }
             $info = User::getDetails($usr_id);
-            $raw_projects = Project::getAssocList(Auth::getUserID(), false, true);
+            $raw_projects = Project::getAssocList($usr_id, false, true);
             $active_projects = array();
             foreach ($raw_projects as $prj_id => $prj_info) {
                 if ($prj_info['status'] == 'archived') {
@@ -226,7 +226,7 @@ class Template_Helper
                 }
                 $active_projects[$prj_id] = $prj_info['prj_title'];
             }
-            $core = $core + array(
+            $core += array(
                     'active_projects' => $active_projects,
                     'current_full_name' => $info['usr_full_name'],
                     'current_email' => $info['usr_email'],
@@ -236,7 +236,7 @@ class Template_Helper
                     'is_anon_user' => Auth::isAnonUser(),
                     'is_current_user_partner' => !empty($info['usr_par_code']),
                     'roles' => User::getAssocRoleIDs(),
-                    'current_user_prefs' => Prefs::get(Auth::getUserID()),
+                    'current_user_prefs' => Prefs::get($usr_id),
 
                 );
             $this->assign('current_full_name', $core['user']['usr_full_name']);
