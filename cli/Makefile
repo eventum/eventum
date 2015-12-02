@@ -17,7 +17,6 @@ eventum.phar:
 	 cd build && $(composer) install --prefer-dist
 	 cd build && $(php) -d phar.readonly=0 $(box) build -v
 	 mv -f build/cli/eventum.phar .
-	 rm -rf build
 
 clean:
 	rm -vf *.phar

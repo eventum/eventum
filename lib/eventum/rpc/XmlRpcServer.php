@@ -1,28 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2014-2015 Eventum Team.                                |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 class XmlRpcServer
 {
@@ -130,7 +117,7 @@ class XmlRpcServer
      * Extract parameter types for XMLRPC from PHP docBlock
      *
      * @param array $tags
-     * @param bool $public true if method not should be protected with token
+     * @param bool $public true if method not should be protected with username/password
      * @return array
      */
     private function getSignature($tags, $public)
@@ -147,7 +134,8 @@ class XmlRpcServer
 
         // for protected add email and password strings
         // skip adding if HTTP Authorization header is present
-        if (!$public) {
+        if (!$public && !isset($_SERVER['PHP_AUTH_USER'])) {
+            $signature[] = $this->getXmlRpcType('string');
             $signature[] = $this->getXmlRpcType('string');
         }
 
@@ -252,14 +240,16 @@ class XmlRpcServer
 
         try {
             if (!$public) {
-                $token = array_shift($params);
+                list($email, $password) = $this->getAuthParams($params);
 
-                try {
-                    $usr_id = APIAuthToken::getUserIDByToken($token);
-                    AuthCookie::setAuthCookie(User::getEmail($usr_id));
-                } catch (AuthException $e) {
-                    throw new RemoteApiException("Authentication failed. Your token is invalid or you do not have the proper role.");
+                if (!Auth::isCorrectPassword($email, $password) && !APIAuthToken::isTokenValidForEmail($password, $email)) {
+                    // FIXME: role is not checked here
+                    throw new RemoteApiException(
+                        "Authentication failed for $email. Your login/password/api key is invalid or you do not have the proper role."
+                    );
                 }
+
+                AuthCookie::setAuthCookie($email);
             }
 
             if ($pdesc) {
@@ -278,5 +268,21 @@ class XmlRpcServer
         }
 
         return $res;
+    }
+
+    /**
+     * Get auth username and password.
+     * Take credentials from HTTP Authorization, otherwise chop off from parameters.
+     *
+     * @param array $params
+     * @return array
+     */
+    private function getAuthParams(&$params)
+    {
+        if (isset($_SERVER['PHP_AUTH_USER'])) {
+            return array($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+        }
+
+        return array_splice($params, 0, 2);
     }
 }

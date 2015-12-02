@@ -24,7 +24,6 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-use \Firebase\JWT\JWT;
 
 class APIAuthToken
 {
@@ -32,37 +31,42 @@ class APIAuthToken
 
     public static function generate($usr_id)
     {
-        $expires = date_add(Date_Helper::getDateTime(), date_interval_create_from_date_string('6 months'));
+        $factory = new RandomLib\Factory();
+        $generator = $factory->getMediumStrengthGenerator();
+        $token = $generator->generateString(32, \RandomLib\Generator::CHAR_ALNUM);
 
-        $token = JWT::encode(array(
-            'iss'   =>  APP_BASE_URL,
-            'usr_id'    =>  $usr_id,
-            'exp'   =>  $expires->format('U'),
-        ), Auth::privateKey());
-
-        self::saveToken($usr_id, $token, $expires);
+        self::saveToken($usr_id, $token);
 
         return $token;
     }
 
-    public static function saveToken($usr_id, $token, $expires)
+    public static function saveToken($usr_id, $token)
     {
         $sql = "INSERT INTO
                     {{%api_token}}
                 SET
                     apt_usr_id = ?,
                     apt_created = ?,
-                    apt_token = ?,
-                    apt_expires = ?";
+                    apt_token = ?";
         try {
             $res = DB_Helper::getInstance()->query($sql, array(
                 $usr_id,
                 Date_Helper::getCurrentDateGMT(),
                 $token,
-                Date_Helper::getSqlDateTime($expires)
             ));
         } catch (DbException $e) {
             return -1;
+        }
+    }
+
+    public static function isTokenValidForEmail($token, $email)
+    {
+        try {
+            if (self::checkTokenStatus($token) == User::getUserIDByEmail($email)) {
+                return true;
+            }
+        } catch (AuthException $e) {
+            return false;
         }
     }
 
@@ -74,15 +78,14 @@ class APIAuthToken
                     {{%api_token}}
                 WHERE
                     apt_token = ? AND
-                    apt_status = 'active' AND
-                    apt_expires > ?";
+                    apt_status = 'active'";
         try {
-            $usr_id = DB_Helper::getInstance()->getOne($sql, array($token, Date_Helper::getCurrentDateGMT()));
+            $usr_id = DB_Helper::getInstance()->getOne($sql, array($token));
         } catch (DbException $e) {
             throw new AuthException("Error fetching user token");
         }
         if (empty($usr_id)) {
-            throw new AuthException("Invalid or expired user token");
+            throw new AuthException("Invalid token");
         }
         return $usr_id;
     }
@@ -108,7 +111,6 @@ class APIAuthToken
                     apt_id,
                     apt_usr_id as usr_id,
                     apt_created as created,
-                    apt_expires as expires,
                     apt_status as status,
                     apt_token as token
                 FROM

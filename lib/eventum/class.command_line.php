@@ -1,30 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 $_displayed_confirmation = false;
 
@@ -70,13 +55,13 @@ class Command_Line
      * selected one.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $prj_id The project ID
      * @return  string The selected status title
      */
     public function promptStatusSelection($client, $auth, $prj_id)
     {
-        $list = $client->getClosedAbbreviationAssocList($auth, (int) $prj_id);
+        $list = $client->getClosedAbbreviationAssocList($auth[0], $auth[1], (int) $prj_id);
 
         if (count($list) > 1) {
             // need to ask which status this person wants to use
@@ -111,7 +96,7 @@ class Command_Line
      * Marks an issue as closed.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
     public static function closeIssue($client, $auth, $issue_id)
@@ -143,7 +128,7 @@ class Command_Line
         $prompt = 'Please enter a reason for closing this issue (one line only)';
         $note = CLI_Misc::prompt($prompt, false);
 
-        $result = $client->closeIssue($auth, $issue_id, $new_status, (int) $resolution_id, $send_notification, $note);
+        $result = $client->closeIssue($auth[0], $auth[1], $issue_id, $new_status, (int) $resolution_id, $send_notification, $note);
 
         echo "OK - Issue #$issue_id successfully closed.\n";
 
@@ -156,7 +141,7 @@ class Command_Line
      * Looks up customer information given a set of search parameters.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   string $field The field in which to search
      * @param   string $value The value to search against
      */
@@ -164,7 +149,7 @@ class Command_Line
     {
         $project_id = self::promptProjectSelection($client, $auth, true);
 
-        $res = $client->lookupCustomer($auth, $project_id, $field, $value);
+        $res = $client->lookupCustomer($auth[0], $auth[1], $project_id, $field, $value);
 
         if (!is_array($res)) {
             echo "ERROR: Sorry, for security reasons you need to wait $res until your next customer lookup.\n";
@@ -207,7 +192,8 @@ class Command_Line
     {
         $rcfile = getenv('HOME') . '/.eventumrc';
 
-        $token = '';
+        $email = '';
+        $password = '';
         $host = '';
         $port = '';
         $relative_url = '';
@@ -224,8 +210,10 @@ class Command_Line
                 }
                 $var = trim(substr($line, 0, strpos($line, '=')));
                 $value = trim(substr($line, strpos($line, '=') + 1));
-                if ($var == 'EVENTUM_TOKEN') {
-                    $token = $value;
+                if ($var == 'EVENTUM_USER') {
+                    $email = $value;
+                } elseif ($var == 'EVENTUM_PASSWORD') {
+                    $password = $value;
                 } elseif ($var == 'EVENTUM_HOST') {
                     $host = $value;
                 } elseif ($var == 'EVENTUM_PORT') {
@@ -238,21 +226,21 @@ class Command_Line
             die("Configuration file '$rcfile' could not be found\n");
         }
 
-        return array($token, $host, $port, $relative_url);
+        return array($email, $password, $host, $port, $relative_url);
     }
 
     /**
      * Prints out a list of attachments associated with the given issue ID.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
     public static function printFileList($client, $auth, $issue_id)
     {
         self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $list = $client->getFileList($auth, $issue_id);
+        $list = $client->getFileList($auth[0], $auth[1], $issue_id);
 
         $i = 1;
         foreach ($list as $attachment) {
@@ -271,7 +259,7 @@ class Command_Line
      * Downloads a given attachment file number.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $file_number The attachment file number
      */
@@ -280,7 +268,7 @@ class Command_Line
         self::checkIssuePermissions($client, $auth, $issue_id);
 
         // check if the provided file number is valid
-        $list = $client->getFileList($auth, $issue_id);
+        $list = $client->getFileList($auth[0], $auth[1], $issue_id);
 
         $file_id = 0;
         $i = 1;
@@ -298,7 +286,7 @@ class Command_Line
 
         echo "Downloading file #$file_number from issue $issue_id...\n";
 
-        $details = $client->getFile($auth, (int) $file_id);
+        $details = $client->getFile($auth[0], $auth[1], (int) $file_id);
 
         // check if the file already exists
         if (file_exists($details['iaf_filename'])) {
@@ -324,7 +312,7 @@ class Command_Line
      * issue ID.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
     public function checkIssueAssignment($client, $auth, $issue_id)
@@ -332,7 +320,7 @@ class Command_Line
         // check if the confirmation message was already displayed
         if (isset($GLOBALS['_displayed_confirmation']) && !$GLOBALS['_displayed_confirmation']) {
             // check if the current user is allowed to change the given issue
-            $may_change_issue = $client->mayChangeIssue($auth, $issue_id);
+            $may_change_issue = $client->mayChangeIssue($auth[0], $auth[1], $issue_id);
 
             // if not, show confirmation message
             if ($may_change_issue != 'yes') {
@@ -347,14 +335,14 @@ class Command_Line
      * given issue ID.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @return array The issue details, if the user is allowed to work on it
      */
     public function checkIssuePermissions($client, $auth, $issue_id)
     {
         $projects = self::getUserAssignedProjects($client, $auth);
-        $details = $client->getIssueDetails($auth, $issue_id);
+        $details = $client->getIssueDetails($auth[0], $auth[1], $issue_id);
         $details['iss_prj_id'] = (int) $details['iss_prj_id'];
 
         // check if the issue the user is trying to change is inside a project viewable to him
@@ -376,7 +364,7 @@ class Command_Line
      * Method used to assign an issue to the current user.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   string $developer The email address of the assignee
      */
@@ -388,7 +376,7 @@ class Command_Line
         }
         $details = self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $result = $client->assignIssue($auth, $issue_id, $details['iss_prj_id'], $developer);
+        $result = $client->assignIssue($auth[0], $auth[1], $issue_id, $details['iss_prj_id'], $developer);
         if ($result == 'OK') {
             echo "OK - Issue #$issue_id successfully assigned to '$developer'\n";
         } else {
@@ -401,14 +389,14 @@ class Command_Line
      * If issue is already assigned to someone else, this will fail.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
     public static function takeIssue($client, $auth, $issue_id)
     {
         $details = self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $result = $client->takeIssue($auth, $issue_id, (int) $details['iss_prj_id']);
+        $result = $client->takeIssue($auth[0], $auth[1], $issue_id, (int) $details['iss_prj_id']);
         if ($result == 'OK') {
             echo "OK - Issue #$issue_id successfully taken.\n";
         } else {
@@ -420,7 +408,7 @@ class Command_Line
      * Method used to add an authorized replier
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   string $new_replier The email address of the assignee
      */
@@ -432,7 +420,7 @@ class Command_Line
         }
         $details = self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $result = $client->addAuthorizedReplier($auth, $issue_id, $details['iss_prj_id'], $new_replier);
+        $result = $client->addAuthorizedReplier($auth[0], $auth[1], $issue_id, $details['iss_prj_id'], $new_replier);
         if ($result == 'OK') {
             echo "OK - '$new_replier' successfully added as an authorized replier to issue #$issue_id\n";
         } else {
@@ -444,7 +432,7 @@ class Command_Line
      * Method used to change the status of an issue.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   string $new_status The new status title
      */
@@ -460,7 +448,7 @@ class Command_Line
         }
 
         // check if the given status is a valid option
-        $statuses = $client->getAbbreviationAssocList($auth, (int) $details['iss_prj_id'], false);
+        $statuses = $client->getAbbreviationAssocList($auth[0], $auth[1], (int) $details['iss_prj_id'], false);
 
         $titles = Misc::lowercase(array_values($statuses));
         $abbreviations = Misc::lowercase(array_keys($statuses));
@@ -475,7 +463,7 @@ class Command_Line
             $new_status = $titles[$index];
         }
 
-        $result = $client->setIssueStatus($auth, $issue_id, $new_status);
+        $result = $client->setIssueStatus($auth[0], $auth[1], $issue_id, $new_status);
         if ($result == 'OK') {
             echo "OK - Status successfully changed to '$new_status' on issue #$issue_id\n";
         } else {
@@ -487,7 +475,7 @@ class Command_Line
      * Method used to add a time tracking entry to an existing issue.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   string $time_spent The time spent in minutes
      */
@@ -497,7 +485,7 @@ class Command_Line
         self::checkIssueAssignment($client, $auth, $issue_id);
 
         // list the time tracking categories
-        $cats = $client->getTimeTrackingCategories($auth, $issue_id);
+        $cats = $client->getTimeTrackingCategories($auth[0], $auth[1], $issue_id);
 
         $prompt = "Which time tracking category would you like to associate with this time entry?\n";
         foreach ($cats as $id => $title) {
@@ -512,7 +500,7 @@ class Command_Line
         $prompt = 'Please enter a quick summary of what you worked on';
         $summary = CLI_Misc::prompt($prompt, false);
 
-        $result = $client->recordTimeWorked($auth, $issue_id, (int) $cat_id, $summary, $time_spent);
+        $result = $client->recordTimeWorked($auth[0], $auth[1], $issue_id, (int) $cat_id, $summary, $time_spent);
         if ($result == 'OK') {
             echo "OK - Added time tracking entry to issue #$issue_id\n";
         } else {
@@ -524,7 +512,7 @@ class Command_Line
      * Method used to print the current details for a given issue.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
     public static function printIssueDetails($client, $auth, $issue_id, $full = false)
@@ -570,7 +558,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Method used to print the custom fields for a given issue.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   array $details
      */
@@ -595,7 +583,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Method used to print the list of open issues.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   string $show_all_issues Whether to show all open issues or just the ones assigned to the current user
      * @param   string $status The status that should be used to restrict the results
      */
@@ -605,7 +593,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         // check the status option
         // check if the given status is a valid option
         if (!empty($status)) {
-            $statuses = $client->getAbbreviationAssocList($auth, $project_id, true);
+            $statuses = $client->getAbbreviationAssocList($auth[0], $auth[1], $project_id, true);
 
             $titles = Misc::lowercase(array_values($statuses));
             $abbreviations = Misc::lowercase(array_keys($statuses));
@@ -619,7 +607,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             }
         }
 
-        $issues = $client->getOpenIssues($auth, $project_id, $show_all_issues, $status);
+        $issues = $client->getOpenIssues($auth[0], $auth[1], $project_id, $show_all_issues, $status);
 
         if (!empty($status)) {
             echo "The following issues are set to status '$status':\n";
@@ -642,13 +630,13 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Method used to get the list of projects assigned to a given email address.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   boolean $only_customer_projects Whether to only include projects with customer integration or not
      * @return  array The list of projects
      */
     public function getUserAssignedProjects($client, $auth, $only_customer_projects = false)
     {
-        $result = $client->getUserAssignedProjects($auth, $only_customer_projects);
+        $result = $client->getUserAssignedProjects($auth[0], $auth[1], $only_customer_projects);
 
         return $result;
     }
@@ -657,7 +645,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Method used to prompt the current user to select a project.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   boolean $only_customer_projects Whether to only include projects with customer integration or not
      * @return  integer The project ID
      */
@@ -697,12 +685,12 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * currently selected project.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      */
     public static function printStatusList($client, $auth)
     {
         $project_id = self::promptProjectSelection($client, $auth);
-        $items = $client->getAbbreviationAssocList($auth, $project_id, true);
+        $items = $client->getAbbreviationAssocList($auth[0], $auth[1], $project_id, true);
 
         echo "Available Statuses:\n";
         foreach ($items as $abbreviation => $title) {
@@ -714,12 +702,12 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Method used to print the list of developers.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      */
     public static function printDeveloperList($client, $auth)
     {
         $project_id = self::promptProjectSelection($client, $auth);
-        $developers = $client->getDeveloperList($auth, $project_id);
+        $developers = $client->getDeveloperList($auth[0], $auth[1], $project_id);
 
         echo "Available Developers:\n";
         foreach ($developers as $name => $email) {
@@ -731,14 +719,14 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Method used to list emails for a given issue.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
     public static function listEmails(&$client, $auth, $issue_id)
     {
         self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $emails = $client->getEmailListing($auth, $issue_id);
+        $emails = $client->getEmailListing($auth[0], $auth[1], $issue_id);
 
         if (!is_array($emails) || count($emails) < 1) {
             echo "No emails for this issue\n";
@@ -775,7 +763,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Method to show the contents of an email.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $email_id The sequential id of the email to view
      * @param   boolean $display_full If the full email should be displayed.
@@ -784,7 +772,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
     {
         self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $email = $client->getEmail($auth, $issue_id, (int) $email_id);
+        $email = $client->getEmail($auth[0], $auth[1], $issue_id, (int) $email_id);
 
         if ($display_full) {
             echo $email['seb_full_email'];
@@ -808,14 +796,14 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Method used to list notes for a given issue.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
     public static function listNotes($client, $auth, $issue_id)
     {
         self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $notes = $client->getNoteListing($auth, $issue_id);
+        $notes = $client->getNoteListing($auth[0], $auth[1], $issue_id);
 
         foreach ($notes as $i => &$note) {
             if ($note['has_blocked_message'] == 1) {
@@ -855,7 +843,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Method to show the contents of a note.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $note_id The sequential id of the note to view
      */
@@ -876,14 +864,14 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Returns the contents of a note via XML-RPC.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $note_id The sequential id of the note to view
      * @return  array An array containing note details.
      */
     public function getNote($client, $auth, $issue_id, $note_id)
     {
-        $note = $client->getNote($auth, $issue_id, (int) $note_id);
+        $note = $client->getNote($auth[0], $auth[1], $issue_id, (int) $note_id);
 
         return $note;
     }
@@ -892,7 +880,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Converts a note into a draft or an email.
      *
      * @param   RemoteApi $client The connection source
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $note_id The sequential id of the note to view
      * @param   string $target What this note should be converted too, a draft or an email.
@@ -910,7 +898,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             self::quit("Note #$note_id does not have a blocked message attached so cannot be converted");
         }
 
-        $message = $client->convertNote($auth, $issue_id, (int) $note_details['not_id'], $target, $authorize_sender);
+        $message = $client->convertNote($auth[0], $auth[1], $issue_id, (int) $note_details['not_id'], $target, $authorize_sender);
         if ($message == 'OK') {
             echo "OK - Note successfully converted to $target\n";
         }
@@ -920,7 +908,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Fetches the weekly report for the current developer for the specified week.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $week The week for the report. If start and end date are set, this is ignored.
      * @param   string $start_date The start date of the report. (optional)
      * @param   string $end_date The end_date of the report. (optional)
@@ -928,7 +916,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      */
     public static function getWeeklyReport($client, $auth, $week, $start_date = '', $end_date = '', $separate_closed = false)
     {
-        $ret = $client->getWeeklyReport($auth, (int) $week, $start_date, $end_date, $separate_closed);
+        $ret = $client->getWeeklyReport($auth[0], $auth[1], (int) $week, $start_date, $end_date, $separate_closed);
         echo $ret;
     }
 
@@ -936,12 +924,12 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Clocks a user in/out of the system.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   string $action If the user is clocking in or out.
      */
     public static function timeClock($client, $auth, $action)
     {
-        $result = $client->timeClock($auth, $action);
+        $result = $client->timeClock($auth[0], $auth[1], $action);
         echo $result;
     }
 
@@ -949,14 +937,14 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Lists drafts associated with an issue.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
     public static function listDrafts($client, $auth, $issue_id)
     {
         self::checkIssuePermissions($client, $auth, $issue_id);
 
-        $drafts = $client->getDraftListing($auth, $issue_id);
+        $drafts = $client->getDraftListing($auth[0], $auth[1], $issue_id);
 
         if (count($drafts) < 1) {
             echo "No drafts for this issue\n";
@@ -997,7 +985,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Method to show the contents of a draft.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $draft_id The sequential id of the draft to view
      */
@@ -1022,14 +1010,14 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Returns the contents of a draft via XML-RPC.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $draft_id The sequential id of the draft to view
      * @return  array An array containing draft details.
      */
     public function getDraft($client, $auth, $issue_id, $draft_id)
     {
-        $draft = $client->getDraft($auth, $issue_id, (int) $draft_id);
+        $draft = $client->getDraft($auth[0], $auth[1], $issue_id, (int) $draft_id);
 
         return $draft;
     }
@@ -1038,14 +1026,14 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Converts a draft to an email and sends it.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   integer $draft_id The sequential id of the draft to send
      * @return  array An array containing draft details.
      */
     public static function sendDraft($client, $auth, $issue_id, $draft_id)
     {
-        $result = $client->sendDraft($auth, $issue_id, (int) $draft_id);
+        $result = $client->sendDraft($auth[0], $auth[1], $issue_id, (int) $draft_id);
         echo $result;
     }
 
@@ -1053,7 +1041,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Marks an issue as redeemed incident
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
     public static function redeemIssue($client, $auth, $issue_id)
@@ -1063,7 +1051,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
 
         $types = self::promptIncidentTypes($client, $auth, $issue_id);
 
-        $result = $client->redeemIssue($auth, $issue_id, $types);
+        $result = $client->redeemIssue($auth[0], $auth[1], $issue_id, $types);
         echo "OK - Issue #$issue_id successfully marked as redeemed incident.\n";
     }
 
@@ -1071,7 +1059,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Un-marks an issue as redeemed incident
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      */
     public static function unredeemIssue($client, $auth, $issue_id)
@@ -1081,7 +1069,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
 
         $types = self::promptIncidentTypes($client, $auth, $issue_id, true);
 
-        $result = $client->unredeemIssue($auth, $issue_id, $types);
+        $result = $client->unredeemIssue($auth[0], $auth[1], $issue_id, $types);
         echo "OK - Issue #$issue_id successfully marked as unredeemed incident.\n";
     }
 
@@ -1089,14 +1077,14 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Returns the list of incident types available.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   boolean $redeemed_only If this should only show items that have been redeemed.
      * @return array|string
      */
     public function promptIncidentTypes($client, $auth, $issue_id, $redeemed_only = false)
     {
-        $types = $client->getIncidentTypes($auth, $issue_id, $redeemed_only);
+        $types = $client->getIncidentTypes($auth[0], $auth[1], $issue_id, $redeemed_only);
 
         if (count($types) < 1) {
             if ($redeemed_only) {
@@ -1162,7 +1150,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * confirmation to show to the user.
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   integer $issue_id The issue ID
      * @param   string $args The arguments passed to this script
      */
@@ -1172,7 +1160,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         $GLOBALS['_displayed_confirmation'] = true;
 
         // get summary, customer status and assignment of issue, then show confirmation prompt to user
-        $details = $client->getSimpleIssueDetails($auth, $issue_id);
+        $details = $client->getSimpleIssueDetails($auth[0], $auth[1], $issue_id);
 
         switch ($args[2]) {
             case 'convert-note':
@@ -1212,7 +1200,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      */
     public static function checkAuthentication($client, $email, $password)
     {
-        if (!$client->isValidLogin($email, $password)) {
+        $is_valid = $client->isValidLogin($email, $password);
+        if (!$is_valid) {
             self::quit('Login information could not be authenticated');
         }
     }
@@ -1221,13 +1210,13 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Logs the current command
      *
      * @param   RemoteApi $client The connection resource
-     * @param   string $auth The authentication token
+     * @param   array $auth Array of authentication information (email, password)
      * @param   string $command The command used to run this script.
      */
     public static function log($client, $auth, $command)
     {
         try {
-            $client->logCommand($auth, $command);
+            $client->logCommand($auth[0], $auth[1], $command);
         } catch (Eventum_RPC_Exception $e) {
             self::quit($e->getMessage());
         }
