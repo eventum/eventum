@@ -1339,10 +1339,11 @@ class Notification
      * Method used to send an IRC notification about a blocked email that was
      * saved into an internal note.
      *
+     * @api
      * @param   integer $issue_id The issue ID
      * @param   string $from The sender of the blocked email message
      */
-    public function notifyIRCBlockedMessage($issue_id, $from)
+    public static function notifyIRCBlockedMessage($issue_id, $from)
     {
         $notice = "Issue #$issue_id updated (";
         // also add information about the assignee, if any
