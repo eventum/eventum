@@ -585,7 +585,7 @@ class Workflow
      * @param   object $structure An object containing the decoded email
      * @return  mixed null by default, -1 if the rest of the email script should not be processed.
      */
-    public static function preEmailDownload($prj_id, $info, $mbox, $num, &$message, &$email, &$structure)
+    public static function preEmailDownload($prj_id, $info, $mbox, $num, &$message, $email, $structure)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;

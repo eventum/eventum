@@ -419,7 +419,7 @@ class Abstract_Workflow_Backend
      * @param   object $email An object containing the decoded email
      * @return  mixed null by default, -1 if the rest of the email script should not be processed.
      */
-    public function preEmailDownload($prj_id, $info, $mbox, $num, &$message, &$email)
+    public function preEmailDownload($prj_id, $info, $mbox, $num, &$message, $email)
     {
         return null;
     }
