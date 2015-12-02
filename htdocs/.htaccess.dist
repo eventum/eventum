@@ -1,0 +1,25 @@
+#
+# .htaccess for development.
+# symlink or copy this to .htaccess.
+#
+# For production, you should put equivalent contents to Apache main config.
+#
+
+AddDefaultCharset "utf-8"
+
+# Optimize caching
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/gif "now plus 6 weeks"
+ExpiresByType image/png "now plus 6 weeks"
+ExpiresByType image/jpeg "now plus 6 weeks"
+ExpiresByType text/javascript "now plus 6 weeks"
+ExpiresByType text/css "now plus 6 weeks"
+ExpiresByType font/woff2 "now plus 6 weeks"
+ExpiresByType image/x-icon "now plus 6 weeks"
+</IfModule>
+
+<IfModule mod_mime.c>
+AddType font/woff2 woff2
+AddType image/x-icon ico
+</IfModule>
