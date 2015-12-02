@@ -417,9 +417,10 @@ class Abstract_Workflow_Backend
      * @param   integer $num The sequential email number
      * @param   string $message The complete email message
      * @param   object $email An object containing the decoded email
+     * @param   object $structure An object containing the decoded email
      * @return  mixed null by default, -1 if the rest of the email script should not be processed.
      */
-    public function preEmailDownload($prj_id, $info, $mbox, $num, &$message, $email)
+    public function preEmailDownload($prj_id, $info, $mbox, $num, &$message, $email, $structure = null)
     {
         return null;
     }
