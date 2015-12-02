@@ -310,11 +310,13 @@ class Priority
     /**
      * Method used to get the pri_id of a project by priority title.
      *
+     * NOTE: not used by eventum core, but can be used from workflow methods.
+     *
      * @param   integer $prj_id The project ID
      * @param   string $pri_title The priority title
      * @return  integer $pri_id The priority ID
      */
-    public function getPriorityID($prj_id, $pri_title)
+    public static function getPriorityID($prj_id, $pri_title)
     {
         $stmt = 'SELECT
                     pri_id
