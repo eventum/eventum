@@ -27,9 +27,6 @@ class MainController extends BaseController
     /** @var string */
     protected $tpl_name = 'main.tpl.html';
 
-    /** @var bool */
-    private $hide_closed;
-
     /** @var int */
     private $role_id;
 
@@ -44,13 +41,6 @@ class MainController extends BaseController
      */
     protected function configure()
     {
-        $request = $this->getRequest();
-
-        // hide_closed is NULL if it's not specified on GET/POST
-        // otherwise it's 1 or 0
-        if ($request->query->has('hide_closed') || $request->request->has('hide_closed')) {
-            $this->hide_closed = $request->request->get('hide_closed') ?: $request->query->get('hide_closed');
-        }
     }
 
     /**
@@ -80,25 +70,45 @@ class MainController extends BaseController
     }
 
     /**
+     * Load hide_closed flag from various sources
+     * if it was set from GET/POST, update cookie and search profile
+     *
+     * FIXME: why both? drop cookie?
+     *
      * @return int
      */
     private function getHideClosedFlag()
     {
         $cookie_name = APP_HIDE_CLOSED_STATS_COOKIE;
+        $request = $this->getRequest();
+        $hide_closed = null;
 
-        // update cookie from GET/POST
-        if ($this->hide_closed !== null) {
-            Auth::setCookie($cookie_name, $this->hide_closed, time() + Date_Helper::YEAR);
-            $_COOKIE[$cookie_name] = $this->hide_closed;
+        // hide_closed is NULL if it's not specified in GET/POST
+        // otherwise it's 1 or 0
+        if ($request->query->has('hide_closed') || $request->request->has('hide_closed')) {
+            $hide_closed = (int)$request->request->get('hide_closed') ?: (int)$request->query->get('hide_closed');
+
+            Auth::setCookie($cookie_name, $hide_closed, time() + Date_Helper::YEAR);
+            Search_Profile::save(
+                $this->usr_id, $this->prj_id, 'stats', array('hide_closed' => $hide_closed)
+            );
         }
 
-        if (isset($_COOKIE[$cookie_name])) {
+        // load it from cookie
+        if ($hide_closed === null && isset($_COOKIE[$cookie_name])) {
             $hide_closed = $_COOKIE[$cookie_name];
-        } else {
-            $hide_closed = 0;
         }
 
-        return $hide_closed;
+        // load it from search profile
+        if ($hide_closed === null) {
+            $search_profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'stats');
+
+            if (!empty($search_profile)) {
+                $hide_closed = $search_profile['hide_closed'];
+            }
+        }
+
+        return (int)$hide_closed;
     }
 
     /**
@@ -135,18 +145,6 @@ class MainController extends BaseController
                     )
                 );
             }
-        }
-
-        if ($this->hide_closed === null) {
-            $search_profile = Search_Profile::getProfile($this->usr_id, $this->prj_id, 'stats');
-
-            if (!empty($search_profile)) {
-                $hide_closed = $search_profile['hide_closed'];
-            }
-        } else {
-            Search_Profile::save(
-                $this->usr_id, $this->prj_id, 'stats', array('hide_closed' => $hide_closed)
-            );
         }
 
         $this->tpl->assign(
