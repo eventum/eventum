@@ -27,7 +27,7 @@
 
 class APIAuthToken
 {
-    private static $default_alg = "HS256";
+    private static $default_alg = 'HS256';
 
     public static function generate($usr_id)
     {
@@ -42,12 +42,12 @@ class APIAuthToken
 
     public static function saveToken($usr_id, $token)
     {
-        $sql = "INSERT INTO
+        $sql = 'INSERT INTO
                     {{%api_token}}
                 SET
                     apt_usr_id = ?,
                     apt_created = ?,
-                    apt_token = ?";
+                    apt_token = ?';
         try {
             $res = DB_Helper::getInstance()->query($sql, array(
                 $usr_id,
@@ -62,7 +62,7 @@ class APIAuthToken
     public static function isTokenValidForEmail($token, $email)
     {
         try {
-            if (self::checkTokenStatus($token) == User::getUserIDByEmail($email)) {
+            if (self::checkTokenStatus($token) == User::getUserIDByEmail($email, true)) {
                 return true;
             }
         } catch (AuthException $e) {
@@ -82,10 +82,10 @@ class APIAuthToken
         try {
             $usr_id = DB_Helper::getInstance()->getOne($sql, array($token));
         } catch (DbException $e) {
-            throw new AuthException("Error fetching user token");
+            throw new AuthException('Error fetching user token');
         }
         if (empty($usr_id)) {
-            throw new AuthException("Invalid token");
+            throw new AuthException('Invalid token');
         }
         return $usr_id;
     }
@@ -100,14 +100,14 @@ class APIAuthToken
             $usr_id = self::checkTokenStatus($token);
 
             return $usr_id;
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             throw new AuthException($e);
         }
     }
 
     public static function getTokensForUser($usr_id, $auto_generate = false)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     apt_id,
                     apt_usr_id as usr_id,
                     apt_created as created,
@@ -118,7 +118,7 @@ class APIAuthToken
                 WHERE
                     apt_usr_id = ?
                 ORDER BY
-                    apt_created DESC";
+                    apt_created DESC';
         try {
             $res = DB_Helper::getInstance()->getAll($sql, array($usr_id));
         } catch (DbException $e) {
@@ -127,11 +127,13 @@ class APIAuthToken
         if (empty($res)) {
             if ($auto_generate) {
                 self::generate($usr_id);
+
                 return self::getTokensForUser($usr_id, false);
             } else {
                 return array();
             }
         }
+
         return $res;
     }
 
@@ -150,6 +152,8 @@ class APIAuthToken
         }
 
         $res = self::generate($usr_id);
+
         return 1;
     }
+
 }
