@@ -118,7 +118,7 @@ $tpl->assign(array(
 ));
 
 if (Auth::getCurrentRole() >= User::ROLE_USER) {
-    $tpl->assign("api_tokens", APIAuthToken::getTokensForUser($usr_id, true));
+    $tpl->assign('api_tokens', APIAuthToken::getTokensForUser($usr_id, true));
 }
 
 $tpl->displayTemplate();

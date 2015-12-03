@@ -24,7 +24,6 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-
 class APIAuthToken
 {
     private static $default_alg = 'HS256';
@@ -87,6 +86,7 @@ class APIAuthToken
         if (empty($usr_id)) {
             throw new AuthException('Invalid token');
         }
+
         return $usr_id;
     }
 
