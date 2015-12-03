@@ -27,7 +27,6 @@
 // +----------------------------------------------------------------------+
 //
 
-
 /**
  * Class to handle the business logic related to the email feature of
  * the application.
@@ -399,7 +398,7 @@ class Support
         $mbox = @imap_open(self::getServerURI($info), $info['ema_username'], $info['ema_password']);
         if ($mbox === false) {
             $error = @imap_last_error();
-            Error_Handler::logError('Error while connecting to the email server - ' . $error, __FILE__, __LINE__);
+            Logger::app()->error("Error while connecting to the email server - {$error}");
         }
 
         return $mbox;
@@ -420,7 +419,6 @@ class Support
     /**
      * Method used to get new emails from the mailbox.
      *
-     * @access public
      * @param  resource $mbox The mailbox
      * @return array Array of new message numbers.
      */
@@ -714,7 +712,7 @@ class Support
 
                         // need to handle attachments coming from notes as well
                         if ($res != -1) {
-                            Support::extractAttachments($t['issue_id'], $structure, true, $res);
+                            self::extractAttachments($t['issue_id'], $structure, true, $res);
                         }
                     }
                 }
@@ -761,7 +759,8 @@ class Support
                         $addr = Mail_Helper::getEmailAddress($structure->headers['from']);
                         if (Misc::isError($addr)) {
                             // XXX should we log or is this expected?
-                            Error_Handler::logError(array($addr->getMessage()." addr: $addr", $addr->getDebugInfo()), __FILE__, __LINE__);
+                            Logger::app()->error($addr->getMessage(), array('debug' => $res->getDebugInfo(), 'address' => $structure->headers['from']));
+
                             $usr_id = APP_SYSTEM_USER_ID;
                         } else {
                             $usr_id = User::getUserIDByEmail($addr);
@@ -2760,7 +2759,7 @@ class Support
             return 0;
         }
 
-        $issue_id = Support::getIssueFromEmail($sup_id);
+        $issue_id = self::getIssueFromEmail($sup_id);
         $sql = 'SELECT
                     sup_id,
                     @sup_seq := @sup_seq+1

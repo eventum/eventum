@@ -272,7 +272,7 @@ abstract class CRM
      */
     public static function hasCustomerIntegration($prj_id)
     {
-        $backend = CRM::getBackendNameByProject($prj_id);
+        $backend = self::getBackendNameByProject($prj_id);
         if (empty($backend)) {
             return false;
         } else {
@@ -340,7 +340,7 @@ abstract class CRM
      */
     private static function getBackendByProject($prj_id)
     {
-        $backend_class = CRM::getBackendNameByProject($prj_id);
+        $backend_class = self::getBackendNameByProject($prj_id);
         if (empty($backend_class)) {
             return false;
         }
@@ -400,7 +400,7 @@ abstract class CRM
         }
 
         foreach ($res as &$row) {
-            $crm = CRM::getInstance($row['cam_prj_id']);
+            $crm = self::getInstance($row['cam_prj_id']);
             try {
                 $customer = $crm->getCustomer($row['cam_customer_id']);
                 $row['customer_title'] = $customer->getName();
@@ -622,7 +622,7 @@ abstract class CRM
 
         foreach ($res as &$row) {
             try {
-                $crm = CRM::getInstance($row['cno_prj_id']);
+                $crm = self::getInstance($row['cno_prj_id']);
                 $row['customer_title'] = $crm->getCustomer($row['cno_customer_id'])->getName();
             } catch (Exception $e) {
             }

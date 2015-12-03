@@ -137,14 +137,14 @@ abstract class Contract
     /**
      * Returns true if this contract is expired, false otherwise.
      *
-     * @return  Boolean
+     * @return  boolean
      */
     abstract public function isExpired();
 
     /**
      * Returns true if this contract is active, false otherwise.
      *
-     * @return  Boolean
+     * @return  boolean
      */
     abstract public function isActive();
 

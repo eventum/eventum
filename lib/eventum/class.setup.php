@@ -116,8 +116,7 @@ class Setup
             }
         } catch (Exception $e) {
             $code = $e->getCode();
-            error_log($e->getMessage());
-            error_log($e->getTraceAsString());
+            Logger::app()->error($e);
 
             return $code ?: -1;
         }
@@ -135,6 +134,11 @@ class Setup
         $config = new Config(self::getDefaults(), true);
         $config->merge(new Config(self::loadConfigFile(APP_SETUP_FILE, $migrate)));
 
+        if ($migrate) {
+            // save config in new format
+            self::saveConfig(APP_SETUP_FILE, $config);
+        }
+
         // some subtrees are saved to different files
         $extra_configs = array(
             'ldap' => APP_CONFIG_PATH . '/ldap.php',
@@ -147,13 +151,13 @@ class Setup
 
             $subconfig = self::loadConfigFile($filename, $migrate);
             if ($subconfig) {
+                if ($migrate) {
+                    // save config in new format
+                    self::saveConfig($filename, new Config($subconfig));
+                }
                 $config->merge(new Config(array($section => $subconfig)));
             }
-        }
 
-        if ($migrate) {
-            // save config in new format
-            self::saveConfig(APP_SETUP_FILE, $config);
         }
 
         return $config;
@@ -173,7 +177,7 @@ class Setup
 
         // return empty array if the file is empty
         // this is to help eventum installation wizard to proceed
-        if (!filesize($path)) {
+        if (!file_exists($path) || !filesize($path)) {
             return array();
         }
 

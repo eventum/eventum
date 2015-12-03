@@ -26,7 +26,10 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-require_once __DIR__ . '/../init.php';
+// this file may be called from db_helper, so init already called
+if (!defined('APP_PATH')) {
+    require_once __DIR__ . '/../init.php';
+}
 
 $tpl = new Template_Helper();
 if (php_sapi_name() == 'cli') {

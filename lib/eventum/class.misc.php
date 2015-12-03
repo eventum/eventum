@@ -27,7 +27,6 @@
 // +----------------------------------------------------------------------+
 //
 
-
 /**
  * Class to hold methods and algorythms that woudln't fit in other classes, such
  * as functions to work around PHP bugs or incompatibilities between separate
@@ -99,6 +98,7 @@ class Misc
     /*
      * Merge two arrays so that $a contains all keys that $b would
      */
+
     public static function array_extend($a, $b)
     {
         foreach ($b as $k => $v) {
@@ -849,7 +849,7 @@ class Misc
     {
         foreach ($map as $val => $info) {
             if ($result == $val) {
-                Misc::setMessage($info[0], $info[1]);
+                self::setMessage($info[0], $info[1]);
 
                 return;
             }
@@ -862,7 +862,7 @@ class Misc
             $update_tpl = new Template_Helper();
             $update_tpl->setTemplate('include/notified_list.tpl.html');
             $update_tpl->assign('notify_list', $notify_list);
-            Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
+            self::setMessage($update_tpl->getTemplateContents(false), self::MSG_HTML_BOX);
         }
     }
 
@@ -933,7 +933,7 @@ class Misc
 
     public static function displayErrorMessage($msg)
     {
-        Misc::setMessage($msg, Misc::MSG_ERROR);
+        self::setMessage($msg, self::MSG_ERROR);
         $tpl = new Template_Helper();
         $tpl->setTemplate('error_message.tpl.html');
         $tpl->displayTemplate();

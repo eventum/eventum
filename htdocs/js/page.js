@@ -496,6 +496,9 @@ issue_update.validateForm = function()
         Validation.errors[Validation.errors.length] = new Option('Percentage complete should be between 0 and 100', 'percent_complete');
         return false;
     }
+
+    Validation.checkCustomFields(f);
+
     return true;
 };
 

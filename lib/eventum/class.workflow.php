@@ -544,10 +544,10 @@ class Workflow
      */
     public static function canSendNote($prj_id, $issue_id, $email, $structure)
     {
-        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+        if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = Workflow::_getBackend($prj_id);
+        $backend = self::_getBackend($prj_id);
 
         return $backend->canSendNote($prj_id, $issue_id, $email, $structure);
     }
@@ -562,10 +562,10 @@ class Workflow
      */
     public static function canCloneIssue($prj_id, $issue_id, $usr_id)
     {
-        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+        if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = Workflow::_getBackend($prj_id);
+        $backend = self::_getBackend($prj_id);
 
         return $backend->canCloneIssue($prj_id, $issue_id, $usr_id);
     }

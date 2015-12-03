@@ -81,7 +81,7 @@ class Authorized_Replier
                 $names[] = $row['replier'];
             }
         }
-        $repliers['all']  = array_merge($repliers['users'], $repliers['other']);
+        $repliers['all'] = array_merge($repliers['users'], $repliers['other']);
 
         return array(
             $names,

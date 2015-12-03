@@ -525,6 +525,17 @@ Validation.isNumberOnly = function(s)
     }
 };
 
+/**
+ * Checks if field value is valid RGB hex number.
+ * @param {String} field name of the field
+ * @returns {boolean}
+ */
+Validation.isFieldRGBhex = function(field) {
+    var s = Eventum.getField(field).val();
+
+    return !!s.match(/^#[a-f0-9]{6}$/i);
+};
+
 Validation.hasOneSelected = function(field)
 {
     field = Eventum.getField(field);
@@ -806,7 +817,6 @@ ExpandableCell.ready = function()
             ExpandableCell.expand(expand_type, list_id);
         } else {
             $.each(expand_type.split(","), function(index, value) {
-                console.debug(value);
                 $('.expandable_buttons.' + value + ' .expand').each(function() {
                     this.click();
                 })

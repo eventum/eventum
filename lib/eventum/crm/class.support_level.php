@@ -30,7 +30,7 @@ abstract class Support_Level
     public function __construct(CRM $crm, $level_id)
     {
         $this->crm = $crm;
-        $this->connection = & $crm->getConnection();
+        $this->connection = &$crm->getConnection();
         $this->level_id = $level_id;
 
         $this->load();

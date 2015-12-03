@@ -36,7 +36,6 @@ class CLI_Misc
     /**
      * Method used to print a prompt asking the user for information.
      *
-     * @access  public
      * @param   string $message The message to print
      * @param   string $default_value The default value to be used if the user just press <enter>
      * @return  string The user response
@@ -65,7 +64,6 @@ class CLI_Misc
     /**
      * Method used to get the standard input.
      *
-     * @access  public
      * @return  string The standard input value
      */
     public function getInput()

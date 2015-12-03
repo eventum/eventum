@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -39,10 +40,10 @@ foreach ($customers as $customer_id => $customer_name) {
     $details = Customer::getDetails($prj_id, $customer_id);
 
     foreach ($details['contacts'] as $contact) {
-        echo "Contact: " . $contact['first_name'] . " " . $contact['last_name'] . " (" . $contact['email'] . ")<br />\n";
+        echo 'Contact: ' . $contact['first_name'] . ' ' . $contact['last_name'] . ' (' . $contact['email'] . ")<br />\n";
         $contact_id = User::getUserIDByContactID($contact['contact_id']);
         if (empty($contact_id)) {
-            $sql = "INSERT INTO
+            $sql = 'INSERT INTO
                         {{%user}}
                     SET
                         usr_created_date = ?,
@@ -50,10 +51,10 @@ foreach ($customers as $customer_id => $customer_name) {
                         usr_email = ?,
                         usr_customer_id = ?,
                         usr_customer_contact_id = ?,
-                        usr_preferences = ?";
+                        usr_preferences = ?';
             $params = array(
                 Date_Helper::getCurrentDateGMT(),
-                $contact['first_name'] . " " . $contact['last_name'],
+                $contact['first_name'] . ' ' . $contact['last_name'],
                 $contact['email'],
                 $customer_id,
                 $contact['contact_id'],
@@ -63,11 +64,11 @@ foreach ($customers as $customer_id => $customer_name) {
             try {
                 DB_Helper::getInstance()->query($sql, $params);
             } catch (DbException $e) {
-                echo "Error inserting user<br />";
+                echo 'Error inserting user<br />';
             }
             $new_usr_id = DB_Helper::get_last_insert_id();
             Project::associateUser($prj_id, $new_usr_id, User::ROLE_CUSTOMER);
         }
     }
-    echo "<hr />";
+    echo '<hr />';
 }

@@ -92,9 +92,10 @@ class Mime_Helper
         $parts = array();
         self::parse_output($output, $parts);
         if (empty($parts)) {
-            Error_Handler::logError(array('self::parse_output failed. Corrupted MIME in email?', $output), __FILE__, __LINE__);
+            Logger::app()->debug('parse_output failed. Corrupted MIME in email?', array('output' => $output));
             // we continue as if nothing happened until it's clear it's right check to do.
         }
+
         $str = '';
         $is_html = false;
         if (isset($parts['text'])) {
@@ -225,7 +226,6 @@ class Mime_Helper
      * @param   string $string The string in APP_CHARSET encoding
      * @return  string encoded string
      */
-
     public static function encodeQuotedPrintable($string)
     {
         if (function_exists('iconv_mime_encode')) {
@@ -503,8 +503,8 @@ class Mime_Helper
 
         $return = array();
         // Unfold the input
-        $input   = preg_replace("/\r?\n/", "\r\n", $input);
-        $input   = preg_replace("/\r\n(\t| )+/", ' ', $input);
+        $input = preg_replace("/\r?\n/", "\r\n", $input);
+        $input = preg_replace("/\r\n(\t| )+/", ' ', $input);
         $headers = explode("\r\n", trim($input));
         foreach ($headers as $value) {
             $hdr_name = substr($value, 0, strpos($value, ':'));

@@ -37,7 +37,7 @@ class DbPear implements DbInterface
     public function __construct(array $config)
     {
         $dsn = array(
-            'phptype'  => $config['driver'],
+            'phptype' => $config['driver'],
             'hostspec' => $config['hostname'],
             'database' => $config['database'],
             'username' => $config['username'],
@@ -61,7 +61,7 @@ class DbPear implements DbInterface
         }
 
         $db = DB::connect($dsn);
-        $this->assertError($db, 1);
+        $this->assertError($db);
 
         // DBTYPE specific session setup commands
         switch ($dsn['phptype']) {
@@ -218,41 +218,44 @@ class DbPear implements DbInterface
      *
      * @param $e PEAR_Error|array|object|int
      */
-    private function assertError($e, $depth = 2)
+    private function assertError($e)
     {
         if (!Misc::isError($e)) {
             return;
         }
 
-        list($file, $line) = self::getTrace($depth);
-        Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), $file, $line);
+        $context = array(
+            'debuginfo' => $e->getDebugInfo(),
+        );
+
+        // walk up in $e->backtrace until we find ourself
+        // and from it we can get method name and it's arguments
+        foreach ($e->backtrace as $i => $stack) {
+            if (!isset($stack['object'])) {
+                continue;
+            }
+            if (!$stack['object'] instanceof self) {
+                continue;
+            }
+
+            $context['method'] = $stack['function'];
+            $context['arguments'] = $stack['args'];
+
+            // add these last, they are least interesting ones
+            $context['code'] = $e->getCode();
+            $context['file'] = $stack['file'];
+            $context['line'] = $stack['line'];
+            break;
+        }
+
+        Logger::db()->error($e->getMessage(), $context);
 
         $de = new DbException($e->getMessage(), $e->getCode());
-        $de->setExceptionLocation($file, $line);
+        if (isset($context['file'])) {
+            $de->setExceptionLocation($context['file'], $context['line']);
+        }
 
-        error_log($de->getMessage());
-        error_log($de->getTraceAsString());
         throw $de;
-    }
-
-    /**
-     * Get array of FILE and LOCATION from backtrace
-     *
-     * @param int $depth
-     * @return array
-     */
-    private static function getTrace($depth = 1)
-    {
-        $trace = debug_backtrace();
-        if (!isset($trace[$depth])) {
-            return null;
-        }
-        $caller = (object) $trace[$depth];
-        if (!isset($caller->file)) {
-            return null;
-        }
-
-        return array($caller->file, $caller->line);
     }
 
     /**

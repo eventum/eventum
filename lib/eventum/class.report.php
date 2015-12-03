@@ -858,6 +858,7 @@ class Report
 
         return $data;
     }
+
     /**
      * Returns data for the custom fields weekly report, based on the field and options passed in.
      *
@@ -950,6 +951,7 @@ class Report
 
         return $res;
     }
+
     /**
      * Returns workload information for the specified date range and interval.
      *

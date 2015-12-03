@@ -39,7 +39,6 @@ Session.vim
 /config/workflow/
 
 /htdocs/components
-/htdocs/debugbar
 /eventum-setup
 
 /localization/*.mo

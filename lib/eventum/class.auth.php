@@ -26,7 +26,6 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-
 /**
  * Class to handle authentication issues.
  */
@@ -76,13 +75,13 @@ class Auth
      */
     public static function saveLoginAttempt($email, $type, $extra = null)
     {
-        $msg = Date_Helper::getCurrentDateGMT() . " - Login attempt by '$email' was ";
+        $msg = "Login attempt by '$email' was ";
         if ($type == 'success') {
-            $msg .= "successful.\n";
+            $msg .= 'successful.';
         } else {
-            $msg .= "not successful because of '$extra'.\n";
+            $msg .= "not successful because of '$extra'.";
         }
-        file_put_contents(APP_LOGIN_LOG, $msg, FILE_APPEND);
+        Logger::auth()->info($msg, array('user' => $email, 'type' => $type, 'extra' => $extra));
     }
 
     /**
@@ -113,7 +112,7 @@ class Auth
                 } else {
                     // check for valid HTTP_BASIC params
                     if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
-                        if (Auth::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
+                        if (self::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
                             $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER'], true);
                             $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
                             AuthCookie::setAuthCookie(APP_ANON_USER);
@@ -192,20 +191,20 @@ class Auth
     public static function login($login)
     {
         // handle aliases since the user is now authenticated
-        $login = User::getEmail(Auth::getUserIDByLogin($login));
+        $login = User::getEmail(self::getUserIDByLogin($login));
 
         // check if this user did already confirm his account
-        if (Auth::isPendingUser($login)) {
-            Auth::saveLoginAttempt($login, 'failure', 'pending user');
-            Auth::redirect('index.php?err=9');
+        if (self::isPendingUser($login)) {
+            self::saveLoginAttempt($login, 'failure', 'pending user');
+            self::redirect('index.php?err=9');
         }
         // check if this user is really an active one
-        if (!Auth::isActiveUser($login)) {
-            Auth::saveLoginAttempt($login, 'failure', 'inactive user');
-            Auth::redirect('index.php?err=7');
+        if (!self::isActiveUser($login)) {
+            self::saveLoginAttempt($login, 'failure', 'inactive user');
+            self::redirect('index.php?err=7');
         }
 
-        Auth::saveLoginAttempt($login, 'success');
+        self::saveLoginAttempt($login, 'success');
 
         $remember = !empty($_POST['remember']);
         AuthCookie::setAuthCookie($login, $remember);
@@ -512,9 +511,8 @@ class Auth
             try {
                 $instance = new $class();
             } catch (AuthException $e) {
-                $message = "Unable to use auth backend '$class': {$e->getMessage()}";
-                error_log($message);
-                Error_Handler::logError($message);
+                $message = "Unable to use auth backend '$class'";
+                Logger::app()->critical($message, array('exception' => $e));
 
                 if (APP_AUTH_BACKEND_ALLOW_FALLBACK != true) {
                     $tpl = new Template_Helper();

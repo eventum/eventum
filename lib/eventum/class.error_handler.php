@@ -26,7 +26,6 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-
 /**
  * Class to manage all tasks related to error conditions of the site, such as
  * logging facilities or alert notifications to the site administrators.
@@ -45,7 +44,7 @@ class Error_Handler
      */
     public static function logError($error_msg = 'unknown', $script = 'unknown', $line = 0, $notify_error = true)
     {
-        $msg = & self::_createErrorReport($error_msg, $script, $line);
+        $msg = &self::_createErrorReport($error_msg, $script, $line);
 
         if (is_resource(APP_ERROR_LOG)) {
             fwrite(APP_ERROR_LOG, date('[D M d H:i:s Y] '));

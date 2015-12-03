@@ -1,0 +1,36 @@
+# https://styleci.readme.io/docs/configuration
+# https://styleci.readme.io/v1.0/docs/presets
+# https://styleci.readme.io/v1.0/docs/fixers
+
+disabled:
+  - align_double_arrow
+  - concat_without_spaces
+  - empty_return
+  - multiline_array_trailing_comma
+  - no_empty_lines_after_phpdocs
+  - phpdoc_indent
+  - phpdoc_no_access
+  - phpdoc_no_package
+  - phpdoc_order
+  - phpdoc_params
+  - phpdoc_scalar
+  - phpdoc_separation
+  - phpdoc_short_description
+  - phpdoc_to_comment
+  - phpdoc_trim
+  - phpdoc_type_to_var
+  - phpdoc_var_without_name
+  - short_array_syntax
+
+finder:
+  exclude:
+    - "smarty"
+  name:
+    - "*.php"
+  path:
+    - "cli"
+    - "bin"
+    - "htdocs"
+    - "lib/eventum"
+    - "scm"
+    - "upgrade"

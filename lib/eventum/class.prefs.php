@@ -26,7 +26,6 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-
 /**
  * Class to handle the business logic related to the user preferences
  * available in the application.
@@ -97,10 +96,10 @@ class Prefs
         try {
             $res = DB_Helper::getInstance()->getRow($sql, array($usr_id));
         } catch (DbException $e) {
-            return Prefs::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
+            return self::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
         }
         if ($res === null) {
-            return Prefs::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
+            return self::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
         }
 
         $returns[$usr_id] = $res;

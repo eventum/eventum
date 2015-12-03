@@ -26,7 +26,6 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-
 /**
  * Class to handle the business logic related to the administration
  * of custom fields in the system.
@@ -514,6 +513,7 @@ class Custom_Field
                 $row['fld_report_form_required'] = $backend->isRequired($row['fld_id'], 'report');
                 $row['fld_anonymous_form_required'] = $backend->isRequired($row['fld_id'], 'anonymous');
                 $row['fld_close_form_required'] = $backend->isRequired($row['fld_id'], 'close');
+                $row['edit_form_required'] = $backend->isRequired($row['fld_id'], 'edit');
             }
             if ((is_object($backend)) && (method_exists($backend, 'getValidationJS'))) {
                 $row['validation_js'] = $backend->getValidationJS($row['fld_id'], $form_type);
@@ -671,6 +671,7 @@ class Custom_Field
                     fld_report_form_required,
                     fld_anonymous_form_required,
                     fld_close_form_required,
+                    fld_edit_form_required,
                     ' . self::getDBValueFieldSQL() . ' as value,
                     icf_value,
                     icf_value_date,
@@ -777,6 +778,7 @@ class Custom_Field
                 $fields[$key]['fld_report_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'report', $iss_id);
                 $fields[$key]['fld_anonymous_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'anonymous', $iss_id);
                 $fields[$key]['fld_close_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'close', $iss_id);
+                $fields[$key]['fld_edit_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'edit', $iss_id);
             }
             if ((is_object($backend)) && (method_exists($backend, 'getValidationJS'))) {
                 $fields[$key]['validation_js'] = $backend->getValidationJS($fields[$key]['fld_id'], $form_type, $iss_id);
@@ -894,6 +896,9 @@ class Custom_Field
         if (empty($_POST['close_form_required'])) {
             $_POST['close_form_required'] = 0;
         }
+        if (empty($_POST['edit_form_required'])) {
+            $_POST['edit_form_required'] = 0;
+        }
         if (empty($_POST['list_display'])) {
             $_POST['list_display'] = 0;
         }
@@ -915,6 +920,7 @@ class Custom_Field
                     fld_anonymous_form_required,
                     fld_close_form,
                     fld_close_form_required,
+                    fld_edit_form_required,
                     fld_list_display,
                     fld_min_role,
                     fld_rank,
@@ -922,7 +928,7 @@ class Custom_Field
                  ) VALUES (
                      ?, ?, ?, ?, ?,
                      ?, ?, ?, ?, ?,
-                     ?, ?, ?
+                     ?, ?, ?, ?
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array(
@@ -935,6 +941,7 @@ class Custom_Field
                 $_POST['anon_form_required'],
                 $_POST['close_form'],
                 $_POST['close_form_required'],
+                $_POST['edit_form_required'],
                 $_POST['list_display'],
                 $_POST['min_role'],
                 $_POST['rank'],
@@ -1204,6 +1211,9 @@ class Custom_Field
         if (empty($_POST['close_form_required'])) {
             $_POST['close_form_required'] = 0;
         }
+        if (empty($_POST['edit_form_required'])) {
+            $_POST['edit_form_required'] = 0;
+        }
         if (empty($_POST['min_role'])) {
             $_POST['min_role'] = 1;
         }
@@ -1223,6 +1233,7 @@ class Custom_Field
                     fld_anonymous_form_required=?,
                     fld_close_form=?,
                     fld_close_form_required=?,
+                    fld_edit_form_required=?,
                     fld_list_display=?,
                     fld_min_role=?,
                     fld_rank = ?,
@@ -1240,6 +1251,7 @@ class Custom_Field
                 $_POST['anon_form_required'],
                 $_POST['close_form'],
                 $_POST['close_form_required'],
+                $_POST['edit_form_required'],
                 $_POST['list_display'],
                 $_POST['min_role'],
                 $_POST['rank'],

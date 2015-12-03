@@ -26,7 +26,6 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-
 /**
  * Class to handle the business logic related to the help
  * documentation, such as providing a dynamic list of topics related
@@ -36,6 +35,7 @@
 class Help
 {
     private static $topics;
+
     private static function getTopics()
     {
         if (self::$topics !== null) {

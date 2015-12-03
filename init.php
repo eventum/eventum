@@ -77,8 +77,6 @@ $define('APP_TPL_COMPILE_PATH', APP_VAR_PATH . '/cache');
 $define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
 $define('APP_LOG_PATH', APP_VAR_PATH . '/log');
 $define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
-$define('APP_CLI_LOG', APP_LOG_PATH . '/cli.log');
-$define('APP_LOGIN_LOG', APP_LOG_PATH . '/login_attempts.log');
 
 // define the user_id of system user
 $define('APP_SYSTEM_USER_ID', 1);
@@ -139,6 +137,7 @@ Misc::stripInput($_POST);
 // set default timezone
 date_default_timezone_set(APP_DEFAULT_TIMEZONE);
 
+Logger::initialize();
 Language::setup();
 
 // set charset
@@ -169,7 +168,4 @@ if (!defined('APP_DEFAULT_DB') || !defined('APP_TABLE_PREFIX')) {
 }
 */
 
-// setup debugbar, if it can be autoloaded
-if (class_exists('DebugBar\StandardDebugBar')) {
-    $debugbar = new DebugBar\StandardDebugBar();
-}
+Eventum\DebugBar::initialize();

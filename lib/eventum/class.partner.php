@@ -24,7 +24,6 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-
 /**
  * Handles the interactions between Eventum and partner backends.
  */

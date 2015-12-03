@@ -26,7 +26,6 @@
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
 
-
 /**
  * Class to handle the business logic related to the custom filters.
  */
@@ -451,7 +450,7 @@ class Filter
         if (count($res) > 0 && $build_url == true) {
             $filter_info = self::getFiltersInfo();
             foreach ($res as &$row) {
-                $row['url'] = Filter::buildUrl($filter_info, self::removeCSTprefix($row));
+                $row['url'] = self::buildUrl($filter_info, self::removeCSTprefix($row));
             }
         }
 
@@ -766,7 +765,7 @@ class Filter
             if ($display != false) {
                 $return[$filter['title']] = array(
                     'value' =>  $display,
-                    'remove_link'   =>  'list.php?view=clearandfilter&' . Filter::buildUrl($filter_info, $options, $filter_key, true),
+                    'remove_link'   =>  'list.php?view=clearandfilter&' . self::buildUrl($filter_info, $options, $filter_key, true),
                 );
             }
         }
@@ -777,7 +776,7 @@ class Filter
     /**
      * Returns an array of information about all the different filter fields.
      *
-     * @return  Array an array of information.
+     * @return  array an array of information.
      */
     public static function getFiltersInfo()
     {

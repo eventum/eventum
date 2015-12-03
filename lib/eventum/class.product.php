@@ -223,7 +223,7 @@ class Product
         foreach ($old as $row) {
             $ipv_id = $row['ipv_id'];
             if ($row['pro_id'] != $products[$ipv_id]) {
-                $changes[] = "Product changed from '" . $row['product'] . "' to '" . Product::getTitle($products[$ipv_id]);
+                $changes[] = "Product changed from '" . $row['product'] . "' to '" . self::getTitle($products[$ipv_id]);
             }
             if ($row['version'] != $versions[$ipv_id]) {
                 $changes[] = "Product version changed from '" . $row['version'] . "' to '" . $versions[$ipv_id] . "'";

@@ -55,8 +55,7 @@ try {
         'error' => $code ? $code : -1,
         'message' => $e->getMessage(),
     );
-    error_log($e->getMessage());
-    error_log($e->getTraceAsString());
+    Logger::app()->error($e);
 }
 
 header('Content-Type: application/json; charset=UTF-8');

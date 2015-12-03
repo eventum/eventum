@@ -127,7 +127,7 @@ class Mail_Queue
 
         $res = Mail_Helper::prepareHeaders($headers);
         if (Misc::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
 
             return $res;
         }
@@ -196,7 +196,7 @@ class Mail_Queue
 
                 $res = Mail_Helper::prepareHeaders($headers);
                 if (Misc::isError($res)) {
-                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
 
                     return;
                 }
@@ -302,10 +302,7 @@ class Mail_Queue
         $mail = Mail::factory('smtp', Mail_Helper::getSMTPSettings());
         $res = $mail->send($recipient, $headers, $body);
         if (Misc::isError($res)) {
-            // special handling of errors when the mail server is down
-            $msg = $res->getMessage();
-            $cant_notify = ($status == 'error' || strstr($msg, 'unable to connect to smtp server') || stristr($msg, 'Failed to connect to') !== false);
-            Error_Handler::logError(array($msg, $res->getDebugInfo()), __FILE__, __LINE__, !$cant_notify);
+            Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
 
             return $res;
         }
