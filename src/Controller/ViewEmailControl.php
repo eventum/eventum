@@ -89,6 +89,10 @@ class ViewEmailController extends BaseController
             return false;
         }
 
+        if ($this->cat == 'move_email' && (Auth::getCurrentRole() < User::ROLE_USER)) {
+            return false;
+        }
+
         return true;
     }
 
@@ -99,7 +103,7 @@ class ViewEmailController extends BaseController
     {
         if ($this->cat == 'list_emails') {
             $this->listEmailsAction();
-        } elseif ($this->cat == 'move_email' && (Auth::getCurrentRole() >= User::ROLE_USER)) {
+        } elseif ($this->cat == 'move_email') {
             $this->moveMailAction();
         } else {
             $sides = Support::getIssueSides($this->issue_id, $this->sup_id);
