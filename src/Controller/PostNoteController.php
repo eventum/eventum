@@ -143,7 +143,7 @@ class PostNoteController extends BaseController
         }
         $this->tpl->assign('post_result', $res);
 
-        if ($post->has('time_spent')) {
+        if ($post->get('time_spent')) {
             $this->addTimeEntry();
         }
 
