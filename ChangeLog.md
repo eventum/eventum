@@ -1,6 +1,15 @@
 Eventum Issue Tracking System
 =============================
 
+2015-??-??, Version 3.0.7
+--------------------
+
+- emails.php: handle better empty "From:" header. (@glensc, #91)
+- Added ability to require custom fields on the edit form. (@balsdorf, #107)
+- Add logging framework based on monolog (@glensc, #97)
+- Error in the first pie chart in main.php (@glensc, #103)
+- Scheduled Release field loses selected value when updating issue (@balsdorf, #105)
+
 2015-11-10, Version [3.0.6]
 --------------------
 - Update custom fields from update issue page (Bryan Alsdorf, #88)

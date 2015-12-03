@@ -1,31 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle authentication issues.
@@ -76,13 +60,13 @@ class Auth
      */
     public static function saveLoginAttempt($email, $type, $extra = null)
     {
-        $msg = Date_Helper::getCurrentDateGMT() . " - Login attempt by '$email' was ";
+        $msg = "Login attempt by '$email' was ";
         if ($type == 'success') {
-            $msg .= "successful.\n";
+            $msg .= 'successful.';
         } else {
-            $msg .= "not successful because of '$extra'.\n";
+            $msg .= "not successful because of '$extra'.";
         }
-        file_put_contents(APP_LOGIN_LOG, $msg, FILE_APPEND);
+        Logger::auth()->info($msg, array('user' => $email, 'type' => $type, 'extra' => $extra));
     }
 
     /**
@@ -113,7 +97,7 @@ class Auth
                 } else {
                     // check for valid HTTP_BASIC params
                     if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])) {
-                        if (Auth::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
+                        if (self::isCorrectPassword($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
                             $usr_id = User::getUserIDByEmail($_SERVER['PHP_AUTH_USER'], true);
                             $prj_id = reset(array_keys(Project::getAssocList($usr_id)));
                             AuthCookie::setAuthCookie(APP_ANON_USER);
@@ -192,20 +176,20 @@ class Auth
     public static function login($login)
     {
         // handle aliases since the user is now authenticated
-        $login = User::getEmail(Auth::getUserIDByLogin($login));
+        $login = User::getEmail(self::getUserIDByLogin($login));
 
         // check if this user did already confirm his account
-        if (Auth::isPendingUser($login)) {
-            Auth::saveLoginAttempt($login, 'failure', 'pending user');
-            Auth::redirect('index.php?err=9');
+        if (self::isPendingUser($login)) {
+            self::saveLoginAttempt($login, 'failure', 'pending user');
+            self::redirect('index.php?err=9');
         }
         // check if this user is really an active one
-        if (!Auth::isActiveUser($login)) {
-            Auth::saveLoginAttempt($login, 'failure', 'inactive user');
-            Auth::redirect('index.php?err=7');
+        if (!self::isActiveUser($login)) {
+            self::saveLoginAttempt($login, 'failure', 'inactive user');
+            self::redirect('index.php?err=7');
         }
 
-        Auth::saveLoginAttempt($login, 'success');
+        self::saveLoginAttempt($login, 'success');
 
         $remember = !empty($_POST['remember']);
         AuthCookie::setAuthCookie($login, $remember);
@@ -512,9 +496,8 @@ class Auth
             try {
                 $instance = new $class();
             } catch (AuthException $e) {
-                $message = "Unable to use auth backend '$class': {$e->getMessage()}";
-                error_log($message);
-                Error_Handler::logError($message);
+                $message = "Unable to use auth backend '$class'";
+                Logger::app()->critical($message, array('exception' => $e));
 
                 if (APP_AUTH_BACKEND_ALLOW_FALLBACK != true) {
                     $tpl = new Template_Helper();
@@ -584,5 +567,10 @@ class Auth
         } else {
             return $backend_login_url;
         }
+    }
+
+    public static function autoRedirectToExternalLogin()
+    {
+        return self::getAuthBackend()->autoRedirectToExternalLogin();
     }
 }

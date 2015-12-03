@@ -1,4 +1,5 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
@@ -29,8 +30,8 @@ require_once 'XML/RPC.php';
 require_once 'Eventum_RPC.php';
 
 $client = new Eventum_RPC();
-$client->setURL("http://rabbit.impleo.net/rpc/xmlrpc.php");
-$client->setCredentials("user", "password");
+$client->setURL('http://rabbit.impleo.net/rpc/xmlrpc.php');
+$client->setCredentials('user', 'password');
 $client->setDebug(true);
 $id = 64;
 

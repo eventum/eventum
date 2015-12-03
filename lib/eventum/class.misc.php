@@ -1,32 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-//
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to hold methods and algorythms that woudln't fit in other classes, such
@@ -99,6 +82,7 @@ class Misc
     /*
      * Merge two arrays so that $a contains all keys that $b would
      */
+
     public static function array_extend($a, $b)
     {
         foreach ($b as $k => $v) {
@@ -849,7 +833,7 @@ class Misc
     {
         foreach ($map as $val => $info) {
             if ($result == $val) {
-                Misc::setMessage($info[0], $info[1]);
+                self::setMessage($info[0], $info[1]);
 
                 return;
             }
@@ -862,7 +846,7 @@ class Misc
             $update_tpl = new Template_Helper();
             $update_tpl->setTemplate('include/notified_list.tpl.html');
             $update_tpl->assign('notify_list', $notify_list);
-            Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
+            self::setMessage($update_tpl->getTemplateContents(false), self::MSG_HTML_BOX);
         }
     }
 
@@ -933,7 +917,7 @@ class Misc
 
     public static function displayErrorMessage($msg)
     {
-        Misc::setMessage($msg, Misc::MSG_ERROR);
+        self::setMessage($msg, self::MSG_ERROR);
         $tpl = new Template_Helper();
         $tpl->setTemplate('error_message.tpl.html');
         $tpl->displayTemplate();

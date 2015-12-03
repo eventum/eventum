@@ -1,9 +1,6 @@
 <?php
 
-class TestWorkflow extends Abstract_Workflow_Backend {
-}
-
-class WorkflowTest extends TestCase {
+class WorkflowTestCase extends TestCase {
 	protected $workflow_class = 'TestWorkflow';
 
 	/**

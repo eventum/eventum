@@ -1,29 +1,14 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 if (!file_exists(__DIR__ . '/config/config.php') || !filesize(__DIR__ . '/config/config.php')) {
     header('Location: setup/');
@@ -77,8 +62,6 @@ $define('APP_TPL_COMPILE_PATH', APP_VAR_PATH . '/cache');
 $define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
 $define('APP_LOG_PATH', APP_VAR_PATH . '/log');
 $define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
-$define('APP_CLI_LOG', APP_LOG_PATH . '/cli.log');
-$define('APP_LOGIN_LOG', APP_LOG_PATH . '/login_attempts.log');
 
 // define the user_id of system user
 $define('APP_SYSTEM_USER_ID', 1);
@@ -139,6 +122,7 @@ Misc::stripInput($_POST);
 // set default timezone
 date_default_timezone_set(APP_DEFAULT_TIMEZONE);
 
+Logger::initialize();
 Language::setup();
 
 // set charset
@@ -169,7 +153,4 @@ if (!defined('APP_DEFAULT_DB') || !defined('APP_TABLE_PREFIX')) {
 }
 */
 
-// setup debugbar, if it can be autoloaded
-if (class_exists('DebugBar\StandardDebugBar')) {
-    $debugbar = new DebugBar\StandardDebugBar();
-}
+Eventum\DebugBar::initialize();

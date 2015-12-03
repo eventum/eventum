@@ -1,28 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2014-2015 Eventum Team.                                |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 class DbPear implements DbInterface
 {
@@ -37,7 +24,7 @@ class DbPear implements DbInterface
     public function __construct(array $config)
     {
         $dsn = array(
-            'phptype'  => $config['driver'],
+            'phptype' => $config['driver'],
             'hostspec' => $config['hostname'],
             'database' => $config['database'],
             'username' => $config['username'],
@@ -61,7 +48,7 @@ class DbPear implements DbInterface
         }
 
         $db = DB::connect($dsn);
-        $this->assertError($db, 1);
+        $this->assertError($db);
 
         // DBTYPE specific session setup commands
         switch ($dsn['phptype']) {
@@ -218,41 +205,44 @@ class DbPear implements DbInterface
      *
      * @param $e PEAR_Error|array|object|int
      */
-    private function assertError($e, $depth = 2)
+    private function assertError($e)
     {
         if (!Misc::isError($e)) {
             return;
         }
 
-        list($file, $line) = self::getTrace($depth);
-        Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), $file, $line);
+        $context = array(
+            'debuginfo' => $e->getDebugInfo(),
+        );
+
+        // walk up in $e->backtrace until we find ourself
+        // and from it we can get method name and it's arguments
+        foreach ($e->backtrace as $i => $stack) {
+            if (!isset($stack['object'])) {
+                continue;
+            }
+            if (!$stack['object'] instanceof self) {
+                continue;
+            }
+
+            $context['method'] = $stack['function'];
+            $context['arguments'] = $stack['args'];
+
+            // add these last, they are least interesting ones
+            $context['code'] = $e->getCode();
+            $context['file'] = $stack['file'];
+            $context['line'] = $stack['line'];
+            break;
+        }
+
+        Logger::db()->error($e->getMessage(), $context);
 
         $de = new DbException($e->getMessage(), $e->getCode());
-        $de->setExceptionLocation($file, $line);
+        if (isset($context['file'])) {
+            $de->setExceptionLocation($context['file'], $context['line']);
+        }
 
-        error_log($de->getMessage());
-        error_log($de->getTraceAsString());
         throw $de;
-    }
-
-    /**
-     * Get array of FILE and LOCATION from backtrace
-     *
-     * @param int $depth
-     * @return array
-     */
-    private static function getTrace($depth = 1)
-    {
-        $trace = debug_backtrace();
-        if (!isset($trace[$depth])) {
-            return null;
-        }
-        $caller = (object) $trace[$depth];
-        if (!isset($caller->file)) {
-            return null;
-        }
-
-        return array($caller->file, $caller->line);
     }
 
     /**

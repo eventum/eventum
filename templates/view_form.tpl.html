@@ -87,12 +87,19 @@
                 <tr>
                     <th {if isset($row.title_bgcolor)}style="background-color: {$row.title_bgcolor}"{/if}>{$row.title}</th>
                     <td {if isset($row.data_bgcolor)}style="background-color: {$row.data_bgcolor}"{/if}>
-                    {if array_key_exists('data', $row)}
+
+                    {if in_array($row.field|default:'', array('iss_created_date', 'iss_updated_date'))}
+                      {$row.data|timeago}
+
+                    {elseif array_key_exists('data', $row)}
                         {$row.data|escape:"html"}
+
                     {elseif $row.field|default:'' == 'notification_list'}
+
                     {if $subscribers.staff != ''}{t}Staff{/t}: {$subscribers.staff|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
                     {if $subscribers.staff != '' and $subscribers.customers != ''}<br />{/if}
                     {if $subscribers.customers != ''}{t}Other{/t}: {$subscribers.customers|replace:"<":"&lt;"|replace:">":"&gt;"}{/if}
+
                     {elseif $row.field|default:'' == 'associated_issues'}
                     {section name="i" loop=$issue.associated_issues_details}
                     {strip}
@@ -108,6 +115,7 @@
                         {else}
                             {$issue.iss_expected_resolution_date|escape:"html"}
                         {/if}
+
                     {elseif $row.field|default:'' == 'duplicates'}
                     {if $issue.iss_duplicated_iss_id}
                     {t}Duplicate of{/t}: <a href="{$core.rel_url}view.php?id={$issue.iss_duplicated_iss_id}" title="{t}issue{/t} #{$issue.iss_duplicated_iss_id} ({$issue.duplicated_issue.current_status|escape:"html"}) - {$issue.duplicated_issue.title|escape:"html"}" class="{if $issue.duplicated_issue.is_closed}closed{/if}">#{$issue.iss_duplicated_iss_id}</a>
@@ -122,6 +130,7 @@
                     {/strip}
                     {/section}
                     {/if}
+
                     {elseif $row.field|default:'' == 'authorized_repliers'}
                     {if $issue.authorized_repliers.users|@count > 0}
                     {t}Staff{/t}:
@@ -142,6 +151,7 @@
                     {/strip}
                     {/section}
                     {/if}
+
                     {elseif $row.field|default:'' == 'customer_1'}
                         {t}Support Level{/t}: {$issue.contract.support_level}
                         {if $issue.contract.options_display|default:''}

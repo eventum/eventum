@@ -82,8 +82,8 @@
         <td bgcolor="{$issue.status_color}"><a target="_top" href="{$core.rel_url}view.php?id={$issue_id}" title="{t}view issue details{/t}">{$issue.iss_summary|escape:"html"}</a></td>
         <td bgcolor="{$issue.status_color}" align="center">{$issue.sta_title|escape:"html"}</td>
         <td bgcolor="{$issue.status_color}" align="center">{$issue.time_spent}</td>
-        <td bgcolor="{$issue.status_color}" align="center">{$issue.iss_created_date}</td>
-        <td bgcolor="{$issue.status_color}" align="center">{$issue.iss_last_response_date}</td>
+        <td bgcolor="{$issue.status_color}" align="center">{$issue.iss_created_date|timeago}</td>
+        <td bgcolor="{$issue.status_color}" align="center">{$issue.iss_last_response_date|timeago}</td>
         <td bgcolor="{$issue.status_color}" align="center">{$issue.last_update}</td>
         <td bgcolor="{$issue.status_color}" align="center">{$issue.last_email_response}</td>
     </tr>

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 /**
  * Abstract class representing a customer
  */
@@ -58,7 +69,7 @@ abstract class Customer
     public function __construct(CRM $crm, $customer_id)
     {
         $this->crm = $crm;
-        $this->connection = & $crm->getConnection();
+        $this->connection = &$crm->getConnection();
         $this->customer_id = $customer_id;
 
         // attempt to load the data

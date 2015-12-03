@@ -28,6 +28,7 @@ class LocaleTest extends TestCase
     /**
      * @test
      * @dataProvider availableLanguages
+     * @group locale
      */
     public function testLocales($code, $language)
     {

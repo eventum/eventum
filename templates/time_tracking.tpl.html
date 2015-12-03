@@ -46,7 +46,7 @@ function addTimeEntry()
           {section name="i" loop=$time_entries}
           <tr class="{cycle values='odd,even'}">
             <td>{$smarty.section.i.iteration}</td>
-            <td nowrap>{$time_entries[i].ttr_created_date}</td>
+            <td nowrap>{$time_entries[i].ttr_created_date|timeago}</td>
             <td nowrap>
               {$time_entries[i].usr_full_name|escape:html}
               {if $core.user.usr_id == $time_entries[i].ttr_usr_id}[ <a href="javascript:void(null);" onClick="deleteTimeEntry({$time_entries[i].ttr_id});">{t}delete{/t}</a> ]{/if}

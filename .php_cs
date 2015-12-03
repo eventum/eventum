@@ -1,19 +1,34 @@
 <?php
 
+$header = <<<EOF
+This file is part of the Eventum (Issue Tracking System) package.
+
+@copyright (c) Eventum Team
+@license GNU General Public License, version 2 or later (GPL-2+)
+
+For the full copyright and license information,
+please see the COPYING and AUTHORS files
+that were distributed with this source code.
+EOF;
+
+Symfony\CS\Fixer\Contrib\HeaderCommentFixer::setHeader($header);
+
 $finder = Symfony\CS\Finder\DefaultFinder::create()
 	->in(__DIR__ . '/cli')
 	->in(__DIR__ . '/bin')
 	->in(__DIR__ . '/htdocs')
 	->in(__DIR__ . '/lib/eventum')
-	->in(__DIR__ . '/scm')
+	->in(__DIR__ . '/src')
 	->in(__DIR__ . '/upgrade')
 	->exclude('smarty')
+	->exclude('var')
 ;
 
 return Symfony\CS\Config\Config::create()
 	->setUsingCache(true)
 	->level(Symfony\CS\FixerInterface::NONE_LEVEL)
 	->fixers(array(
+		'header_comment',
 		'encoding',
 		'short_tag',
 		'braces',
@@ -33,7 +48,7 @@ return Symfony\CS\Config\Config::create()
 			'single_line_after_imports',
 		'trailing_spaces',
 		'visibility',
-			'blankline_after_open_tag',
+			'-blankline_after_open_tag',
 			'-concat_without_spaces',
 			'double_arrow_multiline_whitespaces',
 			'duplicate_semicolon',
@@ -80,7 +95,7 @@ return Symfony\CS\Config\Config::create()
 			'-header_comment',
 			'long_array_syntax',
 			'multiline_spaces_before_semicolon',
-			'newline_after_open_tag',
+			'-newline_after_open_tag',
 			'no_blank_lines_before_namespace',
 			'ordered_use',
 			'php4_constructor',

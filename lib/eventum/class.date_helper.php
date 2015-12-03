@@ -1,30 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle date conversion issues, which enable the
@@ -61,7 +46,7 @@ class Date_Helper
         } else {
             if ($ts === false || $ts === null) {
                 $ts = 'now';
-            } elseif (is_int($ts)) {
+            } elseif (is_numeric($ts)) {
                 $ts = "@$ts";
             }
 
@@ -377,7 +362,7 @@ class Date_Helper
 
         // previous weeks
         for ($week = $weeks_past; $week > 0; $week--) {
-            $option = self::formatWeekOption($current_start - ($week * Date_Helper::WEEK));
+            $option = self::formatWeekOption($current_start - ($week * self::WEEK));
             $options[$option[0]] = $option[1];
         }
 
@@ -386,7 +371,7 @@ class Date_Helper
 
         // future weeks
         for ($week = 1; $week <= $weeks_future; $week++) {
-            $option = self::formatWeekOption($current_start + ($week * Date_Helper::WEEK));
+            $option = self::formatWeekOption($current_start + ($week * self::WEEK));
             $options[$option[0]] = $option[1];
         }
 
@@ -403,7 +388,21 @@ class Date_Helper
         $value_format = 'Y-m-d';
         $start = date('U') - (self::DAY * (date('w') - 1));
 
-        return date($value_format, $start) . '_' . date($value_format, ($start + (Date_Helper::DAY * 6)));
+        return date($value_format, $start) . '_' . date($value_format, ($start + (self::DAY * 6)));
+    }
+
+    /**
+     * Smarty helper formatting date value suitable for jquery-timeago
+     *
+     * @param string $date
+     * @return string
+     */
+    public static function formatTimeAgo($date)
+    {
+        $formatted_date = Date_Helper::getFormattedDate($date);
+        $gmt_date = self::getDateTime($date, 'GMT')->format('Y-m-d\TH:i:s\Z');
+
+        return sprintf('<abbr class="timeago" title="%s">%s</abbr>', $gmt_date, $formatted_date);
     }
 
     /**

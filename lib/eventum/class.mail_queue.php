@@ -1,30 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 class Mail_Queue
 {
@@ -127,7 +112,7 @@ class Mail_Queue
 
         $res = Mail_Helper::prepareHeaders($headers);
         if (Misc::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
 
             return $res;
         }
@@ -196,7 +181,7 @@ class Mail_Queue
 
                 $res = Mail_Helper::prepareHeaders($headers);
                 if (Misc::isError($res)) {
-                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
 
                     return;
                 }
@@ -302,10 +287,7 @@ class Mail_Queue
         $mail = Mail::factory('smtp', Mail_Helper::getSMTPSettings());
         $res = $mail->send($recipient, $headers, $body);
         if (Misc::isError($res)) {
-            // special handling of errors when the mail server is down
-            $msg = $res->getMessage();
-            $cant_notify = ($status == 'error' || strstr($msg, 'unable to connect to smtp server') || stristr($msg, 'Failed to connect to') !== false);
-            Error_Handler::logError(array($msg, $res->getDebugInfo()), __FILE__, __LINE__, !$cant_notify);
+            Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
 
             return $res;
         }
@@ -546,7 +528,6 @@ class Mail_Queue
         if (count($res) > 0) {
             foreach ($res as &$row) {
                 $row['maq_recipient'] = Mime_Helper::decodeAddress($row['maq_recipient']);
-                $row['maq_queued_date'] = Date_Helper::getFormattedDate(Date_Helper::getUnixTimestamp($row['maq_queued_date'], 'GMT'));
                 $row['maq_subject'] = Mime_Helper::fixEncoding($row['maq_subject']);
             }
         }

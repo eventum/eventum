@@ -1,36 +1,20 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class designed to handle all business logic related to the issues in the
  * system, such as adding or updating them or listing them in the grid mode.
  */
-
 class Issue
 {
     /**
@@ -949,7 +933,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of duplicates
      */
-    public function getDuplicateList($issue_id)
+    public static function getDuplicateList($issue_id)
     {
         $res = self::getDuplicateDetailsList($issue_id);
         if (count($res) == 0) {
@@ -971,7 +955,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of duplicates
      */
-    public function getDuplicateDetailsList($issue_id)
+    public static function getDuplicateDetailsList($issue_id)
     {
         static $returns;
 
@@ -1106,7 +1090,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of users
      */
-    public function getAssignedUsersStatus($issue_id)
+    public static function getAssignedUsersStatus($issue_id)
     {
         $stmt = 'SELECT
                     usr_id,
@@ -1423,7 +1407,7 @@ class Issue
                 unset($associated_issues[$i]);
                 continue;
             }
-            if (!Issue::exists($iss_id, false)) {
+            if (!self::exists($iss_id, false)) {
                 $error = ev_gettext(
                     'Issue #%s does not exist and was removed from the list of associated issues.', $iss_id
                 );
@@ -1471,9 +1455,6 @@ class Issue
      */
     public static function update($issue_id)
     {
-        global $errors;
-        $errors = array();
-
         $issue_id = (int) $issue_id;
 
         $usr_id = Auth::getUserID();
@@ -2055,12 +2036,12 @@ class Issue
             try {
                 if ($contract_id != false) {
                     $contract = $crm->getContract($contract_id);
-                    $data['contract'] =  $contract->getContractID();
+                    $data['contract'] = $contract->getContractID();
                 } elseif (isset($contact)) {
                     // Just use first contract / customer for now.
                     $contracts = $contact->getContracts(array('active' => true));
                     $contract = $contracts[0];
-                    $data['contract'] =  $contract->getContractID();
+                    $data['contract'] = $contract->getContractID();
                 }
             } catch (ContractNotFoundException $e) {
             }
@@ -2170,6 +2151,7 @@ class Issue
      * @return  array
      */
     private static $insert_errors = array();
+
     public static function getInsertErrors()
     {
         return self::$insert_errors;
@@ -3027,7 +3009,6 @@ class Issue
         $res['iss_description'] = nl2br(htmlspecialchars($res['iss_description']));
         $res['iss_resolution'] = Resolution::getTitle($res['iss_res_id']);
         $res['iss_impact_analysis'] = nl2br(htmlspecialchars($res['iss_impact_analysis']));
-        $res['iss_created_date'] = Date_Helper::getFormattedDate($res['iss_created_date']);
         $res['iss_created_date_ts'] = $created_date_ts;
         $res['assignments'] = @implode(', ', array_values(self::getAssignedUsers($res['iss_id'])));
         list($res['authorized_names'], $res['authorized_repliers']) = Authorized_Replier::getAuthorizedRepliers($res['iss_id']);
@@ -3052,9 +3033,7 @@ class Issue
         $res['associated_issues'] = self::getAssociatedIssues($res['iss_id']);
         $res['reporter'] = User::getFullName($res['iss_usr_id']);
         if (empty($res['iss_updated_date'])) {
-            $res['iss_updated_date'] = 'not updated yet';
-        } else {
-            $res['iss_updated_date'] = Date_Helper::getFormattedDate($res['iss_updated_date']);
+            $res['iss_updated_date'] = $res['iss_created_date'];
         }
         $res['estimated_formatted_time'] = Misc::getFormattedTime($res['iss_dev_time']);
         if (Release::isAssignable($res['iss_pre_id'])) {
@@ -3140,7 +3119,7 @@ class Issue
                 continue;
             }
 
-            $issue_details = Issue::getDetails($issue_id);
+            $issue_details = self::getDetails($issue_id);
 
             $updated_fields = array();
 
@@ -3194,7 +3173,7 @@ class Issue
                 }
 
                 $prj_id = Auth::getCurrentProject();
-                $usr_ids = Issue::getAssignedUserIDs($issue_id);
+                $usr_ids = self::getAssignedUserIDs($issue_id);
                 Workflow::handleAssignmentChange($prj_id, $issue_id, Auth::getUserID(), $issue_details, $usr_ids, false);
                 Notification::notifyNewAssignment($new_assignees, $issue_id);
                 $updated_fields['Assignment'] = History::formatChanges(implode(', ', $current_assignees), implode(', ', $new_user_names));
@@ -3364,7 +3343,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of associated issues
      */
-    public function getAssociatedIssues($issue_id)
+    public static function getAssociatedIssues($issue_id)
     {
         $issues = self::getAssociatedIssuesDetails($issue_id);
         $associated = array();
@@ -3382,7 +3361,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The list of associated issues
      */
-    public function getAssociatedIssuesDetails($issue_id)
+    public static function getAssociatedIssuesDetails($issue_id)
     {
         static $returns;
 
@@ -3775,7 +3754,7 @@ class Issue
         if (empty($res)) {
             $returns[$msg_id] = false;
         } else {
-            $returns[$msg_id] =  $res;
+            $returns[$msg_id] = $res;
         }
 
         return $returns[$msg_id];
@@ -3824,55 +3803,5 @@ class Issue
         ));
 
         return 1;
-    }
-
-    /**
-     * Returns an array of variables to be set on the new issue page when cloning an issue.
-     *
-     * @param integer $issue_id The ID of the issue to clone
-     * @return array
-     */
-    public static function getCloneIssueTemplateVariables($issue_id)
-    {
-        $prj_id = Issue::getProjectID($issue_id);
-        $clone_details = Issue::getDetails($issue_id);
-        $defaults = array(
-            'clone_iss_id'  =>  $issue_id,
-            'category'  =>  $clone_details['iss_prc_id'],
-            'group'  =>  $clone_details['iss_grp_id'],
-            'severity'  =>  $clone_details['iss_sev_id'],
-            'priority'  =>  $clone_details['iss_pri_id'],
-            'users' =>  $clone_details['assigned_users'],
-            'summary'   =>  $clone_details['iss_summary'],
-            'description'   =>  $clone_details['iss_original_description'],
-            'expected_resolution_date'   =>  $clone_details['iss_expected_resolution_date'],
-            'estimated_dev_time'   =>  $clone_details['iss_dev_time'],
-            'private'   =>  $clone_details['iss_private'],
-        );
-        if (count($clone_details['products']) > 0) {
-            $defaults['product'] = $clone_details['products'][0]['pro_id'];
-            $defaults['product_version'] = $clone_details['products'][0]['version'];
-        }
-        $defaults['custom_fields'] = array();
-        foreach (Custom_Field::getListByIssue($prj_id, $issue_id) as $field) {
-            if (isset($field['selected_cfo_id'])) {
-                $defaults['custom_fields'][$field['fld_id']] = $field['selected_cfo_id'];
-            } else {
-                $defaults['custom_fields'][$field['fld_id']] = $field['value'];
-            }
-        }
-        $clone_variables = array(
-            'defaults'   =>  $defaults,
-        );
-        if (isset($clone_details['customer']) && isset($clone_details['contact'])) {
-            $clone_variables += array(
-                'customer_id' => $clone_details['iss_customer_id'],
-                'contact_id'  => $clone_details['iss_customer_contact_id'],
-                'customer'    => $clone_details['customer'],
-                'contact'     => $clone_details['contact'],
-            );
-        }
-
-        return $clone_variables;
     }
 }

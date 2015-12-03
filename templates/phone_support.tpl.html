@@ -49,7 +49,7 @@ function addPhoneCall()
           <tr class="{$row_class}">
             <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="phone" list_id=$phone_entries[i].phs_id}</td>
             <td nowrap>{$smarty.section.i.iteration}</td>
-            <td nowrap>{$phone_entries[i].phs_created_date}</td>
+            <td nowrap>{$phone_entries[i].phs_created_date|timeago}</td>
             <td>
                 {$phone_entries[i].usr_full_name|escape:html}
                 {if $core.user.usr_id == $phone_entries[i].phs_usr_id}

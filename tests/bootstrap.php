@@ -1,29 +1,14 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright 2011, Elan Ruusamäe <glen@delfi.ee>                        |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// +----------------------------------------------------------------------+
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 // we init paths ourselves like init.php does, to be independent and not
 // needing actual config being present.
@@ -52,6 +37,13 @@ define('APP_COOKIE_URL', APP_RELATIVE_URL);
 define('APP_PROJECT_COOKIE', 'eventum_project');
 define('APP_PROJECT_COOKIE_EXPIRE', time() + (60 * 60 * 24));
 define('APP_BASE_URL', 'http://localhost');
+define('APP_LOG_PATH', APP_CONFIG_PATH);
+define('APP_LOCAL_PATH', APP_CONFIG_PATH);
+define('APP_TPL_COMPILE_PATH', APP_CONFIG_PATH.'/tpl_c');
+define('APP_TPL_PATH', APP_PATH . '/templates');
+define('APP_NAME', 'Eventum Tests');
+define('APP_VERSION', '3.x.y-dev');
+define('APP_AUTH_BACKEND', 'mysql_auth_backend');
 
 require_once APP_PATH . '/autoload.php';
 

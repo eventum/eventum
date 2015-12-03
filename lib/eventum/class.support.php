@@ -1,32 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-//
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle the business logic related to the email feature of
@@ -34,7 +17,6 @@
  *
  * NOTE: this class needs splitting to more specific logic
  */
-
 class Support
 {
     /**
@@ -336,7 +318,6 @@ class Support
         }
 
         foreach ($res as &$row) {
-            $row['sup_date'] = Date_Helper::getFormattedDate($row['sup_date']);
             $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
             $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
         }
@@ -399,7 +380,7 @@ class Support
         $mbox = @imap_open(self::getServerURI($info), $info['ema_username'], $info['ema_password']);
         if ($mbox === false) {
             $error = @imap_last_error();
-            Error_Handler::logError('Error while connecting to the email server - ' . $error, __FILE__, __LINE__);
+            Logger::app()->error("Error while connecting to the email server - {$error}");
         }
 
         return $mbox;
@@ -420,7 +401,6 @@ class Support
     /**
      * Method used to get new emails from the mailbox.
      *
-     * @access public
      * @param  resource $mbox The mailbox
      * @return array Array of new message numbers.
      */
@@ -630,8 +610,8 @@ class Support
             'message_id'     => $message_id,
             'date'           => Date_Helper::convertDateGMTByTS($email->udate),
             'from'           => $sender_email,
-            'to'             => @$email->toaddress,
-            'cc'             => @$email->ccaddress,
+            'to'             => @$structure->headers['to'],
+            'cc'             => @$structure->headers['cc'],
             'subject'        => @$structure->headers['subject'],
             'body'           => @$message_body,
             'full_email'     => @$message,
@@ -714,7 +694,7 @@ class Support
 
                         // need to handle attachments coming from notes as well
                         if ($res != -1) {
-                            Support::extractAttachments($t['issue_id'], $structure, true, $res);
+                            self::extractAttachments($t['issue_id'], $structure, true, $res);
                         }
                     }
                 }
@@ -761,7 +741,8 @@ class Support
                         $addr = Mail_Helper::getEmailAddress($structure->headers['from']);
                         if (Misc::isError($addr)) {
                             // XXX should we log or is this expected?
-                            Error_Handler::logError(array($addr->getMessage()." addr: $addr", $addr->getDebugInfo()), __FILE__, __LINE__);
+                            Logger::app()->error($addr->getMessage(), array('debug' => $res->getDebugInfo(), 'address' => $structure->headers['from']));
+
                             $usr_id = APP_SYSTEM_USER_ID;
                         } else {
                             $usr_id = User::getUserIDByEmail($addr);
@@ -1229,18 +1210,20 @@ class Support
             'images' => array(),
         );
 
+        $sort_order_option = strtolower(DB_Helper::orderBy($options['sort_order']));
+        $sort_order_image = "images/{$sort_order_option}.gif";
+
         foreach ($fields as $field) {
+            $sort_order = 'asc';
             if ($options['sort_by'] == $field) {
-                $items['images'][$field] = 'images/' . strtolower($options['sort_order']) . '.gif';
-                if (strtolower($options['sort_order']) == 'asc') {
+                $items['images'][$field] = $sort_order_image;
+                if ($sort_order_option == 'asc') {
                     $sort_order = 'desc';
                 } else {
                     $sort_order = 'asc';
                 }
-                $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=' . $sort_order;
-            } else {
-                $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=asc';
             }
+            $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=' . $sort_order;
         }
 
         return $items;
@@ -1289,7 +1272,7 @@ class Support
         $stmt .= self::buildWhereClause($options);
         $stmt .= '
                  ORDER BY
-                    ' . Misc::escapeString($options['sort_by']) . ' ' . Misc::escapeString($options['sort_order']);
+                    ' . Misc::escapeString($options['sort_by']) . ' ' . DB_Helper::orderBy($options['sort_order']);
         $total_rows = Pager::getTotalRows($stmt);
         $stmt .= '
                  LIMIT
@@ -1322,7 +1305,6 @@ class Support
         }
 
         foreach ($res as &$row) {
-            $row['sup_date'] = Date_Helper::getFormattedDate($row['sup_date']);
             $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
             $row['sup_from'] = implode(', ', Mail_Helper::getName($row['sup_from'], true));
             if ((empty($row['sup_to'])) && (!empty($row['sup_iss_id']))) {
@@ -1364,7 +1346,7 @@ class Support
      * @param   array $options The search parameters
      * @return  string The where clause
      */
-    public function buildWhereClause($options)
+    public static function buildWhereClause($options)
     {
         $stmt = '
                  WHERE
@@ -1600,6 +1582,8 @@ class Support
     /**
      * Method used to get the support email entry details.
      *
+     * FIXME: $ema_id is unused
+     *
      * @param   integer $ema_id The support email account ID
      * @param   integer $sup_id The support email ID
      * @return  array The email entry details
@@ -1625,7 +1609,6 @@ class Support
         $res['message'] = $res['seb_body'];
         $res['attachments'] = Mime_Helper::getAttachmentCIDs($res['seb_full_email']);
         $res['timestamp'] = Date_Helper::getUnixTimestamp($res['sup_date'], 'GMT');
-        $res['sup_date'] = Date_Helper::getFormattedDate($res['sup_date']);
         $res['sup_subject'] = Mime_Helper::fixEncoding($res['sup_subject']);
         // TRANSLATORS: %1 = email subject
         $res['reply_subject'] = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $res['sup_subject']), true);
@@ -1794,7 +1777,6 @@ class Support
         }
 
         foreach ($res as &$row) {
-            $row['sup_date'] = Date_Helper::getFormattedDate($row['sup_date']);
             $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
             $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
             $row['sup_to'] = Mime_Helper::fixEncoding($row['sup_to']);
@@ -2758,7 +2740,7 @@ class Support
             return 0;
         }
 
-        $issue_id = Support::getIssueFromEmail($sup_id);
+        $issue_id = self::getIssueFromEmail($sup_id);
         $sql = 'SELECT
                     sup_id,
                     @sup_seq := @sup_seq+1

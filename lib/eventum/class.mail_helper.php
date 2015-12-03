@@ -1,31 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-//
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle the business logic related to sending email to
@@ -33,7 +17,6 @@
  * infrastructure to deliver email in a compatible way across
  * different platforms.
  */
-
 class Mail_Helper
 {
     // variable to keep the Mail_mime object
@@ -140,7 +123,7 @@ class Mail_Helper
     {
         $str = self::fixAddressQuoting($str);
         $str = Mime_Helper::encode($str);
-        $structs = Mail_Helper::parseAddressList($str);
+        $structs = self::parseAddressList($str);
         $addresses = array();
         foreach ($structs as $structure) {
             if ((!empty($structure->mailbox)) && (!empty($structure->host))) {
@@ -214,6 +197,8 @@ class Mail_Helper
      * Method used to break down the email address information and
      * return it for easy manipulation.
      *
+     * Expands "Groups" into single addresses.
+     *
      * @param   string $address The email address value
      * @param   boolean $multiple If multiple addresses should be returned
      * @return  array The address information
@@ -221,7 +206,7 @@ class Mail_Helper
     public static function getAddressInfo($address, $multiple = false)
     {
         $address = self::fixAddressQuoting($address);
-        $addresslist = Mail_Helper::parseAddressList($address, null, null, false);
+        $addresslist = self::parseAddressList($address, null, null, false);
         if (Misc::isError($addresslist)) {
             return $addresslist;
         }
@@ -232,12 +217,29 @@ class Mail_Helper
 
         $returns = array();
         foreach ($addresslist as $row) {
+            // handle "group" type addresses
+            if (isset($row->groupname)) {
+                foreach ($row->addresses as $address) {
+                    $returns[] = array(
+                        'sender_name' => $address->personal,
+                        'email' => $address->mailbox . '@' . $address->host,
+                        'username' => $address->mailbox,
+                        'host' => $address->host,
+                    );
+                }
+                continue;
+            }
+
             $returns[] = array(
                 'sender_name' => $row->personal,
                 'email' => $row->mailbox . '@' . $row->host,
                 'username' => $row->mailbox,
                 'host' => $row->host,
             );
+        }
+
+        if (!$returns) {
+            return $returns;
         }
 
         if (!$multiple) {
@@ -640,7 +642,7 @@ class Mail_Helper
         // ok, now parse the headers text and build the assoc array
         $full_email = $hdrs . "\n\n" . $body;
         $structure = Mime_Helper::decode($full_email, false, false);
-        $_headers = & $structure->headers;
+        $_headers = &$structure->headers;
         $header_names = Mime_Helper::getHeaderNames($hdrs);
         $headers = array();
         foreach ($_headers as $lowercase_name => $value) {
@@ -680,7 +682,7 @@ class Mail_Helper
         $mail = Mail::factory('smtp', $params);
         $res = $mail->send($address, $headers, $body);
         if (Misc::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
         }
 
         $subjects[] = $subject;

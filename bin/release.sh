@@ -165,7 +165,9 @@ clean_vendor() {
 	rm vendor/*/*/.coveralls.yml
 	rm vendor/*/*/.gitattributes
 	rm vendor/*/*/.gitignore
+	rm vendor/*/*/.php_cs
 	rm vendor/*/*/.travis.yml
+	rm vendor/*/*/CHANGELOG.mdown
 	rm vendor/*/*/CONTRIBUTING.md
 	rm vendor/*/*/COPYING
 	rm vendor/*/*/ChangeLog*
@@ -270,6 +272,7 @@ build_phars() {
 cleanup_postdist() {
 	rm composer.json phpcompatinfo.json
 	rm cli/{composer.json,box.json.dist,Makefile}
+	rm htdocs/debugbar
 
 	# cleanup vendors
 	rm vendor/composer/*.json
@@ -334,7 +337,8 @@ prepare_source() {
 
 	# install dirs and fix permissions
 	install -d var/{log,cache,lock}
-	touch var/log/{cli.log,errors.log,irc_bot.log,login_attempts.log}
+	touch var/log/{auth.log,cli.log,errors.log,login_attempts.log}
+	touch var/log/{irc_bot_error.log,irc_bot_smartirc.log}
 	chmod -R a+rX .
 	chmod -R a+rwX config var
 

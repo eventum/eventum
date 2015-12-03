@@ -19,7 +19,7 @@
         <div id="header_2">
             <div id="project_chooser">
                 {if $core.active_projects|@count == 1}
-                    {t}Project{/t}: {$core.project_name|escape:"html"}</b>
+                    {t}Project{/t}: <b>{$core.project_name|escape:"html"}</b>
                 {else}
                   <form method="post" action="{$core.rel_url}switch.php">
                     <select name="current_project">

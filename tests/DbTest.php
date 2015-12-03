@@ -12,7 +12,7 @@ class DbTest extends TestCase
 
     public function setUp()
     {
-        $this->skipTravis("No DB tests in Travis");
+        $this->assertDatabase();
 
         $this->db = DB_Helper::getInstance(false);
     }

@@ -59,6 +59,9 @@ phpunit.phar:
 phpab.phar:
 	$(call fetch_tool,http://phpab.net/phpab-$(PHPAB_VERSION).phar)
 
+gush.phar:
+	$(call fetch_tool,http://gushphp.org/gush.phar)
+
 pear-fix: composer.lock
 	-$(php-cs-fixer) fix vendor/pear-pear.php.net --fixers=php4_constructor --verbose
 

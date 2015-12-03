@@ -1,6 +1,31 @@
 /*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
+/*
  * Page specific JS for eventum
  */
+
+function select_project()
+{
+}
+
+select_project.ready = function()
+{
+    $('#project_select_form input[name=project]').on('change', function() {
+	        $(this).closest("form").submit();
+    });
+    $('#project_select_form .project_label').on('click', function() {
+	        $(this).closest("form").submit();
+    });
+}
 
 
 /*
@@ -496,6 +521,9 @@ issue_update.validateForm = function()
         Validation.errors[Validation.errors.length] = new Option('Percentage complete should be between 0 and 100', 'percent_complete');
         return false;
     }
+
+    Validation.checkCustomFields(f);
+
     return true;
 };
 

@@ -1,30 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to manage all tasks related to the DB abstraction module. This is only
@@ -64,7 +49,7 @@ class DB_Helper
             }
             /** @global $error_type */
             $error_type = 'db';
-            require_once APP_PATH . '/htdocs/offline.php';
+            require APP_PATH . '/htdocs/offline.php';
             exit(2);
         }
 
@@ -124,7 +109,7 @@ class DB_Helper
     {
         try {
             $stmt = "show variables like 'max_allowed_packet'";
-            $res = DB_Helper::getInstance(false)->getPair($stmt);
+            $res = self::getInstance(false)->getPair($stmt);
             $max_allowed_packet = (int) $res['max_allowed_packet'];
         } catch (DbException $e) {
         }
@@ -178,7 +163,7 @@ class DB_Helper
     public static function get_last_insert_id()
     {
         $stmt = 'SELECT last_insert_id()';
-        $res = (integer) DB_Helper::getInstance()->getOne($stmt);
+        $res = (integer) self::getInstance()->getOne($stmt);
 
         return $res;
     }
@@ -287,15 +272,5 @@ class DB_Helper
         END)";
 
         return str_replace("\n", ' ', $sql);
-    }
-
-    public static function fatalDBError($e)
-    {
-        /** @var $e PEAR_Error */
-        Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), __FILE__, __LINE__);
-        /** @global $error_type */
-        $error_type = 'db';
-        require_once APP_PATH . '/htdocs/offline.php';
-        exit(2);
     }
 }

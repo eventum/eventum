@@ -1,30 +1,17 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
+use Eventum\DebugBar;
 
 /**
  * Class used to abstract the backend template system used by the site. This
@@ -56,6 +43,7 @@ class Template_Helper
         $smarty->registerPlugin('modifier', 'formatCustomValue', array('Custom_Field', 'formatValue'));
         $smarty->registerPlugin('modifier', 'bool', array('Misc', 'getBooleanDisplayValue'));
         $smarty->registerPlugin('modifier', 'format_date', array('Date_Helper', 'getFormattedDate'));
+        $smarty->registerPlugin('modifier', 'timeago', array('Date_Helper', 'formatTimeAgo'));
 
         // Fixes problem with CRM API and dynamic includes.
         // See https://code.google.com/p/smarty-php/source/browse/trunk/distribution/3.1.16_RELEASE_NOTES.txt?spec=svn4800&r=4800
@@ -230,7 +218,7 @@ class Template_Helper
                 }
             }
             $info = User::getDetails($usr_id);
-            $raw_projects = Project::getAssocList(Auth::getUserID(), false, true);
+            $raw_projects = Project::getAssocList($usr_id, false, true);
             $active_projects = array();
             foreach ($raw_projects as $prj_id => $prj_info) {
                 if ($prj_info['status'] == 'archived') {
@@ -238,7 +226,7 @@ class Template_Helper
                 }
                 $active_projects[$prj_id] = $prj_info['prj_title'];
             }
-            $core = $core + array(
+            $core += array(
                     'active_projects' => $active_projects,
                     'current_full_name' => $info['usr_full_name'],
                     'current_email' => $info['usr_email'],
@@ -248,7 +236,7 @@ class Template_Helper
                     'is_anon_user' => Auth::isAnonUser(),
                     'is_current_user_partner' => !empty($info['usr_par_code']),
                     'roles' => User::getAssocRoleIDs(),
-                    'current_user_prefs' => Prefs::get(Auth::getUserID()),
+                    'current_user_prefs' => Prefs::get($usr_id),
 
                 );
             $this->assign('current_full_name', $core['user']['usr_full_name']);
@@ -260,54 +248,10 @@ class Template_Helper
         }
         $this->assign('core', $core);
 
-        $this->addDebugbar(isset($role_id) ? $role_id : null);
+        if (isset($role_id) && $role_id >= User::ROLE_ADMINISTRATOR) {
+            DebugBar::register($this->smarty);
+        }
 
         return $this;
-    }
-
-    /**
-     * Setup Debug Bar:
-     * - if initialized
-     * - if role_id is set
-     * - if user is administrator
-     *
-     * @throws \DebugBar\DebugBarException
-     */
-    private function addDebugbar($role_id)
-    {
-        if (!$role_id || $role_id < User::ROLE_ADMINISTRATOR) {
-            return;
-        }
-
-        global $debugbar;
-        if (!$debugbar) {
-            return;
-        }
-
-        $rel_url = APP_RELATIVE_URL;
-        $debugbar->addCollector(
-            new DebugBar\DataCollector\ConfigCollector($this->smarty->tpl_vars, 'Smarty')
-        );
-        $debugbar->addCollector(
-            new DebugBar\DataCollector\ConfigCollector(Setup::get()->toArray(), 'Config')
-        );
-        $debugbarRenderer = $debugbar->getJavascriptRenderer("{$rel_url}debugbar");
-        $debugbarRenderer->addControl(
-            'Smarty', array(
-                'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
-                'map' => 'Smarty',
-                'default' => '[]'
-            )
-        );
-        $debugbarRenderer->addControl(
-            'Config', array(
-                'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
-                'map' => 'Config',
-                'default' => '[]'
-            )
-        );
-
-        $this->assign('debugbar_head', $debugbarRenderer->renderHead());
-        $this->assign('debugbar_body', $debugbarRenderer->render());
     }
 }

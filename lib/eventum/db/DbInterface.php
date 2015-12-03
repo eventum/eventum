@@ -1,28 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2014-2015 Eventum Team.                                |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Interface DbInterface
@@ -96,7 +83,7 @@ interface DbInterface
      * @return array the nested array.
      * @throws DbException on failure.
      */
-    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC);
+    public function getAll($query, $params = array(), $fetchmode = self::DB_FETCHMODE_ASSOC);
 
     /**
      * Fetches an entire query result and returns it as an
@@ -110,7 +97,7 @@ interface DbInterface
      * @param int $fetchmode
      * @throws DbException on failure.
      */
-    public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT);
+    public function fetchAssoc($query, $params = array(), $fetchmode = self::DB_FETCHMODE_DEFAULT);
 
     /**
      * Fetches a first column from a query result and returns it as an
@@ -158,5 +145,5 @@ interface DbInterface
      * @return array  the first row of results as an array.
      * @throws DbException on failure.
      */
-    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC);
+    public function getRow($query, $params = array(), $fetchmode = self::DB_FETCHMODE_ASSOC);
 }

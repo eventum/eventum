@@ -1,37 +1,20 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle the business logic related to the administration
  * of custom fields in the system.
  */
-
 class Custom_Field
 {
     public static $option_types = array('combo', 'multiple', 'checkbox');
@@ -514,6 +497,7 @@ class Custom_Field
                 $row['fld_report_form_required'] = $backend->isRequired($row['fld_id'], 'report');
                 $row['fld_anonymous_form_required'] = $backend->isRequired($row['fld_id'], 'anonymous');
                 $row['fld_close_form_required'] = $backend->isRequired($row['fld_id'], 'close');
+                $row['edit_form_required'] = $backend->isRequired($row['fld_id'], 'edit');
             }
             if ((is_object($backend)) && (method_exists($backend, 'getValidationJS'))) {
                 $row['validation_js'] = $backend->getValidationJS($row['fld_id'], $form_type);
@@ -671,6 +655,7 @@ class Custom_Field
                     fld_report_form_required,
                     fld_anonymous_form_required,
                     fld_close_form_required,
+                    fld_edit_form_required,
                     ' . self::getDBValueFieldSQL() . ' as value,
                     icf_value,
                     icf_value_date,
@@ -777,6 +762,7 @@ class Custom_Field
                 $fields[$key]['fld_report_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'report', $iss_id);
                 $fields[$key]['fld_anonymous_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'anonymous', $iss_id);
                 $fields[$key]['fld_close_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'close', $iss_id);
+                $fields[$key]['fld_edit_form_required'] = $backend->isRequired($fields[$key]['fld_id'], 'edit', $iss_id);
             }
             if ((is_object($backend)) && (method_exists($backend, 'getValidationJS'))) {
                 $fields[$key]['validation_js'] = $backend->getValidationJS($fields[$key]['fld_id'], $form_type, $iss_id);
@@ -894,6 +880,9 @@ class Custom_Field
         if (empty($_POST['close_form_required'])) {
             $_POST['close_form_required'] = 0;
         }
+        if (empty($_POST['edit_form_required'])) {
+            $_POST['edit_form_required'] = 0;
+        }
         if (empty($_POST['list_display'])) {
             $_POST['list_display'] = 0;
         }
@@ -915,6 +904,7 @@ class Custom_Field
                     fld_anonymous_form_required,
                     fld_close_form,
                     fld_close_form_required,
+                    fld_edit_form_required,
                     fld_list_display,
                     fld_min_role,
                     fld_rank,
@@ -922,7 +912,7 @@ class Custom_Field
                  ) VALUES (
                      ?, ?, ?, ?, ?,
                      ?, ?, ?, ?, ?,
-                     ?, ?, ?
+                     ?, ?, ?, ?
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array(
@@ -935,6 +925,7 @@ class Custom_Field
                 $_POST['anon_form_required'],
                 $_POST['close_form'],
                 $_POST['close_form_required'],
+                $_POST['edit_form_required'],
                 $_POST['list_display'],
                 $_POST['min_role'],
                 $_POST['rank'],
@@ -1204,6 +1195,9 @@ class Custom_Field
         if (empty($_POST['close_form_required'])) {
             $_POST['close_form_required'] = 0;
         }
+        if (empty($_POST['edit_form_required'])) {
+            $_POST['edit_form_required'] = 0;
+        }
         if (empty($_POST['min_role'])) {
             $_POST['min_role'] = 1;
         }
@@ -1223,6 +1217,7 @@ class Custom_Field
                     fld_anonymous_form_required=?,
                     fld_close_form=?,
                     fld_close_form_required=?,
+                    fld_edit_form_required=?,
                     fld_list_display=?,
                     fld_min_role=?,
                     fld_rank = ?,
@@ -1240,6 +1235,7 @@ class Custom_Field
                 $_POST['anon_form_required'],
                 $_POST['close_form'],
                 $_POST['close_form_required'],
+                $_POST['edit_form_required'],
                 $_POST['list_display'],
                 $_POST['min_role'],
                 $_POST['rank'],

@@ -21,7 +21,7 @@ define('APP_COOKIE_DOMAIN', null);
 define('APP_COOKIE', 'eventum');
 define('APP_COOKIE_EXPIRE', time() + (60 * 60 * 8));
 define('APP_PROJECT_COOKIE', 'eventum_project');
-define('APP_PROJECT_COOKIE_EXPIRE', time() + (60 * 60 * 24));
+define('APP_PROJECT_COOKIE_EXPIRE', time() + (60 * 60 * 24 * 30)); // 30 days
 
 define('APP_DEFAULT_PAGER_SIZE', 5);
 define('APP_DEFAULT_REFRESH_RATE', 5); // in minutes
@@ -43,11 +43,6 @@ define('APP_DEFAULT_WEEKDAY', '%{APP_DEFAULT_WEEKDAY}%');
 define('APP_CHARSET', '%{CHARSET}%');
 
 // define colors used by eventum
-define('APP_CELL_COLOR', '#255282');
-define('APP_LIGHT_COLOR', '#DDDDDD');
-define('APP_MIDDLE_COLOR', '#CACACA');
-define('APP_DARK_COLOR', '#CACACA');
-define('APP_CYCLE_COLORS', '#DDDDDD,#CACACA');
 define('APP_INTERNAL_COLOR', '#9C494B');
 
 // define the user_id of system user
