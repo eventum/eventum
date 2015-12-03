@@ -89,7 +89,8 @@ class ViewEmailController extends BaseController
             return false;
         }
 
-        if ($this->cat == 'move_email' && (Auth::getCurrentRole() < User::ROLE_USER)) {
+        // FIXME: this is superfluous check!
+        if ($this->cat == 'move_email' && $usr_role < User::ROLE_USER) {
             return false;
         }
 
