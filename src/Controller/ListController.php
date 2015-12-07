@@ -185,6 +185,7 @@ class ListController extends BaseController
         }
     }
 
+    // FIXME: duplicate code with AdvSearchController
     /**
      * Generate options for assign list.
      * If there are groups and user is above a customer, include groups
