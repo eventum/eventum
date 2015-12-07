@@ -32,10 +32,10 @@ class AdvSearchController extends BaseController
     protected $tpl_name = 'adv_search.tpl.html';
 
     /** @var int */
-    private $usr_id;
+    protected $usr_id;
 
     /** @var int */
-    private $prj_id;
+    protected $prj_id;
 
     /** @var int */
     private $role_id;
@@ -86,7 +86,7 @@ class AdvSearchController extends BaseController
     protected function prepareTemplate()
     {
         $users = Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER);
-        $assign_options = $this->assign->getAssignOptions($this->usr_id, $this->prj_id, $users);
+        $assign_options = $this->assign->getAssignOptions($users);
 
         $this->tpl->assign(array(
             'cats'          => Category::getAssocList($this->prj_id),

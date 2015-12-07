@@ -35,10 +35,10 @@ class ListController extends BaseController
     protected $tpl_name = 'list.tpl.html';
 
     /** @var int */
-    private $usr_id;
+    protected $usr_id;
 
     /** @var int */
-    private $prj_id;
+    protected $prj_id;
 
     /** @var int|string */
     private $rows;
@@ -199,7 +199,7 @@ class ListController extends BaseController
         $options = array_merge($options, $this->options_override);
 
         $users = Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER);
-        $assign_options = $this->assign->getAssignOptions($this->usr_id, $this->prj_id, $users);
+        $assign_options = $this->assign->getAssignOptions($users);
 
         $prefs = Prefs::get($this->usr_id);
         $list = Search::getListing($this->prj_id, $options, $this->pagerRow, $this->rows);

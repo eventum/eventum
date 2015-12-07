@@ -18,6 +18,7 @@ use InvalidArgumentException;
 use Misc;
 use Symfony\Component\HttpFoundation\Request;
 use Template_Helper;
+use ReflectionClass;
 
 /**
  * Class BaseController
@@ -118,14 +119,24 @@ abstract class BaseController
         Auth::redirect($url);
     }
 
-    protected function __get($name)
+    public function __get($name)
     {
-        $helperName = 'Eventum\\Controller\\Helper\\' . $name;
-        if (!isset($this->helpers[$helperName])) {
-            $this->helpers[$helperName] = new $helperName();
+        $className = 'Eventum\\Controller\\Helper\\' . ucfirst($name) . 'Helper';
+
+        if (!isset($this->helpers[$className])) {
+            $this->helpers[$className] = $helper = new $className();
+
+            // clone properties with same name
+            $reflectionClass = new ReflectionClass($helper);
+            foreach ($reflectionClass->getProperties() as $property) {
+                if (property_exists($this, $property->getName())) {
+                    $property->setAccessible(true);
+                    $property->setValue($helper, $this->{$property->getName()});
+                }
+            }
         }
 
-        return $this->helpers[$helperName];
+        return $this->helpers[$className];
     }
 
     /**
