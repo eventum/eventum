@@ -82,7 +82,7 @@ return Symfony\CS\Config\Config::create()
 			'single_blank_line_before_namespace',
 			'single_quote',
 			'spaces_before_semicolon',
-		'spaces_cast',
+		'-spaces_cast',
 		'standardize_not_equal',
 		'ternary_spaces',
 			'trim_array_spaces',
