@@ -385,22 +385,24 @@ class Draft
     }
 
     /**
-     * Converts an email to a draft and sends it.
+     * Converts an draft to and email and sends it.
      *
-     * @param   integer $draft_id The id of the draft to send.
+     * @param integer $draft_id The id of the draft to send.
      * @return int
      */
     public static function send($draft_id)
     {
         $draft = self::getDetails($draft_id);
-        $_POST['issue_id'] = $draft['emd_iss_id'];
-        $_POST['subject'] = $draft['emd_subject'];
-        $_POST['from'] = User::getFromHeader(Auth::getUserID());
-        $_POST['to'] = $draft['to'];
-        $_POST['cc'] = @implode(';', $draft['cc']);
-        $_POST['message'] = $draft['emd_body'];
-        $_POST['ema_id'] = Email_Account::getEmailAccount();
-        $res = Support::sendEmailFromPost();
+
+        $from = User::getFromHeader(Auth::getUserID());
+        $to = $draft['to'];
+        $cc = implode(';', $draft['cc']);
+        $subject = $draft['emd_subject'];
+        $options = array(
+            'ema_id' => Email_Account::getEmailAccount(),
+        );
+
+        $res = Support::sendEmail($draft['emd_iss_id'], null, $from, $to, $cc, $subject, $draft['emd_body'], $options);
         if ($res == 1) {
             self::remove($draft_id);
         }
