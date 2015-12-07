@@ -294,12 +294,13 @@ class SendController extends BaseController
         $header = Misc::formatReplyPreamble($details['created_date_ts'], $details['reporter']);
         $details['seb_body'] = $header . Misc::formatReply($details['description']);
         $details['sup_from'] = Mail_Helper::getFormattedName($details['reporter'], $details['reporter_email']);
+        // TRANSLATORS: %1: issue_id
+        $extra_title = ev_gettext('Issue #%1$s: Reply', $this->issue_id);
         $this->tpl->assign(
             array(
                 'email' => $details,
                 'parent_email_id' => 0,
-                // TODO: translate
-                'extra_title' => "Issue #{$this->issue_id}: Reply",
+                'extra_title' => $extra_title,
             )
         );
     }
