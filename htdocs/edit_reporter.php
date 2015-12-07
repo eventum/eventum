@@ -16,7 +16,7 @@ require_once __DIR__ . '/../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('edit_reporter.tpl.html');
 
-Auth::checkAuthentication('index.php?err=5', true);
+Auth::checkAuthentication(null, true);
 
 $prj_id = Auth::getCurrentProject();
 $issue_id = @$_POST['issue_id'] ? $_POST['issue_id'] : $_GET['iss_id'];

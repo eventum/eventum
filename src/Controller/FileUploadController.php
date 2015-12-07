@@ -46,7 +46,7 @@ class FileUploadController extends BaseController
      */
     protected function canAccess()
     {
-        Auth::checkAuthentication('index.php?err=5', true);
+        Auth::checkAuthentication(null, true);
 
         return true;
     }

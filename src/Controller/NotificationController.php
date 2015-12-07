@@ -52,7 +52,7 @@ class NotificationController extends BaseController
      */
     protected function canAccess()
     {
-        Auth::checkAuthentication('index.php?err=5', true);
+        Auth::checkAuthentication(null, true);
 
         $this->usr_id = Auth::getUserID();
 

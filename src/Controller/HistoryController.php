@@ -42,7 +42,7 @@ class HistoryController extends BaseController
      */
     protected function canAccess()
     {
-        Auth::checkAuthentication('index.php?err=5', true);
+        Auth::checkAuthentication(null, true);
 
         $usr_id = Auth::getUserID();
         if (!Access::canViewHistory($usr_id, $usr_id)) {

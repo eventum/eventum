@@ -16,7 +16,7 @@ require_once __DIR__ . '/../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('help/index.tpl.html');
 
-Auth::checkAuthentication('index.php?err=5', true);
+Auth::checkAuthentication(null, true);
 
 if ((empty($_GET['topic'])) || (!Help::topicExists($_GET['topic']))) {
     $topic = 'main';

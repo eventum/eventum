@@ -13,7 +13,7 @@
 
 require_once __DIR__ . '/../init.php';
 
-Auth::checkAuthentication('index.php?err=5', true);
+Auth::checkAuthentication(null, true);
 
 $usr_id = Auth::getUserID();
 
