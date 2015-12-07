@@ -17,7 +17,6 @@ use Auth;
 use Category;
 use Custom_Field;
 use Filter;
-use Group;
 use Issue;
 use Priority;
 use Product;
@@ -74,38 +73,6 @@ class AdvSearchController extends BaseController
         return true;
     }
 
-    // FIXME: duplicate code with ListController
-    /**
-     * Generate options for assign list.
-     * If there are groups and user is above a customer, include groups
-     *
-     * @param array $users
-     * @return array
-     */
-    private function getAssignOptions($users)
-    {
-        $assign_options = array(
-            '' => ev_gettext('Any'),
-            '-1' => ev_gettext('un-assigned'),
-            '-2' => ev_gettext('myself and un-assigned'),
-        );
-
-        if (Auth::isAnonUser()) {
-            unset($assign_options['-2']);
-        } elseif (User::getGroupID($this->usr_id)) {
-            $assign_options['-3'] = ev_gettext('myself and my group');
-            $assign_options['-4'] = ev_gettext('myself, un-assigned and my group');
-        }
-
-        if (Auth::getCurrentRole() > User::ROLE_CUSTOMER && ($groups = Group::getAssocList($this->prj_id))) {
-            foreach ($groups as $grp_id => $grp_name) {
-                $assign_options["grp:$grp_id"] = ev_gettext('Group') . ': ' . $grp_name;
-            }
-        }
-
-        return $assign_options + $users;
-    }
-
     /**
      * @inheritdoc
      */
@@ -119,7 +86,7 @@ class AdvSearchController extends BaseController
     protected function prepareTemplate()
     {
         $users = Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER);
-        $assign_options = $this->getAssignOptions($users);
+        $assign_options = $this->assign->getAssignOptions($this->usr_id, $this->prj_id, $users);
 
         $this->tpl->assign(array(
             'cats'          => Category::getAssocList($this->prj_id),

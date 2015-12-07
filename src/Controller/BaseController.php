@@ -19,9 +19,17 @@ use Misc;
 use Symfony\Component\HttpFoundation\Request;
 use Template_Helper;
 
+/**
+ * Class BaseController
+ *
+ * @property-read Helper\AssignHelper $assign
+ */
 abstract class BaseController
 {
     protected $tpl_name;
+
+    /** @var array */
+    private $helpers;
 
     /**
      * Constructor.
@@ -108,6 +116,16 @@ abstract class BaseController
 
         // TODO: drop Auth::redirect once this is only place Auth::redirect is used
         Auth::redirect($url);
+    }
+
+    protected function __get($name)
+    {
+        $helperName = 'Eventum\\Controller\\Helper\\' . $name;
+        if (!isset($this->helpers[$helperName])) {
+            $this->helpers[$helperName] = new $helperName();
+        }
+
+        return $this->helpers[$helperName];
     }
 
     /**
