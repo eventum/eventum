@@ -86,7 +86,7 @@ class MainController extends BaseController
         // hide_closed is NULL if it's not specified in GET/POST
         // otherwise it's 1 or 0
         if ($request->query->has('hide_closed') || $request->request->has('hide_closed')) {
-            $hide_closed = (int)$request->request->get('hide_closed') ?: (int)$request->query->get('hide_closed');
+            $hide_closed = (int) $request->request->get('hide_closed') ?: (int) $request->query->get('hide_closed');
 
             Auth::setCookie($cookie_name, $hide_closed, time() + Date_Helper::YEAR);
             Search_Profile::save(
@@ -108,7 +108,7 @@ class MainController extends BaseController
             }
         }
 
-        return (int)$hide_closed;
+        return (int) $hide_closed;
     }
 
     /**
