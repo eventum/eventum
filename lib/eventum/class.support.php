@@ -2119,9 +2119,9 @@ class Support
     public static function sendEmail($issue_id, $type, $from, $to, $cc, $subject, $body, $options = array())
     {
         $parent_sup_id = isset($options['parent_sup_id']) ? $options['parent_sup_id'] : null;
-        $iaf_ids = isset($options['iaf_ids']) ? (array)$options['iaf_ids'] : null;
-        $add_unknown = isset($options['add_unknown']) ? (bool)$options['add_unknown'] : false;
-        $ema_id = isset($options['ema_id']) ? (int)$options['ema_id'] : null;
+        $iaf_ids = isset($options['iaf_ids']) ? (array) $options['iaf_ids'] : null;
+        $add_unknown = isset($options['add_unknown']) ? (bool) $options['add_unknown'] : false;
+        $ema_id = isset($options['ema_id']) ? (int) $options['ema_id'] : null;
 
         $current_usr_id = Auth::getUserID();
         $prj_id = Issue::getProjectID($issue_id);

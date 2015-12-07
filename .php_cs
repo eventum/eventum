@@ -104,6 +104,7 @@ return Symfony\CS\Config\Config::create()
 		'-short_array_syntax',
 			'-strict',
 			'-strict_param',
+		'print_to_echo',
 	))
 	->finder($finder)
 ;

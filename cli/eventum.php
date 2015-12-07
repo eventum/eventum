@@ -254,8 +254,8 @@ try {
         }
     }
 } catch (Eventum_RPC_Exception $e) {
-    print 'ERROR: ' . $e->getMessage() . "\n";
+    echo 'ERROR: ' . $e->getMessage() . "\n";
     if ($debug) {
-        print $e->getTraceAsString();
+        echo $e->getTraceAsString();
     }
 }
