@@ -73,6 +73,7 @@ class FileUploadController extends BaseController
         $status = $post->getAlpha('status');
         $internal_only = $status == 'internal';
 
+        // FIXME: duplicate with sendcontroller
         // from ajax upload, attachment file ids
         $iaf_ids = $post->has('iaf_ids') ? explode(',', $post->get('iaf_ids')) : null;
         // description for attachments

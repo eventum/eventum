@@ -165,7 +165,34 @@ class SendController extends BaseController
     {
         $post = $this->getRequest()->request;
 
-        $res = Support::sendEmailFromPost($post->get('parent_id'));
+        // FIXME: duplicate with fileuploadcontroller
+        // from ajax upload, attachment file ids
+        $iaf_ids = $post->has('iaf_ids') ? explode(',', $post->get('iaf_ids')) : null;
+
+        // if no iaf_ids passed, perhaps it's old style upload
+        // TODO: verify that the uploaded file(s) owner is same as attachment owner.
+        if (!$iaf_ids && isset($_FILES['attachment'])) {
+            $iaf_ids = Attachment::addFiles($_FILES['attachment']);
+        }
+
+        $options = array(
+            'parent_sup_id' => $post->get('parent_id'),
+            'iaf_ids' => $iaf_ids,
+            'add_unknown' => $post->get('add_unknown') == 'yes',
+            'ema_id' => $post->has('ema_id') ? $post->getInt('ema_id') : null,
+        );
+
+        $res = Support::sendEmail(
+            $this->issue_id,
+            $post->get('type'),
+            $post->get('from'),
+            $post->get('to'),
+            $post->get('cc'),
+            $post->get('subject'),
+            $post->get('message'),
+            $options
+        );
+
         $this->tpl->assign('send_result', $res);
 
         $new_status = $post->get('new_status');
