@@ -61,9 +61,9 @@ class SendController extends BaseController
     protected function configure()
     {
         $request = $this->getRequest();
-        $this->issue_id = (int) $request->get('issue_id');
+        $this->issue_id = (int)$request->get('issue_id');
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
-        $this->ema_id = (int) $request->get('ema_id');
+        $this->ema_id = (int)$request->get('ema_id');
     }
 
     protected function canAccess()
@@ -311,13 +311,13 @@ class SendController extends BaseController
     {
         $post = $this->getRequest()->request;
 
-        if (!$post->has('time_spent')) {
+        $time_spent = (int)$post->get('time_spent');
+        if (!$time_spent) {
             return;
         }
 
         $summary = $post->get('time_summary') ?: $default_summary;
-        $ttc_id = (int) $post->get('time_category');
-        $time_spent = (int) $post->get('time_spent');
+        $ttc_id = (int)$post->get('time_category');
         Time_Tracking::addTimeEntry($this->issue_id, $ttc_id, $time_spent, null, $summary);
     }
 }
