@@ -129,6 +129,10 @@ class Authorized_Replier
      */
     public static function manualInsert($issue_id, $email, $add_history = true)
     {
+        if (Validation::isWhitespace($email)) {
+            return -1;
+        }
+
         if (self::isAuthorizedReplier($issue_id, $email)) {
             return -1;
         }
