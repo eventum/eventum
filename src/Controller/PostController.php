@@ -45,8 +45,6 @@ class PostController extends BaseController
      */
     protected function canAccess()
     {
-        Auth::checkAuthentication();
-
         return true;
     }
 
