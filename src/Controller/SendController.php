@@ -178,7 +178,7 @@ class SendController extends BaseController
             $this->issue_id,
             $post->get('type'),
             $post->get('from'),
-            $post->get('to'),
+            $post->get('to', ''),
             $post->get('cc'),
             $post->get('subject'),
             $post->get('message'),

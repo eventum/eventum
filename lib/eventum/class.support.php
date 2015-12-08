@@ -2118,8 +2118,9 @@ class Support
      */
     public static function sendEmail($issue_id, $type, $from, $to, $cc, $subject, $body, $options = array())
     {
-        if (!$to) {
-            Logger::app()->error('"To:" can not be empty');
+        if ($to === null) {
+            // BTW, $to = '' is ok
+            Logger::app()->error('"To:" can not be NULL');
 
             return -1;
         }
