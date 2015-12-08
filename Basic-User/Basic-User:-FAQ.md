@@ -239,6 +239,7 @@ Solution: Run the script below AND PAY A LOT OF ATTENTION AT THE WHERE CLAUSE.
       delete_data("DELETE FROM eventum_mail_queue WHERE maq_iss_id = $issue_id");
       
       delete_data("DELETE FROM eventum_issue WHERE iss_id = $issue_id");
+      delete_data("DELETE eventum_mail_queue_log FROM eventum_mail_queue_log LEFT JOIN eventum_mail_queue ON mql_maq_id=maq_id WHERE maq_id IS NULL");
       
       echo "Issue #$issue_id deleted
 \n";
