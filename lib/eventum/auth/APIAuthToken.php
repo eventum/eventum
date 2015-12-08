@@ -61,7 +61,7 @@ class APIAuthToken
     public static function isTokenValidForEmail($token, $email)
     {
         try {
-            if (self::checkTokenStatus($token) == User::getUserIDByEmail($email, true)) {
+            if (self::getUserIDByToken($token) == User::getUserIDByEmail($email, true)) {
                 return true;
             }
         } catch (AuthException $e) {
@@ -69,7 +69,7 @@ class APIAuthToken
         }
     }
 
-    public static function checkTokenStatus($token)
+    public static function getUserIDByToken($token)
     {
         $sql = "SELECT
                     apt_usr_id
@@ -88,21 +88,6 @@ class APIAuthToken
         }
 
         return $usr_id;
-    }
-
-    public static function getUserIDByToken($token)
-    {
-        try {
-            // check that token is valid and not expired
-            $decoded = JWT::decode($token, Auth::privateKey(), array(self::$default_alg));
-
-            // make sure token hasn't been revoked
-            $usr_id = self::checkTokenStatus($token);
-
-            return $usr_id;
-        } catch (Exception $e) {
-            throw new AuthException($e);
-        }
     }
 
     public static function getTokensForUser($usr_id, $auto_generate = false)
