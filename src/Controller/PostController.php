@@ -13,7 +13,6 @@
 
 namespace Eventum\Controller;
 
-use Auth;
 use Custom_Field;
 use Issue;
 use Project;
