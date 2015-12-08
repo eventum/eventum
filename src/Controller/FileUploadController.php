@@ -75,7 +75,7 @@ class FileUploadController extends BaseController
 
         // FIXME: duplicate with sendcontroller
         // from ajax upload, attachment file ids
-        $iaf_ids = $post->has('iaf_ids') ? explode(',', $post->get('iaf_ids')) : null;
+        $iaf_ids = $post->get('iaf_ids') ? explode(',', $post->get('iaf_ids')) : null;
         // description for attachments
         $file_description = $post->get('file_description');
 
