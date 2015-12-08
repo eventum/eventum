@@ -2120,6 +2120,7 @@ class Support
     {
         if (!$to) {
             Logger::app()->error('"To:" can not be empty');
+
             return -1;
         }
 

@@ -165,15 +165,7 @@ class SendController extends BaseController
     {
         $post = $this->getRequest()->request;
 
-        // FIXME: duplicate with fileuploadcontroller
-        // from ajax upload, attachment file ids
-        $iaf_ids = $post->get('iaf_ids') ? explode(',', $post->get('iaf_ids')) : null;
-
-        // if no iaf_ids passed, perhaps it's old style upload
-        // TODO: verify that the uploaded file(s) owner is same as attachment owner.
-        if (!$iaf_ids && isset($_FILES['attachment'])) {
-            $iaf_ids = Attachment::addFiles($_FILES['attachment']);
-        }
+        $iaf_ids = $this->attach->getAttachedFileIds();
 
         $options = array(
             'parent_sup_id' => $post->get('parent_id'),

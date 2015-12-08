@@ -73,17 +73,9 @@ class FileUploadController extends BaseController
         $status = $post->getAlpha('status');
         $internal_only = $status == 'internal';
 
-        // FIXME: duplicate with sendcontroller
-        // from ajax upload, attachment file ids
-        $iaf_ids = $post->get('iaf_ids') ? explode(',', $post->get('iaf_ids')) : null;
+        $iaf_ids = $this->attach->getAttachedFileIds();
         // description for attachments
         $file_description = $post->get('file_description');
-
-        // if no iaf_ids passed, perhaps it's old style upload
-        // TODO: verify that the uploaded file(s) owner is same as attachment owner.
-        if (!$iaf_ids && isset($_FILES['attachment'])) {
-            $iaf_ids = Attachment::addFiles($_FILES['attachment']);
-        }
 
         try {
             Attachment::attachFiles($this->issue_id, $usr_id, $iaf_ids, $internal_only, $file_description);

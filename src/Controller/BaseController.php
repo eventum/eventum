@@ -24,6 +24,7 @@ use Template_Helper;
  * Class BaseController
  *
  * @property-read Helper\AssignHelper $assign
+ * @property-read Helper\AttachHelper $attach
  */
 abstract class BaseController
 {
@@ -133,6 +134,13 @@ abstract class BaseController
                     $property->setAccessible(true);
                     $property->setValue($helper, $this->{$property->getName()});
                 }
+            }
+
+            // add Request property
+            if ($reflectionClass->hasProperty('request')) {
+                $property = $reflectionClass->getProperty('request');
+                $property->setAccessible(true);
+                $property->setValue($helper, $this->getRequest());
             }
         }
 
