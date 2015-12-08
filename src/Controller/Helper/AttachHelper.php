@@ -25,7 +25,6 @@ class AttachHelper
     {
         $post = $this->request->request;
 
-        // FIXME: duplicate with fileuploadcontroller
         // from ajax upload, attachment file ids
         $iaf_ids = $post->get('iaf_ids') ? explode(',', $post->get('iaf_ids')) : null;
 
