@@ -5,5 +5,6 @@ CREATE TABLE {{%api_token}} (
   apt_status varchar(10) NOT NULL default 'active',
   apt_token varchar(32) NOT NULL,
   PRIMARY KEY (apt_id),
+  KEY(apt_usr_id, apt_status),
   KEY (apt_token)
 ) ENGINE=MYISAM DEFAULT CHARSET=utf8;

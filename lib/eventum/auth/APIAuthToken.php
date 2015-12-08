@@ -61,9 +61,14 @@ class APIAuthToken
     public static function isTokenValidForEmail($token, $email)
     {
         try {
-            if (self::getUserIDByToken($token) == User::getUserIDByEmail($email, true)) {
-                return true;
+            $usr_id = User::getUserIDByEmail($email, true);
+            $active_tokens = self::getTokensForUser($usr_id);
+            foreach ($active_tokens as $row) {
+                if ($row['token'] == $token) {
+                    return true;
+                }
             }
+            return false;
         } catch (AuthException $e) {
             return false;
         }
@@ -90,7 +95,7 @@ class APIAuthToken
         return $usr_id;
     }
 
-    public static function getTokensForUser($usr_id, $auto_generate = false)
+    public static function getTokensForUser($usr_id, $active_only = true, $auto_generate = false)
     {
         $sql = 'SELECT
                     apt_id,
@@ -101,7 +106,11 @@ class APIAuthToken
                 FROM
                     {{%api_token}}
                 WHERE
-                    apt_usr_id = ?
+                    apt_usr_id = ?';
+        if ($active_only) {
+            $sql .= " AND apt_status='active'";
+        }
+        $sql .= '
                 ORDER BY
                     apt_created DESC';
         try {
