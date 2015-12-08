@@ -16,9 +16,9 @@ namespace Eventum\Controller;
 use Auth;
 use InvalidArgumentException;
 use Misc;
+use ReflectionClass;
 use Symfony\Component\HttpFoundation\Request;
 use Template_Helper;
-use ReflectionClass;
 
 /**
  * Class BaseController
