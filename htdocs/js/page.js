@@ -971,3 +971,75 @@ product.display_product_version_howto = function()
         $('#product_version_howto').text(howto).show();
     }
 };
+
+/*
+ * Preferences page
+ */
+function preferences() {}
+
+preferences.ready = function()
+{
+    $('#show_revoked').click(function() {
+        $('body#preferences .api_token .revoked').show();
+    });
+
+    $('form#api_token_form').submit(preferences.confirmRegenerateToken);
+
+    $('form.update_name_form').submit(preferences.validateName);
+    $('form.update_email_form').submit(preferences.validateEmail);
+    $('form.update_password_form').submit(preferences.validatePassword);
+    $('input.api_token').focus(function() {
+        var $this = $(this);
+        $this.select();
+    });
+}
+
+preferences.validateName = function()
+{
+    if (Validation.isFieldWhitespace('full_name')) {
+        alert('Please enter your full name.');
+        Validation.selectField('full_name');
+        return false;
+    }
+    return true;
+}
+
+preferences.validateEmail = function()
+{
+    if (!Validation.isEmail(Eventum.getField('email').val())) {
+        alert('Please enter a valid email address.');
+        Validation.selectField('email');
+        return false;
+    }
+    return true;
+}
+
+preferences.validatePassword = function()
+{
+    if (Validation.isWhitespace(Eventum.getField('password').val())) {
+        alert('Please input current password.');
+        Validation.selectField('password');
+        return false;
+    }
+
+    var new_password = Eventum.getField('new_password').val();
+    if (Validation.isWhitespace(new_password) || new_password.length < 6) {
+        alert('Please enter your new password with at least 6 characters.');
+        Validation.selectField('new_password');
+        return false;
+    }
+    if (new_password != Eventum.getField('confirm_password').val()) {
+        alert('The two passwords do not match. Please review your information and try again.');
+        Validation.selectField('confirm_password');
+        return false;
+    }
+    return true;
+}
+
+preferences.confirmRegenerateToken = function()
+{
+    if (confirm("Regenerating your API Key will revoke all previous keys. Do you want to procede?")) {
+        return true;
+    }
+    return false;
+}

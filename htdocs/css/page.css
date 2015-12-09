@@ -284,6 +284,24 @@ body#preferences table.bordered {
     margin-bottom: 1em;
 }
 
+body#preferences .api_token .token {
+    width: 600px;
+}
+
+body#preferences .api_token .token input {
+    width: 100%;
+}
+
+body#preferences .api_token .revoked {
+    text-decoration: line-through;
+    display: none;
+}
+
+body#preferences .api_token .revoked input {
+    color : darkGray;
+    font-style: italic;
+}
+
 /* End preferences page */
 
 /* Begin Popup Page */

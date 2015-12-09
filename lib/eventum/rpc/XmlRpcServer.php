@@ -242,10 +242,10 @@ class XmlRpcServer
             if (!$public) {
                 list($email, $password) = $this->getAuthParams($params);
 
-                if (!Auth::isCorrectPassword($email, $password)) {
+                if (!Auth::isCorrectPassword($email, $password) && !APIAuthToken::isTokenValidForEmail($password, $email)) {
                     // FIXME: role is not checked here
                     throw new RemoteApiException(
-                        "Authentication failed for $email. Your login/password is invalid or you do not have the proper role."
+                        "Authentication failed for $email. Your login/password/api key is invalid or you do not have the proper role."
                     );
                 }
 
