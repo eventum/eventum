@@ -13,7 +13,6 @@
 
 namespace Eventum\Controller;
 
-use Auth;
 use User;
 
 class ConfirmController extends BaseController
