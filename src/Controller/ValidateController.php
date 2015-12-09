@@ -61,7 +61,7 @@ class ValidateController extends BaseController
     {
         $request = $this->getRequest();
 
-        $issues = explode(',', $request->get('action'));
+        $issues = explode(',', $request->get('values'));
         $check_project = $request->get('check_project') != 0;
         $exclude_issue = $request->get('exclude_issue');
         $exclude_duplicates = $request->get('exclude_duplicates') == 1;
