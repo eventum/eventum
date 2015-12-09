@@ -1,6 +1,16 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
@@ -68,6 +78,7 @@ class APIAuthToken
                     return true;
                 }
             }
+
             return false;
         } catch (AuthException $e) {
             return false;
@@ -149,5 +160,4 @@ class APIAuthToken
 
         return 1;
     }
-
 }
