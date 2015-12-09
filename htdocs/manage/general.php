@@ -1,42 +1,25 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
-require_once dirname(__FILE__) . '/../../init.php';
+require_once __DIR__ . '/../../init.php';
 
 $tpl = new Template_Helper();
 $tpl->setTemplate('manage/general.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 $role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('administrator')) {
+if ($role_id < User::ROLE_REPORTER) {
     Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
@@ -44,27 +27,30 @@ if ($role_id < User::getRoleID('administrator')) {
 $tpl->assign('project_list', Project::getAll());
 
 if (@$_POST['cat'] == 'update') {
-    $setup = Setup::load();
-    $setup['tool_caption'] = $_POST['tool_caption'];
-    $setup['support_email'] = $_POST['support_email'];
-    $setup['description_email_0'] = $_POST['description_email_0'];
-    $setup['spell_checker'] = $_POST['spell_checker'];
-    $setup['irc_notification'] = $_POST['irc_notification'];
-    $setup['update'] = $_POST['update'];
-    $setup['closed'] = $_POST['closed'];
-    $setup['emails'] = $_POST['emails'];
-    $setup['files'] = $_POST['files'];
-    $setup['smtp'] = $_POST['smtp'];
-    $setup['open_signup'] = $_POST['open_signup'];
-    $setup['accounts_projects'] = isset($_POST['accounts_projects']) ? $_POST['accounts_projects'] : null;
-    $setup['accounts_role'] = isset($_POST['accounts_role']) ? $_POST['accounts_role'] : null;
-    $setup['subject_based_routing'] = $_POST['subject_based_routing'];
-    $setup['email_routing'] = $_POST['email_routing'];
-    $setup['note_routing'] = $_POST['note_routing'];
-    $setup['draft_routing'] = $_POST['draft_routing'];
-    $setup['email_error'] = $_POST['email_error'];
-    $setup['email_reminder'] = $_POST['email_reminder'];
-    $setup['handle_clock_in'] = $_POST['handle_clock_in'];
+    $smtp = $_POST['smtp'];
+    $smtp['auth'] = (bool) $smtp['auth'];
+    $setup = array(
+        'tool_caption' => $_POST['tool_caption'],
+        'support_email' => $_POST['support_email'],
+        'description_email_0' => $_POST['description_email_0'],
+        'spell_checker' => $_POST['spell_checker'],
+        'irc_notification' => $_POST['irc_notification'],
+        'update' => (bool) Misc::ifSet($_POST, 'update'),
+        'closed' => (bool) Misc::ifSet($_POST, 'closed'),
+        'emails' => (bool) Misc::ifSet($_POST, 'emails'),
+        'files' => (bool) Misc::ifSet($_POST, 'files'),
+        'smtp' => $smtp,
+        'open_signup' => $_POST['open_signup'],
+        'accounts_projects' => isset($_POST['accounts_projects']) ? $_POST['accounts_projects'] : null,
+        'accounts_role' => isset($_POST['accounts_role']) ? $_POST['accounts_role'] : null,
+        'subject_based_routing' => $_POST['subject_based_routing'],
+        'email_routing' => $_POST['email_routing'],
+        'note_routing' => $_POST['note_routing'],
+        'draft_routing' => $_POST['draft_routing'],
+        'email_error' => $_POST['email_error'],
+        'email_reminder' => $_POST['email_reminder'],
+        'handle_clock_in' => $_POST['handle_clock_in'],
+    );
     $res = Setup::save($setup);
     $tpl->assign('result', $res);
 
@@ -80,8 +66,10 @@ if (@$_POST['cat'] == 'update') {
                 Misc::MSG_NOTE_BOX),
     ));
 }
-$options = Setup::load(true);
-$tpl->assign('setup', $options);
-$tpl->assign('user_roles', User::getRoles(array('Customer')));
+
+$tpl->assign(array(
+    'setup' => Setup::get(),
+    'user_roles' => User::getRoles(array('Customer')),
+));
 
 $tpl->displayTemplate();

@@ -1,34 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-//
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle the business logic related to sending email to
@@ -36,7 +17,6 @@
  * infrastructure to deliver email in a compatible way across
  * different platforms.
  */
-
 class Mail_Helper
 {
     // variable to keep the Mail_mime object
@@ -143,7 +123,7 @@ class Mail_Helper
     {
         $str = self::fixAddressQuoting($str);
         $str = Mime_Helper::encode($str);
-        $structs = Mail_Helper::parseAddressList($str);
+        $structs = self::parseAddressList($str);
         $addresses = array();
         foreach ($structs as $structure) {
             if ((!empty($structure->mailbox)) && (!empty($structure->host))) {
@@ -217,6 +197,8 @@ class Mail_Helper
      * Method used to break down the email address information and
      * return it for easy manipulation.
      *
+     * Expands "Groups" into single addresses.
+     *
      * @param   string $address The email address value
      * @param   boolean $multiple If multiple addresses should be returned
      * @return  array The address information
@@ -224,7 +206,7 @@ class Mail_Helper
     public static function getAddressInfo($address, $multiple = false)
     {
         $address = self::fixAddressQuoting($address);
-        $addresslist = Mail_Helper::parseAddressList($address, null, null, false);
+        $addresslist = self::parseAddressList($address, null, null, false);
         if (Misc::isError($addresslist)) {
             return $addresslist;
         }
@@ -235,12 +217,29 @@ class Mail_Helper
 
         $returns = array();
         foreach ($addresslist as $row) {
+            // handle "group" type addresses
+            if (isset($row->groupname)) {
+                foreach ($row->addresses as $address) {
+                    $returns[] = array(
+                        'sender_name' => $address->personal,
+                        'email' => $address->mailbox . '@' . $address->host,
+                        'username' => $address->mailbox,
+                        'host' => $address->host,
+                    );
+                }
+                continue;
+            }
+
             $returns[] = array(
                 'sender_name' => $row->personal,
                 'email' => $row->mailbox . '@' . $row->host,
                 'username' => $row->mailbox,
                 'host' => $row->host,
             );
+        }
+
+        if (!$returns) {
+            return $returns;
         }
 
         if (!$multiple) {
@@ -320,8 +319,8 @@ class Mail_Helper
      */
     public static function getSMTPSettings()
     {
-        $settings = Setup::load();
-        settype($settings['smtp']['auth'], 'boolean');
+        $settings = Setup::get();
+
         if (file_exists('/etc/mailname')) {
             $settings['smtp']['localhost'] = trim(file_get_contents('/etc/mailname'));
         }
@@ -409,17 +408,6 @@ class Mail_Helper
     }
 
     /**
-     * Method used to add a message/rfc822 attachment to the message.
-     *
-     * @param   string $message_body The attachment data
-     * @return  void
-     */
-    public function addMessageRfc822($message_body)
-    {
-        $this->mime->addMessageRfc822($message_body, '8bit');
-    }
-
-    /**
      * Removes the warning message contained in a message, so that certain users
      * don't receive that extra information as it may not be relevant to them.
      *
@@ -465,35 +453,35 @@ class Mail_Helper
      */
     public static function addWarningMessage($issue_id, $to, $body, $headers)
     {
-        $setup = Setup::load();
-        if ((@$setup['email_routing']['status'] == 'enabled') &&
-                ($setup['email_routing']['warning']['status'] == 'enabled')) {
-            // check if the recipient can send emails to the customer
-            $recipient_email = self::getEmailAddress($to);
-            $recipient_usr_id = User::getUserIDByEmail($recipient_email);
-            // don't add the warning message if the recipient is an unknown email address
-            if (empty($recipient_usr_id)) {
-                return $body;
-            } else {
-                // don't add anything if the recipient is a known customer contact
-                $recipient_role_id = User::getRoleByUser($recipient_usr_id, Issue::getProjectID($issue_id));
-                if ($recipient_role_id == User::getRoleID('Customer')) {
-                    return $body;
-                } else {
-                    if (!Support::isAllowedToEmail($issue_id, $recipient_email)) {
-                        $warning = self::getWarningMessage('blocked');
-                    } else {
-                        $warning = self::getWarningMessage('allowed');
-                    }
-                    if (@$headers['Content-Transfer-Encoding'] == 'base64') {
-                        return base64_encode($warning . "\n\n" . trim(base64_decode($body)));
-                    } else {
-                        return $warning . "\n\n" . $body;
-                    }
-                }
-            }
-        } else {
+        $setup = Setup::get();
+        $enabled = $setup['email_routing']['status'] == 'enabled' && $setup['email_routing']['warning']['status'] == 'enabled';
+        if (!$enabled) {
             return $body;
+        }
+
+        // check if the recipient can send emails to the customer
+        $recipient_email = self::getEmailAddress($to);
+        $recipient_usr_id = User::getUserIDByEmail($recipient_email);
+        // don't add the warning message if the recipient is an unknown email address
+        if (empty($recipient_usr_id)) {
+            return $body;
+        }
+
+        // don't add anything if the recipient is a known customer contact
+        $recipient_role_id = User::getRoleByUser($recipient_usr_id, Issue::getProjectID($issue_id));
+        if ($recipient_role_id == User::ROLE_CUSTOMER) {
+            return $body;
+        }
+
+        if (!Support::isAllowedToEmail($issue_id, $recipient_email)) {
+            $warning = self::getWarningMessage('blocked');
+        } else {
+            $warning = self::getWarningMessage('allowed');
+        }
+        if (@$headers['Content-Transfer-Encoding'] == 'base64') {
+            return base64_encode($warning . "\n\n" . trim(base64_decode($body)));
+        } else {
+            return $warning . "\n\n" . $body;
         }
     }
 
@@ -546,7 +534,12 @@ class Mail_Helper
         $to = Mime_Helper::encodeAddress($to);
         $subject = Mime_Helper::encode($subject);
 
-        $body = $this->mime->get(array('text_charset' => APP_CHARSET, 'head_charset' => APP_CHARSET, 'text_encoding' => APP_EMAIL_ENCODING));
+        $body = $this->mime->get(array(
+            'text_charset' => APP_CHARSET,
+            'html_charset' => APP_CHARSET,
+            'head_charset' => APP_CHARSET,
+            'text_encoding' => APP_EMAIL_ENCODING,
+        ));
         $headers = array(
             'From'    => $from,
             'To'      => self::fixAddressQuoting($to),
@@ -555,7 +548,21 @@ class Mail_Helper
 
         $this->setHeaders($headers);
         $hdrs = $this->mime->headers($this->headers);
-        $res = Mail_Queue::add($to, $hdrs, $body, $save_email_copy, $issue_id, $type, $sender_usr_id, $type_id);
+
+        $mail = array(
+            'to' => $to,
+            'headers' => $hdrs,
+            'body' => $body,
+        );
+        $options = array(
+            'save_email_copy' => $save_email_copy,
+            'issue_id' => $issue_id,
+            'type' => $type,
+            'sender_usr_id' => $sender_usr_id,
+            'type_id' => $type_id,
+        );
+
+        $res = Mail_Queue::addMail($mail, $options);
         if (Misc::isError($res) || $res == false) {
             return $res;
         }
@@ -586,7 +593,12 @@ class Mail_Helper
         $to = Mime_Helper::encodeAddress($to);
         $subject = Mime_Helper::encode($subject);
 
-        $body = $this->mime->get(array('text_charset' => APP_CHARSET, 'head_charset' => APP_CHARSET, 'text_encoding' => APP_EMAIL_ENCODING));
+        $body = $this->mime->get(array(
+            'text_charset' => APP_CHARSET,
+            'html_charset' => APP_CHARSET,
+            'head_charset' => APP_CHARSET,
+            'text_encoding' => APP_EMAIL_ENCODING,
+        ));
         $this->setHeaders(array(
             'From'    => $from,
             'To'      => $to,
@@ -609,11 +621,12 @@ class Mail_Helper
      * Method used to save a copy of the given email to a configurable address.
      *
      * @param   array $email The email to save.
+     * @return bool
      */
     public static function saveOutgoingEmailCopy(&$email)
     {
         // check early: do we really want to save every outgoing email?
-        $setup = Setup::load();
+        $setup = Setup::get();
         $save_outgoing_email = !empty($setup['smtp']['save_outgoing_email']) && $setup['smtp']['save_outgoing_email'] == 'yes';
         if (!$save_outgoing_email || empty($setup['smtp']['save_address'])) {
             return false;
@@ -629,7 +642,7 @@ class Mail_Helper
         // ok, now parse the headers text and build the assoc array
         $full_email = $hdrs . "\n\n" . $body;
         $structure = Mime_Helper::decode($full_email, false, false);
-        $_headers = & $structure->headers;
+        $_headers = &$structure->headers;
         $header_names = Mime_Helper::getHeaderNames($hdrs);
         $headers = array();
         foreach ($_headers as $lowercase_name => $value) {
@@ -662,14 +675,14 @@ class Mail_Helper
 
         // add specialized headers if they are not already added
         if (empty($headers['X-Eventum-Type'])) {
-            $headers += self::getSpecializedHeaders($issue_id, $email['maq_type'], $headers, $sender_usr_id);
+            $headers += self::getSpecializedHeaders($issue_id, $email['maq_type'], $sender_usr_id);
         }
 
-        $params = self::getSMTPSettings($address);
+        $params = self::getSMTPSettings();
         $mail = Mail::factory('smtp', $params);
         $res = $mail->send($address, $headers, $body);
         if (Misc::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
         }
 
         $subjects[] = $subject;
@@ -702,11 +715,10 @@ class Mail_Helper
      *
      * @param   integer $issue_id The issue ID
      * @param   string $type The type of message this is
-     * @param   string $headers The existing headers of this message.
      * @param   integer $sender_usr_id The id of the user sending this email.
      * @return  array An array of specialized headers
      */
-    public static function getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id)
+    public static function getSpecializedHeaders($issue_id, $type, $sender_usr_id)
     {
         $new_headers = array();
         if (!empty($issue_id)) {
@@ -788,21 +800,33 @@ class Mail_Helper
     }
 
     /**
-     * Method used to get the appropriate Message-ID header for a
-     * given issue.
+     * Method used to generate Message-ID header for mail.
+     * To be used if message does not include "Message-Id" header.
      *
+     * @param string $headers
+     * @param string $body
      * @return  string The Message-ID header
      */
-    public static function generateMessageID()
+    public static function generateMessageID($headers = null, $body = null)
     {
-        list($usec, $sec) = explode(' ', microtime());
-        $time = ((float) $usec + (float) $sec);
-        $first = base_convert($time, 10, 36);
-        mt_srand(hexdec(substr(md5(microtime()), -8)) & 0x7fffffff);
-        $rand = mt_rand();
-        $second = base_convert($rand, 10, 36);
+        if ($headers) {
+            // calculate hash to make fake message ID
+            // NOTE: note the base_convert "10" should be "16" really here
+            // but can't fix this because need to generate same message-id for same headers+body.
+            // TODO: this can be fixed once we store the generated message-id in database,
+            // TODO: i.e work on ZF-MAIL devel branch gets merged
+            $first = base_convert(md5($headers), 10, 36);
+            $second = base_convert(md5($body), 10, 36);
+        } else {
+            // generate random one
+            // first part is time based
+            $first = base_convert(microtime(true), 10, 36);
 
-        return '<eventum.' . $first . '.' . $second . '@' . APP_HOSTNAME . '>';
+            // second part is random string
+            $second = base_convert(bin2hex(Misc::generateRandom(8)), 16, 36);
+        }
+
+        return '<eventum.md5.' . $first . '.' . $second . '@' . APP_HOSTNAME . '>';
     }
 
     /**
@@ -818,7 +842,7 @@ class Mail_Helper
         }
         if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
             $references = explode(' ', self::unfold(trim($matches[1])));
-            $references = array_map(function ($s) { return trim($s); }, $references);
+            $references = Misc::trim($references);
             // return the first message-id in the list of references
             return $references[0];
         }
@@ -840,7 +864,7 @@ class Mail_Helper
         }
         if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
             $references = array_merge($references, explode(' ', self::unfold(trim($matches[1]))));
-            $references = array_map(function ($s) { return trim($s); }, $references);
+            $references = Misc::trim($references);
             $references = array_unique($references);
         }
         foreach ($references as $key => $reference) {
@@ -887,6 +911,11 @@ class Mail_Helper
             $headers['message-id'] = $msg_id;
         }
 
+        /**
+         * Make sure that In-Reply-To and References headers are set and reference a message in this issue.
+         * If not, set to be the root message ID of the issue. This is to ensure messages are threaded by
+         * issue in mail clients.
+         */
         if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers) > 0) {
             // replace existing header
             $text_headers = preg_replace('/^In-Reply-To: (.*)/mi', 'In-Reply-To: ' . $reference_msg_id, $text_headers, 1);
@@ -987,8 +1016,9 @@ class Mail_Helper
      * Returns the Message-ID from an email. If no message ID is found (Outlook 2003 doesn't
      * generate them in some cases) a "fake" message-id will be calculated.
      *
-     * @param   string $headers The message headers
-     * @param   string $body The message body
+     * @param string $headers The message headers
+     * @param string $body The message body
+     * @return string
      */
     public static function getMessageID($headers, $body)
     {
@@ -1004,11 +1034,7 @@ class Mail_Helper
             return current($structure->headers['message-id']);
         }
 
-        // no match, calculate hash to make fake message ID
-        $first = base_convert(md5($headers), 10, 36);
-        $second = base_convert(md5($body), 10, 36);
-
-        return '<eventum.md5.' . $first . '.' . $second . '@' . APP_HOSTNAME . '>';
+        return self::generateMessageID($headers, $body);
     }
 
     public static function splitAddresses($addresses)

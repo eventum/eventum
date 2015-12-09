@@ -1,31 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2011 Eventum Development Team.                         |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
-// +----------------------------------------------------------------------+
-//
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 class Access
 {
@@ -72,7 +56,7 @@ class Access
         if (empty($usr_role)) {
             // check if they are even allowed to access the project
             $return = false;
-        } elseif ((CRM::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::getRoleID('Customer')) &&
+        } elseif ((CRM::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::ROLE_CUSTOMER) &&
                 ($can_access_contract === false)) {
             // check customer permissions
             $return = false;
@@ -84,7 +68,7 @@ class Access
             // check if the issue is even private
 
             // check role, reporter, assignment and group
-            if ($usr_role > User::getRoleID('Developer')) {
+            if ($usr_role > User::ROLE_DEVELOPER) {
                 $return = true;
             } elseif ($details['iss_usr_id'] == $usr_id) {
                 $return = true;
@@ -98,7 +82,7 @@ class Access
             } else {
                 $return = false;
             }
-        } elseif ((Auth::getCurrentRole() == User::getRoleID('Reporter')) && (Project::getSegregateReporters($prj_id)) &&
+        } elseif ((Auth::getCurrentRole() == User::ROLE_REPORTER) && (Project::getSegregateReporters($prj_id)) &&
                 ($details['iss_usr_id'] != $usr_id) && (!Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id))) {
             return false;
         } else {
@@ -122,7 +106,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -141,7 +125,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -160,7 +144,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -179,7 +163,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -198,7 +182,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -217,7 +201,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -252,7 +236,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -271,7 +255,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -290,7 +274,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -348,7 +332,7 @@ class Access
             }
         }
 
-        if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID('Standard User')) {
+        if (User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_USER) {
             return true;
         }
 
@@ -394,7 +378,7 @@ class Access
             }
         }
 
-        if (User::getRoleByUser($usr_id, $prj_id) >= User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -404,7 +388,7 @@ class Access
     public static function canCreateIssue($usr_id)
     {
         $prj_id = Auth::getCurrentProject();
-        if (User::getRoleByUser($usr_id, $prj_id) < User::getRoleID('Reporter')) {
+        if (User::getRoleByUser($usr_id, $prj_id) < User::ROLE_REPORTER) {
             return false;
         }
         if (User::isPartner($usr_id)) {
@@ -426,7 +410,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 
@@ -442,7 +426,7 @@ class Access
                 return $partner;
             }
         }
-        if (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
             return true;
         }
 

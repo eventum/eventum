@@ -1,10 +1,23 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 /**
  * Set required fields to match old default configuration
  */
 
-$setup = Setup::load();
+/** @var DbInterface $db */
+
+$setup = Setup::get();
 
 // check if the table has any entries. If so, update, otherwise create defaults.
 // do this project by project in case additional projects were never setup

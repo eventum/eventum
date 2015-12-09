@@ -1,34 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-//
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle all of the business logic related to sending email
@@ -52,8 +33,8 @@ class Notification
             return true;
         }
         $subscribed_emails = self::getSubscribedEmails($issue_id, 'emails');
-        $subscribed_emails = array_map(function ($s) { return strtolower($s); }, $subscribed_emails);
-        if (@in_array($email, $subscribed_emails)) {
+        $subscribed_emails = Misc::lowercase($subscribed_emails);
+        if (in_array($email, $subscribed_emails)) {
             return true;
         } else {
             return false;
@@ -172,7 +153,7 @@ class Notification
      */
     public static function getFixedFromHeader($issue_id, $sender, $type)
     {
-        $setup = Setup::load();
+        $setup = Setup::get();
         if ($type == 'issue') {
             $routing = 'email_routing';
         } else {
@@ -201,7 +182,7 @@ class Notification
         } else {
             $flag = '';
         }
-        if (@$setup[$routing]['status'] != 'enabled') {
+        if ($setup[$routing]['status'] != 'enabled') {
             // let's use the custom outgoing sender address
             $project_info = Project::getOutgoingSenderAddress($project_id);
             if (empty($project_info['email'])) {
@@ -225,13 +206,13 @@ class Notification
         }
         // also check where we need to append/prepend a special string to the sender name
         if (substr($info['sender_name'], strlen($info['sender_name']) - 1) == '"') {
-            if (@$setup[$routing]['flag_location'] == 'before') {
+            if ($setup[$routing]['flag_location'] == 'before') {
                 $info['sender_name'] = '"' . $flag . substr($info['sender_name'], 1);
             } else {
                 $info['sender_name'] = substr($info['sender_name'], 0, strlen($info['sender_name']) - 1) . ' ' . trim($flag) . '"';
             }
         } else {
-            if (@$setup[$routing]['flag_location'] == 'before') {
+            if ($setup[$routing]['flag_location'] == 'before') {
                 $info['sender_name'] = '"' . $flag . $info['sender_name'] . '"';
             } else {
                 $info['sender_name'] = '"' . $info['sender_name'] . ' ' . trim($flag) . '"';
@@ -306,7 +287,7 @@ class Notification
 
         // automatically subscribe this sender to email notifications on this issue
         $subscribed_emails = self::getSubscribedEmails($issue_id, 'emails');
-        $subscribed_emails = array_map(function ($s) { return strtolower($s); }, $subscribed_emails);
+        $subscribed_emails = Misc::lowercase($subscribed_emails);
         if ((!self::isIssueRoutingSender($issue_id, $sender)) &&
                 (!self::isBounceMessage($sender_email)) &&
                 (!in_array($sender_email, $subscribed_emails)) &&
@@ -325,7 +306,7 @@ class Notification
                 }
             } else {
                 // if we are only supposed to send email to internal users, check if the role is lower than standard user
-                if ($internal_only == true && (User::getRoleByUser($user['sub_usr_id'], Issue::getProjectID($issue_id)) < User::getRoleID('standard user'))) {
+                if ($internal_only == true && (User::getRoleByUser($user['sub_usr_id'], Issue::getProjectID($issue_id)) < User::ROLE_USER)) {
                     continue;
                 }
                 // check if we are only supposed to send email to the assignees
@@ -387,19 +368,34 @@ class Notification
         $headers['Subject'] = Mail_Helper::formatSubject($issue_id, $headers['Subject']);
 
         if (empty($type)) {
-            if (($sender_usr_id != false) && (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) == User::getRoleID('Customer'))) {
+            if (($sender_usr_id != false) && (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) == User::ROLE_CUSTOMER)) {
                 $type = 'customer_email';
             } else {
                 $type = 'other_email';
             }
         }
 
+        $options = array(
+            'save_email_copy' => 1,
+            'issue_id' => $issue_id,
+            'type' => $type,
+            'sender_usr_id' => $sender_usr_id,
+            'type_id' => $sup_id,
+        );
+
         foreach ($emails as $to) {
             // add the warning message about replies being blocked or not
+            // FIXME: $headers contains $headers['To'] from previous iteration
             $fixed_body = Mail_Helper::addWarningMessage($issue_id, $to, $body, $headers);
             $headers['To'] = Mime_Helper::encodeAddress($to);
 
-            Mail_Queue::add($to, $headers, $fixed_body, 1, $issue_id, $type, $sender_usr_id, $sup_id);
+            $mail = array(
+                'to' => $to,
+                'headers' => $headers,
+                'body' => $fixed_body,
+            );
+
+            Mail_Queue::addMail($mail, $options);
         }
     }
 
@@ -550,16 +546,24 @@ class Notification
         } else {
             $stmt = 'SELECT
                         DISTINCT sub_usr_id,
-                        sub_email
+                        sub_email,
+                        pru_role
                      FROM
+                        (
                         {{%subscription}},
                         {{%subscription_type}}
+                        )
+                        LEFT JOIN
+                          {{%project_user}}
+                          ON
+                            sub_usr_id = pru_usr_id AND
+                            pru_prj_id = ?
                      WHERE
                         sub_iss_id=? AND
                         sub_id=sbt_sub_id AND
                         sbt_type=?';
             $params = array(
-                $issue_id, $type,
+                Issue::getProjectID($issue_id), $issue_id, $type,
             );
         }
         try {
@@ -578,8 +582,9 @@ class Notification
      * @param   integer $issue_id The issue ID
      * @param   array $old The old issue details
      * @param   array $new The new issue details
+     * @param   array $updated_custom_fields An array of the custom fields that were changed.
      */
-    public static function notifyIssueUpdated($issue_id, $old, $new)
+    public static function notifyIssueUpdated($issue_id, $old, $new, $updated_custom_fields)
     {
         $prj_id = Issue::getProjectID($issue_id);
         $diffs = array();
@@ -645,15 +650,26 @@ class Notification
             }
         }
 
-        $emails = array();
-        $users = self::getUsersByIssue($issue_id, 'updated');
-        $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
-        // FIXME: $user_emails unused
-        $user_emails = array_map(function ($s) { return strtolower($s); }, $user_emails);
+        $data = Issue::getDetails($issue_id);
+        $data['diffs'] = implode("\n", $diffs);
+        $data['updated_by'] = User::getFullName(Auth::getUserID());
 
+        $all_emails = array();
+        $role_emails = array(
+            User::ROLE_VIEWER => array(),
+            User::ROLE_REPORTER => array(),
+            User::ROLE_CUSTOMER => array(),
+            User::ROLE_USER => array(),
+            User::ROLE_DEVELOPER => array(),
+            User::ROLE_MANAGER => array(),
+            User::ROLE_ADMINISTRATOR => array(),
+        );
+        $users = self::getUsersByIssue($issue_id, 'updated');
         foreach ($users as $user) {
             if (empty($user['sub_usr_id'])) {
                 $email = $user['sub_email'];
+                // non users are treated as "Viewers" for permission checks
+                $role = User::ROLE_VIEWER;
             } else {
                 $prefs = Prefs::get($user['sub_usr_id']);
                 if ((Auth::getUserID() == $user['sub_usr_id']) &&
@@ -662,21 +678,34 @@ class Notification
                     continue;
                 }
                 $email = User::getFromHeader($user['sub_usr_id']);
+                $role = $user['pru_role'];
             }
 
             // now add it to the list of emails
-            if (!empty($email) && !in_array($email, $emails)) {
-                $emails[] = $email;
+            if (!empty($email) && !in_array($email, $all_emails)) {
+                $all_emails[] = $email;
+                $role_emails[$role][] = $email;
             }
         }
 
         // get additional email addresses to notify
-        $emails = array_merge($emails, Workflow::getAdditionalEmailAddresses($prj_id, $issue_id, 'issue_updated', array('old' => $old, 'new' => $new)));
+        $additional_emails = Workflow::getAdditionalEmailAddresses($prj_id, $issue_id, 'issue_updated', array('old' => $old, 'new' => $new));
+        $data['custom_field_diffs'] = implode("\n", Custom_Field::formatUpdatesToDiffs($updated_custom_fields, User::ROLE_VIEWER));
+        foreach ($additional_emails as $email) {
+            if (!in_array($email, $all_emails)) {
+                $role_emails[User::ROLE_VIEWER][] = $email;
+            }
+        }
 
-        $data = Issue::getDetails($issue_id);
-        $data['diffs'] = implode("\n", $diffs);
-        $data['updated_by'] = User::getFullName(Auth::getUserID());
-        self::notifySubscribers($issue_id, $emails, 'updated', $data, ev_gettext('Updated'), false);
+        // send email to each role separately due to custom field restrictions
+        foreach ($role_emails as $role => $emails) {
+            if (count($emails) > 0) {
+                $data['custom_field_diffs'] = implode("\n", Custom_Field::formatUpdatesToDiffs($updated_custom_fields, $role));
+                if (!empty($data['custom_field_diffs']) || !empty($data['diffs'])) {
+                    self::notifySubscribers($issue_id, $emails, 'updated', $data, ev_gettext('Updated'), false);
+                }
+            }
+        }
     }
 
     /**
@@ -753,8 +782,8 @@ class Notification
         if ($extra_recipients && (count($extra) > 0)) {
             $users = array_merge($users, $extra);
         }
-        $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::getRoleID('Customer'));
-        $user_emails = array_map(function ($s) { return strtolower($s); }, $user_emails);
+        $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::ROLE_CUSTOMER);
+        $user_emails = Misc::lowercase($user_emails);
 
         foreach ($users as $user) {
             if (empty($user['sub_usr_id'])) {
@@ -769,7 +798,7 @@ class Notification
                     continue;
                 }
                 // if we are only supposed to send email to internal users, check if the role is lower than standard user
-                if (($internal_only == true) && (User::getRoleByUser($user['sub_usr_id'], Issue::getProjectID($issue_id)) < User::getRoleID('standard user'))) {
+                if (($internal_only == true) && (User::getRoleByUser($user['sub_usr_id'], Issue::getProjectID($issue_id)) < User::ROLE_USER)) {
                     continue;
                 }
                 if ($type == 'notes' && User::isPartner($user['sub_usr_id']) &&
@@ -1037,7 +1066,7 @@ class Notification
                     usr_status = 'active' AND
                     pru_role > ?";
         $params = array(
-            $prj_id, User::getRoleID('Customer'),
+            $prj_id, User::ROLE_CUSTOMER,
         );
 
         if (count($exclude_list) > 0) {
@@ -1051,7 +1080,7 @@ class Notification
         foreach ($res as $row) {
             $subscriber = Mail_Helper::getFormattedName($row['usr_full_name'], $row['usr_email']);
             // don't send these emails to customers
-            if (($row['pru_role'] == User::getRoleID('Customer')) || (!empty($row['usr_customer_id']))
+            if (($row['pru_role'] == User::ROLE_CUSTOMER) || (!empty($row['usr_customer_id']))
                     || (!empty($row['usr_customer_contact_id']))) {
                 continue;
             }
@@ -1216,7 +1245,9 @@ class Notification
             $setup = $mail->getSMTPSettings();
             $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
             $recipient = Mime_Helper::fixEncoding($recipient);
-            $mail->send($from, $recipient, "[#$issue_id] Issue Created: " . $data['iss_summary'], 0, $issue_id, 'auto_created_issue');
+            // TRANSLATORS: %1: $issue_id, %2 = iss_summary
+            $subject = ev_gettext('[#%1$s] Issue Created: %2$s', $issue_id, $data['iss_summary']);
+            $mail->send($from, $recipient, $subject, 0, $issue_id, 'auto_created_issue');
 
             Language::restore();
         }
@@ -1293,7 +1324,10 @@ class Notification
                 $setup = $mail->getSMTPSettings();
                 $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
                 $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-                $mail->send($from, $recipient, "[#$issue_id] Issue Created: " . $data['iss_summary'], 1, $issue_id, 'email_converted_to_issue');
+
+                // TRANSLATORS: %1 - issue_id, %2 - iss_summary
+                $subject = ev_gettext('[#%1$s] Issue Created: %2$s', $issue_id, $data['iss_summary']);
+                $mail->send($from, $recipient, $subject, 1, $issue_id, 'email_converted_to_issue');
             }
             Language::restore();
 
@@ -1305,10 +1339,11 @@ class Notification
      * Method used to send an IRC notification about a blocked email that was
      * saved into an internal note.
      *
+     * @api
      * @param   integer $issue_id The issue ID
      * @param   string $from The sender of the blocked email message
      */
-    public function notifyIRCBlockedMessage($issue_id, $from)
+    public static function notifyIRCBlockedMessage($issue_id, $from)
     {
         $notice = "Issue #$issue_id updated (";
         // also add information about the assignee, if any
@@ -1335,8 +1370,8 @@ class Notification
                                      $type = false)
     {
         // don't save any irc notification if this feature is disabled
-        $setup = Setup::load();
-        if (@$setup['irc_notification'] != 'enabled') {
+        $setup = Setup::get();
+        if ($setup['irc_notification'] != 'enabled') {
             return false;
         }
 
@@ -1395,11 +1430,14 @@ class Notification
 
         $text_message = $tpl->getTemplateContents();
 
-        // send email (use PEAR's classes)
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup['from'], $mail->getFormattedName($info['usr_full_name'], $info['usr_email']), APP_SHORT_NAME . ': ' . ev_gettext('User account information updated'));
+        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+
+        // TRANSLATORS: %s - APP_SHORT_NAME
+        $subject = ev_gettext('%s: User account information updated', APP_SHORT_NAME);
+        $mail->send($setup['from'], $to, $subject);
 
         Language::restore();
     }
@@ -1434,7 +1472,11 @@ class Notification
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup['from'], $mail->getFormattedName($info['usr_full_name'], $info['usr_email']), APP_SHORT_NAME . ': ' . ev_gettext('User account password changed'));
+        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+
+        // TRANSLATORS: %s - APP_SHORT_NAME
+        $subject = ev_gettext('%s: User account password changed', APP_SHORT_NAME);
+        $mail->send($setup['from'], $to, $subject);
 
         Language::restore();
     }
@@ -1469,7 +1511,11 @@ class Notification
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup['from'], $mail->getFormattedName($info['usr_full_name'], $info['usr_email']), APP_SHORT_NAME . ': ' . ev_gettext('New User information'));
+        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+
+        // TRANSLATORS: %s - APP_SHORT_NAME
+        $subject = ev_gettext('%s: New User information', APP_SHORT_NAME);
+        $mail->send($setup['from'], $to, $subject);
 
         Language::restore();
     }
@@ -1597,7 +1643,10 @@ class Notification
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup['from'], $mail->getFormattedName($info['usr_full_name'], $info['usr_email']), APP_SHORT_NAME . ': ' . ev_gettext('Your User Account Details'));
+        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+        // TRANSLATORS: %s = APP_SHORT_NAME
+        $subject = ev_gettext('%s: Your User Account Details', APP_SHORT_NAME);
+        $mail->send($setup['from'], $to, $subject);
         Language::restore();
     }
 
@@ -1660,7 +1709,7 @@ class Notification
         }
 
         foreach ($users as $user) {
-            if ($user['pru_role'] != User::getRoleID('Customer')) {
+            if ($user['pru_role'] != User::ROLE_CUSTOMER) {
                 $subscribers['staff'][] = $user['usr_full_name'];
             } else {
                 $subscribers['customers'][] = $user['usr_full_name'];
@@ -1704,7 +1753,7 @@ class Notification
                 if (empty($email['sub_email'])) {
                     continue;
                 }
-                if ((!empty($email['pru_role'])) && ($email['pru_role'] != User::getRoleID('Customer'))) {
+                if ((!empty($email['pru_role'])) && ($email['pru_role'] != User::ROLE_CUSTOMER)) {
                     $subscribers['staff'][] = $email['usr_full_name'];
                 } else {
                     $subscribers['customers'][] = $email['sub_email'];
@@ -1752,7 +1801,7 @@ class Notification
      * Method used to get the subscribed actions for a given
      * subscription ID.
      *
-     * @param   integer $sub_id The subcription ID
+     * @param   integer $sub_id The subscription ID
      * @return  array The subscribed actions
      */
     public function getSubscribedActions($sub_id)
@@ -2060,18 +2109,18 @@ class Notification
         }
 
         $actions = array();
-        $setup = Setup::load();
+        $setup = Setup::get();
 
-        if (@$setup['update'] == 1) {
+        if ($setup['update'] == 1) {
             $actions[] = 'updated';
         }
-        if (@$setup['closed'] == 1) {
+        if ($setup['closed'] == 1) {
             $actions[] = 'closed';
         }
-        if (@$setup['files'] == 1) {
+        if ($setup['files'] == 1) {
             $actions[] = 'files';
         }
-        if (@$setup['emails'] == 1) {
+        if ($setup['emails'] == 1) {
             $actions[] = 'emails';
         }
 

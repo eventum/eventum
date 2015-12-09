@@ -1,14 +1,13 @@
 <?php
 
-class AuthLdapTest extends PHPUnit_Framework_TestCase
+class AuthLdapTest extends TestCase
 {
     /** @var LDAP_Auth_Backend */
     static $ldap;
 
-    public static function setupBeforeClass() {
-        if (getenv('TRAVIS')) {
-            self::markTestSkipped('Skip LDAP test on Travis');
-        }
+    public static function setupBeforeClass()
+    {
+        self::skipCi('Skip LDAP test on Travis/Jenkins');
 
         self::$ldap = new LDAP_Auth_Backend();
     }

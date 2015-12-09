@@ -1,11 +1,12 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -21,19 +22,16 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
 // +----------------------------------------------------------------------+
 
 require_once 'XML/RPC.php';
 require_once 'Eventum_RPC.php';
 
 $client = new Eventum_RPC();
-$client->setURL("http://rabbit.impleo.net/rpc/xmlrpc.php");
-$client->setCredentials("user", "password");
+$client->setURL('http://rabbit.impleo.net/rpc/xmlrpc.php');
+$client->setCredentials('user', 'password');
 $client->setDebug(true);
 $id = 64;
 

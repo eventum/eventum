@@ -1,11 +1,12 @@
 <?php
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
 // +----------------------------------------------------------------------+
 // | Eventum - Issue Tracking System                                      |
 // +----------------------------------------------------------------------+
 // | Copyright (c) 2003 - 2008 MySQL AB                                   |
 // | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
+// | Copyright (c) 2011 - 2015 Eventum Team.                              |
 // |                                                                      |
 // | This program is free software; you can redistribute it and/or modify |
 // | it under the terms of the GNU General Public License as published by |
@@ -21,29 +22,27 @@
 // | along with this program; if not, write to:                           |
 // |                                                                      |
 // | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
+// | 51 Franklin Street, Suite 330                                        |
 // | Boston, MA 02110-1301, USA.                                          |
 // +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// +----------------------------------------------------------------------+
 
-require_once dirname(__FILE__) . '/../../../init.php';
+require_once __DIR__ . '/../../../init.php';
 
 $tpl = new Template_Helper();
-$tpl->setTemplate("customer/customer_lookup.tpl.html");
+$tpl->setTemplate('customer/customer_lookup.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 $usr_id = Auth::getUserID();
 $prj_id = Auth::getCurrentProject();
 
 // only customers should be able to use this page
 $role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('Developer')) {
-    Auth::redirect("list.php");
+if ($role_id < User::ROLE_DEVELOPER) {
+    Auth::redirect('list.php');
 }
 
 if (@$_POST['cat'] == 'lookup') {
-    $tpl->assign("results", Customer_OLD::lookup($prj_id, $_POST['field'], $_POST['value']));
+    $tpl->assign('results', Customer_OLD::lookup($prj_id, $_POST['field'], $_POST['value']));
 }
 
 $tpl->displayTemplate();

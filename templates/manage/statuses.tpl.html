@@ -31,6 +31,11 @@
           Validation.selectField('color');
           return false;
       }
+      if (!Validation.isFieldRGBhex('color')) {
+        alert('{t escape=js}Color needs to be valid RGB hex value.{/t}');
+        Validation.selectField('color');
+        return false;
+      }
       return true;
   }
 
@@ -47,7 +52,7 @@
       }
   }
   $().ready(function() {
-      $('#faq_form').submit(validateForm);
+      $('#status_form').submit(validateForm);
       $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
 
       $('#delete_form').submit(checkDelete);
@@ -55,7 +60,7 @@
   //-->
   </script>
 
-  <form name="status_form" method="post">
+  <form id="status_form" method="post">
   {if $smarty.get.cat|default:'' == 'edit'}
   <input type="hidden" name="cat" value="update">
   <input type="hidden" name="id" value="{$smarty.get.id|intval}">
@@ -123,7 +128,7 @@
                 <td>
                   <input type="text" name="color" size="10" value="{$info.sta_color|default:''}">
                   {include file="error_icon.tpl.html" field="color"}
-                  <span>{t}(this color will be used in the issue listing page){/t}</span>
+                  <span>{t}(RGB hex. This color will be used in the issue listing page and graphical stats){/t}</span>
                 </td>
               </tr>
               <tr class="buttons">

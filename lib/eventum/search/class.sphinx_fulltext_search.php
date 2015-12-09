@@ -1,33 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
-// +----------------------------------------------------------------------+
-//
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 {
@@ -64,7 +46,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         $this->sphinx->SetFilter('prj_id', array(Auth::getCurrentProject()));
 
         // TODO: Add support for selecting indexes to search
-        $indexes = implode('; ', $this->getIndexes((Auth::getCurrentRole() > User::getRoleID('Customer'))));
+        $indexes = implode('; ', $this->getIndexes((Auth::getCurrentRole() > User::ROLE_CUSTOMER)));
 
         if ((isset($options['customer_id'])) && (!empty($options['customer_id']))) {
             $this->sphinx->SetFilter('customer_id', array($options['customer_id']));
@@ -76,14 +58,15 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         $res = $this->sphinx->Query($options['keywords'], $indexes);
 
         // TODO: report these somehow back to the UI
+        // probably easy to do with Logger framework (add new handler?)
         if (method_exists($this->sphinx, 'IsConnectError') && $this->sphinx->IsConnectError()) {
-            error_log('sphinx_fulltext_search: Network Error');
+            Logger::app()->error('sphinx_fulltext_search: Network Error');
         }
         if ($this->sphinx->GetLastWarning()) {
-            error_log('sphinx_fulltext_search: WARNING: ' . $this->sphinx->GetLastWarning());
+            Logger::app()->warning('sphinx_fulltext_search: ' . $this->sphinx->GetLastWarning());
         }
         if ($this->sphinx->GetLastError()) {
-            error_log('sphinx_fulltext_search: ERROR: ' . $this->sphinx->GetLastError());
+            Logger::app()->error('sphinx_fulltext_search: ' . $this->sphinx->GetLastError());
         }
 
         $issue_ids = array();
@@ -148,7 +131,6 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                     $res = $this->sphinx->BuildExcerpts($documents, 'issue_stemmed', $this->keywords, $excerpt_options);
                     if ($res[0] != $issue['iss_original_description']) {
                         $excerpt['issue']['description'] = self::cleanUpExcerpt($res[0]);
-                        error_log(print_r($excerpt['issue']['description'], 1));
                     }
                 } elseif ($match['index'] == 'email') {
                     $email = Support::getEmailDetails(null, $match['match_id']);

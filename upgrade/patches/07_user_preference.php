@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 /**
  * Move user preferences to a separate table.
  *
@@ -41,13 +52,15 @@ $sql = 'SELECT
             usr_id DESC';
 $res = $db->getAll($sql);
 
+/** @var Closure $log */
+
 foreach ($res as $row) {
     $usr_id = $row['usr_id'];
-    echo "$usr_id\n";
+    $log($usr_id);
 
     $old_preferences = unserialize($row['usr_preferences']);
     if ($old_preferences === false) {
-        echo "... skipped\n";
+        $log('... skipped');
         continue;
     }
 

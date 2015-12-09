@@ -1,3 +1,14 @@
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 (function (exports, dynamic_options) {
 
     exports.custom_field_init_dynamic_options = custom_field_init_dynamic_options;
@@ -35,6 +46,9 @@
      * @param fld_id
      */
     function custom_field_init_dynamic_options(fld_id) {
+        var cf_set_options = function (e) {
+            custom_field_set_new_options($(e.target), false);
+        };
         for (var i = 0; i < dynamic_options.length; i++) {
             if (dynamic_options[i].target_field_id == fld_id) {
                 // set alert on target field prompting them to choose controlling field first
@@ -43,9 +57,7 @@
 
                 // set event handler for controlling field
                 var controlling_field = $('#' + dynamic_options[i].controlling_field_id);
-                controlling_field.bind('change.change_options', dynamic_options[i].controlling_field_id, function (e) {
-                    custom_field_set_new_options($(e.target), false);
-                });
+                controlling_field.bind('change.change_options', dynamic_options[i].controlling_field_id, cf_set_options);
                 custom_field_set_new_options(controlling_field, true, fld_id);
                 break;
             }

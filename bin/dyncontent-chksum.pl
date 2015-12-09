@@ -33,18 +33,20 @@ sub process_file {
 
 	my @lines;
 	open(my $fh, '<', $file) or die $!;
+	my $modified = 0;
 	while (<$fh>) {
 		if (my ($tag, $script) = $_ =~ /(<(?:script.+src|link.+rel="stylesheet".+href)="{\$core\.rel_url})([^"]+)/i) {
 			my ($pre, $post) = ($`, $');
 			if ($script !~ /\?/) {
 				$_ = $pre. $tag. $script .'?c='.checksum($script). $post;
+				$modified++;
 			}
 		}
 		push(@lines, $_);
 	}
 	close($fh);
 
-	put($file, join('', @lines));
+	put($file, join('', @lines)) if $modified;
 }
 
 my @files;

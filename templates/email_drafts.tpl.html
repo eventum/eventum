@@ -65,7 +65,7 @@ function showAllDrafts(thisBox)
             {/if}
             <td width="20%">{$drafts[i].from|escape:"html"}</td>
             <td width="20%">{$drafts[i].to|escape:"html"}</td>
-            <td width="20%" nowrap>{$drafts[i].emd_updated_date}</td>
+            <td width="20%" nowrap>{$drafts[i].emd_updated_date|timeago}</td>
             <td width="40%">
               <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewDraft({$drafts[i].emd_id}, {$smarty.get.id|intval});">{$drafts[i].emd_subject|default:"<Empty Subject Header>"|escape:"html"}</a>
             </td>

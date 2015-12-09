@@ -1,39 +1,18 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
-// +----------------------------------------------------------------------+
-//
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Manages fields that are associated with an issue but can be displayed in many different places.
- *
- * @author  Bryan Alsdorf <bryan@mysql.com>
  */
 class Issue_Field
 {
@@ -154,7 +133,7 @@ class Issue_Field
         $prj_id = Issue::getProjectID($issue_id);
         switch ($field_name) {
             case 'assignee':
-                $users = Project::getUserAssocList($prj_id, 'active', User::getRoleID('Customer'));
+                $users = Project::getUserAssocList($prj_id, 'active', User::ROLE_CUSTOMER);
                 $current_assignees = Issue::getAssignedUserIDs($issue_id);
                 foreach ($current_assignees as $usr_id) {
                     if (!isset($users[$usr_id])) {
@@ -185,7 +164,7 @@ class Issue_Field
         $fields = self::getFieldsToDisplay($issue_id, $location);
         foreach ($fields as $field_name => $field_options) {
             if ($field_name == 'custom') {
-                Custom_Field::updateValues();
+                Custom_Field::updateFromPost();
             } else {
                 self::setValue($issue_id, $field_name, $values[$field_name]);
             }

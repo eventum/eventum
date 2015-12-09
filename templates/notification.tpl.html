@@ -61,10 +61,10 @@ function checkDelete(f)
         {t}Get a Notification When{/t}
       </th>
       <td>
-        <input type="checkbox" name="actions[]" {if ($info == '' && $default_actions.emails) || $info.emails|default:0 == 1}checked{/if} value="emails"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 0);">{t}Emails are Received or Sent{/t}</a><br />
-        <input type="checkbox" name="actions[]" {if $info == '' || $info.updated|default:0 == 1}checked{/if} value="updated"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 1);">{t}Overview or Details are Changed{/t}</a><br />
-        <input type="checkbox" name="actions[]" {if $info == '' || $info.closed|default:0 == 1}checked{/if} value="closed"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 2);">{t}Issue is Closed{/t}</a><br />
-        <input type="checkbox" name="actions[]" {if $info == '' || $info.files|default:0 == 1}checked{/if} value="files"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 3);">{t}Files are Attached{/t}</a>
+        <input type="checkbox" name="actions[]" {if $info.emails|default:0}checked{/if} value="emails"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 0);">{t}Emails are Received or Sent{/t}</a><br />
+        <input type="checkbox" name="actions[]" {if $info.updated|default:0}checked{/if} value="updated"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 1);">{t}Overview or Details are Changed{/t}</a><br />
+        <input type="checkbox" name="actions[]" {if $info.closed|default:0}checked{/if} value="closed"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 2);">{t}Issue is Closed{/t}</a><br />
+        <input type="checkbox" name="actions[]" {if $info.files|default:0}checked{/if} value="files"> <a id="link" href="javascript:void(null);" onClick="toggleCheckbox('notification_form', 'actions[]', 3);">{t}Files are Attached{/t}</a>
       </td>
     </tr>
     <tr class="buttons">

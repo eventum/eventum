@@ -1,8 +1,22 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 /**
  * Decode note bodies again which have failed to decode unicode html entities
  */
+
+/** @var DbInterface $db */
+/** @var Closure $log */
 
 // notes that need to be decoded
 $res = $db->getAll('select not_id, not_iss_id, not_is_blocked, not_created_date, not_note, not_full_message from {{%note}} where not_note like ?', array('%&#x00%'));
@@ -23,12 +37,14 @@ foreach ($res as $i => $row) {
     }
 
     $diff = $render_diff($row['not_note'], $note);
-    echo "--- issue #{$row['not_iss_id']} {$row['not_created_date']} GMT\n";
-    echo "+++ issue #{$row['not_iss_id']} $now GMT\n";
-    echo $diff;
+    $log("--- issue #{$row['not_iss_id']} {$row['not_created_date']} GMT");
+    $log("+++ issue #{$row['not_iss_id']} $now GMT");
+    $log($diff);
     $db->query('UPDATE {{%note}} '.
         'SET not_note=? '.
         'WHERE not_id=?', array($note, $row['not_id'])
     );
 }
-echo count($res), " notes updated\n";
+
+$count = count($res);
+$log("$count notes updated");

@@ -1,12 +1,10 @@
 <?php
 
-class DbApiTest extends PHPUnit_Framework_TestCase
+class DbApiTest extends TestCase
 {
     public function testPearApi()
     {
-        if (getenv('TRAVIS')) {
-            $this->markTestSkipped('Test requires database');
-        }
+        $this->assertDatabase();
 
         $config = DB_Helper::getConfig();
         $instance = new DbPear($config);

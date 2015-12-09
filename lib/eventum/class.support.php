@@ -1,35 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-//
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle the business logic related to the email feature of
@@ -37,7 +17,6 @@
  *
  * NOTE: this class needs splitting to more specific logic
  */
-
 class Support
 {
     /**
@@ -160,7 +139,7 @@ class Support
                  ORDER BY
                     ' . $options['sort_by'] . ' ' . $options['sort_order'];
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }
@@ -339,7 +318,6 @@ class Support
         }
 
         foreach ($res as &$row) {
-            $row['sup_date'] = Date_Helper::getFormattedDate($row['sup_date']);
             $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
             $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
         }
@@ -402,7 +380,7 @@ class Support
         $mbox = @imap_open(self::getServerURI($info), $info['ema_username'], $info['ema_password']);
         if ($mbox === false) {
             $error = @imap_last_error();
-            Error_Handler::logError('Error while connecting to the email server - ' . $error, __FILE__, __LINE__);
+            Logger::app()->error("Error while connecting to the email server - {$error}");
         }
 
         return $mbox;
@@ -423,7 +401,6 @@ class Support
     /**
      * Method used to get new emails from the mailbox.
      *
-     * @access public
      * @param  resource $mbox The mailbox
      * @return array Array of new message numbers.
      */
@@ -467,8 +444,9 @@ class Support
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = $mail->getSMTPSettings();
-        $mail->send($setup['from'], $sender_email,
-            APP_SHORT_NAME . ': ' . ev_gettext('Postmaster notify: see transcript for details'));
+        // TRANSLATORS: %s: APP_SHORT_NAME
+        $subject = ev_gettext('%s: Postmaster notify: see transcript for details', APP_SHORT_NAME);
+        $mail->send($setup['from'], $sender_email, $subject);
 
         if ($usr_id) {
             Language::restore();
@@ -488,7 +466,7 @@ class Support
      */
     public static function getEmailInfo($mbox, $info, $num)
     {
-        Auth::createFakeCookie(APP_SYSTEM_USER_ID);
+        AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
 
         // check if the current message was already seen
         if ($info['ema_get_only_new']) {
@@ -532,7 +510,7 @@ class Support
 
         // route emails if necessary
         if ($info['ema_use_routing'] == 1) {
-            $setup = Setup::load();
+            $setup = Setup::get();
 
             // we create addresses array so it can be reused
             $addresses = array();
@@ -547,7 +525,7 @@ class Support
                 }
             }
 
-            if (@$setup['email_routing']['status'] == 'enabled') {
+            if ($setup['email_routing']['status'] == 'enabled') {
                 $res = Routing::getMatchingIssueIDs($addresses, 'email');
                 if ($res != false) {
                     $return = Routing::route_emails($message);
@@ -560,7 +538,7 @@ class Support
                     return;
                 }
             }
-            if (@$setup['note_routing']['status'] == 'enabled') {
+            if ($setup['note_routing']['status'] == 'enabled') {
                 $res = Routing::getMatchingIssueIDs($addresses, 'note');
                 if ($res != false) {
                     $return = Routing::route_notes($message);
@@ -587,7 +565,7 @@ class Support
                     return;
                 }
             }
-            if (@$setup['draft_routing']['status'] == 'enabled') {
+            if ($setup['draft_routing']['status'] == 'enabled') {
                 $res = Routing::getMatchingIssueIDs($addresses, 'draft');
                 if ($res != false) {
                     $return = Routing::route_drafts($message);
@@ -632,8 +610,8 @@ class Support
             'message_id'     => $message_id,
             'date'           => Date_Helper::convertDateGMTByTS($email->udate),
             'from'           => $sender_email,
-            'to'             => @$email->toaddress,
-            'cc'             => @$email->ccaddress,
+            'to'             => @$structure->headers['to'],
+            'cc'             => @$structure->headers['cc'],
             'subject'        => @$structure->headers['subject'],
             'body'           => @$message_body,
             'full_email'     => @$message,
@@ -665,7 +643,8 @@ class Support
             $t['issue_id'] = 0;
         } else {
             $prj_id = Issue::getProjectID($t['issue_id']);
-            Auth::createFakeCookie(APP_SYSTEM_USER_ID, $prj_id);
+            AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
+            AuthCookie::setProjectCookie($prj_id);
         }
         if ($should_create_array['type'] == 'note') {
             // assume that this is not a valid note
@@ -676,13 +655,14 @@ class Support
                 $usr_id = User::getUserIDByEmail($sender_email);
                 if (!empty($usr_id)) {
                     $role_id = User::getRoleByUser($usr_id, $prj_id);
-                    if ($role_id > User::getRoleID('Customer')) {
+                    if ($role_id > User::ROLE_CUSTOMER) {
                         // actually a valid user so insert the note
 
-                        Auth::createFakeCookie($usr_id, $prj_id);
+                        AuthCookie::setAuthCookie($usr_id);
+                        AuthCookie::setProjectCookie($prj_id);
 
-                        $users = Project::getUserEmailAssocList($prj_id, 'active', User::getRoleID('Customer'));
-                        $user_emails = array_map(function ($s) { return strtolower($s); }, array_values($users));
+                        $users = Project::getUserEmailAssocList($prj_id, 'active', User::ROLE_CUSTOMER);
+                        $user_emails = Misc::lowercase(array_values($users));
                         $users = array_flip($users);
 
                         $addresses = array();
@@ -714,7 +694,7 @@ class Support
 
                         // need to handle attachments coming from notes as well
                         if ($res != -1) {
-                            Support::extractAttachments($t['issue_id'], $structure, true, $res);
+                            self::extractAttachments($t['issue_id'], $structure, true, $res);
                         }
                     }
                 }
@@ -761,7 +741,8 @@ class Support
                         $addr = Mail_Helper::getEmailAddress($structure->headers['from']);
                         if (Misc::isError($addr)) {
                             // XXX should we log or is this expected?
-                            Error_Handler::logError(array($addr->getMessage()." addr: $addr", $addr->getDebugInfo()), __FILE__, __LINE__);
+                            Logger::app()->error($addr->getMessage(), array('debug' => $res->getDebugInfo(), 'address' => $structure->headers['from']));
+
                             $usr_id = APP_SYSTEM_USER_ID;
                         } else {
                             $usr_id = User::getUserIDByEmail($addr);
@@ -771,10 +752,10 @@ class Support
                         }
 
                         // mark this issue as updated
-                        if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')))) {
+                        if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER))) {
                             Issue::markAsUpdated($t['issue_id'], 'customer action');
                         } else {
-                            if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer'))) {
+                            if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER)) {
                                 Issue::markAsUpdated($t['issue_id'], 'staff response');
                             } else {
                                 Issue::markAsUpdated($t['issue_id'], 'user response');
@@ -792,13 +773,7 @@ class Support
         }
 
         if ($res > 0) {
-            // need to delete the message from the server?
-            if (!$info['ema_leave_copy']) {
-                @imap_delete($mbox, $num);
-            } else {
-                // mark the message as already read
-                @imap_setflag_full($mbox, $num, '\\Seen');
-            }
+            self::deleteMessage($info, $mbox, $num);
         }
     }
 
@@ -857,8 +832,8 @@ class Support
         } elseif (is_numeric($workflow)) {
             $issue_id = $workflow;
         } else {
-            $setup = Setup::load();
-            if (@$setup['subject_based_routing']['status'] == 'enabled') {
+            $setup = Setup::get();
+            if ($setup['subject_based_routing']['status'] == 'enabled') {
                 // Look for issue ID in the subject line
 
                 // look for [#XXXX] in the subject line
@@ -935,7 +910,8 @@ class Support
         // check whether we need to create a new issue or not
         if (($info['ema_issue_auto_creation'] == 'enabled') && ($should_create_issue) && (!Notification::isBounceMessage($sender_email))) {
             $options = Email_Account::getIssueAutoCreationOptions($info['ema_id']);
-            Auth::createFakeCookie(APP_SYSTEM_USER_ID, $info['ema_prj_id']);
+            AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
+            AuthCookie::setProjectCookie($info['ema_prj_id']);
             $issue_id = Issue::createFromEmail($info['ema_prj_id'], APP_SYSTEM_USER_ID,
                     $from, Mime_Helper::decodeQuotedPrintable($subject), $message_body, @$options['category'],
                     @$options['priority'], @$options['users'], $date, $message_id, $severity, $customer_id, $contact_id,
@@ -986,9 +962,8 @@ class Support
      * server.
      *
      * @param   resource $mbox The mailbox
-     * @return  void
      */
-    public function closeEmailServer($mbox)
+    public static function closeEmailServer($mbox)
     {
         @imap_expunge($mbox);
         @imap_close($mbox);
@@ -1235,18 +1210,20 @@ class Support
             'images' => array(),
         );
 
+        $sort_order_option = strtolower(DB_Helper::orderBy($options['sort_order']));
+        $sort_order_image = "images/{$sort_order_option}.gif";
+
         foreach ($fields as $field) {
+            $sort_order = 'asc';
             if ($options['sort_by'] == $field) {
-                $items['images'][$field] = 'images/' . strtolower($options['sort_order']) . '.gif';
-                if (strtolower($options['sort_order']) == 'asc') {
+                $items['images'][$field] = $sort_order_image;
+                if ($sort_order_option == 'asc') {
                     $sort_order = 'desc';
                 } else {
                     $sort_order = 'asc';
                 }
-                $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=' . $sort_order;
-            } else {
-                $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=asc';
             }
+            $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=' . $sort_order;
         }
 
         return $items;
@@ -1295,7 +1272,7 @@ class Support
         $stmt .= self::buildWhereClause($options);
         $stmt .= '
                  ORDER BY
-                    ' . Misc::escapeString($options['sort_by']) . ' ' . Misc::escapeString($options['sort_order']);
+                    ' . Misc::escapeString($options['sort_by']) . ' ' . DB_Helper::orderBy($options['sort_order']);
         $total_rows = Pager::getTotalRows($stmt);
         $stmt .= '
                  LIMIT
@@ -1328,7 +1305,6 @@ class Support
         }
 
         foreach ($res as &$row) {
-            $row['sup_date'] = Date_Helper::getFormattedDate($row['sup_date']);
             $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
             $row['sup_from'] = implode(', ', Mail_Helper::getName($row['sup_from'], true));
             if ((empty($row['sup_to'])) && (!empty($row['sup_iss_id']))) {
@@ -1370,7 +1346,7 @@ class Support
      * @param   array $options The search parameters
      * @return  string The where clause
      */
-    public function buildWhereClause($options)
+    public static function buildWhereClause($options)
     {
         $stmt = '
                  WHERE
@@ -1409,7 +1385,7 @@ class Support
         }
 
         // handle 'private' issues.
-        if (Auth::getCurrentRole() < User::getRoleID('Manager')) {
+        if (Auth::getCurrentRole() < User::ROLE_MANAGER) {
             $stmt .= ' AND (iss_private = 0 OR iss_private IS NULL)';
         }
 
@@ -1606,6 +1582,8 @@ class Support
     /**
      * Method used to get the support email entry details.
      *
+     * FIXME: $ema_id is unused
+     *
      * @param   integer $ema_id The support email account ID
      * @param   integer $sup_id The support email ID
      * @return  array The email entry details
@@ -1631,7 +1609,6 @@ class Support
         $res['message'] = $res['seb_body'];
         $res['attachments'] = Mime_Helper::getAttachmentCIDs($res['seb_full_email']);
         $res['timestamp'] = Date_Helper::getUnixTimestamp($res['sup_date'], 'GMT');
-        $res['sup_date'] = Date_Helper::getFormattedDate($res['sup_date']);
         $res['sup_subject'] = Mime_Helper::fixEncoding($res['sup_subject']);
         // TRANSLATORS: %1 = email subject
         $res['reply_subject'] = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $res['sup_subject']), true);
@@ -1800,7 +1777,6 @@ class Support
         }
 
         foreach ($res as &$row) {
-            $row['sup_date'] = Date_Helper::getFormattedDate($row['sup_date']);
             $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
             $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
             $row['sup_to'] = Mime_Helper::fixEncoding($row['sup_to']);
@@ -1874,7 +1850,7 @@ class Support
                     {{%support_email}}
                  WHERE
                     sup_id IN ($list)";
-        $subjects = DB_Helper::getInstance()->fetchAssoc($stmt, $items);
+        $subjects = DB_Helper::getInstance()->getPair($stmt, $items);
 
         $usr_id = Auth::getUserID();
         foreach ($items as $item) {
@@ -1914,7 +1890,7 @@ class Support
                 try {
                     $contract = $crm->getContract(Issue::getContractID($issue_id));
                     $contact_emails = array_keys($contract->getContactEmailAssocList());
-                    $contact_emails = array_map(function ($s) { return strtolower($s); }, $contact_emails);
+                    $contact_emails = Misc::lowercase($contact_emails);
                 } catch (CRMException $e) {
                     $contact_emails = array();
                 }
@@ -1941,7 +1917,7 @@ class Support
                 $is_allowed = false;
             } elseif ((!Authorized_Replier::isAuthorizedReplier($issue_id, $sender_email)) &&
                     (!Issue::isAssignedToUser($issue_id, $sender_usr_id)) &&
-                    (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID('Customer'))) {
+                    (User::getRoleByUser($sender_usr_id, Issue::getProjectID($issue_id)) != User::ROLE_CUSTOMER)) {
                 $is_allowed = false;
             }
         }
@@ -2053,7 +2029,7 @@ class Support
             } else {
                 $fixed_body = $body;
             }
-            if (User::getRoleByUser(User::getUserIDByEmail(Mail_Helper::getEmailAddress($from)), Issue::getProjectID($issue_id)) == User::getRoleID('Customer')) {
+            if (User::getRoleByUser(User::getUserIDByEmail(Mail_Helper::getEmailAddress($from)), Issue::getProjectID($issue_id)) == User::ROLE_CUSTOMER) {
                 $type = 'customer_email';
             } else {
                 $type = 'other_email';
@@ -2285,7 +2261,7 @@ class Support
         );
 
         // associate this new email with a customer, if appropriate
-        if (Auth::getCurrentRole() == User::getRoleID('Customer')) {
+        if (Auth::getCurrentRole() == User::ROLE_CUSTOMER) {
             if ($issue_id) {
                 $crm = CRM::getInstance($prj_id);
                 try {
@@ -2316,10 +2292,10 @@ class Support
             Notification::notifyNewEmail($current_usr_id, $issue_id, $email, $internal_only, false, $type, $sup_id);
             // mark this issue as updated
             $has_customer = $email['customer_id'] && $email['customer_id'] != 'NULL';
-            if ($has_customer && (!$current_usr_id || User::getRoleByUser($current_usr_id, $prj_id) == User::getRoleID('Customer'))) {
+            if ($has_customer && (!$current_usr_id || User::getRoleByUser($current_usr_id, $prj_id) == User::ROLE_CUSTOMER)) {
                 Issue::markAsUpdated($issue_id, 'customer action');
             } else {
-                if ($sender_usr_id && User::getRoleByUser($sender_usr_id, $prj_id) > User::getRoleID('Customer')) {
+                if ($sender_usr_id && User::getRoleByUser($sender_usr_id, $prj_id) > User::ROLE_CUSTOMER) {
                     Issue::markAsUpdated($issue_id, 'staff response');
                 } else {
                     Issue::markAsUpdated($issue_id, 'user response');
@@ -2635,8 +2611,6 @@ class Support
 
     /**
      * Check if this email needs to be blocked and if so, block it.
-     *
-     *
      */
     public static function blockEmailIfNeeded($email)
     {
@@ -2652,12 +2626,6 @@ class Support
                 (Notification::isBounceMessage($sender_email)) ||
                 (!self::isAllowedToEmail($issue_id, $sender_email))) {
             // add the message body as a note
-            $_POST = array(
-                'full_message' => $email['full_email'],
-                'title'       => @$email['headers']['subject'],
-                'note'        => Mail_Helper::getCannedBlockedMsgExplanation($issue_id) . $email['body'],
-                'message_id'  => Mail_Helper::getMessageID($text_headers, $body),
-            );
             // avoid having this type of message re-open the issue
             if (Mail_Helper::isVacationAutoResponder($email['headers'])) {
                 $closing = true;
@@ -2666,14 +2634,35 @@ class Support
                 $closing = false;
                 $notify = true;
             }
-            $res = Note::insertFromPost(Auth::getUserID(), $issue_id, $email['headers']['from'], false, $closing, $notify, true);
+
+            $options = array(
+                'unknown_user' => $email['headers']['from'],
+                'log' => false,
+                'closing' => $closing,
+                'send_notification' => $notify,
+                'is_blocked' => true,
+                'full_message' => $email['full_email'],
+                'message_id'  => Mail_Helper::getMessageID($text_headers, $body),
+            );
+
+            $body = Mail_Helper::getCannedBlockedMsgExplanation() . $email['body'];
+            $res = Note::insertNote(Auth::getUserID(), $issue_id, @$email['headers']['subject'], $body, $options);
+
             // associate the email attachments as internal-only files on this issue
             if ($res != -1) {
                 self::extractAttachments($issue_id, $email['full_email'], true, $res);
             }
 
-            $_POST['issue_id'] = $issue_id;
-            $_POST['from'] = $sender_email;
+            $email_details = array();
+            $email_details['issue_id'] = $issue_id;
+            $email_details['from'] = $sender_email;
+
+            // XXX: review and remove unneeded ones
+            // these are from 01c7db33
+            $email_details['full_message'] = $email['full_email'];
+            $email_details['title'] = @$email['headers']['subject'];
+            $email_details['note'] = $body;
+            $email_details['message_id'] = $options['message_id'];
 
             // avoid having this type of message re-open the issue
             if (Mail_Helper::isVacationAutoResponder($email['headers'])) {
@@ -2681,7 +2670,7 @@ class Support
             } else {
                 $email_type = 'routed';
             }
-            Workflow::handleBlockedEmail($prj_id, $issue_id, $_POST, $email_type);
+            Workflow::handleBlockedEmail($prj_id, $issue_id, $email_details, $email_type);
 
             // try to get usr_id of sender, if not, use system account
             $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($email['from']), true);
@@ -2751,7 +2740,7 @@ class Support
             return 0;
         }
 
-        $issue_id = Support::getIssueFromEmail($sup_id);
+        $issue_id = self::getIssueFromEmail($sup_id);
         $sql = 'SELECT
                     sup_id,
                     @sup_seq := @sup_seq+1

@@ -10,7 +10,9 @@
 
   {if $error == "imap_extension_missing"}
     <b>Error: Eventum requires the IMAP extension in order to connect to IMAP/POP3 servers.<br /><br />
-    Please refer to the PHP manual for more details about how to enable the IMAP extension.</b>
+    It is installed by default on some systems but must also be enabled. <br />
+    See <a href="https://github.com/eventum/eventum/wiki/Prerequisites">Prerequisites (Wiki)</a><br /><br />
+    Please refer to the PHP manual for more details about how to install and enable the IMAP extension.</b>
   {elseif $error == "hostname_resolv_error"}
     <b>The provided hostname could not be resolved. Please check your information and try again.</b>
   {elseif $error == "could_not_connect"}

@@ -1,40 +1,20 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle the business logic related to the reminder emails
  * that the system sends out.
  */
-
 class Reminder_Action
 {
     /**
@@ -422,7 +402,7 @@ class Reminder_Action
                  ORDER BY
                     rmt_title ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -699,7 +679,7 @@ class Reminder_Action
             Notification::notifyIRC(Issue::getProjectID($issue_id), $irc_notice, $issue_id, false,
                 APP_EVENTUM_IRC_CATEGORY_REMINDER);
         }
-        $setup = Setup::load();
+        $setup = Setup::get();
         // if there are no recipients, then just skip to the next action
         if (count($to) == 0) {
             if (Reminder::isDebug()) {
@@ -708,7 +688,7 @@ class Reminder_Action
             // if not even an irc alert was sent, then save
             // a notice about this on reminder_sent@, if needed
             if (!$action['rma_alert_irc']) {
-                if (@$setup['email_reminder']['status'] == 'enabled') {
+                if ($setup['email_reminder']['status'] == 'enabled') {
                     self::_recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions);
                 }
 
@@ -723,8 +703,7 @@ class Reminder_Action
         // - perform the action
         if (count($to) > 0) {
             // send a copy of this reminder to reminder_sent@, if needed
-            if ((@$setup['email_reminder']['status'] == 'enabled') &&
-                    (!empty($setup['email_reminder']['addresses']))) {
+            if ($setup['email_reminder']['status'] == 'enabled' && $setup['email_reminder']['addresses']) {
                 $addresses = Reminder::_getReminderAlertAddresses();
                 if (count($addresses) > 0) {
                     $to = array_merge($to, $addresses);
@@ -745,7 +724,10 @@ class Reminder_Action
                 $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup['from'], $address, "[#$issue_id] " . ev_gettext('Reminder') . ': ' . $action['rma_title'], 0, $issue_id, 'reminder');
+
+                // TRANSLATORS: %1 - issue_id, %2 - rma_title
+                $subject = ev_gettext('[#%1$s] Reminder: %2$s', $issue_id, $action['rma_title']);
+                $mail->send($setup['from'], $address, $subject, 0, $issue_id, 'reminder');
             }
         }
         // - eventum saves the day once again
@@ -783,7 +765,9 @@ class Reminder_Action
                 $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
                 $setup = $mail->getSMTPSettings();
-                $mail->send($setup['from'], $address, "[#$issue_id] " . ev_gettext('Reminder Not Triggered') . ': ' . $action['rma_title'], 0, $issue_id);
+                // TRANSLATORS: %1 = issue_id, %2 - rma_title
+                $subject = ev_gettext('[#%1$s] Reminder Not Triggered: [#%2$s]', $issue_id, $action['rma_title']);
+                $mail->send($setup['from'], $address, $subject, 0, $issue_id);
             }
         }
     }
@@ -812,7 +796,7 @@ class Reminder_Action
                  WHERE
                     rta_iss_id IN ($idlist)";
         try {
-            $triggered_actions = DB_Helper::getInstance()->fetchAssoc($stmt, $issues);
+            $triggered_actions = DB_Helper::getInstance()->getPair($stmt, $issues);
         } catch (DbException $e) {
             return $issues;
         }

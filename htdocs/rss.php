@@ -1,46 +1,22 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
-require_once dirname(__FILE__) . '/../init.php';
-
-$setup = Setup::load();
-if (empty($setup['tool_caption'])) {
-    $setup['tool_caption'] = APP_NAME;
-}
+require_once __DIR__ . '/../init.php';
 
 function sendAuthenticateHeader()
 {
-    global $setup;
-
     // FIXME: escape tool_caption properly
-    header('WWW-Authenticate: Basic realm="' . $setup['tool_caption'] . '"');
+    header('WWW-Authenticate: Basic realm="' . Misc::getToolCaption() . '"');
     header('HTTP/1.0 401 Unauthorized');
 }
 
@@ -138,7 +114,7 @@ function authorizeRequest()
         }
 
         $usr_id = User::getUserIDByEmail($authUser);
-        Auth::createFakeCookie($usr_id);
+        AuthCookie::setAuthCookie($usr_id);
     }
 
     // check if the required parameter 'custom_id' is really being passed
@@ -173,14 +149,15 @@ $options = array(
     'custom_field'  => $filter['cst_custom_field'],
     'search_type'   => $filter['cst_search_type'],
 );
-$issues = Search::getListing($filter['cst_prj_id'], $options, 0, 'ALL', true);
+
+$issues = Search::getListing($filter['cst_prj_id'], $options, 0, 'ALL');
 $issues = $issues['list'];
 Issue::getDescriptionByIssues($issues);
 
 $tpl->assign(array(
     'charset' => APP_CHARSET,
     'project_title' => Project::getName($filter['cst_prj_id']),
-    'setup' => $setup,
+    'setup' => Setup::get(),
     'filter' => $filter,
     'issues' => $issues,
 ));

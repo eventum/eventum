@@ -1,34 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-//
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle all routing functionality
@@ -73,11 +54,11 @@ class Routing
         $types = array('email', 'note', 'draft');
         foreach ($addresses as $address) {
             foreach ($types as $type) {
-                if (Routing::getMatchingIssueIDs($address, $type) === false) {
+                if (self::getMatchingIssueIDs($address, $type) === false) {
                     continue;
                 }
                 $method = "route_{$type}s";
-                $return = Routing::$method($full_message);
+                $return = self::$method($full_message);
                 if ($return === true || is_array($return)) {
                     return $return;
                 }
@@ -105,7 +86,7 @@ class Routing
         Support::saveRoutedEmail($full_message);
 
         // check if the email routing interface is even supposed to be enabled
-        $setup = Setup::load();
+        $setup = Setup::get();
         if ($setup['email_routing']['status'] != 'enabled') {
             return array(self::EX_CONFIG, ev_gettext('Error: The email routing interface is disabled.') . "\n");
         }
@@ -135,7 +116,7 @@ class Routing
             $full_message = preg_replace("/^(reply-to:).*\n/im", '', $full_message, 1);
         }
 
-        Auth::createFakeCookie(APP_SYSTEM_USER_ID);
+        AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
 
         $structure = Mime_Helper::decode($full_message, true, true);
 
@@ -184,7 +165,8 @@ class Routing
         }
 
         $prj_id = Issue::getProjectID($issue_id);
-        Auth::createFakeCookie(APP_SYSTEM_USER_ID, $prj_id);
+        AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
+        AuthCookie::setProjectCookie($prj_id);
 
         if (Mime_Helper::hasAttachments($structure)) {
             $has_attachments = 1;
@@ -193,7 +175,7 @@ class Routing
         }
 
         // remove certain CC addresses
-        if ((!empty($structure->headers['cc'])) && (@$setup['smtp']['save_outgoing_email'] == 'yes')) {
+        if ((!empty($structure->headers['cc'])) && ($setup['smtp']['save_outgoing_email'] == 'yes')) {
             $ccs = explode(',', @$structure->headers['cc']);
             foreach ($ccs as $i => $address) {
                 if (Mail_Helper::getEmailAddress($address) == $setup['smtp']['save_address']) {
@@ -268,7 +250,7 @@ class Routing
                 Issue::markAsUpdated($issue_id, 'customer action');
             } else {
                 if ((!empty($usr_id)) && ($usr_id != APP_SYSTEM_USER_ID) &&
-                        (User::getRoleByUser($usr_id, $prj_id) > User::getRoleID('Customer'))) {
+                        (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER)) {
                     Issue::markAsUpdated($issue_id, 'staff response');
                 } else {
                     Issue::markAsUpdated($issue_id, 'user response');
@@ -315,8 +297,8 @@ class Routing
         }
 
         // check if the email routing interface is even supposed to be enabled
-        $setup = Setup::load();
-        if (@$setup['note_routing']['status'] != 'enabled') {
+        $setup = Setup::get();
+        if ($setup['note_routing']['status'] != 'enabled') {
             return array(self::EX_CONFIG, ev_gettext('Error: The internal note routing interface is disabled.') . "\n");
         }
         if (empty($setup['note_routing']['address_prefix'])) {
@@ -345,7 +327,7 @@ class Routing
         // check if the sender is allowed in this issue' project and if it is an internal user
         $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
-        if (((empty($sender_usr_id)) || (User::getRoleByUser($sender_usr_id, $prj_id) < User::getRoleID('Standard User')) ||
+        if (((empty($sender_usr_id)) || (User::getRoleByUser($sender_usr_id, $prj_id) < User::ROLE_USER) ||
                 (User::isPartner($sender_usr_id) && !Access::canViewInternalNotes($issue_id, $sender_usr_id))) &&
                 ((!Workflow::canSendNote($prj_id, $issue_id, $sender_email, $structure)))) {
             return array(self::EX_NOPERM, ev_gettext("Error: The sender of this email is not allowed in the project associated with issue #$issue_id.") . "\n");
@@ -357,7 +339,8 @@ class Routing
         } else {
             $unknown_user = false;
         }
-        Auth::createFakeCookie($sender_usr_id, $prj_id);
+        AuthCookie::setAuthCookie($sender_usr_id);
+        AuthCookie::setProjectCookie($prj_id);
 
         // parse the Cc: list, if any, and add these internal users to the issue notification list
         $addresses = array();
@@ -372,7 +355,7 @@ class Routing
         $cc_users = array();
         foreach ($addresses as $email) {
             $cc_usr_id = User::getUserIDByEmail(strtolower($email), true);
-            if ((!empty($cc_usr_id)) && (User::getRoleByUser($cc_usr_id, $prj_id) >= User::getRoleID('Standard User'))) {
+            if ((!empty($cc_usr_id)) && (User::getRoleByUser($cc_usr_id, $prj_id) >= User::ROLE_USER)) {
                 $cc_users[] = $cc_usr_id;
             }
         }
@@ -444,8 +427,8 @@ class Routing
         }
 
         // check if the draft interface is even supposed to be enabled
-        $setup = Setup::load();
-        if (@$setup['draft_routing']['status'] != 'enabled') {
+        $setup = Setup::get();
+        if ($setup['draft_routing']['status'] != 'enabled') {
             return array(self::EX_CONFIG, ev_gettext('Error: The email draft interface is disabled.') . "\n");
         }
         if (empty($setup['draft_routing']['address_prefix'])) {
@@ -477,12 +460,13 @@ class Routing
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (!empty($sender_usr_id)) {
             $sender_role = User::getRoleByUser($sender_usr_id, $prj_id);
-            if ($sender_role < User::getRoleID('Standard User')) {
+            if ($sender_role < User::ROLE_USER) {
                 return array(self::EX_NOPERM, ev_gettext("Error: The sender of this email is not allowed in the project associated with issue #$issue_id.") . "\n");
             }
         }
 
-        Auth::createFakeCookie(User::getUserIDByEmail($sender_email), $prj_id);
+        AuthCookie::setAuthCookie(User::getUserIDByEmail($sender_email));
+        AuthCookie::setProjectCookie($prj_id);
 
         $body = $structure->body;
 
@@ -503,9 +487,9 @@ class Routing
      */
     public static function getMatchingIssueIDs($addresses, $type)
     {
-        $setup = Setup::load();
+        $setup = Setup::get();
         $settings = $setup["${type}_routing"];
-        if (!is_array($settings)) {
+        if (!$settings) {
             return false;
         }
 
@@ -523,7 +507,7 @@ class Routing
 
         if (!empty($settings['host_alias'])) {
             // XXX: legacy split by '|' as well
-            if (strchr($settings['host_alias'], '|')) {
+            if (strstr($settings['host_alias'], '|')) {
                 $host_aliases = explode('|', $settings['host_alias']);
             } else {
                 $host_aliases = explode(' ', $settings['host_alias']);

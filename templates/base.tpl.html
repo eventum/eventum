@@ -35,6 +35,8 @@
   <script type="text/javascript" src="{$core.rel_url}components/jquery-ui/ui/datepicker.js"></script>
   <script type="text/javascript" src="{$core.rel_url}components/jquery-chosen/chosen.jquery.js"></script>
   <script type="text/javascript" src="{$core.rel_url}components/dropzone/dist/dropzone.js"></script>
+  <script type="text/javascript" src="{$core.rel_url}components/autosize/dist/autosize.js"></script>
+  <script type="text/javascript" src="{$core.rel_url}components/jquery-timeago/jquery.timeago.js"></script>
 
   {* our css/js after remote assets to allow overrides *}
   <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}css/main.css">
@@ -45,6 +47,7 @@
   {* allow pages to inject to <head> block *}
   {block "stylesheets"}{/block}
   {block "javascripts"}{/block}
+  {$debugbar_head|default:''}
 
   {* local directory can add overrides *}
   {include file="extra_header.tpl.html"}
@@ -56,11 +59,11 @@
 <div id="container">
     {block "header"}{/block}
 
-    {block "messages"}
     <div id="full_width_messages">
+    {block "messages"}
         {include "app_messages.tpl.html"}
-    </div>
     {/block}
+    </div>
 
     <div id="middle">
         <div id="content">
@@ -70,6 +73,7 @@
     </div>
 
     {block "footer"}{/block}
+    {$debugbar_body|default:''}
 </div>
 </body>
 </html>

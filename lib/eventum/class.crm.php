@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 define('CRM_EXCLUDE_EXPIRED', 'exclude_expired');
 
 abstract class CRM
@@ -272,12 +283,9 @@ abstract class CRM
      */
     public static function hasCustomerIntegration($prj_id)
     {
-        $backend = CRM::getBackendNameByProject($prj_id);
-        if (empty($backend)) {
-            return false;
-        } else {
-            return true;
-        }
+        $backend = self::getBackendNameByProject($prj_id);
+
+        return !empty($backend);
     }
 
     /**
@@ -314,21 +322,21 @@ abstract class CRM
         }
 
         $stmt = 'SELECT
-                    prj_id,
                     prj_customer_backend
                  FROM
                     {{%project}}
-                 ORDER BY
-                    prj_id';
+                 WHERE prj_id=?';
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt);
+            $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
         } catch (DbException $e) {
-            return '';
+            $res = false;
         }
 
-        $backends = $res;
+        // $res can be empty string if not configured
+        // or null if no row was fetched (impossible?)
+        // or false if there was db error
 
-        return @$backends[$prj_id];
+        return $backends[$prj_id] = $res;
     }
 
     /**
@@ -340,8 +348,8 @@ abstract class CRM
      */
     private static function getBackendByProject($prj_id)
     {
-        $backend_class = CRM::getBackendNameByProject($prj_id);
-        if (empty($backend_class)) {
+        $backend_class = self::getBackendNameByProject($prj_id);
+        if (!$backend_class) {
             return false;
         }
 
@@ -351,10 +359,10 @@ abstract class CRM
     /**
      * Returns the backend for the specified class name
      *
-     * @param $backend_class
+     * @param string $backend_class
      * @param int $prj_id
      * @internal param string $class_name The name of the class.
-     * @return  Customer
+     * @return CRM
      */
     private static function getBackend($backend_class, $prj_id)
     {
@@ -367,6 +375,7 @@ abstract class CRM
             require_once APP_INC_PATH . '/crm/backends/' . $class_name . "/$backend_class";
         }
 
+        /** @var CRM $backend */
         $backend = new $class_name();
         $backend->setup($prj_id);
         $backend->prj_id = $prj_id;
@@ -400,7 +409,7 @@ abstract class CRM
         }
 
         foreach ($res as &$row) {
-            $crm = CRM::getInstance($row['cam_prj_id']);
+            $crm = self::getInstance($row['cam_prj_id']);
             try {
                 $customer = $crm->getCustomer($row['cam_customer_id']);
                 $row['customer_title'] = $customer->getName();
@@ -535,7 +544,7 @@ abstract class CRM
                     cam_prj_id=? AND
                     cam_customer_id=?';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id, $customer_id), DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id, $customer_id), DbInterface::DB_FETCHMODE_ASSOC);
         } catch (DbException $e) {
             return array();
         }
@@ -622,7 +631,7 @@ abstract class CRM
 
         foreach ($res as &$row) {
             try {
-                $crm = CRM::getInstance($row['cno_prj_id']);
+                $crm = self::getInstance($row['cno_prj_id']);
                 $row['customer_title'] = $crm->getCustomer($row['cno_customer_id'])->getName();
             } catch (Exception $e) {
             }

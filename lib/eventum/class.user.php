@@ -1,40 +1,20 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle the business logic related to the administration
  * of users and permissions in the system.
  */
-
 class User
 {
     const ROLE_VIEWER = 1;
@@ -57,6 +37,7 @@ class User
     );
 
     private static $localized_roles;
+
     private static function getLocalizedRoles()
     {
         if (self::$localized_roles === null) {
@@ -306,7 +287,6 @@ class User
                     {{%user}}
                  (
                     usr_created_date,
-                    usr_password,
                     usr_full_name,
                     usr_email,
                     usr_status
@@ -315,7 +295,6 @@ class User
             DB_Helper::getInstance()->query(
                 $stmt, array(
                     Date_Helper::getCurrentDateGMT(),
-                    Auth::hashPassword($_POST['passwd']),
                     $_POST['full_name'],
                     $_POST['email'],
                     'pending',
@@ -325,13 +304,22 @@ class User
             return -1;
         }
 
-        $new_usr_id = DB_Helper::get_last_insert_id();
-        // add the project associations!
-        foreach ($projects as $prj_id) {
-            Project::associateUser($prj_id, $new_usr_id, $role);
+        $usr_id = DB_Helper::get_last_insert_id();
+
+        try {
+            self::updatePassword($usr_id, $_POST['passwd']);
+        } catch (Exception $e) {
+            Logger::app()->error($e);
+
+            return -1;
         }
 
-        Prefs::set($new_usr_id, Prefs::getDefaults($projects));
+        // add the project associations!
+        foreach ($projects as $prj_id) {
+            Project::associateUser($prj_id, $usr_id, $role);
+        }
+
+        Prefs::set($usr_id, Prefs::getDefaults($projects));
 
         // send confirmation email to user
         $hash = md5($_POST['full_name'] . $_POST['email'] . Auth::privateKey());
@@ -345,11 +333,13 @@ class User
         ));
         $text_message = $tpl->getTemplateContents();
 
-        $setup = Setup::load();
+        $setup = Setup::get();
         $mail = new Mail_Helper();
-        // need to make this message MIME based
         $mail->setTextBody($text_message);
-        $mail->send($setup['smtp']['from'], $_POST['email'], APP_SHORT_NAME . ': New Account - Confirmation Required');
+
+        // TRANSLATORS: %1 - APP_SHORT_NAME
+        $subject = ev_gettext('%s: New Account - Confirmation Required', APP_SHORT_NAME);
+        $mail->send($setup['smtp']['from'], $_POST['email'], $subject);
 
         return 1;
     }
@@ -376,11 +366,13 @@ class User
         ));
         $text_message = $tpl->getTemplateContents();
 
-        $setup = Setup::load();
+        $setup = Setup::get();
         $mail = new Mail_Helper();
-        // need to make this message MIME based
         $mail->setTextBody($text_message);
-        $mail->send($setup['smtp']['from'], $info['usr_email'], APP_SHORT_NAME . ': New Password - Confirmation Required');
+
+        // TRANSLATORS: %s - APP_SHORT_NAME
+        $subject = ev_gettext('%s: New Password - Confirmation Required', APP_SHORT_NAME);
+        $mail->send($setup['smtp']['from'], $info['usr_email'], $subject);
     }
 
     /**
@@ -388,14 +380,13 @@ class User
      * to the user with the new random password.
      *
      * @param   string $email The email address
-     * @return  void
      */
     public static function confirmNewPassword($email)
     {
         $usr_id = self::getUserIDByEmail($email);
         // create the new password
         $password = substr(md5(microtime() . uniqid('')), 0, 12);
-        Auth::updatePassword($usr_id, $password, $password, true);
+        self::updatePassword($usr_id, $password, true);
     }
 
     public static function getUserIDByExternalID($external_id)
@@ -428,12 +419,12 @@ class User
 
         if (!is_string($email)) {
             if (Misc::isError($email)) {
-                Error_Handler::logError(array($email->getMessage(), $email->getDebugInfo()), __FILE__, __LINE__);
+                Logger::app()->error($email->getMessage(), array('debug' => $email->getDebugInfo()));
 
                 return null;
             }
 
-            Error_Handler::logError('$email parameter is not a string: '.gettype($email), __FILE__, __LINE__);
+            Logger::app()->error('$email parameter is not a string', array('type' => gettype($email)));
 
             return null;
         }
@@ -543,7 +534,7 @@ class User
                  ORDER BY
                     usr_full_name ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return '';
         }
@@ -635,7 +626,7 @@ class User
         static $returns;
 
         if ($usr_id == APP_SYSTEM_USER_ID) {
-            return self::getRoleID('Administrator');
+            return self::ROLE_ADMINISTRATOR;
         }
 
         if (!empty($returns[$usr_id][$prj_id])) {
@@ -882,7 +873,7 @@ class User
             return $returns[$email];
         }
 
-        $email = User::getEmail(User::getUserIDByEmail($email, true));
+        $email = self::getEmail(self::getUserIDByEmail($email, true));
 
         $stmt = 'SELECT
                     usr_status
@@ -948,39 +939,6 @@ class User
     }
 
     /**
-     * Method used to update the account password for a specific user.
-     *
-     * @param   integer $usr_id The user ID
-     * @param   boolean $send_notification Whether to send the notification email or not
-     * @return  integer 1 if the update worked, -1 otherwise
-     */
-    public static function updatePassword($usr_id, $send_notification = false)
-    {
-        if ($_POST['new_password'] != $_POST['confirm_password']) {
-            return -2;
-        }
-        $stmt = 'UPDATE
-                    {{%user}}
-                 SET
-                    usr_password=?
-                 WHERE
-                    usr_id=?';
-        try {
-            DB_Helper::getInstance()->query(
-                $stmt, array(Auth::hashPassword($_POST['new_password']), $usr_id)
-            );
-        } catch (DbException $e) {
-            return -1;
-        }
-
-        if ($send_notification) {
-            Notification::notifyUserPassword($usr_id, $_POST['new_password']);
-        }
-
-        return 1;
-    }
-
-    /**
      * Method used to update the account full name for a specific user.
      *
      * @param   integer $usr_id The user ID
@@ -1031,6 +989,32 @@ class User
         return 1;
     }
 
+    /**
+     * Method to set the user password.
+     * It calls out auth backend, which will store the password hash.
+     *
+     * @param integer $usr_id The user ID
+     * @param string $password Plain text user password
+     * @param boolean $send_notification Whether to send the notification email or not
+     * @throw InvalidArgumentException|BadMethodCallException in case password was not set
+     */
+    public static function updatePassword($usr_id, $password, $send_notification = false)
+    {
+        // reject setting empty password
+        if ($password == '') {
+            throw new InvalidArgumentException("Can't set empty password");
+        }
+
+        $res = Auth::getAuthBackend()->updatePassword($usr_id, $password);
+        if (!$res) {
+            throw new BadMethodCallException('Password set rejected by auth backend');
+        }
+
+        if ($send_notification) {
+            Notification::notifyUserPassword($usr_id, $password);
+        }
+    }
+
     public static function updateFromPost()
     {
         $usr_id = $_POST['id'];
@@ -1076,10 +1060,6 @@ class User
             $params['usr_grp_id'] = !empty($data['grp_id']) ? $data['grp_id'] : null;
         }
 
-        if (!empty($data['password'])) {
-            $params['usr_password'] = Auth::hashPassword($data['password']);
-        }
-
         if (isset($data['external_id'])) {
             $params['usr_external_id'] = $data['external_id'];
         }
@@ -1097,6 +1077,16 @@ class User
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return -1;
+        }
+
+        if (!empty($data['password'])) {
+            try {
+                self::updatePassword($usr_id, $data['password']);
+            } catch (Exception $e) {
+                Logger::app()->error($e);
+
+                return -1;
+            }
         }
 
         if (isset($data['role'])) {
@@ -1190,7 +1180,6 @@ class User
             isset($user['customer_id']) ? $user['customer_id'] : null,
             isset($user['contact_id']) ? $user['contact_id'] : null,
             Date_Helper::getCurrentDateGMT(),
-            Auth::hashPassword($user['password']),
             $user['full_name'],
             $user['email'],
             !empty($user['grp_id']) ? $user['grp_id'] : null,
@@ -1203,22 +1192,13 @@ class User
                     usr_customer_id,
                     usr_customer_contact_id,
                     usr_created_date,
-                    usr_password,
                     usr_full_name,
                     usr_email,
                     usr_grp_id,
                     usr_external_id,
                     usr_par_code
                  ) VALUES (
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?,
-                    ?
+                    ?, ?, ?, ?, ?, ?, ?, ?
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -1226,23 +1206,32 @@ class User
             return -1;
         }
 
-        $new_usr_id = DB_Helper::get_last_insert_id();
+        $usr_id = DB_Helper::get_last_insert_id();
+
+        if ($user['password'] != '') {
+            try {
+                self::updatePassword($usr_id, $user['password']);
+            } catch (Exception $e) {
+                return -1;
+            }
+        }
+
         // add the project associations!
         $projects = array();
         foreach ($user['role'] as $prj_id => $role) {
             if ($role < 1) {
                 continue;
             }
-            Project::associateUser($prj_id, $new_usr_id, $role);
+            Project::associateUser($prj_id, $usr_id, $role);
             $projects[] = $prj_id;
         }
 
-        Prefs::set($new_usr_id, Prefs::getDefaults($projects));
+        Prefs::set($usr_id, Prefs::getDefaults($projects));
 
         // send email to user
-        Notification::notifyNewUser($new_usr_id, $user['password']);
+        Notification::notifyNewUser($usr_id, $user['password']);
 
-        return $new_usr_id;
+        return $usr_id;
     }
 
     /**
@@ -1282,8 +1271,8 @@ class User
             $role = current($roles);
             $role = $role['pru_role'];
             if ($show_customers == false && (
-                ((@$roles[Auth::getCurrentProject()]['pru_role']) == self::getRoleID('Customer')) ||
-                (count($roles) == 1 && $role == self::getRoleID('Customer')))) {
+                ((@$roles[Auth::getCurrentProject()]['pru_role']) == self::ROLE_CUSTOMER) ||
+                (count($roles) == 1 && $role == self::ROLE_CUSTOMER))) {
                 continue;
             }
 
@@ -1296,7 +1285,7 @@ class User
             }
 
             // add email aliases
-            $row['aliases'] = User::getAliases($row['usr_id']);
+            $row['aliases'] = self::getAliases($row['usr_id']);
 
             $data[] = $row;
         }
@@ -1324,7 +1313,7 @@ class User
                  FROM
                     {{%user}}';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }
@@ -1350,7 +1339,7 @@ class User
                  ORDER BY
                     usr_full_name ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }
@@ -1421,7 +1410,7 @@ class User
                  WHERE
                     usr_clocked_in=1';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -1483,7 +1472,7 @@ class User
      */
     public static function isClockedIn($usr_id)
     {
-        $setup = Setup::load();
+        $setup = Setup::get();
         // If clock in handling is disabled, say that we are always clocked in
         if ($setup['handle_clock_in'] == 'disabled') {
             return true;
@@ -1694,7 +1683,7 @@ class User
 
     public static function getExternalID($usr_id)
     {
-        $details = User::getDetails($usr_id);
+        $details = self::getDetails($usr_id);
 
         return $details['usr_external_id'];
     }

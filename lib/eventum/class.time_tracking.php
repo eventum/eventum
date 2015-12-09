@@ -1,40 +1,20 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle the business logic related to the administration
  * of time tracking categories in the system.
  */
-
 class Time_Tracking
 {
     /**
@@ -107,7 +87,7 @@ class Time_Tracking
                     ttr_ttc_id IN (' . DB_Helper::buildList($ttc_ids) . ')
                  GROUP BY 1';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $ttc_ids);
+            $res = DB_Helper::getInstance()->getPair($stmt, $ttc_ids);
         } catch (DbException $e) {
             return null;
         }
@@ -310,7 +290,7 @@ class Time_Tracking
                  GROUP BY
                     ttr_iss_id';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $ids);
+            $res = DB_Helper::getInstance()->getPair($stmt, $ids);
         } catch (DbException $e) {
             return;
         }
@@ -383,7 +363,6 @@ class Time_Tracking
         foreach ($res as &$row) {
             $row['ttr_summary'] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($row['ttr_summary'])));
             $row['formatted_time'] = Misc::getFormattedTime($row['ttr_time_spent']);
-            $row['ttr_created_date'] = Date_Helper::getFormattedDate($row['ttr_created_date']);
 
             if (isset($total_time_by_user[$row['ttr_usr_id']])) {
                 $total_time_by_user[$row['ttr_usr_id']]['time_spent'] += $row['ttr_time_spent'];
@@ -612,7 +591,7 @@ class Time_Tracking
         $params = array($prj_id, $usr_id, $start, $end);
 
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DbInterface::DB_FETCHMODE_ASSOC);
         } catch (DbException $e) {
             return array();
         }

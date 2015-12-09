@@ -77,7 +77,7 @@
                 <input type="checkbox" name="item[]" value="{$list[i].sup_id}">
             </td>
             <td align="center" nowrap>
-                {$list[i].sup_date}
+                {$list[i].sup_date|timeago}
             </td>
             <td width="20%">
                 {$list[i].sup_from|escape:"html"}

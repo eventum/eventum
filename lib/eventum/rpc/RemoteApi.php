@@ -1,33 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 class RemoteApiException extends RuntimeException
 {
@@ -40,30 +22,6 @@ class RemoteApiException extends RuntimeException
  */
 class RemoteApi
 {
-    /**
-     * Fakes the creation of the login cookie
-     *
-     * @param string $email
-     * @param bool $project
-     */
-    public static function createFakeCookie($email, $project = false)
-    {
-        if ($email) {
-            $cookie = array(
-                'email' => $email,
-            );
-            $_COOKIE[APP_COOKIE] = base64_encode(serialize($cookie));
-        }
-
-        if ($project) {
-            $cookie = array(
-                'prj_id'   => $project,
-                'remember' => false,
-            );
-            $_COOKIE[APP_PROJECT_COOKIE] = base64_encode(serialize($cookie));
-        }
-    }
-
     /**
      * @param int $prj_id
      * @return struct
@@ -95,7 +53,7 @@ class RemoteApi
      */
     public function getSimpleIssueDetails($issue_id)
     {
-        self::createFakeCookie(null, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         $details = Issue::getDetails($issue_id);
         if (empty($details)) {
@@ -121,7 +79,7 @@ class RemoteApi
      */
     public function getOpenIssues($prj_id, $show_all_issues, $status)
     {
-        self::createFakeCookie(false, $prj_id);
+        AuthCookie::setProjectCookie($prj_id);
         $status_id = Status::getStatusID($status);
         $usr_id = Auth::getUserID();
 
@@ -229,7 +187,7 @@ class RemoteApi
      */
     public function getIssueDetails($issue_id)
     {
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         $res = Issue::getDetails($issue_id);
 
@@ -322,7 +280,7 @@ class RemoteApi
      */
     public function assignIssue($issue_id, $project_id, $developer)
     {
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         $usr_id = Auth::getUserID();
 
@@ -355,7 +313,7 @@ class RemoteApi
      */
     public function takeIssue($issue_id, $project_id)
     {
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         // check if issue currently is un-assigned
         $current_assignees = Issue::getAssignedUsers($issue_id);
@@ -431,7 +389,7 @@ class RemoteApi
      */
     public function getFileList($issue_id)
     {
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         $res = Attachment::getList($issue_id);
         if (empty($res)) {
@@ -516,7 +474,7 @@ class RemoteApi
 
         // only customers should be able to use this page
         $role_id = User::getRoleByUser($usr_id, $prj_id);
-        if ($role_id < User::getRoleID('Developer')) {
+        if ($role_id < User::ROLE_DEVELOPER) {
             throw new RemoteApiException("You don't have the appropriate permissions to lookup customer information");
         }
 
@@ -543,7 +501,7 @@ class RemoteApi
         $usr_id = Auth::getUserID();
         $status_id = Status::getStatusID($new_status);
 
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         $res = Issue::close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $note);
         if ($res == -1) {
@@ -605,7 +563,7 @@ class RemoteApi
             }
         }
 
-        $setup = Setup::load();
+        $setup = Setup::get();
 
         if (isset($setup['description_email_0']) && $setup['description_email_0'] == 'enabled') {
             $issue = Issue::getDetails($issue_id);
@@ -670,7 +628,7 @@ class RemoteApi
      */
     public function getNoteListing($issue_id)
     {
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
         $notes = Note::getListing($issue_id);
 
         return $notes;
@@ -703,7 +661,7 @@ class RemoteApi
      */
     public function convertNote($issue_id, $note_id, $target, $authorize_sender)
     {
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         $res = Note::convertNote($note_id, $target, $authorize_sender);
         if (empty($res)) {
@@ -770,7 +728,8 @@ class RemoteApi
 
         // we have to set a project so the template class works, even though the weekly report doesn't actually need it
         $projects = Project::getAssocList(Auth::getUserID());
-        self::createFakeCookie(false, current(array_keys($projects)));
+        $prj_id = current(array_keys($projects));
+        AuthCookie::setProjectCookie($prj_id);
         $prj_id = Auth::getCurrentProject();
 
         // figure out the correct week
@@ -888,7 +847,7 @@ class RemoteApi
     public function sendDraft($issue_id, $draft_id)
     {
         $draft = Draft::getDraftBySequence($issue_id, $draft_id);
-        self::createFakeCookie(false, Issue::getProjectID($issue_id));
+        AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
         if (count($draft) < 1 || !is_array($draft)) {
             throw new RemoteApiException('Draft #' . $draft_id . " does not exist for issue #$issue_id");
@@ -911,7 +870,7 @@ class RemoteApi
     public function redeemIssue($issue_id, $types)
     {
         $prj_id = Issue::getProjectID($issue_id);
-        self::createFakeCookie(false, $prj_id);
+        AuthCookie::setProjectCookie($prj_id);
         $customer_id = Issue::getCustomerID($issue_id);
 
         if (!CRM::hasCustomerIntegration($prj_id)) {
@@ -960,7 +919,7 @@ class RemoteApi
     public function unredeemIssue($issue_id, $types)
     {
         $prj_id = Issue::getProjectID($issue_id);
-        self::createFakeCookie(false, $prj_id);
+        AuthCookie::setProjectCookie($prj_id);
 
         // FIXME: $customer_id unused
         $customer_id = Issue::getCustomerID($issue_id);
@@ -1007,7 +966,7 @@ class RemoteApi
     public function getIncidentTypes($issue_id, $redeemed_only)
     {
         $prj_id = Issue::getProjectID($issue_id);
-        self::createFakeCookie(false, $prj_id);
+        AuthCookie::setProjectCookie($prj_id);
         // FIXME: $customer_id unused
         $customer_id = Issue::getCustomerID($issue_id);
 
@@ -1037,6 +996,8 @@ class RemoteApi
         return $incidents;
     }
 
+    // FIXME: this method should be used by SERVER, not by CLIENT
+
     /**
      * @param string $command
      * @return string
@@ -1047,11 +1008,7 @@ class RemoteApi
         $usr_id = Auth::getUserID();
         $email = User::getEmail($usr_id);
 
-        $msg = $email . "\t" . $command . "\n";
-
-        $fp = @fopen(APP_CLI_LOG, 'a');
-        @fwrite($fp, $msg);
-        @fclose($fp);
+        Logger::cli()->info($command, array('usr_id' => $usr_id, 'email' => $email));
 
         return 'OK';
     }

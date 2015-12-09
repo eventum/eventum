@@ -1,0 +1,5 @@
+This directory holds various lock and pid files.
+Configured with APP_LOCKS_PATH constant.
+
+This directory must be writable for webserver user and the user who runs
+Eventum crons.

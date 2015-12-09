@@ -1,34 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class designed to handle all business logic related to attachments being
@@ -121,7 +102,7 @@ class Attachment
                     iat_id=iaf_iat_id';
 
         $params = array($iaf_id);
-        if (Auth::getCurrentRole() < User::getRoleID('Manager')) {
+        if (Auth::getCurrentRole() < User::ROLE_MANAGER) {
             $stmt .= ' AND
                     iat_usr_id=?';
             $params[] = $usr_id;
@@ -181,7 +162,7 @@ class Attachment
 
         // don't allow customers to reach internal only files
         $user_role_id = User::getRoleByUser(Auth::getUserID(), Issue::getProjectID($res['iat_iss_id']));
-        if (($res['iat_status'] == 'internal') && $user_role_id <= User::getRoleID('Customer')) {
+        if (($res['iat_status'] == 'internal') && $user_role_id <= User::ROLE_CUSTOMER) {
             return '';
         } else {
             return $res;
@@ -234,7 +215,7 @@ class Attachment
                  WHERE
                     iat_id=?';
         $params = array($iat_id);
-        if (Auth::getCurrentRole() < User::getRoleID('Manager')) {
+        if (Auth::getCurrentRole() < User::ROLE_MANAGER) {
             $stmt .= ' AND
                     iat_usr_id=?';
             $params[] = $usr_id;
@@ -355,7 +336,7 @@ class Attachment
                  WHERE
                     iat_iss_id=? AND
                     iat_usr_id=usr_id';
-        if (User::getRoleByUser($usr_id, $prj_id) <= User::getRoleID('Customer')) {
+        if (User::getRoleByUser($usr_id, $prj_id) <= User::ROLE_CUSTOMER) {
             $stmt .= " AND iat_status='public' ";
         }
         $stmt .= '
@@ -371,7 +352,6 @@ class Attachment
         foreach ($res as &$row) {
             $row['iat_description'] = Link_Filter::processText($prj_id, nl2br(htmlspecialchars($row['iat_description'])));
             $row['files'] = self::getFileList($row['iat_id']);
-            $row['iat_created_date'] = Date_Helper::getFormattedDate($row['iat_created_date']);
 
             // if there is an unknown user, user that instead of the user_full_name
             if (!empty($row['iat_unknown_user'])) {
@@ -433,7 +413,7 @@ class Attachment
         // if there is customer integration, mark last customer action
         $prj_id = Issue::getProjectID($issue_id);
         $has_crm = CRM::hasCustomerIntegration($prj_id);
-        $is_customer = User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer');
+        $is_customer = User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER;
         if ($has_crm && $is_customer) {
             Issue::recordLastCustomerAction($issue_id);
         }
@@ -504,7 +484,7 @@ class Attachment
             DB_Helper::getInstance()->query($stmt, array(
                 $attachment_id,
                 $filename,
-                strlen($blob),
+                Misc::countBytes($blob),
                 $filetype,
                 Date_Helper::getCurrentDateGMT(),
                 $blob,

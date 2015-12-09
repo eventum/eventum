@@ -14,7 +14,7 @@
         </p>
     </div>
 {else}
-    <form name="login_form" method="post" action="">
+    <form id="project_select_form" name="login_form" method="post" action="">
         <input type="hidden" name="cat" value="select">
         <input type="hidden" name="url" value="{$smarty.get.url|default:''}">
         <table align="center" width="400" class="bordered">
@@ -41,7 +41,7 @@
                     {if $project@first}checked="checked"{/if}>
                 </td>
                 <td>
-                    <label for="project_{$prj_id}">{$project}</label>
+                    <label class="project_label" for="project_{$prj_id}">{$project}</label>
                 </td>
             </tr>
             {/foreach}
@@ -49,7 +49,7 @@
                 <td colspan="2">
                     <input type="submit" name="Submit" value="{t}Continue{/t} &gt;&gt;">
                     <label for="remember" accesskey="r">
-                    <input type="checkbox" id="remember" name="remember" value="1">{t}Remember Selection{/t}</label>
+                    <input type="checkbox" id="remember" name="remember" value="1" checked="checked">{t}Remember Selection{/t}</label>
                 </td>
             </tr>
         </table>

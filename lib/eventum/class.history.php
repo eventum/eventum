@@ -1,40 +1,20 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle the business logic related to the history information for
  * the issues entered in the system.
  */
-
 class History
 {
     /**
@@ -63,11 +43,16 @@ class History
      * @param integer|string $htt_id The type ID of this history event.
      * @param string $summary The summary of the changes
      * @param array $context parameters used in summary
+     * @param null $min_role The minimum role that can view this entry. If null will default to role from $htt_id
      */
-    public static function add($iss_id, $usr_id, $htt_id, $summary, $context = array())
+    public static function add($iss_id, $usr_id, $htt_id, $summary, $context = array(), $min_role = null)
     {
         if (!is_numeric($htt_id)) {
-            $htt_id = History::getTypeID($htt_id);
+            $htt_id = self::getTypeID($htt_id);
+        }
+
+        if ($min_role === null) {
+            $min_role = self::getTypeRole($htt_id);
         }
 
         $params = array(
@@ -77,6 +62,7 @@ class History
             'his_summary' => $summary,
             'his_context' => json_encode($context),
             'his_htt_id' => $htt_id,
+            'his_min_role'  =>  $min_role,
         );
 
         $stmt = 'INSERT INTO {{%issue_history}} SET '. DB_Helper::buildSet($params);
@@ -106,7 +92,7 @@ class History
                     htt_id = his_htt_id AND
                     his_is_hidden != 1 AND
                     his_iss_id=? AND
-                    htt_role <= ?
+                    his_min_role <= ?
                  ORDER BY
                     his_id $order_by";
         $params = array($iss_id, Auth::getCurrentRole());
@@ -117,7 +103,6 @@ class History
         }
 
         foreach ($res as &$row) {
-            $row['his_created_date'] = Date_Helper::getFormattedDate($row['his_created_date']);
             $row['his_summary'] = Misc::processTokens(ev_gettext($row['his_summary']), $row['his_context']);
         }
 
@@ -182,6 +167,36 @@ class History
             $res = current($res);
         }
         $returns[$serialized] = $res;
+
+        return $res;
+    }
+
+    /**
+     * Returns the role for the history type based on id.
+     *
+     * @param   integer $id The id of the history type
+     * @return  integer The role of this type.
+     */
+    public static function getTypeRole($id)
+    {
+        static $returns;
+
+        if (!empty($returns[$id])) {
+            return $returns[$id];
+        }
+
+        $sql = 'SELECT
+                    htt_role
+                FROM
+                    {{%history_type}}
+                WHERE
+                    htt_id = ?';
+        try {
+            $res = DB_Helper::getInstance()->getOne($sql, array($id));
+        } catch (DbException $e) {
+            return null;
+        }
+        $returns[$id] = $res;
 
         return $res;
     }

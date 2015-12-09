@@ -1,31 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2012 - 2014 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * MySQL (builtin) auth backend
@@ -44,22 +28,30 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
     {
         $usr_id = User::getUserIDByEmail($login, true);
         $user = User::getDetails($usr_id);
-        if ($user['usr_password'] == Auth::hashPassword($password)) {
-            self::resetFailedLogins($usr_id);
+        $hash = $user['usr_password'];
 
-            return true;
-        } else {
+        if (!AuthPassword::verify($password, $hash)) {
             self::incrementFailedLogins($usr_id);
 
             return false;
         }
+
+        self::resetFailedLogins($usr_id);
+
+        // check if hash needs rehashing,
+        // old md5 or more secure default
+        if (AuthPassword::needs_rehash($hash)) {
+            self::updatePassword($usr_id, $password);
+        }
+
+        return true;
     }
 
     /**
-     * Method used to update the account password for a specific user.
+     * Update the account password hash for a specific user.
      *
      * @param   integer $usr_id The user ID
-     * @param   string  $password The password.
+     * @param   string $password The password.
      * @return  boolean
      */
     public function updatePassword($usr_id, $password)
@@ -70,17 +62,14 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
                     usr_password=?
                  WHERE
                     usr_id=?';
-        $params = array(Auth::hashPassword($password), $usr_id);
+        $params = array(AuthPassword::hash($password), $usr_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
             return false;
         }
 
-        # NOTE: this will say updated failed if password is identical to old one
-        $updated = DB_Helper::getInstance()->affectedRows();
-
-        return $updated > 0;
+        return true;
     }
 
     public function getUserIDByLogin($login)
@@ -88,7 +77,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
         return User::getUserIDByEmail($login, true);
     }
 
-     /**
+    /**
      * Increment the failed logins attempts for this user
      *
      * @param   integer $usr_id The ID of the user
@@ -203,10 +192,21 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
 
     /**
      * Called when a user logs out.
+     *
      * @return mixed
      */
     public function logout()
     {
         return null;
+    }
+
+    /**
+     * Returns true if the user should automatically be redirected to the external login URL, false otherwise
+     *
+     * @return  boolean
+     */
+    public function autoRedirectToExternalLogin()
+    {
+        return false;
     }
 }

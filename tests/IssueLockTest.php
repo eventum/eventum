@@ -1,6 +1,6 @@
 <?php
 
-class IssueLockTest extends PHPUnit_Framework_TestCase {
+class IssueLockTest extends TestCase {
 
     /**
      * @group slow
@@ -10,7 +10,7 @@ class IssueLockTest extends PHPUnit_Framework_TestCase {
         $locker = 'admin';
         $locker2 = 'user';
 
-        $setup = &Setup::load();
+        $setup = Setup::get();
         $setup['issue_lock'] = 2;
 
         $res = Issue_Lock::acquire($issue_id, $locker);

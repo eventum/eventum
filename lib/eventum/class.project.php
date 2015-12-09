@@ -1,40 +1,20 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle the business logic related to the administration
  * of projects in the system.
  */
-
 class Project
 {
     /**
@@ -164,7 +144,7 @@ class Project
                  ORDER BY
                     prj_title";
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }
@@ -433,10 +413,10 @@ class Project
         self::removeUserByProjects(array($_POST['id']), $_POST['users']);
         foreach ($_POST['users'] as $user) {
             if ($user == $_POST['lead_usr_id']) {
-                self::associateUser($_POST['id'], $user, User::getRoleID('Manager'));
+                self::associateUser($_POST['id'], $user, User::ROLE_MANAGER);
             } elseif (User::getRoleByUser($user, $_POST['id']) == '') {
                 // users who are now being associated with this project should be set to 'Standard User'
-                self::associateUser($_POST['id'], $user, User::getRoleID('Standard User'));
+                self::associateUser($_POST['id'], $user, User::ROLE_USER);
             }
         }
 
@@ -547,9 +527,9 @@ class Project
         $new_prj_id = DB_Helper::get_last_insert_id();
         foreach ($_POST['users'] as $user) {
             if ($user == $_POST['lead_usr_id']) {
-                $role_id = User::getRoleID('Manager');
+                $role_id = User::ROLE_MANAGER;
             } else {
-                $role_id = User::getRoleID('Standard User');
+                $role_id = User::ROLE_USER;
             }
             self::associateUser($new_prj_id, $user, $role_id);
         }
@@ -635,10 +615,10 @@ class Project
             $params = array(
                 $usr_id,
                 'archived',
-                User::getRoleID('Manager'),
+                User::ROLE_MANAGER,
             );
             if ($include_extra) {
-                $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DB_FETCHMODE_ASSOC);
+                $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DbInterface::DB_FETCHMODE_ASSOC);
             } else {
                 $res = DB_Helper::getInstance()->getPair($stmt, $params);
             }
@@ -688,7 +668,7 @@ class Project
                  ORDER BY
                     usr_full_name ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return '';
         }
@@ -745,7 +725,7 @@ class Project
                  ORDER BY
                     prj_title';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }
@@ -840,7 +820,7 @@ class Project
                     usr_customer_id DESC,
                     usr_full_name ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return '';
         }
@@ -866,7 +846,7 @@ class Project
                  ORDER BY
                     prj_title";
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }
@@ -908,7 +888,7 @@ class Project
                  ORDER BY
                     prj_title';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($usr_id, User::ROLE_CUSTOMER));
+            $res = DB_Helper::getInstance()->getPair($stmt, array($usr_id, User::ROLE_CUSTOMER));
         } catch (DbException $e) {
             return '';
         }
@@ -957,7 +937,7 @@ class Project
                  ORDER BY
                     usr_email ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return '';
         }

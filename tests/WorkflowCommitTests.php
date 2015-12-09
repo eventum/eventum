@@ -6,7 +6,7 @@ class CommitTestWorkflow extends TestWorkflow {
     }
 }
 
-class WorkflowCommitTests extends WorkflowTest {
+class WorkflowCommitTestsCase extends WorkflowTestCase {
 	protected $workflow_class = 'CommitTestWorkflow';
 
 	/**

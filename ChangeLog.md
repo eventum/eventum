@@ -1,7 +1,54 @@
 Eventum Issue Tracking System
 =============================
 
-2015-??-??, Version 3.0.3
+2015-??-??, Version 3.0.7
+--------------------
+
+- emails.php: handle better empty "From:" header. (@glensc, #91)
+- Added ability to require custom fields on the edit form. (@balsdorf, #107)
+- Add logging framework based on monolog (@glensc, #97)
+- Error in the first pie chart in main.php (@glensc, #103)
+- Scheduled Release field loses selected value when updating issue (@balsdorf, #105)
+
+2015-11-10, Version [3.0.6]
+--------------------
+- Update custom fields from update issue page (Bryan Alsdorf, #88)
+- Allow time category/summary to be set when sending emails (Bryan Alsdorf)
+- Add missing 'Scheduled Release' and 'Group' field back to update page (Bryan Alsdorf, #89)
+- Tiny change to submit on project selection (Craig Pinfold, #92)
+- Fix error updating 'Completion Percentage' #94
+- Upgrade password hash on successful login (Elan Ruusamäe, #93)
+- Use AJAX for /manage/email_accounts.php test (Craig Pinfold, #96)
+- LDAP auth backend: create connection only if needed (Elan Ruusamäe)
+
+2015-11-02, Version [3.0.5]
+-------------------------
+
+- Fix routing settings read error (Elan Ruusamäe, #80)
+
+2015-10-31, Version [3.0.4]
+-------------------------
+- Fix few Static & Deprecated calls (Craig Pinfold, #72)
+- Use randomlib for private key generation, add UI to regenerate it (Elan Ruusamäe, #73)
+- Fix misplaced {if} in preferences template (Robbert-Jan Roos, LP#1506279)
+- Auth and Project cookie related internal refactor (Elan Ruusamäe, #74)
+- Set limit 20 retries to try to send one mail (Elan Ruusamäe)
+- Add html_charset to be APP_CHARSET (Elan Ruusamäe, LP#741768)
+- Use password_hash family functions for password hashing (Elan Ruusamäe, GH#77)
+- Unify size of pri_id in databases (Elan Ruusamäe, LP#1450152)
+- Handle mbstring function overload (Elan Ruusamäe, LP#1494732)
+- Make version table log based (Elan Ruusamäe)
+- Removed local/include/ from include path and added to composer instead (Bryan Alsdorf)
+- Use zf2 config for setup config (Elan Ruusamäe, #80)
+- Improvements to messageId generator, make it use RandomLib (Elan Ruusamäe)
+- IRC bot improvements (Elan Ruusamäe, #82)
+- Use var/ path for writable data (Elan Ruusamäe, #81)
+- Pass array of changed fields to Workflow::handleCustomFieldsUpdated (Bryan Alsdorf)
+- Custom Fields Weekly report: take also params from GET (Kristo Klausson, #86)
+- Manage Emails: Accept prj_id from GET to allow link bookmarking (Elan Ruusamäe)
+- Add DebugBar debug bar in development mode (Elan Ruusamäe, #87)
+
+2015-10-13, Version [3.0.3]
 -------------------------
 - Added bin/truncate_mail_queue.php (Bryan Alsdorf)
 - Add admin interface for required fields (Bryan Alsdorf, #67)
@@ -10,8 +57,10 @@ Eventum Issue Tracking System
 - Eventum Mail Processing Enhancements (Kevin Seymour, LP#1481894)
 - Fix bugs with estimated dev time (Bryan Alsdorf, LP#1494723)
 - Display pretty error page for auth exceptions (Bryan Alsdorf)
+- Fix POP3 download bug (Craig Pinfold, #66, #69)
+- Add autosize plugin to all TEXAREAs (Elan Ruusamäe, #70)
 
-2015-08-04, Version 3.0.2
+2015-08-04, Version [3.0.2]
 -------------------------
 
 - Fix sql error in disassociate custom field (Elan Ruusamäe)
@@ -37,7 +86,7 @@ Eventum Issue Tracking System
 - Allow customers to export data and only export visible fields (Bryan Alsdorf)
 - Fix "Assignment: Array" bug in template when issue is assigned to multiple assignees (Elan Ruusamäe)
 
-2015-04-21, Version 3.0.1
+2015-04-21, Version [3.0.1]
 -------------------------
 
 - Add option to set time summary when sending a note (Bryan)
@@ -52,7 +101,7 @@ Eventum Issue Tracking System
 - Use mysqli PEAR::DB driver in new installs (Elan Ruusamäe)
 - Replace jpgraph 1.5.3 with phplot 6.1.0 (Elan Ruusamäe, GH#46)
 
-2015-02-03, Version 3.0.0 pre1
+2015-02-03, Version [3.0.0-pre1]
 ------------------------------
 
 - Make Custom Fields Weekly Report honor Project ID (Raul Raat, GH#6)
@@ -82,7 +131,7 @@ Eventum Issue Tracking System
 - Added notification email address for products (Bryan Alsdorf)
 - Use DB query placeholders (Elan Ruusamäe, GH#26)
 
-2014-10-04, Version 2.4.0 pre1
+2014-10-04, Version [2.4.0-pre1]
 ------------------------------
 
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
@@ -290,6 +339,7 @@ Eventum Issue Tracking System
 - Fixed bug with displaying help (Bryan)
 - Fixed bug with dynamic custom fields (Bryan)
 - Fixed formatting bug in email accounts admin page (Bryan)
+- Fixed bug with fix-charset script (Bryan Alsdorf, Bug #42294)
 
 2009-01-14, Version 2.2
 -----------------------
@@ -1014,3 +1064,12 @@ Eventum Issue Tracking System
 ------------------------
 
 - Initial release (João; Bryan)
+
+[3.0.6]: https://github.com/eventum/eventum/compare/v3.0.5...v3.0.6
+[3.0.5]: https://github.com/eventum/eventum/compare/v3.0.4...v3.0.5
+[3.0.4]: https://github.com/eventum/eventum/compare/v3.0.3...v3.0.4
+[3.0.3]: https://github.com/eventum/eventum/compare/v3.0.2...v3.0.3
+[3.0.2]: https://github.com/eventum/eventum/compare/v3.0.1...v3.0.2
+[3.0.1]: https://github.com/eventum/eventum/compare/v3.0.0-pre1...v3.0.1
+[3.0.0-pre1]: https://github.com/eventum/eventum/compare/v2.4.0-pre1...v3.0.0-pre1
+[2.4.0-pre1]: https://github.com/eventum/eventum/compare/v2.3.4...v2.4.0-pre1

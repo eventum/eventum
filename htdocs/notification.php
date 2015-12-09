@@ -1,68 +1,55 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
-require_once dirname(__FILE__) . '/../init.php';
+require_once __DIR__ . '/../init.php';
 
 $tpl = new Template_Helper();
 $tpl->setTemplate('notification.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE, 'index.php?err=5', true);
+Auth::checkAuthentication('index.php?err=5', true);
 
-$usr_id = Auth::getUserID();
-$prj_id = Auth::getCurrentProject();
 $issue_id = isset($_POST['issue_id']) ? (int) $_POST['issue_id'] : (int) $_GET['iss_id'];
-$tpl->assign('issue_id', $issue_id);
+$usr_id = Auth::getUserID();
 
-// assign default to avoid warnings
-$tpl->assign('info', null);
-
-if (!Access::canViewNotificationList($issue_id, Auth::getUserID())) {
+if (!Access::canViewNotificationList($issue_id, $usr_id)) {
     $tpl->setTemplate('permission_denied.tpl.html');
     $tpl->displayTemplate();
     exit;
 }
 
-// format default actions properly
-$default = Notification::getDefaultActions();
-// first setup defaults
-$res = array(
-    'updated' => 0,
-    'closed' => 0,
-    'files' => 0,
-    'emails' => 0,
-);
-foreach ($default as $action) {
-    $res[$action] = 1;
+$sub_id = isset($_GET['id']) ? (int) $_GET['id'] : null;
+$prj_id = Auth::getCurrentProject();
+$default_actions = Notification::getDefaultActions();
+
+if ($sub_id) {
+    $info = Notification::getDetails($sub_id);
+} else {
+    $info = array(
+        'updated' => 0,
+        'closed' => 0,
+        'files' => 0,
+        'emails' => 0,
+    );
+    foreach ($default_actions as $action) {
+        $res[$action] = 1;
+    }
 }
-$tpl->assign('default_actions', $res);
+
+$tpl->assign(array(
+    'issue_id' => $issue_id,
+    'default_actions' => $default_actions,
+    'info' => $info,
+));
 
 $cat = isset($_POST['cat']) ? (string) $_POST['cat'] : (isset($_GET['cat']) ? (string) $_GET['cat'] : null);
 
@@ -82,8 +69,6 @@ if ($cat == 'insert') {
     }
     Auth::redirect(APP_RELATIVE_URL . 'notification.php?iss_id=' . $issue_id);
 } elseif ($cat == 'edit') {
-    $res = Notification::getDetails($_GET['id']);
-    $tpl->assign('info', $res);
 } elseif ($cat == 'delete') {
     $res = Notification::remove($_POST['items']);
     if ($res == 1) {
@@ -92,8 +77,10 @@ if ($cat == 'insert') {
 }
 
 $tpl->assign('list', Notification::getSubscriberListing($issue_id));
-$t = Project::getAddressBook($prj_id, $issue_id);
-$tpl->assign('assoc_users', $t);
+/*
+// the autocomplete is removed, no need to fetch the data
+$tpl->assign('assoc_users', Project::getAddressBook($prj_id, $issue_id));
 $tpl->assign('allowed_emails', Project::getAddressBookEmails($prj_id, $issue_id));
+*/
 
 $tpl->displayTemplate();

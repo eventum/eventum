@@ -1,32 +1,17 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
+use Eventum\DebugBar;
 
 /**
  * Class used to abstract the backend template system used by the site. This
@@ -58,6 +43,7 @@ class Template_Helper
         $smarty->registerPlugin('modifier', 'formatCustomValue', array('Custom_Field', 'formatValue'));
         $smarty->registerPlugin('modifier', 'bool', array('Misc', 'getBooleanDisplayValue'));
         $smarty->registerPlugin('modifier', 'format_date', array('Date_Helper', 'getFormattedDate'));
+        $smarty->registerPlugin('modifier', 'timeago', array('Date_Helper', 'formatTimeAgo'));
 
         // Fixes problem with CRM API and dynamic includes.
         // See https://code.google.com/p/smarty-php/source/browse/trunk/distribution/3.1.16_RELEASE_NOTES.txt?spec=svn4800&r=4800
@@ -152,11 +138,18 @@ class Template_Helper
 
         // if version ends with "-dev", try look into VCS
         if (substr(APP_VERSION, -4) == '-dev' && file_exists($file = APP_PATH . '/.git/HEAD')) {
-            list(, $refname) = explode(': ', file_get_contents($file));
-            if (!file_exists($file = APP_PATH . '/.git/' . trim($refname))) {
-                return null;
-            }
             $hash = file_get_contents($file);
+            // it can be branch:
+            // "ref: refs/heads/master"
+            // or some tag:
+            // "fc334abadfd480820071c1415723c7de0216eb6f"
+            if (substr($hash, 0, 4) == 'ref:') {
+                list(, $refname) = explode(': ', $hash);
+                if (!file_exists($file = APP_PATH . '/.git/' . trim($refname))) {
+                    return null;
+                }
+                $hash = file_get_contents($file);
+            }
 
             return substr($hash, 0, 7);
         }
@@ -167,6 +160,7 @@ class Template_Helper
 
     /**
      * Processes the template and assign common variables automatically.
+     *
      * @return $this
      */
     private function processTemplate()
@@ -176,7 +170,7 @@ class Template_Helper
             'base_url' => APP_BASE_URL,
             'app_title' => APP_NAME,
             'app_version' => APP_VERSION,
-            'app_setup' => Setup::load(),
+            'app_setup' => Setup::get(),
             'messages' => Misc::getMessages(),
             'roles' => User::getAssocRoleIDs(),
             'auth_backend' => APP_AUTH_BACKEND,
@@ -198,7 +192,7 @@ class Template_Helper
         if ($usr_id) {
             $core['user'] = User::getDetails($usr_id);
             $prj_id = Auth::getCurrentProject();
-            $setup = Setup::load();
+            $setup = Setup::get();
             if (!empty($prj_id)) {
                 $role_id = User::getRoleByUser($usr_id, $prj_id);
                 $has_crm = CRM::hasCustomerIntegration($prj_id);
@@ -213,7 +207,7 @@ class Template_Helper
                 if ($has_crm) {
                     $crm = CRM::getInstance($prj_id);
                     $core['crm_template_path'] = $crm->getTemplatePath();
-                    if ($role_id == User::getRoleID('Customer')) {
+                    if ($role_id == User::ROLE_CUSTOMER) {
                         try {
                             $contact = $crm->getContact($core['user']['usr_customer_contact_id']);
                             $core['allowed_customers'] = $contact->getCustomers();
@@ -224,7 +218,7 @@ class Template_Helper
                 }
             }
             $info = User::getDetails($usr_id);
-            $raw_projects = Project::getAssocList(Auth::getUserID(), false, true);
+            $raw_projects = Project::getAssocList($usr_id, false, true);
             $active_projects = array();
             foreach ($raw_projects as $prj_id => $prj_info) {
                 if ($prj_info['status'] == 'archived') {
@@ -232,7 +226,7 @@ class Template_Helper
                 }
                 $active_projects[$prj_id] = $prj_info['prj_title'];
             }
-            $core = $core + array(
+            $core += array(
                     'active_projects' => $active_projects,
                     'current_full_name' => $info['usr_full_name'],
                     'current_email' => $info['usr_email'],
@@ -242,7 +236,7 @@ class Template_Helper
                     'is_anon_user' => Auth::isAnonUser(),
                     'is_current_user_partner' => !empty($info['usr_par_code']),
                     'roles' => User::getAssocRoleIDs(),
-                    'current_user_prefs' => Prefs::get(Auth::getUserID()),
+                    'current_user_prefs' => Prefs::get($usr_id),
 
                 );
             $this->assign('current_full_name', $core['user']['usr_full_name']);
@@ -253,6 +247,10 @@ class Template_Helper
             $this->assign('roles', User::getAssocRoleIDs());
         }
         $this->assign('core', $core);
+
+        if (isset($role_id) && $role_id >= User::ROLE_ADMINISTRATOR) {
+            DebugBar::register($this->smarty);
+        }
 
         return $this;
     }

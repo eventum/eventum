@@ -1,51 +1,32 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2012 - 2013 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
-require_once dirname(__FILE__) . '/../../init.php';
+require_once __DIR__ . '/../../init.php';
 
 $tpl = new Template_Helper();
 $tpl->setTemplate('manage/scm.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 $role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('administrator')) {
+if ($role_id < User::ROLE_REPORTER) {
     Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
 }
 
 if (@$_POST['cat'] == 'update') {
-    $setup = Setup::load();
-
-    $setup['scm_integration'] = $_POST['scm_integration'];
-
-    $res = Setup::save($setup);
+    $res = Setup::save(array('scm_integration' => $_POST['scm_integration']));
     $tpl->assign('result', $res);
 
     Misc::mapMessages($res, array(
@@ -60,7 +41,7 @@ if (@$_POST['cat'] == 'update') {
                 Misc::MSG_NOTE_BOX),
     ));
 }
-$options = Setup::load(true);
-$tpl->assign('setup', $options);
+
+$tpl->assign('setup', Setup::get());
 
 $tpl->displayTemplate();

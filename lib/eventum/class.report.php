@@ -1,39 +1,20 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle the business logic related to all aspects of the
  * reporting system.
  */
-
 class Report
 {
     /**
@@ -140,8 +121,7 @@ class Report
             $issues[$row['usr_full_name']][$row['iss_id']] = array(
                 'iss_summary'         => $row['iss_summary'],
                 'sta_title'           => $row['sta_title'],
-                'iss_created_date'    => Date_Helper::getFormattedDate($row['iss_created_date']),
-                'iss_last_response_date'    => Date_Helper::getFormattedDate($row['iss_last_response_date']),
+                'iss_created_date'    => $row['iss_created_date'],
                 'time_spent'          => Misc::getFormattedTime($row['time_spent']),
                 'status_color'        => $row['sta_color'],
                 'last_update'         => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
@@ -233,7 +213,7 @@ class Report
             $issues[$name][$row['iss_id']] = array(
                 'iss_summary'         => $row['iss_summary'],
                 'sta_title'           => $row['sta_title'],
-                'iss_created_date'    => Date_Helper::getFormattedDate($row['iss_created_date']),
+                'iss_created_date'    => $row['iss_created_date'],
                 'time_spent'          => Misc::getFormattedTime($row['time_spent']),
                 'status_color'        => $row['sta_color'],
                 'last_update'         => Date_Helper::getFormattedDateDiff($ts, $update_date_ts),
@@ -289,7 +269,7 @@ class Report
             $issues[$row['usr_full_name']][$row['iss_id']] = array(
                 'iss_summary'      => $row['iss_summary'],
                 'sta_title'        => $row['sta_title'],
-                'iss_created_date' => Date_Helper::getFormattedDate($row['iss_created_date']),
+                'iss_created_date' => $row['iss_created_date'],
                 'time_spent'       => Misc::getFormattedTime($row['time_spent']),
                 'status_color'     => $row['sta_color'],
             );
@@ -534,13 +514,13 @@ class Report
                  GROUP BY
                     time_period';
         try {
-            $total = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $total = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return array();
         }
 
         // get all developer email addresses
-        $users = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'));
+        $users = User::getActiveAssocList(Auth::getCurrentProject(), User::ROLE_CUSTOMER);
         $emails = array();
         foreach ($users as $usr_id => $usr_full_name) {
             $emails[] = User::getFromHeader($usr_id);
@@ -558,7 +538,7 @@ class Report
                  GROUP BY
                     time_period";
         try {
-            $dev_stats = DB_Helper::getInstance()->fetchAssoc($stmt, $emails);
+            $dev_stats = DB_Helper::getInstance()->getPair($stmt, $emails);
         } catch (DbException $e) {
             return array();
         }
@@ -783,11 +763,12 @@ class Report
 
         $data = array();
         foreach ($options as $cfo_id => $value) {
-            $params = array();
+            $fields = 1;
             $stmt = 'SELECT';
             if ($label_field != '') {
                 $stmt .= "
                         $label_field as label,";
+                $fields++;
             }
             $stmt .= "
                         COUNT(DISTINCT $group_by_field)
@@ -817,7 +798,11 @@ class Report
                     ORDER BY
                         $label_field ASC";
                 try {
-                    $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+                    if ($fields > 2) {
+                        $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+                    } else {
+                        $res = DB_Helper::getInstance()->getPair($stmt, $params);
+                    }
                 } catch (DbException $e) {
                     return array();
                 }
@@ -856,6 +841,7 @@ class Report
 
         return $data;
     }
+
     /**
      * Returns data for the custom fields weekly report, based on the field and options passed in.
      *
@@ -948,6 +934,7 @@ class Report
 
         return $res;
     }
+
     /**
      * Returns workload information for the specified date range and interval.
      *
@@ -967,7 +954,7 @@ class Report
         switch ($interval) {
             case 'day':
                 $format = '%m/%d/%y';
-                $order_by = "%1\$s";
+                $order_by = '%1$s';
                 break;
             case 'dow':
                 $format = '%W';
@@ -979,7 +966,7 @@ class Report
                 } else {
                     $format = '%v/%y';
                 }
-                $order_by = "%1\$s";
+                $order_by = '%1$s';
                 break;
             case 'dom':
                 $format = '%d';
@@ -990,7 +977,7 @@ class Report
                     $order_by = "DATE_FORMAT(%1\$s, '%%m')";
                 } else {
                     $format = '%b/%y';
-                    $order_by = "%1\$s";
+                    $order_by = '%1$s';
                 }
                 break;
             default:
@@ -1020,7 +1007,7 @@ class Report
             $stmt .= "\nORDER BY " . sprintf($order_by, 'iss_created_date');
         }
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return array();
         }
@@ -1081,7 +1068,7 @@ class Report
         }
 
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
+            $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DbException $e) {
             return array();
         }

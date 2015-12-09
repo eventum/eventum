@@ -1,33 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// +----------------------------------------------------------------------+
-//
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
 * The MIME:: class provides methods for dealing with MIME standards.
@@ -47,9 +29,6 @@
  * the excellent Horde package at http://www.horde.org. These functions are
  * licensed under the LGPL, and Horde's copyright notice is available
  * above.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
 class Mime_Helper
 {
@@ -97,9 +76,10 @@ class Mime_Helper
         $parts = array();
         self::parse_output($output, $parts);
         if (empty($parts)) {
-            Error_Handler::logError(array('self::parse_output failed. Corrupted MIME in email?', $output), __FILE__, __LINE__);
+            Logger::app()->debug('parse_output failed. Corrupted MIME in email?', array('output' => $output));
             // we continue as if nothing happened until it's clear it's right check to do.
         }
+
         $str = '';
         $is_html = false;
         if (isset($parts['text'])) {
@@ -230,7 +210,6 @@ class Mime_Helper
      * @param   string $string The string in APP_CHARSET encoding
      * @return  string encoded string
      */
-
     public static function encodeQuotedPrintable($string)
     {
         if (function_exists('iconv_mime_encode')) {
@@ -508,8 +487,8 @@ class Mime_Helper
 
         $return = array();
         // Unfold the input
-        $input   = preg_replace("/\r?\n/", "\r\n", $input);
-        $input   = preg_replace("/\r\n(\t| )+/", ' ', $input);
+        $input = preg_replace("/\r?\n/", "\r\n", $input);
+        $input = preg_replace("/\r\n(\t| )+/", ' ', $input);
         $headers = explode("\r\n", trim($input));
         foreach ($headers as $value) {
             $hdr_name = substr($value, 0, strpos($value, ':'));
@@ -758,9 +737,9 @@ class Mime_Helper
      * @param   string $source_charset
      * @return  string The converted string
      */
-    private static function convertString($string, $source_charset)
+    public static function convertString($string, $source_charset)
     {
-        if (($source_charset == false) || ($source_charset == APP_CHARSET)) {
+        if ($source_charset == false || $source_charset == APP_CHARSET) {
             return $string;
         } else {
             $res = iconv($source_charset, APP_CHARSET, $string);
@@ -840,7 +819,7 @@ class Mime_Helper
      *
      * @return array The list of content types
      */
-    private function _getInvalidContentTypes()
+    private static function _getInvalidContentTypes()
     {
         return array(
             'message/rfc822',
@@ -855,7 +834,7 @@ class Mime_Helper
      *
      * @return array The list of valid dispositions
      */
-    private function _getValidDispositions()
+    private static function _getValidDispositions()
     {
         return array(
             'attachment',
@@ -888,7 +867,7 @@ class Mime_Helper
      * @param   string $delsp If spaces should be deleted
      * @return  string The decoded body
      */
-    public function decodeFlowedBodies($body, $delsp)
+    public static function decodeFlowedBodies($body, $delsp)
     {
         if ($delsp == 'yes') {
             $delsp = true;

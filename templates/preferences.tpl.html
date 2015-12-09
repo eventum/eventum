@@ -24,10 +24,17 @@
         }
         return true;
     }
+
     function validatePassword()
     {
+        if (Validation.isWhitespace(Eventum.getField('password').val())) {
+            alert('{t escape=js}Please input current password.{/t}');
+            Validation.selectField('password');
+            return false;
+        }
+
         var new_password = Eventum.getField('new_password').val();
-        if ((Validation.isWhitespace(new_password)) || (new_password.length < 6)) {
+        if (Validation.isWhitespace(new_password) || new_password.length < 6) {
             alert('{t escape=js}Please enter your new password with at least 6 characters.{/t}');
             Validation.selectField('new_password');
             return false;
@@ -39,6 +46,7 @@
         }
         return true;
     }
+
     function validateAccount()
     {
         return true;
@@ -69,9 +77,9 @@
         <tr>
             <td colspan="2">Please contact the admin to change your name.</td>
         </tr>
+        {/if}
     </table>
 </form>
-{/if}
 
 <form name="update_email_form" onSubmit="return validateEmail();" method="post">
     <input type="hidden" name="cat" value="update_email">
@@ -110,6 +118,10 @@
             </th>
             <td>
                 <table>
+                    <tr>
+                        <td align="right">{t}Current Password{/t}:</td>
+                        <td><input type="password" name="password" size="20" autocomplete="off"> {include file="error_icon.tpl.html" field="password"}</td>
+                    </tr>
                     <tr>
                         <td align="right">{t}New Password{/t}:</td>
                         <td><input type="password" name="new_password" size="20" autocomplete="off"> {include file="error_icon.tpl.html" field="new_password"}</td>

@@ -44,7 +44,7 @@
               {/if}
             </td>
             {/if}
-            <td width="15%" nowrap>{$files[i].iat_created_date}</td>
+            <td width="15%" nowrap>{$files[i].iat_created_date|timeago}</td>
             <td width="45%">{$files[i].iat_description}</td>
           </tr>
           {sectionelse}

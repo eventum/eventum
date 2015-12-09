@@ -1,35 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-//
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to hold methods and algorythms that woudln't fit in other classes, such
@@ -102,6 +82,7 @@ class Misc
     /*
      * Merge two arrays so that $a contains all keys that $b would
      */
+
     public static function array_extend($a, $b)
     {
         foreach ($b as $k => $v) {
@@ -136,13 +117,68 @@ class Misc
     }
 
     /**
+     * Process string with callback function. Input can be string or array of strings
+     *
+     * @param string|string[] $mixed
+     * @param callable $callback
+     * @return string|string[]
+     */
+    private static function walk($mixed, $callback)
+    {
+        if (!$mixed) {
+            return $mixed;
+        }
+
+        if (is_array($mixed)) {
+            foreach ($mixed as $i => $item) {
+                $mixed[$i] = $callback($item);
+            }
+
+            return $mixed;
+        } else {
+            return $callback($mixed);
+        }
+    }
+
+    /**
+     * Lowercase string, it can be array of strings
+     *
+     * @param string|string[] $mixed
+     * @param string $encoding The string encoding. Default UTF-8.
+     * @return string|string[]
+     */
+    public static function lowercase($mixed, $encoding = APP_CHARSET)
+    {
+        $converter = function ($str) use ($encoding) {
+            return mb_convert_case($str, MB_CASE_LOWER, $encoding);
+        };
+
+        return self::walk($mixed, $converter);
+    }
+
+    /**
+     * Removes leading and trailing whitespace from input.
+     *
+     * @param string|string[] $mixed
+     * @return string|string[]
+     */
+    public static function trim($mixed)
+    {
+        $converter = function ($str) {
+            return trim($str);
+        };
+
+        return self::walk($mixed, $converter);
+    }
+
+    /**
      * Method used to get the title given to the current installation of Eventum.
      *
      * @return  string The installation title
      */
     public static function getToolCaption()
     {
-        $setup = Setup::load();
+        $setup = Setup::get();
 
         return !empty($setup['tool_caption']) ? $setup['tool_caption'] : APP_NAME;
     }
@@ -684,11 +720,14 @@ class Misc
      * Method used to display a nice error message when one (or more) of the
      * system requirements for Eventum is not found.
      *
-     * @param   array $errors The list of errors
-     * @return  void
+     * @param array $errors The list of errors
+     * @param string $title HTML page title
+     * @return string
      */
-    public static function displayRequirementErrors($errors)
+    public static function displayRequirementErrors($errors, $title = 'Configuration Error')
     {
+        $rel_path = APP_RELATIVE_URL;
+        $messages = implode("\n<br>\n", $errors);
         echo '<html>
 <head>
 <style type="text/css">
@@ -701,28 +740,28 @@ class Misc
 }
 -->
 </style>
-<title>Configuration Error</title>
+<title>', $title, '</title>
 </head>
 <body>
 
 <br /><br />
 
-<table width="500" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
+<table width="600" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td><img src="../images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
+          <td><img src="', $rel_path, 'images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
           <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">Configuration Error:</span></td>
         </tr>
         <tr>
           <td colspan="2" class="default">
             <br />
-            <b>The following problems regarding file and/or directory permissions were found:</b>
+            <b>The following problems were found:</b>
             <br /><br />
-            ' . implode('<br />', $errors) . '
+            ', $messages, '
             <br /><br />
-            <b>Please provide the appropriate permissions to the user that the web server run as to write in the directories and files specified above.</b>
+            <b>Please resolve the issues described above. For file permission errors, please provide the appropriate permissions to the user that the web server run as to write in the directories and files specified above.</b>
             <br /><br />
           </td>
         </tr>
@@ -794,7 +833,7 @@ class Misc
     {
         foreach ($map as $val => $info) {
             if ($result == $val) {
-                Misc::setMessage($info[0], $info[1]);
+                self::setMessage($info[0], $info[1]);
 
                 return;
             }
@@ -807,7 +846,7 @@ class Misc
             $update_tpl = new Template_Helper();
             $update_tpl->setTemplate('include/notified_list.tpl.html');
             $update_tpl->assign('notify_list', $notify_list);
-            Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
+            self::setMessage($update_tpl->getTemplateContents(false), self::MSG_HTML_BOX);
         }
     }
 
@@ -878,7 +917,7 @@ class Misc
 
     public static function displayErrorMessage($msg)
     {
-        Misc::setMessage($msg, Misc::MSG_ERROR);
+        self::setMessage($msg, self::MSG_ERROR);
         $tpl = new Template_Helper();
         $tpl->setTemplate('error_message.tpl.html');
         $tpl->displayTemplate();
@@ -929,6 +968,24 @@ class Misc
         }
 
         return $data->getCode() == $code;
+    }
+
+    /**
+     * Generate a random byte string of the requested size.
+     *
+     * Uses Medium Strength Generator
+     *
+     * @link https://github.com/ircmaxell/RandomLib#factory-getlowstrengthgenerator
+     *
+     * @param int $size
+     * @return string
+     */
+    public static function generateRandom($size = 32)
+    {
+        $factory = new RandomLib\Factory();
+        $generator = $factory->getMediumStrengthGenerator();
+
+        return $generator->generate($size);
     }
 
     /**

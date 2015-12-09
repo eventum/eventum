@@ -1,36 +1,18 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003, 2004, 2005, 2006 MySQL AB                        |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Holding all search relevant methods
- *
- * @author Elan Ruusamäe <glen@delfi.ee>
  */
 class Search
 {
@@ -343,7 +325,7 @@ class Search
                  ON
                     ipa_iss_id=iss_id';
         }
-        if ((!empty($options['show_authorized_issues'])) || (($role_id == User::getRoleID('Reporter')) && (Project::getSegregateReporters($prj_id)))) {
+        if ((!empty($options['show_authorized_issues'])) || (($role_id == User::ROLE_REPORTER) && (Project::getSegregateReporters($prj_id)))) {
             $stmt .= '
                  LEFT JOIN
                     {{%issue_user_replier}}
@@ -462,7 +444,6 @@ class Search
         foreach ($res as &$row) {
             $issue_id = $row['iss_id'];
             $row['time_spent'] = Misc::getFormattedTime($row['time_spent']);
-            $row['iss_created_date'] = Date_Helper::getFormattedDate($row['iss_created_date']);
             $row['iss_expected_resolution_date'] = Date_Helper::getSimpleDate($row['iss_expected_resolution_date'], false);
             $row['excerpts'] = isset($excerpts[$issue_id]) ? $excerpts[$issue_id] : '';
 
@@ -495,7 +476,7 @@ class Search
             if (CRM::hasCustomerIntegration($prj_id)) {
                 // check if current user is a customer and has a per incident contract.
                 // if so, check if issue is redeemed.
-                if (User::getRoleByUser($usr_id, $prj_id) == User::getRoleID('Customer')) {
+                if (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER) {
                     // TODOCRM: Fix per incident usage
 //                    if ((Customer::hasPerIncidentContract($prj_id, Issue::getCustomerID($res[$i]['iss_id'])) &&
 //                            (Customer::isRedeemedIncident($prj_id, $res[$i]['iss_id'])))) {
@@ -541,12 +522,12 @@ class Search
         $usr_details = User::getDetails($usr_id);
 
         $stmt = ' AND iss_usr_id = usr_id';
-        if ($role_id == User::getRoleID('Customer')) {
+        if ($role_id == User::ROLE_CUSTOMER) {
             $crm = CRM::getInstance($prj_id);
             $contact = $crm->getContact($usr_details['usr_customer_contact_id']);
             $stmt .= " AND iss_customer_contract_id IN('" . implode("','", $contact->getContractIDS()) . "')";
             $stmt .= " AND iss_customer_id ='" . Auth::getCurrentCustomerID() . "'";
-        } elseif (($role_id == User::getRoleID('Reporter')) && (Project::getSegregateReporters($prj_id))) {
+        } elseif (($role_id == User::ROLE_REPORTER) && (Project::getSegregateReporters($prj_id))) {
             $stmt .= " AND (
                         iss_usr_id = $usr_id OR
                         iur_usr_id = $usr_id

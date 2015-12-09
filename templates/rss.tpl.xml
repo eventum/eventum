@@ -31,7 +31,7 @@
 			<?php echo Date_Helper::getRFC822Date($issue['iss_created_date'], "GMT");
 				{$issue.iss_created_date|Date_Helper::getRFC822Date:"GMT"}
 			*}
-			<pubDate>{$issue.iss_created_date}</pubDate>
+			<pubDate>{$issue.iss_created_date|format_date}</pubDate>
 		</item>
 		{/foreach}
 

@@ -1,0 +1,17 @@
+---
+engines:
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
+  phpcodesniffer:
+    enabled: true
+  phpmd:
+    enabled: true
+ratings:
+  paths:
+  - "**.js"
+  - "**.css"
+  - "**.php"
+exclude_paths:
+- config/**/*

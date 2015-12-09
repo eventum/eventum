@@ -1,31 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2012 - 2014 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * This auth backend integrates with an LDAP server and if set to, will create
@@ -40,9 +24,6 @@
  */
 class LDAP_Auth_Backend implements Auth_Backend_Interface
 {
-    /** @var Net_LDAP2 $conn The admin LDAP connection */
-    protected $conn;
-
     /** @var string */
     protected $basedn;
     /** @var string */
@@ -59,36 +40,38 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      */
     public function __construct()
     {
-        $setup = self::loadSetup();
+        $setup = Setup::get()->ldap;
 
         $this->basedn = $setup['basedn'];
         $this->user_dn_string = $setup['userdn'];
         $this->user_filter_string = $setup['user_filter'];
         $this->customer_id_attribute = $setup['customer_id_attribute'];
         $this->contact_id_attribute = $setup['contact_id_attribute'];
-
-        $options = array(
-            'host' => $setup['host'],
-            'port' => $setup['port'],
-            'binddn' => $setup['binddn'],
-            'bindpw' => $setup['bindpw'],
-            'basedn' => $this->basedn,
-        );
-
-        $this->conn = $this->connect($options);
     }
 
     /**
      * Create LDAP connection.
      *
-     * @param array $options
      * @return Net_LDAP2
      */
-    private function connect($options)
+    protected function connect()
     {
-        $conn = Net_LDAP2::connect($options);
-        if (Misc::isError($conn)) {
-            throw new AuthException($conn->getMessage(), $conn->getCode());
+        static $conn;
+        if (!$conn) {
+            $setup = Setup::get()->ldap;
+
+            $options = array(
+                'host' => $setup['host'],
+                'port' => $setup['port'],
+                'binddn' => $setup['binddn'],
+                'bindpw' => $setup['bindpw'],
+                'basedn' => $this->basedn,
+            );
+
+            $conn = Net_LDAP2::connect($options);
+            if (Misc::isError($conn)) {
+                throw new AuthException($conn->getMessage(), $conn->getCode());
+            }
         }
 
         return $conn;
@@ -107,7 +90,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             $filter = Net_LDAP2_Filter::combine('and', array($filter, $user_filter));
         }
 
-        $search = $this->conn->search($this->basedn, $filter);
+        $search = $this->connect()->search($this->basedn, $filter);
 
         if (Misc::isError($search)) {
             throw new AuthException($search->getMessage(), $search->getCode());
@@ -123,7 +106,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         foreach (explode('|', $this->getUserDNstring($uid)) as $userDNstring) {
             // Connecting using the configuration
             try {
-                $res = $this->conn->bind($userDNstring, $password);
+                $res = $this->connect()->bind($userDNstring, $password);
                 if (Misc::isError($res)) {
                     throw new AuthException($res->getMessage(), $res->getCode());
                 }
@@ -159,7 +142,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             $user_filter = Net_LDAP2_Filter::parse($this->user_filter_string);
             $filter = Net_LDAP2_Filter::combine('and', array($filter, $user_filter));
         }
-        $search = $this->conn->search($this->basedn, $filter, array('sizelimit' => 1));
+        $search = $this->connect()->search($this->basedn, $filter, array('sizelimit' => 1));
         $entry = $search->shiftEntry();
 
         if (!$entry || Misc::isError($entry)) {
@@ -168,10 +151,10 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
 
         $details = array(
             'uid' => $entry->get_value('uid'),
-            'full_name' => $entry->get_value('cn'),
-            'emails' => $entry->get_value('mail', 'all'),
-            'customer_id' => $entry->get_value($this->customer_id_attribute),
-            'contact_id' => $entry->get_value($this->contact_id_attribute),
+            'full_name' => Misc::trim($entry->get_value('cn')),
+            'emails' => Misc::trim(Misc::lowercase($entry->get_value('mail', 'all'))),
+            'customer_id' => Misc::trim($entry->get_value($this->customer_id_attribute)) ?: null,
+            'contact_id' => Misc::trim($entry->get_value($this->contact_id_attribute)) ?: null,
         );
 
         return $details;
@@ -219,6 +202,27 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     }
 
     /**
+     * Sort user emails so that primary is what Eventum has as primary
+     * Perspective what is main address and what is alias may be different in ldap and in Eventum.
+     *
+     * @param int $usr_id
+     * @param array $emails
+     * @return string[]
+     */
+    private function sortEmails($usr_id, $emails)
+    {
+        $email = User::getEmail($usr_id);
+
+        if (($key = array_search($email, $emails)) !== false) {
+            // email was found, ensure it's first item
+            unset($emails[$key]);
+            array_unshift($emails, $email);
+        }
+
+        return $emails;
+    }
+
+    /**
      * Creates or updates local user entry for the specified ID.
      *
      * @param string $login The login or email of the user to create or update
@@ -234,7 +238,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $usr_id = $this->getLocalUserId($login, $remote['emails']);
 
         $data = array(
-            'password' => '',
+            // do not add 'password' field here.
+            // it maybe be set locally before ldap
+            // and we don't want to store it in mysql at all
             'full_name' => $remote['full_name'],
             'external_id' => $remote['uid'],
             'customer_id' => $remote['customer_id'],
@@ -243,54 +249,71 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
 
         // if local user found, update it and return usr id
         if ($usr_id) {
-            // do not reset user password, it maybe be set locally before ldap
-            unset($data['password']);
-
-            // perspective what is main address and what is alias may be different in ldap and in eventum
-            $emails = $remote['emails'];
-            $email = User::getEmail($usr_id);
-
-            if (($key = array_search($email, $emails)) !== false) {
-                unset($emails[$key]);
-                $data['email'] = $email;
-            } else {
-                if (!$emails) {
-                    throw new AuthException('E-mail is required');
-                }
-                // just use first email
-                $data['email'] = array_shift($emails);
+            $emails = $this->sortEmails($usr_id, $remote['emails']);
+            if (!$emails) {
+                throw new AuthException('E-mail is required');
             }
+            // use first email as primary from sorted list
+            $data['email'] = array_shift($emails);
 
             // do not clear full name if for some reason it is empty
             if (empty($data['full_name'])) {
                 unset($data['full_name']);
             }
 
-            $update = User::update($usr_id, $data, false);
-            if ($update > 0) {
+            // read in details, and make modification only if data has changed
+            $user_details = User::getDetails($usr_id);
+            $stored_data = array(
+                'full_name' => $user_details['usr_full_name'],
+                'external_id' => $user_details['usr_external_id'],
+                'customer_id' => $user_details['usr_customer_id'],
+                'contact_id' => $user_details['usr_customer_contact_id'],
+                'email' => $user_details['usr_email'],
+            );
+
+            if ($stored_data != $data) {
+                User::update($usr_id, $data, false);
+            }
+
+            $aliases = User::getAliases($usr_id);
+            // as we are only adding aliases (never removing)
+            // check only one way
+            if (array_diff($emails, $aliases)) {
                 $this->updateAliases($usr_id, $emails);
             }
 
             return $usr_id;
         }
 
-        // create new local user
-        $setup = self::loadSetup();
-        $data['role'] = $setup['default_role'];
+        return $this->createUser($remote);
+    }
 
+    /**
+     * Create new local user.
+     *
+     * @param array $remote
+     * @return int usr_id
+     */
+    private function createUser($remote)
+    {
         $emails = $remote['emails'];
         if (!$emails) {
             throw new AuthException('E-mail is required');
         }
+
+        // set first email as default
         $data['email'] = array_shift($emails);
+
+        $data['role'] = Setup::get()->ldap->default_role;
 
         if (!empty($data['customer_id']) && !empty($data['contact_id'])) {
             foreach ($data['role'] as $prj_id => $role) {
                 if ($role > 0) {
-                    $data['role'][$prj_id] = User::getRoleID('Customer');
+                    $data['role'][$prj_id] = User::ROLE_CUSTOMER;
                 }
             }
         }
+
         $usr_id = User::insert($data);
         if ($usr_id > 0 && $emails) {
             $this->updateAliases($usr_id, $emails);
@@ -349,11 +372,8 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         }
 
         $user_info = $this->validatePassword($local_user_info['usr_external_id'], $password);
-        if ($user_info == null) {
-            return false;
-        } else {
-            return true;
-        }
+
+        return $user_info != null;
     }
 
     public function canUserUpdateName($usr_id)
@@ -387,69 +407,14 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     }
 
     /**
-     * TODO: discard this loadSetup/saveSetup, and use plain Setup class
-     */
-    public static function loadSetup($force = false)
-    {
-        static $setup;
-        if (empty($setup) || $force == true) {
-            $setup = array();
-            $configfile = APP_CONFIG_PATH . '/ldap.php';
-
-            if (file_exists($configfile)) {
-                $ldap_setup_string = $ldap_setup = null;
-
-                /** @noinspection PhpIncludeInspection */
-                require $configfile;
-
-                if (isset($ldap_setup)) {
-                    $setup = $ldap_setup;
-                } elseif (isset($ldap_setup_string)) {
-                    // support reading legacy base64 encoded config
-                    $setup = unserialize(base64_decode($ldap_setup_string));
-                }
-            }
-
-            // merge with defaults
-            $setup = Misc::array_extend(self::getDefaults(), $setup);
-        }
-
-        return $setup;
-    }
-
-    public static function saveSetup($options)
-    {
-        // this is needed to check if the file can be created or not
-        if (!file_exists(APP_CONFIG_PATH . '/ldap.php')) {
-            if (!is_writable(APP_CONFIG_PATH)) {
-                clearstatcache();
-
-                return -1;
-            }
-        } else {
-            if (!is_writable(APP_CONFIG_PATH . '/ldap.php')) {
-                clearstatcache();
-
-                return -2;
-            }
-        }
-        $contents = '<' . "?php\n\$ldap_setup = " . var_export($options, 1) . ";\n";
-        $res = file_put_contents(APP_CONFIG_PATH . '/ldap.php', $contents);
-        if ($res === false) {
-            return -2;
-        }
-
-        return 1;
-    }
-
-    /**
      * Method used to get the system-wide defaults.
      *
      * @return  string array of the default parameters
      */
     public static function getDefaults()
     {
-        $defaults = array(
+        // don't do anything complex here that would load setup
+        return array(
             'host' => 'localhost',
             'port' => '389',
             'binddn' => '',
@@ -462,15 +427,6 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             'create_users' => null,
             'default_role' => array(),
         );
-
-        if (Auth::hasValidCookie(APP_COOKIE)) {
-            // ensure there is entry for current project
-            $prj_id = Auth::getCurrentProject();
-
-            $defaults['default_role'][$prj_id] = 0;
-        }
-
-        return $defaults;
     }
 
     /**
@@ -528,10 +484,21 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
 
     /**
      * Called when a user logs out.
+     *
      * @return mixed
      */
     public function logout()
     {
         return null;
+    }
+
+    /**
+     * Returns true if the user should automatically be redirected to the external login URL, false otherwise
+     *
+     * @return  boolean
+     */
+    public function autoRedirectToExternalLogin()
+    {
+        return false;
     }
 }

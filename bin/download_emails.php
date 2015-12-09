@@ -1,38 +1,21 @@
 #!/usr/bin/php
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 // Set to almost 2Gigs, as 2048M overflows:
 // script tried to disable memory_limit by setting it to a negative value -2147483648 bytes which is not allowed
 ini_set('memory_limit', '2047M');
 
-require_once dirname(__FILE__).'/../init.php';
+require_once __DIR__ . '/../init.php';
 
 // setup constant to be used globally
 define('SAPI_CLI', 'cli' == php_sapi_name());
@@ -133,7 +116,8 @@ function getParams()
 if (!function_exists('imap_open')) {
     fatal(
         'Eventum requires the IMAP extension in order to download messages saved on a IMAP/POP3 mailbox.',
-        'Please refer to the PHP manual for more details about how to enable the IMAP extension.'
+        'See Prerequisites on the Wiki https://github.com/eventum/eventum/wiki/Prerequisites',
+        'Please refer to the PHP manual for more details about how to install and enable the IMAP extension.'
     );
 }
 

@@ -3,19 +3,19 @@
 /**
  * Separate test to use different getInstance call
  */
-class DbMaxAllowedPacketTest extends PHPUnit_Framework_TestCase {
+class DbMaxAllowedPacketTest extends TestCase
+{
     public function setUp()
     {
-        if (getenv('TRAVIS')) {
-            $this->markTestSkipped("No DB tests in Travis");
-        }
+        $this->assertDatabase();
 
         if (PHP_VERSION_ID >= 50600) {
             $this->markTestSkipped("PEAR::DB not compatible with php 5.6");
         }
     }
 
-    public function testGetMaxAllowedPacket() {
+    public function testGetMaxAllowedPacket()
+    {
         // this should not fail if db is not reachable
         $res = DB_Helper::getMaxAllowedPacket();
         $this->assertNotNull($res);

@@ -1,40 +1,20 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle the business logic related to adding, updating or
  * deleting notes from the application.
  */
-
 class Note
 {
     /**
@@ -102,7 +82,7 @@ class Note
 
         if (count($res) > 0) {
             $res['timestamp'] = Date_Helper::getUnixTimestamp($res['not_created_date'], 'GMT');
-            $res['not_created_date'] = Date_Helper::getFormattedDate($res['not_created_date']);
+
             if ($res['not_is_blocked'] == 1) {
                 $res['has_blocked_message'] = true;
             } else {
@@ -354,7 +334,7 @@ class Note
         ), $options);
 
         $prj_id = Issue::getProjectID($issue_id);
-        // NOTE: workflow takes may modify the parameters as $data is passed as reference
+        // NOTE: workflow may modify the parameters as $data is passed as reference
         $data = array(
             'title' => &$title,
             'note' => &$note,
@@ -475,7 +455,7 @@ class Note
                     not_id=?';
 
         $details = DB_Helper::getInstance()->getRow($stmt, array($note_id));
-        if ($details['not_usr_id'] != Auth::getUserID() && $details['has_blocked_message'] != 1 && Auth::getCurrentRole() < User::getRoleID('Manager')) {
+        if ($details['not_usr_id'] != Auth::getUserID() && $details['has_blocked_message'] != 1 && Auth::getCurrentRole() < User::ROLE_MANAGER) {
             return -2;
         }
 
@@ -547,7 +527,7 @@ class Note
 
         // only show the internal notes for users with the appropriate permission level
         $role_id = Auth::getCurrentRole();
-        $user_role_id = User::getRoleID('standard user');
+        $user_role_id = User::ROLE_USER;
         $t = array();
         foreach ($res as &$row) {
             if ($role_id < $user_role_id) {
@@ -560,7 +540,6 @@ class Note
                 $row['usr_full_name'] = $row['not_unknown_user'];
             }
 
-            $row['not_created_date'] = Date_Helper::getFormattedDate($row['not_created_date']);
             $t[] = $row;
             unset($row);
         }

@@ -1,41 +1,25 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2010 Sun Microsystem Inc.                              |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
-require_once dirname(__FILE__) . '/../../init.php';
+require_once __DIR__ . '/../../init.php';
 
 $tpl = new Template_Helper();
 $tpl->setTemplate('manage/monitor.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 $role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('administrator')) {
+if ($role_id < User::ROLE_REPORTER) {
     Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
@@ -44,11 +28,12 @@ if ($role_id < User::getRoleID('administrator')) {
 $tpl->assign('project_list', Project::getAll());
 
 if (!empty($_POST['cat']) && $_POST['cat'] == 'update') {
-    $setup = Setup::load();
-    $setup['monitor']['diskcheck'] = $_POST['diskcheck'];
-    $setup['monitor']['paths'] = $_POST['paths'];
-    $setup['monitor']['ircbot'] = $_POST['ircbot'];
-    $res = Setup::save($setup);
+    $setup = array(
+        'diskcheck' => $_POST['diskcheck'],
+        'paths' => $_POST['paths'],
+        'ircbot' => $_POST['ircbot'],
+    );
+    $res = Setup::save(array('monitor' => $setup));
     Misc::mapMessages($res, array(
             1   =>  array(ev_gettext('Thank you, the setup information was saved successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext(
@@ -62,12 +47,12 @@ if (!empty($_POST['cat']) && $_POST['cat'] == 'update') {
     ));
 }
 
-$tpl->assign('enable_disable', array(
-    'enabled' => ev_gettext('Enabled'),
-    'disabled' => ev_gettext('Disabled'),
+$tpl->assign(array(
+    'enable_disable', array(
+        'enabled' => ev_gettext('Enabled'),
+        'disabled' => ev_gettext('Disabled'),
+    ),
+    'setup' => Setup::get(),
 ));
-
-$options = Setup::load(true);
-$tpl->assign('setup', $options);
 
 $tpl->displayTemplate();

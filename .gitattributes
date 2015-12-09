@@ -6,7 +6,9 @@
 /.gitmodules export-ignore
 
 # maintenance tools
+/bin/dyncontent-chksum.pl export-ignore
 /bin/release.sh export-ignore
+/.codeclimate.yml export-ignore
 /.php_cs export-ignore
 /.travis.yml export-ignore
 

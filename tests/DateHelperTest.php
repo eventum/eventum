@@ -1,6 +1,6 @@
 <?php
 
-class DateHelperTest extends PHPUnit_Framework_TestCase
+class DateHelperTest extends TestCase
 {
     /**
      * timezone used for preferred user timezone tests
@@ -8,22 +8,11 @@ class DateHelperTest extends PHPUnit_Framework_TestCase
     const USER_TIMEZONE = 'Europe/Tallinn';
 
     /**
-     * @test Dependency to database tests
-     */
-    public function hasDatabase()
-    {
-        if (getenv('TRAVIS')) {
-            $this->markTestSkipped('Test requires database');
-        }
-        $this->assertTrue(true, "has database");
-    }
-
-    /**
      * @test Dependency test regarding user preferences
      */
     public function setAdminUserPreferences()
     {
-        $this->hasDatabase();
+        $this->assertDatabase();
 
         $usr_id = APP_ADMIN_USER_ID;
         $prefs = Prefs::get($usr_id);
@@ -135,7 +124,7 @@ class DateHelperTest extends PHPUnit_Framework_TestCase
      */
     public function testGetTimezoneShortNameByUser()
     {
-        $this->hasDatabase();
+        $this->assertDatabase();
 
         $res = Date_Helper::getTimezoneShortNameByUser(APP_SYSTEM_USER_ID);
         $this->assertEquals('UTC', $res);
@@ -188,7 +177,7 @@ class DateHelperTest extends PHPUnit_Framework_TestCase
      */
     public function testGetPreferredTimezone()
     {
-        $this->hasDatabase();
+        $this->assertDatabase();
 
         $res = Date_Helper::getPreferredTimezone();
         $this->assertEquals('UTC', $res);

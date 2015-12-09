@@ -291,8 +291,18 @@ $().ready(function() {
         {t}Time Spent{/t}
       </th>
       <td>
-        <input type="text" size="5" name="time_spent"> <span><i>({t}in minutes{/t})</i></span>
+        <input type="text" size="5" name="time_spent">
+        <select name="time_category">
+            {html_options options=$time_categories selected=$email_category_id}
+        </select>
+        <span><i>({t}in minutes{/t})</i></span>
       </td>
+    </tr>
+    <tr>
+        <th nowrap>{t}Time Summary{/t}</th>
+        <td>
+            <input type="text" name="time_summary" size="40">{include file="error_icon.tpl.html" field="time_summary"}
+        </td>
     </tr>
     {elseif $issue_id and $core.current_role == $core.roles.customer}
     <input type="hidden" name="new_status" value="{$new_status}">

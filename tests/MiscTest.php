@@ -1,35 +1,29 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright 2011, Elan Ruusamäe <glen@delfi.ee>                        |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
-// +----------------------------------------------------------------------+
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Test class for Misc.
  */
-class MiscTest extends PHPUnit_Framework_TestCase
+class MiscTest extends TestCase
 {
+    /**
+     * @dataProvider caseData
+     */
+    public function testLowercase($str, $exp)
+    {
+        $res = Misc::lowercase($str);
+        $this->assertSame($exp, $res);
+    }
+
     /**
      * Method used to strip HTML from a string or array
      *
@@ -75,9 +69,23 @@ class MiscTest extends PHPUnit_Framework_TestCase
             ),
             // some emoji
             array(
-                array('a' => self::unichr(0x1F6B2).self::unichr(0x1F4A8)),
+                array('a' => self::unichr(0x1F6B2) . self::unichr(0x1F4A8)),
                 array('a' => ''),
             ),
+        );
+    }
+
+    public function caseData()
+    {
+        return array(
+            array(null, null),
+            array(array(), array()),
+            array('', ''),
+
+            array('A', 'a'),
+
+            array(array('AA', 'B'), array('aa', 'b')),
+            array(array('z' => 'AA', 3 => 'B'), array('z' => 'aa', 3 => 'b')),
         );
     }
 
@@ -85,7 +93,6 @@ class MiscTest extends PHPUnit_Framework_TestCase
      * Return unicode char by its code
      *
      * @link http://php.net/manual/en/function.chr.php#88611
-
      * @param int $u
      * @return string
      */

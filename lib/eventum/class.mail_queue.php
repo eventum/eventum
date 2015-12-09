@@ -1,52 +1,75 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 class Mail_Queue
 {
     /**
+     * Number of times to retry 'error' status mails before giving up.
+     */
+    const MAX_RETRIES = 20;
+
+    /**
+     * @deprecated
+     * @see Mail_Queue::addMail()
+     */
+    public static function __add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
+    {
+        $mail = array(
+            'to' => $recipient,
+            'headers' => $headers,
+            'body' => $body,
+        );
+
+        $options = array(
+            'save_email_copy' => $save_email_copy,
+            'issue_id' => $issue_id,
+            'type' => $type,
+            'sender_usr_id' => $sender_usr_id,
+            'type_id' => $type_id,
+        );
+
+        return self::addMail($mail, $options);
+    }
+
+    /**
      * Adds an email to the outgoing mail queue.
      *
-     * @param   string $recipient The recipient of this email
-     * @param   array $headers The list of headers that should be sent with this email
-     * @param   string $body The body of the message
-     * @param   integer $save_email_copy Whether to send a copy of this email to a configurable address or not (eventum_sent@)
-     * @param   integer $issue_id The ID of the issue. If false, email will not be associated with issue.
-     * @param   string $type The type of message this is.
-     * @param   integer $sender_usr_id The id of the user sending this email.
-     * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
-     * @return  true, or a PEAR_Error object
+     * @param array $mail Info about mail:
+     * - string $to The recipient of this email
+     * - array $headers The list of headers that should be sent with this email
+     * - string $body The body of the message
+     * @param array $options Optional options:
+     * - integer $save_email_copy Whether to send a copy of this email to a configurable address or not (eventum_sent@)
+     * - integer $issue_id The ID of the issue. If false, email will not be associated with issue.
+     * - string $type The type of message this is.
+     * - integer $sender_usr_id The id of the user sending this email.
+     * - integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
+     * @return bool or a PEAR_Error object
      */
-    public static function add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
+    public static function addMail(array $mail, array $options = array())
     {
-        Workflow::modifyMailQueue(Auth::getCurrentProject(false), $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
+        $recipient = $mail['to'];
+        $headers = $mail['headers'];
+        $body = $mail['body'];
+
+        $save_email_copy = isset($options['save_email_copy']) ? $options['save_email_copy'] : 0;
+        $issue_id = isset($options['issue_id']) ? $options['issue_id'] : false;
+        $type = isset($options['type']) ? $options['type'] : '';
+        $sender_usr_id = isset($options['sender_usr_id']) ? $options['sender_usr_id'] : false;
+        $type_id = isset($options['type_id']) ? $options['type_id'] : false;
+
+        $prj_id = Auth::getCurrentProject(false);
+        Workflow::modifyMailQueue($prj_id, $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
 
         // avoid sending emails out to users with inactive status
         $recipient_email = Mail_Helper::getEmailAddress($recipient);
@@ -54,7 +77,7 @@ class Mail_Queue
         if (!empty($usr_id)) {
             $user_status = User::getStatusByEmail($recipient_email);
             // if user is not set to an active status, then silently ignore
-            if ((!User::isActiveStatus($user_status)) && (!User::isPendingStatus($user_status))) {
+            if (!User::isActiveStatus($user_status) && !User::isPendingStatus($user_status)) {
                 return false;
             }
         }
@@ -64,10 +87,10 @@ class Mail_Queue
 
         $reminder_addresses = Reminder::_getReminderAlertAddresses();
 
-        // add specialized headers
-        if ((!empty($issue_id)) && ((!empty($to_usr_id)) && (User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id)) != User::getRoleID('Customer'))) ||
-                (@in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses))) {
-            $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type, $headers, $sender_usr_id);
+        $role_id = User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id));
+        $is_reminder_address = in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses);
+        if ($issue_id && ($to_usr_id && $role_id != User::ROLE_CUSTOMER) || $is_reminder_address) {
+            $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type, $sender_usr_id);
         }
 
         // try to prevent triggering absence auto responders
@@ -89,7 +112,7 @@ class Mail_Queue
 
         $res = Mail_Helper::prepareHeaders($headers);
         if (Misc::isError($res)) {
-            Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+            Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
 
             return $res;
         }
@@ -116,11 +139,11 @@ class Mail_Queue
             $params['maq_type_id'] = $type_id;
         }
 
-        $stmt = 'INSERT INTO {{%mail_queue}} SET '.DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO {{%mail_queue}} SET ' . DB_Helper::buildSet($params);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DbException $e) {
-            return $res;
+            return false;
         }
 
         return true;
@@ -138,6 +161,7 @@ class Mail_Queue
     public static function send($status, $limit = null, $merge = false)
     {
         if ($merge !== false) {
+            // TODO: handle self::MAX_RETRIES, but that should be done per queue item
             foreach (self::_getMergedList($status, $limit) as $maq_ids) {
                 $emails = self::_getEntries($maq_ids);
                 $recipients = array();
@@ -157,7 +181,7 @@ class Mail_Queue
 
                 $res = Mail_Helper::prepareHeaders($headers);
                 if (Misc::isError($res)) {
-                    Error_Handler::logError(array($res->getMessage(), $res->getDebugInfo()), __FILE__, __LINE__);
+                    Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
 
                     return;
                 }
@@ -193,6 +217,12 @@ class Mail_Queue
         }
 
         foreach (self::_getList($status, $limit) as $maq_id) {
+            $errors = self::getQueueErrorCount($maq_id);
+            if ($errors > self::MAX_RETRIES) {
+                // TODO: mark as status 'failed'
+                continue;
+            }
+
             $email = self::_getEntry($maq_id);
             $result = self::_sendEmail($email['recipient'], $email['headers'], $email['body'], $status);
 
@@ -257,10 +287,7 @@ class Mail_Queue
         $mail = Mail::factory('smtp', Mail_Helper::getSMTPSettings());
         $res = $mail->send($recipient, $headers, $body);
         if (Misc::isError($res)) {
-            // special handling of errors when the mail server is down
-            $msg = $res->getMessage();
-            $cant_notify = ($status == 'error' || strstr($msg, 'unable to connect to smtp server') || stristr($msg, 'Failed to connect to') !== false);
-            Error_Handler::logError(array($msg, $res->getDebugInfo()), __FILE__, __LINE__, !$cant_notify);
+            Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
 
             return $res;
         }
@@ -414,6 +441,20 @@ class Mail_Queue
     }
 
     /**
+     * Return number of errors for this queue item
+     *
+     * @param int $maq_id
+     * @return int
+     */
+    private function getQueueErrorCount($maq_id)
+    {
+        $sql = 'select count(*) from {{%mail_queue_log}} where mql_maq_id=? and mql_status=?';
+        $res = DB_Helper::getInstance()->getOne($sql, array($maq_id, 'error'));
+
+        return (int) $res;
+    }
+
+    /**
      * Saves a log entry about the attempt, successful or otherwise, to send the
      * queued email message. Also updates maq_status of $maq_id to $status.
      *
@@ -487,7 +528,6 @@ class Mail_Queue
         if (count($res) > 0) {
             foreach ($res as &$row) {
                 $row['maq_recipient'] = Mime_Helper::decodeAddress($row['maq_recipient']);
-                $row['maq_queued_date'] = Date_Helper::getFormattedDate(Date_Helper::getUnixTimestamp($row['maq_queued_date'], 'GMT'));
                 $row['maq_subject'] = Mime_Helper::fixEncoding($row['maq_subject']);
             }
         }
@@ -571,7 +611,7 @@ class Mail_Queue
                     maq_status = 'sent' AND
                     maq_queued_date <= DATE_SUB(NOW(), INTERVAL 1 MONTH)";
         try {
-            $res = DB_Helper::getInstance()->query($sql);
+            DB_Helper::getInstance()->query($sql);
         } catch (DbException $e) {
             return false;
         }

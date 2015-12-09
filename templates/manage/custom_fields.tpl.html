@@ -236,7 +236,9 @@
                     <label><input type="checkbox" name="anon_form" value="1" class="target_form" {if $info.fld_anonymous_form|default:'' == 1}checked{/if}>{t}Anonymous Form{/t}</label><br />
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="anon_form_required" value="1" {if $info.fld_anonymous_form_required|default:'' == 1}checked{/if}>{t}Required Field{/t}</label><br />
                     <label><input type="checkbox" name="close_form" value="1" class="target_form" {if $info.fld_close_form|default:'' == 1}checked{/if}>{t}Close Form{/t}</label><br />
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="close_form_required" value="1" {if $info.fld_close_form_required|default:'' == 1}checked{/if}>{t}Required Field{/t}</label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="close_form_required" value="1" {if $info.fld_close_form_required|default:'' == 1}checked{/if}>{t}Required Field{/t}</label><br />
+                    <label><input type="checkbox" disabled checked/>Edit Form</label> (<em>Cannot be removed</em>)</em><br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label><input type="checkbox" name="edit_form_required" value="1" {if $info.fld_edit_form_required|default:'' == 1}checked{/if}>{t}Required Field{/t}</label>
                   </span>
                 </td>
               </tr>

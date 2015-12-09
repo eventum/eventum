@@ -1,33 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 $_displayed_confirmation = false;
 
@@ -89,8 +71,8 @@ class Command_Line
             }
             $prompt .= 'Please enter the status';
             $status = CLI_Misc::prompt($prompt, false);
-            $lowercase_keys = array_map(function ($s) { return strtolower($s); }, array_keys($list));
-            $lowercase_values = array_map(function ($s) { return strtolower($s); }, array_values($list));
+            $lowercase_keys = Misc::lowercase(array_keys($list));
+            $lowercase_values = Misc::lowercase(array_values($list));
 
             if ((!in_array(strtolower($status), $lowercase_keys)) &&
                     (!in_array(strtolower($status), $lowercase_values))) {
@@ -204,7 +186,6 @@ class Command_Line
      * Method used to parse the eventum command line configuration file
      * and return the appropriate configuration settings.
      *
-     * @access  public
      * @return  array The configuration settings
      */
     public static function getEnvironmentSettings()
@@ -264,7 +245,8 @@ class Command_Line
         $i = 1;
         foreach ($list as $attachment) {
             echo "--------------------------------------------------------------\n";
-            echo ' Attachment sent by ' . $attachment['usr_full_name'] . ' on ' . $attachment['iat_created_date'] . "\n";
+            $iat_created_date = Date_Helper::getFormattedDate($attachment['iat_created_date']);
+            echo ' Attachment sent by ' . $attachment['usr_full_name'] . ' on ' . $iat_created_date . "\n";
             foreach ($attachment['files'] as $file) {
                 echo "  [$i] => " . $file['iaf_filename'] . ' (' . $file['iaf_filesize'] . ")\n";
                 $i++;
@@ -468,8 +450,8 @@ class Command_Line
         // check if the given status is a valid option
         $statuses = $client->getAbbreviationAssocList($auth[0], $auth[1], (int) $details['iss_prj_id'], false);
 
-        $titles = array_map(function ($s) { return strtolower($s); }, array_values($statuses));
-        $abbreviations = array_map(function ($s) { return strtolower($s); }, array_keys($statuses));
+        $titles = Misc::lowercase(array_values($statuses));
+        $abbreviations = Misc::lowercase(array_keys($statuses));
         if ((!in_array(strtolower($new_status), $titles)) &&
                 (!in_array(strtolower($new_status), $abbreviations))) {
             self::quit("Status '$new_status' could not be matched against the list of available statuses");
@@ -560,9 +542,11 @@ Support Options: ' . @$details['contract']['options_display'] . '
        Timezone: ' . $details['iss_contact_timezone'] . '
 Account Manager: ' . @$details['customer']['account_manager_name'];
         }
+        $iss_updated_date = Date_Helper::getFormattedDate($details['iss_updated_date']);
+        $iss_last_response_date = Date_Helper::getFormattedDate($details['iss_last_response_date']);
         $msg .= '
-  Last Response: ' . $details['iss_last_response_date'] . '
-   Last Updated: ' . $details['iss_updated_date'] . "\n";
+  Last Response: ' . $iss_last_response_date . '
+   Last Updated: ' . $iss_updated_date . "\n";
         echo $msg;
 
         if ($full) {
@@ -594,6 +578,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
 
         echo $msg;
     }
+
     /**
      * Method used to print the list of open issues.
      *
@@ -610,8 +595,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         if (!empty($status)) {
             $statuses = $client->getAbbreviationAssocList($auth[0], $auth[1], $project_id, true);
 
-            $titles = array_map(function ($s) { return strtolower($s); }, array_values($statuses));
-            $abbreviations = array_map(function ($s) { return strtolower($s); }, array_keys($statuses));
+            $titles = Misc::lowercase(array_values($statuses));
+            $abbreviations = Misc::lowercase(array_keys($statuses));
             if ((!in_array(strtolower($status), $titles)) &&
                     (!in_array(strtolower($status), $abbreviations))) {
                 self::quit("Status '$status' could not be matched against the list of available statuses");
@@ -792,7 +777,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         if ($display_full) {
             echo $email['seb_full_email'];
         } else {
-            echo sprintf("%15s: %s\n", 'Date', $email['sup_date']);
+            $sup_date = Date_Helper::getFormattedDate($email['sup_date']);
+            echo sprintf("%15s: %s\n", 'Date', $sup_date);
             echo sprintf("%15s: %s\n", 'From', $email['sup_from']);
             echo sprintf("%15s: %s\n", 'To', $email['sup_to']);
             echo sprintf("%15s: %s\n", 'CC', $email['sup_cc']);
@@ -866,7 +852,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         self::checkIssuePermissions($client, $auth, $issue_id);
 
         $note = self::getNote($client, $auth, $issue_id, $note_id);
-        echo sprintf("%15s: %s\n", 'Date', $note['not_created_date']);
+        $not_created_date = Date_Helper::getFormattedDate($note['not_created_date']);
+        echo sprintf("%15s: %s\n", 'Date', $not_created_date);
         echo sprintf("%15s: %s\n", 'From', $note['not_from']);
         echo sprintf("%15s: %s\n", 'Title', $note['not_title']);
         echo "------------------------------------------------------------------------\n";
@@ -1007,7 +994,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         self::checkIssuePermissions($client, $auth, $issue_id);
 
         $draft = self::getDraft($client, $auth, $issue_id, $draft_id);
-        echo sprintf("%15s: %s\n", 'Date', $draft['emd_updated_date']);
+        $emd_updated_date = Date_Helper::getFormattedDate($draft['emd_updated_date']);
+        echo sprintf("%15s: %s\n", 'Date', $emd_updated_date);
         echo sprintf("%15s: %s\n", 'From', $draft['from']);
         echo sprintf("%15s: %s\n", 'To', $draft['to']);
         if (!empty($draft['cc'])) {
@@ -1178,8 +1166,9 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             case 'convert-note':
             case 'cn':
                 $note_details = self::getNote($client, $auth, $issue_id, $args[3]);
+                $not_created_date = Date_Helper::getFormattedDate($note_details['not_created_date']);
                 $msg = "These are the current details for issue #$issue_id, note #" . $args[3] . ":\n" .
-                        '   Date: ' . $note_details['not_created_date'] . "\n" .
+                        '   Date: ' . $not_created_date . "\n" .
                         '   From: ' . $note_details['not_from'] . "\n" .
                         '  Title: ' . $note_details['not_title'] . "\n" .
                         'Are you sure you want to convert this note into a ' . $args[4] . '?';
@@ -1237,7 +1226,6 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Method used to check whether the current execution needs to have a
      * confirmation message shown before performing the requested action or not.
      *
-     * @access  public
      * @return  boolean
      */
     public static function isSafeExecution()
@@ -1255,7 +1243,6 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
     /**
      * Method used to print a usage statement for the command line interface.
      *
-     * @access  public
      * @param   string $script The current script name
      */
     public static function usage($script)
@@ -1405,7 +1392,6 @@ $explanation
     /**
      * Method used to print a message to standard output and halt processing.
      *
-     * @access  public
      * @param   string $msg The message that needs to be printed
      */
     public static function quit($msg)

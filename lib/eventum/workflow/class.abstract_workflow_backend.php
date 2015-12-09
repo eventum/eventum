@@ -1,41 +1,19 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-//
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Abstract Class that all workflow backends should extend. This is so any new
  * workflow methods added in future releases will not break current backends.
- *
- * @author  Bryan Alsdorf <bryan@mysql.com>
- * @author  Elan Ruusamäe <glen@delfi.ee>
  */
 class Abstract_Workflow_Backend
 {
@@ -55,20 +33,9 @@ class Abstract_Workflow_Backend
      */
 
     /**
-     * array to hold workflow settings, best accessed via ->getConfig()
+     * hold workflow settings, best accessed via ->getConfig()
      */
-    protected $config = array();
-
-    /**
-     * Copy of whole loaded setup, needed if you need to save Setup data within workflow
-     * TODO: this would not be probably needed if Setup is not static.
-     */
-    private $config_setup_copy;
-
-    /**
-     * set to true by loadConfig() after loading workflow configuration variables
-     */
-    private $configLoaded = false;
+    protected $config = null;
 
     /**
      * use this function to access workflow configuration variables
@@ -78,7 +45,7 @@ class Abstract_Workflow_Backend
      */
     protected function getConfig($option)
     {
-        if (!$this->configLoaded) {
+        if (!isset($this->config)) {
             $this->loadConfig();
         }
 
@@ -94,18 +61,24 @@ class Abstract_Workflow_Backend
     {
         $defaults = $this->getConfigDefaults();
         $name = $this->getWorkflowName();
-        $setup = Setup::load();
-        $this->config_setup_copy = &$setup;
+        $setup = Setup::get();
 
-        foreach ($defaults as $key => $value) {
-            if (isset($setup['workflow'][$name][$key])) {
-                continue;
-            }
-            $setup['workflow'][$name][$key] = $value;
+        if (!isset($setup['workflow'])) {
+            $setup['workflow'] = array();
         }
 
-        $this->configLoaded = true;
-        $this->config = &$setup['workflow'][$name];
+        // create copy, this avoids the "indirect" error
+        $config = $setup['workflow'][$name];
+        // merge defaults
+        foreach ($defaults as $key => $value) {
+            if (isset($config[$key])) {
+                continue;
+            }
+            $config[$key] = $value;
+        }
+
+        // save back to config tree
+        $this->config = $setup['workflow'][$name] = $config;
     }
 
     /**
@@ -114,11 +87,11 @@ class Abstract_Workflow_Backend
      */
     protected function saveConfig()
     {
-        if (!$this->configLoaded || !$this->config_setup_copy) {
+        if (!isset($this->config)) {
             return;
         }
 
-        Setup::save($this->config_setup_copy);
+        Setup::save();
     }
 
     /**
@@ -329,8 +302,9 @@ class Abstract_Workflow_Backend
      * @param   integer $issue_id The ID of the issue
      * @param   array $old The custom fields before the update.
      * @param   array $new The custom fields after the update.
+     * @param   array $changed An array containing what was changed.
      */
-    public function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new)
+    public function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new, $changed)
     {
     }
 
@@ -443,9 +417,10 @@ class Abstract_Workflow_Backend
      * @param   integer $num The sequential email number
      * @param   string $message The complete email message
      * @param   object $email An object containing the decoded email
+     * @param   object $structure An object containing the decoded email
      * @return  mixed null by default, -1 if the rest of the email script should not be processed.
      */
-    public function preEmailDownload($prj_id, $info, $mbox, $num, &$message, &$email)
+    public function preEmailDownload($prj_id, $info, $mbox, $num, &$message, $email, $structure = null)
     {
         return null;
     }

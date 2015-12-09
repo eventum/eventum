@@ -1,34 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-//
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 class Workflow
 {
@@ -78,7 +59,7 @@ class Workflow
                  ORDER BY
                     prj_id';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return '';
         }
@@ -421,15 +402,16 @@ class Workflow
      * @param   integer $issue_id The ID of the issue
      * @param   array $old The custom fields before the update.
      * @param   array $new The custom fields after the update.
+     * @param   array $changed An array containing what was changed.
      */
-    public static function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new)
+    public static function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new, $changed)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
 
         $backend = self::_getBackend($prj_id);
-        $backend->handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new);
+        $backend->handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new, $changed);
     }
 
     /**
@@ -546,10 +528,10 @@ class Workflow
      */
     public static function canSendNote($prj_id, $issue_id, $email, $structure)
     {
-        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+        if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = Workflow::_getBackend($prj_id);
+        $backend = self::_getBackend($prj_id);
 
         return $backend->canSendNote($prj_id, $issue_id, $email, $structure);
     }
@@ -564,10 +546,10 @@ class Workflow
      */
     public static function canCloneIssue($prj_id, $issue_id, $usr_id)
     {
-        if (!Workflow::hasWorkflowIntegration($prj_id)) {
+        if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = Workflow::_getBackend($prj_id);
+        $backend = self::_getBackend($prj_id);
 
         return $backend->canCloneIssue($prj_id, $issue_id, $usr_id);
     }
@@ -603,7 +585,7 @@ class Workflow
      * @param   object $structure An object containing the decoded email
      * @return  mixed null by default, -1 if the rest of the email script should not be processed.
      */
-    public static function preEmailDownload($prj_id, $info, $mbox, $num, &$message, &$email, &$structure)
+    public static function preEmailDownload($prj_id, $info, $mbox, $num, &$message, $email, $structure)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;

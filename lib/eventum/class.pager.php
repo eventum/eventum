@@ -1,41 +1,19 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2013 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// +----------------------------------------------------------------------+
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to manage paginated links on the frontend pages.
- *
- * @version 1.0
- * @author João Prado Maia <jpm@mysql.com>
  */
-
 class Pager
 {
     /**
@@ -53,13 +31,13 @@ class Pager
             // go the extra mile and try to use the grouped by column in the count() call
             preg_match("/.*\s+GROUP BY\s+(\w*)\s+.*/i", $stmt, $matches);
             if (!empty($matches[1])) {
-                $stmt = preg_replace('/SELECT (.*?) FROM /sei', "'SELECT COUNT(DISTINCT " . $matches[1] . ") AS total_rows FROM '", $stmt);
+                $stmt = preg_replace('/SELECT (.*?) FROM /si', 'SELECT COUNT(DISTINCT ' . $matches[1] . ') AS total_rows FROM ', $stmt);
             }
         } else {
-            $stmt = preg_replace('/SELECT (.*?) FROM /sei', "'SELECT COUNT(*) AS total_rows FROM '", $stmt);
+            $stmt = preg_replace('/SELECT (.*?) FROM /si', 'SELECT COUNT(*) AS total_rows FROM ', $stmt);
         }
         // remove any order by clauses
-        $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)(?:,\s+\w+\s+\w+)*(.*)/sei", "'\\1\\3'", $stmt);
+        $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)(?:,\s+\w+\s+\w+)*(.*)/si", '\\1\\3', $stmt);
         try {
             $rows = DB_Helper::getInstance()->getAll($stmt);
         } catch (DbException $e) {

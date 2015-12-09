@@ -14,7 +14,7 @@
     </tr>
     <tr>
         <td>
-            <p><i>{t}Last updated{/t}: {$faq.faq_updated_date}</i></p>
+            <p><i>{t}Last updated{/t}: {$faq.faq_updated_date|timeago}</i></p>
             {$faq.message}
         </td>
     </tr>
@@ -34,9 +34,9 @@
         <th>{t}Last Updated Date{/t}</th>
     </tr>
     {section name="i" loop=$faqs}
-    <tr class="{cycle value='odd,even'}">
+    <tr class="{cycle values='odd,even'}">
         <td><b><a href="faq.php?id={$faqs[i].faq_id}" title="{t}read faq entry{/t}">{$faqs[i].faq_title}</a></b></td>
-        <td>{$faqs[i].faq_updated_date}</td>
+        <td>{$faqs[i].faq_updated_date|timeago}</td>
     </tr>
     {/section}
     </tr>

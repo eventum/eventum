@@ -63,18 +63,6 @@
           folder[0].disabled = true;
       }
   }
-  function testSettings(f)
-  {
-      var features = 'width=320,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-      var popupWin = window.open('', '_testEmailSettings', features);
-      popupWin.focus();
-      var old_action = f.action;
-      f.action = 'check_email_settings.php';
-      f.target = '_testEmailSettings';
-      f.submit();
-      f.action = old_action;
-      f.target = '';
-  }
   function checkDelete(f)
   {
       if (!Validation.hasOneChecked('items[]')) {
@@ -91,6 +79,18 @@
       toggleFolderField();
       $('#email_account_form').submit(validateForm);
       $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
+      $('#testSettings').click(function(event) {
+           event.preventDefault();
+           $('#full_width_messages').removeClass().html('Please wait.. testing connection.').addClass('info');
+           var serializedData = $('#email_account_form').serialize();
+           $.ajax({
+               type: "POST",
+               url: "check_email_settings.php",
+               data: serializedData
+           }).done(function(response) {
+               $('#full_width_messages').html(response);
+           });
+      });
   });
   //-->
   </script>
@@ -209,7 +209,7 @@
   </tr>
   <tr class="buttons">
     <td colspan="2">
-      <input type="button" value="{t}Test Settings{/t}" onClick="testSettings(this.form);">
+      <input id="testSettings" type="button" value="{t}Test Settings{/t}">
       {if $smarty.get.cat|default:'' == 'edit'}
       <input type="submit" value="{t}Update Account{/t}">
       {else}

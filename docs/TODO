@@ -14,8 +14,6 @@ INSERT INTO eventum.eventum_project_status ( prs_sta_id, prs_prj_id) VALUES ( 1,
 INSERT INTO eventum.eventum_project_status ( prs_sta_id, prs_prj_id) VALUES ( 1, 7)
 UPDATE eventum.eventum_issue SET iss_sta_id=0 WHERE iss_sta_id=1 AND iss_prj_id IN (1)
 
-* Make it possible to have several SCM backends (CVS, maybe several SVN)
-
 * Make it possible via workflow to map SCM user to real Eventum user
 
 * Default issue priority is defined in bizarre locations

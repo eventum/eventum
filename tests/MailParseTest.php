@@ -1,6 +1,6 @@
 <?php
 
-class MailParseTest extends PHPUnit_Framework_TestCase
+class MailParseTest extends TestCase
 {
     /**
      * Test that HTML entities used in text/html part get decoded

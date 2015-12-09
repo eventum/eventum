@@ -1,34 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <bryan@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-//
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 // XXX: try reading $_ENV['HOSTNAME'] and then ask the user if nothing could be found
 // XXX: dynamically check the email blob and skips the email if it is bigger than 16MB on PHP4 versions
@@ -41,16 +22,18 @@ set_time_limit(0);
 define('APP_NAME', 'Eventum');
 define('APP_CHARSET', 'UTF-8');
 define('APP_DEFAULT_LOCALE', 'en_US');
-define('APP_PATH', realpath(dirname(__FILE__) . '/../..'));
+define('APP_PATH', realpath(__DIR__ . '/../..'));
+define('APP_VAR_PATH', APP_PATH . '/var');
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
 define('APP_CONFIG_PATH', APP_PATH . '/config');
 define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
 define('APP_TPL_PATH', APP_PATH . '/templates');
-define('APP_TPL_COMPILE_PATH', APP_PATH . '/templates_c');
-define('APP_LOG_PATH', APP_PATH . '/logs');
+define('APP_TPL_COMPILE_PATH', APP_VAR_PATH . '/cache');
+define('APP_LOG_PATH', APP_VAR_PATH . '/log');
 define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
-define('APP_LOCKS_PATH', APP_PATH . '/locks');
+define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
 define('APP_LOCAL_PATH', APP_CONFIG_PATH);
+define('APP_RELATIVE_URL', '../');
 
 header('Content-Type: text/html; charset=' . APP_CHARSET);
 
@@ -61,9 +44,8 @@ if ($have_config) {
     exit(0);
 }
 
-if (defined('APP_PEAR_PATH')) {
+if (defined('APP_INC_PATH')) {
     set_include_path(
-        APP_PEAR_PATH . PATH_SEPARATOR .
         APP_INC_PATH . PATH_SEPARATOR .
         get_include_path()
     );
@@ -71,66 +53,11 @@ if (defined('APP_PEAR_PATH')) {
 require_once APP_PATH . '/autoload.php';
 
 list($warnings, $errors) = checkRequirements();
-if ((count($warnings) > 0) || (count($errors) > 0)) {
-    echo '<html>
-<head>
-<style type="text/css">
-<!--
-.default {
-  font-family: Verdana, Arial, Helvetica, sans-serif;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 70%;
-}
--->
-</style>
-<title>Eventum Setup</title>
-</head>
-<body>
-
-<br /><br />
-
-<table width="600" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
-  <tr>
-    <td>
-      <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
-        <tr>
-          <td><img src="../images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
-          <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">Configuration Error:</span></td>
-        </tr>
-        <tr>
-          <td colspan="2" class="default">
-            <br />
-            <b>The following problems were found:</b>
-            <br /><br />
-            ', implode("\n<hr>\n", array_merge($errors, $warnings)), '
-            <br /><br />
-            <b>Please resolve the issues described above. For file permission errors, please provide the appropriate permissions to the user that the web server run as to write in the directories and files specified above.</b>
-            <br /><br />
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-
-</body>
-</html>';
-    if (count($errors) > 0) {
+if ($warnings || $errors) {
+    Misc::displayRequirementErrors(array_merge($errors, $warnings), 'Eventum Setup');
+    if ($errors) {
         exit(1);
     }
-}
-
-if (!function_exists('gettext')) {
-    function gettext($str)
-    {
-        return $str;
-    }
-}
-
-function ev_gettext($str)
-{
-    return $str;
 }
 
 $tpl = new Template_Helper();
@@ -153,7 +80,7 @@ foreach ($pieces as $piece) {
 }
 $relative_url[] = '';
 $relative_url = implode('/', $relative_url);
-
+define('APP_REL_URL', $relative_url);
 $tpl->assign('phpversion', phpversion());
 $tpl->assign('core', array(
     'rel_url'   =>  $relative_url,
@@ -173,6 +100,11 @@ $tpl->assign('default_weekday', getFirstWeekday());
 $tpl->setTemplate('setup.tpl.html');
 $tpl->displayTemplate(false);
 
+/**
+ * Checks for $file for write permission.
+ *
+ * IMPORTANT: if the file does not exist, an empty file is created.
+ */
 function checkPermissions($file, $desc, $is_directory = false)
 {
     clearstatcache();
@@ -229,7 +161,7 @@ function getPermissionError($file, $desc, $is_directory, $exists)
     } else {
         $title = 'File';
     }
-    $error = "$title <b>'" . File_Util::realPath($file) . ($is_directory ? '/' : '') . "'</b> ";
+    $error = "$title <b>'" . $file . ($is_directory ? '/' : '') . "'</b> ";
 
     if (!$exists) {
         $error .= "does not exist. Please create the $title and reload this page.";
@@ -390,7 +322,7 @@ function getUserList($conn)
     }
 
     // FIXME: why lowercase neccessary?
-    $users = array_map(function ($s) { return strtolower($s); }, $users);
+    $users = Misc::lowercase($users);
 
     return $users;
 }
@@ -404,7 +336,7 @@ function getTableList($conn)
     $tables = $conn->getColumn('SHOW TABLES');
 
     // FIXME: why lowercase neccessary?
-    $tables = array_map(function ($s) { return strtolower($s); }, $tables);
+    $tables = Misc::lowercase($tables);
 
     return $tables;
 }
@@ -414,24 +346,11 @@ function e($s)
     return var_export($s, 1);
 }
 
-/**
- * @param $str
- * @return string
- */
-function strip_hashbang($str)
-{
-    $str = explode(PHP_EOL, $str);
-    array_shift($str);
-    $str = implode(PHP_EOL, $str);
-
-    return $str;
-}
-
 function get_queries($file)
 {
     $contents = file_get_contents($file);
     $queries = explode(';', $contents);
-    $queries = array_map(function ($s) { return trim($s); }, $queries);
+    $queries = Misc::trim($queries);
     $queries = array_filter($queries);
 
     return $queries;
@@ -519,36 +438,42 @@ function setup_database()
     }
 
     // setup database with upgrade script
-    $upgrade_script = APP_PATH . '/upgrade/update-database.php';
-    // use ob_ to strip out hashbang
-    ob_start();
+    $buffer = array();
     try {
-        define('IN_SETUP', true);
-        require $upgrade_script;
-        $out = ob_get_clean();
+        $dbmigrate = new DbMigrate(APP_PATH . '/upgrade');
+        $dbmigrate->setLogger(function ($e) use (&$buffer) {
+            $buffer[] = $e;
+        });
+        $dbmigrate->patch_database();
         $e = false;
     } catch (Exception $e) {
-        $out = ob_get_clean();
     }
 
     global $tpl;
-    $tpl->assign('db_result', strip_hashbang($out));
+    $tpl->assign('db_result', implode("\n", $buffer));
 
     if ($e) {
-        throw new RuntimeException("Database setup failed on upgrade:<br/><tt>{$e->getMessage()}</tt><br/><br/>You may want run update script <tt>$upgrade_script</tt> manually");
+        $upgrade_script = APP_PATH . '/upgrade/update-database.php';
+        $error = array(
+            'Database setup failed on upgrade:',
+            "<tt>{$e->getMessage()}</tt>",
+            '',
+            "You may want run update script <tt>$upgrade_script</tt> manually"
+        );
+        throw new RuntimeException(implode('<br/>', $error));
     }
 
-    $setup = Setup::load();
     // write db name now that it has been created
-    $setup['database']['database'] = $_POST['db_name'];
+    $setup = array();
+    $setup['database'] = $_POST['db_name'];
 
     // substitute the appropriate values in config.php!!!
     if (@$_POST['alternate_user'] == 'yes') {
-        $setup['database']['username'] = $_POST['eventum_user'];
-        $setup['database']['password'] = $_POST['eventum_password'];
+        $setup['username'] = $_POST['eventum_user'];
+        $setup['password'] = $_POST['eventum_password'];
     }
 
-    Setup::save($setup);
+    Setup::save(array('database' => $setup));
 }
 
 function write_file($file, $contents)
@@ -600,17 +525,6 @@ function write_setup()
     Setup::save($setup);
 }
 
-/**
- * create a random private key variable
- */
-function write_privatekey()
-{
-    $private_key_path = APP_CONFIG_PATH . '/private_key.php';
-
-    $private_key = '<' . "?php\n\$private_key = " . var_export(md5(microtime()), 1) . ";\n";
-    write_file($private_key_path, $private_key);
-}
-
 function write_config()
 {
     $config_file_path = APP_CONFIG_PATH . '/config.php';
@@ -631,7 +545,7 @@ function write_config()
         "'%{APP_ENABLE_FULLTEXT}%'" => e($enable_fulltext),
     );
 
-    $config_contents = file_get_contents('config.php');
+    $config_contents = file_get_contents(APP_CONFIG_PATH . '/config.dist.php');
     $config_contents = str_replace(array_keys($replace), array_values($replace), $config_contents);
 
     write_file($config_file_path, $config_contents);
@@ -640,7 +554,7 @@ function write_config()
 function install()
 {
     try {
-        write_privatekey();
+        Auth::generatePrivateKey();
         write_setup();
         setup_database();
         write_config();

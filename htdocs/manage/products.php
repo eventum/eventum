@@ -1,40 +1,25 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2010 Bryan Alsdorf                                     |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
-require_once dirname(__FILE__) . '/../../init.php';
+require_once __DIR__ . '/../../init.php';
 
 $tpl = new Template_Helper();
 $tpl->setTemplate('manage/products.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 $role_id = Auth::getCurrentRole();
-if ($role_id < User::getRoleID('manager')) {
+if ($role_id < User::ROLE_MANAGER) {
     Misc::setMessage('Sorry, you are not allowed to access this page.', Misc::MSG_ERROR);
     $tpl->displayTemplate();
     exit;
@@ -60,9 +45,9 @@ if (@$_POST['cat'] == 'new') {
 if (@$_GET['cat'] == 'edit') {
     $info = Product::getDetails($_GET['id']);
     $tpl->assign('info', $info);
-    $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), false, $_GET['id']);
+    $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::ROLE_CUSTOMER, false, $_GET['id']);
 } else {
-    $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::getRoleID('customer'), true);
+    $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::ROLE_CUSTOMER, true);
 }
 
 $tpl->assign('list', Product::getList());

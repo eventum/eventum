@@ -1,6 +1,6 @@
 <?php
 
-class HistoryTest extends PHPUnit_Framework_TestCase
+class HistoryTest extends TestCase
 {
     public function testHistoryContext()
     {

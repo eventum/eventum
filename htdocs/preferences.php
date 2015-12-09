@@ -1,39 +1,21 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 // delay language init if we're saving language
 if (!empty($_POST['language'])) {
     define('SKIP_LANGUAGE_INIT', true);
 }
-require_once dirname(__FILE__) . '/../init.php';
+require_once __DIR__ . '/../init.php';
 
 $cat = isset($_POST['cat']) ? (string) $_POST['cat'] : null;
 $usr_id = Auth::getUserID();
@@ -49,7 +31,7 @@ if ($cat == 'update_account') {
 $tpl = new Template_Helper();
 $tpl->setTemplate('preferences.tpl.html');
 
-Auth::checkAuthentication(APP_COOKIE);
+Auth::checkAuthentication();
 
 if (Auth::isAnonUser()) {
     Auth::redirect('index.php');
@@ -72,12 +54,30 @@ if ($cat == 'update_account') {
 } elseif ($cat == 'update_email') {
     $res = User::updateEmail($usr_id);
 } elseif ($cat == 'update_password') {
-    $res = Auth::updatePassword($usr_id, $_POST['new_password'], $_POST['confirm_password']);
+    // verify current password
+    if (!Auth::isCorrectPassword(Auth::getUserLogin(), $_POST['password'])) {
+        Misc::setMessage(ev_gettext('Incorrect password'), Misc::MSG_ERROR);
+        $res = -3;
+    } elseif ($_POST['new_password'] != $_POST['confirm_password']) {
+        Misc::setMessage(ev_gettext('New passwords mismatch'), Misc::MSG_ERROR);
+        $res = -2;
+    } elseif ($_POST['password'] == $_POST['new_password']) {
+        Misc::setMessage(ev_gettext('Please set different password than current'), Misc::MSG_ERROR);
+        $res = -2;
+    } else {
+        try {
+            User::updatePassword($usr_id, $_POST['new_password']);
+            $res = 1;
+        } catch (Exception $e) {
+            Logger::app()->error($e);
+            $res = -1;
+        }
+    }
 }
 
 if ($res == 1) {
     Misc::setMessage(ev_gettext('Your information has been updated'));
-} elseif ($res == -1) {
+} elseif ($res !== null) {
     Misc::setMessage(ev_gettext('Sorry, there was an error updating your information'), Misc::MSG_ERROR);
 }
 

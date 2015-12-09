@@ -1,40 +1,20 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2003 - 2008 MySQL AB                                   |
-// | Copyright (c) 2008 - 2010 Sun Microsystem Inc.                       |
-// | Copyright (c) 2011 - 2014 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: João Prado Maia <jpm@mysql.com>                             |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
-
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * Class to handle the business logic related to the reminder emails
  * that the system sends out.
  */
-
 class Reminder
 {
     public static $debug = false;
@@ -117,7 +97,7 @@ class Reminder
                  ORDER BY
                     rem_rank ASC';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -761,7 +741,6 @@ class Reminder
         }
 
         foreach ($res as &$row) {
-            $row['rem_created_date'] = Date_Helper::getFormattedDate($row['rem_created_date']);
             $actions = Reminder_Action::getList($row['rem_id']);
             $row['total_actions'] = count($actions);
             $priorities = self::getAssociatedPriorities($row['rem_id']);
@@ -846,7 +825,7 @@ class Reminder
         // can't rely on the mysql server's timezone setting, so let's use gmt dates throughout
         $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "')", $stmt);
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt);
+            $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DbException $e) {
             return array();
         }
@@ -1010,10 +989,6 @@ class Reminder
             return array();
         }
 
-        foreach ($res as &$row) {
-            $row['rmh_created_date'] = Date_Helper::getFormattedDate($row['rmh_created_date']);
-        }
-
         return $res;
     }
 
@@ -1026,13 +1001,11 @@ class Reminder
     public static function _getReminderAlertAddresses()
     {
         $emails = array();
-        $setup = Setup::load();
-        if ((@$setup['email_reminder']['status'] == 'enabled') &&
-                (!empty($setup['email_reminder']['addresses']))) {
-            $addresses = $setup['email_reminder']['addresses'];
-            $emails = explode(',', $addresses);
+        $setup = Setup::get();
+        if ($setup['email_reminder']['status'] == 'enabled' && $setup['email_reminder']['addresses']) {
+            $emails = explode(',', $setup['email_reminder']['addresses']);
+            $emails = Misc::trim($emails);
         }
-        $emails = array_map(function ($s) { return trim($s); }, $emails);
 
         return $emails;
     }

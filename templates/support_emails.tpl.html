@@ -93,7 +93,7 @@
                 <td>
                     <em>{t}sent to notification list{/t}</em>
                 </td>
-                <td nowrap>{$issue.iss_created_date}</td>
+                <td nowrap>{$issue.iss_created_date|timeago}</td>
                 <td>
                     {$issue.iss_summary|escape:"html"}
                 </td>
@@ -127,7 +127,7 @@
                     {$emails[i].sup_cc|escape:"html"}
                     {/if}
                 </td>
-                <td nowrap>{$emails[i].sup_date}</td>
+                <td nowrap>{$emails[i].sup_date|timeago}</td>
                 <td>
                     <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewEmail({$emails[i].sup_ema_id}, {$emails[i].sup_id});">{$emails[i].sup_subject|default:"<Empty Subject Header>"|escape:"html"}</a>
                     {if $emails[i].sup_has_attachment}

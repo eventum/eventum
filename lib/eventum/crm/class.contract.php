@@ -1,9 +1,18 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 /**
  * Abstract class representing a contract
- *
- * @author Bryan Alsdorf <balsdorf@gmail.com>
  */
 abstract class Contract
 {
@@ -139,14 +148,14 @@ abstract class Contract
     /**
      * Returns true if this contract is expired, false otherwise.
      *
-     * @return  Boolean
+     * @return  boolean
      */
     abstract public function isExpired();
 
     /**
      * Returns true if this contract is active, false otherwise.
      *
-     * @return  Boolean
+     * @return  boolean
      */
     abstract public function isActive();
 

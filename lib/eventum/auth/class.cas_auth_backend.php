@@ -1,31 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2012 - 2015 Eventum Team.                              |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                        |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Bryan Alsdorf <balsdorf@gmail.com>                          |
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 /**
  * This auth backend integrates with a CAS server
@@ -54,12 +38,12 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
 
     public function checkAuthentication()
     {
-        if (phpCAS::isAuthenticated() && !Auth::isValidCookie(Auth::getCookieInfo(APP_COOKIE))) {
+        if (phpCAS::isAuthenticated() && !AuthCookie::hasAuthCookie()) {
             $this->loginCallback();
         }
 
         // force CAS authentication
-        $auth = phpCAS::forceAuthentication();
+        phpCAS::forceAuthentication();
     }
 
     public function logout()
@@ -76,7 +60,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
         $usr_id = User::getUserIDByEmail($attributes['mail'], true);
         $user = User::getDetails($usr_id);
 
-        Auth::createLoginCookie(APP_COOKIE, $user['usr_email'], true);
+        AuthCookie::setAuthCookie($user['usr_email'], true);
     }
 
     public function updateLocalUserFromBackend($remote)
@@ -340,7 +324,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
             'default_role' => array(),
         );
 
-        if (Auth::hasValidCookie(APP_COOKIE)) {
+        if (AuthCookie::hasAuthCookie()) {
             // ensure there is entry for current project
             $prj_id = Auth::getCurrentProject();
 
@@ -348,5 +332,15 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
         }
 
         return $defaults;
+    }
+
+    /**
+     * Returns true if the user should automatically be redirected to the external login URL, false otherwise
+     *
+     * @return  boolean
+     */
+    public function autoRedirectToExternalLogin()
+    {
+        return false;
     }
 }

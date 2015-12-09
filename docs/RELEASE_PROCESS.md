@@ -4,6 +4,7 @@ Notes about creating Eventum Release
 Test before release
 -------------------
 
+- install yourself lowest supported php and it's modules (5.3 as of now) as depending on php version different PEAR modules may be installed
 - create release tarball, unpack and run setup
 `$ make dist`
 - make sure upgrade/drop.sql lists all created tables
@@ -21,7 +22,7 @@ Release process
 - Update the ChangeLog.md file with the correct version number and release date
 
 - create git tag
-`$ git tag -s v3.0.3`
+`$ git tag -s v3.0.4`
 
 - build tarball again
 `$ make dist`
@@ -31,12 +32,16 @@ Release process
 
 - go to github releases page, edit the new tag
 - fill release title and release notes
-- upload tarball to the release
+- upload tarball and signature to the release
+- to create a digital signature, use the following command:
+`% gpg --armor --sign --detach-sig eventum-3.0.4.tar.gz`
+- create tags also in scm and wiki submodules
 
 After release
 -------------
 
-- [add news entry](https://launchpad.net/eventum/+announce) to launchpad page
 - update release number in init.php (APP_VERSION)
 - start new version entry in Changelog.md
-- close old milestone and add new one in github https://github.com/eventum/eventum/milestones
+- add new milestone in github. just fill version number in Title field https://github.com/eventum/eventum/milestones
+- move open tickets/pull requests to new milestone
+- close old milestone

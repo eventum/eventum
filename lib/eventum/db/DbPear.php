@@ -1,30 +1,15 @@
 <?php
 
-/* vim: set expandtab tabstop=4 shiftwidth=4 encoding=utf-8: */
-// +----------------------------------------------------------------------+
-// | Eventum - Issue Tracking System                                      |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 2014 Eventum Team.                                     |
-// |                                                                      |
-// | This program is free software; you can redistribute it and/or modify |
-// | it under the terms of the GNU General Public License as published by |
-// | the Free Software Foundation; either version 2 of the License, or    |
-// | (at your option) any later version.                                  |
-// |                                                                      |
-// | This program is distributed in the hope that it will be useful,      |
-// | but WITHOUT ANY WARRANTY; without even the implied warranty of       |
-// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        |
-// | GNU General Public License for more details.                         |
-// |                                                                      |
-// | You should have received a copy of the GNU General Public License    |
-// | along with this program; if not, write to:                           |
-// |                                                                      |
-// | Free Software Foundation, Inc.                                       |
-// | 51 Franklin Street, Suite 330                                          |
-// | Boston, MA 02110-1301, USA.                                          |
-// +----------------------------------------------------------------------+
-// | Authors: Elan Ruusamäe <glen@delfi.ee>                               |
-// +----------------------------------------------------------------------+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
 class DbPear implements DbInterface
 {
@@ -39,7 +24,7 @@ class DbPear implements DbInterface
     public function __construct(array $config)
     {
         $dsn = array(
-            'phptype'  => $config['driver'],
+            'phptype' => $config['driver'],
             'hostspec' => $config['hostname'],
             'database' => $config['database'],
             'username' => $config['username'],
@@ -63,7 +48,7 @@ class DbPear implements DbInterface
         }
 
         $db = DB::connect($dsn);
-        $this->assertError($db, 1);
+        $this->assertError($db);
 
         // DBTYPE specific session setup commands
         switch ($dsn['phptype']) {
@@ -95,11 +80,24 @@ class DbPear implements DbInterface
     }
 
     /**
-     * @see DB_common::getAssoc
+     * Fetches an entire query result and returns it as an
+     * associative array using the first column as the key
+     *
+     * Keep in mind that database functions in PHP usually return string
+     * values for results regardless of the database's internal type.
+     *
+     * @param string $query
+     * @param bool $force_array
+     * @param mixed $params
+     * @param int $fetchmode
+     * @param bool $group
+     * @return array  the associative array containing the query results.
+     * @throws DbException on failure.
+     * @deprecated use fetchAssoc() instead for cleaner interface
      */
-    public function getAssoc(
+    private function getAssoc(
         $query, $force_array = false, $params = array(),
-        $fetchmode = DB_FETCHMODE_DEFAULT, $group = false
+        $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT, $group = false
     ) {
         if (is_array($force_array)) {
             throw new LogicException('force_array passed as array, did you mean fetchPair or forgot extra arg?');
@@ -114,7 +112,7 @@ class DbPear implements DbInterface
     /**
      * @see DB_common::getAssoc
      */
-    public function fetchAssoc($query, $params = array(), $fetchmode = DB_FETCHMODE_DEFAULT)
+    public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT)
     {
         $query = $this->quoteSql($query, $params);
         $res = $this->db->getAssoc($query, false, $params, $fetchmode, false);
@@ -137,7 +135,11 @@ class DbPear implements DbInterface
         $res = $this->db->query($query, $params);
         $this->assertError($res);
 
-        return $res;
+        if ($res instanceof DB_result) {
+            return $res;
+        }
+
+        return $res == DB_OK;
     }
 
     /**
@@ -166,23 +168,14 @@ class DbPear implements DbInterface
 
     /**
      * @see DB_common::getCol
-     * @deprecated
-     */
-    public function getCol($query, $col = 0, $params = array())
-    {
-        $query = $this->quoteSql($query, $params);
-        $res = $this->db->getCol($query, $col, $params);
-        $this->assertError($res);
-
-        return $res;
-    }
-
-    /**
-     * @see DbPear::getCol
      */
     public function getColumn($query, $params = array())
     {
-        return $this->getCol($query, 0, $params);
+        $query = $this->quoteSql($query, $params);
+        $res = $this->db->getCol($query, 0, $params);
+        $this->assertError($res);
+
+        return $res;
     }
 
     /**
@@ -207,66 +200,55 @@ class DbPear implements DbInterface
         return $res;
     }
 
-    public function affectedRows()
-    {
-        $res = $this->db->affectedRows();
-        $this->assertError($res);
-
-        return $res;
-    }
-
     /**
      * Check if $e is PEAR error, if so, throw as DbException
      *
      * @param $e PEAR_Error|array|object|int
      */
-    private function assertError($e, $depth = 2)
+    private function assertError($e)
     {
         if (!Misc::isError($e)) {
             return;
         }
 
-        list($file, $line) = self::getTrace($depth);
-        Error_Handler::logError(array($e->getMessage(), $e->getDebugInfo()), $file, $line);
+        $context = array(
+            'debuginfo' => $e->getDebugInfo(),
+        );
+
+        // walk up in $e->backtrace until we find ourself
+        // and from it we can get method name and it's arguments
+        foreach ($e->backtrace as $i => $stack) {
+            if (!isset($stack['object'])) {
+                continue;
+            }
+            if (!$stack['object'] instanceof self) {
+                continue;
+            }
+
+            $context['method'] = $stack['function'];
+            $context['arguments'] = $stack['args'];
+
+            // add these last, they are least interesting ones
+            $context['code'] = $e->getCode();
+            $context['file'] = $stack['file'];
+            $context['line'] = $stack['line'];
+            break;
+        }
+
+        Logger::db()->error($e->getMessage(), $context);
 
         $de = new DbException($e->getMessage(), $e->getCode());
-        $de->setExceptionLocation($file, $line);
+        if (isset($context['file'])) {
+            $de->setExceptionLocation($context['file'], $context['line']);
+        }
 
-        error_log($de->getMessage());
-        error_log($de->getTraceAsString());
         throw $de;
     }
 
     /**
-     * Get array of FILE and LOCATION from backtrace
-     *
-     * @param int $depth
-     * @return array
-     */
-    private static function getTrace($depth = 1)
-    {
-        $trace = debug_backtrace();
-        if (!isset($trace[$depth])) {
-            return null;
-        }
-        $caller = (object) $trace[$depth];
-        if (!isset($caller->file)) {
-            return null;
-        }
-
-        return array($caller->file, $caller->line);
-    }
-
-    /**
-     * Processes a SQL statement by quoting table and column names that are enclosed within double brackets.
-     * Tokens enclosed within double curly brackets are treated as table names, while
-     * tokens enclosed within double square brackets are column names. They will be quoted accordingly.
-     * Also, the percentage character "%" at the beginning or ending of a table name will be replaced
-     * with [[tablePrefix]].
-     *
      * @param string $sql the SQL to be quoted
+     * @param array $params
      * @return string the quoted SQL
-     * @see https://github.com/yiisoft/yii2/blob/2.0.0/framework/db/Connection.php#L761-L783
      */
     private function quoteSql($sql, $params)
     {
@@ -280,22 +262,6 @@ class DbPear implements DbInterface
             $sql = preg_replace('/((?<!\\\)[&!])/', '\\\$1', $sql);
         }
 
-        // needed for PHP 5.3
-        $that = $this;
-        $tablePrefix = $this->tablePrefix;
-
-        $sql = preg_replace_callback(
-            '/(\\{\\{(%?[\w\-\. ]+%?)\\}\\}|\\[\\[([\w\-\. ]+)\\]\\])/',
-            function ($matches) use ($that, $tablePrefix) {
-                if (isset($matches[3])) {
-                    return $that->quoteIdentifier($matches[3]);
-                } else {
-                    return str_replace('%', $tablePrefix, $that->quoteIdentifier($matches[2]));
-                }
-            },
-            $sql
-        );
-
-        return $sql;
+        return DB_Helper::quoteTableName($this, $this->tablePrefix, $sql);
     }
 }
