@@ -62,9 +62,13 @@ class SignupController extends BaseController
 
     private function createVisitorAccountAction()
     {
-        // FIXME: check if open signup is enabled!?
-
         $setup = Setup::get();
+
+        if ($setup['open_signup'] != 'enabled') {
+            $error = ev_gettext('Sorry, but this feature has been disabled by the administrator.');
+            $this->error($error);
+        }
+
         $res = User::createVisitorAccount($setup['accounts_role'], $setup['accounts_projects']);
         $this->tpl->assign('signup_result', $res);
 
