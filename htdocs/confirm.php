@@ -12,3 +12,6 @@
  */
 
 require_once __DIR__ . '/../init.php';
+
+$controller = new Eventum\Controller\ConfirmController();
+$controller->run();
