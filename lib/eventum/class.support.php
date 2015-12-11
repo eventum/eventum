@@ -2093,6 +2093,7 @@ class Support
             'parent_sup_id' => $parent_sup_id,
             'iaf_ids' => $iaf_ids,
             'add_unknown' => isset($_POST['add_unknown']) && $_POST['add_unknown'] == 'yes',
+            'add_cc_to_ar' => isset($_POST['add_cc_to_ar']) && $_POST['add_cc_to_ar'] == 'yes',
             'ema_id' => isset($_POST['ema_id']) ? (int) $_POST['ema_id'] : null,
         );
 
@@ -2113,6 +2114,7 @@ class Support
      * - (int) parent_sup_id
      * - (array) iaf_ids attachment file ids
      * - (bool) add_unknown
+     * - (bool) add_cc_to_ar
      * - (int) ema_id
      * @return int 1 if it worked, -1 otherwise
      */
@@ -2128,6 +2130,7 @@ class Support
         $parent_sup_id = isset($options['parent_sup_id']) ? $options['parent_sup_id'] : null;
         $iaf_ids = isset($options['iaf_ids']) ? (array) $options['iaf_ids'] : null;
         $add_unknown = isset($options['add_unknown']) ? (bool) $options['add_unknown'] : false;
+        $add_cc_to_ar = isset($options['add_cc_to_ar']) ? (bool) $options['add_cc_to_ar'] : false;
         $ema_id = isset($options['ema_id']) ? (int) $options['ema_id'] : null;
 
         $current_usr_id = Auth::getUserID();
@@ -2249,6 +2252,12 @@ class Support
                 self::sendDirectEmail(
                     $issue_id, $from, $to, $cc,
                     $subject, $body, $_FILES['attachment'], $message_id);
+            }
+        }
+
+        if ($add_cc_to_ar) {
+            foreach (self::getRecipientsCC($cc) as $recipient) {
+                Authorized_Replier::manualInsert($issue_id, $recipient);
             }
         }
 
