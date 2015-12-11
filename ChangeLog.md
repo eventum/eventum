@@ -11,7 +11,7 @@ Eventum Issue Tracking System
 - Scheduled Release field loses selected value when updating issue (@balsdorf, #105)
 - Fix static notifications in class.issue.php (@cpinfold, #101)
 - Add .htaccess to project root (@glensc, #104)
-- Add Controller to pages (@glensc, #108, #117)
+- Add Controller to pages (@glensc, #108, #117, #120)
 - Allow auth backends to auto redirect to external login screen (@balsdorf, #109)
 - Improve select project page and increase project cookie lifespan (@balsdorf, #110)
 - 3.0.6: General Setup: SMTP: Requires Authentication: Radio Buttons (@glensc, #112)
@@ -20,6 +20,7 @@ Eventum Issue Tracking System
 - show dates human friendly (@glensc, #116)
 - add .htaccess to htdocs (@glensc, #118)
 - Add API Tokens support for authentication for RPC/CLI (@balsdorf, @glensc, #122)
+- Added option to add users to authorized repliers list when sending email (@balsdorf, #123)
 
 2015-11-10, Version [3.0.6]
 --------------------
