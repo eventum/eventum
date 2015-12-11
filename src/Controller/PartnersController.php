@@ -60,8 +60,8 @@ class PartnersController extends BaseController
         }
 
         $this->usr_id = Auth::getUserID();
-        // FIXME: view drafts???
-        if (!Access::canViewDrafts($this->issue_id, $this->usr_id)) {
+
+        if (Access::canViewIssuePartners($this->issue_id, $this->usr_id)) {
             return false;
         }
 
