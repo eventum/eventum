@@ -22,6 +22,9 @@ class ClockStatusController extends BaseController
     /** @var string */
     private $url;
 
+    /** @var int */
+    private $usr_id;
+
     /**
      * @inheritdoc
      */
