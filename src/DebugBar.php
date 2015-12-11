@@ -23,7 +23,6 @@ use DebugBar\StandardDebugBar;
 use PDO;
 use Setup;
 use Smarty;
-use User;
 
 /**
  * Integration of PHP DebugBar

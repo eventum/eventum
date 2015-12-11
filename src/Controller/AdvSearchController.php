@@ -17,7 +17,6 @@ use Auth;
 use Category;
 use Custom_Field;
 use Filter;
-use Issue;
 use Priority;
 use Product;
 use Project;

@@ -14,7 +14,6 @@
 namespace Eventum\Controller;
 
 use Auth;
-use Issue;
 
 class LogoutController extends BaseController
 {

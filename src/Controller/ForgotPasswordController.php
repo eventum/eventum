@@ -20,20 +20,8 @@ class ForgotPasswordController extends BaseController
     /** @var string */
     protected $tpl_name = 'forgot_password.tpl.html';
 
-    /** @var int */
-    private $issue_id;
-
     /** @var string */
     private $cat;
-
-    /** @var int */
-    private $usr_id;
-
-    /** @var int */
-    private $prj_id;
-
-    /** @var int */
-    private $role_id;
 
     /**
      * @inheritdoc
