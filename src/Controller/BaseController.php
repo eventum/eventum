@@ -16,12 +16,22 @@ namespace Eventum\Controller;
 use Auth;
 use InvalidArgumentException;
 use Misc;
+use ReflectionClass;
 use Symfony\Component\HttpFoundation\Request;
 use Template_Helper;
 
+/**
+ * Class BaseController
+ *
+ * @property-read Helper\AssignHelper $assign
+ * @property-read Helper\AttachHelper $attach
+ */
 abstract class BaseController
 {
     protected $tpl_name;
+
+    /** @var array */
+    private $helpers;
 
     /**
      * Constructor.
@@ -108,6 +118,33 @@ abstract class BaseController
 
         // TODO: drop Auth::redirect once this is only place Auth::redirect is used
         Auth::redirect($url);
+    }
+
+    public function __get($name)
+    {
+        $className = 'Eventum\\Controller\\Helper\\' . ucfirst($name) . 'Helper';
+
+        if (!isset($this->helpers[$className])) {
+            $this->helpers[$className] = $helper = new $className();
+
+            // clone properties with same name
+            $reflectionClass = new ReflectionClass($helper);
+            foreach ($reflectionClass->getProperties() as $property) {
+                if (property_exists($this, $property->getName())) {
+                    $property->setAccessible(true);
+                    $property->setValue($helper, $this->{$property->getName()});
+                }
+            }
+
+            // add Request property
+            if ($reflectionClass->hasProperty('request')) {
+                $property = $reflectionClass->getProperty('request');
+                $property->setAccessible(true);
+                $property->setValue($helper, $this->getRequest());
+            }
+        }
+
+        return $this->helpers[$className];
     }
 
     /**

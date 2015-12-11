@@ -16,7 +16,7 @@ require_once __DIR__ . '/../init.php';
 $tpl = new Template_Helper();
 $tpl->setTemplate('associate.tpl.html');
 
-Auth::checkAuthentication('index.php?err=5', true);
+Auth::checkAuthentication(null, true);
 
 if (@$_POST['cat'] == 'associate') {
     if ($_POST['target'] == 'email') {

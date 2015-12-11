@@ -17,7 +17,6 @@ use Auth;
 use Category;
 use Display_Column;
 use Filter;
-use Group;
 use Prefs;
 use Priority;
 use Product;
@@ -36,10 +35,10 @@ class ListController extends BaseController
     protected $tpl_name = 'list.tpl.html';
 
     /** @var int */
-    private $usr_id;
+    protected $usr_id;
 
     /** @var int */
-    private $prj_id;
+    protected $prj_id;
 
     /** @var int|string */
     private $rows;
@@ -186,37 +185,6 @@ class ListController extends BaseController
     }
 
     /**
-     * Generate options for assign list.
-     * If there are groups and user is above a customer, include groups
-     *
-     * @param array $users
-     * @return array
-     */
-    private function getAssignOptions($users)
-    {
-        $assign_options = array(
-            '' => ev_gettext('Any'),
-            '-1' => ev_gettext('un-assigned'),
-            '-2' => ev_gettext('myself and un-assigned'),
-        );
-
-        if (Auth::isAnonUser()) {
-            unset($assign_options['-2']);
-        } elseif (User::getGroupID($this->usr_id)) {
-            $assign_options['-3'] = ev_gettext('myself and my group');
-            $assign_options['-4'] = ev_gettext('myself, un-assigned and my group');
-        }
-
-        if (Auth::getCurrentRole() > User::ROLE_CUSTOMER && ($groups = Group::getAssocList($this->prj_id))) {
-            foreach ($groups as $grp_id => $grp_name) {
-                $assign_options["grp:$grp_id"] = ev_gettext('Group') . ': ' . $grp_name;
-            }
-        }
-
-        return $assign_options + $users;
-    }
-
-    /**
      * @inheritdoc
      */
     protected function prepareTemplate()
@@ -231,7 +199,7 @@ class ListController extends BaseController
         $options = array_merge($options, $this->options_override);
 
         $users = Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER);
-        $assign_options = $this->getAssignOptions($users);
+        $assign_options = $this->assign->getAssignOptions($users);
 
         $prefs = Prefs::get($this->usr_id);
         $list = Search::getListing($this->prj_id, $options, $this->pagerRow, $this->rows);

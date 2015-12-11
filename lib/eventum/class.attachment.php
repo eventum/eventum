@@ -64,7 +64,7 @@ class Attachment
             }
             header('Content-Disposition: inline; filename="' . urlencode($filename) . '"');
             header('Content-Length: ' . $filesize);
-            print $data;
+            echo $data;
             exit;
         }
 

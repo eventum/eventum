@@ -13,5 +13,5 @@
 
 require_once __DIR__ . '/../init.php';
 
-Auth::logout();
-Auth::redirect('index.php?err=6');
+$controller = new Eventum\Controller\LogoutController();
+$controller->run();
