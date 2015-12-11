@@ -15,7 +15,6 @@ namespace Eventum\Controller;
 
 use Auth;
 use Impact_Analysis;
-use Issue;
 
 class RequirementController extends BaseController
 {
