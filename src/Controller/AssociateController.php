@@ -153,7 +153,7 @@ class AssociateController extends BaseController
                 }
                 $unknown_contacts = array();
                 foreach ($sender_emails as $email => $address) {
-                    if (!@in_array($email, $contact_emails)) {
+                    if (!in_array($email, $contact_emails)) {
                         $usr_id = User::getUserIDByEmail($email);
                         if (empty($usr_id)) {
                             $unknown_contacts[] = $address;

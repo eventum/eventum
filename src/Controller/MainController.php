@@ -140,8 +140,8 @@ class MainController extends BaseController
                         'categories' => Stats::getCategory($hide_closed),
                         'priorities' => Stats::getPriority($hide_closed),
                         'users' => Stats::getUser($hide_closed),
-                        'emails' => Stats::getEmailStatus($hide_closed),
-                        'pie_chart' => Stats::getPieChart($hide_closed),
+                        'emails' => Stats::getEmailStatus(),
+                        'pie_chart' => true,
                     )
                 );
             }
