@@ -58,9 +58,9 @@ class SelectProjectController extends BaseController
 
         $this->err = $request->query->get('err');
         $this->cat = $request->request->get('cat');
-        $this->url = $request->request->get('url');
-        $this->prj_id = $request->query->get('project') ?: $request->query->get('project');
-        $this->remember = $request->query->getBoolean('project');
+        $this->url = $request->request->get('url') ?: $request->query->get('url');
+        $this->prj_id = $request->request->get('project');
+        $this->remember = $request->request->getBoolean('remember');
     }
 
     /**
@@ -111,8 +111,8 @@ class SelectProjectController extends BaseController
         }
 
         if (!$prj_id) {
-            // this should never happen
-            throw new LogicException('No project id selected');
+            // display template so user can select project
+            return;
         }
 
         AuthCookie::setProjectCookie($prj_id, $this->remember);
