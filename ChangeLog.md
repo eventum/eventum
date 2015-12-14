@@ -21,6 +21,7 @@ Eventum Issue Tracking System
 - add .htaccess to htdocs (@glensc, #118)
 - Add API Tokens support for authentication for RPC/CLI (@balsdorf, @glensc, #122)
 - Added option to add users to authorized repliers list when sending email (@balsdorf, #123)
+- Fix default Notification options (@glensc, #121)
 
 2015-11-10, Version [3.0.6]
 --------------------
