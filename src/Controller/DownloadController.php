@@ -76,7 +76,7 @@ class DownloadController extends BaseController
     {
         $file = Attachment::getDetails($this->iaf_id);
         if (!$file) {
-            return;
+            $this->error(ev_gettext('No such attachment'));
         }
 
         if (!Issue::canAccess($file['iat_iss_id'], $this->usr_id)) {
