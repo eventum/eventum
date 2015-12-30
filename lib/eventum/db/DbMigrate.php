@@ -175,7 +175,7 @@ class DbMigrate
     }
 
     /**
-     * Return true if versio table is log based
+     * Return true if version table is log based
      */
     private function hasVersionLog()
     {
