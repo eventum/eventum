@@ -1,5 +1,9 @@
-Please send feature requests to [Issue Tracker](https://github.com/eventum/eventum/blob/master/CONTRIBUTING.md)
+Please send feature requests to [Issue Tracker](https://github.com/eventum/eventum/issues/new)
 
+Feature Requests
+----------------
+
+-   [Issues marked as Feature Request](https://github.com/eventum/eventum/labels/feature%20request) 
 -   Profile system
     -   visually setup the table cells of view.tpl.html
 -   Restrict list of projects a manager user is allowed to tweak on the administration section
@@ -9,9 +13,5 @@ Please send feature requests to [Issue Tracker](https://github.com/eventum/event
 -   Allow multiple selections on advanced search page
 -   More information on the history of changes
 -   Flattened view of projects (i.e. display all projects at once on issue listing screen)
-
-Feature Requests
-----------------
-
 -   Allow security level on News items, based on user Roles
 -   Wiki system integration for documentation/knowledge base. Will allow use of the more advanced system such as used here. Hopefully allowing wiki syntax to be used in issue notes?
