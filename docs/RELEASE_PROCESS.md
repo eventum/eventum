@@ -10,6 +10,7 @@ Test before release
 - make sure upgrade/drop.sql lists all created tables
 `$ sed -e 's,{{%\([^}]*\)}},eventum_\1,' upgrade/drop.sql`
 - install twice to same database, second time select drop tables, install must not fail
+if it fails the error is something like `DB Error: already exists`
 - Test the new release directory with a quick installation
   * see if a new issue can be created correctly and etc
   * see that tables created are also in upgrade/drop.sql
