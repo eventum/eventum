@@ -1,4 +1,4 @@
-Please send feature requests to [Issue Tracker](https://github.com/eventum/eventum/issues/new)
+Please send feature requests to [Issue Tracker](https://github.com/eventum/eventum/issues/new?labels=feature+request)
 
 Feature Requests
 ----------------
