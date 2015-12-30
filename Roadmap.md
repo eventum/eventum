@@ -9,7 +9,6 @@ Please send feature requests to [Issue Tracker](https://github.com/eventum/event
 -   Allow multiple selections on advanced search page
 -   More information on the history of changes
 -   Flattened view of projects (i.e. display all projects at once on issue listing screen)
--   Change directory structure
 
 Feature Requests
 ----------------
