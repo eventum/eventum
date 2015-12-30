@@ -127,6 +127,7 @@ class SendController extends BaseController
                     // set if the current user is allowed to send emails on this issue or not
                     'can_send_email' => Support::isAllowedToEmail($this->issue_id, $sender_details['usr_email']),
                     'subscribers' => Notification::getSubscribers($this->issue_id, 'emails'),
+                    'should_auto_add_to_nl' =>  Workflow::shouldAutoAddToNotificationList($this->prj_id),
                 )
             );
         }

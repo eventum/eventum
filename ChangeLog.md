@@ -24,6 +24,7 @@ Eventum Issue Tracking System
 - Fix default Notification options (@glensc, #121)
 - Exclude sender of email from getting standard "new issue" email (@balsdorf, #113, #124)
 - Restore "remember me" in template, lost in 2.4.0 release (@glensc, aec62f5)
+- Restore usability of "Add Unknown Recipients to Issue Notification List" checkbox (@balsdorf)
 
 2015-11-10, Version [3.0.6]
 --------------------

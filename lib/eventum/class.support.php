@@ -2192,7 +2192,7 @@ class Support
         }
 
         // only send a direct email if the user doesn't want to add the Cc'ed people to the notification list
-        if (($add_unknown || Workflow::shouldAutoAddToNotificationList($prj_id)) && $issue_id) {
+        if ($add_unknown && $issue_id) {
             // add the recipients to the notification list of the associated issue
             $recipients = array($to);
             $recipients = array_merge($recipients, self::getRecipientsCC($cc));
