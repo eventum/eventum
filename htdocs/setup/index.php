@@ -453,7 +453,7 @@ function setup_database()
     $tpl->assign('db_result', implode("\n", $buffer));
 
     if ($e) {
-        $upgrade_script = APP_PATH . '/upgrade/update-database.php';
+        $upgrade_script = APP_PATH . '/bin/upgrade.php';
         $error = array(
             'Database setup failed on upgrade:',
             "<tt>{$e->getMessage()}</tt>",
