@@ -42,7 +42,7 @@ Release process
 After release
 -------------
 
-- update release number in init.php (APP_VERSION)
+- update release number in init.php to indicate next dev version (APP_VERSION)
 - start new version entry in Changelog.md
 - add new milestone in github. just fill version number in Title field https://github.com/eventum/eventum/milestones
 - move open tickets/pull requests to new milestone
