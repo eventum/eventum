@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2015-??-??, Version 3.0.7
+2015-12-31, Version [3.0.7]
 --------------------
 
 - emails.php: handle better empty "From:" header. (@glensc, #91)
@@ -1081,6 +1081,7 @@ Eventum Issue Tracking System
 
 - Initial release (João; Bryan)
 
+[3.0.7]: https://github.com/eventum/eventum/compare/v3.0.6...v3.0.7
 [3.0.6]: https://github.com/eventum/eventum/compare/v3.0.5...v3.0.6
 [3.0.5]: https://github.com/eventum/eventum/compare/v3.0.4...v3.0.5
 [3.0.4]: https://github.com/eventum/eventum/compare/v3.0.3...v3.0.4
