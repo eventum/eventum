@@ -46,6 +46,9 @@ if ($have_config) {
 
 require_once APP_PATH . '/autoload.php';
 
+// set default timezone to utc to avoid default timezone not set warnings
+date_default_timezone_set(@date_default_timezone_get());
+
 list($warnings, $errors) = checkRequirements();
 if ($warnings || $errors) {
     Misc::displayRequirementErrors(array_merge($errors, $warnings), 'Eventum Setup');
