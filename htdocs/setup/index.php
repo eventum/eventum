@@ -540,16 +540,25 @@ function write_setup()
     $setup['files'] = 1;
     $setup['support_email'] = 'enabled';
 
+    $parts = explode(':', $_POST['db_hostname'], 2);
+    if (count($parts) > 1) {
+        list($hostname, $socket) = $parts;
+    } else {
+        list($hostname) = $parts;
+        $socket = null;
+    }
+
     $setup['database'] = array(
         // database driver
         'driver' => 'mysqli',
 
         // connection info
-        'hostname' => $_POST['db_hostname'],
+        'hostname' => $hostname,
         'database' => '', // NOTE: db name has to be written after the table has been created
         'username' => $_POST['db_username'],
         'password' => $_POST['db_password'],
         'port' => 3306,
+        'socket' => $socket,
 
         // table prefix
         'table_prefix' => $_POST['db_table_prefix'],
