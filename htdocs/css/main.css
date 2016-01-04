@@ -520,6 +520,14 @@ table.narrow {
     width: 500px;
 }
 
+#severity_desc {
+    background: #FFFF00;
+    padding: 2px;
+    border-radius: 0.5em;
+    -webkit-border-radius: 0.5em;
+    -moz-border-radius: 0.5em;
+}
+
 
 /* Dropzone */
 .dz-status {

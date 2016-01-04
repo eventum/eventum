@@ -505,6 +505,8 @@ issue_update.ready = function(page_id)
     $('.open_history').click(issue_view.openHistory);
     $('.open_nl').click(issue_view.openNotificationList);
     $('.open_ar').click(issue_view.openAuthorizedReplier);
+
+    $('#severity').bind('change', issue_update.display_severity_description).change();
 };
 
 issue_update.validateForm = function()
@@ -533,6 +535,16 @@ issue_update.closeIssue = function(e)
         window.location.href='close.php?id=' + issue_view.get_issue_id();
     }
     e.preventDefault();
+};
+
+issue_update.display_severity_description = function()
+{
+    var description = $('#severity :selected').attr('data-desc');
+    if (description == undefined || description == '') {
+        $('#severity_desc').hide();
+    } else {
+        $('#severity_desc').text(description).show();
+    }
 };
 
 
