@@ -50,8 +50,8 @@ class StatsChartController extends BaseController
         if (!$res) {
             header('Content-type: image/gif');
             readfile(APP_PATH . '/htdocs/images/no_data.gif');
-            exit;
         }
+        exit;
     }
 
     /**
