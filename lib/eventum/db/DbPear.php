@@ -241,6 +241,7 @@ class DbPear implements DbInterface
         if (isset($context['file'])) {
             $de->setExceptionLocation($context['file'], $context['line']);
         }
+        $de->setContext($context);
 
         throw $de;
     }

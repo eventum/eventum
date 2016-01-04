@@ -374,7 +374,16 @@ function initlogger() {
 function setup_database()
 {
     initlogger();
-    $conn = DB_Helper::getInstance(false);
+    try {
+        $conn = DB_Helper::getInstance(false);
+    } catch (DbException $e) {
+        $err = $e->getMessage();
+        // PEAR driver has 'debuginfo' property
+        if (isset($e->context['debuginfo'])) {
+            $err .= ' ' . $e->context['debuginfo'];
+        }
+        throw new RuntimeException($err, $e->getCode());
+    }
 
     $db_exists = checkDatabaseExists($conn, $_POST['db_name']);
     if (!$db_exists) {
