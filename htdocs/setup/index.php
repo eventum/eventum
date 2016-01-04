@@ -367,23 +367,29 @@ function initlogger() {
   Logger::initialize();
 }
 
+function getDb() {
+    initlogger();
+    try {
+        return DB_Helper::getInstance(false);
+    } catch (DbException $e) {
+    }
+
+    $err = $e->getMessage();
+    // PEAR driver has 'debuginfo' property
+    if (isset($e->context['debuginfo'])) {
+        $err .= ' ' . $e->context['debuginfo'];
+    }
+
+    throw new RuntimeException($err, $e->getCode());
+}
+
 /**
  * return error message as string, or true indicating success
  * requires setup to be written first.
  */
 function setup_database()
 {
-    initlogger();
-    try {
-        $conn = DB_Helper::getInstance(false);
-    } catch (DbException $e) {
-        $err = $e->getMessage();
-        // PEAR driver has 'debuginfo' property
-        if (isset($e->context['debuginfo'])) {
-            $err .= ' ' . $e->context['debuginfo'];
-        }
-        throw new RuntimeException($err, $e->getCode());
-    }
+    $conn = getDb();
 
     $db_exists = checkDatabaseExists($conn, $_POST['db_name']);
     if (!$db_exists) {
