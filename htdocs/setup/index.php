@@ -380,6 +380,12 @@ function getDb() {
         $err .= ' ' . $e->context['debuginfo'];
     }
 
+    // indicate that mysql default socket may be wrong
+    if (strpos($err, 'No such file or directory') !== 0) {
+        $ini = 'mysqli.default_socket';
+        $err .= sprintf(" Please check that PHP ini parameter $ini='%s' is correct", ini_get($ini));
+    }
+
     throw new RuntimeException($err, $e->getCode());
 }
 
