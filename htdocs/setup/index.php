@@ -353,12 +353,27 @@ function get_queries($file)
     return $queries;
 }
 
+function initlogger() {
+  // init timezone, logger needs it
+  if (!defined('APP_DEFAULT_TIMEZONE')) {
+    $tz = !empty($_POST['default_timezone']) ? $_POST['default_timezone'] : @date_default_timezone_get();
+    define('APP_DEFAULT_TIMEZONE', $tz ?: 'UTC');
+  }
+
+  // and APP_VERSION
+  if (!defined('APP_VERSION')) {
+    define('APP_VERSION', '3.x');
+  }
+  Logger::initialize();
+}
+
 /**
  * return error message as string, or true indicating success
  * requires setup to be written first.
  */
 function setup_database()
 {
+    initlogger();
     $conn = DB_Helper::getInstance(false);
 
     $db_exists = checkDatabaseExists($conn, $_POST['db_name']);
@@ -437,16 +452,6 @@ function setup_database()
     // setup database with upgrade script
     $buffer = array();
     try {
-        // init timezone, logger needs it
-        if (!defined('APP_DEFAULT_TIMEZONE')) {
-            define('APP_DEFAULT_TIMEZONE', $_POST['default_timezone'] ?: 'UTC');
-        }
-        // and APP_VERSION
-        if (!defined('APP_VERSION')) {
-            define('APP_VERSION', '3.x');
-        }
-        Logger::initialize();
-
         $dbmigrate = new DbMigrate(APP_PATH . '/upgrade');
         $dbmigrate->setLogger(function ($e) use (&$buffer) {
             $buffer[] = $e;
