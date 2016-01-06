@@ -250,6 +250,12 @@ class Mail_Helper
     }
 
 
+    /**
+     * Parses a one or more email addresses and returns them separated by a comma and a space (", ").
+     *
+     * @param $input
+     * @return string
+     */
     public static function formatEmailAddresses($input)
     {
         if (empty($input)) {
@@ -262,6 +268,7 @@ class Mail_Helper
         }
         return join(', ', $returns);
     }
+
 
     /**
      * Method used to get the email address portion of a given

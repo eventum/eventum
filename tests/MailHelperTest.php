@@ -203,4 +203,20 @@ class MailHelperTest extends TestCase
             ),
         );
     }
+
+
+    public function testFormatEmailAddresses()
+    {
+        $res = Mail_Helper::formatEmailAddresses('test@example.com,blah@example.com');
+        $this->assertEquals($res, 'test@example.com, blah@example.com');
+
+        $res = Mail_Helper::formatEmailAddresses('Test Name <test@example.com>,blah@example.com');
+        $this->assertEquals($res, '"Test Name" <test@example.com>, blah@example.com');
+
+        $res = Mail_Helper::formatEmailAddresses('"Bob O\'Reilly" <bob@example.com>,blah@example.com');
+        $this->assertEquals($res, '"Bob O\'Reilly" <bob@example.com>, blah@example.com');
+
+        $res = Mail_Helper::formatEmailAddresses('');
+        $this->assertEquals($res, '');
+    }
 }
