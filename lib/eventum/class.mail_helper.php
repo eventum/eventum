@@ -249,6 +249,21 @@ class Mail_Helper
         return $returns;
     }
 
+
+    public static function formatEmailAddresses($input)
+    {
+        return $input;
+        if (empty($input)) {
+            return '';
+        }
+        $addresses = self::getAddressInfo($input, true);
+        $returns = array();
+        foreach ($addresses as $address) {
+            $returns[] = self::getFormattedName($address['sender_name'], $address['email']);
+        }
+        return join(', ', $returns);
+    }
+
     /**
      * Method used to get the email address portion of a given
      * recipient information.
@@ -308,7 +323,11 @@ class Mail_Helper
      */
     public static function getFormattedName($name, $email)
     {
-        return $name . ' <' . $email . '>';
+        if (empty($name)) {
+            return $email;
+        } else {
+            return $name . ' <' . $email . '>';
+        }
     }
 
     /**

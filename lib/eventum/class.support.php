@@ -1613,7 +1613,8 @@ class Support
         // TRANSLATORS: %1 = email subject
         $res['reply_subject'] = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $res['sup_subject']), true);
         $res['sup_from'] = Mime_Helper::fixEncoding($res['sup_from']);
-        $res['sup_to'] = Mime_Helper::fixEncoding($res['sup_to']);
+        $res['sup_to'] = Mail_helper::formatEmailAddresses(Mime_Helper::fixEncoding($res['sup_to']));
+        $res['sup_cc'] = Mail_helper::formatEmailAddresses(Mime_Helper::fixEncoding($res['sup_cc']));
 
         if (!empty($res['sup_iss_id'])) {
             $res['reply_subject'] = Mail_Helper::formatSubject($res['sup_iss_id'], $res['reply_subject']);
@@ -1779,8 +1780,8 @@ class Support
         foreach ($res as &$row) {
             $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
             $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
-            $row['sup_to'] = Mime_Helper::fixEncoding($row['sup_to']);
-            $row['sup_cc'] = Mime_Helper::fixEncoding($row['sup_cc']);
+            $row['sup_to'] = Mail_Helper::formatEmailAddresses(Mime_Helper::fixEncoding($row['sup_to']));
+            $row['sup_cc'] = Mail_Helper::formatEmailAddresses(Mime_Helper::fixEncoding($row['sup_cc']));
         }
 
         return $res;
