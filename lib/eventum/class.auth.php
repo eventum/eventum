@@ -304,8 +304,8 @@ class Auth
     /**
      * Checks whether an user exists or not in the database.
      *
-     * @param   string $login The email address to check for
-     * @return  boolean
+     * @param string $login The email address to check for
+     * @return boolean
      */
     public static function userExists($login)
     {
@@ -313,9 +313,7 @@ class Auth
             return false;
         }
 
-        $usr_id = self::getAuthBackend()->getUserIDByLogin($login);
-
-        return $usr_id > 0;
+        return self::getAuthBackend()->userExists($login);
     }
 
     /**

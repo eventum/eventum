@@ -175,6 +175,13 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
         return false;
     }
 
+    public function userExists($login)
+    {
+        $usr_id = $this->getUserIDByLogin($login);
+
+        return $usr_id > 0;
+    }
+
     /**
      * Returns the user ID for the specified login. This can be the email address, an alias,
      * the external login id or any other info the backend can handle.
