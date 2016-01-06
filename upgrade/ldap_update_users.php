@@ -13,7 +13,7 @@
 
 require_once __DIR__ . '/../init.php';
 
-if (APP_AUTH_BACKEND != 'ldap_auth_backend') {
+if (strtolower(APP_AUTH_BACKEND) != 'ldap_auth_backend') {
     error_log('You should enable and configure LDAP backend first');
     exit(1);
 }

@@ -53,7 +53,7 @@ define('APP_ENABLE_FULLTEXT', '%{APP_ENABLE_FULLTEXT}%');
 define('APP_FULLTEXT_SEARCH_CLASS', 'mysql_fulltext_search');
 
 // auth backend. 'Mysql_Auth_Backend' (default), 'LDAP_Auth_Backend' for LDAP
-//define('APP_AUTH_BACKEND', 'Mysql_Auth_Backend');
+//define('APP_AUTH_BACKEND', 'LDAP_Auth_Backend');
 
 // 'native' or 'php'. Try native first, if you experience strange issues
 // such as language switching randomly, try php
