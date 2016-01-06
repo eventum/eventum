@@ -252,7 +252,6 @@ class Mail_Helper
 
     public static function formatEmailAddresses($input)
     {
-        return $input;
         if (empty($input)) {
             return '';
         }
