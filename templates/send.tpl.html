@@ -213,8 +213,12 @@ $().ready(function() {
           {include file="error_icon.tpl.html" field="cc"}<br />
         {if $issue_id and $core.current_role != $core.roles.customer and $read_only|default:'' != 1}
         <label>
-            <input type="checkbox" name="add_unknown" value="yes">
+            <input type="checkbox" name="add_unknown" value="yes" {if $should_auto_add_to_nl}checked{/if}>
             {t}Add Unknown Recipients to Issue Notification List{/t}
+        </label><br />
+        <label>
+            <input type="checkbox" name="add_cc_to_ar" value="yes">
+            {t}Add CC to Authorized Repliers List{/t}
         </label>
         {else}
         <input type="hidden" name="add_unknown" value="no">

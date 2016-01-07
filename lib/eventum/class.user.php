@@ -290,7 +290,7 @@ class User
                     usr_full_name,
                     usr_email,
                     usr_status
-                 ) VALUES (?, ?, ?, ?, ?)';
+                 ) VALUES (?, ?, ?, ?)';
         try {
             DB_Helper::getInstance()->query(
                 $stmt, array(

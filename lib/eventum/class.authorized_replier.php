@@ -129,49 +129,53 @@ class Authorized_Replier
      */
     public static function manualInsert($issue_id, $email, $add_history = true)
     {
+        if (Validation::isWhitespace($email)) {
+            return -1;
+        }
+
         if (self::isAuthorizedReplier($issue_id, $email)) {
             return -1;
-        } else {
-            $email = strtolower(Mail_Helper::getEmailAddress($email));
-
-            $workflow = Workflow::handleAuthorizedReplierAdded(Issue::getProjectID($issue_id), $issue_id, $email);
-            if ($workflow === false) {
-                // cancel subscribing the user
-                return -1;
-            }
-
-            // first check if this is an actual user or just an email address
-            $usr_id = User::getUserIDByEmail($email, true);
-            if (!empty($usr_id)) {
-                return self::addUser($issue_id, $usr_id, $add_history);
-            }
-
-            $stmt = 'INSERT INTO
-                        {{%issue_user_replier}}
-                     (
-                        iur_iss_id,
-                        iur_usr_id,
-                        iur_email
-                     ) VALUES (
-                        ?, ?, ?
-                     )';
-            try {
-                DB_Helper::getInstance()->query($stmt, array($issue_id, APP_SYSTEM_USER_ID, $email));
-            } catch (DbException $e) {
-                return -1;
-            }
-
-            if ($add_history) {
-                // add the change to the history of the issue
-                $usr_id = Auth::getUserID();
-                History::add($issue_id, $usr_id, 'replier_other_added', '{email} added to the authorized repliers list by {user}', array(
-                    'email' => $email,
-                    'user' => User::getFullName($usr_id)
-                ));
-            }
-
-            return 1;
         }
+
+        $email = strtolower(Mail_Helper::getEmailAddress($email));
+
+        $workflow = Workflow::handleAuthorizedReplierAdded(Issue::getProjectID($issue_id), $issue_id, $email);
+        if ($workflow === false) {
+            // cancel subscribing the user
+            return -1;
+        }
+
+        // first check if this is an actual user or just an email address
+        $usr_id = User::getUserIDByEmail($email, true);
+        if (!empty($usr_id)) {
+            return self::addUser($issue_id, $usr_id, $add_history);
+        }
+
+        $stmt = 'INSERT INTO
+                    {{%issue_user_replier}}
+                 (
+                    iur_iss_id,
+                    iur_usr_id,
+                    iur_email
+                 ) VALUES (
+                    ?, ?, ?
+                 )';
+        try {
+            DB_Helper::getInstance()->query($stmt, array($issue_id, APP_SYSTEM_USER_ID, $email));
+        } catch (DbException $e) {
+            return -1;
+        }
+
+        if ($add_history) {
+            // add the change to the history of the issue
+            $usr_id = Auth::getUserID();
+            History::add($issue_id, $usr_id, 'replier_other_added', '{email} added to the authorized repliers list by {user}', array(
+                'email' => $email,
+                'user' => User::getFullName($usr_id)
+            ));
+        }
+
+        return 1;
     }
 
     /**

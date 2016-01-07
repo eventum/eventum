@@ -126,7 +126,7 @@ class RemoteDataController extends BaseController
 
     private function getIssueDescription($issue_id)
     {
-        if (Issue::canAccess($issue_id, $this->usr_id)) {
+        if (!Issue::canAccess($issue_id, $this->usr_id)) {
             return null;
         }
         $details = Issue::getDetails($issue_id);

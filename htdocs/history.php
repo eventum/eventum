@@ -13,24 +13,5 @@
 
 require_once __DIR__ . '/../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate('history.tpl.html');
-
-Auth::checkAuthentication('index.php?err=5', true);
-
-$iss_id = $_GET['iss_id'];
-if (!Access::canViewHistory($iss_id, Auth::getUserID())) {
-    $tpl->setTemplate('permission_denied.tpl.html');
-    $tpl->displayTemplate();
-    exit;
-}
-
-$tpl->assign('changes', History::getListing($iss_id));
-$tpl->assign('issue_id', $iss_id);
-
-$role_id = Auth::getCurrentRole();
-if ($role_id > User::ROLE_CUSTOMER) {
-    $tpl->assign('reminders', Reminder::getHistoryList($_GET['iss_id']));
-}
-
-$tpl->displayTemplate();
+$controller = new Eventum\Controller\HistoryController();
+$controller->run();

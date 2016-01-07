@@ -6,55 +6,10 @@
 
 <script type="text/javascript">
     <!--
-    function validateName()
-    {
-        if (Validation.isFieldWhitespace('full_name')) {
-            alert('{t escape=js}Please enter your full name.{/t}');
-            Validation.selectField('full_name');
-            return false;
-        }
-        return true;
-    }
-    function validateEmail()
-    {
-        if (!Validation.isEmail(Eventum.getField('email').val())) {
-            alert('{t escape=js}Please enter a valid email address.{/t}');
-            Validation.selectField('email');
-            return false;
-        }
-        return true;
-    }
-
-    function validatePassword()
-    {
-        if (Validation.isWhitespace(Eventum.getField('password').val())) {
-            alert('{t escape=js}Please input current password.{/t}');
-            Validation.selectField('password');
-            return false;
-        }
-
-        var new_password = Eventum.getField('new_password').val();
-        if (Validation.isWhitespace(new_password) || new_password.length < 6) {
-            alert('{t escape=js}Please enter your new password with at least 6 characters.{/t}');
-            Validation.selectField('new_password');
-            return false;
-        }
-        if (new_password != Eventum.getField('confirm_password').val()) {
-            alert('{t escape=js}The two passwords do not match. Please review your information and try again.{/t}');
-            Validation.selectField('confirm_password');
-            return false;
-        }
-        return true;
-    }
-
-    function validateAccount()
-    {
-        return true;
-    }
     //-->
 </script>
 
-<form name="update_name_form" onSubmit="return validateName();" method="post">
+<form class="update_name_form" method="post">
     <input type="hidden" name="cat" value="update_name">
     <table class="bordered">
         {if $core.current_role != $core.roles.customer && $can_update_name}
@@ -81,7 +36,7 @@
     </table>
 </form>
 
-<form name="update_email_form" onSubmit="return validateEmail();" method="post">
+<form class="update_email_form" method="post">
     <input type="hidden" name="cat" value="update_email">
     <table class="bordered">
 {if $core.current_role != $core.roles.customer && $can_update_email}
@@ -109,7 +64,7 @@
 </form>
 
 {if $can_update_password}
-<form name="update_password_form" onSubmit="return validatePassword();" method="post">
+<form class="update_password_form" method="post">
     <input type="hidden" name="cat" value="update_password">
     <table class="bordered">
         <tr>
@@ -148,7 +103,7 @@
 </form>
 
 <table class="bordered">
-    <form name="account_prefs_form" onSubmit="return validateAccount();" method="post" enctype="multipart/form-data">
+    <form class="account_prefs_form" method="post" enctype="multipart/form-data">
         <input type="hidden" name="cat" value="update_account">
         <tr class="title">
             <th colspan="{$assigned_projects|@count+1}">
@@ -316,4 +271,47 @@
         </tr>
     </form>
 </table>
+
+{if $core.current_role >= $core.roles.standard_user}
+    <form id="api_token_form" method="post">
+        <input type="hidden" name="cat" value="regenerate_token">
+        <table class="bordered api_token">
+            <tr class="title">
+                <th colspan="4">
+                    {t}API Key{/t}
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    {t}Status{/t}
+                </th>
+                <th>
+                    {t}Created{/t}
+                </th>
+                <th class="token">
+                    {t}Token{/t}
+                </th>
+            </tr>
+            {foreach from=$api_tokens item=token}
+            <tr class="{$token.status}">
+                <td>
+                    {$token.status}
+                </td>
+                <td>
+                    {$token.created}
+                </td>
+                <td class="token">
+                    <input type="text" class="api_token" value="{$token.token}" />
+                </td>
+            </tr>
+            {/foreach}
+            <tr class="buttons">
+                <td colspan="4">
+                    <input type="submit" value="{t}Regenerate{/t}">
+                    <input type="button" value="{t}Show revoked{/t}" id="show_revoked">
+                </td>
+            </tr>
+        </table>
+    </form>
+{/if}
 {/block}

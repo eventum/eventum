@@ -10,6 +10,9 @@
  * that were distributed with this source code.
  */
 
+// this needs to be setup before autoload itself
+define('APP_PHP_GETTEXT_PATH', APP_PATH . '/vendor/php-gettext/php-gettext');
+
 if (!file_exists($autoload = APP_PATH . '/vendor/autoload.php')) {
     echo <<<EOF
 
@@ -22,9 +25,6 @@ EOF;
     exit(1);
 }
 require $autoload;
-
-// needed for init.php and gettext.inc
-define('APP_PHP_GETTEXT_PATH', APP_PATH . '/vendor/php-gettext/php-gettext');
 
 // fonts directory for phplot
 define('APP_FONTS_PATH', APP_PATH . '/vendor/fonts/liberation');

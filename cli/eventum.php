@@ -12,6 +12,7 @@
  */
 
 define('APP_PATH', __DIR__ . '/..');
+define('APP_NO_GETTEXT', true);
 require_once APP_PATH . '/autoload.php';
 
 list($user_email, $user_password, $hostname, $port, $relative_url) = Command_Line::getEnvironmentSettings();
@@ -254,8 +255,8 @@ try {
         }
     }
 } catch (Eventum_RPC_Exception $e) {
-    print 'ERROR: ' . $e->getMessage() . "\n";
+    echo 'ERROR: ' . $e->getMessage() . "\n";
     if ($debug) {
-        print $e->getTraceAsString();
+        echo $e->getTraceAsString();
     }
 }

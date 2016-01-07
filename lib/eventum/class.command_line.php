@@ -1201,7 +1201,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
     public static function checkAuthentication($client, $email, $password)
     {
         $is_valid = $client->isValidLogin($email, $password);
-        if ($is_valid != 'yes') {
+        if (!$is_valid) {
             self::quit('Login information could not be authenticated');
         }
     }

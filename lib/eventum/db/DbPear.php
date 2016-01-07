@@ -31,6 +31,10 @@ class DbPear implements DbInterface
             'password' => $config['password'],
         );
 
+        if (isset($config['socket'])) {
+            $dsn['socket'] = $config['socket'];
+        }
+
         // DBTYPE specific dsn settings
         switch ($dsn['phptype']) {
             case 'mysql':
@@ -38,6 +42,11 @@ class DbPear implements DbInterface
                 // if we are using some non-standard mysql port, pass that value in the dsn
                 if ($config['port'] != 3306) {
                     $dsn['port'] = $config['port'];
+                }
+
+                // add default socket, makes error message different
+                if ($dsn['hostspec'] == 'localhost' && !isset($dsn['socket'])) {
+                    $dsn['socket'] = ini_get("{$dsn['phptype']}.default_socket");
                 }
                 break;
             default:
@@ -241,6 +250,7 @@ class DbPear implements DbInterface
         if (isset($context['file'])) {
             $de->setExceptionLocation($context['file'], $context['line']);
         }
+        $de->setContext($context);
 
         throw $de;
     }

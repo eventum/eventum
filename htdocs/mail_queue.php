@@ -13,22 +13,5 @@
 
 require_once __DIR__ . '/../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate('mail_queue.tpl.html');
-
-Auth::checkAuthentication();
-
-$issue_id = $_GET['iss_id'];
-
-if ((Auth::getCurrentRole() < User::ROLE_DEVELOPER) ||
-        (Issue::getProjectID($issue_id) != Auth::getCurrentProject())) {
-    $tpl->assign('denied', 1);
-} else {
-    $data = Mail_Queue::getListByIssueID($issue_id);
-
-    $tpl->assign(array(
-                    'data'  =>  $data,
-                    'issue_id'  =>  $issue_id,
-    ));
-}
-$tpl->displayTemplate();
+$controller = new Eventum\Controller\MailQueueController();
+$controller->run();

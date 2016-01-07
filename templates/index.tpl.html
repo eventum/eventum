@@ -84,11 +84,22 @@ $().ready(function() {
         {t}Login credential may be your email or user id, depending on system configuration.{/t}
       </td>
     </tr>
+
+    <tr align="center">
+      <td colspan="2" class="default_white" bgcolor="#006486">
+        <label for="remember" accesskey="r">
+          <input type="checkbox" id="remember" name="remember" value="1">
+          <b>{t}Remember me{/t}</b>
+        </label>
+      </td>
+    </tr>
+
     <tr align="center">
       <td colspan="2">
         <input type="submit" name="Submit" value="{t}Login{/t}">
       </td>
     </tr>
+
     <tr align="center">
       <td colspan="2">
         <a href="{$core.rel_url}forgot_password.php{if $smarty.get.email|default:'' != ""}?email={$smarty.get.email|escape:"html"}{/if}">{t}I Forgot My Password{/t}</a>

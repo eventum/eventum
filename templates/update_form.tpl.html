@@ -49,9 +49,16 @@
                         {html_options options=$status selected=$issue.iss_sta_id}
                     </select>
                 {elseif $row.field == 'severity'}
-                    <select class="default" name="severity">
-                        {html_options options=$severities selected=$issue.iss_sev_id}
+                    <select id="severity" name="severity" tabindex="{$tabindex++}"
+                            {if $field_display_settings.severity.required}data-required="true"{/if}>
+                      <option value="-1">{t}Please choose a severity{/t}</option>
+                      {foreach from=$severities item=severity}
+                      <option value="{$severity.sev_id}" {if $severity.sev_id == $issue.iss_sev_id|default:''}selected{/if}
+                        data-desc="{$severity.sev_description|escape}">{$severity.sev_title|escape}</option>
+                      {/foreach}
                     </select>
+                    <span id="severity_desc" class="alerts"></span>
+                    {include file="error_icon.tpl.html" field="severity"}
                 {elseif $row.field == 'priority'}
                     <select name="priority">
                         {html_options options=$priorities selected=$issue.iss_pri_id}

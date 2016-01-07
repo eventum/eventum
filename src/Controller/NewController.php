@@ -145,7 +145,7 @@ class NewController extends BaseController
         if ($crm) {
             // also need to guess the contact_id from any attached emails
             try {
-                $info = $crm->getCustomerInfoFromEmails($this->prj_id, $item);
+                $info = $crm->getCustomerInfoFromEmails($item);
                 $this->tpl->assign(
                     array(
                         'customer_id' => $info['customer_id'],

@@ -13,15 +13,5 @@
 
 require_once __DIR__ . '/../init.php';
 
-Auth::checkAuthentication();
-
-$type = isset($_GET['plot']) ? (string) $_GET['plot'] : null;
-$hide_closed = isset($_REQUEST['hide_closed']) ? $_REQUEST['hide_closed'] : false;
-
-$plot = new PlotHelper();
-$res = $plot->StatsChart($type, $hide_closed);
-if (!$res) {
-    header('Content-type: image/gif');
-    readfile(APP_PATH . '/htdocs/images/no_data.gif');
-    exit;
-}
+$controller = new Eventum\Controller\StatsChartController();
+$controller->run();

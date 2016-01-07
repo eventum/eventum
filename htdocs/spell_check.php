@@ -13,16 +13,5 @@
 
 require_once __DIR__ . '/../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate('spell_check.tpl.html');
-
-Auth::checkAuthentication();
-
-if (!empty($_GET['form_name'])) {
-    // show temporary form
-    $tpl->assign('show_temp_form', 'yes');
-} else {
-    $tpl->assign('spell_check', Misc::checkSpelling($_POST['textarea']));
-}
-
-$tpl->displayTemplate();
+$controller = new Eventum\Controller\SpellCheckController();
+$controller->run();

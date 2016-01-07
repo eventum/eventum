@@ -13,34 +13,5 @@
 
 require_once __DIR__ . '/../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate('custom_fields_form.tpl.html');
-
-Auth::checkAuthentication();
-
-$prj_id = Auth::getCurrentProject();
-$issue_id = @$_POST['issue_id'] ? $_POST['issue_id'] : $_GET['issue_id'];
-
-if (!Issue::canUpdate($issue_id, Auth::getUserID())) {
-    $tpl = new Template_Helper();
-    $tpl->setTemplate('permission_denied.tpl.html');
-    $tpl->displayTemplate();
-    exit;
-}
-
-if (@$_POST['cat'] == 'update_values') {
-    $res = Custom_Field::updateFromPost(true);
-    if (is_array($res)) {
-        $res = 1;
-    }
-    $tpl->assign('update_result', $res);
-}
-
-$prefs = Prefs::get(Auth::getUserID());
-$tpl->assign('current_user_prefs', $prefs); // XXX: use 'user_prefs' recursively
-$tpl->assign('user_prefs', $prefs);
-
-$tpl->assign('issue_id', $issue_id);
-$tpl->assign('custom_fields', Custom_Field::getListByIssue($prj_id, $issue_id));
-
-$tpl->displayTemplate();
+$controller = new Eventum\Controller\CustomFieldsController();
+$controller->run();

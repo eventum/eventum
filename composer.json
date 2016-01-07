@@ -29,7 +29,10 @@
 	"config": {
 		"autoloader-suffix": "EventumCore",
 		"component-baseurl": "/components",
-		"component-dir": "htdocs/components"
+		"component-dir": "htdocs/components",
+		"platform": {
+			"php": "5.3.23"
+		}
 	},
 	"scripts": {
 		"test": "phpunit"
@@ -71,7 +74,7 @@
 		"pear/net_smtp": "1.6.*",
 		"pear/net_socket": "*",
 		"pear/xml_rpc": "*",
-		"php": ">=5.3.7",
+		"php": ">=5.3.23",
 		"php-gettext/php-gettext": "1.0.*",
 		"phplot/phplot": "~6.1.0",
 		"smarty-gettext/smarty-gettext": "~1.0",

@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2015-??-??, Version 3.0.7
+2015-12-31, Version [3.0.7]
 --------------------
 
 - emails.php: handle better empty "From:" header. (@glensc, #91)
@@ -9,6 +9,22 @@ Eventum Issue Tracking System
 - Add logging framework based on monolog (@glensc, #97)
 - Error in the first pie chart in main.php (@glensc, #103)
 - Scheduled Release field loses selected value when updating issue (@balsdorf, #105)
+- Fix static notifications in class.issue.php (@cpinfold, #101)
+- Add .htaccess to project root (@glensc, #104)
+- Add Controller to pages (@glensc, #108, #117, #120)
+- Allow auth backends to auto redirect to external login screen (@balsdorf, #109)
+- Improve select project page and increase project cookie lifespan (@balsdorf, #110)
+- 3.0.6: General Setup: SMTP: Requires Authentication: Radio Buttons (@glensc, #112)
+- config.php: APP_xxx_COLOR: CSS (@glensc, #114)
+- setup header comment for all files (@glensc, @balsdorf, #115)
+- show dates human friendly (@glensc, #116)
+- add .htaccess to htdocs (@glensc, #118)
+- Add API Tokens support for authentication for RPC/CLI (@balsdorf, @glensc, #122)
+- Added option to add users to authorized repliers list when sending email (@balsdorf, #123)
+- Fix default Notification options (@glensc, #121)
+- Exclude sender of email from getting standard "new issue" email (@balsdorf, #113, #124)
+- Restore "remember me" in template, lost in 2.4.0 release (@glensc, aec62f5)
+- Restore usability of "Add Unknown Recipients to Issue Notification List" checkbox (@balsdorf)
 
 2015-11-10, Version [3.0.6]
 --------------------
@@ -1065,6 +1081,7 @@ Eventum Issue Tracking System
 
 - Initial release (João; Bryan)
 
+[3.0.7]: https://github.com/eventum/eventum/compare/v3.0.6...v3.0.7
 [3.0.6]: https://github.com/eventum/eventum/compare/v3.0.5...v3.0.6
 [3.0.5]: https://github.com/eventum/eventum/compare/v3.0.4...v3.0.5
 [3.0.4]: https://github.com/eventum/eventum/compare/v3.0.3...v3.0.4

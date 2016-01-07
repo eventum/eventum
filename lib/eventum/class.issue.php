@@ -1995,6 +1995,8 @@ class Issue
         if (!empty($sender_usr_id)) {
             $reporter = $sender_usr_id;
             $exclude_list[] = $sender_usr_id;
+        } else {
+            $exclude_list[] = $sender_email;
         }
 
         $data = array(

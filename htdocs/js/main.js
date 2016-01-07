@@ -745,12 +745,12 @@ Validation.last_issue_number_validation_value = '';
 Validation.validateIssueNumberField = function(e)
 {
     var target = $(e.target);
-    var form_value = target.val()
+    var form_value = target.val();
     if (Validation.last_issue_number_validation_value == form_value) {
         return;
-    } else {
-        Validation.last_issue_number_validation_value = form_value;
     }
+
+    Validation.last_issue_number_validation_value = form_value;
     var options = {
         check_project: target.attr('data-check-project'),
         exclude_issue: target.attr('data-exclude-issue'),

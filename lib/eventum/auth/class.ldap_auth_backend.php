@@ -352,6 +352,13 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         return $created;
     }
 
+    public function userExists($login)
+    {
+        $usr_id = $this->getUserIDByLogin($login);
+
+        return $usr_id > 0;
+    }
+
     private function isLDAPuser($usr_id)
     {
         $local_user_info = User::getDetails($usr_id);

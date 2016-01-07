@@ -167,8 +167,8 @@ class ViewController extends BaseController
                 // TRANSLATORS: Page HTML title: %1 = issue id, %2 = issue summary
                 'extra_title' => ev_gettext('#%1$s - %2$s', $this->issue_id, $this->details['iss_summary']),
 
-                'next_issue' => @$sides['next'],
-                'previous_issue' => @$sides['previous'],
+                'next_issue' => $sides['next'],
+                'previous_issue' => $sides['previous'],
                 'subscribers' => Notification::getSubscribers($this->issue_id),
                 'custom_fields' => Custom_Field::getListByIssue($this->prj_id, $this->issue_id),
                 'files' => Attachment::getList($this->issue_id),

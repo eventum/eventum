@@ -13,19 +13,5 @@
 
 require_once __DIR__ . '/../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate('removed_emails.tpl.html');
-
-Auth::checkAuthentication(null, true);
-
-if (@$_POST['cat'] == 'restore') {
-    $res = Support::restoreEmails();
-    $tpl->assign('result_msg', $res);
-} elseif (@$_POST['cat'] == 'remove') {
-    $res = Support::expungeEmails($_POST['item']);
-    $tpl->assign('result_msg', $res);
-}
-
-$tpl->assign('list', Support::getRemovedList());
-
-$tpl->displayTemplate();
+$controller = new Eventum\Controller\RemovedEmailsController();
+$controller->run();
