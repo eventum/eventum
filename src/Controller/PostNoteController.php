@@ -24,6 +24,7 @@ use Notification;
 use Prefs;
 use Project;
 use Status;
+use Support;
 use Time_Tracking;
 use User;
 use Workflow;
@@ -103,6 +104,8 @@ class PostNoteController extends BaseController
             $this->postNoteAction();
         } elseif ($this->cat == 'reply' && ($note_id = $get->getInt('id'))) {
             $this->replyAction($note_id);
+        } elseif ($this->cat == 'email_reply' && ($sup_id = $get->getInt('id')) && ($ema_id = $get->getInt('ema_id'))) {
+            $this->replyEmailAction($sup_id, $ema_id);
         }
     }
 
@@ -118,6 +121,18 @@ class PostNoteController extends BaseController
             )
         );
         $this->reply_subject = Mail_Helper::removeExcessRe($note['not_title']);
+    }
+
+    private function replyEmailAction($sup_id, $ema_id)
+    {
+        $email = Support::getEmailDetails($ema_id, $sup_id);
+        $header = Misc::formatReplyPreamble($email["timestamp"], $email["sup_from"]);
+        $note = array();
+        $note["not_body"] = $header . Misc::formatReply($email["message"]);
+        $this->tpl->assign(array(
+            "note"           => $note
+        ));
+        $this->reply_subject = Mail_Helper::removeExcessRe($email['sup_subject']);
     }
 
     private function postNoteAction()

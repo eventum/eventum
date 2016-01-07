@@ -31,17 +31,22 @@
     function reply(account_id, email_id)
     {
 
-            var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-            var emailWin = window.open('send.php?issue_id={$smarty.get.id|intval}&ema_id=' + account_id + '&id=' + email_id, '_emailReply' + email_id, features);
-            emailWin.focus();
-
-        }
-        function sendEmail(account_id, issue_id)
-        {
-            var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-            var emailWin = window.open('send.php?issue_id=' + issue_id + '&ema_id=' + account_id, '_email', features);
-            emailWin.focus();
-        }
+        var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var emailWin = window.open('send.php?issue_id={$smarty.get.id|intval}&ema_id=' + account_id + '&id=' + email_id, '_emailReply' + email_id, features);
+        emailWin.focus();
+    }
+    function replyAsNote(account_id, email_id)
+    {
+        var features = 'width=740,height=740,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var emailWin = window.open('post_note.php?cat=email_reply&issue_id={$smarty.get.id}&ema_id=' + account_id + '&id=' + email_id, '_noteReply' + email_id, features);
+        emailWin.focus();
+    }
+    function sendEmail(account_id, issue_id)
+    {
+        var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var emailWin = window.open('send.php?issue_id=' + issue_id + '&ema_id=' + account_id, '_email', features);
+        emailWin.focus();
+    }
     //-->
 </script>
 
@@ -112,8 +117,11 @@
                     {include file="expandable_cell/buttons.tpl.html" ec_id="email" list_id=$emails[i].composite_id}
                 </td>
                 <td align="center">{$smarty.section.i.iteration}</td>
-                <td align="center">
+                <td align="center" nowrap>
                     <a title="{t}reply to this email{/t}" href="javascript:void(null);" onClick="reply({$emails[i].sup_ema_id}, {$emails[i].sup_id});"><img src="{$core.rel_url}images/icons/reply.gif" border="0"></a>
+                    {if $core.current_role >= $core.roles.standard_user}
+                        <a title="{t}reply as note{/t}" href="javascript:void(null);" onClick="replyAsNote({$emails[i].sup_ema_id}, {$emails[i].sup_id});"><img src="{$core.rel_url}images/icons/reply-internal.gif" border="0"></a>
+                    {/if}
                 </td>
                 <td>{$emails[i].sup_from|escape:"html"}</td>
                 <td>
