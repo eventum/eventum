@@ -37,6 +37,9 @@ class PostNoteController extends BaseController
     /** @var int */
     private $issue_id;
 
+    /** @var array */
+    private $issue_details;
+
     /** @var int */
     private $usr_id;
 
@@ -57,6 +60,7 @@ class PostNoteController extends BaseController
         $request = $this->getRequest();
 
         $this->issue_id = (int) $request->get('issue_id');
+        $this->issue_details = Issue::getDetails($this->issue_id);
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
     }
 
@@ -106,6 +110,8 @@ class PostNoteController extends BaseController
             $this->replyAction($note_id);
         } elseif ($this->cat == 'email_reply' && ($sup_id = $get->getInt('id')) && ($ema_id = $get->getInt('ema_id'))) {
             $this->replyEmailAction($sup_id, $ema_id);
+        } elseif ($this->cat == 'issue_reply') {
+            $this->replyIssueAction();
         }
     }
 
@@ -133,6 +139,17 @@ class PostNoteController extends BaseController
             "note"           => $note
         ));
         $this->reply_subject = Mail_Helper::removeExcessRe($email['sup_subject']);
+    }
+
+    private function replyIssueAction()
+    {
+        $header = Misc::formatReplyPreamble($this->issue_details["iss_created_date"], $this->issue_details["reporter"]);
+        $note = array();
+        $note["not_body"] = $header . Misc::formatReply($this->issue_details["iss_original_description"]);
+        $this->tpl->assign(array(
+            "note"           => $note
+        ));
+        $this->reply_subject = Mail_Helper::removeExcessRe($this->issue_details['iss_summary']);
     }
 
     private function postNoteAction()
