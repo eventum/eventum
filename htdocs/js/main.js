@@ -39,7 +39,8 @@ $(document).ready(function() {
 
     ExpandableCell.ready();
 
-    Eventum.rel_url = $('head').attr('data-rel-url');
+    var $head = $('head');
+    Eventum.rel_url = $head.attr('data-rel-url');
 
     $('#project_chooser').change(function() {
         $(this).find('form').submit();
@@ -94,14 +95,27 @@ $(document).ready(function() {
     autosize($('textarea'));
 
     // jquery timeago
-    if ($('head').data('config-timeago') == 'enabled') {
-        $('abbr.timeago').timeago().click(function() {
-            var $el = $(this);
-            // on click toggle between views
-            var old = $el.attr('title');
-            $el.attr('title', $el.text());
-            $el.text(old);
-        });
+    var $timeago = $('abbr.timeago');
+    // on click toggle between views
+    var timeago_toggle = function () {
+        var $el = $(this);
+        var old = $el.attr('title');
+        $el.attr('title', $el.text());
+        $el.text(old);
+    };
+    if ($head.data('config-timeago') == 'enabled') {
+        // if enabled, then enable for all elements
+        $timeago
+            .timeago()
+            .click(timeago_toggle);
+    } else {
+        // otherwise enable only on click
+        $timeago.click(function () {
+            $(this)
+                .timeago()
+                .unbind('click')
+                .click(timeago_toggle);
+        })
     }
 });
 
