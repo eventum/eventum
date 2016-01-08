@@ -706,6 +706,21 @@ $().ready(function() {
           </tr>
           <tr>
             <th width="120">
+              {t}Relative Date/Timestamps{/t}
+            </th>
+            <td>
+                <label>
+                  <input type="radio" name="timeago" value="enabled" {if $setup.timeago == 'enabled'}checked{/if}>
+                  {t}Enabled{/t}
+                </label>
+                <label>
+                  <input type="radio" name="timeago" value="disabled" {if $setup.timeago != 'enabled'}checked{/if}>
+                  {t}Disabled{/t}
+                </label>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
               {t}Default Options for Notifications{/t}
             </th>
             <td>
