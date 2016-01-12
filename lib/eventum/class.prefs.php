@@ -25,6 +25,7 @@ class Prefs
      */
     public static function getDefaults($projects = null)
     {
+        $setup = Setup::get();
         $prefs = array(
             'receive_assigned_email'  => array(),
             'receive_new_issue_email' => array(),
@@ -36,6 +37,7 @@ class Prefs
             'auto_append_email_sig'         => 'no',
             'auto_append_note_sig'    => 'no',
             'close_popup_windows'     => 0,
+            'relative_date'           => $setup['relative_date'],
         );
 
         if (is_array($projects)) {
@@ -72,7 +74,8 @@ class Prefs
                     upr_email_signature as email_signature,
                     upr_auto_append_email_sig as auto_append_email_sig,
                     upr_auto_append_note_sig as auto_append_note_sig,
-                    upr_auto_close_popup_window as close_popup_windows
+                    upr_auto_close_popup_window as close_popup_windows,
+                    upr_relative_date as relative_date
                 FROM
                     {{%user_preference}}
                 WHERE
@@ -145,7 +148,8 @@ class Prefs
                     upr_email_signature = ?,
                     upr_auto_append_email_sig = ?,
                     upr_auto_append_note_sig = ?,
-                    upr_auto_close_popup_window = ?';
+                    upr_auto_close_popup_window = ?,
+                    upr_relative_date = ?';
         try {
             DB_Helper::getInstance()->query($sql, array(
                 $usr_id,
@@ -157,6 +161,7 @@ class Prefs
                 @$preferences['auto_append_email_sig'],
                 @$preferences['auto_append_note_sig'],
                 @$preferences['close_popup_windows'],
+                @$preferences['relative_date'],
             ));
         } catch (DbException $e) {
             return -1;

@@ -146,6 +146,15 @@
                 <label><input type="radio" name="week_firstday" {if $user_prefs.week_firstday == "1"}checked{/if} value="1"> {t}Monday{/t}</label>
             </td>
         </tr>
+        <tr>
+            <th width="190">
+                {t}Display relative dates{/t}:
+            </th>
+            <td colspan="{$assigned_projects|@count}">
+                <label><input type="radio" name="relative_date" {if $user_prefs.relative_date == "1"}checked{/if} value="1"> {t}Yes{/t}</label>
+                <label><input type="radio" name="relative_date" {if $user_prefs.relative_date != "1"}checked{/if} value="0"> {t}No{/t}</label>
+            </td>
+        </tr>
         {if $core.current_role != $core.roles.customer}
         <tr>
             <th width="190">
