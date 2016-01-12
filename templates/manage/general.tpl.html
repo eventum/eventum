@@ -706,6 +706,24 @@ $().ready(function() {
           </tr>
           <tr>
             <th width="120">
+              {t}Relative Date/Timestamps Default{/t}
+            </th>
+            <td>
+                <label>
+                  <input type="radio" name="relative_date" value="enabled" {if $setup.relative_date == 'enabled'}checked{/if}>
+                  {t}Enabled{/t}
+                </label>
+                <label>
+                  <input type="radio" name="relative_date" value="disabled" {if $setup.relative_date != 'enabled'}checked{/if}>
+                  {t}Disabled{/t}
+                </label>
+                <div>
+                    &nbsp;&nbsp;Users can set this on their preferences page. This provides the default for new users.
+                </div>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
               {t}Default Options for Notifications{/t}
             </th>
             <td>

@@ -269,6 +269,8 @@ class Setup
 
             // default expiry: 5 minutes
             'issue_lock' => 300,
+
+            'relative_date'   => 'enabled',
         );
 
         return $defaults;

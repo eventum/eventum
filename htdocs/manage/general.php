@@ -50,6 +50,7 @@ if (@$_POST['cat'] == 'update') {
         'email_error' => $_POST['email_error'],
         'email_reminder' => $_POST['email_reminder'],
         'handle_clock_in' => $_POST['handle_clock_in'],
+        'relative_date' => $_POST['relative_date'],
     );
     $res = Setup::save($setup);
     $tpl->assign('result', $res);
