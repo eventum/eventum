@@ -1,4 +1,5 @@
 <script type="text/javascript">
+
 // Disable auto discover for all elements:
 Dropzone.autoDiscover = {empty($smarty.get.legacy)|intval};
 
@@ -87,4 +88,19 @@ Dropzone.options.{$form} = {
     });
   }
 };
+
+// setup paste from clipboard
+$(function () {
+  FileReaderJS.setupClipboard(document.body, {
+    on: {
+      load: function (e, file) {
+        var dropzone = Dropzone.forElement("form#{$form}");
+        dropzone.addFile(file);
+      },
+      error: function (e, file) {
+        console.error(e, file);
+      }
+    }
+  });
+});
 </script>
