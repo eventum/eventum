@@ -32,11 +32,11 @@ class Prefs
             'timezone'                => Date_Helper::getDefaultTimezone(),
             'week_firstday'           => Date_Helper::getDefaultWeekday(),
             'list_refresh_rate'       => APP_DEFAULT_REFRESH_RATE,
-            'email_refresh_rate'     => APP_DEFAULT_REFRESH_RATE,
+            'email_refresh_rate'      => APP_DEFAULT_REFRESH_RATE,
             'email_signature'         => '',
-            'auto_append_email_sig'         => 'no',
+            'auto_append_email_sig'   => 'no',
             'auto_append_note_sig'    => 'no',
-            'close_popup_windows'     => 0,
+            'close_popup_windows'     => 1,
             'relative_date'           => (int) ($setup['relative_date'] == 'enabled'),
         );
 
