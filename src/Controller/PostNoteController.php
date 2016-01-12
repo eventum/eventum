@@ -94,9 +94,6 @@ class PostNoteController extends BaseController
         $details = Issue::getDetails($this->issue_id);
         $this->tpl->assign('issue', $details);
 
-        // TRANSLATORS: %1 = issue summary
-        $this->reply_subject = ev_gettext('Re: %1$s', $details['iss_summary']);
-
         Workflow::prePage($this->prj_id, 'post_note');
 
         $request = $this->getRequest();
@@ -113,6 +110,11 @@ class PostNoteController extends BaseController
         } elseif ($this->cat == 'issue_reply') {
             $this->replyIssueAction();
         }
+
+        if (!$this->reply_subject) {
+            // TRANSLATORS: %1 = issue summary
+            $this->reply_subject = $details['iss_summary'];
+        }
     }
 
     private function replyAction($note_id)
@@ -126,7 +128,7 @@ class PostNoteController extends BaseController
                 'parent_note_id' => $note_id,
             )
         );
-        $this->reply_subject = Mail_Helper::removeExcessRe($note['not_title']);
+        $this->reply_subject = $note['not_title'];
     }
 
     private function replyEmailAction($sup_id, $ema_id)
@@ -138,7 +140,7 @@ class PostNoteController extends BaseController
         $this->tpl->assign(array(
             "note"           => $note
         ));
-        $this->reply_subject = Mail_Helper::removeExcessRe($email['sup_subject']);
+        $this->reply_subject = $email['sup_subject'];
     }
 
     private function replyIssueAction()
@@ -149,7 +151,7 @@ class PostNoteController extends BaseController
         $this->tpl->assign(array(
             "note"           => $note
         ));
-        $this->reply_subject = Mail_Helper::removeExcessRe($this->issue_details['iss_summary']);
+        $this->reply_subject = $this->issue_details['iss_summary'];
     }
 
     private function postNoteAction()
@@ -229,10 +231,11 @@ class PostNoteController extends BaseController
      */
     protected function prepareTemplate()
     {
+        $reply_subject = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $this->reply_subject), true);
         $this->tpl->assign(
             array(
                 'issue_id' => $this->issue_id,
-                'reply_subject' => $this->reply_subject,
+                'reply_subject' => $reply_subject,
                 'from' => User::getFromHeader($this->usr_id),
                 'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
                 'current_user_prefs' => Prefs::get($this->usr_id),

@@ -4,6 +4,7 @@ Eventum Issue Tracking System
 2016-??-??, Version [3.0.8]
 --------------------
 - Add "Reply as Note" to emails (@balsdorf)
+- Fix Reply subjects when sending notes (@glensc)
 
 2015-12-31, Version [3.0.7]
 --------------------
