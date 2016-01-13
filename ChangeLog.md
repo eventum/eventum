@@ -6,6 +6,7 @@ Eventum Issue Tracking System
 - Add "Reply as Note" to emails (@balsdorf)
 - Fix Reply subjects when sending notes (@glensc)
 - Add preference support to turn off relative dates (@balsdorf, #125)
+- Upload on paste from clipboard (@glensc, #126)
 
 2015-12-31, Version [3.0.7]
 --------------------
