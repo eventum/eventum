@@ -276,6 +276,7 @@ issue_view.ready = function(page_id)
     $('.remove_quarantine').click(issue_view.removeQuarantine);
     $('.clear_duplicate').click(issue_view.clearDuplicateStatus);
     $('.reply_issue').click(issue_view.replyIssue);
+    $('.reply_issue_note').click(issue_view.replyIssueNote);
     $('.edit_incident_redemption').click(issue_view.editIncidentRedemption);
 
     $('.mark_duplicate').click(function() { window.location.href='duplicate.php?id=' + issue_view.get_issue_id(); });
@@ -449,6 +450,13 @@ issue_view.replyIssue = function()
 {
     var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('send.php?cat=reply&ema_id=' + issue_view.get_ema_id() + '&issue_id=' + issue_view.get_issue_id(), '_replyIssue' + issue_view.get_issue_id(), features);
+    popupWin.focus();
+};
+
+issue_view.replyIssueNote = function()
+{
+    var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('post_note.php?cat=issue_reply' + '&issue_id=' + issue_view.get_issue_id(), '_replyIssueNote' + issue_view.get_issue_id(), features);
     popupWin.focus();
 };
 
