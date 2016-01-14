@@ -38,6 +38,10 @@ if (@$_POST['cat'] == 'new') {
             1   =>  array(ev_gettext('Thank you, the user was updated successfully.'), Misc::MSG_INFO),
             -1  =>  array(ev_gettext('An error occurred while trying to update the user information.'), Misc::MSG_ERROR),
     ));
+
+    $usr_id = $_POST['id'];
+    Auth::redirect("users.php?cat=edit&id={$usr_id}");
+
 } elseif (@$_POST['cat'] == 'change_status') {
     User::changeStatus($_POST['items'], $_POST['status']);
 }

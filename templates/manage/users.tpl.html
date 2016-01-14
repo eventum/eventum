@@ -123,6 +123,7 @@
                   {t}Manage Users{/t}
                 </th>
               </tr>
+
               <tr>
                 <th width="120">
                   {t}Email Address{/t}
@@ -132,6 +133,24 @@
                   {include file="error_icon.tpl.html" field="email"}
                 </td>
               </tr>
+
+             {if isset($info)}
+              <tr>
+                <th width="120">
+                  {t}Email Aliases{/t}
+                </th>
+                <td>
+                  {foreach from=$info.aliases item=email}
+                    <i>{$email}</i><br>
+                  {/foreach}
+
+                  <br>
+                  <a href="email_alias.php?id={$info.usr_id}" class="manage_alias" data-usr-id="{$info.usr_id}">{t}manage aliases{/t}</a>
+                </td>
+              </tr>
+            {/if}
+
+
               <tr>
                 <th width="120">
                   {t}Password{/t}
@@ -237,7 +256,7 @@
               <th>&nbsp;{t}Full Name{/t}</th>
               <th>&nbsp;{t}Role{/t}</th>
               <th>&nbsp;{t}Email Address{/t}</th>
-              <th>&nbsp;{t}Email Alias{/t}</th>
+              <th>&nbsp;{t}Email Aliases{/t}</th>
               <th>&nbsp;{t}Status{/t}</th>
               <th>&nbsp;{t}Group{/t}</th>
               <th>&nbsp;{t}Partner{/t}</th>
@@ -263,7 +282,7 @@
                 {/foreach}
               </td>
               <td width="10%">
-                &nbsp;<a title="{t}list all email aliases{/t}" href="email_alias.php?id={$list[i].usr_id}" class="manage_alias" data-usr-id="{$list[i].usr_id}">{t}manage aliases{/t}</a>
+                &nbsp;<a href="email_alias.php?id={$list[i].usr_id}" class="manage_alias" data-usr-id="{$list[i].usr_id}">{t}manage aliases{/t}</a>
               </td>
               <td width="10%">
                 &nbsp;{$list[i].usr_status|capitalize}
