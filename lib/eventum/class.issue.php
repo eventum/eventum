@@ -901,12 +901,6 @@ class Issue
 
         $usr_id = Auth::getUserID();
 
-        if (!empty($_POST['comments'])) {
-            // add note with the comments of marking an issue as a duplicate of another one
-            $_POST['title'] = 'Issue duplication comments';
-            $_POST['note'] = $_POST['comments'];
-            Note::insertFromPost($usr_id, $issue_id);
-        }
         // record the change
         History::add($issue_id, $usr_id, 'duplicate_added', 'Issue marked as a duplicate of issue #{issue_id} by {user}', [
             'issue_id' => $dup_iss_id,

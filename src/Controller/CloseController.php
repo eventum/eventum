@@ -17,6 +17,7 @@ use Auth;
 use Contract;
 use CRM;
 use Custom_Field;
+use Eventum\Controller\Helper\MessagesHelper;
 use Issue;
 use Notification;
 use Resolution;
@@ -107,15 +108,33 @@ class CloseController extends BaseController
         $notification_list_internal = Notification::getSubscribers($this->issue_id, 'closed', User::ROLE_USER);
         $this->tpl->assign('notification_list_internal', $notification_list_internal['all']);
 
-        if ($this->cat == 'close') {
+        if ($this->cat === 'close') {
             $this->closeAction();
         }
+    }
+
+    private function markAsDuplicate($dup_issue_id): void
+    {
+        $res = Issue::markAsDuplicate($this->issue_id, $dup_issue_id);
+        $map = [
+            1 => [ev_gettext('Thank you, the issue was marked as a duplicate successfully'), MessagesHelper::MSG_INFO],
+            // FIXME: it's not much informative that mark as duplicate failed
+            // TODO: should whole update be aborted?
+            -1 => [ev_gettext('Sorry, an error happened while trying to run your query.'), MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     private function closeAction()
     {
         $request = $this->getRequest();
         $post = $request->request;
+
+        // see if need to mark issue duplciated first
+        $dup_issue_id = $post->getInt('duplicated_issue');
+        if ($dup_issue_id) {
+            $this->markAsDuplicate($dup_issue_id);
+        }
 
         Custom_Field::updateFromPost();
         $res = Issue::close(
@@ -182,6 +201,7 @@ class CloseController extends BaseController
                 'notify_list' => Notification::getLastNotifiedAddresses($this->issue_id),
                 'custom_fields' => $custom_fields,
                 'issue_id' => $this->issue_id,
+                'mark_duplicated' => $this->cat === 'duplicate',
             ]
         );
 

@@ -287,11 +287,9 @@ issue_view.ready = function(page_id)
     $('a.delete_time_entry').click(issue_view.deleteTimeEntry);
     $('.add_time_entry').click(issue_view.addTimeEntry);
 
-    $('.mark_duplicate').click(function() { window.location.href='duplicate.php?id=' + issue_view.get_issue_id(); });
+    $('.mark_duplicate').click(function() { window.location.href='close.php?cat=duplicate&id=' + issue_view.get_issue_id(); });
     $('.close_issue').click(function() { window.location.href='close.php?id=' + issue_view.get_issue_id(); });
     $('.display_fixed_width').click(function() { issue_view.toggle_plain_view(); });
-
-
 
     /* Attachments Section */
     $('#toggle_attachments').click(function() { issue_view.toggle_issue_section('attachments'); });
