@@ -391,6 +391,15 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
     box-shadow: 4px -4px 5px rgba(0, 0, 0, 0.3);
     border-top: 1px solid #aaaaaa;
 }
+/* fix multiple chosen selections overlapping next line (by Risto Risti) */
+.chosen-container.chosen-container-multi  {
+    height: auto;
+    min-height: 27px;
+}
+.chosen-container.chosen-container-multi .chosen-drop {
+    position: absolute;
+    top: 100%;
+}
 
 /* workaround */
 #assignment_chosen {
