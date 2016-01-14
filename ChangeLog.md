@@ -8,7 +8,7 @@ Eventum Issue Tracking System
 - Add preference support to turn off relative dates (@balsdorf, #125)
 - Upload on paste from clipboard (@glensc, #126)
 - Fix multiple chosen selections overlapping next line (@slay123, aa5e352)
-- Improve user manage page (@glensc)
+- Improve user manage page (@glensc, 5ff030b)
 
 2015-12-31, Version [3.0.7]
 --------------------
