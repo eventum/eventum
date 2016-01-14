@@ -7,6 +7,7 @@ Eventum Issue Tracking System
 - Fix Reply subjects when sending notes (@glensc)
 - Add preference support to turn off relative dates (@balsdorf, #125)
 - Upload on paste from clipboard (@glensc, #126)
+- Fix multiple chosen selections overlapping next line (@slay123, aa5e352)
 
 2015-12-31, Version [3.0.7]
 --------------------
