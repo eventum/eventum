@@ -61,7 +61,8 @@ class DuplicateController extends BaseController
 
     private function markAsDuplicateAction()
     {
-        $res = Issue::markAsDuplicate($this->issue_id);
+        $dup_iss_id = $this->getRequest()->request->getInt('duplicated_issue');
+        $res = Issue::markAsDuplicate($this->issue_id, $dup_iss_id);
         $map = array(
             1 => array(ev_gettext('Thank you, the issue was marked as a duplicate successfully'), Misc::MSG_INFO),
             -1 => array(ev_gettext('Sorry, an error happened while trying to run your query.'), Misc::MSG_ERROR),
