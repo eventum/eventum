@@ -72,11 +72,11 @@ class LdapController extends ManageBaseController
         $map = array(
             1 => array('Thank you, the setup information was saved successfully.', Misc::MSG_INFO),
             -1 => array("ERROR: The system doesn't have the appropriate permissions " .
-                        "to create the configuration file in the setup directory (" . APP_CONFIG_PATH . '). ".
+                        'to create the configuration file in the setup directory (' . APP_CONFIG_PATH . '). ".
                         "Please contact your local system administrator and ask for write privileges on the provided path.',
                         Misc::MSG_HTML_BOX),
             -2 => array("ERROR: The system doesn't have the appropriate permissions " .
-                        "to update the configuration file in the setup directory (" . APP_CONFIG_PATH . '/ldap.php). ".
+                        'to update the configuration file in the setup directory (' . APP_CONFIG_PATH . '/ldap.php). ".
                         "Please contact your local system administrator ".
                         "and ask for write privileges on the provided filename.',
                         Misc::MSG_HTML_BOX),
