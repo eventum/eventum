@@ -48,7 +48,7 @@ if (!empty($_POST['cat']) && $_POST['cat'] == 'update') {
 }
 
 $tpl->assign(array(
-    'enable_disable', array(
+    'enable_disable' => array(
         'enabled' => ev_gettext('Enabled'),
         'disabled' => ev_gettext('Disabled'),
     ),
