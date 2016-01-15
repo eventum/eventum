@@ -22,15 +22,25 @@ abstract class ManageBaseController extends BaseController
     /** @var int */
     protected $min_role = User::ROLE_MANAGER;
 
+    /** @var bool */
+    protected $is_popup = false;
+
     /**
      * @inheritdoc
      */
     protected function canAccess()
     {
-        Auth::checkAuthentication();
+        if ($this->is_popup) {
+            Auth::checkAuthentication(null, true);
+        } else {
+            Auth::checkAuthentication();
+        }
 
         $this->role_id = Auth::getCurrentRole();
         if ($this->role_id < $this->min_role) {
+            if ($this->is_popup) {
+                return false;
+            }
             $this->error(ev_gettext('Sorry, you are not allowed to access this page.'));
         }
 
