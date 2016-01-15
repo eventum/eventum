@@ -41,7 +41,6 @@ if (@$_POST['cat'] == 'new') {
 
     $usr_id = $_POST['id'];
     Auth::redirect("users.php?cat=edit&id={$usr_id}");
-
 } elseif (@$_POST['cat'] == 'change_status') {
     User::changeStatus($_POST['items'], $_POST['status']);
 }

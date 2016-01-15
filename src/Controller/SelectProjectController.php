@@ -19,7 +19,6 @@ use CRM;
 use InvalidArgumentException;
 use Issue;
 use Language;
-use LogicException;
 use Project;
 use User;
 
