@@ -17,9 +17,6 @@ use Reminder;
 
 class ReminderReviewController extends ManageBaseController
 {
-    /** @var string */
-    protected $tpl_name = 'get_emails.tpl.html';
-
     /** @var int */
     private $rem_id;
 
