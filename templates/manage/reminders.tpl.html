@@ -219,7 +219,7 @@
           {/if}
           <td>
             <select class="type_filter" name="issues[]" size="4" multiple>
-              {html_options options=$issues|default:''|truncate:70 selected=$info.rer_iss_id|default:''}
+              {html_options options=$issues|default:'' selected=$info.rer_iss_id|default:''}
             </select>
           </td>
         </tr>
@@ -257,7 +257,7 @@
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
           <td>
             <select name="products[]" size="4" multiple>
-              {html_options options=$products selected=$info.rer_pro_id|default:''}
+              {html_options options=$products|default:'' selected=$info.rer_pro_id|default:''}
             </select></td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         </tr>
@@ -280,7 +280,7 @@
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
           <td>
             <select name="severities[]" size="4" multiple>
-              {html_options options=$severities selected=$info.rer_sev_id}
+              {html_options options=$severities|default:'' selected=$info.rer_sev_id|default:''}
             </select>
           </td>
           <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
