@@ -24,9 +24,6 @@ class LdapController extends ManageBaseController
     /** @var string */
     protected $tpl_name = 'manage/ldap.tpl.html';
 
-    /** @var int */
-    protected $min_role = User::ROLE_MANAGER;
-
     /** @var string */
     private $cat;
 
