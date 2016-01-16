@@ -26,7 +26,7 @@ class IssueAutoCreationController extends ManageBaseController
     protected $tpl_name = 'manage/issue_auto_creation.tpl.html';
 
     /** @var int */
-    protected $min_role = User::ROLE_REPORTER;
+    protected $min_role = User::ROLE_ADMINISTRATOR;
 
     /** @var string */
     private $cat;

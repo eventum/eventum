@@ -26,7 +26,7 @@ class CustomFieldsController extends ManageBaseController
     protected $tpl_name = 'manage/custom_fields.tpl.html';
 
     /** @var int */
-    protected $min_role = User::ROLE_REPORTER;
+    protected $min_role = User::ROLE_ADMINISTRATOR;
 
     /** @var string */
     private $cat;

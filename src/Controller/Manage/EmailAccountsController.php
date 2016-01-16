@@ -24,7 +24,7 @@ class EmailAccountsController extends ManageBaseController
     protected $tpl_name = 'manage/email_accounts.tpl.html';
 
     /** @var int */
-    protected $min_role = User::ROLE_REPORTER;
+    protected $min_role = User::ROLE_ADMINISTRATOR;
 
     /** @var string */
     private $cat;

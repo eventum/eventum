@@ -26,7 +26,7 @@ class CustomizeListingController extends ManageBaseController
     protected $tpl_name = 'manage/customize_listing.tpl.html';
 
     /** @var int */
-    protected $min_role = User::ROLE_REPORTER;
+    protected $min_role = User::ROLE_ADMINISTRATOR;
 
     /** @var string */
     private $cat;
