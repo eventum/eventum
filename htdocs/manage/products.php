@@ -45,9 +45,6 @@ if (@$_POST['cat'] == 'new') {
 if (@$_GET['cat'] == 'edit') {
     $info = Product::getDetails($_GET['id']);
     $tpl->assign('info', $info);
-    $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::ROLE_CUSTOMER, false, $_GET['id']);
-} else {
-    $user_options = User::getActiveAssocList(Auth::getCurrentProject(), User::ROLE_CUSTOMER, true);
 }
 
 $tpl->assign('list', Product::getList());
