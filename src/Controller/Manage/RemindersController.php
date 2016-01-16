@@ -115,20 +115,35 @@ class RemindersController extends ManageBaseController
             );
         }
 
-        // wouldn't make much sense to create a reminder for a 'Not Prioritized'
-        // issue, so let's remove that as an option
-        $priorities = array_flip(Priority::getAssocList($info['rem_prj_id']));
-        unset($priorities['Not Prioritized']);
-
         $this->tpl->assign(
             array(
                 'issues' => Reminder::getIssueAssocListByProject($info['rem_prj_id']),
                 'info' => $info,
-                'priorities' => array_flip($priorities),
+                'priorities' => $this->getPriorities($info['rem_prj_id']),
                 'severities', Severity::getAssocList($info['rem_prj_id']),
                 'products' => Product::getAssocList(),
             )
         );
+    }
+
+    /**
+     * Get Issue Priorities to use for reminders
+     *
+     * @param int $prj_id
+     * @return array
+     */
+    private function getPriorities($prj_id)
+    {
+        $priorities = Priority::getAssocList($prj_id);
+
+        // wouldn't make much sense to create a reminder for a 'Not Prioritized'
+        // issue, so let's remove that as an option
+        // TODO: use array_search instead of array_flip x2
+        $reveresed = array_flip($priorities);
+        unset($reveresed['Not Prioritized']);
+        $priorities = array_flip($reveresed);
+
+        return $priorities;
     }
 
     private function changeRankAction()
@@ -147,14 +162,9 @@ class RemindersController extends ManageBaseController
             )
         );
 
-        // wouldn't make much sense to create a reminder for a 'Not Prioritized'
-        // issue, so let's remove that as an option
-        $priorities = array_flip(Priority::getAssocList($this->prj_id));
-        unset($priorities['Not Prioritized']);
-
         $this->tpl->assign(
             array(
-                'priorities' => array_flip($priorities),
+                'priorities' => $this->getPriorities($this->prj_id),
                 'severities' => Severity::getAssocList($this->prj_id),
                 'products' => Product::getAssocList(),
             )
