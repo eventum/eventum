@@ -95,6 +95,13 @@ class RemindersController extends ManageBaseController
         Reminder::remove();
     }
 
+    private function changeRankAction()
+    {
+        $get = $this->getRequest()->query;
+
+        Reminder::changeRank($get->getInt('id'), $get->getInt('rank'));
+    }
+
     private function editAction()
     {
         $get = $this->getRequest()->query;
@@ -126,33 +133,6 @@ class RemindersController extends ManageBaseController
         );
     }
 
-    /**
-     * Get Issue Priorities to use for reminders
-     *
-     * @param int $prj_id
-     * @return array
-     */
-    private function getPriorities($prj_id)
-    {
-        $priorities = Priority::getAssocList($prj_id);
-
-        // wouldn't make much sense to create a reminder for a 'Not Prioritized'
-        // issue, so let's remove that as an option
-        // TODO: use array_search instead of array_flip x2
-        $reveresed = array_flip($priorities);
-        unset($reveresed['Not Prioritized']);
-        $priorities = array_flip($reveresed);
-
-        return $priorities;
-    }
-
-    private function changeRankAction()
-    {
-        $get = $this->getRequest()->query;
-
-        Reminder::changeRank($get->getInt('id'), $get->getInt('rank'));
-    }
-
     private function infoAction()
     {
         $this->tpl->assign(
@@ -180,6 +160,26 @@ class RemindersController extends ManageBaseController
                 )
             );
         }
+    }
+
+    /**
+     * Get Issue Priorities to use for reminders
+     *
+     * @param int $prj_id
+     * @return array
+     */
+    private function getPriorities($prj_id)
+    {
+        $priorities = Priority::getAssocList($prj_id);
+
+        // wouldn't make much sense to create a reminder for a 'Not Prioritized'
+        // issue, so let's remove that as an option
+        // TODO: use array_search instead of array_flip x2
+        $reveresed = array_flip($priorities);
+        unset($reveresed['Not Prioritized']);
+        $priorities = array_flip($reveresed);
+
+        return $priorities;
     }
 
     /**
