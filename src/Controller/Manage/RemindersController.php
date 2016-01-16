@@ -111,26 +111,12 @@ class RemindersController extends ManageBaseController
             $info['rem_prj_id'] = $this->prj_id;
         }
 
-        // only show customers and support levels if the selected project really needs it
-        if ($crm = CRM::getInstance($info['rem_prj_id'])) {
-            $this->crm = $crm;
-            $this->tpl->assign(
-                array(
-                    'customers' => $crm->getCustomerAssocList(),
-                    'support_levels' => $crm->getSupportLevelAssocList(),
-                )
-            );
-        }
-
         $this->tpl->assign(
             array(
-                'issues' => Reminder::getIssueAssocListByProject($info['rem_prj_id']),
                 'info' => $info,
-                'priorities' => $this->getPriorities($info['rem_prj_id']),
-                'severities', Severity::getAssocList($info['rem_prj_id']),
-                'products' => Product::getAssocList(),
             )
         );
+        $this->setProjectData($info['rem_prj_id']);
     }
 
     private function infoAction()
@@ -138,20 +124,30 @@ class RemindersController extends ManageBaseController
         $this->tpl->assign(
             array(
                 'info' => array('rem_prj_id' => $this->prj_id),
-                'issues' => Reminder::getIssueAssocListByProject($this->prj_id),
             )
         );
 
+        $this->setProjectData($this->prj_id);
+    }
+
+    /**
+     * Common code for infoAction and editAction
+     *
+     * @param int $prj_id
+     */
+    private function setProjectData($prj_id)
+    {
         $this->tpl->assign(
             array(
-                'priorities' => $this->getPriorities($this->prj_id),
-                'severities' => Severity::getAssocList($this->prj_id),
+                'issues' => Reminder::getIssueAssocListByProject($prj_id),
+                'priorities' => $this->getPriorities($prj_id),
+                'severities' => Severity::getAssocList($prj_id),
                 'products' => Product::getAssocList(),
             )
         );
 
         // only show customers and support levels if the selected project really needs it
-        if ($crm = CRM::getInstance($this->prj_id)) {
+        if ($crm = CRM::getInstance($prj_id)) {
             $this->crm = $crm;
             $this->tpl->assign(
                 array(
