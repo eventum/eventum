@@ -69,17 +69,15 @@ class EmailAliasController extends ManageBaseController
     {
         $post = $this->getRequest()->request;
 
-        foreach ($post->get('item') as $alias) {
-            $res = User::removeAlias($this->usr_id, $alias);
-        }
-
         $map = array(
             true => array(ev_gettext('Thank you, the alias was removed successfully.'), Misc::MSG_INFO),
             false => array(ev_gettext('An error occurred while trying to remove the alias.'), Misc::MSG_ERROR),
         );
 
-        // FIXME: $res value is unpredictable (only last item's save state)
-        Misc::mapMessages($res, $map);
+        foreach ($post->get('item') as $alias) {
+            $res = User::removeAlias($this->usr_id, $alias);
+            Misc::mapMessages($res, $map);
+        }
     }
 
     /**
