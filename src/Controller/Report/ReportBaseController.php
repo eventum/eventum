@@ -22,6 +22,9 @@ abstract class ReportBaseController extends BaseController
     /** @var int */
     protected $usr_id;
 
+    /** @var int */
+    protected $prj_id;
+
     /**
      * @inheritdoc
      */
@@ -34,6 +37,8 @@ abstract class ReportBaseController extends BaseController
             echo 'Invalid role';
             exit;
         }
+
+        $this->prj_id = Auth::getCurrentProject();
 
         return true;
     }

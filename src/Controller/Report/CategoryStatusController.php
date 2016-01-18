@@ -13,7 +13,6 @@
 
 namespace Eventum\Controller\Report;
 
-use Auth;
 use Category;
 use DB_Helper;
 use DbException;
@@ -23,9 +22,6 @@ class CategoryStatusController extends ReportBaseController
 {
     /** @var string */
     protected $tpl_name = 'reports/category_statuses.tpl.html';
-
-    /** @var int */
-    protected $prj_id;
 
     /**
      * @inheritdoc
@@ -39,7 +35,6 @@ class CategoryStatusController extends ReportBaseController
      */
     protected function defaultAction()
     {
-        $this->prj_id = Auth::getCurrentProject();
     }
 
     private function getReport($categories, $statuses)
