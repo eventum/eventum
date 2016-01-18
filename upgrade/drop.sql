@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS {{%api_token}};
 DROP TABLE IF EXISTS {{%columns_to_display}};
 DROP TABLE IF EXISTS {{%customer_account_manager}};
 DROP TABLE IF EXISTS {{%customer_note}};

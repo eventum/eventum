@@ -17,7 +17,6 @@ class MailHelperTest extends TestCase
 {
     public function testGetMessageID()
     {
-
         $headers = '';
         $body = 'body';
         $msgid = Mail_Helper::getMessageID($headers, $body);
@@ -61,60 +60,82 @@ class MailHelperTest extends TestCase
         $this->assertRegExp($exp, $msgid, 'Missing msg-id header');
     }
 
-    public function testRemoveExcessReSubjectOnly()
+    /**
+     * @param string $description description for the testcase
+     * @param string $subject
+     * @param string $exp expected result
+     * @param bool $remove_issue_id
+     * @dataProvider testRemoveExcessReIssueIdData
+     */
+    public function testRemoveExcessReIssueId($description, $subject, $exp, $remove_issue_id)
     {
-        $subject = 'subject';
-        $exp = 'subject';
-        $res = Mail_Helper::RemoveExcessRe($subject);
-        $this->assertEquals($exp, $res, 'no reply prefix');
-
-        $subject = 're: subject';
-        $exp = 're: subject';
-        $res = Mail_Helper::RemoveExcessRe($subject);
-        $this->assertEquals($exp, $res, 're: once');
-
-        $subject = 're: re: subject';
-        $exp = 'Re: subject';
-        $res = Mail_Helper::RemoveExcessRe($subject);
-        $this->assertEquals($exp, $res, 're: twice');
-
-        $subject = 're[2]: re: subject';
-        $exp = 'Re: subject';
-        $res = Mail_Helper::RemoveExcessRe($subject);
-        $this->assertEquals($exp, $res, 're[2]: with squares');
+        $res = Mail_Helper::RemoveExcessRe($subject, $remove_issue_id);
+        $this->assertEquals($exp, $res, $description);
     }
 
-    public function testRemoveExcessReIssueId()
+    public function testRemoveExcessReIssueIdData()
     {
-        $subject = '[#123] subject';
-        $exp = 'subject';
-        $res = Mail_Helper::RemoveExcessRe($subject, true);
-        $this->assertEquals($exp, $res, 'no reply prefix');
-
-        $subject = 're: [#123] subject';
-        $exp = 're: subject';
-        $res = Mail_Helper::RemoveExcessRe($subject, true);
-        $this->assertEquals($exp, $res, 're: once');
-
-        $subject = 're: re: [#123] subject';
-        $exp = 'Re: subject';
-        $res = Mail_Helper::RemoveExcessRe($subject, true);
-        $this->assertEquals($exp, $res, 're: twice');
-
-        $subject = 're[2]: [#123] re: subject';
-        $exp = 'Re: subject';
-        $res = Mail_Helper::RemoveExcessRe($subject, true);
-        $this->assertEquals($exp, $res, 're[2]: with squares');
-
-        // Italian
-        $subject = 'RIF: rif: Rif.: subject';
-        $exp = 'Re: subject';
-        $res = Mail_Helper::RemoveExcessRe($subject);
-        $this->assertEquals($exp, $res, 'RIF/rif prefix');
+        return array(
+            array(
+                'no reply prefix',
+                '[#123] subject',
+                'subject',
+                true,
+            ),
+            array(
+                'no reply prefix',
+                'subject',
+                'subject',
+                false,
+            ),
+            array(
+                're: once',
+                're: [#123] subject',
+                're: subject',
+                true,
+            ),
+            array(
+                're: once',
+                're: subject',
+                're: subject',
+                false,
+            ),
+            array(
+                're: twice',
+                're: re: [#123] subject',
+                'Re: subject',
+                true,
+            ),
+            array(
+                're: twice',
+                're: re: subject',
+                'Re: subject',
+                false,
+            ),
+            array(
+                're[2]: with squares',
+                're[2]: [#123] re: subject',
+                'Re: subject',
+                true,
+            ),
+            array(
+                're[2]: with squares',
+                're[2]: re: subject',
+                'Re: subject',
+                false,
+            ),
+            // Italian
+            array(
+                'RIF/rif prefix',
+                'RIF: rif: Rif.: subject',
+                'Re: subject',
+                true,
+            ),
+        );
     }
 
     /**
-     * @dataProvider testGetAddressInfo_data
+     * @dataProvider testGetAddressInfoData
      */
     public function testGetAddressInfo($input, $sender_name, $email)
     {
@@ -123,7 +144,7 @@ class MailHelperTest extends TestCase
         $this->assertEquals($email, $res['email']);
     }
 
-    public function testGetAddressInfo_data()
+    public function testGetAddressInfoData()
     {
         return array(
             0 => array(
@@ -155,7 +176,7 @@ class MailHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider testGetAddressInfoMultiple_data
+     * @dataProvider testGetAddressInfoMultipleData
      */
     public function testGetAddressInfoMultiple($input, $exp)
     {
@@ -163,7 +184,7 @@ class MailHelperTest extends TestCase
         $this->assertEquals($exp, $res);
     }
 
-    public function testGetAddressInfoMultiple_data()
+    public function testGetAddressInfoMultipleData()
     {
         return array(
             // test for "addressgroup" with empty list
@@ -201,6 +222,36 @@ class MailHelperTest extends TestCase
                     ),
                 ),
             ),
+        );
+    }
+
+    /**
+     * @param string $input
+     * @param string $exp expected result
+     * @dataProvider testFormatEmailAddressesData
+     */
+    public function testFormatEmailAddresses($input, $exp)
+    {
+        $res = Mail_Helper::formatEmailAddresses($input);
+        $this->assertEquals($exp, $res);
+    }
+
+    public function testFormatEmailAddressesData()
+    {
+        return array(
+            array(
+                'test@example.com,blah@example.com',
+                'test@example.com, blah@example.com',
+            ),
+            array(
+                'Test Name <test@example.com>,blah@example.com',
+                '"Test Name" <test@example.com>, blah@example.com',
+            ),
+            array(
+                '"Bob O\'Reilly" <bob@example.com>,blah@example.com',
+                '"Bob O\'Reilly" <bob@example.com>, blah@example.com',
+            ),
+            array('', ''),
         );
     }
 }

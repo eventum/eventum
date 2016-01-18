@@ -44,13 +44,10 @@ if ($have_config) {
     exit(0);
 }
 
-if (defined('APP_INC_PATH')) {
-    set_include_path(
-        APP_INC_PATH . PATH_SEPARATOR .
-        get_include_path()
-    );
-}
 require_once APP_PATH . '/autoload.php';
+
+// set default timezone to utc to avoid default timezone not set warnings
+date_default_timezone_set(@date_default_timezone_get());
 
 list($warnings, $errors) = checkRequirements();
 if ($warnings || $errors) {
@@ -356,13 +353,51 @@ function get_queries($file)
     return $queries;
 }
 
+function initlogger()
+{
+    // init timezone, logger needs it
+  if (!defined('APP_DEFAULT_TIMEZONE')) {
+      $tz = !empty($_POST['default_timezone']) ? $_POST['default_timezone'] : @date_default_timezone_get();
+      define('APP_DEFAULT_TIMEZONE', $tz ?: 'UTC');
+  }
+
+  // and APP_VERSION
+  if (!defined('APP_VERSION')) {
+      define('APP_VERSION', '3.x');
+  }
+    Logger::initialize();
+}
+
+function getDb()
+{
+    initlogger();
+    try {
+        return DB_Helper::getInstance(false);
+    } catch (DbException $e) {
+    }
+
+    $err = $e->getMessage();
+    // PEAR driver has 'debuginfo' property
+    if (isset($e->context['debuginfo'])) {
+        $err .= ' ' . $e->context['debuginfo'];
+    }
+
+    // indicate that mysql default socket may be wrong
+    if (strpos($err, 'No such file or directory') !== 0) {
+        $ini = 'mysqli.default_socket';
+        $err .= sprintf(" Please check that PHP ini parameter $ini='%s' is correct", ini_get($ini));
+    }
+
+    throw new RuntimeException($err, $e->getCode());
+}
+
 /**
  * return error message as string, or true indicating success
  * requires setup to be written first.
  */
 function setup_database()
 {
-    $conn = DB_Helper::getInstance(false);
+    $conn = getDb();
 
     $db_exists = checkDatabaseExists($conn, $_POST['db_name']);
     if (!$db_exists) {
@@ -453,7 +488,7 @@ function setup_database()
     $tpl->assign('db_result', implode("\n", $buffer));
 
     if ($e) {
-        $upgrade_script = APP_PATH . '/upgrade/update-database.php';
+        $upgrade_script = APP_PATH . '/bin/upgrade.php';
         $error = array(
             'Database setup failed on upgrade:',
             "<tt>{$e->getMessage()}</tt>",
@@ -507,16 +542,25 @@ function write_setup()
     $setup['files'] = 1;
     $setup['support_email'] = 'enabled';
 
+    $parts = explode(':', $_POST['db_hostname'], 2);
+    if (count($parts) > 1) {
+        list($hostname, $socket) = $parts;
+    } else {
+        list($hostname) = $parts;
+        $socket = null;
+    }
+
     $setup['database'] = array(
         // database driver
         'driver' => 'mysqli',
 
         // connection info
-        'hostname' => $_POST['db_hostname'],
+        'hostname' => $hostname,
         'database' => '', // NOTE: db name has to be written after the table has been created
         'username' => $_POST['db_username'],
         'password' => $_POST['db_password'],
         'port' => 3306,
+        'socket' => $socket,
 
         // table prefix
         'table_prefix' => $_POST['db_table_prefix'],

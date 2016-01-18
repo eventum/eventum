@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
  *
@@ -12,24 +13,5 @@
 
 require_once __DIR__ . '/../../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate('get_emails.tpl.html');
-
-Auth::checkAuthentication(null, true);
-
-$tpl->displayTemplate();
-flush();
-
-echo "<span class='default'>";
-echo '<b>The following is the SQL statement produced by this reminder:</b><br /><br />';
-echo nl2br(Reminder::getSQLQuery($_GET['rem_id'], $_GET['rma_id']));
-
-?>
-
-<br /><br />
-<a class="link" href="javascript:window.close();">Close Window</a>
-
-</span>
-
-</body>
-</html>
+$controller = new Eventum\Controller\Manage\ReminderReviewController();
+$controller->run();

@@ -13,48 +13,5 @@
 
 require_once __DIR__ . '/../../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate('manage/reminder_actions.tpl.html');
-
-Auth::checkAuthentication();
-
-$rem_id = @$_POST['rem_id'] ? $_POST['rem_id'] : $_GET['rem_id'];
-
-$role_id = Auth::getCurrentRole();
-if ($role_id < User::ROLE_MANAGER) {
-    Misc::setMessage(ev_gettext('Sorry, you are not allowed to access this page.'), Misc::MSG_ERROR);
-    $tpl->displayTemplate();
-    exit;
-}
-
-if (@$_POST['cat'] == 'new') {
-    $res = Reminder_Action::insert();
-    Misc::mapMessages($res, array(
-            1   =>  array(ev_gettext('Thank you, the action was added successfully.'), Misc::MSG_INFO),
-            -1  =>  array(ev_gettext('An error occurred while trying to add the new action.'), Misc::MSG_ERROR),
-            -2  =>  array(ev_gettext('Please enter the title for this new action.'), Misc::MSG_ERROR),
-    ));
-} elseif (@$_POST['cat'] == 'update') {
-    $res = Reminder_Action::update();
-    Misc::mapMessages($res, array(
-            1   =>  array(ev_gettext('Thank you, the action was updated successfully.'), Misc::MSG_INFO),
-            -1  =>  array(ev_gettext('An error occurred while trying to update the action.'), Misc::MSG_ERROR),
-            -2  =>  array(ev_gettext('Please enter the title for this action.'), Misc::MSG_ERROR),
-    ));
-} elseif (@$_POST['cat'] == 'delete') {
-    @Reminder_Action::remove($_POST['items']);
-}
-
-if (@$_GET['cat'] == 'edit') {
-    $tpl->assign('info', Reminder_Action::getDetails($_GET['id']));
-} elseif (@$_GET['cat'] == 'change_rank') {
-    Reminder_Action::changeRank($_GET['rem_id'], $_GET['id'], $_GET['rank']);
-}
-
-$tpl->assign('rem_id', $rem_id);
-$tpl->assign('rem_title', Reminder::getTitle($rem_id));
-$tpl->assign('action_types', Reminder_Action::getActionTypeList());
-$tpl->assign('list', Reminder_Action::getAdminList($rem_id));
-$tpl->assign('user_options', User::getActiveAssocList(Reminder::getProjectID($rem_id), User::ROLE_CUSTOMER));
-
-$tpl->displayTemplate();
+$controller = new Eventum\Controller\Manage\ReminderActionsController();
+$controller->run();

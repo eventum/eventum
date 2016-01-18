@@ -209,7 +209,7 @@ class UpdateController extends BaseController
 
         $priorities = Priority::getAssocList($this->prj_id);
         $categories = Category::getAssocList($this->prj_id);
-        $severities = Severity::getAssocList($this->prj_id);
+        $severities = Severity::getList($this->prj_id);
         $this->tpl->assign(
             array(
                 'user_prefs' => Prefs::get($this->usr_id),

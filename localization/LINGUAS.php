@@ -1,5 +1,7 @@
 <?php
 $avail_langs = array(
+	// TRANSLATORS: Translation of Arabic language in preferences dropdown
+	'ar' => _('Arabic'),
 	// TRANSLATORS: Translation of Breton language in preferences dropdown
 	'br' => _('Breton'),
 	// TRANSLATORS: Translation of Catalan language in preferences dropdown

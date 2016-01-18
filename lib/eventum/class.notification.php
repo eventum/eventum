@@ -1044,7 +1044,7 @@ class Notification
      *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
-     * @param   array   $exclude_list The list of users NOT to notify.
+     * @param   array   $exclude_list The list of users NOT to notify. This can either be usr_ids or email addresses
      * @return  void
      */
     public static function notifyNewIssue($prj_id, $issue_id, $exclude_list = array())
@@ -1160,6 +1160,9 @@ class Notification
         $headers = array(
             'Message-ID' => $message_id,
         );
+
+        // remove excluded emails
+        $emails = array_diff($emails, $exclude_list);
 
         self::notifySubscribers($issue_id, $emails, 'new_issue', $data, $subject, false, false, $headers);
     }

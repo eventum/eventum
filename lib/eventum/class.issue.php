@@ -1021,16 +1021,15 @@ class Issue
     /**
      * Method used to mark an issue as a duplicate of an existing one.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param integer $issue_id The issue ID
+     * @param int $dup_iss_id
+     * @return integer 1 if the update worked, -1 otherwise
      */
-    public static function markAsDuplicate($issue_id)
+    public static function markAsDuplicate($issue_id, $dup_iss_id)
     {
-        if (!self::exists($issue_id)) {
+        if (!self::exists($issue_id) || !self::exists($dup_iss_id)) {
             return -1;
         }
-
-        $dup_iss_id = (int) $_POST['duplicated_issue'];
 
         $stmt = "UPDATE
                     {{%issue}}
@@ -1995,6 +1994,8 @@ class Issue
         if (!empty($sender_usr_id)) {
             $reporter = $sender_usr_id;
             $exclude_list[] = $sender_usr_id;
+        } else {
+            $exclude_list[] = $sender_email;
         }
 
         $data = array(

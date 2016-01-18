@@ -130,13 +130,13 @@ function saveDraft()
 {
     Eventum.checkWindowClose(false);
     Eventum.getField('cat').val('save_draft');
-    Eventum.getField('send_email_form').submit();
+    Eventum.getField('sendEmailForm').submit();
 }
 function updateDraft(f)
 {
     Eventum.checkWindowClose(false);
     Eventum.getField('cat').val('update_draft');
-    Eventum.getField('send_email_form').submit();
+    Eventum.getField('sendEmailForm').submit();
 }
 var old_message = '';
 function setSignature(f)
@@ -159,7 +159,7 @@ $().ready(function() {
 //-->
 </script>
 
-<form class="validate dropzone" data-validation-function='validateForm' id="send_email_form" name="send_email_form" method="post" enctype="multipart/form-data">
+<form class="validate dropzone" data-validation-function='validateForm' id="sendEmailForm" name="sendEmailForm" method="post" enctype="multipart/form-data">
 <input type="hidden" name="cat" value="send_email">
 <input type="hidden" name="parent_id" value="{$parent_email_id|default:''}">
 <input type="hidden" name="ema_id" value="{$ema_id|default:''}">
@@ -213,8 +213,12 @@ $().ready(function() {
           {include file="error_icon.tpl.html" field="cc"}<br />
         {if $issue_id and $core.current_role != $core.roles.customer and $read_only|default:'' != 1}
         <label>
-            <input type="checkbox" name="add_unknown" value="yes">
+            <input type="checkbox" name="add_unknown" value="yes" {if $should_auto_add_to_nl}checked{/if}>
             {t}Add Unknown Recipients to Issue Notification List{/t}
+        </label><br />
+        <label>
+            <input type="checkbox" name="add_cc_to_ar" value="yes">
+            {t}Add CC to Authorized Repliers List{/t}
         </label>
         {else}
         <input type="hidden" name="add_unknown" value="no">

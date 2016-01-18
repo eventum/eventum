@@ -13,18 +13,5 @@
 
 require_once __DIR__ . '/../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate('duplicate.tpl.html');
-
-Auth::checkAuthentication();
-
-if (@$_POST['cat'] == 'mark') {
-    Misc::mapMessages(Issue::markAsDuplicate($_POST['issue_id']), array(
-            1   =>  array(ev_gettext('Thank you, the issue was marked as a duplicate successfully'), Misc::MSG_INFO),
-            -1  =>  array(ev_gettext('Sorry, an error happened while trying to run your query.'), Misc::MSG_ERROR),
-    ));
-
-    Auth::redirect(APP_RELATIVE_URL . 'view.php?id=' . $_POST['issue_id']);
-}
-
-$tpl->displayTemplate();
+$controller = new Eventum\Controller\DuplicateController();
+$controller->run();

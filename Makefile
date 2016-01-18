@@ -89,6 +89,7 @@ install-eventum:
 	cp -a templates $(DESTDIR)$(datadir)
 	cp -a upgrade $(DESTDIR)$(datadir)
 	cp -a bin $(DESTDIR)$(datadir)
+	cp -a src $(DESTDIR)$(datadir)
 	cp -a *.php $(DESTDIR)$(datadir)
 
 	install -d $(DESTDIR)$(logdir)

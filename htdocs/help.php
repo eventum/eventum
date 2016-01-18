@@ -13,20 +13,5 @@
 
 require_once __DIR__ . '/../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate('help/index.tpl.html');
-
-Auth::checkAuthentication('index.php?err=5', true);
-
-if ((empty($_GET['topic'])) || (!Help::topicExists($_GET['topic']))) {
-    $topic = 'main';
-} else {
-    $topic = $_GET['topic'];
-}
-$tpl->assign('topic', $topic);
-$tpl->assign('links', Help::getNavigationLinks($topic));
-if ($topic != 'main') {
-    $tpl->assign('child_links', Help::getChildLinks($topic));
-}
-
-$tpl->displayTemplate();
+$controller = new Eventum\Controller\HelpController();
+$controller->run();

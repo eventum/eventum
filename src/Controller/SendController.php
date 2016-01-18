@@ -127,6 +127,7 @@ class SendController extends BaseController
                     // set if the current user is allowed to send emails on this issue or not
                     'can_send_email' => Support::isAllowedToEmail($this->issue_id, $sender_details['usr_email']),
                     'subscribers' => Notification::getSubscribers($this->issue_id, 'emails'),
+                    'should_auto_add_to_nl' =>  Workflow::shouldAutoAddToNotificationList($this->prj_id),
                 )
             );
         }
@@ -165,7 +166,26 @@ class SendController extends BaseController
     {
         $post = $this->getRequest()->request;
 
-        $res = Support::sendEmailFromPost($post->get('parent_id'));
+        $iaf_ids = $this->attach->getAttachedFileIds();
+
+        $options = array(
+            'parent_sup_id' => $post->get('parent_id'),
+            'iaf_ids' => $iaf_ids,
+            'add_unknown' => $post->get('add_unknown') == 'yes',
+            'ema_id' => $post->has('ema_id') ? $post->getInt('ema_id') : null,
+        );
+
+        $res = Support::sendEmail(
+            $this->issue_id,
+            $post->get('type'),
+            $post->get('from'),
+            $post->get('to', ''),
+            $post->get('cc'),
+            $post->get('subject'),
+            $post->get('message'),
+            $options
+        );
+
         $this->tpl->assign('send_result', $res);
 
         $new_status = $post->get('new_status');
@@ -294,12 +314,13 @@ class SendController extends BaseController
         $header = Misc::formatReplyPreamble($details['created_date_ts'], $details['reporter']);
         $details['seb_body'] = $header . Misc::formatReply($details['description']);
         $details['sup_from'] = Mail_Helper::getFormattedName($details['reporter'], $details['reporter_email']);
+        // TRANSLATORS: %1: issue_id
+        $extra_title = ev_gettext('Issue #%1$s: Reply', $this->issue_id);
         $this->tpl->assign(
             array(
                 'email' => $details,
                 'parent_email_id' => 0,
-                // TODO: translate
-                'extra_title' => "Issue #{$this->issue_id}: Reply",
+                'extra_title' => $extra_title,
             )
         );
     }
@@ -311,13 +332,13 @@ class SendController extends BaseController
     {
         $post = $this->getRequest()->request;
 
-        if (!$post->has('time_spent')) {
+        $time_spent = (int) $post->get('time_spent');
+        if (!$time_spent) {
             return;
         }
 
         $summary = $post->get('time_summary') ?: $default_summary;
         $ttc_id = (int) $post->get('time_category');
-        $time_spent = (int) $post->get('time_spent');
         Time_Tracking::addTimeEntry($this->issue_id, $ttc_id, $time_spent, null, $summary);
     }
 }

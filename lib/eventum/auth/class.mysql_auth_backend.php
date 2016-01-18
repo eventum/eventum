@@ -72,6 +72,13 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
         return true;
     }
 
+    public function userExists($login)
+    {
+        $usr_id = $this->getUserIDByLogin($login);
+
+        return $usr_id > 0;
+    }
+
     public function getUserIDByLogin($login)
     {
         return User::getUserIDByEmail($login, true);

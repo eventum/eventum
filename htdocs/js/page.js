@@ -276,6 +276,7 @@ issue_view.ready = function(page_id)
     $('.remove_quarantine').click(issue_view.removeQuarantine);
     $('.clear_duplicate').click(issue_view.clearDuplicateStatus);
     $('.reply_issue').click(issue_view.replyIssue);
+    $('.reply_issue_note').click(issue_view.replyIssueNote);
     $('.edit_incident_redemption').click(issue_view.editIncidentRedemption);
 
     $('.mark_duplicate').click(function() { window.location.href='duplicate.php?id=' + issue_view.get_issue_id(); });
@@ -452,6 +453,13 @@ issue_view.replyIssue = function()
     popupWin.focus();
 };
 
+issue_view.replyIssueNote = function()
+{
+    var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('post_note.php?cat=issue_reply' + '&issue_id=' + issue_view.get_issue_id(), '_replyIssueNote' + issue_view.get_issue_id(), features);
+    popupWin.focus();
+};
+
 issue_view.clearDuplicateStatus = function()
 {
     var features = 'width=420,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -505,6 +513,8 @@ issue_update.ready = function(page_id)
     $('.open_history').click(issue_view.openHistory);
     $('.open_nl').click(issue_view.openNotificationList);
     $('.open_ar').click(issue_view.openAuthorizedReplier);
+
+    $('#severity').bind('change', issue_update.display_severity_description).change();
 };
 
 issue_update.validateForm = function()
@@ -533,6 +543,16 @@ issue_update.closeIssue = function(e)
         window.location.href='close.php?id=' + issue_view.get_issue_id();
     }
     e.preventDefault();
+};
+
+issue_update.display_severity_description = function()
+{
+    var description = $('#severity :selected').attr('data-desc');
+    if (description == undefined || description == '') {
+        $('#severity_desc').hide();
+    } else {
+        $('#severity_desc').text(description).show();
+    }
 };
 
 
@@ -971,3 +991,75 @@ product.display_product_version_howto = function()
         $('#product_version_howto').text(howto).show();
     }
 };
+
+/*
+ * Preferences page
+ */
+function preferences() {}
+
+preferences.ready = function()
+{
+    $('#show_revoked').click(function() {
+        $('body#preferences .api_token .revoked').show();
+    });
+
+    $('form#api_token_form').submit(preferences.confirmRegenerateToken);
+
+    $('form.update_name_form').submit(preferences.validateName);
+    $('form.update_email_form').submit(preferences.validateEmail);
+    $('form.update_password_form').submit(preferences.validatePassword);
+    $('input.api_token').focus(function() {
+        var $this = $(this);
+        $this.select();
+    });
+}
+
+preferences.validateName = function()
+{
+    if (Validation.isFieldWhitespace('full_name')) {
+        alert('Please enter your full name.');
+        Validation.selectField('full_name');
+        return false;
+    }
+    return true;
+}
+
+preferences.validateEmail = function()
+{
+    if (!Validation.isEmail(Eventum.getField('email').val())) {
+        alert('Please enter a valid email address.');
+        Validation.selectField('email');
+        return false;
+    }
+    return true;
+}
+
+preferences.validatePassword = function()
+{
+    if (Validation.isWhitespace(Eventum.getField('password').val())) {
+        alert('Please input current password.');
+        Validation.selectField('password');
+        return false;
+    }
+
+    var new_password = Eventum.getField('new_password').val();
+    if (Validation.isWhitespace(new_password) || new_password.length < 6) {
+        alert('Please enter your new password with at least 6 characters.');
+        Validation.selectField('new_password');
+        return false;
+    }
+    if (new_password != Eventum.getField('confirm_password').val()) {
+        alert('The two passwords do not match. Please review your information and try again.');
+        Validation.selectField('confirm_password');
+        return false;
+    }
+    return true;
+}
+
+preferences.confirmRegenerateToken = function()
+{
+    if (confirm("Regenerating your API Key will revoke all previous keys. Do you want to procede?")) {
+        return true;
+    }
+    return false;
+}

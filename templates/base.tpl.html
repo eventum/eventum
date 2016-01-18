@@ -9,7 +9,7 @@
 {capture assign="title"}{block name="title"}{$extra_title|default:""}{/block}{/capture}
 <!DOCTYPE html>
 <html>
-<head data-rel-url="{$core.rel_url}">
+<head data-rel-url="{$core.rel_url}" data-config-relative-date="{$core.current_user_prefs.relative_date}">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=8" />
   <link rel="shortcut icon" href="{$core.rel_url}favicon.ico" type="image/x-icon" />
@@ -37,6 +37,7 @@
   <script type="text/javascript" src="{$core.rel_url}components/dropzone/dist/dropzone.js"></script>
   <script type="text/javascript" src="{$core.rel_url}components/autosize/dist/autosize.js"></script>
   <script type="text/javascript" src="{$core.rel_url}components/jquery-timeago/jquery.timeago.js"></script>
+  <script type="text/javascript" src="{$core.rel_url}components/filereader.js/filereader.js"></script>
 
   {* our css/js after remote assets to allow overrides *}
   <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}css/main.css">

@@ -39,7 +39,8 @@ $(document).ready(function() {
 
     ExpandableCell.ready();
 
-    Eventum.rel_url = $('head').attr('data-rel-url');
+    var $head = $('head');
+    Eventum.rel_url = $head.attr('data-rel-url');
 
     $('#project_chooser').change(function() {
         $(this).find('form').submit();
@@ -94,13 +95,28 @@ $(document).ready(function() {
     autosize($('textarea'));
 
     // jquery timeago
-    $('abbr.timeago').timeago().click(function() {
+    var $timeago = $('time.timeago');
+    // on click toggle between views
+    var timeago_toggle = function () {
         var $el = $(this);
-        // on click toggle between views
         var old = $el.attr('title');
         $el.attr('title', $el.text());
         $el.text(old);
-    });
+    };
+    if ($head.data('config-relative-date') == '1') {
+        // if enabled, then enable for all elements
+        $timeago
+            .timeago()
+            .click(timeago_toggle);
+    } else {
+        // otherwise enable only on click
+        $timeago.click(function () {
+            $(this)
+                .timeago()
+                .unbind('click')
+                .click(timeago_toggle);
+        })
+    }
 });
 
 function Eventum()
@@ -745,12 +761,12 @@ Validation.last_issue_number_validation_value = '';
 Validation.validateIssueNumberField = function(e)
 {
     var target = $(e.target);
-    var form_value = target.val()
+    var form_value = target.val();
     if (Validation.last_issue_number_validation_value == form_value) {
         return;
-    } else {
-        Validation.last_issue_number_validation_value = form_value;
     }
+
+    Validation.last_issue_number_validation_value = form_value;
     var options = {
         check_project: target.attr('data-check-project'),
         exclude_issue: target.attr('data-exclude-issue'),

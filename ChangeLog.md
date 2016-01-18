@@ -1,17 +1,47 @@
 Eventum Issue Tracking System
 =============================
 
-2015-??-??, Version 3.0.7
---------------------
+2016-??-??, Version [3.0.9]
+---------------------------
+
+2016-01-18, Version [3.0.8]
+---------------------------
+- Add "Reply as Note" to emails (@balsdorf)
+- Fix Reply subjects when sending notes (@glensc)
+- Add preference support to turn off relative dates (@balsdorf, #125)
+- Upload on paste from clipboard (@glensc, #126)
+- Fix multiple chosen selections overlapping next line (@slay123, aa5e352)
+- Improve user manage page (@glensc, 5ff030b)
+- Convert manage pages to Controller logic (@glensc, #128)
+- Add severity descriptions to issue update page (@balsdorf, #37)
+
+2015-12-31, Version [3.0.7]
+---------------------------
 
 - emails.php: handle better empty "From:" header. (@glensc, #91)
 - Added ability to require custom fields on the edit form. (@balsdorf, #107)
 - Add logging framework based on monolog (@glensc, #97)
 - Error in the first pie chart in main.php (@glensc, #103)
 - Scheduled Release field loses selected value when updating issue (@balsdorf, #105)
+- Fix static notifications in class.issue.php (@cpinfold, #101)
+- Add .htaccess to project root (@glensc, #104)
+- Add Controller to pages (@glensc, #108, #117, #120)
+- Allow auth backends to auto redirect to external login screen (@balsdorf, #109)
+- Improve select project page and increase project cookie lifespan (@balsdorf, #110)
+- 3.0.6: General Setup: SMTP: Requires Authentication: Radio Buttons (@glensc, #112)
+- config.php: APP_xxx_COLOR: CSS (@glensc, #114)
+- setup header comment for all files (@glensc, @balsdorf, #115)
+- show dates human friendly (@glensc, #116)
+- add .htaccess to htdocs (@glensc, #118)
+- Add API Tokens support for authentication for RPC/CLI (@balsdorf, @glensc, #122)
+- Added option to add users to authorized repliers list when sending email (@balsdorf, #123)
+- Fix default Notification options (@glensc, #121)
+- Exclude sender of email from getting standard "new issue" email (@balsdorf, #113, #124)
+- Restore "remember me" in template, lost in 2.4.0 release (@glensc, aec62f5)
+- Restore usability of "Add Unknown Recipients to Issue Notification List" checkbox (@balsdorf)
 
 2015-11-10, Version [3.0.6]
---------------------
+---------------------------
 - Update custom fields from update issue page (Bryan Alsdorf, #88)
 - Allow time category/summary to be set when sending emails (Bryan Alsdorf)
 - Add missing 'Scheduled Release' and 'Group' field back to update page (Bryan Alsdorf, #89)
@@ -22,12 +52,12 @@ Eventum Issue Tracking System
 - LDAP auth backend: create connection only if needed (Elan Ruusamäe)
 
 2015-11-02, Version [3.0.5]
--------------------------
+---------------------------
 
 - Fix routing settings read error (Elan Ruusamäe, #80)
 
 2015-10-31, Version [3.0.4]
--------------------------
+---------------------------
 - Fix few Static & Deprecated calls (Craig Pinfold, #72)
 - Use randomlib for private key generation, add UI to regenerate it (Elan Ruusamäe, #73)
 - Fix misplaced {if} in preferences template (Robbert-Jan Roos, LP#1506279)
@@ -49,7 +79,7 @@ Eventum Issue Tracking System
 - Add DebugBar debug bar in development mode (Elan Ruusamäe, #87)
 
 2015-10-13, Version [3.0.3]
--------------------------
+---------------------------
 - Added bin/truncate_mail_queue.php (Bryan Alsdorf)
 - Add admin interface for required fields (Bryan Alsdorf, #67)
 - UI fix for Issue Assignees (Kristo Klausson, #68)
@@ -61,7 +91,7 @@ Eventum Issue Tracking System
 - Add autosize plugin to all TEXAREAs (Elan Ruusamäe, #70)
 
 2015-08-04, Version [3.0.2]
--------------------------
+---------------------------
 
 - Fix sql error in disassociate custom field (Elan Ruusamäe)
 - Fix cancel update issue action (Elan Ruusamäe, #47)
@@ -87,7 +117,7 @@ Eventum Issue Tracking System
 - Fix "Assignment: Array" bug in template when issue is assigned to multiple assignees (Elan Ruusamäe)
 
 2015-04-21, Version [3.0.1]
--------------------------
+---------------------------
 
 - Add option to set time summary when sending a note (Bryan)
 - Optionally send reminders to a different IRC channel (Bryan)
@@ -102,7 +132,7 @@ Eventum Issue Tracking System
 - Replace jpgraph 1.5.3 with phplot 6.1.0 (Elan Ruusamäe, GH#46)
 
 2015-02-03, Version [3.0.0-pre1]
-------------------------------
+--------------------------------
 
 - Make Custom Fields Weekly Report honor Project ID (Raul Raat, GH#6)
 - Exclude removed notes when generating note sequence number. (Bryan Alsdorf, Fixes LP#1377921)
@@ -132,7 +162,7 @@ Eventum Issue Tracking System
 - Use DB query placeholders (Elan Ruusamäe, GH#26)
 
 2014-10-04, Version [2.4.0-pre1]
-------------------------------
+--------------------------------
 
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
 - Added "User Filter" functionality to LDAP integration (Bryan Alsdorf)
@@ -1065,6 +1095,9 @@ Eventum Issue Tracking System
 
 - Initial release (João; Bryan)
 
+[3.0.9]: https://github.com/eventum/eventum/compare/v3.0.8...v3.0.9
+[3.0.8]: https://github.com/eventum/eventum/compare/v3.0.7...v3.0.8
+[3.0.7]: https://github.com/eventum/eventum/compare/v3.0.6...v3.0.7
 [3.0.6]: https://github.com/eventum/eventum/compare/v3.0.5...v3.0.6
 [3.0.5]: https://github.com/eventum/eventum/compare/v3.0.4...v3.0.5
 [3.0.4]: https://github.com/eventum/eventum/compare/v3.0.3...v3.0.4

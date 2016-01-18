@@ -19,6 +19,11 @@ function reply(ema_id, id)
         window.location.href = 'send.php?ema_id=' + ema_id + '&id=' + id;
     }
 }
+function replyAsNote(account_id, email_id)
+{
+    window.location.href = 'post_note.php?cat=email_reply&issue_id=' + issue_id + '&ema_id=' + account_id + '&id=' + email_id, '_noteReply' + email_id;
+    emailWin.focus();
+}
 function loadReport(id)
 {
 
@@ -230,6 +235,9 @@ setTimeout('Eventum.close_and_refresh()', 2000);
         <tr class="buttons">
           <td colspan="2">
             <input type="button" value="{t}Reply{/t}" onClick="reply({$smarty.get.ema_id}, {$smarty.get.id|intval});">
+            {if $core.current_role > $core.roles.customer}
+                <input type="button" value="Reply as Note" onClick="replyAsNote({$smarty.get.ema_id}, {$smarty.get.id});">
+            {/if}
             <input type="button" value="{t}Close{/t}" onClick="window.close();">
           </td>
         </tr>

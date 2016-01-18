@@ -32,14 +32,6 @@ body#new_issue #create_issue {
     width: 100%;
 }
 
-body#new_issue #severity_desc {
-    background: #FFFF00;
-    padding: 2px;
-    border-radius: 0.5em;
-    -webkit-border-radius: 0.5em;
-    -moz-border-radius: 0.5em;
-}
-
 
 /* Login Page */
 body#login h1 {
@@ -284,6 +276,24 @@ body#preferences table.bordered {
     margin-bottom: 1em;
 }
 
+body#preferences .api_token .token {
+    width: 600px;
+}
+
+body#preferences .api_token .token input {
+    width: 100%;
+}
+
+body#preferences .api_token .revoked {
+    text-decoration: line-through;
+    display: none;
+}
+
+body#preferences .api_token .revoked input {
+    color : darkGray;
+    font-style: italic;
+}
+
 /* End preferences page */
 
 /* Begin Popup Page */
@@ -380,6 +390,15 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
     top: -270px;
     box-shadow: 4px -4px 5px rgba(0, 0, 0, 0.3);
     border-top: 1px solid #aaaaaa;
+}
+/* fix multiple chosen selections overlapping next line (by Risto Risti) */
+.chosen-container.chosen-container-multi  {
+    height: auto;
+    min-height: 27px;
+}
+.chosen-container.chosen-container-multi .chosen-drop {
+    position: absolute;
+    top: 100%;
 }
 
 /* workaround */

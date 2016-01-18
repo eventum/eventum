@@ -9,7 +9,9 @@
 /bin/dyncontent-chksum.pl export-ignore
 /bin/release.sh export-ignore
 /.codeclimate.yml export-ignore
+/.gush.yml export-ignore
 /.php_cs export-ignore
+/.styleci.yml export-ignore
 /.travis.yml export-ignore
 
 /bin/phpxref.sh export-ignore

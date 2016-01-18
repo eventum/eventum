@@ -103,19 +103,17 @@ class RemoteApi
     }
 
     /**
-     * FIXME: this should return bool
-     *
      * @param string $email
      * @param string $password
-     * @return string
+     * @return bool
      * @access public
      */
     public function isValidLogin($email, $password)
     {
-        if (!Auth::isCorrectPassword($email, $password)) {
-            $is_valid = 'no';
+        if (!Auth::isCorrectPassword($email, $password) && !APIAuthToken::isTokenValidForEmail($password, $email)) {
+            $is_valid = false;
         } else {
-            $is_valid = 'yes';
+            $is_valid = true;
         }
 
         return $is_valid;

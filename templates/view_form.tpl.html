@@ -211,6 +211,7 @@
             {if $core.app_setup.support_email == 'enabled' and $ema_id != ''}
             {if $core.current_role >= $core.roles.standard_user}
             <input type="button" value="{t}Reply{/t}" class="reply_issue">
+            <input type="button" value="{t}Reply as Note{/t}" class="reply_issue_note">
             {elseif $core.current_role == $core.roles.customer}
             <input type="button" value="{t}Send Email{/t}" class="reply_issue">
             {if $is_user_notified != 1}

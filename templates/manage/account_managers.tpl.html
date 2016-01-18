@@ -58,7 +58,7 @@ function checkDelete()
                 <td width="80%">
                   <select name="project">
                     <option value="-1">{t}Please choose an option{/t}</option>
-                    {html_options options=$project_list selected=$info.cam_prj_id}
+                    {html_options options=$project_list selected=$info.cam_prj_id|default:''}
                   </select>
                   {include file="error_icon.tpl.html" field="project"}
                 </td>
@@ -69,7 +69,7 @@ function checkDelete()
                 </th>
                 <td width="80%">
                   <select name="customer">
-                  {html_options options=$customers selected=$info.cam_customer_id}
+                  {html_options options=$customers|default:'' selected=$info.cam_customer_id|default:''}
                   </select>
                   {include file="error_icon.tpl.html" field="customer"}
                 </td>
@@ -80,7 +80,7 @@ function checkDelete()
                 </th>
                 <td width="80%">
                   <select name="manager">
-                  {html_options options=$user_options selected=$info.cam_usr_id}
+                  {html_options options=$user_options|default:'' selected=$info.cam_usr_id|default:''}
                   </select>
                   {include file="error_icon.tpl.html" field="manager"}
                 </td>

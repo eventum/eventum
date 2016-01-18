@@ -175,16 +175,25 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
         return false;
     }
 
+    public function userExists($login)
+    {
+        $usr_id = $this->getUserIDByLogin($login);
+
+        return $usr_id > 0;
+    }
+
     /**
-     * Returns the user ID for the specified login. This can be the email address, an alias,
-     * the external login id or any other info the backend can handle.
+     * Returns the user ID for the specified email address. This will ONLY check for local accounts.
+     *
+     * By default, CAS cannot check for a user account without logging them in. If you need to be able to do that you
+     * should extend this class and add custom functionality.
      *
      * @param $login
      * @return  int|null The user id or null
      */
     public function getUserIDByLogin($login)
     {
-        return null;
+        return User::getUserIDByEmail($login, true);
     }
 
     /**

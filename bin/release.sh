@@ -84,6 +84,7 @@ po_checkout() {
 	fi
 	rm -f $dir/localization/*.po
 	cp -af $podir/localization/*.po $dir/localization
+	make -C $dir/localization touch-po
 }
 
 # setup $version and update APP_VERSION in init.php
@@ -109,9 +110,8 @@ clean_whitespace() {
 
 # setup composer deps
 composer_install() {
-	# this file does not exist in git export, but referenced in composer.json
-	install -d tests
-	touch tests/TestCase.php
+	# this dir does not exist in git export, but referenced in composer.json
+	install -d tests/src
 	$quick && test -f ../composer.lock && cp ../composer.lock .
 	# first install with dev to get assets installed
 	$composer install --prefer-dist --ignore-platform-reqs
@@ -199,6 +199,7 @@ clean_vendor() {
 	# not used, and fails php lint under 5.3
 	rm vendor/zendframework/zend-stdlib/src/Guard/*Trait.php
 	rm vendor/zendframework/zend-stdlib/src/Hydrator/*Trait.php
+	rm vendor/psr/log/Psr/Log/*Trait.php
 
 	# we need *only* zf-config Config.php class
 	rm -r vendor/zendframework/zend-stdlib
@@ -337,7 +338,7 @@ prepare_source() {
 
 	# install dirs and fix permissions
 	install -d var/{log,cache,lock}
-	touch var/log/{auth.log,cli.log,errors.log,login_attempts.log}
+	touch var/log/{eventum.log,auth.log,cli.log,errors.log,login_attempts.log}
 	touch var/log/{irc_bot_error.log,irc_bot_smartirc.log}
 	chmod -R a+rX .
 	chmod -R a+rwX config var

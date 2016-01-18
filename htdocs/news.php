@@ -13,17 +13,5 @@
 
 require_once __DIR__ . '/../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate('news.tpl.html');
-
-Auth::checkAuthentication('index.php?err=5', true);
-
-$prj_id = Auth::getCurrentProject();
-if (!empty($_GET['id'])) {
-    $t = News::getDetails($_GET['id']);
-    $tpl->assign('news', array($t));
-} else {
-    $tpl->assign('news', News::getListByProject($prj_id, true));
-}
-
-$tpl->displayTemplate();
+$controller = new Eventum\Controller\NewsController();
+$controller->run();
