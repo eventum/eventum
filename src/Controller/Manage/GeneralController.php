@@ -108,7 +108,7 @@ class GeneralController extends ManageBaseController
             array(
                 'project_list' => Project::getAll(),
                 'setup' => Setup::get(),
-                'user_roles' => User::getRoles(array('Customer')),
+                'user_roles' => User::getRoles(array(User::ROLE_CUSTOMER)),
             )
         );
     }

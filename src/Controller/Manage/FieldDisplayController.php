@@ -70,7 +70,7 @@ class FieldDisplayController extends ManageBaseController
 
         $excluded_roles = array('viewer');
         if (!CRM::hasCustomerIntegration($this->prj_id)) {
-            $excluded_roles[] = 'customer';
+            $excluded_roles[] = User::ROLE_CUSTOMER;
         }
         $user_roles = User::getRoles($excluded_roles);
         $user_roles[9] = 'Never Display';

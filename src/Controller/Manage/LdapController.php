@@ -98,7 +98,7 @@ class LdapController extends ManageBaseController
                 'setup' => $setup,
                 'project_list' => Project::getAll(),
                 'project_roles' => array(0 => 'No Access') + User::getRoles(),
-                'user_roles' => User::getRoles(array('Customer')),
+                'user_roles' => User::getRoles(array(User::ROLE_CUSTOMER)),
             )
         );
     }

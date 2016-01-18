@@ -106,7 +106,7 @@ class CustomFieldsController extends ManageBaseController
     {
         $excluded_roles = array();
         if (!CRM::hasCustomerIntegration(Auth::getCurrentProject())) {
-            $excluded_roles[] = 'customer';
+            $excluded_roles[] = User::ROLE_CUSTOMER;
         }
         $user_roles = User::getRoles($excluded_roles);
         $user_roles[9] = 'Never Display';

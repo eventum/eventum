@@ -576,8 +576,8 @@ class User
             $exclude_role = array($exclude_role);
         }
 
-        foreach ($exclude_role as $role_title) {
-            unset($roles[self::getRoleID($role_title)]);
+        foreach ($exclude_role as $role_id) {
+            unset($roles[$role_id]);
         }
 
         return $roles;

@@ -25,6 +25,9 @@ abstract class ManageBaseController extends BaseController
     /** @var bool */
     protected $is_popup = false;
 
+    /** @var int */
+    protected $role_id;
+
     /**
      * @inheritdoc
      */

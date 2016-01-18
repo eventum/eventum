@@ -106,17 +106,17 @@ class UsersController extends ManageBaseController
     {
         $project_roles = array();
         foreach ($project_list as $prj_id => $prj_title) {
-            $excluded_roles = array('Customer');
+            $excluded_roles = array(User::ROLE_CUSTOMER);
+            if ($this->role_id == User::ROLE_MANAGER) {
+                $excluded_roles[] = User::ROLE_ADMINISTRATOR;
+            }
             if ($user_details['roles'][$prj_id]['pru_role'] == User::ROLE_CUSTOMER) {
-                // FIXME: this check is always true!
-                if (count($excluded_roles) == 1) {
-                    $excluded_roles = false;
-                } else {
-                    $excluded_roles = array('administrator');
-                }
-                if ($user_details['roles'][$prj_id]['pru_role'] == User::ROLE_REPORTER) {
-                    $excluded_roles = false;
-                }
+                // if user is already a customer, keep customer role in list
+                unset($excluded_roles[array_search(User::ROLE_CUSTOMER, $excluded_roles)]);
+            }
+            if ($user_details['roles'][$prj_id]['pru_role'] == User::ROLE_ADMINISTRATOR) {
+                // if user is already an admin, keep admin role in list
+                unset($excluded_roles[array_search(User::ROLE_ADMINISTRATOR, $excluded_roles)]);
             }
             $project_roles[$prj_id] = array(0 => 'No Access') + User::getRoles($excluded_roles);
         }
