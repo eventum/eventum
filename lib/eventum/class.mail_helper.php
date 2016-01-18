@@ -249,7 +249,6 @@ class Mail_Helper
         return $returns;
     }
 
-
     /**
      * Parses a one or more email addresses and returns them separated by a comma and a space (", ").
      *
@@ -266,9 +265,9 @@ class Mail_Helper
         foreach ($addresses as $address) {
             $returns[] = self::getFormattedName($address['sender_name'], $address['email']);
         }
-        return join(', ', $returns);
-    }
 
+        return implode(', ', $returns);
+    }
 
     /**
      * Method used to get the email address portion of a given

@@ -84,6 +84,7 @@ po_checkout() {
 	fi
 	rm -f $dir/localization/*.po
 	cp -af $podir/localization/*.po $dir/localization
+	make -C $dir/localization touch-po
 }
 
 # setup $version and update APP_VERSION in init.php

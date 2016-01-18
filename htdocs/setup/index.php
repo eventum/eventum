@@ -353,21 +353,23 @@ function get_queries($file)
     return $queries;
 }
 
-function initlogger() {
-  // init timezone, logger needs it
+function initlogger()
+{
+    // init timezone, logger needs it
   if (!defined('APP_DEFAULT_TIMEZONE')) {
-    $tz = !empty($_POST['default_timezone']) ? $_POST['default_timezone'] : @date_default_timezone_get();
-    define('APP_DEFAULT_TIMEZONE', $tz ?: 'UTC');
+      $tz = !empty($_POST['default_timezone']) ? $_POST['default_timezone'] : @date_default_timezone_get();
+      define('APP_DEFAULT_TIMEZONE', $tz ?: 'UTC');
   }
 
   // and APP_VERSION
   if (!defined('APP_VERSION')) {
-    define('APP_VERSION', '3.x');
+      define('APP_VERSION', '3.x');
   }
-  Logger::initialize();
+    Logger::initialize();
 }
 
-function getDb() {
+function getDb()
+{
     initlogger();
     try {
         return DB_Helper::getInstance(false);

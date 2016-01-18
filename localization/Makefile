@@ -1,5 +1,5 @@
 # Makefile for Eventum po files.
-# (c) 2007-2015 Elan Ruusamäe <glen@delfi.ee>
+# (c) 2007-2016 Elan Ruusamäe <glen@delfi.ee>
 
 localedir   := .
 DOMAIN      := eventum
@@ -99,4 +99,14 @@ update-po:
 	for po in $(wildcard *.po); do \
 		echo -n $$po; \
 		msgmerge -U -w 78 $$po $(DOMAIN).pot; \
+	done
+
+# update .po file timestamp from PO-Revision-Date header
+touch-po:
+	@set -e; \
+	for po in $(wildcard *.po); do \
+		d=`awk '/PO-Revision-Date:/ { sub(/\\\\n"/, ""); print $$2 " " $$3 } ' $$po`; \
+		test -n "$$d" || continue; \
+		echo touch -d "$$d" $$po; \
+		touch -d "$$d" $$po; \
 	done

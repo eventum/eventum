@@ -134,22 +134,22 @@ class PostNoteController extends BaseController
     private function replyEmailAction($sup_id, $ema_id)
     {
         $email = Support::getEmailDetails($ema_id, $sup_id);
-        $header = Misc::formatReplyPreamble($email["timestamp"], $email["sup_from"]);
+        $header = Misc::formatReplyPreamble($email['timestamp'], $email['sup_from']);
         $note = array();
-        $note["not_body"] = $header . Misc::formatReply($email["message"]);
+        $note['not_body'] = $header . Misc::formatReply($email['message']);
         $this->tpl->assign(array(
-            "note"           => $note
+            'note'           => $note
         ));
         $this->reply_subject = $email['sup_subject'];
     }
 
     private function replyIssueAction()
     {
-        $header = Misc::formatReplyPreamble($this->issue_details["iss_created_date"], $this->issue_details["reporter"]);
+        $header = Misc::formatReplyPreamble($this->issue_details['iss_created_date'], $this->issue_details['reporter']);
         $note = array();
-        $note["not_body"] = $header . Misc::formatReply($this->issue_details["iss_original_description"]);
+        $note['not_body'] = $header . Misc::formatReply($this->issue_details['iss_original_description']);
         $this->tpl->assign(array(
-            "note"           => $note
+            'note'           => $note
         ));
         $this->reply_subject = $this->issue_details['iss_summary'];
     }

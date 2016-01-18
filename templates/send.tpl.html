@@ -130,13 +130,13 @@ function saveDraft()
 {
     Eventum.checkWindowClose(false);
     Eventum.getField('cat').val('save_draft');
-    Eventum.getField('send_email_form').submit();
+    Eventum.getField('sendEmailForm').submit();
 }
 function updateDraft(f)
 {
     Eventum.checkWindowClose(false);
     Eventum.getField('cat').val('update_draft');
-    Eventum.getField('send_email_form').submit();
+    Eventum.getField('sendEmailForm').submit();
 }
 var old_message = '';
 function setSignature(f)
@@ -159,7 +159,7 @@ $().ready(function() {
 //-->
 </script>
 
-<form class="validate dropzone" data-validation-function='validateForm' id="send_email_form" name="send_email_form" method="post" enctype="multipart/form-data">
+<form class="validate dropzone" data-validation-function='validateForm' id="sendEmailForm" name="sendEmailForm" method="post" enctype="multipart/form-data">
 <input type="hidden" name="cat" value="send_email">
 <input type="hidden" name="parent_id" value="{$parent_email_id|default:''}">
 <input type="hidden" name="ema_id" value="{$ema_id|default:''}">

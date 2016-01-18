@@ -1,0 +1,116 @@
+<?php
+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
+namespace Eventum\Controller\Manage;
+
+use Misc;
+use Project;
+use Round_Robin;
+use User;
+
+class RoundRobinController extends ManageBaseController
+{
+    /** @var string */
+    protected $tpl_name = 'manage/round_robin.tpl.html';
+
+    /** @var string */
+    private $cat;
+
+    /** @var int */
+    private $prj_id;
+
+    /**
+     * @inheritdoc
+     */
+    protected function configure()
+    {
+        $request = $this->getRequest();
+
+        $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
+        $this->prj_id = $request->request->get('prj_id') ?: $request->query->get('prj_id');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function defaultAction()
+    {
+        if ($this->cat == 'new') {
+            $this->newAction();
+        } elseif ($this->cat == 'update') {
+            $this->updateAction();
+        } elseif ($this->cat == 'delete') {
+            $this->deleteAction();
+        }
+
+        if ($this->cat == 'edit') {
+            $this->editAction();
+        }
+    }
+
+    private function newAction()
+    {
+        $res = Round_Robin::insert();
+        $map = array(
+            1 => array(ev_gettext('Thank you, the round robin entry was added successfully.'), Misc::MSG_INFO),
+            -1 => array(ev_gettext('An error occurred while trying to add the round robin entry.'), Misc::MSG_ERROR),
+            -2 => array(ev_gettext('Please enter the title for this round robin entry.'), Misc::MSG_ERROR),
+            -3 => array(ev_gettext('Please enter the message for this round robin entry.'), Misc::MSG_ERROR),
+        );
+        Misc::mapMessages($res, $map);
+    }
+
+    private function updateAction()
+    {
+        $res = Round_Robin::update();
+        $map = array(
+            1 => array(ev_gettext('Thank you, the round robin entry was updated successfully.'), Misc::MSG_INFO),
+            -1 => array(ev_gettext('An error occurred while trying to update the round robin entry information.'), Misc::MSG_ERROR),
+            -2 => array(ev_gettext('Please enter the title for this round robin entry.'), Misc::MSG_ERROR),
+            -3 => array(ev_gettext('Please enter the message for this round robin entry.'), Misc::MSG_ERROR),
+        );
+        Misc::mapMessages($res, $map);
+    }
+
+    private function deleteAction()
+    {
+        Round_Robin::remove();
+    }
+
+    private function editAction()
+    {
+        $get = $this->getRequest()->query;
+
+        $info = Round_Robin::getDetails($get->getInt('id'));
+        $this->tpl->assign('info', $info);
+        $this->prj_id = $info['prr_prj_id'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function prepareTemplate()
+    {
+        $this->tpl->assign(
+            array(
+                'list' => Round_Robin::getList(),
+                'project_list' => Project::getAll(),
+            )
+        );
+
+        if ($this->prj_id) {
+            $user_options = User::getActiveAssocList($this->prj_id, User::ROLE_CUSTOMER);
+            $this->tpl->assign('user_options', $user_options);
+        }
+    }
+}

@@ -95,7 +95,7 @@ $(document).ready(function() {
     autosize($('textarea'));
 
     // jquery timeago
-    var $timeago = $('abbr.timeago');
+    var $timeago = $('time.timeago');
     // on click toggle between views
     var timeago_toggle = function () {
         var $el = $(this);

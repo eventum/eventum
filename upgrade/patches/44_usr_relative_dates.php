@@ -22,6 +22,3 @@ $db->query('ALTER TABLE {{%user_preference}} ADD COLUMN upr_relative_date tinyin
 $setup = Setup::get();
 
 $db->query('UPDATE {{%user_preference}} SET upr_relative_date=?', array((int) ($setup['relative_date'] == 'enabled')));
-
-
-
