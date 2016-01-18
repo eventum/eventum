@@ -9,6 +9,7 @@ Eventum Issue Tracking System
 - Upload on paste from clipboard (@glensc, #126)
 - Fix multiple chosen selections overlapping next line (@slay123, aa5e352)
 - Improve user manage page (@glensc, 5ff030b)
+- Convert manage pages to Controller logic (@glensc, #128)
 
 2015-12-31, Version [3.0.7]
 --------------------
