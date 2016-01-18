@@ -10,6 +10,7 @@ Eventum Issue Tracking System
 - Fix multiple chosen selections overlapping next line (@slay123, aa5e352)
 - Improve user manage page (@glensc, 5ff030b)
 - Convert manage pages to Controller logic (@glensc, #128)
+- Add severity descriptions to issue update page (@balsdorf, #37)
 
 2015-12-31, Version [3.0.7]
 --------------------
