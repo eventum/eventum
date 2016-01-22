@@ -57,8 +57,10 @@ Enable or disable the [Email Integration Feature](System-Admin:-Email-integratio
 
 ### Display Description as Email #0 
 
+The feature converts the 'Initial Description' into an Associated Email.  The first Associated Email number = 0.  Allowing the engineer to see the 'Initial Description' as part of the mail conversation, instead of having to scroll to the top of the page page.
+
 ***
-### Daily Tips
+### Daily Tips (Depreciated v3.0.0-pre1)
 
 Enable or disable the Daily Tips displayed in Stats (general statistics) start page. The daily tips are selected randomly from the template files in /templates/tips directory.
 
