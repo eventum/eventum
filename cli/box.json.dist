@@ -8,9 +8,17 @@
         {
             "name": [
                 "class.cli_misc.php",
-                "class.command_line.php"
+                "class.command_line.php",
+                "class.auth.php",
+                "class.date_helper.php"
             ],
             "in": "lib/eventum"
+        },
+        {
+            "name": [
+                "AuthCookie.php"
+            ],
+            "in": "lib/eventum/auth"
         },
         {
             "name": [
