@@ -9,7 +9,8 @@ Eventum is a user friendly and very flexible issue tracking system, that can be 
 
 * * * * *
 # New Documentation
-_Under Construction_
+_Under Construction_ 
+  * [x] _Indicates Links and Content Have Been Updated_
 
 * Basic User Information
  * [x] [[Creating Issues|Basic-User:-Creating-Issues]]
