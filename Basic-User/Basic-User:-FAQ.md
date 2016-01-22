@@ -124,8 +124,8 @@ You may also want to determine how often the script is being called. If you are 
 
 A common problem reported by users is emails not being downloaded. Solution: There are many things that could cause this problem.
 
--   You read the [Doing a fresh install](Doing a fresh install "wikilink") page, Email Download section, right?
--   Double check [Troubleshooting Email Integration](Email integration#Troubleshooting "wikilink")
+-   You read the [[Doing a Fresh Install|System-Admin:-Doing-a-fresh-install]] page, Email Download section, right?
+-   Double check [[Troubleshooting Email Integration|System-Admin%3A-Email-integration#troubleshooting]]
 -   Make sure you configured correctly the Email Account, Use the Test Settings Button
 -   Verify if there are messages in Associate Emails list, with Standard User or higher
 -   Check if Auto-Creation of Issues is enabled
