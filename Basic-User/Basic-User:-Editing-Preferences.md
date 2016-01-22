@@ -4,7 +4,7 @@
 
 The default options for email notifications are used to pre-select the notification related fields when you report a new issue, or subscribe manually for changes in the issue details page.
 
-If available, you might change the language from the [Available Languages](Localization#Translation_status "wikilink").
+If available, you might change the language from the [[Available Languages|System-Advanced:-Localization]].
 
 You may also set the appropriate timezone where you live in this screen in order to display issues information with your local time, and all of the software will adjust the dates displayed in the system accordingly. Default Timezone is UTC.
 
