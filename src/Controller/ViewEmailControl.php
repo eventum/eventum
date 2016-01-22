@@ -85,11 +85,6 @@ class ViewEmailController extends BaseController
         }
 
         $usr_role = User::getRoleByUser($this->usr_id, $this->prj_id);
-        if ($usr_role < User::ROLE_USER) {
-            return false;
-        }
-
-        // FIXME: this is superfluous check!
         if ($this->cat == 'move_email' && $usr_role < User::ROLE_USER) {
             return false;
         }
