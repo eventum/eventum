@@ -14,7 +14,18 @@
 ini_set('memory_limit', '1024M');
 require_once __DIR__ . '/../init.php';
 
-$full_message = stream_get_contents(STDIN);
+/**
+ * @deprecated this script is deprecated, you probably want to use process_all_emails.php script
+ */
+
+// take input from first argument if specified
+// otherwise read from STDIN
+if (isset($argv[1])) {
+    $full_message = file_get_contents($argv[1]);
+} else {
+    $full_message = stream_get_contents(STDIN);
+}
+
 $return = Routing::route_emails($full_message);
 if (is_array($return)) {
     echo $return[1];
