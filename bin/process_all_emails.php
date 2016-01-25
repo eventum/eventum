@@ -13,10 +13,6 @@
 
 require_once __DIR__ . '/../init.php';
 
-// since this is all hacked up anyway, let's hardcode the values
-// TODO: Actually use values from config
-$_SERVER['argv'][1] = '1';
-
 $full_message = stream_get_contents(STDIN);
 
 $return = Routing::route($full_message);
