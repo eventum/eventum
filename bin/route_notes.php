@@ -15,19 +15,8 @@ ini_set('memory_limit', '1024M');
 require_once __DIR__ . '/../init.php';
 
 /**
- * @deprecated this script is deprecated, you probably want to use process_all_emails.php script
+ * @deprecated this script is deprecated, please use process_all_emails.php script
  */
-
-// take input from first argument if specified
-// otherwise read from STDIN
-if (isset($argv[1])) {
-    $full_message = file_get_contents($argv[1]);
-} else {
-    $full_message = stream_get_contents(STDIN);
-}
-
-$return = Routing::route_notes($full_message);
-if (is_array($return)) {
-    echo $return[1];
-    exit($return[0]);
-}
+$script = dirname(__FILE__);
+trigger_error("$script is deprecated, use process_all_emails.php instead", E_USER_DEPRECATED);
+require __DIR__ . '/process_all_emails.php';
