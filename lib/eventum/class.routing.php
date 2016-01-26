@@ -349,6 +349,13 @@ class Routing
         }
 
         $prj_id = Issue::getProjectID($issue_id);
+
+        if (!$prj_id) {
+            // if project id can't be fetched, the issue does not exist,
+            // no point check deeper
+            throw RoutingException::noIssuePermission($issue_id);
+        }
+
         // check if the sender is allowed in this issue' project and if it is an internal user
         $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
