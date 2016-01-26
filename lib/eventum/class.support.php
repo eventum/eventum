@@ -530,6 +530,7 @@ class Support
                 if (!$info['ema_leave_copy']) {
                     self::deleteMessage($info, $mbox, $num);
                 }
+                return;
             }
 
             // no issue-, note-, draft- routing,
