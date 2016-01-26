@@ -3,6 +3,7 @@ Eventum Issue Tracking System
 
 2016-??-??, Version [3.0.9]
 ---------------------------
+- Deprecate bin/route_*.php scripts in favour of bin/process_all_emails.php (@glensc, a4ea0c5)
 
 2016-01-18, Version [3.0.8]
 ---------------------------
