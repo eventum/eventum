@@ -40,6 +40,8 @@ class Routing
 
         $types = array('email', 'note', 'draft');
         foreach ($addresses as $address) {
+            // NOTE: $address is not individual recipients,
+            // but rather raw To or Cc header containing multiple addresses
             foreach ($types as $type) {
                 if (self::getMatchingIssueIDs($address, $type) === false) {
                     continue;
