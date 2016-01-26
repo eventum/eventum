@@ -35,15 +35,11 @@ class Routing
 
         // we create addresses array so it can be reused
         $addresses = array();
-        if (isset($structure->to)) {
-            foreach ($structure->to as $address) {
-                $addresses[] = $address->mailbox . '@' . $address->host;
-            }
+        if (isset($structure->headers['to'])) {
+            $addresses[] = $structure->headers['to'];
         }
-        if (isset($structure->cc)) {
-            foreach ($structure->cc as $address) {
-                $addresses[] = $address->mailbox . '@' . $address->host;
-            }
+        if (isset($structure->headers['cc'])) {
+            $addresses[] = $structure->headers['cc'];
         }
         // free memory
         unset($structure);
@@ -59,6 +55,9 @@ class Routing
 
         $types = array('email', 'note', 'draft');
         foreach ($addresses as $address) {
+            // NOTE: $address is not individual recipients,
+            // but rather raw To or Cc header containing multiple addresses
+
             foreach ($types as $type) {
                 // route type needs to be enabled
                 if (!$routing[$type]) {
