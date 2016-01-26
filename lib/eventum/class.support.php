@@ -514,14 +514,12 @@ class Support
             try {
                 $routed = Routing::route($message);
             } catch (RoutingException $e) {
-                self::bounceMessage($email, $e);
-
-                // if leave copy of emails on IMAP server is off we can
-                // bounce on note that user had no permission to write
-                // here.
+                // "if leave copy of emails on IMAP server" is "off",
+                // then we can bounce on the message
                 // otherwise proper would be to create table -
                 // eventum_bounce: bon_id, bon_message_id, bon_error
                 if (!$info['ema_leave_copy']) {
+                    self::bounceMessage($email, $e);
                     self::deleteMessage($info, $mbox, $num);
                 }
                 return;
