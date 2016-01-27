@@ -65,7 +65,10 @@ class DbMigrate
         $logger($e);
     }
 
-    public function patch_database()
+    /**
+     * @param int $patch a specific patch to run, otherwise run any patch that is not applied yet
+     */
+    public function patch_database($patch = null)
     {
         // sanity check. check that the version table exists.
         if (!$this->hasVersionTable()) {
@@ -74,6 +77,12 @@ class DbMigrate
 
         $patches = $this->applied_patches();
         $files = $this->read_patches("{$this->dir}/patches");
+
+        if ($patch) {
+            $this->apply_patch($files, $patch);
+
+            return;
+        }
 
         $addCount = 0;
         $maxpatch = max(array_keys($files)) ?: 0;
@@ -105,6 +114,26 @@ class DbMigrate
         $schemafile = 'schema.sql';
         $this->log("* Creating database: $schemafile ");
         $this->exec_sql_file("{$this->dir}/{$schemafile}");
+    }
+
+    /**
+     * apply specific patch
+     *
+     * could be used to re-run certain patch
+     * does not update version table
+     *
+     * @param array $files patch number to filename mapping
+     * @param int $patch patch number to apply
+     */
+    private function apply_patch($files, $patch)
+    {
+        if (!isset($files[$patch])) {
+            throw new InvalidArgumentException("No such patch: $patch");
+        }
+        $file = $files[$patch];
+        $basename = basename($file);
+        $this->log("* Applying patch: $patch ($basename)");
+        $this->exec_sql_file($file);
     }
 
     private function exec_sql_file($input_file)
@@ -144,6 +173,12 @@ class DbMigrate
         require $file;
     }
 
+    /**
+     * Scan filesystem for all patches
+     *
+     * @param string $update_path
+     * @return array patches indexed by their number
+     */
     private function read_patches($update_path)
     {
         $handle = opendir($update_path);
@@ -153,7 +188,7 @@ class DbMigrate
         while (false !== ($file = readdir($handle))) {
             $number = substr($file, 0, strpos($file, '_'));
             if (in_array(substr($file, -4), array('.sql', '.php')) && is_numeric($number)) {
-                $files[(int) $number] = "$update_path/$file";
+                $files[(int)$number] = "$update_path/$file";
             }
         }
         closedir($handle);
