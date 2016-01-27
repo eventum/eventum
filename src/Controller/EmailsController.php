@@ -39,7 +39,7 @@ class EmailsController extends BaseController
     {
         $request = $this->getRequest();
 
-        $this->prj_id = $request->query->get('prj_id');
+        $this->prj_id = $request->query->getInt('prj_id');
     }
 
     /**

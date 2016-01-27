@@ -37,7 +37,7 @@ class ReminderActionsController extends ManageBaseController
         $request = $this->getRequest();
 
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
-        $this->rem_id = $request->request->get('rem_id') ?: $request->query->get('rem_id');
+        $this->rem_id = $request->request->getInt('rem_id') ?: $request->query->getInt('rem_id');
     }
 
     /**

@@ -38,7 +38,7 @@ class EmailAliasController extends ManageBaseController
         $request = $this->getRequest();
 
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
-        $this->usr_id = $request->request->get('id') ?: $request->query->get('id');
+        $this->usr_id = $request->request->getInt('id') ?: $request->query->getInt('id');
     }
 
     /**

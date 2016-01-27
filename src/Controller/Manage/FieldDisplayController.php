@@ -36,7 +36,7 @@ class FieldDisplayController extends ManageBaseController
     {
         $request = $this->getRequest();
 
-        $this->prj_id = $request->query->get('prj_id');
+        $this->prj_id = $request->query->getInt('prj_id');
         $this->fields = $request->request->get('fields');
     }
 

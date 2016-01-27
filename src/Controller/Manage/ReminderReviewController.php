@@ -30,8 +30,8 @@ class ReminderReviewController extends ManageBaseController
     {
         $request = $this->getRequest();
 
-        $this->rem_id = $request->query->get('rem_id');
-        $this->rma_id = $request->query->get('rma_id');
+        $this->rem_id = $request->query->getInt('rem_id');
+        $this->rma_id = $request->query->getInt('rma_id');
     }
 
     /**
