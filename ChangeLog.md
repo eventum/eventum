@@ -4,7 +4,7 @@ Eventum Issue Tracking System
 2016-??-??, Version [3.0.9]
 ---------------------------
 - Deprecate bin/route_*.php scripts in favour of bin/process_all_emails.php (@glensc, a4ea0c5)
-- Add support to (re)-run specific patch by it's number (@glensc)
+- Add support to (re)-run specific patch by it's number (@glensc, 16cb41d)
 
 2016-01-18, Version [3.0.8]
 ---------------------------
