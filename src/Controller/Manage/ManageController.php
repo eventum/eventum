@@ -22,9 +22,6 @@ abstract class ManageBaseController extends BaseController
     /** @var int */
     protected $min_role = User::ROLE_MANAGER;
 
-    /** @var bool */
-    protected $is_popup = false;
-
     /** @var int */
     protected $role_id;
 

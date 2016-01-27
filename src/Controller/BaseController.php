@@ -30,6 +30,9 @@ abstract class BaseController
 {
     protected $tpl_name;
 
+    /** @var bool */
+    protected $is_popup = false;
+
     /** @var array */
     private $helpers;
 
