@@ -1605,8 +1605,8 @@ class Support
         $res['timestamp'] = Date_Helper::getUnixTimestamp($res['sup_date'], 'GMT');
         // TRANSLATORS: %1 = email subject
         $res['reply_subject'] = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $res['sup_subject']), true);
-        $res['sup_to'] = Mail_helper::formatEmailAddresses($res['sup_to']);
-        $res['sup_cc'] = Mail_helper::formatEmailAddresses($res['sup_cc']);
+        $res['sup_to'] = Mail_Helper::formatEmailAddresses($res['sup_to']);
+        $res['sup_cc'] = Mail_Helper::formatEmailAddresses($res['sup_cc']);
 
         if (!empty($res['sup_iss_id'])) {
             $res['reply_subject'] = Mail_Helper::formatSubject($res['sup_iss_id'], $res['reply_subject']);
