@@ -8,6 +8,7 @@
         {
             "name": [
                 "class.cli_misc.php",
+                "class.misc.php",
                 "class.command_line.php",
                 "class.auth.php",
                 "class.date_helper.php"
