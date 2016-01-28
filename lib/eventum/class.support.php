@@ -317,11 +317,6 @@ class Support
             return '';
         }
 
-        foreach ($res as &$row) {
-            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
-            $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
-        }
-
         return $res;
     }
 
@@ -1305,7 +1300,6 @@ class Support
         }
 
         foreach ($res as &$row) {
-            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
             $row['sup_from'] = implode(', ', Mail_Helper::getName($row['sup_from'], true));
             if ((empty($row['sup_to'])) && (!empty($row['sup_iss_id']))) {
                 $row['sup_to'] = 'Notification List';
@@ -1313,7 +1307,7 @@ class Support
                 $to = Mail_Helper::getName($row['sup_to']);
                 // Ignore unformattable headers
                 if (!Misc::isError($to)) {
-                    $row['sup_to'] = Mime_Helper::fixEncoding($to);
+                    $row['sup_to'] = $to;
                 }
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
@@ -1609,12 +1603,10 @@ class Support
         $res['message'] = $res['seb_body'];
         $res['attachments'] = Mime_Helper::getAttachmentCIDs($res['seb_full_email']);
         $res['timestamp'] = Date_Helper::getUnixTimestamp($res['sup_date'], 'GMT');
-        $res['sup_subject'] = Mime_Helper::fixEncoding($res['sup_subject']);
         // TRANSLATORS: %1 = email subject
         $res['reply_subject'] = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $res['sup_subject']), true);
-        $res['sup_from'] = Mime_Helper::fixEncoding($res['sup_from']);
-        $res['sup_to'] = Mail_helper::formatEmailAddresses(Mime_Helper::fixEncoding($res['sup_to']));
-        $res['sup_cc'] = Mail_helper::formatEmailAddresses(Mime_Helper::fixEncoding($res['sup_cc']));
+        $res['sup_to'] = Mail_helper::formatEmailAddresses($res['sup_to']);
+        $res['sup_cc'] = Mail_helper::formatEmailAddresses($res['sup_cc']);
 
         if (!empty($res['sup_iss_id'])) {
             $res['reply_subject'] = Mail_Helper::formatSubject($res['sup_iss_id'], $res['reply_subject']);
@@ -1683,11 +1675,6 @@ class Support
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DbException $e) {
             return '';
-        }
-
-        foreach ($res as &$row) {
-            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
-            $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
         }
 
         return $res;
@@ -1778,10 +1765,8 @@ class Support
         }
 
         foreach ($res as &$row) {
-            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
-            $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
-            $row['sup_to'] = Mail_Helper::formatEmailAddresses(Mime_Helper::fixEncoding($row['sup_to']));
-            $row['sup_cc'] = Mail_Helper::formatEmailAddresses(Mime_Helper::fixEncoding($row['sup_cc']));
+            $row['sup_to'] = Mail_Helper::formatEmailAddresses($row['sup_to']);
+            $row['sup_cc'] = Mail_Helper::formatEmailAddresses($row['sup_cc']);
         }
 
         return $res;
