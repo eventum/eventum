@@ -31,7 +31,7 @@
 		"component-baseurl": "/components",
 		"component-dir": "htdocs/components",
 		"platform": {
-			"php": "5.3.23"
+			"php": "5.4.0"
 		}
 	},
 	"scripts": {
@@ -50,6 +50,7 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"require": {
+		"defuse/php-encryption": "~1.2.1",
 		"eventum/rpc": "~3.0.0",
 		"ext-filter": "*",
 		"ext-iconv": "*",
