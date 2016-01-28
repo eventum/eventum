@@ -55,7 +55,7 @@ class AssociateController extends BaseController
     {
         $request = $this->getRequest();
 
-        $this->issue_id = $request->request->get('issue_id');
+        $this->issue_id = $request->request->getInt('issue_id') ?: $request->query->getInt('issue_id');
         $this->cat = $request->request->get('cat');
         $this->target = $request->request->get('target');
         $this->items = $request->request->get('item');

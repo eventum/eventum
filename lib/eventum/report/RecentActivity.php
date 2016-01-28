@@ -339,13 +339,6 @@ class RecentActivity
                 }
             }
             $res['date'] = Date_Helper::getFormattedDate($res[$date_field], $timezone);
-            // need to decode From:, To: mail headers
-            if (isset($res['sup_from'])) {
-                $res['sup_from'] = Mime_Helper::fixEncoding($res['sup_from']);
-            }
-            if (isset($res['sup_to'])) {
-                $res['sup_to'] = Mime_Helper::fixEncoding($res['sup_to']);
-            }
         }
     }
 

@@ -20,9 +20,12 @@ if (!file_exists($setup_path) || !filesize($setup_path) || !is_readable($setup_p
 
 require_once INSTALL_PATH . '/init.php';
 
+// see if certain patch is needed to be run
+$patch = isset($argv[1]) ? (int)$argv[1] : null;
+
 try {
     $dbmigrate = new DbMigrate(INSTALL_PATH . '/upgrade');
-    $dbmigrate->patch_database();
+    $dbmigrate->patch_database($patch);
 } catch (Exception $e) {
     echo $e->getMessage(), "\n";
     exit(1);

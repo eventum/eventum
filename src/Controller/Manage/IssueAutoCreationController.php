@@ -34,6 +34,9 @@ class IssueAutoCreationController extends ManageBaseController
     /** @var int */
     private $prj_id;
 
+    /** @var int */
+    private $ema_id;
+
     /**
      * @inheritdoc
      */
@@ -42,7 +45,7 @@ class IssueAutoCreationController extends ManageBaseController
         $request = $this->getRequest();
 
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
-        $this->ema_id = $request->request->get('ema_id') ?: $request->query->get('ema_id');
+        $this->ema_id = $request->request->getInt('ema_id') ?: $request->query->getInt('ema_id');
     }
 
     /**

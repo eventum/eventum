@@ -59,7 +59,7 @@ class PostNoteController extends BaseController
     {
         $request = $this->getRequest();
 
-        $this->issue_id = (int) $request->get('issue_id');
+        $this->issue_id = $request->request->getInt('issue_id') ?: $request->query->getInt('issue_id');
         $this->issue_details = Issue::getDetails($this->issue_id);
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
     }

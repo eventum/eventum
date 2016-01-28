@@ -13,20 +13,27 @@
 
 require_once __DIR__ . '/../init.php';
 
-// since this is all hacked up anyway, let's hardcode the values
-// TODO: Actually use values from config
-$_SERVER['argv'][1] = '1';
+use Eventum\Mail\Exception\RoutingException;
 
-$full_message = stream_get_contents(STDIN);
+// take input from first argument if specified
+// otherwise read from STDIN
+if (isset($argv[1])) {
+    $full_message = file_get_contents($argv[1]);
+} else {
+    $full_message = stream_get_contents(STDIN);
+}
 
-$return = Routing::route($full_message);
-if (is_array($return)) {
-    echo $return[1];
-    exit($return[0]);
-} elseif ($return === false) {
+try {
+    $return = Routing::route($full_message);
+} catch (RoutingException $e) {
+    echo $e->getMessage();
+    exit($e->getCode());
+}
+
+if ($return === false) {
     // message was not able to be routed
     echo 'no route';
-    exit(Routing::EX_NOUSER);
+    exit(RoutingException::EX_NOUSER);
 }
 
 /*
