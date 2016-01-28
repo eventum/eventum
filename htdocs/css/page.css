@@ -154,7 +154,7 @@ body#issue_view div.issue_section div.content table {
     width: 100%;
 }
 td#email_message,
-body#issue_view div.issue_section div.content table td {
+body#issue_view div.issue_section div.content table tr.note_content {
     -ms-word-break: break-all;
     word-break: break-all;
     word-break: break-word;
