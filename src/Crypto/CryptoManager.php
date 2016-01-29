@@ -10,17 +10,19 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum;
+namespace Eventum\Crypto;
 
 use Crypto;
 use RandomLib;
 
 /**
- * Class EncryptedValue
+ * Class Crypto Manager.
  *
- * @package Eventum
+ * Provides methods to encrypt/decrypt a text using own private key
+ *
+ * @package Eventum\Crypto
  */
-class EncryptedValue
+class CryptoManager
 {
     /**
      * Encrypts a message.
@@ -52,7 +54,10 @@ class EncryptedValue
      */
     public static function decrypt($ciphertext)
     {
-        return Crypto::decrypt(base64_decode($ciphertext), self::getKey());
+        return Crypto::decrypt(
+            base64_decode($ciphertext),
+            self::getKey()
+        );
     }
 
     /**
