@@ -12,9 +12,7 @@ class CryptoTest extends TestCase
     {
         $plaintext = 'tore';
         $encrypted = CryptoManager::encrypt($plaintext);
-        var_dump($encrypted);
         $decrypted = CryptoManager::decrypt($encrypted);
-        var_dump($decrypted);
         $this->assertSame($plaintext, $decrypted);
     }
 
@@ -35,6 +33,52 @@ class CryptoTest extends TestCase
     }
 
     /**
+     * should not encrypt empty string
+     *
+     * @expectedException InvalidArgumentException
+     */
+    public function testEncryptEmptyString()
+    {
+        CryptoManager::encrypt('');
+    }
+
+    /**
+     * should not encrypt null
+     *
+     * @expectedException InvalidArgumentException
+     */
+    public function testEncryptNull()
+    {
+        CryptoManager::encrypt(null);
+    }
+
+    /**
+     * should not encrypt false
+     *
+     * @expectedException InvalidArgumentException
+     */
+    public function testEncryptFalse()
+    {
+        CryptoManager::encrypt(false);
+    }
+
+    /**
+     * encrypt "0" is ok
+     */
+    public function testEncryptZeroString()
+    {
+        CryptoManager::encrypt("0");
+    }
+
+    /**
+     * encrypt 0 is ok
+     */
+    public function testEncryptZero()
+    {
+        CryptoManager::encrypt(0);
+    }
+
+    /**
      * Test that the object plain text value is not visible in backtraces
      */
     public function testTraceVisibility()
@@ -44,7 +88,7 @@ class CryptoTest extends TestCase
         $value = new EncryptedValue($encrypted);
 
         $f = function ($e) {
-            $f = function() {
+            $f = function () {
                 $e = new Exception('boo');
                 return $e->getTraceAsString();
             };

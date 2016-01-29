@@ -14,6 +14,7 @@ namespace Eventum\Crypto;
 
 use Crypto;
 use RandomLib;
+use InvalidArgumentException;
 
 /**
  * Class Crypto Manager.
@@ -37,6 +38,9 @@ class CryptoManager
      */
     public static function encrypt($plaintext, $key = null)
     {
+        if (!$plaintext && (string)$plaintext !== '0') {
+            throw new InvalidArgumentException('Refusing to encrypt empty value');
+        }
         return rtrim(
             base64_encode(
                 Crypto::encrypt($plaintext, $key ?: self::getKey())
