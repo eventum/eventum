@@ -54,7 +54,7 @@ class EncryptedValue
      */
     public final function getValue()
     {
-        if (!$this->ciphertext) {
+        if ($this->ciphertext === null) {
             throw new InvalidArgumentException('Value not initialized yet');
         }
         return CryptoManager::decrypt($this->ciphertext);
@@ -67,7 +67,7 @@ class EncryptedValue
      */
     public final function getEncrypted()
     {
-        if (!$this->ciphertext) {
+        if ($this->ciphertext === null) {
             throw new InvalidArgumentException('Value not initialized yet');
         }
         return $this->ciphertext;

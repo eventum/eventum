@@ -39,7 +39,7 @@ class CryptoManager
      */
     public static function encrypt($plaintext, $key = null)
     {
-        if (!$plaintext && (string)$plaintext !== '0') {
+        if ($plaintext === null || $plaintext === false) {
             throw new InvalidArgumentException('Refusing to encrypt empty value');
         }
         return rtrim(
