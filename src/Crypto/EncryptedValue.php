@@ -27,16 +27,19 @@ class EncryptedValue
     private $ciphertext;
 
     /**
-     * Construct object using encrypted data
+     * Construct object using encrypted data.
      *
-     * @param string $encrypted
+     * @param string $ciphertext
      */
-    final public function __construct($encrypted = null)
+    final public function __construct($ciphertext = null)
     {
-        $this->ciphertext = $encrypted;
+        $this->ciphertext = $ciphertext;
     }
 
     /**
+     * Set plain text value.
+     * The encrypted value is stored in object property.
+     *
      * @param string $plaintext
      */
     public final function setValue($plaintext)
@@ -44,12 +47,30 @@ class EncryptedValue
         $this->ciphertext = CryptoManager::encrypt($plaintext);
     }
 
+    /**
+     * Return plain text value
+     *
+     * @return string
+     */
     public final function getValue()
     {
         if (!$this->ciphertext) {
             throw new InvalidArgumentException('Value not initialized yet');
         }
         return CryptoManager::decrypt($this->ciphertext);
+    }
+
+    /**
+     * Get encrypted value, for storing it to Database or Config
+     *
+     * @return string
+     */
+    public final function getEncrypted()
+    {
+        if (!$this->ciphertext) {
+            throw new InvalidArgumentException('Value not initialized yet');
+        }
+        return $this->ciphertext;
     }
 
     public final function __toString()

@@ -29,6 +29,9 @@ class CryptoTest extends TestCase
         $value = new EncryptedValue($encrypted);
         $this->assertEquals($plaintext, (string)$value, "test that casting to string calls tostring");
         $this->assertEquals($plaintext, $value, "test that not casting also works");
+
+        // test getEncrypted method
+        $this->assertEquals($encrypted, $value->getEncrypted());
     }
 
     /**
