@@ -25,6 +25,11 @@ use Zend\Mail\Header\Subject;
 use Zend\Mail\Headers;
 use Zend\Mail\Storage\Message;
 use Zend\Mime;
+use Zend\Mail\Storage as ZendMailStorage;
+use LogicException;
+use Mime_Helper;
+use InvalidArgumentException;
+use DomainException;
 
 /**
  * Class MailMessage
@@ -476,7 +481,7 @@ class MailMessage extends Message
      *
      * Expects an array (or Traversable object) of name/value pairs.
      *
-     * @param array|Traversable $headerlist
+     * @param array|\Traversable $headerlist
      */
     public function setHeaders(array $headerlist)
     {
@@ -523,10 +528,9 @@ class MailMessage extends Message
      */
     public function isSeen()
     {
-        return
-            $this->hasFlag(Zend\Mail\Storage::FLAG_SEEN)
-            || $this->hasFlag(Zend\Mail\Storage::FLAG_DELETED)
-            || $this->hasFlag(Zend\Mail\Storage::FLAG_ANSWERED);
+        return $this->hasFlag(ZendMailStorage::FLAG_SEEN)
+            || $this->hasFlag(ZendMailStorage::FLAG_DELETED)
+            || $this->hasFlag(ZendMailStorage::FLAG_ANSWERED);
     }
 
     /**

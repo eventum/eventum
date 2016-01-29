@@ -15,7 +15,7 @@ namespace Eventum\Mail\Helper;
 
 use DomainException;
 use Mail_Helper;
-use MailMessage;
+use Eventum\Mail\MailMessage;
 use Zend\Mail\Header\AbstractAddressList;
 use Zend\Mail\Header\HeaderInterface;
 use Zend\Mail\Header\MessageId;

@@ -15,6 +15,10 @@ namespace Eventum\Mail;
 
 use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Storage\Message;
+use Zend\Mail\Storage as ZendMailStorage;
+use DateTime;
+use InvalidArgumentException;
+use Date_Helper;
 
 /**
  * Class ImapMessage
@@ -62,12 +66,12 @@ class ImapMessage extends MailMessage
 
         // fill with "\Seen", "\Deleted", "\Answered", ... etc
         $knownFlags = array(
-            'recent' => Zend\Mail\Storage::FLAG_RECENT,
-            'flagged' => Zend\Mail\Storage::FLAG_FLAGGED,
-            'answered' => Zend\Mail\Storage::FLAG_ANSWERED,
-            'deleted' => Zend\Mail\Storage::FLAG_DELETED,
-            'seen' => Zend\Mail\Storage::FLAG_SEEN,
-            'draft' => Zend\Mail\Storage::FLAG_DRAFT,
+            'recent' => ZendMailStorage::FLAG_RECENT,
+            'flagged' => ZendMailStorage::FLAG_FLAGGED,
+            'answered' => ZendMailStorage::FLAG_ANSWERED,
+            'deleted' => ZendMailStorage::FLAG_DELETED,
+            'seen' => ZendMailStorage::FLAG_SEEN,
+            'draft' => ZendMailStorage::FLAG_DRAFT,
         );
         $flags = array();
         foreach ($knownFlags as $flag => $value) {
