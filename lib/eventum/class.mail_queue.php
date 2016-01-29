@@ -74,9 +74,6 @@ class Mail_Queue
         $headers['precedence'] = 'bulk'; // the 'classic' way, works with e.g. the unix 'vacation' tool
         $headers['Auto-submitted'] = 'auto-generated'; // the RFC 3834 way
 
-        if (empty($issue_id)) {
-            $issue_id = 'null';
-        }
         // if the Date: header is missing, add it.
         if (empty($headers['Date'])) {
             $headers['Date'] = Mime_Helper::encode(date('D, j M Y H:i:s O'));
@@ -104,7 +101,7 @@ class Mail_Queue
             'maq_recipient' => $recipient,
             'maq_headers' => $text_headers,
             'maq_body' => $body,
-            'maq_iss_id' => $issue_id,
+            'maq_iss_id' => $issue_id ?: null,
             'maq_subject' => $headers['Subject'],
             'maq_type' => $type,
         );
