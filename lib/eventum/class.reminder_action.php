@@ -723,7 +723,7 @@ class Reminder_Action
                 // send email (use PEAR's classes)
                 $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
-                $setup = $mail->getSMTPSettings();
+                $setup = Mail_Helper::getSMTPSettings();
 
                 // TRANSLATORS: %1 - issue_id, %2 - rma_title
                 $subject = ev_gettext('[#%1$s] Reminder: %2$s', $issue_id, $action['rma_title']);
@@ -764,7 +764,7 @@ class Reminder_Action
                 // send email (use PEAR's classes)
                 $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
-                $setup = $mail->getSMTPSettings();
+                $setup = Mail_Helper::getSMTPSettings();
                 // TRANSLATORS: %1 = issue_id, %2 - rma_title
                 $subject = ev_gettext('[#%1$s] Reminder Not Triggered: [#%2$s]', $issue_id, $action['rma_title']);
                 $mail->send($setup['from'], $address, $subject, 0, $issue_id);

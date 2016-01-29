@@ -1245,7 +1245,7 @@ class Notification
             $mail = new Mail_Helper();
             $mail->setTextBody($text_message);
             $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-            $setup = $mail->getSMTPSettings();
+            $setup = Mail_Helper::getSMTPSettings();
             $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
             $recipient = Mime_Helper::fixEncoding($recipient);
             // TRANSLATORS: %1: $issue_id, %2 = iss_summary
@@ -1324,7 +1324,7 @@ class Notification
                 // send email (use PEAR's classes)
                 $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
-                $setup = $mail->getSMTPSettings();
+                $setup = Mail_Helper::getSMTPSettings();
                 $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
                 $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
 
@@ -1435,7 +1435,7 @@ class Notification
 
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
-        $setup = $mail->getSMTPSettings();
+        $setup = Mail_Helper::getSMTPSettings();
         $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
 
         // TRANSLATORS: %s - APP_SHORT_NAME
@@ -1474,7 +1474,7 @@ class Notification
         // send email (use PEAR's classes)
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
-        $setup = $mail->getSMTPSettings();
+        $setup = Mail_Helper::getSMTPSettings();
         $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
 
         // TRANSLATORS: %s - APP_SHORT_NAME
@@ -1513,7 +1513,7 @@ class Notification
         // send email (use PEAR's classes)
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
-        $setup = $mail->getSMTPSettings();
+        $setup = Mail_Helper::getSMTPSettings();
         $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
 
         // TRANSLATORS: %s - APP_SHORT_NAME
@@ -1645,7 +1645,7 @@ class Notification
         // send email (use PEAR's classes)
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
-        $setup = $mail->getSMTPSettings();
+        $setup = Mail_Helper::getSMTPSettings();
         $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
         // TRANSLATORS: %s = APP_SHORT_NAME
         $subject = ev_gettext('%s: Your User Account Details', APP_SHORT_NAME);
