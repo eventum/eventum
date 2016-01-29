@@ -1273,69 +1273,69 @@ class Notification
             $crm = CRM::getInstance($prj_id);
 
             return $crm->notifyEmailConvertedIntoIssue($issue_id, $sup_ids, $customer_id);
-        } else {
-            // build the list of recipients
-            $recipients = array();
-            $recipient_emails = array();
-            foreach ($sup_ids as $sup_id) {
-                $senders = Support::getSender(array($sup_id));
-                if (count($senders) > 0) {
-                    $sender_email = Mail_Helper::getEmailAddress($senders[0]);
-                    $recipients[$sup_id] = $senders[0];
-                    $recipient_emails[] = $sender_email;
-                }
-            }
-
-            if (!$recipients) {
-                return false;
-            }
-
-            $data = Issue::getDetails($issue_id);
-            foreach ($recipients as $sup_id => $recipient) {
-                $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($recipient));
-
-                // open text template
-                $tpl = new Template_Helper();
-                $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
-                $tpl->assign(array(
-                    'data'        => $data,
-                    'sender_name' => Mail_Helper::getName($recipient),
-                    'app_title'   => Misc::getToolCaption(),
-                    'recipient_name'    => Mail_Helper::getName($recipient),
-                ));
-                $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($sup_id), $sup_id);
-                $tpl->assign(array(
-                    'email' => array(
-                        'date'    => $email_details['sup_date'],
-                        'from'    => $email_details['sup_from'],
-                        'subject' => $email_details['sup_subject'],
-                    ),
-                ));
-
-                // change the current locale
-                if (!empty($recipient_usr_id)) {
-                    Language::set(User::getLang($recipient_usr_id));
-                } else {
-                    Language::set(APP_DEFAULT_LOCALE);
-                }
-
-                $text_message = $tpl->getTemplateContents();
-
-                // send email (use PEAR's classes)
-                $mail = new Mail_Helper();
-                $mail->setTextBody($text_message);
-                $setup = Mail_Helper::getSMTPSettings();
-                $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
-                $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-
-                // TRANSLATORS: %1 - issue_id, %2 - iss_summary
-                $subject = ev_gettext('[#%1$s] Issue Created: %2$s', $issue_id, $data['iss_summary']);
-                $mail->send($from, $recipient, $subject, 1, $issue_id, 'email_converted_to_issue');
-            }
-            Language::restore();
-
-            return $recipient_emails;
         }
+
+        // build the list of recipients
+        $recipients = array();
+        $recipient_emails = array();
+        foreach ($sup_ids as $sup_id) {
+            $senders = Support::getSender(array($sup_id));
+            if (count($senders) > 0) {
+                $sender_email = Mail_Helper::getEmailAddress($senders[0]);
+                $recipients[$sup_id] = $senders[0];
+                $recipient_emails[] = $sender_email;
+            }
+        }
+
+        if (!$recipients) {
+            return false;
+        }
+
+        $data = Issue::getDetails($issue_id);
+        foreach ($recipients as $sup_id => $recipient) {
+            $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($recipient));
+
+            // open text template
+            $tpl = new Template_Helper();
+            $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
+            $tpl->assign(array(
+                'data'        => $data,
+                'sender_name' => Mail_Helper::getName($recipient),
+                'app_title'   => Misc::getToolCaption(),
+                'recipient_name'    => Mail_Helper::getName($recipient),
+            ));
+            $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($sup_id), $sup_id);
+            $tpl->assign(array(
+                'email' => array(
+                    'date'    => $email_details['sup_date'],
+                    'from'    => $email_details['sup_from'],
+                    'subject' => $email_details['sup_subject'],
+                ),
+            ));
+
+            // change the current locale
+            if (!empty($recipient_usr_id)) {
+                Language::set(User::getLang($recipient_usr_id));
+            } else {
+                Language::set(APP_DEFAULT_LOCALE);
+            }
+
+            $text_message = $tpl->getTemplateContents();
+
+            // send email (use PEAR's classes)
+            $mail = new Mail_Helper();
+            $mail->setTextBody($text_message);
+            $setup = Mail_Helper::getSMTPSettings();
+            $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
+            $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
+
+            // TRANSLATORS: %1 - issue_id, %2 - iss_summary
+            $subject = ev_gettext('[#%1$s] Issue Created: %2$s', $issue_id, $data['iss_summary']);
+            $mail->send($from, $recipient, $subject, 1, $issue_id, 'email_converted_to_issue');
+        }
+        Language::restore();
+
+        return $recipient_emails;
     }
 
     /**
