@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Mail\Exception\RoutingException;
+
 /**
  * Class to handle the business logic related to the email feature of
  * the application.
@@ -407,18 +409,17 @@ class Support
     /**
      * Bounce message to sender.
      *
-     * @param   object  $message parsed message structure.
-     * @param   array   array(ERROR_CODE, ERROR_STRING) of error to bounce
-     * @return  void
+     * @param object $message parsed message structure.
+     * @param Exception $error
      */
-    public function bounceMessage($message, $error)
+    private function bounceMessage($message, $error)
     {
         // open text template
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/bounced_email.tpl.text');
         $tpl->assign(array(
-            'error_code'        => $error[0],
-            'error_message'     => $error[1],
+            'error_code'        => $error->getCode(),
+            'error_message'     => $error->getMessage(),
             'date'              => $message->date,
             'subject'           => Mime_Helper::fixEncoding($message->subject),
             'from'              => Mime_Helper::fixEncoding($message->fromaddress),
@@ -505,94 +506,34 @@ class Support
 
         // route emails if necessary
         if ($info['ema_use_routing'] == 1) {
-            $setup = Setup::get();
-
-            // we create addresses array so it can be reused
-            $addresses = array();
-            if (isset($email->to)) {
-                foreach ($email->to as $address) {
-                    $addresses[] = $address->mailbox . '@' . $address->host;
+            try {
+                $routed = Routing::route($message);
+            } catch (RoutingException $e) {
+                // "if leave copy of emails on IMAP server" is "off",
+                // then we can bounce on the message
+                // otherwise proper would be to create table -
+                // eventum_bounce: bon_id, bon_message_id, bon_error
+                if (!$info['ema_leave_copy']) {
+                    self::bounceMessage($email, $e);
+                    self::deleteMessage($info, $mbox, $num);
                 }
-            }
-            if (isset($email->cc)) {
-                foreach ($email->cc as $address) {
-                    $addresses[] = $address->mailbox . '@' . $address->host;
-                }
-            }
-
-            if ($setup['email_routing']['status'] == 'enabled') {
-                $res = Routing::getMatchingIssueIDs($addresses, 'email');
-                if ($res != false) {
-                    $return = Routing::route_emails($message);
-                    if ($return === true) {
-                        self::deleteMessage($info, $mbox, $num);
-
-                        return;
-                    }
-                    // TODO: handle errors?
-                    return;
-                }
-            }
-            if ($setup['note_routing']['status'] == 'enabled') {
-                $res = Routing::getMatchingIssueIDs($addresses, 'note');
-                if ($res != false) {
-                    $return = Routing::route_notes($message);
-
-                    // if leave copy of emails on IMAP server is off we can
-                    // bounce on note that user had no permission to write
-                    // here.
-                    // otherwise proper would be to create table -
-                    // eventum_bounce: bon_id, bon_message_id, bon_error
-
-                    if ($info['ema_leave_copy']) {
-                        if ($return === true) {
-                            self::deleteMessage($info, $mbox, $num);
-                        }
-                    } else {
-                        if ($return !== true) {
-                            // in case of error, create bounce, but still
-                            // delete email not to send bounce in next process :)
-                            self::bounceMessage($email, $return);
-                        }
-                        self::deleteMessage($info, $mbox, $num);
-                    }
-
-                    return;
-                }
-            }
-            if ($setup['draft_routing']['status'] == 'enabled') {
-                $res = Routing::getMatchingIssueIDs($addresses, 'draft');
-                if ($res != false) {
-                    $return = Routing::route_drafts($message);
-
-                    // if leave copy of emails on IMAP server is off we can
-                    // bounce on note that user had no permission to write
-                    // here.
-                    // otherwise proper would be to create table -
-                    // eventum_bounce: bon_id, bon_message_id, bon_error
-
-                    if ($info['ema_leave_copy']) {
-                        if ($return === true) {
-                            self::deleteMessage($info, $mbox, $num);
-                        }
-                    } else {
-                        if ($return !== true) {
-                            // in case of error, create bounce, but still
-                            // delete email not to send bounce in next process :)
-                            self::bounceMessage($email, $return);
-                        }
-                        self::deleteMessage($info, $mbox, $num);
-                    }
-
-                    return;
-                }
+                return;
             }
 
-            // TODO:
-            // disabling return here allows routing and issue auto creating from same account
-            // but it will download email store it in database and do nothing
-            // with it if it does not match support@ address.
-            //return;
+            // the mail was routed
+            if ($routed === true) {
+                if (!$info['ema_leave_copy']) {
+                    self::deleteMessage($info, $mbox, $num);
+                }
+                return;
+            }
+
+            // no match for issue-, note-, draft- routing,
+            // continue to allow routing and issue auto creating from same account,
+            // but it will download email, store it in database and do nothing with it
+            // if it does not match support@ address.
+            // by "do nothing" it is meant that the mail will be downloaded each time
+            // the mails are processed from imap account.
         }
 
         $sender_email = Mail_Helper::getEmailAddress($email->fromaddress);
