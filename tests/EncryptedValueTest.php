@@ -2,7 +2,7 @@
 
 use Eventum\EncryptedValue;
 
-class EncrypedValueTest extends TestCase
+class EncryptedValueTest extends TestCase
 {
     public function testEncrypt()
     {
