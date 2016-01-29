@@ -19,29 +19,6 @@ class Mail_Queue
     const MAX_RETRIES = 20;
 
     /**
-     * @deprecated
-     * @see Mail_Queue::addMail()
-     */
-    public static function __add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
-    {
-        $mail = array(
-            'to' => $recipient,
-            'headers' => $headers,
-            'body' => $body,
-        );
-
-        $options = array(
-            'save_email_copy' => $save_email_copy,
-            'issue_id' => $issue_id,
-            'type' => $type,
-            'sender_usr_id' => $sender_usr_id,
-            'type_id' => $type_id,
-        );
-
-        return self::addMail($mail, $options);
-    }
-
-    /**
      * Adds an email to the outgoing mail queue.
      *
      * @param array $mail Info about mail:
