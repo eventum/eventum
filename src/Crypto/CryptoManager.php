@@ -16,6 +16,7 @@ use Crypto;
 use RandomLib;
 use InvalidArgumentException;
 use BadMethodCallException;
+use Zend\Config\Config;
 
 /**
  * Class Crypto Manager.
@@ -76,6 +77,22 @@ class CryptoManager
     public static function rotate($key, $data)
     {
         return self::encrypt(self::decrypt($data), $key);
+    }
+
+    /**
+     * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
+     *
+     * @param Config $config
+     */
+    public static function upgradeConfig(Config $config)
+    {
+        if (!$config['database']['password'] instanceof EncryptedValue) {
+            $config['database']['password'] = new EncryptedValue(self::encrypt($config['database']['password']));
+        }
+
+        if (count($config['ldap']) && !$config['ldap']['bindpw'] instanceof EncryptedValue) {
+            $config['ldap']['bindpw'] = new EncryptedValue(self::encrypt($config['ldap']['bindpw']));
+        }
     }
 
     /**
