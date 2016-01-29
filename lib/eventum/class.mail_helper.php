@@ -744,65 +744,68 @@ class Mail_Helper
     public static function getSpecializedHeaders($issue_id, $type)
     {
         $new_headers = array();
-        if (!empty($issue_id)) {
-            $prj_id = Issue::getProjectID($issue_id);
-            if (count(Group::getAssocList($prj_id)) > 0) {
-                // group issue is currently assigned too
-                $new_headers['X-Eventum-Group-Issue'] = Group::getName(Issue::getGroupID($issue_id));
+
+        $new_headers['X-Eventum-Type'] = $type;
+
+        if (!$issue_id) {
+            return $new_headers;
+        }
+
+        $prj_id = Issue::getProjectID($issue_id);
+        if (count(Group::getAssocList($prj_id)) > 0) {
+            // group issue is currently assigned too
+            $new_headers['X-Eventum-Group-Issue'] = Group::getName(Issue::getGroupID($issue_id));
+        }
+
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
+            try {
+                $customer = $crm->getCustomer(Issue::getCustomerID($issue_id));
+                $new_headers['X-Eventum-Customer'] = $customer->getName();
+            } catch (CustomerNotFoundException $e) {
             }
-
-            if (CRM::hasCustomerIntegration($prj_id)) {
-                $crm = CRM::getInstance($prj_id);
-                try {
-                    $customer = $crm->getCustomer(Issue::getCustomerID($issue_id));
-                    $new_headers['X-Eventum-Customer'] = $customer->getName();
-                } catch (CustomerNotFoundException $e) {
+            try {
+                $contract = $crm->getContract(Issue::getContractID($issue_id));
+                $support_level = $contract->getSupportLevel();
+                if (is_object($support_level)) {
+                    $new_headers['X-Eventum-Level'] = $support_level->getName();
                 }
-                try {
-                    $contract = $crm->getContract(Issue::getContractID($issue_id));
-                    $support_level = $contract->getSupportLevel();
-                    if (is_object($support_level)) {
-                        $new_headers['X-Eventum-Level'] = $support_level->getName();
-                    }
-                } catch (ContractNotFoundException $e) {
-                }
-            }
-
-            // add assignee header
-            $new_headers['X-Eventum-Assignee'] = implode(',', User::getEmail(Issue::getAssignedUserIDs($issue_id)));
-
-            $new_headers['X-Eventum-Category'] = Category::getTitle(Issue::getCategory($issue_id));
-            $new_headers['X-Eventum-Project'] = Project::getName($prj_id);
-
-            $new_headers['X-Eventum-Priority'] = Priority::getTitle(Issue::getPriority($issue_id));
-
-            // handle custom fields
-            $cf_values = Custom_Field::getValuesByIssue($prj_id, $issue_id);
-            $cf_titles = Custom_Field::getFieldsToBeListed($prj_id);
-            foreach ($cf_values as $fld_id => $values) {
-                // skip empty titles
-                // TODO: why they are empty?
-                if (!isset($cf_titles[$fld_id])) {
-                    continue;
-                }
-                // skip empty values
-                if (empty($values)) {
-                    continue;
-                }
-                $cf_value = implode(', ', (array) $values);
-
-                // value could be empty after multivalued field join
-                if (empty($cf_value)) {
-                    continue;
-                }
-
-                // convert spaces for header fields
-                $cf_title = str_replace(' ', '_', $cf_titles[$fld_id]);
-                $new_headers['X-Eventum-CustomField-'. $cf_title] = $cf_value;
+            } catch (ContractNotFoundException $e) {
             }
         }
 
-        $new_headers['X-Eventum-Type'] = $type;
+        // add assignee header
+        $new_headers['X-Eventum-Assignee'] = implode(',', User::getEmail(Issue::getAssignedUserIDs($issue_id)));
+
+        $new_headers['X-Eventum-Category'] = Category::getTitle(Issue::getCategory($issue_id));
+        $new_headers['X-Eventum-Project'] = Project::getName($prj_id);
+
+        $new_headers['X-Eventum-Priority'] = Priority::getTitle(Issue::getPriority($issue_id));
+
+        // handle custom fields
+        $cf_values = Custom_Field::getValuesByIssue($prj_id, $issue_id);
+        $cf_titles = Custom_Field::getFieldsToBeListed($prj_id);
+        foreach ($cf_values as $fld_id => $values) {
+            // skip empty titles
+            // TODO: why they are empty?
+            if (!isset($cf_titles[$fld_id])) {
+                continue;
+            }
+            // skip empty values
+            if (empty($values)) {
+                continue;
+            }
+            $cf_value = implode(', ', (array) $values);
+
+            // value could be empty after multivalued field join
+            if (empty($cf_value)) {
+                continue;
+            }
+
+            // convert spaces for header fields
+            $cf_title = str_replace(' ', '_', $cf_titles[$fld_id]);
+            $new_headers['X-Eventum-CustomField-'. $cf_title] = $cf_value;
+        }
 
         return $new_headers;
     }
