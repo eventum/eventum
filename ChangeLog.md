@@ -7,6 +7,7 @@ Eventum Issue Tracking System
 - Add support to (re)-run specific patch by it's number (@glensc, 16cb41d)
 - Fix wrapping the long lines (@slay123, #133)
 - Fixes to allow CLI to be built without errors (@balsdorf, #130)
+- Reuse existing Routing::route to route mails from support::getEmailInfo (@glensc, #131)
 
 2016-01-18, Version [3.0.8]
 ---------------------------
