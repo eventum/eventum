@@ -29,4 +29,4 @@ foreach ($res as $row) {
     Group::addUser($row['usr_id'], $row['usr_grp_id']);
 }
 
-//$db->query('DROP TABLE {{%user_group}}');
+$db->query('ALTER TABLE {{%user}} DROP COLUMN usr_grp_id');
