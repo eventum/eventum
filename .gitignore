@@ -32,6 +32,7 @@ Session.vim
 /config/irc_config.php
 /config/ldap.php
 /config/private_key.php
+/config/secret_key.php
 /config/setup.php
 /config/sphinx.conf
 /config/custom_field/
@@ -49,6 +50,7 @@ Session.vim
 /tests/_*
 /tests/ldap.php
 /tests/private_key.php
+/tests/secret_key.php
 
 /misc/routed_emails/*
 /misc/routed_notes/*
