@@ -25,6 +25,7 @@ class Mail_Queue
      * - string $to The recipient of this email
      * - array $headers The list of headers that should be sent with this email
      * - string $body The body of the message
+     * @param string $recipient The recipient, can be E-Mail header form ("User <email@example.org>")
      * @param array $options Optional options:
      * - integer $save_email_copy Whether to send a copy of this email to a configurable address or not (eventum_sent@)
      * - integer $issue_id The ID of the issue. If false, email will not be associated with issue.
@@ -33,9 +34,8 @@ class Mail_Queue
      * - integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @return bool or a PEAR_Error object
      */
-    public static function addMail(array $mail, array $options = array())
+    public static function addMail(array $mail, $recipient, array $options = array())
     {
-        $recipient = $mail['to'];
         $headers = $mail['headers'];
         $body = $mail['body'];
 

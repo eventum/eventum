@@ -390,12 +390,11 @@ class Notification
             $headers['To'] = Mime_Helper::encodeAddress($to);
 
             $mail = array(
-                'to' => $to,
                 'headers' => $headers,
                 'body' => $fixed_body,
             );
 
-            Mail_Queue::addMail($mail, $options);
+            Mail_Queue::addMail($mail, $to, $options);
         }
     }
 

@@ -574,7 +574,6 @@ class Mail_Helper
         $hdrs = $this->mime->headers($this->headers);
 
         $mail = array(
-            'to' => $to,
             'headers' => $hdrs,
             'body' => $body,
         );
@@ -586,7 +585,7 @@ class Mail_Helper
             'type_id' => $type_id,
         );
 
-        $res = Mail_Queue::addMail($mail, $options);
+        $res = Mail_Queue::addMail($mail, $to, $options);
         if (Misc::isError($res) || $res == false) {
             return $res;
         }
