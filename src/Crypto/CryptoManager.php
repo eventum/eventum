@@ -15,6 +15,7 @@ namespace Eventum\Crypto;
 use Crypto;
 use RandomLib;
 use InvalidArgumentException;
+use BadMethodCallException;
 
 /**
  * Class Crypto Manager.
@@ -77,16 +78,55 @@ class CryptoManager
         return self::encrypt(self::decrypt($data), $key);
     }
 
+    /**
+     * Load or generate secret key used for crypt
+     *
+     * @return string
+     */
     private static function getKey()
     {
         static $key;
         if (!$key) {
-            // use RandomLib to get most compatible implementation
-            // Crypto uses mcrypt *ONLY* without any fallback
-            $factory = new RandomLib\Factory();
-            $generator = $factory->getMediumStrengthGenerator();
-            $key = $generator->generate(Crypto::KEY_BYTE_SIZE);
+            $secret_file = APP_CONFIG_PATH . '/secret_key.php';
+            $key = self::loadPrivateKey($secret_file);
+
+            if (!$key) {
+                // use RandomLib to get most compatible implementation
+                // Crypto uses mcrypt *ONLY* without any fallback
+                $factory = new RandomLib\Factory();
+                $generator = $factory->getMediumStrengthGenerator();
+                $key = $generator->generate(Crypto::KEY_BYTE_SIZE);
+
+                self::storePrivateKey($secret_file, $key);
+            }
         }
         return $key;
+    }
+
+    private static function loadPrivateKey($file)
+    {
+        if (!file_exists($file)) {
+            return null;
+        }
+        if (!is_readable($file)) {
+            throw new InvalidArgumentException("Secret file '$file' not readable");
+        }
+        $private_key = trim(file_get_contents($file));
+        if (!$private_key) {
+            throw new InvalidArgumentException("Unable to read secret file '$file");
+        }
+
+        return $private_key;
+    }
+
+    private static function storePrivateKey($file, $key)
+    {
+        if (file_exists($file) && !is_writable($file)) {
+            throw new InvalidArgumentException("Secret file '$file' not writable");
+        }
+        $res = file_put_contents($file, $key);
+        if (!$res) {
+            throw new BadMethodCallException("Unable to store secret file '$file'");
+        }
     }
 }
