@@ -814,7 +814,7 @@ class User
             return $returns[$usr_id];
         }
 
-        $sql = "SELECT
+        $sql = 'SELECT
                   ugr_grp_id,
                   grp_name
                 FROM
@@ -822,7 +822,7 @@ class User
                     {{%group}}
                 WHERE
                     ugr_grp_id = grp_id AND
-                    ugr_usr_id = ?";
+                    ugr_usr_id = ?';
         try {
             $res = DB_Helper::getInstance()->getPair($sql, array($usr_id));
         } catch (DbException $e) {
@@ -833,7 +833,6 @@ class User
 
         return $res;
     }
-
 
     /**
      * Returns the group ids of the specified user

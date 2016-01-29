@@ -13,7 +13,11 @@
 
 namespace Eventum\Mail;
 
+use DomainException;
 use Eventum\Mail\Helper\SanitizeHeaders;
+use InvalidArgumentException;
+use LogicException;
+use Mime_Helper;
 use Zend\Mail\Address;
 use Zend\Mail\AddressList;
 use Zend\Mail\Header\AbstractAddressList;
@@ -23,13 +27,9 @@ use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Header\HeaderInterface;
 use Zend\Mail\Header\Subject;
 use Zend\Mail\Headers;
+use Zend\Mail\Storage as ZendMailStorage;
 use Zend\Mail\Storage\Message;
 use Zend\Mime;
-use Zend\Mail\Storage as ZendMailStorage;
-use LogicException;
-use Mime_Helper;
-use InvalidArgumentException;
-use DomainException;
 
 /**
  * Class MailMessage

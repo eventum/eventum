@@ -517,6 +517,7 @@ class Support
                     self::bounceMessage($email, $e);
                     self::deleteMessage($info, $mbox, $num);
                 }
+
                 return;
             }
 
@@ -525,6 +526,7 @@ class Support
                 if (!$info['ema_leave_copy']) {
                     self::deleteMessage($info, $mbox, $num);
                 }
+
                 return;
             }
 

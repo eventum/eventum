@@ -454,6 +454,7 @@ class Group
         } catch (DbException $e) {
             return -1;
         }
+
         return true;
     }
 
@@ -476,6 +477,7 @@ class Group
         } catch (DbException $e) {
             return -1;
         }
+
         return true;
     }
 }

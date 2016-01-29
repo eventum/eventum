@@ -13,12 +13,12 @@
 
 namespace Eventum\Mail;
 
-use Zend\Mail\Header\GenericHeader;
-use Zend\Mail\Storage\Message;
-use Zend\Mail\Storage as ZendMailStorage;
+use Date_Helper;
 use DateTime;
 use InvalidArgumentException;
-use Date_Helper;
+use Zend\Mail\Header\GenericHeader;
+use Zend\Mail\Storage as ZendMailStorage;
+use Zend\Mail\Storage\Message;
 
 /**
  * Class ImapMessage

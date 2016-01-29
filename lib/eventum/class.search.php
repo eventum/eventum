@@ -553,13 +553,13 @@ class Search
                     $stmt .= 'isu_usr_id = ' . $usr_id;
                     $user_groups = User::getGroupIDs($usr_id);
                     if (count($user_groups) > 0) {
-                        $stmt .= ' OR iss_grp_id IN(' . join(',', $user_groups) . ')';
+                        $stmt .= ' OR iss_grp_id IN(' . implode(',', $user_groups) . ')';
                     }
                 } elseif ($options['users'] == '-4') {
                     $stmt .= 'isu_usr_id IS NULL OR isu_usr_id = ' . $usr_id;
                     $user_groups = User::getGroupIDs($usr_id);
                     if (count($user_groups) > 0) {
-                        $stmt .= ' OR iss_grp_id IN(' . join(',', $user_groups) . ')';
+                        $stmt .= ' OR iss_grp_id IN(' . implode(',', $user_groups) . ')';
                     }
                 } else {
                     $stmt .= 'isu_usr_id =' . Misc::escapeInteger($options['users']);
