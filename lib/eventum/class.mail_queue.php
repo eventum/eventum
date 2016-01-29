@@ -59,14 +59,13 @@ class Mail_Queue
             }
         }
 
-        $to_usr_id = User::getUserIDByEmail($recipient_email);
         $recipient = Mail_Helper::fixAddressQuoting($recipient);
 
         $reminder_addresses = Reminder::_getReminderAlertAddresses();
 
-        $role_id = User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id));
+        $role_id = User::getRoleByUser($usr_id, Issue::getProjectID($issue_id));
         $is_reminder_address = in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses);
-        if ($issue_id && ($to_usr_id && $role_id != User::ROLE_CUSTOMER) || $is_reminder_address) {
+        if ($issue_id && ($usr_id && $role_id != User::ROLE_CUSTOMER) || $is_reminder_address) {
             $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type);
         }
 
