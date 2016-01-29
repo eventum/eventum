@@ -110,11 +110,11 @@ class UsersController extends ManageBaseController
             if ($this->role_id == User::ROLE_MANAGER) {
                 $excluded_roles[] = User::ROLE_ADMINISTRATOR;
             }
-            if ($user_details['roles'][$prj_id]['pru_role'] == User::ROLE_CUSTOMER) {
+            if (isset($user_details['roles'][$prj_id]) && $user_details['roles'][$prj_id]['pru_role'] == User::ROLE_CUSTOMER) {
                 // if user is already a customer, keep customer role in list
                 unset($excluded_roles[array_search(User::ROLE_CUSTOMER, $excluded_roles)]);
             }
-            if ($user_details['roles'][$prj_id]['pru_role'] == User::ROLE_ADMINISTRATOR) {
+            if (isset($user_details['roles'][$prj_id]) && $user_details['roles'][$prj_id]['pru_role'] == User::ROLE_ADMINISTRATOR) {
                 // if user is already an admin, keep admin role in list
                 unset($excluded_roles[array_search(User::ROLE_ADMINISTRATOR, $excluded_roles)]);
             }

@@ -48,7 +48,7 @@ class Group
         self::setProjects($grp_id, $_POST['projects']);
 
         foreach ($_POST['users'] as $usr_id) {
-            User::setGroupID($usr_id, $grp_id);
+            self::addUser($usr_id, $grp_id);
         }
 
         return 1;
@@ -82,11 +82,14 @@ class Group
         $diff = array_diff($existing_users, $_POST['users']);
         if (count($diff) > 0) {
             foreach ($diff as $usr_id) {
-                User::setGroupID($usr_id, false);
+                self::removeUser($usr_id, $_POST['id']);
             }
         }
-        foreach ($_POST['users'] as $usr_id) {
-            User::setGroupID($usr_id, $_POST['id']);
+        $diff = array_diff($_POST['users'], $existing_users);
+        if (count($diff) > 0) {
+            foreach ($diff as $usr_id) {
+                self::addUser($usr_id, $_POST['id']);
+            }
         }
 
         return 1;
@@ -116,7 +119,7 @@ class Group
             self::removeProjectsByGroup($grp_id);
 
             foreach ($users as $usr_id) {
-                User::setGroupID($usr_id, false);
+                self::removeUser($usr_id, $grp_id);
             }
 
             return 1;
@@ -362,11 +365,11 @@ class Group
     public static function getUsers($grp_id)
     {
         $stmt = 'SELECT
-                    usr_id
+                    ugr_usr_id
                  FROM
-                    {{%user}}
+                    {{%user_group}}
                  WHERE
-                    usr_grp_id = ?';
+                    ugr_grp_id = ?';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($grp_id));
         } catch (DbException $e) {
@@ -429,5 +432,50 @@ class Group
         }
 
         return $res;
+    }
+
+    /**
+     * Add a user to the specified group
+     *
+     * @param   integer $usr_id The ID of the user
+     * @param   integer $grp_id The ID of the group
+     * @return  mixed -1 if there is an error, true otherwise
+     */
+    public static function addUser($usr_id, $grp_id)
+    {
+        $sql = 'INSERT INTO
+                  {{%user_group}}
+                SET
+                  ugr_usr_id = ?,
+                  ugr_grp_id = ?,
+                  ugr_created = ?';
+        try {
+            $res = DB_Helper::getInstance()->query($sql, array($usr_id, $grp_id, Date_Helper::getCurrentDateGMT()));
+        } catch (DbException $e) {
+            return -1;
+        }
+        return true;
+    }
+
+    /**
+     * Removes a user to the specified group
+     *
+     * @param   integer $usr_id The ID of the user
+     * @param   integer $grp_id The ID of the group
+     * @return  mixed -1 if there is an error, true otherwise
+     */
+    public static function removeUser($usr_id, $grp_id)
+    {
+        $sql = 'DELETE FROM
+                  {{%user_group}}
+                WHERE
+                  ugr_usr_id = ? AND
+                  ugr_grp_id = ?';
+        try {
+            $res = DB_Helper::getInstance()->query($sql, array($usr_id, $grp_id));
+        } catch (DbException $e) {
+            return -1;
+        }
+        return true;
     }
 }

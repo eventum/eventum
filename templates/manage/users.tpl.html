@@ -174,12 +174,11 @@
               </tr>
               <tr>
                   <th width="120">
-                      {t}Group{/t}
+                      {t}Groups{/t}
                   </th>
                   <td width="80%">
-                      <select name="grp_id" size="1">
-                          <option value="">{t}-- Select One --{/t}</option>
-                          {html_options options=$group_list selected=$info.usr_grp_id|default:''}
+                      <select name="groups[]" size="5" multiple>
+                          {html_options options=$group_list selected=$info.group_ids|default:''}
                       </select>
                       {include file="error_icon.tpl.html" field="grp_id"}
                   </td>
@@ -258,7 +257,7 @@
               <th>&nbsp;{t}Email Address{/t}</th>
               <th>&nbsp;{t}Email Aliases{/t}</th>
               <th>&nbsp;{t}Status{/t}</th>
-              <th>&nbsp;{t}Group{/t}</th>
+              <th>&nbsp;{t}Groups{/t}</th>
               <th>&nbsp;{t}Partner{/t}</th>
             </tr>
             {section name="i" loop=$list}
@@ -288,7 +287,7 @@
                 &nbsp;{$list[i].usr_status|capitalize}
               </td>
               <td>
-                &nbsp;{$list[i].group_name|default:''}
+                &nbsp;{', '|join:$list[i].group_names|default:''}
               </td>
               <td>
                 &nbsp;{$list[i].partner_name|default:''}
