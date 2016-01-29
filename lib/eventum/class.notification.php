@@ -1320,6 +1320,8 @@ class Notification
                 Language::set(APP_DEFAULT_LOCALE);
             }
 
+            // TRANSLATORS: %1 - issue_id, %2 - iss_summary
+            $subject = ev_gettext('[#%1$s] Issue Created: %2$s', $issue_id, $data['iss_summary']);
             $text_message = $tpl->getTemplateContents();
 
             // send email (use PEAR's classes)
@@ -1329,8 +1331,6 @@ class Notification
             $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
             $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
 
-            // TRANSLATORS: %1 - issue_id, %2 - iss_summary
-            $subject = ev_gettext('[#%1$s] Issue Created: %2$s', $issue_id, $data['iss_summary']);
             $mail->send($from, $recipient, $subject, 1, $issue_id, 'email_converted_to_issue');
         }
         Language::restore();
@@ -1428,21 +1428,10 @@ class Notification
             'user'         => $info,
         ));
 
-        // change the current locale
-        Language::set(User::getLang($usr_id));
-
-        $text_message = $tpl->getTemplateContents();
-
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
-        $setup = Mail_Helper::getSMTPSettings();
-        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
-
         // TRANSLATORS: %s - APP_SHORT_NAME
         $subject = ev_gettext('%s: User account information updated', APP_SHORT_NAME);
-        $mail->send($setup['from'], $to, $subject);
-
-        Language::restore();
+        $text_message = $tpl->getTemplateContents();
+        self::notifyUserByMail($usr_id, $subject, $text_message);
     }
 
     /**
@@ -1466,22 +1455,10 @@ class Notification
             'user'         => $info,
         ));
 
-        // change the current locale
-        Language::set(User::getLang($usr_id));
-
-        $text_message = $tpl->getTemplateContents();
-
-        // send email (use PEAR's classes)
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
-        $setup = Mail_Helper::getSMTPSettings();
-        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
-
         // TRANSLATORS: %s - APP_SHORT_NAME
         $subject = ev_gettext('%s: User account password changed', APP_SHORT_NAME);
-        $mail->send($setup['from'], $to, $subject);
-
-        Language::restore();
+        $text_message = $tpl->getTemplateContents();
+        self::notifyUserByMail($usr_id, $subject, $text_message);
     }
 
     /**
@@ -1505,22 +1482,11 @@ class Notification
             'user'         => $info,
         ));
 
-        // change the current locale
-        Language::set(User::getLang($usr_id));
-
-        $text_message = $tpl->getTemplateContents();
-
-        // send email (use PEAR's classes)
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
-        $setup = Mail_Helper::getSMTPSettings();
-        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
 
         // TRANSLATORS: %s - APP_SHORT_NAME
         $subject = ev_gettext('%s: New User information', APP_SHORT_NAME);
-        $mail->send($setup['from'], $to, $subject);
-
-        Language::restore();
+        $text_message = $tpl->getTemplateContents();
+        self::notifyUserByMail($usr_id, $subject, $text_message);
     }
 
     /**
@@ -1555,11 +1521,13 @@ class Notification
                 continue;
             }
 
+            $subject = "[#$issue_id] $title: " . $issue['iss_summary'];
+            $text_message = $tpl->getTemplateContents();
+
             // change the current locale
             Language::set(User::getLang($usr_id));
-            $text_message = $tpl->getTemplateContents();
+
             $from = self::getFixedFromHeader($issue_id, '', 'issue');
-            $subject = "[#$issue_id] $title: " . $issue['iss_summary'];
 
             // send email (use PEAR's classes)
             $mail = new Mail_Helper();
@@ -1640,18 +1608,10 @@ class Notification
             'user'         => $info,
         ));
 
-        Language::set(User::getLang($usr_id));
-        $text_message = $tpl->getTemplateContents();
-
-        // send email (use PEAR's classes)
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
-        $setup = Mail_Helper::getSMTPSettings();
-        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
         // TRANSLATORS: %s = APP_SHORT_NAME
         $subject = ev_gettext('%s: Your User Account Details', APP_SHORT_NAME);
-        $mail->send($setup['from'], $to, $subject);
-        Language::restore();
+        $text_message = $tpl->getTemplateContents();
+        self::notifyUserByMail($usr_id, $subject, $text_message);
     }
 
     /**
@@ -2368,5 +2328,29 @@ class Notification
         ));
 
         return 1;
+    }
+
+    /**
+     * Send email to $usr_id
+     *     self::notifyUserByMail($usr_id, $subject, $text_message);
+     *
+     * @param int $usr_id
+     * @param string $subject
+     * @param string $text_message
+     */
+    private static function notifyUserByMail($usr_id, $subject, $text_message) {
+        $info = User::getDetails($usr_id);
+
+        // change the current locale
+        Language::set(User::getLang($usr_id));
+
+        // send email (use PEAR's classes)
+        $mail = new Mail_Helper();
+        $mail->setTextBody($text_message);
+        $setup = Mail_Helper::getSMTPSettings();
+        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+        $mail->send($setup['from'], $to, $subject);
+
+        Language::restore();
     }
 }
