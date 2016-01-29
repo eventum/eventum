@@ -38,7 +38,10 @@
 		"test": "phpunit"
 	},
 	"autoload": {
-		"classmap": [ "src", "lib/eventum" ],
+		"classmap": [ "lib/eventum" ],
+		"psr-4": {
+			"Eventum\\": "src/"
+		},
 		"files": [ "lib/eventum/gettext.php" ]
 	},
 	"autoload-dev": {
