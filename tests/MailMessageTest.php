@@ -249,7 +249,6 @@ class MailMessageTest extends TestCase
     {
         $raw = file_get_contents(__DIR__ . '/data/in-reply-to.txt');
         $message = MailMessage::createFromString($raw);
-        $this->assertInstanceOf('MailMessage', $message);
 
         // test that getting back raw content works
         // NOTE: the result is not always identical, however this is saved from this same method before manually verifying result is okay
@@ -264,7 +263,6 @@ class MailMessageTest extends TestCase
     {
         // test if header exists
         $message = MailMessage::createFromFile(__DIR__ . '/data/in-reply-to.txt');
-        $this->assertInstanceOf('MailMessage', $message);
         $headers = $message->getHeaders();
 
         $this->assertTrue($headers->has('In-Reply-To'));
@@ -277,7 +275,6 @@ class MailMessageTest extends TestCase
 
         // test if header already does not exist
         $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
-        $this->assertInstanceOf('MailMessage', $message);
         $headers = $message->getHeaders();
 
         $this->assertFalse($headers->has('In-Reply-To'));
@@ -288,7 +285,6 @@ class MailMessageTest extends TestCase
     public function testDuplicateFrom()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
-        $this->assertInstanceOf('MailMessage', $message);
 
         $from = $message->from;
         $this->assertEquals('IT <help@localhost>', $from);
@@ -313,7 +309,6 @@ class MailMessageTest extends TestCase
     public function testModifyBody()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
-        $this->assertInstanceOf('MailMessage', $message);
 
         $content = Mail_Helper::stripWarningMessage($message->getContent());
         $message->setContent($content);
@@ -322,7 +317,6 @@ class MailMessageTest extends TestCase
     public function testRemoveCc()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
-        $this->assertInstanceOf('MailMessage', $message);
 
         $cc = join(',', $message->getAddresses('Cc'));
         $this->assertEquals('abcd@origin.com,our@email.com', $cc);
@@ -535,5 +529,4 @@ class MailMessageTest extends TestCase
         // add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
         $res = Mail_Queue::addMail($mail);
     }
-
 }
