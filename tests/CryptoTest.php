@@ -33,6 +33,20 @@ class CryptoTest extends TestCase
     }
 
     /**
+     * @expectedException InvalidCiphertextException
+     */
+    public function testCorruptedData() {
+        $plaintext = 'tore';
+        $encrypted = CryptoManager::encrypt($plaintext);
+
+        // corrupt it
+        $encrypted = substr($encrypted, 1);
+
+        $value = new EncryptedValue($encrypted);
+        $value->getValue();
+    }
+
+    /**
      * should not encrypt empty string
      *
      * @expectedException InvalidArgumentException
