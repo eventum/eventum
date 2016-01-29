@@ -77,4 +77,15 @@ class EncryptedValue
     {
         return $this->getValue();
     }
+
+    /**
+     * Method invoked when loading dumped config
+     *
+     * @param array $data
+     * @return EncryptedValue
+     */
+    public final function __set_state($data)
+    {
+        return new self($data['ciphertext']);
+    }
 }

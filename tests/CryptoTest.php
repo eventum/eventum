@@ -35,7 +35,8 @@ class CryptoTest extends TestCase
     /**
      * @expectedException InvalidCiphertextException
      */
-    public function testCorruptedData() {
+    public function testCorruptedData()
+    {
         $plaintext = 'tore';
         $encrypted = CryptoManager::encrypt($plaintext);
 
@@ -44,6 +45,27 @@ class CryptoTest extends TestCase
 
         $value = new EncryptedValue($encrypted);
         $value->getValue();
+    }
+
+    public function testExport()
+    {
+        $plaintext = 'tore';
+        $encrypted = CryptoManager::encrypt($plaintext);
+
+        $value = new EncryptedValue($encrypted);
+
+        // export
+        $exported = var_export($value, 1);
+        $tmpfile = tempnam(sys_get_temp_dir(), __FUNCTION__);
+        file_put_contents($tmpfile, '<?php return ' . $exported . ';');
+
+        // load
+        $loaded = require $tmpfile;
+
+        // this should be the original plaintext
+        $this->assertEquals($plaintext, (string)$loaded);
+
+        unlink($tmpfile);
     }
 
     /**
