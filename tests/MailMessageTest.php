@@ -1,5 +1,7 @@
 <?php
 
+use Eventum\Mail\MailMessage;
+
 class MailMessageTest extends TestCase
 {
     public function testMissingMessageId()

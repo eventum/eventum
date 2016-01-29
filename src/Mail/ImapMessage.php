@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Mail;
+
 use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Storage\Message;
 

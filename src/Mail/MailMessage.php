@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Mail;
+
 use Eventum\Mail\Helper\SanitizeHeaders;
 use Zend\Mail\Address;
 use Zend\Mail\AddressList;

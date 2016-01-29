@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Mail;
+
 /**
  * Class MailStorage
  */
