@@ -67,7 +67,7 @@ class Mail_Queue
         $role_id = User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id));
         $is_reminder_address = in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses);
         if ($issue_id && ($to_usr_id && $role_id != User::ROLE_CUSTOMER) || $is_reminder_address) {
-            $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type, $sender_usr_id);
+            $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type);
         }
 
         // try to prevent triggering absence auto responders
