@@ -69,9 +69,7 @@ class CryptoTest extends TestCase
     }
 
     /**
-     * should not encrypt empty string
-     *
-     * @expectedException InvalidArgumentException
+     * encrypt empty string is ok
      */
     public function testEncryptEmptyString()
     {
