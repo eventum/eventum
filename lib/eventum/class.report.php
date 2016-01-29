@@ -67,6 +67,10 @@ class Report
                     {{%status}}
                  ON
                     iss_sta_id=sta_id
+                 LEFT JOIN
+                    {{%user_group}}
+                 ON
+                    ugr_grp_id=usr_id
                  WHERE
                     sta_is_closed=0 AND
                     iss_prj_id=? AND
@@ -86,7 +90,7 @@ class Report
             $ids = (array) $groups;
             $list = DB_Helper::buildList($ids);
             $params = array_merge($params, $ids);
-            $stmt .= " AND\nusr_grp_id IN($list)";
+            $stmt .= " AND\nugr_grp_id IN($list)";
         }
         if ($status) {
             $ids = (array) $status;
@@ -126,6 +130,7 @@ class Report
                 'status_color'        => $row['sta_color'],
                 'last_update'         => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
                 'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
+                'iss_last_response_date' => $row['iss_last_response_date'],
             );
         }
 
@@ -394,7 +399,6 @@ class Report
             'start'     => $start_ts,
             'end'       => $end_ts,
             'user'      => User::getDetails($usr_id),
-            'group_name' => Group::getName(User::getGroupID($usr_id)),
             'issues'    => $issues,
             'status_counts' => History::getTouchedIssueCountByStatus($usr_id, $prj_id, $start_ts, $end_ts),
             'new_assigned_count'    =>  $newly_assigned,

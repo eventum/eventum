@@ -750,21 +750,6 @@ class Mail_Helper
             if (count(Group::getAssocList($prj_id)) > 0) {
                 // group issue is currently assigned too
                 $new_headers['X-Eventum-Group-Issue'] = Group::getName(Issue::getGroupID($issue_id));
-
-                // group of whoever is sending this message.
-                if (empty($sender_usr_id)) {
-                    $new_headers['X-Eventum-Group-Replier'] = $new_headers['X-Eventum-Group-Issue'];
-                } else {
-                    $new_headers['X-Eventum-Group-Replier'] = Group::getName(User::getGroupID($sender_usr_id));
-                }
-
-                // group of current assignee
-                $assignees = Issue::getAssignedUserIDs($issue_id);
-                if (empty($assignees[0])) {
-                    $new_headers['X-Eventum-Group-Assignee'] = '';
-                } else {
-                    $new_headers['X-Eventum-Group-Assignee'] = @Group::getName(User::getGroupID($assignees[0]));
-                }
             }
 
             if (CRM::hasCustomerIntegration($prj_id)) {

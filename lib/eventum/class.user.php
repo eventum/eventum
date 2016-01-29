@@ -487,11 +487,9 @@ class User
      *
      * @param   integer $prj_id The id of the project to show users from
      * @param   integer $role The role ID of the user
-     * @param   boolean $exclude_grouped If users with a group should be excluded
-     * @Param   integer $grp_id The ID of the group.
      * @return  array The associative array of users
      */
-    public static function getActiveAssocList($prj_id = null, $role = null, $exclude_grouped = false, $grp_id = null)
+    public static function getActiveAssocList($prj_id = null, $role = null)
     {
         $stmt = 'SELECT
                     usr_id,
@@ -518,17 +516,6 @@ class User
                 $stmt .= ' AND pru_role > ?';
                 $params[] = $role;
             }
-        }
-        if ($grp_id) {
-            if ($exclude_grouped == false) {
-                $stmt .= ' AND (usr_grp_id IS NULL OR usr_grp_id = ?)';
-                $params[] = $grp_id;
-            } else {
-                $stmt .= ' AND usr_grp_id = ?';
-                $params[] = $grp_id;
-            }
-        } elseif ($exclude_grouped == true) {
-            $stmt .= ' AND (usr_grp_id IS NULL or usr_grp_id = 0)';
         }
         $stmt .= '
                  ORDER BY
@@ -691,12 +678,9 @@ class User
             }
 
             foreach ($res as &$row) {
-                // FIXME: maybe PEAR has some "fill NULL" mode?
-                if (!isset($row['usr_grp_id'])) {
-                    $row['usr_grp_id'] = null;
-                }
-
-                $row['group'] = Group::getName($row['usr_grp_id']);
+                $row['groups'] = self::getGroups($row['usr_id']);
+                $row['group_ids'] = array_keys($row['groups']);
+                $row['group_names'] = array_values($row['groups']);
                 $roles = Project::getAssocList($row['usr_id'], false, true);
                 $row['projects'] = array_keys($roles);
                 $row['roles'] = $roles;
@@ -817,47 +801,49 @@ class User
     }
 
     /**
-     * Method used to get the group id of the specified user.
+     * Method used to get the group ids and titles for the specified user.
      *
      * @param   integer $usr_id The user ID
      * @return  string The user' full name
      */
-    public static function getGroupID($usr_id)
+    public static function getGroups($usr_id)
     {
         static $returns;
 
-        if (!is_array($usr_id)) {
-            $items = array($usr_id);
-        } else {
-            $items = $usr_id;
+        if (!empty($returns[$usr_id])) {
+            return $returns[$usr_id];
         }
 
-        $key = md5(serialize($usr_id));
-        if (!empty($returns[$key])) {
-            return $returns[$key];
-        }
-
-        $itemlist = DB_Helper::buildList($items);
-
-        $stmt = "SELECT
-                    usr_grp_id
-                 FROM
-                    {{%user}}
-                 WHERE
-                    usr_id IN ($itemlist)";
+        $sql = "SELECT
+                  ugr_grp_id,
+                  grp_name
+                FROM
+                    {{%user_group}},
+                    {{%group}}
+                WHERE
+                    ugr_grp_id = grp_id AND
+                    ugr_usr_id = ?";
         try {
-            if (!is_array($usr_id)) {
-                $res = DB_Helper::getInstance()->getOne($stmt, $items);
-            } else {
-                $res = DB_Helper::getInstance()->getColumn($stmt, $items);
-            }
+            $res = DB_Helper::getInstance()->getPair($sql, array($usr_id));
         } catch (DbException $e) {
             return '';
         }
 
-        $returns[$key] = $res;
+        $returns[$usr_id] = $res;
 
         return $res;
+    }
+
+
+    /**
+     * Returns the group ids of the specified user
+     *
+     * @param   int $usr_id The user ID
+     * @return  int[] An array of group ids
+     */
+    public static function getGroupIDs($usr_id)
+    {
+        return array_keys(self::getGroups($usr_id));
     }
 
     /**
@@ -1020,7 +1006,6 @@ class User
     {
         $usr_id = $_POST['id'];
         $data = array(
-            'grp_id'    =>  $_POST['grp_id'],
             'full_name' =>  $_POST['full_name'],
             'email'     =>  $_POST['email'],
             'password'  =>  $_POST['password'],
@@ -1029,6 +1014,12 @@ class User
 
         if (isset($_POST['par_code'])) {
             $data['par_code'] = $_POST['par_code'];
+        }
+
+        if (isset($_POST['groups'])) {
+            $data['groups'] = $_POST['groups'];
+        } else {
+            $data['groups'] = array();
         }
 
         return self::update($usr_id, $data);
@@ -1055,10 +1046,6 @@ class User
 
         if (isset($data['full_name'])) {
             $params['usr_full_name'] = $data['full_name'];
-        }
-
-        if (isset($data['grp_id'])) {
-            $params['usr_grp_id'] = !empty($data['grp_id']) ? $data['grp_id'] : null;
         }
 
         if (isset($data['external_id'])) {
@@ -1127,6 +1114,22 @@ class User
             }
         }
 
+        if (isset($data['groups'])) {
+            $stmt = 'DELETE FROM
+                        {{%user_group}}
+                     WHERE
+                        ugr_usr_id=?';
+            try {
+                DB_Helper::getInstance()->query($stmt, array($usr_id));
+            } catch (DbException $e) {
+                return -1;
+            }
+
+            foreach ($data['groups'] as $grp_id) {
+                Group::addUser($usr_id, $grp_id);
+            }
+        }
+
         if ($notify == true) {
             if (!empty($data['password'])) {
                 Notification::notifyUserPassword($usr_id, $data['password']);
@@ -1144,13 +1147,16 @@ class User
             'password'  =>  $_POST['password'],
             'full_name' =>  $_POST['full_name'],
             'email'     =>  $_POST['email'],
-            'grp_id'    =>  $_POST['grp_id'],
             'role'      =>  $_POST['role'],
             'external_id'   =>  '',
         );
 
         if (isset($_POST['par_code'])) {
             $user['par_code'] = $_POST['par_code'];
+        }
+
+        if (isset($_POST['groups'])) {
+            $user['groups'] = $_POST['groups'];
         }
 
         $insert = self::insert($user);
@@ -1183,7 +1189,6 @@ class User
             Date_Helper::getCurrentDateGMT(),
             $user['full_name'],
             $user['email'],
-            !empty($user['grp_id']) ? $user['grp_id'] : null,
             $user['external_id'],
             isset($user['par_code']) ? $user['par_code'] : null,
         );
@@ -1195,11 +1200,10 @@ class User
                     usr_created_date,
                     usr_full_name,
                     usr_email,
-                    usr_grp_id,
                     usr_external_id,
                     usr_par_code
                  ) VALUES (
-                    ?, ?, ?, ?, ?, ?, ?, ?
+                    ?, ?, ?, ?, ?, ?, ?
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -1225,6 +1229,12 @@ class User
             }
             Project::associateUser($prj_id, $usr_id, $role);
             $projects[] = $prj_id;
+        }
+
+        if (isset($user['groups'])) {
+            foreach ($user['groups'] as $grp_id) {
+                Group::addUser($usr_id, $grp_id);
+            }
         }
 
         Prefs::set($usr_id, Prefs::getDefaults($projects));
@@ -1278,9 +1288,9 @@ class User
             }
 
             $row['roles'] = $roles;
-            if (!empty($row['usr_grp_id'])) {
-                $row['group_name'] = Group::getName($row['usr_grp_id']);
-            }
+            $row['groups'] = self::getGroups($row['usr_id']);
+            $row['group_ids'] = array_keys($row['groups']);
+            $row['group_names'] = array_values($row['groups']);
             if (!empty($row['usr_par_code'])) {
                 $row['partner_name'] = Partner::getName($row['usr_par_code']);
             }
@@ -1495,34 +1505,6 @@ class User
         } else {
             return false;
         }
-    }
-
-    /**
-     * Sets the group ID
-     *
-     * @param   integer $usr_id The id of the user.
-     * @param   integer $grp_id The id of the group.
-     * @return int
-     */
-    public static function setGroupID($usr_id, $grp_id)
-    {
-        if (!$grp_id) {
-            $grp_id = null;
-        }
-
-        $stmt = 'UPDATE
-                    {{%user}}
-                 SET
-                    usr_grp_id = ?
-                 WHERE
-                    usr_id = ?';
-        try {
-            DB_Helper::getInstance()->query($stmt, array($grp_id, $usr_id));
-        } catch (DbException $e) {
-            return -1;
-        }
-
-        return 1;
     }
 
     public static function getLang($usr_id, $force_refresh = false)
