@@ -13,18 +13,5 @@
 
 require_once __DIR__ . '/../../init.php';
 
-// This report shows a list of activity performed in recent history.
-$tpl = new Template_Helper();
-$tpl->setTemplate('reports/recent_activity.tpl.html');
-
-Auth::checkAuthentication();
-
-try {
-    $controller = new RecentActivity();
-    $controller($tpl);
-} catch (LogicException $e) {
-    echo $e->getMessage();
-    exit;
-}
-
-$tpl->displayTemplate();
+$controller = new Eventum\Controller\Report\RecentActivityController();
+$controller->run();
