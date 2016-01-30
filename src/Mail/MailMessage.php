@@ -25,6 +25,7 @@ use Zend\Mail\Header\ContentTransferEncoding;
 use Zend\Mail\Header\ContentType;
 use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Header\HeaderInterface;
+use Zend\Mail\Header\MultipleHeadersInterface;
 use Zend\Mail\Header\Subject;
 use Zend\Mail\Headers;
 use Zend\Mail\Storage as ZendMailStorage;
@@ -698,6 +699,35 @@ class MailMessage extends Message
         }
 
         return $header;
+    }
+
+    /**
+     * Get headers as array.
+     *
+     * this is same as $this->getHeaders()->toArray(), but allows specifying encoding
+     * thus this defaults to FORMAT_ENCODED
+     *
+     * @param bool $format
+     * @return array
+     * @see Headers::toArray
+     * @see https://github.com/zendframework/zend-mail/pull/61
+     */
+    public function getHeadersArray($format = HeaderInterface::FORMAT_ENCODED)
+    {
+        $headers = array();
+        /* @var $header HeaderInterface */
+        foreach ($this->getHeaders() as $header) {
+            if ($header instanceof MultipleHeadersInterface) {
+                $name = $header->getFieldName();
+                if (!isset($headers[$name])) {
+                    $headers[$name] = array();
+                }
+                $headers[$name][] = $header->getFieldValue($format);
+            } else {
+                $headers[$header->getFieldName()] = $header->getFieldValue($format);
+            }
+        }
+        return $headers;
     }
 
     /**

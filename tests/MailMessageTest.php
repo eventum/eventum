@@ -580,7 +580,13 @@ class MailMessageTest extends TestCase
         $body = 'lala';
         MailMessage::createFromHeaderBody($headers, $body);
 
+        // does not like empty headers
         $headers['Cc'] = '';
+        $mail = MailMessage::createFromHeaderBody($headers, $body);
+
+        // does not like not-encoded headers
+        $mail->setSubject('[#3] Note: new ää');
+        $headers = $mail->getHeadersArray();
         MailMessage::createFromHeaderBody($headers, $body);
     }
 }
