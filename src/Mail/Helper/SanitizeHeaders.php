@@ -40,7 +40,8 @@ class SanitizeHeaders
         if (!$headers->has('Message-Id')) {
             // add Message-Id header as it is missing
             $text_headers = rtrim($headers->toString(), Headers::EOL);
-            $messageId = Mail_Helper::generateMessageID($text_headers, $mail->getContent());
+            $body = $mail->hasContent() ? $mail->getContent() : null;
+            $messageId = Mail_Helper::generateMessageID($text_headers, $body);
             $header = new MessageId();
             $headers->addHeader($header->setId(trim($messageId, '<>')));
         }

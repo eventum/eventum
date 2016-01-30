@@ -467,6 +467,39 @@ class MailMessageTest extends TestCase
     }
 
     /**
+     * @see Notification::notifyAccountDetails
+     */
+    public function testSendSimpleMail()
+    {
+        $text_message = 'text message';
+        $info = array(
+            'usr_full_name' => 'Some User',
+            'usr_email' => 'nobody@example.org',
+        );
+        $subject = 'Your User Account Details';
+
+        $smtp = array(
+            'from' => 'root@example.org',
+        );
+        Setup::set(array('smtp' => $smtp));
+
+        // send email (use PEAR's classes)
+        $mail = new Mail_Helper();
+        $mail->setTextBody($text_message);
+        $setup = $mail->getSMTPSettings();
+        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+        $mail->send($setup['from'], $to, $subject);
+
+        // the same but with ZF
+        $mail = MailMessage::createNew();
+        $mail->setSubject($subject);
+        $mail->setFrom($setup['from']);
+        $mail->setTo($to);
+        $mail->setContent($text_message);
+        Mail_Queue::addMail($mail, $to);
+    }
+
+    /**
      * Test mail sending with Mail_Helper
      */
     public function testMailSendMH()

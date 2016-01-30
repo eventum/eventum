@@ -52,7 +52,7 @@ class MailMessage extends Message
      *
      * @param array $params
      */
-    public function __construct(array $params)
+    public function __construct(array $params = array())
     {
         parent::__construct($params);
 
@@ -61,6 +61,18 @@ class MailMessage extends Message
             $helper = new SanitizeHeaders();
             $helper($this);
         }
+    }
+
+    /**
+     * Create Empty Mail object
+     *
+     * @return MailMessage
+     */
+    public static function createNew()
+    {
+        $message = new self(array('root' => true));
+
+        return $message;
     }
 
     /**
@@ -628,6 +640,16 @@ class MailMessage extends Message
     public function setContent($content)
     {
         $this->content = $content;
+    }
+
+    /**
+     * Returns true if message content has been set
+     *
+     * @return bool
+     */
+    public function hasContent()
+    {
+        return $this->content !== null;
     }
 
     /**
