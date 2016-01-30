@@ -17,6 +17,7 @@ use Category;
 use DB_Helper;
 use DbException;
 use Status;
+use Report;
 
 class CategoryStatusController extends ReportBaseController
 {
@@ -37,37 +38,6 @@ class CategoryStatusController extends ReportBaseController
     {
     }
 
-    private function getReport($categories, $statuses)
-    {
-        $data = array();
-        foreach ($categories as $cat_id => $cat_title) {
-            $data[$cat_id] = array(
-                'title' => $cat_title,
-                'statuses' => array(),
-            );
-            foreach ($statuses as $sta_id => $sta_title) {
-                $sql
-                    = 'SELECT
-                    count(*)
-                FROM
-                    {{%issue}}
-                WHERE
-                    iss_prj_id = ? AND
-                    iss_sta_id = ? AND
-                    iss_prc_id = ?';
-                try {
-                    $res = DB_Helper::getInstance()->getOne($sql, array($this->prj_id, $sta_id, $cat_id));
-                } catch (DbException $e) {
-                    break 2;
-                }
-                $data[$cat_id]['statuses'][$sta_id] = array(
-                    'title' => $sta_title,
-                    'count' => $res,
-                );
-            }
-        }
-    }
-
     /**
      * @inheritdoc
      */
@@ -75,7 +45,7 @@ class CategoryStatusController extends ReportBaseController
     {
         $categories = Category::getAssocList($this->prj_id);
         $statuses = Status::getAssocStatusList($this->prj_id, true);
-        $data = $this->getReport($categories, $statuses);
+        $data = Report::getCategoryStatusReport($this->prj_id, $categories, $statuses);
 
         $this->tpl->assign(
             array(

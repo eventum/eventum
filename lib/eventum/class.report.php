@@ -1126,4 +1126,45 @@ class Report
 
         return $res;
     }
+
+    /**
+     * @param int $prj_id
+     * @param array $categories
+     * @param array $statuses
+     * @return array
+     * @see \Eventum\Controller\Report\CategoryStatusController
+     */
+    public static function getCategoryStatusReport($prj_id, $categories, $statuses)
+    {
+        $data = array();
+        foreach ($categories as $cat_id => $cat_title) {
+            $data[$cat_id] = array(
+                'title' => $cat_title,
+                'statuses' => array(),
+            );
+
+            foreach ($statuses as $sta_id => $sta_title) {
+                $sql
+                    = 'SELECT
+                    count(*)
+                FROM
+                    {{%issue}}
+                WHERE
+                    iss_prj_id = ? AND
+                    iss_sta_id = ? AND
+                    iss_prc_id = ?';
+                try {
+                    $res = DB_Helper::getInstance()->getOne($sql, array($prj_id, $sta_id, $cat_id));
+                } catch (DbException $e) {
+                    break 2;
+                }
+                $data[$cat_id]['statuses'][$sta_id] = array(
+                    'title' => $sta_title,
+                    'count' => $res,
+                );
+            }
+        }
+
+        return $data;
+    }
 }
