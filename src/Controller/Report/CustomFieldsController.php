@@ -68,16 +68,6 @@ class CustomFieldsController extends ReportBaseController
         }
     }
 
-    private function hasDate($field)
-    {
-        $request = $this->getRequest();
-
-        return
-            $request->get("{$field}[Year]", null, true)
-            && $request->get("{$field}[Month]", null, true)
-            && $request->get("{$field}[Day]", null, true);
-    }
-
     /**
      * @inheritdoc
      */

@@ -42,4 +42,20 @@ abstract class ReportBaseController extends BaseController
 
         return true;
     }
+
+    /**
+     * Check if $field is date type and submitted
+     *
+     * @param string $field
+     * @return bool
+     */
+    protected function hasDate($field)
+    {
+        $request = $this->getRequest();
+
+        return
+            $request->get("{$field}[Year]", null, true)
+            && $request->get("{$field}[Month]", null, true)
+            && $request->get("{$field}[Day]", null, true);
+    }
 }
