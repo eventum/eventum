@@ -13,22 +13,5 @@
 
 require_once __DIR__ . '/../../init.php';
 
-Auth::checkAuthentication();
-
-if (!Access::canAccessReports(Auth::getUserID())) {
-    echo 'Invalid role';
-    exit;
-}
-
-$interval = isset($_REQUEST['interval']) ? $_REQUEST['interval'] : null;
-$graph = isset($_REQUEST['graph']) ? $_REQUEST['graph'] : null;
-$start_date = isset($_REQUEST['start_date']) ? $_REQUEST['start_date'] : null;
-$end_date = isset($_REQUEST['end_date']) ? $_REQUEST['end_date'] : null;
-$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : null;
-
-$plot = new PlotHelper();
-$res = $plot->WorkloadDateRangeGraph($graph, $type, $start_date, $end_date, $interval);
-if (!$res) {
-    header('Location: ../images/no_data.gif');
-    exit;
-}
+$controller = new Eventum\Controller\Report\WorkloadDateRangeGraphController();
+$controller->run();
