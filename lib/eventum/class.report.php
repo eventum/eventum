@@ -1095,4 +1095,34 @@ class Report
 
         return $data;
     }
+
+    /**
+     * @param int $prj_id
+     * @return array
+     */
+    public static function getEstimatedDevTimeReport($prj_id)
+    {
+        $sql = 'SELECT
+            prc_id,
+        	prc_title,
+        	SUM(iss_dev_time) as dev_time
+        FROM
+        	{{%issue}},
+        	{{%project_category}},
+        	{{%status}}
+        WHERE
+        	iss_prc_id = prc_id AND
+        	iss_sta_id = sta_id AND
+        	sta_is_closed != 1 AND
+        	iss_prj_id = ?
+        GROUP BY
+        	iss_prc_id';
+        try {
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
+        } catch (DbException $e) {
+            return null;
+        }
+
+        return $res;
+    }
 }
