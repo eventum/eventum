@@ -122,6 +122,7 @@ class Report
                 'iss_summary'         => $row['iss_summary'],
                 'sta_title'           => $row['sta_title'],
                 'iss_created_date'    => $row['iss_created_date'],
+                'iss_last_response_date' => $row['iss_last_response_date'],
                 'time_spent'          => Misc::getFormattedTime($row['time_spent']),
                 'status_color'        => $row['sta_color'],
                 'last_update'         => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
