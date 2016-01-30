@@ -29,10 +29,10 @@ class StalledIssuesController extends ReportBaseController
     /** @var string */
     private $cat;
 
-    /** @var array */
+    /** @var string */
     private $before;
 
-    /** @var array */
+    /** @var string */
     private $after;
 
     /** @var string */
