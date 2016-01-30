@@ -126,6 +126,7 @@ class Report
                 'iss_summary'         => $row['iss_summary'],
                 'sta_title'           => $row['sta_title'],
                 'iss_created_date'    => $row['iss_created_date'],
+                'iss_last_response_date' => $row['iss_last_response_date'],
                 'time_spent'          => Misc::getFormattedTime($row['time_spent']),
                 'status_color'        => $row['sta_color'],
                 'last_update'         => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
@@ -1095,6 +1096,77 @@ class Report
                 'median'    =>  0,
                 'max'   =>  0,
             );
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param int $prj_id
+     * @return array
+     */
+    public static function getEstimatedDevTimeReport($prj_id)
+    {
+        $sql = 'SELECT
+            prc_id,
+        	prc_title,
+        	SUM(iss_dev_time) as dev_time
+        FROM
+        	{{%issue}},
+        	{{%project_category}},
+        	{{%status}}
+        WHERE
+        	iss_prc_id = prc_id AND
+        	iss_sta_id = sta_id AND
+        	sta_is_closed != 1 AND
+        	iss_prj_id = ?
+        GROUP BY
+        	iss_prc_id';
+        try {
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
+        } catch (DbException $e) {
+            return null;
+        }
+
+        return $res;
+    }
+
+    /**
+     * @param int $prj_id
+     * @param array $categories
+     * @param array $statuses
+     * @return array
+     * @see \Eventum\Controller\Report\CategoryStatusController
+     */
+    public static function getCategoryStatusReport($prj_id, $categories, $statuses)
+    {
+        $data = array();
+        foreach ($categories as $cat_id => $cat_title) {
+            $data[$cat_id] = array(
+                'title' => $cat_title,
+                'statuses' => array(),
+            );
+
+            foreach ($statuses as $sta_id => $sta_title) {
+                $sql
+                    = 'SELECT
+                    count(*)
+                FROM
+                    {{%issue}}
+                WHERE
+                    iss_prj_id = ? AND
+                    iss_sta_id = ? AND
+                    iss_prc_id = ?';
+                try {
+                    $res = DB_Helper::getInstance()->getOne($sql, array($prj_id, $sta_id, $cat_id));
+                } catch (DbException $e) {
+                    break 2;
+                }
+                $data[$cat_id]['statuses'][$sta_id] = array(
+                    'title' => $sta_title,
+                    'count' => $res,
+                );
+            }
         }
 
         return $data;
