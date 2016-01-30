@@ -97,6 +97,13 @@ class MailMessage extends Message
      */
     public static function createFromHeaderBody($headers, $content)
     {
+        // Zend\Mail does not like empty headers, "Cc:" for example
+        foreach ($headers as $k => $v) {
+            if ($v === '') {
+                unset($headers[$k]);
+            }
+        }
+
         $message = new self(array('root' => true, 'headers' => $headers, 'content' => $content));
 
         return $message;

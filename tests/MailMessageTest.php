@@ -578,6 +578,9 @@ class MailMessageTest extends TestCase
             'Subject' => '[#3] Note: Re: example issue title',
         );
         $body = 'lala';
-        $mail = MailMessage::createFromHeaderBody($headers, $body);
+        MailMessage::createFromHeaderBody($headers, $body);
+
+        $headers['Cc'] = '';
+        MailMessage::createFromHeaderBody($headers, $body);
     }
 }
