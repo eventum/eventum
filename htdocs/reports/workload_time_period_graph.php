@@ -13,14 +13,5 @@
 
 require_once __DIR__ . '/../../init.php';
 
-Auth::checkAuthentication();
-
-if (!Access::canAccessReports(Auth::getUserID())) {
-    echo 'Invalid role';
-    exit;
-}
-
-$type = isset($_GET['type']) ? $_GET['type'] : null;
-
-$plot = new PlotHelper();
-$plot->WorkloadTimePeriodGraph($type);
+$controller = new Eventum\Controller\Report\WorkloadTimePeriodGraphController();
+$controller->run();

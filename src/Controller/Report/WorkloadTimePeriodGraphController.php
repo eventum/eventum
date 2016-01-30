@@ -15,7 +15,7 @@ namespace Eventum\Controller\Report;
 
 use PlotHelper;
 
-class WorkloadDateRangeGraphController extends ReportBaseController
+class WorkloadTimePeriodGraphController extends ReportBaseController
 {
     /**
      * @inheritdoc
@@ -36,19 +36,10 @@ class WorkloadDateRangeGraphController extends ReportBaseController
      */
     protected function prepareTemplate()
     {
-        $request = $this->getRequest();
-
-        $interval = $request->get('interval');
-        $graph = $request->get('graph');
-        $start_date = $request->get('start_date');
-        $end_date = $request->get('end_date');
-        $type = $request->get('type');
+        $get = $this->getRequest()->query;
 
         $plot = new PlotHelper();
-        $res = $plot->WorkloadDateRangeGraph($graph, $type, $start_date, $end_date, $interval);
-        if (!$res) {
-            header('Location: ../images/no_data.gif');
-        }
+        $plot->WorkloadTimePeriodGraph($get->get('type'));
         exit;
     }
 }
