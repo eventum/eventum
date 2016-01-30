@@ -23,9 +23,6 @@ class CustomFieldsWeeklyController extends ReportBaseController
     protected $tpl_name = 'reports/custom_fields_weekly.tpl.html';
 
     /** @var string */
-    private $cat;
-
-    /** @var string */
     private $week;
 
     /** @var string */
