@@ -13,12 +13,5 @@
 
 require_once __DIR__ . '/../../init.php';
 
-Auth::checkAuthentication();
-if (!Access::canAccessReports(Auth::getUserID())) {
-    Auth::redirect(APP_RELATIVE_URL . 'main.php');
-}
-
-$tpl = new Template_Helper();
-$tpl->setTemplate('reports/index.tpl.html');
-
-$tpl->displayTemplate();
+$controller = new Eventum\Controller\Report\IndexController();
+$controller->run();
