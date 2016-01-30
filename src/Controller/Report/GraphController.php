@@ -15,13 +15,10 @@ namespace Eventum\Controller\Report;
 
 use PlotHelper;
 
-class CustomFieldsGraphController extends ReportBaseController
+class GraphController extends ReportBaseController
 {
     /** @var string */
-    protected $tpl_name = 'view.tpl.html';
-
-    /** @var string */
-    private $cat;
+    private $graph;
 
     /**
      * @inheritdoc
@@ -30,8 +27,7 @@ class CustomFieldsGraphController extends ReportBaseController
     {
         $request = $this->getRequest();
 
-        $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
-        $this->prj_id = $request->request->get('prj_id') ?: $request->query->get('prj_id');
+        $this->graph = $request->request->get('graph') ?: $request->query->get('graph');
     }
 
     /**
@@ -39,13 +35,21 @@ class CustomFieldsGraphController extends ReportBaseController
      */
     protected function defaultAction()
     {
+        switch ($this->graph) {
+            case 'custom_fields':
+                $res = $this->graphCustomFields();
+                break;
+            default:
+                $res = false;
+        }
+
+        if (!$res) {
+            header('Location: ' . APP_RELATIVE_URL . '/images/no_data.gif');
+        }
+        exit;
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function prepareTemplate()
-    {
+    private function graphCustomFields() {
         $request = $this->getRequest();
         $get = $request->query;
 
@@ -68,10 +72,15 @@ class CustomFieldsGraphController extends ReportBaseController
         $type = $get->get('type');
 
         $plot = new PlotHelper();
-        $res = $plot->CustomFieldGraph($type, $custom_field, $custom_options, $group_by, $start_date, $end_date, $interval);
-        if (!$res) {
-            header('Location: ' . APP_RELATIVE_URL . '/images/no_data.gif');
-        }
-        exit;
+        return $plot->CustomFieldGraph(
+            $type, $custom_field, $custom_options, $group_by, $start_date, $end_date, $interval
+        );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function prepareTemplate()
+    {
     }
 }

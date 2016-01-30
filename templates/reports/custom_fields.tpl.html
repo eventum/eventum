@@ -173,8 +173,8 @@ setOptions('{$custom_field}', false);
 
 {if $custom_options|@count > 0}
 <div align="center">
-    <img src="custom_fields_graph.php?{$smarty.server.QUERY_STRING}"><br /><br />
-    <img src="custom_fields_graph.php?{$smarty.server.QUERY_STRING}&type=pie"><br />
+    <img src="graph.php?graph=custom_fields&{$smarty.server.QUERY_STRING}"><br /><br />
+    <img src="graph.php?graph=custom_fields&{$smarty.server.QUERY_STRING}&type=pie"><br />
     {t}Percentages may not add up to exactly 100% due to rounding.{/t}<br /><br />
 </div>
 {/if}

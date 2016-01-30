@@ -13,5 +13,5 @@
 
 require_once __DIR__ . '/../../init.php';
 
-$controller = new Eventum\Controller\Report\CustomFieldsGraphController();
+$controller = new Eventum\Controller\Report\GraphController();
 $controller->run();
