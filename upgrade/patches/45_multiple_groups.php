@@ -11,11 +11,13 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+
 /*
  * Adds the ability for users to belong in multiple groups
  */
 
-/** @var DbInterface $db */
+/** @var AdapterInterface $db */
 
 $db->query('CREATE TABLE {{%user_group}} (
   ugr_usr_id int unsigned NOT NULL,

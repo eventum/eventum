@@ -11,7 +11,20 @@
  * that were distributed with this source code.
  */
 
-class DbPear implements DbInterface
+namespace Eventum\Db\Adapter;
+
+use DB;
+use DB_common;
+use DB_Helper;
+use DB_result;
+use Eventum\Db\DatabaseException;
+use Language;
+use Logger;
+use LogicException;
+use Misc;
+use PEAR_Error;
+
+class PearAdapter implements AdapterInterface
 {
     /** @var DB_common */
     private $db;
@@ -101,12 +114,12 @@ class DbPear implements DbInterface
      * @param int $fetchmode
      * @param bool $group
      * @return array  the associative array containing the query results.
-     * @throws DbException on failure.
+     * @throws DatabaseException on failure.
      * @deprecated use fetchAssoc() instead for cleaner interface
      */
     private function getAssoc(
         $query, $force_array = false, $params = array(),
-        $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT, $group = false
+        $fetchmode = AdapterInterface::DB_FETCHMODE_DEFAULT, $group = false
     ) {
         if (is_array($force_array)) {
             throw new LogicException('force_array passed as array, did you mean fetchPair or forgot extra arg?');
@@ -121,7 +134,7 @@ class DbPear implements DbInterface
     /**
      * @see DB_common::getAssoc
      */
-    public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT)
+    public function fetchAssoc($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_DEFAULT)
     {
         $query = $this->quoteSql($query, $params);
         $res = $this->db->getAssoc($query, false, $params, $fetchmode, false);
@@ -154,7 +167,7 @@ class DbPear implements DbInterface
     /**
      * @see DB_common::getAll
      */
-    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
+    public function getAll($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
         $query = $this->quoteSql($query, $params);
         $res = $this->db->getAll($query, $params, $fetchmode);
@@ -166,7 +179,7 @@ class DbPear implements DbInterface
     /**
      * @see DB_common::getRow
      */
-    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
+    public function getRow($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
         $query = $this->quoteSql($query, $params);
         $res = $this->db->getRow($query, $params, $fetchmode);
@@ -210,7 +223,7 @@ class DbPear implements DbInterface
     }
 
     /**
-     * Check if $e is PEAR error, if so, throw as DbException
+     * Check if $e is PEAR error, if so, throw as DatabaseException
      *
      * @param $e PEAR_Error|array|object|int
      */
@@ -246,7 +259,7 @@ class DbPear implements DbInterface
 
         Logger::db()->error($e->getMessage(), $context);
 
-        $de = new DbException($e->getMessage(), $e->getCode());
+        $de = new DatabaseException($e->getMessage(), $e->getCode());
         if (isset($context['file'])) {
             $de->setExceptionLocation($context['file'], $context['line']);
         }

@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to the reminder emails
  * that the system sends out.
@@ -88,7 +90,7 @@ class Reminder_Action
                     rma_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($rem_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -111,7 +113,7 @@ class Reminder_Action
                     rma_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($rma_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -134,7 +136,7 @@ class Reminder_Action
                     rma_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($rma_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -180,7 +182,7 @@ class Reminder_Action
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -211,7 +213,7 @@ class Reminder_Action
                     ral_rma_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($rma_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -289,7 +291,7 @@ class Reminder_Action
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -320,7 +322,7 @@ class Reminder_Action
                     rmt_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($rmt_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -403,7 +405,7 @@ class Reminder_Action
                     rmt_title ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -437,7 +439,7 @@ class Reminder_Action
                     rma_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($rem_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -473,7 +475,7 @@ class Reminder_Action
                     rma_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($reminder_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -500,7 +502,7 @@ class Reminder_Action
                     rmt_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($rmt_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -528,7 +530,7 @@ class Reminder_Action
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($issue_id, $rma_id, Date_Helper::getCurrentDateGMT()));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -797,7 +799,7 @@ class Reminder_Action
                     rta_iss_id IN ($idlist)";
         try {
             $triggered_actions = DB_Helper::getInstance()->getPair($stmt, $issues);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return $issues;
         }
 
@@ -853,7 +855,7 @@ class Reminder_Action
         }
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -874,7 +876,7 @@ class Reminder_Action
                     rta_iss_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 

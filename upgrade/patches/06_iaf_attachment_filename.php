@@ -11,12 +11,14 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+
 /**
  * Decode attachment filenames from QuotedPrintable MIME encoding.
  * Also set Untitled.jpg to unnamed attachments (Usually inline).
  */
 
-/** @var DbInterface $db */
+/** @var AdapterInterface $db */
 
 // Attachments that need to be decoded
 $res = $db->getAll('SELECT iaf_id, iaf_filename FROM {{%issue_attachment_file}} WHERE iaf_filename LIKE ?', array('%=?%'));

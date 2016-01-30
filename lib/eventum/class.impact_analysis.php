@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to the impact analysis section
  * of the view issue page. This section allows the developer to give feedback
@@ -41,7 +43,7 @@ class Impact_Analysis
         $params = array($issue_id, $usr_id, Date_Helper::getCurrentDateGMT(), $_POST['new_requirement']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -84,7 +86,7 @@ class Impact_Analysis
                     isr_usr_id=A.usr_id';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -134,7 +136,7 @@ class Impact_Analysis
         $params = array($usr_id, Date_Helper::getCurrentDateGMT(), $dev_time, $_POST['impact_analysis'], $isr_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -171,7 +173,7 @@ class Impact_Analysis
                     isr_id IN ($itemlist)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -201,7 +203,7 @@ class Impact_Analysis
                     isr_iss_id IN ($items)";
         try {
             DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 

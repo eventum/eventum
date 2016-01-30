@@ -11,10 +11,20 @@
  * that were distributed with this source code.
  */
 
-class DbPdo extends DbBasePdo implements DbInterface
+namespace Eventum\Db\Adapter;
+
+use DB_Helper;
+use Eventum;
+use PDO;
+use UnexpectedValueException;
+
+class PdoAdapter extends PdoAdapterBase implements AdapterInterface
 {
     /** @var PDO */
     private $db;
+
+    /** @var string */
+    private $tablePrefix;
 
     /**
      * @param $config
@@ -37,19 +47,19 @@ class DbPdo extends DbBasePdo implements DbInterface
         $this->tablePrefix = $config['table_prefix'];
     }
 
-    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
+    public function getAll($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
         $this->convertFetchMode($fetchmode);
 
         return $this->fetchAll($query, $params, $fetchmode);
     }
 
-    public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT)
+    public function fetchAssoc($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_DEFAULT)
     {
         $flags = PDO::FETCH_GROUP | PDO::FETCH_UNIQUE;
-        if ($fetchmode == DbInterface::DB_FETCHMODE_ASSOC) {
+        if ($fetchmode == AdapterInterface::DB_FETCHMODE_ASSOC) {
             $flags |= PDO::FETCH_ASSOC;
-        } elseif ($fetchmode == DbInterface::DB_FETCHMODE_DEFAULT) {
+        } elseif ($fetchmode == AdapterInterface::DB_FETCHMODE_DEFAULT) {
             $flags |= PDO::FETCH_NUM;
         } else {
             throw new UnexpectedValueException(__FUNCTION__ . ' unsupported fetchmode: ' . $fetchmode);
@@ -85,7 +95,7 @@ class DbPdo extends DbBasePdo implements DbInterface
         return $res;
     }
 
-    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
+    public function getRow($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
         $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);

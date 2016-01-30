@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 require_once __DIR__ . '/../../init.php';
 
 $tpl = new Template_Helper();
@@ -46,7 +48,7 @@ foreach ($categories as $cat_id => $cat_title) {
                     iss_prc_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($prj_id, $sta_id, $cat_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             break 2;
         }
         $data[$cat_id]['statuses'][$sta_id] = array(

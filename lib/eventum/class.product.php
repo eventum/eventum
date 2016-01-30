@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 class Product
 {
     public static function getList($include_removed = null)
@@ -36,7 +38,7 @@ class Product
                     pro_rank';
         try {
             $res = DB_Helper::getInstance()->getAll($sql, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -70,7 +72,7 @@ class Product
                     pro_email = ?';
         try {
             DB_Helper::getInstance()->query($sql, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -95,7 +97,7 @@ class Product
                     pro_id = ?';
         try {
             DB_Helper::getInstance()->query($sql, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -111,7 +113,7 @@ class Product
 
         try {
             DB_Helper::getInstance()->query($sql, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -134,7 +136,7 @@ class Product
 
         try {
             $res = DB_Helper::getInstance()->getRow($sql, array($pro_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -163,7 +165,7 @@ class Product
         $params = array($issue_id, $pro_id, $version);
         try {
             DB_Helper::getInstance()->query($sql, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -186,7 +188,7 @@ class Product
                     ipv_iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getAll($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -239,7 +241,7 @@ class Product
         }
         try {
             DB_Helper::getInstance()->query($sql, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 

@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Holding all search relevant methods
  */
@@ -399,7 +401,7 @@ class Search
                     ' . Misc::escapeInteger($max) . ' OFFSET ' . Misc::escapeInteger($start);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array(
                 'list' => null,
                 'info' => null,

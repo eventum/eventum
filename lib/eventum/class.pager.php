@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to manage paginated links on the frontend pages.
  */
@@ -40,7 +42,7 @@ class Pager
         $stmt = preg_replace("/(.*)(ORDER BY\s+\w+\s+\w+)(?:,\s+\w+\s+\w+)*(.*)/si", '\\1\\3', $stmt);
         try {
             $rows = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 0;
         }
 

@@ -11,7 +11,11 @@
  * that were distributed with this source code.
  */
 
-class DbException extends RuntimeException
+namespace Eventum\Db;
+
+use RuntimeException;
+
+class DatabaseException extends RuntimeException
 {
     public $context;
 

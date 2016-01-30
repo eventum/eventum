@@ -11,11 +11,13 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+
 /*
  * Adds a user preference for using relative dates and updates preferences to current global setting.
  */
 
-/** @var DbInterface $db */
+/** @var AdapterInterface $db */
 
 $db->query('ALTER TABLE {{%user_preference}} ADD COLUMN upr_relative_date tinyint(1) NULL DEFAULT 1');
 

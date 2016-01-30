@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to adding, updating or
  * deleting notes from the application.
@@ -38,7 +40,7 @@ class Note
                     not_created_date ASC';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -76,7 +78,7 @@ class Note
                     not_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($note_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -129,7 +131,7 @@ class Note
                     not_created_date ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -162,7 +164,7 @@ class Note
                     not_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($note_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             throw new RuntimeException("Can't find note");
         }
 
@@ -185,7 +187,7 @@ class Note
                     not_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($note_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -214,7 +216,7 @@ class Note
                 LIMIT 1 OFFSET $offset";
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -237,7 +239,7 @@ class Note
                     not_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($note_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -390,7 +392,7 @@ class Note
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -429,7 +431,7 @@ class Note
                     not_iss_id IN ($items)";
         try {
             DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -467,7 +469,7 @@ class Note
                     not_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($note_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -521,7 +523,7 @@ class Note
                     not_created_date ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -682,7 +684,7 @@ class Note
         $params = array(Auth::getCurrentProject(), $start, $end, $usr_id);
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -705,7 +707,7 @@ class Note
                     not_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($note_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -729,7 +731,7 @@ class Note
                     not_removed = 0';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 0;
         }
 
@@ -756,7 +758,7 @@ class Note
                     not_message_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($message_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -784,7 +786,7 @@ class Note
                     child.not_message_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($message_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -815,7 +817,7 @@ class Note
                     not_message_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($message_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -843,7 +845,7 @@ class Note
                     not_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -870,7 +872,7 @@ class Note
                     not_message_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($message_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 

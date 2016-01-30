@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to all aspects of the
  * reporting system.
@@ -106,7 +108,7 @@ class Report
                     iss_last_response_date ' . $sort_order;
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -189,7 +191,7 @@ class Report
         }
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id, $ts_diff));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -264,7 +266,7 @@ class Report
                     usr_full_name';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -341,7 +343,7 @@ class Report
         $params = array($usr_id, Auth::getCurrentProject(), $start_ts, $end_ts);
         try {
             $newly_assigned = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             $newly_assigned = null;
         }
 
@@ -440,7 +442,7 @@ class Report
         $params = array(Auth::getCurrentProject());
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -519,7 +521,7 @@ class Report
                     time_period';
         try {
             $total = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -543,7 +545,7 @@ class Report
                     time_period";
         try {
             $dev_stats = DB_Helper::getInstance()->getPair($stmt, $emails);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -736,7 +738,7 @@ class Report
                         row_count DESC';
             try {
                 $res = DB_Helper::getInstance()->getAll($sql, $params);
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return array();
             }
 
@@ -807,13 +809,13 @@ class Report
                     } else {
                         $res = DB_Helper::getInstance()->getPair($stmt, $params);
                     }
-                } catch (DbException $e) {
+                } catch (DatabaseException $e) {
                     return array();
                 }
             } else {
                 try {
                     $res = DB_Helper::getInstance()->getOne($stmt, $params);
-                } catch (DbException $e) {
+                } catch (DatabaseException $e) {
                     return array();
                 }
             }
@@ -838,7 +840,7 @@ class Report
         $params[] = $fld_id;
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
         $data['All Others'] = $res;
@@ -927,7 +929,7 @@ class Report
 
         try {
             $res = DB_Helper::getInstance()->getAll($sql, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -1012,7 +1014,7 @@ class Report
         }
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
         $data['issues']['points'] = $res;
@@ -1073,7 +1075,7 @@ class Report
 
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
         $data['emails']['points'] = $res;

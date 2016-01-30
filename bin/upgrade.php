@@ -7,6 +7,8 @@
  * https://github.com/eventum/eventum/wiki/Upgrading
  */
 
+use Eventum\Db\Migrate;
+
 define('INSTALL_PATH', __DIR__ . '/..');
 define('CONFIG_PATH', INSTALL_PATH . '/config');
 
@@ -24,7 +26,7 @@ require_once INSTALL_PATH . '/init.php';
 $patch = isset($argv[1]) ? (int)$argv[1] : null;
 
 try {
-    $dbmigrate = new DbMigrate(INSTALL_PATH . '/upgrade');
+    $dbmigrate = new Migrate(INSTALL_PATH . '/upgrade');
     $dbmigrate->patch_database($patch);
 } catch (Exception $e) {
     echo $e->getMessage(), "\n";

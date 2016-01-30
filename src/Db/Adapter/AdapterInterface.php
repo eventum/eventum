@@ -11,12 +11,16 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Db\Adapter;
+
+use Eventum\Db\DatabaseException;
+
 /**
- * Interface DbInterface
+ * Interface AdapterInterface
  *
  * Database interface designed against PEAR::DB
  */
-interface DbInterface
+interface AdapterInterface
 {
     /**
      * Indicates the current default fetch mode should be used
@@ -37,7 +41,7 @@ interface DbInterface
      * Connects to the database
      *
      * @param array $config
-     * @throws DbException on connection failure
+     * @throws DatabaseException on connection failure
      */
     public function __construct(array $config);
 
@@ -46,7 +50,7 @@ interface DbInterface
      *
      * @param string $str the string to be escaped
      * @return string  the escaped string
-     * @throws DbException on failure.
+     * @throws DatabaseException on failure.
      */
     public function escapeSimple($str);
 
@@ -59,7 +63,7 @@ interface DbInterface
      * @param mixed $params array, string or numeric data
      * @return bool|object A new DB_result object for successful SELECT queries
      * or true for successful data manipulation queries.
-     * @throws DbException on failure.
+     * @throws DatabaseException on failure.
      */
     public function query($query, $params = array());
 
@@ -70,7 +74,7 @@ interface DbInterface
      *
      * @param string $str the identifier name to be quoted
      * @return string  the quoted identifier
-     * @throws DbException on failure.
+     * @throws DatabaseException on failure.
      */
     public function quoteIdentifier($str);
 
@@ -81,7 +85,7 @@ interface DbInterface
      * @param mixed $params array, string or numeric data
      * @param int $fetchmode the fetch mode to use
      * @return array the nested array.
-     * @throws DbException on failure.
+     * @throws DatabaseException on failure.
      */
     public function getAll($query, $params = array(), $fetchmode = self::DB_FETCHMODE_ASSOC);
 
@@ -95,7 +99,7 @@ interface DbInterface
      * @param string $query
      * @param mixed $params
      * @param int $fetchmode
-     * @throws DbException on failure.
+     * @throws DatabaseException on failure.
      */
     public function fetchAssoc($query, $params = array(), $fetchmode = self::DB_FETCHMODE_DEFAULT);
 
@@ -106,7 +110,7 @@ interface DbInterface
      * @param string $query the SQL query
      * @param mixed $params array, string or numeric data
      * @return array the results as an array.
-     * @throws DbException on failure.
+     * @throws DatabaseException on failure.
      */
     public function getColumn($query, $params = array());
 
@@ -118,7 +122,7 @@ interface DbInterface
      * @param string $query the SQL query
      * @param mixed $params array, string or numeric data
      * @return mixed the returned value of the query.
-     * @throws DbException on failure.
+     * @throws DatabaseException on failure.
      */
     public function getOne($query, $params = array());
 
@@ -132,7 +136,7 @@ interface DbInterface
      * @param string $query
      * @param mixed $params
      * @return array  the associative array containing the query results.
-     * @throws DbException on failure.
+     * @throws DatabaseException on failure.
      */
     public function getPair($query, $params = array());
 
@@ -143,7 +147,7 @@ interface DbInterface
      * @param mixed $params array, string or numeric data
      * @param int $fetchmode the fetch mode to use
      * @return array  the first row of results as an array.
-     * @throws DbException on failure.
+     * @throws DatabaseException on failure.
      */
     public function getRow($query, $params = array(), $fetchmode = self::DB_FETCHMODE_ASSOC);
 }

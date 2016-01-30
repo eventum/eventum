@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 require_once __DIR__ . '/../../init.php';
 
 $tpl = new Template_Helper();
@@ -41,7 +43,7 @@ $sql = 'SELECT
         	iss_prc_id';
 try {
     $res = DB_Helper::getInstance()->getAll($sql, array(Auth::getCurrentProject()));
-} catch (DbException $e) {
+} catch (DatabaseException $e) {
     return false;
 }
 $total = 0;

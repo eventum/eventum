@@ -1,5 +1,6 @@
 <?php
 
+use Eventum\Db\DatabaseException;
 use Monolog\Handler\StreamHandler;
 
 class LoggerTest extends TestCase
@@ -39,7 +40,7 @@ class LoggerTest extends TestCase
         $this->assertDatabase();
         try {
             DB_Helper::getInstance()->query('here -->?<-- be dragons?', array('param1', 'param2'));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
         }
     }
 

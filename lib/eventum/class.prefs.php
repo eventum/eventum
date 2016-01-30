@@ -11,6 +11,9 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to the user preferences
  * available in the application.
@@ -82,7 +85,7 @@ class Prefs
                     upr_usr_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($sql, array($usr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return self::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
         }
         if ($res === null) {
@@ -113,8 +116,8 @@ class Prefs
                 WHERE
                     upp_usr_id = $usr_id";
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($sql, array(), DbInterface::DB_FETCHMODE_ASSOC);
-        } catch (DbException $e) {
+            $res = DB_Helper::getInstance()->fetchAssoc($sql, array(), AdapterInterface::DB_FETCHMODE_ASSOC);
+        } catch (DatabaseException $e) {
             return $returns[$usr_id];
         }
 
@@ -163,7 +166,7 @@ class Prefs
                 @$preferences['close_popup_windows'],
                 @$preferences['relative_date'],
             ));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -187,7 +190,7 @@ class Prefs
                     $preferences['receive_new_issue_email'][$prj_id],
                     $preferences['receive_copy_of_own_action'][$prj_id],
                 ));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }

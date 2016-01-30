@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle all business logic related to the way statuses
  * are represented in the system.
@@ -42,7 +44,7 @@ class Status
 
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -65,7 +67,7 @@ class Status
                     psd_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($psd_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -86,7 +88,7 @@ class Status
                     psd_id IN (' . DB_Helper::buildList($items) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -116,7 +118,7 @@ class Status
                     psd_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($prj_id, $sta_id, $date_field, $label, $psd_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -146,7 +148,7 @@ class Status
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($prj_id, $sta_id, $date_field, $label));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -179,7 +181,7 @@ class Status
                     prj_title ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -207,7 +209,7 @@ class Status
                     sta_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sta_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -242,7 +244,7 @@ class Status
         $params = array($_POST['title'], $_POST['abbreviation'], $_POST['rank'], $_POST['color'], $_POST['is_closed']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -285,7 +287,7 @@ class Status
         $params = array($_POST['title'], $_POST['abbreviation'], $_POST['rank'], $color, $_POST['is_closed'], $_POST['id']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -314,7 +316,7 @@ class Status
                         iss_prj_id IN (' . implode(', ', $removed_projects) . ')';
             try {
                 DB_Helper::getInstance()->query($stmt, array($_POST['id']));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 // FIXME: why no error handling?
             }
         }
@@ -338,7 +340,7 @@ class Status
                     sta_id IN ($item_list)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -401,7 +403,7 @@ class Status
         }
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -424,7 +426,7 @@ class Status
                     sta_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($sta_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -450,7 +452,7 @@ class Status
                     sta_title';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -482,7 +484,7 @@ class Status
                     prs_sta_id=?';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($sta_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -511,7 +513,7 @@ class Status
                     sta_title=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sta_title));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -536,7 +538,7 @@ class Status
                     sta_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sta_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -570,7 +572,7 @@ class Status
                     sta_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $prj_id);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -608,7 +610,7 @@ class Status
                     sta_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $prj_id);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -646,7 +648,7 @@ class Status
                     sta_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $prj_id);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -670,7 +672,7 @@ class Status
                     sta_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -701,7 +703,7 @@ class Status
                     sta_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -724,7 +726,7 @@ class Status
                     sta_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 

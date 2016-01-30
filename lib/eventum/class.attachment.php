@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class designed to handle all business logic related to attachments being
  * uploaded to issues in the application.
@@ -109,7 +111,7 @@ class Attachment
         }
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -156,7 +158,7 @@ class Attachment
                     iaf_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($file_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -187,7 +189,7 @@ class Attachment
 
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -223,7 +225,7 @@ class Attachment
 
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -240,7 +242,7 @@ class Attachment
                     iat_iss_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($iat_id, $issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -274,7 +276,7 @@ class Attachment
                     iaf_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($iaf_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -299,7 +301,7 @@ class Attachment
                     iaf_iat_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($attachment_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -345,7 +347,7 @@ class Attachment
         $params = array($issue_id);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -440,7 +442,7 @@ class Attachment
     {
         try {
             $iaf_ids = self::addFiles($_FILES['attachment']);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -452,7 +454,7 @@ class Attachment
 
         try {
             self::attachFiles($_POST['issue_id'], $usr_id, $iaf_ids, $internal_only, $_POST['file_description']);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -489,7 +491,7 @@ class Attachment
                 Date_Helper::getCurrentDateGMT(),
                 $blob,
             ));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -597,7 +599,7 @@ class Attachment
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
