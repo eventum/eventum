@@ -77,6 +77,20 @@ class MailMessage extends Message
     }
 
     /**
+     * Create Mail object from headers array and body string
+     *
+     * @param array $headers
+     * @param string $content
+     * @return MailMessage
+     */
+    public static function createFromHeaderBody($headers, $content)
+    {
+        $message = new self(array('root' => true, 'headers' => $headers, 'content' => $content));
+
+        return $message;
+    }
+
+    /**
      * Create Mail object from specified filename
      *
      * @param string $filename Path to the file to read in
@@ -134,7 +148,7 @@ class MailMessage extends Message
             }
         }
 
-        return (bool) $has_attachments;
+        return (bool)$has_attachments;
     }
 
     /**
@@ -356,7 +370,7 @@ class MailMessage extends Message
         }
 
         $addresses = array();
-        foreach ((array) $headers as $header) {
+        foreach ((array)$headers as $header) {
             if (!$this->headers->has($header)) {
                 continue;
             }
@@ -529,8 +543,8 @@ class MailMessage extends Message
     public function isSeen()
     {
         return $this->hasFlag(ZendMailStorage::FLAG_SEEN)
-            || $this->hasFlag(ZendMailStorage::FLAG_DELETED)
-            || $this->hasFlag(ZendMailStorage::FLAG_ANSWERED);
+        || $this->hasFlag(ZendMailStorage::FLAG_DELETED)
+        || $this->hasFlag(ZendMailStorage::FLAG_ANSWERED);
     }
 
     /**

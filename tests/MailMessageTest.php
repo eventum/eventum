@@ -13,6 +13,7 @@ class MailMessageTest extends TestCase
         /**
          * due bad conversion in Mail_Helper::generateMessageID(),
          * the result is different on 32bit systems.
+         *
          * @see Mail_Helper::generateMessageID()
          */
         if (PHP_INT_SIZE == 4) {
@@ -528,5 +529,22 @@ class MailMessageTest extends TestCase
 
         // add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
         $res = Mail_Queue::addMail($mail, $recipient);
+    }
+
+    public function testMailFromHeaderBody()
+    {
+        $headers = array(
+            'MIME-Version' => '1.0',
+            'Content-Type' => 'text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding' => '8bit',
+            'Message-ID' => '<eventum.md5.55kfn795r.3buu2ivsffcw8@localhost>',
+            'In-Reply-To' => '<eventum.4zwt0q24d.y3mpoo@localhost:8002>',
+            'References' => '<eventum.4zwt0q24d.y3mpoo@localhost:8002>',
+            'From' => '"Admin User " <note-3@eventum.example.org>',
+            'To' => '"Admin User" <admin@example.com>',
+            'Subject' => '[#3] Note: Re: example issue title',
+        );
+        $body = 'lala';
+        $mail = MailMessage::createFromHeaderBody($headers, $body);
     }
 }
