@@ -39,6 +39,9 @@ class GraphController extends ReportBaseController
             case 'custom_fields':
                 $res = $this->graphCustomFields();
                 break;
+            case 'workload_date_range':
+                $res = $this->graphWorkloadDateRange();
+                break;
             default:
                 $res = false;
         }
@@ -75,6 +78,19 @@ class GraphController extends ReportBaseController
         return $plot->CustomFieldGraph(
             $type, $custom_field, $custom_options, $group_by, $start_date, $end_date, $interval
         );
+    }
+
+    private function graphWorkloadDateRange() {
+        $request = $this->getRequest();
+
+        $interval = $request->get('interval');
+        $graph = $request->get('subgraph');
+        $start_date = $request->get('start_date');
+        $end_date = $request->get('end_date');
+        $type = $request->get('type');
+
+        $plot = new PlotHelper();
+        return $plot->WorkloadDateRangeGraph($graph, $type, $start_date, $end_date, $interval);
     }
 
     /**
