@@ -9,6 +9,7 @@ Eventum Issue Tracking System
 - Fixes to allow CLI to be built without errors (@balsdorf, #130)
 - Reuse existing Routing::route to route mails from support::getEmailInfo (@glensc, #131)
 - Allow users to be in multiple groups (@balsdorf, #135)
+- Convert report pages to Controller logic (@glensc, #129)
 
 2016-01-18, Version [3.0.8]
 ---------------------------
