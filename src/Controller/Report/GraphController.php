@@ -42,6 +42,9 @@ class GraphController extends ReportBaseController
             case 'workload_date_range':
                 $res = $this->graphWorkloadDateRange();
                 break;
+            case 'workload_time_period':
+                $res = $this->graphWorkloadTimePeriod();
+                break;
             default:
                 $res = false;
         }
@@ -91,6 +94,14 @@ class GraphController extends ReportBaseController
 
         $plot = new PlotHelper();
         return $plot->WorkloadDateRangeGraph($graph, $type, $start_date, $end_date, $interval);
+    }
+
+    private function graphWorkloadTimePeriod() {
+        $get = $this->getRequest()->query;
+
+        $plot = new PlotHelper();
+        $plot->WorkloadTimePeriodGraph($get->get('type'));
+        return true;
     }
 
     /**
