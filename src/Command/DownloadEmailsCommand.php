@@ -20,10 +20,11 @@ use Support;
 
 class DownloadEmailsCommand extends Command
 {
-    protected function execute()
-    {
-        $config = $this->getParams();
+    /** @var array */
+    private $config;
 
+    protected function configure()
+    {
         // we need the IMAP extension for this to work
         if (!function_exists('imap_open')) {
             $this->fatal(
@@ -40,6 +41,8 @@ class DownloadEmailsCommand extends Command
                 'Please refer to the PHP manual for more details on how to change this ini setting.'
             );
         }
+
+        $config = $this->getParams();
 
         // check for the required parameters
         if (!$config['fix-lock'] && (empty($config['username']) || empty($config['hostname']))) {
@@ -59,6 +62,13 @@ class DownloadEmailsCommand extends Command
             }
         }
 
+        $this->config = $config;
+    }
+
+    protected function execute()
+    {
+        $config = $this->config;
+
         // get the account ID early since we need it also for unlocking.
         $account_id = Email_Account::getAccountID(
             $config['username'], $config['hostname'], $config['mailbox']
@@ -70,56 +80,28 @@ class DownloadEmailsCommand extends Command
             );
         }
 
-        if ($config['fix-lock']) {
-            // if there is no account id, unlock all accounts
-            if (!$account_id) {
-                $prj_ids = array_keys(Project::getAll());
-                foreach ($prj_ids as $prj_id) {
-                    $ema_ids = Email_Account::getAssocList($prj_id);
-                    foreach ($ema_ids as $ema_id => $ema_title) {
-                        $lockfile = 'download_emails_' . $ema_id;
-                        if (Lock::release($lockfile)) {
-                            $this->msg("Removed lock file '$lockfile'.");
-                        }
+        // if there is no account id, unlock all accounts
+        if ($config['fix-lock'] && !$account_id) {
+            $prj_ids = array_keys(Project::getAll());
+            foreach ($prj_ids as $prj_id) {
+                $ema_ids = Email_Account::getAssocList($prj_id);
+                foreach ($ema_ids as $ema_id => $ema_title) {
+                    $lockfile = 'download_emails_' . $ema_id;
+                    if (Lock::release($lockfile)) {
+                        $this->msg("Removed lock file '$lockfile'.");
                     }
-                }
-            } else {
-                $lockfile = 'download_emails_' . $account_id;
-                if (Lock::release($lockfile)) {
-                    $this->msg("Removed lock file '$lockfile'.");
                 }
             }
             exit(0);
         }
 
-        // check if there is another instance of this script already running
-        if (!Lock::acquire('download_emails_' . $account_id)) {
-            if ($this->SAPI_CLI) {
-                $this->fatal(
-                    'Another instance of the script is still running for the specified account.',
-                    "If this is not accurate, you may fix it by running this script with '--fix-lock'",
-                    "as the 4th parameter or you may unlock ALL accounts by running this script with '--fix-lock'",
-                    'as the only parameter.'
-                );
-            } else {
-                $this->fatal(
-                    'Another instance of the script is still running for the specified account. ',
-                    "If this is not accurate, you may fix it by running this script with 'fix-lock=1'",
-                    "in the query string or you may unlock ALL accounts by running this script with 'fix-lock=1'",
-                    'as the only parameter.'
-                );
-            }
-            exit;
-        }
+        $lockname = 'download_emails_' . $account_id;
+        $this->lock($lockname);
 
         // clear the lock in all cases of termination
-        function cleanup_lock()
-        {
-            global $account_id;
-            Lock::release('download_emails_' . $account_id);
-        }
-
-        register_shutdown_function('cleanup_lock');
+        register_shutdown_function(function () use ($lockname) {
+            Lock::release($lockname);
+        });
 
         $account = Email_Account::getDetails($account_id);
         $mbox = Support::connectEmailServer($account);

@@ -36,26 +36,29 @@ abstract class Command
         $this->SAPI_CLI = 'cli' == php_sapi_name();
 
         $this->configure();
+
         if ($this->lock_name) {
-            $this->lock();
+            $this->lock($this->lock_name);
         }
+
         $this->execute();
+
         if ($this->lock_name) {
-            $this->unlock();
+            $this->unlock($this->lock_name);
         }
     }
 
     /**
      * acquire a lock to prevent multiple scripts from running at the same time.
      */
-    public function lock($check = true)
+    protected function lock($lockname)
     {
         global $argv;
 
         // if requested, clear the lock
         if (in_array('--fix-lock', $argv)) {
-            if (Lock::release($this->lock_name)) {
-                echo "The lock file was removed successfully.\n";
+            if (Lock::release($lockname)) {
+                $this->msg("Removed lock file '$lockname'.");
                 exit(0);
             }
             exit(1);
@@ -65,21 +68,32 @@ abstract class Command
             throw new LogicException('Lock name not setup');
         }
 
-        $locked = Lock::acquire($this->lock_name, $check);
+        $locked = Lock::acquire($lockname);
 
         if (!$locked) {
             // acquire a lock to prevent multiple scripts from
             // running at the same time
-            echo 'Error: Another instance of the script is still running. ' .
-                "If this is not accurate, you may fix it by running this script with '--fix-lock' " .
-                "as the only parameter.\n";
-            exit(1);
+            if ($this->SAPI_CLI) {
+                $this->fatal(
+                    'Another instance of the script is still running for the specified account.',
+                    "If this is not accurate, you may fix it by running this script with '--fix-lock'",
+                    "as the 4th parameter or you may unlock ALL accounts by running this script with '--fix-lock'",
+                    'as the only parameter.'
+                );
+            } else {
+                $this->fatal(
+                    'Another instance of the script is still running for the specified account. ',
+                    "If this is not accurate, you may fix it by running this script with 'fix-lock=1'",
+                    "in the query string or you may unlock ALL accounts by running this script with 'fix-lock=1'",
+                    'as the only parameter.'
+                );
+            }
         }
     }
 
-    public function unlock()
+    public function unlock($lockname)
     {
-        Lock::release($this->lock_name);
+        Lock::release($lockname);
     }
 
     /**
