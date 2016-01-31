@@ -10,6 +10,8 @@ Eventum Issue Tracking System
 - Reuse existing Routing::route to route mails from support::getEmailInfo (@glensc, #131)
 - Allow users to be in multiple groups (@balsdorf, #135)
 - Convert report pages to Controller logic (@glensc, #129)
+- Move bin script to use Command class (@glensc, #137)
+- Move Db classes under Eventum\Db namespace (@glensc, #136)
 
 2016-01-18, Version [3.0.8]
 ---------------------------
