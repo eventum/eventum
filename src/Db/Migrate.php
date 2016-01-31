@@ -11,12 +11,20 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Db;
+
+use Closure;
+use DB_Helper;
+use Eventum\Db\Adapter\AdapterInterface;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  * Class handling database migrations
  */
-class DbMigrate
+class Migrate
 {
-    /** @var DbInterface */
+    /** @var AdapterInterface */
     private $db;
 
     /** @var array */
@@ -164,7 +172,7 @@ class DbMigrate
      * and if they wish to echo something, should use $log() closure.
      *
      * @param string $file
-     * @param DbInterface $db
+     * @param AdapterInterface $db
      * @param array $dbconfig
      * @param Closure $log
      */

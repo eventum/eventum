@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 class Draft
 {
     /**
@@ -86,7 +88,7 @@ class Draft
         $stmt .= ')';
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -137,7 +139,7 @@ class Draft
         $params = array(Date_Helper::getCurrentDateGMT(), $emd_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -166,7 +168,7 @@ class Draft
                     emd_id=?";
         try {
             DB_Helper::getInstance()->query($stmt, array($emd_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -188,7 +190,7 @@ class Draft
                     edr_emd_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($emd_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -224,7 +226,7 @@ class Draft
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -248,7 +250,7 @@ class Draft
 
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($emd_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             throw new RuntimeException('email not found');
         }
 
@@ -291,7 +293,7 @@ class Draft
                     emd_id';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -328,7 +330,7 @@ class Draft
                     edr_emd_id=?';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($emd_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array('', '');
         }
 
@@ -373,7 +375,7 @@ class Draft
                 LIMIT 1 OFFSET " . ($sequence - 1);
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -429,7 +431,7 @@ class Draft
                     emd_usr_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($start, $end, $usr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 

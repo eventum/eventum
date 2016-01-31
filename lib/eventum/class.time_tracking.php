@@ -11,6 +11,9 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to the administration
  * of time tracking categories in the system.
@@ -41,7 +44,7 @@ class Time_Tracking
                     ttc_title=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id, $ttc_title));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 0;
         }
 
@@ -64,7 +67,7 @@ class Time_Tracking
                     ttc_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($ttc_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -88,7 +91,7 @@ class Time_Tracking
                  GROUP BY 1';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $ttc_ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return null;
         }
 
@@ -117,7 +120,7 @@ class Time_Tracking
                     ttc_id IN (' . DB_Helper::buildList($items) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -146,7 +149,7 @@ class Time_Tracking
                     ttc_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($title, $prj_id, $ttc_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -177,7 +180,7 @@ class Time_Tracking
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($prj_id, $title, Date_Helper::getCurrentDateGMT()));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -223,7 +226,7 @@ class Time_Tracking
         $params[] = $prj_id;
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return null;
         }
 
@@ -257,7 +260,7 @@ class Time_Tracking
                     ttc_title ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -291,7 +294,7 @@ class Time_Tracking
                     ttr_iss_id';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return;
         }
 
@@ -317,7 +320,7 @@ class Time_Tracking
                     ttr_iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 0;
         }
 
@@ -353,7 +356,7 @@ class Time_Tracking
                     ttr_created_date ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 0;
         }
 
@@ -407,7 +410,7 @@ class Time_Tracking
                     ttr_iss_id IN (' . DB_Helper::buildList($ids) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -443,7 +446,7 @@ class Time_Tracking
                     ttr_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($time_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -502,7 +505,7 @@ class Time_Tracking
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -548,7 +551,7 @@ class Time_Tracking
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -591,8 +594,8 @@ class Time_Tracking
         $params = array($prj_id, $usr_id, $start, $end);
 
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DbInterface::DB_FETCHMODE_ASSOC);
-        } catch (DbException $e) {
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, AdapterInterface::DB_FETCHMODE_ASSOC);
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -627,7 +630,7 @@ class Time_Tracking
                     ttr_iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id, $start, $end, $issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 0;
         }
 
@@ -663,7 +666,7 @@ class Time_Tracking
         $params = array_merge($params, $issue_ids);
         try {
             $result = DB_Helper::getInstance()->getPair($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return;
         }
 

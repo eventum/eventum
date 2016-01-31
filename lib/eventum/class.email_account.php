@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 class Email_Account
 {
     /**
@@ -30,7 +32,7 @@ class Email_Account
                     ema_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($ema_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -58,7 +60,7 @@ class Email_Account
                     ema_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($auto_creation, @serialize($options), $ema_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -82,7 +84,7 @@ class Email_Account
                     sup_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sup_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -113,7 +115,7 @@ class Email_Account
                 $params[] = $mailbox;
             }
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 0;
         }
 
@@ -156,7 +158,7 @@ class Email_Account
         // IMPORTANT: do not print out $emai_id without sanitizing, it may contain XSS
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($ema_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             throw new RuntimeException('email account not found');
         }
 
@@ -187,7 +189,7 @@ class Email_Account
                     ema_prj_id IN ($id_list)";
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -199,7 +201,7 @@ class Email_Account
                     ema_prj_id IN ($id_list)";
         try {
             DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -220,7 +222,7 @@ class Email_Account
                     ema_id IN (' . DB_Helper::buildList($items) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -280,7 +282,7 @@ class Email_Account
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -337,7 +339,7 @@ class Email_Account
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -360,7 +362,7 @@ class Email_Account
                     ema_hostname';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -401,7 +403,7 @@ class Email_Account
                     ema_title';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $projects);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -430,7 +432,7 @@ class Email_Account
                     1 OFFSET 0';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -456,7 +458,7 @@ class Email_Account
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 

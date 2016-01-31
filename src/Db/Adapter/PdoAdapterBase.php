@@ -11,10 +11,16 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Db\Adapter;
+
+use BadMethodCallException;
+use PDO;
+use UnexpectedValueException;
+
 /**
  * Class for common methods for PDO adapters
  */
-abstract class DbBasePdo
+abstract class PdoAdapterBase
 {
     const DEFAULT_DRIVER = 'mysql';
 
@@ -85,18 +91,18 @@ abstract class DbBasePdo
     }
 
     /**
-     * Convert DbInterface fetchmode to PDO Fetch mode
+     * Convert Eventum\Db\DbInterface fetchmode to PDO Fetch mode
      *
      * @param int $fetchmode
      */
     protected function convertFetchMode(&$fetchmode)
     {
         switch ($fetchmode) {
-            case DbInterface::DB_FETCHMODE_ASSOC:
+            case AdapterInterface::DB_FETCHMODE_ASSOC:
                 $fetchmode = PDO::FETCH_ASSOC;
                 break;
 
-            case DbInterface::DB_FETCHMODE_DEFAULT:
+            case AdapterInterface::DB_FETCHMODE_DEFAULT:
                 $fetchmode = PDO::FETCH_NUM;
                 break;
 

@@ -11,11 +11,13 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+
 /*
  * Update database fields with fixEncoding instead doing that runtime
  */
 
-/** @var DbInterface $db */
+/** @var AdapterInterface $db */
 
 $logger = Logger::getInstance('db');
 

@@ -11,11 +11,13 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+
 /**
  * Set required fields to match old default configuration
  */
 
-/** @var DbInterface $db */
+/** @var AdapterInterface $db */
 
 $setup = Setup::get();
 

@@ -727,6 +727,7 @@ class MailMessage extends Message
                 $headers[$header->getFieldName()] = $header->getFieldValue($format);
             }
         }
+
         return $headers;
     }
 

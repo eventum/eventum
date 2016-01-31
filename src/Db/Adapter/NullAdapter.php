@@ -11,22 +11,24 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Db\Adapter;
+
 /**
- * Class DbNull
+ * Class NullAdapter
  *
  * Database which all methods do nothing, to be used for offline.php
  */
-class DbNull implements DbInterface
+class NullAdapter implements AdapterInterface
 {
     public function __construct(array $config)
     {
     }
 
-    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
+    public function getAll($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
     }
 
-    public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT)
+    public function fetchAssoc($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_DEFAULT)
     {
     }
 
@@ -42,7 +44,7 @@ class DbNull implements DbInterface
     {
     }
 
-    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
+    public function getRow($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
     }
 

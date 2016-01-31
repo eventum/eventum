@@ -11,12 +11,18 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Db\Adapter;
+
+use Eventum\Db;
+use PDO;
+use UnexpectedValueException;
+
 /**
- * Class DbYii
+ * Class YiiAdapter
  *
  * Proxy PEAR::DB like interface to Yii2
  */
-class DbYii extends DbBasePdo implements DbInterface
+class YiiAdapter extends PdoAdapterBase implements AdapterInterface
 {
     /**
      * @var \yii\db\Connection
@@ -67,7 +73,7 @@ class DbYii extends DbBasePdo implements DbInterface
         return $yiiConfig;
     }
 
-    public function getAll($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
+    public function getAll($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
         $this->convertParams($params, $fetchmode);
         $this->convertFetchMode($fetchmode);
@@ -76,15 +82,15 @@ class DbYii extends DbBasePdo implements DbInterface
         return $command->queryAll($fetchmode);
     }
 
-    public function fetchAssoc($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_DEFAULT)
+    public function fetchAssoc($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_DEFAULT)
     {
         $this->convertParams($params);
         $command = $this->connection->createCommand($query, $params);
 
         $flags = PDO::FETCH_GROUP | PDO::FETCH_UNIQUE;
-        if ($fetchmode == DbInterface::DB_FETCHMODE_ASSOC) {
+        if ($fetchmode == AdapterInterface::DB_FETCHMODE_ASSOC) {
             $flags |= PDO::FETCH_ASSOC;
-        } elseif ($fetchmode == DbInterface::DB_FETCHMODE_DEFAULT) {
+        } elseif ($fetchmode == AdapterInterface::DB_FETCHMODE_DEFAULT) {
             $flags |= PDO::FETCH_NUM;
         } else {
             throw new UnexpectedValueException(__FUNCTION__ . ' unsupported fetchmode: ' . $fetchmode);
@@ -122,7 +128,7 @@ class DbYii extends DbBasePdo implements DbInterface
         return $res;
     }
 
-    public function getRow($query, $params = array(), $fetchmode = DbInterface::DB_FETCHMODE_ASSOC)
+    public function getRow($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
         $this->convertParams($params, $fetchmode);
         $this->convertFetchMode($fetchmode);
@@ -179,7 +185,7 @@ class DbYii extends DbBasePdo implements DbInterface
         if (!is_array($params)) {
             if (is_array($fetchmode)) {
                 if ($params === null) {
-                    $tmp = DbInterface::DB_FETCHMODE_DEFAULT;
+                    $tmp = AdapterInterface::DB_FETCHMODE_DEFAULT;
                 } else {
                     $tmp = $params;
                 }

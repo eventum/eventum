@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class designed to handle all business logic related to the issues in the
  * system, such as adding or updating them or listing them in the grid mode.
@@ -40,7 +42,7 @@ class Issue
         }
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -91,7 +93,7 @@ class Issue
                     iss_id ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -120,7 +122,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -148,7 +150,7 @@ class Issue
         $params = array(Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $issue_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -177,7 +179,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -208,7 +210,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -236,7 +238,7 @@ class Issue
                     iss_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($contract_id, $issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -272,7 +274,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -304,7 +306,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -377,7 +379,7 @@ class Issue
         $params = array($status_id, Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $issue_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -441,7 +443,7 @@ class Issue
                         iss_id = ?';
             try {
                 DB_Helper::getInstance()->query($sql, array($pre_id, $issue_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }
@@ -465,7 +467,7 @@ class Issue
                     iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -490,7 +492,7 @@ class Issue
                         iss_id = ?';
             try {
                 DB_Helper::getInstance()->query($sql, array($pri_id, $issue_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }
@@ -514,7 +516,7 @@ class Issue
                     iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -539,7 +541,7 @@ class Issue
                         iss_id = ?';
             try {
                 DB_Helper::getInstance()->query($sql, array($sev_id, $issue_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }
@@ -563,7 +565,7 @@ class Issue
                     iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -590,7 +592,7 @@ class Issue
                         iss_id = ?';
             try {
                 DB_Helper::getInstance()->query($sql, array($expected_resolution_date, $issue_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
 
@@ -623,7 +625,7 @@ class Issue
                     iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -648,7 +650,7 @@ class Issue
                         iss_id = ?';
             try {
                 DB_Helper::getInstance()->query($sql, array($prc_id, $issue_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }
@@ -672,7 +674,7 @@ class Issue
                     iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -731,7 +733,7 @@ class Issue
                         iss_id";
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -766,7 +768,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -813,7 +815,7 @@ class Issue
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -857,7 +859,7 @@ class Issue
                     iss_duplicated_iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -907,7 +909,7 @@ class Issue
         $params = array_merge($params, $ids);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -976,7 +978,7 @@ class Issue
                     iss_duplicated_iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -1005,7 +1007,7 @@ class Issue
         $params = array(Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $issue_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1043,7 +1045,7 @@ class Issue
         $params = array(Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $dup_iss_id, $issue_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1075,7 +1077,7 @@ class Issue
                     iss_duplicated_iss_id IS NULL';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -1102,7 +1104,7 @@ class Issue
                     isu_usr_id=usr_id';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -1125,7 +1127,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -1148,7 +1150,7 @@ class Issue
                     iss_summary=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($summary));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 0;
         }
 
@@ -1189,7 +1191,7 @@ class Issue
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1251,7 +1253,7 @@ class Issue
                     iss_prj_id IN (' . DB_Helper::buildList($ids) . ')';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -1316,7 +1318,7 @@ class Issue
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1563,7 +1565,7 @@ class Issue
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1732,7 +1734,7 @@ class Issue
               iss_id = ?';
         try {
             DB_Helper::getInstance()->query($stmt, array($new_prj_id, $issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1887,7 +1889,7 @@ class Issue
         $params = array($issue_id, $assignee_usr_id, Date_Helper::getCurrentDateGMT());
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1919,7 +1921,7 @@ class Issue
                     isu_iss_id IN ($list)";
         try {
             DB_Helper::getInstance()->query($stmt, $issues);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1949,7 +1951,7 @@ class Issue
                     isu_usr_id = ?';
         try {
             DB_Helper::getInstance()->query($stmt, array($issue_id, $usr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -2445,7 +2447,7 @@ class Issue
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -2675,7 +2677,7 @@ class Issue
                     iss_id DESC';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -2712,7 +2714,7 @@ class Issue
                     isu_usr_id=usr_id';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -2762,7 +2764,7 @@ class Issue
 
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return;
         }
 
@@ -2801,7 +2803,7 @@ class Issue
                     isu_iss_id IN ($ids)";
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return;
         }
 
@@ -2847,7 +2849,7 @@ class Issue
                     iss_id in ($ids)";
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return;
         }
 
@@ -2875,7 +2877,7 @@ class Issue
                     isu_usr_id=usr_id';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -2902,7 +2904,7 @@ class Issue
                     isu_usr_id=usr_id";
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -2969,7 +2971,7 @@ class Issue
                     iss_prj_id=prj_id';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -3085,7 +3087,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -3139,7 +3141,7 @@ class Issue
                             isu_iss_id = ?';
                 try {
                     $current_assignees = DB_Helper::getInstance()->getPair($stmt, array($issue_id));
-                } catch (DbException $e) {
+                } catch (DatabaseException $e) {
                     return -1;
                 }
 
@@ -3264,7 +3266,7 @@ class Issue
         $params = array(Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $_POST['dev_time'], $_POST['impact_analysis'], $issue_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -3300,7 +3302,7 @@ class Issue
                     iss_id DESC';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -3331,7 +3333,7 @@ class Issue
                     iss_id ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -3385,7 +3387,7 @@ class Issue
                     isa_issue_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -3413,7 +3415,7 @@ class Issue
                     sta_is_closed=1';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -3442,7 +3444,7 @@ class Issue
         $params = array(Date_Helper::getCurrentDateGMT());
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -3470,7 +3472,7 @@ class Issue
                         iqu_expiration IS NULL)';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id, Date_Helper::getCurrentDateGMT()));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -3505,7 +3507,7 @@ class Issue
                     iqu_iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -3525,7 +3527,7 @@ class Issue
             $params[] = $issue_id;
             try {
                 DB_Helper::getInstance()->query($stmt, $params);
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
 
@@ -3552,7 +3554,7 @@ class Issue
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -3583,7 +3585,7 @@ class Issue
                     iss_id = ?';
         try {
             DB_Helper::getInstance()->query($stmt, array($group_id, $issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -3616,7 +3618,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -3666,7 +3668,7 @@ class Issue
                         iss_id=?';
             try {
                 $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return true;
             }
 
@@ -3697,7 +3699,7 @@ class Issue
                     iss_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -3720,7 +3722,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -3748,7 +3750,7 @@ class Issue
                     iss_root_message_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($msg_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 

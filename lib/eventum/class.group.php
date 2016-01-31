@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to the administration
  * of groups.
@@ -39,7 +41,7 @@ class Group
         $params = array($_POST['group_name'], $_POST['description'], $_POST['manager']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -72,7 +74,7 @@ class Group
         $params = array($_POST['group_name'], $_POST['description'], $_POST['manager'], $_POST['id']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -112,7 +114,7 @@ class Group
                         grp_id = ?';
             try {
                 DB_Helper::getInstance()->query($stmt, array($grp_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
 
@@ -151,7 +153,7 @@ class Group
                      )';
             try {
                 DB_Helper::getInstance()->query($stmt, array($prj_id, $grp_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }
@@ -174,7 +176,7 @@ class Group
                     pgr_grp_id = ?';
         try {
             DB_Helper::getInstance()->query($stmt, array($grp_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -197,7 +199,7 @@ class Group
                     pgr_prj_id IN (' . DB_Helper::buildList($projects) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $projects);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -229,7 +231,7 @@ class Group
 
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($grp_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -283,7 +285,7 @@ class Group
                     grp_name';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -323,7 +325,7 @@ class Group
                     grp_name';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -349,7 +351,7 @@ class Group
                     grp_name';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -372,7 +374,7 @@ class Group
                     ugr_grp_id = ?';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($grp_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -398,7 +400,7 @@ class Group
                     pgr_grp_id = ?';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($grp_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -423,7 +425,7 @@ class Group
                     grp_name = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($name));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -451,7 +453,7 @@ class Group
                   ugr_created = ?';
         try {
             $res = DB_Helper::getInstance()->query($sql, array($usr_id, $grp_id, Date_Helper::getCurrentDateGMT()));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -474,7 +476,7 @@ class Group
                   ugr_grp_id = ?';
         try {
             $res = DB_Helper::getInstance()->query($sql, array($usr_id, $grp_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 

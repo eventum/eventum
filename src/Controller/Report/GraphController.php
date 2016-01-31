@@ -55,7 +55,8 @@ class GraphController extends ReportBaseController
         exit;
     }
 
-    private function graphCustomFields() {
+    private function graphCustomFields()
+    {
         $request = $this->getRequest();
         $get = $request->query;
 
@@ -78,12 +79,14 @@ class GraphController extends ReportBaseController
         $type = $get->get('type');
 
         $plot = new PlotHelper();
+
         return $plot->CustomFieldGraph(
             $type, $custom_field, $custom_options, $group_by, $start_date, $end_date, $interval
         );
     }
 
-    private function graphWorkloadDateRange() {
+    private function graphWorkloadDateRange()
+    {
         $request = $this->getRequest();
 
         $interval = $request->get('interval');
@@ -93,14 +96,17 @@ class GraphController extends ReportBaseController
         $type = $request->get('type');
 
         $plot = new PlotHelper();
+
         return $plot->WorkloadDateRangeGraph($graph, $type, $start_date, $end_date, $interval);
     }
 
-    private function graphWorkloadTimePeriod() {
+    private function graphWorkloadTimePeriod()
+    {
         $get = $this->getRequest()->query;
 
         $plot = new PlotHelper();
         $plot->WorkloadTimePeriodGraph($get->get('type'));
+
         return true;
     }
 

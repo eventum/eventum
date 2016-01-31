@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+
 /**
  * Move user preferences to a separate table.
  *
@@ -18,7 +20,7 @@
  * as want to make sure everyone migrates their preferences before deleting this.
  */
 
-/** @var DbInterface $db */
+/** @var AdapterInterface $db */
 $db->query('CREATE TABLE {{%user_preference}}
 (
     upr_usr_id int(11) unsigned NOT NULL,

@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 class Search_Profile
 {
     /**
@@ -32,7 +34,7 @@ class Search_Profile
                     sep_type=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($usr_id, $prj_id, $type));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -66,7 +68,7 @@ class Search_Profile
                     sep_type=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id, $prj_id, $type));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -100,7 +102,7 @@ class Search_Profile
                     sep_type=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id, $prj_id, $type));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -154,7 +156,7 @@ class Search_Profile
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($usr_id, $prj_id, $type, serialize($profile)));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -184,7 +186,7 @@ class Search_Profile
 
         try {
             DB_Helper::getInstance()->query($stmt, array(serialize($profile), $usr_id, $prj_id, $type));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 

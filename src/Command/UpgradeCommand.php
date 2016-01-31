@@ -13,7 +13,7 @@
 
 namespace Eventum\Command;
 
-use DbMigrate;
+use Eventum\Db\Migrate;
 use Exception;
 
 class UpgradeCommand extends Command
@@ -29,7 +29,7 @@ class UpgradeCommand extends Command
         $patch = isset($argv[1]) ? (int)$argv[1] : null;
 
         try {
-            $dbmigrate = new DbMigrate(INSTALL_PATH . '/upgrade');
+            $dbmigrate = new Migrate(INSTALL_PATH . '/upgrade');
             $dbmigrate->patch_database($patch);
         } catch (Exception $e) {
             echo $e->getMessage(), "\n";

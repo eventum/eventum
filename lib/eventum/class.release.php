@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to the administration
  * of releases in the system.
@@ -35,7 +37,7 @@ class Release
 
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($pre_id, 'available'));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -64,7 +66,7 @@ class Release
                     pre_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($pre_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -87,7 +89,7 @@ class Release
                     pre_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($pre_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -109,7 +111,7 @@ class Release
                     pre_prj_id IN (' . DB_Helper::buildList($ids) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -136,7 +138,7 @@ class Release
                     iss_pre_id IN ($itemlist)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -146,7 +148,7 @@ class Release
                     pre_id IN ($itemlist)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -177,7 +179,7 @@ class Release
         $params = array($_POST['title'], $scheduled_date, $_POST['status'], $_POST['prj_id'], $_POST['id']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -214,7 +216,7 @@ class Release
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -243,7 +245,7 @@ class Release
                     pre_scheduled_date ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -281,7 +283,7 @@ class Release
                     pre_scheduled_date ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 

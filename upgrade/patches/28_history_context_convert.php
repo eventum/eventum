@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+
 /**
  * Try to find placeholders to old history entries not containing context information
  */
@@ -26,6 +28,7 @@
 # :%s#^msgid "#    "/^#
 # :%s#"$#$/",
 #
+
 $patterns = array(
     '/^Attachment removed by (?P<user>.*)$/',
     '/^Attachment uploaded by (?P<user>.*)$/',
@@ -148,7 +151,7 @@ $find = function ($string) use ($patterns) {
     );
 };
 
-/** @var DbInterface $db */
+/** @var AdapterInterface $db */
 $res = $db->query("select his_id,his_summary from {{%issue_history}} where his_context=''");
 $total = $res->numRows();
 $current = $updated = 0;
@@ -163,7 +166,7 @@ $log("Total $total rows, this may take time. Please be patient.");
 
 // FIXME: PEAR::DB specific
 /** @var DB_result $res */
-while ($res->fetchInto($row, DbInterface::DB_FETCHMODE_ASSOC)) {
+while ($res->fetchInto($row, AdapterInterface::DB_FETCHMODE_ASSOC)) {
     $current++;
     $m = $find($row['his_summary']);
     if (!$m) {

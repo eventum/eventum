@@ -11,6 +11,9 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to the administration
  * of projects in the system.
@@ -39,7 +42,7 @@ class Project
                     prj_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return $default;
         }
 
@@ -70,7 +73,7 @@ class Project
                     prj_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -94,7 +97,7 @@ class Project
                     prj_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -119,7 +122,7 @@ class Project
         $params = array($_POST['anonymous_post'], @serialize($_POST['options']), $prj_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -145,7 +148,7 @@ class Project
                     prj_title";
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -168,7 +171,7 @@ class Project
                     prj_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -195,7 +198,7 @@ class Project
                     prj_title=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prj_title));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -224,7 +227,7 @@ class Project
                     prj_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -255,7 +258,7 @@ class Project
                     prj_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             // FIXME: why return true?
             return true;
         }
@@ -287,7 +290,7 @@ class Project
                     prj_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
         }
 
         if (empty($res)) {
@@ -314,7 +317,7 @@ class Project
                     prj_id IN (' . DB_Helper::buildList($items) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -357,7 +360,7 @@ class Project
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -406,7 +409,7 @@ class Project
                 $_POST['workflow_backend'],
                 $_POST['id'],
             ));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -452,7 +455,7 @@ class Project
                     pru_usr_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($prj_id, $usr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -468,7 +471,7 @@ class Project
                      )';
             try {
                 DB_Helper::getInstance()->query($stmt, array($usr_id, $prj_id, $role));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return false;
             }
 
@@ -520,7 +523,7 @@ class Project
                 $_POST['customer_backend'],
                 $_POST['workflow_backend'],
             ));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -566,7 +569,7 @@ class Project
                     prj_title';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -618,11 +621,11 @@ class Project
                 User::ROLE_MANAGER,
             );
             if ($include_extra) {
-                $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, DbInterface::DB_FETCHMODE_ASSOC);
+                $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, AdapterInterface::DB_FETCHMODE_ASSOC);
             } else {
                 $res = DB_Helper::getInstance()->getPair($stmt, $params);
             }
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -669,7 +672,7 @@ class Project
                     usr_full_name ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -697,7 +700,7 @@ class Project
                     usr_full_name ASC';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -726,7 +729,7 @@ class Project
                     prj_title';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -821,7 +824,7 @@ class Project
                     usr_full_name ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -847,7 +850,7 @@ class Project
                     prj_title";
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -889,7 +892,7 @@ class Project
                     prj_title';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($usr_id, User::ROLE_CUSTOMER));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -938,7 +941,7 @@ class Project
                     usr_email ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -972,7 +975,7 @@ class Project
                     usr_full_name ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id, $prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -995,7 +998,7 @@ class Project
                     pfd_prj_id = ?';
         try {
             DB_Helper::getInstance()->query($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1014,7 +1017,7 @@ class Project
             try {
                 DB_Helper::getInstance()->query($stmt, array($prj_id, $field, $details['min_role'],
                     (isset($details['required']) ? $details['required'] : 0)));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }
@@ -1039,8 +1042,8 @@ class Project
                  WHERE
                     pfd_prj_id = ?';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id), DbInterface::DB_FETCHMODE_ASSOC);
-        } catch (DbException $e) {
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id), AdapterInterface::DB_FETCHMODE_ASSOC);
+        } catch (DatabaseException $e) {
             return -1;
         }
 

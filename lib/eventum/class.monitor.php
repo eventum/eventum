@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 class Monitor
 {
     /**
@@ -32,7 +34,7 @@ class Monitor
                     maq_id";
         try {
             $queue_ids = DB_Helper::getInstance()->getColumn($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             echo ev_gettext('ERROR: There was a DB error checking the mail queue status'), "\n";
 
             return;
@@ -70,7 +72,7 @@ class Monitor
         ';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 

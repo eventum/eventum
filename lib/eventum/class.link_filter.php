@@ -11,6 +11,9 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle parsing content for links.
  */
@@ -36,7 +39,7 @@ class Link_Filter
                     lfi_id = ?';
         try {
             $res = DB_Helper::getInstance()->getRow($sql, array($lfi_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -49,7 +52,7 @@ class Link_Filter
                         plf_lfi_id = ?';
             try {
                 $projects = DB_Helper::getInstance()->getColumn($sql, array($res['lfi_id']));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 $projects = array();
             }
 
@@ -81,7 +84,7 @@ class Link_Filter
                     lfi_id';
         try {
             $res = DB_Helper::getInstance()->getAll($sql);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -97,7 +100,7 @@ class Link_Filter
                         plf_lfi_id = ?';
             try {
                 $projects = DB_Helper::getInstance()->getPair($sql, array($row['lfi_id']));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 $projects = array();
             }
             if ($projects === null) {
@@ -131,7 +134,7 @@ class Link_Filter
         $params = array($_REQUEST['pattern'], $_REQUEST['replacement'], $_REQUEST['usr_role'], $_REQUEST['description']);
         try {
             DB_Helper::getInstance()->query($sql, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -147,7 +150,7 @@ class Link_Filter
                     )';
             try {
                 DB_Helper::getInstance()->query($sql, array($prj_id, $lfi_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }
@@ -171,7 +174,7 @@ class Link_Filter
                     lfi_id IN ($itemlist)";
         try {
             DB_Helper::getInstance()->query($sql, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -181,7 +184,7 @@ class Link_Filter
                     plf_lfi_id IN ($itemlist)";
         try {
             DB_Helper::getInstance()->query($sql, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -212,7 +215,7 @@ class Link_Filter
                 $_REQUEST['description'],
                 $_REQUEST['id'],
             ));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -222,7 +225,7 @@ class Link_Filter
                     plf_lfi_id = ?';
         try {
             DB_Helper::getInstance()->query($sql, array($_REQUEST['id']));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -237,7 +240,7 @@ class Link_Filter
                     )';
             try {
                 DB_Helper::getInstance()->query($sql, array($prj_id, $_REQUEST['id']));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }
@@ -363,8 +366,8 @@ class Link_Filter
                     lfi_id";
         $params = array(Auth::getCurrentRole(), $prj_id);
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params, DbInterface::DB_FETCHMODE_DEFAULT);
-        } catch (DbException $e) {
+            $res = DB_Helper::getInstance()->getAll($stmt, $params, AdapterInterface::DB_FETCHMODE_DEFAULT);
+        } catch (DatabaseException $e) {
             return array();
         }
 

@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to the administration
  * of resolutions in the system.
@@ -33,7 +35,7 @@ class Resolution
                     res_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($res_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -56,7 +58,7 @@ class Resolution
                     res_title=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($title));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -82,7 +84,7 @@ class Resolution
                     iss_res_id IN ($itemlist)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -92,7 +94,7 @@ class Resolution
                     res_id IN ($itemlist)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -119,7 +121,7 @@ class Resolution
                     res_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['rank'], $_POST['id']));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -142,7 +144,7 @@ class Resolution
                     res_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($res_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -167,7 +169,7 @@ class Resolution
                     res_title ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -192,7 +194,7 @@ class Resolution
                     res_title ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -222,7 +224,7 @@ class Resolution
         $params = array($_POST['title'], $_POST['rank'], Date_Helper::getCurrentDateGMT());
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 

@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 class News
 {
     /**
@@ -37,7 +39,7 @@ class News
                     3 OFFSET 0";
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -113,7 +115,7 @@ class News
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -141,7 +143,7 @@ class News
                     nws_id IN ($itemlist)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -176,7 +178,7 @@ class News
         }
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -207,7 +209,7 @@ class News
         $params = array($_POST['title'], $_POST['message'], $_POST['status'], $_POST['id']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -236,7 +238,7 @@ class News
                     nws_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($nws_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -263,7 +265,7 @@ class News
                     nws_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($nws_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -290,7 +292,7 @@ class News
                     nws_title ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -322,7 +324,7 @@ class News
                     prn_nws_id=?';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($nws_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 

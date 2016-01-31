@@ -14,10 +14,8 @@
 namespace Eventum\Controller\Report;
 
 use Category;
-use DB_Helper;
-use DbException;
-use Status;
 use Report;
+use Status;
 
 class CategoryStatusController extends ReportBaseController
 {

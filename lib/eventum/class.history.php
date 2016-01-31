@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to the history information for
  * the issues entered in the system.
@@ -69,7 +71,7 @@ class History
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
         }
     }
 
@@ -98,7 +100,7 @@ class History
         $params = array($iss_id, Auth::getCurrentRole());
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -125,7 +127,7 @@ class History
                     his_iss_id IN ($items)";
         try {
             DB_Helper::getInstance()->query($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -159,7 +161,7 @@ class History
                     htt_name IN('" . implode("','", $name) . "')";
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 'unknown';
         }
 
@@ -193,7 +195,7 @@ class History
                     htt_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return null;
         }
         $returns[$id] = $res;
@@ -258,7 +260,7 @@ class History
         $params = array($usr_id, $start, $end, $prj_id);
         try {
             return DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return null;
         }
     }
@@ -303,7 +305,7 @@ class History
         $params = array($prj_id, $usr_id, $start, $end);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -330,7 +332,7 @@ class History
                 LIMIT 1';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id, self::getTypeID('issue_closed')));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 0;
         }
 
