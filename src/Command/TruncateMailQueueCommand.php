@@ -1,5 +1,5 @@
-#!/usr/bin/php
 <?php
+
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
  *
@@ -11,7 +11,22 @@
  * that were distributed with this source code.
  */
 
-require_once __DIR__ . '/../init.php';
+namespace Eventum\Command;
 
-$app = new Eventum\Command\CheckRemindersCommand();
-$app->run();
+use Mail_Queue;
+
+class TruncateMailQueueCommand extends Command
+{
+    protected function configure()
+    {
+        $this->lock_name = 'truncate_mail_queue';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function execute()
+    {
+        Mail_Queue::truncate();
+    }
+}
