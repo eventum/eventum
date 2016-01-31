@@ -14,14 +14,13 @@
 namespace Eventum\Command;
 
 use Email_Account;
+use Lock;
 use Project;
-use Release;
 use Support;
-use User;
 
 class DownloadEmailsCommand extends Command
 {
-    public function execute()
+    protected function execute()
     {
         $config = $this->getParams();
 
@@ -80,14 +79,14 @@ class DownloadEmailsCommand extends Command
                     foreach ($ema_ids as $ema_id => $ema_title) {
                         $lockfile = 'download_emails_' . $ema_id;
                         if (Lock::release($lockfile)) {
-                            msg("Removed lock file '$lockfile'.");
+                            $this->msg("Removed lock file '$lockfile'.");
                         }
                     }
                 }
             } else {
                 $lockfile = 'download_emails_' . $account_id;
                 if (Lock::release($lockfile)) {
-                    msg("Removed lock file '$lockfile'.");
+                    $this->msg("Removed lock file '$lockfile'.");
                 }
             }
             exit(0);
@@ -96,14 +95,14 @@ class DownloadEmailsCommand extends Command
         // check if there is another instance of this script already running
         if (!Lock::acquire('download_emails_' . $account_id)) {
             if ($this->SAPI_CLI) {
-                fatal(
+                $this->fatal(
                     'Another instance of the script is still running for the specified account.',
                     "If this is not accurate, you may fix it by running this script with '--fix-lock'",
                     "as the 4th parameter or you may unlock ALL accounts by running this script with '--fix-lock'",
                     'as the only parameter.'
                 );
             } else {
-                fatal(
+                $this->fatal(
                     'Another instance of the script is still running for the specified account. ',
                     "If this is not accurate, you may fix it by running this script with 'fix-lock=1'",
                     "in the query string or you may unlock ALL accounts by running this script with 'fix-lock=1'",
@@ -128,7 +127,7 @@ class DownloadEmailsCommand extends Command
             $uri = Support::getServerURI($account);
             $login = $account['ema_username'];
             $error = imap_last_error();
-            fatal(
+            $this->fatal(
                 "$error\n",
                 "Could not connect to the email server '$uri' with login: '$login'.",
                 'Please verify your email account settings and try again.'
@@ -166,7 +165,7 @@ class DownloadEmailsCommand extends Command
      *
      * @return  array   $config
      */
-    public function getParams()
+    private function getParams()
     {
         // some defaults,
         $config = array(

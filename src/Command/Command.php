@@ -19,7 +19,7 @@ use Status;
 class Command
 {
     protected $SAPI_CLI;
-    
+
     public function configure()
     {
     }
