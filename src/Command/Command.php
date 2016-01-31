@@ -16,11 +16,15 @@ namespace Eventum\Command;
 use Setup;
 use Status;
 
-class Command
+abstract class Command
 {
     protected $SAPI_CLI;
 
-    public function configure()
+    protected function configure()
+    {
+    }
+
+    protected function execute()
     {
     }
 
@@ -40,7 +44,7 @@ class Command
      * - for CLI output is displayed to STDOUT,
      * - for Web newlines are converted to HTML linebreaks.
      */
-    public function msg()
+    protected function msg()
     {
         $args = func_get_args();
         // let messages be newline terminated
@@ -62,7 +66,7 @@ class Command
      * - for CLI output is displayed to STDERR,
      * - for Web newlines are converted to HTML linebreaks.
      */
-    public function fatal()
+    protected function fatal()
     {
         $args = func_get_args();
         // let messages be newline terminated
