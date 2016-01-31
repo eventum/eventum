@@ -13,33 +13,20 @@
 
 namespace Eventum\Command;
 
-use Lock;
 use Reminder;
 use Reminder_Action;
 use Reminder_Condition;
 
 class CheckRemindersCommand extends Command
 {
+    protected function configure()
+    {
+        $this->lock_name = 'check_reminders';
+    }
+
     protected function execute()
     {
         global $argv;
-
-        // if requested, clear the lock
-        if (in_array('--fix-lock', $argv)) {
-            if (Lock::release('check_reminders')) {
-                echo "The lock file was removed successfully.\n";
-            }
-            exit;
-        }
-
-        // acquire a lock to prevent multiple scripts from
-        // running at the same time
-        if (!Lock::acquire('check_reminders')) {
-            echo 'Error: Another instance of the script is still running. ' .
-                "If this is not accurate, you may fix it by running this script with '--fix-lock' " .
-                "as the only parameter.\n";
-            exit;
-        }
 
         if (in_array('--debug', $argv)) {
             Reminder::$debug = true;
@@ -120,8 +107,5 @@ class CheckRemindersCommand extends Command
                 }
             }
         }
-
-        // release the lock
-        Lock::release('check_reminders');
     }
 }

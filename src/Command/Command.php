@@ -13,11 +13,13 @@
 
 namespace Eventum\Command;
 
-use Setup;
-use Status;
+use Lock;
+use LogicException;
 
 abstract class Command
 {
+    protected $lock_name;
+
     protected $SAPI_CLI;
 
     protected function configure()
@@ -34,7 +36,50 @@ abstract class Command
         $this->SAPI_CLI = 'cli' == php_sapi_name();
 
         $this->configure();
+        if ($this->lock_name) {
+            $this->lock();
+        }
         $this->execute();
+        if ($this->lock_name) {
+            $this->unlock();
+        }
+    }
+
+    /**
+     * acquire a lock to prevent multiple scripts from running at the same time.
+     */
+    public function lock($check = true)
+    {
+        global $argv;
+
+        // if requested, clear the lock
+        if (in_array('--fix-lock', $argv)) {
+            if (Lock::release($this->lock_name)) {
+                echo "The lock file was removed successfully.\n";
+                exit(0);
+            }
+            exit(1);
+        }
+
+        if (!$this->lock_name) {
+            throw new LogicException('Lock name not setup');
+        }
+
+        $locked = Lock::acquire($this->lock_name, $check);
+
+        if (!$locked) {
+            // acquire a lock to prevent multiple scripts from
+            // running at the same time
+            echo 'Error: Another instance of the script is still running. ' .
+                "If this is not accurate, you may fix it by running this script with '--fix-lock' " .
+                "as the only parameter.\n";
+            exit(1);
+        }
+    }
+
+    public function unlock()
+    {
+        Lock::release($this->lock_name);
     }
 
     /**
