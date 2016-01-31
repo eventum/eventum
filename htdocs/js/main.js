@@ -103,7 +103,7 @@ $(document).ready(function() {
         $el.attr('title', $el.text());
         $el.text(old);
     };
-    if ($head.data('config-relative-date') == '1') {
+    if (user_prefs.relative_date) {
         // if enabled, then enable for all elements
         $timeago
             .timeago()
