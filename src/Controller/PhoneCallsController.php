@@ -88,7 +88,6 @@ class PhoneCallsController extends BaseController
             array(
                 'issue_id' => $this->issue_id,
                 'phone_categories' => Phone_Support::getCategoryAssocList($this->prj_id),
-                'current_user_prefs' => Prefs::get($this->usr_id),
             )
         );
     }

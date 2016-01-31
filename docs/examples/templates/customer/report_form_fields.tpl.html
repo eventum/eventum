@@ -140,7 +140,7 @@ function validateCustomer(f)
             {if $smarty.post.contact_timezone != ''}
                 {assign var=current_tz value=$smarty.post.contact_timezone}
             {else}
-                {assign var=current_tz value=$user_prefs.timezone}
+                {assign var=current_tz value=$core.current_user_prefs.timezone}
             {/if}
             <select name="contact_timezone" tabindex="{$tabindex++}">
               {html_options values=$zones output=$zones selected=$current_tz}

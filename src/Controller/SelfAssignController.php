@@ -107,7 +107,6 @@ class SelfAssignController extends BaseController
         $this->tpl->assign(
             array(
                 'issue_id' => $this->issue_id,
-                'current_user_prefs' => Prefs::get($this->usr_id)
             )
         );
     }

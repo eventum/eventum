@@ -129,7 +129,6 @@ class ViewEmailController extends BaseController
         $this->tpl->assign(
             array(
                 'move_email_result' => $res,
-                'current_user_prefs' => Prefs::get($this->usr_id)
             )
         );
     }

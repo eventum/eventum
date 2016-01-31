@@ -228,7 +228,6 @@ class PopupController extends BaseController
     {
         $this->tpl->assign(
             array(
-                'current_user_prefs' => Prefs::get($this->usr_id),
                 'cat' => $this->cat
             )
         );

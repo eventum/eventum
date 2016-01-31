@@ -102,7 +102,6 @@ class ConvertNoteController extends BaseController
             array(
                 'issue_id' => $this->issue_id,
                 'note_id' => $this->note_id,
-                'current_user_prefs' => Prefs::get($this->usr_id),
             )
         );
     }

@@ -96,7 +96,6 @@ class FileUploadController extends BaseController
         $this->tpl->assign(
             array(
                 'issue_id' => $this->issue_id,
-                'current_user_prefs' => Prefs::get(Auth::getUserID()),
                 'max_attachment_size' => Attachment::getMaxAttachmentSize(),
                 'max_attachment_bytes' => Attachment::getMaxAttachmentSize(true),
             )

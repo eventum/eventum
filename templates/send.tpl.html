@@ -22,13 +22,13 @@
 </center>
 <script type="text/javascript">
 <!--
-{if $current_user_prefs.close_popup_windows}
+{if $core.current_user_prefs.close_popup_windows}
 setTimeout('Eventum.close_and_refresh()', 2000);
 {/if}
 //-->
 </script>
 <br />
-{if not $current_user_prefs.close_popup_windows}
+{if not $core.current_user_prefs.close_popup_windows}
   <center>
     <span><a href="javascript:void(null);" onClick="Eventum.close_and_refresh();">{t}Continue{/t}</a></span>
   </center>
@@ -46,13 +46,13 @@ setTimeout('Eventum.close_and_refresh()', 2000);
 </center>
 <script type="text/javascript">
 <!--
-{if $current_user_prefs.close_popup_windows == '1'}
+{if $core.current_user_prefs.close_popup_windows == '1'}
 setTimeout('Eventum.close_and_refresh()', 2000);
 {/if}
 //-->
 </script>
 <br />
-{if not $current_user_prefs.close_popup_windows}
+{if not $core.current_user_prefs.close_popup_windows}
   <center>
     <span><a href="javascript:void(null);" onClick="Eventum.close_and_refresh();">{t}Continue{/t}</a></span>
   </center>
@@ -142,7 +142,7 @@ var old_message = '';
 function setSignature(f)
 {
 
-    var signature = "{$current_user_prefs.email_signature|replace:'"':'\"'|replace:"\r":""|replace:"\n":'\n'}";
+    var signature = "{$core.current_user_prefs.email_signature|replace:'"':'\"'|replace:"\r":""|replace:"\n":'\n'}";
 
     if (f.add_email_signature.checked) {
         old_message = f.message.value;
@@ -248,10 +248,10 @@ $().ready(function() {
     {/if}
     <tr>
       <td colspan="2">
-        <textarea name="message" rows="15" style="width: 97%" {if $read_only|default:'' == 1}readonly{/if}>{$email.seb_body|escape:"html"|default:''}{if $current_user_prefs.auto_append_email_sig == 1 && $body_has_sig_already|default:0 != 1}
+        <textarea name="message" rows="15" style="width: 97%" {if $read_only|default:'' == 1}readonly{/if}>{$email.seb_body|escape:"html"|default:''}{if $core.current_user_prefs.auto_append_email_sig == 1 && $body_has_sig_already|default:0 != 1}
 
 
-{$current_user_prefs.email_signature|escape:"html"}{/if}</textarea>
+{$core.current_user_prefs.email_signature|escape:"html"}{/if}</textarea>
         {include file="error_icon.tpl.html" field="message"}
       </td>
     </tr>
@@ -321,7 +321,7 @@ $().ready(function() {
           <input type="button" value="{t}Cancel{/t}" onClick="window.close();">
 
           <div class="right">
-            {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_email_sig != 1}
+            {if $core.current_user_prefs.email_signature != "" and $core.current_user_prefs.auto_append_email_sig != 1}
               <label>
               <input type="checkbox" name="add_email_signature" value="yes" onClick="setSignature(this.form);">
               {t}Add Email Signature{/t}

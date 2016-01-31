@@ -99,7 +99,6 @@ class TimeTrackingController extends BaseController
             array(
                 'issue_id' => $this->issue_id,
                 'time_categories' => Time_Tracking::getAssocCategories($prj_id),
-                'current_user_prefs' => Prefs::get(Auth::getUserID()),
             )
         );
     }
