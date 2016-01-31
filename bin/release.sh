@@ -255,8 +255,8 @@ clean_vendor() {
 	rm htdocs/components/dropzone/index.js
 
 	# not ready yet
-	rm lib/eventum/db/DbYii.php
-	rm lib/eventum/db/Db*Pdo.php
+	rm src/Db/Adapter/YiiAdapter.php
+	rm src/Db/Adapter/*Pdo*.php
 	rm src/Mail/ImapMessage.php
 	rm src/Mail/MailMessage.php
 	rm src/Mail/MailStorage.php
