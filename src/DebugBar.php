@@ -45,6 +45,11 @@ class DebugBar
             return;
         }
 
+        // disable debugbar in CLI
+        if (PHP_SAPI == 'cli') {
+            return;
+        }
+
         self::$debugbar = new StandardDebugBar();
     }
 
