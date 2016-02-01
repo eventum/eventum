@@ -306,7 +306,7 @@ class Mail_Helper
                 if ((substr($row['sender_name'], 0, 1) == '"') && (substr($row['sender_name'], -1) == '"')) {
                     $row['sender_name'] = substr($row['sender_name'], 1, -1);
                 }
-                $returns[] = Mime_Helper::fixEncoding($row['sender_name']);
+                $returns[] = Mime_Helper::decodeQuotedPrintable($row['sender_name']);
             } else {
                 $returns[] = $row['email'];
             }

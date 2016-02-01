@@ -1228,7 +1228,7 @@ class Notification
                 'sender_can_access' =>  $can_access,
                 'email' => array(
                     'date'    => $date,
-                    'from'    => Mime_Helper::fixEncoding($sender),
+                    'from'    => Mime_Helper::decodeQuotedPrintable($sender),
                     'subject' => $subject,
                 ),
             ));
@@ -1248,7 +1248,7 @@ class Notification
             $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
             $setup = Mail_Helper::getSMTPSettings();
             $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
-            $recipient = Mime_Helper::fixEncoding($recipient);
+            $recipient = Mime_Helper::decodeQuotedPrintable($recipient);
             // TRANSLATORS: %1: $issue_id, %2 = iss_summary
             $subject = ev_gettext('[#%1$s] Issue Created: %2$s', $issue_id, $data['iss_summary']);
             $mail->send($from, $recipient, $subject, 0, $issue_id, 'auto_created_issue');

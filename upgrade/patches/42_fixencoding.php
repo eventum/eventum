@@ -29,7 +29,7 @@ $changed = 0;
 foreach ($res as $idx => $row) {
     $params = array();
     foreach ($row as $k => $v) {
-        $params[$k] = Mime_Helper::fixEncoding($v);
+        $params[$k] = Mime_Helper::decodeQuotedPrintable($v);
     }
 
     if ($row == $params) {

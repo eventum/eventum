@@ -422,10 +422,10 @@ class Support
             'error_code'        => $error->getCode(),
             'error_message'     => $error->getMessage(),
             'date'              => $message->date,
-            'subject'           => Mime_Helper::fixEncoding($message->subject),
-            'from'              => Mime_Helper::fixEncoding($message->fromaddress),
-            'to'                => Mime_Helper::fixEncoding($message->toaddress),
-            'cc'                => Mime_Helper::fixEncoding(@$message->ccaddress),
+            'subject'           => Mime_Helper::decodeQuotedPrintable($message->subject),
+            'from'              => Mime_Helper::decodeQuotedPrintable($message->fromaddress),
+            'to'                => Mime_Helper::decodeQuotedPrintable($message->toaddress),
+            'cc'                => Mime_Helper::decodeQuotedPrintable(@$message->ccaddress),
         ));
 
         $sender_email = Mail_Helper::getEmailAddress($message->fromaddress);
