@@ -64,10 +64,6 @@ abstract class Command
             exit(1);
         }
 
-        if (!$this->lock_name) {
-            throw new LogicException('Lock name not setup');
-        }
-
         $locked = Lock::acquire($lockname);
 
         if (!$locked) {
