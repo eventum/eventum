@@ -138,7 +138,7 @@ class SCM
     {
         // validate that $scm_name is valid
         // this will throw if invalid
-        self::getScmCheckinByName($scm_name);
+        $scm = self::getScmCheckinByName($scm_name);
 
         // TODO: add workflow pre method first, so it may setup username, etc
         $usr_id = APP_SYSTEM_USER_ID;
@@ -159,7 +159,7 @@ class SCM
             'user' => $username
         ));
 
-        Workflow::handleSCMCheckins($prj_id, $issue_id, $files, $username, $commit_msg);
+        Workflow::handleSCMCheckins($prj_id, $scm, $issue_id, $files, $username, $commit_msg);
 
         return 1;
     }
