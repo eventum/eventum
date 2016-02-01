@@ -21,7 +21,6 @@ use Mail_Helper;
 use Misc;
 use Note;
 use Notification;
-use Prefs;
 use Project;
 use Status;
 use Support;

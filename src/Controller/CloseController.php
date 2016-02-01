@@ -20,7 +20,6 @@ use Custom_Field;
 use Issue;
 use Misc;
 use Notification;
-use Prefs;
 use Resolution;
 use Status;
 use Time_Tracking;

@@ -17,7 +17,6 @@ use Auth;
 use Email_Account;
 use Issue;
 use Mail_Queue;
-use Prefs;
 use Project;
 use Support;
 use User;

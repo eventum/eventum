@@ -16,7 +16,6 @@ namespace Eventum\Controller;
 use Auth;
 use Issue;
 use Notification;
-use Prefs;
 use User;
 use Workflow;
 

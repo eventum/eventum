@@ -17,7 +17,6 @@ use Access;
 use Auth;
 use Issue;
 use Note;
-use Prefs;
 use User;
 
 class ConvertNoteController extends BaseController

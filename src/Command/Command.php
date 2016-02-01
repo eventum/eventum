@@ -14,7 +14,6 @@
 namespace Eventum\Command;
 
 use Lock;
-use LogicException;
 
 abstract class Command
 {

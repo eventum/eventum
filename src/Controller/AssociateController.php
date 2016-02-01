@@ -20,7 +20,6 @@ use Email_Account;
 use Issue;
 use Mail_Helper;
 use Note;
-use Prefs;
 use Support;
 use User;
 use Workflow;

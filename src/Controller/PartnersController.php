@@ -17,7 +17,6 @@ use Access;
 use Auth;
 use Issue;
 use Partner;
-use Prefs;
 use User;
 
 class PartnersController extends BaseController

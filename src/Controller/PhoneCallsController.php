@@ -16,7 +16,6 @@ namespace Eventum\Controller;
 use Auth;
 use Issue;
 use Phone_Support;
-use Prefs;
 use User;
 
 class PhoneCallsController extends BaseController

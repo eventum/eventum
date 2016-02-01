@@ -17,7 +17,6 @@ use Attachment;
 use Auth;
 use Exception;
 use Logger;
-use Prefs;
 
 class FileUploadController extends BaseController
 {

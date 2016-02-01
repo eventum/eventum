@@ -15,7 +15,6 @@ namespace Eventum\Controller;
 
 use Auth;
 use Issue;
-use Prefs;
 use Time_Tracking;
 use User;
 

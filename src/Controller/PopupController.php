@@ -23,7 +23,6 @@ use Issue;
 use Note;
 use Notification;
 use Phone_Support;
-use Prefs;
 use SCM;
 use Status;
 use Support;

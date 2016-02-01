@@ -99,11 +99,11 @@ class Mail_Queue
             'maq_save_copy' => $save_email_copy,
             'maq_queued_date' => Date_Helper::getCurrentDateGMT(),
             'maq_sender_ip_address' => !empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '',
-            'maq_recipient' => $recipient,
+            'maq_recipient' => Mime_Helper::decodeAddress($recipient),
             'maq_headers' => $text_headers,
             'maq_body' => $body,
             'maq_iss_id' => $issue_id ?: null,
-            'maq_subject' => $headers['Subject'],
+            'maq_subject' => Mime_Helper::decodeQuotedPrintable($headers['Subject']),
             'maq_type' => $type,
         );
 
@@ -503,7 +503,7 @@ class Mail_Queue
         if (count($res) > 0) {
             foreach ($res as &$row) {
                 $row['maq_recipient'] = Mime_Helper::decodeAddress($row['maq_recipient']);
-                $row['maq_subject'] = Mime_Helper::decodeQuotedPrintable($row['maq_subject']);
+                $row['maq_subject'] = Mime_Helper::fixEncoding($row['maq_subject']);
             }
         }
 

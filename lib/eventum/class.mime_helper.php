@@ -296,7 +296,7 @@ class Mime_Helper
     {
         if (function_exists('iconv_mime_decode')) {
             // skip if not encoded, iconv_mime_decode otherwise removes unknown chars.
-            // ideally this should be needed, but we have places where we call this function twice.
+            // ideally this should not be needed, but we have places where we call this function twice.
             // TODO: log and remove duplicate calls (to same data) to decodeQuotedPrintable
             // TODO: use self::isQuotedPrintable if it is improved
             if (!preg_match("/=\?(?P<charset>.*?)\?(?P<scheme>[QB])\?(?P<string>.*?)\?=/i", $string)) {
