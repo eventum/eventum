@@ -55,10 +55,10 @@ class UsersController extends ManageBaseController
             $this->updateAction();
         } elseif ($this->cat == 'change_status') {
             $this->changeStatusAction();
-        }
-
-        if ($this->cat == 'edit') {
+        } elseif ($this->cat == 'edit') {
             $this->editAction();
+        } else {
+            $this->indexAction();
         }
     }
 
@@ -102,6 +102,15 @@ class UsersController extends ManageBaseController
         $this->tpl->assign('info', $this->user_details);
     }
 
+    private function indexAction()
+    {
+        $get = $this->getRequest()->query;
+
+        $show_customer = $get->get('show_customers');
+        $show_inactive = $get->get('show_inactive');
+        $this->tpl->assign('list', User::getList($show_customer, $show_inactive));
+    }
+
     private function getProjectRoles($project_list, $user_details)
     {
         $project_roles = array();
@@ -110,11 +119,15 @@ class UsersController extends ManageBaseController
             if ($this->role_id == User::ROLE_MANAGER) {
                 $excluded_roles[] = User::ROLE_ADMINISTRATOR;
             }
-            if (isset($user_details['roles'][$prj_id]) && $user_details['roles'][$prj_id]['pru_role'] == User::ROLE_CUSTOMER) {
+            if (isset($user_details['roles'][$prj_id])
+                && $user_details['roles'][$prj_id]['pru_role'] == User::ROLE_CUSTOMER
+            ) {
                 // if user is already a customer, keep customer role in list
                 unset($excluded_roles[array_search(User::ROLE_CUSTOMER, $excluded_roles)]);
             }
-            if (isset($user_details['roles'][$prj_id]) && $user_details['roles'][$prj_id]['pru_role'] == User::ROLE_ADMINISTRATOR) {
+            if (isset($user_details['roles'][$prj_id])
+                && $user_details['roles'][$prj_id]['pru_role'] == User::ROLE_ADMINISTRATOR
+            ) {
                 // if user is already an admin, keep admin role in list
                 unset($excluded_roles[array_search(User::ROLE_ADMINISTRATOR, $excluded_roles)]);
             }
@@ -129,14 +142,11 @@ class UsersController extends ManageBaseController
      */
     protected function prepareTemplate()
     {
-        $get = $this->getRequest()->query;
         $project_list = Project::getAll();
 
-        $show_customer = $get->get('show_customers');
-        $show_inactive = $get->get('show_inactive');
         $this->tpl->assign(
             array(
-                'list' => User::getList($show_customer, $show_inactive),
+                'cat' => $this->cat,
                 'project_list' => $project_list,
                 'project_roles' => $this->getProjectRoles($project_list, $this->user_details),
                 'group_list' => Group::getAssocListAllProjects(),

@@ -1,0 +1,135 @@
+<form id="user_form" method="post" action="{$core.rel_url}manage/users.php">
+  {if $cat == 'edit'}
+    <input type="hidden" name="cat" value="update">
+    <input type="hidden" name="id" value="{$smarty.get.id|intval|default:''}">
+  {else}
+    <input type="hidden" name="cat" value="new">
+  {/if}
+
+  <table class="bordered">
+    <tr class="title">
+      <th colspan="2">
+        {t}Manage Users{/t}
+      </th>
+    </tr>
+
+    <tr>
+      <th width="120">
+        <nobr>{t}External ID{/t}</nobr>
+      </th>
+      <td>
+        {$info.usr_external_id|escape:"html"|default:''}
+      </td>
+    </tr>
+
+    <tr>
+      <th width="120">
+        {t}Full Name{/t}
+      </th>
+      <td>
+        <input type="text" name="full_name" size="40" value="{$info.usr_full_name|escape:html|default:''}">
+        {include file="error_icon.tpl.html" field="full_name"}
+      </td>
+    </tr>
+
+    <tr>
+      <th width="120">
+        {t}Email Address{/t}
+      </th>
+      <td>
+        <input type="text" name="email" size="40" value="{$info.usr_email|default:''}" autocomplete="off">
+        {include file="error_icon.tpl.html" field="email"}
+      </td>
+    </tr>
+
+    {if isset($info)}
+      <tr>
+        <th width="120">
+          {t}Email Aliases{/t}
+        </th>
+        <td>
+          {foreach from=$info.aliases item=email}
+            <i>{$email}</i><br>
+          {/foreach}
+
+          <br>
+          <a href="email_alias.php?id={$info.usr_id}" class="manage_alias" data-usr-id="{$info.usr_id}">{t}manage aliases{/t}</a>
+        </td>
+      </tr>
+    {/if}
+
+
+    <tr>
+      <th width="120">
+        {t}Password{/t}
+      </th>
+      <td>
+        <input type="password" name="password" size="20" autocomplete="off">
+        {if $smarty.get.cat|default:'' == 'edit'}
+          <span>({t}leave empty to keep the current password{/t})</span>
+        {/if}
+        {include file="error_icon.tpl.html" field="password"}
+      </td>
+    </tr>
+
+    <tr>
+      <th width="120">
+        {t}Groups{/t}
+      </th>
+      <td width="80%">
+        <select name="groups[]" size="5" multiple>
+          {html_options options=$group_list selected=$info.group_ids|default:''}
+        </select>
+        {include file="error_icon.tpl.html" field="grp_id"}
+      </td>
+    </tr>
+    <tr>
+      <th width="120" >
+        {t}Partner{/t}
+      </th>
+      <td width="80%">
+        <select name="par_code" size="1">
+          <option value="">{t}-- Select One --{/t}</option>
+          {html_options options=$partners selected=$info.usr_par_code|default:''}
+        </select>
+        {include file="error_icon.tpl.html" field="par_code"}
+      </td>
+    </tr>
+    <tr>
+      <th width="120">
+        <nobr>{t}Assigned Projects and Roles{/t}</nobr>
+      </th>
+      <td>
+        <table border="0">
+          {foreach from=$project_list key=prj_id item=prj_name}
+            <tr>
+              <td>{$prj_name}:</td>
+              <td>
+                {if $info.roles.$prj_id.pru_role|default:'' == $core.roles.customer}
+                  <span>{t}Customer{/t}</span>
+                  <input type="hidden" name="role[{$prj_id}]" value="{$core.roles.customer}">
+                {else}
+                  <select name="role[{$prj_id}]"  {if $core.current_role < $info.roles.$prj_id.pru_role|default:0}disabled{/if}>
+                    {html_options options=$project_roles[$prj_id] selected=$info.roles.$prj_id.pru_role|default:''}
+                  </select>
+                  {if $core.current_role < $info.roles.$prj_id.pru_role|default:0}<input type="hidden" name="role[{$prj_id}]" value="{$info.roles.$prj_id.pru_role|default:''}">{/if}
+                  {include file="error_icon.tpl.html" field="role[$prj_id]"}
+                {/if}
+              </td>
+            </tr>
+          {/foreach}
+        </table>
+      </td>
+    </tr>
+    <tr class="buttons">
+      <td colspan="2">
+        {if $cat == 'edit'}
+          <input type="submit" value="{t}Update User{/t}">
+        {else}
+          <input class="button" type="submit" value="{t}Create User{/t}">
+        {/if}
+        <input class="button" type="reset" value="{t}Reset{/t}">
+      </td>
+    </tr>
+  </table>
+</form>

@@ -1,0 +1,87 @@
+<form id="delete_form" method="post">
+  <input type="hidden" name="cat" value="change_status">
+
+
+  <table class="bordered grid">
+    <tr class="title">
+      <th colspan="7">
+        {t}Existing Users{/t}
+      </th>
+    </tr>
+    <tr>
+      <th nowrap><input type="button" value="{t}All{/t}" class="select_all"></th>
+      <th>&nbsp;{t}Full Name{/t}</th>
+      <th>&nbsp;{t}Role{/t}</th>
+      <th>&nbsp;{t}Email Address{/t}</th>
+      <th>&nbsp;{t}Email Aliases{/t}</th>
+      <th>&nbsp;{t}Status{/t}</th>
+      <th>&nbsp;{t}Groups{/t}</th>
+      <th>&nbsp;{t}Partner{/t}</th>
+    </tr>
+    {section name="i" loop=$list}
+      <tr class="{cycle values='odd,even'}">
+        <td width="4" nowrap align="center">
+          <input type="checkbox" name="items[]" value="{$list[i].usr_id}"
+                 {if $smarty.section.i.total == 0}disabled{/if}>
+        </td>
+        <td width="15%">
+          &nbsp;<a href="{$core.rel_url}manage/users.php?cat=edit&id={$list[i].usr_id}"
+                   title="{t}update this entry{/t}">{$list[i].usr_full_name|default:$list[i].usr_email}</a>
+        </td>
+        <td width="20%" nowrap>
+          {foreach from=$list[i].roles item=role_data}
+            &nbsp;{$role_data.prj_title}: {$role_data.role}
+            <br/>
+          {/foreach}
+        </td>
+        <td width="20%">
+          &nbsp;<a href="mailto:{$list[i].usr_email}"
+                   title="{t}send email to{/t} {$list[i].usr_email}">{$list[i].usr_email}</a>
+
+          {foreach from=$list[i].aliases item=email}
+            &nbsp;{$email}
+          {/foreach}
+        </td>
+        <td width="10%">
+          &nbsp;<a href="email_alias.php?id={$list[i].usr_id}" class="manage_alias"
+                   data-usr-id="{$list[i].usr_id}">{t}manage aliases{/t}</a>
+        </td>
+        <td width="10%">
+          &nbsp;{$list[i].usr_status|capitalize}
+        </td>
+        <td>
+          &nbsp;{', '|join:$list[i].group_names|default:''}
+        </td>
+        <td>
+          &nbsp;{$list[i].partner_name|default:''}
+        </td>
+      </tr>
+      {sectionelse}
+      <tr class="no_results">
+        <td colspan="7">
+          {t}No users could be found.{/t}
+        </td>
+      </tr>
+    {/section}
+    <tr class="buttons">
+      <td colspan="8">
+        <input type="button" value="{t}All{/t}" class="select_all">
+        <input type="submit" value="{t}Update Status{/t} &gt;&gt;">
+        <select name="status">
+          <option value="active">{t}Active{/t}</option>
+          <option value="inactive">{t}Inactive{/t}</option>
+        </select>
+        <div class="right">
+          <input type="checkbox" id="show_customers" name="show_customers" value="yes"
+                 {if $smarty.get.show_customers|default:0 == 1}checked{/if}>
+          <label for="show_customers">{t}Show Customers{/t}</label>&nbsp;
+
+          <input type="checkbox" id="show_inactive" name="show_inactive" value="yes"
+                 {if $smarty.get.show_inactive|default:0 == 1}checked{/if}>
+          <label for="show_inactive">{t}Show Inactive Users{/t}</label>&nbsp;
+        </div>
+      </td>
+    </tr>
+  </table>
+
+</form>
