@@ -1680,9 +1680,14 @@ class User
 
     public static function getExternalID($usr_id)
     {
-        $details = self::getDetails($usr_id);
+        $sql = 'SELECT
+                    usr_external_id
+                FROM
+                    {{%user}}
+                WHERE
+                    usr_id = ?';
 
-        return $details['usr_external_id'];
+        return DB_Helper::getInstance()->getOne($sql, array($usr_id));
     }
 
     public static function unlock($usr_id)
