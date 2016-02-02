@@ -118,10 +118,30 @@
   <input type="hidden" name="cat" value="new">
   {/if}
       <table class="bordered">
+
               <tr class="title">
                 <th colspan="2">
                   {t}Manage Users{/t}
                 </th>
+              </tr>
+
+              <tr>
+                <th width="120">
+                  <nobr>{t}External ID{/t}</nobr>
+                </th>
+                <td>
+                  {$info.usr_external_id|escape:"html"|default:''}
+                </td>
+              </tr>
+
+              <tr>
+                <th width="120">
+                  {t}Full Name{/t}
+                </th>
+                <td>
+                  <input type="text" name="full_name" size="40" value="{$info.usr_full_name|escape:html|default:''}">
+                  {include file="error_icon.tpl.html" field="full_name"}
+                </td>
               </tr>
 
               <tr>
@@ -163,15 +183,7 @@
                   {include file="error_icon.tpl.html" field="password"}
                 </td>
               </tr>
-              <tr>
-                <th width="120">
-                  {t}Full Name{/t}
-                </th>
-                <td>
-                  <input type="text" name="full_name" size="40" value="{$info.usr_full_name|escape:html|default:''}">
-                  {include file="error_icon.tpl.html" field="full_name"}
-                </td>
-              </tr>
+
               <tr>
                   <th width="120">
                       {t}Groups{/t}
@@ -219,14 +231,6 @@
                     </tr>
                     {/foreach}
                   </table>
-                </td>
-              </tr>
-              <tr>
-                <th width="120">
-                  <nobr>{t}External ID{/t}</nobr>
-                </th>
-                <td>
-                    {$info.usr_external_id|escape:"html"|default:''}
                 </td>
               </tr>
               <tr class="buttons">
