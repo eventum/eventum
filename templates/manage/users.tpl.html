@@ -87,6 +87,12 @@
     window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'show_inactive',
       $('#show_inactive:checked').length);
   }
+
+  function showUserGroups()
+  {
+    window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'show_groups',
+        $('#show_groups:checked').length);
+  }
   function openAliasList(e)
   {
     var target = $(e.target);
@@ -103,6 +109,7 @@
       $('a.manage_alias').click(openAliasList);
       $('#show_customers').click(showCustomerUsers);
       $('#show_inactive').click(showInactiveUsers);
+      $('#show_groups').click(showUserGroups);
 
       $('#delete_form').submit(checkDelete);
   });

@@ -68,7 +68,7 @@ if (strtolower(APP_AUTH_BACKEND) != 'ldap_auth_backend') {
 }
 
 $users = array();
-foreach (User::getList(false, false) as $entry) {
+foreach (User::getList() as $entry) {
     $usr = new UserEntry($entry);
     $users[$usr->id] = $usr;
 }

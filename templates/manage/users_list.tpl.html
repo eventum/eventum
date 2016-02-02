@@ -15,7 +15,9 @@
       <th>&nbsp;{t}Email Address{/t}</th>
       <th>&nbsp;{t}Email Aliases{/t}</th>
       <th>&nbsp;{t}Status{/t}</th>
+      {if $smarty.get.show_groups|default:0 == 1}
       <th>&nbsp;{t}Groups{/t}</th>
+      {/if}
       <th>&nbsp;{t}Partner{/t}</th>
     </tr>
     {section name="i" loop=$list}
@@ -49,9 +51,11 @@
         <td width="10%">
           &nbsp;{$list[i].usr_status|capitalize}
         </td>
+        {if $smarty.get.show_groups|default:0 == 1}
         <td>
           &nbsp;{', '|join:$list[i].group_names|default:''}
         </td>
+        {/if}
         <td>
           &nbsp;{$list[i].partner_name|default:''}
         </td>
@@ -79,6 +83,10 @@
           <input type="checkbox" id="show_inactive" name="show_inactive" value="yes"
                  {if $smarty.get.show_inactive|default:0 == 1}checked{/if}>
           <label for="show_inactive">{t}Show Inactive Users{/t}</label>&nbsp;
+
+          <input type="checkbox" id="show_groups" name="show_groups" value="yes"
+                 {if $smarty.get.show_groups|default:0 == 1}checked{/if}>
+          <label for="show_groups">{t}Show Groups{/t}</label>&nbsp;
         </div>
       </td>
     </tr>

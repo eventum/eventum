@@ -655,14 +655,17 @@ class User
 
     /**
      * Method used to get the account details of a list users.
+     * Options:
+     * - groups Whether to load groups information for users, default true
      *
-     * @param   array $usr_ids The user ID
-     * @return  array List of accounts with account details
+     * @param array $usr_ids The user ID
+     * @param array $options
+     * @return array List of accounts with account details
      */
-    public static function getDetailsAssoc($usr_ids)
+    public static function getDetailsAssoc($usr_ids, $options = array())
     {
         static $returns;
-        $key = md5(serialize($usr_ids));
+        $key = md5(serialize(array($usr_ids, $options)));
 
         if (empty($returns[$key])) {
             $itemlist = DB_Helper::buildList($usr_ids);
@@ -679,11 +682,17 @@ class User
                 return null;
             }
 
+            $load_groups = isset($options['groups']) ? $options['groups'] : true;
+
             foreach ($res as &$row) {
                 unset($row['usr_password']);
-                $row['groups'] = self::getGroups($row['usr_id']);
-                $row['group_ids'] = array_keys($row['groups']);
-                $row['group_names'] = array_values($row['groups']);
+
+                if ($load_groups) {
+                    $row['groups'] = self::getGroups($row['usr_id']);
+                    $row['group_ids'] = array_keys($row['groups']);
+                    $row['group_names'] = array_values($row['groups']);
+                }
+
                 $roles = Project::getAssocList($row['usr_id'], false, true);
                 $row['projects'] = array_keys($roles);
                 $row['roles'] = $roles;
@@ -1250,10 +1259,15 @@ class User
     /**
      * Method used to get the list of users available in the system.
      *
-     * @param   boolean $show_customers Whether to return customers or not
+     * Options:
+     * - customers Whether to include customers in list, default true, i.e do not filter out
+     * - inactive Whether to include inactive users in list, default false
+     * - groups Whether to load groups information for users
+     *
+     * @param array $options
      * @return  array The list of users
      */
-    public static function getList($show_customers, $show_inactive)
+    public static function getList($options = array())
     {
         // FIXME: what about other statuses like "pending"?
         $stmt = 'SELECT
@@ -1263,6 +1277,9 @@ class User
                  WHERE
                     usr_id != ?';
         $params = array(APP_SYSTEM_USER_ID);
+
+        $show_inactive = isset($options['inactive']) ? $options['inactive'] : false;
+        $show_customers = isset($options['customers']) ? $options['customers'] : true;
 
         if (!$show_inactive) {
             $stmt .= ' AND usr_status != ?';
@@ -1289,16 +1306,17 @@ class User
             return $cache[$name];
         };
 
-        $res = self::getDetailsAssoc($usr_ids);
+        $res = self::getDetailsAssoc($usr_ids, $options);
         foreach ($res as $row) {
             // handle show_customers = false
-            $roles = $row['roles'];
-            $role = current($roles);
-            $role = $role['pru_role'];
-            if ($show_customers == false && (
-                ((@$roles[$prj_id]['pru_role']) == self::ROLE_CUSTOMER) ||
-                (count($roles) == 1 && $role == self::ROLE_CUSTOMER))) {
-                continue;
+            if ($show_customers == false) {
+                $roles = $row['roles'];
+                $role = current($roles);
+                $role = $role['pru_role'];
+                if ((@$roles[$prj_id]['pru_role'] == self::ROLE_CUSTOMER)
+                    || (count($roles) == 1 && $role == self::ROLE_CUSTOMER)) {
+                    continue;
+                }
             }
 
             if (!empty($row['usr_par_code'])) {
