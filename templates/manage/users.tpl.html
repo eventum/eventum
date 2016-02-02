@@ -12,7 +12,7 @@
   {/if}
   {/section}
 
-  var projects = new Array({$project_list|@count});
+  var projects = [];
   {foreach from=$project_list key=prj_id item=prj_title name=projects}
     projects[{$smarty.foreach.projects.iteration-1}] = {$prj_id};
   {/foreach}
