@@ -27,4 +27,12 @@ class MailParseTest extends TestCase
         $message_body = $structure->body;
         $this->assertEquals("", $message_body);
     }
+
+    public function testParseHeaders()
+    {
+        $maq_recipient = 'Elan Ruusamäe <glen@delfi.ee>';
+
+        $recipients = Mail::parseRecipients($maq_recipient);
+        $this->assertEquals(array('glen@delfi.ee'), $recipients);
+    }
 }
