@@ -260,6 +260,8 @@ class Mail_Queue
         }
 
         $mail = Mail::factory('smtp', Mail_Helper::getSMTPSettings());
+        // TODO: mail::send wants just bare addresses, do that ourselves
+        $recipient = Mime_Helper::encodeAddress($recipient);
         $res = $mail->send($recipient, $headers, $body);
         if (Misc::isError($res)) {
             Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
