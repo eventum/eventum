@@ -1257,7 +1257,7 @@ class User
     {
         // FIXME: what about other statuses like "pending"?
         $stmt = 'SELECT
-                    *
+                    usr_id
                  FROM
                     {{%user}}
                  WHERE
@@ -1273,9 +1273,9 @@ class User
                     usr_status ASC,
                     usr_full_name ASC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
+            $usr_ids = DB_Helper::getInstance()->getColumn($stmt, $params);
         } catch (DatabaseException $e) {
-            return '';
+            return null;
         }
 
         $prj_id = Auth::getCurrentProject();
@@ -1289,10 +1289,10 @@ class User
             return $cache[$name];
         };
 
+        $res = self::getDetailsAssoc($usr_ids);
         foreach ($res as $row) {
-            unset($row['usr_password']);
-
-            $roles = Project::getAssocList($row['usr_id'], false, true);
+            // handle show_customers = false
+            $roles = $row['roles'];
             $role = current($roles);
             $role = $role['pru_role'];
             if ($show_customers == false && (
@@ -1301,16 +1301,9 @@ class User
                 continue;
             }
 
-            $row['roles'] = $roles;
-            $row['groups'] = self::getGroups($row['usr_id']);
-            $row['group_ids'] = array_keys($row['groups']);
-            $row['group_names'] = array_values($row['groups']);
             if (!empty($row['usr_par_code'])) {
                 $row['partner_name'] = $get_partner_name($row['usr_par_code']);
             }
-
-            // add email aliases
-            $row['aliases'] = self::getAliases($row['usr_id']);
 
             $data[] = $row;
         }
