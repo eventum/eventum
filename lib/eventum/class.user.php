@@ -671,11 +671,15 @@ class User
             $itemlist = DB_Helper::buildList($usr_ids);
 
             $stmt = "SELECT
-                        *
+                        usr.*,
+                        GROUP_CONCAT(ual_email) ual_email
                      FROM
-                        {{%user}}
+                        {{%user}} usr
+                     LEFT JOIN {{%user_alias}} ual ON ual.ual_usr_id=usr.usr_id
                      WHERE
-                        usr_id IN ($itemlist)";
+                        usr_id IN ($itemlist)
+                     GROUP BY usr_id
+                     ";
             try {
                 $res = DB_Helper::getInstance()->getAll($stmt, $usr_ids);
             } catch (DatabaseException $e) {
@@ -696,8 +700,9 @@ class User
                 $roles = Project::getAssocList($row['usr_id'], false, true);
                 $row['projects'] = array_keys($roles);
                 $row['roles'] = $roles;
-                $row['aliases'] = self::getAliases($row['usr_id']);
+                $row['aliases'] = explode(',', $row['ual_email']);
             }
+
             $returns[$key] = $res;
         }
 
