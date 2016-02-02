@@ -80,7 +80,7 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
 
     public function getOne($query, $params = array())
     {
-        $query = $this->quoteSql($query);
+        $query = $this->quoteSql(DB_Helper::filterQuery($query));
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
         $stmt->execute($params);
@@ -97,7 +97,7 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
 
     public function getRow($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
-        $query = $this->quoteSql($query);
+        $query = $this->quoteSql(DB_Helper::filterQuery($query));
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
         $stmt->execute($params);
@@ -133,7 +133,7 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
-        $stmt->execute($params);
+        $stmt->execute(DB_Helper::filterQuery($params));
 
         return true;
     }
@@ -148,7 +148,7 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
      */
     private function fetchAll($query, $params, $fetchmode)
     {
-        $query = $this->quoteSql($query);
+        $query = $this->quoteSql(DB_Helper::filterQuery($query));
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
         $stmt->execute($params);
