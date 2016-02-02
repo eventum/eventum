@@ -680,6 +680,7 @@ class User
             }
 
             foreach ($res as &$row) {
+                unset($row['usr_password']);
                 $row['groups'] = self::getGroups($row['usr_id']);
                 $row['group_ids'] = array_keys($row['groups']);
                 $row['group_names'] = array_values($row['groups']);
@@ -1288,7 +1289,9 @@ class User
             return $cache[$name];
         };
 
-        foreach ($res as &$row) {
+        foreach ($res as $row) {
+            unset($row['usr_password']);
+
             $roles = Project::getAssocList($row['usr_id'], false, true);
             $role = current($roles);
             $role = $role['pru_role'];
