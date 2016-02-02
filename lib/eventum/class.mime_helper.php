@@ -176,7 +176,13 @@ class Mime_Helper
             // split into name and address section
             preg_match('/(.*)<(.*)>/', $address, $matches);
             $address = '=?' . APP_CHARSET . '?Q?' .
-                str_replace(' ', '_', trim(preg_replace('/([\x80-\xFF]|[\x21-\x2F]|[\xFC]|\[|\])/e', '"=" . strtoupper(dechex(ord(stripslashes("\1"))))', $matches[1]))) . '?= <' . $matches[2] . '>';
+                str_replace(' ', '_', trim(
+                    // @ because of /e:
+                    // preg_replace(): The /e modifier is deprecated, use preg_replace_callback instead
+                    // This feature was DEPRECATED in PHP 5.5.0, and REMOVED as of PHP 7.0.0.
+                    // http://www.php.net/manual/en/reference.pcre.pattern.modifiers.php
+                    @preg_replace('/([\x80-\xFF]|[\x21-\x2F]|[\xFC]|\[|\])/e', '"=" . strtoupper(dechex(ord(stripslashes("\1"))))', $matches[1])
+                )) . '?= <' . $matches[2] . '>';
 
             return $address;
         } else {
