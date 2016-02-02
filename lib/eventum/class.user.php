@@ -1277,13 +1277,23 @@ class User
             return '';
         }
 
+        $prj_id = Auth::getCurrentProject();
         $data = array();
+
+        $get_partner_name = function ($name) {
+            static $cache;
+            if (!isset($cache[$name])) {
+                $cache[$name] = Partner::getName($name);
+            }
+            return $cache[$name];
+        };
+
         foreach ($res as &$row) {
             $roles = Project::getAssocList($row['usr_id'], false, true);
             $role = current($roles);
             $role = $role['pru_role'];
             if ($show_customers == false && (
-                ((@$roles[Auth::getCurrentProject()]['pru_role']) == self::ROLE_CUSTOMER) ||
+                ((@$roles[$prj_id]['pru_role']) == self::ROLE_CUSTOMER) ||
                 (count($roles) == 1 && $role == self::ROLE_CUSTOMER))) {
                 continue;
             }
@@ -1293,7 +1303,7 @@ class User
             $row['group_ids'] = array_keys($row['groups']);
             $row['group_names'] = array_values($row['groups']);
             if (!empty($row['usr_par_code'])) {
-                $row['partner_name'] = Partner::getName($row['usr_par_code']);
+                $row['partner_name'] = $get_partner_name($row['usr_par_code']);
             }
 
             // add email aliases
