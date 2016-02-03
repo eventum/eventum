@@ -44,6 +44,8 @@ class CryptoUpgradeManager
      */
     public function disable()
     {
+        throw new \LogicException('not yet');
+
         Setup::save(array('encryption' => 'disabled'));
         if (CryptoManager::encryptionEnabled()) {
             throw new CryptoException('bug');
