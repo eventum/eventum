@@ -5,8 +5,11 @@
     {t}Please wait while the table loads...{/t}
   </div>
 
-  {$colspan=7}
+  {$colspan=6}
   {if $list_options.groups}
+    {$colspan=$colspan+1}
+  {/if}
+  {if $list_options.partners}
     {$colspan=$colspan+1}
   {/if}
 
@@ -27,7 +30,9 @@
       {if $list_options.groups}
         <td>{t}Groups{/t}</td>
       {/if}
+      {if $list_options.partners}
       <td>{t}Partner{/t}</td>
+      {/if}
     </tr>
     </thead>
 
@@ -68,9 +73,11 @@
           {', '|join:$list[i].group_names|default:''}
         </td>
         {/if}
+        {if $list_options.partners}
         <td>
           {$list[i].partner_name|default:''}
         </td>
+        {/if}
       </tr>
       {sectionelse}
       <tr class="no_results">

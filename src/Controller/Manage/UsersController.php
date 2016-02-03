@@ -111,10 +111,33 @@ class UsersController extends ManageBaseController
             'inactive' => $get->get('show_inactive'),
             'groups' => $get->get('show_groups'),
         );
+        $list = User::getList($options);
+
+        // disable partners column if no user has data
+        $options['partners'] = $this->hasField($list, 'usr_par_code');
+
         $this->tpl->assign(
             array(
-                'list' => User::getList($options),
+                'list' => $list,
                 'list_options' => $options,
+            )
+        );
+    }
+
+    /**
+     * Return true if any user has partners defined
+     *
+     * @param array $list
+     * @param $list
+     * @return bool
+     */
+    private function hasField($list, $field)
+    {
+        return !!array_filter(
+            array_map(
+                function ($usr) use ($field) {
+                    return !empty($usr[$field]);
+                }, $list
             )
         );
     }
