@@ -132,4 +132,13 @@ class CryptoTest extends TestCase
         $trace = $f($value);
         $this->assertNotContains($plaintext, $trace);
     }
+
+    public function testZendCrypt() {
+        $key = 'secretkeyvalue';
+        $method = 'aes-128-cbc';
+        $keysize = 16;
+        $hash_function = 'sha256';
+        $ENCRYPTION_INFO = 'DefusePHP|KeyForEncryption';
+//        $ekey = self::HKDF($hash_function, $key, $keysize, $ENCRYPTION_INFO);
+    }
 }
