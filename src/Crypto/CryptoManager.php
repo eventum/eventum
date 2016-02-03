@@ -16,6 +16,7 @@ namespace Eventum\Crypto;
 use BadMethodCallException;
 use Crypto;
 use CryptoTestFailedException;
+use Email_Account;
 use InvalidArgumentException;
 use RandomLib;
 use Setup;
@@ -54,6 +55,14 @@ class CryptoManager
     {
         CryptoManager::canEncrypt();
         Setup::save(array('encryption' => 'enabled'));
+        if (!self::encryptionEnabled()) {
+            throw new CryptoException('bug');
+        }
+
+        // upgrade config
+        $config = Setup::get();
+        self::upgradeConfig($config);
+        Setup::save();
     }
 
     /**
@@ -62,6 +71,9 @@ class CryptoManager
     public static function disableEncryption()
     {
         Setup::save(array('encryption' => 'disabled'));
+        if (self::encryptionEnabled()) {
+            throw new CryptoException('bug');
+        }
     }
 
     /**
@@ -168,6 +180,19 @@ class CryptoManager
 
         if (count($config['ldap']) && !$config['ldap']['bindpw'] instanceof EncryptedValue) {
             $config['ldap']['bindpw'] = new EncryptedValue(self::encrypt($config['ldap']['bindpw']));
+        }
+    }
+
+    public static function upgradeEmailAccounts()
+    {
+        // encrypt email account passwords
+        $accounts = Email_Account::getList();
+        foreach ($accounts as $account) {
+            $account = Email_Account::getDetails($account['ema_id']);
+            /** @var EncryptedValue $password */
+            $password = $account['ema_password'];
+            // the raw value contains the original plaintext
+            Email_Account::updatePassword($account['ema_id'], $password->getEncrypted());
         }
     }
 
