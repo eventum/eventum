@@ -13,6 +13,7 @@ Eventum Issue Tracking System
 - Move bin script to use Command class (@glensc, #137)
 - Move Db classes under Eventum\Db namespace (@glensc, #136)
 - Add $scm parameter to handleSCMCheckins workflow method (@glensc)
+- Improvements to manage/users page, add datatables paginator (@glensc)
 
 2016-01-18, Version [3.0.8]
 ---------------------------

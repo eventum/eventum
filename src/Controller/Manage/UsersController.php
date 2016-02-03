@@ -111,7 +111,39 @@ class UsersController extends ManageBaseController
             'inactive' => $get->get('show_inactive'),
             'groups' => $get->get('show_groups'),
         );
-        $this->tpl->assign('list', User::getList($options));
+        $list = User::getList($options);
+
+        // disable partners column if no user has data
+        $options['partners'] = !!array_filter($this->matchField($list, 'usr_par_code'));
+        $active_users = count(array_filter($this->matchField($list, 'usr_status', 'active')));
+
+        $this->tpl->assign(
+            array(
+                'list' => $list,
+                'active_user_count' => $active_users,
+                'list_options' => $options,
+            )
+        );
+    }
+
+    /**
+     * Iterate over list matching criteria
+     *
+     * @param array $list
+     * @param string $field
+     * @param string $value
+     * @return array
+     */
+    private function matchField($list, $field, $value = null)
+    {
+        return array_map(
+            function ($usr) use ($field, $value) {
+                if ($value !== null) {
+                    return $usr[$field] == $value;
+                }
+                return !empty($usr[$field]);
+            }, $list
+        );
     }
 
     private function getProjectRoles($project_list, $user_details)
