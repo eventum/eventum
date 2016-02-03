@@ -11,14 +11,19 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Crypto\CryptoManager;
+use Eventum\Crypto\CryptoUpgradeManager;
+use Eventum\Db\Adapter\AdapterInterface;
 
-// rewrite known password fields in config
-$config = Setup::get();
-CryptoManager::upgradeConfig($config);
-Setup::save();
+/** @var Closure $log */
+/** @var AdapterInterface $db */
 
 // increase storage for password field
-$db->query("alter table {{%email_account}} modify ema_password varchar(255) NOT NULL DEFAULT ''");
+$db->query("ALTER TABLE {{%email_account}} MODIFY ema_password VARCHAR(255) NOT NULL DEFAULT ''");
 
-CryptoManager::upgradeEmailAccounts();
+$cm = new CryptoUpgradeManager();
+try {
+    // try to enable, but do not fail if can't
+    $cm->enable();
+} catch (\Eventum\Crypto\CryptoException $e) {
+    $log("Can't enable encryption: {$e->getMessage()}");
+}

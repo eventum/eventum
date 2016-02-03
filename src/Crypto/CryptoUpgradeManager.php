@@ -36,6 +36,7 @@ class CryptoUpgradeManager
         $config = Setup::get();
         self::upgradeConfig($config);
         Setup::save();
+        self::upgradeEmailAccounts();
     }
 
     /**
