@@ -72,7 +72,7 @@
 		"pear-pear.php.net/text_diff": "*",
 		"pear/auth_sasl": "*",
 		"pear/db": "*",
-		"pear/mail": "~1.2.0",
+		"pear/mail": "~1.2.0,<1.3.0",
 		"pear/mail_mime": "*",
 		"pear/net_smtp": "1.6.*",
 		"pear/net_socket": "*",
@@ -87,8 +87,7 @@
 		"zendframework/zend-config": "2.4.*"
 	},
 	"conflict": {
-		"pear/pear-core-minimal": ">=1.10",
-		"pear/mail": ">=1.3.0"
+		"pear/pear-core-minimal": ">=1.10"
 	},
 	"require-dev": {
 		"bgrins/filereader.js": "*",
