@@ -5,11 +5,14 @@
     {t}Please wait while the table loads...{/t}
   </div>
 
-  {$colspan=6}
+  {$colspan=5}
   {if $list_options.groups}
     {$colspan=$colspan+1}
   {/if}
   {if $list_options.partners}
+    {$colspan=$colspan+1}
+  {/if}
+  {if $list_options.inactive}
     {$colspan=$colspan+1}
   {/if}
 
@@ -21,12 +24,14 @@
       </th>
     </tr>
     <tr>
-      <th nowrap><input type="button" value="{t}All{/t}" class="select_all"></th>
+      <td nowrap width="2%"><input type="button" value="{t}All{/t}" class="select_all"></td>
       <td>{t}Full Name{/t}</td>
       <td>{t}Role{/t}</td>
       <td>{t}Email Address{/t}</td>
       <td>{t}Email Aliases{/t}</td>
+      {if $list_options.inactive}
       <td>{t}Status{/t}</td>
+      {/if}
       {if $list_options.groups}
         <td>{t}Groups{/t}</td>
       {/if}
@@ -39,11 +44,11 @@
     <tbody>
     {section name="i" loop=$list}
       <tr class="{cycle values='odd,even'}">
-        <td width="4" nowrap align="center">
+        <td width="2%" nowrap align="center">
           <input type="checkbox" name="items[]" value="{$list[i].usr_id}"
                  {if $smarty.section.i.total == 0}disabled{/if}>
         </td>
-        <td width="15%">
+        <td width="20%">
           <a href="{$core.rel_url}manage/users.php?cat=edit&id={$list[i].usr_id}"
                    title="{t}update this entry{/t}">{$list[i].usr_full_name|default:$list[i].usr_email}</a>
         </td>
@@ -65,9 +70,11 @@
           <a href="email_alias.php?id={$list[i].usr_id}" class="manage_alias"
                    data-usr-id="{$list[i].usr_id}">{t}manage aliases{/t}</a>
         </td>
+        {if $list_options.inactive}
         <td width="10%">
           {$list[i].usr_status|capitalize}
         </td>
+        {/if}
         {if $list_options.groups}
         <td>
           {', '|join:$list[i].group_names|default:''}
