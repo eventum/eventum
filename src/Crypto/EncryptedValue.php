@@ -18,11 +18,14 @@ use InvalidArgumentException;
 /**
  * Class Encrypted Value
  *
- * Provides object which behaves as regular string providing transparent decryption of the value
+ * Provides object which behaves as regular string
+ * providing transparent decryption of the value
+ *
+ * This class is final to prevent breaking security and overriding some methods
  *
  * @package Eventum
  */
-class EncryptedValue
+final class EncryptedValue
 {
     /** @var string Encrypted value */
     private $ciphertext;
@@ -32,7 +35,7 @@ class EncryptedValue
      *
      * @param string $ciphertext
      */
-    final public function __construct($ciphertext = null)
+    public function __construct($ciphertext = null)
     {
         $this->ciphertext = $ciphertext;
     }
@@ -43,7 +46,7 @@ class EncryptedValue
      *
      * @param string $plaintext
      */
-    final public function setValue($plaintext)
+    public function setValue($plaintext)
     {
         $this->ciphertext = CryptoManager::encrypt($plaintext);
     }
@@ -53,7 +56,7 @@ class EncryptedValue
      *
      * @return string
      */
-    final public function getValue()
+    public function getValue()
     {
         if ($this->ciphertext === null) {
             throw new InvalidArgumentException('Value not initialized yet');
@@ -67,7 +70,7 @@ class EncryptedValue
      *
      * @return string
      */
-    final public function getEncrypted()
+    public function getEncrypted()
     {
         if ($this->ciphertext === null) {
             throw new InvalidArgumentException('Value not initialized yet');
@@ -76,7 +79,7 @@ class EncryptedValue
         return $this->ciphertext;
     }
 
-    final public function __toString()
+    public function __toString()
     {
         return $this->getValue();
     }
@@ -87,7 +90,7 @@ class EncryptedValue
      * @param array $data
      * @return EncryptedValue
      */
-    final public function __set_state($data)
+    public function __set_state($data)
     {
         return new self($data['ciphertext']);
     }
