@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Crypto\CryptoException;
 use Eventum\Crypto\CryptoUpgradeManager;
 use Eventum\Db\Adapter\AdapterInterface;
 
@@ -24,6 +25,6 @@ $cm = new CryptoUpgradeManager();
 try {
     // try to enable, but do not fail if can't
     $cm->enable();
-} catch (\Eventum\Crypto\CryptoException $e) {
+} catch (CryptoException $e) {
     $log("Can't enable encryption: {$e->getMessage()}");
 }
