@@ -17,8 +17,8 @@ use BadMethodCallException;
 use Crypto;
 use CryptoTestFailedException;
 use InvalidArgumentException;
-use Logger;
 use RandomLib;
+use Setup;
 use Zend\Config\Config;
 
 /**
@@ -32,18 +32,52 @@ use Zend\Config\Config;
 class CryptoManager
 {
     /**
+     * @return bool return true if Encryption is enabled
+     */
+    public static function encryptionEnabled()
+    {
+        static $enabled;
+
+        if ($enabled == null) {
+            $enabled = Setup::get()->encryption == 'enabled';
+        }
+
+        return $enabled;
+    }
+
+    /**
+     * Enable encryption
+     *
+     * @throws CryptoException if that can not be performed
+     */
+    public static function enableEncryption()
+    {
+        CryptoManager::canEncrypt();
+        Setup::save(array('encryption' => 'enabled'));
+    }
+
+    /**
+     * Disable encryption
+     */
+    public static function disableEncryption()
+    {
+        Setup::save(array('encryption' => 'disabled'));
+    }
+
+    /**
      * Checks if system can perform encryption:
      * - has mcrypt extension
      * - some other tests performed by Crypto library
+     *
+     * @throws CryptoException if it can't be enabled
+     * @return bool
      */
-    public static function canEncrypt()
+    private static function canEncrypt()
     {
         try {
             Crypto::RuntimeTest();
         } catch (CryptoTestFailedException $e) {
-            Logger::app()->debug($e->getMessage());
-
-            return false;
+            throw new CryptoException($e->getMessage(), $e->getCode(), $e);
         }
 
         return true;
@@ -65,7 +99,7 @@ class CryptoManager
             throw new InvalidArgumentException('Refusing to encrypt empty value');
         }
 
-        if (!self::canEncrypt()) {
+        if (!self::encryptionEnabled()) {
             return $plaintext;
         }
 
@@ -87,7 +121,7 @@ class CryptoManager
      */
     public static function decrypt($ciphertext)
     {
-        if (!self::canEncrypt()) {
+        if (!self::encryptionEnabled()) {
             return $ciphertext;
         }
 
@@ -106,7 +140,7 @@ class CryptoManager
      */
     public static function rotate($ciphertext, $key)
     {
-        if (!self::canEncrypt()) {
+        if (!self::encryptionEnabled()) {
             return $ciphertext;
         }
 
