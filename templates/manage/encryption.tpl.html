@@ -2,11 +2,9 @@
 {block "javascripts" append}
   <script type="text/javascript">
     $(function () {
-      var toggleEncryption = function () {
+      $("input[name='encryption']").click(function () {
         $('#encryption_activate_form').submit();
-      };
-
-      $("input[name='encryption']").click(toggleEncryption);
+      });
     });
   </script>
 {/block}
