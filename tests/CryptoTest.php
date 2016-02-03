@@ -38,7 +38,7 @@ class CryptoTest extends TestCase
     }
 
     /**
-     * @expectedException InvalidCiphertextException
+     * @expectedException Eventum\Crypto\CryptoException
      */
     public function testCorruptedData()
     {

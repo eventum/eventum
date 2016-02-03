@@ -14,9 +14,11 @@
 namespace Eventum\Crypto;
 
 use BadMethodCallException;
+use CannotPerformOperationException;
 use Crypto;
 use CryptoTestFailedException;
 use InvalidArgumentException;
+use InvalidCiphertextException;
 use RandomLib;
 use Setup;
 
@@ -71,7 +73,7 @@ final class CryptoManager
      * @param string $plaintext
      * @param string $key optional key to encrypt
      * @return string
-     * @throws \CannotPerformOperationException
+     * @throws CryptoException
      */
     public static function encrypt($plaintext, $key = null)
     {
@@ -83,11 +85,15 @@ final class CryptoManager
             return $plaintext;
         }
 
-        return rtrim(
-            base64_encode(
-                Crypto::encrypt($plaintext, $key ?: self::getKey())
-            ), '='
-        );
+        try {
+            $ciphertext = Crypto::encrypt($plaintext, $key ?: self::getKey());
+        } catch (CryptoTestFailedException $e) {
+            throw new CryptoException('Cannot safely perform encryption');
+        } catch (CannotPerformOperationException $e) {
+            throw new CryptoException('Cannot safely perform encryption');
+        }
+
+        return rtrim(base64_encode($ciphertext), '=');
     }
 
     /**
@@ -96,8 +102,7 @@ final class CryptoManager
      *
      * @param string $ciphertext
      * @return string
-     * @throws \CannotPerformOperationException
-     * @throws \InvalidCiphertextException
+     * @throws CryptoException
      */
     public static function decrypt($ciphertext)
     {
@@ -105,10 +110,23 @@ final class CryptoManager
             return $ciphertext;
         }
 
-        return Crypto::decrypt(
-            base64_decode($ciphertext),
-            self::getKey()
-        );
+        try {
+            $decrypted = Crypto::decrypt(base64_decode($ciphertext), self::getKey());
+        } catch (InvalidCiphertextException $e) {
+            // VERY IMPORTANT
+            // Either:
+            //   1. The ciphertext was modified by the attacker,
+            //   2. The key is wrong, or
+            //   3. $ciphertext is not a valid ciphertext or was corrupted.
+            // Assume the worst.
+            throw new CryptoException('The ciphertext has been tampered with');
+        } catch (CryptoTestFailedException $e) {
+            throw new CryptoException('Cannot safely perform encryption');
+        } catch (CannotPerformOperationException $e) {
+            throw new CryptoException('Cannot safely perform encryption');
+        }
+
+        return $decrypted;
     }
 
     /**
