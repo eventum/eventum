@@ -16,11 +16,9 @@ namespace Eventum\Crypto;
 use BadMethodCallException;
 use Crypto;
 use CryptoTestFailedException;
-use Email_Account;
 use InvalidArgumentException;
 use RandomLib;
 use Setup;
-use Zend\Config\Config;
 
 /**
  * Class Crypto Manager.
@@ -30,7 +28,7 @@ use Zend\Config\Config;
  *
  * @package Eventum\Crypto
  */
-class CryptoManager
+final class CryptoManager
 {
     /**
      * @return bool return true if Encryption is enabled
@@ -47,36 +45,6 @@ class CryptoManager
     }
 
     /**
-     * Enable encryption
-     *
-     * @throws CryptoException if that can not be performed
-     */
-    public static function enableEncryption()
-    {
-        CryptoManager::canEncrypt();
-        Setup::save(array('encryption' => 'enabled'));
-        if (!self::encryptionEnabled()) {
-            throw new CryptoException('bug');
-        }
-
-        // upgrade config
-        $config = Setup::get();
-        self::upgradeConfig($config);
-        Setup::save();
-    }
-
-    /**
-     * Disable encryption
-     */
-    public static function disableEncryption()
-    {
-        Setup::save(array('encryption' => 'disabled'));
-        if (self::encryptionEnabled()) {
-            throw new CryptoException('bug');
-        }
-    }
-
-    /**
      * Checks if system can perform encryption:
      * - has mcrypt extension
      * - some other tests performed by Crypto library
@@ -84,7 +52,7 @@ class CryptoManager
      * @throws CryptoException if it can't be enabled
      * @return bool
      */
-    private static function canEncrypt()
+    public static function canEncrypt()
     {
         try {
             Crypto::RuntimeTest();
@@ -141,59 +109,6 @@ class CryptoManager
             base64_decode($ciphertext),
             self::getKey()
         );
-    }
-
-    /**
-     * Key rotation method -- decrypt with your old key then re-encrypt with your new key
-     *
-     * @param string $ciphertext
-     * @param string $key the new key
-     * @return string
-     */
-    public static function rotate($ciphertext, $key)
-    {
-        if (!self::encryptionEnabled()) {
-            return $ciphertext;
-        }
-
-        return self::encrypt(self::decrypt($ciphertext), $key);
-    }
-
-    /**
-     * Generate new encryption key and re-encrypt data
-     */
-    public static function regenerateKey()
-    {
-        throw new CryptoException('Not yet');
-    }
-
-    /**
-     * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
-     *
-     * @param Config $config
-     */
-    public static function upgradeConfig(Config $config)
-    {
-        if (!$config['database']['password'] instanceof EncryptedValue) {
-            $config['database']['password'] = new EncryptedValue(self::encrypt($config['database']['password']));
-        }
-
-        if (count($config['ldap']) && !$config['ldap']['bindpw'] instanceof EncryptedValue) {
-            $config['ldap']['bindpw'] = new EncryptedValue(self::encrypt($config['ldap']['bindpw']));
-        }
-    }
-
-    public static function upgradeEmailAccounts()
-    {
-        // encrypt email account passwords
-        $accounts = Email_Account::getList();
-        foreach ($accounts as $account) {
-            $account = Email_Account::getDetails($account['ema_id']);
-            /** @var EncryptedValue $password */
-            $password = $account['ema_password'];
-            // the raw value contains the original plaintext
-            Email_Account::updatePassword($account['ema_id'], $password->getEncrypted());
-        }
     }
 
     /**

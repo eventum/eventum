@@ -14,7 +14,7 @@
 namespace Eventum\Controller\Manage;
 
 use Eventum\Crypto\CryptoException;
-use Eventum\Crypto\CryptoManager;
+use Eventum\Crypto\CryptoUpgradeManager;
 use Misc;
 use Setup;
 use User;
@@ -57,8 +57,10 @@ class EncryptionController extends ManageBaseController
 
     private function regenerateAction()
     {
+        $cm = new CryptoUpgradeManager();
+
         try {
-            CryptoManager::regenerateKey();
+            $cm->regenerateKey();
             Misc::setMessage(ev_gettext('Thank you, new key for encryption was generated.'));
         } catch (CryptoException $e) {
             Misc::setMessage(
@@ -71,16 +73,17 @@ class EncryptionController extends ManageBaseController
     {
         $post = $this->getRequest()->request;
         $enable = $post->get('encryption');
+        $cm = new CryptoUpgradeManager();
 
         if (!$enable) {
-            CryptoManager::disableEncryption();
+            $cm->disable();
             Misc::setMessage(ev_gettext('Encryption was disabled!'));
 
             return;
         }
 
         try {
-            CryptoManager::enableEncryption();
+            $cm->enable();
             Misc::setMessage(ev_gettext('Encryption was enabled!'));
         } catch (CryptoException $e) {
             Misc::setMessage(
