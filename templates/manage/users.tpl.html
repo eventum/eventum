@@ -110,7 +110,7 @@
     return false;
   }
 
-  $().ready(function() {
+  $(function() {
       $('#user_form').submit(validateForm);
       $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
 
@@ -122,11 +122,8 @@
       $('#delete_form').submit(checkDelete);
 
       // datatables config
-      $('.datatable').DataTable({
-        //"columnDefs": [ {
-        //    "visible": false,
-        //    "targets": -1
-        //} ],
+      $('#spinner').addClass('hidden');
+      $('.datatable').removeClass('hidden').DataTable({
         "language": {
           "paginate": {
             "first": "First page",

@@ -111,7 +111,12 @@ class UsersController extends ManageBaseController
             'inactive' => $get->get('show_inactive'),
             'groups' => $get->get('show_groups'),
         );
-        $this->tpl->assign('list', User::getList($options));
+        $this->tpl->assign(
+            array(
+                'list' => User::getList($options),
+                'list_options' => $options,
+            )
+        );
     }
 
     private function getProjectRoles($project_list, $user_details)
