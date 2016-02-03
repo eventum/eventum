@@ -17,6 +17,8 @@ use RandomLib;
 use InvalidArgumentException;
 use BadMethodCallException;
 use Zend\Config\Config;
+use Logger;
+use CryptoTestFailedException;
 
 /**
  * Class Crypto Manager.
@@ -28,6 +30,22 @@ use Zend\Config\Config;
  */
 class CryptoManager
 {
+    /**
+     * Checks if system can perform encryption:
+     * - has mcrypt extension
+     * - some other tests performed by Crypto library
+     */
+    public static function canEncrypt()
+    {
+        try {
+            Crypto::RuntimeTest();
+        } catch (CryptoTestFailedException $e) {
+            Logger::app()->debug($e->getMessage());
+            return false;
+        }
+        return true;
+    }
+
     /**
      * Encrypts a message.
      * $plaintext is the message to encrypt.
@@ -43,6 +61,11 @@ class CryptoManager
         if ($plaintext === null || $plaintext === false) {
             throw new InvalidArgumentException('Refusing to encrypt empty value');
         }
+
+        if (!self::canEncrypt()) {
+            return $plaintext;
+        }
+
         return rtrim(
             base64_encode(
                 Crypto::encrypt($plaintext, $key ?: self::getKey())
@@ -61,6 +84,10 @@ class CryptoManager
      */
     public static function decrypt($ciphertext)
     {
+        if (!self::canEncrypt()) {
+            return $ciphertext;
+        }
+
         return Crypto::decrypt(
             base64_decode($ciphertext),
             self::getKey()
@@ -70,13 +97,17 @@ class CryptoManager
     /**
      * Key rotation method -- decrypt with your old key then re-encrypt with your new key
      *
+     * @param string $ciphertext
      * @param string $key the new key
-     * @param string $data
      * @return string
      */
-    public static function rotate($key, $data)
+    public static function rotate($ciphertext, $key)
     {
-        return self::encrypt(self::decrypt($data), $key);
+        if (!self::canEncrypt()) {
+            return $ciphertext;
+        }
+
+        return self::encrypt(self::decrypt($ciphertext), $key);
     }
 
     /**

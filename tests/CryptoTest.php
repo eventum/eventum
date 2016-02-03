@@ -5,6 +5,11 @@ use Eventum\Crypto\EncryptedValue;
 
 class CryptoTest extends TestCase
 {
+    public function testCanEncrypt() {
+        $res = CryptoManager::canEncrypt();
+        $this->assertTrue($res);
+    }
+
     /**
      * @test static encrypt and decrypt methods
      */
