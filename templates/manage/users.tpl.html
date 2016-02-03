@@ -11,14 +11,8 @@
 {block "manage_content"}
   <script type="text/javascript">
   <!--
-  var active_users = [];
+  var active_users_count = {$active_user_count};
   var page_url = '{$smarty.server.PHP_SELF}';
-
-  {section name="i" loop=$list}
-  {if $list[i].usr_status == 'active'}
-    active_users[{$smarty.section.i.index}] = '{$list[i].usr_email|escape:"html"}';
-  {/if}
-  {/section}
 
   var projects = [];
   {foreach from=$project_list key=prj_id item=prj_title name=projects}
@@ -65,7 +59,7 @@
       var total_selected = Eventum.getField('items[]').filter(':checked').length;
       var total = Eventum.getField('items[]').length;
       if (Eventum.getField('status').val() == 'inactive') {
-          if (active_users.length < 2) {
+          if (active_users_count < 2) {
               alert('{t escape=js}You cannot change the status of the only active user left in the system.{/t}');
               return false;
           }
