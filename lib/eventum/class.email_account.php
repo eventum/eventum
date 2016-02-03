@@ -11,9 +11,9 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Db\DatabaseException;
 use Eventum\Crypto\CryptoManager;
 use Eventum\Crypto\EncryptedValue;
+use Eventum\Db\DatabaseException;
 
 class Email_Account
 {

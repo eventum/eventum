@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
  *
@@ -12,13 +13,13 @@
 
 namespace Eventum\Crypto;
 
-use Crypto;
-use RandomLib;
-use InvalidArgumentException;
 use BadMethodCallException;
-use Zend\Config\Config;
-use Logger;
+use Crypto;
 use CryptoTestFailedException;
+use InvalidArgumentException;
+use Logger;
+use RandomLib;
+use Zend\Config\Config;
 
 /**
  * Class Crypto Manager.
@@ -41,8 +42,10 @@ class CryptoManager
             Crypto::RuntimeTest();
         } catch (CryptoTestFailedException $e) {
             Logger::app()->debug($e->getMessage());
+
             return false;
         }
+
         return true;
     }
 
@@ -111,6 +114,14 @@ class CryptoManager
     }
 
     /**
+     * Generate new encryption key and re-encrypt data
+     */
+    public static function regenerateKey()
+    {
+        throw new CryptoException('Not yet');
+    }
+
+    /**
      * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
      *
      * @param Config $config
@@ -148,6 +159,7 @@ class CryptoManager
                 self::storePrivateKey($secret_file, $key);
             }
         }
+
         return $key;
     }
 

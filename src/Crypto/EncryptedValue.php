@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
  *
@@ -42,7 +43,7 @@ class EncryptedValue
      *
      * @param string $plaintext
      */
-    public final function setValue($plaintext)
+    final public function setValue($plaintext)
     {
         $this->ciphertext = CryptoManager::encrypt($plaintext);
     }
@@ -52,11 +53,12 @@ class EncryptedValue
      *
      * @return string
      */
-    public final function getValue()
+    final public function getValue()
     {
         if ($this->ciphertext === null) {
             throw new InvalidArgumentException('Value not initialized yet');
         }
+
         return CryptoManager::decrypt($this->ciphertext);
     }
 
@@ -65,15 +67,16 @@ class EncryptedValue
      *
      * @return string
      */
-    public final function getEncrypted()
+    final public function getEncrypted()
     {
         if ($this->ciphertext === null) {
             throw new InvalidArgumentException('Value not initialized yet');
         }
+
         return $this->ciphertext;
     }
 
-    public final function __toString()
+    final public function __toString()
     {
         return $this->getValue();
     }
@@ -84,7 +87,7 @@ class EncryptedValue
      * @param array $data
      * @return EncryptedValue
      */
-    public final function __set_state($data)
+    final public function __set_state($data)
     {
         return new self($data['ciphertext']);
     }
