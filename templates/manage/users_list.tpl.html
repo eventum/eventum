@@ -1,8 +1,8 @@
 <form id="delete_form" method="post">
   <input type="hidden" name="cat" value="change_status">
 
-
-  <table class="bordered grid">
+  <table class="bordered datatable grid">
+    <thead>
     <tr class="title">
       <th colspan="7">
         {t}Existing Users{/t}
@@ -10,16 +10,19 @@
     </tr>
     <tr>
       <th nowrap><input type="button" value="{t}All{/t}" class="select_all"></th>
-      <th>{t}Full Name{/t}</th>
-      <th>{t}Role{/t}</th>
-      <th>{t}Email Address{/t}</th>
-      <th>{t}Email Aliases{/t}</th>
-      <th>{t}Status{/t}</th>
+      <td>{t}Full Name{/t}</td>
+      <td>{t}Role{/t}</td>
+      <td>{t}Email Address{/t}</td>
+      <td>{t}Email Aliases{/t}</td>
+      <td>{t}Status{/t}</td>
       {if $smarty.get.show_groups|default:0 == 1}
-      <th>{t}Groups{/t}</th>
+      <td>{t}Groups{/t}</td>
       {/if}
-      <th>{t}Partner{/t}</th>
+      <td>{t}Partner{/t}</td>
     </tr>
+    </thead>
+
+    <tbody>
     {section name="i" loop=$list}
       <tr class="{cycle values='odd,even'}">
         <td width="4" nowrap align="center">
@@ -67,6 +70,9 @@
         </td>
       </tr>
     {/section}
+    </tbody>
+
+    <tfoot>
     <tr class="buttons">
       <td colspan="8">
         <input type="button" value="{t}All{/t}" class="select_all">
@@ -90,6 +96,7 @@
         </div>
       </td>
     </tr>
+    </tfoot>
   </table>
 
 </form>

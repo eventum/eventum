@@ -95,6 +95,7 @@
 		"components/jquery-blockui": "*@dev",
 		"components/jquery-chosen": "*",
 		"components/jquery-cookie": "~1.4.1",
+		"components/jquery-datatables": "~1.10.4",
 		"components/jqueryui": "*",
 		"enyo/dropzone": "~4.0.1",
 		"jackmoore/autosize":"*",

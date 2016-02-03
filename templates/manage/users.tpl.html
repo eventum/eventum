@@ -1,5 +1,13 @@
 {extends "manage/manage.tpl.html"}
 
+{block "stylesheets" append}
+  <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/jquery-datatables/media/css/jquery.dataTables.css">
+{/block}
+
+{block "javascripts" append}
+  <script type="text/javascript" src="{$core.rel_url}components/jquery-datatables/media/js/jquery.dataTables.js"></script>
+{/block}
+
 {block "manage_content"}
   <script type="text/javascript">
   <!--
@@ -112,8 +120,24 @@
       $('#show_groups').click(showUserGroups);
 
       $('#delete_form').submit(checkDelete);
-  });
 
+      // datatables config
+      $('.datatable').DataTable({
+        //"columnDefs": [ {
+        //    "visible": false,
+        //    "targets": -1
+        //} ],
+        "language": {
+          "paginate": {
+            "first": "First page",
+            "previous": "Previous page",
+            "next": "Next page",
+            "last": "Last page"
+          }
+        }
+      });
+
+    });
 
   //-->
   </script>
