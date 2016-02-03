@@ -2,9 +2,17 @@
 {block "javascripts" append}
   <script type="text/javascript">
     $(function () {
-      $("input[name='encryption']").click(function () {
+      var $radio_enc = $("input[name='encryption']");
+      $radio_enc.click(function () {
         $('#encryption_activate_form').submit();
       });
+
+      var $enc_key = $('#encryption_key');
+      if ($radio_enc.first().is(":checked")) {
+        $enc_key.removeClass('hidden');
+      } else {
+        $enc_key.addClass('hidden');
+      }
     });
   </script>
 {/block}
@@ -48,7 +56,7 @@
       </td>
     </tr>
 
-    <tr>
+    <tr id="encryption_key">
       <th width="120">
         {t escape=no}Generate Encryption key{/t}:
       </th>
