@@ -76,9 +76,14 @@ class EncryptionController extends ManageBaseController
         $cm = new CryptoUpgradeManager();
 
         if (!$enable) {
-            $cm->disable();
-            Misc::setMessage(ev_gettext('Encryption was disabled!'));
-
+            try {
+                $cm->disable();
+                Misc::setMessage(ev_gettext('Encryption was disabled!'));
+            } catch (CryptoException $e) {
+                Misc::setMessage(
+                    ev_gettext('Encryption can not be enabled: %s', $e->getMessage()), Misc::MSG_ERROR
+                );
+            }
             return;
         }
 

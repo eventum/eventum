@@ -13,13 +13,11 @@
 
 namespace Eventum\Crypto;
 
-use BadMethodCallException;
 use CannotPerformOperationException;
 use Crypto;
 use CryptoTestFailedException;
 use InvalidArgumentException;
 use InvalidCiphertextException;
-use RandomLib;
 use Setup;
 
 /**
@@ -123,66 +121,10 @@ final class CryptoManager
         return $decrypted;
     }
 
-    /**
-     * Load or generate secret key used for crypt
-     *
-     * @return string
-     */
     private static function getKey()
     {
-        static $key;
-        if (!$key) {
-            $key = self::loadPrivateKey() ?: self::generateKey();
-        }
+        $km = new CryptoKeyManager();
 
-        return $key;
-    }
-
-    private static function generateKey()
-    {
-        // use RandomLib to get most compatible implementation
-        // Crypto uses mcrypt *ONLY* without any fallback
-        $factory = new RandomLib\Factory();
-        $generator = $factory->getMediumStrengthGenerator();
-        $key = $generator->generate(Crypto::KEY_BYTE_SIZE);
-
-        $secret_file = APP_CONFIG_PATH . '/secret_key.php';
-        self::storePrivateKey($secret_file, $key);
-
-        return $key;
-    }
-
-
-    public static function regen()
-    {
-        self::generateKey();
-    }
-
-    private static function loadPrivateKey()
-    {
-        $file = APP_CONFIG_PATH . '/secret_key.php';
-        if (!file_exists($file)) {
-            return null;
-        }
-        if (!is_readable($file)) {
-            throw new CryptoException("Secret file '$file' not readable");
-        }
-        $private_key = trim(file_get_contents($file));
-        if (!$private_key) {
-            throw new CryptoException("Unable to read secret file '$file");
-        }
-
-        return $private_key;
-    }
-
-    private static function storePrivateKey($file, $key)
-    {
-        if (file_exists($file) && !is_writable($file)) {
-            throw new CryptoException("Secret file '$file' not writable");
-        }
-        $res = file_put_contents($file, $key);
-        if (!$res) {
-            throw new CryptoException("Unable to store secret file '$file'");
-        }
+        return $km->getKey();
     }
 }

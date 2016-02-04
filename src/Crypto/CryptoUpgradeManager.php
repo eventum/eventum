@@ -34,6 +34,10 @@ class CryptoUpgradeManager
      */
     public function enable()
     {
+        if (CryptoManager::encryptionEnabled()) {
+            throw new CryptoException("Encryption already enabled");
+        }
+
         CryptoManager::canEncrypt();
 
         // test that config can be saved before doing anything
@@ -58,6 +62,10 @@ class CryptoUpgradeManager
      */
     public function disable()
     {
+        if (!CryptoManager::encryptionEnabled()) {
+            throw new CryptoException("Encryption not enabled, can't disable");
+        }
+
         // test that config can be saved before doing anything
         $res = Setup::save();
         if ($res !== 1) {
@@ -85,7 +93,8 @@ class CryptoUpgradeManager
         }
 
         $this->disable();
-        CryptoManager::regen();
+        $km = new CryptoKeyManager();
+        $km->regen();
         $this->enable();
     }
 
@@ -118,8 +127,9 @@ class CryptoUpgradeManager
         }
 
         if (count($this->config['ldap']) && $this->config['ldap']['bindpw'] instanceof EncryptedValue) {
-            $value = (string)$this->config['ldap']['bindpw'];
-            $this->config['ldap']['bindpw'] = $value;
+            /** @var EncryptedValue $value */
+            $value = $this->config['ldap']['bindpw'];
+            $this->config['ldap']['bindpw'] = $value->getValue();
         }
     }
 
