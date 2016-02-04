@@ -130,10 +130,10 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
 
     public function query($query, $params = array())
     {
-        $query = $this->quoteSql($query);
+        $query = $this->quoteSql(DB_Helper::filterQuery($query));
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
-        $stmt->execute(DB_Helper::filterQuery($params));
+        $stmt->execute($params);
 
         return true;
     }
