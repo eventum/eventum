@@ -132,34 +132,44 @@ final class CryptoManager
     {
         static $key;
         if (!$key) {
-            $secret_file = APP_CONFIG_PATH . '/secret_key.php';
-            $key = self::loadPrivateKey($secret_file);
-
-            if (!$key) {
-                // use RandomLib to get most compatible implementation
-                // Crypto uses mcrypt *ONLY* without any fallback
-                $factory = new RandomLib\Factory();
-                $generator = $factory->getMediumStrengthGenerator();
-                $key = $generator->generate(Crypto::KEY_BYTE_SIZE);
-
-                self::storePrivateKey($secret_file, $key);
-            }
+            $key = self::loadPrivateKey() ?: self::generateKey();
         }
 
         return $key;
     }
 
-    private static function loadPrivateKey($file)
+    private static function generateKey()
     {
+        // use RandomLib to get most compatible implementation
+        // Crypto uses mcrypt *ONLY* without any fallback
+        $factory = new RandomLib\Factory();
+        $generator = $factory->getMediumStrengthGenerator();
+        $key = $generator->generate(Crypto::KEY_BYTE_SIZE);
+
+        $secret_file = APP_CONFIG_PATH . '/secret_key.php';
+        self::storePrivateKey($secret_file, $key);
+
+        return $key;
+    }
+
+
+    public static function regen()
+    {
+        self::generateKey();
+    }
+
+    private static function loadPrivateKey()
+    {
+        $file = APP_CONFIG_PATH . '/secret_key.php';
         if (!file_exists($file)) {
             return null;
         }
         if (!is_readable($file)) {
-            throw new InvalidArgumentException("Secret file '$file' not readable");
+            throw new CryptoException("Secret file '$file' not readable");
         }
         $private_key = trim(file_get_contents($file));
         if (!$private_key) {
-            throw new InvalidArgumentException("Unable to read secret file '$file");
+            throw new CryptoException("Unable to read secret file '$file");
         }
 
         return $private_key;
@@ -168,11 +178,11 @@ final class CryptoManager
     private static function storePrivateKey($file, $key)
     {
         if (file_exists($file) && !is_writable($file)) {
-            throw new InvalidArgumentException("Secret file '$file' not writable");
+            throw new CryptoException("Secret file '$file' not writable");
         }
         $res = file_put_contents($file, $key);
         if (!$res) {
-            throw new BadMethodCallException("Unable to store secret file '$file'");
+            throw new CryptoException("Unable to store secret file '$file'");
         }
     }
 }

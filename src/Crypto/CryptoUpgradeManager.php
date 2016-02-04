@@ -80,7 +80,13 @@ class CryptoUpgradeManager
      */
     public function regenerateKey()
     {
-        throw new CryptoException('Not yet');
+        if (!CryptoManager::encryptionEnabled()) {
+            throw new CryptoException('Encryption not enabled');
+        }
+
+        $this->disable();
+        CryptoManager::regen();
+        $this->enable();
     }
 
     /**
