@@ -28,14 +28,16 @@ class CryptoUpgradeManager
     }
 
     /**
-     * Enable encryption
+     * Perform few checks that enable/disable can be performed
      *
-     * @throws CryptoException if that can not be performed
+     * @param bool $enable TRUE if action is to enable, FALSE if action is to disable
      */
-    public function enable()
+    private function canPerform($enable)
     {
-        if (CryptoManager::encryptionEnabled()) {
-            throw new CryptoException("Encryption already enabled");
+        $enabled = CryptoManager::encryptionEnabled();
+        if ($enabled && $enable || (!$enabled && !$enable)) {
+            $state = $enabled ? 'enabled' : 'disabled';
+            throw new CryptoException("Can not perform, already $state");
         }
 
         CryptoManager::canEncrypt();
@@ -45,6 +47,20 @@ class CryptoUpgradeManager
         if ($res !== 1) {
             throw new CryptoException('Can not save config');
         }
+
+        // test that key file can be updated
+        $km = new CryptoKeyManager();
+        $km->canUpdate();
+    }
+
+    /**
+     * Enable encryption
+     *
+     * @throws CryptoException if that can not be performed
+     */
+    public function enable()
+    {
+        $this->canPerform(true);
 
         $this->config['encryption'] = 'enabled';
         if (!CryptoManager::encryptionEnabled()) {
@@ -62,16 +78,7 @@ class CryptoUpgradeManager
      */
     public function disable()
     {
-        if (!CryptoManager::encryptionEnabled()) {
-            throw new CryptoException("Encryption not enabled, can't disable");
-        }
-
-        // test that config can be saved before doing anything
-        $res = Setup::save();
-        if ($res !== 1) {
-            throw new CryptoException('Can not save config');
-        }
-
+        $this->canPerform(false);
         $this->downgradeConfig();
         $this->downgradeEmailAccounts();
 

@@ -39,6 +39,16 @@ final class CryptoKeyManager
     }
 
     /**
+     * Checks if key file can be updated
+     */
+    public function canUpdate()
+    {
+        if (file_exists($this->keyfile) && !is_writable($this->keyfile)) {
+            throw new CryptoException("Secret file '{$this->keyfile}' not writable");
+        }
+    }
+
+    /**
      * Load or generate secret key used for crypt
      *
      * @return string
@@ -83,9 +93,7 @@ final class CryptoKeyManager
 
     private function storePrivateKey()
     {
-        if (file_exists($this->keyfile) && !is_writable($this->keyfile)) {
-            throw new CryptoException("Secret file '{$this->keyfile}' not writable");
-        }
+        $this->canUpdate();
         $res = file_put_contents($this->keyfile, $this->key);
         if (!$res) {
             throw new CryptoException("Unable to store secret file '{$this->keyfile}'");

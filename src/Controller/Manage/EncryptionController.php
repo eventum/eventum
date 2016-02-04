@@ -81,7 +81,7 @@ class EncryptionController extends ManageBaseController
                 Misc::setMessage(ev_gettext('Encryption was disabled!'));
             } catch (CryptoException $e) {
                 Misc::setMessage(
-                    ev_gettext('Encryption can not be enabled: %s', $e->getMessage()), Misc::MSG_ERROR
+                    ev_gettext('Encryption can not be disabled: %s', $e->getMessage()), Misc::MSG_ERROR
                 );
             }
             return;
