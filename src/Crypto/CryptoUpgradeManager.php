@@ -129,8 +129,9 @@ class CryptoUpgradeManager
     private function downgradeConfig()
     {
         if ($this->config['database']['password'] instanceof EncryptedValue) {
-            $value = (string)$this->config['database']['password'];
-            $this->config['database']['password'] = $value;
+            /** @var EncryptedValue $value */
+            $value = $this->config['database']['password'];
+            $this->config['database']['password'] = $value->getValue();
         }
 
         if (count($this->config['ldap']) && $this->config['ldap']['bindpw'] instanceof EncryptedValue) {
