@@ -111,7 +111,7 @@ class CryptoUpgradeManager
     private function upgradeConfig()
     {
         if (!$this->config['database']['password'] instanceof EncryptedValue) {
-            $config['database']['password'] = new EncryptedValue(
+            $this->config['database']['password'] = new EncryptedValue(
                 CryptoManager::encrypt($this->config['database']['password'])
             );
         }
