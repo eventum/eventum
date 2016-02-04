@@ -89,6 +89,7 @@ final class CryptoKeyManager
             throw new CryptoException("Unable to read secret file '{$this->keyfile}");
         }
         $this->key = $key;
+        return true;
     }
 
     private function storePrivateKey()
