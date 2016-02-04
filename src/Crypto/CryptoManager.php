@@ -37,13 +37,7 @@ final class CryptoManager
      */
     public static function encryptionEnabled()
     {
-        static $enabled;
-
-        if ($enabled == null) {
-            $enabled = Setup::get()->encryption == 'enabled';
-        }
-
-        return $enabled;
+        return Setup::get()->encryption == 'enabled';
     }
 
     /**

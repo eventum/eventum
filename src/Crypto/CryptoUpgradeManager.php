@@ -27,16 +27,16 @@ class CryptoUpgradeManager
     public function enable()
     {
         CryptoManager::canEncrypt();
-        Setup::save(array('encryption' => 'enabled'));
+        $config = Setup::get();
+        $config['encryption'] = 'enabled';
         if (!CryptoManager::encryptionEnabled()) {
             throw new CryptoException('bug');
         }
 
         // upgrade config
-        $config = Setup::get();
-        self::upgradeConfig($config);
+        $this->upgradeConfig($config);
+        $this->upgradeEmailAccounts();
         Setup::save();
-        self::upgradeEmailAccounts();
     }
 
     /**
@@ -44,12 +44,17 @@ class CryptoUpgradeManager
      */
     public function disable()
     {
-        throw new \LogicException('not yet');
+        $config = Setup::get();
 
-        Setup::save(array('encryption' => 'disabled'));
+        self::downgradeConfig($config);
+        self::downgradeEmailAccounts();
+
+        $config['encryption'] = 'disabled';
         if (CryptoManager::encryptionEnabled()) {
             throw new CryptoException('bug');
         }
+
+        Setup::save();
     }
 
     /**
@@ -65,7 +70,7 @@ class CryptoUpgradeManager
      *
      * @param Config $config
      */
-    public function upgradeConfig(Config $config)
+    private function upgradeConfig(Config $config)
     {
         if (!$config['database']['password'] instanceof EncryptedValue) {
             $config['database']['password'] = new EncryptedValue(
@@ -78,7 +83,25 @@ class CryptoUpgradeManager
         }
     }
 
-    public function upgradeEmailAccounts()
+    /**
+     * Downgrade config: remove all EncryptedValue elements
+     *
+     * @param Config $config
+     */
+    private function downgradeConfig(Config $config)
+    {
+        if ($config['database']['password'] instanceof EncryptedValue) {
+            $value = (string)$config['database']['password'];
+            $config['database']['password'] = $value;
+        }
+
+        if (count($config['ldap']) && $config['ldap']['bindpw'] instanceof EncryptedValue) {
+            $value = (string)$config['ldap']['bindpw'];
+            $config['ldap']['bindpw'] = $value;
+        }
+    }
+
+    private function upgradeEmailAccounts()
     {
         // encrypt email account passwords
         $accounts = Email_Account::getList();
@@ -88,6 +111,28 @@ class CryptoUpgradeManager
             $password = $account['ema_password'];
             // the raw value contains the original plaintext
             Email_Account::updatePassword($account['ema_id'], $password->getEncrypted());
+        }
+    }
+
+    private function downgradeEmailAccounts()
+    {
+        $config = Setup::get();
+        $accounts = Email_Account::getList();
+
+        // collect passwords when encryption enabled
+        $config['encryption'] = 'enabled';
+        $passwords = array();
+        foreach ($accounts as $account) {
+            $account = Email_Account::getDetails($account['ema_id']);
+            /** @var EncryptedValue $password */
+            $password = $account['ema_password'];
+            $passwords[$account['ema_id']] = $password->getValue();
+        }
+
+        // save passwords when encryption disabled
+        $config['encryption'] = 'disabled';
+        foreach ($passwords as $ema_id => $password) {
+            Email_Account::updatePassword($ema_id, $password);
         }
     }
 
