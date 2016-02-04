@@ -103,7 +103,7 @@ class DownloadEmailsCommand extends Command
             Lock::release($lockname);
         });
 
-        $account = Email_Account::getDetails($account_id);
+        $account = Email_Account::getDetails($account_id, true);
         $mbox = Support::connectEmailServer($account);
         if ($mbox == false) {
             $uri = Support::getServerURI($account);

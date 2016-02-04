@@ -148,7 +148,7 @@ class Email_Account
      * @param   integer $ema_id The support email account ID
      * @return  array The account details
      */
-    public static function getDetails($ema_id)
+    public static function getDetails($ema_id, $include_password = false)
     {
         $stmt = 'SELECT
                     *
@@ -169,7 +169,11 @@ class Email_Account
         }
 
         $res['ema_issue_auto_creation_options'] = @unserialize($res['ema_issue_auto_creation_options']);
-        $res['ema_password'] = new EncryptedValue($res['ema_password']);
+        if ($include_password) {
+            $res['ema_password'] = new EncryptedValue($res['ema_password']);
+        } else {
+            unset($res['ema_password']);
+        }
 
         return $res;
     }
@@ -340,7 +344,9 @@ class Email_Account
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-            self::updatePassword($_POST['id'], $_POST['password']);
+            if (!empty($_POST['password'])) {
+                self::updatePassword($_POST['id'], $_POST['password']);
+            }
         } catch (DatabaseException $e) {
             return -1;
         }

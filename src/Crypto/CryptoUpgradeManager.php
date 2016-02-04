@@ -108,7 +108,7 @@ class CryptoUpgradeManager
         // encrypt email account passwords
         $accounts = Email_Account::getList();
         foreach ($accounts as $account) {
-            $account = Email_Account::getDetails($account['ema_id']);
+            $account = Email_Account::getDetails($account['ema_id'], true);
             /** @var EncryptedValue $password */
             $password = $account['ema_password'];
             // the raw value contains the original plaintext
@@ -124,7 +124,7 @@ class CryptoUpgradeManager
         $passwords = array();
         $this->config['encryption'] = 'enabled';
         foreach ($accounts as $account) {
-            $account = Email_Account::getDetails($account['ema_id']);
+            $account = Email_Account::getDetails($account['ema_id'], true);
             /** @var EncryptedValue $password */
             $password = $account['ema_password'];
             $passwords[$account['ema_id']] = $password->getValue();
