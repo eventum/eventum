@@ -19,6 +19,14 @@ use Zend\Config\Config;
 
 class CryptoUpgradeManager
 {
+    /** @var Config */
+    private $config;
+
+    public function __construct()
+    {
+        $this->config = Setup::get();
+    }
+
     /**
      * Enable encryption
      *
@@ -27,15 +35,15 @@ class CryptoUpgradeManager
     public function enable()
     {
         CryptoManager::canEncrypt();
-        $config = Setup::get();
-        $config['encryption'] = 'enabled';
+
+        $this->config['encryption'] = 'enabled';
         if (!CryptoManager::encryptionEnabled()) {
             throw new CryptoException('bug');
         }
 
-        // upgrade config
-        $this->upgradeConfig($config);
+        $this->upgradeConfig();
         $this->upgradeEmailAccounts();
+
         Setup::save();
     }
 
@@ -44,12 +52,10 @@ class CryptoUpgradeManager
      */
     public function disable()
     {
-        $config = Setup::get();
+        $this->downgradeConfig();
+        $this->downgradeEmailAccounts();
 
-        self::downgradeConfig($config);
-        self::downgradeEmailAccounts();
-
-        $config['encryption'] = 'disabled';
+        $this->config['encryption'] = 'disabled';
         if (CryptoManager::encryptionEnabled()) {
             throw new CryptoException('bug');
         }
@@ -67,37 +73,33 @@ class CryptoUpgradeManager
 
     /**
      * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
-     *
-     * @param Config $config
      */
-    private function upgradeConfig(Config $config)
+    private function upgradeConfig()
     {
-        if (!$config['database']['password'] instanceof EncryptedValue) {
+        if (!$this->config['database']['password'] instanceof EncryptedValue) {
             $config['database']['password'] = new EncryptedValue(
-                CryptoManager::encrypt($config['database']['password'])
+                CryptoManager::encrypt($this->config['database']['password'])
             );
         }
 
-        if (count($config['ldap']) && !$config['ldap']['bindpw'] instanceof EncryptedValue) {
-            $config['ldap']['bindpw'] = new EncryptedValue(CryptoManager::encrypt($config['ldap']['bindpw']));
+        if (count($this->config['ldap']) && !$this->config['ldap']['bindpw'] instanceof EncryptedValue) {
+            $this->config['ldap']['bindpw'] = new EncryptedValue(CryptoManager::encrypt($this->config['ldap']['bindpw']));
         }
     }
 
     /**
      * Downgrade config: remove all EncryptedValue elements
-     *
-     * @param Config $config
      */
-    private function downgradeConfig(Config $config)
+    private function downgradeConfig()
     {
-        if ($config['database']['password'] instanceof EncryptedValue) {
-            $value = (string)$config['database']['password'];
-            $config['database']['password'] = $value;
+        if ($this->config['database']['password'] instanceof EncryptedValue) {
+            $value = (string)$this->config['database']['password'];
+            $this->config['database']['password'] = $value;
         }
 
-        if (count($config['ldap']) && $config['ldap']['bindpw'] instanceof EncryptedValue) {
-            $value = (string)$config['ldap']['bindpw'];
-            $config['ldap']['bindpw'] = $value;
+        if (count($this->config['ldap']) && $this->config['ldap']['bindpw'] instanceof EncryptedValue) {
+            $value = (string)$this->config['ldap']['bindpw'];
+            $this->config['ldap']['bindpw'] = $value;
         }
     }
 
@@ -116,12 +118,11 @@ class CryptoUpgradeManager
 
     private function downgradeEmailAccounts()
     {
-        $config = Setup::get();
         $accounts = Email_Account::getList();
 
         // collect passwords when encryption enabled
-        $config['encryption'] = 'enabled';
         $passwords = array();
+        $this->config['encryption'] = 'enabled';
         foreach ($accounts as $account) {
             $account = Email_Account::getDetails($account['ema_id']);
             /** @var EncryptedValue $password */
@@ -130,7 +131,7 @@ class CryptoUpgradeManager
         }
 
         // save passwords when encryption disabled
-        $config['encryption'] = 'disabled';
+        $this->config['encryption'] = 'disabled';
         foreach ($passwords as $ema_id => $password) {
             Email_Account::updatePassword($ema_id, $password);
         }
