@@ -21,6 +21,7 @@ use Eventum\Db\Adapter\AdapterInterface;
 // increase storage for password field
 $db->query("ALTER TABLE {{%email_account}} MODIFY ema_password VARCHAR(255) NOT NULL DEFAULT ''");
 
+/*
 $cm = new CryptoUpgradeManager();
 try {
     // try to enable, but do not fail if can't
@@ -28,3 +29,4 @@ try {
 } catch (CryptoException $e) {
     $log("Can't enable encryption: {$e->getMessage()}");
 }
+*/
