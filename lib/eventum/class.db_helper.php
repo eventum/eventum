@@ -277,9 +277,9 @@ class DB_Helper
      * @param   string $end_date_field The name of the field where the second date is.
      * @return  string The SQL used to compare the 2 dates.
      */
-    public static function getNoWeekendDateDiffSQL($start_date_field, $end_date_field = false)
+    public static function getNoWeekendDateDiffSQL($start_date_field, $end_date_field = null)
     {
-        if ($end_date_field == false) {
+        if (!$end_date_field) {
             $end_date_field = "'" . Date_Helper::getCurrentDateGMT() . "'";
         }
 
