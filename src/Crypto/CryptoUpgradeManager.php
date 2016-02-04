@@ -36,6 +36,12 @@ class CryptoUpgradeManager
     {
         CryptoManager::canEncrypt();
 
+        // test that config can be saved before doing anything
+        $res = Setup::save();
+        if ($res !== 1) {
+            throw new CryptoException('Can not save config');
+        }
+
         $this->config['encryption'] = 'enabled';
         if (!CryptoManager::encryptionEnabled()) {
             throw new CryptoException('bug');
@@ -52,6 +58,12 @@ class CryptoUpgradeManager
      */
     public function disable()
     {
+        // test that config can be saved before doing anything
+        $res = Setup::save();
+        if ($res !== 1) {
+            throw new CryptoException('Can not save config');
+        }
+
         $this->downgradeConfig();
         $this->downgradeEmailAccounts();
 
@@ -83,7 +95,9 @@ class CryptoUpgradeManager
         }
 
         if (count($this->config['ldap']) && !$this->config['ldap']['bindpw'] instanceof EncryptedValue) {
-            $this->config['ldap']['bindpw'] = new EncryptedValue(CryptoManager::encrypt($this->config['ldap']['bindpw']));
+            $this->config['ldap']['bindpw'] = new EncryptedValue(
+                CryptoManager::encrypt($this->config['ldap']['bindpw'])
+            );
         }
     }
 
