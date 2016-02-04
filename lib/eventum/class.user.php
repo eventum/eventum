@@ -689,7 +689,8 @@ class User
             $load_groups = isset($options['groups']) ? $options['groups'] : true;
 
             foreach ($res as &$row) {
-                unset($row['usr_password']);
+                // TODO: unset usr_password, load only when needed
+                //unset($row['usr_password']);
 
                 if ($load_groups) {
                     $row['groups'] = self::getGroups($row['usr_id']);
