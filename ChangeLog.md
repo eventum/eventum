@@ -14,6 +14,7 @@ Eventum Issue Tracking System
 - Move Db classes under Eventum\Db namespace (@glensc, #136)
 - Add $scm parameter to handleSCMCheckins workflow method (@glensc)
 - Improvements to manage/users page, add datatables paginator (@glensc)
+- Optional support to encrypt (DB, IMAP/POP3, LDAP) passwords (@glensc, #134)
 
 2016-01-18, Version [3.0.8]
 ---------------------------
