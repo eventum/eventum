@@ -54,7 +54,7 @@ class Support
             if (!$account_details['leave_copy']) {
                 // try to re-use an open connection to the imap server
                 if (!in_array($row['sup_ema_id'], array_keys($accounts))) {
-                    $accounts[$row['sup_ema_id']] = self::connectEmailServer(Email_Account::getDetails($row['sup_ema_id']));
+                    $accounts[$row['sup_ema_id']] = self::connectEmailServer(Email_Account::getDetails($row['sup_ema_id'], true));
                 }
                 $mbox = $accounts[$row['sup_ema_id']];
                 if ($mbox !== false) {

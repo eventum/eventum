@@ -1309,6 +1309,7 @@ class User
             if (!isset($cache[$name])) {
                 $cache[$name] = Partner::getName($name);
             }
+
             return $cache[$name];
         };
 

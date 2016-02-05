@@ -141,6 +141,7 @@ class UsersController extends ManageBaseController
                 if ($value !== null) {
                     return $usr[$field] == $value;
                 }
+
                 return !empty($usr[$field]);
             }, $list
         );

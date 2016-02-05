@@ -50,6 +50,7 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"require": {
+		"defuse/php-encryption": "dev-v1.2.1-php-5.3",
 		"eventum/rpc": "~3.0.0",
 		"ext-filter": "*",
 		"ext-iconv": "*",

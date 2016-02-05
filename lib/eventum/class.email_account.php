@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Crypto\CryptoManager;
+use Eventum\Crypto\EncryptedValue;
 use Eventum\Db\DatabaseException;
 
 class Email_Account
@@ -37,7 +39,7 @@ class Email_Account
         }
 
         if (!is_string($res)) {
-            $res = (string) $res;
+            $res = (string)$res;
         }
 
         return unserialize($res);
@@ -146,7 +148,7 @@ class Email_Account
      * @param   integer $ema_id The support email account ID
      * @return  array The account details
      */
-    public static function getDetails($ema_id)
+    public static function getDetails($ema_id, $include_password = false)
     {
         $stmt = 'SELECT
                     *
@@ -167,6 +169,11 @@ class Email_Account
         }
 
         $res['ema_issue_auto_creation_options'] = @unserialize($res['ema_issue_auto_creation_options']);
+        if ($include_password) {
+            $res['ema_password'] = new EncryptedValue($res['ema_password']);
+        } else {
+            unset($res['ema_password']);
+        }
 
         return $res;
     }
@@ -274,7 +281,7 @@ class Email_Account
             $_POST['port'],
             @$_POST['folder'],
             $_POST['username'],
-            $_POST['password'],
+            CryptoManager::encrypt($_POST['password']),
             $_POST['get_only_new'],
             $_POST['leave_copy'],
             $_POST['use_routing'],
@@ -317,7 +324,6 @@ class Email_Account
                     ema_port=?,
                     ema_folder=?,
                     ema_username=?,
-                    ema_password=?,
                     ema_get_only_new=?,
                     ema_leave_copy=?,
                     ema_use_routing=?
@@ -330,7 +336,6 @@ class Email_Account
             $_POST['port'],
             @$_POST['folder'],
             $_POST['username'],
-            $_POST['password'],
             $_POST['get_only_new'],
             $_POST['leave_copy'],
             $_POST['use_routing'],
@@ -339,11 +344,36 @@ class Email_Account
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
+            if (!empty($_POST['password'])) {
+                self::updatePassword($_POST['id'], $_POST['password']);
+            }
         } catch (DatabaseException $e) {
             return -1;
         }
 
         return 1;
+    }
+
+    /**
+     * Update password fir specified email account
+     *
+     * @param int $ema_id
+     * @param string $password plain text password
+     */
+    public static function updatePassword($ema_id, $password)
+    {
+        $stmt = 'UPDATE
+                    {{%email_account}}
+                 SET
+                    ema_password=?
+                 WHERE
+                    ema_id=?';
+        $params = array(
+            CryptoManager::encrypt($password),
+            $ema_id,
+        );
+
+        DB_Helper::getInstance()->query($stmt, $params);
     }
 
     /**
@@ -368,6 +398,9 @@ class Email_Account
 
         foreach ($res as &$row) {
             $row['prj_title'] = Project::getName($row['ema_prj_id']);
+
+            // do not expose as not needed
+            unset($row['ema_password']);
         }
 
         return $res;

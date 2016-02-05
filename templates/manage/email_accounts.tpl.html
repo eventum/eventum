@@ -43,8 +43,9 @@
           Validation.selectField('username');
           return false;
       }
-      if (Validation.isFieldWhitespace('password')) {
-          alert('{t escape=js}Please enter the password for this email account.{/t}');
+      var password = Eventum.getField('password').val();
+      if (!Validation.isWhitespace(password) && password.length < 6) {
+          alert('{t escape=js}Please enter a password of at least 6 characters.{/t}');
           Validation.selectField('password');
           return false;
       }
@@ -183,7 +184,8 @@
       {t}Password{/t}
     </th>
     <td width="80%">
-      <input type="password" name="password" size="20" value="{$info.ema_password|default:''|escape:"html"}" autocomplete="off">
+      <input type="password" name="password" size="20" value="" autocomplete="off">
+        <span>({t}leave empty to keep the current password{/t})</span>
       {include file="error_icon.tpl.html" field="password"}
     </td>
   </tr>
