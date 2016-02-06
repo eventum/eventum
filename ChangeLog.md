@@ -1,7 +1,9 @@
 Eventum Issue Tracking System
 =============================
 
-2016-??-??, Version [3.0.9]
+2016-??-??, Version [3.0.10]
+
+2016-02-06, Version [3.0.9]
 ---------------------------
 - Deprecate `bin/route_*.php` scripts in favour of `bin/process_all_emails.php` (@glensc, a4ea0c5)
 - Add support to (re)-run specific patch by it's number (@glensc, 16cb41d)
@@ -1107,6 +1109,7 @@ Eventum Issue Tracking System
 
 - Initial release (João; Bryan)
 
+[3.0.10]: https://github.com/eventum/eventum/compare/v3.0.9...v3.0.10
 [3.0.9]: https://github.com/eventum/eventum/compare/v3.0.8...v3.0.9
 [3.0.8]: https://github.com/eventum/eventum/compare/v3.0.7...v3.0.8
 [3.0.7]: https://github.com/eventum/eventum/compare/v3.0.6...v3.0.7

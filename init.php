@@ -22,7 +22,7 @@ ini_set('memory_limit', '512M');
 ini_set('session.cache_limiter', 'nocache');
 
 define('APP_URL', 'https://github.com/eventum/eventum');
-define('APP_VERSION', '3.0.9-dev');
+define('APP_VERSION', '3.0.10-dev');
 
 // define base path
 define('APP_PATH', __DIR__);

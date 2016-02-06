@@ -45,6 +45,7 @@ After release
 
 - update release number in init.php to indicate next dev version (APP_VERSION)
 - start new version entry in Changelog.md
+- update git submodules to point to master
 - add new milestone in github. just fill version number in Title field https://github.com/eventum/eventum/milestones
 - move open tickets/pull requests to new milestone
 - close old milestone
