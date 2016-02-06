@@ -84,6 +84,7 @@ class EncryptionController extends ManageBaseController
                     ev_gettext('Encryption can not be disabled: %s', $e->getMessage()), Misc::MSG_ERROR
                 );
             }
+
             return;
         }
 

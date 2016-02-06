@@ -60,7 +60,7 @@ final class CryptoKeyManager
         }
 
         if (!$this->key) {
-            throw new CryptoException("Unable to setup key");
+            throw new CryptoException('Unable to setup key');
         }
 
         return $this->key;
@@ -89,6 +89,7 @@ final class CryptoKeyManager
             throw new CryptoException("Unable to read secret file '{$this->keyfile}");
         }
         $this->key = $key;
+
         return true;
     }
 

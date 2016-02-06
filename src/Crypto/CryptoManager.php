@@ -49,10 +49,10 @@ final class CryptoManager
     public static function canEncrypt()
     {
         if (!function_exists('openssl_encrypt')) {
-            throw new CryptoException("openssl extension not enabled");
+            throw new CryptoException('openssl extension not enabled');
         }
         if (!function_exists('mcrypt_create_iv')) {
-            throw new CryptoException("mcrypt extension not enabled");
+            throw new CryptoException('mcrypt extension not enabled');
         }
         try {
             Crypto::RuntimeTest();
