@@ -188,6 +188,9 @@ clean_vendor() {
 	rm vendor/ircmaxell/security-lib/lib/SecurityLib/composer.json
 	rm vendor/ircmaxell/password-compat/version-test.php
 
+	rm vendor/defuse/php-encryption/{benchmark,example}.php
+	rm vendor/defuse/php-encryption/*.sh
+
 	# smarty: use -f, as dist and src packages differ
 	# smarty src
 	rm -rf vendor/smarty/smarty/{.svn,development,documentation,distribution/demo}
