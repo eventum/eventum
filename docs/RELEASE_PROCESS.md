@@ -12,6 +12,7 @@ Test before release
 `$ sed -e 's,{{%\([^}]*\)}},eventum_\1,' upgrade/drop.sql`
 - install twice to same database, second time select drop tables, install must not fail
 `$ mysql -s -e 'show tables;' e | sed -e 's/^eventum_/DROP TABLE IF EXISTS {{%/; s/$/}};/' | LC_ALL=C sort > upgrade/drop.sql`
+- also update Monitor class about list of tables
 if it fails the error is something like `DB Error: already exists`
 - Test the new release directory with a quick installation
   * see if a new issue can be created correctly and etc
