@@ -1,6 +1,7 @@
 <?php
 
 use Eventum\Mail\MailMessage;
+use Eventum\Mail\Helper\MimePart;
 
 class MailMessageTest extends TestCase
 {
@@ -635,13 +636,12 @@ class MailMessageTest extends TestCase
      */
     public function testZendMime()
     {
-        $textContent = "textõ";
+        $textContent = 'textõ';
         $text = new Zend\Mime\Part($textContent);
         $text->type = "text/plain";
         $text->setCharset("UTF-8");
 
         $body = new Zend\Mime\Message();
-        $body->addPart($text);
         $body->addPart($text);
 
         $message = new Zend\Mail\Message();
@@ -653,11 +653,11 @@ class MailMessageTest extends TestCase
         echo $mail->getRawContent();
 
         $mail = MailMessage::createNew();
-        $mail->setContent($body);
-        echo $mail->getRawContent();
+        $mime = $mail->addMimePart($textContent, 'text/plain', 'UTF-8');
     }
 
-    public function testZFPlainMail() {
+    public function testZFPlainMail()
+    {
         $text_message = 'zzzxx';
         $issue_id = 1;
         $from = '"Admin User " <note-3@eventum.example.org>';
@@ -671,12 +671,8 @@ class MailMessageTest extends TestCase
         $mail->send($from, $to, $subject);
 
         // use zend mime
-        $text = new Zend\Mime\Part($text_message);
-        $text->type = Zend\Mime\Mime::TYPE_TEXT;
-        $text->charset = APP_CHARSET;
-
         $body = new Zend\Mime\Message();
-        $body->addPart($text);
+        $body->addPart(MimePart::createTextPart($text_message));
 
         $mail = MailMessage::createNew();
         $mail->setContent($body);
