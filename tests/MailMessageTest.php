@@ -572,4 +572,44 @@ class MailMessageTest extends TestCase
         $headers = $mail->getHeadersArray();
         MailMessage::createFromHeaderBody($headers, $body);
     }
+
+    public function testSendPlainMail()
+    {
+        $text_message = 'zzzxx';
+        $issue_id = 1;
+        $from = '"Admin User " <note-3@eventum.example.org>';
+        $to = '"Admin User" <admin@example.com>';
+        $subject = '[#3] Note: Re: pläh';
+        $type = 'assignment';
+
+        // send email (use PEAR's classes)
+        $mail = new Mail_Helper();
+        $mail->setTextBody($text_message);
+        $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
+        $mail->send($from, $to, $subject, true, $issue_id, $type);
+
+        // using zend\mail
+        $mail = MailMessage::createNew();
+        $mail->setContent($text_message);
+        $mail->setSubject($subject);
+        $mail->setFrom($from);
+        $mail->setTo($to);
+        $headers = Mail_Helper::getBaseThreadingHeaders($issue_id);
+        // do not overwrite message-id
+        unset($headers['Message-ID']);
+        $mail->setHeaders($headers);
+        $options = array(
+            'save_email_copy' => true,
+            'issue_id' => $issue_id,
+            'type' => $type,
+        );
+        Mail_Queue::addMail($mail, $to, $options);
+    }
+
+    public function testReSetMessageId() {
+        $mail = MailMessage::createNew();
+        $headers = array();
+        $headers['Message-ID'] = Mail_Helper::generateMessageID();
+        $mail->setHeaders($headers);
+    }
 }

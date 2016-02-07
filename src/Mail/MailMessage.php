@@ -25,6 +25,7 @@ use Zend\Mail\Header\ContentTransferEncoding;
 use Zend\Mail\Header\ContentType;
 use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Header\HeaderInterface;
+use Zend\Mail\Header\MessageId;
 use Zend\Mail\Header\MultipleHeadersInterface;
 use Zend\Mail\Header\Subject;
 use Zend\Mail\Headers;
@@ -527,7 +528,12 @@ class MailMessage extends Message
             /** @var $header GenericHeader */
             if ($headers->has($name)) {
                 $header = $headers->get($name);
-                $header->setFieldValue($value);
+                if ($header instanceof MessageId) {
+                    /** @var MessageId $header */
+                    $header->setId($value);
+                } else {
+                    $header->setFieldValue($value);
+                }
             } else {
                 $header = new GenericHeader($name, $value);
                 $this->headers->addHeader($header);
