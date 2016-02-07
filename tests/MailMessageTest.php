@@ -604,12 +604,53 @@ class MailMessageTest extends TestCase
             'type' => $type,
         );
         Mail_Queue::addMail($mail, $to, $options);
+
+        $mail = new \Zend\Mail\Message();
+        $mail->setBody('This is the text of the email.');
+        $mail->setFrom($from);
+        $mail->setTo($to);
+        $mail->setSubject($subject);
+        $mail->setEncoding("UTF-8");
+
+        $transport = new \Zend\Mail\Transport\Sendmail();
+        $transport->setCallable(
+            function ($to, $subject, $body, $headers, $params) {
+                error_log("to[$to] subject[$subject] body[$body] headers[$headers] params[$params]");
+            }
+        );
+        $transport->send($mail);
     }
 
-    public function testReSetMessageId() {
+    public function testReSetMessageId()
+    {
         $mail = MailMessage::createNew();
         $headers = array();
         $headers['Message-ID'] = Mail_Helper::generateMessageID();
         $mail->setHeaders($headers);
+    }
+
+    /**
+     * @see http://framework.zend.com/manual/current/en/modules/zend.mail.message.html
+     */
+    public function testZendMime()
+    {
+        $textContent = 'textõ';
+        $htmlMarkup = 'html';
+        $text = new Zend\Mime\Part ($textContent);
+        $text->type = "text/plain";
+        $text->setCharset("UTF-8");
+
+        $html = new Zend\Mime\Part ($htmlMarkup);
+        $html->type = "text/html";
+        $text->setCharset("UTF-8");
+
+        $body = new Zend\Mime\Message();
+        $body->setParts(array($text, $html));
+
+        $message = new Zend\Mail\Message();
+        $message->setEncoding("UTF-8");
+        $message->setBody($body);
+
+        echo $message->toString();
     }
 }
