@@ -18,8 +18,8 @@ use Eventum\Mail\Helper\SanitizeHeaders;
 use InvalidArgumentException;
 use LogicException;
 use Mime_Helper;
+use Zend\Mail;
 use Zend\Mail\Address;
-use Zend\Mime\Part as MimePart;
 use Zend\Mail\AddressList;
 use Zend\Mail\Header\AbstractAddressList;
 use Zend\Mail\Header\ContentTransferEncoding;
@@ -33,6 +33,7 @@ use Zend\Mail\Headers;
 use Zend\Mail\Storage as ZendMailStorage;
 use Zend\Mail\Storage\Message;
 use Zend\Mime;
+use Zend\Mime\Part as MimePart;
 
 /**
  * Class MailMessage
@@ -121,6 +122,19 @@ class MailMessage extends Message
     public static function createFromFile($filename)
     {
         $message = new self(array('root' => true, 'file' => $filename));
+
+        return $message;
+    }
+
+    /**
+     * Create from Zend\Mail\Message object
+     *
+     * @param Mail\Message $message
+     * @return MailMessage
+     */
+    public static function createFromMessage(Mail\Message $message)
+    {
+        $message = self::createFromString($message->toString());
 
         return $message;
     }
@@ -308,7 +322,7 @@ class MailMessage extends Message
         return null;
     }
 
-    public function addMimePart($content, $type = 'text/plain', $charset = APP_CHARSET)
+    public function addMimePart($content, $type = Mime\Mime::TYPE_TEXT, $charset = APP_CHARSET)
     {
         $part = new MimePart($content);
         $part
@@ -672,6 +686,41 @@ class MailMessage extends Message
      */
     public function setContent($content)
     {
+        if ($content instanceof Mime\Message) {
+            // if it's mime message,
+            // build new Mail\Message and obtain it's content
+            // NOTE: this is only partially correct
+            // as main mail headers need to be adjusted as well
+            $message = new Mail\Message();
+            $message->setBody($content);
+
+            // this is copied from Zend\Mail\Message::setBody
+
+            // Get headers, and set Mime-Version header
+            $headers = $this->getHeaders();
+            $this->getHeaderByName('mime-version', self::HEADER_NS . 'MimeVersion');
+
+            // Multipart content headers
+            if ($content->isMultiPart()) {
+                $mime = $content->getMime();
+                /** @var ContentType $header */
+                $header = $this->getHeaderByName('content-type', self::HEADER_NS . 'ContentType');
+                $header->setType('multipart/mixed');
+                $header->addParameter('boundary', $mime->boundary());
+            } else {
+                // MIME single part headers
+                $parts = $content->getParts();
+                if (!empty($parts)) {
+                    /** @var \Zend\Mime\Part $part */
+                    $part = array_shift($parts);
+                    $headers->addHeaders($part->getHeadersArray("\r\n"));
+                }
+            }
+            $this->content = $message->getBodyText();
+
+            return;
+        }
+
         $this->content = $content;
     }
 

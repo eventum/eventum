@@ -631,29 +631,64 @@ class MailMessageTest extends TestCase
 
     /**
      * @see http://framework.zend.com/manual/current/en/modules/zend.mail.message.html
+     * @see http://framework.zend.com/manual/current/en/modules/zend.mail.attachments.html
      */
     public function testZendMime()
     {
-        $textContent = 'textõ';
-        $htmlMarkup = 'html';
-        $text = new Zend\Mime\Part ($textContent);
+        $textContent = "textõ";
+        $text = new Zend\Mime\Part($textContent);
         $text->type = "text/plain";
         $text->setCharset("UTF-8");
 
-        $html = new Zend\Mime\Part ($htmlMarkup);
-        $html->type = "text/html";
-        $text->setCharset("UTF-8");
-
         $body = new Zend\Mime\Message();
-        $body->setParts(array($text, $html));
+        $body->addPart($text);
+        $body->addPart($text);
 
         $message = new Zend\Mail\Message();
-        $message->setEncoding("UTF-8");
         $message->setBody($body);
 
         echo $message->toString();
 
+        $mail = MailMessage::createFromMessage($message);
+        echo $mail->getRawContent();
+
         $mail = MailMessage::createNew();
-        $mime = $mail->addMimePart($textContent, 'text/plain', 'UTF-8');
+        $mail->setContent($body);
+        echo $mail->getRawContent();
+    }
+
+    public function testZFPlainMail() {
+        $text_message = 'zzzxx';
+        $issue_id = 1;
+        $from = '"Admin User " <note-3@eventum.example.org>';
+        $to = '"Admin User" <admin@example.com>';
+        $subject = '[#3] Note: Re: pläh';
+        $type = 'assignment';
+
+        // send email (use PEAR's classes)
+        $mail = new Mail_Helper();
+        $mail->setTextBody($text_message);
+        $mail->send($from, $to, $subject);
+
+        // use zend mime
+        $text = new Zend\Mime\Part($text_message);
+        $text->type = Zend\Mime\Mime::TYPE_TEXT;
+        $text->charset = APP_CHARSET;
+
+        $body = new Zend\Mime\Message();
+        $body->addPart($text);
+
+        $mail = MailMessage::createNew();
+        $mail->setContent($body);
+        $mail->setFrom($from);
+        $mail->setTo($to);
+        $mail->setSubject($subject);
+
+        $options = array(
+            'save_email_copy' => true,
+            'issue_id' => $issue_id,
+            'type' => $type,
+        );
+        Mail_Queue::addMail($mail, $to, $options);
     }
 }
