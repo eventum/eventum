@@ -270,11 +270,15 @@ class Monitor
         );
 
         // add the table prefix to all of the required tables
-        $required_tables = Misc::array_map_deep($required_tables, array(__CLASS__, 'add_table_prefix'));
+        $dbc = DB_Helper::getConfig();
+        $required_tables = array_map(
+            function ($table) use ($dbc) {
+                return "{$dbc['table_prefix']}$table";
+            }, $required_tables
+        );
 
         // check if all of the required tables are really there
-        $stmt = 'SHOW TABLES';
-        $table_list = DB_Helper::getInstance()->getColumn($stmt);
+        $table_list = DB_Helper::getInstance()->getColumn('SHOW TABLES');
         $errors = 0;
         foreach ($required_tables as $table) {
             if (!in_array($table, $table_list)) {
@@ -301,20 +305,6 @@ class Monitor
         }
 
         return 0;
-    }
-
-    /**
-     * Method used by the code that checks if the required tables
-     * do exist in the appropriate database. It returns the given
-     * table name prepended with the appropriate table prefix.
-     *
-     * @static
-     * @param   string $table_name The table name
-     * @return  string The table name with the prefix added to it
-     */
-    public static function add_table_prefix($table_name)
-    {
-        return APP_TABLE_PREFIX . $table_name;
     }
 
     /**
