@@ -19,6 +19,7 @@ use InvalidArgumentException;
 use LogicException;
 use Mime_Helper;
 use Zend\Mail\Address;
+use Zend\Mime\Part as MimePart;
 use Zend\Mail\AddressList;
 use Zend\Mail\Header\AbstractAddressList;
 use Zend\Mail\Header\ContentTransferEncoding;
@@ -305,6 +306,16 @@ class MailMessage extends Message
         }
 
         return null;
+    }
+
+    public function addMimePart($content, $type = 'text/plain', $charset = APP_CHARSET)
+    {
+        $part = new MimePart($content);
+        $part
+            ->setType($type)
+            ->setCharset($charset);
+
+        return $part;
     }
 
     /**

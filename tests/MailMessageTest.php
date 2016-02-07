@@ -652,5 +652,8 @@ class MailMessageTest extends TestCase
         $message->setBody($body);
 
         echo $message->toString();
+
+        $mail = MailMessage::createNew();
+        $mime = $mail->addMimePart($textContent, 'text/plain', 'UTF-8');
     }
 }
