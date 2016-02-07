@@ -671,11 +671,8 @@ class MailMessageTest extends TestCase
         $mail->send($from, $to, $subject);
 
         // use zend mime
-        $body = new Zend\Mime\Message();
-        $body->addPart(MimePart::createTextPart($text_message));
-
         $mail = MailMessage::createNew();
-        $mail->setContent($body);
+        $mail->setTextPart($text_message);
         $mail->setFrom($from);
         $mail->setTo($to);
         $mail->setSubject($subject);

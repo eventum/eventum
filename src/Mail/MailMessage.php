@@ -14,6 +14,7 @@
 namespace Eventum\Mail;
 
 use DomainException;
+use Eventum\Mail\Helper\MimePart;
 use Eventum\Mail\Helper\SanitizeHeaders;
 use InvalidArgumentException;
 use LogicException;
@@ -33,7 +34,6 @@ use Zend\Mail\Headers;
 use Zend\Mail\Storage as ZendMailStorage;
 use Zend\Mail\Storage\Message;
 use Zend\Mime;
-use Zend\Mime\Part as MimePart;
 
 /**
  * Class MailMessage
@@ -324,7 +324,7 @@ class MailMessage extends Message
 
     public function addMimePart($content, $type = Mime\Mime::TYPE_TEXT, $charset = APP_CHARSET)
     {
-        $part = new MimePart($content);
+        $part = new Mime\Part($content);
         $part
             ->setType($type)
             ->setCharset($charset);
@@ -722,6 +722,18 @@ class MailMessage extends Message
         }
 
         $this->content = $content;
+    }
+
+    /**
+     * Create Mime Message with text part and set as content
+     *
+     * @param string $content
+     */
+    public function setTextPart($content)
+    {
+        $body = new Mime\Message();
+        $body->addPart(MimePart::createTextPart($content));
+        $this->setContent($body);
     }
 
     /**
