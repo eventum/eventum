@@ -505,7 +505,7 @@ class Mail_Queue
         if (count($res) > 0) {
             foreach ($res as &$row) {
                 $row['maq_recipient'] = Mime_Helper::decodeAddress($row['maq_recipient']);
-                $row['maq_subject'] = Mime_Helper::fixEncoding($row['maq_subject']);
+                $row['maq_subject'] = Mime_Helper::decodeQuotedPrintable($row['maq_subject']);
             }
         }
 

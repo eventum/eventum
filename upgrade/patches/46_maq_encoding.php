@@ -40,7 +40,7 @@ foreach ($res as $row) {
 
     $params = array();
     foreach ($row as $k => $v) {
-        $params[$k] = Mime_Helper::fixEncoding($v);
+        $params[$k] = Mime_Helper::decodeQuotedPrintable($v);
     }
 
     if ($row == $params) {
