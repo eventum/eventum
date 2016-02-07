@@ -502,13 +502,6 @@ class Mail_Queue
             return false;
         }
 
-        if (count($res) > 0) {
-            foreach ($res as &$row) {
-                $row['maq_recipient'] = Mime_Helper::decodeAddress($row['maq_recipient']);
-                $row['maq_subject'] = Mime_Helper::decodeQuotedPrintable($row['maq_subject']);
-            }
-        }
-
         return $res;
     }
 
