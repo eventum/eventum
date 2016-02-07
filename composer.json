@@ -85,7 +85,8 @@
 		"smarty/smarty": "~3.1.12",
 		"sphinx/php-sphinxapi": "2.0.*",
 		"symfony/http-foundation": "~2.7.0",
-		"zendframework/zend-config": "2.4.*"
+		"zendframework/zend-config": "2.4.*",
+		"zendframework/zend-mail": "2.4.*"
 	},
 	"conflict": {
 		"pear/pear-core-minimal": ">=1.10"
@@ -106,8 +107,7 @@
 		"rmm5t/jquery-timeago": "*",
 		"roave/security-advisories": "dev-master",
 		"robloach/component-installer": "*",
-		"symfony/var-dumper": "~2.7.3",
-		"zendframework/zend-mail": "2.4.*"
+		"symfony/var-dumper": "~2.7.3"
 	},
 	"suggest": {
 		"ext-imap": "Support for fetching mail over IMAP/POP3",
