@@ -540,7 +540,7 @@ class Mail_Helper
     }
 
     /**
-     * Method used to send the SMTP based email message.
+     * Build message and add it to mail queue.
      *
      * @param   string $from The originator of the message
      * @param   string $to The recipient of the message
@@ -549,7 +549,6 @@ class Mail_Helper
      * @param   string $type The type of message this is
      * @param   integer $sender_usr_id The id of the user sending this email.
      * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
-     * @return  string The full body of the message that was sent
      */
     public function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
     {
@@ -586,19 +585,10 @@ class Mail_Helper
         );
 
         $res = Mail_Queue::addMail($mail, $to, $options);
-        if (Misc::isError($res) || $res == false) {
-            return $res;
+        if (Misc::isError($res)) {
+            /** @var PEAR_Error $res */
+            Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
         }
-
-        // RFC 822 formatted date
-        $header = 'Date: ' . Date_Helper::getRFC822Date(time()) . "\r\n";
-        // return the full dump of the email
-        foreach ($hdrs as $name => $value) {
-            $header .= "$name: $value\r\n";
-        }
-        $header .= "\r\n";
-
-        return $header . $body;
     }
 
     /**

@@ -519,24 +519,7 @@ class MailMessageTest extends TestCase
             'Message-ID' => $msg_id,
         );
         $mail->setHeaders($headers);
-        // mail_send adds message to queue and returns headers+body
-        // somewhy it adds Date with current timestamp, plus rest of the headers
-        $res = $mail->send($from, $recipient, $subject, 0, $issue_id, 'auto_created_issue');
-        $res = explode("\r\n", $res);
-        // remove date header, it's hard to compare
-        array_shift($res);
-        $exp = array(
-            'MIME-Version: 1.0',
-            'Content-Type: text/plain; charset=UTF-8',
-            'Content-Transfer-Encoding: 7bit',
-            'Message-ID: <eventum@eventum.example.org>',
-            'From: "Eventum" <support@example.org>',
-            'To: "Eventum" <support@example.org>',
-            'Subject: [#1] Issue Created',
-            '',
-            'tere',
-        );
-        $this->assertEquals($exp, $res);
+        $mail->send($from, $recipient, $subject, 0, $issue_id, 'auto_created_issue');
     }
 
     /**
