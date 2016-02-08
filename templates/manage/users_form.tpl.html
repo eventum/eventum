@@ -1,11 +1,4 @@
-{block "manage_content" prepend}
-  {*
-   NOTE: we use "prepend" here,
-   even logically in users.tpl we append form and list templates,
-   but smarty messes it up and appends manage_content block items in reverse order:
-
-   list.tpl, form.tpl while it should be form.tpl, list.tpl
-  *}
+{block "manage_content" append}
 
 <form id="user_form" method="post" action="{$core.rel_url}manage/users.php">
   {if $cat == 'edit'}

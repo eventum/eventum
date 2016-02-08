@@ -8,14 +8,12 @@
   <script type="text/javascript" src="{$core.rel_url}components/jquery-datatables/media/js/jquery.dataTables.js"></script>
 
   <script type="text/javascript">
-  var active_users_count = {$active_user_count};
   var page_url = '{$smarty.server.PHP_SELF}';
 
   var projects = [];
   {foreach from=$project_list key=prj_id item=prj_title name=projects}
     projects[{$smarty.foreach.projects.iteration-1}] = {$prj_id};
   {/foreach}
-
 
   function validateForm()
   {
@@ -129,8 +127,16 @@
   </script>
 {/block}
 
-{include file="manage/users_form.tpl.html"}
+{*
+ NOTE: we load the includes in reverse orders
+ even logically in users.tpl we append form and list templates,
+ but smarty messes it up and reverses the order:
+
+ list.tpl, form.tpl while it should be form.tpl, list.tpl
+*}
 
 {if isset($list)}
   {include file="manage/users_list.tpl.html"}
 {/if}
+
+{include file="manage/users_form.tpl.html"}
