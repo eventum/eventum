@@ -25,12 +25,12 @@ $logger = Logger::getInstance('db');
 
 $db->query("ALTER TABLE {{%mail_queue}} ADD maq_message_id VARCHAR(255) DEFAULT NULL AFTER maq_subject");
 
-$res = $db->getAll(
+$maq_ids = $db->getColumn(
     // TODO: process only status pending?
-    "SELECT maq_id,maq_headers FROM {{%mail_queue}} WHERE maq_message_id IS NULL"
+    "SELECT maq_id FROM {{%mail_queue}} WHERE maq_message_id IS NULL"
 );
 
-$total = count($res);
+$total = count($maq_ids);
 $current = $changed = 0;
 
 if (!$total) {
@@ -39,33 +39,33 @@ if (!$total) {
 }
 
 $log("Total $total rows, this may take time. Please be patient.");
-foreach ($res as $row) {
+foreach ($maq_ids as $maq_id) {
     $current++;
 
+    $maq_headers = $db->getOne("SELECT maq_headers FROM {{%mail_queue}} WHERE maq_id=?", array($maq_id));
+
     try {
-        $headers = Headers::fromString($row['maq_headers']);
-    } catch (Zend\Mail\Exception\RuntimeException $e) {
-        var_dump($row['maq_headers']);
+        $headers = Headers::fromString($maq_headers);
+    } catch (Exception $e) {
         $logger->info(
-            "skipped maq_id={$row['maq_id']}, exception: {$e->getMessage()}"
+            "skipped maq_id={$maq_id}, exception: {$e->getMessage()}"
         );
         continue;
     }
     $message_id = $headers->get('Message-Id');
     if (!$message_id) {
-        var_dump($row['maq_headers']);
         $logger->info(
-            "skipped maq_id={$row['maq_id']}, no message-id header"
+            "skipped maq_id={$maq_id}, no message-id header"
         );
         continue;
     }
     $message_id = $message_id->getFieldValue();
 
     $logger->info(
-        "updated maq_id={$row['maq_id']}", array('maq_id' => $row['maq_id'], 'message_id' => $message_id)
+        "updated maq_id={$maq_id}", array('maq_id' => $maq_id, 'message_id' => $message_id)
     );
 
-    $db->query('UPDATE {{%mail_queue}} SET maq_message_id=? WHERE maq_id=?', array($message_id, $row['maq_id']));
+    $db->query('UPDATE {{%mail_queue}} SET maq_message_id=? WHERE maq_id=?', array($message_id, $maq_id));
     $changed++;
 
     if ($current % 5000 == 0) {
