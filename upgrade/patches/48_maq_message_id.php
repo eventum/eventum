@@ -23,11 +23,11 @@ use Zend\Mail\Headers;
 
 $logger = Logger::getInstance('db');
 
-$db->query("alter table {{%mail_queue}} add maq_message_id varchar(255) DEFAULT NULL AFTER maq_subject");
+$db->query("ALTER TABLE {{%mail_queue}} ADD maq_message_id VARCHAR(255) DEFAULT NULL AFTER maq_subject");
 
 $res = $db->getAll(
     // TODO: process only status pending?
-    "select maq_id,maq_headers from {{%mail_queue}} where maq_message_id is null"
+    "SELECT maq_id,maq_headers FROM {{%mail_queue}} WHERE maq_message_id IS NULL"
 );
 
 $total = count($res);
@@ -42,7 +42,15 @@ $log("Total $total rows, this may take time. Please be patient.");
 foreach ($res as $row) {
     $current++;
 
-    $headers = Headers::fromString($row['maq_headers']);
+    try {
+        $headers = Headers::fromString($row['maq_headers']);
+    } catch (Zend\Mail\Exception\RuntimeException $e) {
+        var_dump($row['maq_headers']);
+        $logger->info(
+            "skipped maq_id={$row['maq_id']}, exception: {$e->getMessage()}"
+        );
+        continue;
+    }
     $message_id = $headers->get('Message-Id');
     if (!$message_id) {
         var_dump($row['maq_headers']);
