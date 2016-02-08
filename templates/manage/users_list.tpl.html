@@ -1,3 +1,84 @@
+{block "stylesheets" append}
+  <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/jquery-datatables/media/css/jquery.dataTables.css">
+{/block}
+
+{block "javascripts" append}
+<script type="text/javascript" src="{$core.rel_url}components/jquery-datatables/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript">
+  var active_users_count = {$active_user_count};
+  var page_url = '{$smarty.server.PHP_SELF}';
+
+  function checkDelete()
+  {
+    var total_selected = Eventum.getField('items[]').filter(':checked').length;
+    var total = Eventum.getField('items[]').length;
+    if (Eventum.getField('status').val() == 'inactive') {
+      if (active_users_count < 2) {
+        alert('{t escape=js}You cannot change the status of the only active user left in the system.{/t}');
+        return false;
+      }
+      if (total == total_selected) {
+        alert('{t escape=js}You cannot inactivate all of the users in the system.{/t}');
+        return false;
+      }
+    }
+    if (!Validation.hasOneChecked('items[]')) {
+      alert('{t escape=js}Please select at least one of the users.{/t}');
+      return false;
+    }
+    if (!confirm('{t escape=js}This action will change the status of the selected users.{/t}')) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function showCustomerUsers()
+  {
+    window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'show_customers',
+        $('#show_customers:checked').length);
+  }
+
+  function showInactiveUsers()
+  {
+    window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'show_inactive',
+        $('#show_inactive:checked').length);
+  }
+
+  function showUserGroups()
+  {
+    window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'show_groups',
+        $('#show_groups:checked').length);
+  }
+
+  $(function() {
+    $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
+
+    $('#delete_form').submit(checkDelete);
+
+    $('#show_customers').click(showCustomerUsers);
+    $('#show_inactive').click(showInactiveUsers);
+    $('#show_groups').click(showUserGroups);
+
+    // datatables config
+    $('#spinner').addClass('hidden');
+    $('.datatable').removeClass('hidden').DataTable({
+      "language": {
+        "paginate": {
+          "first": "First page",
+          "previous": "Previous page",
+          "next": "Next page",
+          "last": "Last page"
+        }
+      }
+    });
+  });
+
+</script>
+{/block}
+
+{block "manage_content" append}
+
 <form id="delete_form" method="post">
   <input type="hidden" name="cat" value="change_status">
 
@@ -123,3 +204,4 @@
   </table>
 
 </form>
+{/block}

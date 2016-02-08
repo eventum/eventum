@@ -1,100 +1,14 @@
 {extends "manage/manage.tpl.html"}
 
-{block "stylesheets" append}
-  <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/jquery-datatables/media/css/jquery.dataTables.css">
-{/block}
-
 {block "javascripts" append}
-  <script type="text/javascript" src="{$core.rel_url}components/jquery-datatables/media/js/jquery.dataTables.js"></script>
-{/block}
 
-{block "manage_content"}
   <script type="text/javascript">
-  <!--
-  var active_users_count = {$active_user_count};
-  var page_url = '{$smarty.server.PHP_SELF}';
-
+    {*FIXME: what uses the projects var? *}
   var projects = [];
   {foreach from=$project_list key=prj_id item=prj_title name=projects}
     projects[{$smarty.foreach.projects.iteration-1}] = {$prj_id};
   {/foreach}
 
-
-  function validateForm()
-  {
-      if (Validation.isFieldWhitespace('email')) {
-          alert('{t escape=js}Please enter the email of this user.{/t}');
-          Validation.selectField('email');
-          return false;
-      }
-      if (!Validation.isEmail(Eventum.getField('email').val())) {
-          alert('{t escape=js}Please enter a valid email address.{/t}');
-          Validation.selectField('email');
-          return false;
-      }
-      var password = Eventum.getField('password').val();
-      if (Eventum.getField('cat').val() == 'update') {
-          if ((!Validation.isWhitespace(password)) && (password.length < 6)) {
-              alert('{t escape=js}Please enter a password of at least 6 characters.{/t}');
-              Validation.selectField('password');
-              return false;
-          }
-      } else {
-          if ((Validation.isWhitespace(password)) || (password.length < 6)) {
-              alert('{t escape=js}Please enter a password of at least 6 characters.{/t}');
-              Validation.selectField('password');
-              return false;
-          }
-      }
-      if (Validation.isFieldWhitespace('full_name')) {
-          alert('{t escape=js}Please enter the full name of this user.{/t}');
-          Validation.selectField('full_name');
-          return false;
-      }
-      return true;
-  }
-
-  function checkDelete()
-  {
-      var total_selected = Eventum.getField('items[]').filter(':checked').length;
-      var total = Eventum.getField('items[]').length;
-      if (Eventum.getField('status').val() == 'inactive') {
-          if (active_users_count < 2) {
-              alert('{t escape=js}You cannot change the status of the only active user left in the system.{/t}');
-              return false;
-          }
-          if (total == total_selected) {
-              alert('{t escape=js}You cannot inactivate all of the users in the system.{/t}');
-              return false;
-          }
-      }
-      if (!Validation.hasOneChecked('items[]')) {
-          alert('{t escape=js}Please select at least one of the users.{/t}');
-          return false;
-      }
-      if (!confirm('{t escape=js}This action will change the status of the selected users.{/t}')) {
-          return false;
-      } else {
-          return true;
-      }
-  }
-  function showCustomerUsers()
-  {
-      window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'show_customers',
-              $('#show_customers:checked').length);
-  }
-
-  function showInactiveUsers()
-  {
-    window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'show_inactive',
-      $('#show_inactive:checked').length);
-  }
-
-  function showUserGroups()
-  {
-    window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'show_groups',
-        $('#show_groups:checked').length);
-  }
   function openAliasList(e)
   {
     var target = $(e.target);
@@ -105,37 +19,21 @@
   }
 
   $(function() {
-      $('#user_form').submit(validateForm);
-      $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
-
       $('a.manage_alias').click(openAliasList);
-      $('#show_customers').click(showCustomerUsers);
-      $('#show_inactive').click(showInactiveUsers);
-      $('#show_groups').click(showUserGroups);
-
-      $('#delete_form').submit(checkDelete);
-
-      // datatables config
-      $('#spinner').addClass('hidden');
-      $('.datatable').removeClass('hidden').DataTable({
-        "language": {
-          "paginate": {
-            "first": "First page",
-            "previous": "Previous page",
-            "next": "Next page",
-            "last": "Last page"
-          }
-        }
-      });
-
     });
-
-  //-->
   </script>
-
-  {include file="manage/users_form.tpl.html"}
-
-  {if isset($list)}
-    {include file="manage/users_list.tpl.html"}
-  {/if}
 {/block}
+
+{*
+ NOTE: we load the includes in reverse orders
+ even logically in users.tpl we append form and list templates,
+ but smarty messes it up and reverses the order:
+
+ list.tpl, form.tpl while it should be form.tpl, list.tpl
+*}
+
+{if isset($list)}
+  {include file="manage/users_list.tpl.html"}
+{/if}
+
+{include file="manage/users_form.tpl.html"}

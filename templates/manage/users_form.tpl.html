@@ -1,3 +1,48 @@
+{block "javascripts" append}
+  <script type="text/javascript">
+
+    function validateForm()
+    {
+      if (Validation.isFieldWhitespace('email')) {
+        alert('{t escape=js}Please enter the email of this user.{/t}');
+        Validation.selectField('email');
+        return false;
+      }
+      if (!Validation.isEmail(Eventum.getField('email').val())) {
+        alert('{t escape=js}Please enter a valid email address.{/t}');
+        Validation.selectField('email');
+        return false;
+      }
+      var password = Eventum.getField('password').val();
+      if (Eventum.getField('cat').val() == 'update') {
+        if ((!Validation.isWhitespace(password)) && (password.length < 6)) {
+          alert('{t escape=js}Please enter a password of at least 6 characters.{/t}');
+          Validation.selectField('password');
+          return false;
+        }
+      } else {
+        if ((Validation.isWhitespace(password)) || (password.length < 6)) {
+          alert('{t escape=js}Please enter a password of at least 6 characters.{/t}');
+          Validation.selectField('password');
+          return false;
+        }
+      }
+      if (Validation.isFieldWhitespace('full_name')) {
+        alert('{t escape=js}Please enter the full name of this user.{/t}');
+        Validation.selectField('full_name');
+        return false;
+      }
+      return true;
+    }
+
+    $(function () {
+      $('#user_form').submit(validateForm);
+    });
+  </script>
+{/block}
+
+{block "manage_content" append}
+
 <form id="user_form" method="post" action="{$core.rel_url}manage/users.php">
   {if $cat == 'edit'}
     <input type="hidden" name="cat" value="update">
@@ -133,3 +178,4 @@
     </tr>
   </table>
 </form>
+{/block}
