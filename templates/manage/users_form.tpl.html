@@ -1,3 +1,5 @@
+{block "manage_content" append}
+
 <form id="user_form" method="post" action="{$core.rel_url}manage/users.php">
   {if $cat == 'edit'}
     <input type="hidden" name="cat" value="update">
@@ -133,3 +135,4 @@
     </tr>
   </table>
 </form>
+{/block}

@@ -6,11 +6,8 @@
 
 {block "javascripts" append}
   <script type="text/javascript" src="{$core.rel_url}components/jquery-datatables/media/js/jquery.dataTables.js"></script>
-{/block}
 
-{block "manage_content"}
   <script type="text/javascript">
-  <!--
   var active_users_count = {$active_user_count};
   var page_url = '{$smarty.server.PHP_SELF}';
 
@@ -129,13 +126,11 @@
       });
 
     });
-
-  //-->
   </script>
-
-  {include file="manage/users_form.tpl.html"}
-
-  {if isset($list)}
-    {include file="manage/users_list.tpl.html"}
-  {/if}
 {/block}
+
+{include file="manage/users_form.tpl.html"}
+
+{if isset($list)}
+  {include file="manage/users_list.tpl.html"}
+{/if}
