@@ -81,4 +81,4 @@ foreach ($maq_ids as $maq_id) {
 
 $logger->info("Updated $changed out of $total entries");
 
-$db->query("UNLOCK TABLES {{%mail_queue}} READ");
+$db->query("UNLOCK TABLES");
