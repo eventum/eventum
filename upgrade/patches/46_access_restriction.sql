@@ -26,3 +26,9 @@ CREATE TABLE {{%issue_access_list}} (
   PRIMARY KEY (ial_id),
   KEY(ial_iss_id, ial_usr_id)
 ) ENGINE=MYISAM DEFAULT CHARSET=utf8;
+
+UPDATE {{%issue}} SET iss_access_level = 'assignees_only' WHERE iss_private = 1;
+
+ALTER TABLE {{%issue}} DROP COLUMN iss_private;
+
+DELETE FROM {{%project_field_display}} WHERE pfd_field = 'private'

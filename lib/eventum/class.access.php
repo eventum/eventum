@@ -75,23 +75,6 @@ class Access
             } else {
                 $return = false;
             }
-        } elseif ($details['iss_private'] == 1) {
-            // check if the issue is even private
-
-            // check role, reporter, assignment and group
-            if ($usr_role > User::ROLE_DEVELOPER) {
-                $return = true;
-            } elseif ($details['iss_usr_id'] == $usr_id) {
-                $return = true;
-            } elseif (Issue::isAssignedToUser($issue_id, $usr_id)) {
-                $return = true;
-            } elseif ((!empty($details['iss_grp_id'])) && (in_array($details['iss_grp_id'], $usr_details['group_ids']))) {
-                $return = true;
-            } elseif (Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id)) {
-                $return = true;
-            } else {
-                $return = false;
-            }
         } elseif ((Auth::getCurrentRole() == User::ROLE_REPORTER) && (Project::getSegregateReporters($prj_id)) &&
                 ($details['iss_usr_id'] != $usr_id) && (!Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id))) {
             $return = false;
@@ -610,21 +593,26 @@ class Access
 
     public static function getListingSQL($prj_id)
     {
-        $sql = " AND
-                    (
-                        iss_access_level = 'normal' OR
-                        ial_id IS NOT NULL OR
+        $sql = "";
+        if (Auth::getCurrentRole() < User::ROLE_MANAGER) {
+            $sql .= " AND
                         (
-                            SUBSTR(iss_access_level, 1, 6) = 'group_' AND ugr_grp_id = SUBSTR(iss_access_level, 7)
-                        )";
+                            iss_access_level = 'normal' OR
+                            ial_id IS NOT NULL OR
+                            (
+                                SUBSTR(iss_access_level, 1, 6) = 'group_' AND ugr_grp_id = SUBSTR(iss_access_level, 7)
+                            ) OR
+                            (
+                                isu_usr_id IS NOT NULL
+                            )";
 
-        $workflow = Workflow::getAdditionalAccessSQL($prj_id, Auth::getUserID());
-        if ($workflow != null) {
-            $sql .= $workflow;
+            $workflow = Workflow::getAdditionalAccessSQL($prj_id, Auth::getUserID());
+            if ($workflow != null) {
+                $sql .= $workflow;
+            }
+
+            $sql .= ")";
         }
-
-
-        $sql .= ")";
         return $sql;
     }
 

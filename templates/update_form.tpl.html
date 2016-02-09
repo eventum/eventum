@@ -231,18 +231,6 @@
 
             {include file="edit_custom_fields.tpl.html" form_type='edit'}
 
-            {if $core.current_role >= $core.roles.developer}
-            <tr>
-                <th>{t}Private{/t}</th>
-                <td>
-                    <label><input type="radio" name="private" value="1" {if $issue.iss_private}checked{/if}>{t}Yes{/t}</label>
-                    <label><input type="radio" name="private" value="0" {if not $issue.iss_private}checked{/if}>{t}No{/t}</label>
-                </td>
-            </tr>
-            {else}
-            <input type="hidden" name="trigger_reminders" value="{$issue.iss_trigger_reminders}">
-            {/if}
-
             {if $core.current_role > $core.roles.standard_user}
             <tr>
                 <th>{t}Trigger Reminders{/t}</th>

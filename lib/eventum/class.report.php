@@ -57,8 +57,7 @@ class Report
                     iss_created_date,
                     iss_updated_date,
                     iss_last_response_date,
-                    sta_color,
-                    iss_private
+                    sta_color
                  FROM
                     (
                     {{%issue}},
@@ -684,7 +683,6 @@ class Report
                         iss_summary,
                         iss_customer_id,
                         count(DISTINCT(iss_id)) as row_count,
-                        iss_private,
                         fld_id";
             if ($label_field) {
                 $sql .= ",
@@ -871,8 +869,7 @@ class Report
                     iss_id,
                     SUM(ttr_time_spent) ttr_time_spent_sum,
                     iss_summary,
-                    iss_customer_id,
-                    iss_private
+                    iss_customer_id
                ';
 
         if ($per_user) {

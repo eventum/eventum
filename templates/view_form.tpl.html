@@ -31,12 +31,6 @@
 </div>
 {/if}
 
-{if $issue.iss_private == 1}
-<div class="note_box">
-    {t}Note{/t}: {t}This issue is marked private. Only Managers, the reporter and users assigned to the issue can view it.{/t}
-</div>
-{/if}
-
 {if $issue.iss_access_level != 'normal'}
 <div class="note_box">
     {t}Note{/t}: {t 1=$access_level_name}This issue has an access level of %1. Access to view this issue is restricted.{/t}

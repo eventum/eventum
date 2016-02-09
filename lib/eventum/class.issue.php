@@ -1547,9 +1547,6 @@ class Issue
         } else {
             $params['iss_expected_resolution_date'] = null;
         }
-        if (isset($_POST['private'])) {
-            $params['iss_private'] = $_POST['private'];
-        }
         if (isset($_POST['priority'])) {
             $params['iss_pri_id'] = $_POST['priority'];
         }
@@ -1628,9 +1625,6 @@ class Issue
             $updated_fields['Description'] = '';
         }
 
-        if ((isset($_POST['private'])) && ($_POST['private'] != $current['iss_private'])) {
-            $updated_fields['Private'] = History::formatChanges(Misc::getBooleanDisplayValue($current['iss_private']), Misc::getBooleanDisplayValue($_POST['private']));
-        }
         if (isset($_POST['product']) && count($product_changes) > 0) {
             $updated_fields['Product'] = implode('; ', $product_changes);
         }
@@ -2439,10 +2433,6 @@ class Issue
             $params['iss_contact_timezone'] = $data['contact_timezone'];
         }
 
-        if (!empty($data['contact'])) {
-            $params['iss_private'] = $data['private'];
-        }
-
         $stmt = 'INSERT INTO {{%issue}} SET ' . DB_Helper::buildSet($params);
 
         try {
@@ -2935,6 +2925,8 @@ class Issue
         $res['quarantine'] = self::getQuarantineInfo($res['iss_id']);
 
         $res['products'] = Product::getProductsByIssue($res['iss_id']);
+
+        $res['access_level_name'] = Access::getAccessLevelName($res['iss_access_level']);
 
         $returns[$issue_id] = $res;
 
@@ -3521,39 +3513,6 @@ class Issue
     public static function canUpdate($issue_id, $usr_id)
     {
         return Access::canUpdateIssue($issue_id, $usr_id);
-    }
-
-    /**
-     * Returns true if the specified issue is private, false otherwise
-     *
-     * @param   integer $issue_id The ID of the issue
-     * @return  boolean If the issue is private or not
-     */
-    public static function isPrivate($issue_id)
-    {
-        static $returns;
-
-        if (!isset($returns[$issue_id])) {
-            $sql = 'SELECT
-                        iss_private
-                    FROM
-                        {{%issue}}
-                    WHERE
-                        iss_id=?';
-            try {
-                $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-            } catch (DatabaseException $e) {
-                return true;
-            }
-
-            if ($res == 1) {
-                $returns[$issue_id] = true;
-            } else {
-                $returns[$issue_id] = false;
-            }
-        }
-
-        return $returns[$issue_id];
     }
 
     /**
