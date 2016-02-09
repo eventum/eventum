@@ -176,11 +176,13 @@ clean_vendor() {
 	rm vendor/*/*/composer.lock
 	rm vendor/*/*/phpunit.xml*
 
-	rm -r vendor/*/*/tests
-	rm -r vendor/*/*/test
+	rm -r vendor/*/*/*/*/Test
+	rm -r vendor/*/*/Tests
 	rm -r vendor/*/*/doc
 	rm -r vendor/*/*/docs
 	rm -r vendor/*/*/examples
+	rm -r vendor/*/*/test
+	rm -r vendor/*/*/tests
 	rm -r vendor/bin
 
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
@@ -211,6 +213,18 @@ clean_vendor() {
 	mv vendor/zendframework/zend-config/src/{Config.php,Exception} tmp
 	rm -r vendor/zendframework/zend-config/*
 	mv tmp vendor/zendframework/zend-config/src
+
+	# not used yet
+	rm -r vendor/zendframework/zend-mail/src/Protocol
+	rm -r vendor/zendframework/zend-mail/src/Storage*
+	rm -r vendor/zendframework/zend-mail/src/Transport
+
+	# zend-crypt and deps pulled by zend-mail, but used only for Smtp/Auth, which we don't use yet
+	rm -r vendor/zendframework/zend-crypt
+	rm -r vendor/zendframework/zend-loader
+	rm -r vendor/zendframework/zend-math
+	rm -r vendor/zendframework/zend-servicemanager
+	rm -r vendor/zendframework/zend-validator
 
 	# pear
 	rm vendor/pear*/*/package.xml
