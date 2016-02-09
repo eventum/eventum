@@ -525,7 +525,12 @@ class Access
 
     public static function getAccessLevelName($level)
     {
-        return self::getAccessLevels()[$level];
+        $access_levels = self::getAccessLevels();
+        if (isset($access_levels[$level])) {
+            return $access_levels[$level];
+        } else {
+            return null;
+        }
     }
 
     public static function getAccessList($issue_id)
