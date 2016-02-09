@@ -688,12 +688,14 @@ class MailMessageTest extends TestCase
     /**
      * a test showing a valid header can not be loaded from string using Headers::fromString method
      * due underlying fail in iconv_mime_encode
+     * @see https://github.com/zendframework/zend-mail/issues/64
      */
     public function testParseHeaders()
     {
         $header
             = "Subject: [#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, =?utf-8?b?dMOkaHRhZWc=?= xx.xx, xxxx\r\n";
         try {
+            /** @see \Zend\Mail\Header\HeaderWrap::canBeEncoded */
             \Zend\Mail\Headers::fromString($header);
         } catch (PHPUnit_Framework_Error_Notice $e) {
             error_log($e->getMessage());
