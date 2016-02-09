@@ -202,6 +202,7 @@ clean_vendor() {
 	# not used, and fails php lint under 5.3
 	rm vendor/zendframework/zend-stdlib/src/Guard/*Trait.php
 	rm vendor/zendframework/zend-stdlib/src/Hydrator/*Trait.php
+	rm vendor/zendframework/zend-servicemanager/src/*Trait.php
 	rm vendor/psr/log/Psr/Log/*Trait.php
 
 	# we need *only* zf-config Config.php class
