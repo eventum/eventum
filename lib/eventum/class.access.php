@@ -18,9 +18,10 @@ class Access
      *
      * @param   integer $issue_id The ID of the issue.
      * @param   integer $usr_id The ID of the user
+     * @param   boolean $log If the check should be logged. Default true
      * @return  boolean If the user can access the issue
      */
-    public static function canAccessIssue($issue_id, $usr_id)
+    public static function canAccessIssue($issue_id, $usr_id, $log = true)
     {
         static $access;
 
@@ -64,6 +65,16 @@ class Access
                         !Partner::isPartnerEnabledForIssue($usr_details['usr_par_code'], $issue_id)) {
             // check if the user is a partner
             $return = false;
+        } elseif ($details['iss_access_level'] != 'normal') {
+            $is_assignee_or_access_list = (Issue::isAssignedToUser($issue_id, $usr_id) or Access::isOnAccessList($issue_id, $usr_id));
+            if ($usr_role >= User::ROLE_MANAGER || $is_assignee_or_access_list) {
+                $return = true;
+            } elseif (substr($details['iss_access_level'], 0, 6) == 'group_' &&
+                in_array(substr($details['iss_access_level'], 6), User::getGroupIDs($usr_id))) {
+                $return = true;
+            } else {
+                $return = false;
+            }
         } elseif ($details['iss_private'] == 1) {
             // check if the issue is even private
 
@@ -83,12 +94,21 @@ class Access
             }
         } elseif ((Auth::getCurrentRole() == User::ROLE_REPORTER) && (Project::getSegregateReporters($prj_id)) &&
                 ($details['iss_usr_id'] != $usr_id) && (!Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id))) {
-            return false;
+            $return = false;
         } else {
             $return = true;
         }
 
+        $workflow = Workflow::canAccessIssue($prj_id, $issue_id, $usr_id);
+        if ($workflow !== null) {
+            $return = $workflow;
+        }
+
         $access[$issue_id . '-' . $usr_id] = $return;
+
+        if ($log) {
+            self::log($return, $issue_id, $usr_id);
+        }
 
         return $return;
     }
@@ -150,9 +170,9 @@ class Access
         return false;
     }
 
-    public static function canViewInternalNotes($issue_id, $usr_id)
+    public static function canViewInternalNotes($issue_id, $usr_id, $not_id=null)
     {
-        if (!self::canAccessIssue($issue_id, $usr_id)) {
+        if (!self::canAccessIssue($issue_id, $usr_id, false)) {
             return false;
         }
         $prj_id = Auth::getCurrentProject();
@@ -338,6 +358,25 @@ class Access
         return false;
     }
 
+    public static function canChangeAccessLevel($issue_id, $usr_id)
+    {
+        if (!self::canAccessIssue($issue_id, $usr_id)) {
+            return false;
+        }
+
+        $prj_id = Issue::getProjectID($issue_id);
+        $workflow = Workflow::canChangeAccessLevel($prj_id, $issue_id, $usr_id);
+        if ($workflow !== null) {
+            return $workflow;
+        }
+
+        if (User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_MANAGER) {
+            return true;
+        }
+
+        return false;
+    }
+
     public static function getIssueAccessArray($issue_id, $usr_id)
     {
         return array(
@@ -355,6 +394,8 @@ class Access
             'convert_note'  =>  self::canConvertNote($issue_id, $usr_id),
             'update'    =>  self::canUpdateIssue($issue_id, $usr_id),
             'clone_issue'   =>  self::canCloneIssue($issue_id, $usr_id),
+            'change_access' =>  self::canChangeAccessLevel($issue_id, $usr_id),
+            'change_assignee' =>  self::canChangeAssignee($issue_id, $usr_id),
         );
     }
 
@@ -375,6 +416,29 @@ class Access
             if (is_bool($partner)) {
                 return $partner;
             }
+        }
+
+        if (User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_CUSTOMER) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function canChangeAssignee($issue_id, $usr_id)
+    {
+        if (!self::canAccessIssue($issue_id, $usr_id)) {
+            return false;
+        }
+
+        $prj_id = Issue::getProjectID($issue_id);
+        $workflow = Workflow::canChangeAssignee($prj_id, $issue_id, $usr_id);
+        if ($workflow !== null) {
+            return $workflow;
+        }
+
+        if (User::isPartner($usr_id)) {
+            return false;
         }
 
         if (User::getRoleByUser($usr_id, $prj_id) >= User::ROLE_CUSTOMER) {
@@ -453,5 +517,166 @@ class Access
         }
 
         return true;
+    }
+
+    public static function getAccessLevels()
+    {
+        $prj_id = Auth::getCurrentProject();
+
+        $levels = array(
+            'normal'    =>  'Normal',
+            'assignees_only'    =>  'Assignees Only',
+        );
+
+        foreach (Group::getAssocList($prj_id) as $grp_id => $group) {
+            $levels['group_' . $grp_id] = 'Group: ' . $group . " only";
+        }
+
+        $workflow = Workflow::getAccessLevels($prj_id);
+        if (is_array($workflow)) {
+            $levels += $workflow;
+        }
+
+        return $levels;
+    }
+
+    public static function getAccessLevelName($level)
+    {
+        return self::getAccessLevels()[$level];
+    }
+
+    public static function getAccessList($issue_id)
+    {
+        $sql = "SELECT
+                    ial_usr_id
+                FROM
+                    {{%issue_access_list}}
+                WHERE
+                    ial_iss_id = ?";
+        try {
+            return DB_Helper::getInstance()->getColumn($sql, array($issue_id));
+        } catch (DatabaseException $e) {
+            return array();
+        }
+    }
+
+    public static function addUser($issue_id, $usr_id)
+    {
+        $sql = "INSERT INTO
+                    {{%issue_access_list}}
+                SET
+                    ial_iss_id = ?,
+                    ial_usr_id = ?,
+                    ial_created = ?";
+        try {
+            $res = DB_Helper::getInstance()->query($sql, array($issue_id, $usr_id, Date_Helper::getCurrentDateGMT()));
+            History::add($issue_id, Auth::getUserID(), 'access_list_added', 'Access list entry ({target_user}) added by {user}', array(
+                'target_user' => User::getFullName($usr_id),
+                'user' => User::getFullName(Auth::getUserID())
+            ));
+        } catch (DatabaseException $e) {
+            return -1;
+        }
+        return 1;
+    }
+
+    public static function removeUser($issue_id, $usr_id)
+    {
+        $sql = "DELETE FROM
+                    {{%issue_access_list}}
+                WHERE
+                    ial_iss_id = ? AND
+                    ial_usr_id = ?";
+        try {
+            $res = DB_Helper::getInstance()->query($sql, array($issue_id, $usr_id));
+            History::add($issue_id, Auth::getUserID(), 'access_list_removed', 'Access list entry ({target_user}) removed by {user}', array(
+                'target_user' => User::getFullName($usr_id),
+                'user' => User::getFullName(Auth::getUserID())
+            ));
+        } catch (DatabaseException $e) {
+            return -1;
+        }
+        return 1;
+    }
+
+    public static function isOnAccessList($issue_id, $usr_id)
+    {
+        if (in_array($usr_id, self::getAccessList($issue_id))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function getListingSQL($prj_id)
+    {
+        $sql = " AND
+                    (
+                        iss_access_level = 'normal' OR
+                        ial_id IS NOT NULL OR
+                        (
+                            SUBSTR(iss_access_level, 1, 6) = 'group_' AND ugr_grp_id = SUBSTR(iss_access_level, 7)
+                        )";
+
+        $workflow = Workflow::getAdditionalAccessSQL($prj_id, Auth::getUserID());
+        if ($workflow != null) {
+            $sql .= $workflow;
+        }
+
+
+        $sql .= ")";
+        return $sql;
+    }
+
+    public static function log($return, $issue_id, $usr_id, $item=null, $item_id=null)
+    {
+        if (Setup::get()->get('audit_trail') != 'enabled') {
+            return $return;
+        }
+
+        if (is_null($item) && is_null($item_id)) {
+            list($item, $item_id) = self::extractInfoFromURL($_SERVER['REQUEST_URI']);
+        }
+        $sql = "INSERT INTO
+                    {{%issue_access_log}}
+                SET
+                    alg_iss_id = ?,
+                    alg_usr_id = ?,
+                    alg_created = ?,
+                    alg_ip_address = ?,
+                    alg_failed = ?,
+                    alg_item = ?,
+                    alg_item_id = ?,
+                    alg_url = ?";
+        $params = array(
+            $issue_id,
+            $usr_id,
+            Date_Helper::getCurrentDateGMT(),
+            $_SERVER['REMOTE_ADDR'],
+            !$return,
+            $item,
+            $item_id,
+            $_SERVER['REQUEST_URI']
+        );
+        try {
+            $res = DB_Helper::getInstance()->query($sql, $params);
+        } catch (DatabaseException $e) {
+            // do nothing besides log it
+        }
+        return $return;
+    }
+
+    private static function extractInfoFromURL($url)
+    {
+        if (preg_match("/view_note\.php\?id=(?P<item_id>\d+)/", $url, $matches)) {
+            return array('note', $matches[1]);
+        } elseif (preg_match("/view_email\.php\?ema_id=\d+&id=(?P<item_id>\d+)/", $url, $matches)) {
+            return array('email', $matches[1]);
+        } elseif (preg_match("/download\.php\?cat=attachment+&id=(?P<item_id>\d+)/", $url, $matches)) {
+            return array('file', $matches[1]);
+        } elseif (preg_match("/update\.php/", $url, $matches)) {
+            return array('update', null);
+        }
+        return array(null, null);
     }
 }

@@ -564,9 +564,25 @@ class Abstract_Workflow_Backend
     }
 
     /**
+     * Returns if a user can change the assignee of an issue. Return null to use default rules.
+     */
+    public static function canChangeAssignee($prj_id, $issue_id, $usr_id)
+    {
+        return null;
+    }
+
+    /**
      * Returns if a user can clone an issue. Return null to use default rules.
      */
     public function canCloneIssue($prj_id, $issue_id, $usr_id)
+    {
+        return null;
+    }
+
+    /**
+     * Returns if a user can change the security settings of an issue. Return null to use default rules.
+     */
+    public function canChangeAccessLevel($prj_id, $issue_id, $usr_id)
     {
         return null;
     }
@@ -583,5 +599,41 @@ class Abstract_Workflow_Backend
                                             $type = false)
     {
         return $notice;
+    }
+
+    /**
+     * Returns an array of additional access levels an issue can be set to
+     *
+     * @param $prj_id
+     * @return array
+     */
+    public static function getAccessLevels($prj_id)
+    {
+        return array();
+    }
+
+    /**
+     * Performs additional checks on if a user can access an issue.
+     *
+     * @param $prj_id
+     * @param $issue_id
+     * @param $usr_id
+     * @return mixed null to use default rules, true or false otherwise
+     */
+    public static function canAccessIssue($prj_id, $issue_id, $usr_id)
+    {
+        return null;
+    }
+
+    /**
+     * Returns custom SQL to limit what results a user can see on the list issues page
+     *
+     * @param $prj_id
+     * @param $usr_id
+     * @return mixed null to use default rules or an sql string otherwise
+     */
+    public static function getAdditionalAccessSQL($prj_id, $usr_id)
+    {
+        return null;
     }
 }

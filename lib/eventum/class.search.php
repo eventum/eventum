@@ -378,6 +378,15 @@ class Search
                  ON
                     iss_id=iqu_iss_id AND
                     (iqu_expiration > '" . Date_Helper::getCurrentDateGMT() . "' OR iqu_expiration IS NULL)
+                 LEFT JOIN
+                    {{%issue_access_list}}
+                 ON
+                    iss_id = ial_iss_id AND
+                    ial_usr_id = " . $usr_id . "
+                 LEFT JOIN
+                    user_group
+                 ON
+                    ugr_usr_id = " . $usr_id . "
                  WHERE
                     iss_prj_id= " . Misc::escapeInteger($prj_id);
         $stmt .= self::buildWhereClause($options);
@@ -399,6 +408,7 @@ class Search
         $stmt .= '
                  LIMIT
                     ' . Misc::escapeInteger($max) . ' OFFSET ' . Misc::escapeInteger($start);
+
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DatabaseException $e) {
@@ -720,6 +730,10 @@ class Search
                 }
             }
         }
+
+        // access restriction
+        $stmt .= Access::getListingSQL($prj_id);
+
         // clear cached full-text values if we are not searching fulltext anymore
         if ((APP_ENABLE_FULLTEXT) && (@$options['search_type'] != 'all_text')) {
             Session::set('fulltext_string', '');

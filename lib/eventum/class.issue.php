@@ -597,7 +597,7 @@ class Issue
             }
 
             $usr_id = Auth::getUserID();
-            Notification::notifyIssueUpdated($issue_id, array('iss_expected_resolution_date' => $current), array('expected_resolution_date' => $expected_resolution_date));
+            Notification::notifyIssueUpdated($issue_id, array('iss_expected_resolution_date' => $current), array('expected_resolution_date' => $expected_resolution_date), array());
             History::add($issue_id, $usr_id, 'issue_updated', 'Issue updated (Expected Resolution Date: {changes}) by {user}', array(
                 'changes' => History::formatChanges($current, $expected_resolution_date),
                 'user' => User::getFullName($usr_id)
@@ -1473,7 +1473,7 @@ class Issue
         self::updateAssociatedIssuesRelations($issue_id, $associated_issues);
 
         $assignments_changed = false;
-        if (@$_POST['keep_assignments'] == 'no') {
+        if (@$_POST['keep_assignments'] == 'no' && Access::canChangeAssignee($issue_id, $usr_id)) {
             // only change the issue-user associations if there really were any changes
             $old_assignees = array_merge($current['assigned_users'], $current['assigned_inactive_users']);
             if (!empty($_POST['assignments'])) {
@@ -3680,5 +3680,69 @@ class Issue
         ));
 
         return 1;
+    }
+
+    /**
+     * Sets the access level of the issue.
+     *
+     * @param   integer $issue_id The ID of the issue
+     * @param   string $level The Access level
+     * @return  integer 1 if successful, -1 or -2 otherwise
+     */
+    public function setAccessLevel($issue_id, $level)
+    {
+        $issue_id = (int) $issue_id;
+        $usr_id = Auth::getUserID();
+
+        if (!Access::canChangeAccessLevel($issue_id, $usr_id)) {
+            return -2;
+        }
+
+        $old_access_level = self::getAccessLevel($issue_id);
+        if ($level == $old_access_level) {
+            return 1;
+        }
+
+        $stmt = 'UPDATE
+                    {{%issue}}
+                 SET
+                    iss_access_level = ?
+                 WHERE
+                    iss_id = ?';
+        try {
+            DB_Helper::getInstance()->query($stmt, array($level, $issue_id));
+        } catch (DatabaseException $e) {
+            return -1;
+        }
+
+        History::add($issue_id, $usr_id, 'access_level_changed', 'Access level changed ({changes}) by {user}', array(
+            'changes' => History::formatChanges(Access::getAccessLevelName($old_access_level), Access::getAccessLevelName($level)),
+            'user' => User::getFullName($usr_id)
+        ));
+
+        return 1;
+    }
+
+    /**
+     * Returns the access level associated with the given issue ID.
+     *
+     * @param   integer $issue_id The issue ID
+     * @return  string The Access Level
+     */
+    public static function getAccessLevel($issue_id)
+    {
+        $stmt = 'SELECT
+                    iss_access_level
+                 FROM
+                    {{%issue}}
+                 WHERE
+                    iss_id=?';
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
+        } catch (DatabaseException $e) {
+            return -1;
+        }
+
+        return $res;
     }
 }
