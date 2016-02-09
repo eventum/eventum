@@ -705,9 +705,13 @@ class MailMessageTest extends TestCase
         $value = "[#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, tähtaeg xx.xx, xxxx";
         try {
             // it fails with line length exactly 76, but suceeds with anything else, like 75 or 77
-            $v = iconv_mime_encode("x-test", $value, array("scheme" => "Q", 'line-length' => '76'));
+            $v = iconv_mime_encode("x-test", $value, array("scheme" => "Q", 'line-length' => '76',"line-break-chars" => " "));
         } catch (PHPUnit_Framework_Error_Notice $e) {
             error_log($e->getMessage());
         }
+
+        // the same handled better in encodeQuotedPrintable
+        $v = Mime_Helper::encodeQuotedPrintable($value);
+        var_dump($v);
     }
 }
