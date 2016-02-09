@@ -74,8 +74,7 @@ class Access
                 $return = true;
             } elseif (Issue::isAssignedToUser($issue_id, $usr_id)) {
                 $return = true;
-            } elseif ((!empty($details['iss_grp_id'])) && (!empty($usr_details['usr_grp_id'])) &&
-                        ($details['iss_grp_id'] == $usr_details['usr_grp_id'])) {
+            } elseif ((!empty($details['iss_grp_id'])) && (in_array($details['iss_grp_id'], $usr_details['group_ids']))) {
                 $return = true;
             } elseif (Authorized_Replier::isUserAuthorizedReplier($issue_id, $usr_id)) {
                 $return = true;

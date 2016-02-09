@@ -10,6 +10,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 require_once __DIR__ . '/../../../init.php';
 
 // creates user accounts for all the customers
@@ -47,7 +49,7 @@ foreach ($customers as $customer_id => $customer_name) {
             );
             try {
                 DB_Helper::getInstance()->query($sql, $params);
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 echo 'Error inserting user<br />';
             }
             $new_usr_id = DB_Helper::get_last_insert_id();

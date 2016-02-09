@@ -20,7 +20,6 @@ use Custom_Field;
 use Issue;
 use Misc;
 use Notification;
-use Prefs;
 use Resolution;
 use Status;
 use Time_Tracking;
@@ -94,7 +93,6 @@ class CloseController extends BaseController
         $this->tpl->assign(
             array(
                 'extra_title' => $extra_title,
-                'user_prefs' => Prefs::get($this->usr_id),
             )
         );
 
@@ -169,8 +167,6 @@ class CloseController extends BaseController
 
         $this->tpl->assign(
             array(
-                // FIXME duplicate with 'user_prefs'
-                'current_user_prefs' => Prefs::get($this->usr_id),
                 'statuses' => Status::getClosedAssocList($this->prj_id),
                 'resolutions' => Resolution::getAssocList(),
                 'time_categories' => Time_Tracking::getAssocCategories($this->prj_id),

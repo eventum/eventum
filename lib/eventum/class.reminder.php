@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to the reminder emails
  * that the system sends out.
@@ -98,7 +100,7 @@ class Reminder
                     rem_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -138,7 +140,7 @@ class Reminder
                     rem_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($rem_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -161,7 +163,7 @@ class Reminder
                     rem_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($rem_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -184,7 +186,7 @@ class Reminder
                     rem_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($rem_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -235,7 +237,7 @@ class Reminder
                     rep_rem_id=?';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($rem_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -252,7 +254,7 @@ class Reminder
                     rpr_rem_id=?';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($rem_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -276,7 +278,7 @@ class Reminder
                     rms_rem_id=?';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($rem_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -303,7 +305,7 @@ class Reminder
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($rem_id, $support_level_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -329,7 +331,7 @@ class Reminder
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($rem_id, $issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -356,7 +358,7 @@ class Reminder
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($rem_id, $customer_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -381,7 +383,7 @@ class Reminder
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($rem_id, 1));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -407,7 +409,7 @@ class Reminder
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($rem_id, $priority_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -426,7 +428,7 @@ class Reminder
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($rem_id, $pro_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -452,7 +454,7 @@ class Reminder
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($rem_id, $severity_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -524,7 +526,7 @@ class Reminder
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -591,7 +593,7 @@ class Reminder
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -648,7 +650,7 @@ class Reminder
                     rem_id IN ($itemlist)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -687,7 +689,7 @@ class Reminder
                     rer_rem_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($rem_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -736,7 +738,7 @@ class Reminder
                     rem_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -775,7 +777,7 @@ class Reminder
                     rem_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -826,7 +828,7 @@ class Reminder
         $stmt = str_replace('UNIX_TIMESTAMP()', "UNIX_TIMESTAMP('" . Date_Helper::getCurrentDateGMT() . "')", $stmt);
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -985,7 +987,7 @@ class Reminder
                     rmh_created_date DESC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($iss_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 

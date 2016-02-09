@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to the reminder emails
  * that the system sends out.
@@ -33,7 +35,7 @@ class Reminder_Condition
                     rlc_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($rlc_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -69,7 +71,7 @@ class Reminder_Condition
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -104,7 +106,7 @@ class Reminder_Condition
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -148,7 +150,7 @@ class Reminder_Condition
                     rlc_rmo_id=rmo_id';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($action_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -186,7 +188,7 @@ class Reminder_Condition
                     rlc_id ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($rma_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -223,7 +225,7 @@ class Reminder_Condition
                     rmf_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($field_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -246,7 +248,7 @@ class Reminder_Condition
                     rmf_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($field_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -274,7 +276,7 @@ class Reminder_Condition
                     rmf_title ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -298,7 +300,7 @@ class Reminder_Condition
                     rmo_title ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -321,7 +323,7 @@ class Reminder_Condition
                     rmf_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($field_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 

@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Holding all search relevant methods
  */
@@ -399,7 +401,7 @@ class Search
                     ' . Misc::escapeInteger($max) . ' OFFSET ' . Misc::escapeInteger($start);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array(
                 'list' => null,
                 'info' => null,
@@ -550,9 +552,17 @@ class Search
                 } elseif ($options['users'] == '-2') {
                     $stmt .= 'isu_usr_id IS NULL OR isu_usr_id=' . $usr_id;
                 } elseif ($options['users'] == '-3') {
-                    $stmt .= 'isu_usr_id = ' . $usr_id . ' OR iss_grp_id = ' . User::getGroupID($usr_id);
+                    $stmt .= 'isu_usr_id = ' . $usr_id;
+                    $user_groups = User::getGroupIDs($usr_id);
+                    if (count($user_groups) > 0) {
+                        $stmt .= ' OR iss_grp_id IN(' . implode(',', $user_groups) . ')';
+                    }
                 } elseif ($options['users'] == '-4') {
-                    $stmt .= 'isu_usr_id IS NULL OR isu_usr_id = ' . $usr_id . ' OR iss_grp_id = ' . User::getGroupID($usr_id);
+                    $stmt .= 'isu_usr_id IS NULL OR isu_usr_id = ' . $usr_id;
+                    $user_groups = User::getGroupIDs($usr_id);
+                    if (count($user_groups) > 0) {
+                        $stmt .= ' OR iss_grp_id IN(' . implode(',', $user_groups) . ')';
+                    }
                 } else {
                     $stmt .= 'isu_usr_id =' . Misc::escapeInteger($options['users']);
                 }

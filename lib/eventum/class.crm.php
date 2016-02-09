@@ -11,6 +11,9 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+use Eventum\Db\DatabaseException;
+
 define('CRM_EXCLUDE_EXPIRED', 'exclude_expired');
 
 abstract class CRM
@@ -328,7 +331,7 @@ abstract class CRM
                  WHERE prj_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             $res = false;
         }
 
@@ -404,7 +407,7 @@ abstract class CRM
                     cam_usr_id=usr_id';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -443,7 +446,7 @@ abstract class CRM
             DB_Helper::getInstance()->query(
                 $stmt, array($_POST['project'], $_POST['customer'], $_POST['manager'], $_POST['type'])
             );
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -466,7 +469,7 @@ abstract class CRM
                     cam_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($cam_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -493,7 +496,7 @@ abstract class CRM
             DB_Helper::getInstance()->query(
                 $stmt, array($_POST['project'], $_POST['customer'], $_POST['manager'], $_POST['type'], $_POST['id'])
             );
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -515,7 +518,7 @@ abstract class CRM
                     cam_id IN (' . DB_Helper::buildList($items) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -544,8 +547,8 @@ abstract class CRM
                     cam_prj_id=? AND
                     cam_customer_id=?';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id, $customer_id), DbInterface::DB_FETCHMODE_ASSOC);
-        } catch (DbException $e) {
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id, $customer_id), AdapterInterface::DB_FETCHMODE_ASSOC);
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -575,7 +578,7 @@ abstract class CRM
                     cno_customer_id = ?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($customer_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -600,7 +603,7 @@ abstract class CRM
                     cno_id = ?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($cno_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -625,7 +628,7 @@ abstract class CRM
                     cno_customer_id ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -664,7 +667,7 @@ abstract class CRM
             DB_Helper::getInstance()->query(
                 $stmt, array($note, $prj_id, $customer_id, Date_Helper::getCurrentDateGMT(), $cno_id)
             );
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -697,7 +700,7 @@ abstract class CRM
                 $stmt,
                 array($prj_id, $customer_id, Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $note)
             );
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -718,7 +721,7 @@ abstract class CRM
                     cno_id IN (' . DB_Helper::buildList($ids) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 

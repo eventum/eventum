@@ -327,15 +327,17 @@ class Abstract_Workflow_Backend
     /**
      * Called when SCM checkin is associated.
      *
+     * NOTE: The $module parameter is deprecated. always NULL, use 'module' from $file object
+     *
      * @param   integer $prj_id The project ID.
      * @param   integer $issue_id The ID of the issue.
      * @param   string $module The SCM module commit was made.
      * @param   array $files File list with their version numbers changes made on.
      * @param   string $username SCM user doing the checkin.
      * @param   string $commit_msg Message associated with the SCM commit.
-     * @return  void
+     * @param   ScmCheckin $scm SCM config associated with the commit
      */
-    public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg)
+    public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg, $scm)
     {
     }
 

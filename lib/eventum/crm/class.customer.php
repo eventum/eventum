@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Abstract class representing a customer
  */
@@ -174,7 +176,7 @@ abstract class Customer
                     cno_customer_id = ?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($this->customer_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -203,7 +205,7 @@ abstract class Customer
         $params = array($this->crm->getProjectID(), $this->customer_id);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 

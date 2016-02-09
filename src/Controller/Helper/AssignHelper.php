@@ -40,9 +40,11 @@ class AssignHelper
             '-2' => ev_gettext('myself and un-assigned'),
         );
 
+        $user_groups = User::getGroups($this->usr_id);
+
         if (Auth::isAnonUser()) {
             unset($assign_options['-2']);
-        } elseif (User::getGroupID($this->usr_id)) {
+        } elseif (count($user_groups) > 0) {
             $assign_options['-3'] = ev_gettext('myself and my group');
             $assign_options['-4'] = ev_gettext('myself, un-assigned and my group');
         }

@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to the phone support
  * feature of the application.
@@ -37,7 +39,7 @@ class Phone_Support
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($_POST['prj_id'], $_POST['title']));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -65,7 +67,7 @@ class Phone_Support
                     phc_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['prj_id'], $_POST['id']));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -89,7 +91,7 @@ class Phone_Support
                     phc_id IN ($itemlist)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -112,7 +114,7 @@ class Phone_Support
                     phc_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($phc_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -139,7 +141,7 @@ class Phone_Support
                     phc_title ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -166,7 +168,7 @@ class Phone_Support
                     phc_id ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -189,7 +191,7 @@ class Phone_Support
                     phs_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($phs_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -225,7 +227,7 @@ class Phone_Support
                     phs_created_date ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -293,7 +295,7 @@ class Phone_Support
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -330,7 +332,7 @@ class Phone_Support
                         phs_id = ?';
             try {
                 DB_Helper::getInstance()->query($stmt, array($ttr_id, $phs_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }
@@ -366,7 +368,7 @@ class Phone_Support
                     phs_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($phone_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -405,7 +407,7 @@ class Phone_Support
                     phs_iss_id IN ($items)";
         try {
             DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -435,7 +437,7 @@ class Phone_Support
         $params = array(Auth::getCurrentProject(), $start, $end, $usr_id);
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 

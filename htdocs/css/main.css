@@ -498,6 +498,9 @@ div.html_box {
 
 /* End Messages */
 
+.hidden {
+    display: none;
+}
 
 .error_icon {
     width: 14;

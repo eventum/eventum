@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to the administration
  * of custom fields in the system.
@@ -40,7 +42,7 @@ class Custom_Field
                     cfo_id IN (' . DB_Helper::buildList($cfo_id) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $cfo_id);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -83,7 +85,7 @@ class Custom_Field
             $params = array_merge(array($fld_id, $option));
             try {
                 DB_Helper::getInstance()->query($stmt, $params);
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }
@@ -108,7 +110,7 @@ class Custom_Field
                     cfo_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($cfo_value, $cfo_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -205,7 +207,7 @@ class Custom_Field
 
                     try {
                         $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id, $fld_id));
-                    } catch (DbException $e) {
+                    } catch (DatabaseException $e) {
                         return -1;
                     }
                     $icf_id = $res['icf_id'];
@@ -232,7 +234,7 @@ class Custom_Field
                         );
                         try {
                             DB_Helper::getInstance()->query($stmt, $params);
-                        } catch (DbException $e) {
+                        } catch (DatabaseException $e) {
                             return -1;
                         }
                     } else {
@@ -246,7 +248,7 @@ class Custom_Field
                         $params = array($value, $icf_id);
                         try {
                             DB_Helper::getInstance()->query($stmt, $params);
-                        } catch (DbException $e) {
+                        } catch (DatabaseException $e) {
                             return -1;
                         }
                     }
@@ -418,7 +420,7 @@ class Custom_Field
                      )";
             try {
                 DB_Helper::getInstance()->query($stmt, $params);
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return false;
             }
         }
@@ -474,7 +476,7 @@ class Custom_Field
                     fld_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -559,7 +561,7 @@ class Custom_Field
                     cfo_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($fld_id, $value));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -611,7 +613,7 @@ class Custom_Field
                     cfo_value=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($fld_id, $value));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -694,7 +696,7 @@ class Custom_Field
                     fld_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -818,7 +820,7 @@ class Custom_Field
                     fld_id IN ($list)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -828,7 +830,7 @@ class Custom_Field
                     pcf_fld_id IN ($list)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -838,7 +840,7 @@ class Custom_Field
                     icf_fld_id IN ($list)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -848,7 +850,7 @@ class Custom_Field
                     cfo_fld_id IN ($list)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -931,7 +933,7 @@ class Custom_Field
                 $_POST['rank'],
                 @$_POST['custom_field_backend'],
             ));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -969,7 +971,7 @@ class Custom_Field
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($prj_id, $fld_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -992,7 +994,7 @@ class Custom_Field
                     fld_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -1034,7 +1036,7 @@ class Custom_Field
                     prj_title ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($fld_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -1064,7 +1066,7 @@ class Custom_Field
                     fld_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($fld_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -1130,7 +1132,7 @@ class Custom_Field
                     cfo_id ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -1242,7 +1244,7 @@ class Custom_Field
                 @$_POST['custom_field_backend'],
                 $_POST['id'],
             ));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1310,7 +1312,7 @@ class Custom_Field
                     pcf_fld_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($_POST['id']));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1338,7 +1340,7 @@ class Custom_Field
                     pcf_prj_id=?';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -1372,7 +1374,7 @@ class Custom_Field
                         iss_prj_id = ?';
             try {
                 $res = DB_Helper::getInstance()->getColumn($sql, array($prj_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return false;
             }
 
@@ -1390,7 +1392,7 @@ class Custom_Field
         }
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -1415,7 +1417,7 @@ class Custom_Field
                     cfo_fld_id IN ($items)";
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -1440,7 +1442,7 @@ class Custom_Field
                     icf_iss_id IN ($items)";
         try {
             DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -1462,7 +1464,7 @@ class Custom_Field
                     pcf_prj_id IN (' . DB_Helper::buildList($ids) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -1492,7 +1494,7 @@ class Custom_Field
                     fld_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($sql, array($prj_id, Auth::getCurrentRole()));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -1515,7 +1517,7 @@ class Custom_Field
                     fld_title = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($title));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 0;
         }
 
@@ -1549,7 +1551,7 @@ class Custom_Field
                     fld_id = ?';
         try {
             $res = DB_Helper::getInstance()->getAll($sql, array($iss_id, $fld_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -1649,7 +1651,7 @@ class Custom_Field
                     fld_id = ?';
         try {
             DB_Helper::getInstance()->query($sql, array($rank, $fld_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1715,7 +1717,7 @@ class Custom_Field
                     fld_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($fld_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -1777,7 +1779,7 @@ class Custom_Field
                 "%$search%",
             );
             $res = DB_Helper::getInstance()->getColumn($sql, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -1882,7 +1884,7 @@ class Custom_Field
         $params = array($fld_id);
         try {
             DB_Helper::getInstance()->query($sql, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 

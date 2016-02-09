@@ -188,6 +188,9 @@ clean_vendor() {
 	rm vendor/ircmaxell/security-lib/lib/SecurityLib/composer.json
 	rm vendor/ircmaxell/password-compat/version-test.php
 
+	rm vendor/defuse/php-encryption/{benchmark,example}.php
+	rm vendor/defuse/php-encryption/*.sh
+
 	# smarty: use -f, as dist and src packages differ
 	# smarty src
 	rm -rf vendor/smarty/smarty/{.svn,development,documentation,distribution/demo}
@@ -255,11 +258,11 @@ clean_vendor() {
 	rm htdocs/components/dropzone/index.js
 
 	# not ready yet
-	rm lib/eventum/db/DbYii.php
-	rm lib/eventum/db/Db*Pdo.php
-	rm lib/eventum/mail/ImapMessage.php
-	rm lib/eventum/mail/MailMessage.php
-	rm lib/eventum/mail/MailStorage.php
+	rm src/Db/Adapter/YiiAdapter.php
+	rm src/Db/Adapter/*Pdo*.php
+	rm src/Mail/ImapMessage.php
+	rm src/Mail/MailMessage.php
+	rm src/Mail/MailStorage.php
 }
 
 build_phars() {

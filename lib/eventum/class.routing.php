@@ -23,11 +23,17 @@ class Routing
      *
      * @param string &$full_message
      * @return array|bool
+     * @throws RoutingException in case of failure
      */
     public static function route(&$full_message)
     {
+        if (empty($full_message)) {
+            throw RoutingException::noMessageBodyError();
+        }
+
         $structure = Mime_Helper::decode($full_message, false, true);
 
+        // we create addresses array so it can be reused
         $addresses = array();
         if (isset($structure->headers['to'])) {
             $addresses[] = $structure->headers['to'];
@@ -38,16 +44,44 @@ class Routing
         // free memory
         unset($structure);
 
+        $setup = Setup::get();
+
+        // create mapping for quickly checking if routing is enabled
+        $routing = array(
+            'email' => $setup['email_routing']['status'] == 'enabled',
+            'note' => $setup['note_routing']['status'] == 'enabled',
+            'draft' => $setup['draft_routing']['status'] == 'enabled',
+        );
+
         $types = array('email', 'note', 'draft');
         foreach ($addresses as $address) {
             // NOTE: $address is not individual recipients,
             // but rather raw To or Cc header containing multiple addresses
+
             foreach ($types as $type) {
+                // route type needs to be enabled
+                if (!$routing[$type]) {
+                    continue;
+                }
+
                 if (self::getMatchingIssueIDs($address, $type) === false) {
                     continue;
                 }
-                $method = "route_{$type}s";
-                $return = self::$method($full_message);
+
+                switch ($type) {
+                    case 'email':
+                        $return = self::route_emails($full_message);
+                        break;
+                    case 'note':
+                        $return = self::route_notes($full_message);
+                        break;
+                    case 'draft':
+                        $return = self::route_drafts($full_message);
+                        break;
+                    default:
+                        throw new LogicException("Bad type: $type");
+                }
+
                 if ($return === true) {
                     return $return;
                 }
@@ -65,7 +99,7 @@ class Routing
      * @return bool true if mail was routed
      * @throws RoutingException in case of failure
      */
-    public static function route_emails($full_message)
+    protected static function route_emails($full_message)
     {
         // need some validation here
         if (empty($full_message)) {
@@ -263,7 +297,7 @@ class Routing
      * @return bool true if mail was routed
      * @throws RoutingException in case of failure
      */
-    public static function route_notes($full_message)
+    protected static function route_notes($full_message)
     {
         // save the full message for logging purposes
         Note::saveRoutedNote($full_message);
@@ -315,6 +349,13 @@ class Routing
         }
 
         $prj_id = Issue::getProjectID($issue_id);
+
+        if (!$prj_id) {
+            // if project id can't be fetched, the issue does not exist,
+            // no point check deeper
+            throw RoutingException::noIssuePermission($issue_id);
+        }
+
         // check if the sender is allowed in this issue' project and if it is an internal user
         $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
@@ -399,7 +440,7 @@ class Routing
      * @return bool true if mail was routed
      * @throws RoutingException in case of failure
      */
-    public static function route_drafts($full_message)
+    protected static function route_drafts($full_message)
     {
         // save the full message for logging purposes
         Draft::saveRoutedMessage($full_message);
@@ -473,13 +514,13 @@ class Routing
     }
 
     /**
-     * Check for $adresses for matches
+     * Check for $addresses for matches
      *
      * @param   mixed   $addresses to check
      * @param   string  $type Type of address match to find (email, note, draft)
      * @return  int|bool $issue_id in case of match otherwise false
      */
-    public static function getMatchingIssueIDs($addresses, $type)
+    private static function getMatchingIssueIDs($addresses, $type)
     {
         $setup = Setup::get();
         $settings = $setup["${type}_routing"];
@@ -519,7 +560,7 @@ class Routing
 
         // everything safely escaped and checked, try matching address
         foreach ($addresses as $address) {
-            if (preg_match("/$prefix(\d*)@$mail_domain/i", $address, $matches)) {
+            if (preg_match("/$prefix(\d+)@$mail_domain/i", $address, $matches)) {
                 return (int) $matches[1];
             }
         }

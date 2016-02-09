@@ -1,5 +1,6 @@
 <?php
 use Zend\Mail;
+use Eventum\Mail\MailStorage;
 
 class MailStorageTest extends TestCase
 {

@@ -20,6 +20,7 @@ endef
 
 php-cs-fixer := $(call find_tool, php-cs-fixer)
 phpcompatinfo := $(call find_tool, phpcompatinfo)
+gush := $(call find_tool, gush)
 
 all:
 	@echo 'Run "make install" to install eventum.'
@@ -70,6 +71,9 @@ phpcs-fix: php-cs-fixer.phar
 
 phpcompatinfo: phpcompatinfo.phar
 	$(phpcompatinfo) analyser:run --alias current
+
+changelog:
+	$(gush) branch:changelog
 
 composer.lock:
 	composer install

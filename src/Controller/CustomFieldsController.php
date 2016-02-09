@@ -16,7 +16,6 @@ namespace Eventum\Controller;
 use Auth;
 use Custom_Field;
 use Issue;
-use Prefs;
 
 class CustomFieldsController extends BaseController
 {
@@ -88,14 +87,10 @@ class CustomFieldsController extends BaseController
      */
     protected function prepareTemplate()
     {
-        $prefs = Prefs::get($this->usr_id);
         $custom_fields = Custom_Field::getListByIssue($this->prj_id, $this->issue_id);
 
         $this->tpl->assign(
             array(
-                'current_user_prefs' => $prefs, // XXX: use 'user_prefs' recursively
-                'user_prefs' => $prefs,
-
                 'issue_id' => $this->issue_id,
                 'custom_fields' => $custom_fields,
             )

@@ -47,8 +47,8 @@
             </th>
             <td>
                 <select name="sort_order" style="width: 100%">
-                    <option value="ASC" label="{t}Ascending{/t}" {if $smarty.request.sort_order != 'DESC'}selected{/if}>{t}Ascending{/t}</option>
-                    <option value="DESC" label="{t}Descending{/t}" {if $smarty.request.sort_order == 'DESC'}selected{/if}>{t}Descending{/t}</option>
+                    <option value="ASC" label="{t}Ascending{/t}" {if $sort_order != 'DESC'}selected{/if}>{t}Ascending{/t}</option>
+                    <option value="DESC" label="{t}Descending{/t}" {if $sort_order == 'DESC'}selected{/if}>{t}Descending{/t}</option>
                 </select>
             </td>
         </tr>

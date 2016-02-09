@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle project category related issues.
  */
@@ -32,7 +34,7 @@ class Category
                     prc_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($prc_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -54,7 +56,7 @@ class Category
                     prc_prj_id IN (' . DB_Helper::buildList($ids) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -76,7 +78,7 @@ class Category
                     prc_id IN (' . DB_Helper::buildList($items) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -104,7 +106,7 @@ class Category
                     prc_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['prj_id'], $_POST['id']));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -132,7 +134,7 @@ class Category
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($_POST['prj_id'], $_POST['title']));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -159,7 +161,7 @@ class Category
                     prc_title ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -192,7 +194,7 @@ class Category
                     prc_title ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -217,7 +219,7 @@ class Category
                     prc_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prc_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 

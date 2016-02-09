@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 class Monitor
 {
     /**
@@ -32,7 +34,7 @@ class Monitor
                     maq_id";
         try {
             $queue_ids = DB_Helper::getInstance()->getColumn($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             echo ev_gettext('ERROR: There was a DB error checking the mail queue status'), "\n";
 
             return;
@@ -70,7 +72,7 @@ class Monitor
         ';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -183,6 +185,8 @@ class Monitor
     public static function checkDatabase()
     {
         $required_tables = array(
+            'api_token',
+            'columns_to_display',
             'custom_field',
             'custom_field_option',
             'custom_filter',
@@ -204,25 +208,33 @@ class Monitor
             'issue_checkin',
             'issue_custom_field',
             'issue_history',
+            'issue_partner',
+            'issue_product_version',
             'issue_quarantine',
             'issue_requirement',
             'issue_user',
             'issue_user_replier',
+            'link_filter',
             'mail_queue',
             'mail_queue_log',
             'news',
             'note',
+            'partner_project',
             'phone_support',
+            'product',
             'project',
             'project_category',
             'project_custom_field',
             'project_email_response',
+            'project_field_display',
             'project_group',
+            'project_link_filter',
             'project_news',
             'project_phone_category',
             'project_priority',
             'project_release',
             'project_round_robin',
+            'project_severity',
             'project_status',
             'project_status_date',
             'project_user',
@@ -235,7 +247,9 @@ class Monitor
             'reminder_level_condition',
             'reminder_operator',
             'reminder_priority',
+            'reminder_product',
             'reminder_requirement',
+            'reminder_severity',
             'reminder_triggered_action',
             'resolution',
             'round_robin_user',
@@ -248,14 +262,23 @@ class Monitor
             'time_tracking',
             'time_tracking_category',
             'user',
+            'user_alias',
+            'user_group',
+            'user_preference',
+            'user_project_preference',
+            'version',
         );
 
         // add the table prefix to all of the required tables
-        $required_tables = Misc::array_map_deep($required_tables, array(__CLASS__, 'add_table_prefix'));
+        $dbc = DB_Helper::getConfig();
+        $required_tables = array_map(
+            function ($table) use ($dbc) {
+                return "{$dbc['table_prefix']}$table";
+            }, $required_tables
+        );
 
         // check if all of the required tables are really there
-        $stmt = 'SHOW TABLES';
-        $table_list = DB_Helper::getInstance()->getColumn($stmt);
+        $table_list = DB_Helper::getInstance()->getColumn('SHOW TABLES');
         $errors = 0;
         foreach ($required_tables as $table) {
             if (!in_array($table, $table_list)) {
@@ -282,20 +305,6 @@ class Monitor
         }
 
         return 0;
-    }
-
-    /**
-     * Method used by the code that checks if the required tables
-     * do exist in the appropriate database. It returns the given
-     * table name prepended with the appropriate table prefix.
-     *
-     * @static
-     * @param   string $table_name The table name
-     * @return  string The table name with the prefix added to it
-     */
-    public static function add_table_prefix($table_name)
-    {
-        return APP_TABLE_PREFIX . $table_name;
     }
 
     /**

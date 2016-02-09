@@ -11,6 +11,8 @@ Test before release
 - make sure upgrade/drop.sql lists all created tables
 `$ sed -e 's,{{%\([^}]*\)}},eventum_\1,' upgrade/drop.sql`
 - install twice to same database, second time select drop tables, install must not fail
+`$ mysql -s -e 'show tables;' e | sed -e 's/^eventum_/DROP TABLE IF EXISTS {{%/; s/$/}};/' | LC_ALL=C sort > upgrade/drop.sql`
+- also update Monitor class about list of tables
 if it fails the error is something like `DB Error: already exists`
 - Test the new release directory with a quick installation
   * see if a new issue can be created correctly and etc
@@ -44,6 +46,7 @@ After release
 
 - update release number in init.php to indicate next dev version (APP_VERSION)
 - start new version entry in Changelog.md
+- update git submodules to point to master
 - add new milestone in github. just fill version number in Title field https://github.com/eventum/eventum/milestones
 - move open tickets/pull requests to new milestone
 - close old milestone

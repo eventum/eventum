@@ -11,10 +11,13 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+
 /**
  * Fix bad history keyword (which was fixed in 3e95aa4)
  */
-/** @var DbInterface $db */
+
+/** @var AdapterInterface $db */
 /** @var Closure $log */
 
 $res = $db->getAll("select his_id,his_context from {{%issue_history}} where his_summary='Note routed from {user}' and his_context like '%from%:%'");

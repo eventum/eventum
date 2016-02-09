@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * MySQL (builtin) auth backend
  */
@@ -65,7 +67,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
         $params = array(AuthPassword::hash($password), $usr_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -101,7 +103,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
                     usr_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($usr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -126,7 +128,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
                     usr_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($usr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -153,7 +155,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
         $params = array(APP_FAILED_LOGIN_BACKOFF_COUNT, $usr_id);
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return true;
         }
 

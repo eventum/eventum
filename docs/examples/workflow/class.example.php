@@ -9,6 +9,7 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
+use Eventum\Db\DatabaseException;
 
 /**
  * Example workflow backend class. For example purposes it will print what
@@ -226,7 +227,7 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
                     iss_id = ?";
         try {
             DB_Helper::getInstance()->query($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return;
         }
 

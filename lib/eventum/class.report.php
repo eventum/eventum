@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to all aspects of the
  * reporting system.
@@ -67,6 +69,10 @@ class Report
                     {{%status}}
                  ON
                     iss_sta_id=sta_id
+                 LEFT JOIN
+                    {{%user_group}}
+                 ON
+                    ugr_grp_id=usr_id
                  WHERE
                     sta_is_closed=0 AND
                     iss_prj_id=? AND
@@ -86,7 +92,7 @@ class Report
             $ids = (array) $groups;
             $list = DB_Helper::buildList($ids);
             $params = array_merge($params, $ids);
-            $stmt .= " AND\nusr_grp_id IN($list)";
+            $stmt .= " AND\nugr_grp_id IN($list)";
         }
         if ($status) {
             $ids = (array) $status;
@@ -102,7 +108,7 @@ class Report
                     iss_last_response_date ' . $sort_order;
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -122,10 +128,12 @@ class Report
                 'iss_summary'         => $row['iss_summary'],
                 'sta_title'           => $row['sta_title'],
                 'iss_created_date'    => $row['iss_created_date'],
+                'iss_last_response_date' => $row['iss_last_response_date'],
                 'time_spent'          => Misc::getFormattedTime($row['time_spent']),
                 'status_color'        => $row['sta_color'],
                 'last_update'         => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
                 'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
+                'iss_last_response_date' => $row['iss_last_response_date'],
             );
         }
 
@@ -184,7 +192,7 @@ class Report
         }
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id, $ts_diff));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -259,7 +267,7 @@ class Report
                     usr_full_name';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -336,7 +344,7 @@ class Report
         $params = array($usr_id, Auth::getCurrentProject(), $start_ts, $end_ts);
         try {
             $newly_assigned = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             $newly_assigned = null;
         }
 
@@ -394,7 +402,6 @@ class Report
             'start'     => $start_ts,
             'end'       => $end_ts,
             'user'      => User::getDetails($usr_id),
-            'group_name' => Group::getName(User::getGroupID($usr_id)),
             'issues'    => $issues,
             'status_counts' => History::getTouchedIssueCountByStatus($usr_id, $prj_id, $start_ts, $end_ts),
             'new_assigned_count'    =>  $newly_assigned,
@@ -436,7 +443,7 @@ class Report
         $params = array(Auth::getCurrentProject());
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -515,7 +522,7 @@ class Report
                     time_period';
         try {
             $total = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -539,7 +546,7 @@ class Report
                     time_period";
         try {
             $dev_stats = DB_Helper::getInstance()->getPair($stmt, $emails);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -732,7 +739,7 @@ class Report
                         row_count DESC';
             try {
                 $res = DB_Helper::getInstance()->getAll($sql, $params);
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return array();
             }
 
@@ -803,13 +810,13 @@ class Report
                     } else {
                         $res = DB_Helper::getInstance()->getPair($stmt, $params);
                     }
-                } catch (DbException $e) {
+                } catch (DatabaseException $e) {
                     return array();
                 }
             } else {
                 try {
                     $res = DB_Helper::getInstance()->getOne($stmt, $params);
-                } catch (DbException $e) {
+                } catch (DatabaseException $e) {
                     return array();
                 }
             }
@@ -834,7 +841,7 @@ class Report
         $params[] = $fld_id;
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
         $data['All Others'] = $res;
@@ -923,7 +930,7 @@ class Report
 
         try {
             $res = DB_Helper::getInstance()->getAll($sql, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -1008,7 +1015,7 @@ class Report
         }
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
         $data['issues']['points'] = $res;
@@ -1069,7 +1076,7 @@ class Report
 
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
         $data['emails']['points'] = $res;
@@ -1091,6 +1098,77 @@ class Report
                 'median'    =>  0,
                 'max'   =>  0,
             );
+        }
+
+        return $data;
+    }
+
+    /**
+     * @param int $prj_id
+     * @return array
+     */
+    public static function getEstimatedDevTimeReport($prj_id)
+    {
+        $sql = 'SELECT
+            prc_id,
+        	prc_title,
+        	SUM(iss_dev_time) as dev_time
+        FROM
+        	{{%issue}},
+        	{{%project_category}},
+        	{{%status}}
+        WHERE
+        	iss_prc_id = prc_id AND
+        	iss_sta_id = sta_id AND
+        	sta_is_closed != 1 AND
+        	iss_prj_id = ?
+        GROUP BY
+        	iss_prc_id';
+        try {
+            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
+        } catch (DbException $e) {
+            return null;
+        }
+
+        return $res;
+    }
+
+    /**
+     * @param int $prj_id
+     * @param array $categories
+     * @param array $statuses
+     * @return array
+     * @see \Eventum\Controller\Report\CategoryStatusController
+     */
+    public static function getCategoryStatusReport($prj_id, $categories, $statuses)
+    {
+        $data = array();
+        foreach ($categories as $cat_id => $cat_title) {
+            $data[$cat_id] = array(
+                'title' => $cat_title,
+                'statuses' => array(),
+            );
+
+            foreach ($statuses as $sta_id => $sta_title) {
+                $sql
+                    = 'SELECT
+                    count(*)
+                FROM
+                    {{%issue}}
+                WHERE
+                    iss_prj_id = ? AND
+                    iss_sta_id = ? AND
+                    iss_prc_id = ?';
+                try {
+                    $res = DB_Helper::getInstance()->getOne($sql, array($prj_id, $sta_id, $cat_id));
+                } catch (DbException $e) {
+                    break 2;
+                }
+                $data[$cat_id]['statuses'][$sta_id] = array(
+                    'title' => $sta_title,
+                    'count' => $res,
+                );
+            }
         }
 
         return $data;

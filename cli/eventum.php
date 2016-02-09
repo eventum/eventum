@@ -15,6 +15,7 @@ define('APP_PATH', __DIR__ . '/..');
 define('APP_NO_GETTEXT', true);
 define('APP_DEFAULT_TIMEZONE', 'UTC');
 define('APP_COOKIE', 'eventum');
+define('APP_CHARSET', 'UTF-8');
 require_once APP_PATH . '/autoload.php';
 
 list($user_email, $user_password, $hostname, $port, $relative_url) = Command_Line::getEnvironmentSettings();

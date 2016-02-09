@@ -15,7 +15,6 @@ namespace Eventum\Controller;
 
 use Auth;
 use Issue;
-use Prefs;
 use Time_Tracking;
 use User;
 
@@ -99,7 +98,6 @@ class TimeTrackingController extends BaseController
             array(
                 'issue_id' => $this->issue_id,
                 'time_categories' => Time_Tracking::getAssocCategories($prj_id),
-                'current_user_prefs' => Prefs::get(Auth::getUserID()),
             )
         );
     }

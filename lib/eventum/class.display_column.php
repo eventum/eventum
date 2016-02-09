@@ -11,6 +11,9 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle determining which columns should be displayed and in what order
  * on a page (e.g. Issue Listing page).
@@ -108,8 +111,8 @@ class Display_Column
                 ORDER BY
                     ctd_rank';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id, $page), DbInterface::DB_FETCHMODE_ASSOC);
-        } catch (DbException $e) {
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id, $page), AdapterInterface::DB_FETCHMODE_ASSOC);
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -238,7 +241,7 @@ class Display_Column
                     ctd_page = ?';
         try {
             DB_Helper::getInstance()->query($stmt, array($prj_id, $page));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -255,7 +258,7 @@ class Display_Column
             $params = array($prj_id, $page, $field_name, $_REQUEST['min_role'][$field_name], $rank);
             try {
                 DB_Helper::getInstance()->query($sql, $params);
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
             $rank++;
@@ -292,7 +295,7 @@ class Display_Column
             $params = array($prj_id, $page, $field_name, $min_role, $rank);
             try {
                 DB_Helper::getInstance()->query($stmt, $params);
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
             $rank++;

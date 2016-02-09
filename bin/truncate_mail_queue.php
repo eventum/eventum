@@ -15,21 +15,5 @@ ini_set('memory_limit', '1024M');
 
 require_once __DIR__ . '/../init.php';
 
-// if requested, clear the lock
-if (in_array('--fix-lock', $argv)) {
-    if (Lock::release('truncate_mail_queue')) {
-        echo "The lock file was removed successfully.\n";
-    }
-    exit(0);
-}
-
-if (!Lock::acquire('truncate_mail_queue')) {
-    $pid = Lock::getProcessID('truncate_mail_queue');
-    fwrite(STDERR, "ERROR: There is already a process (pid=$pid) of this script running.");
-    fwrite(STDERR, "If this is not accurate, you may fix it by running this script with '--fix-lock' as the only parameter.\n");
-    exit(1);
-}
-
-Mail_Queue::truncate();
-
-Lock::release('truncate_mail_queue');
+$app = new Eventum\Command\TruncateMailQueueCommand();
+$app->run();

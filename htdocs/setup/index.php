@@ -14,6 +14,10 @@
 // XXX: try reading $_ENV['HOSTNAME'] and then ask the user if nothing could be found
 // XXX: dynamically check the email blob and skips the email if it is bigger than 16MB on PHP4 versions
 
+use Eventum\Db\Adapter\AdapterInterface;
+use Eventum\Db\DatabaseException;
+use Eventum\Db\Migrate;
+
 ini_set('memory_limit', '64M');
 
 ini_set('display_errors', 1);
@@ -292,7 +296,7 @@ function getFirstWeekday()
 }
 
 /***
- * @param DbInterface $conn
+ * @param AdapterInterface $conn
  * @param string $database
  * @return array|null
  */
@@ -304,7 +308,7 @@ function checkDatabaseExists($conn, $database)
 }
 
 /**
- * @param DbInterface $conn
+ * @param AdapterInterface $conn
  * @return array
  */
 function getUserList($conn)
@@ -313,7 +317,7 @@ function getUserList($conn)
     $conn->query('USE mysql');
     try {
         $users = $conn->getColumn('SELECT DISTINCT User from user');
-    } catch (DbException $e) {
+    } catch (DatabaseException $e) {
         // if the user cannot select from the mysql.user table, then return an empty list
         return array();
     }
@@ -325,7 +329,7 @@ function getUserList($conn)
 }
 
 /**
- * @param DbInterface $conn
+ * @param AdapterInterface $conn
  * @return array
  */
 function getTableList($conn)
@@ -373,7 +377,7 @@ function getDb()
     initlogger();
     try {
         return DB_Helper::getInstance(false);
-    } catch (DbException $e) {
+    } catch (DatabaseException $e) {
     }
 
     $err = $e->getMessage();
@@ -404,7 +408,7 @@ function setup_database()
         if (@$_POST['create_db'] == 'yes') {
             try {
                 $conn->query("CREATE DATABASE {{{$_POST['db_name']}}}");
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 throw new RuntimeException(getErrorMessage('create_db', $e->getMessage()));
             }
         } else {
@@ -423,7 +427,7 @@ function setup_database()
                     $stmt = "GRANT SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE, INDEX ON {{{$_POST['db_name']}}}.* TO ?@'%' IDENTIFIED BY ?";
                     try {
                         $conn->query($stmt, array($_POST['eventum_user'], $_POST['eventum_password']));
-                    } catch (DbException $e) {
+                    } catch (DatabaseException $e) {
                         throw new RuntimeException(getErrorMessage('create_user', $e->getMessage()));
                     }
                 }
@@ -438,7 +442,7 @@ function setup_database()
     // check if we can use the database
     try {
         $conn->query("USE {{{$_POST['db_name']}}}");
-    } catch (DbException $e) {
+    } catch (DatabaseException $e) {
         throw new RuntimeException(getErrorMessage('select_db', $e->getMessage()));
     }
 
@@ -450,13 +454,13 @@ function setup_database()
     if (!in_array('eventum_test', $table_list)) {
         try {
             $conn->query('CREATE TABLE eventum_test (test char(1))');
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             throw new RuntimeException(getErrorMessage('create_test', $e->getMessage()));
         }
     }
     try {
         $conn->query('DROP TABLE eventum_test');
-    } catch (DbException $e) {
+    } catch (DatabaseException $e) {
         throw new RuntimeException(getErrorMessage('drop_test', $e->getMessage()));
     }
 
@@ -466,7 +470,7 @@ function setup_database()
         foreach ($queries as $stmt) {
             try {
                 $conn->query($stmt);
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 throw new RuntimeException(getErrorMessage('drop_table', $e->getMessage()));
             }
         }
@@ -475,7 +479,7 @@ function setup_database()
     // setup database with upgrade script
     $buffer = array();
     try {
-        $dbmigrate = new DbMigrate(APP_PATH . '/upgrade');
+        $dbmigrate = new Migrate(APP_PATH . '/upgrade');
         $dbmigrate->setLogger(function ($e) use (&$buffer) {
             $buffer[] = $e;
         });
@@ -574,7 +578,7 @@ function write_config()
     $config_file_path = APP_CONFIG_PATH . '/config.php';
 
     // disable the full-text search feature for certain mysql server users
-    /** @var DbInterface $conn */
+    /** @var AdapterInterface $conn */
     $mysql_version = DB_Helper::getInstance(false)->getOne('SELECT VERSION()');
     preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', $mysql_version, $matches);
     $enable_fulltext = $matches[1] > '4.0.23';

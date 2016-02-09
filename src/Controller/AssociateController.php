@@ -20,7 +20,6 @@ use Email_Account;
 use Issue;
 use Mail_Helper;
 use Note;
-use Prefs;
 use Support;
 use User;
 use Workflow;
@@ -181,9 +180,5 @@ class AssociateController extends BaseController
      */
     protected function prepareTemplate()
     {
-        $this->tpl->assign(array(
-                'current_user_prefs' => Prefs::get($this->usr_id)
-            )
-        );
     }
 }

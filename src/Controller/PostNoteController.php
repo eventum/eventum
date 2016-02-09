@@ -21,7 +21,6 @@ use Mail_Helper;
 use Misc;
 use Note;
 use Notification;
-use Prefs;
 use Project;
 use Status;
 use Support;
@@ -238,7 +237,6 @@ class PostNoteController extends BaseController
                 'reply_subject' => $reply_subject,
                 'from' => User::getFromHeader($this->usr_id),
                 'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
-                'current_user_prefs' => Prefs::get($this->usr_id),
                 'subscribers' => Notification::getSubscribers($this->issue_id, false, User::ROLE_USER),
                 'statuses' => Status::getAssocStatusList($this->prj_id, false),
                 'current_issue_status' => Issue::getStatusID($this->issue_id),

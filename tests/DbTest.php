@@ -1,4 +1,6 @@
 <?php
+use Eventum\Db\Adapter\AdapterInterface;
+use Eventum\Db\Adapter\PearAdapter;
 
 /**
  * Test DB layer to work as expected
@@ -6,7 +8,7 @@
 class DbTest extends TestCase
 {
     /**
-     * @var DbInterface
+     * @var AdapterInterface
      */
     private $db;
 
@@ -45,11 +47,11 @@ class DbTest extends TestCase
     /** @group query */
     public function testQuerySelect()
     {
-        if (!$this->db instanceof DbPear) {
-            $this->markTestSkipped('Only possible with DbPear');
+        if (!$this->db instanceof PearAdapter) {
+            $this->markTestSkipped('Only possible with Pear Adapter');
         }
 
-        // only DbPear returns resultset for SELECT statements
+        // only Pear adapter returns resultset for SELECT statements
         $res = $this->db->query("select usr_id from {{%user}} where usr_id=?", array(2));
         $this->assertNotSame(true, $res);
         print_r($res);
@@ -60,7 +62,7 @@ class DbTest extends TestCase
     {
         $res = $this->db->getAll(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?', array(2),
-            DbInterface::DB_FETCHMODE_DEFAULT
+            AdapterInterface::DB_FETCHMODE_DEFAULT
         );
         $this->assertInternalType('array', $res);
         $exp = array(
@@ -85,7 +87,7 @@ class DbTest extends TestCase
     {
         $res = $this->db->getAll(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=? AND usr_id!=42', array(2),
-            DbInterface::DB_FETCHMODE_ASSOC
+            AdapterInterface::DB_FETCHMODE_ASSOC
         );
         $this->assertInternalType('array', $res);
         $exp = array(
@@ -108,8 +110,8 @@ class DbTest extends TestCase
     /** @group getAll */
     public function testGetAllOrdered()
     {
-        if (!$this->db instanceof DbPear) {
-            $this->markTestSkipped('Only possible with DbPear');
+        if (!$this->db instanceof PearAdapter) {
+            $this->markTestSkipped('Only possible with Pear Adapter');
         }
 
         $stmt
@@ -123,8 +125,8 @@ class DbTest extends TestCase
                     lfi_id = plf_lfi_id
                 ORDER BY
                     lfi_id";
-        $res1 = $this->db->getAll($stmt, array(), DbInterface::DB_FETCHMODE_ORDERED);
-        $res2 = $this->db->getAll($stmt, array(), DbInterface::DB_FETCHMODE_DEFAULT);
+        $res1 = $this->db->getAll($stmt, array(), AdapterInterface::DB_FETCHMODE_ORDERED);
+        $res2 = $this->db->getAll($stmt, array(), AdapterInterface::DB_FETCHMODE_DEFAULT);
         $this->assertSame($res1, $res2);
     }
 
@@ -134,7 +136,7 @@ class DbTest extends TestCase
         $res = $this->db->fetchAssoc(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
             array(2),
-            DbInterface::DB_FETCHMODE_DEFAULT
+            AdapterInterface::DB_FETCHMODE_DEFAULT
         );
 
         $this->assertInternalType('array', $res);
@@ -159,7 +161,7 @@ class DbTest extends TestCase
         $res = $this->db->fetchAssoc(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
             array(2),
-            DbInterface::DB_FETCHMODE_ASSOC
+            AdapterInterface::DB_FETCHMODE_ASSOC
         );
 
         $this->assertInternalType('array', $res);
@@ -179,7 +181,7 @@ class DbTest extends TestCase
     }
 
     /**
-     * fetchAssoc with tow columns behaves differently with DbPear.
+     * fetchAssoc with tow columns behaves differently with Eventum\Db\DbPear.
      * you should really use fetchpair then
      *
      * @group fetchAssoc
@@ -187,7 +189,7 @@ class DbTest extends TestCase
     public function testFetchAssoc()
     {
         $stmt = 'SELECT sta_id, sta_title FROM {{%status}} ORDER BY sta_rank ASC';
-        if ($this->db instanceof DbPear) {
+        if ($this->db instanceof PearAdapter) {
             $res = $this->db->fetchAssoc($stmt);
         } else {
             $res = $this->db->getPair($stmt);
@@ -255,7 +257,7 @@ class DbTest extends TestCase
     {
         $res = $this->db->getRow(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
-            array(2), DbInterface::DB_FETCHMODE_DEFAULT
+            array(2), AdapterInterface::DB_FETCHMODE_DEFAULT
         );
 
         $this->assertInternalType('array', $res);
@@ -273,7 +275,7 @@ class DbTest extends TestCase
     {
         $res = $this->db->getRow(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
-            array(2), DbInterface::DB_FETCHMODE_ASSOC
+            array(2), AdapterInterface::DB_FETCHMODE_ASSOC
         );
 
         $this->assertInternalType('array', $res);
