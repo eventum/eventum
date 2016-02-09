@@ -50,7 +50,6 @@ class AccessController extends BaseController
         $this->issue_id = $request->request->getInt('issue_id') ?: $request->query->getInt('iss_id');
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
         $this->sub_id = $request->query->getInt('id');
-        $this->prj_id = Issue::getProjectID($this->issue_id);
     }
 
     /**
@@ -61,6 +60,7 @@ class AccessController extends BaseController
         Auth::checkAuthentication(null, true);
 
         $this->usr_id = Auth::getUserID();
+        $this->prj_id = Issue::getProjectID($this->issue_id);
 
         return Access::canChangeAccessLevel($this->issue_id, $this->usr_id);
     }
