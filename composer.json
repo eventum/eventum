@@ -91,6 +91,9 @@
 	"conflict": {
 		"pear/pear-core-minimal": ">=1.10"
 	},
+	"replace": {
+		"zendframework/zend-crypt": "2.4.9"
+	},
 	"require-dev": {
 		"bgrins/filereader.js": "*",
 		"components/jquery": "~1.8.3",
