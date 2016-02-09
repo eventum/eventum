@@ -25,6 +25,11 @@ $logger = Logger::getInstance('db');
 
 $db->query("ALTER TABLE {{%mail_queue}} ADD maq_message_id VARCHAR(255) DEFAULT NULL AFTER maq_subject");
 
+// Lock mail queue table for the patch run
+// as the patch is likely deployed with new code,
+// and new code will not work ok if message_id field is not yet filled properly
+$db->query("LOCK TABLES {{%mail_queue}} READ");
+
 $maq_ids = $db->getColumn(
     // TODO: process only status pending?
     "SELECT maq_id FROM {{%mail_queue}} WHERE maq_message_id IS NULL"
@@ -75,3 +80,5 @@ foreach ($maq_ids as $maq_id) {
 }
 
 $logger->info("Updated $changed out of $total entries");
+
+$db->query("UNLOCK TABLES {{%mail_queue}} READ");
