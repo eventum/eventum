@@ -100,11 +100,11 @@ class AccessController extends BaseController
         $old_access_list = Access::getAccessList($this->issue_id);
 
         foreach (array_diff($old_access_list, $new_access_list) as $usr_id) {
-            Access::removeUser($this->issue_id, $usr_id);
+            Access::removeUserFromIssue($this->issue_id, $usr_id);
         }
 
         foreach (array_diff($new_access_list, $old_access_list) as $usr_id) {
-            Access::addUser($this->issue_id, $usr_id);
+            Access::addUserToIssue($this->issue_id, $usr_id);
         }
 
         Misc::setMessage(ev_gettext('Thank you, the access list has been updated.'));

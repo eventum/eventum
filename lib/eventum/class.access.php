@@ -548,7 +548,7 @@ class Access
         }
     }
 
-    public static function addUser($issue_id, $usr_id)
+    public static function addUserToIssue($issue_id, $usr_id)
     {
         $sql = "INSERT INTO
                     {{%issue_access_list}}
@@ -568,7 +568,7 @@ class Access
         return 1;
     }
 
-    public static function removeUser($issue_id, $usr_id)
+    public static function removeUserFromIssue($issue_id, $usr_id)
     {
         $sql = "DELETE FROM
                     {{%issue_access_list}}
