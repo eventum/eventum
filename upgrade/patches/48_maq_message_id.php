@@ -74,5 +74,4 @@ foreach ($maq_ids as $maq_id) {
     }
 }
 
-$count = count($res);
-$logger->info("Updated $changed out of $count entries");
+$logger->info("Updated $changed out of $total entries");
