@@ -665,7 +665,7 @@ class Access
             return array('note', $matches[1]);
         } elseif (preg_match("/view_email\.php\?ema_id=\d+&id=(?P<item_id>\d+)/", $url, $matches)) {
             return array('email', $matches[1]);
-        } elseif (preg_match("/download\.php\?cat=attachment+&id=(?P<item_id>\d+)/", $url, $matches)) {
+        } elseif (preg_match("/download\.php\?cat=attachment&id=(?P<item_id>\d+)/", $url, $matches)) {
             return array('file', $matches[1]);
         } elseif (preg_match("/update\.php/", $url, $matches)) {
             return array('update', null);
