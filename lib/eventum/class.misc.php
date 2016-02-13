@@ -60,6 +60,7 @@ class Misc
      * @param string $fieldName value to collect
      * @param array|object $array array or object to search
      * @return array new array containing the fieldName values from original array
+     * @deprecated use array_column for array inputs
      */
     public static function collect($fieldName, $array)
     {
