@@ -73,7 +73,7 @@ contact_list[contact_list.length] = '{$assoc_emails[i]|escape:javascript}';
 
 var email_responses = [];
 {section name="i" loop=$js_canned_responses}
-email_responses[{$js_canned_responses[i].ere_id}] = "{$js_canned_responses[i].ere_response_body}";
+email_responses[{$js_canned_responses[i].ere_id}] = {$js_canned_responses[i].ere_response_body|json_encode};
 {/section}
 
 function validateForm()
@@ -237,7 +237,7 @@ $().ready(function() {
     {if $core.current_role != $core.roles.customer and $canned_responses|@count > 0 and $read_only|default:'' != 1}
     <tr class="internal">
       <th>
-        {t}Canned Responses{/t} {$canned_responses}
+        {t}Canned Responses{/t}
       </th>
       <td>
         <select name="email_response">

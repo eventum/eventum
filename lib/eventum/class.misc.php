@@ -288,23 +288,6 @@ class Misc
     }
 
     /**
-     * Method used to replace all special whitespace characters (\n,
-     * \r and \t) by their string equivalents. It is usually used in
-     * JavaScript code.
-     *
-     * @param   string $str The string to be escaped
-     * @return  string The escaped string
-     */
-    public static function escapeWhitespace($str)
-    {
-        $str = str_replace("\n", '\n', $str);
-        $str = str_replace("\r", '\r', $str);
-        $str = str_replace("\t", '\t', $str);
-
-        return $str;
-    }
-
-    /**
      * Method used to simulate array_map()'s functionality in a deeply nested
      * array. The PHP built-in function does not allow that.
      *

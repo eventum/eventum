@@ -296,13 +296,6 @@ class Email_Response
             return '';
         }
 
-        // fix the newlines in the response bodies so javascript doesn't die
-        // FIXME: this is very wrong, escaping should be done in template where ere_response_body is output, not here
-        foreach ($res as &$row) {
-            $row['ere_response_body'] = Misc::escapeWhitespace($row['ere_response_body']);
-            $row['ere_response_body'] = str_replace('"', '\"', $row['ere_response_body']);
-        }
-
         return $res;
     }
 }
