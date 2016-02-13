@@ -162,13 +162,13 @@ clean_scripts() {
 # cleanup excess files from vendor
 # but not that much that composer won't work
 clean_vendor() {
+	rm vendor/*/*/*.md
+	rm vendor/*/*/*.mdown
 	rm vendor/*/*/.coveralls.yml
 	rm vendor/*/*/.gitattributes
 	rm vendor/*/*/.gitignore
 	rm vendor/*/*/.php_cs
 	rm vendor/*/*/.travis.yml
-	rm vendor/*/*/CHANGELOG.mdown
-	rm vendor/*/*/CONTRIBUTING.md
 	rm vendor/*/*/COPYING
 	rm vendor/*/*/ChangeLog*
 	rm vendor/*/*/LICENSE*
@@ -204,7 +204,6 @@ clean_vendor() {
 	# not used, and fails php lint under 5.3
 	rm vendor/zendframework/zend-stdlib/src/Guard/*Trait.php
 	rm vendor/zendframework/zend-stdlib/src/Hydrator/*Trait.php
-	rm vendor/zendframework/zend-servicemanager/src/*Trait.php
 	rm vendor/psr/log/Psr/Log/*Trait.php
 
 	# we need *only* zf-config Config.php class
@@ -219,12 +218,10 @@ clean_vendor() {
 	rm -r vendor/zendframework/zend-mail/src/Storage*
 	rm -r vendor/zendframework/zend-mail/src/Transport
 
-	# zend-crypt and deps pulled by zend-mail, but used only for Smtp/Auth, which we don't use yet
-	rm -r vendor/zendframework/zend-crypt
-	rm -r vendor/zendframework/zend-loader
-	rm -r vendor/zendframework/zend-math
-	rm -r vendor/zendframework/zend-servicemanager
-	rm -r vendor/zendframework/zend-validator
+	rm -r vendor/zendframework/zend-validator/src/Barcode*
+	rm -r vendor/zendframework/zend-validator/src/Db
+	rm -r vendor/zendframework/zend-validator/src/File
+	rm -r vendor/zendframework/zend-validator/src/Sitemap
 
 	# pear
 	rm vendor/pear*/*/package.xml
