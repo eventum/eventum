@@ -874,25 +874,6 @@ class Misc
     }
 
     /**
-     * Base 64 encodes all elements of an array.
-     *
-     * @param   array $data The values to encode
-     * @return  array The array of encoded values.
-     */
-    public static function base64_encode($data)
-    {
-        if (is_array($data)) {
-            foreach ($data as $k => $v) {
-                $data[$k] = self::base64_encode($v);
-            }
-        } else {
-            $data = base64_encode($data);
-        }
-
-        return $data;
-    }
-
-    /**
      * Tell whether a value is a PEAR error.
      *
      * @param   mixed $data the value to test
