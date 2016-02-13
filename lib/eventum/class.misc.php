@@ -851,23 +851,6 @@ class Misc
         }
     }
 
-    public static function arrayToQueryString($array, $parent_name = false)
-    {
-        $qs = '';
-        foreach ($array as $key => $val) {
-            if (is_array($val)) {
-                $qs .= self::arrayToQueryString($val, $key);
-            } else {
-                if ($parent_name != false) {
-                    $key = $parent_name . '[' . $key . ']';
-                }
-                $qs .= '&' . $key . '=' . urlencode($val);
-            }
-        }
-
-        return $qs;
-    }
-
     /**
      * Method used to get the standard input.
      *
