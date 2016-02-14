@@ -125,16 +125,20 @@ $(document).ready(function() {
     Eventum.setupTrimmedEmailToggle();
 });
 
+Eventum.TrimmedEmailToggleFunction = function () {
+    var $div = $(this).parent().find('div.email-trimmed');
+    if ($div.hasClass('hidden')) {
+        $div.removeClass('hidden')
+    } else {
+        $div.addClass('hidden')
+    }
+};
+
 // click to open trimmed emails
 Eventum.setupTrimmedEmailToggle = function () {
-    $('img.toggle-trimmed-email').on('click', function() {
-        var $div = $(this).parent().find('div.email-trimmed');
-        if ($div.hasClass('hidden')) {
-            $div.removeClass('hidden')
-        } else {
-            $div.addClass('hidden')
-        }
-    });
+    $('img.toggle-trimmed-email')
+        .off('click', Eventum.TrimmedEmailToggleFunction)
+        .on('click', Eventum.TrimmedEmailToggleFunction);
 };
 
 Eventum.expires = new Date(new Date().getTime() + (56 * 86400000));
