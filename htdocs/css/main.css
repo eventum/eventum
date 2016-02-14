@@ -577,3 +577,11 @@ td.light {
 #add_time_form img {
     vertical-align: middle;
 }
+
+img.toggle-trimmed-email {
+    background: url(../images/ellipsis.png) no-repeat;
+    height: 8px;
+    opacity: .3;
+    border: 1px solid black;
+    width: 20px;
+}

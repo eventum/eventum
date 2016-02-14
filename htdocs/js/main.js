@@ -9,6 +9,10 @@
  * that were distributed with this source code.
  */
 
+function Eventum()
+{
+}
+
 $(document).ready(function() {
 
     // see http://api.jquery.com/jQuery.param/
@@ -117,11 +121,21 @@ $(document).ready(function() {
                 .click(timeago_toggle);
         })
     }
+
+    Eventum.setupTrimmedEmailToggle();
 });
 
-function Eventum()
-{
-}
+// click to open trimmed emails
+Eventum.setupTrimmedEmailToggle = function () {
+    $('img.toggle-trimmed-email').on('click', function() {
+        var $div = $(this).parent().find('div.email-trimmed');
+        if ($div.hasClass('hidden')) {
+            $div.removeClass('hidden')
+        } else {
+            $div.addClass('hidden')
+        }
+    });
+};
 
 Eventum.expires = new Date(new Date().getTime() + (56 * 86400000));
 Eventum.checkClose = false;
@@ -876,7 +890,10 @@ ExpandableCell.expand = function(expand_type, list_id) {
     var cell = row.find('td');
     if (cell.html() == '') {
         cell.load(Eventum.rel_url + 'get_remote_data.php?action=' + expand_type + '&ec_id=' + expand_type +
-            '&list_id=' + list_id);
+            '&list_id=' + list_id, function() {
+            Eventum.setupTrimmedEmailToggle();
+        });
+
     }
     row.show();
 };
