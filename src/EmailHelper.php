@@ -47,8 +47,9 @@ class EmailHelper
             $text = Misc::highlightQuotedReply($text);
 
             return
-                '<img src="images/blank.gif" class="toggle-trimmed-email"><div class="hidden email-trimmed">'
-                . $text . '</div>';
+                '<div><img src="images/blank.gif" class="toggle-trimmed-email"><div class="hidden email-trimmed">'
+                . $text
+                . '</div></div>';
         };
 
         $email = EmailReplyParser::read($text);
