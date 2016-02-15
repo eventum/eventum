@@ -81,6 +81,6 @@ $db->query("ALTER TABLE {{%mail_queue}} ADD maq_message_id VARCHAR(255) DEFAULT 
 // Lock mail queue table for the patch run
 // as the patch is likely deployed with new code,
 // and new code will not work ok if message_id field is not yet filled properly
-$db->query("LOCK TABLES {{%mail_queue}} READ");
+$db->query("LOCK TABLES {{%mail_queue}} WRITE");
 $process_messages();
 $db->query("UNLOCK TABLES");
