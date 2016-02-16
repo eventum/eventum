@@ -114,9 +114,9 @@ class Prefs
                 FROM
                     {{%user_project_preference}}
                 WHERE
-                    upp_usr_id = $usr_id";
+                    upp_usr_id = ?";
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($sql, array(), AdapterInterface::DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->fetchAssoc($sql, array($usr_id), AdapterInterface::DB_FETCHMODE_ASSOC);
         } catch (DatabaseException $e) {
             return $returns[$usr_id];
         }
