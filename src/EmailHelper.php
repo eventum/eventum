@@ -13,10 +13,12 @@
 
 namespace Eventum;
 
+use Auth;
 use EmailReplyParser\EmailReplyParser;
 use EmailReplyParser\Fragment;
 use Link_Filter;
 use Misc;
+use Prefs;
 
 class EmailHelper
 {
@@ -28,7 +30,14 @@ class EmailHelper
      */
     public static function formatEmail($text)
     {
-        $text = self::collapseReplies($text);
+        static $enabled;
+
+        if ($enabled === null) {
+            $prefs = Prefs::get(Auth::getUserID());
+            $enabled = $prefs['collapsed_emails'] == 1;
+        }
+
+        $text = self::collapseReplies($text, $enabled);
         $text = nl2br($text);
         $text = Link_Filter::activateLinks($text);
 
@@ -41,8 +50,12 @@ class EmailHelper
      * @param string $text
      * @return string
      */
-    private static function collapseReplies($text)
+    private static function collapseReplies($text, $enabled)
     {
+        if (!$enabled) {
+            return Misc::highlightQuotedReply($text);
+        }
+
         $wrapText = function ($text) {
             $text = Misc::highlightQuotedReply($text);
 

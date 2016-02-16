@@ -41,6 +41,7 @@ class Prefs
             'auto_append_note_sig'    => 'no',
             'close_popup_windows'     => 1,
             'relative_date'           => (int) ($setup['relative_date'] == 'enabled'),
+            'collapsed_emails'        => 1,
         );
 
         if (is_array($projects)) {
@@ -78,7 +79,8 @@ class Prefs
                     upr_auto_append_email_sig as auto_append_email_sig,
                     upr_auto_append_note_sig as auto_append_note_sig,
                     upr_auto_close_popup_window as close_popup_windows,
-                    upr_relative_date as relative_date
+                    upr_relative_date as relative_date,
+                    upr_collapsed_emails as collapsed_emails
                 FROM
                     {{%user_preference}}
                 WHERE
@@ -86,9 +88,10 @@ class Prefs
         try {
             $res = DB_Helper::getInstance()->getRow($sql, array($usr_id));
         } catch (DatabaseException $e) {
-            return self::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
+            $res = null;
         }
-        if ($res === null) {
+
+        if (!$res) {
             return self::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
         }
 
@@ -152,7 +155,9 @@ class Prefs
                     upr_auto_append_email_sig = ?,
                     upr_auto_append_note_sig = ?,
                     upr_auto_close_popup_window = ?,
-                    upr_relative_date = ?';
+                    upr_relative_date = ?,
+                    upr_collapsed_emails = ?
+                ';
         try {
             DB_Helper::getInstance()->query($sql, array(
                 $usr_id,
@@ -165,6 +170,7 @@ class Prefs
                 @$preferences['auto_append_note_sig'],
                 @$preferences['close_popup_windows'],
                 @$preferences['relative_date'],
+                @$preferences['collapsed_emails'],
             ));
         } catch (DatabaseException $e) {
             return -1;
