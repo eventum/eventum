@@ -106,7 +106,7 @@ class Prefs
         }
 
         // get per project preferences
-        $sql = "SELECT
+        $sql = 'SELECT
                     upp_prj_id as prj_id,
                     upp_receive_assigned_email as receive_assigned_email,
                     upp_receive_new_issue_email as receive_new_issue_email,
@@ -114,7 +114,7 @@ class Prefs
                 FROM
                     {{%user_project_preference}}
                 WHERE
-                    upp_usr_id = ?";
+                    upp_usr_id = ?';
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($sql, array($usr_id), AdapterInterface::DB_FETCHMODE_ASSOC);
         } catch (DatabaseException $e) {
