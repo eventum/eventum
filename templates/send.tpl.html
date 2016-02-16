@@ -160,7 +160,9 @@ $().ready(function() {
 
    $('#sendEmailForm').garlic({
       getPath: function ( $elem ) {
-          return $elem.parents('form').find('input[name=issue_id]').val() + '_' + $elem.attr( 'name' );
+          var form = $elem.parents('form');
+          return form.find('input[name=issue_id]').val() + '_' +
+                  form.find('input[name=parent_id]').val() + $elem.attr( 'name' );
       }
    });
 });
@@ -324,9 +326,8 @@ $().ready(function() {
       <td colspan="2">
           {if $read_only|default:'' != 1}
           <input type="submit" value="{t}Send Email{/t}">&nbsp;&nbsp;
-          <input type="button" value="{t}Reset{/t}" onClick="resetForm(this.form);">&nbsp;&nbsp;
           {/if}
-          <input type="button" value="{t}Cancel{/t}" onClick="window.close();">
+          <input type="reset" value="{t}Cancel{/t}" onClick="window.close();">
 
           <div class="right">
             {if $core.current_user_prefs.email_signature != "" and $core.current_user_prefs.auto_append_email_sig != 1}
