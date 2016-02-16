@@ -256,6 +256,7 @@ clean_vendor() {
 	rm -r htdocs/components/jquery-ui/ui/minified
 	rm -r htdocs/components/jquery-ui/ui/i18n
 	rm htdocs/components/dropzone/index.js
+	rm htdocs/components/garlicjs/js/garlic-standalone.min.js
 
 	# not ready yet
 	rm src/Db/Adapter/YiiAdapter.php
