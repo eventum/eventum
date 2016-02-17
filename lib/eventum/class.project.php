@@ -763,7 +763,7 @@ class Project
      * @param   integer $issue_id The issue ID
      * @return  array List of names and emails
      */
-    public static function getAddressBook($prj_id, $issue_id = false)
+    public static function getAddressBook($prj_id, $issue_id = null)
     {
         static $returns;
 
@@ -773,17 +773,17 @@ class Project
         }
 
         $res = self::getAddressBookAssocList($prj_id, $issue_id);
-        if (empty($res)) {
-            return '';
-        } else {
-            $temp = array();
-            foreach ($res as $name => $email) {
-                $temp["$name <$email>"] = $name;
-            }
-            $returns[$key] = $temp;
-
-            return $temp;
+        if (!$res) {
+            return null;
         }
+
+        $temp = array();
+        foreach ($res as $name => $email) {
+            $temp["$name <$email>"] = $name;
+        }
+        $returns[$key] = $temp;
+
+        return $temp;
     }
 
     /**
@@ -794,7 +794,7 @@ class Project
      * @param   integer $issue_id The issue ID
      * @return  array List of names and emails
      */
-    public static function getAddressBookAssocList($prj_id, $issue_id = false)
+    public static function getAddressBookAssocList($prj_id, $issue_id = null)
     {
         if ($issue_id) {
             $customer_id = Issue::getCustomerID($issue_id);
@@ -825,7 +825,7 @@ class Project
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DatabaseException $e) {
-            return '';
+            return null;
         }
 
         return $res;
