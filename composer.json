@@ -86,7 +86,7 @@
 		"smarty/smarty": "~3.1.12",
 		"sphinx/php-sphinxapi": "2.0.*",
 		"symfony/http-foundation": "~2.7.0",
-		"theorchard/monolog-cascade": "dev-master",
+		"theorchard/monolog-cascade": "^0.3.1",
 		"zendframework/zend-config": "2.4.*"
 	},
 	"conflict": {
