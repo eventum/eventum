@@ -3,13 +3,10 @@
 {block title}#{$issue_id} - Access List{/block}
 
 {block "content"}
-
-
 <form name="access" method="post">
     <table class="bordered">
         <input type="hidden" name="cat" value="set_level">
         <input type="hidden" name="issue_id" value="{$issue_id}">
-        {if $core.current_role > $core.roles.reporter}
         <tr class="title">
             <th colspan="2">
                 {t issue_id=$issue_id}Access Level for Issue #%1{/t}
@@ -28,7 +25,6 @@
                 <input type="submit" value="{t}Set Level{/t}">
             </td>
         </tr>
-        {/if}
     </table>
 </form>
 
