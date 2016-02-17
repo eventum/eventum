@@ -40,7 +40,7 @@ class Logger extends Registry
         Monolog\Logger::setTimezone(new DateTimeZone(APP_DEFAULT_TIMEZONE));
 
         // configure your loggers
-        Cascade::fileConfig(APP_CONFIG_PATH . '/logger.php');
+        Cascade::fileConfig(self::getConfig());
 
         // ensure those log channels are present
         static::createLogger('db');
@@ -49,6 +49,33 @@ class Logger extends Registry
 
         // attach php errorhandler to app logger
         Monolog\ErrorHandler::register(self::getInstance('app'));
+    }
+
+    /**
+     * Load and merge logger configs
+     *
+     * @return array
+     */
+    private static function getConfig()
+    {
+        $files = array(
+            'logger.dist.php',
+            'logger.php',
+        );
+        $config = array();
+        foreach ($files as $file) {
+            $file = APP_CONFIG_PATH . '/' . $file;
+            if (!file_exists($file)) {
+                continue;
+            }
+            $res = require $file;
+            if ($res !== 1 && is_array($res)) {
+                // merge, if it returns array
+                // otherwise they might modified $config directly
+                $config = array_merge($config, $res);
+            }
+        }
+        return $config;
     }
 
     /**
