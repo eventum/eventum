@@ -63,48 +63,35 @@ $processors = array(
     ),
 );
 
+$default_processors = array(
+    'web_processor',
+    'psr_log_processor',
+    'introspection_processor',
+    'memory_processor',
+    'memory_peak_processor',
+    'eventum_app_info_processor',
+);
 $loggers = array(
     'app' => array(
         'handlers' => array(
             'app_log',
             'error_handler',
         ),
-        'processors' => array(
-            'web_processor',
-            'psr_log_processor',
-            'introspection_processor',
-            'memory_processor',
-            'memory_peak_processor',
-            'eventum_app_info_processor',
-        ),
+        'processors' => $default_processors,
     ),
     'auth' => array(
         'handlers' => array(
             'auth_log',
             'error_handler',
         ),
-        'processors' => array(
-            'web_processor',
-            'psr_log_processor',
-            'introspection_processor',
-            'memory_processor',
-            'memory_peak_processor',
-            'eventum_app_info_processor',
-        ),
+        'processors' => $default_processors,
     ),
     'cli' => array(
         'handlers' => array(
             'cli_log',
             'error_handler',
         ),
-        'processors' => array(
-            'web_processor',
-            'psr_log_processor',
-            'introspection_processor',
-            'memory_processor',
-            'memory_peak_processor',
-            'eventum_app_info_processor',
-        ),
+        'processors' => $default_processors,
     ),
 );
 
