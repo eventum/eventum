@@ -17,6 +17,7 @@ use Cascade\Cascade;
 use DateTimeZone;
 use Monolog;
 use Monolog\Registry;
+use Setup;
 
 /**
  * @method static Monolog\Logger app() Application log channel
@@ -58,6 +59,8 @@ class Logger extends Registry
      */
     private static function getConfig()
     {
+        // load $setup, so required files could use $setup variable
+        $setup = Setup::get();
         $files = array(
             'logger.dist.php',
             'logger.php',
@@ -75,6 +78,7 @@ class Logger extends Registry
                 $config = array_merge($config, $res);
             }
         }
+
         return $config;
     }
 

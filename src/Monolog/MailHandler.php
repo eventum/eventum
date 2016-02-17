@@ -15,8 +15,8 @@ namespace Eventum\Monolog;
 
 use InvalidArgumentException;
 use Misc;
-use Monolog\Handler\NativeMailerHandler;
 use Monolog;
+use Monolog\Handler\NativeMailerHandler;
 use Setup;
 
 class MailHandler extends NativeMailerHandler
