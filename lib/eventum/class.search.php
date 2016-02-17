@@ -382,7 +382,7 @@ class Search
                     iss_id = ial_iss_id AND
                     ial_usr_id = " . $usr_id . "
                  LEFT JOIN
-                    user_group
+                    {{%user_group}}
                  ON
                     ugr_usr_id = " . $usr_id . "
                  WHERE
