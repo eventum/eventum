@@ -154,7 +154,7 @@ class RemoteDataController extends BaseController
             return $info['seb_body'];
         }
 
-        return $this->processText(nl2br(Misc::highlightQuotedReply($info['seb_body'])));
+        return EmailHelper::formatEmail($info['seb_body']);
     }
 
     /**
