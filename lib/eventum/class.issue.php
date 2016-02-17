@@ -2213,10 +2213,10 @@ class Issue
 
         $clone_iss_id = isset($_POST['clone_iss_id']) ? (int) $_POST['clone_iss_id'] : null;
         if ($clone_iss_id && Access::canCloneIssue($clone_iss_id, $current_usr_id)) {
-            History::add($issue_id, $current_usr_id, 'issue_cloned_from', 'Issue cloned from #{issue_id}', array(
+            History::add($issue_id, $current_usr_id, 'issue_cloned_from', 'Issue cloned from issue #{issue_id}', array(
                 'issue_id' => $clone_iss_id
             ));
-            History::add($clone_iss_id, $current_usr_id, 'issue_cloned_to', 'Issue cloned to #{issue_id}', array(
+            History::add($clone_iss_id, $current_usr_id, 'issue_cloned_to', 'Issue cloned to issue #{issue_id}', array(
                 'issue_id' => $issue_id,
             ));
             self::addAssociation($issue_id, $clone_iss_id, $usr_id, true);
