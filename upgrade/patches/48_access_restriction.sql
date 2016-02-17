@@ -8,11 +8,11 @@ CREATE TABLE {{%issue_access_log}} (
   alg_id int unsigned NOT NULL auto_increment,
   alg_iss_id int unsigned NOT NULL,
   alg_usr_id int unsigned NOT NULL,
+  alg_failed tinyint(1) NOT NULL DEFAULT 0,
+  alg_item_id int unsigned NULL,
   alg_created datetime NOT NULL,
   alg_ip_address VARCHAR(15) NOT NULL,
-  alg_failed tinyint(1) NOT NULL DEFAULT 0,
   alg_item varchar(10) NULL,
-  alg_item_id int unsigned NULL,
   alg_url varchar(255) NULL,
   PRIMARY KEY (alg_id),
   KEY(alg_iss_id)
