@@ -3648,7 +3648,7 @@ class Issue
      * @param   string $level The Access level
      * @return  integer 1 if successful, -1 or -2 otherwise
      */
-    public function setAccessLevel($issue_id, $level)
+    public static function setAccessLevel($issue_id, $level)
     {
         $issue_id = (int) $issue_id;
         $usr_id = Auth::getUserID();
