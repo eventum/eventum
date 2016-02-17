@@ -16,7 +16,7 @@ namespace Eventum\Monolog;
 use InvalidArgumentException;
 use Misc;
 use Monolog\Handler\NativeMailerHandler;
-use Monolog\Logger;
+use Monolog;
 use Setup;
 
 class MailHandler extends NativeMailerHandler
@@ -26,7 +26,7 @@ class MailHandler extends NativeMailerHandler
      *
      * @param array|int|string $level
      */
-    public function __construct($level = Logger::ERROR)
+    public function __construct($level = Monolog\Logger::ERROR)
     {
         $setup = Setup::get();
         if ($setup['email_error']['status'] != 'enabled') {
