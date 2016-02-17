@@ -47,6 +47,10 @@ processors:
         class: Monolog\Processor\MemoryUsageProcessor
     memory_peak_processor:
         class: Monolog\Processor\MemoryPeakUsageProcessor
+    psr_log_processor:
+        class: Monolog\Processor\PsrLogMessageProcessor
+    introspection_processor:
+        class: Monolog\Processor\IntrospectionProcessor
     eventum_app_info_processor:
         class: Eventum\Monolog\AppInfoProcessor
 
@@ -54,10 +58,10 @@ loggers:
     # app logger is the default, the other loggers are optional and inherit from app logger if not defined
     app:
         handlers: [app_log, error_handler]
-        processors: [web_processor, memory_processor, memory_peak_processor, eventum_app_info_processor]
+        processors: [web_processor, psr_log_processor, introspection_processor, memory_processor, memory_peak_processor, eventum_app_info_processor]
     auth:
         handlers: [auth_log, error_handler]
-        processors: [web_processor, memory_processor, memory_peak_processor, eventum_app_info_processor]
+        processors: [web_processor, psr_log_processor, introspection_processor, memory_processor, memory_peak_processor, eventum_app_info_processor]
     cli:
         handlers: [cli_log, error_handler]
-        processors: [web_processor, memory_processor, memory_peak_processor, eventum_app_info_processor]
+        processors: [web_processor, psr_log_processor, introspection_processor, memory_processor, memory_peak_processor, eventum_app_info_processor]
