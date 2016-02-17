@@ -1,5 +1,5 @@
 <?php
-# File: logger.dist.yml
+# File: logger.dist.php
 # This is an template config file for the eventum setup.
 # Setup will process this and save as config/logger.yml.
 # You can remove this comment :)
@@ -22,21 +22,21 @@ return array(
             'class' => 'Monolog\\Handler\\StreamHandler',
             'level' => 'INFO',
             'formatter' => 'default',
-            'stream' => '../var/log/eventum.log',
+            'stream' => APP_LOG_PATH . '/eventum.log',
             'filePermission' => 0640,
         ),
         'auth_log' => array(
             'class' => 'Monolog\\Handler\\StreamHandler',
             'level' => 'INFO',
             'formatter' => 'default',
-            'stream' => '../var/log/auth.log',
+            'stream' => APP_LOG_PATH . '/auth.log',
             'filePermission' => 0640,
         ),
         'cli_log' => array(
             'class' => 'Monolog\\Handler\\StreamHandler',
             'level' => 'INFO',
             'formatter' => 'default',
-            'stream' => '../var/log/cli.log',
+            'stream' => APP_LOG_PATH . '/cli.log',
             'filePermission' => 0640,
         ),
         'error_handler' => array(
