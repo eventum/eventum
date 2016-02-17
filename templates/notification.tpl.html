@@ -5,7 +5,14 @@
 {block "javascripts"}
 <script type="text/javascript">
   $(function() {
-    $('.select_all').click(function() { Eventum.toggleCheckAll('items[]') });
+    $('.select_all').click(function () {
+      Eventum.toggleCheckAll('items[]')
+    });
+
+    $('#users').change(function() {
+      Eventum.getField('email').val($(this).val());
+    });
+
   });
 
   function validateForm(f)
@@ -56,6 +63,11 @@
       </th>
 
       <td nowrap>
+        <select id="users"
+                data-placeholder="{t}Choose User...{/t}" class="chosen-select">
+          {html_options options=$users }
+        </select><br/>
+
         <input type="text" name="email" size="40" value="{if $info.sub_email|default:'' != ''}{$info.sub_email}{else}{$core.user.usr_email}{/if}">
         {include file="error_icon.tpl.html" field="email"}
       </td>

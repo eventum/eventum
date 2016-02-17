@@ -183,7 +183,7 @@ Eventum.escapeSelector = function(selector)
 Eventum.getField = function(name_or_obj, form)
 {
     if ($.type(name_or_obj) == 'string') {
-        if (form != undefined) {
+        if (form) {
             return form.find('[name="' + name_or_obj + '"]');
         } else {
             return $('[name="' + name_or_obj + '"]')

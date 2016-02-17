@@ -4,6 +4,8 @@ Eventum Issue Tracking System
 2016-??-??, Version [3.0.10]
 ----------------------------
 
+- Add back notification user picker (@glensc, #34)
+
 2016-02-06, Version [3.0.9]
 ---------------------------
 - Deprecate `bin/route_*.php` scripts in favour of `bin/process_all_emails.php` (@glensc, a4ea0c5)
