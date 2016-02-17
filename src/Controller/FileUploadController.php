@@ -15,8 +15,8 @@ namespace Eventum\Controller;
 
 use Attachment;
 use Auth;
+use Eventum\Monolog\Logger;
 use Exception;
-use Logger;
 
 class FileUploadController extends BaseController
 {

@@ -11,7 +11,11 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Monolog;
+
 use Cascade\Cascade;
+use DateTimeZone;
+use Monolog;
 use Monolog\Registry;
 
 /**
@@ -27,8 +31,8 @@ class Logger extends Registry
      *
      * This can be used like:
      *
-     * Logger::api()->addError('Sent to $api Logger instance');
-     * Logger::application()->addError('Sent to $application Logger instance');
+     * Eventum\Monolog\Logger::api()->addError('Sent to $api Eventum\Monolog\Logger instance');
+     * Eventum\Monolog\Logger::application()->addError('Sent to $application Eventum\Monolog\Logger instance');
      */
     public static function initialize()
     {
@@ -53,7 +57,7 @@ class Logger extends Registry
      *
      * This could be useful, say in LDAP Auth Adapter:
      *
-     * $logger = Logger::createLogger('ldap');
+     * $logger = Eventum\Monolog\Logger::createLogger('ldap');
      * $logger->error('ldap error')
      *
      * @param string $name

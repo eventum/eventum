@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Monolog\Logger;
+
 require_once __DIR__ . '/../../init.php';
 
 // handle ajax upload

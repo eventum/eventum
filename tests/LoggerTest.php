@@ -1,6 +1,7 @@
 <?php
 
 use Eventum\Db\DatabaseException;
+use Eventum\Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Cascade\Cascade;
 

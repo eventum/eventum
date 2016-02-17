@@ -122,7 +122,7 @@ Misc::stripInput($_POST);
 // set default timezone
 date_default_timezone_set(APP_DEFAULT_TIMEZONE);
 
-Logger::initialize();
+Eventum\Monolog\Logger::initialize();
 Language::setup();
 
 // set charset
