@@ -23,3 +23,6 @@ loggers:
     myLogger:
         handlers: [console, info_file_handler]
         processors: [web_processor]
+    app:
+        handlers: [console, info_file_handler]
+        processors: [web_processor]

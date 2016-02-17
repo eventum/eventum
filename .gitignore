@@ -31,6 +31,7 @@ Session.vim
 /config/config.php
 /config/irc_config.php
 /config/ldap.php
+/config/logger.yml
 /config/private_key.php
 /config/secret_key.php
 /config/setup.php

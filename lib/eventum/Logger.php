@@ -11,13 +11,16 @@
  * that were distributed with this source code.
  */
 
+use Cascade\Cascade;
+use Monolog\Registry;
+
 /**
  * @method static Monolog\Logger app() Application log channel
  * @method static Monolog\Logger db() Database log channel
  * @method static Monolog\Logger auth() Auth log channel
  * @method static Monolog\Logger cli() CLI log channel
  */
-class Logger extends Monolog\Registry
+class Logger extends Registry
 {
     /**
      * Configure logging for Eventum application.
@@ -32,58 +35,16 @@ class Logger extends Monolog\Registry
         // Configure it use Eventum timezone
         Monolog\Logger::setTimezone(new DateTimeZone(APP_DEFAULT_TIMEZONE));
 
-        // create 'app' instance, it will be used base of other loggers
-        $logfile = self::createFileHandler('eventum.log');
-        $app = static::createLogger('app', array(), array())->pushHandler($logfile);
+        // configure your loggers
+        Cascade::fileConfig(APP_CONFIG_PATH . '/logger.yml');
 
-        // setup mail logger if enabled
-        $mailer = self::createMailHandler();
-        if ($mailer) {
-            $app->pushHandler($mailer);
-        }
-
-        $app->pushProcessor(new Monolog\Processor\WebProcessor());
-        $app->pushProcessor(new Monolog\Processor\MemoryUsageProcessor());
-        $app->pushProcessor(new Monolog\Processor\MemoryPeakUsageProcessor());
-        $app->pushProcessor(
-            function (array $record) {
-                $record['extra']['version'] = APP_VERSION;
-
-                return $record;
-            }
-        );
-
-        // add logger for database
+        // ensure those log channels are present
         static::createLogger('db');
-
-        // log auth channel to auth.log
-        static::createLogger('auth', array(self::createFileHandler('auth.log')));
-
-        // add cli logger with different output file
-        static::createLogger('cli', array(self::createFileHandler('cli.log')));
-
-        static::registerErrorHandler($app);
-    }
-
-    /**
-     * create php errorhandler, which also logs to php error_log
-     *
-     * @param Monolog\Logger $app
-     */
-    private static function registerErrorHandler($app)
-    {
-        // get base logger
-        $logger = clone $app;
-        // add extra handler
-        $handler = new Monolog\Handler\ErrorLogHandler();
-        // set formatter without datetime
-        $handler->setFormatter(
-            new Monolog\Formatter\LineFormatter('%channel%.%level_name%: %message% %context% %extra%')
-        );
-        $logger->pushHandler($handler);
+        static::createLogger('auth');
+        static::createLogger('cli');
 
         // attach php errorhandler to app logger
-        Monolog\ErrorHandler::register($logger);
+        Monolog\ErrorHandler::register(self::getInstance('app'));
     }
 
     /**
@@ -102,6 +63,10 @@ class Logger extends Monolog\Registry
      */
     public static function createLogger($name, $handlers = null, $processors = null)
     {
+        if (self::hasLogger($name)) {
+            return self::getInstance($name);
+        }
+
         if ($handlers === null) {
             $handlers = self::getInstance('app')->getHandlers();
         }
@@ -111,61 +76,8 @@ class Logger extends Monolog\Registry
 
         $logger = new Monolog\Logger($name, $handlers, $processors);
 
-        Monolog\Registry::addLogger($logger);
+        self::addLogger($logger);
 
         return $logger;
-    }
-
-    /**
-     * Create Handler that logs to a file in APP_LOG_PATH directory
-     *
-     * @param string $filename
-     * @param integer $level The minimum logging level at which this handler will be triggered
-     * @return \Monolog\Handler\StreamHandler
-     */
-    private static function createFileHandler($filename, $level = Monolog\Logger::INFO)
-    {
-        $path = APP_LOG_PATH . '/' . $filename;
-
-        // make files not world readable by default
-        $filePermission = 0640;
-
-        // only set the filePermission if the log does not exist, this allows to chmod it later.
-        // Monolog keeps insisting the permission if we pass it on existing log files.
-        if (file_exists($path)) {
-            $filePermission = null;
-        }
-
-        return new Monolog\Handler\StreamHandler($path, $level, true, $filePermission, false);
-    }
-
-    /**
-     * Get mail handler if configured
-     *
-     * @return \Monolog\Handler\MailHandler
-     */
-    private static function createMailHandler()
-    {
-        $setup = Setup::get();
-        if ($setup['email_error']['status'] != 'enabled') {
-            return null;
-        }
-
-        $notify_list = trim($setup['email_error']['addresses']);
-        if (!$notify_list) {
-            return null;
-        }
-
-        // recipient list can be comma separated
-        $to = Misc::trim(explode(',', $notify_list));
-        $subject = APP_SITE_NAME . ' - Error found!';
-        $handler = new Monolog\Handler\NativeMailerHandler(
-            $to,
-            $subject,
-            $setup['smtp']['from'],
-            Monolog\Logger::ERROR
-        );
-
-        return $handler;
     }
 }
