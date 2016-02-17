@@ -40,7 +40,7 @@ class Logger extends Registry
         Monolog\Logger::setTimezone(new DateTimeZone(APP_DEFAULT_TIMEZONE));
 
         // configure your loggers
-        Cascade::fileConfig(APP_CONFIG_PATH . '/logger.yml');
+        Cascade::fileConfig(APP_CONFIG_PATH . '/logger.php');
 
         // ensure those log channels are present
         static::createLogger('db');
