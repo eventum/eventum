@@ -1,0 +1,25 @@
+formatters:
+    dashed:
+        class: Monolog\Formatter\LineFormatter
+        format: "%datetime%-%channel%.%level_name% - %message%\n"
+handlers:
+    console:
+        class: Monolog\Handler\StreamHandler
+        level: DEBUG
+        formatter: dashed
+        processors: [memory_processor]
+        stream: php://stdout
+    info_file_handler:
+        class: Monolog\Handler\StreamHandler
+        level: INFO
+        formatter: dashed
+        stream: ./example_info.log
+processors:
+    web_processor:
+        class: Monolog\Processor\WebProcessor
+    memory_processor:
+        class: Monolog\Processor\MemoryUsageProcessor
+loggers:
+    myLogger:
+        handlers: [console, info_file_handler]
+        processors: [web_processor]
