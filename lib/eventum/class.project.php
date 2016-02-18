@@ -791,13 +791,30 @@ class Project
      * that are associated with a given project and issue.
      *
      * @param   integer $prj_id The project ID
-     * @param   integer $issue_id The issue ID
+     * @param   bool|int $issue_id The issue ID
      * @return  array List of names and emails
      */
     public static function getAddressBookAssocList($prj_id, $issue_id = null)
     {
+        $contact_ids = array();
+        $customer_id = false;
         if ($issue_id) {
-            $customer_id = Issue::getCustomerID($issue_id);
+            if (CRM::hasCustomerIntegration($prj_id)) {
+                $crm = CRM::getInstance($prj_id);
+                $customer_id = Issue::getCustomerID($issue_id);
+                $contract_id = Issue::getContractID($issue_id);
+                if (!empty($contract_id)) {
+                    try {
+                        $contract = $crm->getContract($contract_id);
+                        $contact_ids = array_map(function($element) { return $element->getContactID(); }, $contract->getContacts());
+                    } catch (CRMException $e) {}
+                } elseif (!empty($customer_id)) {
+                    try {
+                        $customer = $crm->getCustomer($customer_id);
+                        $contact_ids = array_keys($customer->getContacts());
+                    } catch (CRMException $e) {}
+                }
+            }
         }
 
         $stmt = "SELECT
@@ -812,11 +829,17 @@ class Project
                     usr_status='active' AND
                     usr_id <> ?";
         $params = array($prj_id, APP_SYSTEM_USER_ID);
-        if (!empty($customer_id)) {
-            $stmt .= ' AND (usr_customer_id IS NULL OR usr_customer_id IN (0, ?)) ';
+        if (count($contact_ids) > 0) {
+            $stmt .= ' AND (pru_role <> ? OR usr_customer_contact_id IN(' . DB_Helper::buildList($contact_ids) . ')) ';
+            $params[] = User::ROLE_CUSTOMER;
+            $params = array_merge($params, $contact_ids);
+        } elseif ($customer_id != false) {
+            $stmt .= ' AND (pru_role <> ? OR usr_customer_id = ?) ';
+            $params[] = User::ROLE_CUSTOMER;
             $params[] = $customer_id;
         } else {
-            $stmt .= ' AND (usr_customer_id IS NULL OR usr_customer_id=0) ';
+            $stmt .= ' AND pru_role <> ? ';
+            $params[] = User::ROLE_CUSTOMER;
         }
         $stmt .= '
                  ORDER BY
