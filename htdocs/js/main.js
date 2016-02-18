@@ -126,17 +126,18 @@ $(document).ready(function() {
 });
 
 Eventum.TrimmedEmailToggleFunction = function () {
-    var $div = $(this).parent().find('div.email-trimmed');
+    var $div = $(this).parent().parent().find('div.email-trimmed');
     if ($div.hasClass('hidden')) {
         $div.removeClass('hidden')
     } else {
         $div.addClass('hidden')
     }
+    return false;
 };
 
 // click to open trimmed emails
 Eventum.setupTrimmedEmailToggle = function () {
-    $('img.toggle-trimmed-email')
+    $('span.toggle-trimmed-email').find('a')
         .off('click', Eventum.TrimmedEmailToggleFunction)
         .on('click', Eventum.TrimmedEmailToggleFunction);
 };

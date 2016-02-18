@@ -578,10 +578,25 @@ td.light {
     vertical-align: middle;
 }
 
-img.toggle-trimmed-email {
-    background: url(../images/ellipsis.png) no-repeat;
-    height: 8px;
-    opacity: .3;
-    border: 1px solid black;
-    width: 20px;
+span.toggle-trimmed-email a {
+    display: inline-block;
+    height: 12px;
+    padding: 0 9px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 6px;
+    color: #555;
+    text-decoration: none;
+    vertical-align: middle;
+    background: #bbb;
+    border-radius: 1px;
+}
+
+span.toggle-trimmed-email a:hover {
+    background-color: #aaa;
+}
+
+span.toggle-trimmed-email a:active {
+    color: #fff;
+    background-color: #4078c0;
 }
