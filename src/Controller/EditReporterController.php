@@ -95,11 +95,9 @@ class EditReporterController extends BaseController
      */
     protected function prepareTemplate()
     {
-        $reporters = Project::getAddressBook($this->prj_id, $this->issue_id);
         $this->tpl->assign(
             array(
                 'issue_id' => $this->issue_id,
-                'allowed_reporters' => $reporters,
             )
         );
     }
