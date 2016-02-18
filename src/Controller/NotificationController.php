@@ -142,13 +142,17 @@ class NotificationController extends BaseController
             }
         }
 
+        $users = Project::getAddressBook($this->prj_id, $this->issue_id);
+        // add empty value which would be the default value in dropdown
+        array_unshift($users, '');
+
         $this->tpl->assign(
             array(
                 'issue_id' => $this->issue_id,
                 'default_actions' => $default_actions,
                 'info' => $info,
                 'list' => Notification::getSubscriberListing($this->issue_id),
-                'users' => Project::getAddressBook($this->prj_id, $this->issue_id),
+                'users' => $users,
             )
         );
     }
