@@ -61,7 +61,7 @@ $().ready(function() {
 //-->
 </script>
 
-      <form name="add_phone_form" onSubmit="return validatePhoneSupportForm(this);" method="post">
+      <form name="add_phone_form" onSubmit="return validatePhoneSupportForm(this);" method="post" data-persist="garlic">
           <input type="hidden" name="cat" value="add_phone">
           <input type="hidden" name="issue_id" value="{$issue_id}">
             <table class="bordered">
@@ -137,6 +137,7 @@ $().ready(function() {
               <tr class="buttons">
                 <td colspan="2">
                   <input type="submit" value="{t}Save Phone Call{/t}">
+                  <input type="reset" value="{t}Cancel{/t}" onClick="window.close();">
                 </td>
               </tr>
               {/if}
