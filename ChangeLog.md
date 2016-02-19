@@ -5,6 +5,7 @@ Eventum Issue Tracking System
 ----------------------------
 
 - Add back notification user picker (@glensc, #34)
+- Autosave notes/emails/etc to local storage in case of browser crash (@balsdorf, @glensc, @slay123, #145)
 
 2016-02-06, Version [3.0.9]
 ---------------------------
