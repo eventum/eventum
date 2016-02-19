@@ -68,9 +68,8 @@
         $('#post_note_form').garlic({
             getPath: function ( $elem ) {
               var form = $elem.parents('form');
-              return form.find('input[name=issue_id]').val() + '_' +
-                      form.find('input[name=parent_id]').val() +
-                      form.data('sup-id') + $elem.attr( 'name' );
+              return [form.find('input[name=issue_id]').val(), form.find('input[name=parent_id]').val(),
+                  form.data('sup-id'),$elem.attr('name')].join('_');
             }
         });
     });
