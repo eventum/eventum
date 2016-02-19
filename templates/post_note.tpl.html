@@ -64,12 +64,20 @@
     $().ready(function() {
         $('#clear_note_cc').click(clearExtraRecipients);
         $('#add_email_signature').click(setSignature);
+
+        $('#post_note_form').garlic({
+            getPath: function ( $elem ) {
+              var form = $elem.parents('form');
+              return [form.find('input[name=issue_id]').val(), form.find('input[name=parent_id]').val(),
+                  form.data('sup-id'),$elem.attr('name')].join('_');
+            }
+        });
     });
     //-->
 </script>
 
 
-<form class="validate" data-validation-function='validateForm' id="post_note_form" name="post_note_form" method="post">
+<form class="validate" data-validation-function='validateForm' id="post_note_form" name="post_note_form" method="post" data-sup-id="{$sup_id|default:''}">
     <input type="hidden" name="cat" value="post_note">
     <input type="hidden" name="parent_id" value="{$parent_note_id|default:''}">
     <input type="hidden" name="issue_id" value="{$issue_id}">
@@ -121,6 +129,7 @@
             <td>
                 <select multiple name="note_cc[]"
                         data-placeholder="{t}Choose Recipients...{/t}" class="chosen-select"
+                         data-storage="false"
                         >
                     {html_options options=$users}
                 </select>
@@ -131,8 +140,8 @@
                 {t}Add Extra Recipients To Notification List?{/t}
             </th>
             <td>
-                <label><input type="radio" name="add_extra_recipients" value="yes"> {t}Yes{/t}</label>
-                <label><input type="radio" name="add_extra_recipients" value="no" checked> {t}No{/t}</label>
+                <label><input type="radio" name="add_extra_recipients" value="yes" data-storage="false"> {t}Yes{/t}</label>
+                <label><input type="radio" name="add_extra_recipients" value="no" checked data-storage="false"> {t}No{/t}</label>
             </td>
         </tr>
         <tr>
@@ -140,7 +149,7 @@
                 {t}New Status for Issue{/t} #{$issue_id}:
             </th>
             <td>
-                <select name="new_status">
+                <select name="new_status" data-storage="false">
                     <option value=""></option>
                     {html_options options=$statuses}
                 </select>
@@ -151,8 +160,8 @@
                 {t}Time Spent{/t}:
             </th>
             <td>
-                <input type="text" size="5" name="time_spent" onChange="Eventum.calcDateDiff(this.form, 0)">
-                <select name="time_category">
+                <input type="text" size="5" name="time_spent" onChange="Eventum.calcDateDiff(this.form, 0)" data-storage="false">
+                <select name="time_category" data-storage="false">
                     {html_options options=$time_categories selected=$note_category_id}
                 </select>
                 <span><i>({t}in minutes{/t})</i></span>
@@ -162,7 +171,7 @@
         <tr>
             <th nowrap>{t}Time Summary{/t}</th>
             <td>
-                <input type="text" name="time_summary" size="40">{include file="error_icon.tpl.html" field="time_summary"}
+                <input type="text" name="time_summary" size="40" data-storage="false">{include file="error_icon.tpl.html" field="time_summary"}
             </td>
         </tr>
         <tr>
@@ -185,7 +194,7 @@
         <tr class="buttons">
             <td colspan="2">
                 <input name="main_submit_button" type="submit" value="{t}Post Internal Note{/t}">
-                <input type="button" value="{t}Cancel{/t}" onClick="window.close();">
+                <input type="reset" value="{t}Cancel{/t}" onClick="window.close();">
 
 
                 {if $core.current_user_prefs.email_signature != "" and $core.current_user_prefs.auto_append_note_sig != 'yes'}
