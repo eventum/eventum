@@ -161,8 +161,12 @@ $().ready(function() {
    $('#sendEmailForm').garlic({
       getPath: function ( $elem ) {
           var form = $elem.parents('form');
-          return [form.find('input[name=issue_id]').val(), form.find('input[name=parent_id]').val(),
-              $elem.attr('name')].join('_');
+          var field_keys = [form.find('input[name=issue_id]').val(), form.find('input[name=parent_id]').val()];
+          if (form.find('input[name=draft_id]').length) {
+              field_keys.push(form.find('input[name=draft_id]').val());
+          }
+          field_keys.push($elem.attr('name'));
+          return field_keys.join('_');
       }
    });
 });
