@@ -74,11 +74,19 @@ $().ready(function() {
     Eventum.updateTimeFields(f, 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');
     Eventum.updateTimeFields(f, 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]');
     f.submit(validateTimeForm);
+
+   $('#add_time_form').garlic({
+      getPath: function ( $elem ) {
+          var form = $elem.parents('form');
+          var field_keys = [form.find('input[name=issue_id]').val(), $elem.attr('name')];
+          return field_keys.join('_');
+      }
+   });
 });
 //-->
 </script>
 
-    <form id="add_time_form" method="post" data-persist="garlic">
+    <form id="add_time_form" method="post">
         <input type="hidden" name="cat" value="add_time">
         <input type="hidden" name="issue_id" value="{$issue_id}">
         <table class="bordered">
