@@ -60,14 +60,15 @@ class Logger extends Registry
     private static function getConfig()
     {
         // load $setup, so required files could use $setup variable
+        /** @var \Zend\Config\Config $setup */
         $setup = Setup::get();
+
         $files = array(
-            'logger.dist.php',
-            'logger.php',
+            APP_PATH . '/res/config/logger.php',
+            APP_CONFIG_PATH . '/logger.php',
         );
         $config = array();
         foreach ($files as $file) {
-            $file = APP_CONFIG_PATH . '/' . $file;
             if (!file_exists($file)) {
                 continue;
             }

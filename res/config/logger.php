@@ -1,10 +1,10 @@
 <?php
-# File: logger.dist.php
-# This is an template config file for the eventum setup.
-# Setup will process this and save as config/logger.yml.
-# You can remove this comment :)
-#
-# Logger configuration for Eventum
+/*
+ * This is an base config file for the eventum logger.
+ *
+ * Do not make changes to this file, they will be overwritten with an Eventum update
+ * If you need to make customizations, use config/logger.php
+ */
 
 $formatters = array(
     'default' => array(
