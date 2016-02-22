@@ -1127,10 +1127,6 @@ class Project
                 'title' =>  ev_gettext('File'),
                 'required'  =>  0,
             ),
-            'private'   =>    array(
-                'title' =>  ev_gettext('Private'),
-                'required'  =>  0,
-            ),
             'product'   =>    array(
                 'title' =>  ev_gettext('Product'),
                 'required'  =>  0,

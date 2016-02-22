@@ -272,6 +272,7 @@ issue_view.ready = function(page_id)
     $('.self_notification').click(issue_view.selfNotification);
     $('.self_authorized_replier').click(issue_view.signupAsAuthorizedReplier);
     $('.change_status').click(issue_view.changeIssueStatus);
+    $('.change_access').click(issue_view.changeAccess);
 
     $('.remove_quarantine').click(issue_view.removeQuarantine);
     $('.clear_duplicate').click(issue_view.clearDuplicateStatus);
@@ -349,6 +350,14 @@ issue_view.openAuthorizedReplier = function()
 {
     var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('authorized_replier.php?iss_id=' + issue_view.get_issue_id(), '_replier', features);
+    popupWin.focus();
+    return false;
+};
+
+issue_view.changeAccess = function()
+{
+    var features = 'width=440,height=400,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('access.php?iss_id=' + issue_view.get_issue_id(), '_access', features);
     popupWin.focus();
     return false;
 };

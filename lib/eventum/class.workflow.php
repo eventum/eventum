@@ -540,7 +540,7 @@ class Workflow
     }
 
     /**
-     * Called to check if an email address that does not have an eventum account can send notes to an issue.
+     * Called to check if a user can clone an issue
      *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
@@ -555,6 +555,24 @@ class Workflow
         $backend = self::_getBackend($prj_id);
 
         return $backend->canCloneIssue($prj_id, $issue_id, $usr_id);
+    }
+
+    /**
+     * Called to check if a user is allowed to edit the security settings of an issue
+     *
+     * @param   integer $prj_id The project ID
+     * @param   integer $issue_id The issue ID
+     * @param   string $usr_id The ID of the user
+     * @return  boolean True if the issue can be cloned, false otherwise
+     */
+    public static function canChangeAccessLevel($prj_id, $issue_id, $usr_id)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+        $backend = self::_getBackend($prj_id);
+
+        return $backend->canChangeAccessLevel($prj_id, $issue_id, $usr_id);
     }
 
     /**
@@ -787,6 +805,19 @@ class Workflow
     }
 
     /**
+     * Returns if a user can change the assignee of an issue. Return null to use default rules.
+     */
+    public static function canChangeAssignee($prj_id, $issue_id, $usr_id)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return null;
+        }
+        $backend = self::_getBackend($prj_id);
+
+        return $backend->canChangeAssignee($prj_id, $issue_id, $usr_id);
+    }
+
+    /**
      * Returns the ID of the group that is "active" right now.
      */
     public static function getActiveGroup($prj_id)
@@ -808,5 +839,56 @@ class Workflow
         $backend = self::_getBackend($prj_id);
 
         return $backend->formatIRCMessage($prj_id, $notice, $issue_id, $usr_id, $category, $type);
+    }
+
+    /**
+     * Returns an array of additional access levels an issue can be set to
+     *
+     * @param $prj_id
+     * @return array
+     */
+    public static function getAccessLevels($prj_id)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return array();
+        }
+        $backend = self::_getBackend($prj_id);
+
+        return $backend->getAccessLevels($prj_id);
+    }
+
+    /**
+     * Performs additional checks on if a user can access an issue.
+     *
+     * @param $prj_id
+     * @param $issue_id
+     * @param $usr_id
+     * @return mixed null to use default rules, true or false otherwise
+     */
+    public static function canAccessIssue($prj_id, $issue_id, $usr_id)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return null;
+        }
+        $backend = self::_getBackend($prj_id);
+
+        return $backend->canAccessIssue($prj_id, $issue_id, $usr_id);
+    }
+
+    /**
+     * Returns custom SQL to limit what results a user can see on the list issues page
+     *
+     * @param $prj_id
+     * @param $usr_id
+     * @return mixed null to use default rules or an sql string otherwise
+     */
+    public static function getAdditionalAccessSQL($prj_id, $usr_id)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return null;
+        }
+        $backend = self::_getBackend($prj_id);
+
+        return $backend->getAdditionalAccessSQL($prj_id, $usr_id);
     }
 }

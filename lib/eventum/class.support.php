@@ -1324,7 +1324,7 @@ class Support
 
         // handle 'private' issues.
         if (Auth::getCurrentRole() < User::ROLE_MANAGER) {
-            $stmt .= ' AND (iss_private = 0 OR iss_private IS NULL)';
+            $stmt .= " AND iss_access_level = 'normal'";
         }
 
         return $stmt;
@@ -1953,7 +1953,7 @@ class Support
                 // skip users who don't have access to this issue (but allow non-users and users without access to this project) to get emails
                 $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($recipient), true);
                 if ((((!empty($recipient_usr_id)) && ((!Issue::canAccess($issue_id, $recipient_usr_id)) && (User::getRoleByUser($recipient_usr_id, $prj_id) != null)))) ||
-                        (empty($recipient_usr_id)) && (Issue::isPrivate($issue_id))) {
+                        (empty($recipient_usr_id)) && (Issue::getAccessLevel($issue_id) != 'normal')) {
                     continue;
                 }
             } else {

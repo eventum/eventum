@@ -413,7 +413,7 @@ class Group
      * @param   string $name Name of the group
      * @return  integer The ID of the group, or -1 if no group by that name could be found.
      */
-    public function getGroupByName($name)
+    public static function getGroupByName($name)
     {
         $stmt = 'SELECT
                     grp_id
