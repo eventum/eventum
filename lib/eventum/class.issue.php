@@ -597,7 +597,7 @@ class Issue
             }
 
             $usr_id = Auth::getUserID();
-            Notification::notifyIssueUpdated($issue_id, array('iss_expected_resolution_date' => $current), array('expected_resolution_date' => $expected_resolution_date));
+            Notification::notifyIssueUpdated($issue_id, array('iss_expected_resolution_date' => $current), array('expected_resolution_date' => $expected_resolution_date), array());
             History::add($issue_id, $usr_id, 'issue_updated', 'Issue updated (Expected Resolution Date: {changes}) by {user}', array(
                 'changes' => History::formatChanges($current, $expected_resolution_date),
                 'user' => User::getFullName($usr_id)
@@ -1473,7 +1473,7 @@ class Issue
         self::updateAssociatedIssuesRelations($issue_id, $associated_issues);
 
         $assignments_changed = false;
-        if (@$_POST['keep_assignments'] == 'no') {
+        if (@$_POST['keep_assignments'] == 'no' && Access::canChangeAssignee($issue_id, $usr_id)) {
             // only change the issue-user associations if there really were any changes
             $old_assignees = array_merge($current['assigned_users'], $current['assigned_inactive_users']);
             if (!empty($_POST['assignments'])) {
@@ -1546,9 +1546,6 @@ class Issue
             $params['iss_expected_resolution_date'] = $_POST['expected_resolution_date'];
         } else {
             $params['iss_expected_resolution_date'] = null;
-        }
-        if (isset($_POST['private'])) {
-            $params['iss_private'] = $_POST['private'];
         }
         if (isset($_POST['priority'])) {
             $params['iss_pri_id'] = $_POST['priority'];
@@ -1628,9 +1625,6 @@ class Issue
             $updated_fields['Description'] = '';
         }
 
-        if ((isset($_POST['private'])) && ($_POST['private'] != $current['iss_private'])) {
-            $updated_fields['Private'] = History::formatChanges(Misc::getBooleanDisplayValue($current['iss_private']), Misc::getBooleanDisplayValue($_POST['private']));
-        }
         if (isset($_POST['product']) && count($product_changes) > 0) {
             $updated_fields['Product'] = implode('; ', $product_changes);
         }
@@ -2213,10 +2207,10 @@ class Issue
 
         $clone_iss_id = isset($_POST['clone_iss_id']) ? (int) $_POST['clone_iss_id'] : null;
         if ($clone_iss_id && Access::canCloneIssue($clone_iss_id, $current_usr_id)) {
-            History::add($issue_id, $current_usr_id, 'issue_cloned_from', 'Issue cloned from #{issue_id}', array(
+            History::add($issue_id, $current_usr_id, 'issue_cloned_from', 'Issue cloned from issue #{issue_id}', array(
                 'issue_id' => $clone_iss_id
             ));
-            History::add($clone_iss_id, $current_usr_id, 'issue_cloned_to', 'Issue cloned to #{issue_id}', array(
+            History::add($clone_iss_id, $current_usr_id, 'issue_cloned_to', 'Issue cloned to issue #{issue_id}', array(
                 'issue_id' => $issue_id,
             ));
             self::addAssociation($issue_id, $clone_iss_id, $usr_id, true);
@@ -2439,10 +2433,6 @@ class Issue
             $params['iss_contact_timezone'] = $data['contact_timezone'];
         }
 
-        if (!empty($data['contact'])) {
-            $params['iss_private'] = $data['private'];
-        }
-
         $stmt = 'INSERT INTO {{%issue}} SET ' . DB_Helper::buildSet($params);
 
         try {
@@ -2553,134 +2543,8 @@ class Issue
      */
     public static function getSides($issue_id, $options)
     {
-        $usr_id = Auth::getUserID();
-        $role_id = Auth::getCurrentRole();
-        $usr_details = User::getDetails($usr_id);
-
-        $stmt = 'SELECT
-                    iss_id,
-                    ' . self::getLastActionFields() . '
-                 FROM
-                    (
-                    {{%issue}},
-                    {{%user}}';
-        // join custom fields if we are searching by custom fields
-        if ((is_array($options['custom_field'])) && (count($options['custom_field']) > 0)) {
-            foreach ($options['custom_field'] as $fld_id => $search_value) {
-                if (empty($search_value)) {
-                    continue;
-                }
-                $field = Custom_Field::getDetails($fld_id);
-                if (($field['fld_type'] == 'date') &&
-                        ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day'])))) {
-                    continue;
-                }
-                if (($field['fld_type'] == 'integer') && empty($search_value['value'])) {
-                    continue;
-                }
-
-                if ($field['fld_type'] == 'multiple') {
-                    $search_value = Misc::escapeString($search_value);
-                    foreach ($search_value as $cfo_id) {
-                        $stmt .= ",\n {{%issue_custom_field}} as cf" . $fld_id . '_' . $cfo_id . "\n";
-                    }
-                } else {
-                    $stmt .= ",\n {{%issue_custom_field}} as cf" . $fld_id . "\n";
-                }
-            }
-        }
-        $stmt .= ')';
-        // check for the custom fields we want to sort by
-        if (strstr($options['sort_by'], 'custom_field') !== false) {
-            $fld_id = str_replace('custom_field_', '', $options['sort_by']);
-            $stmt .= "\n LEFT JOIN {{%issue_custom_field}} as cf_sort
-                ON
-                    (cf_sort.icf_iss_id = iss_id AND cf_sort.icf_fld_id = $fld_id) \n";
-        }
-        if (!empty($options['users']) || @$options['sort_by'] == 'isu_usr_id') {
-            $stmt .= '
-                 LEFT JOIN
-                    {{%issue_user}}
-                 ON
-                    isu_iss_id=iss_id';
-        }
-        if ((!empty($options['show_authorized_issues'])) || (($role_id == User::ROLE_REPORTER) && (Project::getSegregateReporters(Auth::getCurrentProject())))) {
-            $stmt .= '
-                 LEFT JOIN
-                    {{%issue_user_replier}}
-                 ON
-                    iur_iss_id=iss_id';
-        }
-        if (!empty($options['show_notification_list_issues'])) {
-            $stmt .= '
-                 LEFT JOIN
-                    {{%subscription}}
-                 ON
-                    sub_iss_id=iss_id';
-        }
-        if (!empty($options['product'])) {
-            $stmt .= '
-                 LEFT JOIN
-                    {{%issue_product_version}}
-                 ON
-                    ipv_iss_id=iss_id';
-        }
-        if (@$options['sort_by'] == 'pre_scheduled_date') {
-            $stmt .= '
-                 LEFT JOIN
-                    {{%project_release}}
-                 ON
-                    iss_pre_id = pre_id';
-        }
-        if (@$options['sort_by'] == 'prc_title') {
-            $stmt .= '
-                 LEFT JOIN
-                    {{%project_category}}
-                 ON
-                    iss_prc_id = prc_id';
-        }
-        if (!empty($usr_details['usr_par_code'])) {
-            // restrict partners
-            $stmt .= '
-                 LEFT JOIN
-                    {{%issue_partner}}
-                 ON
-                    ipa_iss_id=iss_id';
-        }
-        $stmt .= '
-                 LEFT JOIN
-                    {{%status}}
-                 ON
-                    iss_sta_id=sta_id
-                 LEFT JOIN
-                    {{%project_priority}}
-                 ON
-                    iss_pri_id=pri_id
-                 LEFT JOIN
-                    {{%project_severity}}
-                 ON
-                    iss_sev_id=sev_id
-                 WHERE
-                    iss_prj_id=' . Auth::getCurrentProject();
-        $stmt .= Search::buildWhereClause($options);
-        if (strstr($options['sort_by'], 'custom_field') !== false) {
-            $fld_details = Custom_Field::getDetails($fld_id);
-            $sort_by = 'cf_sort.' . Custom_Field::getDBValueFieldNameByType($fld_details['fld_type']);
-        } else {
-            $sort_by = Misc::escapeString($options['sort_by']);
-        }
-        $stmt .= '
-                 GROUP BY
-                    iss_id
-                 ORDER BY
-                    ' . $sort_by . ' ' . Misc::escapeString($options['sort_order']) . ',
-                    iss_id DESC';
-        try {
-            $res = DB_Helper::getInstance()->getColumn($stmt);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
+        $res = Search::getListing(Auth::getCurrentProject(), $options);
+        $res = array_column($res['list'], 'iss_id');
         $index = array_search($issue_id, $res);
         if (!empty($res[$index + 1])) {
             $next = $res[$index + 1];
@@ -3061,6 +2925,8 @@ class Issue
         $res['quarantine'] = self::getQuarantineInfo($res['iss_id']);
 
         $res['products'] = Product::getProductsByIssue($res['iss_id']);
+
+        $res['access_level_name'] = Access::getAccessLevelName($res['iss_access_level']);
 
         $returns[$issue_id] = $res;
 
@@ -3650,39 +3516,6 @@ class Issue
     }
 
     /**
-     * Returns true if the specified issue is private, false otherwise
-     *
-     * @param   integer $issue_id The ID of the issue
-     * @return  boolean If the issue is private or not
-     */
-    public static function isPrivate($issue_id)
-    {
-        static $returns;
-
-        if (!isset($returns[$issue_id])) {
-            $sql = 'SELECT
-                        iss_private
-                    FROM
-                        {{%issue}}
-                    WHERE
-                        iss_id=?';
-            try {
-                $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-            } catch (DatabaseException $e) {
-                return true;
-            }
-
-            if ($res == 1) {
-                $returns[$issue_id] = true;
-            } else {
-                $returns[$issue_id] = false;
-            }
-        }
-
-        return $returns[$issue_id];
-    }
-
-    /**
      * Clears closed information from an issues.
      *
      * @param   integer $issue_id The ID of the issue
@@ -3806,5 +3639,69 @@ class Issue
         ));
 
         return 1;
+    }
+
+    /**
+     * Sets the access level of the issue.
+     *
+     * @param   integer $issue_id The ID of the issue
+     * @param   string $level The Access level
+     * @return  integer 1 if successful, -1 or -2 otherwise
+     */
+    public static function setAccessLevel($issue_id, $level)
+    {
+        $issue_id = (int) $issue_id;
+        $usr_id = Auth::getUserID();
+
+        if (!Access::canChangeAccessLevel($issue_id, $usr_id)) {
+            return -2;
+        }
+
+        $old_access_level = self::getAccessLevel($issue_id);
+        if ($level == $old_access_level) {
+            return 1;
+        }
+
+        $stmt = 'UPDATE
+                    {{%issue}}
+                 SET
+                    iss_access_level = ?
+                 WHERE
+                    iss_id = ?';
+        try {
+            DB_Helper::getInstance()->query($stmt, array($level, $issue_id));
+        } catch (DatabaseException $e) {
+            return -1;
+        }
+
+        History::add($issue_id, $usr_id, 'access_level_changed', 'Access level changed ({changes}) by {user}', array(
+            'changes' => History::formatChanges(Access::getAccessLevelName($old_access_level), Access::getAccessLevelName($level)),
+            'user' => User::getFullName($usr_id)
+        ));
+
+        return 1;
+    }
+
+    /**
+     * Returns the access level associated with the given issue ID.
+     *
+     * @param   integer $issue_id The issue ID
+     * @return  string The Access Level
+     */
+    public static function getAccessLevel($issue_id)
+    {
+        $stmt = 'SELECT
+                    iss_access_level
+                 FROM
+                    {{%issue}}
+                 WHERE
+                    iss_id=?';
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
+        } catch (DatabaseException $e) {
+            return -1;
+        }
+
+        return $res;
     }
 }

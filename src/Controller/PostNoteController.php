@@ -137,7 +137,8 @@ class PostNoteController extends BaseController
         $note = array();
         $note['not_body'] = $header . Misc::formatReply($email['message']);
         $this->tpl->assign(array(
-            'note'           => $note
+            'note'           => $note,
+            'sup_id'         => $sup_id,
         ));
         $this->reply_subject = $email['sup_subject'];
     }

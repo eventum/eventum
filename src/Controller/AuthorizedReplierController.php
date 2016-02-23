@@ -125,7 +125,6 @@ class AuthorizedReplierController extends BaseController
             array(
                 'issue_id' => $this->issue_id,
                 'list' => $repliers,
-                'assoc_users' => Project::getAddressBook($this->prj_id, $this->issue_id),
             )
         );
     }

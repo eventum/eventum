@@ -230,7 +230,7 @@ class Time_Tracking
             return null;
         }
 
-        $ttc_usage = self::getCategoryStats(Misc::collect('ttc_id', $res));
+        $ttc_usage = self::getCategoryStats(array_column($res, 'ttc_id'));
         foreach ($res as &$row) {
             $ttc_id = $row['ttc_id'];
             if (isset($ttc_usage[$ttc_id])) {

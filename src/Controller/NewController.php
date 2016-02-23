@@ -256,7 +256,6 @@ class NewController extends BaseController
             'description' => $details['iss_original_description'],
             'expected_resolution_date' => $details['iss_expected_resolution_date'],
             'estimated_dev_time' => $details['iss_dev_time'],
-            'private' => $details['iss_private'],
         );
 
         if (count($details['products']) > 0) {

@@ -267,12 +267,12 @@ class Search
                     iss_last_internal_action_type,
                     ' . Issue::getLastActionFields() . ",
                     CASE WHEN iss_last_internal_action_date > iss_last_public_action_date THEN 'internal' ELSE 'public' END AS action_type,
-                    iss_private,
                     usr_full_name,
                     iss_percent_complete,
                     iss_dev_time,
                     iss_expected_resolution_date,
-                    sev_title
+                    sev_title,
+                    iss_access_level
                  FROM
                     (
                     {{%issue}},
@@ -312,13 +312,11 @@ class Search
                     (cf_sort.icf_iss_id = iss_id AND cf_sort.icf_fld_id = $fld_id) \n";
         }
 
-        if (!empty($options['users']) || $options['sort_by'] === 'isu_usr_id') {
-            $stmt .= '
-                 LEFT JOIN
-                    {{%issue_user}}
-                 ON
-                    isu_iss_id=iss_id';
-        }
+        $stmt .= '
+             LEFT JOIN
+                {{%issue_user}}
+             ON
+                isu_iss_id=iss_id';
         if (!empty($usr_details['usr_par_code'])) {
             // restrict partners
             $stmt .= '
@@ -378,6 +376,15 @@ class Search
                  ON
                     iss_id=iqu_iss_id AND
                     (iqu_expiration > '" . Date_Helper::getCurrentDateGMT() . "' OR iqu_expiration IS NULL)
+                 LEFT JOIN
+                    {{%issue_access_list}}
+                 ON
+                    iss_id = ial_iss_id AND
+                    ial_usr_id = " . $usr_id . "
+                 LEFT JOIN
+                    {{%user_group}}
+                 ON
+                    ugr_usr_id = " . $usr_id . "
                  WHERE
                     iss_prj_id= " . Misc::escapeInteger($prj_id);
         $stmt .= self::buildWhereClause($options);
@@ -399,6 +406,7 @@ class Search
         $stmt .= '
                  LIMIT
                     ' . Misc::escapeInteger($max) . ' OFFSET ' . Misc::escapeInteger($start);
+
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DatabaseException $e) {
@@ -448,6 +456,8 @@ class Search
             $row['time_spent'] = Misc::getFormattedTime($row['time_spent']);
             $row['iss_expected_resolution_date'] = Date_Helper::getSimpleDate($row['iss_expected_resolution_date'], false);
             $row['excerpts'] = isset($excerpts[$issue_id]) ? $excerpts[$issue_id] : '';
+
+            $row['access_level_name'] = Access::getAccessLevelName($row['iss_access_level']);
 
             $fields = array();
             foreach (array_keys($columns_to_display) as $col_key) {
@@ -720,6 +730,10 @@ class Search
                 }
             }
         }
+
+        // access restriction
+        $stmt .= Access::getListingSQL($prj_id);
+
         // clear cached full-text values if we are not searching fulltext anymore
         if ((APP_ENABLE_FULLTEXT) && (@$options['search_type'] != 'all_text')) {
             Session::set('fulltext_string', '');

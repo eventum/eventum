@@ -57,11 +57,19 @@ function validatePhoneSupportForm(f)
 }
 $().ready(function() {
     Eventum.updateTimeFields('add_phone_form', 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');
+
+   $('#add_phone_form').garlic({
+      getPath: function ( $elem ) {
+          var form = $elem.parents('form');
+          var field_keys = [form.find('input[name=issue_id]').val(), $elem.attr('name')];
+          return field_keys.join('_');
+      }
+   });
 });
 //-->
 </script>
 
-      <form name="add_phone_form" onSubmit="return validatePhoneSupportForm(this);" method="post">
+      <form name="add_phone_form" id="add_phone_form" onSubmit="return validatePhoneSupportForm(this);" method="post" data-persist="garlic">
           <input type="hidden" name="cat" value="add_phone">
           <input type="hidden" name="issue_id" value="{$issue_id}">
             <table class="bordered">
@@ -137,6 +145,7 @@ $().ready(function() {
               <tr class="buttons">
                 <td colspan="2">
                   <input type="submit" value="{t}Save Phone Call{/t}">
+                  <input type="reset" value="{t}Cancel{/t}" onClick="window.close();">
                 </td>
               </tr>
               {/if}

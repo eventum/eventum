@@ -271,6 +271,8 @@ class Setup
             'issue_lock' => 300,
 
             'relative_date'   => 'enabled',
+
+            'audit_trail' =>  'disabled',
         );
 
         return $defaults;

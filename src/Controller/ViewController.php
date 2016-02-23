@@ -184,6 +184,7 @@ class ViewController extends BaseController
                 'partners' => Partner::getPartnersByIssue($this->issue_id),
                 'issue_access' => Access::getIssueAccessArray($this->issue_id, $this->usr_id),
                 'is_user_notified' => Notification::isUserNotified($this->issue_id, $this->usr_id),
+                'access_level_name' =>  Access::getAccessLevelName($this->details['iss_access_level']),
             )
         );
 

@@ -4,6 +4,10 @@ Eventum Issue Tracking System
 2016-??-??, Version [3.0.10]
 ----------------------------
 
+- Add back notification user picker (@glensc, #34)
+- Autosave notes/emails/etc to local storage in case of browser crash (@balsdorf, @glensc, @slay123, #145)
+- Allow issue view access to be restricted to assignees or groups (@balsdorf #141)
+
 2016-02-06, Version [3.0.9]
 ---------------------------
 - Deprecate `bin/route_*.php` scripts in favour of `bin/process_all_emails.php` (@glensc, a4ea0c5)

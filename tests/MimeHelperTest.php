@@ -21,27 +21,6 @@ class MimeHelperTest extends TestCase
         $exp = '=?UTF-8?B?NjEuanBn?=';
         $res = Mime_Helper::encodeQuotedPrintable($string);
         $this->assertEquals($exp, $res, 'do not overflow');
-
-/*
-        // avoid any wrapping by specifying line length long enough
-        // test = 4
-        // : =?ISO-8859-1?B?dGVzdA==?=
-        // 3 +2 +10      +3 +7     + 3
-        $line_length = strlen($string) * 4 + strlen(APP_CHARSET) + 11;
-        echo "ll=$line_length\n";
-
-        #	=?ISO-8859-1?B?a2FtbWliw7xsZXBlYQ==?=glen@wintersunset
-        $params = array(
-            "scheme" => "Q",
-            "input-charset" => APP_CHARSET,
-            "output-charset" => APP_CHARSET,
-        );
-        $string = iconv_mime_encode("", $string, $params);
-        echo "HIERO\n";
-        #echo $string, "\n";
-        echo substr($string, 2), "\n";
-        echo "Klaar\n";
-*/
     }
 
     /**

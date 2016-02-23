@@ -61,19 +61,14 @@ setTimeout('Eventum.close_and_refresh()', 2000);
 <script type="text/javascript">
 <!--
 $(function() {
-    Eventum.checkWindowClose('{t}If you close this window, you will lose your message{/t}');
+    $('textarea[name=message]').one('keydown', function() {
+        Eventum.checkWindowClose('{t}If you close this window, you will lose any uploaded attachments.{/t}');
+    });
 });
-
-{if $core.current_role > $core.roles.customer && not $core.is_current_user_partner}
-var contact_list = [];
-{section name="i" loop=$assoc_emails}
-contact_list[contact_list.length] = '{$assoc_emails[i]|escape:javascript}';
-{/section}
-{/if}
 
 var email_responses = [];
 {section name="i" loop=$js_canned_responses}
-email_responses[{$js_canned_responses[i].ere_id}] = "{$js_canned_responses[i].ere_response_body}";
+email_responses[{$js_canned_responses[i].ere_id}] = {$js_canned_responses[i].ere_response_body|json_encode};
 {/section}
 
 function validateForm()
@@ -155,6 +150,18 @@ function setSignature(f)
 
 $().ready(function() {
    Eventum.getField('message').focus();
+
+   $('#sendEmailForm').garlic({
+      getPath: function ( $elem ) {
+          var form = $elem.parents('form');
+          var field_keys = [form.find('input[name=issue_id]').val(), form.find('input[name=parent_id]').val()];
+          if (form.find('input[name=draft_id]').length) {
+              field_keys.push(form.find('input[name=draft_id]').val());
+          }
+          field_keys.push($elem.attr('name'));
+          return field_keys.join('_');
+      }
+   });
 });
 //-->
 </script>
@@ -237,7 +244,7 @@ $().ready(function() {
     {if $core.current_role != $core.roles.customer and $canned_responses|@count > 0 and $read_only|default:'' != 1}
     <tr class="internal">
       <th>
-        {t}Canned Responses{/t} {$canned_responses}
+        {t}Canned Responses{/t}
       </th>
       <td>
         <select name="email_response">
@@ -284,7 +291,7 @@ $().ready(function() {
         {t}New Status for Issue{/t} #{$issue_id}
       </th>
       <td>
-        <select name="new_status">
+        <select name="new_status" data-storage="false">
           {html_options options=$statuses selected=$current_issue_status}
         </select>
       </td>
@@ -295,7 +302,7 @@ $().ready(function() {
         {t}Time Spent{/t}
       </th>
       <td>
-        <input type="text" size="5" name="time_spent">
+        <input type="text" size="5" name="time_spent" data-storage="false">
         <select name="time_category">
             {html_options options=$time_categories selected=$email_category_id}
         </select>
@@ -305,7 +312,7 @@ $().ready(function() {
     <tr>
         <th nowrap>{t}Time Summary{/t}</th>
         <td>
-            <input type="text" name="time_summary" size="40">{include file="error_icon.tpl.html" field="time_summary"}
+            <input type="text" name="time_summary" size="40" data-storage="false">{include file="error_icon.tpl.html" field="time_summary"}
         </td>
     </tr>
     {elseif $issue_id and $core.current_role == $core.roles.customer}
@@ -316,9 +323,8 @@ $().ready(function() {
       <td colspan="2">
           {if $read_only|default:'' != 1}
           <input type="submit" value="{t}Send Email{/t}">&nbsp;&nbsp;
-          <input type="button" value="{t}Reset{/t}" onClick="resetForm(this.form);">&nbsp;&nbsp;
           {/if}
-          <input type="button" value="{t}Cancel{/t}" onClick="window.close();">
+          <input type="reset" value="{t}Cancel{/t}" onClick="window.close();">
 
           <div class="right">
             {if $core.current_user_prefs.email_signature != "" and $core.current_user_prefs.auto_append_email_sig != 1}
