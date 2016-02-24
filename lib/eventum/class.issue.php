@@ -2165,7 +2165,7 @@ class Issue
             'add_primary_contact', 'attached_emails', 'category', 'contact', 'contact_email', 'contact_extra_emails', 'contact_person_fname',
             'contact_person_lname', 'contact_phone', 'contact_timezone', 'contract', 'customer', 'custom_fields', 'description',
             'estimated_dev_time', 'group', 'notify_customer', 'notify_senders', 'priority', 'private', 'release', 'severity', 'summary', 'users',
-            'product', 'product_version', 'expected_resolution_date', 'associated_issues',
+            'product', 'product_version', 'expected_resolution_date', 'associated_issues', 'access_level',
         );
         $data = array();
         foreach ($keys as $key) {
@@ -2413,6 +2413,9 @@ class Issue
         }
         if (!empty($data['expected_resolution_date'])) {
             $params['iss_expected_resolution_date'] = $data['expected_resolution_date'];
+        }
+        if (!empty($data['access_level'])) {
+            $params['iss_access_level'] = $data['access_level'];
         }
 
         $initial_status = Project::getInitialStatus($prj_id);
