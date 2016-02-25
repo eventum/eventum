@@ -6,7 +6,7 @@ Eventum Issue Tracking System
 
 - Add back notification user picker (@glensc, #34)
 - Autosave notes/emails/etc to local storage in case of browser crash (@balsdorf, @glensc, @slay123, #145)
-- Allow issue view access to be restricted to assignees or groups (@balsdorf #141)
+- Allow issue view access to be restricted to assignees or groups (@balsdorf #141, #148)
 
 2016-02-06, Version [3.0.9]
 ---------------------------
