@@ -70,18 +70,18 @@ function validateTimeForm()
 }
 
 $().ready(function() {
-    var f = $('#add_time_form');
-    Eventum.updateTimeFields(f, 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');
-    Eventum.updateTimeFields(f, 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]');
-    f.submit(validateTimeForm);
+  var $form = $('#add_time_form');
+  $form.garlic({
+    getPath: function ($elem) {
+      var form = $elem.parents('form');
+      var field_keys = [form.find('input[name=issue_id]').val(), $elem.attr('name')];
+      return field_keys.join('_');
+    }
+  });
 
-   $('#add_time_form').garlic({
-      getPath: function ( $elem ) {
-          var form = $elem.parents('form');
-          var field_keys = [form.find('input[name=issue_id]').val(), $elem.attr('name')];
-          return field_keys.join('_');
-      }
-   });
+  Eventum.updateTimeFields($form, 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');
+  Eventum.updateTimeFields($form, 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]');
+  $form.submit(validateTimeForm);
 });
 //-->
 </script>

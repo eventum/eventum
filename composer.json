@@ -86,6 +86,7 @@
 		"smarty/smarty": "~3.1.12",
 		"sphinx/php-sphinxapi": "2.0.*",
 		"symfony/http-foundation": "~2.7.0",
+		"willdurand/email-reply-parser": "dev-set-sig-regex",
 		"zendframework/zend-config": "2.4.*"
 	},
 	"conflict": {
