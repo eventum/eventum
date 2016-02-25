@@ -16,12 +16,19 @@ namespace Eventum;
 use Auth;
 use EmailReplyParser\EmailReplyParser;
 use EmailReplyParser\Fragment;
+use EmailReplyParser\Parser\EmailParser;
 use Link_Filter;
 use Misc;
 use Prefs;
 
 class EmailHelper
 {
+    /**
+     * Signature regexp, without greedy "^-\w" pattern
+     * https://github.com/willdurand/EmailReplyParser/pull/42
+     */
+    const SIG_REGEX = '/(?:^\s*--|^\s*__|^-- $)|(?:^Sent from my (?:\s*\w+){1,3})$/s';
+
     /**
      * Format email body in view emails/view notes popup and expandable view
      *
@@ -66,7 +73,12 @@ class EmailHelper
                 . '</div></div>';
         };
 
-        $email = EmailReplyParser::read($text);
+        static $parser;
+        if (!$parser) {
+            $parser = new EmailParser();
+            $parser->setSignatureRegex(self::SIG_REGEX);
+        }
+        $email = $parser->parse($text);
 
         // wrap quoted and signature blocks with a div
         $blocks = array_map(

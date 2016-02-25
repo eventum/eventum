@@ -19,7 +19,6 @@ use Eventum\EmailHelper;
 use Issue;
 use Link_Filter;
 use Mail_Queue;
-use Misc;
 use Note;
 use Phone_Support;
 use Support;
