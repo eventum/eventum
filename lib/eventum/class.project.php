@@ -1135,6 +1135,10 @@ class Project
                 'title' =>  ev_gettext('Associated Issues'),
                 'required'  =>  0,
             ),
+            'access_level'   =>    array(
+                'title' =>  ev_gettext('Access Level'),
+                'required'  =>  0,
+            ),
         );
     }
 
