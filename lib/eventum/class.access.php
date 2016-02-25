@@ -57,10 +57,9 @@ class Access
         if (empty($usr_role)) {
             // check if they are even allowed to access the project
             $return = false;
-        } elseif ((CRM::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::ROLE_CUSTOMER) &&
-                ($can_access_contract === false)) {
+        } elseif ((CRM::hasCustomerIntegration($details['iss_prj_id'])) && ($usr_role == User::ROLE_CUSTOMER)) {
             // check customer permissions
-            $return = false;
+            $return = $can_access_contract;
         } elseif (!empty($usr_details['usr_par_code']) &&
                         !Partner::isPartnerEnabledForIssue($usr_details['usr_par_code'], $issue_id)) {
             // check if the user is a partner
