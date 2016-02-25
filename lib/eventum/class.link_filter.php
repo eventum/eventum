@@ -258,8 +258,7 @@ class Link_Filter
      */
     public static function processText($prj_id, $text, $class = 'link')
     {
-
-        // process issue link seperatly since it has to do something special
+        // process issue link separatly since it has to do something special
         $text = Misc::activateLinks($text, $class);
 
         $filters = array_merge(self::getFilters(), self::getFiltersByProject($prj_id), Workflow::getLinkFilters($prj_id));

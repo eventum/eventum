@@ -229,7 +229,7 @@ setTimeout('Eventum.close_and_refresh()', 2000);
         </tr>
         <tr>
           <td colspan="2" id="email_message">
-{$email.seb_body|highlight_quoted|nl2br|activateLinks}
+{$email.seb_body|format_email}
           </td>
         </tr>
         <tr class="buttons">

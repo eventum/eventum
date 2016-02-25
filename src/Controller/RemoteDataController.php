@@ -15,10 +15,10 @@ namespace Eventum\Controller;
 
 use Auth;
 use Draft;
+use Eventum\EmailHelper;
 use Issue;
 use Link_Filter;
 use Mail_Queue;
-use Misc;
 use Note;
 use Phone_Support;
 use Support;
@@ -153,7 +153,7 @@ class RemoteDataController extends BaseController
             return $info['seb_body'];
         }
 
-        return $this->processText(nl2br(Misc::highlightQuotedReply($info['seb_body'])));
+        return EmailHelper::formatEmail($info['seb_body']);
     }
 
     /**
@@ -173,7 +173,7 @@ class RemoteDataController extends BaseController
             return $note['not_note'];
         }
 
-        return $this->processText(nl2br(Misc::highlightQuotedReply($note['not_note'])));
+        return EmailHelper::formatEmail($note['not_note']);
     }
 
     /**
@@ -193,7 +193,7 @@ class RemoteDataController extends BaseController
             return $info['emd_body'];
         }
 
-        return $this->processText(nl2br(htmlspecialchars($info['emd_body'])));
+        return EmailHelper::formatEmail($info['emd_body']);
     }
 
     /**
