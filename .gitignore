@@ -1,5 +1,6 @@
-*.gz
-*.gz.md5
+*.tar.gz
+*.tar.gz.md5
+*.tar.gz.asc
 *.orig
 *.patch
 *.rej
