@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2016-??-??, Version [3.0.10]
+2016-02-29, Version [3.0.10]
 ----------------------------
 
 - Add back notification user picker (@glensc, #34)
