@@ -27,7 +27,7 @@ class EmailHelper
      * Signature regexp, without greedy "^-\w" pattern
      * https://github.com/willdurand/EmailReplyParser/pull/42
      */
-    const SIG_REGEX = '/(?:^\s*--|^\s*__|^-- $)|(?:^Sent from my (?:\s*\w+){1,3})$/s';
+    const SIG_REGEX = '/(?:^\s*__|^-- $)|(?:^Sent from my (?:\s*\w+){1,3})$/s';
 
     /**
      * Format email body in view emails/view notes popup and expandable view
