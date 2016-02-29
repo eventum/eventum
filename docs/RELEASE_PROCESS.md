@@ -44,6 +44,7 @@ Release process
 After release
 -------------
 
+- publish changes also on launchpad git repo
 - update release number in init.php to indicate next dev version (APP_VERSION)
 - start new version entry in Changelog.md
 - update git submodules to point to master
