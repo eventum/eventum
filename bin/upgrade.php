@@ -20,10 +20,5 @@ if (!file_exists($setup_path) || !filesize($setup_path) || !is_readable($setup_p
 
 require_once INSTALL_PATH . '/init.php';
 
-try {
-    $dbmigrate = new DbMigrate(INSTALL_PATH . '/upgrade');
-    $dbmigrate->patch_database();
-} catch (Exception $e) {
-    echo $e->getMessage(), "\n";
-    exit(1);
-}
+$app = new Eventum\Command\UpgradeCommand();
+$app->run();

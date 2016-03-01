@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 class Mail_Queue
 {
     /**
@@ -19,35 +21,13 @@ class Mail_Queue
     const MAX_RETRIES = 20;
 
     /**
-     * @deprecated
-     * @see Mail_Queue::addMail()
-     */
-    public static function __add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
-    {
-        $mail = array(
-            'to' => $recipient,
-            'headers' => $headers,
-            'body' => $body,
-        );
-
-        $options = array(
-            'save_email_copy' => $save_email_copy,
-            'issue_id' => $issue_id,
-            'type' => $type,
-            'sender_usr_id' => $sender_usr_id,
-            'type_id' => $type_id,
-        );
-
-        return self::addMail($mail, $options);
-    }
-
-    /**
      * Adds an email to the outgoing mail queue.
      *
      * @param array $mail Info about mail:
      * - string $to The recipient of this email
      * - array $headers The list of headers that should be sent with this email
      * - string $body The body of the message
+     * @param string $recipient The recipient, can be E-Mail header form ("User <email@example.org>")
      * @param array $options Optional options:
      * - integer $save_email_copy Whether to send a copy of this email to a configurable address or not (eventum_sent@)
      * - integer $issue_id The ID of the issue. If false, email will not be associated with issue.
@@ -56,9 +36,8 @@ class Mail_Queue
      * - integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @return bool or a PEAR_Error object
      */
-    public static function addMail(array $mail, array $options = array())
+    public static function addMail(array $mail, $recipient, array $options = array())
     {
-        $recipient = $mail['to'];
         $headers = $mail['headers'];
         $body = $mail['body'];
 
@@ -82,24 +61,20 @@ class Mail_Queue
             }
         }
 
-        $to_usr_id = User::getUserIDByEmail($recipient_email);
         $recipient = Mail_Helper::fixAddressQuoting($recipient);
 
         $reminder_addresses = Reminder::_getReminderAlertAddresses();
 
-        $role_id = User::getRoleByUser($to_usr_id, Issue::getProjectID($issue_id));
+        $role_id = User::getRoleByUser($usr_id, Issue::getProjectID($issue_id));
         $is_reminder_address = in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses);
-        if ($issue_id && ($to_usr_id && $role_id != User::ROLE_CUSTOMER) || $is_reminder_address) {
-            $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type, $sender_usr_id);
+        if ($issue_id && ($usr_id && $role_id != User::ROLE_CUSTOMER) || $is_reminder_address) {
+            $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type);
         }
 
         // try to prevent triggering absence auto responders
         $headers['precedence'] = 'bulk'; // the 'classic' way, works with e.g. the unix 'vacation' tool
         $headers['Auto-submitted'] = 'auto-generated'; // the RFC 3834 way
 
-        if (empty($issue_id)) {
-            $issue_id = 'null';
-        }
         // if the Date: header is missing, add it.
         if (empty($headers['Date'])) {
             $headers['Date'] = Mime_Helper::encode(date('D, j M Y H:i:s O'));
@@ -124,11 +99,11 @@ class Mail_Queue
             'maq_save_copy' => $save_email_copy,
             'maq_queued_date' => Date_Helper::getCurrentDateGMT(),
             'maq_sender_ip_address' => !empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '',
-            'maq_recipient' => $recipient,
+            'maq_recipient' => Mime_Helper::decodeAddress($recipient),
             'maq_headers' => $text_headers,
             'maq_body' => $body,
-            'maq_iss_id' => $issue_id,
-            'maq_subject' => $headers['Subject'],
+            'maq_iss_id' => $issue_id ?: null,
+            'maq_subject' => Mime_Helper::decodeQuotedPrintable($headers['Subject']),
             'maq_type' => $type,
         );
 
@@ -142,7 +117,7 @@ class Mail_Queue
         $stmt = 'INSERT INTO {{%mail_queue}} SET ' . DB_Helper::buildSet($params);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -187,7 +162,7 @@ class Mail_Queue
                 }
 
                 list(, $text_headers) = $res;
-                $result = self::_sendEmail($recipients, $text_headers, $email['body'], $status);
+                $result = self::_sendEmail($recipients, $text_headers, $email['body']);
 
                 if (Misc::isError($e = $result)) {
                     /** @var PEAR_Error $e */
@@ -224,7 +199,7 @@ class Mail_Queue
             }
 
             $email = self::_getEntry($maq_id);
-            $result = self::_sendEmail($email['recipient'], $email['headers'], $email['body'], $status);
+            $result = self::_sendEmail($email['recipient'], $email['headers'], $email['body']);
 
             if (Misc::isError($e = $result)) {
                 /** @var PEAR_Error $e */
@@ -251,10 +226,9 @@ class Mail_Queue
      * @param   string $recipient The recipient of this message
      * @param   string $text_headers The full headers of this message
      * @param   string $body The full body of this message
-     * @param   string $status The status of this message
      * @return  true, or a PEAR_Error object
      */
-    private function _sendEmail($recipient, $text_headers, &$body, $status)
+    private function _sendEmail($recipient, $text_headers, &$body)
     {
         $header_names = Mime_Helper::getHeaderNames($text_headers);
         $_headers = self::_getHeaders($text_headers, $body);
@@ -285,8 +259,11 @@ class Mail_Queue
         }
 
         $mail = Mail::factory('smtp', Mail_Helper::getSMTPSettings());
+        // TODO: mail::send wants just bare addresses, do that ourselves
+        $recipient = Mime_Helper::encodeAddress($recipient);
         $res = $mail->send($recipient, $headers, $body);
         if (Misc::isError($res)) {
+            /** @var PEAR_Error $res */
             Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
 
             return $res;
@@ -333,7 +310,7 @@ class Mail_Queue
                     $limit OFFSET 0";
         try {
             $res = DB_Helper::getInstance()->getColumn($sql, array($status));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -369,7 +346,7 @@ class Mail_Queue
 
         try {
             $res = DB_Helper::getInstance()->getAll($sql, array($status));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -403,7 +380,7 @@ class Mail_Queue
                     maq_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($maq_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -433,7 +410,7 @@ class Mail_Queue
                     maq_id IN (' . implode(',', $maq_ids) . ')';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -483,7 +460,7 @@ class Mail_Queue
         );
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -521,15 +498,8 @@ class Mail_Queue
                     maq_queued_date ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
-        }
-
-        if (count($res) > 0) {
-            foreach ($res as &$row) {
-                $row['maq_recipient'] = Mime_Helper::decodeAddress($row['maq_recipient']);
-                $row['maq_subject'] = Mime_Helper::fixEncoding($row['maq_subject']);
-            }
         }
 
         return $res;
@@ -558,7 +528,7 @@ class Mail_Queue
                     maq_id = ?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($maq_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -583,7 +553,7 @@ class Mail_Queue
         $params[] = $type_id;
         try {
             $res = DB_Helper::getInstance()->getColumn($sql, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -612,7 +582,7 @@ class Mail_Queue
                     maq_queued_date <= DATE_SUB(NOW(), INTERVAL 1 MONTH)";
         try {
             DB_Helper::getInstance()->query($sql);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 

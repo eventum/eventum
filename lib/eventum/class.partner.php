@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Handles the interactions between Eventum and partner backends.
  */
@@ -93,7 +95,7 @@ class Partner
                         ipa_created_date = ?';
             try {
                 DB_Helper::getInstance()->query($sql, $params);
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return false;
             }
             $backend = self::getBackend($par_code);
@@ -119,7 +121,7 @@ class Partner
                     ipa_par_code = ?';
         try {
             DB_Helper::getInstance()->query($sql, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
         $backend = self::getBackend($par_code);
@@ -145,7 +147,7 @@ class Partner
 
         try {
             $res = DB_Helper::getInstance()->getColumn($sql, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -173,7 +175,7 @@ class Partner
                     ipa_iss_id = ?';
         try {
             $partners = DB_Helper::getInstance()->getColumn($sql, array($prj_id, $iss_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -255,7 +257,7 @@ class Partner
                     pap_par_code = ?';
         try {
             DB_Helper::getInstance()->query($sql, array($par_code));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -268,7 +270,7 @@ class Partner
                             pap_prj_id = ?';
                 try {
                     DB_Helper::getInstance()->query($sql, array($par_code, $prj_id));
-                } catch (DbException $e) {
+                } catch (DatabaseException $e) {
                     return -1;
                 }
             }
@@ -290,7 +292,7 @@ class Partner
                     pap_par_code = ?';
         try {
             $res = DB_Helper::getInstance()->getPair($sql, array($par_code));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 

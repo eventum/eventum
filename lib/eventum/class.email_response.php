@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to the administration
  * of canned email responses in the system.
@@ -58,7 +60,7 @@ class Email_Response
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['response_body']));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -85,7 +87,7 @@ class Email_Response
                     ere_id IN (' . DB_Helper::buildList($items) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -119,7 +121,7 @@ class Email_Response
         }
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -145,7 +147,7 @@ class Email_Response
                     ere_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['response_body'], $_POST['id']));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -175,7 +177,7 @@ class Email_Response
                     ere_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($ere_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -205,7 +207,7 @@ class Email_Response
                     per_ere_id=?';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($ere_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -229,7 +231,7 @@ class Email_Response
                     ere_title ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -263,7 +265,7 @@ class Email_Response
                     ere_title ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -290,15 +292,8 @@ class Email_Response
                     per_prj_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
-        }
-
-        // fix the newlines in the response bodies so javascript doesn't die
-        // FIXME: this is very wrong, escaping should be done in template where ere_response_body is output, not here
-        foreach ($res as &$row) {
-            $row['ere_response_body'] = Misc::escapeWhitespace($row['ere_response_body']);
-            $row['ere_response_body'] = str_replace('"', '\"', $row['ere_response_body']);
         }
 
         return $res;

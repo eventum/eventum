@@ -27,4 +27,19 @@ class MailParseTest extends TestCase
         $message_body = $structure->body;
         $this->assertEquals("", $message_body);
     }
+
+    public function testParseHeaders()
+    {
+        $maq_recipient = 'Elan Ruusamäe <glen@delfi.ee>';
+        // encode it
+        $maq_recipient = Mime_Helper::encodeAddress($maq_recipient);
+        // encoding twice does no harm
+        $maq_recipient = Mime_Helper::encodeAddress($maq_recipient);
+
+        // call private parseRecipients
+        $recipients = Mail::parseRecipients($maq_recipient);
+        $this->assertFalse(Misc::isError($recipients), Misc::isError($recipients) ? $recipients->getMessage() : '');
+        // success
+        $this->assertEquals(array('glen@delfi.ee'), $recipients);
+    }
 }

@@ -31,9 +31,9 @@
 </div>
 {/if}
 
-{if $issue.iss_private == 1}
+{if $issue.iss_access_level != 'normal'}
 <div class="note_box">
-    {t}Note{/t}: {t}This issue is marked private. Only Managers, the reporter and users assigned to the issue can view it.{/t}
+    {t}Note{/t}: {t 1=$access_level_name}This issue has an access level of %1. Access to view this issue is restricted.{/t}
 </div>
 {/if}
 
@@ -44,6 +44,9 @@
         <th colspan="2">
             {t}Issue Overview{/t} (ID: <a href="{$core.rel_url}view.php?id={$issue.iss_id}" title="{t}view issue details{/t}">{$issue.iss_id}</a>)
             <div id="issue_menu">
+                {if $issue_access.change_access}
+                [ <a title="{t}Change Access{/t}" href="access.php?iss_id={$issue_id}" class="change_access">{t}Change Access{/t}</a> ]
+                {/if}
                 {if $issue_access.clone_issue}
                 [ <a title="{t}Clone this issue{/t}" href="new.php?clone_iss_id={$issue_id}">{t}Clone Issue{/t}</a> ]
                 {/if}
@@ -221,24 +224,26 @@
             {/if}
 
             {if $core.current_role > $core.roles.customer}
-            {if $is_user_assigned == 1}
-            <input type="button" value="{t}Unassign Issue{/t}" class="unassign">
-            {else}
-            <input type="button" value="{t}Assign Issue To Myself{/t}" class="self_assign">
-            {/if}
+                {if $issue_access.change_assignee}
+                    {if $is_user_assigned == 1}
+                    <input type="button" value="{t}Unassign Issue{/t}" class="unassign">
+                    {else}
+                    <input type="button" value="{t}Assign Issue To Myself{/t}" class="self_assign">
+                    {/if}
+                {/if}
 
-            <div class="right">
-                {if not $issue.sta_is_closed}
-                {if $issue.duplicates == ''}
-                {if $issue.iss_duplicated_iss_id}
-                <input type="button" value="{t}Clear Duplicate Status{/t}" class="clear_duplicate">
-                {else}
-                <input type="button" value="{t}Mark as Duplicate{/t}" class="mark_duplicate">
-                {/if}
-                {/if}
-                <input type="button" value="{t}Close Issue{/t}" class="close_issue">
-                {/if}
-            </div>
+                <div class="right">
+                    {if not $issue.sta_is_closed}
+                    {if $issue.duplicates == ''}
+                    {if $issue.iss_duplicated_iss_id}
+                    <input type="button" value="{t}Clear Duplicate Status{/t}" class="clear_duplicate">
+                    {else}
+                    <input type="button" value="{t}Mark as Duplicate{/t}" class="mark_duplicate">
+                    {/if}
+                    {/if}
+                    <input type="button" value="{t}Close Issue{/t}" class="close_issue">
+                    {/if}
+                </div>
             {/if}
         </td>
     </tr>

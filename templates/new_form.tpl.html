@@ -42,9 +42,6 @@
 {if $core.current_role < $field_display_settings.estimated_dev_time.min_role}
     <input type="hidden" name="estimated_dev_time" value="">
 {/if}
-{if $core.current_role < $field_display_settings.private.min_role}
-    <input type="hidden" name="private" value="0">
-{/if}
 <table class="bordered two_column" id="create_issue">
 {assign var="tabindex" value=1}
     <tr class="title">
@@ -272,19 +269,8 @@
       </td>
     </tr>
     {/if}
-    {if $core.current_role >= $field_display_settings.private.min_role}
-    <tr>
-      <th{if $field_display_settings.private.min_role > $core.roles.customer} class="internal"{/if}>
-        {t}Private{/t} {if $field_display_settings.private.required}*{/if}
-      </th>
-      <td>
-        <label><input type="radio" name="private" value="1" {if $defaults.private|default:''}checked{/if} tabindex="{$tabindex++}">
-        {t}Yes{/t}</label>
-        <label><input type="radio" name="private" value="0" {if not $defaults.private|default:''}checked{/if} tabindex="{$tabindex++}">
-        {t}No{/t}</label>
-        {include file="error_icon.tpl.html" field="private"}
-      </td>
-    </tr>
+    {if $core.current_role >= $field_display_settings.access_level.min_role}
+        {include file="fields/access_level.tpl.html"}
     {/if}
     {include file="edit_custom_fields.tpl.html" custom_fields=$custom_fields form_type='report'}
     {assign var=tabindex value=$tabindex+50}

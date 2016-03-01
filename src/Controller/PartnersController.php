@@ -17,7 +17,6 @@ use Access;
 use Auth;
 use Issue;
 use Partner;
-use Prefs;
 use User;
 
 class PartnersController extends BaseController
@@ -98,7 +97,6 @@ class PartnersController extends BaseController
                 'issue_id' => $this->issue_id,
                 'enabled_partners' => Partner::getPartnersByProject($this->prj_id),
                 'partners' => Partner::getPartnersByIssue($this->issue_id),
-                'current_user_prefs' => Prefs::get($this->usr_id),
             )
         );
     }

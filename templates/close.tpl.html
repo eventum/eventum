@@ -10,7 +10,7 @@
 </div>
 {else}
 <div id="signature" style="display: none;">
-{$current_user_prefs.email_signature}
+{$core.current_user_prefs.email_signature}
 </div>
 <form name="close_form" method="post" action="close.php">
 <input type="hidden" name="cat" value="close">
@@ -80,10 +80,10 @@
             {t}Reason for closing issue{/t} *
           </th>
           <td>
-            <textarea name="reason" rows="8" style="width: 97%">{if $current_user_prefs.auto_append_email_sig == 1}
+            <textarea name="reason" rows="8" style="width: 97%">{if $core.current_user_prefs.auto_append_email_sig == 1}
 
 
-{$current_user_prefs.email_signature|escape:"html"}{/if}</textarea>
+{$core.current_user_prefs.email_signature|escape:"html"}{/if}</textarea>
             {include file="error_icon.tpl.html" field="reason"}
           </td>
         </tr>
@@ -123,7 +123,7 @@
         <tr class="buttons">
           <td colspan="2">
                 <input type="submit" value="{t}Close Issue{/t}">
-                {if $current_user_prefs.email_signature != "" and $current_user_prefs.auto_append_email_sig != 1}
+                {if $core.current_user_prefs.email_signature != "" and $core.current_user_prefs.auto_append_email_sig != 1}
                 <div class="right">
                   <label>
                       <input type="checkbox" name="add_email_signature" value="yes">

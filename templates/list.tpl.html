@@ -133,8 +133,8 @@
               {if $list[i].redeemed|default:0}
                   {t}[Redeemed]{/t}
               {/if}
-              {if $list[i].iss_private == 1}
-                  <b>{t}[Private]{/t}</b>
+              {if $list[i].iss_access_level != 'normal'}
+                  <b>{t}[{$list[i].access_level_name}]{/t}</b>
               {/if}
             {/if}
           </td>

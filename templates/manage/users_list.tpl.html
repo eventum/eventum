@@ -1,0 +1,207 @@
+{block "stylesheets" append}
+  <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/jquery-datatables/media/css/jquery.dataTables.css">
+{/block}
+
+{block "javascripts" append}
+<script type="text/javascript" src="{$core.rel_url}components/jquery-datatables/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript">
+  var active_users_count = {$active_user_count};
+  var page_url = '{$smarty.server.PHP_SELF}';
+
+  function checkDelete()
+  {
+    var total_selected = Eventum.getField('items[]').filter(':checked').length;
+    var total = Eventum.getField('items[]').length;
+    if (Eventum.getField('status').val() == 'inactive') {
+      if (active_users_count < 2) {
+        alert('{t escape=js}You cannot change the status of the only active user left in the system.{/t}');
+        return false;
+      }
+      if (total == total_selected) {
+        alert('{t escape=js}You cannot inactivate all of the users in the system.{/t}');
+        return false;
+      }
+    }
+    if (!Validation.hasOneChecked('items[]')) {
+      alert('{t escape=js}Please select at least one of the users.{/t}');
+      return false;
+    }
+    if (!confirm('{t escape=js}This action will change the status of the selected users.{/t}')) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function showCustomerUsers()
+  {
+    window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'show_customers',
+        $('#show_customers:checked').length);
+  }
+
+  function showInactiveUsers()
+  {
+    window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'show_inactive',
+        $('#show_inactive:checked').length);
+  }
+
+  function showUserGroups()
+  {
+    window.location.href = page_url + "?" + Eventum.replaceParam(window.location.href, 'show_groups',
+        $('#show_groups:checked').length);
+  }
+
+  $(function() {
+    $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
+
+    $('#delete_form').submit(checkDelete);
+
+    $('#show_customers').click(showCustomerUsers);
+    $('#show_inactive').click(showInactiveUsers);
+    $('#show_groups').click(showUserGroups);
+
+    // datatables config
+    $('#spinner').addClass('hidden');
+    $('.datatable').removeClass('hidden').DataTable({
+      "language": {
+        "paginate": {
+          "first": "First page",
+          "previous": "Previous page",
+          "next": "Next page",
+          "last": "Last page"
+        }
+      }
+    });
+  });
+
+</script>
+{/block}
+
+{block "manage_content" append}
+
+<form id="delete_form" method="post">
+  <input type="hidden" name="cat" value="change_status">
+
+  <div id="spinner" class="note_box">
+    {t}Please wait while the table loads...{/t}
+  </div>
+
+  {$colspan=5}
+  {if $list_options.groups}
+    {$colspan=$colspan+1}
+  {/if}
+  {if $list_options.partners}
+    {$colspan=$colspan+1}
+  {/if}
+  {if $list_options.inactive}
+    {$colspan=$colspan+1}
+  {/if}
+
+  <table class="bordered datatable grid hidden">
+    <thead>
+    <tr class="title">
+      <th colspan="{$colspan}">
+        {t}Existing Users{/t}
+      </th>
+    </tr>
+    <tr>
+      <td nowrap width="2%"><input type="button" value="{t}All{/t}" class="select_all"></td>
+      <td>{t}Full Name{/t}</td>
+      <td>{t}Role{/t}</td>
+      <td>{t}Email Address{/t}</td>
+      <td>{t}Email Aliases{/t}</td>
+      {if $list_options.inactive}
+      <td>{t}Status{/t}</td>
+      {/if}
+      {if $list_options.groups}
+        <td>{t}Groups{/t}</td>
+      {/if}
+      {if $list_options.partners}
+      <td>{t}Partner{/t}</td>
+      {/if}
+    </tr>
+    </thead>
+
+    <tbody>
+    {section name="i" loop=$list}
+      <tr class="{cycle values='odd,even'}">
+        <td width="2%" nowrap align="center">
+          <input type="checkbox" name="items[]" value="{$list[i].usr_id}"
+                 {if $smarty.section.i.total == 0}disabled{/if}>
+        </td>
+        <td width="20%">
+          <a href="{$core.rel_url}manage/users.php?cat=edit&id={$list[i].usr_id}"
+                   title="{t}update this entry{/t}">{$list[i].usr_full_name|default:$list[i].usr_email}</a>
+        </td>
+        <td width="20%" nowrap>
+          {foreach from=$list[i].roles item=role_data}
+            {$role_data.prj_title}: {$role_data.role}
+            <br/>
+          {/foreach}
+        </td>
+        <td width="20%">
+          <a href="mailto:{$list[i].usr_email}"
+                   title="{t}send email to{/t} {$list[i].usr_email}">{$list[i].usr_email}</a>
+
+          {foreach from=$list[i].aliases item=email}
+            <br>{$email}
+          {/foreach}
+        </td>
+        <td width="10%">
+          <a href="email_alias.php?id={$list[i].usr_id}" class="manage_alias"
+                   data-usr-id="{$list[i].usr_id}">{t}manage aliases{/t}</a>
+        </td>
+        {if $list_options.inactive}
+        <td width="10%">
+          {$list[i].usr_status|capitalize}
+        </td>
+        {/if}
+        {if $list_options.groups}
+        <td>
+          {', '|join:$list[i].group_names|default:''}
+        </td>
+        {/if}
+        {if $list_options.partners}
+        <td>
+          {$list[i].partner_name|default:''}
+        </td>
+        {/if}
+      </tr>
+      {sectionelse}
+      <tr class="no_results">
+        <td colspan="{$colspan}">
+          {t}No users could be found.{/t}
+        </td>
+      </tr>
+    {/section}
+    </tbody>
+
+    <tfoot>
+    <tr class="buttons">
+      <td colspan="{$colspan}">
+        <input type="button" value="{t}All{/t}" class="select_all">
+        <input type="submit" value="{t}Update Status{/t} &gt;&gt;">
+        <select name="status">
+          <option value="active">{t}Active{/t}</option>
+          <option value="inactive">{t}Inactive{/t}</option>
+        </select>
+        <div class="right">
+          <input type="checkbox" id="show_customers" name="show_customers" value="yes"
+                 {if $list_options.inactive}checked{/if}>
+          <label for="show_customers">{t}Show Customers{/t}</label>
+
+          <input type="checkbox" id="show_inactive" name="show_inactive" value="yes"
+                 {if $list_options.inactive}checked{/if}>
+          <label for="show_inactive">{t}Show Inactive Users{/t}</label>
+
+          <input type="checkbox" id="show_groups" name="show_groups" value="yes"
+                 {if $list_options.groups}checked{/if}>
+          <label for="show_groups">{t}Show Groups{/t}</label>
+        </div>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
+
+</form>
+{/block}

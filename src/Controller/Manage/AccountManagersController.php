@@ -40,8 +40,8 @@ class AccountManagersController extends ManageBaseController
         $request = $this->getRequest();
 
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
-        $this->prj_id = $request->query->get('prj_id') ?: $request->request->get('prj_id');
-        $this->id = $request->query->get('id');
+        $this->prj_id = $request->query->getInt('prj_id') ?: $request->request->getInt('prj_id');
+        $this->id = $request->query->getInt('id');
     }
 
     /**

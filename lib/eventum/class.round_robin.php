@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 class Round_Robin
 {
     /**
@@ -176,7 +178,7 @@ class Round_Robin
                     rru_prr_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($prr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -189,7 +191,7 @@ class Round_Robin
                     rru_prr_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($usr_id, $prr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -212,7 +214,7 @@ class Round_Robin
                     prr_prj_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -245,7 +247,7 @@ class Round_Robin
                     usr_id ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -289,7 +291,7 @@ class Round_Robin
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($_POST['project'], $blackout_start, $blackout_end));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -322,7 +324,7 @@ class Round_Robin
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($prr_id, $usr_id, 0));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -349,7 +351,7 @@ class Round_Robin
                     prj_title ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -383,7 +385,7 @@ class Round_Robin
                     usr_id ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -406,7 +408,7 @@ class Round_Robin
                     prr_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($prr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -435,7 +437,7 @@ class Round_Robin
                     prr_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($_POST['project'], $blackout_start, $blackout_end, $_POST['id']));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -467,7 +469,7 @@ class Round_Robin
                     rru_prr_id IN ($items)";
         try {
             DB_Helper::getInstance()->query($stmt, $prr_id);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -490,7 +492,7 @@ class Round_Robin
                     prr_id IN ($itemlist)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 

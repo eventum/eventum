@@ -20,7 +20,6 @@ use Email_Account;
 use Issue;
 use Mail_Helper;
 use Note;
-use Prefs;
 use Support;
 use User;
 use Workflow;
@@ -55,7 +54,7 @@ class AssociateController extends BaseController
     {
         $request = $this->getRequest();
 
-        $this->issue_id = $request->request->get('issue_id');
+        $this->issue_id = $request->request->getInt('issue_id') ?: $request->query->getInt('issue_id');
         $this->cat = $request->request->get('cat');
         $this->target = $request->request->get('target');
         $this->items = $request->request->get('item');
@@ -181,9 +180,5 @@ class AssociateController extends BaseController
      */
     protected function prepareTemplate()
     {
-        $this->tpl->assign(array(
-                'current_user_prefs' => Prefs::get($this->usr_id)
-            )
-        );
     }
 }

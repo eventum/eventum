@@ -11,6 +11,9 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+use Eventum\Mail\Exception\RoutingException;
+
 /**
  * Class to handle the business logic related to the email feature of
  * the application.
@@ -40,7 +43,7 @@ class Support
                     sup_id IN (' . DB_Helper::buildList($sup_ids) . ')';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $sup_ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -51,7 +54,7 @@ class Support
             if (!$account_details['leave_copy']) {
                 // try to re-use an open connection to the imap server
                 if (!in_array($row['sup_ema_id'], array_keys($accounts))) {
-                    $accounts[$row['sup_ema_id']] = self::connectEmailServer(Email_Account::getDetails($row['sup_ema_id']));
+                    $accounts[$row['sup_ema_id']] = self::connectEmailServer(Email_Account::getDetails($row['sup_ema_id'], true));
                 }
                 $mbox = $accounts[$row['sup_ema_id']];
                 if ($mbox !== false) {
@@ -91,7 +94,7 @@ class Support
                     sup_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($sup_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -101,7 +104,7 @@ class Support
                     seb_sup_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($sup_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -140,7 +143,7 @@ class Support
                     ' . $options['sort_by'] . ' ' . $options['sort_order'];
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -186,7 +189,7 @@ class Support
                     sup_id ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -244,7 +247,7 @@ class Support
                     sup_id IN (' . DB_Helper::buildList($sup_ids) . ')';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, $sup_ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -283,7 +286,7 @@ class Support
                     sup_id IN ($list)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -313,13 +316,8 @@ class Support
         $params = array(Auth::getCurrentProject());
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
-        }
-
-        foreach ($res as &$row) {
-            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
-            $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
         }
 
         return $res;
@@ -344,7 +342,7 @@ class Support
                     sup_ema_id IN (' . DB_Helper::buildList($ids) . ')';
         try {
             DB_Helper::getInstance()->query($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -412,23 +410,22 @@ class Support
     /**
      * Bounce message to sender.
      *
-     * @param   object  $message parsed message structure.
-     * @param   array   array(ERROR_CODE, ERROR_STRING) of error to bounce
-     * @return  void
+     * @param object $message parsed message structure.
+     * @param Exception $error
      */
-    public function bounceMessage($message, $error)
+    private function bounceMessage($message, $error)
     {
         // open text template
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/bounced_email.tpl.text');
         $tpl->assign(array(
-            'error_code'        => $error[0],
-            'error_message'     => $error[1],
+            'error_code'        => $error->getCode(),
+            'error_message'     => $error->getMessage(),
             'date'              => $message->date,
-            'subject'           => Mime_Helper::fixEncoding($message->subject),
-            'from'              => Mime_Helper::fixEncoding($message->fromaddress),
-            'to'                => Mime_Helper::fixEncoding($message->toaddress),
-            'cc'                => Mime_Helper::fixEncoding(@$message->ccaddress),
+            'subject'           => Mime_Helper::decodeQuotedPrintable($message->subject),
+            'from'              => Mime_Helper::decodeQuotedPrintable($message->fromaddress),
+            'to'                => Mime_Helper::decodeQuotedPrintable($message->toaddress),
+            'cc'                => Mime_Helper::decodeQuotedPrintable(@$message->ccaddress),
         ));
 
         $sender_email = Mail_Helper::getEmailAddress($message->fromaddress);
@@ -443,7 +440,7 @@ class Support
         // send email (use PEAR's classes)
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
-        $setup = $mail->getSMTPSettings();
+        $setup = Mail_Helper::getSMTPSettings();
         // TRANSLATORS: %s: APP_SHORT_NAME
         $subject = ev_gettext('%s: Postmaster notify: see transcript for details', APP_SHORT_NAME);
         $mail->send($setup['from'], $sender_email, $subject);
@@ -510,94 +507,36 @@ class Support
 
         // route emails if necessary
         if ($info['ema_use_routing'] == 1) {
-            $setup = Setup::get();
-
-            // we create addresses array so it can be reused
-            $addresses = array();
-            if (isset($email->to)) {
-                foreach ($email->to as $address) {
-                    $addresses[] = $address->mailbox . '@' . $address->host;
+            try {
+                $routed = Routing::route($message);
+            } catch (RoutingException $e) {
+                // "if leave copy of emails on IMAP server" is "off",
+                // then we can bounce on the message
+                // otherwise proper would be to create table -
+                // eventum_bounce: bon_id, bon_message_id, bon_error
+                if (!$info['ema_leave_copy']) {
+                    self::bounceMessage($email, $e);
+                    self::deleteMessage($info, $mbox, $num);
                 }
-            }
-            if (isset($email->cc)) {
-                foreach ($email->cc as $address) {
-                    $addresses[] = $address->mailbox . '@' . $address->host;
-                }
-            }
 
-            if ($setup['email_routing']['status'] == 'enabled') {
-                $res = Routing::getMatchingIssueIDs($addresses, 'email');
-                if ($res != false) {
-                    $return = Routing::route_emails($message);
-                    if ($return === true) {
-                        self::deleteMessage($info, $mbox, $num);
-
-                        return;
-                    }
-                    // TODO: handle errors?
-                    return;
-                }
-            }
-            if ($setup['note_routing']['status'] == 'enabled') {
-                $res = Routing::getMatchingIssueIDs($addresses, 'note');
-                if ($res != false) {
-                    $return = Routing::route_notes($message);
-
-                    // if leave copy of emails on IMAP server is off we can
-                    // bounce on note that user had no permission to write
-                    // here.
-                    // otherwise proper would be to create table -
-                    // eventum_bounce: bon_id, bon_message_id, bon_error
-
-                    if ($info['ema_leave_copy']) {
-                        if ($return === true) {
-                            self::deleteMessage($info, $mbox, $num);
-                        }
-                    } else {
-                        if ($return !== true) {
-                            // in case of error, create bounce, but still
-                            // delete email not to send bounce in next process :)
-                            self::bounceMessage($email, $return);
-                        }
-                        self::deleteMessage($info, $mbox, $num);
-                    }
-
-                    return;
-                }
-            }
-            if ($setup['draft_routing']['status'] == 'enabled') {
-                $res = Routing::getMatchingIssueIDs($addresses, 'draft');
-                if ($res != false) {
-                    $return = Routing::route_drafts($message);
-
-                    // if leave copy of emails on IMAP server is off we can
-                    // bounce on note that user had no permission to write
-                    // here.
-                    // otherwise proper would be to create table -
-                    // eventum_bounce: bon_id, bon_message_id, bon_error
-
-                    if ($info['ema_leave_copy']) {
-                        if ($return === true) {
-                            self::deleteMessage($info, $mbox, $num);
-                        }
-                    } else {
-                        if ($return !== true) {
-                            // in case of error, create bounce, but still
-                            // delete email not to send bounce in next process :)
-                            self::bounceMessage($email, $return);
-                        }
-                        self::deleteMessage($info, $mbox, $num);
-                    }
-
-                    return;
-                }
+                return;
             }
 
-            // TODO:
-            // disabling return here allows routing and issue auto creating from same account
-            // but it will download email store it in database and do nothing
-            // with it if it does not match support@ address.
-            //return;
+            // the mail was routed
+            if ($routed === true) {
+                if (!$info['ema_leave_copy']) {
+                    self::deleteMessage($info, $mbox, $num);
+                }
+
+                return;
+            }
+
+            // no match for issue-, note-, draft- routing,
+            // continue to allow routing and issue auto creating from same account,
+            // but it will download email, store it in database and do nothing with it
+            // if it does not match support@ address.
+            // by "do nothing" it is meant that the mail will be downloaded each time
+            // the mails are processed from imap account.
         }
 
         $sender_email = Mail_Helper::getEmailAddress($email->fromaddress);
@@ -986,7 +925,7 @@ class Support
                     sup_ema_id=?';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($ema_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -1009,7 +948,7 @@ class Support
                     sup_message_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($message_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -1074,7 +1013,7 @@ class Support
         $stmt = 'INSERT INTO {{%support_email}} SET ' . DB_Helper::buildSet($params);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1093,7 +1032,7 @@ class Support
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($new_sup_id, $row['body'], $row['full_email']));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1279,7 +1218,7 @@ class Support
                     ' . Misc::escapeInteger($max) . ' OFFSET ' . Misc::escapeInteger($start);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array(
                 'list' => '',
                 'info' => '',
@@ -1305,7 +1244,6 @@ class Support
         }
 
         foreach ($res as &$row) {
-            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
             $row['sup_from'] = implode(', ', Mail_Helper::getName($row['sup_from'], true));
             if ((empty($row['sup_to'])) && (!empty($row['sup_iss_id']))) {
                 $row['sup_to'] = 'Notification List';
@@ -1313,7 +1251,7 @@ class Support
                 $to = Mail_Helper::getName($row['sup_to']);
                 // Ignore unformattable headers
                 if (!Misc::isError($to)) {
-                    $row['sup_to'] = Mime_Helper::fixEncoding($to);
+                    $row['sup_to'] = $to;
                 }
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
@@ -1386,7 +1324,7 @@ class Support
 
         // handle 'private' issues.
         if (Auth::getCurrentRole() < User::ROLE_MANAGER) {
-            $stmt .= ' AND (iss_private = 0 OR iss_private IS NULL)';
+            $stmt .= " AND iss_access_level = 'normal'";
         }
 
         return $stmt;
@@ -1485,7 +1423,7 @@ class Support
                     sup_id IN ($list)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1602,19 +1540,17 @@ class Support
                     sup_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($sup_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
         $res['message'] = $res['seb_body'];
         $res['attachments'] = Mime_Helper::getAttachmentCIDs($res['seb_full_email']);
         $res['timestamp'] = Date_Helper::getUnixTimestamp($res['sup_date'], 'GMT');
-        $res['sup_subject'] = Mime_Helper::fixEncoding($res['sup_subject']);
         // TRANSLATORS: %1 = email subject
         $res['reply_subject'] = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $res['sup_subject']), true);
-        $res['sup_from'] = Mime_Helper::fixEncoding($res['sup_from']);
-        $res['sup_to'] = Mail_helper::formatEmailAddresses(Mime_Helper::fixEncoding($res['sup_to']));
-        $res['sup_cc'] = Mail_helper::formatEmailAddresses(Mime_Helper::fixEncoding($res['sup_cc']));
+        $res['sup_to'] = Mail_Helper::formatEmailAddresses($res['sup_to']);
+        $res['sup_cc'] = Mail_Helper::formatEmailAddresses($res['sup_cc']);
 
         if (!empty($res['sup_iss_id'])) {
             $res['reply_subject'] = Mail_Helper::formatSubject($res['sup_iss_id'], $res['reply_subject']);
@@ -1645,7 +1581,7 @@ class Support
                 LIMIT 1 OFFSET $offset";
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -1681,13 +1617,8 @@ class Support
         array_unshift($params, Auth::getCurrentProject());
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
-        }
-
-        foreach ($res as &$row) {
-            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
-            $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
         }
 
         return $res;
@@ -1710,7 +1641,7 @@ class Support
                     seb_sup_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sup_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -1734,7 +1665,7 @@ class Support
                     seb_sup_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sup_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -1769,7 +1700,7 @@ class Support
                     sup_id ASC";
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -1778,10 +1709,8 @@ class Support
         }
 
         foreach ($res as &$row) {
-            $row['sup_subject'] = Mime_Helper::fixEncoding($row['sup_subject']);
-            $row['sup_from'] = Mime_Helper::fixEncoding($row['sup_from']);
-            $row['sup_to'] = Mail_Helper::formatEmailAddresses(Mime_Helper::fixEncoding($row['sup_to']));
-            $row['sup_cc'] = Mail_Helper::formatEmailAddresses(Mime_Helper::fixEncoding($row['sup_cc']));
+            $row['sup_to'] = Mail_Helper::formatEmailAddresses($row['sup_to']);
+            $row['sup_cc'] = Mail_Helper::formatEmailAddresses($row['sup_cc']);
         }
 
         return $res;
@@ -1805,7 +1734,7 @@ class Support
                     sup_id IN ($list)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1838,7 +1767,7 @@ class Support
                     sup_id IN ($list)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -2024,7 +1953,7 @@ class Support
                 // skip users who don't have access to this issue (but allow non-users and users without access to this project) to get emails
                 $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($recipient), true);
                 if ((((!empty($recipient_usr_id)) && ((!Issue::canAccess($issue_id, $recipient_usr_id)) && (User::getRoleByUser($recipient_usr_id, $prj_id) != null)))) ||
-                        (empty($recipient_usr_id)) && (Issue::isPrivate($issue_id))) {
+                        (empty($recipient_usr_id)) && (Issue::getAccessLevel($issue_id) != 'normal')) {
                     continue;
                 }
             } else {
@@ -2344,7 +2273,7 @@ class Support
                     sup_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sup_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -2371,7 +2300,7 @@ class Support
                     sup_message_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($message_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -2402,7 +2331,7 @@ class Support
                     sup_message_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($message_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -2426,7 +2355,7 @@ class Support
                     sup_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($sup_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -2451,7 +2380,7 @@ class Support
                     child.sup_message_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($msg_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -2494,7 +2423,7 @@ class Support
         $params = array(Auth::getCurrentProject(), $start, $end, "%{$usr_info['usr_email']}%");
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -2523,7 +2452,7 @@ class Support
                     ema_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($ema_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -2583,7 +2512,7 @@ class Support
         $params = array($new_ema_id, $issue_id, $customer_id, $sup_id, $current_ema_id);
         try {
             DB_Helper::getInstance()->query($sql, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -2753,7 +2682,7 @@ class Support
 
         try {
             DB_Helper::getInstance()->query('SET @sup_seq = 0');
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 0;
         }
 
@@ -2769,7 +2698,7 @@ class Support
                     sup_id ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 0;
         }
 

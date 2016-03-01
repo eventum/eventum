@@ -13,21 +13,5 @@
 
 require_once __DIR__ . '/../../init.php';
 
-$tpl = new Template_Helper();
-$tpl->setTemplate('reports/issue_user.tpl.html');
-
-Auth::checkAuthentication();
-
-if (!Access::canAccessReports(Auth::getUserID())) {
-    echo 'Invalid role';
-    exit;
-}
-
-$prj_id = Auth::getCurrentProject();
-
-if ($_GET['cat'] == 'user') {
-    $res = Report::getIssuesByUser($prj_id);
-    $tpl->assign('users', $res);
-}
-
-$tpl->displayTemplate();
+$controller = new Eventum\Controller\Report\IssueController();
+$controller->run();

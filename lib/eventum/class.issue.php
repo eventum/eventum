@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class designed to handle all business logic related to the issues in the
  * system, such as adding or updating them or listing them in the grid mode.
@@ -40,7 +42,7 @@ class Issue
         }
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -91,7 +93,7 @@ class Issue
                     iss_id ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -120,7 +122,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -148,7 +150,7 @@ class Issue
         $params = array(Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $issue_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -177,7 +179,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -208,7 +210,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -236,7 +238,7 @@ class Issue
                     iss_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($contract_id, $issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -272,7 +274,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -304,7 +306,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -377,7 +379,7 @@ class Issue
         $params = array($status_id, Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $issue_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -441,7 +443,7 @@ class Issue
                         iss_id = ?';
             try {
                 DB_Helper::getInstance()->query($sql, array($pre_id, $issue_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }
@@ -465,7 +467,7 @@ class Issue
                     iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -490,7 +492,7 @@ class Issue
                         iss_id = ?';
             try {
                 DB_Helper::getInstance()->query($sql, array($pri_id, $issue_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }
@@ -514,7 +516,7 @@ class Issue
                     iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -539,7 +541,7 @@ class Issue
                         iss_id = ?';
             try {
                 DB_Helper::getInstance()->query($sql, array($sev_id, $issue_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }
@@ -563,7 +565,7 @@ class Issue
                     iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -590,12 +592,12 @@ class Issue
                         iss_id = ?';
             try {
                 DB_Helper::getInstance()->query($sql, array($expected_resolution_date, $issue_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
 
             $usr_id = Auth::getUserID();
-            Notification::notifyIssueUpdated($issue_id, array('iss_expected_resolution_date' => $current), array('expected_resolution_date' => $expected_resolution_date));
+            Notification::notifyIssueUpdated($issue_id, array('iss_expected_resolution_date' => $current), array('expected_resolution_date' => $expected_resolution_date), array());
             History::add($issue_id, $usr_id, 'issue_updated', 'Issue updated (Expected Resolution Date: {changes}) by {user}', array(
                 'changes' => History::formatChanges($current, $expected_resolution_date),
                 'user' => User::getFullName($usr_id)
@@ -623,7 +625,7 @@ class Issue
                     iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -648,7 +650,7 @@ class Issue
                         iss_id = ?';
             try {
                 DB_Helper::getInstance()->query($sql, array($prc_id, $issue_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }
@@ -672,7 +674,7 @@ class Issue
                     iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -731,7 +733,7 @@ class Issue
                         iss_id";
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -766,7 +768,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -813,7 +815,7 @@ class Issue
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -857,7 +859,7 @@ class Issue
                     iss_duplicated_iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -907,7 +909,7 @@ class Issue
         $params = array_merge($params, $ids);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -976,7 +978,7 @@ class Issue
                     iss_duplicated_iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -1005,7 +1007,7 @@ class Issue
         $params = array(Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $issue_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1043,7 +1045,7 @@ class Issue
         $params = array(Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $dup_iss_id, $issue_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1075,7 +1077,7 @@ class Issue
                     iss_duplicated_iss_id IS NULL';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -1102,7 +1104,7 @@ class Issue
                     isu_usr_id=usr_id';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -1125,7 +1127,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -1148,7 +1150,7 @@ class Issue
                     iss_summary=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($summary));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 0;
         }
 
@@ -1189,7 +1191,7 @@ class Issue
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1251,7 +1253,7 @@ class Issue
                     iss_prj_id IN (' . DB_Helper::buildList($ids) . ')';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -1316,7 +1318,7 @@ class Issue
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1471,7 +1473,7 @@ class Issue
         self::updateAssociatedIssuesRelations($issue_id, $associated_issues);
 
         $assignments_changed = false;
-        if (@$_POST['keep_assignments'] == 'no') {
+        if (@$_POST['keep_assignments'] == 'no' && Access::canChangeAssignee($issue_id, $usr_id)) {
             // only change the issue-user associations if there really were any changes
             $old_assignees = array_merge($current['assigned_users'], $current['assigned_inactive_users']);
             if (!empty($_POST['assignments'])) {
@@ -1545,9 +1547,6 @@ class Issue
         } else {
             $params['iss_expected_resolution_date'] = null;
         }
-        if (isset($_POST['private'])) {
-            $params['iss_private'] = $_POST['private'];
-        }
         if (isset($_POST['priority'])) {
             $params['iss_pri_id'] = $_POST['priority'];
         }
@@ -1563,7 +1562,7 @@ class Issue
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1626,9 +1625,6 @@ class Issue
             $updated_fields['Description'] = '';
         }
 
-        if ((isset($_POST['private'])) && ($_POST['private'] != $current['iss_private'])) {
-            $updated_fields['Private'] = History::formatChanges(Misc::getBooleanDisplayValue($current['iss_private']), Misc::getBooleanDisplayValue($_POST['private']));
-        }
         if (isset($_POST['product']) && count($product_changes) > 0) {
             $updated_fields['Product'] = implode('; ', $product_changes);
         }
@@ -1732,7 +1728,7 @@ class Issue
               iss_id = ?';
         try {
             DB_Helper::getInstance()->query($stmt, array($new_prj_id, $issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1887,7 +1883,7 @@ class Issue
         $params = array($issue_id, $assignee_usr_id, Date_Helper::getCurrentDateGMT());
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1919,7 +1915,7 @@ class Issue
                     isu_iss_id IN ($list)";
         try {
             DB_Helper::getInstance()->query($stmt, $issues);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -1949,7 +1945,7 @@ class Issue
                     isu_usr_id = ?';
         try {
             DB_Helper::getInstance()->query($stmt, array($issue_id, $usr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -2169,7 +2165,7 @@ class Issue
             'add_primary_contact', 'attached_emails', 'category', 'contact', 'contact_email', 'contact_extra_emails', 'contact_person_fname',
             'contact_person_lname', 'contact_phone', 'contact_timezone', 'contract', 'customer', 'custom_fields', 'description',
             'estimated_dev_time', 'group', 'notify_customer', 'notify_senders', 'priority', 'private', 'release', 'severity', 'summary', 'users',
-            'product', 'product_version', 'expected_resolution_date', 'associated_issues',
+            'product', 'product_version', 'expected_resolution_date', 'associated_issues', 'access_level',
         );
         $data = array();
         foreach ($keys as $key) {
@@ -2211,10 +2207,10 @@ class Issue
 
         $clone_iss_id = isset($_POST['clone_iss_id']) ? (int) $_POST['clone_iss_id'] : null;
         if ($clone_iss_id && Access::canCloneIssue($clone_iss_id, $current_usr_id)) {
-            History::add($issue_id, $current_usr_id, 'issue_cloned_from', 'Issue cloned from #{issue_id}', array(
+            History::add($issue_id, $current_usr_id, 'issue_cloned_from', 'Issue cloned from issue #{issue_id}', array(
                 'issue_id' => $clone_iss_id
             ));
-            History::add($clone_iss_id, $current_usr_id, 'issue_cloned_to', 'Issue cloned to #{issue_id}', array(
+            History::add($clone_iss_id, $current_usr_id, 'issue_cloned_to', 'Issue cloned to issue #{issue_id}', array(
                 'issue_id' => $issue_id,
             ));
             self::addAssociation($issue_id, $clone_iss_id, $usr_id, true);
@@ -2418,6 +2414,9 @@ class Issue
         if (!empty($data['expected_resolution_date'])) {
             $params['iss_expected_resolution_date'] = $data['expected_resolution_date'];
         }
+        if (!empty($data['access_level'])) {
+            $params['iss_access_level'] = $data['access_level'];
+        }
 
         $initial_status = Project::getInitialStatus($prj_id);
         if (!empty($initial_status)) {
@@ -2437,15 +2436,11 @@ class Issue
             $params['iss_contact_timezone'] = $data['contact_timezone'];
         }
 
-        if (!empty($data['contact'])) {
-            $params['iss_private'] = $data['private'];
-        }
-
         $stmt = 'INSERT INTO {{%issue}} SET ' . DB_Helper::buildSet($params);
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -2551,134 +2546,8 @@ class Issue
      */
     public static function getSides($issue_id, $options)
     {
-        $usr_id = Auth::getUserID();
-        $role_id = Auth::getCurrentRole();
-        $usr_details = User::getDetails($usr_id);
-
-        $stmt = 'SELECT
-                    iss_id,
-                    ' . self::getLastActionFields() . '
-                 FROM
-                    (
-                    {{%issue}},
-                    {{%user}}';
-        // join custom fields if we are searching by custom fields
-        if ((is_array($options['custom_field'])) && (count($options['custom_field']) > 0)) {
-            foreach ($options['custom_field'] as $fld_id => $search_value) {
-                if (empty($search_value)) {
-                    continue;
-                }
-                $field = Custom_Field::getDetails($fld_id);
-                if (($field['fld_type'] == 'date') &&
-                        ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day'])))) {
-                    continue;
-                }
-                if (($field['fld_type'] == 'integer') && empty($search_value['value'])) {
-                    continue;
-                }
-
-                if ($field['fld_type'] == 'multiple') {
-                    $search_value = Misc::escapeString($search_value);
-                    foreach ($search_value as $cfo_id) {
-                        $stmt .= ",\n {{%issue_custom_field}} as cf" . $fld_id . '_' . $cfo_id . "\n";
-                    }
-                } else {
-                    $stmt .= ",\n {{%issue_custom_field}} as cf" . $fld_id . "\n";
-                }
-            }
-        }
-        $stmt .= ')';
-        // check for the custom fields we want to sort by
-        if (strstr($options['sort_by'], 'custom_field') !== false) {
-            $fld_id = str_replace('custom_field_', '', $options['sort_by']);
-            $stmt .= "\n LEFT JOIN {{%issue_custom_field}} as cf_sort
-                ON
-                    (cf_sort.icf_iss_id = iss_id AND cf_sort.icf_fld_id = $fld_id) \n";
-        }
-        if (!empty($options['users']) || @$options['sort_by'] == 'isu_usr_id') {
-            $stmt .= '
-                 LEFT JOIN
-                    {{%issue_user}}
-                 ON
-                    isu_iss_id=iss_id';
-        }
-        if ((!empty($options['show_authorized_issues'])) || (($role_id == User::ROLE_REPORTER) && (Project::getSegregateReporters(Auth::getCurrentProject())))) {
-            $stmt .= '
-                 LEFT JOIN
-                    {{%issue_user_replier}}
-                 ON
-                    iur_iss_id=iss_id';
-        }
-        if (!empty($options['show_notification_list_issues'])) {
-            $stmt .= '
-                 LEFT JOIN
-                    {{%subscription}}
-                 ON
-                    sub_iss_id=iss_id';
-        }
-        if (!empty($options['product'])) {
-            $stmt .= '
-                 LEFT JOIN
-                    {{%issue_product_version}}
-                 ON
-                    ipv_iss_id=iss_id';
-        }
-        if (@$options['sort_by'] == 'pre_scheduled_date') {
-            $stmt .= '
-                 LEFT JOIN
-                    {{%project_release}}
-                 ON
-                    iss_pre_id = pre_id';
-        }
-        if (@$options['sort_by'] == 'prc_title') {
-            $stmt .= '
-                 LEFT JOIN
-                    {{%project_category}}
-                 ON
-                    iss_prc_id = prc_id';
-        }
-        if (!empty($usr_details['usr_par_code'])) {
-            // restrict partners
-            $stmt .= '
-                 LEFT JOIN
-                    {{%issue_partner}}
-                 ON
-                    ipa_iss_id=iss_id';
-        }
-        $stmt .= '
-                 LEFT JOIN
-                    {{%status}}
-                 ON
-                    iss_sta_id=sta_id
-                 LEFT JOIN
-                    {{%project_priority}}
-                 ON
-                    iss_pri_id=pri_id
-                 LEFT JOIN
-                    {{%project_severity}}
-                 ON
-                    iss_sev_id=sev_id
-                 WHERE
-                    iss_prj_id=' . Auth::getCurrentProject();
-        $stmt .= Search::buildWhereClause($options);
-        if (strstr($options['sort_by'], 'custom_field') !== false) {
-            $fld_details = Custom_Field::getDetails($fld_id);
-            $sort_by = 'cf_sort.' . Custom_Field::getDBValueFieldNameByType($fld_details['fld_type']);
-        } else {
-            $sort_by = Misc::escapeString($options['sort_by']);
-        }
-        $stmt .= '
-                 GROUP BY
-                    iss_id
-                 ORDER BY
-                    ' . $sort_by . ' ' . Misc::escapeString($options['sort_order']) . ',
-                    iss_id DESC';
-        try {
-            $res = DB_Helper::getInstance()->getColumn($stmt);
-        } catch (DbException $e) {
-            return '';
-        }
-
+        $res = Search::getListing(Auth::getCurrentProject(), $options);
+        $res = array_column($res['list'], 'iss_id');
         $index = array_search($issue_id, $res);
         if (!empty($res[$index + 1])) {
             $next = $res[$index + 1];
@@ -2712,7 +2581,7 @@ class Issue
                     isu_usr_id=usr_id';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -2762,7 +2631,7 @@ class Issue
 
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return;
         }
 
@@ -2801,7 +2670,7 @@ class Issue
                     isu_iss_id IN ($ids)";
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return;
         }
 
@@ -2847,7 +2716,7 @@ class Issue
                     iss_id in ($ids)";
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return;
         }
 
@@ -2875,7 +2744,7 @@ class Issue
                     isu_usr_id=usr_id';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -2902,7 +2771,7 @@ class Issue
                     isu_usr_id=usr_id";
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -2969,7 +2838,7 @@ class Issue
                     iss_prj_id=prj_id';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -3060,6 +2929,8 @@ class Issue
 
         $res['products'] = Product::getProductsByIssue($res['iss_id']);
 
+        $res['access_level_name'] = Access::getAccessLevelName($res['iss_access_level']);
+
         $returns[$issue_id] = $res;
 
         return $res;
@@ -3085,7 +2956,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -3139,7 +3010,7 @@ class Issue
                             isu_iss_id = ?';
                 try {
                     $current_assignees = DB_Helper::getInstance()->getPair($stmt, array($issue_id));
-                } catch (DbException $e) {
+                } catch (DatabaseException $e) {
                     return -1;
                 }
 
@@ -3264,7 +3135,7 @@ class Issue
         $params = array(Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $_POST['dev_time'], $_POST['impact_analysis'], $issue_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -3300,7 +3171,7 @@ class Issue
                     iss_id DESC';
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -3331,7 +3202,7 @@ class Issue
                     iss_id ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -3385,7 +3256,7 @@ class Issue
                     isa_issue_id=?';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -3413,7 +3284,7 @@ class Issue
                     sta_is_closed=1';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -3442,7 +3313,7 @@ class Issue
         $params = array(Date_Helper::getCurrentDateGMT());
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -3470,7 +3341,7 @@ class Issue
                         iqu_expiration IS NULL)';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id, Date_Helper::getCurrentDateGMT()));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -3505,7 +3376,7 @@ class Issue
                     iqu_iss_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -3525,7 +3396,7 @@ class Issue
             $params[] = $issue_id;
             try {
                 DB_Helper::getInstance()->query($stmt, $params);
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
 
@@ -3552,7 +3423,7 @@ class Issue
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -3583,7 +3454,7 @@ class Issue
                     iss_id = ?';
         try {
             DB_Helper::getInstance()->query($stmt, array($group_id, $issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -3616,7 +3487,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -3648,39 +3519,6 @@ class Issue
     }
 
     /**
-     * Returns true if the specified issue is private, false otherwise
-     *
-     * @param   integer $issue_id The ID of the issue
-     * @return  boolean If the issue is private or not
-     */
-    public static function isPrivate($issue_id)
-    {
-        static $returns;
-
-        if (!isset($returns[$issue_id])) {
-            $sql = 'SELECT
-                        iss_private
-                    FROM
-                        {{%issue}}
-                    WHERE
-                        iss_id=?';
-            try {
-                $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-            } catch (DbException $e) {
-                return true;
-            }
-
-            if ($res == 1) {
-                $returns[$issue_id] = true;
-            } else {
-                $returns[$issue_id] = false;
-            }
-        }
-
-        return $returns[$issue_id];
-    }
-
-    /**
      * Clears closed information from an issues.
      *
      * @param   integer $issue_id The ID of the issue
@@ -3697,7 +3535,7 @@ class Issue
                     iss_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -3720,7 +3558,7 @@ class Issue
                     iss_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -3748,7 +3586,7 @@ class Issue
                     iss_root_message_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($sql, array($msg_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -3804,5 +3642,69 @@ class Issue
         ));
 
         return 1;
+    }
+
+    /**
+     * Sets the access level of the issue.
+     *
+     * @param   integer $issue_id The ID of the issue
+     * @param   string $level The Access level
+     * @return  integer 1 if successful, -1 or -2 otherwise
+     */
+    public static function setAccessLevel($issue_id, $level)
+    {
+        $issue_id = (int) $issue_id;
+        $usr_id = Auth::getUserID();
+
+        if (!Access::canChangeAccessLevel($issue_id, $usr_id)) {
+            return -2;
+        }
+
+        $old_access_level = self::getAccessLevel($issue_id);
+        if ($level == $old_access_level) {
+            return 1;
+        }
+
+        $stmt = 'UPDATE
+                    {{%issue}}
+                 SET
+                    iss_access_level = ?
+                 WHERE
+                    iss_id = ?';
+        try {
+            DB_Helper::getInstance()->query($stmt, array($level, $issue_id));
+        } catch (DatabaseException $e) {
+            return -1;
+        }
+
+        History::add($issue_id, $usr_id, 'access_level_changed', 'Access level changed ({changes}) by {user}', array(
+            'changes' => History::formatChanges(Access::getAccessLevelName($old_access_level), Access::getAccessLevelName($level)),
+            'user' => User::getFullName($usr_id)
+        ));
+
+        return 1;
+    }
+
+    /**
+     * Returns the access level associated with the given issue ID.
+     *
+     * @param   integer $issue_id The issue ID
+     * @return  string The Access Level
+     */
+    public static function getAccessLevel($issue_id)
+    {
+        $stmt = 'SELECT
+                    iss_access_level
+                 FROM
+                    {{%issue}}
+                 WHERE
+                    iss_id=?';
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
+        } catch (DatabaseException $e) {
+            return -1;
+        }
+
+        return $res;
     }
 }

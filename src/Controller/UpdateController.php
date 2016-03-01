@@ -13,6 +13,7 @@
 
 namespace Eventum\Controller;
 
+use Access;
 use Auth;
 use AuthCookie;
 use Category;
@@ -331,11 +332,13 @@ class UpdateController extends BaseController
                 'field' => 'product_version',
             );
         }
-        $columns[0][] = array(
-            'title' => ev_gettext('Assignment'),
-            'data' => $details['assignments'],
-            'field' => 'assignment',
-        );
+        if (Access::canChangeAssignee($this->issue_id, $this->usr_id)) {
+            $columns[0][] = array(
+                'title' => ev_gettext('Assignment'),
+                'data' => $details['assignments'],
+                'field' => 'assignment',
+            );
+        }
 
         $columns[1][] = array(
             'title' => ev_gettext('Notification List'),

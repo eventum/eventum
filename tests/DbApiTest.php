@@ -1,5 +1,8 @@
 <?php
 
+use Eventum\Db\Adapter\NullAdapter;
+use Eventum\Db\Adapter\PearAdapter;
+
 class DbApiTest extends TestCase
 {
     public function testPearApi()
@@ -7,14 +10,14 @@ class DbApiTest extends TestCase
         $this->assertDatabase();
 
         $config = DB_Helper::getConfig();
-        $instance = new DbPear($config);
+        $instance = new PearAdapter($config);
         $this->assertNotNull($instance);
     }
 
     public function testNullApi()
     {
         $config = DB_Helper::getConfig();
-        $instance = new DbNull($config);
+        $instance = new NullAdapter($config);
         $this->assertNotNull($instance);
     }
 }

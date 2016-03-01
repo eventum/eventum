@@ -498,6 +498,9 @@ div.html_box {
 
 /* End Messages */
 
+.hidden {
+    display: none;
+}
 
 .error_icon {
     width: 14;
@@ -573,4 +576,27 @@ td.light {
 }
 #add_time_form img {
     vertical-align: middle;
+}
+
+span.toggle-trimmed-email a {
+    display: inline-block;
+    height: 12px;
+    padding: 0 9px;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 6px;
+    color: #555;
+    text-decoration: none;
+    vertical-align: middle;
+    background: #bbb;
+    border-radius: 1px;
+}
+
+span.toggle-trimmed-email a:hover {
+    background-color: #aaa;
+}
+
+span.toggle-trimmed-email a:active {
+    color: #fff;
+    background-color: #4078c0;
 }

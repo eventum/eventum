@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 class APIAuthToken
 {
     private static $default_alg = 'HS256';
@@ -40,7 +42,7 @@ class APIAuthToken
                 Date_Helper::getCurrentDateGMT(),
                 $token,
             ));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
     }
@@ -73,7 +75,7 @@ class APIAuthToken
                     apt_status = 'active'";
         try {
             $usr_id = DB_Helper::getInstance()->getOne($sql, array($token));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             throw new AuthException('Error fetching user token');
         }
         if (empty($usr_id)) {
@@ -103,7 +105,7 @@ class APIAuthToken
                     apt_created DESC';
         try {
             $res = DB_Helper::getInstance()->getAll($sql, array($usr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
         if (empty($res)) {
@@ -129,7 +131,7 @@ class APIAuthToken
                     apt_usr_id = ?";
         try {
             DB_Helper::getInstance()->query($sql, array($usr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 

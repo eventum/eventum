@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle project priority related issues.
  */
@@ -88,7 +90,7 @@ class Priority
                     pri_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 
@@ -111,7 +113,7 @@ class Priority
                     pri_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($pri_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -134,7 +136,7 @@ class Priority
                     pri_prj_id IN ($items)";
         try {
             DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -157,7 +159,7 @@ class Priority
                     pri_id IN ($itemlist)";
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -186,7 +188,7 @@ class Priority
                     pri_id=?';
         try {
             DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['rank'], $_POST['prj_id'], $_POST['id']));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -214,7 +216,7 @@ class Priority
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($_POST['prj_id'], $_POST['title'], $_POST['rank']));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -242,7 +244,7 @@ class Priority
                     pri_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -265,7 +267,7 @@ class Priority
                     pri_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($pri_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -298,7 +300,7 @@ class Priority
                     pri_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -327,7 +329,7 @@ class Priority
 
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id, $pri_title));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return null;
         }
 

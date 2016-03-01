@@ -327,15 +327,17 @@ class Abstract_Workflow_Backend
     /**
      * Called when SCM checkin is associated.
      *
+     * NOTE: The $module parameter is deprecated. always NULL, use 'module' from $file object
+     *
      * @param   integer $prj_id The project ID.
      * @param   integer $issue_id The ID of the issue.
      * @param   string $module The SCM module commit was made.
      * @param   array $files File list with their version numbers changes made on.
      * @param   string $username SCM user doing the checkin.
      * @param   string $commit_msg Message associated with the SCM commit.
-     * @return  void
+     * @param   ScmCheckin $scm SCM config associated with the commit
      */
-    public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg)
+    public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg, $scm)
     {
     }
 
@@ -562,9 +564,25 @@ class Abstract_Workflow_Backend
     }
 
     /**
+     * Returns if a user can change the assignee of an issue. Return null to use default rules.
+     */
+    public static function canChangeAssignee($prj_id, $issue_id, $usr_id)
+    {
+        return null;
+    }
+
+    /**
      * Returns if a user can clone an issue. Return null to use default rules.
      */
     public function canCloneIssue($prj_id, $issue_id, $usr_id)
+    {
+        return null;
+    }
+
+    /**
+     * Returns if a user can change the security settings of an issue. Return null to use default rules.
+     */
+    public function canChangeAccessLevel($prj_id, $issue_id, $usr_id)
     {
         return null;
     }
@@ -581,5 +599,41 @@ class Abstract_Workflow_Backend
                                             $type = false)
     {
         return $notice;
+    }
+
+    /**
+     * Returns an array of additional access levels an issue can be set to
+     *
+     * @param $prj_id
+     * @return array
+     */
+    public static function getAccessLevels($prj_id)
+    {
+        return array();
+    }
+
+    /**
+     * Performs additional checks on if a user can access an issue.
+     *
+     * @param $prj_id
+     * @param $issue_id
+     * @param $usr_id
+     * @return mixed null to use default rules, true or false otherwise
+     */
+    public static function canAccessIssue($prj_id, $issue_id, $usr_id)
+    {
+        return null;
+    }
+
+    /**
+     * Returns custom SQL to limit what results a user can see on the list issues page
+     *
+     * @param $prj_id
+     * @param $usr_id
+     * @return mixed null to use default rules or an sql string otherwise
+     */
+    public static function getAdditionalAccessSQL($prj_id, $usr_id)
+    {
+        return null;
     }
 }

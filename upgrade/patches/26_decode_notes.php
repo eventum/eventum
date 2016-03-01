@@ -11,11 +11,13 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+
 /**
  * Decode note bodies again which have failed to decode unicode html entities
  */
 
-/** @var DbInterface $db */
+/** @var AdapterInterface $db */
 /** @var Closure $log */
 
 // notes that need to be decoded

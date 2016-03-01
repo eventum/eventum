@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class designed to handle adding, removing and viewing authorized repliers for an issue.
  */
@@ -43,7 +45,7 @@ class Edit_Reporter
 
         try {
             DB_Helper::getInstance()->query($sql, array($usr_id, $issue_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 

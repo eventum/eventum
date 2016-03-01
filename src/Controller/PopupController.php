@@ -23,7 +23,6 @@ use Issue;
 use Note;
 use Notification;
 use Phone_Support;
-use Prefs;
 use SCM;
 use Status;
 use Support;
@@ -228,7 +227,6 @@ class PopupController extends BaseController
     {
         $this->tpl->assign(
             array(
-                'current_user_prefs' => Prefs::get($this->usr_id),
                 'cat' => $this->cat
             )
         );

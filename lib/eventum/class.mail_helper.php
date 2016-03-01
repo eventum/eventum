@@ -306,7 +306,7 @@ class Mail_Helper
                 if ((substr($row['sender_name'], 0, 1) == '"') && (substr($row['sender_name'], -1) == '"')) {
                     $row['sender_name'] = substr($row['sender_name'], 1, -1);
                 }
-                $returns[] = Mime_Helper::fixEncoding($row['sender_name']);
+                $returns[] = Mime_Helper::decodeQuotedPrintable($row['sender_name']);
             } else {
                 $returns[] = $row['email'];
             }
@@ -540,7 +540,7 @@ class Mail_Helper
     }
 
     /**
-     * Method used to send the SMTP based email message.
+     * Build message and add it to mail queue.
      *
      * @param   string $from The originator of the message
      * @param   string $to The recipient of the message
@@ -549,7 +549,6 @@ class Mail_Helper
      * @param   string $type The type of message this is
      * @param   integer $sender_usr_id The id of the user sending this email.
      * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
-     * @return  string The full body of the message that was sent
      */
     public function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
     {
@@ -574,7 +573,6 @@ class Mail_Helper
         $hdrs = $this->mime->headers($this->headers);
 
         $mail = array(
-            'to' => $to,
             'headers' => $hdrs,
             'body' => $body,
         );
@@ -586,20 +584,11 @@ class Mail_Helper
             'type_id' => $type_id,
         );
 
-        $res = Mail_Queue::addMail($mail, $options);
-        if (Misc::isError($res) || $res == false) {
-            return $res;
+        $res = Mail_Queue::addMail($mail, $to, $options);
+        if (Misc::isError($res)) {
+            /** @var PEAR_Error $res */
+            Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
         }
-
-        // RFC 822 formatted date
-        $header = 'Date: ' . Date_Helper::getRFC822Date(time()) . "\r\n";
-        // return the full dump of the email
-        foreach ($hdrs as $name => $value) {
-            $header .= "$name: $value\r\n";
-        }
-        $header .= "\r\n";
-
-        return $header . $body;
     }
 
     /**
@@ -699,7 +688,7 @@ class Mail_Helper
 
         // add specialized headers if they are not already added
         if (empty($headers['X-Eventum-Type'])) {
-            $headers += self::getSpecializedHeaders($issue_id, $email['maq_type'], $sender_usr_id);
+            $headers += self::getSpecializedHeaders($issue_id, $email['maq_type']);
         }
 
         $params = self::getSMTPSettings();
@@ -739,86 +728,73 @@ class Mail_Helper
      *
      * @param   integer $issue_id The issue ID
      * @param   string $type The type of message this is
-     * @param   integer $sender_usr_id The id of the user sending this email.
      * @return  array An array of specialized headers
      */
-    public static function getSpecializedHeaders($issue_id, $type, $sender_usr_id)
+    public static function getSpecializedHeaders($issue_id, $type)
     {
         $new_headers = array();
-        if (!empty($issue_id)) {
-            $prj_id = Issue::getProjectID($issue_id);
-            if (count(Group::getAssocList($prj_id)) > 0) {
-                // group issue is currently assigned too
-                $new_headers['X-Eventum-Group-Issue'] = Group::getName(Issue::getGroupID($issue_id));
 
-                // group of whoever is sending this message.
-                if (empty($sender_usr_id)) {
-                    $new_headers['X-Eventum-Group-Replier'] = $new_headers['X-Eventum-Group-Issue'];
-                } else {
-                    $new_headers['X-Eventum-Group-Replier'] = Group::getName(User::getGroupID($sender_usr_id));
-                }
+        $new_headers['X-Eventum-Type'] = $type;
 
-                // group of current assignee
-                $assignees = Issue::getAssignedUserIDs($issue_id);
-                if (empty($assignees[0])) {
-                    $new_headers['X-Eventum-Group-Assignee'] = '';
-                } else {
-                    $new_headers['X-Eventum-Group-Assignee'] = @Group::getName(User::getGroupID($assignees[0]));
-                }
+        if (!$issue_id) {
+            return $new_headers;
+        }
+
+        $prj_id = Issue::getProjectID($issue_id);
+        if (count(Group::getAssocList($prj_id)) > 0) {
+            // group issue is currently assigned too
+            $new_headers['X-Eventum-Group-Issue'] = Group::getName(Issue::getGroupID($issue_id));
+        }
+
+        if (CRM::hasCustomerIntegration($prj_id)) {
+            $crm = CRM::getInstance($prj_id);
+            try {
+                $customer = $crm->getCustomer(Issue::getCustomerID($issue_id));
+                $new_headers['X-Eventum-Customer'] = $customer->getName();
+            } catch (CustomerNotFoundException $e) {
             }
-
-            if (CRM::hasCustomerIntegration($prj_id)) {
-                $crm = CRM::getInstance($prj_id);
-                try {
-                    $customer = $crm->getCustomer(Issue::getCustomerID($issue_id));
-                    $new_headers['X-Eventum-Customer'] = $customer->getName();
-                } catch (CustomerNotFoundException $e) {
+            try {
+                $contract = $crm->getContract(Issue::getContractID($issue_id));
+                $support_level = $contract->getSupportLevel();
+                if (is_object($support_level)) {
+                    $new_headers['X-Eventum-Level'] = $support_level->getName();
                 }
-                try {
-                    $contract = $crm->getContract(Issue::getContractID($issue_id));
-                    $support_level = $contract->getSupportLevel();
-                    if (is_object($support_level)) {
-                        $new_headers['X-Eventum-Level'] = $support_level->getName();
-                    }
-                } catch (ContractNotFoundException $e) {
-                }
-            }
-
-            // add assignee header
-            $new_headers['X-Eventum-Assignee'] = implode(',', User::getEmail(Issue::getAssignedUserIDs($issue_id)));
-
-            $new_headers['X-Eventum-Category'] = Category::getTitle(Issue::getCategory($issue_id));
-            $new_headers['X-Eventum-Project'] = Project::getName($prj_id);
-
-            $new_headers['X-Eventum-Priority'] = Priority::getTitle(Issue::getPriority($issue_id));
-
-            // handle custom fields
-            $cf_values = Custom_Field::getValuesByIssue($prj_id, $issue_id);
-            $cf_titles = Custom_Field::getFieldsToBeListed($prj_id);
-            foreach ($cf_values as $fld_id => $values) {
-                // skip empty titles
-                // TODO: why they are empty?
-                if (!isset($cf_titles[$fld_id])) {
-                    continue;
-                }
-                // skip empty values
-                if (empty($values)) {
-                    continue;
-                }
-                $cf_value = implode(', ', (array) $values);
-
-                // value could be empty after multivalued field join
-                if (empty($cf_value)) {
-                    continue;
-                }
-
-                // convert spaces for header fields
-                $cf_title = str_replace(' ', '_', $cf_titles[$fld_id]);
-                $new_headers['X-Eventum-CustomField-'. $cf_title] = $cf_value;
+            } catch (ContractNotFoundException $e) {
             }
         }
 
-        $new_headers['X-Eventum-Type'] = $type;
+        // add assignee header
+        $new_headers['X-Eventum-Assignee'] = implode(',', User::getEmail(Issue::getAssignedUserIDs($issue_id)));
+
+        $new_headers['X-Eventum-Category'] = Category::getTitle(Issue::getCategory($issue_id));
+        $new_headers['X-Eventum-Project'] = Project::getName($prj_id);
+
+        $new_headers['X-Eventum-Priority'] = Priority::getTitle(Issue::getPriority($issue_id));
+
+        // handle custom fields
+        $cf_values = Custom_Field::getValuesByIssue($prj_id, $issue_id);
+        $cf_titles = Custom_Field::getFieldsToBeListed($prj_id);
+        foreach ($cf_values as $fld_id => $values) {
+            // skip empty titles
+            // TODO: why they are empty?
+            if (!isset($cf_titles[$fld_id])) {
+                continue;
+            }
+            // skip empty values
+            if (empty($values)) {
+                continue;
+            }
+            $cf_value = implode(', ', (array) $values);
+
+            // value could be empty after multivalued field join
+            if (empty($cf_value)) {
+                continue;
+            }
+
+            // convert spaces for header fields
+            $cf_title = str_replace(' ', '_', $cf_titles[$fld_id]);
+            $new_headers['X-Eventum-CustomField-'. $cf_title] = $cf_value;
+        }
 
         return $new_headers;
     }

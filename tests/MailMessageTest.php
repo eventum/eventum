@@ -1,5 +1,8 @@
 <?php
 
+use Eventum\Mail\MailMessage;
+use Eventum\Mail\Helper\MimePart;
+
 class MailMessageTest extends TestCase
 {
     public function testMissingMessageId()
@@ -11,6 +14,7 @@ class MailMessageTest extends TestCase
         /**
          * due bad conversion in Mail_Helper::generateMessageID(),
          * the result is different on 32bit systems.
+         *
          * @see Mail_Helper::generateMessageID()
          */
         if (PHP_INT_SIZE == 4) {
@@ -247,7 +251,6 @@ class MailMessageTest extends TestCase
     {
         $raw = file_get_contents(__DIR__ . '/data/in-reply-to.txt');
         $message = MailMessage::createFromString($raw);
-        $this->assertInstanceOf('MailMessage', $message);
 
         // test that getting back raw content works
         // NOTE: the result is not always identical, however this is saved from this same method before manually verifying result is okay
@@ -262,7 +265,6 @@ class MailMessageTest extends TestCase
     {
         // test if header exists
         $message = MailMessage::createFromFile(__DIR__ . '/data/in-reply-to.txt');
-        $this->assertInstanceOf('MailMessage', $message);
         $headers = $message->getHeaders();
 
         $this->assertTrue($headers->has('In-Reply-To'));
@@ -275,7 +277,6 @@ class MailMessageTest extends TestCase
 
         // test if header already does not exist
         $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
-        $this->assertInstanceOf('MailMessage', $message);
         $headers = $message->getHeaders();
 
         $this->assertFalse($headers->has('In-Reply-To'));
@@ -286,7 +287,6 @@ class MailMessageTest extends TestCase
     public function testDuplicateFrom()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
-        $this->assertInstanceOf('MailMessage', $message);
 
         $from = $message->from;
         $this->assertEquals('IT <help@localhost>', $from);
@@ -311,7 +311,6 @@ class MailMessageTest extends TestCase
     public function testModifyBody()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
-        $this->assertInstanceOf('MailMessage', $message);
 
         $content = Mail_Helper::stripWarningMessage($message->getContent());
         $message->setContent($content);
@@ -320,7 +319,6 @@ class MailMessageTest extends TestCase
     public function testRemoveCc()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
-        $this->assertInstanceOf('MailMessage', $message);
 
         $cc = join(',', $message->getAddresses('Cc'));
         $this->assertEquals('abcd@origin.com,our@email.com', $cc);
@@ -470,6 +468,39 @@ class MailMessageTest extends TestCase
     }
 
     /**
+     * @see Notification::notifyAccountDetails
+     */
+    public function testSendSimpleMail()
+    {
+        $text_message = 'text message';
+        $info = array(
+            'usr_full_name' => 'Some User',
+            'usr_email' => 'nobody@example.org',
+        );
+        $subject = 'Your User Account Details';
+
+        $smtp = array(
+            'from' => 'root@example.org',
+        );
+        Setup::set(array('smtp' => $smtp));
+
+        // send email (use PEAR's classes)
+        $mail = new Mail_Helper();
+        $mail->setTextBody($text_message);
+        $setup = $mail->getSMTPSettings();
+        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+        $mail->send($setup['from'], $to, $subject);
+
+        // the same but with ZF
+        $mail = MailMessage::createNew();
+        $mail->setSubject($subject);
+        $mail->setFrom($setup['from']);
+        $mail->setTo($to);
+        $mail->setContent($text_message);
+        Mail_Queue::addMail($mail, $to);
+    }
+
+    /**
      * Test mail sending with Mail_Helper
      */
     public function testMailSendMH()
@@ -489,24 +520,7 @@ class MailMessageTest extends TestCase
             'Message-ID' => $msg_id,
         );
         $mail->setHeaders($headers);
-        // mail_send adds message to queue and returns headers+body
-        // somewhy it adds Date with current timestamp, plus rest of the headers
-        $res = $mail->send($from, $recipient, $subject, 0, $issue_id, 'auto_created_issue');
-        $res = explode("\r\n", $res);
-        // remove date header, it's hard to compare
-        array_shift($res);
-        $exp = array(
-            'MIME-Version: 1.0',
-            'Content-Type: text/plain; charset=UTF-8',
-            'Content-Transfer-Encoding: 7bit',
-            'Message-ID: <eventum@eventum.example.org>',
-            'From: "Eventum" <support@example.org>',
-            'To: "Eventum" <support@example.org>',
-            'Subject: [#1] Issue Created',
-            '',
-            'tere',
-        );
-        $this->assertEquals($exp, $res);
+        $mail->send($from, $recipient, $subject, 0, $issue_id, 'auto_created_issue');
     }
 
     /**
@@ -531,7 +545,179 @@ class MailMessageTest extends TestCase
         $mail->setTo($recipient);
 
         // add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
-        $res = Mail_Queue::addMail($mail);
+        $res = Mail_Queue::addMail($mail, $recipient);
     }
 
+    public function testMailFromHeaderBody()
+    {
+        $headers = array(
+            'MIME-Version' => '1.0',
+            'Content-Type' => 'text/plain; charset=UTF-8',
+            'Content-Transfer-Encoding' => '8bit',
+            'Message-ID' => '<eventum.md5.55kfn795r.3buu2ivsffcw8@localhost>',
+            'In-Reply-To' => '<eventum.4zwt0q24d.y3mpoo@localhost:8002>',
+            'References' => '<eventum.4zwt0q24d.y3mpoo@localhost:8002>',
+            'From' => '"Admin User " <note-3@eventum.example.org>',
+            'To' => '"Admin User" <admin@example.com>',
+            'Subject' => '[#3] Note: Re: example issue title',
+        );
+        $body = 'lala';
+        MailMessage::createFromHeaderBody($headers, $body);
+
+        // does not like empty headers
+        $headers['Cc'] = '';
+        $mail = MailMessage::createFromHeaderBody($headers, $body);
+
+        // does not like not-encoded headers
+        $mail->setSubject('[#3] Note: new ää');
+        $headers = $mail->getHeadersArray();
+        MailMessage::createFromHeaderBody($headers, $body);
+    }
+
+    public function testSendPlainMail()
+    {
+        $text_message = 'zzzxx';
+        $issue_id = 1;
+        $from = '"Admin User " <note-3@eventum.example.org>';
+        $to = '"Admin User" <admin@example.com>';
+        $subject = '[#3] Note: Re: pläh';
+        $type = 'assignment';
+
+        // send email (use PEAR's classes)
+        $mail = new Mail_Helper();
+        $mail->setTextBody($text_message);
+        $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
+        $mail->send($from, $to, $subject, true, $issue_id, $type);
+
+        // using zend\mail
+        $mail = MailMessage::createNew();
+        $mail->setContent($text_message);
+        $mail->setSubject($subject);
+        $mail->setFrom($from);
+        $mail->setTo($to);
+        $headers = Mail_Helper::getBaseThreadingHeaders($issue_id);
+        // do not overwrite message-id
+        unset($headers['Message-ID']);
+        $mail->setHeaders($headers);
+        $options = array(
+            'save_email_copy' => true,
+            'issue_id' => $issue_id,
+            'type' => $type,
+        );
+        Mail_Queue::addMail($mail, $to, $options);
+
+        $mail = new \Zend\Mail\Message();
+        $mail->setBody('This is the text of the email.');
+        $mail->setFrom($from);
+        $mail->setTo($to);
+        $mail->setSubject($subject);
+        $mail->setEncoding("UTF-8");
+
+        $transport = new \Zend\Mail\Transport\Sendmail();
+        $transport->setCallable(
+            function ($to, $subject, $body, $headers, $params) {
+                error_log("to[$to] subject[$subject] body[$body] headers[$headers] params[$params]");
+            }
+        );
+        $transport->send($mail);
+    }
+
+    public function testReSetMessageId()
+    {
+        $mail = MailMessage::createNew();
+        $headers = array();
+        $headers['Message-ID'] = Mail_Helper::generateMessageID();
+        $mail->setHeaders($headers);
+    }
+
+    /**
+     * @see http://framework.zend.com/manual/current/en/modules/zend.mail.message.html
+     * @see http://framework.zend.com/manual/current/en/modules/zend.mail.attachments.html
+     */
+    public function testZendMime()
+    {
+        $textContent = 'textõ';
+        $text = new Zend\Mime\Part($textContent);
+        $text->type = "text/plain";
+        $text->setCharset("UTF-8");
+
+        $body = new Zend\Mime\Message();
+        $body->addPart($text);
+
+        $message = new Zend\Mail\Message();
+        $message->setBody($body);
+
+        echo $message->toString();
+
+        $mail = MailMessage::createFromMessage($message);
+        echo $mail->getRawContent();
+
+        $mail = MailMessage::createNew();
+        $mime = $mail->addMimePart($textContent, 'text/plain', 'UTF-8');
+    }
+
+    public function testZFPlainMail()
+    {
+        $text_message = 'zzzxx';
+        $issue_id = 1;
+        $from = '"Admin User " <note-3@eventum.example.org>';
+        $to = '"Admin User" <admin@example.com>';
+        $subject = '[#3] Note: Re: pläh';
+        $type = 'assignment';
+
+        // send email (use PEAR's classes)
+        $mail = new Mail_Helper();
+        $mail->setTextBody($text_message);
+        $mail->send($from, $to, $subject);
+
+        // use zend mime
+        $mail = MailMessage::createNew();
+        $mail->setTextPart($text_message);
+        $mail->setFrom($from);
+        $mail->setTo($to);
+        $mail->setSubject($subject);
+
+        $options = array(
+            'save_email_copy' => true,
+            'issue_id' => $issue_id,
+            'type' => $type,
+        );
+        Mail_Queue::addMail($mail, $to, $options);
+    }
+
+    /**
+     * a test showing a valid header can not be loaded from string using Headers::fromString method
+     * due underlying fail in iconv_mime_encode
+     * @see https://github.com/zendframework/zend-mail/issues/64
+     */
+    public function testParseHeaders()
+    {
+        $header
+            = "Subject: [#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, =?utf-8?b?dMOkaHRhZWc=?= xx.xx, xxxx\r\n";
+        try {
+            /** @see \Zend\Mail\Header\HeaderWrap::canBeEncoded */
+            \Zend\Mail\Headers::fromString($header);
+        } catch (PHPUnit_Framework_Error_Notice $e) {
+            error_log($e->getMessage());
+        }
+
+        // the above fails with:
+        // "iconv_mime_encode(): Unknown error (7)"
+        // because it iconv_mime_encode fails:
+        $value = "[#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, tähtaeg xx.xx, xxxx";
+        try {
+            // it fails with line length exactly 76, but suceeds with anything else, like 75 or 77
+            $v = iconv_mime_encode("x-test", $value, array("scheme" => "Q", 'line-length' => '76',"line-break-chars" => " "));
+        } catch (PHPUnit_Framework_Error_Notice $e) {
+            error_log($e->getMessage());
+        }
+
+        // the same handled better in encodeQuotedPrintable
+        $v = Mime_Helper::encodeQuotedPrintable($value);
+        var_dump($v);
+
+        // this works too
+        $v= \Zend\Mail\Header\HeaderWrap::mimeEncodeValue($value, 'UTF-8');
+        var_dump($v);
+    }
 }

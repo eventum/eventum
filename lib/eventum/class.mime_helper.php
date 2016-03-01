@@ -176,7 +176,13 @@ class Mime_Helper
             // split into name and address section
             preg_match('/(.*)<(.*)>/', $address, $matches);
             $address = '=?' . APP_CHARSET . '?Q?' .
-                str_replace(' ', '_', trim(preg_replace('/([\x80-\xFF]|[\x21-\x2F]|[\xFC]|\[|\])/e', '"=" . strtoupper(dechex(ord(stripslashes("\1"))))', $matches[1]))) . '?= <' . $matches[2] . '>';
+                str_replace(' ', '_', trim(
+                    // @ because of /e:
+                    // preg_replace(): The /e modifier is deprecated, use preg_replace_callback instead
+                    // This feature was DEPRECATED in PHP 5.5.0, and REMOVED as of PHP 7.0.0.
+                    // http://www.php.net/manual/en/reference.pcre.pattern.modifiers.php
+                    @preg_replace('/([\x80-\xFF]|[\x21-\x2F]|[\xFC]|\[|\])/e', '"=" . strtoupper(dechex(ord(stripslashes("\1"))))', $matches[1])
+                )) . '?= <' . $matches[2] . '>';
 
             return $address;
         } else {
@@ -296,7 +302,7 @@ class Mime_Helper
     {
         if (function_exists('iconv_mime_decode')) {
             // skip if not encoded, iconv_mime_decode otherwise removes unknown chars.
-            // ideally this should be needed, but we have places where we call this function twice.
+            // ideally this should not be needed, but we have places where we call this function twice.
             // TODO: log and remove duplicate calls (to same data) to decodeQuotedPrintable
             // TODO: use self::isQuotedPrintable if it is improved
             if (!preg_match("/=\?(?P<charset>.*?)\?(?P<scheme>[QB])\?(?P<string>.*?)\?=/i", $string)) {

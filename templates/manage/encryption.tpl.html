@@ -1,0 +1,83 @@
+{extends "manage/manage.tpl.html"}
+{block "javascripts" append}
+  <script type="text/javascript">
+    $(function () {
+      var $radio_enc = $("input[name='encryption']");
+      $radio_enc.click(function () {
+        $('#encryption_activate_form').submit();
+      });
+
+      var $enc_key = $('#encryption_key');
+      if ($radio_enc.first().is(":checked")) {
+        $enc_key.removeClass('hidden');
+      } else {
+        $enc_key.addClass('hidden');
+      }
+    });
+  </script>
+{/block}
+
+{block "manage_content"}
+  <table class="bordered">
+    <tr class="title">
+      <th colspan="2">
+        {t}Encryption{/t}
+      </th>
+    </tr>
+
+    <tr>
+      <th width="120">
+        {t escape=no}Encryption{/t}:
+      </th>
+      <td>
+        <table>
+          <tr>
+            <td colspan="2">
+              <p>
+                {t}Eventum allows encrypt email account, database and LDAP passwords.{/t}
+
+                {t}Encryption can be enabled if your system supports it.{/t}
+                {t}To enable encryption, you need to have mcrypt and openssl extensions enabled.{/t}
+              </p>
+
+              <form id="encryption_activate_form" method="post">
+
+                {html_radios
+                name='encryption'
+                options=$encryption.options
+                selected=$encryption.selected
+                }
+                <input type="hidden" name="cat" value="activate">
+              </form>
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr id="encryption_key">
+      <th width="120">
+        {t escape=no}Generate Encryption key{/t}:
+      </th>
+      <td>
+        <table>
+          <tr>
+            <td colspan="2">
+              <p>
+                {t}Regenerating Encryption Key will re-encrypt all above passwords.{/t}
+              </p>
+
+              <form id="encryption_form" method="post">
+                <input type="hidden" name="cat" value="regenerate">
+                <input class="button" type="submit" value="{t}Regenerate Key for Encryption{/t}">
+              </form>
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+  </table>
+{/block}

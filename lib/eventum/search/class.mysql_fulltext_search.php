@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
 {
     public function getIssueIDs($options)
@@ -64,7 +66,7 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
         );
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array(-1);
         }
 
@@ -81,7 +83,7 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
         );
         try {
             $custom_res = DB_Helper::getInstance()->getColumn($stmt, $params1);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array(-1);
         }
 

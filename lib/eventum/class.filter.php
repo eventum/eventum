@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to handle the business logic related to the custom filters.
  */
@@ -34,7 +36,7 @@ class Filter
                     cst_is_global=1';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($cst_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -65,7 +67,7 @@ class Filter
 
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($cst_id, $usr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -336,7 +338,7 @@ class Filter
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -363,7 +365,7 @@ class Filter
         $params = array(Auth::getUserID(), Auth::getCurrentProject(), $cst_title);
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 0;
         }
 
@@ -395,7 +397,7 @@ class Filter
         $params = array(Auth::getCurrentProject(), Auth::getUserID());
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -427,7 +429,7 @@ class Filter
         $params = array(Auth::getCurrentProject(), Auth::getUserID());
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -537,7 +539,7 @@ class Filter
 
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -582,7 +584,7 @@ class Filter
 
             try {
                 DB_Helper::getInstance()->query($stmt, $params);
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
         }
@@ -605,7 +607,7 @@ class Filter
                     cst_prj_id IN (' . DB_Helper::buildList($ids) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 

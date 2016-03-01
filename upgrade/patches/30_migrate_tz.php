@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+
 /**
  * Migrate timezone abbreviations to timezone identifier
  * The three letter timezone abbreviations do not play well with DST
@@ -25,6 +27,7 @@
 
 // build list of abbreviation => Timezone
 // we take first timezone and hope it's correct
+
 $timezones = array();
 foreach (DateTimeZone::listAbbreviations() as $abbrevation => $list) {
     // take first timezone
@@ -32,7 +35,7 @@ foreach (DateTimeZone::listAbbreviations() as $abbrevation => $list) {
     $timezones[strtoupper($abbrevation)] = $timezone['timezone_id'];
 }
 
-/** @var DbInterface $db */
+/** @var AdapterInterface $db */
 $res = $db->getAll('select upr_usr_id, upr_timezone from {{%user_preference}}');
 
 foreach ($res as $row) {

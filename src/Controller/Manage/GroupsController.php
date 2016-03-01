@@ -86,15 +86,13 @@ class GroupsController extends ManageBaseController
         if ($this->cat == 'edit') {
             $id = $this->getRequest()->query->get('id');
             $info = Group::getDetails($id);
-            $user_options = User::getActiveAssocList($prj_id, User::ROLE_CUSTOMER, false, $id);
         } else {
             $info = null;
-            $user_options = User::getActiveAssocList($prj_id, User::ROLE_CUSTOMER, true);
         }
 
         $this->tpl->assign(
             array(
-                'user_options' => $user_options,
+                'user_options' => User::getActiveAssocList($prj_id, User::ROLE_CUSTOMER, true),
                 'list' => Group::getList(),
                 'project_list' => Project::getAll(),
                 'info' => $info,

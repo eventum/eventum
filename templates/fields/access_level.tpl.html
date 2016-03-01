@@ -1,0 +1,13 @@
+
+    <tr>
+      <th{if $field_display_settings.access_level.min_role > $core.roles.customer} class="internal"{/if}>
+        {t}Access Level{/t} {if $field_display_settings.access_level.required}*{/if}
+      </th>
+      <td>
+        <select id="access_level" name="access_level" tabindex="{$tabindex++}"
+          {if $field_display_settings.access_level.required}data-required="true"{/if}>
+          {html_options options=$access_levels selected=$defaults.access_level|default:''}
+        </select>
+        {include file="error_icon.tpl.html" field="access_level"}
+      </td>
+    </tr>

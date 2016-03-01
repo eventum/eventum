@@ -11,18 +11,22 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\Adapter\AdapterInterface;
+use Eventum\Db\Adapter\NullAdapter;
+use Eventum\Db\DatabaseException;
+
 /**
  * Class to manage all tasks related to the DB abstraction module. This is only
  * useful to maintain a data dictionary of the current database schema tables.
  */
 class DB_Helper
 {
-    const DEFAULT_ADAPTER = 'DbPear';
+    const DEFAULT_ADAPTER = 'Pear';
 
     /**
      * @param bool $fallback
-     * @return DbInterface
-     * @throws DbException
+     * @return AdapterInterface
+     * @throws DatabaseException
      * @throws Exception
      */
     public static function getInstance($fallback = true)
@@ -36,13 +40,13 @@ class DB_Helper
         $instance = false;
 
         $config = self::getConfig();
-        $className = isset($config['classname']) ? $config['classname'] : self::DEFAULT_ADAPTER;
+        $className = self::getAdapterClass($config);
 
         try {
             $instance = new $className($config);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             // set dummy provider in as offline.php uses db methods
-            $instance = new DbNull($config);
+            $instance = new NullAdapter($config);
 
             if (!$fallback) {
                 throw $e;
@@ -54,6 +58,23 @@ class DB_Helper
         }
 
         return $instance;
+    }
+
+    private static function getAdapterClass($config)
+    {
+        $classname = isset($config['classname']) ? $config['classname'] : self::DEFAULT_ADAPTER;
+
+        // legacy class name started with 'Db'
+        if (substr($classname, 0, 2) == 'Db') {
+            $classname = substr($classname, 2);
+        }
+
+        // append Adapter to classname
+        if (substr($classname, -7) != 'Adapter') {
+            $classname .= 'Adapter';
+        }
+
+        return 'Eventum\\Db\\Adapter\\' . $classname;
     }
 
     /**
@@ -111,7 +132,7 @@ class DB_Helper
             $stmt = "show variables like 'max_allowed_packet'";
             $res = self::getInstance(false)->getPair($stmt);
             $max_allowed_packet = (int) $res['max_allowed_packet'];
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
         }
 
         if (empty($max_allowed_packet)) {
@@ -128,14 +149,14 @@ class DB_Helper
      * Also, the percentage character "%" at the beginning or ending of a table name will be replaced
      * with [[tablePrefix]].
      *
-     * @param DbInterface $db
+     * @param AdapterInterface $db
      * @param string $tablePrefix
      * @param string $sql
      * @return string
      * @see https://github.com/yiisoft/yii2/blob/2.0.0/framework/db/Connection.php#L761-L783
      * @internal
      */
-    public static function quoteTableName(DbInterface $db, $tablePrefix, $sql)
+    public static function quoteTableName(AdapterInterface $db, $tablePrefix, $sql)
     {
         $sql = preg_replace_callback(
             '/(\\{\\{(%?[\w\-\. ]+%?)\\}\\}|\\[\\[([\w\-\. ]+)\\]\\])/',
@@ -150,6 +171,17 @@ class DB_Helper
         );
 
         return $sql;
+    }
+
+    /**
+     * Strip consecutive whitespace from query
+     *
+     * @param string $query
+     * @return string
+     */
+    public static function filterQuery($query)
+    {
+        return preg_replace('/\s+/', ' ', $query);
     }
 
     /**
@@ -245,9 +277,9 @@ class DB_Helper
      * @param   string $end_date_field The name of the field where the second date is.
      * @return  string The SQL used to compare the 2 dates.
      */
-    public static function getNoWeekendDateDiffSQL($start_date_field, $end_date_field = false)
+    public static function getNoWeekendDateDiffSQL($start_date_field, $end_date_field = null)
     {
-        if ($end_date_field == false) {
+        if (!$end_date_field) {
             $end_date_field = "'" . Date_Helper::getCurrentDateGMT() . "'";
         }
 

@@ -9,6 +9,10 @@
  * that were distributed with this source code.
  */
 
+function Eventum()
+{
+}
+
 $(document).ready(function() {
 
     // see http://api.jquery.com/jQuery.param/
@@ -103,7 +107,7 @@ $(document).ready(function() {
         $el.attr('title', $el.text());
         $el.text(old);
     };
-    if ($head.data('config-relative-date') == '1') {
+    if (user_prefs.relative_date) {
         // if enabled, then enable for all elements
         $timeago
             .timeago()
@@ -117,11 +121,26 @@ $(document).ready(function() {
                 .click(timeago_toggle);
         })
     }
+
+    Eventum.setupTrimmedEmailToggle();
 });
 
-function Eventum()
-{
-}
+Eventum.TrimmedEmailToggleFunction = function () {
+    var $div = $(this).parent().parent().find('div.email-trimmed');
+    if ($div.hasClass('hidden')) {
+        $div.removeClass('hidden')
+    } else {
+        $div.addClass('hidden')
+    }
+    return false;
+};
+
+// click to open trimmed emails
+Eventum.setupTrimmedEmailToggle = function () {
+    $('span.toggle-trimmed-email').find('a')
+        .off('click', Eventum.TrimmedEmailToggleFunction)
+        .on('click', Eventum.TrimmedEmailToggleFunction);
+};
 
 Eventum.expires = new Date(new Date().getTime() + (56 * 86400000));
 Eventum.checkClose = false;
@@ -183,7 +202,7 @@ Eventum.escapeSelector = function(selector)
 Eventum.getField = function(name_or_obj, form)
 {
     if ($.type(name_or_obj) == 'string') {
-        if (form != undefined) {
+        if (form) {
             return form.find('[name="' + name_or_obj + '"]');
         } else {
             return $('[name="' + name_or_obj + '"]')
@@ -876,7 +895,10 @@ ExpandableCell.expand = function(expand_type, list_id) {
     var cell = row.find('td');
     if (cell.html() == '') {
         cell.load(Eventum.rel_url + 'get_remote_data.php?action=' + expand_type + '&ec_id=' + expand_type +
-            '&list_id=' + list_id);
+            '&list_id=' + list_id, function() {
+            Eventum.setupTrimmedEmailToggle();
+        });
+
     }
     row.show();
 };

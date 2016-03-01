@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 /**
  * Class designed to handle adding, removing and viewing authorized repliers for an issue.
  */
@@ -47,7 +49,7 @@ class Authorized_Replier
         $params = array(APP_SYSTEM_USER_ID, APP_SYSTEM_USER_ID, $issue_id);
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array(
                 array(),
                 $repliers,
@@ -93,7 +95,7 @@ class Authorized_Replier
                     iur_id IN ($iur_list)";
         try {
             $issue_id = DB_Helper::getInstance()->getOne($stmt, $iur_ids);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -105,7 +107,7 @@ class Authorized_Replier
                         iur_id IN ($iur_list)";
             try {
                 DB_Helper::getInstance()->query($stmt, $iur_ids);
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return -1;
             }
 
@@ -162,7 +164,7 @@ class Authorized_Replier
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($issue_id, APP_SYSTEM_USER_ID, $email));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -202,7 +204,7 @@ class Authorized_Replier
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array($issue_id, $usr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -251,7 +253,7 @@ class Authorized_Replier
                     iur_email=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id, $email));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -280,7 +282,7 @@ class Authorized_Replier
                     iur_usr_id = ?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id, $usr_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -310,7 +312,7 @@ class Authorized_Replier
 
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($iur_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -340,7 +342,7 @@ class Authorized_Replier
 
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id, $email, $email));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return 0;
         }
 

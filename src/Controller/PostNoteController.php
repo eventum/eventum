@@ -21,7 +21,6 @@ use Mail_Helper;
 use Misc;
 use Note;
 use Notification;
-use Prefs;
 use Project;
 use Status;
 use Support;
@@ -59,7 +58,7 @@ class PostNoteController extends BaseController
     {
         $request = $this->getRequest();
 
-        $this->issue_id = (int) $request->get('issue_id');
+        $this->issue_id = $request->request->getInt('issue_id') ?: $request->query->getInt('issue_id');
         $this->issue_details = Issue::getDetails($this->issue_id);
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
     }
@@ -138,7 +137,8 @@ class PostNoteController extends BaseController
         $note = array();
         $note['not_body'] = $header . Misc::formatReply($email['message']);
         $this->tpl->assign(array(
-            'note'           => $note
+            'note'           => $note,
+            'sup_id'         => $sup_id,
         ));
         $this->reply_subject = $email['sup_subject'];
     }
@@ -238,7 +238,6 @@ class PostNoteController extends BaseController
                 'reply_subject' => $reply_subject,
                 'from' => User::getFromHeader($this->usr_id),
                 'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
-                'current_user_prefs' => Prefs::get($this->usr_id),
                 'subscribers' => Notification::getSubscribers($this->issue_id, false, User::ROLE_USER),
                 'statuses' => Status::getAssocStatusList($this->prj_id, false),
                 'current_issue_status' => Issue::getStatusID($this->issue_id),

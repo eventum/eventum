@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 class FAQ
 {
     /**
@@ -56,7 +58,7 @@ class FAQ
 
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -83,7 +85,7 @@ class FAQ
                     faq_id IN (' . DB_Helper::buildList($items) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -111,7 +113,7 @@ class FAQ
                     fsl_faq_id IN (' . DB_Helper::buildList($faq_id) . ')';
         try {
             DB_Helper::getInstance()->query($stmt, $faq_id);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return false;
         }
 
@@ -146,7 +148,7 @@ class FAQ
         $params = array($_POST['project'], Date_Helper::getCurrentDateGMT(), $_POST['title'], $_POST['message'], $_POST['rank'], $faq_id);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -189,7 +191,7 @@ class FAQ
         $params = array($_POST['project'], Auth::getUserID(), Date_Helper::getCurrentDateGMT(), $_POST['title'], $_POST['message'], $_POST['rank']);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return -1;
         }
 
@@ -240,7 +242,7 @@ class FAQ
                     faq_id=?';
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, array($faq_id));
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -274,7 +276,7 @@ class FAQ
                     faq_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return '';
         }
 
@@ -388,7 +390,7 @@ class FAQ
                     faq_rank ASC';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return array();
         }
 

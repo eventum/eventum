@@ -60,6 +60,7 @@ class Misc
      * @param string $fieldName value to collect
      * @param array|object $array array or object to search
      * @return array new array containing the fieldName values from original array
+     * @deprecated use array_column for array inputs
      */
     public static function collect($fieldName, $array)
     {
@@ -284,23 +285,6 @@ class Misc
             'words' => $misspelled_words,
             'suggestions' => $spell_suggestions,
         );
-    }
-
-    /**
-     * Method used to replace all special whitespace characters (\n,
-     * \r and \t) by their string equivalents. It is usually used in
-     * JavaScript code.
-     *
-     * @param   string $str The string to be escaped
-     * @return  string The escaped string
-     */
-    public static function escapeWhitespace($str)
-    {
-        $str = str_replace("\n", '\n', $str);
-        $str = str_replace("\r", '\r', $str);
-        $str = str_replace("\t", '\t', $str);
-
-        return $str;
     }
 
     /**
@@ -851,41 +835,6 @@ class Misc
     }
 
     /**
-     * Shortcut method to check if if an element is set in the array and if not
-     * return a default value.
-     *
-     * @param  array $array The array to check if the element is in
-     * @param  string $var_name The name of the element to check for
-     * @param  mixed $default The default value to return if the element is not set
-     * @return mixed
-     */
-    public static function ifSet($array, $var_name, $default = null)
-    {
-        if (isset($array[$var_name])) {
-            return $array[$var_name];
-        } else {
-            return $default;
-        }
-    }
-
-    public static function arrayToQueryString($array, $parent_name = false)
-    {
-        $qs = '';
-        foreach ($array as $key => $val) {
-            if (is_array($val)) {
-                $qs .= self::arrayToQueryString($val, $key);
-            } else {
-                if ($parent_name != false) {
-                    $key = $parent_name . '[' . $key . ']';
-                }
-                $qs .= '&' . $key . '=' . urlencode($val);
-            }
-        }
-
-        return $qs;
-    }
-
-    /**
      * Method used to get the standard input.
      *
      * @return  string The standard input value
@@ -922,25 +871,6 @@ class Misc
         $tpl->setTemplate('error_message.tpl.html');
         $tpl->displayTemplate();
         exit;
-    }
-
-    /**
-     * Base 64 encodes all elements of an array.
-     *
-     * @param   array $data The values to encode
-     * @return  array The array of encoded values.
-     */
-    public static function base64_encode($data)
-    {
-        if (is_array($data)) {
-            foreach ($data as $k => $v) {
-                $data[$k] = self::base64_encode($v);
-            }
-        } else {
-            $data = base64_encode($data);
-        }
-
-        return $data;
     }
 
     /**
