@@ -996,7 +996,7 @@ class Support
             'sup_message_id' => $row['message_id'] ?: '',
             'sup_date' => $row['date'],
             'sup_from' => $row['from'],
-            'sup_to' => $row['to'],
+            'sup_to' => isset($row['to']) ? $row['to'] : null,
             'sup_cc' => $row['cc'],
             'sup_subject' => $row['subject'] ?: '',
             'sup_has_attachment' => $row['has_attachment'],
