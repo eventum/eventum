@@ -324,7 +324,7 @@ $().ready(function() {
           {if $read_only|default:'' != 1}
           <input type="submit" value="{t}Send Email{/t}">&nbsp;&nbsp;
           {/if}
-          <input type="reset" value="{t}Cancel{/t}" onClick="window.close();">
+          <input name="cancel" type="reset" value="{t}Cancel{/t}" onClick="window.close();">
 
           <div class="right">
             {if $core.current_user_prefs.email_signature != "" and $core.current_user_prefs.auto_append_email_sig != 1}
