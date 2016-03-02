@@ -18,6 +18,12 @@
           Validation.selectField('projects[]');
           return false;
       }
+      if (Eventum.getField('min_role').val() > Eventum.getField('min_role_edit').val()) {
+          alert('{t escape=js}Minimum Edit Role cannot be less than minimum view role.{/t}');
+          Validation.selectField('min_role_edit');
+          return false;
+      }
+
       // warn if they have de-selected a project
       var projects = Eventum.getField('projects[]');
       var selections = projects.val();
@@ -361,6 +367,7 @@
                   <select name="min_role_edit">
                     {html_options options=$user_roles selected=$info.fld_min_role_edit|default:''}
                   </select>
+                  {include file="error_icon.tpl.html" field="min_role_edit"}
                 </td>
               </tr>
               <tr>
