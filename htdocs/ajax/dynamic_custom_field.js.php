@@ -16,9 +16,9 @@ require_once __DIR__ . '/../../init.php';
 Auth::checkAuthentication();
 
 if (!empty($_REQUEST['iss_id'])) {
-    $fields = Custom_Field::getListByIssue(Auth::getCurrentProject(), $_REQUEST['iss_id']);
+    $fields = Custom_Field::getListByIssue(Auth::getCurrentProject(), $_REQUEST['iss_id'], null, false, true);
 } else {
-    $fields = Custom_Field::getListByProject(Auth::getCurrentProject(), $_REQUEST['form_type']);
+    $fields = Custom_Field::getListByProject(Auth::getCurrentProject(), $_REQUEST['form_type'], false, true);
 }
 $data = array();
 foreach ($fields as $field) {
