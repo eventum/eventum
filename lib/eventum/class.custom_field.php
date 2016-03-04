@@ -904,6 +904,9 @@ class Custom_Field
         if (empty($_POST['min_role'])) {
             $_POST['min_role'] = 1;
         }
+        if (empty($_POST['min_role_edit'])) {
+            $_POST['min_role_edit'] = 1;
+        }
         if (!isset($_POST['rank'])) {
             $_POST['rank'] = (self::getMaxRank() + 1);
         }
@@ -922,12 +925,13 @@ class Custom_Field
                     fld_edit_form_required,
                     fld_list_display,
                     fld_min_role,
+                    fld_min_role_edit,
                     fld_rank,
                     fld_backend
                  ) VALUES (
                      ?, ?, ?, ?, ?,
                      ?, ?, ?, ?, ?,
-                     ?, ?, ?, ?
+                     ?, ?, ?, ?, ?
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array(
@@ -943,6 +947,7 @@ class Custom_Field
                 $_POST['edit_form_required'],
                 $_POST['list_display'],
                 $_POST['min_role'],
+                $_POST['min_role_edit'],
                 $_POST['rank'],
                 @$_POST['custom_field_backend'],
             ));
@@ -1217,8 +1222,8 @@ class Custom_Field
         if (empty($_POST['min_role'])) {
             $_POST['min_role'] = 1;
         }
-        if (empty($_POST['min_edit_role'])) {
-            $_POST['min_edit_role'] = 1;
+        if (empty($_POST['min_role_edit'])) {
+            $_POST['min_role_edit'] = 1;
         }
         if (!isset($_POST['rank'])) {
             $_POST['rank'] = (self::getMaxRank() + 1);
