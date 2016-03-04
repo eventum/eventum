@@ -504,6 +504,18 @@ Eventum.openHelp = function(e)
     return false;
 };
 
+Eventum.clearAutoSave = function(prefix)
+{
+    var i;
+    var key;
+    for (i = localStorage.length; i >= 0; i--)   {
+        key = localStorage.key(i);
+        if (key && key.startsWith(prefix)) {
+            localStorage.removeItem(localStorage.key(i));
+        }
+    }
+}
+
 function Validation()
 {
 }
