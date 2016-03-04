@@ -290,7 +290,7 @@ class Display_Column
                         ctd_prj_id = ?,
                         ctd_page = ?,
                         ctd_field = ?,
-                        ctd_min_role = ,
+                        ctd_min_role = ?,
                         ctd_rank = ?';
             $params = array($prj_id, $page, $field_name, $min_role, $rank);
             try {
