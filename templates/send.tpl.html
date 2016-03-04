@@ -155,21 +155,27 @@ function setSignature(f)
 $().ready(function() {
     Eventum.getField('message').focus();
 
-    var send_email_form = $('#sendEmailForm');
-    var field_keys = ['garlic', send_email_form.find('input[name=issue_id]').val(),
-        send_email_form.find('input[name=parent_id]').val()];
-    if (send_email_form.find('input[name=draft_id]').length) {
-        field_keys.push(send_email_form.find('input[name=draft_id]').val());
+    var $send_email_form = $('#sendEmailForm');
+    var field_keys = ['garlic', $send_email_form.find('input[name=issue_id]').val(),
+        $send_email_form.find('input[name=parent_id]').val()];
+    if ($send_email_form.find('input[name=draft_id]').length) {
+        field_keys.push($send_email_form.find('input[name=draft_id]').val());
     }
 
     var garlic_prefix = field_keys.join('_');
     $('#garlic_prefix').val(garlic_prefix);
 
-    send_email_form.garlic({
+    $send_email_form.garlic({
        getPath: function ( $elem ) {
            return garlic_prefix + '_' + $elem.attr('name');
        }
     });
+
+    $('#reset').click(function()
+    {
+        Eventum.clearAutoSave(garlic_prefix);
+        window.close();
+    })
 });
 //-->
 </script>
@@ -333,7 +339,7 @@ $().ready(function() {
           {if $read_only|default:'' != 1}
           <input type="submit" value="{t}Send Email{/t}">&nbsp;&nbsp;
           {/if}
-          <input name="cancel" type="reset" value="{t}Cancel{/t}" onClick="window.close();">
+          <input name="cancel" type="reset" value="{t}Cancel{/t}" id="reset">
 
           <div class="right">
             {if $core.current_user_prefs.email_signature != "" and $core.current_user_prefs.auto_append_email_sig != 1}
