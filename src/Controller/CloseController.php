@@ -163,7 +163,7 @@ class CloseController extends BaseController
      */
     protected function prepareTemplate()
     {
-        $custom_fields = Custom_Field::getListByIssue($this->prj_id, $this->issue_id, $this->usr_id, 'close_form');
+        $custom_fields = Custom_Field::getListByIssue($this->prj_id, $this->issue_id, $this->usr_id, 'close_form', true);
 
         $this->tpl->assign(
             array(

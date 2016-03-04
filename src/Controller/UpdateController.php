@@ -232,7 +232,7 @@ class UpdateController extends BaseController
                 'grid' => $this->getColumnsForDisplay(
                     $this->details, $this->prj_id, $this->role_id, $categories, $priorities, $severities
                 ),
-                'custom_fields' => Custom_Field::getListByIssue($this->prj_id, $this->issue_id, $this->usr_id),
+                'custom_fields' => Custom_Field::getListByIssue($this->prj_id, $this->issue_id, $this->usr_id, false, true),
                 'usr_role_id' => User::getRoleByUser($this->usr_id, $this->prj_id),
             )
         );
