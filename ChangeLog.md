@@ -4,6 +4,8 @@ Eventum Issue Tracking System
 2016-??-??, Version 3.0.11
 ----------------------------
 
+- Updated Misc::activateLinks to not activate mail links inside of urls (d23e712, @balsorf)
+- Allow separate role for editing custom fields vs viewing. (#149, @balsdorf)
 
 2016-02-29, Version [3.0.10]
 ----------------------------
