@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Mail\MailMessage;
 
 class Workflow
 {
@@ -682,21 +683,28 @@ class Workflow
      *
      * @param   integer $prj_id
      * @param   string $recipient
-     * @param   array $headers
-     * @param   string $body
+     * @param   MailMessage $mail The Mail object
      * @param   integer $issue_id
      * @param   string $type The type of message this is.
      * @param   integer $sender_usr_id The id of the user sending this email.
      * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      */
-    public static function modifyMailQueue($prj_id, &$recipient, &$headers, &$body, $issue_id, $type, $sender_usr_id, $type_id)
+    public static function modifyMailQueue($prj_id, &$recipient, &$mail, $issue_id, $type, $sender_usr_id, $type_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return true;
+            return;
         }
         $backend = self::_getBackend($prj_id);
 
-        return $backend->modifyMailQueue($prj_id, $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
+        $o_headers = $headers = $mail->getHeadersArray();
+        $o_body = $body = $mail->getContent();
+
+        $backend->modifyMailQueue($prj_id, $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
+
+        // recreate mail object if headers or body was modified by workflow method
+        if ($o_headers != $headers || $o_body != $body) {
+            $mail = MailMessage::createFromHeaderBody($headers, $body);
+        }
     }
 
     /**

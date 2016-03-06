@@ -88,10 +88,14 @@
 		"symfony/http-foundation": "~2.7.0",
 		"theorchard/monolog-cascade": "^0.3.1",
 		"willdurand/email-reply-parser": "dev-set-sig-regex",
-		"zendframework/zend-config": "2.4.*"
+		"zendframework/zend-config": "2.4.*",
+		"zendframework/zend-mail": "dev-develop-2.4"
 	},
 	"conflict": {
 		"pear/pear-core-minimal": ">=1.10"
+	},
+	"replace": {
+		"zendframework/zend-crypt": "2.4.9"
 	},
 	"require-dev": {
 		"bgrins/filereader.js": "*",
@@ -110,8 +114,7 @@
 		"rmm5t/jquery-timeago": "*",
 		"roave/security-advisories": "dev-master",
 		"robloach/component-installer": "*",
-		"symfony/var-dumper": "~2.7.3",
-		"zendframework/zend-mail": "2.4.*"
+		"symfony/var-dumper": "~2.7.3"
 	},
 	"suggest": {
 		"ext-imap": "Support for fetching mail over IMAP/POP3",

@@ -13,6 +13,7 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Monolog\Logger;
+use Eventum\Mail\MailMessage;
 
 class Mail_Queue
 {
@@ -24,10 +25,7 @@ class Mail_Queue
     /**
      * Adds an email to the outgoing mail queue.
      *
-     * @param array $mail Info about mail:
-     * - string $to The recipient of this email
-     * - array $headers The list of headers that should be sent with this email
-     * - string $body The body of the message
+     * @param array|MailMessage $mail The Mail object
      * @param string $recipient The recipient, can be E-Mail header form ("User <email@example.org>")
      * @param array $options Optional options:
      * - integer $save_email_copy Whether to send a copy of this email to a configurable address or not (eventum_sent@)
@@ -35,12 +33,15 @@ class Mail_Queue
      * - string $type The type of message this is.
      * - integer $sender_usr_id The id of the user sending this email.
      * - integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
-     * @return bool or a PEAR_Error object
+     * @return bool true if entry was added to mail queue table
      */
-    public static function addMail(array $mail, $recipient, array $options = array())
+    public static function addMail($mail, $recipient, array $options = array())
     {
-        $headers = $mail['headers'];
-        $body = $mail['body'];
+        /** @var MailMessage $mail */
+        if (!$mail instanceof MailMessage) {
+            /** @var array $mail */
+            $mail = MailMessage::createFromHeaderBody($mail['headers'], $mail['body']);
+        }
 
         $save_email_copy = isset($options['save_email_copy']) ? $options['save_email_copy'] : 0;
         $issue_id = isset($options['issue_id']) ? $options['issue_id'] : false;
@@ -49,12 +50,12 @@ class Mail_Queue
         $type_id = isset($options['type_id']) ? $options['type_id'] : false;
 
         $prj_id = Auth::getCurrentProject(false);
-        Workflow::modifyMailQueue($prj_id, $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
+        Workflow::modifyMailQueue($prj_id, $recipient, $mail, $issue_id, $type, $sender_usr_id, $type_id);
 
         // avoid sending emails out to users with inactive status
         $recipient_email = Mail_Helper::getEmailAddress($recipient);
         $usr_id = User::getUserIDByEmail($recipient_email);
-        if (!empty($usr_id)) {
+        if ($usr_id) {
             $user_status = User::getStatusByEmail($recipient_email);
             // if user is not set to an active status, then silently ignore
             if (!User::isActiveStatus($user_status) && !User::isPendingStatus($user_status)) {
@@ -65,6 +66,7 @@ class Mail_Queue
         $recipient = Mail_Helper::fixAddressQuoting($recipient);
 
         $reminder_addresses = Reminder::_getReminderAlertAddresses();
+        $headers = array();
 
         $role_id = User::getRoleByUser($usr_id, Issue::getProjectID($issue_id));
         $is_reminder_address = in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses);
@@ -77,34 +79,22 @@ class Mail_Queue
         $headers['Auto-submitted'] = 'auto-generated'; // the RFC 3834 way
 
         // if the Date: header is missing, add it.
-        if (empty($headers['Date'])) {
-            $headers['Date'] = Mime_Helper::encode(date('D, j M Y H:i:s O'));
-        }
-        if (!empty($headers['To'])) {
-            $headers['To'] = Mail_Helper::fixAddressQuoting($headers['To']);
-        }
-        // encode headers and add special mime headers
-        $headers = Mime_Helper::encodeHeaders($headers);
-
-        $res = Mail_Helper::prepareHeaders($headers);
-        if (Misc::isError($res)) {
-            Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
-
-            return $res;
+        // FIXME: do in class? or add setDate() method?
+        if (!$mail->getHeaders()->has('Date')) {
+            $headers['Date'] = date('D, j M Y H:i:s O');
         }
 
-        // convert array of headers into text headers
-        list(, $text_headers) = $res;
+        $mail->setHeaders($headers);
 
         $params = array(
             'maq_save_copy' => $save_email_copy,
             'maq_queued_date' => Date_Helper::getCurrentDateGMT(),
             'maq_sender_ip_address' => !empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '',
-            'maq_recipient' => Mime_Helper::decodeAddress($recipient),
-            'maq_headers' => $text_headers,
-            'maq_body' => $body,
+            'maq_recipient' => $recipient, // XXX: should be decoded form
+            'maq_headers' => $mail->getHeaders()->toString(),
+            'maq_body' => $mail->getContent(),
             'maq_iss_id' => $issue_id ?: null,
-            'maq_subject' => Mime_Helper::decodeQuotedPrintable($headers['Subject']),
+            'maq_subject' => $mail->subject,
             'maq_type' => $type,
         );
 

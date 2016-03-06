@@ -162,6 +162,8 @@ clean_scripts() {
 # cleanup excess files from vendor
 # but not that much that composer won't work
 clean_vendor() {
+	rm vendor/*/*/*.md
+	rm vendor/*/*/*.mdown
 	rm vendor/*/*/.coveralls.yml
 	rm vendor/*/*/.gitattributes
 	rm vendor/*/*/.gitignore
@@ -212,6 +214,16 @@ clean_vendor() {
 	mv vendor/zendframework/zend-config/src/{Config.php,Exception} tmp
 	rm -r vendor/zendframework/zend-config/*
 	mv tmp vendor/zendframework/zend-config/src
+
+	# not used yet
+	rm -r vendor/zendframework/zend-mail/src/Protocol
+	rm -r vendor/zendframework/zend-mail/src/Storage*
+	rm -r vendor/zendframework/zend-mail/src/Transport
+
+	rm -r vendor/zendframework/zend-validator/src/Barcode*
+	rm -r vendor/zendframework/zend-validator/src/Db
+	rm -r vendor/zendframework/zend-validator/src/File
+	rm -r vendor/zendframework/zend-validator/src/Sitemap
 
 	# pear
 	rm vendor/pear*/*/package.xml
@@ -265,7 +277,6 @@ clean_vendor() {
 	rm src/Db/Adapter/YiiAdapter.php
 	rm src/Db/Adapter/*Pdo*.php
 	rm src/Mail/ImapMessage.php
-	rm src/Mail/MailMessage.php
 	rm src/Mail/MailStorage.php
 }
 
