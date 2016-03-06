@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Monolog\Logger;
+
 /**
  * Class to handle authentication issues.
  */

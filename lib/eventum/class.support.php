@@ -13,6 +13,7 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\Exception\RoutingException;
+use Eventum\Monolog\Logger;
 
 /**
  * Class to handle the business logic related to the email feature of

@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Monolog\Logger;
+
 /**
  * Class to handle the business logic related to sending email to
  * outside recipients. This class utilizes the PEAR::Mail

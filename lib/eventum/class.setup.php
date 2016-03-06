@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Monolog\Logger;
 use Zend\Config\Config;
 
 /**

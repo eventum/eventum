@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\Adapter\AdapterInterface;
+use Eventum\Monolog\Logger;
 
 /*
  * Update mail queue table fields with fixEncoding instead doing that runtime
