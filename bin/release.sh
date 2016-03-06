@@ -167,7 +167,7 @@ clean_vendor() {
 	rm vendor/*/*/.gitignore
 	rm vendor/*/*/.php_cs
 	rm vendor/*/*/.travis.yml
-	rm vendor/*/*/CHANGELOG.mdown
+	rm vendor/*/*/CHANGELOG*
 	rm vendor/*/*/CONTRIBUTING.md
 	rm vendor/*/*/COPYING
 	rm vendor/*/*/ChangeLog*
@@ -176,11 +176,13 @@ clean_vendor() {
 	rm vendor/*/*/composer.lock
 	rm vendor/*/*/phpunit.xml*
 
-	rm -r vendor/*/*/tests
-	rm -r vendor/*/*/test
+	rm -r vendor/*/*/*/*/Test
+	rm -r vendor/*/*/Tests
 	rm -r vendor/*/*/doc
 	rm -r vendor/*/*/docs
 	rm -r vendor/*/*/examples
+	rm -r vendor/*/*/test
+	rm -r vendor/*/*/tests
 	rm -r vendor/bin
 
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
@@ -220,6 +222,7 @@ clean_vendor() {
 
 	# not used
 	rm -r vendor/pear/console_getopt
+	rm vendor/monolog/monolog/src/Monolog/Handler/TestHandler.php
 
 	mkdir tmp
 	mv vendor/pear/db/DB/{common,mysql*}.php tmp
