@@ -7,7 +7,7 @@ Eventum Issue Tracking System
 - Updated Misc::activateLinks to not activate mail links inside of urls (d23e712, @balsorf)
 - Allow separate role for editing custom fields vs viewing (#149, @balsdorf)
 - Configuring loggers via config file using Monolog-Cascade (#146, @glensc)
-
+- Use Zend\Mail in MailQueue::addMail (#139, @glensc)
 
 2016-02-29, Version [3.0.10]
 ----------------------------
