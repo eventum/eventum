@@ -12,8 +12,8 @@
  */
 
 use Eventum\Db\DatabaseException;
-use Eventum\Monolog\Logger;
 use Eventum\Mail\MailMessage;
+use Eventum\Monolog\Logger;
 
 class Mail_Queue
 {

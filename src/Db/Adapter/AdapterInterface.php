@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+
 namespace Eventum\Db\Adapter;
 
 use Eventum\Db\DatabaseException;
