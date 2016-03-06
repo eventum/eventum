@@ -11,7 +11,6 @@
  * that were distributed with this source code.
  */
 
-
 namespace Eventum;
 
 /**
