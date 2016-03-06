@@ -31,22 +31,22 @@ $formatters = array(
 
 $handlers = array(
     'app_log' => array(
-        'class' => 'Monolog\\Handler\\StreamHandler',
+        'class' => 'Eventum\\Monolog\\StreamHandler',
         'level' => 'INFO',
         'stream' => APP_LOG_PATH . '/eventum.log',
-//        'filePermission' => 0640,
+        'filePermission' => 0640,
     ),
     'auth_log' => array(
-        'class' => 'Monolog\\Handler\\StreamHandler',
+        'class' => 'Eventum\\Monolog\\StreamHandler',
         'level' => 'INFO',
         'stream' => APP_LOG_PATH . '/auth.log',
-//        'filePermission' => 0640,
+        'filePermission' => 0640,
     ),
     'cli_log' => array(
-        'class' => 'Monolog\\Handler\\StreamHandler',
+        'class' => 'Eventum\\Monolog\\StreamHandler',
         'level' => 'INFO',
         'stream' => APP_LOG_PATH . '/cli.log',
-//        'filePermission' => 0640,
+        'filePermission' => 0640,
     ),
     'error_handler' => array(
         'class' => 'Monolog\\Handler\\ErrorLogHandler',
