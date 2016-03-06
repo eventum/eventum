@@ -21,6 +21,9 @@ use Setup;
 
 class MailHandler extends NativeMailerHandler
 {
+    /** @var bool */
+    private $enabled = false;
+
     /**
      * Create mail handler for Eventum errors
      *
@@ -29,19 +32,22 @@ class MailHandler extends NativeMailerHandler
     public function __construct($level = Monolog\Logger::ERROR)
     {
         $setup = Setup::get();
-        if ($setup['email_error']['status'] != 'enabled') {
-            throw new InvalidArgumentException("Can't use mail handler if not configured");
-        }
+        $this->enabled = $setup['email_error']['status'] == 'enabled';
 
         $notify_list = trim($setup['email_error']['addresses']);
-        if (!$notify_list) {
-            throw new InvalidArgumentException("Can't use mail handler with empty notify list");
-        }
-
         // recipient list can be comma separated
         $to = Misc::trim(explode(',', $notify_list));
         $subject = APP_SITE_NAME . ' - Error found!';
 
         parent::__construct($to, $subject, $setup['smtp']['from'], $level);
+    }
+
+    protected function send($content, array $records)
+    {
+        if (!$this->enabled) {
+            return;
+        }
+
+        parent::send($content, $records);
     }
 }

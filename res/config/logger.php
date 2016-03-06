@@ -52,6 +52,10 @@ $handlers = array(
         'class' => 'Monolog\\Handler\\ErrorLogHandler',
         'formatter' => 'error_handler',
     ),
+    'error_mailer' => array(
+        'class' => 'Eventum\\Monolog\\MailHandler',
+        'level' => 'ERROR',
+    ),
 );
 
 $processors = array(
@@ -83,11 +87,13 @@ $default_processors = array(
     'memory_peak_processor',
     'eventum_app_info_processor',
 );
+
 $loggers = array(
     'app' => array(
         'handlers' => array(
             'app_log',
             'error_handler',
+            'error_mailer',
         ),
         'processors' => $default_processors,
     ),
