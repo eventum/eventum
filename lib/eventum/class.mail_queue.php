@@ -90,7 +90,7 @@ class Mail_Queue
             'maq_save_copy' => $save_email_copy,
             'maq_queued_date' => Date_Helper::getCurrentDateGMT(),
             'maq_sender_ip_address' => !empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '',
-            'maq_recipient' => $recipient, // XXX: should be decoded form
+            'maq_recipient' => Mime_Helper::decodeAddress($recipient),
             'maq_headers' => $mail->getHeaders()->toString(),
             'maq_body' => $mail->getContent(),
             'maq_iss_id' => $issue_id ?: null,
