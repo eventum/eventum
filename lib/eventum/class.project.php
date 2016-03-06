@@ -417,7 +417,7 @@ class Project
         foreach ($_POST['users'] as $user) {
             if ($user == $_POST['lead_usr_id']) {
                 self::associateUser($_POST['id'], $user, User::ROLE_MANAGER);
-            } elseif (User::getRoleByUser($user, $_POST['id']) == '') {
+            } else {
                 // users who are now being associated with this project should be set to 'Standard User'
                 self::associateUser($_POST['id'], $user, User::ROLE_USER);
             }
@@ -476,9 +476,22 @@ class Project
             }
 
             return true;
-        }
 
-        return true;
+        } else {
+
+            $stmt = 'UPDATE {{%project_user}}
+                        SET pru_role = ?
+                    WHERE
+                        pru_prj_id = ? AND
+                        pru_usr_id = ?';
+            try {
+                DB_Helper::getInstance()->query($stmt, array($role, $prj_id, $usr_id));
+            } catch (DbException $e) {
+                return false;
+            }
+
+            return true;
+        }
     }
 
     /**
