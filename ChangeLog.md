@@ -8,6 +8,7 @@ Eventum Issue Tracking System
 - Allow separate role for editing custom fields vs viewing (#149, @balsdorf)
 - Configuring loggers via config file using Monolog-Cascade (#146, @glensc)
 - Use Zend\Mail in MailQueue::addMail (#139, @glensc)
+- Setup correct project roles when updating user projects (@Alexey-Architect, #152)
 
 2016-02-29, Version [3.0.10]
 ----------------------------
