@@ -14,8 +14,14 @@
 namespace Eventum\Controller;
 
 use Auth;
-use PlotHelper;
+use Eventum\Controller\Helper\PlotHelper;
 
+/**
+ * Class StatsChartController
+ *
+ * @package Eventum\Controller
+ * @property PlotHelper $plot
+ */
 class StatsChartController extends BaseController
 {
     /**
@@ -45,8 +51,7 @@ class StatsChartController extends BaseController
         $type = $request->query->get('plot');
         $hide_closed = $request->get('hide_closed');
 
-        $plot = new PlotHelper();
-        $res = $plot->StatsChart($type, $hide_closed);
+        $res = $this->plot->StatsChart($type, $hide_closed);
         if (!$res) {
             header('Content-type: image/gif');
             readfile(APP_PATH . '/htdocs/images/no_data.gif');

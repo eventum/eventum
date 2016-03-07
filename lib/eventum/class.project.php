@@ -476,9 +476,7 @@ class Project
             }
 
             return true;
-
         } else {
-
             $stmt = 'UPDATE {{%project_user}}
                         SET pru_role = ?
                     WHERE
