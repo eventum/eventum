@@ -629,7 +629,7 @@ class Access
             return $return;
         }
 
-        if (is_null($item) && is_null($item_id)) {
+        if (is_null($item) && is_null($item_id) && isset($_SERVER['REQUEST_URI'])) {
             list($item, $item_id) = self::extractInfoFromURL($_SERVER['REQUEST_URI']);
         }
         $sql = 'INSERT INTO
@@ -647,11 +647,11 @@ class Access
             $issue_id,
             $usr_id,
             Date_Helper::getCurrentDateGMT(),
-            $_SERVER['REMOTE_ADDR'],
+            isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null,
             !$return,
             $item,
             $item_id,
-            $_SERVER['REQUEST_URI']
+            isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null
         );
         try {
             $res = DB_Helper::getInstance()->query($sql, $params);
