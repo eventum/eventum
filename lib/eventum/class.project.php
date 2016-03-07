@@ -486,7 +486,7 @@ class Project
                         pru_usr_id = ?';
             try {
                 DB_Helper::getInstance()->query($stmt, array($role, $prj_id, $usr_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return false;
             }
 
