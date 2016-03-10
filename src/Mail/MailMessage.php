@@ -101,10 +101,15 @@ class MailMessage extends Message
      */
     public static function createFromHeaderBody($headers, $content)
     {
-        // Zend\Mail does not like empty headers, "Cc:" for example
         foreach ($headers as $k => $v) {
+            // Zend\Mail does not like empty headers, "Cc:" for example
             if ($v === '') {
                 unset($headers[$k]);
+            }
+
+            // also it doesn't like 8bit headers
+            if (Mime_Helper::is8bit($v)) {
+                $headers[$k] = Mime_Helper::encode($v);
             }
         }
 
