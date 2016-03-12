@@ -59,7 +59,7 @@ class SelectProjectController extends BaseController
         $this->cat = $request->request->get('cat');
         $this->url = $request->request->get('url') ?: $request->query->get('url');
         $this->prj_id = $request->request->get('project');
-        $this->remember = $request->request->getBoolean('remember');
+        $this->remember = $request->request->get('remember') ?: $request->request->get('remember');
     }
 
     /**
