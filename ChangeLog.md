@@ -9,6 +9,7 @@ Eventum Issue Tracking System
 - Configuring loggers via config file using Monolog-Cascade (#146, @glensc)
 - Use Zend\Mail in MailQueue::addMail (#139, @glensc)
 - Setup correct project roles when updating user projects (@Alexey-Architect, #152)
+- Remove "Product Version" field from view issue page since it is bundled with "Product" (@balsdorf)
 
 2016-02-29, Version [3.0.10]
 ----------------------------
