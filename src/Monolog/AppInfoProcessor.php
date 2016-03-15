@@ -13,6 +13,8 @@
 
 namespace Eventum\Monolog;
 
+use Auth;
+
 /**
  * Class AppVersionProcessor
  * Inject eventum version into logger
@@ -28,6 +30,8 @@ class AppInfoProcessor
     public function __invoke(array $record)
     {
         $record['extra']['version'] = APP_VERSION;
+
+        $record['extra']['usr_id'] = Auth::getUserID();
 
         return $record;
     }
