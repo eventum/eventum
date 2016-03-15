@@ -22,7 +22,7 @@ Note that while a copy of class.example.php can be used as a basis for your own 
 
 First, you must create a file in lib/eventum/workflow/ that will be used to extend the Abstract_Workflow_Backend class. The name of this file is important, as it will indicate a collection of customizations that can be applied to one or more projects. The format of the filename is:
 
-` class.`<name>`.php`
+` class.`-name-`.php`
 
 So, assuming you are customizing eventum for "Acme, Inc.", you could name your file:
 
@@ -54,7 +54,7 @@ To get started, you can copy class.example.php and rename it (and the class with
 
 For a list of all available methods, refer to:
 
-  lib/eventum/workflow/class.abstract_workflow_backend.php
+`  lib/eventum/workflow/class.abstract_workflow_backend.php`
 
 #### Assigning a Workflow Class to a Project ####
 
