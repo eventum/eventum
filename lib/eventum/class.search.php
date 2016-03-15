@@ -380,13 +380,13 @@ class Search
                     {{%issue_access_list}}
                  ON
                     iss_id = ial_iss_id AND
-                    ial_usr_id = " . $usr_id . "
+                    ial_usr_id = " . $usr_id . '
                  LEFT JOIN
                     {{%user_group}}
                  ON
-                    ugr_usr_id = " . $usr_id . "
+                    ugr_usr_id = ' . $usr_id . '
                  WHERE
-                    iss_prj_id= " . Misc::escapeInteger($prj_id);
+                    iss_prj_id= ' . Misc::escapeInteger($prj_id);
         $stmt .= self::buildWhereClause($options);
 
         if (strstr($options['sort_by'], 'custom_field') !== false) {

@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Monolog\Logger;
+
 class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
 {
     private $sphinx;

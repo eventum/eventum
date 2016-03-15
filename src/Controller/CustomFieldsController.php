@@ -87,7 +87,7 @@ class CustomFieldsController extends BaseController
      */
     protected function prepareTemplate()
     {
-        $custom_fields = Custom_Field::getListByIssue($this->prj_id, $this->issue_id);
+        $custom_fields = Custom_Field::getListByIssue($this->prj_id, $this->issue_id, null, false, true);
 
         $this->tpl->assign(
             array(

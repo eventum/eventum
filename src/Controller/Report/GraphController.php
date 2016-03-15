@@ -13,8 +13,14 @@
 
 namespace Eventum\Controller\Report;
 
-use PlotHelper;
+use Eventum\Controller\Helper\PlotHelper;
 
+/**
+ * Class GraphController
+ *
+ * @property PlotHelper $plot
+ * @package Eventum\Controller\Report
+ */
 class GraphController extends ReportBaseController
 {
     /** @var string */
@@ -78,9 +84,7 @@ class GraphController extends ReportBaseController
         $interval = $request->get('interval');
         $type = $get->get('type');
 
-        $plot = new PlotHelper();
-
-        return $plot->CustomFieldGraph(
+        return $this->plot->CustomFieldGraph(
             $type, $custom_field, $custom_options, $group_by, $start_date, $end_date, $interval
         );
     }
@@ -95,17 +99,14 @@ class GraphController extends ReportBaseController
         $end_date = $request->get('end_date');
         $type = $request->get('type');
 
-        $plot = new PlotHelper();
-
-        return $plot->WorkloadDateRangeGraph($graph, $type, $start_date, $end_date, $interval);
+        return $this->plot->WorkloadDateRangeGraph($graph, $type, $start_date, $end_date, $interval);
     }
 
     private function graphWorkloadTimePeriod()
     {
         $get = $this->getRequest()->query;
 
-        $plot = new PlotHelper();
-        $plot->WorkloadTimePeriodGraph($get->get('type'));
+        $this->plot->WorkloadTimePeriodGraph($get->get('type'));
 
         return true;
     }

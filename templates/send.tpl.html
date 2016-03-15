@@ -22,6 +22,10 @@
 </center>
 <script type="text/javascript">
 <!--
+{if $garlic_prefix|default:'' != ''}
+Eventum.clearAutoSave('{$garlic_prefix}');
+{/if}
+
 {if $core.current_user_prefs.close_popup_windows}
 setTimeout('Eventum.close_and_refresh()', 2000);
 {/if}
@@ -149,28 +153,39 @@ function setSignature(f)
 }
 
 $().ready(function() {
-   Eventum.getField('message').focus();
+    Eventum.getField('message').focus();
 
-   $('#sendEmailForm').garlic({
-      getPath: function ( $elem ) {
-          var form = $elem.parents('form');
-          var field_keys = [form.find('input[name=issue_id]').val(), form.find('input[name=parent_id]').val()];
-          if (form.find('input[name=draft_id]').length) {
-              field_keys.push(form.find('input[name=draft_id]').val());
-          }
-          field_keys.push($elem.attr('name'));
-          return field_keys.join('_');
-      }
-   });
+    var $send_email_form = $('#sendEmailForm');
+    var field_keys = ['garlic', $send_email_form.find('input[name=issue_id]').val(),
+        $send_email_form.find('input[name=parent_id]').val()];
+    if ($send_email_form.find('input[name=draft_id]').length) {
+        field_keys.push($send_email_form.find('input[name=draft_id]').val());
+    }
+
+    var garlic_prefix = field_keys.join('_');
+    $('#garlic_prefix').val(garlic_prefix);
+
+    $send_email_form.garlic({
+       getPath: function ( $elem ) {
+           return garlic_prefix + '_' + $elem.attr('name');
+       }
+    });
+
+    $('#reset').click(function()
+    {
+        Eventum.clearAutoSave(garlic_prefix);
+        window.close();
+    })
 });
 //-->
 </script>
 
-<form class="validate dropzone" data-validation-function='validateForm' id="sendEmailForm" name="sendEmailForm" method="post" enctype="multipart/form-data">
+<form class="validate dropzone" data-validation-function='validateForm' id="sendEmailForm" name="sendEmailForm" method="post" enctype="multipart/form-data" data-destroy="false">
 <input type="hidden" name="cat" value="send_email">
 <input type="hidden" name="parent_id" value="{$parent_email_id|default:''}">
 <input type="hidden" name="ema_id" value="{$ema_id|default:''}">
 <input type="hidden" name="issue_id" value="{$issue_id|default:''}">
+<input type="hidden" name="garlic_prefix" value="" id="garlic_prefix">
 {if $smarty.get.cat|default:'' == 'view_draft'}
 <input type="hidden" name="draft_id" value="{$draft_id|default:''}">
 {/if}
@@ -324,7 +339,7 @@ $().ready(function() {
           {if $read_only|default:'' != 1}
           <input type="submit" value="{t}Send Email{/t}">&nbsp;&nbsp;
           {/if}
-          <input type="reset" value="{t}Cancel{/t}" onClick="window.close();">
+          <input name="cancel" type="reset" value="{t}Cancel{/t}" id="reset">
 
           <div class="right">
             {if $core.current_user_prefs.email_signature != "" and $core.current_user_prefs.auto_append_email_sig != 1}

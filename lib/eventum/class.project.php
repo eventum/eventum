@@ -417,7 +417,7 @@ class Project
         foreach ($_POST['users'] as $user) {
             if ($user == $_POST['lead_usr_id']) {
                 self::associateUser($_POST['id'], $user, User::ROLE_MANAGER);
-            } elseif (User::getRoleByUser($user, $_POST['id']) == '') {
+            } else {
                 // users who are now being associated with this project should be set to 'Standard User'
                 self::associateUser($_POST['id'], $user, User::ROLE_USER);
             }
@@ -476,9 +476,20 @@ class Project
             }
 
             return true;
-        }
+        } else {
+            $stmt = 'UPDATE {{%project_user}}
+                        SET pru_role = ?
+                    WHERE
+                        pru_prj_id = ? AND
+                        pru_usr_id = ?';
+            try {
+                DB_Helper::getInstance()->query($stmt, array($role, $prj_id, $usr_id));
+            } catch (DatabaseException $e) {
+                return false;
+            }
 
-        return true;
+            return true;
+        }
     }
 
     /**
@@ -806,13 +817,15 @@ class Project
                 if (!empty($contract_id)) {
                     try {
                         $contract = $crm->getContract($contract_id);
-                        $contact_ids = array_map(function($element) { return $element->getContactID(); }, $contract->getContacts());
-                    } catch (CRMException $e) {}
+                        $contact_ids = array_map(function ($element) { return $element->getContactID(); }, $contract->getContacts());
+                    } catch (CRMException $e) {
+                    }
                 } elseif (!empty($customer_id)) {
                     try {
                         $customer = $crm->getCustomer($customer_id);
                         $contact_ids = array_keys($customer->getContacts());
-                    } catch (CRMException $e) {}
+                    } catch (CRMException $e) {
+                    }
                 }
             }
         }

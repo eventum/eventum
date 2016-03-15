@@ -435,9 +435,10 @@ class Custom_Field
      * @param   integer $prj_id The project ID
      * @param   string $form_type The type of the form
      * @param   string $fld_type The type of field (optional)
+     * @param   bool    $for_edit True if the fld_min_role_edit permission should be checked
      * @return  array The list of custom fields
      */
-    public static function getListByProject($prj_id, $form_type, $fld_type = false)
+    public static function getListByProject($prj_id, $form_type, $fld_type = false, $for_edit = false)
     {
         $stmt = 'SELECT
                     fld_id,
@@ -461,6 +462,11 @@ class Custom_Field
         if ($form_type != 'anonymous_form') {
             $stmt .= ' AND
                     fld_min_role <= ?';
+            $params[] = Auth::getCurrentRole();
+        }
+        if ($for_edit) {
+            $stmt .= ' AND
+                    fld_min_role_edit <= ?';
             $params[] = Auth::getCurrentRole();
         }
         if ($form_type != '') {
@@ -637,9 +643,10 @@ class Custom_Field
      * @param   integer $iss_id The issue ID
      * @param   integer $usr_id The ID of the user who is going to be viewing this list.
      * @param   mixed   $form_type The name of the form this is for or if this is an array the ids of the fields to return
+     * @param   bool    $for_edit True if the fld_min_role_edit permission should be checked
      * @return  array The list of custom fields
      */
-    public static function getListByIssue($prj_id, $iss_id, $usr_id = null, $form_type = false)
+    public static function getListByIssue($prj_id, $iss_id, $usr_id = null, $form_type = false, $for_edit = false)
     {
         if (!$usr_id) {
             $usr_id = Auth::getUserID();
@@ -681,6 +688,12 @@ class Custom_Field
         $params = array(
             $iss_id, $prj_id, $usr_role,
         );
+
+        if ($for_edit) {
+            $stmt .= ' AND
+                    fld_min_role_edit <= ?';
+            $params[] = $usr_role;
+        }
 
         if ($form_type != false) {
             if (is_array($form_type)) {
@@ -891,6 +904,9 @@ class Custom_Field
         if (empty($_POST['min_role'])) {
             $_POST['min_role'] = 1;
         }
+        if (empty($_POST['min_role_edit'])) {
+            $_POST['min_role_edit'] = 1;
+        }
         if (!isset($_POST['rank'])) {
             $_POST['rank'] = (self::getMaxRank() + 1);
         }
@@ -909,12 +925,13 @@ class Custom_Field
                     fld_edit_form_required,
                     fld_list_display,
                     fld_min_role,
+                    fld_min_role_edit,
                     fld_rank,
                     fld_backend
                  ) VALUES (
                      ?, ?, ?, ?, ?,
                      ?, ?, ?, ?, ?,
-                     ?, ?, ?, ?
+                     ?, ?, ?, ?, ?
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, array(
@@ -930,6 +947,7 @@ class Custom_Field
                 $_POST['edit_form_required'],
                 $_POST['list_display'],
                 $_POST['min_role'],
+                $_POST['min_role_edit'],
                 $_POST['rank'],
                 @$_POST['custom_field_backend'],
             ));
@@ -1009,6 +1027,7 @@ class Custom_Field
                 $row['field_options'] = 'Backend: ' . self::getBackendName($row['fld_backend']);
             }
             $row['min_role_name'] = User::getRole($row['fld_min_role']);
+            $row['min_role_edit_name'] = User::getRole($row['fld_min_role_edit']);
         }
 
         return $res;
@@ -1203,6 +1222,9 @@ class Custom_Field
         if (empty($_POST['min_role'])) {
             $_POST['min_role'] = 1;
         }
+        if (empty($_POST['min_role_edit'])) {
+            $_POST['min_role_edit'] = 1;
+        }
         if (!isset($_POST['rank'])) {
             $_POST['rank'] = (self::getMaxRank() + 1);
         }
@@ -1222,6 +1244,7 @@ class Custom_Field
                     fld_edit_form_required=?,
                     fld_list_display=?,
                     fld_min_role=?,
+                    fld_min_role_edit=?,
                     fld_rank = ?,
                     fld_backend = ?
                  WHERE
@@ -1240,6 +1263,7 @@ class Custom_Field
                 $_POST['edit_form_required'],
                 $_POST['list_display'],
                 $_POST['min_role'],
+                $_POST['min_role_edit'],
                 $_POST['rank'],
                 @$_POST['custom_field_backend'],
                 $_POST['id'],

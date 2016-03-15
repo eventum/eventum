@@ -18,6 +18,12 @@
           Validation.selectField('projects[]');
           return false;
       }
+      if (Eventum.getField('min_role').val() > Eventum.getField('min_role_edit').val()) {
+          alert('{t escape=js}Minimum Edit Role cannot be less than minimum view role.{/t}');
+          Validation.selectField('min_role_edit');
+          return false;
+      }
+
       // warn if they have de-selected a project
       var projects = Eventum.getField('projects[]');
       var selections = projects.val();
@@ -345,12 +351,23 @@
               </tr>
               <tr>
                 <th width="120">
-                  {t}Minimum Role{/t}
+                  {t}Minimum View Role{/t}
                 </th>
                 <td>
                   <select name="min_role">
                     {html_options options=$user_roles selected=$info.fld_min_role|default:''}
                   </select>
+                </td>
+              </tr>
+              <tr>
+                <th width="120">
+                  {t}Minimum Edit Role{/t}
+                </th>
+                <td>
+                  <select name="min_role_edit">
+                    {html_options options=$user_roles selected=$info.fld_min_role_edit|default:''}
+                  </select>
+                  {include file="error_icon.tpl.html" field="min_role_edit"}
                 </td>
               </tr>
               <tr>
@@ -388,7 +405,8 @@
               <th nowrap>&nbsp;{t}Rank{/t}</th>
               <th width="15%">&nbsp;{t}Title{/t}</th>
               <th width="20%">&nbsp;{t}Assigned Projects{/t}</th>
-              <th width="10%">&nbsp;{t}Min. Role{/t}</th>
+              <th width="10%">&nbsp;{t}Min. View Role{/t}</th>
+              <th width="10%">&nbsp;{t}Min. Edit Role{/t}</th>
               <th width="5%">&nbsp;{t}Type{/t}</th>
               <th width="50%">&nbsp;{t}Options{/t}</th>
             </tr>
@@ -410,6 +428,9 @@
               <td width="10%">
                 &nbsp;{$list[i].min_role_name}
               </td>
+              <td width="10%">
+                &nbsp;{$list[i].min_role_edit_name}
+              </td>
               <td width="5%">
                 <nobr>&nbsp;{if $list[i].fld_type == 'combo'}{t}Combo Box{/t}{elseif $list[i].fld_type == 'multiple'}{t}Multiple Combo Box{/t}{elseif $list[i].fld_type == 'textarea'}{t}Textarea{/t}{elseif $list[i].fld_type == 'date'}{t}Date{/t}{elseif $list[i].fld_type == 'integer'}{t}Integer{/t}{elseif $list[i].fld_type == 'checkbox'}Checkbox{else}{t}Text Input{/t}{/if}</nobr>
               </td>
@@ -419,7 +440,7 @@
             </tr>
             {sectionelse}
             <tr class="no_results">
-              <td colspan="7">
+              <td colspan="8">
                 {t}No custom fields could be found.{/t}
               </td>
             </tr>
@@ -428,7 +449,7 @@
               <td width="4" align="center">
                 <input type="button" value="{t}All{/t}" class="select_all">
               </td>
-              <td colspan="6">
+              <td colspan="7">
                 <input type="submit" value="{t}Delete{/t}">
               </td>
             </tr>

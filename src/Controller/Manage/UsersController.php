@@ -107,7 +107,7 @@ class UsersController extends ManageBaseController
         $get = $this->getRequest()->query;
 
         $options = array(
-            'customers' => $get->get('show_customers'),
+            'customers' => $get->get('show_customers', 0),
             'inactive' => $get->get('show_inactive'),
             'groups' => $get->get('show_groups'),
         );

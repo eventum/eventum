@@ -14,9 +14,9 @@
 namespace Eventum\Controller;
 
 use Date_Helper;
+use Eventum\Monolog\Logger;
 use Exception;
 use Issue;
-use Logger;
 use SCM;
 
 class ScmPingController extends BaseController

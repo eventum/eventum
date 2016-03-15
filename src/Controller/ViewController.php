@@ -323,10 +323,6 @@ class ViewController extends BaseController
                 'title' => ev_gettext('Product'),
                 'field' => 'product',
             );
-            $columns[0][] = array(
-                'title' => ev_gettext('Product Version'),
-                'field' => 'product_version',
-            );
         }
 
         $columns[0][] = array(

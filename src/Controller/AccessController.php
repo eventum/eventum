@@ -15,8 +15,8 @@ namespace Eventum\Controller;
 
 use Access;
 use Auth;
-use Misc;
 use Issue;
+use Misc;
 use Project;
 use User;
 
@@ -109,7 +109,6 @@ class AccessController extends BaseController
 
         Misc::setMessage(ev_gettext('Thank you, the access list has been updated.'));
     }
-
 
     /**
      * @inheritdoc

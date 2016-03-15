@@ -196,7 +196,7 @@ class NewController extends BaseController
                 'severities' => Severity::getList($this->prj_id),
                 'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
                 'releases' => Release::getAssocList($this->prj_id),
-                'custom_fields' => Custom_Field::getListByProject($this->prj_id, 'report_form'),
+                'custom_fields' => Custom_Field::getListByProject($this->prj_id, 'report_form', false, true),
                 'max_attachment_size' => Attachment::getMaxAttachmentSize(),
                 'max_attachment_bytes' => Attachment::getMaxAttachmentSize(true),
                 'field_display_settings' => Project::getFieldDisplaySettings($this->prj_id),
@@ -265,7 +265,7 @@ class NewController extends BaseController
         }
 
         $defaults['custom_fields'] = array();
-        foreach (Custom_Field::getListByIssue($prj_id, $issue_id) as $field) {
+        foreach (Custom_Field::getListByIssue($prj_id, $issue_id, null, false, true) as $field) {
             if (isset($field['selected_cfo_id'])) {
                 $defaults['custom_fields'][$field['fld_id']] = $field['selected_cfo_id'];
             } else {
