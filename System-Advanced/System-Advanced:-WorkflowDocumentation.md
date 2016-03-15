@@ -30,22 +30,23 @@ So, assuming you are customizing eventum for "Acme, Inc.", you could name your f
 
 The file must be valid PHP and must include the Abstract_Workflow_Backend class in order to extend it. Therefore, the contents will always be in the following format:
 
-` `<?php
+` <?php
   require_once(APP_INC_PATH . "workflow/class.abstract_workflow_backend.php");
-  class <name>`_Workflow_Backend extends Abstract_Workflow_Backend`
-` {`
-`     /** Put the methods you want to customize here */`
-` }`
+  class <name>_Workflow_Backend extends Abstract_Workflow_Backend
+ {
+     /** Put the methods you want to customize here */
+ }
+`
 
 Note that you must provide a name for your new class. For our example, we could use:
 
-` `<?php
+` <?php
   require_once(APP_INC_PATH . "workflow/class.abstract_workflow_backend.php");
   class ACME_Workflow_Backend extends Abstract_Workflow_Backend
   {
       /** Put the methods you want to customize here */
   }
-
+`
 Now you can override methods in that class that correspond to specific events.
 
 To get started, you can copy class.example.php and rename it (and the class within) appropriately. Be sure to delete any functions you do not intend to customize.
