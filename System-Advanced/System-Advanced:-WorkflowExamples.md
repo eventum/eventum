@@ -38,10 +38,10 @@ This allows anyone to reply to an issue without first being added to the Authori
 
 **WARNING:** This may not be desirable for all sites. Use a more restrictive method if problems result from bad senders.
 
-` function canEmailIssue($prj_id, $issue_id, $email)`
-` {`
-`   return true;`
-` }`
+    function canEmailIssue($prj_id, $issue_id, $email)
+    {
+        return true;
+    }
 
 ### Add everyone on To/CC list of email to notification list
 
@@ -189,10 +189,10 @@ WARNING: This code will change the status of an issue when an email is associate
 
 ### Change issue status on incoming customer email
 
-`   function handleNewEmail($prj_id, $issue_id, $message, $row = false, $closing = false)`
-`   {`
-`     if (!empty($row) && $row['customer_id']) {`
-`       $waiting_on_support_id = Status::getStatusID('Waiting on Support');`
-`       Issue::setStatus($issue_id, $waiting_on_support_id);`
-`     }`
-`   }`
+    function handleNewEmail($prj_id, $issue_id, $message, $row = false, $closing = false)
+    {
+      if (!empty($row) && $row['customer_id']) {
+        $waiting_on_support_id = Status::getStatusID('Waiting on Support');
+        Issue::setStatus($issue_id, $waiting_on_support_id);
+      }
+    }
