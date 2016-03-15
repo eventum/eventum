@@ -47,6 +47,7 @@ Note that you must provide a name for your new class. For our example, we could 
         /** Put the methods you want to customize here */
     }
 `
+
 Now you can override methods in that class that correspond to specific events.
 
 To get started, you can copy class.example.php and rename it (and the class within) appropriately. Be sure to delete any functions you do not intend to customize.
