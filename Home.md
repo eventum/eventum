@@ -152,7 +152,7 @@ _**Most of these links are broken**_
         -   [Adding a cron entry](Adding a cron entry "wikilink")
     -   Miscellaneous
         -   [Using the IRC bot](Using the IRC bot "wikilink")
-        -   [Deleting Issues](Deleting Issues "wikilink")
+        -   [[Deleting Issues|System-Advanced:-Deleting-Issues]] ([[2|System-Advanced:-Talk:Deleting-Issues]])
         -   [Fulltext Search](Fulltext Search "wikilink")
 -   Development Related
     -   [Changelog](Changelog "wikilink")
