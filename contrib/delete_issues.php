@@ -4,24 +4,35 @@
  * A script that produces SQL statements to permanently delete issue data
  *
  * Run the script, review output and execute it with MySQL CLI.
+ *
+ * $ ./delete_issues.php 1 2 3 62 666
+ * would try to delete issues 1, 2, 3, 62 and 666
  */
 
 use Eventum\Db\Adapter\AdapterInterface;
 
-if (!isset($argv[1])) {
+$PROGRAM = array_shift($argv);
+if (!$argv) {
     throw new InvalidArgumentException('Invalid usage');
 }
 
-list($issue_id) = $argv[1];
-
 require __DIR__ . '/../init.php';
 
-echo "# delete issue $issue_id\n";
+function check_delete(AdapterInterface $db, $tables, $issue_id)
+{
+    $res = $db->getOne('SELECT iss_id FROM {{%issue}} where iss_id=?', array($issue_id));
+    if (!$res) {
+        echo "# issue $issue_id does not exist\n";
+        return;
+    }
 
-/** @var AdapterInterface $db */
-$db = DB_Helper::getInstance();
+    echo "# delete issue $issue_id\n";
+    foreach ($tables as $table => $prefix) {
+        check_delete_table($db, $table, $prefix, $issue_id);
+    }
+}
 
-function check_delete(AdapterInterface $db, $table, $column, $issue_id)
+function check_delete_table(AdapterInterface $db, $table, $column, $issue_id)
 {
     $query = "select count(*) from {{%{$table}}} where {$column}=?";
     $res = $db->getOne($query, array($issue_id));
@@ -57,6 +68,9 @@ $tables = array(
     'issue' => 'iss_id',
 );
 
-foreach ($tables as $table => $prefix) {
-    check_delete($db, $table, $prefix, $issue_id);
+/** @var AdapterInterface $db */
+$db = DB_Helper::getInstance();
+
+foreach ($argv as $issue_id) {
+    check_delete($db, $tables, $issue_id);
 }
