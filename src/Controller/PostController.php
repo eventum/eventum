@@ -90,7 +90,7 @@ class PostController extends BaseController
         $show_custom_fields = isset($options['show_custom_fields']) && $options['show_custom_fields'] == 'yes';
 
         if ($show_custom_fields) {
-            $custom_fields = Custom_Field::getListByProject($prj_id, 'anonymous_form');
+            $custom_fields = Custom_Field::getListByProject($prj_id, 'anonymous_form', false, true);
             $this->tpl->assign('custom_fields', $custom_fields);
         }
 

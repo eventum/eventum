@@ -17,6 +17,7 @@
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
 use Eventum\Db\Migrate;
+use Eventum\Monolog\Logger;
 
 ini_set('memory_limit', '64M');
 

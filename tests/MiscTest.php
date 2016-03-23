@@ -47,6 +47,15 @@ class MiscTest extends TestCase
         $this->assertEquals($exp, $str);
     }
 
+    /**
+     * @dataProvider ActivateLinksData
+     * @see Misc::activateLinks
+     */
+    public function testActivateLinks($text, $exp)
+    {
+        $this->assertEquals($exp, Misc::activateLinks($text));
+    }
+
     public function StripHTMLData()
     {
         return array(
@@ -86,6 +95,32 @@ class MiscTest extends TestCase
 
             array(array('AA', 'B'), array('aa', 'b')),
             array(array('z' => 'AA', 3 => 'B'), array('z' => 'aa', 3 => 'b')),
+        );
+    }
+
+    public function ActivateLinksData()
+    {
+        return array(
+            array(
+                "http://google.com",
+                '<a title="open http://google.com in a new window" class="link" href="http://google.com" target="_google.com">http://google.com</a>'
+            ),
+            array(
+                " a link in the middle of some text http://google.com test test",
+                ' a link in the middle of some text <a title="open http://google.com in a new window" class="link" href="http://google.com" target="_google.com">http://google.com</a> test test'
+            ),
+            array(
+                "test@example.com",
+                '<a title="open mailto:test@example.com in a new window" class="link" href="mailto:test@example.com" target="_test@example.com">test@example.com</a>'
+            ),
+            array(
+                "blah test@example.com foo",
+                'blah <a title="open mailto:test@example.com in a new window" class="link" href="mailto:test@example.com" target="_test@example.com">test@example.com</a> foo'
+            ),
+            array(
+                "curl -T myfile ftp://anonymous:nopassword@ftp.example.com/uploads/",
+                'curl -T myfile <a title="open ftp://anonymous:nopassword@ftp.example.com/uploads/ in a new window" class="link" href="ftp://anonymous:nopassword@ftp.example.com/uploads/" target="_anonymous:nopassword@ftp.example.com/uploads/">ftp://anonymous:nopassword@ftp.example.com/uploads/</a>'
+            ),
         );
     }
 

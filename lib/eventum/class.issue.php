@@ -3649,16 +3649,12 @@ class Issue
      *
      * @param   integer $issue_id The ID of the issue
      * @param   string $level The Access level
-     * @return  integer 1 if successful, -1 or -2 otherwise
+     * @return  integer 1 if successful, -1 otherwise
      */
     public static function setAccessLevel($issue_id, $level)
     {
         $issue_id = (int) $issue_id;
         $usr_id = Auth::getUserID();
-
-        if (!Access::canChangeAccessLevel($issue_id, $usr_id)) {
-            return -2;
-        }
 
         $old_access_level = self::getAccessLevel($issue_id);
         if ($level == $old_access_level) {

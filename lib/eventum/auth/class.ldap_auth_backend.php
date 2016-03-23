@@ -272,6 +272,11 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             );
 
             if ($stored_data != $data) {
+                $diff = array_diff_assoc($data, $stored_data);
+                // if email is about to be updated, move current one to aliases
+                if (isset($diff['email']) && isset($stored_data['email'])) {
+                    $emails[] = $stored_data['email'];
+                }
                 User::update($usr_id, $data, false);
             }
 

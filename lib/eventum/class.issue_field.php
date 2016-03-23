@@ -52,7 +52,7 @@ class Issue_Field
                 'value'     =>  self::getValue($issue_id, $field_name),
             );
             if ($field_name == 'custom') {
-                $data[$field_name]['custom'] = Custom_Field::getListByIssue($prj_id, $issue_id, Auth::getUserID(), $field_options);
+                $data[$field_name]['custom'] = Custom_Field::getListByIssue($prj_id, $issue_id, Auth::getUserID(), $field_options, true);
             }
         }
 

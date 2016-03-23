@@ -11,6 +11,20 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Controller\Helper;
+
+use Auth;
+use Custom_Field;
+use Date_Helper;
+use PHPlot;
+use Prefs;
+use Project;
+use Report;
+use Session;
+use Stats;
+use Status;
+use User;
+
 class PlotHelper
 {
     /**
@@ -209,8 +223,8 @@ class PlotHelper
         $i = 1;
         foreach ($data as $performer => $values) {
             foreach ($values as $hour => $value) {
-                $plotData[(int) $hour][0] = $hour;
-                $plotData[(int) $hour][$i] = $value;
+                $plotData[(int)$hour][0] = $hour;
+                $plotData[(int)$hour][$i] = $value;
             }
             $legends[$i] = ucfirst($performer) . ' ' . $event_type;
             $i++;

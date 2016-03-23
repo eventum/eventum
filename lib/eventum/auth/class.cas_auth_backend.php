@@ -172,7 +172,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
      */
     public function updatePassword($usr_id, $password)
     {
-        return false;
+        return true;
     }
 
     public function userExists($login)

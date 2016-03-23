@@ -25,7 +25,6 @@ use Mail_Helper;
 use Misc;
 use Notification;
 use Prefs;
-use Project;
 use Status;
 use Support;
 use Time_Tracking;
@@ -182,6 +181,7 @@ class SendController extends BaseController
         );
 
         $this->tpl->assign('send_result', $res);
+        $this->tpl->assign('garlic_prefix', $post->has('garlic_prefix') ? $post->get('garlic_prefix') : '');
 
         $new_status = $post->get('new_status');
         if ($new_status && Access::canChangeStatus($this->issue_id, $this->usr_id)) {

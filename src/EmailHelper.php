@@ -87,7 +87,7 @@ class EmailHelper
                     return $wrapText($fragment);
                 }
 
-                return $fragment;
+                return htmlspecialchars($fragment);
 
             }, $email->getFragments()
         );

@@ -22,6 +22,7 @@
 * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
 *
 */
+use Eventum\Monolog\Logger;
 
 /**
  * Class to handle the business logic related to the MIME email

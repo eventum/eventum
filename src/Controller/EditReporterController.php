@@ -17,7 +17,6 @@ use Access;
 use Auth;
 use Edit_Reporter;
 use Misc;
-use Project;
 
 class EditReporterController extends BaseController
 {

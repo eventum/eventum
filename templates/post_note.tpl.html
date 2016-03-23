@@ -5,6 +5,9 @@
 {if $post_result|default:'' != ''}
 <script type="text/javascript">
     <!--
+    {if $garlic_prefix|default:'' != ''}
+    Eventum.clearAutoSave('{$garlic_prefix}');
+    {/if}
     {if $core.current_user_prefs.close_popup_windows}
         setTimeout('Eventum.close_and_refresh()', 2000);
     {/if}
@@ -65,22 +68,34 @@
         $('#clear_note_cc').click(clearExtraRecipients);
         $('#add_email_signature').click(setSignature);
 
-        $('#post_note_form').garlic({
-            getPath: function ( $elem ) {
-              var form = $elem.parents('form');
-              return [form.find('input[name=issue_id]').val(), form.find('input[name=parent_id]').val(),
-                  form.data('sup-id'),$elem.attr('name')].join('_');
-            }
+        var $post_note_form = $('#post_note_form');
+        var field_keys = ['garlic', $post_note_form.find('input[name=issue_id]').val(),
+            $post_note_form.find('input[name=parent_id]').val(), $post_note_form.data('sup-id')];
+
+        var garlic_prefix = field_keys.join('_');
+        $('#garlic_prefix').val(garlic_prefix);
+
+        $post_note_form.garlic({
+           getPath: function ( $elem ) {
+               return garlic_prefix + '_' + $elem.attr('name');
+           }
         });
+
+        $('#reset').click(function()
+        {
+            Eventum.clearAutoSave(garlic_prefix);
+            window.close();
+        })
     });
     //-->
 </script>
 
 
-<form class="validate" data-validation-function='validateForm' id="post_note_form" name="post_note_form" method="post" data-sup-id="{$sup_id|default:''}">
+<form class="validate" data-validation-function='validateForm' id="post_note_form" name="post_note_form" method="post" data-sup-id="{$sup_id|default:''}" data-destroy="false">
     <input type="hidden" name="cat" value="post_note">
     <input type="hidden" name="parent_id" value="{$parent_note_id|default:''}">
     <input type="hidden" name="issue_id" value="{$issue_id}">
+    <input type="hidden" name="garlic_prefix" value="" id="garlic_prefix">
     <table class="bordered internal">
         <tr class="title">
             <th colspan="2">
@@ -194,7 +209,7 @@
         <tr class="buttons">
             <td colspan="2">
                 <input name="main_submit_button" type="submit" value="{t}Post Internal Note{/t}">
-                <input type="reset" value="{t}Cancel{/t}" onClick="window.close();">
+                <input name="cancel" type="reset" value="{t}Cancel{/t}" id="reset">
 
 
                 {if $core.current_user_prefs.email_signature != "" and $core.current_user_prefs.auto_append_note_sig != 'yes'}
