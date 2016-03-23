@@ -169,8 +169,8 @@ clean_vendor() {
 	rm vendor/*/*/.gitignore
 	rm vendor/*/*/.php_cs
 	rm vendor/*/*/.travis.yml
-	rm vendor/*/*/CHANGELOG*
-	rm vendor/*/*/CONTRIBUTING.md
+#	rm vendor/*/*/CHANGELOG*
+#	rm vendor/*/*/CONTRIBUTING.md
 	rm vendor/*/*/COPYING
 	rm vendor/*/*/ChangeLog*
 	rm vendor/*/*/LICENSE*
@@ -209,7 +209,6 @@ clean_vendor() {
 	rm vendor/psr/log/Psr/Log/*Trait.php
 
 	# we need *only* zf-config Config.php class
-	rm -r vendor/zendframework/zend-stdlib
 	mkdir tmp
 	mv vendor/zendframework/zend-config/src/{Config.php,Exception} tmp
 	rm -r vendor/zendframework/zend-config/*
