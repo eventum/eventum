@@ -27,7 +27,9 @@ class Routing
      */
     public static function route(&$full_message)
     {
-        if (empty($full_message)) {
+        self::removeMboxHeader($full_message);
+
+        if (!$full_message) {
             throw RoutingException::noMessageBodyError();
         }
 
@@ -566,5 +568,37 @@ class Routing
         }
 
         return false;
+    }
+
+    /**
+     * Remove Mbox header from message if it is present
+     *
+     * @param string $message
+     * @link https://github.com/eventum/eventum/issues/155
+     * @internal public for testing
+     */
+    public static function removeMboxHeader(&$message)
+    {
+        if (substr($message, 0, 5) != 'From ') {
+            return;
+        }
+
+        // $message can be big,
+        // so the code below tries to not to allocate big buffers just to strip out first line
+
+        // find EOL
+        $i = strpos($message, "\r");
+        if ($i === false) {
+            $i = strpos($message, "\n");
+        }
+        if ($i === false) {
+            throw new InvalidArgumentException('Could not find EOL');
+        }
+
+        // loop until no \r or \n
+        while (in_array($message[$i], array("\r", "\n"))) {
+            $i++;
+        }
+        $message = substr($message, $i);
     }
 }
