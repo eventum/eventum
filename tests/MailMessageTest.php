@@ -739,4 +739,15 @@ class MailMessageTest extends TestCase
         $v = \Zend\Mail\Header\HeaderWrap::mimeEncodeValue($value, 'UTF-8');
         var_dump($v);
     }
+
+    /**
+     * @link https://github.com/eventum/eventum/issues/155
+     */
+    public function testMboxHeader()
+    {
+        $full_message = file_get_contents(__DIR__ . '/data/from_nocolon.txt');
+        $this->assertNotEquals('MIME-Version', substr($full_message, 0, 12));
+        Routing::removeMboxHeader($full_message);
+        $this->assertEquals('MIME-Version', substr($full_message, 0, 12));
+    }
 }
