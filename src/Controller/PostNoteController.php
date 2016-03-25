@@ -100,6 +100,7 @@ class PostNoteController extends BaseController
 
         if ($this->cat == 'post_result' && ($post_result = $get->getInt('post_result'))) {
             $this->tpl->assign('post_result', $post_result);
+            $this->tpl->assign('garlic_prefix', $get->get('garlic_prefix'), '');
         } elseif ($this->cat == 'post_note') {
             $this->postNoteAction();
         } elseif ($this->cat == 'reply' && ($note_id = $get->getInt('id'))) {
@@ -186,6 +187,7 @@ class PostNoteController extends BaseController
                 'cat' => 'post_result',
                 'issue_id' => $this->issue_id,
                 'post_result' => $res,
+                'garlic_prefix' => $post->get('garlic_prefix', ''),
             )
         );
     }

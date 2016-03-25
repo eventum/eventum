@@ -476,9 +476,7 @@ class Project
             }
 
             return true;
-
         } else {
-
             $stmt = 'UPDATE {{%project_user}}
                         SET pru_role = ?
                     WHERE
@@ -486,7 +484,7 @@ class Project
                         pru_usr_id = ?';
             try {
                 DB_Helper::getInstance()->query($stmt, array($role, $prj_id, $usr_id));
-            } catch (DbException $e) {
+            } catch (DatabaseException $e) {
                 return false;
             }
 
@@ -819,13 +817,15 @@ class Project
                 if (!empty($contract_id)) {
                     try {
                         $contract = $crm->getContract($contract_id);
-                        $contact_ids = array_map(function($element) { return $element->getContactID(); }, $contract->getContacts());
-                    } catch (CRMException $e) {}
+                        $contact_ids = array_map(function ($element) { return $element->getContactID(); }, $contract->getContacts());
+                    } catch (CRMException $e) {
+                    }
                 } elseif (!empty($customer_id)) {
                     try {
                         $customer = $crm->getCustomer($customer_id);
                         $contact_ids = array_keys($customer->getContacts());
-                    } catch (CRMException $e) {}
+                    } catch (CRMException $e) {
+                    }
                 }
             }
         }

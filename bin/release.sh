@@ -162,13 +162,15 @@ clean_scripts() {
 # cleanup excess files from vendor
 # but not that much that composer won't work
 clean_vendor() {
+	rm vendor/*/*/*.md
+	rm vendor/*/*/*.mdown
 	rm vendor/*/*/.coveralls.yml
 	rm vendor/*/*/.gitattributes
 	rm vendor/*/*/.gitignore
 	rm vendor/*/*/.php_cs
 	rm vendor/*/*/.travis.yml
-	rm vendor/*/*/CHANGELOG.mdown
-	rm vendor/*/*/CONTRIBUTING.md
+#	rm vendor/*/*/CHANGELOG*
+#	rm vendor/*/*/CONTRIBUTING.md
 	rm vendor/*/*/COPYING
 	rm vendor/*/*/ChangeLog*
 	rm vendor/*/*/LICENSE*
@@ -176,11 +178,13 @@ clean_vendor() {
 	rm vendor/*/*/composer.lock
 	rm vendor/*/*/phpunit.xml*
 
-	rm -r vendor/*/*/tests
-	rm -r vendor/*/*/test
+	rm -r vendor/*/*/*/*/Test
+	rm -r vendor/*/*/Tests
 	rm -r vendor/*/*/doc
 	rm -r vendor/*/*/docs
 	rm -r vendor/*/*/examples
+	rm -r vendor/*/*/test
+	rm -r vendor/*/*/tests
 	rm -r vendor/bin
 
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
@@ -205,11 +209,20 @@ clean_vendor() {
 	rm vendor/psr/log/Psr/Log/*Trait.php
 
 	# we need *only* zf-config Config.php class
-	rm -r vendor/zendframework/zend-stdlib
 	mkdir tmp
 	mv vendor/zendframework/zend-config/src/{Config.php,Exception} tmp
 	rm -r vendor/zendframework/zend-config/*
 	mv tmp vendor/zendframework/zend-config/src
+
+	# not used yet
+	rm -r vendor/zendframework/zend-mail/src/Protocol
+	rm -r vendor/zendframework/zend-mail/src/Storage*
+	rm -r vendor/zendframework/zend-mail/src/Transport
+
+	rm -r vendor/zendframework/zend-validator/src/Barcode*
+	rm -r vendor/zendframework/zend-validator/src/Db
+	rm -r vendor/zendframework/zend-validator/src/File
+	rm -r vendor/zendframework/zend-validator/src/Sitemap
 
 	# pear
 	rm vendor/pear*/*/package.xml
@@ -220,6 +233,7 @@ clean_vendor() {
 
 	# not used
 	rm -r vendor/pear/console_getopt
+	rm vendor/monolog/monolog/src/Monolog/Handler/TestHandler.php
 
 	mkdir tmp
 	mv vendor/pear/db/DB/{common,mysql*}.php tmp
@@ -262,7 +276,6 @@ clean_vendor() {
 	rm src/Db/Adapter/YiiAdapter.php
 	rm src/Db/Adapter/*Pdo*.php
 	rm src/Mail/ImapMessage.php
-	rm src/Mail/MailMessage.php
 	rm src/Mail/MailStorage.php
 }
 

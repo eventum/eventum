@@ -17,7 +17,6 @@ use Access;
 use Auth;
 use Authorized_Replier;
 use Misc;
-use Project;
 
 class AuthorizedReplierController extends BaseController
 {

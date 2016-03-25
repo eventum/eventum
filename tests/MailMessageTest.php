@@ -33,6 +33,24 @@ class MailMessageTest extends TestCase
         $this->assertEquals($exp, $message_id);
     }
 
+    public function testHeaderLine()
+    {
+        $headers = array(
+            "Content-Type: text/plain; charset=UTF-8",
+            "Subject: [#66] Re: LVM-i bänner",
+        );
+        $message = MailMessage::createFromHeaderBody($headers, 'kõk');
+        $this->assertEquals('[#66] Re: LVM-i bänner', $message->subject);
+
+        $headers = "Subject:[#83566...";
+        $message = MailMessage::createFromString($headers);
+        $this->assertEquals('[#83566...', $message->subject);
+
+        $headers = "Content-Type: text/plain; charset=UTF-8\r\nSubject: Re: LVM-i =?utf-8?b?YsOkbm5lcg==?=";
+        $message = MailMessage::createFromString($headers);
+        $this->assertEquals('Re: LVM-i bänner', $message->subject);
+    }
+
     public function testMissingSubject()
     {
         $raw = "Message-ID: 1\r\n\r\n";
@@ -688,6 +706,7 @@ class MailMessageTest extends TestCase
     /**
      * a test showing a valid header can not be loaded from string using Headers::fromString method
      * due underlying fail in iconv_mime_encode
+     *
      * @see https://github.com/zendframework/zend-mail/issues/64
      */
     public function testParseHeaders()
@@ -717,7 +736,18 @@ class MailMessageTest extends TestCase
         var_dump($v);
 
         // this works too
-        $v= \Zend\Mail\Header\HeaderWrap::mimeEncodeValue($value, 'UTF-8');
+        $v = \Zend\Mail\Header\HeaderWrap::mimeEncodeValue($value, 'UTF-8');
         var_dump($v);
+    }
+
+    /**
+     * @link https://github.com/eventum/eventum/issues/155
+     */
+    public function testMboxHeader()
+    {
+        $full_message = file_get_contents(__DIR__ . '/data/from_nocolon.txt');
+        $this->assertNotEquals('MIME-Version', substr($full_message, 0, 12));
+        Routing::removeMboxHeader($full_message);
+        $this->assertEquals('MIME-Version', substr($full_message, 0, 12));
     }
 }

@@ -152,7 +152,7 @@ class Access
         return false;
     }
 
-    public static function canViewInternalNotes($issue_id, $usr_id, $not_id=null)
+    public static function canViewInternalNotes($issue_id, $usr_id, $not_id = null)
     {
         if (!self::canAccessIssue($issue_id, $usr_id, false)) {
             return false;
@@ -511,7 +511,7 @@ class Access
         );
 
         foreach (Group::getAssocList($prj_id) as $grp_id => $group) {
-            $levels['group_' . $grp_id] = 'Group: ' . $group . " only";
+            $levels['group_' . $grp_id] = 'Group: ' . $group . ' only';
         }
 
         $workflow = Workflow::getAccessLevels($prj_id);
@@ -534,12 +534,12 @@ class Access
 
     public static function getAccessList($issue_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     ial_usr_id
                 FROM
                     {{%issue_access_list}}
                 WHERE
-                    ial_iss_id = ?";
+                    ial_iss_id = ?';
         try {
             return DB_Helper::getInstance()->getColumn($sql, array($issue_id));
         } catch (DatabaseException $e) {
@@ -549,12 +549,12 @@ class Access
 
     public static function addUserToIssue($issue_id, $usr_id)
     {
-        $sql = "INSERT INTO
+        $sql = 'INSERT INTO
                     {{%issue_access_list}}
                 SET
                     ial_iss_id = ?,
                     ial_usr_id = ?,
-                    ial_created = ?";
+                    ial_created = ?';
         try {
             $res = DB_Helper::getInstance()->query($sql, array($issue_id, $usr_id, Date_Helper::getCurrentDateGMT()));
             History::add($issue_id, Auth::getUserID(), 'access_list_added', 'Access list entry ({target_user}) added by {user}', array(
@@ -564,16 +564,17 @@ class Access
         } catch (DatabaseException $e) {
             return -1;
         }
+
         return 1;
     }
 
     public static function removeUserFromIssue($issue_id, $usr_id)
     {
-        $sql = "DELETE FROM
+        $sql = 'DELETE FROM
                     {{%issue_access_list}}
                 WHERE
                     ial_iss_id = ? AND
-                    ial_usr_id = ?";
+                    ial_usr_id = ?';
         try {
             $res = DB_Helper::getInstance()->query($sql, array($issue_id, $usr_id));
             History::add($issue_id, Auth::getUserID(), 'access_list_removed', 'Access list entry ({target_user}) removed by {user}', array(
@@ -583,6 +584,7 @@ class Access
         } catch (DatabaseException $e) {
             return -1;
         }
+
         return 1;
     }
 
@@ -597,7 +599,7 @@ class Access
 
     public static function getListingSQL($prj_id)
     {
-        $sql = "";
+        $sql = '';
         if (Auth::getCurrentRole() < User::ROLE_MANAGER) {
             $sql .= " AND
                         (
@@ -615,21 +617,22 @@ class Access
                 $sql .= $workflow;
             }
 
-            $sql .= ")";
+            $sql .= ')';
         }
+
         return $sql;
     }
 
-    public static function log($return, $issue_id, $usr_id, $item=null, $item_id=null)
+    public static function log($return, $issue_id, $usr_id, $item = null, $item_id = null)
     {
         if (Setup::get()->get('audit_trail') != 'enabled') {
             return $return;
         }
 
-        if (is_null($item) && is_null($item_id)) {
+        if (is_null($item) && is_null($item_id) && isset($_SERVER['REQUEST_URI'])) {
             list($item, $item_id) = self::extractInfoFromURL($_SERVER['REQUEST_URI']);
         }
-        $sql = "INSERT INTO
+        $sql = 'INSERT INTO
                     {{%issue_access_log}}
                 SET
                     alg_iss_id = ?,
@@ -639,22 +642,23 @@ class Access
                     alg_failed = ?,
                     alg_item = ?,
                     alg_item_id = ?,
-                    alg_url = ?";
+                    alg_url = ?';
         $params = array(
             $issue_id,
             $usr_id,
             Date_Helper::getCurrentDateGMT(),
-            $_SERVER['REMOTE_ADDR'],
+            isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null,
             !$return,
             $item,
             $item_id,
-            $_SERVER['REQUEST_URI']
+            isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null
         );
         try {
             $res = DB_Helper::getInstance()->query($sql, $params);
         } catch (DatabaseException $e) {
             // do nothing besides log it
         }
+
         return $return;
     }
 
@@ -669,6 +673,7 @@ class Access
         } elseif (preg_match("/update\.php/", $url, $matches)) {
             return array('update', null);
         }
+
         return array(null, null);
     }
 }

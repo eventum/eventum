@@ -465,8 +465,8 @@ class Custom_Field
             $params[] = Auth::getCurrentRole();
         }
         if ($for_edit) {
-            $stmt .= " AND
-                    fld_min_role_edit <= ?";
+            $stmt .= ' AND
+                    fld_min_role_edit <= ?';
             $params[] = Auth::getCurrentRole();
         }
         if ($form_type != '') {
@@ -690,8 +690,8 @@ class Custom_Field
         );
 
         if ($for_edit) {
-            $stmt .= " AND
-                    fld_min_role_edit <= ?";
+            $stmt .= ' AND
+                    fld_min_role_edit <= ?';
             $params[] = $usr_role;
         }
 

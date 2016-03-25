@@ -5,7 +5,11 @@ Eventum Issue Tracking System
 ----------------------------
 
 - Updated Misc::activateLinks to not activate mail links inside of urls (d23e712, @balsorf)
-- Allow separate role for editing custom fields vs viewing. (#149, @balsdorf)
+- Allow separate role for editing custom fields vs viewing (#149, @balsdorf)
+- Configuring loggers via config file using Monolog-Cascade (#146, @glensc)
+- Use Zend\Mail in MailQueue::addMail (#139, @glensc)
+- Setup correct project roles when updating user projects (@Alexey-Architect, #152)
+- Remove "Product Version" field from view issue page since it is bundled with "Product" (@balsdorf)
 
 2016-02-29, Version [3.0.10]
 ----------------------------
@@ -44,8 +48,8 @@ Eventum Issue Tracking System
 2015-12-31, Version [3.0.7]
 ---------------------------
 
-- emails.php: handle better empty "From:" header. (@glensc, #91)
-- Added ability to require custom fields on the edit form. (@balsdorf, #107)
+- emails.php: handle better empty "From:" header (@glensc, #91)
+- Added ability to require custom fields on the edit form (@balsdorf, #107)
 - Add logging framework based on monolog (@glensc, #97)
 - Error in the first pie chart in main.php (@glensc, #103)
 - Scheduled Release field loses selected value when updating issue (@balsdorf, #105)
@@ -161,7 +165,7 @@ Eventum Issue Tracking System
 --------------------------------
 
 - Make Custom Fields Weekly Report honor Project ID (Raul Raat, GH#6)
-- Exclude removed notes when generating note sequence number. (Bryan Alsdorf, Fixes LP#1377921)
+- Exclude removed notes when generating note sequence number (Bryan Alsdorf, Fixes LP#1377921)
 - Catch exception from invalid timezones and default to UTC (Bryan Alsdorf, GH#8)
 - Remove duplicate key (Elan Ruusamäe, LP#788699)
 - Fix weekly report excluding last day (Elan Ruusamäe, LP#898607)
@@ -458,7 +462,7 @@ Eventum Issue Tracking System
 - Fixed bug with custom field report display keys instead of values (Bryan, Elan Ruusamäe)
 - scm/eventum-cvs-hook: support CVS 1.11 and 1.12 formats (autodetected if configured correctly) (Elan Ruusamäe)
 - fix cronjobs erroneously report removed lock files. Fixes #904033 (Elan Ruusamäe)
-- Add a simple screen on the issue page for amending the reporter. (Elan Ruusamäe, Dave Anderson)
+- Add a simple screen on the issue page for amending the reporter (Elan Ruusamäe, Dave Anderson)
 - Fix search returning deleted notes. Bug #788718 (Elan Ruusamäe)
 
 2008-01-09, Version 2.1.1
@@ -592,7 +596,7 @@ Eventum Issue Tracking System
 - Update Eventum core code to handle PHP configurations without old style of globals (Elan Ruusamäe)
 - Update JPGraph to handle PHP configurations without old style of globals (Bryan)
 - Fixed bug with not setting the issue ID in the subject of emails sent to users not on the notification list (Bryan)
-- Allow IRC bot to join server with username/password optionally. (Elan Ruusamäe)
+- Allow IRC bot to join server with username/password optionally (Elan Ruusamäe)
 - Set system user to always have a role of administrator (Bryan)
 - Fixed bug with displaying note sequence (Bryan)
 - Fixed bug with extracting attachments (Bryan)
@@ -975,7 +979,7 @@ Eventum Issue Tracking System
 - Added a prompt message to confirm the closing of the email window (Bryan)
 - Changed reminder system to allow date fields to be compared with other date fields (Bryan)
 - Changed IRC notification system to not always be tied to a specific issue (Bryan)
-- Workflow: When a new email is recieved, the handleNewEmail method is always called. Previously the method was only called if the email was associated with an issue. (Bryan)
+- Workflow: When a new email is recieved, the handleNewEmail method is always called. Previously the method was only called if the email was associated with an issue (Bryan)
 - Fixed bug that generated error when changing priority (Bryan)
 - Added option to list custom fields on list issues page (Bryan)
 - Fixed 'Issues by Release' link to actually only list issues from the correct release (Bryan)
@@ -1034,10 +1038,10 @@ Eventum Issue Tracking System
 - Made priorities be customizable in a per-project basis (João)
 - Fixed the SQL schema to avoid the mystic "Invalid default value for 'sta_id'" error message when installing the application (João)
 - Automatically add a slash in the end of the installation path to avoid configuration problems (João)
-- Fixed bug in custom field report when not graphing all options. (Bryan)
-- Forced order of graph bars on custom field report to match order options are listed in the select box. (Bryan)
-- Added customer stats report. (Bryan)
-- Added ability to specify which fields should be displayed on the issue creation form. (Bryan)
+- Fixed bug in custom field report when not graphing all options (Bryan)
+- Forced order of graph bars on custom field report to match order options are listed in the select box (Bryan)
+- Added customer stats report (Bryan)
+- Added ability to specify which fields should be displayed on the issue creation form (Bryan)
 - Fixed the "Forgot My Password" code to check for null results (Clay Loveless)
 - Improved the form validation of the email account form (Clay Loveless)
 - Fixed a bug that was preventing history entries to be created about an assignment from an issue automatically created from an email (Clay Loveless, João)
@@ -1074,21 +1078,21 @@ Eventum Issue Tracking System
 30 Jun 2004, Version 1.2.2
 --------------------------
 
-- Forced cookies to always be set using APP_RELATIVE_URL to prevent multiple cookies from being created. (Bryan)
+- Forced cookies to always be set using APP_RELATIVE_URL to prevent multiple cookies from being created (Bryan)
 - Properly handling email attachments with uppercase MIME related values (João)
 - Fixed the email and note routing scripts to parse MIME emails and fetch the appropriate message body (João)
 - When handling a routed note, add all email addresses from staff users from both To: and Cc: list to notification list (João)
 - Properly handle quoted-printable message bodies (João)
-- Weekly report can now be generated for any time period. (Bryan)
-- Added new Custom Field Report. (Bryan)
-- Download emails script no longer requires a mailbox name if using a pop3 account. (Bryan)
-- Fixed bug where values for new custom fields could not be set on existing issues. (Bryan)
+- Weekly report can now be generated for any time period (Bryan)
+- Added new Custom Field Report (Bryan)
+- Download emails script no longer requires a mailbox name if using a pop3 account (Bryan)
+- Fixed bug where values for new custom fields could not be set on existing issues (Bryan)
 - When replying to an email from the web interface, set the In-Reply-To: header accordingly (João)
 - Added an automatic check to handle concurrency issues with the mail queue process script (João)
-- Phone call module now uses expandable cell to save space. (João; Bryan)
-- When Phone call is added, time tracking entry is also added. (João; Bryan)
-- Moved description to seperate table to prevent wide descriptions from pushing the rest of the table over. (Bryan)
-- Added security to reports to prevent users with a role lower then "Standard User" from accessing them. (Bryan)
+- Phone call module now uses expandable cell to save space (João; Bryan)
+- When Phone call is added, time tracking entry is also added (João; Bryan)
+- Moved description to seperate table to prevent wide descriptions from pushing the rest of the table over (Bryan)
+- Added security to reports to prevent users with a role lower then "Standard User" from accessing them (Bryan)
 - Auto reconnect to the IRC server if the connection is lost (João)
 - Fixed cookie related problem that prevented users from logging into IIS based installations (João)
 - Fixed a bug that was preventing the selected list of statuses from being stored when creating a new project (João)
@@ -1103,7 +1107,7 @@ Eventum Issue Tracking System
 14 Jun 2004, Version 1.2
 ------------------------
 
-- SMS email address can now be set back to empty. (Bryan)
+- SMS email address can now be set back to empty (Bryan)
 - Fixed a problem with a duplicate key name in the history_type table (João)
 - Fixed a few database migration problems when upgrading from an old snapshot release (João)
 - Added a missing directory required in order for the IRC bot to work (João)
@@ -1113,7 +1117,7 @@ Eventum Issue Tracking System
 - Added a usr_id field to the email table to make reporting on that table easier (Bryan)
 - Separated the body and full email fields from the email table into a separate one to improve query performance (João)
 - Added a missing reference to the 'noted_emails|notes' directories in the INSTALL file (João)
-- Removed 'to' field when sending emails from an issue since emails are sent to notification list. (Bryan)
+- Removed 'to' field when sending emails from an issue since emails are sent to notification list (Bryan)
 - Fixed a bug in which the selected date for a phone call would be ignored (João)
 
 05 Jun 2004, Version 1.1

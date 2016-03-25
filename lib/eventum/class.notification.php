@@ -1120,7 +1120,9 @@ class Notification
         $products = Product::getProductsByIssue($issue_id);
         if (count($products) > 0) {
             foreach ($products as $product) {
-                $emails[] = $product['pro_email'];
+                if (!empty($product['pro_email'])) {
+                    $emails[] = $product['pro_email'];
+                }
             }
         }
 

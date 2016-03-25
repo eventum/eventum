@@ -94,6 +94,7 @@ install-eventum:
 	cp -a upgrade $(DESTDIR)$(datadir)
 	cp -a bin $(DESTDIR)$(datadir)
 	cp -a src $(DESTDIR)$(datadir)
+	cp -a res $(DESTDIR)$(datadir)
 	cp -a *.php $(DESTDIR)$(datadir)
 
 	install -d $(DESTDIR)$(logdir)
