@@ -216,7 +216,6 @@ clean_vendor() {
 
 	# not used yet
 	rm -r vendor/zendframework/zend-mail/src/Protocol
-	rm -r vendor/zendframework/zend-mail/src/Storage*
 	rm -r vendor/zendframework/zend-mail/src/Transport
 
 	rm -r vendor/zendframework/zend-validator/src/Barcode*
