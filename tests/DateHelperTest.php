@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 class DateHelperTest extends TestCase
 {
     /**
@@ -220,11 +231,11 @@ class DateHelperTest extends TestCase
     public function testInvalidTimezone_data()
     {
         return array(
-            array("Sat Oct 11 11:51:12 EEST 2014", "Europe/Tallinn", "Sat, 11 Oct 2014, 11:51:12 EEST"),
-            array("Sat Oct 11 11:51:12 EEST 2014", "America/New_York", "Sat, 11 Oct 2014, 04:51:12 EDT"),
+            array('Sat Oct 11 11:51:12 EEST 2014', 'Europe/Tallinn', 'Sat, 11 Oct 2014, 11:51:12 EEST'),
+            array('Sat Oct 11 11:51:12 EEST 2014', 'America/New_York', 'Sat, 11 Oct 2014, 04:51:12 EDT'),
 //            array("Sat Oct 11 11:51:12 EEST 2014", "Eastern Standard Time", "Sat, 11 Oct 2014, 08:51:12 UTC"),
-            array('2014-10-14 11:32:57', "Eastern Standard Time", 'Tue, 14 Oct 2014, 11:32:57 GMT'),
-            array('2014-10-14 11:32:57', "America/New_York", 'Tue, 14 Oct 2014, 07:32:57 EDT'),
+            array('2014-10-14 11:32:57', 'Eastern Standard Time', 'Tue, 14 Oct 2014, 11:32:57 GMT'),
+            array('2014-10-14 11:32:57', 'America/New_York', 'Tue, 14 Oct 2014, 07:32:57 EDT'),
         );
     }
 
@@ -243,12 +254,12 @@ class DateHelperTest extends TestCase
     public function testTzNamingDifferences()
     {
         $created_date = Date_Helper::convertDateGMT('2015-05-19 12:22:24 EET');
-        $this->assertEquals("2015-05-19 10:22:24", $created_date);
+        $this->assertEquals('2015-05-19 10:22:24', $created_date);
 
         $created_date = Date_Helper::convertDateGMT('2015-05-19 12:22:24 EEST');
-        $this->assertEquals("2015-05-19 09:22:24", $created_date);
+        $this->assertEquals('2015-05-19 09:22:24', $created_date);
 
         $created_date = Date_Helper::convertDateGMT('2015-05-19 12:22:24 Europe/Tallinn');
-        $this->assertEquals("2015-05-19 09:22:24", $created_date);
+        $this->assertEquals('2015-05-19 09:22:24', $created_date);
     }
 }
