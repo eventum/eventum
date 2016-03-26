@@ -39,6 +39,8 @@ define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
 define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
 define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 define('APP_RELATIVE_URL', '../');
+define('APP_SITE_NAME', 'Eventum');
+define('APP_COOKIE', 'eventum');
 
 header('Content-Type: text/html; charset=' . APP_CHARSET);
 
