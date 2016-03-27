@@ -1933,10 +1933,10 @@ class Support
      * @param   string $body The message body
      * @param   string $message_id The message-id
      * @param   integer $sender_usr_id The ID of the user sending this message.
-     * @param   array $attachment An array with attachment information.
+     * @param   array $iaf_ids An array with attachment information.
      * @return  void
      */
-    public function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $attachment, $message_id, $sender_usr_id = false)
+    public function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $iaf_ids, $message_id, $sender_usr_id = false)
     {
         $prj_id = Issue::getProjectID($issue_id);
         $subject = Mail_Helper::formatSubject($issue_id, $subject);
@@ -1965,10 +1965,11 @@ class Support
             } else {
                 $type = 'other_email';
             }
-            if ($attachment && !empty($attachment['name'][0])) {
-                $mail->addAttachment($attachment['name'][0],
-                                     file_get_contents($attachment['tmp_name'][0]),
-                                     $attachment['type'][0]);
+            if (!empty($iaf_ids) && is_array($iaf_ids)) {
+                foreach ($iaf_ids as $iaf_id) {
+                    $attachment = Attachment::getDetails($iaf_id);
+                    $mail->addAttachment($attachment['iaf_filename'], $attachment['iaf_file'], $attachment['iaf_filetype']);
+                }
             }
             $mail->setTextBody($fixed_body);
             $mail->send($from, $recipient, $subject, true, $issue_id, $type, $sender_usr_id);
@@ -2167,7 +2168,7 @@ class Support
                     // send direct emails
                     self::sendDirectEmail(
                         $issue_id, $from, $to2, $cc2,
-                        $subject, $body, $_FILES['attachment'], $message_id, $sender_usr_id);
+                        $subject, $body, $iaf_ids, $message_id, $sender_usr_id);
                 }
             } else {
                 // send direct emails to all recipients, since we don't have an associated issue
@@ -2182,7 +2183,7 @@ class Support
                 // send direct emails
                 self::sendDirectEmail(
                     $issue_id, $from, $to, $cc,
-                    $subject, $body, $_FILES['attachment'], $message_id);
+                    $subject, $body, $iaf_ids, $message_id);
             }
         }
 
