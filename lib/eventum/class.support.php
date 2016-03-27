@@ -1995,43 +1995,6 @@ class Support
     }
 
     /**
-     * Method used to send an email from the user interface.
-     *
-     * @param int $parent_sup_id
-     * @return int 1 if it worked, -1 otherwise
-     * @deprecated use sendEmail directly instead
-     */
-    public static function sendEmailFromPost($parent_sup_id = null)
-    {
-        // process any files being uploaded
-        // from ajax upload, attachment file ids
-        // if no iaf_ids passed, perhaps it's old style upload
-        // TODO: verify that the uploaded file(s) owner is same as attachment owner.
-        $iaf_ids = !empty($_POST['iaf_ids']) ? explode(',', $_POST['iaf_ids']) : null;
-        if (!$iaf_ids && isset($_FILES['attachment'])) {
-            $iaf_ids = Attachment::addFiles($_FILES['attachment']);
-        }
-
-        $issue_id = isset($_POST['issue_id']) ? (int) $_POST['issue_id'] : 0;
-        $type = isset($_POST['type']) ? (string) $_POST['type'] : null;
-        $from = isset($_POST['from']) ? (string) $_POST['from'] : null;
-        $to = isset($_POST['to']) ? (string) $_POST['to'] : null;
-        $cc = isset($_POST['cc']) ? (string) $_POST['cc'] : null;
-        $subject = isset($_POST['subject']) ? (string) $_POST['subject'] : null;
-        $body = isset($_POST['message']) ? (string) $_POST['message'] : null;
-
-        $options = array(
-            'parent_sup_id' => $parent_sup_id,
-            'iaf_ids' => $iaf_ids,
-            'add_unknown' => isset($_POST['add_unknown']) && $_POST['add_unknown'] == 'yes',
-            'add_cc_to_ar' => isset($_POST['add_cc_to_ar']) && $_POST['add_cc_to_ar'] == 'yes',
-            'ema_id' => isset($_POST['ema_id']) ? (int) $_POST['ema_id'] : null,
-        );
-
-        return self::sendEmail($issue_id, $type, $from, $to, $cc, $subject, $body, $options);
-    }
-
-    /**
      * TODO: merge use of $options and $email arrays to just $email
      *
      * @param int $issue_id
