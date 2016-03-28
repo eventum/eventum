@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2016-??-??, Version 3.0.11
+2016-03-28, Version [3.0.11]
 ----------------------------
 
 - Updated Misc::activateLinks to not activate mail links inside of urls (d23e712, @balsorf)
@@ -1125,6 +1125,7 @@ Eventum Issue Tracking System
 
 - Initial release (João; Bryan)
 
+[3.0.11]: https://github.com/eventum/eventum/compare/v3.0.10...v3.0.11
 [3.0.10]: https://github.com/eventum/eventum/compare/v3.0.9...v3.0.10
 [3.0.9]: https://github.com/eventum/eventum/compare/v3.0.8...v3.0.9
 [3.0.8]: https://github.com/eventum/eventum/compare/v3.0.7...v3.0.8
