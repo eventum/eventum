@@ -29,4 +29,21 @@ abstract class AbstractScmAdapter implements ScmInterface
         $this->request = $request;
         $this->log = $logger;
     }
+
+    /**
+     * parse the commit message and get all issue numbers we can find
+     *
+     * @param string $commit_msg
+     * @return array
+     */
+    protected function match_issues($commit_msg)
+    {
+        preg_match_all('/(?:issue|bug) ?:? ?#?(\d+)/i', $commit_msg, $matches);
+
+        if (count($matches[1]) > 0) {
+            return $matches[1];
+        }
+
+        return null;
+    }
 }

@@ -44,10 +44,21 @@ class GitlabScm extends AbstractScmAdapter implements ScmInterface
         }
     }
 
+    /**
+     * Walk over commit messages match issue ids
+     */
     private function processPushHook()
     {
         $payload = $this->getPayload();
-        $this->log->debug('processPushHook: ' . json_encode($payload));
+        $this->log->debug('processPushHook', array('payload' => $payload));
+
+        foreach ($payload['commits'] as $commit) {
+            $issues = $this->match_issues($commit['message']);
+            if (!$issues) {
+                continue;
+            }
+            $this->log->debug('commit', array('issues' => $issues, 'commit' => $commit));
+        }
     }
 
     /*
