@@ -68,6 +68,9 @@ $(function() {
     <tr id="scm_setup">
       <th></th>
       <td>
+        <p>
+        {t escape=no 1="{$core.base_url}scm_ping.php"}The SCM ping endpoint url is: <b>%1</b>{/t}
+        </p>
         {t escape=no}To add scm backends, add to your <b>setup.php</b> like{/t}:
         {literal}<pre>
   'scm' => array(
