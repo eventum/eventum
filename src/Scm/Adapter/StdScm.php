@@ -23,7 +23,7 @@ use SCM;
  *
  * @package Eventum\Scm
  */
-class StdScm extends AbstractScmAdapter implements ScmInterface
+class StdScm extends AbstractScmAdapter
 {
     /** @var int[] */
     private $issues;

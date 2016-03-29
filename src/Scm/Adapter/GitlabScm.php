@@ -19,7 +19,7 @@ namespace Eventum\Scm\Adapter;
  * @link http://doc.gitlab.com/ce/web_hooks/web_hooks.html
  * @package Eventum\Scm\Adapter
  */
-class GitlabScm extends AbstractScmAdapter implements ScmInterface
+class GitlabScm extends AbstractScmAdapter
 {
 
     const GITLAB_HEADER = 'X-Gitlab-Event';
