@@ -105,19 +105,19 @@ list_issues.bulk_update = function(e)
     if (Validation.hasOneSelected('users[]')) {
         changed[changed.length] = 'Assignment';
     }
-    if (Eventum.getField('status').val() !== '') {
+    if (Eventum.getField('status', form).val() !== '') {
         changed[changed.length] = 'Status';
     }
     if (Eventum.getField('release', form).val() !== '') {
         changed[changed.length] = 'Release';
     }
-    if (Eventum.getField('priority').val() !== '') {
+    if (Eventum.getField('priority', form).val() !== '') {
         changed[changed.length] = 'Priority';
     }
-    if (Eventum.getField('category').val() !== '') {
+    if (Eventum.getField('category', form).val() !== '') {
         changed[changed.length] = 'Category';
     }
-    if (Eventum.getField('closed_status').val() !== '') {
+    if (Eventum.getField('closed_status', form).val() !== '') {
         changed[changed.length] = 'Closed Status';
     }
     if (changed.length < 1) {
@@ -142,8 +142,8 @@ list_issues.bulk_update = function(e)
     var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('', '_popup', features);
     popupWin.focus();
-    form.action = 'popup.php';
-    form.target = '_popup';
+    form.attr('action','popup.php');
+    form.attr('target', '_popup');
     form.submit();
 };
 

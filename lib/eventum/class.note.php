@@ -328,6 +328,7 @@ class Note
             'closing' => false,
             'send_notification' => true,
             'is_blocked' => false,
+            'add_extra_recipients'  =>  false,
 
             'message_id' => null,
             'cc' => null,
