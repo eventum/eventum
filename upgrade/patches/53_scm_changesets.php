@@ -25,7 +25,7 @@ $db->query("UPDATE {{%issue_checkin}} SET isc_old_version=NULL WHERE isc_old_ver
 $db->query("UPDATE {{%issue_checkin}} SET isc_new_version=NULL WHERE isc_new_version=''");
 
 // change git and svn commits first, they contain already commit identifier
-// for them  changeset id is new_revision property
+// for them changeset id is new_revision property
 
 // git
 $db->query("
@@ -37,6 +37,14 @@ $db->query("
 $db->query("
     UPDATE {{%issue_checkin}} SET isc_commitid=isc_new_version
     WHERE isc_commitid IS NULL AND isc_new_version IS NOT NULL AND isc_new_version NOT LIKE '%.%'
+");
+
+// svn removed files
+// the real commit id is old_revision+1 (svn-hook used the exact opposite: old_rev=new_rev-1)
+$db->query("
+    UPDATE {{%issue_checkin}} SET isc_commitid=isc_old_version+1
+    WHERE isc_commitid IS NULL AND isc_new_version IS NULL
+    AND isc_old_version IS NOT NULL AND isc_old_version NOT LIKE '%.%'
 ");
 
 // for the rest (cvs), assign generated commitid to commits that don't have it
