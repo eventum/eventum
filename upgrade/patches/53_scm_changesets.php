@@ -20,6 +20,9 @@ use Eventum\Db\Adapter\AdapterInterface;
 
 /** @var AdapterInterface $db */
 
+$db->query("alter table {{%issue_checkin}}
+	add isc_commitid varchar(40) binary after isc_iss_id");
+
 // do some cleanup, patch 21 already cleaned up 'NONE' => NULL
 $db->query("UPDATE {{%issue_checkin}} SET isc_old_version=NULL WHERE isc_old_version=''");
 $db->query("UPDATE {{%issue_checkin}} SET isc_new_version=NULL WHERE isc_new_version=''");
