@@ -27,17 +27,16 @@ $db->query(
     "CREATE TEMPORARY TABLE isc_commitid
     SELECT
       group_concat(isc_id) isc_id,
-      concat('COMMIT_', md5(concat(isc_iss_id, isc_created_date, isc_username, isc_commit_msg))) isc_commitid
+      concat('COMMIT_', md5(concat(isc_iss_id, isc_created_date, isc_username, isc_commit_msg))) commitid
     FROM {{%issue_checkin}} WHERE isc_commitid IS NULL
-    GROUP BY isc_commitid"
+    GROUP BY commitid"
 );
 
-
 $res = $db->getAll(
-    "SELECT isc_id,isc_commitid FROM isc_commitid"
+    "SELECT isc_id,commitid FROM isc_commitid"
 );
 foreach ($res as $row) {
     $db->query(
-        "UPDATE {{%issue_checkin}} SET isc_commitid=? WHERE isc_id IN ({$row['isc_id']})", array($row['isc_commitid'])
+        "UPDATE {{%issue_checkin}} SET isc_commitid=? WHERE isc_id IN ({$row['isc_id']})", array($row['commitid'])
     );
 }
