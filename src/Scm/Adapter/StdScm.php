@@ -34,6 +34,9 @@ class StdScm extends AbstractScmAdapter
     /** @var string */
     private $commitid;
 
+    /** @var string */
+    private $commit_date;
+
     /** @var string[] */
     private $module;
 
@@ -72,6 +75,7 @@ class StdScm extends AbstractScmAdapter
         $get = $this->request->query;
 
         $this->commitid = $get->get('commitid');
+        $this->commit_date = $get->get('commit_date');
         $this->scm_name = $get->get('scm_name');
         $this->module = $get->get('module');
         $this->username = $get->get('username');
@@ -84,7 +88,7 @@ class StdScm extends AbstractScmAdapter
 
         try {
             ob_start();
-            $this->pingAction($this->commitid, $this->module, $this->username, $this->scm_name, $this->issues, $this->commit_msg);
+            $this->pingAction($this->commitid, $this->commit_date, $this->module, $this->username, $this->scm_name, $this->issues, $this->commit_msg);
             $status = array(
                 'code' => 0,
                 'message' => ob_get_clean(),
@@ -109,13 +113,14 @@ class StdScm extends AbstractScmAdapter
 
     /**
      * @param string $commitid
+     * @param string $commit_date
      * @param string[] $module
      * @param string $username
      * @param string $scm_name
      * @param int[] $issues
      * @param string $commit_msg
      */
-    private function pingAction($commitid, $module, $username, $scm_name, $issues, $commit_msg)
+    private function pingAction($commitid, $commit_date, $module, $username, $scm_name, $issues, $commit_msg)
     {
         // module is per file (svn hook)
         if (is_array($module)) {
@@ -123,7 +128,7 @@ class StdScm extends AbstractScmAdapter
         }
 
         $nfiles = count($this->files);
-        $commit_time = Date_Helper::getCurrentDateGMT();
+        $commit_time = $commit_date ? Date_Helper::convertDateGMT($commit_date) : Date_Helper::getCurrentDateGMT();
 
         // process checkins for each issue
         foreach ($issues as $issue_id) {
