@@ -60,8 +60,8 @@ class StdScm extends AbstractScmAdapter
      */
     public function can()
     {
-        // require at least 'issue' parameter
-        return $this->request->request->has('issue');
+        // require at least 'issue' GET parameter
+        return $this->request->query->has('issue');
     }
 
     /**
