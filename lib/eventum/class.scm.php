@@ -193,7 +193,7 @@ class SCM
                     isc_username,
                     isc_commit_msg
                  ) VALUES (
-                    ?, ?, ?, ?, ?, ?, ?, ?, ?
+                    ?, ?, ?, ?, ?, ?, ?, ?, ?, ?
                  )';
         $params = array(
             $issue_id,
