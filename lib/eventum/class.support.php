@@ -998,7 +998,6 @@ class Support
             'sup_date' => $row['date'],
             'sup_from' => $row['from'],
             'sup_to' => isset($row['to']) ? $row['to'] : null,
-            'sup_cc' => $row['cc'],
             'sup_subject' => $row['subject'] ?: '',
             'sup_has_attachment' => $row['has_attachment'],
         );
@@ -1009,6 +1008,10 @@ class Support
 
         if (!empty($usr_id)) {
             $params['sup_usr_id'] = $usr_id;
+        }
+
+        if (isset($row['cc'])) {
+            $params['sup_cc'] = $row['cc'];
         }
 
         $stmt = 'INSERT INTO {{%support_email}} SET ' . DB_Helper::buildSet($params);
