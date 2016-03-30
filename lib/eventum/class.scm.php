@@ -127,6 +127,7 @@ class SCM
      * Method used to associate checkins to an existing issue
      *
      * @param   integer $issue_id The ID of the issue.
+     * @param   string $commitid
      * @param   string $commit_time Time when commit occurred (in UTC)
      * @param   string $scm_name SCM definition name in Eventum
      * @param   string $username SCM user doing the checkin.
@@ -134,7 +135,7 @@ class SCM
      * @param   array $files Files info with their version numbers changes made on.
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public static function addCheckins($issue_id, $commit_time, $scm_name, $username, $commit_msg, $files)
+    public static function addCheckins($issue_id, $commitid, $commit_time, $scm_name, $username, $commit_msg, $files)
     {
         // validate that $scm_name is valid
         // this will throw if invalid
@@ -147,7 +148,7 @@ class SCM
         $prj_id = Issue::getProjectID($issue_id);
 
         foreach ($files as $file) {
-            self::insertCheckin($issue_id, $commit_time, $scm_name, $file, $username, $commit_msg);
+            self::insertCheckin($issue_id, $commitid, $commit_time, $scm_name, $file, $username, $commit_msg);
         }
 
         // need to mark this issue as updated
@@ -159,7 +160,7 @@ class SCM
             'user' => $username
         ));
 
-        Workflow::handleSCMCheckins($prj_id, $scm, $issue_id, $files, $username, $commit_msg);
+        Workflow::handleSCMCheckins($prj_id, $scm, $commitid, $issue_id, $files, $username, $commit_msg);
 
         return 1;
     }
@@ -168,6 +169,7 @@ class SCM
      * insert single checkin to database
      *
      * @param   integer $issue_id The ID of the issue.
+     * @param   string $commitid
      * @param   string $commit_time Time when commit occurred (in UTC)
      * @param   string $scm_name SCM definition name in Eventum
      * @param   array $file File info with their version numbers changes made on.
@@ -175,12 +177,13 @@ class SCM
      * @param   string $commit_msg Message associated with the SCM commit.
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    protected static function insertCheckin($issue_id, $commit_time, $scm_name, $file, $username, $commit_msg)
+    protected static function insertCheckin($issue_id, $commitid, $commit_time, $scm_name, $file, $username, $commit_msg)
     {
         $stmt = 'INSERT INTO
                     {{%issue_checkin}}
                  (
                     isc_iss_id,
+                    isc_commitid,
                     isc_reponame,
                     isc_module,
                     isc_filename,
@@ -194,6 +197,7 @@ class SCM
                  )';
         $params = array(
             $issue_id,
+            $commitid,
             $scm_name,
             $file['module'],
             $file['file'],

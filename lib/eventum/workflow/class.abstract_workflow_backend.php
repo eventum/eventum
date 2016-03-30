@@ -336,8 +336,9 @@ class Abstract_Workflow_Backend
      * @param   string $username SCM user doing the checkin.
      * @param   string $commit_msg Message associated with the SCM commit.
      * @param   ScmCheckin $scm SCM config associated with the commit
+     * @param   string $commitid
      */
-    public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg, $scm)
+    public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg, $scm, $commitid)
     {
     }
 

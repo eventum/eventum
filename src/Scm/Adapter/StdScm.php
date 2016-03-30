@@ -31,6 +31,9 @@ class StdScm extends AbstractScmAdapter
     /** @var string[] */
     private $files;
 
+    /** @var string */
+    private $commitid;
+
     /** @var string[] */
     private $module;
 
@@ -68,6 +71,7 @@ class StdScm extends AbstractScmAdapter
     {
         $get = $this->request->query;
 
+        $this->commitid = $get->get('commitid');
         $this->scm_name = $get->get('scm_name');
         $this->module = $get->get('module');
         $this->username = $get->get('username');
@@ -80,7 +84,7 @@ class StdScm extends AbstractScmAdapter
 
         try {
             ob_start();
-            $this->pingAction($this->module, $this->username, $this->scm_name, $this->issues, $this->commit_msg);
+            $this->pingAction($this->commitid, $this->module, $this->username, $this->scm_name, $this->issues, $this->commit_msg);
             $status = array(
                 'code' => 0,
                 'message' => ob_get_clean(),
@@ -104,13 +108,14 @@ class StdScm extends AbstractScmAdapter
     }
 
     /**
+     * @param string $commitid
      * @param string[] $module
      * @param string $username
      * @param string $scm_name
      * @param int[] $issues
      * @param string $commit_msg
      */
-    private function pingAction($module, $username, $scm_name, $issues, $commit_msg)
+    private function pingAction($commitid, $module, $username, $scm_name, $issues, $commit_msg)
     {
         // module is per file (svn hook)
         if (is_array($module)) {
@@ -144,7 +149,7 @@ class StdScm extends AbstractScmAdapter
                 $files[] = $file;
             }
 
-            SCM::addCheckins($issue_id, $commit_time, $scm_name, $username, $commit_msg, $files);
+            SCM::addCheckins($issue_id, $commitid, $commit_time, $scm_name, $username, $commit_msg, $files);
 
             // print report to stdout of commits so hook could report status back to commiter
             $details = Issue::getDetails($issue_id);
