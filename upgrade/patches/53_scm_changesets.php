@@ -20,7 +20,26 @@ use Eventum\Db\Adapter\AdapterInterface;
 
 /** @var AdapterInterface $db */
 
-// assign generated commitid to commits that don't have it
+// do some cleanup, patch 21 already cleaned up 'NONE' => NULL
+$db->query("UPDATE {{%issue_checkin}} SET isc_old_version=NULL WHERE isc_old_version=''");
+$db->query("UPDATE {{%issue_checkin}} SET isc_new_version=NULL WHERE isc_new_version=''");
+
+// change git and svn commits first, they contain already commit identifier
+// for them  changeset id is new_revision property
+
+// git
+$db->query("
+    UPDATE {{%issue_checkin}} SET isc_commitid=isc_new_version
+    WHERE isc_commitid IS NULL AND LENGTH(isc_new_version)=40
+");
+
+// svn
+$db->query("
+    UPDATE {{%issue_checkin}} SET isc_commitid=isc_new_version
+    WHERE isc_commitid IS NULL AND isc_new_version IS NOT NULL AND isc_new_version NOT LIKE '%.%'
+");
+
+// for the rest (cvs), assign generated commitid to commits that don't have it
 // note: we include issue_id in the checksum as the checkins could had been removed per issue
 // and don't want to make removed commits to re-appear because same changeset is shared with two issues
 
