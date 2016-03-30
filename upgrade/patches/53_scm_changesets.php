@@ -61,7 +61,7 @@ $db->query(
     "CREATE TEMPORARY TABLE isc_commitid
     SELECT
       group_concat(isc_id) isc_id,
-      concat('COMMIT_', md5(concat(isc_iss_id, isc_created_date, isc_username, isc_commit_msg))) commitid
+      concat('COMMIT_', md5(concat(isc_iss_id, isc_reponame, isc_created_date, isc_username, isc_commit_msg))) commitid
     FROM {{%issue_checkin}} WHERE isc_commitid IS NULL
     GROUP BY commitid"
 );
