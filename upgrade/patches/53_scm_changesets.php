@@ -29,7 +29,7 @@ $db->query(
       group_concat(isc_id) isc_id,
       concat('COMMIT_', md5(concat(isc_iss_id, isc_created_date, isc_username, isc_commit_msg))) isc_commitid
     FROM {{%issue_checkin}} WHERE isc_commitid IS NULL
-    GROUP BY isc_created_date,isc_username,isc_commit_msg"
+    GROUP BY isc_commitid"
 );
 
 
