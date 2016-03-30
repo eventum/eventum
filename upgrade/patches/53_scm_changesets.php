@@ -23,6 +23,10 @@ use Eventum\Db\Adapter\AdapterInterface;
 // assign generated commitid to commits that don't have it
 // note: we include issue_id in the checksum as the checkins could had been removed per issue
 // and don't want to make removed commits to re-appear because same changeset is shared with two issues
+
+// Increase GROUP_CONCAT() length, default length 1024 characters is too short
+$db->query("SET SESSION group_concat_max_len = 1000000");
+
 $db->query(
     "CREATE TEMPORARY TABLE isc_commitid
     SELECT
