@@ -66,6 +66,7 @@ $db->query("SET SESSION group_concat_max_len = 1000000");
 //| 2013-05-03 13:16:50 |                                   22792936 |
 //| 2013-05-03 13:16:51 |                                   22792936 |
 //| 2013-05-03 13:16:51 |                                   22792936 |
+// NOTE: use MIN(isc_created_date) later when separating commit and files to different tables
 $db->query(
     "CREATE TEMPORARY TABLE isc_commitid
     SELECT
