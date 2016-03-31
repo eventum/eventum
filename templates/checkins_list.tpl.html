@@ -1,0 +1,56 @@
+<div class="content" {get_display_style element_name='checkins' total=$checkins|@count}>
+  <table class="grid scrollTable">
+    <tr>
+      <th width="5">
+        <input type="button" value="All" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
+      </th>
+      <th nowrap>{t}Date{/t}</th>
+      <th>{t}User{/t}</th>
+      <th nowrap>{t}Module / Directory{/t}</th>
+      <th nowrap>{t}File{/t}</th>
+      <th width="55%">{t}Commit Message{/t}</th>
+    </tr>
+
+    {foreach from=$checkins key=i item=file}
+
+      <tr class="{cycle values='odd,even'}">
+        <td valign="top">
+          <input type="checkbox" name="item[]" value="{$file.isc_id}">
+        </td>
+        <td valign="top" nowrap>{$file.isc_created_date|timeago}</td>
+        <td valign="top">{$file.isc_username|escape:"html"}</td>
+        <td valign="top">{$file.isc_module|escape:"html"}</td>
+        <td valign="top" nowrap class="checkins">
+          {if $file.checkout_url}
+            <a title="{t 1=$file.isc_filename}see the log of of %1{/t}" target="_blank"
+               href="{$file.scm_log_url}">{$file.isc_filename|escape:"html"}</a>
+            {if $file.added}
+              ({t}ADDED{/t})
+            {elseif $file.removed}
+              ({t}REMOVED{/t})
+            {else}
+              (<a
+                title="{t 1=$file.isc_new_version 2=$file.isc_filename}see the source of revision %1 of %2{/t}"
+                target="_blank" href="{$file.checkout_url}"><span
+                  class=revision>{$file.isc_new_version}</span></a>)
+            {/if}
+          {else}
+            {$file.isc_filename|escape:"html"}
+          {/if}
+          {if $file.diff_url && !$file.added && !$file.removed}
+            [
+            <a title="{t 1=$file.isc_old_version}see the diff to revision %1{/t}" target="_blank"
+               href="{$file.diff_url}">{t 1=$file.isc_old_version escape=no}diff to
+                <span class=revision>%1</span>
+              {/t}</a>
+            ]
+          {/if}
+        </td>
+        <td valign=top class=message>
+          <span>{$file.isc_commit_msg}</span>
+        </td>
+      </tr>
+
+    {/foreach}
+  </table>
+</div>
