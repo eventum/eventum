@@ -18,16 +18,9 @@
         </td>
       </tr>
 
-      <tr>
-        <th width="5">
-          <input type="button" value="All" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
-        </th>
-        <th nowrap>{t}File{/t}</th>
-      </tr>
-
       {foreach from=$commit.files key=i item=file}
       <tr class="{cycle values='odd,even'}">
-        <td valign="top">
+        <td valign="top" width="2%">
           <input type="checkbox" name="item[]" value="{$file.isc_id}">
         </td>
         <td valign="top" nowrap class="checkins">
