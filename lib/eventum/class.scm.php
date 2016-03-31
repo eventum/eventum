@@ -129,6 +129,8 @@ class SCM
                 $changesets[$commitid] = $checkin;
                 $changesets[$commitid]['files'] = array();
             }
+            // join isc_module and isc_filename
+            $checkin['filename'] = "{$checkin['isc_module']}/{$checkin['isc_filename']}";
             $changesets[$commitid]['files'][] = $checkin;
         }
 

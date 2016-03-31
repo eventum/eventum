@@ -3,7 +3,7 @@
     <table class="grid scrollTable-disabled">
 
       <tr>
-        <th colspan="3">
+        <th colspan="2">
           {t escape=no
             1=$commitid
             2=$commit.isc_created_date|timeago
@@ -13,7 +13,7 @@
       </tr>
 
       <tr class="{cycle values='odd,even'}">
-        <td valign="top" colspan="3">
+        <td valign="top" colspan="2">
           {$commit.isc_commit_msg}
         </td>
       </tr>
@@ -22,8 +22,6 @@
         <th width="5">
           <input type="button" value="All" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
         </th>
-
-        <th nowrap>{t}Module / Directory{/t}</th>
         <th nowrap>{t}File{/t}</th>
       </tr>
 
@@ -32,11 +30,10 @@
         <td valign="top">
           <input type="checkbox" name="item[]" value="{$file.isc_id}">
         </td>
-        <td valign="top">{$file.isc_module|escape:"html"}</td>
         <td valign="top" nowrap class="checkins">
           {if $file.checkout_url}
             <a title="{t 1=$file.isc_filename}see the log of of %1{/t}" target="_blank"
-               href="{$file.scm_log_url}">{$file.isc_filename|escape:"html"}</a>
+               href="{$file.scm_log_url}">{$file.filename|escape:"html"}</a>
             {if $file.added}
               ({t}ADDED{/t})
             {elseif $file.removed}
