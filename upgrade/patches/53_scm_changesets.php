@@ -57,11 +57,26 @@ $db->query("
 // Increase GROUP_CONCAT() length, default length 1024 characters is too short
 $db->query("SET SESSION group_concat_max_len = 1000000");
 
+// we ignore date by one minute difference as big commits could take time:
+//+---------------------+--------------------------------------------+
+//| isc_created_date    | floor(unix_timestamp(isc_created_date)/60) |
+//+---------------------+--------------------------------------------+
+//| 2013-05-03 13:16:50 |                                   22792936 |
+//| 2013-05-03 13:16:50 |                                   22792936 |
+//| 2013-05-03 13:16:50 |                                   22792936 |
+//| 2013-05-03 13:16:51 |                                   22792936 |
+//| 2013-05-03 13:16:51 |                                   22792936 |
 $db->query(
     "CREATE TEMPORARY TABLE isc_commitid
     SELECT
       group_concat(isc_id) isc_id,
-      concat('COMMIT_', md5(concat(isc_iss_id, isc_reponame, isc_created_date, isc_username, isc_commit_msg))) commitid
+      concat('COMMIT_', md5(concat(
+          isc_iss_id,
+          isc_reponame,
+          floor(unix_timestamp(isc_created_date)/60),
+          isc_username,
+          isc_commit_msg
+      ))) commitid
     FROM {{%issue_checkin}} WHERE isc_commitid IS NULL
     GROUP BY commitid"
 );
