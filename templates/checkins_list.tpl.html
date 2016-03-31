@@ -1,7 +1,6 @@
 <div class="content" {get_display_style element_name='checkins' total=$checkins|@count}>
+  <table class="grid scrollTable">
   {foreach from=$checkins key=commitid item=commit}
-    <table class="grid scrollTable-disabled">
-
       <tr>
         <th colspan="2">
           {t escape=no
@@ -51,6 +50,6 @@
         </td>
         </tr>
       {/foreach}
-    </table>
   {/foreach}
+  </table>
 </div>
