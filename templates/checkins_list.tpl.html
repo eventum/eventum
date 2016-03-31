@@ -1,24 +1,37 @@
 <div class="content" {get_display_style element_name='checkins' total=$checkins|@count}>
-  <table class="grid scrollTable">
-    <tr>
-      <th width="5">
-        <input type="button" value="All" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
-      </th>
-      <th nowrap>{t}Date{/t}</th>
-      <th>{t}User{/t}</th>
-      <th nowrap>{t}Module / Directory{/t}</th>
-      <th nowrap>{t}File{/t}</th>
-      <th width="55%">{t}Commit Message{/t}</th>
-    </tr>
+  {foreach from=$checkins key=commitid item=commit}
+    <table class="grid scrollTable-disabled">
 
-    {foreach from=$checkins key=i item=file}
+      <tr>
+        <th colspan="3">
+          {t escape=no
+            1=$commitid
+            2=$commit.isc_created_date|timeago
+            3=$commit.isc_username|escape:"html"
+          }Commit %1 %2 by %3{/t}
+        </th>
+      </tr>
 
+      <tr class="{cycle values='odd,even'}">
+        <td valign="top" colspan="3">
+          {$commit.isc_commit_msg}
+        </td>
+      </tr>
+
+      <tr>
+        <th width="5">
+          <input type="button" value="All" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
+        </th>
+
+        <th nowrap>{t}Module / Directory{/t}</th>
+        <th nowrap>{t}File{/t}</th>
+      </tr>
+
+      {foreach from=$commit.files key=i item=file}
       <tr class="{cycle values='odd,even'}">
         <td valign="top">
           <input type="checkbox" name="item[]" value="{$file.isc_id}">
         </td>
-        <td valign="top" nowrap>{$file.isc_created_date|timeago}</td>
-        <td valign="top">{$file.isc_username|escape:"html"}</td>
         <td valign="top">{$file.isc_module|escape:"html"}</td>
         <td valign="top" nowrap class="checkins">
           {if $file.checkout_url}
@@ -46,11 +59,8 @@
             ]
           {/if}
         </td>
-        <td valign=top class=message>
-          <span>{$file.isc_commit_msg}</span>
-        </td>
-      </tr>
-
-    {/foreach}
-  </table>
+        </tr>
+      {/foreach}
+    </table>
+  {/foreach}
 </div>

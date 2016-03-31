@@ -120,7 +120,19 @@ class SCM
             $checkin['scm_log_url'] = $scm->getLogUrl($checkin);
         }
 
-        return $res;
+        // restructure checkins based on commitid
+        // temporarily here until db structure is also modified
+        $changesets = array();
+        foreach ($res as $i => $checkin) {
+            $commitid = $checkin['isc_commitid'];
+            if (!isset($changesets[$commitid])) {
+                $changesets[$commitid] = $checkin;
+                $changesets[$commitid]['files'] = array();
+            }
+            $changesets[$commitid]['files'][] = $checkin;
+        }
+
+        return $changesets;
     }
 
     /**
