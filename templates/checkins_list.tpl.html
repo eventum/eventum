@@ -1,28 +1,29 @@
 <div class="content" {get_display_style element_name='checkins' total=$checkins|@count}>
-  <table class="grid scrollTable">
-  {foreach from=$checkins key=commitid item=commit}
-      <tr>
-        <th colspan="2">
-          {t escape=no
-            1=$commitid
-            2=$commit.isc_created_date|timeago
-            3=$commit.isc_username|escape:"html"
-          }Commit %1 %2 by %3{/t}
-        </th>
-      </tr>
+  <table class="grid">
+    <tr>
+      <th nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="scm"}</th>
+      <th>{t}Commit{/t}</th>
+      <th width="10%">{t}Date{/t}</th>
+      <th width="10%">{t}Author{/t}</th>
+      <th width="60%">{t}Commit Message{/t}</th>
+    </tr>
 
-      <tr class="{cycle values='odd,even'}">
-        <td valign="top" colspan="2">
-          {$commit.isc_commit_msg}
-        </td>
-      </tr>
+  {foreach from=$checkins key=commitid item=commit}
+    {cycle values='odd,even' assign="row_class"}
+    <tr class="{$row_class}">
+      <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="scm" list_id=$commitid}</td>
+      <td>{$commitid}</td>
+      <td>{$commit.isc_created_date|timeago}</td>
+      <td>{$commit.isc_username|escape:"html"}</td>
+      <td>{$commit.isc_commit_msg}</td>
+    </tr>
+
+    {* prefill expendable cell content *}
+    {capture assign='content'}
 
       {foreach from=$commit.files key=i item=file}
-      <tr class="{cycle values='odd,even'}">
-        <td valign="top" width="2%">
           <input type="checkbox" name="item[]" value="{$file.isc_id}">
-        </td>
-        <td valign="top" nowrap class="checkins">
+
           {if $file.checkout_url}
             <a title="{t 1=$file.isc_filename}see the log of of %1{/t}" target="_blank"
                href="{$file.scm_log_url}">{$file.filename|escape:"html"}</a>
@@ -43,13 +44,14 @@
             [
             <a title="{t 1=$file.isc_old_version}see the diff to revision %1{/t}" target="_blank"
                href="{$file.diff_url}">{t 1=$file.isc_old_version escape=no}diff to
-                <span class=revision>%1</span>
-              {/t}</a>
+                <span class=revision>%1</span>{/t}</a>
             ]
           {/if}
-        </td>
-        </tr>
+        <br/>
       {/foreach}
+    {/capture}
+
+    {include file="expandable_cell/body.tpl.html" ec_id="scm" content=$content list_id=$commitid colspan="6" class=$row_class}
   {/foreach}
   </table>
 </div>
