@@ -67,17 +67,20 @@ $db->query("SET SESSION group_concat_max_len = 1000000");
 //| 2013-05-03 13:16:51 |                                   22792936 |
 //| 2013-05-03 13:16:51 |                                   22792936 |
 // NOTE: use MIN(isc_created_date) later when separating commit and files to different tables
+
+// CVS commitid is 16 byte length base62 encoded random and seems always end with z0
+// so we use 14 bytes from md5, and z1 suffix to get similar (but not conflicting) commitid
 $db->query(
     "CREATE TEMPORARY TABLE isc_commitid
     SELECT
       group_concat(isc_id) isc_id,
-      concat('COMMIT_', md5(concat(
+      concat(substr(md5(concat(
           isc_iss_id,
           isc_reponame,
           floor(unix_timestamp(isc_created_date)/60),
           isc_username,
           isc_commit_msg
-      ))) commitid
+      )), 1, 14), 'z1') commitid
     FROM {{%issue_checkin}} WHERE isc_commitid IS NULL
     GROUP BY commitid"
 );
