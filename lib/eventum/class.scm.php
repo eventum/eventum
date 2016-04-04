@@ -119,6 +119,7 @@ class SCM
             $checkin['diff_url'] = $scm->getDiffUrl($checkin);
             $checkin['scm_log_url'] = $scm->getLogUrl($checkin);
         }
+        unset($checkin);
 
         // restructure checkins based on commitid
         // temporarily here until db structure is also modified
