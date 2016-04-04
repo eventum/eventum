@@ -125,7 +125,7 @@ class SCM
         // temporarily here until db structure is also modified
         $changesets = array();
         foreach ($res as $i => $checkin) {
-            $commitid = $checkin['isc_commitid'];
+            $commitid = $checkin['isc_commitid'] ?: md5(serialize($checkin)). 'z3';
             if (!isset($changesets[$commitid])) {
                 $changesets[$commitid] = $checkin;
                 $changesets[$commitid]['files'] = array();
