@@ -17,6 +17,6 @@ require_once __DIR__ . '/../init.php';
 /**
  * @deprecated this script is deprecated, please use process_all_emails.php script
  */
-$script = dirname(__FILE__);
+$script = basename(__FILE__);
 trigger_error("$script is deprecated, use process_all_emails.php instead", E_USER_DEPRECATED);
 require __DIR__ . '/process_all_emails.php';

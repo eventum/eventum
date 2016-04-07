@@ -1,4 +1,16 @@
 <?php
+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\Adapter\PearAdapter;
 
@@ -32,7 +44,7 @@ class DbTest extends TestCase
     {
         return array(
             array("C'est La Vie", "C\\'est La Vie"),
-            array(array("Jää-äär"), null),
+            array(array('Jää-äär'), null),
         );
     }
 
@@ -41,7 +53,6 @@ class DbTest extends TestCase
     {
         $res = $this->db->query('update {{%user}} set usr_lang=? where 1=0', array('en_US'));
         $this->assertEquals(true, $res);
-
     }
 
     /** @group query */
@@ -52,7 +63,7 @@ class DbTest extends TestCase
         }
 
         // only Pear adapter returns resultset for SELECT statements
-        $res = $this->db->query("select usr_id from {{%user}} where usr_id=?", array(2));
+        $res = $this->db->query('select usr_id from {{%user}} where usr_id=?', array(2));
         $this->assertNotSame(true, $res);
         print_r($res);
     }
@@ -290,7 +301,7 @@ class DbTest extends TestCase
 
     public function testBuildSet()
     {
-        $table = "test_" . __FUNCTION__;
+        $table = 'test_' . __FUNCTION__;
         $this->db->query("CREATE TEMPORARY TABLE $table (id INT, v1 CHAR(1), v2 CHAR(2))");
 
         $params = array(

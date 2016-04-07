@@ -1,13 +1,26 @@
 <?php
 
-class WorkflowTestCase extends TestCase {
-	protected $workflow_class = 'TestWorkflow';
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
 
-	/**
-	 * setup workflow object
-	 */
-	public function setUp() {
-		$classname = $this->workflow_class;
-		$this->workflow = new $classname();
-	}
+class WorkflowTestCase extends TestCase
+{
+    protected $workflow_class = 'TestWorkflow';
+
+    /**
+     * setup workflow object
+     */
+    public function setUp()
+    {
+        $classname = $this->workflow_class;
+        $this->workflow = new $classname();
+    }
 }

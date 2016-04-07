@@ -1,9 +1,7 @@
 {extends "manage/manage.tpl.html"}
 
-{block "manage_content"}
-
+{block "javascripts"}
 <script type="text/javascript">
-<!--
 function validateForm()
 {
     if (!Validation.hasOneChecked('scm_integration'))  {
@@ -33,8 +31,10 @@ $(function() {
   $('input[name=scm_integration]').change(setDisabledFields);
   setDisabledFields();
 });
-//-->
 </script>
+{/block}
+
+{block "manage_content"}
 
 <form id="general_setup_form" method="post">
 <input type="hidden" name="cat" value="update">
@@ -68,6 +68,9 @@ $(function() {
     <tr id="scm_setup">
       <th></th>
       <td>
+        <p>
+        {t escape=no 1="{$core.base_url}scm_ping.php"}The SCM ping endpoint url is: <b>%1</b>{/t}
+        </p>
         {t escape=no}To add scm backends, add to your <b>setup.php</b> like{/t}:
         {literal}<pre>
   'scm' => array(

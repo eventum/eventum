@@ -33,7 +33,7 @@ class MailHandler extends NativeMailerHandler
             // recipient list can be comma separated
             $to = Misc::trim(explode(',', $notify_list));
         } else {
-            $to = null;
+            $to = array();
         }
 
         $subject = APP_SITE_NAME . ' - Error found!';

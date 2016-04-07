@@ -14,12 +14,13 @@ EOF;
 Symfony\CS\Fixer\Contrib\HeaderCommentFixer::setHeader($header);
 
 $finder = Symfony\CS\Finder\DefaultFinder::create()
-	->in(__DIR__ . '/cli')
 	->in(__DIR__ . '/bin')
+	->in(__DIR__ . '/cli')
 	->in(__DIR__ . '/htdocs')
 	->in(__DIR__ . '/lib/eventum')
-	->in(__DIR__ . '/src')
 	->in(__DIR__ . '/res')
+	->in(__DIR__ . '/src')
+	->in(__DIR__ . '/tests')
 	->in(__DIR__ . '/upgrade')
 	->exclude('smarty')
 	->exclude('var')

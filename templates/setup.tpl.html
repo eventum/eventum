@@ -2,10 +2,9 @@
 {block "page_id"}setup{/block}
 {block "title"}Eventum Installation{/block}
 
-{block name="content"}
-
+{block javascripts}
 <script type="text/javascript">
-<!--
+
 function validateForm(f)
 {
     if (Validation.isFieldWhitespace('hostname')) {
@@ -90,11 +89,7 @@ function toggleAlternateUserFields()
 
 function disableAuthFields(bool)
 {
-  if (bool) {
-      var bgcolor = '#CCCCCC';
-  } else {
-      var bgcolor = '#FFFFFF';
-  }
+  var bgcolor = bool ? '#CCCCCC' : '#FFFFFF';
   var field = Eventum.getField('setup[smtp][username]')[0];
   field.disabled = bool;
   field.style.backgroundColor = bgcolor;
@@ -102,10 +97,10 @@ function disableAuthFields(bool)
   field.disabled = bool;
   field.style.backgroundColor = bgcolor;
 }
-//-->
 </script>
+{/block}
 
-
+{block name="content"}
 {if $result|default:'' != '' and $result|default:'' != 'success'}
 <br />
 <table width="400" bgcolor="#003366" border="0" cellspacing="0" cellpadding="1" align="center">
@@ -191,9 +186,11 @@ function disableAuthFields(bool)
 </table>
 {else}
 <br />
-<table width="600" bgcolor="#000000" border="0" cellspacing="0" cellpadding="1" align="center">
-<form name="install_form" method="post" onSubmit="return validateForm(this);">
+
+<form name="install_form" id="install_form" method="post" onSubmit="return validateForm(this)" data-persist="garlic" data-destroy="false">
 <input type="hidden" name="cat" value="install">
+
+<table width="600" bgcolor="#000000" border="0" cellspacing="0" cellpadding="1" align="center">
   <tr>
     <td>
       <table bgcolor="#CCCCCC" width="100%" cellspacing="1" cellpadding="2" border="0">

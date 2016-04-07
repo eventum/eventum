@@ -1355,9 +1355,11 @@ class Issue
             $ids = $sup_id;
         } else {
             // add note with the reason to close the issue
-            $_POST['title'] = 'Issue closed comments';
-            $_POST['note'] = $reason;
-            Note::insertFromPost($usr_id, $issue_id, false, true, true, $send_notification);
+            $options = array(
+                'send_notification' => false,
+                'closing'           => true,
+            );
+            Note::insertNote($usr_id, $issue_id, 'Issue closed comments', $reason, $options);
             $ids = false;
         }
 

@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 class ConfigTest extends TestCase
 {
     public function testConfig()
@@ -7,9 +18,9 @@ class ConfigTest extends TestCase
         $config = Setup::get();
 
         $config['item1'] = 'one';
-        $this->assertEquals('one', $config['item1'], "config as array set works");
+        $this->assertEquals('one', $config['item1'], 'config as array set works');
         $config->item2 = 'two';
-        $this->assertEquals('two', $config['item2'], "config as object set works");
+        $this->assertEquals('two', $config['item2'], 'config as object set works');
 
         $this->assertNull($config->nokey, "accessing keys that don't exist is fine");
         $this->assertNull($config['nokey'], "accessing keys that don't exist is fine with arrays too");
@@ -22,10 +33,10 @@ class ConfigTest extends TestCase
         $this->assertNull($config['noentry']['host'], 'Can access inaccessible parent as array');
         //$this->assertNull($config->noentry->host, 'Can not access inaccessible parent as object');
 
-        $this->assertTrue(empty($config->noentry->host), "can do empty checks on inaccessible parents");
-        $this->assertFalse(isset($config->noentry->host), "can do isset checks on inaccessible parents");
-        $this->assertTrue(empty($config['noentry']['host']), "can do empty checks on inaccessible parents");
-        $this->assertFalse(isset($config['noentry']['host']), "can do isset checks on inaccessible parents");
+        $this->assertTrue(empty($config->noentry->host), 'can do empty checks on inaccessible parents');
+        $this->assertFalse(isset($config->noentry->host), 'can do isset checks on inaccessible parents');
+        $this->assertTrue(empty($config['noentry']['host']), 'can do empty checks on inaccessible parents');
+        $this->assertFalse(isset($config['noentry']['host']), 'can do isset checks on inaccessible parents');
 
         // this avoids the "indirect" error
         $tmp = $config->group;
@@ -37,11 +48,11 @@ class ConfigTest extends TestCase
         // set multilevel entries works
         $array['smtp']['host'] = 'localhost';
         Setup::set($array);
-        $this->assertEquals(300, $config->issue_lock, "the other entries are not lost");
-        $this->assertEquals('localhost', $config->smtp->host, "config change is present");
+        $this->assertEquals(300, $config->issue_lock, 'the other entries are not lost');
+        $this->assertEquals('localhost', $config->smtp->host, 'config change is present');
 
         $config = Setup::get();
-        $this->assertEquals('one', $config->item1, "config change is present");
+        $this->assertEquals('one', $config->item1, 'config change is present');
     }
 
     /**

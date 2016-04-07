@@ -256,6 +256,8 @@ class Setup
             'smtp' => array(),
             'ldap' => array(),
 
+            'email_error' => array(),
+
             'email_routing' => array(
                 'warning' => array(),
             ),
@@ -271,9 +273,8 @@ class Setup
             // default expiry: 5 minutes
             'issue_lock' => 300,
 
-            'relative_date'   => 'enabled',
-
-            'audit_trail' =>  'disabled',
+            'relative_date' => 'enabled',
+            'audit_trail' => 'disabled',
         );
 
         return $defaults;

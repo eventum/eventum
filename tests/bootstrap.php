@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
  *
@@ -44,6 +45,7 @@ define('APP_TPL_PATH', APP_PATH . '/templates');
 define('APP_NAME', 'Eventum Tests');
 define('APP_VERSION', '3.x.y-dev');
 define('APP_AUTH_BACKEND', 'mysql_auth_backend');
+define('APP_SITE_NAME', 'Eventum');
 
 require_once APP_PATH . '/autoload.php';
 

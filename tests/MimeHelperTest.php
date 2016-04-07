@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
  *
@@ -17,7 +18,7 @@ class MimeHelperTest extends TestCase
 {
     public function testEncodeQuotedPrintable()
     {
-        $string = "61.jpg";
+        $string = '61.jpg';
         $exp = '=?UTF-8?B?NjEuanBn?=';
         $res = Mime_Helper::encodeQuotedPrintable($string);
         $this->assertEquals($exp, $res, 'do not overflow');
@@ -80,7 +81,7 @@ class MimeHelperTest extends TestCase
      * @param   string $address The full email address
      * @return  string The email address without quotes
      */
-    function testRemoveQuotes()
+    public function testRemoveQuotes()
     {
         $test_data = array(
             '<email@example.org>'   =>  'email@example.org',
@@ -92,7 +93,8 @@ class MimeHelperTest extends TestCase
         }
     }
 
-    public function testBug901653() {
+    public function testBug901653()
+    {
         $message = file_get_contents(__DIR__.'/data/LP901653.txt');
         $this->assertNotEmpty($message);
         $structure = Mime_Helper::decode($message, true, true);

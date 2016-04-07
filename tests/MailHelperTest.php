@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
  *
@@ -24,12 +25,12 @@ class MailHelperTest extends TestCase
         $this->assertRegExp($exp, $msgid, 'Missing msg-id header');
 
         $exp = '<msgid>';
-        $headers = "Message-ID: <msgid>";
+        $headers = 'Message-ID: <msgid>';
         $body = 'body';
         $msgid = Mail_Helper::getMessageID($headers, $body);
         $this->assertEquals($exp, $msgid, 'normal msg-id header');
 
-        $headers = "message-id: <msgid>";
+        $headers = 'message-id: <msgid>';
         $body = 'body';
         $msgid = Mail_Helper::getMessageID($headers, $body);
         $this->assertEquals($exp, $msgid, 'normal msg-id header (lowercase)');
@@ -150,27 +151,27 @@ class MailHelperTest extends TestCase
             0 => array(
                 'Test User <test@example.com>',
                 '"Test User"',
-                "test@example.com",
+                'test@example.com',
             ),
             1 => array(
                 '"Test User" <test@example.com>',
                 '"Test User"',
-                "test@example.com",
+                'test@example.com',
             ),
             2 => array(
                 '<test@example.com>',
                 '',
-                "test@example.com",
+                'test@example.com',
             ),
             3 => array(
                 'test@example.com',
                 '',
-                "test@example.com",
+                'test@example.com',
             ),
             4 => array(
                 '"Test User <test@example.com>" <test@example.com>',
                 '"Test User <test@example.com>"',
-                "test@example.com",
+                'test@example.com',
             ),
         );
     }
