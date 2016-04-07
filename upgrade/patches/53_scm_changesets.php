@@ -18,6 +18,7 @@
 
 use Eventum\Db\Adapter\AdapterInterface;
 
+/** @var Closure $log */
 /** @var AdapterInterface $db */
 
 $db->query("alter table {{%issue_checkin}}
@@ -31,10 +32,10 @@ $db->query("UPDATE {{%issue_checkin}} SET isc_new_version=NULL WHERE isc_new_ver
 // for them changeset id is new_revision property
 
 // git
-$db->query("
+$db->query('
     UPDATE {{%issue_checkin}} SET isc_commitid=isc_new_version
     WHERE isc_commitid IS NULL AND LENGTH(isc_new_version)=40
-");
+');
 
 // svn
 $db->query("
@@ -55,7 +56,7 @@ $db->query("
 // and don't want to make removed commits to re-appear because same changeset is shared with two issues
 
 // Increase GROUP_CONCAT() length, default length 1024 characters is too short
-$db->query("SET SESSION group_concat_max_len = 1000000");
+$db->query('SET SESSION group_concat_max_len = 1000000');
 
 // we ignore date by one minute difference as big commits could take time:
 //+---------------------+--------------------------------------------+
@@ -86,8 +87,11 @@ $db->query(
 );
 
 $res = $db->getAll(
-    "SELECT isc_id,commitid FROM isc_commitid"
+    'SELECT isc_id,commitid FROM isc_commitid'
 );
+$count = count($res);
+$log("Updating $count changesets");
+
 foreach ($res as $row) {
     $db->query(
         "UPDATE {{%issue_checkin}} SET isc_commitid=? WHERE isc_id IN ({$row['isc_id']})", array($row['commitid'])
