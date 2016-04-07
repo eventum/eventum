@@ -16,7 +16,7 @@ namespace Eventum\Model\Entity;
 /**
  * CommitFile
  */
-class CommitFile
+class CommitFile extends BaseModel
 {
     /**
      * @var integer
