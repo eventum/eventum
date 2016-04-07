@@ -86,11 +86,11 @@ class StdScm extends AbstractScmAdapter
         // save commit
         $ci = Commit::create()
             ->setScmName($params->get('scm_name'))
-            ->setCommitId($params->get('commitid'))
             ->setAuthorName($params->get('username'))
             ->setCommitDate(Date_Helper::getDateTime($params->get('commit_date')))
             ->setMessage(trim($params->get('commit_msg')));
 
+        $ci->setCommitId($params->get('commitid') ?: $this->generateCommitId($ci));
         $ci->save();
 
         // save commit files
@@ -168,5 +168,31 @@ class StdScm extends AbstractScmAdapter
         }
 
         return $issues;
+    }
+
+    /**
+     * Seconds to allow commit date to differ to consider them as same commit id
+     */
+    const COMMIT_TIME_DRIFT = 10;
+
+    /**
+     * Generate commit id
+     *
+     * @param Commit $ci
+     * @return string
+     */
+    private function generateCommitId(Commit $ci)
+    {
+        $seed = array(
+            $ci->getCommitDate()->getTimestamp() / self::COMMIT_TIME_DRIFT,
+            $ci->getAuthorName(),
+            $ci->getAuthorEmail(),
+            $ci->getMessage(),
+        );
+        $checksum = md5(implode('', $seed));
+
+        // CVS commitid is 16 byte length base62 encoded random and seems always end with z0
+        // so we use 14 bytes from md5, and z1 suffix to get similar (but not conflicting) commitid
+        return substr($checksum, 1, 14) . 'z1';
     }
 }
