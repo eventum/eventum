@@ -14,9 +14,7 @@
 namespace Eventum\Scm\Adapter;
 
 use Date_Helper;
-use Eventum\Model\Entity\Commit;
-use Eventum\Model\Entity\CommitFile;
-use Eventum\Model\Entity\IssueCommit;
+use Eventum\Model\Entity;
 
 /**
  * Gitlab SCM handler
@@ -64,7 +62,7 @@ class GitlabScm extends AbstractScmAdapter
             }
             $this->log->debug('commit', array('issues' => $issues, 'commit' => $commit));
 
-            $ci = Commit::create()
+            $ci = Entity\Commit::create()
 //                ->setComProjectName($project)
                 ->setCommitId($commit['id'])
                 ->setAuthorEmail($commit['author']['email'])
@@ -74,26 +72,26 @@ class GitlabScm extends AbstractScmAdapter
                 ->save();
 
             foreach ($commit['added'] as $file) {
-                CommitFile::create()
+                Entity\CommitFile::create()
                     ->setCommitId($ci->getId())
                     ->setFilename($file)
                     ->save();
             }
             foreach ($commit['modified'] as $file) {
-                CommitFile::create()
+                Entity\CommitFile::create()
                     ->setCommitId($ci->getId())
                     ->setFilename($file)
                     ->save();
             }
             foreach ($commit['removed'] as $file) {
-                CommitFile::create()
+                Entity\CommitFile::create()
                     ->setCommitId($ci->getId())
                     ->setFilename($file)
                     ->save();
             }
 
             foreach ($issues as $issue_id) {
-                IssueCommit::create()
+                Entity\IssueCommit::create()
                     ->setCommitId($ci->getId())
                     ->setIssueId($issue_id)
                     ->save();

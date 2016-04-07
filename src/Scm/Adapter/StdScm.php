@@ -14,9 +14,7 @@
 namespace Eventum\Scm\Adapter;
 
 use Date_Helper;
-use Eventum\Model\Entity\Commit;
-use Eventum\Model\Entity\CommitFile;
-use Eventum\Model\Entity\IssueCommit;
+use Eventum\Model\Entity;
 use Exception;
 use InvalidArgumentException;
 use Issue;
@@ -84,7 +82,7 @@ class StdScm extends AbstractScmAdapter
         }
 
         // save commit
-        $ci = Commit::create()
+        $ci = Entity\Commit::create()
             ->setScmName($params->get('scm_name'))
             ->setAuthorName($params->get('username'))
             ->setCommitDate(Date_Helper::getDateTime($params->get('commit_date')))
@@ -96,7 +94,7 @@ class StdScm extends AbstractScmAdapter
         // save commit files
         $files = $this->getFiles($params);
         foreach ($files as $file) {
-            CommitFile::create()
+            Entity\CommitFile::create()
                 ->setCommitId($ci->getId())
                 ->setFilename($file['file'])
                 ->setOldVersion($file['old_version'])
@@ -107,7 +105,7 @@ class StdScm extends AbstractScmAdapter
 
         // save issue association
         foreach ($issues as $issue_id) {
-            $ci = IssueCommit::create()
+            $ci = Entity\IssueCommit::create()
                 ->setCommitId($ci->getId())
                 ->setIssueId($issue_id)
                 ->save();
@@ -178,10 +176,10 @@ class StdScm extends AbstractScmAdapter
     /**
      * Generate commit id
      *
-     * @param Commit $ci
+     * @param Entity\Commit $ci
      * @return string
      */
-    private function generateCommitId(Commit $ci)
+    private function generateCommitId(Entity\Commit $ci)
     {
         $seed = array(
             $ci->getCommitDate()->getTimestamp() / self::COMMIT_TIME_DRIFT,
