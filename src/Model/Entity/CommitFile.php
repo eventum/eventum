@@ -21,32 +21,43 @@ class CommitFile extends BaseModel
     /**
      * @var integer
      */
-    private $id;
+    protected $cof_id;
 
     /**
      * @var integer
      */
-    private $commitId;
+    protected $cof_com_id;
 
     /**
      * @var string
      */
-    private $projectName;
+    protected $cof_project_name;
 
     /**
      * @var string
      */
-    private $filename;
+    protected $cof_filename;
 
     /**
      * @var string
      */
-    private $oldVersion;
+    protected $cof_old_version;
 
     /**
      * @var string
      */
-    private $newVersion;
+    protected $cof_new_version;
+
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->cof_id = $id;
+
+        return $this;
+    }
 
     /**
      * Get cofId
@@ -55,7 +66,7 @@ class CommitFile extends BaseModel
      */
     public function getId()
     {
-        return $this->id;
+        return $this->cof_id;
     }
 
     /**
@@ -66,7 +77,7 @@ class CommitFile extends BaseModel
      */
     public function setCommitId($commitId)
     {
-        $this->commitId = $commitId;
+        $this->cof_com_id = $commitId;
 
         return $this;
     }
@@ -78,7 +89,7 @@ class CommitFile extends BaseModel
      */
     public function getCommitId()
     {
-        return $this->commitId;
+        return $this->cof_com_id;
     }
 
     /**
@@ -89,7 +100,7 @@ class CommitFile extends BaseModel
      */
     public function setProjectName($projectName)
     {
-        $this->projectName = $projectName;
+        $this->cof_project_name = $projectName;
 
         return $this;
     }
@@ -101,7 +112,7 @@ class CommitFile extends BaseModel
      */
     public function getProjectName()
     {
-        return $this->projectName;
+        return $this->cof_project_name;
     }
 
     /**
@@ -112,7 +123,7 @@ class CommitFile extends BaseModel
      */
     public function setFilename($filename)
     {
-        $this->filename = $filename;
+        $this->cof_filename = $filename;
 
         return $this;
     }
@@ -124,7 +135,7 @@ class CommitFile extends BaseModel
      */
     public function getFilename()
     {
-        return $this->filename;
+        return $this->cof_filename;
     }
 
     /**
@@ -135,7 +146,7 @@ class CommitFile extends BaseModel
      */
     public function setOldVersion($oldVersion)
     {
-        $this->oldVersion = $oldVersion;
+        $this->cof_old_version = $oldVersion;
 
         return $this;
     }
@@ -147,7 +158,7 @@ class CommitFile extends BaseModel
      */
     public function getOldVersion()
     {
-        return $this->oldVersion;
+        return $this->cof_old_version;
     }
 
     /**
@@ -158,7 +169,7 @@ class CommitFile extends BaseModel
      */
     public function setNewVersion($newVersion)
     {
-        $this->newVersion = $newVersion;
+        $this->cof_new_version = $newVersion;
 
         return $this;
     }
@@ -170,6 +181,6 @@ class CommitFile extends BaseModel
      */
     public function getNewVersion()
     {
-        return $this->newVersion;
+        return $this->cof_new_version;
     }
 }

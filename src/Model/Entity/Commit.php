@@ -21,37 +21,48 @@ class Commit extends BaseModel
     /**
      * @var integer
      */
-    private $id;
+    protected $com_id;
 
     /**
      * @var string
      */
-    private $scmName;
+    protected $com_scm_name;
 
     /**
      * @var string
      */
-    private $commitId;
+    protected $com_commit_id;
 
     /**
      * @var string
      */
-    private $authorEmail;
+    protected $com_author_email;
 
     /**
      * @var string
      */
-    private $authorName;
+    protected $com_author_name;
 
     /**
      * @var \DateTime
      */
-    private $commitDate;
+    protected $com_commit_date;
 
     /**
      * @var string
      */
-    private $message;
+    protected $com_message;
+
+    /**
+     * @param int $id
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->com_id = $id;
+
+        return $this;
+    }
 
     /**
      * Get comId
@@ -60,7 +71,7 @@ class Commit extends BaseModel
      */
     public function getId()
     {
-        return $this->id;
+        return $this->com_id;
     }
 
     /**
@@ -71,7 +82,7 @@ class Commit extends BaseModel
      */
     public function setScmName($scmName)
     {
-        $this->scmName = $scmName;
+        $this->com_scm_name = $scmName;
 
         return $this;
     }
@@ -83,7 +94,7 @@ class Commit extends BaseModel
      */
     public function getScmName()
     {
-        return $this->scmName;
+        return $this->com_scm_name;
     }
 
     /**
@@ -94,7 +105,7 @@ class Commit extends BaseModel
      */
     public function setCommitId($commitId)
     {
-        $this->commitId = $commitId;
+        $this->com_commit_id = $commitId;
 
         return $this;
     }
@@ -106,7 +117,7 @@ class Commit extends BaseModel
      */
     public function getCommitId()
     {
-        return $this->commitId;
+        return $this->com_commit_id;
     }
 
     /**
@@ -117,7 +128,7 @@ class Commit extends BaseModel
      */
     public function setAuthorEmail($authorEmail)
     {
-        $this->authorEmail = $authorEmail;
+        $this->com_author_email = $authorEmail;
 
         return $this;
     }
@@ -129,7 +140,7 @@ class Commit extends BaseModel
      */
     public function getAuthorEmail()
     {
-        return $this->authorEmail;
+        return $this->com_author_email;
     }
 
     /**
@@ -140,7 +151,7 @@ class Commit extends BaseModel
      */
     public function setAuthorName($authorName)
     {
-        $this->authorName = $authorName;
+        $this->com_author_name = $authorName;
 
         return $this;
     }
@@ -152,7 +163,7 @@ class Commit extends BaseModel
      */
     public function getAuthorName()
     {
-        return $this->authorName;
+        return $this->com_author_name;
     }
 
     /**
@@ -163,7 +174,7 @@ class Commit extends BaseModel
      */
     public function setCommitDate($commitDate)
     {
-        $this->commitDate = $commitDate;
+        $this->com_commit_date = $commitDate;
 
         return $this;
     }
@@ -175,7 +186,7 @@ class Commit extends BaseModel
      */
     public function getCommitDate()
     {
-        return $this->commitDate;
+        return $this->com_commit_date;
     }
 
     /**
@@ -186,7 +197,7 @@ class Commit extends BaseModel
      */
     public function setMessage($message)
     {
-        $this->message = $message;
+        $this->com_message = $message;
 
         return $this;
     }
@@ -198,6 +209,6 @@ class Commit extends BaseModel
      */
     public function getMessage()
     {
-        return $this->message;
+        return $this->com_message;
     }
 }

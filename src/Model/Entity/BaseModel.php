@@ -13,6 +13,9 @@
 
 namespace Eventum\Model\Entity;
 
+use Date_Helper;
+use DateTime;
+use DB_Helper;
 use LogicException;
 
 class BaseModel
@@ -22,10 +25,68 @@ class BaseModel
         return new static();
     }
 
+    /**
+     * @param int $value
+     * @return $this
+     */
+    protected function setId($value)
+    {
+        throw new LogicException('Entity class must implement setId');
+    }
+
+    /**
+     * Save current object, not capable of anything smarter
+     *
+     * @return int
+     */
     public function save()
     {
-        throw new LogicException();
+        $tableName = $this->getTableName();
+        $params = $this->getData();
 
-        return $this;
+        $stmt = "INSERT INTO {$tableName} SET " . DB_Helper::buildSet($params);
+        DB_Helper::getInstance()->query($stmt, $params);
+        $id = DB_Helper::get_last_insert_id();
+
+        // set primary key to the saved value
+        $this->setId($id);
+
+        return $id;
+    }
+
+    /**
+     * Get db_field => value pairs of current object
+     *
+     * @return array
+     */
+    private function getData()
+    {
+        $data = get_object_vars($this);
+
+        // Convert DateTime objects
+        foreach ($data as &$value) {
+            if ($value instanceof DateTime) {
+                $value = Date_Helper::convertDateGMT($value);
+            }
+        }
+
+        return $data;
+    }
+
+    /**
+     * Get table name from current class
+     *
+     * @return string
+     */
+    private function getTableName()
+    {
+        $tableName = substr(strrchr(get_class($this), '\\'), 1);
+        $f = function ($m) {
+            return '_' . strtolower($m[0][0]);
+        };
+        $tableName = preg_replace_callback('/[A-Z]/', $f, $tableName);
+        $tableName = ltrim($tableName, '_');
+
+        return "{{%$tableName}}";
     }
 }
