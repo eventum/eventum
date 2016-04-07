@@ -21,37 +21,37 @@ class IssueCommit extends BaseModel
     /**
      * @var integer
      */
-    private $iscId;
+    private $id;
 
     /**
      * @var integer
      */
-    private $iscIssId;
+    private $issueId;
 
     /**
      * @var integer
      */
-    private $iscComId;
+    private $commitId;
 
     /**
      * Get iscId
      *
      * @return integer
      */
-    public function getIscId()
+    public function getId()
     {
-        return $this->iscId;
+        return $this->id;
     }
 
     /**
      * Set iscIssId
      *
-     * @param integer $iscIssId
+     * @param integer $issueId
      * @return IssueCommit
      */
-    public function setIscIssId($iscIssId)
+    public function setIssueId($issueId)
     {
-        $this->iscIssId = $iscIssId;
+        $this->issueId = $issueId;
 
         return $this;
     }
@@ -61,20 +61,20 @@ class IssueCommit extends BaseModel
      *
      * @return integer
      */
-    public function getIscIssId()
+    public function getIssueId()
     {
-        return $this->iscIssId;
+        return $this->issueId;
     }
 
     /**
      * Set iscComId
      *
-     * @param integer $iscComId
+     * @param integer $commitId
      * @return IssueCommit
      */
-    public function setIscComId($iscComId)
+    public function setCommitId($commitId)
     {
-        $this->iscComId = $iscComId;
+        $this->commitId = $commitId;
 
         return $this;
     }
@@ -84,8 +84,8 @@ class IssueCommit extends BaseModel
      *
      * @return integer
      */
-    public function getIscComId()
+    public function getCommitId()
     {
-        return $this->iscComId;
+        return $this->commitId;
     }
 }

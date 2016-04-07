@@ -21,52 +21,52 @@ class CommitFile
     /**
      * @var integer
      */
-    private $cofId;
+    private $id;
 
     /**
      * @var integer
      */
-    private $cofComId;
+    private $commitId;
 
     /**
      * @var string
      */
-    private $cofProjectName;
+    private $projectName;
 
     /**
      * @var string
      */
-    private $cofFilename;
+    private $filename;
 
     /**
      * @var string
      */
-    private $cofOldVersion;
+    private $oldVersion;
 
     /**
      * @var string
      */
-    private $cofNewVersion;
+    private $newVersion;
 
     /**
      * Get cofId
      *
      * @return integer
      */
-    public function getCofId()
+    public function getId()
     {
-        return $this->cofId;
+        return $this->id;
     }
 
     /**
      * Set cofComId
      *
-     * @param integer $cofComId
+     * @param integer $commitId
      * @return CommitFile
      */
-    public function setCofComId($cofComId)
+    public function setCommitId($commitId)
     {
-        $this->cofComId = $cofComId;
+        $this->commitId = $commitId;
 
         return $this;
     }
@@ -76,20 +76,20 @@ class CommitFile
      *
      * @return integer
      */
-    public function getCofComId()
+    public function getCommitId()
     {
-        return $this->cofComId;
+        return $this->commitId;
     }
 
     /**
      * Set cofProjectName
      *
-     * @param string $cofProjectName
+     * @param string $projectName
      * @return CommitFile
      */
-    public function setCofProjectName($cofProjectName)
+    public function setProjectName($projectName)
     {
-        $this->cofProjectName = $cofProjectName;
+        $this->projectName = $projectName;
 
         return $this;
     }
@@ -99,20 +99,20 @@ class CommitFile
      *
      * @return string
      */
-    public function getCofProjectName()
+    public function getProjectName()
     {
-        return $this->cofProjectName;
+        return $this->projectName;
     }
 
     /**
      * Set cofFilename
      *
-     * @param string $cofFilename
+     * @param string $filename
      * @return CommitFile
      */
-    public function setCofFilename($cofFilename)
+    public function setFilename($filename)
     {
-        $this->cofFilename = $cofFilename;
+        $this->filename = $filename;
 
         return $this;
     }
@@ -122,20 +122,20 @@ class CommitFile
      *
      * @return string
      */
-    public function getCofFilename()
+    public function getFilename()
     {
-        return $this->cofFilename;
+        return $this->filename;
     }
 
     /**
      * Set cofOldVersion
      *
-     * @param string $cofOldVersion
+     * @param string $oldVersion
      * @return CommitFile
      */
-    public function setCofOldVersion($cofOldVersion)
+    public function setOldVersion($oldVersion)
     {
-        $this->cofOldVersion = $cofOldVersion;
+        $this->oldVersion = $oldVersion;
 
         return $this;
     }
@@ -145,20 +145,20 @@ class CommitFile
      *
      * @return string
      */
-    public function getCofOldVersion()
+    public function getOldVersion()
     {
-        return $this->cofOldVersion;
+        return $this->oldVersion;
     }
 
     /**
      * Set cofNewVersion
      *
-     * @param string $cofNewVersion
+     * @param string $newVersion
      * @return CommitFile
      */
-    public function setCofNewVersion($cofNewVersion)
+    public function setNewVersion($newVersion)
     {
-        $this->cofNewVersion = $cofNewVersion;
+        $this->newVersion = $newVersion;
 
         return $this;
     }
@@ -168,8 +168,8 @@ class CommitFile
      *
      * @return string
      */
-    public function getCofNewVersion()
+    public function getNewVersion()
     {
-        return $this->cofNewVersion;
+        return $this->newVersion;
     }
 }

@@ -21,57 +21,57 @@ class Commit
     /**
      * @var integer
      */
-    private $comId;
+    private $id;
 
     /**
      * @var string
      */
-    private $comScmName;
+    private $scmName;
 
     /**
      * @var string
      */
-    private $comCommitId;
+    private $commitId;
 
     /**
      * @var string
      */
-    private $comAuthorEmail;
+    private $authorEmail;
 
     /**
      * @var string
      */
-    private $comAuthorName;
+    private $authorName;
 
     /**
      * @var \DateTime
      */
-    private $comCommitDate;
+    private $commitDate;
 
     /**
      * @var string
      */
-    private $comMessage;
+    private $message;
 
     /**
      * Get comId
      *
      * @return integer
      */
-    public function getComId()
+    public function getId()
     {
-        return $this->comId;
+        return $this->id;
     }
 
     /**
      * Set comScmName
      *
-     * @param string $comScmName
+     * @param string $scmName
      * @return Commit
      */
-    public function setComScmName($comScmName)
+    public function setScmName($scmName)
     {
-        $this->comScmName = $comScmName;
+        $this->scmName = $scmName;
 
         return $this;
     }
@@ -81,20 +81,20 @@ class Commit
      *
      * @return string
      */
-    public function getComScmName()
+    public function getScmName()
     {
-        return $this->comScmName;
+        return $this->scmName;
     }
 
     /**
      * Set comCommitId
      *
-     * @param string $comCommitId
+     * @param string $commitId
      * @return Commit
      */
-    public function setComCommitId($comCommitId)
+    public function setCommitId($commitId)
     {
-        $this->comCommitId = $comCommitId;
+        $this->commitId = $commitId;
 
         return $this;
     }
@@ -104,20 +104,20 @@ class Commit
      *
      * @return string
      */
-    public function getComCommitId()
+    public function getCommitId()
     {
-        return $this->comCommitId;
+        return $this->commitId;
     }
 
     /**
      * Set comAuthorEmail
      *
-     * @param string $comAuthorEmail
+     * @param string $authorEmail
      * @return Commit
      */
-    public function setComAuthorEmail($comAuthorEmail)
+    public function setAuthorEmail($authorEmail)
     {
-        $this->comAuthorEmail = $comAuthorEmail;
+        $this->authorEmail = $authorEmail;
 
         return $this;
     }
@@ -127,20 +127,20 @@ class Commit
      *
      * @return string
      */
-    public function getComAuthorEmail()
+    public function getAuthorEmail()
     {
-        return $this->comAuthorEmail;
+        return $this->authorEmail;
     }
 
     /**
      * Set comAuthorName
      *
-     * @param string $comAuthorName
+     * @param string $authorName
      * @return Commit
      */
-    public function setComAuthorName($comAuthorName)
+    public function setAuthorName($authorName)
     {
-        $this->comAuthorName = $comAuthorName;
+        $this->authorName = $authorName;
 
         return $this;
     }
@@ -150,20 +150,20 @@ class Commit
      *
      * @return string
      */
-    public function getComAuthorName()
+    public function getAuthorName()
     {
-        return $this->comAuthorName;
+        return $this->authorName;
     }
 
     /**
      * Set comCommitDate
      *
-     * @param \DateTime $comCommitDate
+     * @param \DateTime $commitDate
      * @return Commit
      */
-    public function setComCommitDate($comCommitDate)
+    public function setCommitDate($commitDate)
     {
-        $this->comCommitDate = $comCommitDate;
+        $this->commitDate = $commitDate;
 
         return $this;
     }
@@ -173,20 +173,20 @@ class Commit
      *
      * @return \DateTime
      */
-    public function getComCommitDate()
+    public function getCommitDate()
     {
-        return $this->comCommitDate;
+        return $this->commitDate;
     }
 
     /**
      * Set comMessage
      *
-     * @param string $comMessage
+     * @param string $message
      * @return Commit
      */
-    public function setComMessage($comMessage)
+    public function setMessage($message)
     {
-        $this->comMessage = $comMessage;
+        $this->message = $message;
 
         return $this;
     }
@@ -196,8 +196,8 @@ class Commit
      *
      * @return string
      */
-    public function getComMessage()
+    public function getMessage()
     {
-        return $this->comMessage;
+        return $this->message;
     }
 }
