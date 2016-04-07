@@ -13,6 +13,11 @@
 
 namespace Eventum\Scm\Adapter;
 
+use Date_Helper;
+use Eventum\Model\Entity\Commit;
+use Eventum\Model\Entity\CommitFile;
+use Eventum\Model\Entity\IssueCommit;
+
 /**
  * Gitlab SCM handler
  *
@@ -21,7 +26,6 @@ namespace Eventum\Scm\Adapter;
  */
 class GitlabScm extends AbstractScmAdapter
 {
-
     const GITLAB_HEADER = 'X-Gitlab-Event';
 
     /**
@@ -45,19 +49,55 @@ class GitlabScm extends AbstractScmAdapter
     }
 
     /**
-     * Walk over commit messages match issue ids
+     * Walk over commit messages and match issue ids
      */
     private function processPushHook()
     {
         $payload = $this->getPayload();
         $this->log->debug('processPushHook', array('payload' => $payload));
 
+        $project = $payload['path_with_namespace'];
         foreach ($payload['commits'] as $commit) {
             $issues = $this->match_issues($commit['message']);
             if (!$issues) {
                 continue;
             }
             $this->log->debug('commit', array('issues' => $issues, 'commit' => $commit));
+
+            $ci = Commit::create()
+//                ->setComProjectName($project)
+                ->setCommitId($commit['id'])
+                ->setAuthorEmail($commit['author']['email'])
+                ->setAuthorName($commit['author']['name'])
+                ->setCommitDate(Date_Helper::getDateTime($commit['timestamp']))
+                ->setMessage(trim($commit['message']))
+                ->save();
+
+            foreach ($commit['added'] as $file) {
+                CommitFile::create()
+                    ->setCommitId($ci->getId())
+                    ->setFilename($file)
+                    ->save();
+            }
+            foreach ($commit['modified'] as $file) {
+                CommitFile::create()
+                    ->setCommitId($ci->getId())
+                    ->setFilename($file)
+                    ->save();
+            }
+            foreach ($commit['removed'] as $file) {
+                CommitFile::create()
+                    ->setCommitId($ci->getId())
+                    ->setFilename($file)
+                    ->save();
+            }
+
+            foreach ($issues as $issue_id) {
+                IssueCommit::create()
+                    ->setCommitId($ci->getId())
+                    ->setIssueId($issue_id)
+                    ->save();
+            }
         }
     }
 

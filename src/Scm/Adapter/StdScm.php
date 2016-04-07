@@ -14,9 +14,13 @@
 namespace Eventum\Scm\Adapter;
 
 use Date_Helper;
+use Eventum\Model\Entity\Commit;
+use Eventum\Model\Entity\CommitFile;
+use Eventum\Model\Entity\IssueCommit;
 use Exception;
+use InvalidArgumentException;
 use Issue;
-use SCM;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * Standard SCM handler
@@ -25,39 +29,6 @@ use SCM;
  */
 class StdScm extends AbstractScmAdapter
 {
-    /** @var int[] */
-    private $issues;
-
-    /** @var string[] */
-    private $files;
-
-    /** @var string */
-    private $commitid;
-
-    /** @var string */
-    private $commit_date;
-
-    /** @var string[] */
-    private $module;
-
-    /** @var string */
-    private $username;
-
-    /** @var string */
-    private $commit_msg;
-
-    /** @var string */
-    private $scm_name;
-
-    /** @var string[] */
-    private $old_versions;
-
-    /** @var string[] */
-    private $new_versions;
-
-    /** @var bool */
-    private $json;
-
     /**
      * @inheritdoc
      */
@@ -73,22 +44,11 @@ class StdScm extends AbstractScmAdapter
     public function process()
     {
         $get = $this->request->query;
-
-        $this->commitid = $get->get('commitid');
-        $this->commit_date = $get->get('commit_date');
-        $this->scm_name = $get->get('scm_name');
-        $this->module = $get->get('module');
-        $this->username = $get->get('username');
-        $this->issues = $get->get('issue');
-        $this->commit_msg = $get->get('commit_msg');
-        $this->files = $get->get('files');
-        $this->old_versions = $get->get('old_versions');
-        $this->new_versions = $get->get('new_versions');
-        $this->json = $get->getBoolean('json');
+        $json = $get->getBoolean('json');
 
         try {
             ob_start();
-            $this->pingAction($this->commitid, $this->commit_date, $this->module, $this->username, $this->scm_name, $this->issues, $this->commit_msg);
+            $this->processCommits($get);
             $status = array(
                 'code' => 0,
                 'message' => ob_get_clean(),
@@ -102,7 +62,7 @@ class StdScm extends AbstractScmAdapter
             $this->log->error($e);
         }
 
-        if ($this->json) {
+        if ($json) {
             echo json_encode($status);
             exit;
         } else {
@@ -112,53 +72,101 @@ class StdScm extends AbstractScmAdapter
     }
 
     /**
-     * @param string $commitid
-     * @param string $commit_date
-     * @param string[] $module
-     * @param string $username
-     * @param string $scm_name
-     * @param int[] $issues
-     * @param string $commit_msg
+     * TODO: workflow method to resolve 'username' to name and email
+     *
+     * @param ParameterBag $params
      */
-    private function pingAction($commitid, $commit_date, $module, $username, $scm_name, $issues, $commit_msg)
+    private function processCommits(ParameterBag $params)
     {
-        // module is per file (svn hook)
-        if (is_array($module)) {
-            $module = null;
+        $issues = $this->getIssues($params);
+        if (!$issues) {
+            throw new InvalidArgumentException('No issues provided');
         }
 
-        $nfiles = count($this->files);
-        $commit_time = $commit_date ? Date_Helper::convertDateGMT($commit_date) : Date_Helper::getCurrentDateGMT();
+        // save commit
+        $ci = Commit::create()
+            ->setScmName($params->get('scm_name'))
+            ->setCommitId($params->get('commitid'))
+            ->setAuthorName($params->get('username'))
+            ->setCommitDate(Date_Helper::getDateTime($params->get('commit_date')))
+            ->setMessage(trim($params->get('commit_msg')));
 
-        // process checkins for each issue
+        $ci->save();
+
+        // save commit files
+        $files = $this->getFiles($params);
+        foreach ($files as $file) {
+            CommitFile::create()
+                ->setCommitId($ci->getId())
+                ->setFilename($file['file'])
+                ->setOldVersion($file['old_version'])
+                ->setNewVersion($file['new_version'])
+                ->setProjectName($file['module'])
+                ->save();
+        }
+
+        // save issue association
         foreach ($issues as $issue_id) {
-            // check early if issue exists to report proper message back
-            // workflow needs to know project_id to find out which workflow class to use.
-            $prj_id = Issue::getProjectID($issue_id);
-            if (!$prj_id) {
-                echo "issue #$issue_id not found\n";
-                continue;
-            }
-
-            $files = array();
-            for ($y = 0; $y < $nfiles; $y++) {
-                $file = array(
-                    'file' => $this->files[$y],
-                    // version may be missing to indicate 'added' or 'removed' state
-                    'old_version' => isset($this->old_versions[$y]) ? $this->old_versions[$y] : null,
-                    'new_version' => isset($this->new_versions[$y]) ? $this->new_versions[$y] : null,
-                    // there may be per file global (cvs) or module (svn)
-                    'module' => isset($module) ? $module : $this->module[$y],
-                );
-
-                $files[] = $file;
-            }
-
-            SCM::addCheckins($issue_id, $commitid, $commit_time, $scm_name, $username, $commit_msg, $files);
+            $ci = IssueCommit::create()
+                ->setCommitId($ci->getId())
+                ->setIssueId($issue_id)
+                ->save();
 
             // print report to stdout of commits so hook could report status back to commiter
             $details = Issue::getDetails($issue_id);
             echo "#$issue_id - {$details['iss_summary']} ({$details['sta_title']})\n";
         }
+    }
+
+    /**
+     * Get files in sane format
+     */
+    private function getFiles(ParameterBag $params)
+    {
+        $files = $params->get('files');
+        $old_versions = $params->get('old_versions');
+        $new_versions = $params->get('new_versions');
+        $modules = $params->get('module');
+
+        $nfiles = count($files);
+        $files = array();
+        for ($y = 0; $y < $nfiles; $y++) {
+            $file = array(
+                // there may be per file global (cvs) or module (svn)
+                'module' => is_array($modules) ? $modules[$y] : $modules,
+                'file' => $files[$y],
+                // for CVS version may be missing to indicate 'added' or 'removed' state
+                // for SVN/Git there's no per file revisions
+                'old_version' => isset($old_versions[$y]) ? $old_versions[$y] : null,
+                'new_version' => isset($new_versions[$y]) ? $new_versions[$y] : null,
+            );
+
+            $files[] = $file;
+        }
+
+        return $files;
+    }
+
+    /**
+     * Get issue id's, validate that they exist, because workflow needs project id
+     *
+     * @param ParameterBag $params
+     * @return array issue ids
+     */
+    private function getIssues(ParameterBag $params)
+    {
+        $issues = array();
+        // check early if issue exists to report proper message back
+        // workflow needs to know project_id to find out which workflow class to use.
+        foreach ($params->get('issue') as $issue_id) {
+            $prj_id = Issue::getProjectID($issue_id);
+            if (!$prj_id) {
+                echo "issue #$issue_id not found\n";
+                continue;
+            }
+            $issue_id[] = $issue_id;
+        }
+
+        return $issues;
     }
 }
