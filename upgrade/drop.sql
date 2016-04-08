@@ -14,6 +14,8 @@ DROP TABLE IF EXISTS {{%faq}};
 DROP TABLE IF EXISTS {{%group}};
 DROP TABLE IF EXISTS {{%history_type}};
 DROP TABLE IF EXISTS {{%irc_notice}};
+DROP TABLE IF EXISTS {{%issue_access_list}};
+DROP TABLE IF EXISTS {{%issue_access_log}};
 DROP TABLE IF EXISTS {{%issue_association}};
 DROP TABLE IF EXISTS {{%issue_attachment_file}};
 DROP TABLE IF EXISTS {{%issue_attachment}};

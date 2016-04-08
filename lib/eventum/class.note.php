@@ -328,6 +328,7 @@ class Note
             'closing' => false,
             'send_notification' => true,
             'is_blocked' => false,
+            'add_extra_recipients'  =>  false,
 
             'message_id' => null,
             'cc' => null,
@@ -400,7 +401,13 @@ class Note
         Issue::markAsUpdated($issue_id, 'note');
         if ($options['log']) {
             // need to save a history entry for this
-            History::add($issue_id, $usr_id, 'note_added', 'Note added by {subject}', array('subject' => User::getFullName($usr_id)));
+            if ($options['is_blocked']) {
+                History::add($issue_id, $usr_id, 'email_blocked', "Email from '{from}' blocked", array(
+                    'from' => User::getFromHeader($usr_id),
+                ));
+            } else {
+                History::add($issue_id, $usr_id, 'note_added', 'Note added by {subject}', array('subject' => User::getFullName($usr_id)));
+            }
         }
 
         // send notifications for the issue being updated

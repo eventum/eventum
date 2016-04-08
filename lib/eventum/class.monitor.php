@@ -202,6 +202,8 @@ class Monitor
             'history_type',
             'irc_notice',
             'issue',
+            'issue_access_list',
+            'issue_access_log',
             'issue_association',
             'issue_attachment',
             'issue_attachment_file',
