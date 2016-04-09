@@ -81,15 +81,20 @@ class StdScm extends AbstractScmAdapter
             throw new InvalidArgumentException('No issues provided');
         }
 
-        // save commit
-        $ci = Entity\Commit::create()
-            ->setScmName($params->get('scm_name'))
-            ->setAuthorName($params->get('username'))
-            ->setCommitDate(Date_Helper::getDateTime($params->get('commit_date')))
-            ->setMessage(trim($params->get('commit_msg')));
+        $commitId = $params->get('commitid');
+        $ci = Entity\Commit::findOneByCommitId($commitId);
 
-        $ci->setCommitId($params->get('commitid') ?: $this->generateCommitId($ci));
-        $ci->save();
+        if (!$ci) {
+            // add commit
+            $ci = Entity\Commit::create()
+                ->setScmName($params->get('scm_name'))
+                ->setAuthorName($params->get('username'))
+                ->setCommitDate(Date_Helper::getDateTime($params->get('commit_date')))
+                ->setMessage(trim($params->get('commit_msg')));
+
+            $ci->setCommitId($commitId ?: $this->generateCommitId($ci));
+            $ci->save();
+        }
 
         // save commit files
         $files = $this->getFiles($params);

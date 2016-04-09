@@ -211,4 +211,14 @@ class Commit extends BaseModel
     {
         return $this->com_message;
     }
+
+    /**
+     * @param string $commitId
+     * @return $this
+     */
+    public static function findOneByCommitId($commitId) {
+        $c = new static();
+        $rows = $c->findAllByConditions(array('com_commit_id' => $commitId));
+        return $rows ? $rows[0] : null;
+    }
 }

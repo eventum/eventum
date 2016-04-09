@@ -16,9 +16,13 @@ use Eventum\Monolog\Logger;
 
 class ScmCommitTest extends TestCase
 {
-    public function testCommit()
+    public static function setUpBeforeClass()
     {
         Logger::initialize();
+    }
+
+    public function testCommit()
+    {
 
         $ci = Entity\Commit::create()
             ->setScmName('test1')
@@ -41,5 +45,12 @@ class ScmCommitTest extends TestCase
             ->setIssueId(1)
             ->save();
         echo "Created issue association: $id\n";
+    }
+
+    public function testGetCommit()
+    {
+        $commit_id = 'xl8sgtuo1xRzLW1z';
+        $c = Entity\Commit::findOneByCommitId($commit_id);
+        $this->assertEquals($commit_id, $c->getCommitId());
     }
 }

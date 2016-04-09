@@ -54,6 +54,31 @@ class BaseModel
         return $id;
     }
 
+    protected function findAllByConditions($where, $limit = 1) {
+        $tableName = $this->getTableName();
+        $stmt = "SELECT * FROM {$tableName} WHERE ";
+        $params = array();
+        $conditions = array();
+        foreach ($where as $col => $val) {
+            $conditions[] = "$col=?";
+            $params[] = $val;
+        }
+        $stmt .= join(' AND ', $conditions). " LIMIT $limit";
+        $db = DB_Helper::getInstance();
+        $rows = $db->getAll($stmt, $params);
+
+        // map to model
+        $res = array();
+        foreach ($rows as $row) {
+            $o = new static();
+            foreach ($row as $field => $value) {
+                $o->{$field} = $value;
+            }
+            $res[] = $o;
+        }
+        return $res;
+    }
+
     /**
      * Get db_field => value pairs of current object
      *
