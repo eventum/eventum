@@ -53,8 +53,8 @@ class GitlabScm extends AbstractScmAdapter
     {
         $payload = $this->getPayload();
         $this->log->debug('processPushHook', array('payload' => $payload));
+        $project = $payload['project']['path_with_namespace'];
 
-        $project = $payload['path_with_namespace'];
         foreach ($payload['commits'] as $commit) {
             $issues = $this->match_issues($commit['message']);
             if (!$issues) {
@@ -63,31 +63,37 @@ class GitlabScm extends AbstractScmAdapter
             $this->log->debug('commit', array('issues' => $issues, 'commit' => $commit));
 
             $ci = Entity\Commit::create()
-//                ->setComProjectName($project)
+                ->setScmName($project)
                 ->setCommitId($commit['id'])
                 ->setAuthorEmail($commit['author']['email'])
                 ->setAuthorName($commit['author']['name'])
                 ->setCommitDate(Date_Helper::getDateTime($commit['timestamp']))
-                ->setMessage(trim($commit['message']))
-                ->save();
+                ->setMessage(trim($commit['message']));
+            $ci->save();
 
             foreach ($commit['added'] as $file) {
-                Entity\CommitFile::create()
+                $cf = Entity\CommitFile::create()
+                    ->setProjectName($project)
                     ->setCommitId($ci->getId())
-                    ->setFilename($file)
-                    ->save();
+                    ->setFilename($file);
+                $cf->save();
+                $ci->addFile($cf);
             }
             foreach ($commit['modified'] as $file) {
-                Entity\CommitFile::create()
+                $cf = Entity\CommitFile::create()
                     ->setCommitId($ci->getId())
-                    ->setFilename($file)
-                    ->save();
+                    ->setProjectName($project)
+                    ->setFilename($file);
+                $cf->save();
+                $ci->addFile($cf);
             }
             foreach ($commit['removed'] as $file) {
-                Entity\CommitFile::create()
+                $cf = Entity\CommitFile::create()
+                    ->setProjectName($project)
                     ->setCommitId($ci->getId())
-                    ->setFilename($file)
-                    ->save();
+                    ->setFilename($file);
+                $cf->save();
+                $ci->addFile($cf);
             }
 
             foreach ($issues as $issue_id) {
