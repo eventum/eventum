@@ -216,8 +216,18 @@ class Commit extends BaseModel
      * @param string $commitId
      * @return $this
      */
-    public function findOneByCommitId($commitId) {
+    public function findOneByCommitId($commitId)
+    {
         $res = $this->findAllByConditions(array('com_commit_id' => $commitId), 1);
         return $res ? $res[0] : null;
+    }
+
+    /**
+     * @param int $id
+     * @return $this[]
+     */
+    public function findById($id)
+    {
+        return $this->findAllByConditions(array('com_id' => $id));
     }
 }
