@@ -15,6 +15,7 @@ namespace Eventum\Scm\Adapter;
 
 use Date_Helper;
 use Eventum\Model\Entity;
+use Eventum\Model\Repository\CommitRepository;
 
 /**
  * Gitlab SCM handler
@@ -53,47 +54,18 @@ class GitlabScm extends AbstractScmAdapter
     {
         $payload = $this->getPayload();
         $this->log->debug('processPushHook', array('payload' => $payload));
-        $project = $payload['project']['path_with_namespace'];
 
+        $cr = CommitRepository::create();
+        $project = $payload['project']['path_with_namespace'];
         foreach ($payload['commits'] as $commit) {
             $issues = $this->match_issues($commit['message']);
             if (!$issues) {
                 continue;
             }
             $this->log->debug('commit', array('issues' => $issues, 'commit' => $commit));
-
-            $ci = Entity\Commit::create()
-                ->setScmName($project)
-                ->setCommitId($commit['id'])
-                ->setAuthorEmail($commit['author']['email'])
-                ->setAuthorName($commit['author']['name'])
-                ->setCommitDate(Date_Helper::getDateTime($commit['timestamp']))
-                ->setMessage(trim($commit['message']));
-            $ci->save();
-
-            foreach ($commit['added'] as $file) {
-                $cf = Entity\CommitFile::create()
-                    ->setProjectName($project)
-                    ->setCommitId($ci->getId())
-                    ->setFilename($file);
-                $cf->save();
-                $ci->addFile($cf);
-            }
-            foreach ($commit['modified'] as $file) {
-                $cf = Entity\CommitFile::create()
-                    ->setCommitId($ci->getId())
-                    ->setProjectName($project)
-                    ->setFilename($file);
-                $cf->save();
-                $ci->addFile($cf);
-            }
-            foreach ($commit['removed'] as $file) {
-                $cf = Entity\CommitFile::create()
-                    ->setProjectName($project)
-                    ->setCommitId($ci->getId())
-                    ->setFilename($file);
-                $cf->save();
-                $ci->addFile($cf);
+            $ci = $this->addCommit($commit, $project);
+            if (!$ci) {
+                continue;
             }
 
             foreach ($issues as $issue_id) {
@@ -101,8 +73,61 @@ class GitlabScm extends AbstractScmAdapter
                     ->setCommitId($ci->getId())
                     ->setIssueId($issue_id)
                     ->save();
+                $cr->addCommit($issue_id, $ci);
             }
         }
+    }
+
+    /**
+     * Add commit and files from it
+     *
+     * @param array $commit
+     * @param string $project
+     * @return Entity\Commit
+     */
+    private function addCommit($commit, $project)
+    {
+        $ci = Entity\Commit::create()->findOneByCommitId($commit['id']);
+        if ($ci) {
+            // commit already seen, skip
+            return null;
+        }
+
+        $ci = Entity\Commit::create()
+            ->setScmName($project)
+            ->setCommitId($commit['id'])
+            ->setAuthorEmail($commit['author']['email'])
+            ->setAuthorName($commit['author']['name'])
+            ->setCommitDate(Date_Helper::getDateTime($commit['timestamp']))
+            ->setMessage(trim($commit['message']));
+        $ci->save();
+
+        foreach ($commit['added'] as $file) {
+            $cf = Entity\CommitFile::create()
+                ->setProjectName($project)
+                ->setCommitId($ci->getId())
+                ->setFilename($file);
+            $cf->save();
+            $ci->addFile($cf);
+        }
+        foreach ($commit['modified'] as $file) {
+            $cf = Entity\CommitFile::create()
+                ->setCommitId($ci->getId())
+                ->setProjectName($project)
+                ->setFilename($file);
+            $cf->save();
+            $ci->addFile($cf);
+        }
+        foreach ($commit['removed'] as $file) {
+            $cf = Entity\CommitFile::create()
+                ->setProjectName($project)
+                ->setCommitId($ci->getId())
+                ->setFilename($file);
+            $cf->save();
+            $ci->addFile($cf);
+        }
+
+        return $ci;
     }
 
     /*
