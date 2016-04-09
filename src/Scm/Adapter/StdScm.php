@@ -19,6 +19,7 @@ use Exception;
 use InvalidArgumentException;
 use Issue;
 use Symfony\Component\HttpFoundation\ParameterBag;
+use Workflow;
 
 /**
  * Standard SCM handler
@@ -111,13 +112,20 @@ class StdScm extends AbstractScmAdapter
         // save commit files
         $files = $this->getFiles($params);
         foreach ($files as $file) {
-            Entity\CommitFile::create()
+            $cf = Entity\CommitFile::create()
                 ->setCommitId($ci->getId())
                 ->setFilename($file['file'])
                 ->setOldVersion($file['old_version'])
                 ->setNewVersion($file['new_version'])
-                ->setProjectName($file['module'])
-                ->save();
+                ->setProjectName($file['module']);
+            $cf->save();
+            $ci->addFile($cf);
+        }
+
+        // notify workflow about new commit
+        foreach ($issues as $issue_id) {
+            $prj_id = Issue::getProjectID($issue_id);
+            Workflow::handleScmCommit($prj_id, $issue_id, $ci);
         }
     }
 

@@ -13,7 +13,7 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\MailMessage;
-use Eventum\Model\Entity\CommitRepo;
+use Eventum\Model\Entity;
 
 class Workflow
 {
@@ -444,14 +444,15 @@ class Workflow
      * Called when SCM checkins are associated.
      *
      * @param   integer $prj_id The project ID.
-     * @param   CommitRepo $scm SCM config associated with the commit
+     * @param   Entity\CommitRepo $scm SCM config associated with the commit
      * @param   string $commitid
      * @param   integer $issue_id The ID of the issue.
      * @param   array $files File list with their version numbers changes made on.
      * @param   string $username SCM user doing the checkin.
      * @param   string $commit_msg Message associated with the SCM commit.
+     * @deprecated since 3.0.12, use handleScmCommit
      */
-    public static function handleSCMCheckins($prj_id, $scm, $commitid, $issue_id, $files, $username, $commit_msg)
+    public static function handleSCMCheckins($prj_id, Entity\CommitRepo $scm, $commitid, $issue_id, $files, $username, $commit_msg)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
@@ -463,6 +464,22 @@ class Workflow
          * @deprecated. The $module parameter is deprecated. always NULL, use 'module' from $file object
          */
         $backend->handleSCMCheckins($prj_id, $issue_id, null, $files, $username, $commit_msg, $scm, $commitid);
+    }
+
+    /**
+     * @param int $prj_id The project ID.
+     * @param int $issue_id The ID of the issue.
+     * @param Entity\Commit $commit
+     * @since 3.0.12
+     */
+    public static function handleScmCommit($prj_id, $issue_id, Entity\Commit $commit)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+
+        $backend = self::_getBackend($prj_id);
+        $backend->handleScmCommit($prj_id, $issue_id, $commit);
     }
 
     /**
