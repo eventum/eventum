@@ -59,6 +59,9 @@ class CommitRepository extends BaseRepository
         $res = array();
 
         $ics = Entity\IssueCommit::create()->findByIssueId($issue_id);
+        if (!$ics) {
+            return array();
+        }
 
         // associate commits
         foreach ($ics as $ic) {
