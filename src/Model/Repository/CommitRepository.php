@@ -40,6 +40,17 @@ class CommitRepository
             }
         }
 
+        // order by date
+        // need userspace sort as the sort column is in commit table
+        // but we select from issue_commit table
+        $sorter = function (Entity\Commit $ca, Entity\Commit $cb) {
+            $a = $ca->getCommitDate();
+            $b = $cb->getCommitDate();
+            return ($a < $b) ? -1 : (($a > $b) ? 1 : 0);
+        };
+
+        uasort($res, $sorter);
+
         return $res;
     }
 }
