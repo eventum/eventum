@@ -15,7 +15,7 @@ namespace Eventum\Model\Repository;
 
 use Eventum\Model\Entity;
 
-class CommitRepository
+class CommitRepository extends BaseRepository
 {
     /**
      * @param int $issue_id
