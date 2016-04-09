@@ -15,6 +15,7 @@ namespace Eventum\Scm\Adapter;
 
 use Date_Helper;
 use Eventum\Model\Entity;
+use Eventum\Model\Repository\CommitRepository;
 use Exception;
 use InvalidArgumentException;
 use Issue;
@@ -122,10 +123,9 @@ class StdScm extends AbstractScmAdapter
             $ci->addFile($cf);
         }
 
-        // notify workflow about new commit
+        $cr = CommitRepository::create();
         foreach ($issues as $issue_id) {
-            $prj_id = Issue::getProjectID($issue_id);
-            Workflow::handleScmCommit($prj_id, $issue_id, $ci);
+            $cr->addCommit($issue_id, $ci);
         }
     }
 

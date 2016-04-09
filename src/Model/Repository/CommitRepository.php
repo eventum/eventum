@@ -15,11 +15,41 @@ namespace Eventum\Model\Repository;
 
 use Date_Helper;
 use Eventum\Model\Entity;
+use History;
 use Issue;
 use Link_Filter;
+use Workflow;
 
 class CommitRepository extends BaseRepository
 {
+    /**
+     * Associate commit to an existing issue,
+     * additionally notifies workflow about new commit
+     *
+     * @param int $issue_id The ID of the issue.
+     * @param Entity\Commit $commit
+     */
+    public function addCommit($issue_id, Entity\Commit $commit)
+    {
+        $prj_id = Issue::getProjectID($issue_id);
+
+        Issue::markAsUpdated($issue_id, 'scm checkin');
+
+        // TODO: add workflow pre method first, so it may setup username, etc
+        $usr_id = APP_SYSTEM_USER_ID;
+
+        // need to save a history entry for this
+        // TRANSLATORS: %1: scm username
+        History::add(
+            $issue_id, $usr_id, 'scm_checkin_associated', "SCM Checkins associated by SCM user '{user}'", array(
+                'user' => $commit->getAuthorName(),
+            )
+        );
+
+        // notify workflow about new commit
+        Workflow::handleScmCommit($prj_id, $issue_id, $commit);
+    }
+
     /**
      * @param int $issue_id
      * @return Entity\Commit[]

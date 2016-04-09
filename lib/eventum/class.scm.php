@@ -80,48 +80,6 @@ class SCM
     }
 
     /**
-     * Method used to associate checkins to an existing issue
-     *
-     * @param   integer $issue_id The ID of the issue.
-     * @param   string $commitid
-     * @param   string $commit_time Time when commit occurred (in UTC)
-     * @param   string $scm_name SCM definition name in Eventum
-     * @param   string $username SCM user doing the checkin.
-     * @param   string $commit_msg Message associated with the SCM commit.
-     * @param   array $files Files info with their version numbers changes made on.
-     * @return  integer 1 if the update worked, -1 otherwise
-     */
-    public static function addCheckins($issue_id, $commitid, $commit_time, $scm_name, $username, $commit_msg, $files)
-    {
-        // validate that $scm_name is valid
-        // this will throw if invalid
-        $scm = new \Eventum\Model\Entity\CommitRepo($scm_name);
-
-        // TODO: add workflow pre method first, so it may setup username, etc
-        $usr_id = APP_SYSTEM_USER_ID;
-
-        // workflow needs to know project_id to find out which workflow class to use.
-        $prj_id = Issue::getProjectID($issue_id);
-
-        foreach ($files as $file) {
-            self::insertCheckin($issue_id, $commitid, $commit_time, $scm_name, $file, $username, $commit_msg);
-        }
-
-        // need to mark this issue as updated
-        Issue::markAsUpdated($issue_id, 'scm checkin');
-
-        // need to save a history entry for this
-        // TRANSLATORS: %1: scm username
-        History::add($issue_id, $usr_id, 'scm_checkin_associated', "SCM Checkins associated by SCM user '{user}'", array(
-            'user' => $username
-        ));
-
-        Workflow::handleSCMCheckins($prj_id, $scm, $commitid, $issue_id, $files, $username, $commit_msg);
-
-        return 1;
-    }
-
-    /**
      * insert single checkin to database
      *
      * @param   integer $issue_id The ID of the issue.
