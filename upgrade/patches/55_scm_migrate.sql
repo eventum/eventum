@@ -28,8 +28,8 @@ INSERT INTO {{%commit_file}}
   (cof_com_id, cof_project_name, cof_filename, cof_old_version, cof_new_version)
   SELECT
     com.com_id,
-    com.com_scm_name,
-    isc_filename,
+    null,
+    concat(isc_module, '/', isc_filename),
     isc_old_version,
     isc_new_version
   FROM {{%issue_checkin}} isc, {{%commit}} com
