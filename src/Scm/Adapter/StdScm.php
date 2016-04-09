@@ -82,7 +82,7 @@ class StdScm extends AbstractScmAdapter
         }
 
         $commitId = $params->get('commitid');
-        $ci = Entity\Commit::findOneByCommitId($commitId);
+        $ci = Entity\Commit::create()->findOneByCommitId($commitId);
 
         if (!$ci) {
             // add commit
@@ -94,6 +94,18 @@ class StdScm extends AbstractScmAdapter
 
             $ci->setCommitId($commitId ?: $this->generateCommitId($ci));
             $ci->save();
+
+            // save issue association
+            foreach ($issues as $issue_id) {
+                Entity\IssueCommit::create()
+                    ->setCommitId($ci->getId())
+                    ->setIssueId($issue_id)
+                    ->save();
+
+                // print report to stdout of commits so hook could report status back to commiter
+                $details = Issue::getDetails($issue_id);
+                echo "#$issue_id - {$details['iss_summary']} ({$details['sta_title']})\n";
+            }
         }
 
         // save commit files
@@ -106,18 +118,6 @@ class StdScm extends AbstractScmAdapter
                 ->setNewVersion($file['new_version'])
                 ->setProjectName($file['module'])
                 ->save();
-        }
-
-        // save issue association
-        foreach ($issues as $issue_id) {
-            $ci = Entity\IssueCommit::create()
-                ->setCommitId($ci->getId())
-                ->setIssueId($issue_id)
-                ->save();
-
-            // print report to stdout of commits so hook could report status back to commiter
-            $details = Issue::getDetails($issue_id);
-            echo "#$issue_id - {$details['iss_summary']} ({$details['sta_title']})\n";
         }
     }
 
