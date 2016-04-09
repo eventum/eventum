@@ -162,7 +162,7 @@ class StdScm extends AbstractScmAdapter
                 echo "issue #$issue_id not found\n";
                 continue;
             }
-            $issue_id[] = $issue_id;
+            $issues[] = $issue_id;
         }
 
         return $issues;
