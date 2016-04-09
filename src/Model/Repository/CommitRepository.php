@@ -44,8 +44,9 @@ class CommitRepository
         // need userspace sort as the sort column is in commit table
         // but we select from issue_commit table
         $sorter = function (Entity\Commit $ca, Entity\Commit $cb) {
-            $a = $ca->getCommitDate();
-            $b = $cb->getCommitDate();
+            $a = $ca->getCommitDate()->getTimestamp();
+            $b = $cb->getCommitDate()->getTimestamp();
+
             return ($a < $b) ? -1 : (($a > $b) ? 1 : 0);
         };
 

@@ -84,6 +84,9 @@ class BaseModel
         foreach ($rows as $row) {
             $o = new static();
             foreach ($row as $field => $value) {
+                if (substr($field, -5) == '_date') {
+                    $value = Date_Helper::getDateTime($value);
+                }
                 $o->{$field} = $value;
             }
             $res[] = $o;
