@@ -127,7 +127,7 @@ class StdScm extends AbstractScmAdapter
         $modules = $params->get('module');
 
         $nfiles = count($files);
-        $files = array();
+        $res = array();
         for ($y = 0; $y < $nfiles; $y++) {
             $file = array(
                 // there may be per file global (cvs) or module (svn)
@@ -139,10 +139,10 @@ class StdScm extends AbstractScmAdapter
                 'new_version' => isset($new_versions[$y]) ? $new_versions[$y] : null,
             );
 
-            $files[] = $file;
+            $res[] = $file;
         }
 
-        return $files;
+        return $res;
     }
 
     /**
