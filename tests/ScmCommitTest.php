@@ -84,4 +84,20 @@ class ScmCommitTest extends TestCase
         $res = $r->getIssueCommitsArray($issue_id);
         print_r($res);
     }
+
+    public function testGitlabCommit()
+    {
+        $setup = Setup::get();
+        $api_url = $setup['tests.commit_url'];
+        $this->assertNotNull($api_url);
+
+        $payload = __DIR__ . '/data/gitlab-commit.json';
+        $headers = "-H 'X-Gitlab-Event: Push Hook'";
+        $this->POST($api_url, $payload, $headers);
+    }
+
+    private function POST($url, $payload, $headers = '')
+    {
+        system("curl -Ss $headers -X POST --data @{$payload} {$url}");
+    }
 }
