@@ -18,7 +18,7 @@ use DateTime;
 use DB_Helper;
 use LogicException;
 
-class BaseModel
+abstract class BaseModel
 {
     public static function create()
     {

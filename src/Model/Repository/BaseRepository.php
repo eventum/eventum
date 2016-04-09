@@ -13,7 +13,7 @@
 
 namespace Eventum\Model\Repository;
 
-class BaseRepository
+abstract class BaseRepository
 {
     public static function create()
     {
