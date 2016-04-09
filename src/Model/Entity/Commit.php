@@ -229,6 +229,21 @@ class Commit extends BaseModel
     }
 
     /**
+     * Get formatted author name, combining name and email
+     */
+    public function getAuthor()
+    {
+        $name = $this->getAuthorName();
+        $email = $this->getAuthorEmail();
+
+        if (!$email) {
+            return $name;
+        }
+
+        return "$name <$email>";
+    }
+
+    /**
      * @param string $commitId
      * @return $this
      */

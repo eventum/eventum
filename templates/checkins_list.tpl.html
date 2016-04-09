@@ -14,7 +14,7 @@
       <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="scm" list_id=$commitid}</td>
       <td>{$commitid}</td>
       <td>{$commit.com_commit_date|timeago}</td>
-      <td>{$commit.com_author_name|escape:"html"}</td>
+      <td>{$commit.author|escape:"html"}</td>
       <td>{$commit.isc_commit_msg}</td>
     </tr>
 

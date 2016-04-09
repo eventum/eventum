@@ -42,7 +42,7 @@ class CommitRepository extends BaseRepository
         // TRANSLATORS: %1: scm username
         History::add(
             $issue_id, $usr_id, 'scm_checkin_associated', "SCM Checkins associated by SCM user '{user}'", array(
-                'user' => $commit->getAuthorName(),
+                'user' => $commit->getAuthor(),
             )
         );
 
@@ -107,6 +107,7 @@ class CommitRepository extends BaseRepository
             $checkin['isc_commit_msg'] = Link_Filter::processText(
                 Issue::getProjectID($issue_id), nl2br(htmlspecialchars($checkin['com_message']))
             );
+            $checkin['author'] = $c->getAuthor();
             $checkin['files'] = array();
             foreach ($c->getFiles() as $cf) {
                 $f = $cf->toArray();
