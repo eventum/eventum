@@ -54,7 +54,8 @@ class BaseModel
         return $id;
     }
 
-    protected function findAllByConditions($where, $limit = 1) {
+    protected function findAllByConditions($where, $limit = null)
+    {
         $tableName = $this->getTableName();
         $stmt = "SELECT * FROM {$tableName} WHERE ";
         $params = array();
@@ -63,9 +64,17 @@ class BaseModel
             $conditions[] = "$col=?";
             $params[] = $val;
         }
-        $stmt .= join(' AND ', $conditions). " LIMIT $limit";
+        $stmt .= join(' AND ', $conditions);
+        if ($limit) {
+            $stmt .= " LIMIT $limit";
+        }
         $db = DB_Helper::getInstance();
         $rows = $db->getAll($stmt, $params);
+
+        // return null for no rows
+        if (!$rows) {
+            return null;
+        }
 
         // map to model
         $res = array();
