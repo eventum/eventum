@@ -23,7 +23,6 @@ class ScmCommitTest extends TestCase
 
     public function testCommit()
     {
-
         $ci = Entity\Commit::create()
             ->setScmName('test1')
             ->setAuthorName('Au Thor')
@@ -54,17 +53,27 @@ class ScmCommitTest extends TestCase
         $this->assertEquals($commit_id, $c->getCommitId());
     }
 
-    public function testGetIssueCommits() {
+    public function testGetIssueCommits()
+    {
         $issue_id = 1;
         $ic = Entity\IssueCommit::create()->findByIssueId($issue_id);
         $this->assertNotNull($ic);
         $this->assertEquals($issue_id, $ic[0]->getIssueId());
     }
 
-    public function testFindCommitById() {
+    public function testFindCommitById()
+    {
         $cid = 177966;
         $c = Entity\Commit::create()->findById($cid);
         $this->assertNotNull($c);
         $this->assertEquals($cid, $c[0]->getId());
+    }
+
+    public function testIssueCommits()
+    {
+        $issue_id = 1;
+        $r = new \Eventum\Model\Repository\CommitRepository();
+        $res = $r->getIssueCommits($issue_id);
+        print_r($res);
     }
 }

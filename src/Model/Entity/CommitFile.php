@@ -183,4 +183,13 @@ class CommitFile extends BaseModel
     {
         return $this->cof_new_version;
     }
+
+    /**
+     * @param int $cid
+     * @return $this[]
+     */
+    public function findByCommitId($cid)
+    {
+        return $this->findAllByConditions(array('cof_com_id' => $cid));
+    }
 }

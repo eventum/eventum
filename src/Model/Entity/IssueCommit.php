@@ -100,11 +100,24 @@ class IssueCommit extends BaseModel
         return $this->isc_com_id;
     }
 
+    /** @var Commit[] */
+    private $commits;
+    public function __construct()
+    {
+        $this->commits = array();
+    }
+
+    public function addCommits($commit)
+    {
+        $this->commits[] = $commit;
+    }
+
     /**
      * @param int $issue_id
      * @return $this[]
      */
-    public function findByIssueId($issue_id) {
+    public function findByIssueId($issue_id)
+    {
         return $this->findAllByConditions(array('isc_iss_id' => $issue_id));
     }
 }

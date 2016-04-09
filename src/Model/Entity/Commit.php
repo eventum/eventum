@@ -212,6 +212,14 @@ class Commit extends BaseModel
         return $this->com_message;
     }
 
+    /** @var CommitFile[] */
+    private $files;
+
+    public function addFile($cf)
+    {
+        $this->files[] = $cf;
+    }
+
     /**
      * @param string $commitId
      * @return $this
@@ -219,6 +227,7 @@ class Commit extends BaseModel
     public function findOneByCommitId($commitId)
     {
         $res = $this->findAllByConditions(array('com_commit_id' => $commitId), 1);
+
         return $res ? $res[0] : null;
     }
 

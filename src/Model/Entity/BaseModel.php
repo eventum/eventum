@@ -64,7 +64,7 @@ class BaseModel
             $conditions[] = "$col=?";
             $params[] = $val;
         }
-        $stmt .= join(' AND ', $conditions);
+        $stmt .= implode(' AND ', $conditions);
         if ($limit) {
             $stmt .= " LIMIT $limit";
         }
@@ -85,6 +85,7 @@ class BaseModel
             }
             $res[] = $o;
         }
+
         return $res;
     }
 
