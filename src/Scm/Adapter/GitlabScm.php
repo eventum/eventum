@@ -95,7 +95,7 @@ class GitlabScm extends AbstractScmAdapter
 
         $ci = Entity\Commit::create()
             ->setScmName($project)
-            ->setCommitId($commit['id'])
+            ->setChangeset($commit['id'])
             ->setAuthorEmail($commit['author']['email'])
             ->setAuthorName($commit['author']['name'])
             ->setCommitDate(Date_Helper::getDateTime($commit['timestamp']))

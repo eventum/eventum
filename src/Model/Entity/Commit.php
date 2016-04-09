@@ -31,7 +31,7 @@ class Commit extends BaseModel
     /**
      * @var string
      */
-    protected $com_commit_id;
+    protected $com_changeset;
 
     /**
      * @var string
@@ -98,33 +98,33 @@ class Commit extends BaseModel
     }
 
     /**
-     * Set comCommitId
+     * Set changeset
      *
-     * @param string $commitId
+     * @param string $changeset
      * @return Commit
      */
-    public function setCommitId($commitId)
+    public function setChangeset($changeset)
     {
-        $this->com_commit_id = $commitId;
+        $this->com_changeset = $changeset;
 
         return $this;
     }
 
     /**
-     * Get comCommitId
+     * Get changeset
      *
      * @return string
      */
-    public function getCommitId()
+    public function getChangeset()
     {
-        return $this->com_commit_id;
+        return $this->com_changeset;
     }
 
     /**
      * Set comAuthorEmail
      *
      * @param string $authorEmail
-     * @return Commit
+     * @return $this
      */
     public function setAuthorEmail($authorEmail)
     {
@@ -147,7 +147,7 @@ class Commit extends BaseModel
      * Set comAuthorName
      *
      * @param string $authorName
-     * @return Commit
+     * @return $this
      */
     public function setAuthorName($authorName)
     {
@@ -170,7 +170,7 @@ class Commit extends BaseModel
      * Set comCommitDate
      *
      * @param \DateTime $commitDate
-     * @return Commit
+     * @return $this
      */
     public function setCommitDate($commitDate)
     {
@@ -193,7 +193,7 @@ class Commit extends BaseModel
      * Set comMessage
      *
      * @param string $message
-     * @return Commit
+     * @return $this
      */
     public function setMessage($message)
     {

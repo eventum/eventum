@@ -126,7 +126,7 @@ class CommitRepository extends BaseRepository
 
                 $checkin['files'][] = $f;
             }
-            $checkins[$c->getCommitId()] = $checkin;
+            $checkins[$c->getChangeset()] = $checkin;
         }
 
         return $checkins;

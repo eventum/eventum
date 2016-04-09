@@ -94,7 +94,7 @@ class StdScm extends AbstractScmAdapter
                 ->setCommitDate(Date_Helper::getDateTime($params->get('commit_date')))
                 ->setMessage(trim($params->get('commit_msg')));
 
-            $ci->setCommitId($commitId ?: $this->generateCommitId($ci));
+            $ci->setChangeset($commitId ?: $this->generateCommitId($ci));
             $ci->save();
 
             // save issue association

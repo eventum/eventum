@@ -29,7 +29,7 @@ class ScmCommitTest extends TestCase
             ->setScmName('test1')
             ->setAuthorName('Au Thor')
             ->setCommitDate(Date_Helper::getDateTime())
-            ->setCommitId(uniqid('z1'))
+            ->setChangeset(uniqid('z1'))
             ->setMessage('Mes-Sage');
         $id = $ci->save();
         echo "Created commit: $id\n";
@@ -52,7 +52,7 @@ class ScmCommitTest extends TestCase
     {
         $commit_id = 'xl8sgtuo1xRzLW1z';
         $c = Entity\Commit::create()->findOneByCommitId($commit_id);
-        $this->assertEquals($commit_id, $c->getCommitId());
+        $this->assertEquals($commit_id, $c->getChangeset());
     }
 
     public function testGetIssueCommits()

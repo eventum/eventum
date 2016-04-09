@@ -7,7 +7,7 @@
 
 # create commits
 INSERT INTO {{%commit}}
-  (com_id, com_scm_name, com_commit_id, com_author_name, com_commit_date, com_message)
+  (com_id, com_scm_name, com_changeset, com_author_name, com_commit_date, com_message)
   SELECT
     max(isc_id),
     isc_reponame,
@@ -23,9 +23,6 @@ UPDATE {{%commit}}
   SET com_author_email = com_author_name, com_author_name = NULL
   WHERE com_author_name LIKE '%@%';
 
-# FIXME, should this be unique per reponame?
-ALTER TABLE {{%commit}} ADD UNIQUE(com_commit_id);
-
 # create file details
 INSERT INTO {{%commit_file}}
   (cof_com_id, cof_project_name, cof_filename, cof_old_version, cof_new_version)
@@ -36,7 +33,7 @@ INSERT INTO {{%commit_file}}
     isc_old_version,
     isc_new_version
   FROM {{%issue_checkin}} isc, {{%commit}} com
-  WHERE isc.isc_commitid = com.com_commit_id;
+  WHERE isc.isc_commitid = com.com_changeset;
 
 # create issue relations
 INSERT INTO {{%issue_commit}}
@@ -45,5 +42,5 @@ INSERT INTO {{%issue_commit}}
     isc_iss_id,
     com.com_id
   FROM {{%issue_checkin}} isc, {{%commit}} com
-  WHERE isc.isc_commitid = com.com_commit_id
-  GROUP BY com.com_commit_id;
+  WHERE isc.isc_commitid = com.com_changeset
+  GROUP BY com.com_changeset;
