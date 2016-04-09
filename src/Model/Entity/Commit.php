@@ -221,6 +221,13 @@ class Commit extends BaseModel
     }
 
     /**
+     * @return CommitFile[]
+     */
+    public function getFiles() {
+        return $this->files;
+    }
+
+    /**
      * @param string $commitId
      * @return $this
      */

@@ -13,8 +13,8 @@
     <tr class="{$row_class}">
       <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="scm" list_id=$commitid}</td>
       <td>{$commitid}</td>
-      <td>{$commit.isc_created_date|timeago}</td>
-      <td>{$commit.isc_username|escape:"html"}</td>
+      <td>{$commit.com_commit_date|timeago}</td>
+      <td>{$commit.com_author_name|escape:"html"}</td>
       <td>{$commit.isc_commit_msg}</td>
     </tr>
 
@@ -22,28 +22,31 @@
     {capture assign='content'}
 
       {foreach from=$commit.files key=i item=file}
+        <li>
+{*
           <input type="checkbox" name="item[]" value="{$file.isc_id}">
+*}
 
           {if $file.checkout_url}
-            <a title="{t 1=$file.isc_filename}see the log of of %1{/t}" target="_blank"
-               href="{$file.scm_log_url}">{$file.filename|escape:"html"}</a>
+            <a title="{t 1=$file.cof_filename}see the log of of %1{/t}" target="_blank"
+               href="{$file.scm_log_url}">{$file.cof_filename|escape:"html"}</a>
             {if $file.added}
               ({t}ADDED{/t})
             {elseif $file.removed}
               ({t}REMOVED{/t})
             {else}
               (<a
-                title="{t 1=$file.isc_new_version 2=$file.isc_filename}see the source of revision %1 of %2{/t}"
+                title="{t 1=$file.cof_new_version 2=$file.cof_filename}see the source of revision %1 of %2{/t}"
                 target="_blank" href="{$file.checkout_url}"><span
-                  class=revision>{$file.isc_new_version}</span></a>)
+                  class=revision>{$file.cof_new_version}</span></a>)
             {/if}
           {else}
-            {$file.isc_filename|escape:"html"}
+            {$file.cof_filename|escape:"html"}
           {/if}
           {if $file.diff_url && !$file.added && !$file.removed}
             [
-            <a title="{t 1=$file.isc_old_version}see the diff to revision %1{/t}" target="_blank"
-               href="{$file.diff_url}">{t 1=$file.isc_old_version escape=no}diff to
+            <a title="{t 1=$file.cof_old_version}see the diff to revision %1{/t}" target="_blank"
+               href="{$file.diff_url}">{t 1=$file.cof_old_version escape=no}diff to
                 <span class=revision>%1</span>{/t}</a>
             ]
           {/if}

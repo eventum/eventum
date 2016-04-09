@@ -115,6 +115,14 @@ class BaseModel
     }
 
     /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return get_object_vars($this);
+    }
+
+    /**
      * Get table name from current class
      *
      * @return string

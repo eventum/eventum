@@ -87,55 +87,39 @@ class SCM
      */
     public static function getCheckinList($issue_id)
     {
-        $stmt = 'SELECT
-                    *
-                 FROM
-                    {{%issue_checkin}}
-                 WHERE
-                    isc_iss_id=?
-                 ORDER BY
-                    isc_created_date ASC';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
-        } catch (DatabaseException $e) {
-            return array();
-        }
+        $r = new \Eventum\Model\Repository\CommitRepository();
+        $res = $r->getIssueCommits($issue_id);
 
-        if (empty($res)) {
-            return array();
-        }
+        // convert commits to array
+        $checkins = array();
 
-        foreach ($res as $i => &$checkin) {
-            $scm = self::getScmCheckinByName($checkin['isc_reponame']);
+        foreach ($res as $c) {
+            $scm = self::getScmCheckinByName($c->getScmName());
 
-            // add ADDED and REMOVED fields
-            $checkin['added'] = !isset($checkin['isc_old_version']);
-            $checkin['removed'] = !isset($checkin['isc_new_version']);
-
+            $checkin = $c->toArray();
+            $checkin['isc_commit_date'] = Date_Helper::convertDateGMT($checkin['com_commit_date']);
             $checkin['isc_commit_msg'] = Link_Filter::processText(
-                Issue::getProjectID($issue_id), nl2br(htmlspecialchars($checkin['isc_commit_msg']))
+                Issue::getProjectID($issue_id), nl2br(htmlspecialchars($checkin['com_message']))
             );
-            $checkin['checkout_url'] = $scm->getCheckoutUrl($checkin);
-            $checkin['diff_url'] = $scm->getDiffUrl($checkin);
-            $checkin['scm_log_url'] = $scm->getLogUrl($checkin);
-        }
-        unset($checkin);
+            $checkin['files'] = array();
+            foreach ($c->getFiles() as $cf) {
+                $f = $cf->toArray();
 
-        // restructure checkins based on commitid
-        // temporarily here until db structure is also modified
-        $changesets = array();
-        foreach ($res as $i => $checkin) {
-            $commitid = $checkin['isc_commitid'] ?: md5(serialize($checkin)). 'z3';
-            if (!isset($changesets[$commitid])) {
-                $changesets[$commitid] = $checkin;
-                $changesets[$commitid]['files'] = array();
+                // add ADDED and REMOVED fields
+                $f['added'] = !isset($f['cof_old_version']);
+                $f['removed'] = !isset($f['cof_new_version']);
+
+                // fill urls
+                $f['checkout_url'] = $scm->getCheckoutUrl($f);
+                $f['diff_url'] = $scm->getDiffUrl($f);
+                $f['scm_log_url'] = $scm->getLogUrl($f);
+
+                $checkin['files'][] = $f;
             }
-            // join isc_module and isc_filename
-            $checkin['filename'] = "{$checkin['isc_module']}/{$checkin['isc_filename']}";
-            $changesets[$commitid]['files'][] = $checkin;
+            $checkins[$c->getCommitId()] = $checkin;
         }
 
-        return $changesets;
+        return $checkins;
     }
 
     /**
