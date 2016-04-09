@@ -13,6 +13,8 @@
 
 use Eventum\Model\Entity;
 use Eventum\Monolog\Logger;
+use Eventum\Scm\Adapter\GitlabScm;
+use Symfony\Component\HttpFoundation\Request;
 
 class ScmCommitTest extends TestCase
 {
@@ -85,15 +87,43 @@ class ScmCommitTest extends TestCase
         print_r($res);
     }
 
-    public function testGitlabCommit()
+    /**
+     * Test commit push over Api
+     */
+    public function testGitlabCommitApi()
+    {
+        $api_url = $this->getCommitUrl();
+        $payload = file_get_contents(__DIR__ . '/data/gitlab-commit.json');
+
+        $request = Request::create($api_url, 'GET', array(), array(), array(), array(), $payload);
+        $request->headers->set(GitlabScm::GITLAB_HEADER, 'Push Hook');
+
+        $logger = Logger::app();
+        $handler = new GitlabScm($request, $logger);
+        $this->assertTrue($handler->can());
+
+        $handler->process();
+    }
+
+    /**
+     * Test commit push over http
+     */
+    public function testGitlabCommitUrl()
+    {
+        $api_url = $this->getCommitUrl();
+
+        $payload = __DIR__ . '/data/gitlab-commit.json';
+        $headers = "-H 'X-Gitlab-Event: Push Hook'";
+        $this->POST($api_url, $payload, $headers);
+    }
+
+    private function getCommitUrl()
     {
         $setup = Setup::get();
         $api_url = $setup['tests.commit_url'];
         $this->assertNotNull($api_url);
 
-        $payload = __DIR__ . '/data/gitlab-commit.json';
-        $headers = "-H 'X-Gitlab-Event: Push Hook'";
-        $this->POST($api_url, $payload, $headers);
+        return $api_url;
     }
 
     private function POST($url, $payload, $headers = '')
