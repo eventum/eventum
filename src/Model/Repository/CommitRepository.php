@@ -17,7 +17,6 @@ use Date_Helper;
 use Eventum\Model\Entity;
 use Issue;
 use Link_Filter;
-use SCM;
 
 class CommitRepository extends BaseRepository
 {
@@ -71,7 +70,7 @@ class CommitRepository extends BaseRepository
 
         $checkins = array();
         foreach ($res as $c) {
-            $scm = SCM::getScmCheckinByName($c->getScmName());
+            $scm = $c->getCommitRepo();
 
             $checkin = $c->toArray();
             $checkin['isc_commit_date'] = Date_Helper::convertDateGMT($checkin['com_commit_date']);

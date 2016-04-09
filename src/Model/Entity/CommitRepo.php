@@ -11,37 +11,47 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Model\Entity;
+
+use InvalidArgumentException;
+use Setup;
+
 /**
- * Class ScmCheckin
+ * Class Eventum\Model\Entity\CommitRepo
  */
-class ScmCheckin
+class CommitRepo
 {
-    private $name;
     private $checkout_url;
     private $diff_url;
     private $log_url;
 
-    public function __construct($config)
+    /** @var array */
+    private $config;
+
+    public function __construct($name)
     {
-        $this->name = $config['name'];
-        $this->checkout_url = $config['checkout_url'];
-        $this->diff_url = $config['diff_url'];
-        $this->log_url = $config['log_url'];
+        $setup = Setup::get();
+
+        if (!isset($setup['scm'][$name])) {
+            throw new InvalidArgumentException("SCM Repo '$name' not defined");
+        }
+
+        $this->config = $setup['scm'][$name];
     }
 
     public function getCheckoutUrl($checkin)
     {
-        return $this->parseURL($this->checkout_url, $checkin);
+        return $this->parseURL($this->config['checkout_url'], $checkin);
     }
 
     public function getDiffUrl($checkin)
     {
-        return $this->parseURL($this->diff_url, $checkin);
+        return $this->parseURL($this->config['diff_url'], $checkin);
     }
 
     public function getLogUrl($checkin)
     {
-        return $this->parseURL($this->log_url, $checkin);
+        return $this->parseURL($this->config['log_url'], $checkin);
     }
 
     /**

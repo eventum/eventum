@@ -13,6 +13,7 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\MailMessage;
+use Eventum\Model\Entity\CommitRepo;
 
 class Workflow
 {
@@ -443,7 +444,7 @@ class Workflow
      * Called when SCM checkins are associated.
      *
      * @param   integer $prj_id The project ID.
-     * @param   ScmCheckin $scm SCM config associated with the commit
+     * @param   CommitRepo $scm SCM config associated with the commit
      * @param   string $commitid
      * @param   integer $issue_id The ID of the issue.
      * @param   array $files File list with their version numbers changes made on.

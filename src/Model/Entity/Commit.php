@@ -247,4 +247,12 @@ class Commit extends BaseModel
     {
         return $this->findAllByConditions(array('com_id' => $id));
     }
+
+    /**
+     * @return CommitRepo
+     */
+    public function getCommitRepo()
+    {
+        return new CommitRepo($this->getScmName());
+    }
 }

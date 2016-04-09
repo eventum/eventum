@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Model\Entity\CommitRepo;
+
 /**
  * Abstract Class that all workflow backends should extend. This is so any new
  * workflow methods added in future releases will not break current backends.
@@ -335,7 +337,7 @@ class Abstract_Workflow_Backend
      * @param   array $files File list with their version numbers changes made on.
      * @param   string $username SCM user doing the checkin.
      * @param   string $commit_msg Message associated with the SCM commit.
-     * @param   ScmCheckin $scm SCM config associated with the commit
+     * @param   CommitRepo $scm SCM config associated with the commit
      * @param   string $commitid
      */
     public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg, $scm, $commitid)

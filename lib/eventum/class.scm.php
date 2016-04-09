@@ -95,7 +95,7 @@ class SCM
     {
         // validate that $scm_name is valid
         // this will throw if invalid
-        $scm = self::getScmCheckinByName($scm_name);
+        $scm = new \Eventum\Model\Entity\CommitRepo($scm_name);
 
         // TODO: add workflow pre method first, so it may setup username, etc
         $usr_id = APP_SYSTEM_USER_ID;
@@ -170,29 +170,5 @@ class SCM
         }
 
         return 1;
-    }
-
-    /**
-     * Get ScmCheckin based on SCM name
-     *
-     * @param string $scm_name
-     * @return ScmCheckin
-     * @throws Exception
-     */
-    public static function getScmCheckinByName($scm_name)
-    {
-        static $instances;
-
-        if (isset($instances[$scm_name])) {
-            return $instances[$scm_name];
-        }
-
-        $setup = Setup::get();
-
-        if (!isset($setup['scm'][$scm_name])) {
-            throw new Exception("SCM '$scm_name' not defined");
-        }
-
-        return $instances[$scm_name] = new ScmCheckin($setup['scm'][$scm_name]);
     }
 }

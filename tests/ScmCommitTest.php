@@ -71,9 +71,17 @@ class ScmCommitTest extends TestCase
 
     public function testIssueCommits()
     {
+        $setup = Setup::get();
+        $setup['scm']['cvs'] = array(
+            'name' => 'cvs',
+            'checkout_url' => 'https://localhost/{MODULE}/{FILE}?rev={NEW_VERSION}&content-type=text/x-cvsweb-markup',
+            'diff_url' => 'https://localhost/{MODULE}/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&f=h',
+            'log_url' => 'https://localhost/{MODULE}/{FILE}?r1={VERSION}#rev{VERSION}',
+        );
+
         $issue_id = 1;
         $r = new \Eventum\Model\Repository\CommitRepository();
-        $res = $r->getIssueCommits($issue_id);
+        $res = $r->getIssueCommitsArray($issue_id);
         print_r($res);
     }
 }
