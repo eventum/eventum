@@ -54,7 +54,7 @@ class BaseModel
         return $id;
     }
 
-    protected function findAllByConditions($where, $limit = null)
+    protected function findAllByConditions($where, $limit = null, $order = null)
     {
         $tableName = $this->getTableName();
         $stmt = "SELECT * FROM {$tableName} WHERE ";
@@ -65,6 +65,9 @@ class BaseModel
             $params[] = $val;
         }
         $stmt .= implode(' AND ', $conditions);
+        if ($order) {
+            $stmt .= " ORDER BY $order";
+        }
         if ($limit) {
             $stmt .= " LIMIT $limit";
         }
