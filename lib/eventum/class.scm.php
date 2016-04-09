@@ -80,49 +80,6 @@ class SCM
     }
 
     /**
-     * Method used to get the full list of checkins associated with an issue.
-     *
-     * @param   integer $issue_id The issue ID
-     * @return  array The list of checkins
-     */
-    public static function getCheckinList($issue_id)
-    {
-        $r = new \Eventum\Model\Repository\CommitRepository();
-        $res = $r->getIssueCommits($issue_id);
-
-        // convert commits to array
-        $checkins = array();
-
-        foreach ($res as $c) {
-            $scm = self::getScmCheckinByName($c->getScmName());
-
-            $checkin = $c->toArray();
-            $checkin['isc_commit_date'] = Date_Helper::convertDateGMT($checkin['com_commit_date']);
-            $checkin['isc_commit_msg'] = Link_Filter::processText(
-                Issue::getProjectID($issue_id), nl2br(htmlspecialchars($checkin['com_message']))
-            );
-            $checkin['files'] = array();
-            foreach ($c->getFiles() as $cf) {
-                $f = $cf->toArray();
-
-                // add ADDED and REMOVED fields
-                $f['added'] = !isset($f['cof_old_version']);
-                $f['removed'] = !isset($f['cof_new_version']);
-
-                // fill urls
-                $f['checkout_url'] = $scm->getCheckoutUrl($f);
-                $f['diff_url'] = $scm->getDiffUrl($f);
-                $f['scm_log_url'] = $scm->getLogUrl($f);
-
-                $checkin['files'][] = $f;
-            }
-            $checkins[$c->getCommitId()] = $checkin;
-        }
-
-        return $checkins;
-    }
-
-    /**
      * Method used to associate checkins to an existing issue
      *
      * @param   integer $issue_id The ID of the issue.
@@ -222,7 +179,7 @@ class SCM
      * @return ScmCheckin
      * @throws Exception
      */
-    private static function getScmCheckinByName($scm_name)
+    public static function getScmCheckinByName($scm_name)
     {
         static $instances;
 

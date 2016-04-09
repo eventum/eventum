@@ -13,7 +13,11 @@
 
 namespace Eventum\Model\Repository;
 
+use Date_Helper;
 use Eventum\Model\Entity;
+use Issue;
+use Link_Filter;
+use SCM;
 
 class CommitRepository extends BaseRepository
 {
@@ -53,5 +57,45 @@ class CommitRepository extends BaseRepository
         uasort($res, $sorter);
 
         return $res;
+    }
+
+    /**
+     * Get commits related to issue formatted to array for templating
+     *
+     * @param   integer $issue_id The issue ID
+     * @return  array The list of checkins
+     */
+    public function getIssueCommitsArray($issue_id)
+    {
+        $res = $this->getIssueCommits($issue_id);
+
+        $checkins = array();
+        foreach ($res as $c) {
+            $scm = SCM::getScmCheckinByName($c->getScmName());
+
+            $checkin = $c->toArray();
+            $checkin['isc_commit_date'] = Date_Helper::convertDateGMT($checkin['com_commit_date']);
+            $checkin['isc_commit_msg'] = Link_Filter::processText(
+                Issue::getProjectID($issue_id), nl2br(htmlspecialchars($checkin['com_message']))
+            );
+            $checkin['files'] = array();
+            foreach ($c->getFiles() as $cf) {
+                $f = $cf->toArray();
+
+                // add ADDED and REMOVED fields
+                $f['added'] = !isset($f['cof_old_version']);
+                $f['removed'] = !isset($f['cof_new_version']);
+
+                // fill urls
+                $f['checkout_url'] = $scm->getCheckoutUrl($f);
+                $f['diff_url'] = $scm->getDiffUrl($f);
+                $f['scm_log_url'] = $scm->getLogUrl($f);
+
+                $checkin['files'][] = $f;
+            }
+            $checkins[$c->getCommitId()] = $checkin;
+        }
+
+        return $checkins;
     }
 }
