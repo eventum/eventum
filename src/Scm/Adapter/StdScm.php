@@ -83,19 +83,17 @@ class StdScm extends AbstractScmAdapter
             throw new InvalidArgumentException('No issues provided');
         }
 
+        $cr = CommitRepository::create();
+
         $commitId = $params->get('commitid');
         $ci = Entity\Commit::create()->findOneByCommitId($commitId);
 
+        // if ci already seen, skip adding commit and issue association
+        // but still process commit files.
+        // as cvs handler sends files in subdirs as separate requests
         if (!$ci) {
-            // add commit
-            $ci = Entity\Commit::create()
-                ->setScmName($params->get('scm_name'))
-                ->setProjectName($params->get('project'))
-                ->setAuthorName($params->get('username'))
-                ->setCommitDate(Date_Helper::getDateTime($params->get('commit_date')))
-                ->setMessage(trim($params->get('commit_msg')));
-
-            $ci->setChangeset($commitId ?: $this->generateCommitId($ci));
+            $ci = $this->createCommit($params, $commitId);
+            $cr->preCommit($ci, $params);
             $ci->save();
 
             // save issue association
@@ -123,10 +121,28 @@ class StdScm extends AbstractScmAdapter
             $ci->addFile($cf);
         }
 
-        $cr = CommitRepository::create();
         foreach ($issues as $issue_id) {
             $cr->addCommit($issue_id, $ci);
         }
+    }
+
+    /**
+     * @param ParameterBag $params
+     * @param string $commitId
+     * @return Entity\Commit
+     */
+    private function createCommit(ParameterBag $params, $commitId)
+    {
+        $ci = Entity\Commit::create()
+            ->setScmName($params->get('scm_name'))
+            ->setProjectName($params->get('project'))
+            ->setAuthorName($params->get('username'))
+            ->setCommitDate(Date_Helper::getDateTime($params->get('commit_date')))
+            ->setMessage(trim($params->get('commit_msg')));
+
+        $ci->setChangeset($commitId ?: $this->generateCommitId($ci));
+
+        return $ci;
     }
 
     /**

@@ -57,6 +57,7 @@ class CommitRepo
     public function getChangesetUrl(Commit $commit)
     {
         $changeset = $commit->getChangeset();
+
         return str_replace('{CHANGESET}', $changeset, $this->config['changeset_url']);
     }
 
