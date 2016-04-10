@@ -111,6 +111,7 @@ class CommitRepository extends BaseRepository
                 Issue::getProjectID($issue_id), nl2br(htmlspecialchars($checkin['com_message']))
             );
             $checkin['author'] = $c->getAuthor();
+            $checkin['project_name'] = $c->getProjectName();
             $checkin['files'] = array();
             foreach ($c->getFiles() as $cf) {
                 $f = $cf->toArray();
