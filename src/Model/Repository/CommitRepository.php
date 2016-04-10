@@ -23,6 +23,17 @@ use Workflow;
 class CommitRepository extends BaseRepository
 {
     /**
+     * Method called on Commit to add/update project name/commit author by workflow
+     *
+     * @param Entity\Commit $ci
+     * @param array $payload
+     */
+    public function preCommit(Entity\Commit $ci, $payload)
+    {
+        Workflow::preScmCommit($ci, $payload);
+    }
+
+    /**
      * Associate commit to an existing issue,
      * additionally notifies workflow about new commit
      *

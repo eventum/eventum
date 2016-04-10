@@ -63,10 +63,17 @@ class GitlabScm extends AbstractScmAdapter
                 continue;
             }
             $this->log->debug('commit', array('issues' => $issues, 'commit' => $commit));
-            $ci = $this->addCommit($commit, $project);
-            if (!$ci) {
+
+            $ci = Entity\Commit::create()->findOneByCommitId($commit['id']);
+            if ($ci) {
+                // commit already seen, skip
                 continue;
             }
+
+            $ci = $this->createCommit($commit);
+            $ci->setProjectName($project);
+            $cr->preCommit($ci, $payload);
+            $this->addCommitFiles($ci, $commit);
 
             foreach ($issues as $issue_id) {
                 Entity\IssueCommit::create()
@@ -79,28 +86,26 @@ class GitlabScm extends AbstractScmAdapter
     }
 
     /**
-     * Add commit and files from it
-     *
      * @param array $commit
-     * @param string $project
      * @return Entity\Commit
      */
-    private function addCommit($commit, $project)
+    private function createCommit($commit)
     {
-        $ci = Entity\Commit::create()->findOneByCommitId($commit['id']);
-        if ($ci) {
-            // commit already seen, skip
-            return null;
-        }
-
-        $ci = Entity\Commit::create()
-            ->setScmName($project)
-            ->setProjectName($project)
+        return Entity\Commit::create()
             ->setChangeset($commit['id'])
             ->setAuthorEmail($commit['author']['email'])
             ->setAuthorName($commit['author']['name'])
             ->setCommitDate(Date_Helper::getDateTime($commit['timestamp']))
             ->setMessage(trim($commit['message']));
+    }
+
+    /**
+     * Add commit files from $commit array
+     *
+     * @param array $commit
+     */
+    private function addCommitFiles(Entity\Commit $ci, $commit)
+    {
         $ci->save();
 
         foreach ($commit['added'] as $file) {
@@ -124,8 +129,6 @@ class GitlabScm extends AbstractScmAdapter
             $cf->save();
             $ci->addFile($cf);
         }
-
-        return $ci;
     }
 
     /*

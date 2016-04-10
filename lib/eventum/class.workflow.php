@@ -457,6 +457,16 @@ class Workflow
     }
 
     /**
+     * @param Entity\Commit $ci
+     * @param array $payload
+     * @since 3.0.12
+     */
+    public static function preScmCommit($ci, $payload)
+    {
+        //$ci->setScmName('gitlab');
+    }
+
+    /**
      * Determines if the address should should be emailed.
      *
      * @param integer $prj_id The project ID.
