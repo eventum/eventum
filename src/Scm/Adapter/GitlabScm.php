@@ -95,6 +95,7 @@ class GitlabScm extends AbstractScmAdapter
 
         $ci = Entity\Commit::create()
             ->setScmName($project)
+            ->setProjectName($project)
             ->setChangeset($commit['id'])
             ->setAuthorEmail($commit['author']['email'])
             ->setAuthorName($commit['author']['name'])
@@ -104,7 +105,6 @@ class GitlabScm extends AbstractScmAdapter
 
         foreach ($commit['added'] as $file) {
             $cf = Entity\CommitFile::create()
-                ->setProjectName($project)
                 ->setCommitId($ci->getId())
                 ->setFilename($file);
             $cf->save();
@@ -113,14 +113,12 @@ class GitlabScm extends AbstractScmAdapter
         foreach ($commit['modified'] as $file) {
             $cf = Entity\CommitFile::create()
                 ->setCommitId($ci->getId())
-                ->setProjectName($project)
                 ->setFilename($file);
             $cf->save();
             $ci->addFile($cf);
         }
         foreach ($commit['removed'] as $file) {
             $cf = Entity\CommitFile::create()
-                ->setProjectName($project)
                 ->setCommitId($ci->getId())
                 ->setFilename($file);
             $cf->save();

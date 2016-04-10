@@ -106,7 +106,7 @@ class Commit extends BaseModel
      * Set SCM ProjectName
      *
      * @param string $projectName
-     * @return CommitFile
+     * @return $this
      */
     public function setProjectName($projectName)
     {

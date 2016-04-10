@@ -90,6 +90,7 @@ class StdScm extends AbstractScmAdapter
             // add commit
             $ci = Entity\Commit::create()
                 ->setScmName($params->get('scm_name'))
+                ->setProjectName($params->get('project'))
                 ->setAuthorName($params->get('username'))
                 ->setCommitDate(Date_Helper::getDateTime($params->get('commit_date')))
                 ->setMessage(trim($params->get('commit_msg')));
@@ -117,8 +118,7 @@ class StdScm extends AbstractScmAdapter
                 ->setCommitId($ci->getId())
                 ->setFilename($file['file'])
                 ->setOldVersion($file['old_version'])
-                ->setNewVersion($file['new_version'])
-                ->setProjectName($file['module']);
+                ->setNewVersion($file['new_version']);
             $cf->save();
             $ci->addFile($cf);
         }
