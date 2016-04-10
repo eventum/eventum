@@ -12,7 +12,12 @@
     {cycle values='odd,even' assign="row_class"}
     <tr class="{$row_class}">
       <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="scm" list_id=$commitid}</td>
-      <td>{$commitid}
+      <td>
+        {if $commit.changeset_url}
+          <a href="{$commit.changeset_url}" target="_blank">{$commitid}</a>
+        {else}
+          {$commitid}
+        {/if}
         {if $commit.project_name}
         in {$commit.project_name}
         {/if}

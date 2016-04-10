@@ -54,6 +54,12 @@ class CommitRepo
         return $this->parseURL($this->config['log_url'], $checkin);
     }
 
+    public function getChangesetUrl(Commit $commit)
+    {
+        $changeset = $commit->getChangeset();
+        return str_replace('{CHANGESET}', $changeset, $this->config['changeset_url']);
+    }
+
     /**
      * Method used to parse an user provided URL and substitute a known set of
      * placeholders for the appropriate information.
