@@ -13,7 +13,8 @@ create table {{%commit}} (
   com_project_name varchar(255) NOT NULL DEFAULT '',
 
   # scm changeset, 40 chars to fit git commit hashes
-  com_changeset varchar(40) binary not null,
+  com_changeset varchar(40) not null,
+  com_branch varchar(255) NULL,
   com_author_email varchar(255) DEFAULT NULL,
   com_author_name varchar(255) DEFAULT NULL,
   com_commit_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',

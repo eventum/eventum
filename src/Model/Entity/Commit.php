@@ -41,6 +41,11 @@ class Commit extends BaseModel
     /**
      * @var string
      */
+    protected $com_branch;
+
+    /**
+     * @var string
+     */
     protected $com_author_email;
 
     /**
@@ -146,6 +151,29 @@ class Commit extends BaseModel
     public function getChangeset()
     {
         return $this->com_changeset;
+    }
+
+    /**
+     * Set SCM branch
+     *
+     * @param string $branch
+     * @return $this
+     */
+    public function setBranch($branch)
+    {
+        $this->com_branch = $branch;
+
+        return $this;
+    }
+
+    /**
+     * Get SCM branch
+     *
+     * @return string
+     */
+    public function getBranch()
+    {
+        return $this->com_branch;
     }
 
     /**
