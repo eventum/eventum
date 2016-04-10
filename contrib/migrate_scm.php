@@ -15,11 +15,6 @@
 /*
  * This script is able to migrate scm repo commits to newer structure.
  * that is db patches after 53-55 introduced in eventum 3.0.12
- *
- * for git repos:
- * - move com_scm_name as cof_project_name
- * - clear file versions, git doesn't track changes per files [notyet]
- * - fill added, removed, modified flag [notyet]
  */
 
 use Eventum\Db\Adapter\AdapterInterface;
@@ -45,24 +40,119 @@ function all_repos()
     return $db->getColumn("SELECT DISTINCT com_scm_name FROM {{%commit}}");
 }
 
-function migrate_git_repos($repos, $git_name)
+/**
+ * - move com_scm_name as com_project_name
+ * - set com_scm_name to $git_name
+ * - clear file versions, git doesn't track changes per files [notyet]
+ * - fill added, removed, modified flag [notyet]
+ */
+function migrate_git_repos()
 {
-    global $db;
+    global $db, $all_repos, $repo_types, $git_name;
 
-    foreach ($repos as $repo) {
-        $commits = $db->getColumn("select com_id from {{%commit}} where com_scm_name=?", array($repo));
+    $git_repos = array_filter(
+        $all_repos, function ($e) use ($repo_types) {
+            return array_key_exists($e, $repo_types) === false;
+        }
+    );
+
+    foreach ($git_repos as $repo) {
+        $commits = $db->getColumn("SELECT com_id FROM {{%commit}} WHERE com_scm_name=?", array($repo));
         $commits = join(',', $commits);
-        $db->query("update {{%commit}} set com_project_name=com_scm_name, com_scm_name=? where com_scm_name=?", array($git_name, $repo));
+        $db->query(
+            "UPDATE {{%COMMIT}} SET com_project_name=com_scm_name, com_scm_name=? WHERE com_scm_name=?",
+            array($git_name, $repo)
+        );
         echo "$repo -> $commits\n";
+    }
+}
+
+/**
+ * Create a routine that, given a set of strings representing directory paths and a single character directory separator, will return a string representing that part of the directory tree that is common to all the directories.
+ *
+ * Test your routine using the forward slash '/' character as the directory separator and the following three strings as input paths:
+ * '/home/user1/tmp/coverage/test'
+ * '/home/user1/tmp/covert/operator'
+ * '/home/user1/tmp/coven/members'
+ * Note: The resultant path should be the valid directory '/home/user1/tmp' and not the longest common string '/home/user1/tmp/cove'.
+ * If your language has a routine that performs this function (even if it does not have a changeable separator character), then mention it as part of the task.
+ *
+ * @param array $dirList
+ * @link https://www.rosettacode.org/wiki/Find_common_directory_path#PHP
+ * @return string
+ */
+function find_common_path($dirList)
+{
+    $arr = array();
+    foreach ($dirList as $i => $path) {
+        $dirList[$i] = explode('/', $path);
+        unset($dirList[$i][0]);
+
+        $arr[$i] = count($dirList[$i]);
+    }
+
+    $min = min($arr);
+
+    for ($i = 0; $i < count($dirList); $i++) {
+        while (count($dirList[$i]) > $min) {
+            array_pop($dirList[$i]);
+        }
+
+        $dirList[$i] = '/' . implode('/', $dirList[$i]);
+    }
+
+    $dirList = array_unique($dirList);
+    while (count($dirList) !== 1) {
+        $dirList = array_map('dirname', $dirList);
+        $dirList = array_unique($dirList);
+    }
+    reset($dirList);
+
+    return current($dirList);
+}
+
+/**
+ * find common root (directory path) of files
+ *
+ * @param $files
+ * @return string
+ */
+function find_common_root($files)
+{
+    $dirs = array_map(
+        function ($f) {
+            return dirname($f);
+        }, $files
+    );
+    return find_common_path($dirs);
+}
+
+/**
+ * - Find common root of files in changeset, set that as com_project_name
+ */
+function migrate_svn_repos()
+{
+    global $db, $all_repos, $repo_types;
+    $svn_repos = array_filter(
+        $all_repos, function ($e) use ($repo_types) {
+        return isset($repo_types[$e]) && $repo_types[$e] == 'svn';
+    }
+    );
+    $list = DB_Helper::buildList($svn_repos);
+    $commits = $db->getColumn("select com_id from {{%commit}} where com_scm_name in ($list)", $svn_repos);
+
+    foreach ($commits as $commit) {
+        $files = $db->getColumn("SELECT cof_filename FROM {{%commit_file}} WHERE cof_com_id=?", array($commit));
+        $commit_root = find_common_root($files);
+        $db->query(
+            "UPDATE {{%commit}} SET com_project_name=? WHERE com_id=?",
+            array($commit_root, $commit)
+        );
+        echo "$commit -> $commit_root\n";
     }
 }
 
 $all_repos = all_repos();
 
-$git_repos = array_filter(
-    $all_repos, function ($e) use ($repo_types) {
-        return array_key_exists($e, $repo_types) === false;
-    }
-);
-
-migrate_git_repos($git_repos, $git_name);
+migrate_git_repos();
+migrate_svn_repos();
