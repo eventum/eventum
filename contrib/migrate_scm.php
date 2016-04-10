@@ -60,7 +60,7 @@ function migrate_git_repos()
         $commits = $db->getColumn("SELECT com_id FROM {{%commit}} WHERE com_scm_name=?", array($repo));
         $commits = join(',', $commits);
         $db->query(
-            "UPDATE {{%COMMIT}} SET com_project_name=com_scm_name, com_scm_name=? WHERE com_scm_name=?",
+            "UPDATE {{%commit}} SET com_project_name=com_scm_name, com_scm_name=? WHERE com_scm_name=?",
             array($git_name, $repo)
         );
         echo "$repo -> $commits\n";
@@ -121,10 +121,18 @@ function find_common_root($files)
 {
     $dirs = array_map(
         function ($f) {
-            return dirname($f);
+            $dir = dirname($f);
+            // prepend leading slash and avoid duplicate slashes
+            return '/' . ltrim($dir, '/');
         }, $files
     );
-    return find_common_path($dirs);
+
+    $dir = find_common_path($dirs);
+
+    // strip leading slash that we added
+    $dir = ltrim($dir, '/');
+
+    return $dir;
 }
 
 /**
