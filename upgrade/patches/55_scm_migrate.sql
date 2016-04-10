@@ -23,6 +23,9 @@ UPDATE {{%commit}}
   SET com_author_email = com_author_name, com_author_name = NULL
   WHERE com_author_name LIKE '%@%';
 
+# FIXME, should this be unique per reponame/branch
+alter table {{%commit} add UNIQUE (com_changeset);
+
 # create file details
 INSERT INTO {{%commit_file}}
   (cof_com_id, cof_filename, cof_old_version, cof_new_version)
@@ -43,3 +46,5 @@ INSERT INTO {{%issue_commit}}
   FROM {{%issue_checkin}} isc, {{%commit}} com
   WHERE isc.isc_commitid = com.com_changeset
   GROUP BY com.com_changeset;
+
+alter table {{%commit}} drop index com_changeset;

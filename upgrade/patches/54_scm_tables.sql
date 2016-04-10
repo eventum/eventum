@@ -18,9 +18,6 @@ create table {{%commit}} (
   com_author_name varchar(255) DEFAULT NULL,
   com_commit_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   com_message mediumtext,
-
-  # FIXME, should this be unique per reponame/branch
-  UNIQUE (com_changeset)
 ) ENGINE=MYISAM DEFAULT CHARSET=utf8;
 
 # commit file details (for CVS and SVN)
