@@ -32,6 +32,8 @@ $repo_types = array(
     'svn' => 'svn',
     'cvs' => 'cvs',
 );
+# git repo name to use after migration
+$git_name = 'git';
 
 /** @var AdapterInterface $db */
 $db = DB_Helper::getInstance();
@@ -43,14 +45,14 @@ function all_repos()
     return $db->getColumn("SELECT DISTINCT com_scm_name FROM {{%commit}}");
 }
 
-function migrate_git_repos($repos)
+function migrate_git_repos($repos, $git_name)
 {
     global $db;
 
     foreach ($repos as $repo) {
         $commits = $db->getColumn("select com_id from {{%commit}} where com_scm_name=?", array($repo));
         $commits = join(',', $commits);
-        $db->query("update {{%commit}} set com_project_name=com_scm_name where com_scm_name=?", array($repo));
+        $db->query("update {{%commit}} set com_project_name=com_scm_name, com_scm_name=? where com_scm_name=?", array($git_name, $repo));
         echo "$repo -> $commits\n";
     }
 }
@@ -63,4 +65,4 @@ $git_repos = array_filter(
     }
 );
 
-migrate_git_repos($git_repos);
+migrate_git_repos($git_repos, $git_name);

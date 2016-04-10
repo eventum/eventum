@@ -63,7 +63,7 @@ class CommitRepo
      */
     private function parseURL($url, $checkin)
     {
-        $url = str_replace('{MODULE}', $checkin['cof_project_name'], $url);
+        $url = str_replace('{MODULE}', $checkin['project_name'], $url);
         $url = str_replace('{FILE}', $checkin['cof_filename'], $url);
         $url = str_replace('{OLD_VERSION}', $checkin['cof_old_version'], $url);
         $url = str_replace('{NEW_VERSION}', $checkin['cof_new_version'], $url);

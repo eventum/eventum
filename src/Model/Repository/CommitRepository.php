@@ -119,6 +119,9 @@ class CommitRepository extends BaseRepository
                 $f['added'] = !isset($f['cof_old_version']);
                 $f['removed'] = !isset($f['cof_new_version']);
 
+                // fill for url builder
+                $f['project_name'] = $c->getProjectName();
+
                 // fill urls
                 $f['checkout_url'] = $scm->getCheckoutUrl($f);
                 $f['diff_url'] = $scm->getDiffUrl($f);
