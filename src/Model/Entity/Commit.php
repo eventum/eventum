@@ -31,6 +31,11 @@ class Commit extends BaseModel
     /**
      * @var string
      */
+    protected $com_project_name;
+
+    /**
+     * @var string
+     */
     protected $com_changeset;
 
     /**
@@ -75,10 +80,10 @@ class Commit extends BaseModel
     }
 
     /**
-     * Set comScmName
+     * Set SCM Name
      *
      * @param string $scmName
-     * @return Commit
+     * @return $this
      */
     public function setScmName($scmName)
     {
@@ -88,7 +93,7 @@ class Commit extends BaseModel
     }
 
     /**
-     * Get comScmName
+     * Get SCM Name
      *
      * @return string
      */
@@ -98,10 +103,33 @@ class Commit extends BaseModel
     }
 
     /**
+     * Set SCM ProjectName
+     *
+     * @param string $projectName
+     * @return CommitFile
+     */
+    public function setProjectName($projectName)
+    {
+        $this->com_project_name = $projectName;
+
+        return $this;
+    }
+
+    /**
+     * Get SCM ProjectName
+     *
+     * @return string
+     */
+    public function getProjectName()
+    {
+        return $this->com_project_name;
+    }
+
+    /**
      * Set changeset
      *
      * @param string $changeset
-     * @return Commit
+     * @return $this
      */
     public function setChangeset($changeset)
     {

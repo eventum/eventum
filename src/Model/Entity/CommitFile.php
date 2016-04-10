@@ -31,11 +31,6 @@ class CommitFile extends BaseModel
     /**
      * @var string
      */
-    protected $cof_project_name;
-
-    /**
-     * @var string
-     */
     protected $cof_filename;
 
     /**
@@ -90,29 +85,6 @@ class CommitFile extends BaseModel
     public function getCommitId()
     {
         return $this->cof_com_id;
-    }
-
-    /**
-     * Set cofProjectName
-     *
-     * @param string $projectName
-     * @return CommitFile
-     */
-    public function setProjectName($projectName)
-    {
-        $this->cof_project_name = $projectName;
-
-        return $this;
-    }
-
-    /**
-     * Get cofProjectName
-     *
-     * @return string
-     */
-    public function getProjectName()
-    {
-        return $this->cof_project_name;
     }
 
     /**

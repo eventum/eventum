@@ -25,10 +25,9 @@ UPDATE {{%commit}}
 
 # create file details
 INSERT INTO {{%commit_file}}
-  (cof_com_id, cof_project_name, cof_filename, cof_old_version, cof_new_version)
+  (cof_com_id, cof_filename, cof_old_version, cof_new_version)
   SELECT
     com.com_id,
-    null,
     concat(isc_module, '/', isc_filename),
     isc_old_version,
     isc_new_version

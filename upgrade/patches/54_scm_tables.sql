@@ -7,6 +7,11 @@ create table {{%commit}} (
   # scm name (scm definition in setup.php), previously isc_reponame field
   com_scm_name varchar(255) NOT NULL DEFAULT 'default',
 
+  # project, i.e 'eventum/eventum' in gitlab/github
+  # directory in CVS, SVN(trac)
+  # TODO, add patch to convert this to filename field for CVS/SVN
+  com_project_name varchar(255) NOT NULL DEFAULT '',
+
   # scm changeset, 40 chars to fit git commit hashes
   com_changeset varchar(40) binary not null,
   com_author_email varchar(255) DEFAULT NULL,
@@ -14,8 +19,8 @@ create table {{%commit}} (
   com_commit_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   com_message mediumtext,
 
-  # FIXME, should this be unique per reponame/branch?
-  UNIQUE(com_changeset)
+  # FIXME, should this be unique per reponame/branch
+  UNIQUE (com_changeset)
 ) ENGINE=MYISAM DEFAULT CHARSET=utf8;
 
 # commit file details (for CVS and SVN)
@@ -25,11 +30,6 @@ create table {{%commit_file}} (
 
   # id to commit table
   cof_com_id int unsigned not null,
-
-  # project, i.e 'eventum/eventum' in gitlab/github
-  # directory in CVS, SVN(trac)
-  # TODO, add patch to convert this to filename field for CVS/SVN
-  cof_project_name varchar(255) NOT NULL DEFAULT '',
 
   # filename, i.e htdocs/index.php for gitlab/github
   # basename in CVS, SVN(trac)

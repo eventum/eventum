@@ -14,6 +14,7 @@
 
 /*
  * This script is able to migrate scm repo commits to newer structure.
+ * that is db patches after 53-55 introduced in eventum 3.0.12
  *
  * for git repos:
  * - move com_scm_name as cof_project_name
@@ -49,7 +50,7 @@ function migrate_git_repos($repos)
     foreach ($repos as $repo) {
         $commits = $db->getColumn("select com_id from {{%commit}} where com_scm_name=?", array($repo));
         $commits = join(',', $commits);
-        $db->query("update {{%commit_file}} set cof_project_name=? where cof_com_id in ($commits)", array($repo));
+        $db->query("update {{%commit}} set com_project_name=com_scm_name where com_scm_name=?", array($repo));
         echo "$repo -> $commits\n";
     }
 }
