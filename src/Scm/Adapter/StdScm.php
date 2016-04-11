@@ -56,7 +56,7 @@ class StdScm extends AbstractScmAdapter
         } catch (Exception $e) {
             $code = $e->getCode();
             $status = array(
-                'code' => $code ? $code : -1,
+                'code' => $code && is_numeric($code) ? $code : -1,
                 'message' => $e->getMessage(),
             );
             $this->log->error($e);
