@@ -125,6 +125,7 @@ class CommitRepository extends BaseRepository
             $checkin['author'] = $c->getAuthor();
             $checkin['project_name'] = $c->getProjectName();
             $checkin['branch'] = $c->getBranch();
+            $checkin['commit_short'] = substr($checkin['com_changeset'], 0, 7);
             $checkin['changeset_url'] = $scm->getChangesetUrl($c);
             $checkin['files'] = array();
             foreach ($c->getFiles() as $cf) {

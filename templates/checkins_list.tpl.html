@@ -14,9 +14,9 @@
       <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="scm" list_id=$commitid}</td>
       <td>
         {if $commit.changeset_url}
-          <a href="{$commit.changeset_url}" target="_blank">{$commitid}</a>
+          <a href="{$commit.changeset_url}" target="_blank">{$commit.commit_short}</a>
         {else}
-          {$commitid}
+          {$commit.commit_short}
         {/if}
         {if $commit.project_name}
         in {$commit.project_name}
