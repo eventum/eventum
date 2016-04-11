@@ -77,23 +77,30 @@ $(function() {
     'cvs' => array(
       // cvsweb urls
       'name' => 'cvs',
-      'checkout_url' => 'http://cvs.example.org/{MODULE}/{FILE}?rev={NEW_VERSION}&content-type=text/x-cvsweb-markup',
-      'diff_url' => 'http://cvs.example.org/{MODULE}/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&f=h',
-      'log_url' => 'http://cvs.example.org/{MODULE}/{FILE}?r1={VERSION}#rev{VERSION}',
+      'checkout_url' => 'http://cvs.example.org/{FILE}?rev={NEW_VERSION}&content-type=text/x-cvsweb-markup',
+      'diff_url' => 'http://cvs.example.org/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&f=h',
+      'log_url' => 'http://cvs.example.org/{FILE}?r1={VERSION}#rev{VERSION}',
     ),
     'svn' => array(
       // trac urls
       'name' => 'svn',
-      'checkout_url' => 'http://trac.example.org/browser/{MODULE}/{FILE}?rev={VERSION}',
-      'diff_url' => 'http://trac.example.org/changeset/{VERSION}/{MODULE}/{FILE}',
-      'log_url' => 'http://trac.example.org/log/{MODULE}/{FILE}?rev={VERSION}',
+      'checkout_url' => 'http://trac.example.org/browser/{FILE}?rev={VERSION}',
+      'diff_url' => 'http://trac.example.org/changeset/{VERSION}/{FILE}',
+      'log_url' => 'http://trac.example.org/log/{FILE}?rev={VERSION}',
     ),
     'git' => array(
       // gitweb urls
       'name' => 'git',
-      'checkout_url' => 'http://git.example.org/?p=test.git;a=blob;f={FILE};hb={VERSION}',
-      'diff_url' => 'http://git.example.org/?p=test.git;a=commitdiff;h={VERSION}',
-      'log_url' => 'http://git.example.org/?p=test.git;a=history;f={FILE};hb={VERSION}',
+      'checkout_url' => 'http://git.example.org/?p={PROJECT}.git;a=blob;f={FILE};hb={VERSION}',
+      'diff_url' => 'http://git.example.org/?p={PROJECT}.git;a=commitdiff;h={VERSION}',
+      'log_url' => 'http://git.example.org/?p={PROJECT}.git;a=history;f={FILE};hb={VERSION}',
+    ),
+    'gitlab' => array(
+      // gitlab urls
+      'name' => 'gitlab',
+      'checkout_url' => 'http://gitlab.example.org/{PROJECT}/blob/{VERSION}/{FILE}',
+      'diff_url' => 'http://gitlab.example.org/{PROJECT}/commit/{VERSION}#{FILE}',
+      'log_url' => 'http://gitlab.example.org/{PROJECT}/commits/{VERSION}/{FILE}',
     ),
   )
 </pre>{/literal}

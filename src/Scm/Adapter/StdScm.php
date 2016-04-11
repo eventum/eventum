@@ -72,8 +72,6 @@ class StdScm extends AbstractScmAdapter
     }
 
     /**
-     * TODO: workflow method to resolve 'username' to name and email
-     *
      * @param ParameterBag $params
      */
     private function processCommits(ParameterBag $params)
@@ -153,14 +151,11 @@ class StdScm extends AbstractScmAdapter
         $files = $params->get('files');
         $old_versions = $params->get('old_versions');
         $new_versions = $params->get('new_versions');
-        $modules = $params->get('module');
 
         $nfiles = count($files);
         $res = array();
         for ($y = 0; $y < $nfiles; $y++) {
             $file = array(
-                // there may be per file global (cvs) or module (svn)
-                'module' => is_array($modules) ? $modules[$y] : $modules,
                 'file' => $files[$y],
                 // for CVS version may be missing to indicate 'added' or 'removed' state
                 // for SVN/Git there's no per file revisions
