@@ -134,9 +134,20 @@ class StdScm extends AbstractScmAdapter
         $ci = Entity\Commit::create()
             ->setScmName($params->get('scm_name'))
             ->setProjectName($params->get('project'))
-            ->setAuthorName($params->get('username'))
             ->setCommitDate(Date_Helper::getDateTime($params->get('commit_date')))
             ->setMessage(trim($params->get('commit_msg')));
+
+        // take username or author_name+author_email
+        if ($params->get('username')) {
+            $ci->setAuthorName($params->get('username'));
+        } else {
+            $ci
+                ->setAuthorName($params->get('author_name'))
+                ->setAuthorEmail($params->get('author_email'));
+        }
+
+
+        // set this last, as it may need other $ci properties
 
         $ci->setChangeset($commitId ?: $this->generateCommitId($ci));
 
