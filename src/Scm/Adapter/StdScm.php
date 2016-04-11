@@ -135,6 +135,7 @@ class StdScm extends AbstractScmAdapter
             ->setScmName($params->get('scm_name'))
             ->setProjectName($params->get('project'))
             ->setCommitDate(Date_Helper::getDateTime($params->get('commit_date')))
+            ->setBranch($params->get('branch'))
             ->setMessage(trim($params->get('commit_msg')));
 
         // take username or author_name+author_email
