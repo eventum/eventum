@@ -10,7 +10,7 @@ create table {{%commit}} (
   # project, i.e 'eventum/eventum' in gitlab/github
   # directory in CVS, SVN(trac)
   # TODO, add patch to convert this to filename field for CVS/SVN
-  com_project_name varchar(255) NOT NULL DEFAULT '',
+  com_project_name varchar(255) NULL,
 
   # scm changeset, 40 chars to fit git commit hashes
   com_changeset varchar(40) not null,
