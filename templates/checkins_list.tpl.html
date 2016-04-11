@@ -21,6 +21,9 @@
         {if $commit.project_name}
         in {$commit.project_name}
         {/if}
+        {if $commit.branch}
+        on {$commit.branch}
+        {/if}
       </td>
       <td>{$commit.com_commit_date|timeago}</td>
       <td>{$commit.author|escape:"html"}</td>
