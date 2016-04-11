@@ -300,12 +300,12 @@ class Commit extends BaseModel
     }
 
     /**
-     * @param string $commitId
+     * @param string $changeset
      * @return $this
      */
-    public function findOneByCommitId($commitId)
+    public function findOneByChangeset($changeset)
     {
-        $res = $this->findAllByConditions(array('com_commit_id' => $commitId), 1);
+        $res = $this->findAllByConditions(array('com_changeset' => $changeset), 1);
 
         return $res ? $res[0] : null;
     }

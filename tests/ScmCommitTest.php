@@ -51,7 +51,7 @@ class ScmCommitTest extends TestCase
     public function testGetCommit()
     {
         $commit_id = 'xl8sgtuo1xRzLW1z';
-        $c = Entity\Commit::create()->findOneByCommitId($commit_id);
+        $c = Entity\Commit::create()->findOneByChangeset($commit_id);
         $this->assertEquals($commit_id, $c->getChangeset());
     }
 

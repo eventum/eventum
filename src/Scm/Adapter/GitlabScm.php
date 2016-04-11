@@ -64,7 +64,7 @@ class GitlabScm extends AbstractScmAdapter
             }
             $this->log->debug('commit', array('issues' => $issues, 'commit' => $commit));
 
-            $ci = Entity\Commit::create()->findOneByCommitId($commit['id']);
+            $ci = Entity\Commit::create()->findOneByChangeset($commit['id']);
             if ($ci) {
                 // commit already seen, skip
                 continue;

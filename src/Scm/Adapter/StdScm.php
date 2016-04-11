@@ -86,7 +86,7 @@ class StdScm extends AbstractScmAdapter
         $cr = CommitRepository::create();
 
         $commitId = $params->get('commitid');
-        $ci = Entity\Commit::create()->findOneByCommitId($commitId);
+        $ci = Entity\Commit::create()->findOneByChangeset($commitId);
 
         // if ci already seen, skip adding commit and issue association
         // but still process commit files.
