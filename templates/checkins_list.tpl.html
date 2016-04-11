@@ -8,10 +8,10 @@
       <th width="60%">{t}Message{/t}</th>
     </tr>
 
-  {foreach from=$checkins key=commitid item=commit}
+  {foreach from=$checkins key=i item=commit}
     {cycle values='odd,even' assign="row_class"}
     <tr class="{$row_class}">
-      <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="scm" list_id=$commitid}</td>
+      <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="scm" list_id=$commit.com_id}</td>
       <td>
         {if $commit.changeset_url}
           <a href="{$commit.changeset_url}" target="_blank">{$commit.commit_short}</a>
@@ -66,7 +66,7 @@
       {/foreach}
     {/capture}
 
-    {include file="expandable_cell/body.tpl.html" ec_id="scm" content=$content list_id=$commitid colspan="5" class=$row_class}
+    {include file="expandable_cell/body.tpl.html" ec_id="scm" content=$content list_id=$commit.com_id colspan="5" class=$row_class}
   {/foreach}
   </table>
 </div>
