@@ -308,7 +308,7 @@ class ViewController extends BaseController
             $percent = empty($details['iss_percent_complete']) ? 0 : $details['iss_percent_complete'];
             $columns[0][] = array(
                 'title' => ev_gettext('Percentage Complete'),
-                'data' => "{$percent}%",
+                'percent' => $percent,
                 'field' => 'percentage_complete',
             );
         }
