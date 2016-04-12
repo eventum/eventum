@@ -84,7 +84,7 @@ $(document).ready(function() {
     $("input.issue_field").blur(Validation.validateIssueNumberField);
 
     // % complete progressbar
-    $(".iss_percent_complete").each(function() {
+    $("div.iss_percent_complete").each(function() {
         var $e = $(this);
         $e.progressbar({value: $e.data('percent')});
     });
