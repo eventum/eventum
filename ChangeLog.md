@@ -4,6 +4,7 @@ Eventum Issue Tracking System
 2016-??-??, Version 3.0.12
 ----------------------------
 - make Bulk update feature work again (#160, #161, @balsdorf)
+- nice Progress Bar for % Complete. (#162, @phavel, @glensc, @slay123)
 
 2016-03-28, Version [3.0.11]
 ----------------------------

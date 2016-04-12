@@ -421,3 +421,33 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 div.phpdebugbar {
     box-shadow: 0 -1px 5px #666666;
 }
+
+/* % complete progressbar in view issues page */
+#list_issues .ui-progressbar {
+    position: relative;
+    height: 19px;
+}
+#list_issues .progress-label {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 1px;
+    font-size: 13px;
+}
+
+/* % complete progressbar in issue view */
+#issue_view .ui-progressbar {
+    position: relative;
+    height: 16px;
+    max-width: 200px;
+}
+#issue_view .progress-label {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 0;
+    font-size: 13px;
+}
+#issue_view .ui-widget-header {
+    background: #61DC6B;
+}
