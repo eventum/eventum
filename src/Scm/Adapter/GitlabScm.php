@@ -55,9 +55,10 @@ class GitlabScm extends AbstractScmAdapter
         $payload = $this->getPayload();
         $this->log->debug('processPushHook', array('payload' => $payload));
 
-        $repo = $this->getCommitRepo($payload);
+        $repo_url = $this->getRepoUrl($payload);
+        $repo = Entity\CommitRepo::getRepoByUrl($repo_url);
         if (!$repo) {
-            $this->log->debug('SCM repo not identified');
+            $this->log->error("SCM repo not identified from {$repo_url}");
 
             return;
         }
@@ -94,16 +95,14 @@ class GitlabScm extends AbstractScmAdapter
     }
 
     /**
-     * Get CommitRepo from $payload
+     * Get repo url from $payload
      *
      * @param array $payload
-     * @return Entity\CommitRepo
+     * @return string
      */
-    private function getCommitRepo($payload)
+    private function getRepoUrl($payload)
     {
-        $url = current(explode(':', $payload['repository']['url'], 2));
-
-        return Entity\CommitRepo::getRepoByUrl($url);
+        return current(explode(':', $payload['repository']['url'], 2));
     }
 
     /**
