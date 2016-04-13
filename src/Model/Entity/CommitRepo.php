@@ -21,10 +21,6 @@ use Setup;
  */
 class CommitRepo
 {
-    private $checkout_url;
-    private $diff_url;
-    private $log_url;
-
     /** @var array */
     private $config;
 
@@ -37,6 +33,39 @@ class CommitRepo
         }
 
         $this->config = $setup['scm'][$name];
+    }
+
+    public function getName()
+    {
+        return $this->config['name'];
+    }
+
+    /**
+     * @return \Zend\Config\Config
+     */
+    public static function getAllRepos()
+    {
+        return Setup::get()->scm;
+    }
+
+    /**
+     * Get CommitRepo from $repo_url
+     * Walk over all configured scm to find one by matching url.
+     *
+     * @param array $repo_url
+     * @return CommitRepo
+     */
+    public static function getRepoByUrl($repo_url)
+    {
+        foreach (static::getAllRepos() as $name => $scm) {
+            foreach ($scm->urls as $url) {
+                if ($url == $repo_url) {
+                    return new static($scm->name);
+                }
+            }
+        }
+
+        return null;
     }
 
     public function getCheckoutUrl($checkin)

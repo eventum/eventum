@@ -98,6 +98,19 @@ class ScmCommitTest extends TestCase
         $request = Request::create($api_url, 'GET', array(), array(), array(), array(), $payload);
         $request->headers->set(GitlabScm::GITLAB_HEADER, 'Push Hook');
 
+        // configure
+        $setup = Setup::get();
+        $setup['scm']['gitlab'] = array(
+            'name' => 'gitlab',
+            'urls' => array(
+                'http://localhost:10080',
+                'git@localhost',
+            ),
+            'checkout_url' => 'http://localhost:10080/{PROJECT}/blob/{VERSION}/{FILE}',
+            'diff_url' => 'http://localhost:10080/{PROJECT}/commit/{VERSION}#{FILE}',
+            'log_url' => 'http://localhost:10080/{PROJECT}/commits/{VERSION}/{FILE}',
+        );
+
         $logger = Logger::app();
         $handler = new GitlabScm($request, $logger);
         $this->assertTrue($handler->can());

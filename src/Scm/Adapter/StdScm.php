@@ -147,9 +147,7 @@ class StdScm extends AbstractScmAdapter
                 ->setAuthorEmail($params->get('author_email'));
         }
 
-
         // set this last, as it may need other $ci properties
-
         $ci->setChangeset($commitId ?: $this->generateCommitId($ci));
 
         return $ci;

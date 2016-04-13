@@ -55,6 +55,13 @@ class GitlabScm extends AbstractScmAdapter
         $payload = $this->getPayload();
         $this->log->debug('processPushHook', array('payload' => $payload));
 
+        $repo = $this->getCommitRepo($payload);
+        if (!$repo) {
+            $this->log->debug('SCM repo not identified');
+
+            return;
+        }
+
         $cr = CommitRepository::create();
         $project = $payload['project']['path_with_namespace'];
         foreach ($payload['commits'] as $commit) {
@@ -71,6 +78,7 @@ class GitlabScm extends AbstractScmAdapter
             }
 
             $ci = $this->createCommit($commit);
+            $ci->setScmName($repo->getName());
             $ci->setProjectName($project);
             $cr->preCommit($ci, $payload);
             $this->addCommitFiles($ci, $commit);
@@ -83,6 +91,19 @@ class GitlabScm extends AbstractScmAdapter
                 $cr->addCommit($issue_id, $ci);
             }
         }
+    }
+
+    /**
+     * Get CommitRepo from $payload
+     *
+     * @param array $payload
+     * @return Entity\CommitRepo
+     */
+    private function getCommitRepo($payload)
+    {
+        $url = current(explode(':', $payload['repository']['url'], 2));
+
+        return Entity\CommitRepo::getRepoByUrl($url);
     }
 
     /**
