@@ -58,9 +58,7 @@ class GitlabScm extends AbstractScmAdapter
         $repo_url = $this->getRepoUrl($payload);
         $repo = Entity\CommitRepo::getRepoByUrl($repo_url);
         if (!$repo) {
-            $this->log->error("SCM repo not identified from {$repo_url}");
-
-            return;
+            throw new \InvalidArgumentException("SCM repo not identified from {$repo_url}");
         }
 
         $cr = CommitRepository::create();
