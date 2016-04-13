@@ -78,6 +78,8 @@ class GitlabScm extends AbstractScmAdapter
             }
             $this->log->debug('commit', array('issues' => $issues, 'commit' => $commit));
 
+            $branch = $this->getBranch($payload);
+
             $ci = Entity\Commit::create()->findOneByChangeset($commit['id']);
             if ($ci) {
                 // commit already seen, skip
@@ -87,6 +89,7 @@ class GitlabScm extends AbstractScmAdapter
             $ci = $this->createCommit($commit);
             $ci->setScmName($repo->getName());
             $ci->setProjectName($project);
+            $ci->setBranch($branch);
             $cr->preCommit($ci, $payload);
             $this->addCommitFiles($ci, $commit);
 
@@ -109,6 +112,23 @@ class GitlabScm extends AbstractScmAdapter
     private function getRepoUrl($payload)
     {
         return current(explode(':', $payload['repository']['url'], 2));
+    }
+
+    /**
+     * Get branch from $payload
+     *
+     * @param array $payload
+     * @return string
+     */
+    private function getBranch($payload)
+    {
+        $ref = $payload['ref'];
+
+        if (substr($ref, 0, 11) == 'refs/heads/') {
+            return substr($ref, 11);
+        }
+
+        return null;
     }
 
     /**
