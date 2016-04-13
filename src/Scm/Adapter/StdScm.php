@@ -91,6 +91,12 @@ class StdScm extends AbstractScmAdapter
         // as cvs handler sends files in subdirs as separate requests
         if (!$ci) {
             $ci = $this->createCommit($params, $commitId);
+
+            $repo = new Entity\CommitRepo($ci->getScmName());
+            if (!$repo->branchAllowed($ci->getBranch())) {
+                throw new \InvalidArgumentException("Branch not allowed: {$ci->getBranch()}");
+            }
+
             $cr->preCommit($ci, $params);
             $ci->save();
 

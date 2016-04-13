@@ -75,7 +75,12 @@ class GitlabScm extends AbstractScmAdapter
             if (!$issues) {
                 continue;
             }
-            $this->log->debug('commit', array('issues' => $issues, 'commit' => $commit));
+            $branch = $payload->getBranch();
+            $this->log->debug('commit', array('issues' => $issues, 'branch' => $branch, 'commit' => $commit));
+
+            if (!$repo->branchAllowed($branch)) {
+                throw new \InvalidArgumentException("Branch not allowed: {$branch}");
+            }
 
             $ci = Entity\Commit::create()->findOneByChangeset($commit['id']);
             if ($ci) {
@@ -86,7 +91,7 @@ class GitlabScm extends AbstractScmAdapter
             $ci = $this->createCommit($commit);
             $ci->setScmName($repo->getName());
             $ci->setProjectName($payload->getProject());
-            $ci->setBranch($payload->getBranch());
+            $ci->setBranch($branch);
             $cr->preCommit($ci, $payload);
             $this->addCommitFiles($ci, $commit);
 

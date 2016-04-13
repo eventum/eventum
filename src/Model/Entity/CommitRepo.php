@@ -71,6 +71,34 @@ class CommitRepo
         return null;
     }
 
+    /**
+     * The scm may be configured to accept only certain branches or exclude some
+     *
+     * 'only' - Defines a list of git refs which to accept
+     * 'except' - Defines a list of git refs which not to accept
+     *
+     * These accept exact branch names.
+     * This could be changed to glob in the future,
+     * currently i'm only interested of 'master' branch commits
+     *
+     * @param string $branch
+     * @return bool
+     */
+    public function branchAllowed($branch)
+    {
+        // 'only' present, check it
+        if (count($this->config['only'])) {
+            return in_array($branch, $this->config['only']->toArray());
+        }
+
+        // if 'except' present
+        if (count($this->config['except'])) {
+            return !in_array($branch, $this->config['except']->toArray());
+        }
+
+        return true;
+    }
+
     public function getCheckoutUrl($checkin)
     {
         return $this->parseURL($this->config['checkout_url'], $checkin);
