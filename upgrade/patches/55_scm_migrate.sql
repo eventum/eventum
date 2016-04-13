@@ -24,7 +24,7 @@ UPDATE {{%commit}}
   WHERE com_author_name LIKE '%@%';
 
 # FIXME, should this be unique per reponame/branch
-alter table {{%commit} add UNIQUE (com_changeset);
+alter table {{%commit}} add UNIQUE (com_changeset);
 
 # create file details
 INSERT INTO {{%commit_file}}
