@@ -135,6 +135,9 @@ class CommitRepository extends BaseRepository
                 $f['added'] = !isset($f['cof_old_version']);
                 $f['removed'] = !isset($f['cof_new_version']);
 
+                $f['r1'] = substr($cf->getOldVersion(), 0, 7);
+                $f['r2'] = substr($cf->getNewVersion(), 0, 7);
+
                 // fill for url builder
                 $f['project_name'] = $c->getProjectName();
 
