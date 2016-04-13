@@ -58,6 +58,9 @@ class CommitRepo
     public static function getRepoByUrl($repo_url)
     {
         foreach (static::getAllRepos() as $name => $scm) {
+            if (!$scm->urls) {
+                continue;
+            }
             foreach ($scm->urls as $url) {
                 if ($url == $repo_url) {
                     return new static($scm->name);
