@@ -61,24 +61,21 @@ class GitlabScm extends AbstractScmAdapter
     private function processPushHook()
     {
         $payload = $this->getPayload();
-        $this->log->debug('processPushHook', array('payload' => $payload));
+        $this->log->debug('processPushHook', array('payload' => $payload->getPayload()));
 
-        $repo_url = $this->getRepoUrl($payload);
+        $repo_url = $payload->getRepoUrl();
         $repo = Entity\CommitRepo::getRepoByUrl($repo_url);
         if (!$repo) {
             throw new \InvalidArgumentException("SCM repo not identified from {$repo_url}");
         }
 
         $cr = CommitRepository::create();
-        $project = $payload['project']['path_with_namespace'];
-        foreach ($payload['commits'] as $commit) {
+        foreach ($payload->getCommits() as $commit) {
             $issues = $this->match_issues($commit['message']);
             if (!$issues) {
                 continue;
             }
             $this->log->debug('commit', array('issues' => $issues, 'commit' => $commit));
-
-            $branch = $this->getBranch($payload);
 
             $ci = Entity\Commit::create()->findOneByChangeset($commit['id']);
             if ($ci) {
@@ -88,8 +85,8 @@ class GitlabScm extends AbstractScmAdapter
 
             $ci = $this->createCommit($commit);
             $ci->setScmName($repo->getName());
-            $ci->setProjectName($project);
-            $ci->setBranch($branch);
+            $ci->setProjectName($payload->getProject());
+            $ci->setBranch($payload->getBranch());
             $cr->preCommit($ci, $payload);
             $this->addCommitFiles($ci, $commit);
 
@@ -101,34 +98,6 @@ class GitlabScm extends AbstractScmAdapter
                 $cr->addCommit($issue_id, $ci);
             }
         }
-    }
-
-    /**
-     * Get repo url from $payload
-     *
-     * @param array $payload
-     * @return string
-     */
-    private function getRepoUrl($payload)
-    {
-        return current(explode(':', $payload['repository']['url'], 2));
-    }
-
-    /**
-     * Get branch from $payload
-     *
-     * @param array $payload
-     * @return string
-     */
-    private function getBranch($payload)
-    {
-        $ref = $payload['ref'];
-
-        if (substr($ref, 0, 11) == 'refs/heads/') {
-            return substr($ref, 11);
-        }
-
-        return null;
     }
 
     /**
@@ -182,6 +151,8 @@ class GitlabScm extends AbstractScmAdapter
      */
     private function getPayload()
     {
-        return json_decode($this->request->getContent(), true);
+        $data = json_decode($this->request->getContent(), true);
+
+        return new Entity\GitlabPayload($data);
     }
 }

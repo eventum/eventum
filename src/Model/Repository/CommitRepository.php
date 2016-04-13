@@ -27,7 +27,7 @@ class CommitRepository extends BaseRepository
      * Method called on Commit to add/update project name/commit author by workflow
      *
      * @param Entity\Commit $ci
-     * @param array|ParameterBag $payload
+     * @param Entity\GitlabPayload|ParameterBag $payload
      */
     public function preCommit(Entity\Commit $ci, $payload)
     {
