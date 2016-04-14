@@ -43,15 +43,7 @@ class GitlabScm extends AbstractScmAdapter
         $eventType = $this->request->headers->get(self::GITLAB_HEADER);
 
         if ($eventType == 'Push Hook') {
-            try {
-                $this->processPushHook();
-            } catch (\Exception $e) {
-                header('HTTP/1.0 500');
-                echo json_encode(array(
-                    'error' => $e->getMessage(),
-                    'code' => $e->getCode(),
-                ));
-            }
+            $this->processPushHook();
         }
     }
 

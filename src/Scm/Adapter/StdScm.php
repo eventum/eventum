@@ -16,11 +16,9 @@ namespace Eventum\Scm\Adapter;
 use Date_Helper;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
-use Exception;
 use InvalidArgumentException;
 use Issue;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Workflow;
 
 /**
  * Standard SCM handler
@@ -43,39 +41,8 @@ class StdScm extends AbstractScmAdapter
      */
     public function process()
     {
-        $get = $this->request->query;
-        $json = $get->getBoolean('json');
+        $params = $this->request->query;
 
-        try {
-            ob_start();
-            $this->processCommits($get);
-            $status = array(
-                'code' => 0,
-                'message' => ob_get_clean(),
-            );
-        } catch (Exception $e) {
-            $code = $e->getCode();
-            $status = array(
-                'code' => $code && is_numeric($code) ? $code : -1,
-                'message' => $e->getMessage(),
-            );
-            $this->log->error($e);
-        }
-
-        if ($json) {
-            echo json_encode($status);
-            exit;
-        } else {
-            echo $status['message'];
-            exit($status['code']);
-        }
-    }
-
-    /**
-     * @param ParameterBag $params
-     */
-    private function processCommits(ParameterBag $params)
-    {
         $issues = $this->getIssues($params);
         if (!$issues) {
             throw new InvalidArgumentException('No issues provided');

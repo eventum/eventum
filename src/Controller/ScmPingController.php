@@ -15,6 +15,7 @@ namespace Eventum\Controller;
 
 use Eventum\Monolog\Logger;
 use Eventum\Scm;
+use Exception;
 
 class ScmPingController extends BaseController
 {
@@ -38,20 +39,35 @@ class ScmPingController extends BaseController
      */
     protected function defaultAction()
     {
+        try {
+            ob_start();
+            $this->process();
+            $status = array(
+                'code' => 0,
+                'message' => ob_get_clean(),
+            );
+        } catch (Exception $e) {
+            header('HTTP/1.0 500');
+            $code = $e->getCode();
+            $status = array(
+                'code' => $code && is_numeric($code) ? $code : -1,
+                'message' => $e->getMessage(),
+            );
+            $this->log->error($e);
+        }
+
+        echo json_encode($status);
+    }
+
+    private function process()
+    {
+        // NOTE: output is captured from all adapters
+        // but if exception is thrown. not all adapters are processed
         foreach ($this->getAdapters() as $adapter) {
             if ($adapter->can()) {
                 $adapter->process();
             }
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function prepareTemplate()
-    {
-        // no template to render
-        exit;
     }
 
     /**
@@ -63,8 +79,17 @@ class ScmPingController extends BaseController
         $logger = Logger::app();
 
         return array(
-            new Scm\Adapter\StdScm($request, $logger),
             new Scm\Adapter\GitlabScm($request, $logger),
+            new Scm\Adapter\StdScm($request, $logger),
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function prepareTemplate()
+    {
+        // no template to render
+        exit;
     }
 }
