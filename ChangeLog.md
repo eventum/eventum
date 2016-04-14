@@ -187,8 +187,8 @@ This release highlights translatable history entries, CAS Auth Backend and lots 
 2015-04-21, Version [3.0.1]
 ---------------------------
 
-This release highlights are ajax based file uploads via dropzone and clone.
-issue feature. The MySQL driver for new installs is now mysqli, not deprecated mysql.
+This release highlights are ajax based file uploads via dropzone and clone issue feature.
+The MySQL driver for new installs is now mysqli, not deprecated mysql.
 
 - Add option to set time summary when sending a note (Bryan)
 - Optionally send reminders to a different IRC channel (Bryan)
