@@ -26,6 +26,10 @@ Eventum Issue Tracking System
 
 2016-02-06, Version [3.0.9]
 ---------------------------
+
+This release highlights optional support to encrypt DB, IMAP/POP3, LDAP passwords (#134)
+and allowing users to be in multiple groups (#135).
+
 - Deprecate `bin/route_*.php` scripts in favour of `bin/process_all_emails.php` (@glensc, a4ea0c5)
 - Add support to (re)-run specific patch by it's number (@glensc, 16cb41d)
 - Fix wrapping the long lines (@slay123, #133)
@@ -41,6 +45,11 @@ Eventum Issue Tracking System
 
 2016-01-18, Version [3.0.8]
 ---------------------------
+
+From release version 3.0.4 a bug existed where logged in users could
+incorrectly access some management pages (60866f8d). Please upgrade to 3.0.8
+immediately.
+
 - Add "Reply as Note" to emails (@balsdorf)
 - Fix Reply subjects when sending notes (@glensc)
 - Add preference support to turn off relative dates (@balsdorf, #125)
@@ -52,6 +61,10 @@ Eventum Issue Tracking System
 
 2015-12-31, Version [3.0.7]
 ---------------------------
+
+Release highlights are new monolog based logging (#97), showing dates human
+friendly (#116) and introduction of API tokens (besides passwords) for remote
+access (#122)
 
 - emails.php: handle better empty "From:" header (@glensc, #91)
 - Added ability to require custom fields on the edit form (@balsdorf, #107)
@@ -77,6 +90,11 @@ Eventum Issue Tracking System
 
 2015-11-10, Version [3.0.6]
 ---------------------------
+
+This release highlight is automatic password hashes upgrade to be more secure
+on user authentication (sign in). You can force all users to re-authenticate by
+regenerating Eventum private key from Administration panel. (See #93).
+
 - Update custom fields from update issue page (Bryan Alsdorf, #88)
 - Allow time category/summary to be set when sending emails (Bryan Alsdorf)
 - Add missing 'Scheduled Release' and 'Group' field back to update page (Bryan Alsdorf, #89)
@@ -93,6 +111,16 @@ Eventum Issue Tracking System
 
 2015-10-31, Version [3.0.4]
 ---------------------------
+
+To simplify setup and directory layout we have moved all directories that
+contain files to which Eventum writes data during the course of its operation
+into `var/`. You need to grant write permissions on `/path/to/eventum/var/`
+sub-directories to your webserver. (#81)
+
+New passwords are saved using more secure hashing than before (#77)
+
+This release was buggy and was yanked, bug itself is fixed in v3.0.5
+
 - Fix few Static & Deprecated calls (Craig Pinfold, #72)
 - Use randomlib for private key generation, add UI to regenerate it (Elan Ruusamäe, #73)
 - Fix misplaced {if} in preferences template (Robbert-Jan Roos, LP#1506279)
@@ -115,6 +143,9 @@ Eventum Issue Tracking System
 
 2015-10-13, Version [3.0.3]
 ---------------------------
+
+This release includes copy of wiki documents in release tarball.
+
 - Added bin/truncate_mail_queue.php (Bryan Alsdorf)
 - Add admin interface for required fields (Bryan Alsdorf, #67)
 - UI fix for Issue Assignees (Kristo Klausson, #68)
@@ -127,6 +158,8 @@ Eventum Issue Tracking System
 
 2015-08-04, Version [3.0.2]
 ---------------------------
+
+This release highlights translatable history entries, CAS Auth Backend and lots of UI fixes.
 
 - Fix sql error in disassociate custom field (Elan Ruusamäe)
 - Fix cancel update issue action (Elan Ruusamäe, #47)
@@ -154,6 +187,9 @@ Eventum Issue Tracking System
 2015-04-21, Version [3.0.1]
 ---------------------------
 
+This release highlights are ajax based file uploads via dropzone and clone.
+issue feature. The MySQL driver for new installs is now mysqli, not deprecated mysql.
+
 - Add option to set time summary when sending a note (Bryan)
 - Optionally send reminders to a different IRC channel (Bryan)
 - Fix broken Workflow::handleSCMCheckins call from 3.0.0pre1 (Elan Ruusamäe, GH#15)
@@ -168,6 +204,12 @@ Eventum Issue Tracking System
 
 2015-02-03, Version [3.0.0-pre1]
 --------------------------------
+
+Added DB layer to replace PEAR in the future.
+Rework of XMLRPC code.
+LDAP integration improvements.
+SCM supports now multiple SCM systems.
+Eventum CLI is now distributed as PHAR file.
 
 - Make Custom Fields Weekly Report honor Project ID (Raul Raat, GH#6)
 - Exclude removed notes when generating note sequence number (Bryan Alsdorf, Fixes LP#1377921)
@@ -198,6 +240,10 @@ Eventum Issue Tracking System
 
 2014-10-04, Version [2.4.0-pre1]
 --------------------------------
+
+The templates have been ported to Smarty3, this is rewrite to use CSS for styling.
+PEAR Date class has been replaced by PHP DateTime class, users having incompatible timezone, may need to set timezone again in their preferences.
+This release uses Composer for PHP Class autoloader.
 
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
 - Added "User Filter" functionality to LDAP integration (Bryan Alsdorf)
