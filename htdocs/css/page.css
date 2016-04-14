@@ -456,5 +456,6 @@ div.phpdebugbar {
 #issue_view .ui-progressbar.ui-widget-content,
 #list_issues .ui-progressbar.ui-widget-content
 {
-    background: #e9e9e9;
+    background: transparent;
+    border: 1px solid #c0c0c0;
 }
