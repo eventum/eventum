@@ -18,20 +18,15 @@ use Eventum\Model\Repository\CommitRepository;
 use InvalidArgumentException;
 use Issue;
 
-/**
- * Standard SCM handler
- *
- * @package Eventum\Scm
- */
-class StdScm extends AbstractScmAdapter
+class CvsScm extends AbstractScmAdapter
 {
     /**
      * @inheritdoc
      */
     public function can()
     {
-        // require 'scm' GET parameter to be 'svn' or 'git'
-        return in_array($this->request->query->get('scm'), array('svn', 'git'));
+        // require 'scm=cvs' GET parameter
+        return $this->request->query->get('scm') == 'cvs';
     }
 
     /**
@@ -56,7 +51,8 @@ class StdScm extends AbstractScmAdapter
         // as cvs handler sends files in subdirs as separate requests
         if (!$ci) {
             $ci = $this->createCommit($params);
-            $ci->setChangeset($commitId);
+            // set this last, as it may need other $ci properties
+            $ci->setChangeset($commitId ?: $this->generateCommitId($ci));
 
             $repo = new Entity\CommitRepo($ci->getScmName());
             if (!$repo->branchAllowed($ci->getBranch())) {
@@ -94,5 +90,31 @@ class StdScm extends AbstractScmAdapter
         foreach ($issues as $issue_id) {
             $cr->addCommit($issue_id, $ci);
         }
+    }
+
+    /**
+     * Seconds to allow commit date to differ to consider them as same commit id
+     */
+    const COMMIT_TIME_DRIFT = 10;
+
+    /**
+     * Generate commit id
+     *
+     * @param Entity\Commit $ci
+     * @return string
+     */
+    private function generateCommitId(Entity\Commit $ci)
+    {
+        $seed = array(
+            $ci->getCommitDate()->getTimestamp() / self::COMMIT_TIME_DRIFT,
+            $ci->getAuthorName(),
+            $ci->getAuthorEmail(),
+            $ci->getMessage(),
+        );
+        $checksum = md5(implode('', $seed));
+
+        // CVS commitid is 16 byte length base62 encoded random and seems always end with z0
+        // so we use 14 bytes from md5, and z1 suffix to get similar (but not conflicting) commitid
+        return substr($checksum, 1, 14) . 'z1';
     }
 }

@@ -301,7 +301,7 @@ class Commit extends BaseModel
 
     /**
      * @param string $changeset
-     * @return $this
+     * @return Commit
      */
     public function findOneByChangeset($changeset)
     {

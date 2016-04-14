@@ -80,6 +80,7 @@ class ScmPingController extends BaseController
 
         return array(
             new Scm\Adapter\GitlabScm($request, $logger),
+            new Scm\Adapter\CvsScm($request, $logger),
             new Scm\Adapter\StdScm($request, $logger),
         );
     }

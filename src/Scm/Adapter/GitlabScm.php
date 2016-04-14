@@ -101,7 +101,7 @@ class GitlabScm extends AbstractScmAdapter
      * @param array $commit
      * @return Entity\Commit
      */
-    private function createCommit($commit)
+    protected function createCommit($commit)
     {
         return Entity\Commit::create()
             ->setChangeset($commit['id'])
