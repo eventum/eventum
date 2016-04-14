@@ -451,3 +451,10 @@ div.phpdebugbar {
 #issue_view .ui-widget-header {
     background: #61DC6B;
 }
+
+/* Disable white background image */
+#issue_view .ui-widget-content,
+#list_issues .ui-widget-content
+{
+    background: #e9e9e9;
+}
