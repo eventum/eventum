@@ -74,12 +74,6 @@ class GitlabScm extends AbstractScmAdapter
                 throw new \InvalidArgumentException("Branch not allowed: {$branch}");
             }
 
-            $ci = Entity\Commit::create()->findOneByChangeset($commit['id']);
-            if ($ci) {
-                // commit already seen, skip
-                continue;
-            }
-
             $ci = $this->createCommit($commit);
             $ci->setScmName($repo->getName());
             $ci->setProjectName($payload->getProject());
