@@ -447,9 +447,10 @@ div.phpdebugbar {
     text-align: center;
     top: 0;
     font-size: 13px;
+    line-height: 1.05em;
 }
 #issue_view .ui-widget-header {
-    background: #61DC6B;
+    background: #89A989;
 }
 
 /* Disable white background image */
