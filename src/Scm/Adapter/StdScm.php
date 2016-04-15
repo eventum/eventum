@@ -39,23 +39,24 @@ class StdScm extends AbstractScmAdapter
      */
     public function process()
     {
-        $params = $this->request->query;
+        $payload = $this->getPayload();
 
-        $issues = $this->getIssues($params);
+        $issues = $payload->getIssues();
         if (!$issues) {
             throw new InvalidArgumentException('No issues provided');
         }
 
-        $ci = $this->createCommit($params);
+        $ci = $payload->createCommit();
         $repo = new Entity\CommitRepo($ci->getScmName());
-        if (!$repo->branchAllowed($ci->getBranch())) {
-            throw new \InvalidArgumentException("Branch not allowed: {$ci->getBranch()}");
+
+        if (!$repo->branchAllowed($payload->getBranch())) {
+            throw new \InvalidArgumentException("Branch not allowed: {$payload->getBranch()}");
         }
 
-        $ci->setChangeset($params->get('commitid'));
+        $ci->setChangeset($payload->getCommitId());
 
         $cr = CommitRepository::create();
-        $cr->preCommit($ci, $params);
+        $cr->preCommit($ci, $payload);
         $ci->save();
 
         // save issue association
@@ -71,8 +72,7 @@ class StdScm extends AbstractScmAdapter
         }
 
         // save commit files
-        $files = $this->getFiles($params);
-        foreach ($files as $file) {
+        foreach ($payload->getFiles() as $file) {
             $cf = Entity\CommitFile::create()
                 ->setCommitId($ci->getId())
                 ->setFilename($file['file'])
@@ -85,5 +85,13 @@ class StdScm extends AbstractScmAdapter
         foreach ($issues as $issue_id) {
             $cr->addCommit($issue_id, $ci);
         }
+    }
+
+    /*
+     * Get Hook Payload
+     */
+    private function getPayload()
+    {
+        return new Entity\StdScmPayload($this->request->query);
     }
 }

@@ -13,7 +13,7 @@
 
 namespace Eventum\Model\Entity;
 
-class GitlabPayload
+class GitlabScmPayload
 {
     private $payload;
 
@@ -23,7 +23,7 @@ class GitlabPayload
     }
 
     /**
-     * Get branch
+     * Get branch the commit was made on
      *
      * @return string
      */

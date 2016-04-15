@@ -34,23 +34,23 @@ class CvsScm extends AbstractScmAdapter
      */
     public function process()
     {
-        $params = $this->request->query;
+        $payload = $this->getPayload();
 
-        $issues = $this->getIssues($params);
+        $issues = $payload->getIssues();
         if (!$issues) {
             throw new InvalidArgumentException('No issues provided');
         }
 
         $cr = CommitRepository::create();
 
-        $commitId = $params->get('commitid');
+        $commitId = $payload->getCommitId();
         $ci = Entity\Commit::create()->findOneByChangeset($commitId);
 
         // if ci already seen, skip adding commit and issue association
         // but still process commit files.
         // as cvs handler sends files in subdirs as separate requests
         if (!$ci) {
-            $ci = $this->createCommit($params);
+            $ci = $payload->createCommit();
             // set this last, as it may need other $ci properties
             $ci->setChangeset($commitId ?: $this->generateCommitId($ci));
 
@@ -59,7 +59,7 @@ class CvsScm extends AbstractScmAdapter
                 throw new \InvalidArgumentException("Branch not allowed: {$ci->getBranch()}");
             }
 
-            $cr->preCommit($ci, $params);
+            $cr->preCommit($ci, $payload);
             $ci->save();
 
             // save issue association
@@ -76,8 +76,7 @@ class CvsScm extends AbstractScmAdapter
         }
 
         // save commit files
-        $files = $this->getFiles($params);
-        foreach ($files as $file) {
+        foreach ($payload->getFiles() as $file) {
             $cf = Entity\CommitFile::create()
                 ->setCommitId($ci->getId())
                 ->setFilename($file['file'])
@@ -116,5 +115,13 @@ class CvsScm extends AbstractScmAdapter
         // CVS commitid is 16 byte length base62 encoded random and seems always end with z0
         // so we use 14 bytes from md5, and z1 suffix to get similar (but not conflicting) commitid
         return substr($checksum, 1, 14) . 'z1';
+    }
+
+    /*
+     * Get Hook Payload
+     */
+    private function getPayload()
+    {
+        return new Entity\StdScmPayload($this->request->query);
     }
 }

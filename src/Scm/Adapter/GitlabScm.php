@@ -150,6 +150,6 @@ class GitlabScm extends AbstractScmAdapter
     {
         $data = json_decode($this->request->getContent(), true);
 
-        return new Entity\GitlabPayload($data);
+        return new Entity\GitlabScmPayload($data);
     }
 }

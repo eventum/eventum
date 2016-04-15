@@ -18,7 +18,6 @@ use Eventum\Model\Entity;
 use History;
 use Issue;
 use Link_Filter;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Workflow;
 
 class CommitRepository extends BaseRepository
@@ -27,7 +26,7 @@ class CommitRepository extends BaseRepository
      * Method called on Commit to add/update project name/commit author by workflow
      *
      * @param Entity\Commit $ci
-     * @param Entity\GitlabPayload|ParameterBag $payload
+     * @param Entity\GitlabScmPayload|Entity\StdScmPayload $payload
      */
     public function preCommit(Entity\Commit $ci, $payload)
     {
