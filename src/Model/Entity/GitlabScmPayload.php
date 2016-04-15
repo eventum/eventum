@@ -13,6 +13,8 @@
 
 namespace Eventum\Model\Entity;
 
+use Date_Helper;
+
 class GitlabScmPayload
 {
     private $payload;
@@ -20,6 +22,20 @@ class GitlabScmPayload
     public function __construct(array $payload)
     {
         $this->payload = $payload;
+    }
+
+    /**
+     * @param array $commit
+     * @return Commit
+     */
+    public function createCommit($commit)
+    {
+        return Commit::create()
+            ->setChangeset($commit['id'])
+            ->setAuthorEmail($commit['author']['email'])
+            ->setAuthorName($commit['author']['name'])
+            ->setCommitDate(Date_Helper::getDateTime($commit['timestamp']))
+            ->setMessage(trim($commit['message']));
     }
 
     /**

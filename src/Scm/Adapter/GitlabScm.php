@@ -13,7 +13,6 @@
 
 namespace Eventum\Scm\Adapter;
 
-use Date_Helper;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
 
@@ -74,7 +73,7 @@ class GitlabScm extends AbstractScmAdapter
                 throw new \InvalidArgumentException("Branch not allowed: {$branch}");
             }
 
-            $ci = $this->createCommit($commit);
+            $ci = $payload->createCommit($commit);
             $ci->setScmName($repo->getName());
             $ci->setProjectName($payload->getProject());
             $ci->setBranch($branch);
@@ -89,20 +88,6 @@ class GitlabScm extends AbstractScmAdapter
                 $cr->addCommit($issue_id, $ci);
             }
         }
-    }
-
-    /**
-     * @param array $commit
-     * @return Entity\Commit
-     */
-    protected function createCommit($commit)
-    {
-        return Entity\Commit::create()
-            ->setChangeset($commit['id'])
-            ->setAuthorEmail($commit['author']['email'])
-            ->setAuthorName($commit['author']['name'])
-            ->setCommitDate(Date_Helper::getDateTime($commit['timestamp']))
-            ->setMessage(trim($commit['message']));
     }
 
     /**

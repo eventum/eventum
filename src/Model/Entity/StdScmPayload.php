@@ -14,7 +14,6 @@
 namespace Eventum\Model\Entity;
 
 use Date_Helper;
-use Eventum\Model\Entity;
 use Issue;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
@@ -68,12 +67,12 @@ class StdScmPayload
     }
 
     /**
-     * @return Entity\Commit
+     * @return Commit
      */
     public function createCommit()
     {
         $params = $this->params;
-        $ci = Entity\Commit::create()
+        $ci = Commit::create()
             ->setScmName($params->get('scm_name'))
             ->setProjectName($params->get('project'))
             ->setCommitDate(Date_Helper::getDateTime($params->get('commit_date')))
