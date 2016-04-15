@@ -46,37 +46,28 @@ class StdScm extends AbstractScmAdapter
             throw new InvalidArgumentException('No issues provided');
         }
 
+        $ci = $this->createCommit($params);
+        $repo = new Entity\CommitRepo($ci->getScmName());
+        if (!$repo->branchAllowed($ci->getBranch())) {
+            throw new \InvalidArgumentException("Branch not allowed: {$ci->getBranch()}");
+        }
+
+        $ci->setChangeset($params->get('commitid'));
+
         $cr = CommitRepository::create();
+        $cr->preCommit($ci, $params);
+        $ci->save();
 
-        $commitId = $params->get('commitid');
-        $ci = Entity\Commit::create()->findOneByChangeset($commitId);
+        // save issue association
+        foreach ($issues as $issue_id) {
+            Entity\IssueCommit::create()
+                ->setCommitId($ci->getId())
+                ->setIssueId($issue_id)
+                ->save();
 
-        // if ci already seen, skip adding commit and issue association
-        // but still process commit files.
-        // as cvs handler sends files in subdirs as separate requests
-        if (!$ci) {
-            $ci = $this->createCommit($params);
-            $ci->setChangeset($commitId);
-
-            $repo = new Entity\CommitRepo($ci->getScmName());
-            if (!$repo->branchAllowed($ci->getBranch())) {
-                throw new \InvalidArgumentException("Branch not allowed: {$ci->getBranch()}");
-            }
-
-            $cr->preCommit($ci, $params);
-            $ci->save();
-
-            // save issue association
-            foreach ($issues as $issue_id) {
-                Entity\IssueCommit::create()
-                    ->setCommitId($ci->getId())
-                    ->setIssueId($issue_id)
-                    ->save();
-
-                // print report to stdout of commits so hook could report status back to commiter
-                $details = Issue::getDetails($issue_id);
-                echo "#$issue_id - {$details['iss_summary']} ({$details['sta_title']})\n";
-            }
+            // print report to stdout of commits so hook could report status back to commiter
+            $details = Issue::getDetails($issue_id);
+            echo "#$issue_id - {$details['iss_summary']} ({$details['sta_title']})\n";
         }
 
         // save commit files
