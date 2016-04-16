@@ -174,7 +174,7 @@ function set_commit_users($prj_id = 1)
     if (!$backend) {
         return;
     }
-    
+
     $commits = $db->getColumn("SELECT com_id FROM {{%commit}} WHERE com_usr_id IS NULL");
     echo count($commits), " commits to check\n";
     $co = Commit::create();
@@ -196,7 +196,11 @@ function set_commit_users($prj_id = 1)
 
         $usr_id = $cache[$cache_key];
         if ($usr_id) {
-            echo "Updating: #{$commit->getId()} [$cache_key]: usr_id={$usr_id}\n";
+//            echo "Updating: #{$commit->getId()} [$cache_key]: usr_id={$usr_id}\n";
+            $db->query(
+                "UPDATE {{%commit}} SET com_usr_id=? WHERE com_id=?",
+                array($usr_id, $commit->getId())
+            );
         }
     }
 }
