@@ -78,7 +78,10 @@ class Abstract_Workflow_Backend
         }
 
         // save back to config tree
-        $this->config = $setup['workflow'][$name] = $config;
+        $setup['workflow'][$name] = $config;
+
+        // assign again to get Zend\Config instance
+        $this->config = $setup['workflow'][$name];
     }
 
     /**
