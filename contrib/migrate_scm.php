@@ -18,6 +18,7 @@
  */
 
 use Eventum\Db\Adapter\AdapterInterface;
+use Eventum\Model\Entity\Commit;
 
 require __DIR__ . '/../init.php';
 
@@ -160,7 +161,48 @@ function migrate_svn_repos()
     }
 }
 
+/**
+ * Set usr_id to commits using workflow.
+ * This assumes workflow preScmCommit() method sets UserId
+ */
+function set_commit_users($prj_id = 1)
+{
+    global $db;
+
+    // needs workflow backend to work
+    $backend = Workflow::_getBackend($prj_id);
+    if (!$backend) {
+        return;
+    }
+    
+    $commits = $db->getColumn("SELECT com_id FROM {{%commit}} WHERE com_usr_id IS NULL");
+    echo count($commits), " commits to check\n";
+    $co = Commit::create();
+    $cache = array();
+    foreach ($commits as $com_id) {
+        $commit = $co->findById($com_id);
+        $cache_key = $commit->getAuthor();
+
+        if (!isset($cache[$cache_key])) {
+            $backend->preScmCommit($prj_id, $commit, null);
+            $usr_id = $commit->getUserId();
+            if ($usr_id) {
+                echo "New mapping [$cache_key]: usr_id=$usr_id\n";
+            } else {
+                echo "No mapping [$cache_key]\n";
+            }
+            $cache[$cache_key] = $usr_id ?: false;
+        }
+
+        $usr_id = $cache[$cache_key];
+        if ($usr_id) {
+            echo "Updating: #{$commit->getId()} [$cache_key]: usr_id={$usr_id}\n";
+        }
+    }
+}
+
 $all_repos = all_repos();
 
 migrate_git_repos();
 migrate_svn_repos();
+set_commit_users();
