@@ -43,13 +43,13 @@ class Abstract_Workflow_Backend
      * @param string $option
      * @return mixed
      */
-    protected function getConfig($option)
+    public function getConfig($option = null)
     {
         if (!isset($this->config)) {
             $this->loadConfig();
         }
 
-        return $this->config[$option];
+        return $option === null ? $this->config : $this->config[$option];
     }
 
     /**
