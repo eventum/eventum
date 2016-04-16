@@ -68,7 +68,7 @@ class ScmCommitTest extends TestCase
         $cid = 177966;
         $c = Entity\Commit::create()->findById($cid);
         $this->assertNotNull($c);
-        $this->assertEquals($cid, $c[0]->getId());
+        $this->assertEquals($cid, $c->getId());
     }
 
     public function testIssueCommits()

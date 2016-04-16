@@ -340,11 +340,13 @@ class Commit extends BaseModel
 
     /**
      * @param int $id
-     * @return $this[]
+     * @return Commit
      */
     public function findById($id)
     {
-        return $this->findAllByConditions(array('com_id' => $id));
+        $res = $this->findAllByConditions(array('com_id' => $id), 1);
+
+        return $res ? $res[0] : null;
     }
 
     /**
