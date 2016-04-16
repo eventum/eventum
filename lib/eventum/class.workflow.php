@@ -444,7 +444,7 @@ class Workflow
      * @param int $prj_id The project ID.
      * @param int $issue_id The ID of the issue.
      * @param Entity\Commit $commit
-     * @since 3.0.12
+     * @since 3.1.0
      */
     public static function handleScmCommit($prj_id, $issue_id, Entity\Commit $commit)
     {
@@ -457,12 +457,21 @@ class Workflow
     }
 
     /**
-     * @param Entity\Commit $ci
+     * Method called on Commit to allow workflow update project name/commit author or user id
+     *
+     * @param integer $prj_id The project ID.
+     * @param Entity\Commit $commit
      * @param mixed $payload
-     * @since 3.0.12
+     * @since 3.1.0
      */
-    public static function preScmCommit($ci, $payload)
+    public static function preScmCommit($prj_id, $commit, $payload)
     {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+
+        $backend = self::_getBackend($prj_id);
+        $backend->preScmCommit($prj_id, $commit, $payload);
     }
 
     /**

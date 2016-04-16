@@ -55,8 +55,10 @@ class StdScm extends AbstractScmAdapter
 
         $ci->setChangeset($payload->getCommitId());
 
+        // XXX: take prj_id from first issue_id
+        $prj_id = Issue::getProjectID($issues[0]);
         $cr = CommitRepository::create();
-        $cr->preCommit($ci, $payload);
+        $cr->preCommit($prj_id, $ci, $payload);
         $ci->save();
 
         // save issue association

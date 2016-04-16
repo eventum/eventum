@@ -44,6 +44,11 @@ class Commit extends BaseModel
     protected $com_branch;
 
     /**
+     * @var int
+     */
+    protected $com_usr_id;
+
+    /**
      * @var string
      */
     protected $com_author_email;
@@ -174,6 +179,29 @@ class Commit extends BaseModel
     public function getBranch()
     {
         return $this->com_branch;
+    }
+
+    /**
+     * Get Eventum User Id
+     *
+     * @param int $usr_id
+     * @return $this
+     */
+    public function setUserId($usr_id)
+    {
+        $this->com_usr_id = $usr_id;
+
+        return $this;
+    }
+
+    /**
+     * Get Eventum User Id
+     *
+     * @return string
+     */
+    public function getUserId()
+    {
+        return $this->com_usr_id;
     }
 
     /**

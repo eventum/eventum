@@ -15,6 +15,7 @@ namespace Eventum\Scm\Adapter;
 
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
+use Issue;
 
 /**
  * Gitlab SCM handler
@@ -73,11 +74,14 @@ class GitlabScm extends AbstractScmAdapter
                 throw new \InvalidArgumentException("Branch not allowed: {$branch}");
             }
 
+            // XXX: take prj_id from first issue_id
+            $prj_id = Issue::getProjectID($issues[0]);
+
             $ci = $payload->createCommit($commit);
             $ci->setScmName($repo->getName());
             $ci->setProjectName($payload->getProject());
             $ci->setBranch($branch);
-            $cr->preCommit($ci, $payload);
+            $cr->preCommit($prj_id, $ci, $payload);
             $this->addCommitFiles($ci, $commit);
 
             foreach ($issues as $issue_id) {

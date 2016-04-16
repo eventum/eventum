@@ -17,6 +17,7 @@ create table {{%commit}} (
   com_branch varchar(255) NULL,
   com_author_email varchar(255) DEFAULT NULL,
   com_author_name varchar(255) DEFAULT NULL,
+  com_usr_id int default null,
   com_commit_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   com_message mediumtext
 ) ENGINE=MYISAM DEFAULT CHARSET=utf8;

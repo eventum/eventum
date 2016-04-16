@@ -23,14 +23,15 @@ use Workflow;
 class CommitRepository extends BaseRepository
 {
     /**
-     * Method called on Commit to add/update project name/commit author by workflow
+     * Method called on Commit to allow workflow update project name/commit author or user id
      *
+     * @param integer $prj_id The project ID.     *
      * @param Entity\Commit $ci
      * @param Entity\GitlabScmPayload|Entity\StdScmPayload $payload
      */
-    public function preCommit(Entity\Commit $ci, $payload)
+    public function preCommit($prj_id, Entity\Commit $ci, $payload)
     {
-        Workflow::preScmCommit($ci, $payload);
+        Workflow::preScmCommit($prj_id, $ci, $payload);
     }
 
     /**

@@ -59,7 +59,9 @@ class CvsScm extends AbstractScmAdapter
                 throw new \InvalidArgumentException("Branch not allowed: {$ci->getBranch()}");
             }
 
-            $cr->preCommit($ci, $payload);
+            // XXX: take prj_id from first issue_id
+            $prj_id = Issue::getProjectID($issues[0]);
+            $cr->preCommit($prj_id, $ci, $payload);
             $ci->save();
 
             // save issue association
