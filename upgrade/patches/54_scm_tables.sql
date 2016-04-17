@@ -35,6 +35,11 @@ create table {{%commit_file}} (
   # TODO, let CVS and SVN also include directory name here
   cof_filename varchar(255) NOT NULL DEFAULT '',
 
+  # flag whether file was added, modified or removed
+  cof_added bool,
+  cof_modified bool,
+  cof_removed bool,
+
   # file versions. relevant to CVS only
   # the other repositories do not have per file revisions
   cof_old_version varchar(40) DEFAULT NULL,

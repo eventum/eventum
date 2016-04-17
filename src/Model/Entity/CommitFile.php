@@ -34,6 +34,21 @@ class CommitFile extends BaseModel
     protected $cof_filename;
 
     /**
+     * @var bool
+     */
+    protected $cof_added;
+
+    /**
+     * @var bool
+     */
+    protected $cof_modified;
+
+    /**
+     * @var bool
+     */
+    protected $cof_removed;
+
+    /**
      * @var string
      */
     protected $cof_old_version;
@@ -108,6 +123,75 @@ class CommitFile extends BaseModel
     public function getFilename()
     {
         return $this->cof_filename;
+    }
+
+    /**
+     * Set boolean whether file was added
+     *
+     * @param bool $added
+     * @return CommitFile
+     */
+    public function setAdded($added)
+    {
+        $this->cof_added = $added;
+
+        return $this;
+    }
+
+    /**
+     * Get flag whether file was added
+     *
+     * @return bool
+     */
+    public function isAdded()
+    {
+        return $this->cof_added;
+    }
+
+    /**
+     * Set boolean whether file was modified
+     *
+     * @param bool $modified
+     * @return CommitFile
+     */
+    public function setModified($modified)
+    {
+        $this->cof_modified = $modified;
+
+        return $this;
+    }
+
+    /**
+     * Get flag whether file was modified
+     *
+     * @return bool
+     */
+    public function isModified()
+    {
+        return $this->cof_added;
+    }
+
+    /**
+     * Set boolean whether file was removed
+     *
+     * @param bool $removed
+     * @return CommitFile
+     */
+    public function setRemoved($removed)
+    {
+        $this->cof_removed = $removed;
+
+        return $this;
+    }
+
+    /**
+     * Get flag whether file was removed
+     *
+     * @return bool
+     */
+    public function isRemoved()
+    {
+        return $this->cof_removed;
     }
 
     /**
