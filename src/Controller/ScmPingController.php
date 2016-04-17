@@ -53,7 +53,7 @@ class ScmPingController extends BaseController
                 'code' => $code && is_numeric($code) ? $code : -1,
                 'message' => $e->getMessage(),
             );
-            $this->log->error($e);
+            Logger::app()->error($e);
         }
 
         echo json_encode($status);
