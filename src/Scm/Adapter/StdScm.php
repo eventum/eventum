@@ -75,11 +75,8 @@ class StdScm extends AbstractScmAdapter
 
         // save commit files
         foreach ($payload->getFiles() as $file) {
-            $cf = Entity\CommitFile::create()
-                ->setCommitId($ci->getId())
-                ->setFilename($file['file'])
-                ->setOldVersion($file['old_version'])
-                ->setNewVersion($file['new_version']);
+            $cf = $payload->createFile($file);
+            $cf->setCommitId($ci->getId());
             $cf->save();
             $ci->addFile($cf);
         }

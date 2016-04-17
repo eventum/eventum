@@ -92,6 +92,20 @@ class StdScmPayload
     }
 
     /**
+     * Create CommitFile object from $file properties
+     *
+     * @param array $file
+     * @return CommitFile
+     */
+    public function createFile($file)
+    {
+        return CommitFile::create()
+            ->setFilename($file['file'])
+            ->setOldVersion($file['old_version'])
+            ->setNewVersion($file['new_version']);
+    }
+
+    /**
      * Get files in sane format
      */
     public function getFiles()
