@@ -297,7 +297,7 @@ class Commit extends BaseModel
     }
 
     /** @var CommitFile[] */
-    private $files;
+    private $files = array();
 
     public function addFile(CommitFile $cf)
     {

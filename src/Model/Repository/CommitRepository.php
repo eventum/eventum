@@ -79,7 +79,7 @@ class CommitRepository extends BaseRepository
         foreach ($ics as $ic) {
             $c = Entity\Commit::create()->findById($ic->getCommitId());
             // associate files
-            $files = Entity\CommitFile::create()->findByCommitId($c->getId());
+            $files = Entity\CommitFile::create()->findByCommitId($c->getId()) ?: array();
             foreach ($files as $cf) {
                 $c->addFile($cf);
             }
