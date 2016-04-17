@@ -116,9 +116,13 @@ class CommitRepo
 
     public function getChangesetUrl(Commit $commit)
     {
-        $changeset = $commit->getChangeset();
+        $replace = array(
+            '{CHANGESET}' => $commit->getChangeset(),
+            '{PROJECT}' => $commit->getProjectName(),
+            '{VERSION}' => $commit->getChangeset(),
+        );
 
-        return str_replace('{CHANGESET}', $changeset, $this->config['changeset_url']);
+        return str_replace(array_keys($replace), array_values($replace), $this->config['changeset_url']);
     }
 
     /**
