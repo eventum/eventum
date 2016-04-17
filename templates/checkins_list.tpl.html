@@ -19,10 +19,20 @@
           {$commit.commit_short}
         {/if}
         {if $commit.project_name}
-        in {$commit.project_name}
+          in
+          {if $commit.project_url}
+            <a href="{$commit.project_url}" target="_blank">{$commit.project_name}</a>
+          {else}
+            {$commit.project_name}
+          {/if}
         {/if}
         {if $commit.branch}
-        on {$commit.branch}
+          on
+          {if $commit.branch_url}
+            <a href="{$commit.branch_url}" target="_blank">{$commit.branch}</a>
+          {else}
+            {$commit.branch}
+          {/if}
         {/if}
       </td>
       <td>{$commit.com_commit_date|timeago}</td>

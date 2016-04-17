@@ -114,6 +114,12 @@ class CommitRepo
         return $this->parseURL($this->config['log_url'], $checkin);
     }
 
+    /**
+     * Get link to commit (not file specific)
+     *
+     * @param Commit $commit
+     * @return string
+     */
     public function getChangesetUrl(Commit $commit)
     {
         $replace = array(
@@ -122,7 +128,38 @@ class CommitRepo
             '{VERSION}' => $commit->getChangeset(),
         );
 
-        return str_replace(array_keys($replace), array_values($replace), $this->config['changeset_url']);
+        return $this->replace($this->config['changeset_url'], $replace);
+    }
+
+    /**
+     * Get link to project the commit was made in
+     *
+     * @param Commit $commit
+     * @return string
+     */
+    public function getProjectUrl(Commit $commit)
+    {
+        $replace = array(
+            '{PROJECT}' => $commit->getProjectName(),
+        );
+
+        return $this->replace($this->config['project_url'], $replace);
+    }
+
+    /**
+     * Get link to branch the commit was made in
+     *
+     * @param Commit $commit
+     * @return string
+     */
+    public function getBranchUrl(Commit $commit)
+    {
+        $replace = array(
+            '{PROJECT}' => $commit->getProjectName(),
+            '{BRANCH}' => $commit->getBranch(),
+        );
+
+        return $this->replace($this->config['branch_url'], $replace);
     }
 
     /**
@@ -149,5 +186,10 @@ class CommitRepo
         }
 
         return $url;
+    }
+
+    private function replace($str, $replace)
+    {
+        return str_replace(array_keys($replace), array_values($replace), $str);
     }
 }
