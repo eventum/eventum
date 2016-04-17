@@ -36,17 +36,17 @@ class CommitFile extends BaseModel
     /**
      * @var bool
      */
-    protected $cof_added;
+    protected $cof_added = false;
 
     /**
      * @var bool
      */
-    protected $cof_modified;
+    protected $cof_modified = false;
 
     /**
      * @var bool
      */
-    protected $cof_removed;
+    protected $cof_removed = false;
 
     /**
      * @var string

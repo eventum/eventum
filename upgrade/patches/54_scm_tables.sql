@@ -36,9 +36,9 @@ create table {{%commit_file}} (
   cof_filename varchar(255) NOT NULL DEFAULT '',
 
   # flag whether file was added, modified or removed
-  cof_added bool,
-  cof_modified bool,
-  cof_removed bool,
+  cof_added bool not null default false,
+  cof_modified bool not null default false,
+  cof_removed bool not null default false,
 
   # file versions. relevant to CVS only
   # the other repositories do not have per file revisions
