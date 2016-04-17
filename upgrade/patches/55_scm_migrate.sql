@@ -29,14 +29,20 @@ alter table {{%issue_checkin}} add index (isc_commitid);
 
 # create file details
 INSERT INTO {{%commit_file}}
-  (cof_com_id, cof_filename, cof_old_version, cof_new_version)
+  (cof_com_id, cof_filename, cof_added, cof_removed, cof_modified, cof_old_version, cof_new_version)
   SELECT
     com.com_id,
     concat(isc_module, '/', isc_filename),
+    isnull(isc_old_version) added,
+    isnull(isc_new_version) removed,
+    not isnull(isc_old_version) and not isnull(isc_new_version) modified,
     isc_old_version,
     isc_new_version
   FROM {{%issue_checkin}} isc, {{%commit}} com
   WHERE isc.isc_commitid = com.com_changeset;
+
+# reset bogus data, such as "imported sources" from CVS
+update {{%commit_file}} set cof_added=0,cof_removed=0 where cof_added+cof_modified+cof_removed>1;
 
 # create issue relations
 INSERT INTO {{%issue_commit}}
