@@ -53,7 +53,7 @@ class GitlabScm extends AbstractScmAdapter
     private function processPushHook()
     {
         $payload = $this->getPayload();
-        $this->log->debug('processPushHook', array('payload' => $payload->getPayload()));
+//        $this->log->debug('processPushHook', array('payload' => $payload->getPayload()));
 
         $repo_url = $payload->getRepoUrl();
         $repo = Entity\CommitRepo::getRepoByUrl($repo_url);
@@ -106,6 +106,7 @@ class GitlabScm extends AbstractScmAdapter
         foreach ($commit['added'] as $file) {
             $cf = Entity\CommitFile::create()
                 ->setCommitId($ci->getId())
+                ->setAdded(true)
                 ->setFilename($file);
             $cf->save();
             $ci->addFile($cf);
@@ -113,6 +114,7 @@ class GitlabScm extends AbstractScmAdapter
         foreach ($commit['modified'] as $file) {
             $cf = Entity\CommitFile::create()
                 ->setCommitId($ci->getId())
+                ->setModified(true)
                 ->setFilename($file);
             $cf->save();
             $ci->addFile($cf);
@@ -120,6 +122,7 @@ class GitlabScm extends AbstractScmAdapter
         foreach ($commit['removed'] as $file) {
             $cf = Entity\CommitFile::create()
                 ->setCommitId($ci->getId())
+                ->setRemoved(true)
                 ->setFilename($file);
             $cf->save();
             $ci->addFile($cf);

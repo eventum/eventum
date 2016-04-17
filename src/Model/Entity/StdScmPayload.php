@@ -99,10 +99,23 @@ class StdScmPayload
      */
     public function createFile($file)
     {
-        return CommitFile::create()
+        $cf = CommitFile::create()
             ->setFilename($file['file'])
             ->setOldVersion($file['old_version'])
             ->setNewVersion($file['new_version']);
+
+        $added = !isset($file['old_version']);
+        $removed = !isset($file['new_version']);
+
+        if ($added) {
+            $cf->setAdded(true);
+        } elseif ($removed) {
+            $cf->setRemoved(true);
+        } else {
+            $cf->setModified(true);
+        }
+
+        return $cf;
     }
 
     /**
