@@ -171,21 +171,23 @@ class CommitRepo
      */
     private function parseURL($url, $checkin)
     {
-        $url = str_replace('{PROJECT}', $checkin['project_name'], $url);
-        $url = str_replace('{FILE}', $checkin['cof_filename'], $url);
-        $url = str_replace('{OLD_VERSION}', $checkin['cof_old_version'], $url);
-        $url = str_replace('{NEW_VERSION}', $checkin['cof_new_version'], $url);
+        $replace = array(
+            '{PROJECT}' => $checkin['project_name'],
+            '{FILE}' => $checkin['cof_filename'],
+            '{OLD_VERSION}' => $checkin['cof_old_version'],
+            '{NEW_VERSION}' => $checkin['cof_new_version'],
+        );
 
         // the current version to look log from
         if ($checkin['added']) {
-            $url = str_replace('{VERSION}', $checkin['cof_new_version'], $url);
+            $replace['{VERSION}'] = $checkin['cof_new_version'];
         } elseif ($checkin['removed']) {
-            $url = str_replace('{VERSION}', $checkin['cof_old_version'], $url);
+            $replace['{VERSION}'] = $checkin['cof_old_version'];
         } else {
-            $url = str_replace('{VERSION}', $checkin['cof_new_version'], $url);
+            $replace['{VERSION}'] = $checkin['cof_new_version'];
         }
 
-        return $url;
+        return $this->replace($url, $replace);
     }
 
     private function replace($str, $replace)
