@@ -4,8 +4,8 @@ Eventum Issue Tracking System
 2016-??-??, Version 3.0.12
 ----------------------------
 - Make Bulk update feature work again (#160, #161, @balsdorf)
-- Nice Progress Bar for % Complete. (#162, @phavel, @glensc, @slay123)
-- Fix bug where percentage complete is not included in changed notification. (#163, #164, @balsorf)
+- Nice Progress Bar for % Complete (#162, @phavel, @glensc, @slay123)
+- Fix bug where percentage complete is not included in changed notification (#163, #164, @balsorf)
 
 2016-03-28, Version [3.0.11]
 ----------------------------
