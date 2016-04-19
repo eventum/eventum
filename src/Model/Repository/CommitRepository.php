@@ -69,29 +69,60 @@ class CommitRepository extends BaseRepository
      */
     public function addCommitFiles(Entity\Commit $ci, $commit)
     {
-        foreach ($commit['added'] as $file) {
+        foreach ($commit['added'] as $filename) {
             $cf = Entity\CommitFile::create()
                 ->setCommitId($ci->getId())
                 ->setAdded(true)
-                ->setFilename($file);
+                ->setFilename($filename);
+
+            if (isset($commit['versions'][$filename])) {
+                $this->setFileVersions($cf, $commit['versions'][$filename]);
+            }
+
             $cf->save();
             $ci->addFile($cf);
         }
-        foreach ($commit['modified'] as $file) {
+
+        foreach ($commit['modified'] as $filename) {
             $cf = Entity\CommitFile::create()
                 ->setCommitId($ci->getId())
                 ->setModified(true)
-                ->setFilename($file);
+                ->setFilename($filename);
+
+            if (isset($commit['versions'][$filename])) {
+                $this->setFileVersions($cf, $commit['versions'][$filename]);
+            }
+
             $cf->save();
             $ci->addFile($cf);
         }
-        foreach ($commit['removed'] as $file) {
+
+        foreach ($commit['removed'] as $filename) {
             $cf = Entity\CommitFile::create()
                 ->setCommitId($ci->getId())
                 ->setRemoved(true)
-                ->setFilename($file);
+                ->setFilename($filename);
+
+            if (isset($commit['versions'][$filename])) {
+                $this->setFileVersions($cf, $commit['versions'][$filename]);
+            }
+
             $cf->save();
             $ci->addFile($cf);
+        }
+    }
+
+    /**
+     * @param Entity\CommitFile $cf
+     * @param array $versions
+     */
+    private function setFileVersions(Entity\CommitFile $cf, $versions)
+    {
+        if (isset($versions[0])) {
+            $cf->setOldVersion($versions[0]);
+        }
+        if (isset($versions[0])) {
+            $cf->setNewVersion($versions[1]);
         }
     }
 

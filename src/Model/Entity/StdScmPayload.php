@@ -92,33 +92,6 @@ class StdScmPayload implements ScmPayloadInterface
     }
 
     /**
-     * Create CommitFile object from $file properties
-     *
-     * @param array $file
-     * @return CommitFile
-     */
-    public function createFile($file)
-    {
-        $cf = CommitFile::create()
-            ->setFilename($file['file'])
-            ->setOldVersion($file['old_version'])
-            ->setNewVersion($file['new_version']);
-
-        $added = !isset($file['old_version']);
-        $removed = !isset($file['new_version']);
-
-        if ($added) {
-            $cf->setAdded(true);
-        } elseif ($removed) {
-            $cf->setRemoved(true);
-        } else {
-            $cf->setModified(true);
-        }
-
-        return $cf;
-    }
-
-    /**
      * Get files associated with the commit
      */
     public function getFiles()
