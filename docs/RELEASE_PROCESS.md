@@ -27,7 +27,7 @@ Release process
 - Update the ChangeLog.md file with the correct version number and release date
 
 - create git tag
-`$ git tag -s v3.0.11`
+`$ git tag -s v3.1.0`
 
 - build tarball again
 `$ make dist`
@@ -39,7 +39,7 @@ Release process
 - fill release title and release notes
 - upload tarball and signature to the release
 - to create a digital signature, use the following command:
-`% gpg --armor --sign --detach-sig eventum-3.0.11.tar.gz`
+`% gpg --armor --sign --detach-sig eventum-3.1.0.tar.gz`
 - create tags also in scm and wiki submodules
 
 After release

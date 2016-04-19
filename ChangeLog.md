@@ -1,15 +1,18 @@
 Eventum Issue Tracking System
 =============================
 
-2016-04-19, Version 3.0.12
+2016-??-??, Version [3.1.0]
 ----------------------------
 
-This will be last release supporting PHP 5.3, next version will require PHP 5.5 and be versioned as 3.1.0
+2016-04-19, Version [3.0.12]
+----------------------------
+
+This will be last release supporting PHP 5.3, next version will require PHP 5.5 and be versioned as 3.1.0.
 This will also be last release packaging SCM hook scripts in main Eventum release tarball.
 
 - Make Bulk update feature work again (#160, #161, @balsdorf)
 - Nice Progress Bar for % Complete (#162, @phavel, @glensc, @slay123)
-- Fix bug where percentage complete is not included in changed notification (#163, #164, @balsorf)
+- Fix bug where percentage complete is not included in changed notification (#163, #164, @balsdorf)
 
 2016-03-28, Version [3.0.11]
 ----------------------------
@@ -1181,6 +1184,8 @@ This release uses Composer for PHP Class autoloader.
 
 - Initial release (João; Bryan)
 
+[3.1.0]: https://github.com/eventum/eventum/compare/v3.0.12...master
+[3.0.12]: https://github.com/eventum/eventum/compare/v3.0.11...v3.0.12
 [3.0.11]: https://github.com/eventum/eventum/compare/v3.0.10...v3.0.11
 [3.0.10]: https://github.com/eventum/eventum/compare/v3.0.9...v3.0.10
 [3.0.9]: https://github.com/eventum/eventum/compare/v3.0.8...v3.0.9
