@@ -82,8 +82,12 @@ class GitlabScm extends AbstractScmAdapter
             $ci->setProjectName($payload->getProject());
             $ci->setBranch($branch);
             $cr->preCommit($prj_id, $ci, $payload);
-            $this->addCommitFiles($ci, $commit);
+            $ci->save();
 
+            // save commit files
+            $cr->addCommitFiles($ci, $commit);
+
+            // add issue relations
             foreach ($issues as $issue_id) {
                 Entity\IssueCommit::create()
                     ->setCommitId($ci->getId())
@@ -91,41 +95,6 @@ class GitlabScm extends AbstractScmAdapter
                     ->save();
                 $cr->addCommit($issue_id, $ci);
             }
-        }
-    }
-
-    /**
-     * Add commit files from $commit array
-     *
-     * @param array $commit
-     */
-    private function addCommitFiles(Entity\Commit $ci, $commit)
-    {
-        $ci->save();
-
-        foreach ($commit['added'] as $file) {
-            $cf = Entity\CommitFile::create()
-                ->setCommitId($ci->getId())
-                ->setAdded(true)
-                ->setFilename($file);
-            $cf->save();
-            $ci->addFile($cf);
-        }
-        foreach ($commit['modified'] as $file) {
-            $cf = Entity\CommitFile::create()
-                ->setCommitId($ci->getId())
-                ->setModified(true)
-                ->setFilename($file);
-            $cf->save();
-            $ci->addFile($cf);
-        }
-        foreach ($commit['removed'] as $file) {
-            $cf = Entity\CommitFile::create()
-                ->setCommitId($ci->getId())
-                ->setRemoved(true)
-                ->setFilename($file);
-            $cf->save();
-            $ci->addFile($cf);
         }
     }
 

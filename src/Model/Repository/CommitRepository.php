@@ -63,6 +63,39 @@ class CommitRepository extends BaseRepository
     }
 
     /**
+     * Add commit files from $commit array
+     *
+     * @param array $commit
+     */
+    public function addCommitFiles(Entity\Commit $ci, $commit)
+    {
+        foreach ($commit['added'] as $file) {
+            $cf = Entity\CommitFile::create()
+                ->setCommitId($ci->getId())
+                ->setAdded(true)
+                ->setFilename($file);
+            $cf->save();
+            $ci->addFile($cf);
+        }
+        foreach ($commit['modified'] as $file) {
+            $cf = Entity\CommitFile::create()
+                ->setCommitId($ci->getId())
+                ->setModified(true)
+                ->setFilename($file);
+            $cf->save();
+            $ci->addFile($cf);
+        }
+        foreach ($commit['removed'] as $file) {
+            $cf = Entity\CommitFile::create()
+                ->setCommitId($ci->getId())
+                ->setRemoved(true)
+                ->setFilename($file);
+            $cf->save();
+            $ci->addFile($cf);
+        }
+    }
+
+    /**
      * @param int $issue_id
      * @return Entity\Commit[]
      */

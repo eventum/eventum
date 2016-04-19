@@ -119,29 +119,18 @@ class StdScmPayload
     }
 
     /**
-     * Get files in sane format
+     * Get files associated with the commit
      */
     public function getFiles()
     {
-        $params = $this->params;
-        $files = $params->get('files');
-        $old_versions = $params->get('old_versions');
-        $new_versions = $params->get('new_versions');
+        // create array with predefined keys
+        $files = array(
+            'added',
+            'removed',
+            'modified',
+        );
+        $files = array_fill_keys($files, array());
 
-        $nfiles = count($files);
-        $res = array();
-        for ($y = 0; $y < $nfiles; $y++) {
-            $file = array(
-                'file' => $files[$y],
-                // for CVS version may be missing to indicate 'added' or 'removed' state
-                // for SVN/Git there's no per file revisions
-                'old_version' => isset($old_versions[$y]) ? $old_versions[$y] : null,
-                'new_version' => isset($new_versions[$y]) ? $new_versions[$y] : null,
-            );
-
-            $res[] = $file;
-        }
-
-        return $res;
+        return $this->params->get('files') + $files;
     }
 }
