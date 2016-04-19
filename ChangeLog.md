@@ -4,6 +4,10 @@ Eventum Issue Tracking System
 2016-??-??, Version [3.1.0]
 ----------------------------
 
+From this release SCM hook scripts are no longer packaged with main Eventum release tarball.
+
+- dropped scm git submodule and from install system
+
 2016-04-19, Version [3.0.12]
 ----------------------------
 

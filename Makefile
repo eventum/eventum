@@ -28,7 +28,7 @@ all:
 pot:
 	$(MAKE) -C localization pot
 
-install: install-eventum install-cli install-scm
+install: install-eventum install-cli
 
 dist:
 	./bin/release.sh
@@ -104,14 +104,6 @@ install-eventum:
 install-cli:
 	install -d $(DESTDIR)$(bindir)
 	install -p cli/$(name).phar $(DESTDIR)$(bindir)/$(name)
-
-# install eventum scm (cvs, svn, git) hooks
-install-scm:
-	install -d $(DESTDIR)$(sbindir)
-	install -p scm/eventum-cvs-hook.php $(DESTDIR)$(sbindir)/eventum-cvs-hook
-	install -p scm/eventum-svn-hook.php $(DESTDIR)$(sbindir)/eventum-svn-hook
-	install -p scm/eventum-git-hook.php $(DESTDIR)$(sbindir)/eventum-git-hook
-	cp -p scm/helpers.php $(DESTDIR)$(sbindir)
 
 install-localization:
 	$(MAKE) -C localization install

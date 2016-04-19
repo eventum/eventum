@@ -282,8 +282,6 @@ build_phars() {
 	$quick && return
 	# eventum standalone cli
 	make -C cli eventum.phar composer=$composer box=$box
-	# eventum scm
-	make -C scm phar box=$box
 }
 
 cleanup_postdist() {
