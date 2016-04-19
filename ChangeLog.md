@@ -1,10 +1,11 @@
 Eventum Issue Tracking System
 =============================
 
-2016-??-??, Version 3.0.12
+2016-04-19, Version 3.0.12
 ----------------------------
 
 This will be last release supporting PHP 5.3, next version will require PHP 5.5 and be versioned as 3.1.0
+This will also be last release packaging SCM hook scripts in main Eventum release tarball.
 
 - Make Bulk update feature work again (#160, #161, @balsdorf)
 - Nice Progress Bar for % Complete (#162, @phavel, @glensc, @slay123)
