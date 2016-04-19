@@ -15,7 +15,7 @@ namespace Eventum\Model\Entity;
 
 use Date_Helper;
 
-class GitlabScmPayload
+class GitlabScmPayload implements ScmPayloadInterface
 {
     private $payload;
 
@@ -81,7 +81,7 @@ class GitlabScmPayload
     }
 
     /**
-     * @return array
+     * @inheritdoc
      */
     public function getPayload()
     {

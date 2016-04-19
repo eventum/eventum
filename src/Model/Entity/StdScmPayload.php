@@ -17,7 +17,7 @@ use Date_Helper;
 use Issue;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-class StdScmPayload
+class StdScmPayload implements ScmPayloadInterface
 {
     private $params;
 
@@ -132,5 +132,13 @@ class StdScmPayload
         $files = array_fill_keys($files, array());
 
         return $this->params->get('files') + $files;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPayload()
+    {
+        return $this->params->all();
     }
 }
