@@ -6,6 +6,7 @@ Test before release
 
 - install yourself lowest supported php and it's modules (5.3 as of now) as
   depending on php version different PEAR modules may be installed
+- update git submodules to point to master
 - create release tarball, unpack and run setup
 `$ make dist`
 - make sure upgrade/drop.sql lists all created tables
@@ -49,7 +50,6 @@ After release
 `$ git push launchpad --tags`
 - update release number in init.php to indicate next dev version (`APP_VERSION`)
 - start new version entry in Changelog.md
-- update git submodules to point to master
 - add new milestone in github. just fill version number in Title field https://github.com/eventum/eventum/milestones
 - move open tickets/pull requests to new milestone
 - close old milestone
