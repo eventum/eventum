@@ -121,7 +121,7 @@ class CommitRepository extends BaseRepository
         if (isset($versions[0])) {
             $cf->setOldVersion($versions[0]);
         }
-        if (isset($versions[0])) {
+        if (isset($versions[1])) {
             $cf->setNewVersion($versions[1]);
         }
     }
