@@ -195,9 +195,9 @@ class CommitRepository extends BaseRepository
             foreach ($c->getFiles() as $cf) {
                 $f = $cf->toArray();
 
-                // add ADDED and REMOVED fields
-                $f['added'] = !isset($f['cof_old_version']);
-                $f['removed'] = !isset($f['cof_new_version']);
+                $f['added'] = $cf->isAdded();
+                $f['removed'] = $cf->isRemoved();
+                $f['modified'] = $cf->isModified();
 
                 $f['r1'] = substr($cf->getOldVersion(), 0, 7);
                 $f['r2'] = substr($cf->getNewVersion(), 0, 7);

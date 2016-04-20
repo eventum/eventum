@@ -77,7 +77,6 @@ class CvsScm extends AbstractScmAdapter
             }
         }
 
-
         // save commit files
         $cr->addCommitFiles($ci, $payload->getFiles());
 
