@@ -168,7 +168,7 @@ class CommitFile extends BaseModel
      */
     public function isModified()
     {
-        return $this->cof_added;
+        return $this->cof_modified;
     }
 
     /**
