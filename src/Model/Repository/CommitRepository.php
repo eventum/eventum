@@ -199,6 +199,9 @@ class CommitRepository extends BaseRepository
                 $f['removed'] = $cf->isRemoved();
                 $f['modified'] = $cf->isModified();
 
+                // flag indicating whether file has versions
+                $f['versions'] = $cf->hasVersions() ;
+
                 $f['r1'] = substr($cf->getOldVersion(), 0, 7);
                 $f['r2'] = substr($cf->getNewVersion(), 0, 7);
 

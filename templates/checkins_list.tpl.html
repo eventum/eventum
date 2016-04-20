@@ -53,19 +53,24 @@
             <a title="{t 1=$file.cof_filename}see the log of of %1{/t}" target="_blank"
                href="{$file.scm_log_url}">{$file.cof_filename|escape:"html"}</a>
             {if $file.added}
-              ({t}ADDED{/t})
+              ({t}Added{/t})
             {elseif $file.removed}
-              ({t}REMOVED{/t})
+              ({t}Removed{/t})
             {else}
+              {if $file.versions}
               (<a
                 title="{t 1=$file.r2 2=$file.cof_filename}see the source of revision %1 of %2{/t}"
                 target="_blank" href="{$file.checkout_url}"><span
                   class=revision>{$file.r2}</span></a>)
+              {else}
+                ({t}Modified{/t})
+              {/if}
             {/if}
           {else}
             {$file.cof_filename|escape:"html"}
           {/if}
-          {if $file.diff_url && !$file.added && !$file.removed}
+
+          {if $file.modified && $file.versions && $file.diff_url}
             [
             <a title="{t 1=$file.r1}see the diff to revision %1{/t}" target="_blank"
                href="{$file.diff_url}">{t 1=$file.r1 escape=no}diff to

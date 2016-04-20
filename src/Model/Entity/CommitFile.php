@@ -241,6 +241,14 @@ class CommitFile extends BaseModel
     }
 
     /**
+     * Indicate whether file has versions
+     */
+    public function hasVersions()
+    {
+        return $this->getOldVersion() or $this->getNewVersion();
+    }
+
+    /**
      * @param int $cid
      * @return $this[]
      */
