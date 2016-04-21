@@ -21,9 +21,9 @@ class StdScmPayload implements ScmPayloadInterface
 {
     private $params;
 
-    public function __construct(ParameterBag $params)
+    public function __construct(array $payload)
     {
-        $this->params = $params;
+        $this->params = new ParameterBag($payload);
     }
 
     /**

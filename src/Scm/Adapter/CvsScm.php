@@ -116,6 +116,8 @@ class CvsScm extends AbstractScmAdapter
      */
     private function getPayload()
     {
-        return new Entity\StdScmPayload($this->request->query);
+        $data = json_decode($this->request->getContent(), true);
+
+        return new Entity\StdScmPayload($data);
     }
 }
