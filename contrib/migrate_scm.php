@@ -60,8 +60,8 @@ function migrate_git_repos()
         $commits = $db->getColumn("SELECT com_id FROM {{%commit}} WHERE com_scm_name=?", array($repo));
         $commits = join(',', $commits);
         $db->query(
-            "UPDATE {{%commit}} SET com_project_name=com_scm_name, com_scm_name=? WHERE com_scm_name=?",
-            array($git_name, $repo)
+            "UPDATE {{%commit}} SET com_project_name=com_scm_name, com_scm_name=? WHERE com_scm_name=? and com_scm_name!=?",
+            array($git_name, $repo, $git_name)
         );
         echo "$repo -> $commits\n";
     }
