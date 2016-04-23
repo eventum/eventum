@@ -45,7 +45,6 @@ function all_repos()
  * - move com_scm_name as com_project_name
  * - set com_scm_name to $git_name
  * - clear file versions, git doesn't track changes per files [notyet]
- * - fill added, removed, modified flag [notyet]
  */
 function migrate_git_repos()
 {
