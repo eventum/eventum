@@ -16,6 +16,7 @@ namespace Eventum\Scm\Adapter;
 use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
 use Issue;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Gitlab SCM handler
@@ -32,6 +33,11 @@ class GitlabScm extends AbstractScmAdapter
      */
     public function can()
     {
+        // must be POST
+        if ($this->request->getMethod() != Request::METHOD_POST) {
+            return false;
+        }
+
         return $this->request->headers->has(self::GITLAB_HEADER);
     }
 

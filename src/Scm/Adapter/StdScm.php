@@ -17,6 +17,7 @@ use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
 use InvalidArgumentException;
 use Issue;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Standard SCM handler
@@ -30,6 +31,11 @@ class StdScm extends AbstractScmAdapter
      */
     public function can()
     {
+        // must be POST
+        if ($this->request->getMethod() != Request::METHOD_POST) {
+            return false;
+        }
+
         // require 'scm' GET parameter to be 'svn' or 'git'
         return in_array($this->request->query->get('scm'), array('svn', 'git'));
     }

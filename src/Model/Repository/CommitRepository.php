@@ -200,7 +200,7 @@ class CommitRepository extends BaseRepository
                 $f['modified'] = $cf->isModified();
 
                 // flag indicating whether file has versions
-                $f['versions'] = $cf->hasVersions() ;
+                $f['versions'] = $cf->hasVersions();
 
                 // fill for url builder
                 $f['project_name'] = $c->getProjectName();

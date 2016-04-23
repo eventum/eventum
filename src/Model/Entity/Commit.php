@@ -160,7 +160,7 @@ class Commit extends BaseModel
         if ($short && strlen($this->com_changeset) > 16) {
             return substr($this->com_changeset, 0, 7);
         }
-        
+
         return $this->com_changeset;
     }
 

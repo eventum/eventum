@@ -17,6 +17,7 @@ use Eventum\Model\Entity;
 use Eventum\Model\Repository\CommitRepository;
 use InvalidArgumentException;
 use Issue;
+use Symfony\Component\HttpFoundation\Request;
 
 class CvsScm extends AbstractScmAdapter
 {
@@ -25,6 +26,10 @@ class CvsScm extends AbstractScmAdapter
      */
     public function can()
     {
+        // must be POST
+        if ($this->request->getMethod() != Request::METHOD_POST) {
+            return false;
+        }
         // require 'scm=cvs' GET parameter
         return $this->request->query->get('scm') == 'cvs';
     }
