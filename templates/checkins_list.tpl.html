@@ -59,9 +59,9 @@
             {else}
               {if $file.versions}
               (<a
-                title="{t 1=$file.r2 2=$file.cof_filename}see the source of revision %1 of %2{/t}"
+                title="{t 1=$file.cof_new_version 2=$file.cof_filename}see the source of revision %1 of %2{/t}"
                 target="_blank" href="{$file.checkout_url}"><span
-                  class=revision>{$file.r2}</span></a>)
+                  class=revision>{$file.cof_new_version}</span></a>)
               {else}
                 ({t}Modified{/t})
               {/if}
@@ -72,8 +72,8 @@
 
           {if $file.modified && $file.versions && $file.diff_url}
             [
-            <a title="{t 1=$file.r1}see the diff to revision %1{/t}" target="_blank"
-               href="{$file.diff_url}">{t 1=$file.r1 escape=no}diff to
+            <a title="{t 1=$file.cof_old_version}see the diff to revision %1{/t}" target="_blank"
+               href="{$file.diff_url}">{t 1=$file.cof_old_version escape=no}diff to
                 <span class=revision>%1</span>{/t}</a>
             ]
           {/if}

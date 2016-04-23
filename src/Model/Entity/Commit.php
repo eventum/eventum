@@ -151,10 +151,16 @@ class Commit extends BaseModel
     /**
      * Get changeset
      *
+     * @param bool $short
      * @return string
      */
-    public function getChangeset()
+    public function getChangeset($short = false)
     {
+        // truncate if it's longer than 16 (cvs commitid)
+        if ($short && strlen($this->com_changeset) > 16) {
+            return substr($this->com_changeset, 0, 7);
+        }
+        
         return $this->com_changeset;
     }
 

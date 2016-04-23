@@ -187,7 +187,7 @@ class CommitRepository extends BaseRepository
             $checkin['author'] = $c->getAuthor();
             $checkin['project_name'] = $c->getProjectName();
             $checkin['branch'] = $c->getBranch();
-            $checkin['commit_short'] = substr($checkin['com_changeset'], 0, 7);
+            $checkin['commit_short'] = $c->getChangeset(true);
             $checkin['changeset_url'] = $scm->getChangesetUrl($c);
             $checkin['branch_url'] = $scm->getBranchUrl($c);
             $checkin['project_url'] = $scm->getProjectUrl($c);
@@ -201,9 +201,6 @@ class CommitRepository extends BaseRepository
 
                 // flag indicating whether file has versions
                 $f['versions'] = $cf->hasVersions() ;
-
-                $f['r1'] = substr($cf->getOldVersion(), 0, 7);
-                $f['r2'] = substr($cf->getNewVersion(), 0, 7);
 
                 // fill for url builder
                 $f['project_name'] = $c->getProjectName();
