@@ -85,7 +85,7 @@ composer-security-checker: composer.lock
 # install eventum core
 install-eventum:
 	install -d $(DESTDIR)$(sysconfdir)
-	touch $(DESTDIR)$(sysconfdir)/{config.php,private_key,secret_key.php,setup.php}
+	cp -a config/* $(DESTDIR)$(sysconfdir)
 
 	install -d $(DESTDIR)$(datadir)/lib
 	cp -a lib/eventum $(DESTDIR)$(datadir)/lib
@@ -98,7 +98,7 @@ install-eventum:
 	cp -a *.php $(DESTDIR)$(datadir)
 
 	install -d $(DESTDIR)$(logdir)
-	touch $(DESTDIR)$(logdir)/{cli.log,errors.log,irc_bot.log,login_attempts.log}
+	cp -a var/log/* $(DESTDIR)$(logdir)
 
 # install eventum cli
 install-cli:
