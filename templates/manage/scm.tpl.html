@@ -104,6 +104,17 @@ $(function() {
       'changeset_url' => 'http://gitlab.example.org/{PROJECT}/commit/{VERSION}',
       'branch_url' => 'http://gitlab.example.org/{PROJECT}/tree/{BRANCH}',
       'project_url' => 'http://gitlab.example.org/{PROJECT}',
+      // push urls to identify this instance
+      'urls' => array(
+          'git@gitlab.example.net',
+          'gitlab@gitlab.local'
+      ),
+      // branch filtering
+      'only' => array(
+          'master',
+      ),
+      'except' => array(
+      ),
     ),
   )
 </pre>{/literal}
