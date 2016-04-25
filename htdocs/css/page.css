@@ -421,3 +421,10 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 div.phpdebugbar {
     box-shadow: 0 -1px 5px #666666;
 }
+
+/* SCM style fixes */
+#issue_view  ul.scm_checkin {
+    list-style: outside none disc;
+    padding: 0 1.5em;
+    margin: 0;
+}

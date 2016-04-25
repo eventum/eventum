@@ -42,7 +42,7 @@
 
     {* prefill expendable cell content *}
     {capture assign='content'}
-
+    <ul class="scm_checkin">
       {foreach from=$commit.files key=i item=file}
         <li>
 {*
@@ -77,8 +77,9 @@
                 <span class=revision>%1</span>{/t}</a>
             ]
           {/if}
-        <br/>
+        </li>
       {/foreach}
+    </ul>
     {/capture}
 
     {include file="expandable_cell/body.tpl.html" ec_id="scm" content=$content list_id=$commit.com_id colspan="5" class=$row_class}
