@@ -569,7 +569,7 @@ class Abstract_Workflow_Backend
     /**
      * Returns if a user can change the assignee of an issue. Return null to use default rules.
      */
-    public static function canChangeAssignee($prj_id, $issue_id, $usr_id)
+    public function canChangeAssignee($prj_id, $issue_id, $usr_id)
     {
         return null;
     }
@@ -598,7 +598,7 @@ class Abstract_Workflow_Backend
         return null;
     }
 
-    public static function formatIRCMessage($prj_id, $notice, $issue_id = false, $usr_id = false, $category = false,
+    public function formatIRCMessage($prj_id, $notice, $issue_id = false, $usr_id = false, $category = false,
                                             $type = false)
     {
         return $notice;
@@ -610,7 +610,7 @@ class Abstract_Workflow_Backend
      * @param $prj_id
      * @return array
      */
-    public static function getAccessLevels($prj_id)
+    public function getAccessLevels($prj_id)
     {
         return array();
     }
@@ -623,7 +623,7 @@ class Abstract_Workflow_Backend
      * @param $usr_id
      * @return mixed null to use default rules, true or false otherwise
      */
-    public static function canAccessIssue($prj_id, $issue_id, $usr_id)
+    public function canAccessIssue($prj_id, $issue_id, $usr_id)
     {
         return null;
     }
@@ -635,7 +635,7 @@ class Abstract_Workflow_Backend
      * @param $usr_id
      * @return mixed null to use default rules or an sql string otherwise
      */
-    public static function getAdditionalAccessSQL($prj_id, $usr_id)
+    public function getAdditionalAccessSQL($prj_id, $usr_id)
     {
         return null;
     }
