@@ -909,7 +909,7 @@ class Workflow
     public static function cryptoUpgradeConfig($prj_id = 1)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return null;
+            return;
         }
         self::_getBackend($prj_id)->cryptoUpgradeConfig();
     }
@@ -923,7 +923,7 @@ class Workflow
     public static function cryptoDowngradeConfig($prj_id = 1)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return null;
+            return;
         }
         self::_getBackend($prj_id)->cryptoDowngradeConfig();
     }
