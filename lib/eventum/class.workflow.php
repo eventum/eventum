@@ -899,4 +899,32 @@ class Workflow
 
         return $backend->getAdditionalAccessSQL($prj_id, $usr_id);
     }
+
+    /**
+     * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
+     * NOTE: this isn't really project specific, therefore it uses hardcoded project id to obtain workflow class
+     *
+     * @since 3.1.0
+     */
+    public static function cryptoUpgradeConfig($prj_id = 1)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return null;
+        }
+        self::_getBackend($prj_id)->cryptoUpgradeConfig();
+    }
+
+    /**
+     * Downgrade config: remove all EncryptedValue elements.
+     * NOTE: this isn't really project specific, therefore it uses hardcoded project id to obtain workflow class
+     *
+     * @since 3.1.0
+     */
+    public static function cryptoDowngradeConfig($prj_id = 1)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return null;
+        }
+        self::_getBackend($prj_id)->cryptoDowngradeConfig();
+    }
 }
