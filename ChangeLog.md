@@ -7,6 +7,7 @@ Eventum Issue Tracking System
 From this release SCM hook scripts are no longer packaged with main Eventum release tarball.
 
 - dropped scm git submodule and from install system
+- dropped deprecated `bin/route_*.php` scripts, use `process_all_emails.php`
 
 2016-04-19, Version [3.0.12]
 ----------------------------
