@@ -646,7 +646,7 @@ class Abstract_Workflow_Backend
      * @see \Eventum\Crypto\CryptoUpgradeManager::upgradeConfig
      * @since 3.1.0
      */
-    public static function cryptoUpgradeConfig()
+    public function cryptoUpgradeConfig()
     {
     }
 
@@ -656,7 +656,7 @@ class Abstract_Workflow_Backend
      *
      * @since 3.1.0
      */
-    public static function cryptoDowngradeConfig()
+    public function cryptoDowngradeConfig()
     {
     }
 }
