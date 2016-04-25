@@ -15,6 +15,7 @@ namespace Eventum\Crypto;
 
 use Email_Account;
 use Setup;
+use Workflow;
 use Zend\Config\Config;
 
 class CryptoUpgradeManager
@@ -121,6 +122,7 @@ class CryptoUpgradeManager
                 CryptoManager::encrypt($this->config['ldap']['bindpw'])
             );
         }
+        Workflow::cryptoUpgradeConfig();
     }
 
     /**
@@ -139,6 +141,7 @@ class CryptoUpgradeManager
             $value = $this->config['ldap']['bindpw'];
             $this->config['ldap']['bindpw'] = $value->getValue();
         }
+        Workflow::cryptoDowngradeConfig();
     }
 
     private function upgradeEmailAccounts()

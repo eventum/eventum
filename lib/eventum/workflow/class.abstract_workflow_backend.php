@@ -132,7 +132,7 @@ class Abstract_Workflow_Backend
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue
      * @param   integer $usr_id The ID of the user changing the issue.
-     * @param   array   $changes
+     * @param   array $changes
      * @return  mixed. True to continue, anything else to cancel the change and return the value
      */
     public function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes)
@@ -363,7 +363,7 @@ class Abstract_Workflow_Backend
      *
      * @param    integer $prj_id The project ID.
      * @param    integer $issue_id The ID of the issue.
-     * @param    string  $event The event to return additional email addresses for. Currently only "new_issue" is supported.
+     * @param    string $event The event to return additional email addresses for. Currently only "new_issue" is supported.
      * @return   array   An array of email addresses to be notified.
      */
     public function getAdditionalEmailAddresses($prj_id, $issue_id, $event)
@@ -405,7 +405,7 @@ class Abstract_Workflow_Backend
      *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue
-     * @param   string  $email The email address added
+     * @param   string $email The email address added
      * @return  boolean
      */
     public function handleAuthorizedReplierAdded($prj_id, $issue_id, $email)
@@ -436,7 +436,7 @@ class Abstract_Workflow_Backend
      *
      * @param   integer $prj_id
      * @param   integer $issue_id
-     * @param   array   $data
+     * @param   array $data
      * @return  mixed   Null by default, false if the note should not be inserted
      */
     public function preNoteInsert($prj_id, $issue_id, &$data)
@@ -460,14 +460,14 @@ class Abstract_Workflow_Backend
      * a new issue.
      *
      * @param   integer $prj_id The ID of the project
-     * @param   array   $info An array of info about the email account.
-     * @param   string  $headers The headers of the email.
-     * @param   string  $message_body The body of the message.
-     * @param   string  $date The date this message was sent
-     * @param   string  $from The name and email address of the sender.
-     * @param   string  $subject The subject of this message.
-     * @param   array   $to An array of to addresses
-     * @param   array   $cc An array of cc addresses
+     * @param   array $info An array of info about the email account.
+     * @param   string $headers The headers of the email.
+     * @param   string $message_body The body of the message.
+     * @param   string $date The date this message was sent
+     * @param   string $from The name and email address of the sender.
+     * @param   string $subject The subject of this message.
+     * @param   array $to An array of to addresses
+     * @param   array $cc An array of cc addresses
      * @return int
      */
     public function getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
@@ -524,8 +524,8 @@ class Abstract_Workflow_Backend
      * @see     Notification::getDefaultActions()
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue
-     * @param   string  $email The email address of the user being added
-     * @param   string  $source The source of this call
+     * @param   string $email The email address of the user being added
+     * @param   string $source The source of this call
      * @return  array   an array of actions
      */
     public function getNotificationActions($prj_id, $issue_id, $email, $source)
@@ -539,7 +539,7 @@ class Abstract_Workflow_Backend
      * @see     class.issue_field.php
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue
-     * @param   string  $location The location to display these fields at
+     * @param   string $location The location to display these fields at
      * @return  array   an array of fields to display and their associated options
      */
     public function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
@@ -638,5 +638,25 @@ class Abstract_Workflow_Backend
     public static function getAdditionalAccessSQL($prj_id, $usr_id)
     {
         return null;
+    }
+
+    /**
+     * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
+     *
+     * @see \Eventum\Crypto\CryptoUpgradeManager::upgradeConfig
+     * @since 3.1.0
+     */
+    public static function cryptoUpgradeConfig()
+    {
+    }
+
+    /**
+     * Downgrade config: remove all EncryptedValue elements
+     * @see \Eventum\Crypto\CryptoUpgradeManager::downgradeConfig
+     *
+     * @since 3.1.0
+     */
+    public static function cryptoDowngradeConfig()
+    {
     }
 }
