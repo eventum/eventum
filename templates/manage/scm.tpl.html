@@ -77,23 +77,26 @@ $(function() {
     'cvs' => array(
       // cvsweb urls
       'name' => 'cvs',
-      'checkout_url' => 'http://cvs.example.org/{FILE}?rev={NEW_VERSION}&content-type=text/x-cvsweb-markup',
-      'diff_url' => 'http://cvs.example.org/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&f=h',
-      'log_url' => 'http://cvs.example.org/{FILE}?r1={VERSION}#rev{VERSION}',
+      'checkout_url' => 'https://cvs.example.org/{FILE}?rev={NEW_VERSION}&content-type=text/x-cvsweb-markup',
+      'diff_url' => 'https://cvs.example.org/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&f=h',
+      'log_url' => 'https://cvs.example.org/{FILE}?r1={NEW_VERSION}#rev{NEW_VERSION}',
     ),
     'svn' => array(
       // trac urls
       'name' => 'svn',
-      'checkout_url' => 'http://trac.example.org/browser/{FILE}?rev={VERSION}',
-      'diff_url' => 'http://trac.example.org/changeset/{VERSION}/{FILE}',
-      'log_url' => 'http://trac.example.org/log/{FILE}?rev={VERSION}',
+      'checkout_url' => 'https://trac.example.org/browser/{FILE}?rev={CHANGESET}',
+      'diff_url' => 'https://trac.example.org/changeset/{CHANGESET}/{FILE}',
+      'log_url' => 'https://trac.example.org/log/{FILE}?rev={CHANGESET}',
+      'changeset_url' => 'https://trac.example.org/changeset/{CHANGESET}',
     ),
     'git' => array(
       // gitweb urls
       'name' => 'git',
-      'checkout_url' => 'http://git.example.org/?p={PROJECT}.git;a=blob;f={FILE};hb={VERSION}',
-      'diff_url' => 'http://git.example.org/?p={PROJECT}.git;a=commitdiff;h={VERSION}',
-      'log_url' => 'http://git.example.org/?p={PROJECT}.git;a=history;f={FILE};hb={VERSION}',
+      'checkout_url' => 'https://git.example.org/?p={PROJECT}.git;a=blob;f={FILE};hb={CHANGESET}',
+      'diff_url' => 'https://git.example.org/?p={PROJECT}.git;a=commitdiff;h={CHANGESET}',
+      'log_url' => 'https://git.example.org/?p={PROJECT}.git;a=history;f={FILE};hb={CHANGESET}',
+      'changeset_url' => 'https://git.example.org/?p={PROJECT}.git;a=commitdiff;h={CHANGESET}',
+      'project_url' => 'https://git.example.org/?p={PROJECT}.git;a=summary',
     ),
     'gitlab' => array(
       // gitlab urls

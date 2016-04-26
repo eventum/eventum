@@ -99,19 +99,19 @@ class CommitRepo
         return true;
     }
 
-    public function getCheckoutUrl($checkin)
+    public function getCheckoutUrl(Commit $commit, CommitFile $cf)
     {
-        return $this->parseURL($this->config['checkout_url'], $checkin);
+        return $this->getUrl('checkout_url', $commit, $cf);
     }
 
-    public function getDiffUrl($checkin)
+    public function getDiffUrl(Commit $commit, CommitFile $cf)
     {
-        return $this->parseURL($this->config['diff_url'], $checkin);
+        return $this->getUrl('diff_url', $commit, $cf);
     }
 
-    public function getLogUrl($checkin)
+    public function getLogUrl(Commit $commit, CommitFile $cf)
     {
-        return $this->parseURL($this->config['log_url'], $checkin);
+        return $this->getUrl('log_url', $commit, $cf);
     }
 
     /**
@@ -122,13 +122,7 @@ class CommitRepo
      */
     public function getChangesetUrl(Commit $commit)
     {
-        $replace = array(
-            '{CHANGESET}' => $commit->getChangeset(),
-            '{PROJECT}' => $commit->getProjectName(),
-            '{VERSION}' => $commit->getChangeset(),
-        );
-
-        return $this->replace($this->config['changeset_url'], $replace);
+        return $this->getUrl('changeset_url', $commit);
     }
 
     /**
@@ -139,11 +133,7 @@ class CommitRepo
      */
     public function getProjectUrl(Commit $commit)
     {
-        $replace = array(
-            '{PROJECT}' => $commit->getProjectName(),
-        );
-
-        return $this->replace($this->config['project_url'], $replace);
+        return $this->getUrl('project_url', $commit);
     }
 
     /**
@@ -154,44 +144,35 @@ class CommitRepo
      */
     public function getBranchUrl(Commit $commit)
     {
-        $replace = array(
-            '{PROJECT}' => $commit->getProjectName(),
-            '{BRANCH}' => $commit->getBranch(),
-        );
-
-        return $this->replace($this->config['branch_url'], $replace);
+        return $this->getUrl('branch_url', $commit);
     }
 
     /**
      * Method used to parse an user provided URL and substitute a known set of
      * placeholders for the appropriate information.
      *
-     * @param   string $url The user provided URL
-     * @return  string The parsed URL
+     * @param string $key the url key to lookup from config
+     * @param Commit $commit
+     * @param CommitFile $cf
+     * @return string The parsed URL
      */
-    private function parseURL($url, $checkin)
+    private function getUrl($key, Commit $commit, CommitFile $cf = null)
     {
+        // $url will be null if key doesn't exist, so no need to check it
+        $url = $this->config[$key];
+
         $replace = array(
-            '{PROJECT}' => $checkin['project_name'],
-            '{FILE}' => $checkin['cof_filename'],
-            '{OLD_VERSION}' => $checkin['cof_old_version'],
-            '{NEW_VERSION}' => $checkin['cof_new_version'],
+            '{PROJECT}' => $commit->getProjectName(),
+            '{CHANGESET}' => $commit->getChangeset(),
+            '{BRANCH}' => $commit->getBranch(),
         );
 
-        // the current version to look log from
-        if ($checkin['added']) {
-            $replace['{VERSION}'] = $checkin['cof_new_version'];
-        } elseif ($checkin['removed']) {
-            $replace['{VERSION}'] = $checkin['cof_old_version'];
-        } else {
-            $replace['{VERSION}'] = $checkin['cof_new_version'];
+        if ($cf) {
+            $replace['{FILE}'] = $cf->getFilename();
+            $replace['{OLD_VERSION}'] = $cf->getOldVersion();
+            $replace['{NEW_VERSION}'] = $cf->getNewVersion();
         }
 
-        return $this->replace($url, $replace);
-    }
-
-    private function replace($str, $replace)
-    {
-        return str_replace(array_keys($replace), array_values($replace), $str);
+        return str_replace(array_keys($replace), array_values($replace), $url);
     }
 }

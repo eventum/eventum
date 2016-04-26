@@ -206,9 +206,9 @@ class CommitRepository extends BaseRepository
                 $f['project_name'] = $c->getProjectName();
 
                 // fill urls
-                $f['checkout_url'] = $scm->getCheckoutUrl($f);
-                $f['diff_url'] = $scm->getDiffUrl($f);
-                $f['scm_log_url'] = $scm->getLogUrl($f);
+                $f['checkout_url'] = $scm->getCheckoutUrl($c, $cf);
+                $f['diff_url'] = $scm->getDiffUrl($c, $cf);
+                $f['scm_log_url'] = $scm->getLogUrl($c, $cf);
 
                 $checkin['files'][] = $f;
             }
