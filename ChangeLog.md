@@ -9,6 +9,7 @@ From this release SCM hook scripts are no longer packaged with main Eventum rele
 - dropped scm git submodule and from install system
 - dropped deprecated `bin/route_*.php` scripts, use `process_all_emails.php`
 - add workflow methods for crypt upgrade/downgrade (#165, @glensc)
+- we reached [7000th] commit! :boom:
 
 2016-04-19, Version [3.0.12]
 ----------------------------
@@ -1205,3 +1206,4 @@ This release uses Composer for PHP Class autoloader.
 [3.0.1]: https://github.com/eventum/eventum/compare/v3.0.0-pre1...v3.0.1
 [3.0.0-pre1]: https://github.com/eventum/eventum/compare/v2.4.0-pre1...v3.0.0-pre1
 [2.4.0-pre1]: https://github.com/eventum/eventum/compare/v2.3.4...v2.4.0-pre1
+[7000th]: https://gitter.im/eventum/eventum?at=571fcd410f156f102b41020c
