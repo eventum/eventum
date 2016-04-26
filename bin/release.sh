@@ -157,6 +157,14 @@ clean_scripts() {
 	find -name '*.php' | xargs -r sed -i -e 's,\r$,,'
 }
 
+# strip require_once calls from pear code
+pear_require_strip() {
+	grep -rF require_once vendor/pear* -l | xargs sed -i -re '
+		# remove require_once calls
+		s#require_once[^;]+?;#//&#
+	'
+}
+
 # cleanup excess files from vendor
 # but not that much that composer won't work
 clean_vendor() {
@@ -252,6 +260,7 @@ clean_vendor() {
 
 	# auto-fix pear packages
 	$quick || make pear-fix php-cs-fixer=$phpcsfixer
+	$quick || pear_require_strip
 	# run twice, to fix all occurrences
 	$quick || make pear-fix php-cs-fixer=$phpcsfixer
 
