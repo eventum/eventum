@@ -75,9 +75,9 @@ $(function() {
         {literal}<pre>
   'scm' => array(
     'cvs' => array(
-      // cvsweb urls
+      // viewvc urls
       'name' => 'cvs',
-      'checkout_url' => 'https://cvs.example.org/{FILE}?rev={NEW_VERSION}&content-type=text/x-cvsweb-markup',
+      'checkout_url' => 'https://cvs.example.org/{FILE}?view=markup&revision={NEW_VERSION}',
       'diff_url' => 'https://cvs.example.org/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&f=h',
       'log_url' => 'https://cvs.example.org/{FILE}?r1={NEW_VERSION}#rev{NEW_VERSION}',
     ),
