@@ -1,10 +1,12 @@
 Eventum Issue Tracking System
 =============================
 
-2016-??-??, Version [3.1.0]
+2016-04-28, Version [3.1.0]
 ----------------------------
 
-From this release SCM hook scripts are no longer packaged with main Eventum release tarball.
+The minimum supported PHP version from this version onwards is 5.5, recommended is 5.6.
+While this release still works with 5.3, it is not supported anymore.
+This releases also no longer bundles SCM hook scripts, they are available from separate project.
 
 - dropped scm git submodule and from install system
 - dropped deprecated `bin/route_*.php` scripts, use `process_all_emails.php`
@@ -1192,7 +1194,7 @@ This release uses Composer for PHP Class autoloader.
 
 - Initial release (João; Bryan)
 
-[3.1.0]: https://github.com/eventum/eventum/compare/v3.0.12...master
+[3.1.0]: https://github.com/eventum/eventum/compare/v3.0.12...v3.1.0
 [3.0.12]: https://github.com/eventum/eventum/compare/v3.0.11...v3.0.12
 [3.0.11]: https://github.com/eventum/eventum/compare/v3.0.10...v3.0.11
 [3.0.10]: https://github.com/eventum/eventum/compare/v3.0.9...v3.0.10
