@@ -382,6 +382,13 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
     width:360px;
 }
 
+/* SCM style fixes */
+#issue_view  ul.scm_checkin {
+    list-style: outside none disc;
+    padding: 0 1.5em;
+    margin: 0;
+}
+
 /* Dropzone.js overrides */
 /* dropzone styles taken from MailChimp Filemanager background - http://blog.mailchimp.com/wp-content/uploads/2012/02/filemgr2.jpg */
 .dz-message {

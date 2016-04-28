@@ -253,6 +253,7 @@ class Setup
                 ),
             ),
 
+            'scm' => array(),
             'smtp' => array(),
             'ldap' => array(),
 

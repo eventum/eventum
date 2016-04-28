@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Model\Entity;
+
 /**
  * Abstract Class that all workflow backends should extend. This is so any new
  * workflow methods added in future releases will not break current backends.
@@ -328,19 +330,33 @@ class Abstract_Workflow_Backend
     }
 
     /**
-     * Called when SCM checkin is associated.
-     *
-     * NOTE: The $module parameter is deprecated. always NULL, use 'module' from $file object
-     *
-     * @param   integer $prj_id The project ID.
-     * @param   integer $issue_id The ID of the issue.
-     * @param   string $module The SCM module commit was made.
-     * @param   array $files File list with their version numbers changes made on.
-     * @param   string $username SCM user doing the checkin.
-     * @param   string $commit_msg Message associated with the SCM commit.
-     * @param   ScmCheckin $scm SCM config associated with the commit
+     * @deprecated removed since 3.1.0, use handleScmCommit
      */
-    public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg, $scm)
+    public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg, $scm, $commitid)
+    {
+    }
+
+    /**
+     * Method called on Commit to allow workflow update project name/commit author or user id
+     *
+     * @param integer $prj_id The project ID.
+     * @param Entity\Commit $commit
+     * @param mixed $payload
+     * @since 3.1.0
+     */
+    public function preScmCommit($prj_id, Entity\Commit $commit, $payload)
+    {
+    }
+
+    /**
+     * Handle commit associated to issue
+     *
+     * @param int $prj_id The project ID.
+     * @param int $issue_id The ID of the issue.
+     * @param Entity\Commit $commit
+     * @since 3.0.12
+     */
+    public function handleScmCommit($prj_id, $issue_id, Entity\Commit $commit)
     {
     }
 

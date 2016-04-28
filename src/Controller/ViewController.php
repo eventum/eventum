@@ -24,6 +24,7 @@ use Custom_Field;
 use Date_Helper;
 use Draft;
 use Email_Account;
+use Eventum\Model\Repository\CommitRepository;
 use Group;
 use Impact_Analysis;
 use Issue;
@@ -36,7 +37,6 @@ use Phone_Support;
 use Product;
 use Project;
 use Release;
-use SCM;
 use Search;
 use Severity;
 use Status;
@@ -221,7 +221,7 @@ class ViewController extends BaseController
                 'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($this->issue_id, $this->usr_id),
                 'phone_entries' => Phone_Support::getListing($this->issue_id),
                 'phone_categories' => Phone_Support::getCategoryAssocList($this->prj_id),
-                'checkins' => SCM::getCheckinList($this->issue_id),
+                'checkins' => CommitRepository::create()->getIssueCommitsArray($this->issue_id),
                 'time_categories' => Time_Tracking::getAssocCategories($this->prj_id),
                 'time_entries' => $time_entries['list'],
                 'total_time_by_user' => $time_entries['total_time_by_user'],
