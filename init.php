@@ -110,13 +110,6 @@ $define('APP_MAINTENANCE', false);
 
 require_once APP_PATH . '/autoload.php';
 
-// fix magic_quote_gpc'ed values
-if (get_magic_quotes_gpc()) {
-    $_GET = Misc::dispelMagicQuotes($_GET);
-    $_POST = Misc::dispelMagicQuotes($_POST);
-    $_REQUEST = Misc::dispelMagicQuotes($_REQUEST);
-}
-
 Misc::stripInput($_POST);
 
 // set default timezone

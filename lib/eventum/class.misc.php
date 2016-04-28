@@ -373,42 +373,6 @@ class Misc
     }
 
     /**
-     * The Util:: class provides generally useful methods of different kinds.
-     *
-     * $Horde: framework/Util/Util.php,v 1.366 2004/03/30 17:03:58 jan Exp $
-     *
-     * Copyright 1999-2004 Chuck Hagenbuch <chuck@horde.org>
-     * Copyright 1999-2004 Jon Parise <jon@horde.org>
-     *
-     * See the enclosed file COPYING for license information (LGPL). If you
-     * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
-     *
-     * @author  Chuck Hagenbuch <chuck@horde.org>
-     * @author  Jon Parise <jon@horde.org>
-     * @version $Revision: 1.366 $
-     * @since   Horde 3.0
-     * @package Horde_Util
-     */
-    public static function dispelMagicQuotes(&$var)
-    {
-        static $magic_quotes;
-
-        if (!isset($magic_quotes)) {
-            $magic_quotes = get_magic_quotes_gpc();
-        }
-
-        if ($magic_quotes) {
-            if (!is_array($var)) {
-                $var = stripslashes($var);
-            } else {
-                array_walk($var, array('Misc', 'dispelMagicQuotes'));
-            }
-        }
-
-        return $var;
-    }
-
-    /**
      * Clean input from control characters (low bits in ASCII table).
      *
      * In case of UTF-8 encoding, strip also Unicode characters over 3 bytes
