@@ -4,9 +4,9 @@ Eventum Issue Tracking System
 2016-04-28, Version [3.1.0]
 ----------------------------
 
-The minimum supported PHP version from this version onwards is 5.5, recommended is 5.6.
+The minimum supported PHP version from this version onwards is 5.5 (5.6 recommended).
 While this release still works with 5.3, it is not supported anymore.
-This releases also no longer bundles SCM hook scripts, they are available from separate project.
+This release also no longer bundles SCM hook scripts, they are available from separate project.
 
 - dropped scm git submodule and from install system
 - dropped deprecated `bin/route_*.php` scripts, use `process_all_emails.php`
