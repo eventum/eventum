@@ -206,10 +206,7 @@ class XmlRpcServer
      */
     private function getFunctionDecorator($method, $public, $pdesc)
     {
-        // create $handler variable for PHP 5.3
-        $handler = $this;
-
-        $function = function ($message) use ($handler, $method, $public, $pdesc) {
+        $function = function ($message) use ($method, $public, $pdesc) {
             /** @var XML_RPC_Message $message */
             $params = array();
             $n = $message->getNumParams();
@@ -217,22 +214,20 @@ class XmlRpcServer
                 $params[] = XML_RPC_decode($message->getParam($i));
             }
 
-            return $handler->handle($method, $params, $public, $pdesc);
+            return $this->handle($method, $params, $public, $pdesc);
         };
 
         return $function;
     }
 
     /**
-     * NOTE: this needs to be public for PHP 5.3 compatibility
-     *
      * @param ReflectionMethod $method
      * @param array $params Method parameters in already decoded into PHP types
      * @param bool $public true if method should not be protected with login/password
      * @param array $pdesc Parameter descriptions
      * @return string
      */
-    public function handle($method, $params, $public, $pdesc)
+    private function handle($method, $params, $public, $pdesc)
     {
         // there's method to set this via $client->setAutoBase64(true);
         // but nothing at server side. where we actually need it

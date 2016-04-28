@@ -147,28 +147,26 @@ class Eventum_Bot
         }
 
         // setup signal handler to be able to remove lock and shutdown cleanly
-        $bot = $this;
-        $irc = &$this->irc;
-        $handler = function ($signal = null) use ($bot, &$irc) {
-            $bot->shutdown = true;
+        $handler = function ($signal = null) {
+            $this->shutdown = true;
             // if stream_select receives signal, SmartIRC will automatically retry
             // disable reconnect, and die
             // this is not needed if we are connected,
             // but unable to query such state, all variables and methods related to it are not public
-            $irc->setAutoRetry(false);
+            $this->irc->setAutoRetry(false);
 
             if ($signal) {
-                $irc->log(SMARTIRC_DEBUG_NOTICE, "Got signal[$signal]; shutdown", __FILE__, __LINE__);
-                $irc->quit('Terminated');
+                $this->irc->log(SMARTIRC_DEBUG_NOTICE, "Got signal[$signal]; shutdown", __FILE__, __LINE__);
+                $this->irc->quit('Terminated');
             } else {
-                $irc->log(SMARTIRC_DEBUG_NOTICE, 'Shutdown handler', __FILE__, __LINE__);
-                $irc->quit('Bye');
+                $this->irc->log(SMARTIRC_DEBUG_NOTICE, 'Shutdown handler', __FILE__, __LINE__);
+                $this->irc->quit('Bye');
             }
 
             // QUIT has no effect if not connected
-            $irc->disconnect();
+            $this->irc->disconnect();
 
-            $bot->unlock();
+            $this->unlock();
         };
 
         if ($this->have_pcntl) {
