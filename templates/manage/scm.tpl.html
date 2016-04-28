@@ -101,12 +101,12 @@ $(function() {
     'gitlab' => array(
       // gitlab urls
       'name' => 'gitlab',
-      'checkout_url' => 'http://gitlab.example.org/{PROJECT}/blob/{VERSION}/{FILE}',
-      'diff_url' => 'http://gitlab.example.org/{PROJECT}/commit/{VERSION}#{FILE}',
-      'log_url' => 'http://gitlab.example.org/{PROJECT}/commits/{VERSION}/{FILE}',
-      'changeset_url' => 'http://gitlab.example.org/{PROJECT}/commit/{VERSION}',
-      'branch_url' => 'http://gitlab.example.org/{PROJECT}/tree/{BRANCH}',
-      'project_url' => 'http://gitlab.example.org/{PROJECT}',
+      'checkout_url' => 'https://gitlab.example.org/{PROJECT}/blob/{CHANGESET}/{FILE}',
+      'diff_url' => 'https://gitlab.example.org/{PROJECT}/commit/{CHANGESET}#{FILE}',
+      'log_url' => 'https://gitlab.example.org/{PROJECT}/commits/{CHANGESET}/{FILE}',
+      'changeset_url' => 'https://gitlab.example.org/{PROJECT}/commit/{CHANGESET}',
+      'branch_url' => 'https://gitlab.example.org/{PROJECT}/tree/{BRANCH}',
+      'project_url' => 'https://gitlab.example.org/{PROJECT}',
       // push urls to identify this instance
       'urls' => array(
           'git@gitlab.example.net',
