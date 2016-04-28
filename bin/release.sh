@@ -92,6 +92,8 @@ update_version() {
 	version=$(awk -F"'" '/APP_VERSION/{print $4}' init.php)
 
 	version=$(git describe --tags)
+	# trim 'v' prefix
+	version=${version#v}
 
 	sed -i -e "
 		/define('APP_VERSION'/ {
