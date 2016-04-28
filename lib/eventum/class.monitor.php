@@ -187,6 +187,8 @@ class Monitor
         $required_tables = array(
             'api_token',
             'columns_to_display',
+            'commit',
+            'commit_file',
             'custom_field',
             'custom_field_option',
             'custom_filter',
@@ -208,6 +210,7 @@ class Monitor
             'issue_attachment',
             'issue_attachment_file',
             'issue_checkin',
+            'issue_commit',
             'issue_custom_field',
             'issue_history',
             'issue_partner',
