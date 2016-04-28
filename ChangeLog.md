@@ -10,6 +10,7 @@ From this release SCM hook scripts are no longer packaged with main Eventum rele
 - dropped deprecated `bin/route_*.php` scripts, use `process_all_emails.php`
 - add workflow methods for crypt upgrade/downgrade (#165, @glensc)
 - we reached [7000th] commit! :boom:
+- scm: modularize and add gitlab adapter (#159, @glensc)
 
 2016-04-19, Version [3.0.12]
 ----------------------------
