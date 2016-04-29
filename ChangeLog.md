@@ -7,6 +7,8 @@ Eventum Issue Tracking System
 - remove support for calling deprecated handleAssignment workflow method, it was deprecated in 2.4.0-pre1. d16ea3a
 - drop php 5.3 `$this` hacks. c58fe0c
 - drop `dispelMagicQuotes`; magic quotes support dropped in php 5.4. e58926c
+- use short array syntax, 92c751e
+- remove support for calling deprecated handleAssignment workflow method, d16ea3a
 
 2016-04-28, Version [3.1.0]
 ----------------------------
