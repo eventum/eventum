@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -112,7 +111,7 @@ abstract class BaseController
      * @param string $url
      * @param array $params
      */
-    protected function redirect($url, $params = array())
+    protected function redirect($url, $params = [])
     {
         if ($params) {
             $q = strstr($url, '?') ? '&' : '?';

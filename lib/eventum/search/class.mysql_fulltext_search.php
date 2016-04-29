@@ -57,17 +57,17 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
                      sup_removed = 0 AND
                      MATCH(seb_body) AGAINST (? IN BOOLEAN MODE)
                  )';
-        $params = array(
+        $params = [
             $options['keywords'],
             $options['keywords'],
             $options['keywords'],
             $options['keywords'],
             $options['keywords'],
-        );
+        ];
         try {
             $res = DB_Helper::getInstance()->getColumn($stmt, $params);
         } catch (DatabaseException $e) {
-            return array(-1);
+            return [-1];
         }
 
         $stmt = 'SELECT
@@ -77,14 +77,14 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
                 WHERE
                     (MATCH (icf_value) AGAINST (? IN BOOLEAN MODE) OR
                      MATCH (icf_value_integer) AGAINST (? IN BOOLEAN MODE))';
-        $params1 = array(
+        $params1 = [
             $options['keywords'],
             $options['keywords'],
-        );
+        ];
         try {
             $custom_res = DB_Helper::getInstance()->getColumn($stmt, $params1);
         } catch (DatabaseException $e) {
-            return array(-1);
+            return [-1];
         }
 
         $issues = array_merge($res, $custom_res);
@@ -92,7 +92,7 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
         // we kill the query results on purpose to flag that no
         // issues could be found with fulltext search
         if (count($issues) < 1) {
-            return array(-1);
+            return [-1];
         }
 
         return $issues;
@@ -105,6 +105,6 @@ class MySQL_Fulltext_Search extends Abstract_Fulltext_Search
 
     public function getExcerpts()
     {
-        return array();
+        return [];
     }
 }

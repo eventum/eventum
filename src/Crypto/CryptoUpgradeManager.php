@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Crypto;
 
 use Email_Account;
@@ -162,7 +161,7 @@ class CryptoUpgradeManager
         $accounts = Email_Account::getList();
 
         // collect passwords when encryption enabled
-        $passwords = array();
+        $passwords = [];
         $this->config['encryption'] = 'enabled';
         foreach ($accounts as $account) {
             $account = Email_Account::getDetails($account['ema_id'], true);

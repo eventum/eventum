@@ -40,18 +40,18 @@ class XmlRpcServer
      */
     private function getXmlRpcMethodSignatures()
     {
-        $signatures = array();
+        $signatures = [];
         foreach ($this->getMethods() as $methodName => $method) {
             $tags = $this->parseBlockComment($method->getDocComment());
             $public = isset($tags['access']) && $tags['access'][0][0] == 'public';
             $signature = $this->getSignature($tags, $public);
             $pdesc = isset($tags['param']) ? $tags['param'] : null;
             $function = $this->getFunctionDecorator($method, $public, $pdesc);
-            $signatures[$methodName] = array(
+            $signatures[$methodName] = [
                 'function' => $function,
-                'signature' => array($signature),
+                'signature' => [$signature],
                 'docstring' => $method->getDocComment(),
-            );
+            ];
         }
 
         return $signatures;
@@ -64,7 +64,7 @@ class XmlRpcServer
      */
     private function getMethods()
     {
-        $methods = array();
+        $methods = [];
         foreach ($this->reflectionClass->getMethods() as $method) {
             if (
                 $method->isPublic() // only public
@@ -88,7 +88,7 @@ class XmlRpcServer
     {
         $doc = preg_replace('#/+|\t+|\*+#', '', $doc);
 
-        $tags = array();
+        $tags = [];
         foreach (explode("\n", $doc) as $line) {
             $line = trim($line);
             $line = preg_replace('/\s+/', ' ', $line);
@@ -105,7 +105,7 @@ class XmlRpcServer
             $name = str_replace('@', '', array_shift($tokens));
 
             if (!isset($tags[$name])) {
-                $tags[$name] = array();
+                $tags[$name] = [];
             }
             $tags[$name][] = $tokens;
         }
@@ -122,7 +122,7 @@ class XmlRpcServer
      */
     private function getSignature($tags, $public)
     {
-        $signature = array();
+        $signature = [];
 
         // first goes return type
         if (isset($tags['return'])) {
@@ -208,7 +208,7 @@ class XmlRpcServer
     {
         $function = function ($message) use ($method, $public, $pdesc) {
             /** @var XML_RPC_Message $message */
-            $params = array();
+            $params = [];
             $n = $message->getNumParams();
             for ($i = 0; $i < $n; $i++) {
                 $params[] = XML_RPC_decode($message->getParam($i));
@@ -275,7 +275,7 @@ class XmlRpcServer
     private function getAuthParams(&$params)
     {
         if (isset($_SERVER['PHP_AUTH_USER'])) {
-            return array($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']);
+            return [$_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW']];
         }
 
         return array_splice($params, 0, 2);

@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use Misc;
@@ -56,10 +55,10 @@ class PartnersController extends ManageBaseController
         $res = Partner::update($post->get('code'), $post->get('projects'));
         $this->tpl->assign('result', $res);
 
-        $map = array(
-            1 => array(ev_gettext('Thank you, the partner was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to update the partner information.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the partner was updated successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the partner information.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
@@ -77,11 +76,11 @@ class PartnersController extends ManageBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'type' => 'partners',
                 'list' => Partner::getList(),
                 'project_list' => Project::getAll(),
-            )
+            ]
         );
     }
 }

@@ -29,7 +29,7 @@ use Eventum\Db\Adapter\AdapterInterface;
 # :%s#"$#$/",
 #
 
-$patterns = array(
+$patterns = [
     '/^Attachment removed by (?P<user>.*)$/',
     '/^Attachment uploaded by (?P<user>.*)$/',
     '/^Authorized replier (?P<replier>.*) removed by (?P<user>.*)$/',
@@ -107,7 +107,7 @@ $patterns = array(
     // custom workflow methods
     '/^Status changed to "(?P<status>.+)" through assignment change$/',
     "/^Status changed from '(?P<old_status>.+)' to '(?P<new_status>.+)' because (?P<user>.+) assigned the issue and is the only assignee\.?$/",
-);
+];
 
 // find contexts from history entries
 $find = function ($string) use ($patterns) {
@@ -125,7 +125,7 @@ $find = function ($string) use ($patterns) {
     }
 
     $message = '';
-    $context = array();
+    $context = [];
     $offset = 0;
     foreach ($matches as $token => $match) {
         // want only named captures
@@ -145,10 +145,10 @@ $find = function ($string) use ($patterns) {
     $message .= substr($string, $offset);
 
     // give it out
-    return array(
+    return [
         'message' => $message,
         'context' => $context,
-    );
+    ];
 };
 
 /** @var AdapterInterface $db */
@@ -175,9 +175,9 @@ while ($res->fetchInto($row, AdapterInterface::DB_FETCHMODE_ASSOC)) {
     }
 
     $db->query(
-        'update {{%issue_history}} set his_summary=?, his_context=? where his_id=?', array(
+        'update {{%issue_history}} set his_summary=?, his_context=? where his_id=?', [
         $m['message'], json_encode($m['context']), $row['his_id']
-    )
+    ]
     );
     $updated++;
 

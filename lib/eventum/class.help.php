@@ -27,108 +27,108 @@ class Help
         }
 
         // we need this in function as function calls are not allowed in static properties
-        self::$topics = array(
-            'main' => array(
+        self::$topics = [
+            'main' => [
                 'title'  => ev_gettext('Help Topics'),
                 'parent' => '',
-            ),
-            'report' => array(
+            ],
+            'report' => [
                 'title'  => ev_gettext('Reporting Issues'),
                 'parent' => 'main',
-            ),
-            'report_category' => array(
+            ],
+            'report_category' => [
                 'title'  => ev_gettext('Category Field'),
                 'parent' => 'report',
-            ),
-            'report_priority' => array(
+            ],
+            'report_priority' => [
                 'title'  => ev_gettext('Priority Field'),
                 'parent' => 'report',
-            ),
-            'report_assignment' => array(
+            ],
+            'report_assignment' => [
                 'title'  => ev_gettext('Assignment Field'),
                 'parent' => 'report',
-            ),
-            'report_release' => array(
+            ],
+            'report_release' => [
                 'title'  => ev_gettext('Scheduled Release Field'),
                 'parent' => 'report',
-            ),
-            'report_summary' => array(
+            ],
+            'report_summary' => [
                 'title'  => ev_gettext('Summary Field'),
                 'parent' => 'report',
-            ),
-            'report_description' => array(
+            ],
+            'report_description' => [
                 'title'  => ev_gettext('Description Field'),
                 'parent' => 'report',
-            ),
-            'report_estimated_dev_time' => array(
+            ],
+            'report_estimated_dev_time' => [
                 'title'  => ev_gettext('Estimated Development Time Field'),
                 'parent' => 'report',
-            ),
-            'scm_integration' => array(
+            ],
+            'scm_integration' => [
                 'title'  => ev_gettext('SCM Integration'),
                 'parent' => 'main',
-            ),
-            'scm_integration_usage' => array(
+            ],
+            'scm_integration_usage' => [
                 'title'  => ev_gettext('Usage Examples'),
                 'parent' => 'scm_integration',
-            ),
-            'scm_integration_installation' => array(
+            ],
+            'scm_integration_installation' => [
                 'title'  => ev_gettext('Installation Instructions'),
                 'parent' => 'scm_integration',
-            ),
-            'list' => array(
+            ],
+            'list' => [
                 'title'  => ev_gettext('Listing / Searching for Issues'),
                 'parent' => 'main',
-            ),
-            'adv_search' => array(
+            ],
+            'adv_search' => [
                 'title'  => ev_gettext('Advanced Search / Creating Custom Queries'),
                 'parent' => 'main',
-            ),
-            'support_emails' => array(
+            ],
+            'support_emails' => [
                 'title'  => ev_gettext('Associate Emails'),
                 'parent' => 'main',
-            ),
-            'preferences' => array(
+            ],
+            'preferences' => [
                 'title'  => ev_gettext('Account Preferences'),
                 'parent' => 'main',
-            ),
-            'notifications' => array(
+            ],
+            'notifications' => [
                 'title'  => ev_gettext('Email Notifications'),
                 'parent' => 'main',
-            ),
-            'view' => array(
+            ],
+            'view' => [
                 'title'  => ev_gettext('Viewing Issues'),
                 'parent' => 'main',
-            ),
-            'email_blocking' => array(
+            ],
+            'email_blocking' => [
                 'title'  => ev_gettext('Email Blocking'),
                 'parent' => 'main',
-            ),
-            'link_filters' => array(
+            ],
+            'link_filters' => [
                 'title'  => ev_gettext('Link Filters'),
                 'parent' => 'main',
-            ),
-            'field_display' => array(
+            ],
+            'field_display' => [
                 'title'  => ev_gettext('Edit Fields to Display'),
                 'parent' => 'main',
-            ),
-            'column_display' => array(
+            ],
+            'column_display' => [
                 'title'  => ev_gettext('Edit Columns to Display'),
                 'parent' => 'main',
-            ),
-            'customize_listing' => array(
+            ],
+            'customize_listing' => [
                 'title'  => ev_gettext('Customize Issue Listing Screen'),
                 'parent' => 'main',
-            ),
-            'segregate_reporter' => array(
+            ],
+            'segregate_reporter' => [
                 'title'  => ev_gettext('Segregate Reporters'),
                 'parent' => 'main',
-            ),
-            'permission_levels' => array(
+            ],
+            'permission_levels' => [
                 'title'  => ev_gettext('User Permission Levels'),
                 'parent' => 'main',
-            ),
-        );
+            ],
+        ];
 
         return self::$topics;
     }
@@ -168,10 +168,10 @@ class Help
         if (empty($child['parent'])) {
             return false;
         } else {
-            return array(
+            return [
                 'topic' => $child['parent'],
                 'title' => $topics[$child['parent']]['title'],
-            );
+            ];
         }
     }
 
@@ -186,13 +186,13 @@ class Help
     {
         $topics = self::getTopics();
 
-        $links = array();
+        $links = [];
         foreach ($topics as $child => $data) {
             if ($data['parent'] == $topic) {
-                $links[] = array(
+                $links[] = [
                     'topic' => $child,
                     'title' => $data['title'],
-                );
+                ];
             }
         }
         if (count($links) == 0) {
@@ -213,16 +213,16 @@ class Help
     {
         $topics = self::getTopics();
 
-        $links = array();
-        $links[] = array(
+        $links = [];
+        $links[] = [
             'topic' => '',
             'title' => $topics[$topic]['title'],
-        );
+        ];
         while ($parent = self::getParent($topic)) {
-            $links[] = array(
+            $links[] = [
                 'topic' => $parent['topic'],
                 'title' => $parent['title'],
-            );
+            ];
             $topic = $parent['topic'];
         }
         $links = array_reverse($links);

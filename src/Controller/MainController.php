@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -90,7 +89,7 @@ class MainController extends BaseController
 
             Auth::setCookie($cookie_name, $hide_closed, time() + Date_Helper::YEAR);
             Search_Profile::save(
-                $this->usr_id, $this->prj_id, 'stats', array('hide_closed' => $hide_closed)
+                $this->usr_id, $this->prj_id, 'stats', ['hide_closed' => $hide_closed]
             );
         }
 
@@ -124,17 +123,17 @@ class MainController extends BaseController
             $contact_id = User::getCustomerContactID($this->usr_id);
             $customer_id = Auth::getCurrentCustomerID();
             $this->tpl->assign(
-                array(
+                [
                     'contact' => $crm->getContact($contact_id),
                     'customer' => $crm->getCustomer($customer_id),
-                )
+                ]
             );
         } else {
             if ($this->role_id <= User::ROLE_REPORTER && Project::getSegregateReporters($this->prj_id)) {
                 $hide_stats = true;
             } else {
                 $this->tpl->assign(
-                    array(
+                    [
                         'status' => Stats::getStatus(),
                         'releases' => Stats::getRelease($hide_closed),
                         'categories' => Stats::getCategory($hide_closed),
@@ -142,17 +141,17 @@ class MainController extends BaseController
                         'users' => Stats::getUser($hide_closed),
                         'emails' => Stats::getEmailStatus(),
                         'pie_chart' => true,
-                    )
+                    ]
                 );
             }
         }
 
         $this->tpl->assign(
-            array(
+            [
                 'hide_stats' => $hide_stats,
                 'hide_closed' => $hide_closed,
                 'news' => News::getListByProject($this->prj_id),
-            )
+            ]
         );
     }
 }

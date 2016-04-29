@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use Misc;
@@ -62,11 +61,11 @@ class TimeTrackingController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $res = Time_Tracking::insertCategory($this->prj_id, $post->get('title'));
-        $map = array(
-            1 => array(ev_gettext('Thank you, the time tracking category was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the new time tracking category.'), Misc::MSG_INFO),
-            -2 => array(ev_gettext('Please enter the title for this new time tracking category.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the time tracking category was added successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new time tracking category.'), Misc::MSG_INFO],
+            -2 => [ev_gettext('Please enter the title for this new time tracking category.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
@@ -75,11 +74,11 @@ class TimeTrackingController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $res = Time_Tracking::updateCategory($this->prj_id, $post->getInt('id'), $post->get('title'));
-        $map = array(
-            1 => array(ev_gettext('Thank you, the time tracking category was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to update the time tracking category information.'), Misc::MSG_INFO),
-            -2 => array(ev_gettext('Please enter the title for this time tracking category.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the time tracking category was updated successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the time tracking category information.'), Misc::MSG_INFO],
+            -2 => [ev_gettext('Please enter the title for this time tracking category.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
@@ -103,10 +102,10 @@ class TimeTrackingController extends ManageBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'project' => Project::getDetails($this->prj_id),
                 'list' => Time_Tracking::getCategoryList($this->prj_id),
-            )
+            ]
         );
     }
 }

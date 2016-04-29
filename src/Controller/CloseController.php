@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -91,9 +90,9 @@ class CloseController extends BaseController
     {
         $extra_title = ev_gettext('Close Issue #%1$s', $this->issue_id);
         $this->tpl->assign(
-            array(
+            [
                 'extra_title' => $extra_title,
-            )
+            ]
         );
 
         if (!Issue::exists($this->issue_id, false)) {
@@ -166,22 +165,22 @@ class CloseController extends BaseController
         $custom_fields = Custom_Field::getListByIssue($this->prj_id, $this->issue_id, $this->usr_id, 'close_form', true);
 
         $this->tpl->assign(
-            array(
+            [
                 'statuses' => Status::getClosedAssocList($this->prj_id),
                 'resolutions' => Resolution::getAssocList(),
                 'time_categories' => Time_Tracking::getAssocCategories($this->prj_id),
                 'notify_list' => Notification::getLastNotifiedAddresses($this->issue_id),
                 'custom_fields' => $custom_fields,
                 'issue_id' => $this->issue_id,
-            )
+            ]
         );
 
         if ($this->contract && $this->contract->hasPerIncident()) {
             $this->tpl->assign(
-                array(
+                [
                     'redeemed' => $this->contract->getRedeemedIncidentDetails($this->issue_id),
                     'incident_details' => $this->details['customer']['incident_details'],
-                )
+                ]
             );
         }
     }

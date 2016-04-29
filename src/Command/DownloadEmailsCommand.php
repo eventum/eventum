@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Command;
 
 use Email_Account;
@@ -150,12 +149,12 @@ class DownloadEmailsCommand extends Command
     private function getParams()
     {
         // some defaults,
-        $config = array(
+        $config = [
             'fix-lock' => false,
             'username' => null,
             'hostname' => null,
             'mailbox' => null,
-        );
+        ];
 
         if ($this->SAPI_CLI) {
             global $argc, $argv;

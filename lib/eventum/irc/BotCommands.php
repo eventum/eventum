@@ -24,12 +24,12 @@ class BotCommands extends AbstractBotCommands
      */
     final public function help(Net_SmartIRC $irc, Net_SmartIRC_data $data)
     {
-        $commands = array(
+        $commands = [
             'auth' => 'Format is "auth user@example.com password"',
             'clock' => 'Format is "clock [in|out]"',
             'list-clocked-in' => 'Format is "list-clocked-in"',
             'list-quarantined' => 'Format is "list-quarantined"',
-        );
+        ];
 
         $this->sendResponse($data->nick, 'This is the list of available commands:');
         foreach ($commands as $command => $description) {
@@ -116,7 +116,7 @@ class BotCommands extends AbstractBotCommands
             case 1:
                 break;
             case 2:
-                if (in_array($data->messageex[1], array('in', 'out'))) {
+                if (in_array($data->messageex[1], ['in', 'out'])) {
                     break;
                 }
             // fall through to an error
@@ -237,7 +237,7 @@ class BotCommands extends AbstractBotCommands
                     iss_id=ino_iss_id
                  WHERE
                     ino_status=?';
-        $res = DB_Helper::getInstance()->getAll($stmt, array('pending'));
+        $res = DB_Helper::getInstance()->getAll($stmt, ['pending']);
         foreach ($res as $row) {
             if (empty($row['ino_category'])) {
                 $row['ino_category'] = $this->default_category;
@@ -287,6 +287,6 @@ class BotCommands extends AbstractBotCommands
                     ino_status='sent'
                  WHERE
                     ino_id=?";
-        DB_Helper::getInstance()->query($stmt, array($ino_id));
+        DB_Helper::getInstance()->query($stmt, [$ino_id]);
     }
 }

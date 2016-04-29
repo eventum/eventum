@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use LDAP_Auth_Backend;
@@ -66,21 +65,21 @@ class LdapController extends ManageBaseController
         $setup['create_users'] = $post->get('create_users');
         $setup['default_role'] = $post->get('default_role');
 
-        $res = Setup::save(array('ldap' => $setup));
+        $res = Setup::save(['ldap' => $setup]);
 
         // FIXME: translations
-        $map = array(
-            1 => array('Thank you, the setup information was saved successfully.', Misc::MSG_INFO),
-            -1 => array("ERROR: The system doesn't have the appropriate permissions " .
+        $map = [
+            1 => ['Thank you, the setup information was saved successfully.', Misc::MSG_INFO],
+            -1 => ["ERROR: The system doesn't have the appropriate permissions " .
                         'to create the configuration file in the setup directory (' . APP_CONFIG_PATH . '). ".
                         "Please contact your local system administrator and ask for write privileges on the provided path.',
-                        Misc::MSG_HTML_BOX),
-            -2 => array("ERROR: The system doesn't have the appropriate permissions " .
+                        Misc::MSG_HTML_BOX],
+            -2 => ["ERROR: The system doesn't have the appropriate permissions " .
                         'to update the configuration file in the setup directory (' . APP_CONFIG_PATH . '/ldap.php). ".
                         "Please contact your local system administrator ".
                         "and ask for write privileges on the provided filename.',
-                        Misc::MSG_HTML_BOX),
-        );
+                        Misc::MSG_HTML_BOX],
+        ];
         Misc::mapMessages($res, $map);
 
         $this->tpl->assign('result', $res);
@@ -94,12 +93,12 @@ class LdapController extends ManageBaseController
         $setup = Setup::setDefaults('ldap', LDAP_Auth_Backend::getDefaults());
 
         $this->tpl->assign(
-            array(
+            [
                 'setup' => $setup,
                 'project_list' => Project::getAll(),
-                'project_roles' => array(0 => 'No Access') + User::getRoles(),
-                'user_roles' => User::getRoles(array(User::ROLE_CUSTOMER)),
-            )
+                'project_roles' => [0 => 'No Access'] + User::getRoles(),
+                'user_roles' => User::getRoles([User::ROLE_CUSTOMER]),
+            ]
         );
     }
 }

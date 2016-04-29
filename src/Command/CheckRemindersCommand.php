@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Command;
 
 use Reminder;
@@ -42,13 +41,13 @@ class CheckRemindersCommand extends Command
         7 - Perform action
         8 - Continue to next reminder level
         **/
-        $triggered_issues = array();
+        $triggered_issues = [];
 
         $reminders = Reminder::getList();
         $weekday = date('w');
         foreach ($reminders as $reminder) {
             // if this is the weekend and this reminder isn't supposed to run on weekends skip
-            if ($reminder['rem_skip_weekend'] == 1 && in_array($weekday, array(0, 6))) {
+            if ($reminder['rem_skip_weekend'] == 1 && in_array($weekday, [0, 6])) {
                 if (Reminder::isDebug()) {
                     echo "Skipping Reminder '" . $reminder['rem_title'] . "' due to weekend exclusion\n";
                 }

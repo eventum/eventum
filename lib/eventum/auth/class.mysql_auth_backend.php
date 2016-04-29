@@ -64,7 +64,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
                     usr_password=?
                  WHERE
                     usr_id=?';
-        $params = array(AuthPassword::hash($password), $usr_id);
+        $params = [AuthPassword::hash($password), $usr_id];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -102,7 +102,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
                  WHERE
                     usr_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($usr_id));
+            DB_Helper::getInstance()->query($stmt, [$usr_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -127,7 +127,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
                  WHERE
                     usr_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($usr_id));
+            DB_Helper::getInstance()->query($stmt, [$usr_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -152,7 +152,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
                     {{%user}}
                  WHERE
                     usr_id=?';
-        $params = array(APP_FAILED_LOGIN_BACKOFF_COUNT, $usr_id);
+        $params = [APP_FAILED_LOGIN_BACKOFF_COUNT, $usr_id];
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DatabaseException $e) {

@@ -55,8 +55,8 @@ date_default_timezone_set(APP_DEFAULT_TIMEZONE);
 // create dummy file
 if (!file_exists(APP_SETUP_FILE)) {
     // create new config
-    Setup::save(array(
-        'database' => array(
+    Setup::save([
+        'database' => [
             'driver' => 'mysqli',
 
             'hostname' => 'localhost',
@@ -65,11 +65,11 @@ if (!file_exists(APP_SETUP_FILE)) {
             'password' => '',
             'port'     => 3306,
             'table_prefix' => 'eventum_',
-        ),
+        ],
 
         // used for tests
         'admin_user' => 2,
-    ));
+    ]);
 }
 
 if (!getenv('TRAVIS')) {

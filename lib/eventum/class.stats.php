@@ -59,7 +59,7 @@ class Stats
     {
         $prj_id = Auth::getCurrentProject();
         $list = Category::getAssocList($prj_id);
-        $stats = array();
+        $stats = [];
         foreach ($list as $prc_id => $prc_title) {
             $stmt = 'SELECT
                         COUNT(*) AS total_items
@@ -75,7 +75,7 @@ class Stats
                         sta_is_closed = 0';
             }
 
-            $res = (integer) DB_Helper::getInstance()->getOne($stmt, array($prj_id, $prc_id));
+            $res = (integer) DB_Helper::getInstance()->getOne($stmt, [$prj_id, $prc_id]);
             if ($res > 0) {
                 $stats[$prc_title] = $res;
             }
@@ -96,7 +96,7 @@ class Stats
     {
         $prj_id = Auth::getCurrentProject();
         $list = Release::getAssocList($prj_id);
-        $stats = array();
+        $stats = [];
         foreach ($list as $pre_id => $pre_title) {
             $stmt = 'SELECT
                         COUNT(*) AS total_items
@@ -111,7 +111,7 @@ class Stats
                 $stmt .= ' AND
                         sta_is_closed = 0';
             }
-            $res = (integer) DB_Helper::getInstance()->getOne($stmt, array($prj_id, $pre_id));
+            $res = (integer) DB_Helper::getInstance()->getOne($stmt, [$prj_id, $pre_id]);
             if ($res > 0) {
                 $stats[$pre_title] = $res;
             }
@@ -132,7 +132,7 @@ class Stats
     {
         $prj_id = Auth::getCurrentProject();
         $list = Status::getAssocStatusList($prj_id);
-        $stats = array();
+        $stats = [];
         foreach ($list as $sta_id => $sta_title) {
             $stmt = 'SELECT
                         COUNT(*) AS total_items
@@ -147,7 +147,7 @@ class Stats
                 $stmt .= ' AND
                         sta_is_closed = 0';
             }
-            $res = (integer) DB_Helper::getInstance()->getOne($stmt, array($prj_id, $sta_id));
+            $res = (integer) DB_Helper::getInstance()->getOne($stmt, [$prj_id, $sta_id]);
             if ($res > 0) {
                 $stats[$sta_title] = $res;
             }
@@ -187,7 +187,7 @@ class Stats
                  ORDER BY
                     total_items DESC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -228,7 +228,7 @@ class Stats
                  ORDER BY
                     total_open_items';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -269,7 +269,7 @@ class Stats
                  ORDER BY
                     total_open_items DESC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -288,7 +288,7 @@ class Stats
     {
         $prj_id = Auth::getCurrentProject();
         $list = Priority::getAssocList($prj_id);
-        $stats = array();
+        $stats = [];
         foreach ($list as $pri_id => $pri_title) {
             $stmt = 'SELECT
                         COUNT(*) AS total_items
@@ -303,7 +303,7 @@ class Stats
                 $stmt .= ' AND
                         sta_is_closed = 0';
             }
-            $res = (integer) DB_Helper::getInstance()->getOne($stmt, array($prj_id, $pri_id));
+            $res = (integer) DB_Helper::getInstance()->getOne($stmt, [$prj_id, $pri_id]);
             if ($res > 0) {
                 $stats[$pri_title] = $res;
             }
@@ -346,7 +346,7 @@ class Stats
                  ORDER BY
                     total_open_items DESC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -365,7 +365,7 @@ class Stats
     {
         $prj_id = Auth::getCurrentProject();
         $list = Project::getUserAssocList($prj_id, 'stats', User::ROLE_CUSTOMER);
-        $stats = array();
+        $stats = [];
         foreach ($list as $usr_id => $usr_full_name) {
             $stmt = 'SELECT
                         COUNT(*) AS total_items
@@ -382,7 +382,7 @@ class Stats
                 $stmt .= ' AND
                         sta_is_closed = 0';
             }
-            $res = (integer) DB_Helper::getInstance()->getOne($stmt, array($prj_id, $usr_id));
+            $res = (integer) DB_Helper::getInstance()->getOne($stmt, [$prj_id, $usr_id]);
             if ($res > 0) {
                 $stats[$usr_full_name] = $res;
             }
@@ -428,7 +428,7 @@ class Stats
                  ORDER BY
                     total_open_items DESC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -458,7 +458,7 @@ class Stats
                  GROUP BY
                     type";
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -479,15 +479,15 @@ class Stats
                     ema_prj_id=? AND
                     sup_removed=1';
         try {
-            $res3 = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
+            $res3 = DB_Helper::getInstance()->getOne($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
 
-        return array(
+        return [
             'pending'    => $res['unassociated'],
             'associated' => $res['associated'],
             'removed'    => $res3,
-        );
+        ];
     }
 }

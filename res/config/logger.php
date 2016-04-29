@@ -18,104 +18,104 @@
  * If you need to make customizations, use config/logger.php
  */
 
-$formatters = array(
-    'default' => array(
+$formatters = [
+    'default' => [
         'class' => 'Monolog\\Formatter\\LineFormatter',
         'format' => "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n",
-    ),
-    'error_handler' => array(
+    ],
+    'error_handler' => [
         'class' => 'Monolog\\Formatter\\LineFormatter',
         'format' => '%channel%.%level_name%: %message% %context% %extra%',
-    ),
-);
+    ],
+];
 
-$handlers = array(
-    'app_log' => array(
+$handlers = [
+    'app_log' => [
         'class' => 'Eventum\\Monolog\\StreamHandler',
         'level' => 'INFO',
         'stream' => APP_LOG_PATH . '/eventum.log',
         'filePermission' => 0640,
-    ),
-    'auth_log' => array(
+    ],
+    'auth_log' => [
         'class' => 'Eventum\\Monolog\\StreamHandler',
         'level' => 'INFO',
         'stream' => APP_LOG_PATH . '/auth.log',
         'filePermission' => 0640,
-    ),
-    'cli_log' => array(
+    ],
+    'cli_log' => [
         'class' => 'Eventum\\Monolog\\StreamHandler',
         'level' => 'INFO',
         'stream' => APP_LOG_PATH . '/cli.log',
         'filePermission' => 0640,
-    ),
-    'error_handler' => array(
+    ],
+    'error_handler' => [
         'class' => 'Monolog\\Handler\\ErrorLogHandler',
         'formatter' => 'error_handler',
-    ),
-    'error_mailer' => array(
+    ],
+    'error_mailer' => [
         'class' => 'Eventum\\Monolog\\MailHandler',
         'level' => 'ERROR',
-    ),
-);
+    ],
+];
 
-$processors = array(
-    'web_processor' => array(
+$processors = [
+    'web_processor' => [
         'class' => 'Monolog\\Processor\\WebProcessor',
-    ),
-    'memory_processor' => array(
+    ],
+    'memory_processor' => [
         'class' => 'Monolog\\Processor\\MemoryUsageProcessor',
-    ),
-    'memory_peak_processor' => array(
+    ],
+    'memory_peak_processor' => [
         'class' => 'Monolog\\Processor\\MemoryPeakUsageProcessor',
-    ),
-    'psr_log_processor' => array(
+    ],
+    'psr_log_processor' => [
         'class' => 'Monolog\\Processor\\PsrLogMessageProcessor',
-    ),
-    'introspection_processor' => array(
+    ],
+    'introspection_processor' => [
         'class' => 'Monolog\\Processor\\IntrospectionProcessor',
-    ),
-    'eventum_app_info_processor' => array(
+    ],
+    'eventum_app_info_processor' => [
         'class' => 'Eventum\\Monolog\\AppInfoProcessor',
-    ),
-);
+    ],
+];
 
-$default_processors = array(
+$default_processors = [
     'web_processor',
     'psr_log_processor',
     'introspection_processor',
     'memory_processor',
     'memory_peak_processor',
     'eventum_app_info_processor',
-);
+];
 
-$loggers = array(
-    'app' => array(
-        'handlers' => array(
+$loggers = [
+    'app' => [
+        'handlers' => [
             'app_log',
             'error_handler',
             'error_mailer',
-        ),
+        ],
         'processors' => $default_processors,
-    ),
-    'auth' => array(
-        'handlers' => array(
+    ],
+    'auth' => [
+        'handlers' => [
             'auth_log',
             'error_handler',
-        ),
+        ],
         'processors' => $default_processors,
-    ),
-    'cli' => array(
-        'handlers' => array(
+    ],
+    'cli' => [
+        'handlers' => [
             'cli_log',
             'error_handler',
-        ),
+        ],
         'processors' => $default_processors,
-    ),
-);
+    ],
+];
 
-return array(
+return [
     'formatters' => $formatters,
     'handlers' => $handlers,
     'processors' => $processors,
     'loggers' => $loggers,
-);
+];

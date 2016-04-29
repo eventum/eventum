@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Model\Entity;
 
 /**
@@ -303,7 +302,7 @@ class Commit extends BaseModel
     }
 
     /** @var CommitFile[] */
-    private $files = array();
+    private $files = [];
 
     public function addFile(CommitFile $cf)
     {
@@ -339,7 +338,7 @@ class Commit extends BaseModel
      */
     public function findOneByChangeset($changeset)
     {
-        $res = $this->findAllByConditions(array('com_changeset' => $changeset), 1);
+        $res = $this->findAllByConditions(['com_changeset' => $changeset], 1);
 
         return $res ? $res[0] : null;
     }
@@ -350,7 +349,7 @@ class Commit extends BaseModel
      */
     public function findById($id)
     {
-        $res = $this->findAllByConditions(array('com_id' => $id), 1);
+        $res = $this->findAllByConditions(['com_id' => $id], 1);
 
         return $res ? $res[0] : null;
     }

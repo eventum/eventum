@@ -74,12 +74,12 @@ class ScmCommitTest extends TestCase
     public function testIssueCommits()
     {
         $setup = Setup::get();
-        $setup['scm']['cvs'] = array(
+        $setup['scm']['cvs'] = [
             'name' => 'cvs',
             'checkout_url' => 'https://localhost/{MODULE}/{FILE}?rev={NEW_VERSION}&content-type=text/x-cvsweb-markup',
             'diff_url' => 'https://localhost/{MODULE}/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&f=h',
             'log_url' => 'https://localhost/{MODULE}/{FILE}?r1={VERSION}#rev{VERSION}',
-        );
+        ];
 
         $issue_id = 1;
         $r = new \Eventum\Model\Repository\CommitRepository();
@@ -95,23 +95,23 @@ class ScmCommitTest extends TestCase
         $api_url = $this->getCommitUrl();
         $payload = file_get_contents(__DIR__ . '/data/gitlab-commit.json');
 
-        $request = Request::create($api_url, 'GET', array(), array(), array(), array(), $payload);
+        $request = Request::create($api_url, 'GET', [], [], [], [], $payload);
         $request->headers->set(GitlabScm::GITLAB_HEADER, 'Push Hook');
 
         // configure
         $setup = Setup::get();
-        $setup['scm']['gitlab'] = array(
+        $setup['scm']['gitlab'] = [
             'name' => 'gitlab',
-            'urls' => array(
+            'urls' => [
                 'http://localhost:10080',
                 'git@localhost',
-            ),
-            'only' => array(),
-            'except' => array('dev'),
+            ],
+            'only' => [],
+            'except' => ['dev'],
             'checkout_url' => 'http://localhost:10080/{PROJECT}/blob/{VERSION}/{FILE}',
             'diff_url' => 'http://localhost:10080/{PROJECT}/commit/{VERSION}#{FILE}',
             'log_url' => 'http://localhost:10080/{PROJECT}/commits/{VERSION}/{FILE}',
-        );
+        ];
 
         $logger = Logger::app();
         $handler = new GitlabScm($request, $logger);

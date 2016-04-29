@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use User;
@@ -67,7 +66,7 @@ class ConfirmController extends BaseController
         if ($res == 1) {
             User::confirmVisitorAccount($this->email);
             // redirect user to login form with pretty message
-            $this->redirect('index.php', array('err' => 8, 'email' => $this->email));
+            $this->redirect('index.php', ['err' => 8, 'email' => $this->email]);
         }
 
         $this->tpl->assign('confirm_result', $res);

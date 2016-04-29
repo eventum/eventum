@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Db\Adapter;
 
 use DB_Helper;
@@ -33,9 +32,9 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
     {
         $dsn = $this->getDsn($config);
 
-        $options = array(
+        $options = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        );
+        ];
 
         $pdo = new PDO($dsn, $config['username'], $config['password'], $options);
 
@@ -47,14 +46,14 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         $this->tablePrefix = $config['table_prefix'];
     }
 
-    public function getAll($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
+    public function getAll($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
         $this->convertFetchMode($fetchmode);
 
         return $this->fetchAll($query, $params, $fetchmode);
     }
 
-    public function fetchAssoc($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_DEFAULT)
+    public function fetchAssoc($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_DEFAULT)
     {
         $flags = PDO::FETCH_GROUP | PDO::FETCH_UNIQUE;
         if ($fetchmode == AdapterInterface::DB_FETCHMODE_ASSOC) {
@@ -68,17 +67,17 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         return $this->fetchAll($query, $params, $flags);
     }
 
-    public function getPair($query, $params = array())
+    public function getPair($query, $params = [])
     {
         return $this->fetchAll($query, $params, PDO::FETCH_KEY_PAIR);
     }
 
-    public function getColumn($query, $params = array())
+    public function getColumn($query, $params = [])
     {
         return $this->fetchAll($query, $params, PDO::FETCH_COLUMN);
     }
 
-    public function getOne($query, $params = array())
+    public function getOne($query, $params = [])
     {
         $query = $this->quoteSql(DB_Helper::filterQuery($query));
         $stmt = $this->db->prepare($query);
@@ -95,7 +94,7 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         return $res;
     }
 
-    public function getRow($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
+    public function getRow($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
         $query = $this->quoteSql(DB_Helper::filterQuery($query));
         $stmt = $this->db->prepare($query);
@@ -128,7 +127,7 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         return $str;
     }
 
-    public function query($query, $params = array())
+    public function query($query, $params = [])
     {
         $query = $this->quoteSql(DB_Helper::filterQuery($query));
         $stmt = $this->db->prepare($query);

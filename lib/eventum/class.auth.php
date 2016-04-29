@@ -68,7 +68,7 @@ class Auth
         } else {
             $msg .= "not successful because of '$extra'.";
         }
-        Logger::auth()->info($msg, array('user' => $email, 'type' => $type, 'extra' => $extra));
+        Logger::auth()->info($msg, ['user' => $email, 'type' => $type, 'extra' => $extra]);
     }
 
     /**
@@ -497,7 +497,7 @@ class Auth
                 $instance = new $class();
             } catch (AuthException $e) {
                 $message = "Unable to use auth backend '$class'";
-                Logger::app()->critical($message, array('exception' => $e));
+                Logger::app()->critical($message, ['exception' => $e]);
 
                 if (APP_AUTH_BACKEND_ALLOW_FALLBACK != true) {
                     $tpl = new Template_Helper();

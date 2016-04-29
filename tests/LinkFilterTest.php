@@ -41,23 +41,23 @@ class LinkFilterTest extends TestCase
 
     public function testIssueLinking_data()
     {
-        return array(
-            0 => array(
+        return [
+            0 => [
                 'issue #1',
                 ';<a title="issue 1.*" class="" href="view\.php\?id=1">issue #1</a>;'
-            ),
-            1 => array(
+            ],
+            1 => [
                 'Issue: 1',
                 ';<a title="issue 1.*" class="" href="view\.php\?id=1">Issue: 1</a>;'
-            ),
-            2 => array(
+            ],
+            2 => [
                 'issue 1',
                 ';<a title="issue 1.*" class="" href="view\.php\?id=1">issue 1</a>;'
-            ),
-            3 => array(
+            ],
+            3 => [
                 'test issue 1 test',
                 ';test <a title="issue 1.*" class="" href="view\.php\?id=1">issue 1</a> test;'
-            ),
-        );
+            ],
+        ];
     }
 }

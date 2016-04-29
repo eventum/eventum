@@ -111,12 +111,12 @@ class RemoteApiTest extends TestCase
     {
         $only_customer_projects = false;
         $res = self::$client->getUserAssignedProjects($this->login, $this->password, $only_customer_projects);
-        $exp = array(
-            array(
+        $exp = [
+            [
                 'id'    => '1',
                 'title' => 'Default Project',
-            ),
-        );
+            ],
+        ];
         $this->assertEquals($exp, $res);
     }
 
@@ -291,10 +291,10 @@ class RemoteApiTest extends TestCase
     {
         $prj_id = 1;
         $res = self::$client->getClosedAbbreviationAssocList($this->login, $this->password, $prj_id);
-        $exp = array(
+        $exp = [
             'REL' => 'released',
             'KIL' => 'killed',
-        );
+        ];
         $this->assertEquals($exp, $res);
     }
 
@@ -306,12 +306,12 @@ class RemoteApiTest extends TestCase
         $prj_id = 1;
         $show_closed = false;
         $res = self::$client->getAbbreviationAssocList($this->login, $this->password, $prj_id, $show_closed);
-        $exp = array(
+        $exp = [
             'DSC' => 'discovery',
             'REQ' => 'requirements',
             'IMP' => 'implementation',
             'TST' => 'evaluation and testing',
-        );
+        ];
         $this->assertEquals($exp, $res);
     }
 
@@ -420,7 +420,7 @@ class RemoteApiTest extends TestCase
     public function testGetResolutionAssocList()
     {
         $res = self::$client->getResolutionAssocList();
-        $exp = array(
+        $exp = [
             2 => 'fixed',
             4 => 'unable to reproduce',
             5 => 'not fixable',
@@ -428,7 +428,7 @@ class RemoteApiTest extends TestCase
             7 => 'not a bug',
             8 => 'suspended',
             9 => "won't fix",
-        );
+        ];
         $this->assertEquals($exp, $res);
     }
 
@@ -491,7 +491,7 @@ class RemoteApiTest extends TestCase
     public function testRedeemIssue()
     {
         $issue_id = 1;
-        $types = array();
+        $types = [];
         try {
             $res = self::$client->redeemIssue($this->login, $this->password, $issue_id, $types);
             $this->assertEquals('OK', $res);
@@ -506,7 +506,7 @@ class RemoteApiTest extends TestCase
     public function testUnredeemIssue()
     {
         $issue_id = 1;
-        $types = array();
+        $types = [];
         try {
             $res = self::$client->unredeemIssue($this->login, $this->password, $issue_id, $types);
             $this->assertEquals('OK', $res);

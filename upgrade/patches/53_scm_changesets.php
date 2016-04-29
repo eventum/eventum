@@ -94,6 +94,6 @@ $log("Updating $count changesets");
 
 foreach ($res as $row) {
     $db->query(
-        "UPDATE {{%issue_checkin}} SET isc_commitid=? WHERE isc_id IN ({$row['isc_id']})", array($row['commitid'])
+        "UPDATE {{%issue_checkin}} SET isc_commitid=? WHERE isc_id IN ({$row['isc_id']})", [$row['commitid']]
     );
 }

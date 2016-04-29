@@ -28,9 +28,9 @@ class Misc
     public static function arrayDiff($foo, $bar)
     {
         if (!is_array($bar)) {
-            $bar = array();
+            $bar = [];
         }
-        $diffs = array();
+        $diffs = [];
         $foo_values = array_values($foo);
         $bar_values = array_values($bar);
         if (count($foo_values) > count($bar_values)) {
@@ -64,7 +64,7 @@ class Misc
      */
     public static function collect($fieldName, $array)
     {
-        $result = array();
+        $result = [];
         if (empty($array)) {
             return $result;
         }
@@ -253,8 +253,8 @@ class Misc
         }
         $lines = array_values($lines);
 
-        $misspelled_words = array();
-        $spell_suggestions = array();
+        $misspelled_words = [];
+        $spell_suggestions = [];
         foreach ($lines as $line) {
             if (substr($line, 0, 1) == '&') {
                 // found suggestions for this word
@@ -267,7 +267,7 @@ class Misc
                 // found no suggestions for this word
                 $pieces = explode(' ', $line);
                 $misspelled_word = $pieces[1];
-                $suggestions = array();
+                $suggestions = [];
             } else {
                 // no spelling mistakes could be found
                 continue;
@@ -280,11 +280,11 @@ class Misc
             $spell_suggestions[$misspelled_word] = $suggestions;
         }
 
-        return array(
+        return [
             'total_words' => count($misspelled_words),
             'words' => $misspelled_words,
             'suggestions' => $spell_suggestions,
-        );
+        ];
     }
 
     /**
@@ -297,7 +297,7 @@ class Misc
      * @param   integer $in_index Internal parameter to specify which index of the array we are currently mapping
      * @return  array The mapped array
      */
-    public static function array_map_deep(&$in_array, $in_func, $in_args = array(), $in_index = 1)
+    public static function array_map_deep(&$in_array, $in_func, $in_args = [], $in_index = 1)
     {
         // fix people from messing up the index of the value
         if ($in_index < 1) {
@@ -476,7 +476,7 @@ class Misc
      */
     public static function prepareBooleanSearch($field, $value)
     {
-        $boolean = array();
+        $boolean = [];
         $pieces = explode(' ', $value);
         foreach ($pieces as $piece) {
             $boolean[] = "$field LIKE '%" . self::escapeString($piece) . "%'";
@@ -494,7 +494,7 @@ class Misc
      */
     public static function getFileList($directory)
     {
-        $files = array();
+        $files = [];
         $dir = @opendir($directory);
         while ($item = @readdir($dir)) {
             if (($item == '.') || ($item == '..') || ($item == 'CVS') || ($item == 'SCCS')) {
@@ -745,7 +745,7 @@ class Misc
             $replacement = ' ';
         }
 
-        return str_replace(array("\n", "\r"), $replacement, $str);
+        return str_replace(["\n", "\r"], $replacement, $str);
     }
 
     public static function htmlentities($var)
@@ -761,18 +761,18 @@ class Misc
 
     public static function setMessage($msg, $type = self::MSG_INFO)
     {
-        $messages = Session::get('messages', array());
-        $messages[] = array(
+        $messages = Session::get('messages', []);
+        $messages[] = [
             'text' => $msg,
             'type' => $type,
-        );
+        ];
         Session::set('messages', $messages);
     }
 
     public static function getMessages()
     {
-        $messages = Session::get('messages', array());
-        Session::set('messages', array());
+        $messages = Session::get('messages', []);
+        Session::set('messages', []);
 
         return $messages;
     }
@@ -902,7 +902,7 @@ class Misc
 
         // handle empty context
         if (!$context) {
-            $context = array();
+            $context = [];
         }
 
         // handle raw data from database (json encoded)
@@ -910,7 +910,7 @@ class Misc
             $context = json_decode($context, true);
         }
 
-        $replacements = array();
+        $replacements = [];
         foreach ($context as $key => $val) {
             if (is_null($val) || is_scalar($val) || (is_object($val) && method_exists($val, '__toString'))) {
                 $replacements['{' . $key . '}'] = $val;

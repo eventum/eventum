@@ -22,14 +22,14 @@ class Eventum_Bot
      *
      * @var array
      */
-    private $auth = array();
+    private $auth = [];
 
     /**
      * List of IRC channels where to join, notify and listen for commands
      *
      * @var array
      */
-    private $channels = array();
+    private $channels = [];
 
     /**
      * Configuration for the bot
@@ -60,14 +60,14 @@ class Eventum_Bot
             // we need to map old configs with just channels to new config with categories as well
             if (!is_array($chan)) {
                 // old config, one channel
-                $options = array(
-                    $chan => array($config['default_category']),
-                );
+                $options = [
+                    $chan => [$config['default_category']],
+                ];
             } elseif (isset($chan[0]) and !is_array($chan[0])) {
                 // old config with multiple channels
-                $options = array();
+                $options = [];
                 foreach ($chan as $individual_chan) {
-                    $options[$individual_chan] = array($config['default_category']);
+                    $options[$individual_chan] = [$config['default_category']];
                 }
             } else {
                 // new format
@@ -90,7 +90,7 @@ class Eventum_Bot
             throw new InvalidArgumentException("Config file '$config_file' does not exist");
         }
 
-        $default_config = array(
+        $default_config = [
             'default_category' => APP_EVENTUM_IRC_CATEGORY_DEFAULT,
             'lock' => 'irc_bot',
 
@@ -105,7 +105,7 @@ class Eventum_Bot
              * @see Net_SmartIRC::setDebugLevel
              */
             'debuglevel' => SMARTIRC_DEBUG_NOTICE
-        );
+        ];
 
         $config = require $config_file;
         if ($config == 1) {
@@ -117,7 +117,7 @@ class Eventum_Bot
             /** @var string $username */
             /** @var string $password */
             /** @var array $irc_channels */
-            $config = array(
+            $config = [
                 'hostname' => $irc_server_hostname,
                 'port' => $irc_server_port,
                 'nickname' => $nickname,
@@ -125,7 +125,7 @@ class Eventum_Bot
                 'username' => $username,
                 'password' => $password,
                 'channels' => $irc_channels,
-            );
+            ];
         }
 
         return array_merge($default_config, $config);
@@ -381,7 +381,7 @@ class Eventum_Bot
             return $this->channels[$prj_id];
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -392,7 +392,7 @@ class Eventum_Bot
      */
     public function getProjectsForChannel($channel)
     {
-        $projects = array();
+        $projects = [];
         foreach ($this->channels as $prj_id => $prj_channels) {
             foreach ($prj_channels as $prj_channel) {
                 if ($prj_channel == $channel) {

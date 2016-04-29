@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -95,10 +94,10 @@ class TimeTrackingController extends BaseController
     {
         $prj_id = Auth::getCurrentProject();
         $this->tpl->assign(
-            array(
+            [
                 'issue_id' => $this->issue_id,
                 'time_categories' => Time_Tracking::getAssocCategories($prj_id),
-            )
+            ]
         );
     }
 }

@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Attachment;
@@ -188,10 +187,10 @@ class PopupController extends BaseController
                 if ($res == 1) {
                     History::add(
                         $this->issue_id, $this->usr_id, 'status_changed',
-                        "Issue manually set to status '{status}' by {user}", array(
+                        "Issue manually set to status '{status}' by {user}", [
                             'status' => Status::getStatusTitle($this->status_id),
                             'user' => User::getFullName($this->usr_id),
-                        )
+                        ]
                     );
                 }
                 $this->tpl->assign('new_status_result', $res);
@@ -226,9 +225,9 @@ class PopupController extends BaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'cat' => $this->cat
-            )
+            ]
         );
     }
 }

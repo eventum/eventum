@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Model\Entity;
 
 /**
@@ -104,7 +103,7 @@ class IssueCommit extends BaseModel
     private $commits;
     public function __construct()
     {
-        $this->commits = array();
+        $this->commits = [];
     }
 
     public function addCommits($commit)
@@ -118,6 +117,6 @@ class IssueCommit extends BaseModel
      */
     public function findByIssueId($issue_id)
     {
-        return $this->findAllByConditions(array('isc_iss_id' => $issue_id));
+        return $this->findAllByConditions(['isc_iss_id' => $issue_id]);
     }
 }

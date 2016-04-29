@@ -63,7 +63,7 @@ class Language
      * Note that the locales are first tested before they are listed as choices in
      * Preferences page.
      */
-    private static $avail_langs = array(
+    private static $avail_langs = [
         'br_FR' => 'Breton',
         'ca_ES' => 'Catalan',
         'cs_CZ' => 'Czech',
@@ -102,7 +102,7 @@ class Language
         'ur_IN' => 'Urdu',
         'vi_VN' => 'Vietnamese',
         'zh_CN' => 'Chinese (Simplified)',
-    );
+    ];
 
     /**
      * Method used to get available languages.
@@ -117,7 +117,7 @@ class Language
             return self::$avail_langs;
         }
 
-        $languages = array();
+        $languages = [];
         foreach (self::$avail_langs as $code => $language) {
             $res = self::set($code);
             if ($res) {

@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Model\Entity;
 
 use Date_Helper;
@@ -51,7 +50,7 @@ class StdScmPayload implements ScmPayloadInterface
      */
     public function getIssues()
     {
-        $issues = array();
+        $issues = [];
         // check early if issue exists to report proper message back
         // workflow needs to know project_id to find out which workflow class to use.
         foreach ($this->params->get('issue') as $issue_id) {
@@ -97,12 +96,12 @@ class StdScmPayload implements ScmPayloadInterface
     public function getFiles()
     {
         // create array with predefined keys
-        $files = array(
+        $files = [
             'added',
             'removed',
             'modified',
-        );
-        $files = array_fill_keys($files, array());
+        ];
+        $files = array_fill_keys($files, []);
 
         return $this->params->get('files') + $files;
     }

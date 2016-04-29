@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Access;
@@ -121,10 +120,10 @@ class AuthorizedReplierController extends BaseController
         list(, $repliers) = Authorized_Replier::getAuthorizedRepliers($this->issue_id);
 
         $this->tpl->assign(
-            array(
+            [
                 'issue_id' => $this->issue_id,
                 'list' => $repliers,
-            )
+            ]
         );
     }
 }

@@ -55,7 +55,7 @@ class Partner
     private static function getBackendsByIssue($iss_id)
     {
         $partners = self::getPartnerCodesByIssue($iss_id);
-        $backends = array();
+        $backends = [];
         foreach ($partners as $par_code) {
             $backends[] = self::getBackend($par_code);
         }
@@ -66,7 +66,7 @@ class Partner
     public static function selectPartnersForIssue($iss_id, $partners)
     {
         if (!is_array($partners)) {
-            $partners = array();
+            $partners = [];
         }
         $old_partners = self::getPartnersByIssue($iss_id);
         foreach ($partners as $par_code) {
@@ -86,7 +86,7 @@ class Partner
     {
         $current_partners = self::getPartnerCodesByIssue($iss_id);
         if (!in_array($par_code, $current_partners)) {
-            $params = array($iss_id, $par_code, Date_Helper::getCurrentDateGMT());
+            $params = [$iss_id, $par_code, Date_Helper::getCurrentDateGMT()];
             $sql = 'INSERT INTO
                         {{%issue_partner}}
                     SET
@@ -102,10 +102,10 @@ class Partner
             $backend->issueAdded($iss_id);
 
             $usr_id = Auth::getUserID();
-            History::add($iss_id, $usr_id, 'partner_added', "Partner '{partner}' added to issue by {user}", array(
+            History::add($iss_id, $usr_id, 'partner_added', "Partner '{partner}' added to issue by {user}", [
                 'partner' => $backend->getName(),
                 'user' => User::getFullName($usr_id)
-            ));
+            ]);
         }
 
         return true;
@@ -113,7 +113,7 @@ class Partner
 
     public static function removePartnerFromIssue($iss_id, $par_code)
     {
-        $params = array($iss_id, $par_code);
+        $params = [$iss_id, $par_code];
         $sql = 'DELETE FROM
                     {{%issue_partner}}
                 WHERE
@@ -128,10 +128,10 @@ class Partner
         $backend->issueRemoved($iss_id);
 
         $usr_id = Auth::getUserID();
-        History::add($iss_id, $usr_id, 'partner_removed', "Partner '{partner}' removed from issue by {user}", array(
+        History::add($iss_id, $usr_id, 'partner_removed', "Partner '{partner}' removed from issue by {user}", [
             'partner' => $backend->getName(),
             'user' => User::getFullName($usr_id)
-        ));
+        ]);
 
         return true;
     }
@@ -146,16 +146,16 @@ class Partner
                     pap_prj_id = ?';
 
         try {
-            $res = DB_Helper::getInstance()->getColumn($sql, array($prj_id));
+            $res = DB_Helper::getInstance()->getColumn($sql, [$prj_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
-        $return = array();
+        $return = [];
         foreach ($res as $partner) {
-            $return[$partner] = array(
+            $return[$partner] = [
                 'name'  =>  self::getName($partner),
-            );
+            ];
         }
 
         return $return;
@@ -174,9 +174,9 @@ class Partner
                     pap_prj_id = ? AND
                     ipa_iss_id = ?';
         try {
-            $partners = DB_Helper::getInstance()->getColumn($sql, array($prj_id, $iss_id));
+            $partners = DB_Helper::getInstance()->getColumn($sql, [$prj_id, $iss_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $partners;
@@ -186,12 +186,12 @@ class Partner
     {
         $partners = self::getPartnerCodesByIssue($iss_id);
 
-        $return = array();
+        $return = [];
         foreach ($partners as $par_code) {
-            $return[$par_code] = array(
+            $return[$par_code] = [
                 'name'  =>  self::getName($par_code),
                 'message'   =>  self::getIssueMessage($par_code, $iss_id),
-            );
+            ];
         }
 
         return $return;
@@ -215,14 +215,14 @@ class Partner
     public static function getList()
     {
         $backends = self::getBackendList();
-        $partners = array();
+        $partners = [];
         foreach ($backends as $par_code) {
             $backend = self::getBackend($par_code);
-            $partners[] = array(
+            $partners[] = [
                 'code'  =>  $par_code,
                 'name'  =>  $backend->getName(),
                 'projects'  =>  self::getProjectsForPartner($par_code),
-            );
+            ];
         }
 
         return $partners;
@@ -230,7 +230,7 @@ class Partner
 
     public static function getAssocList()
     {
-        $returns = array();
+        $returns = [];
         foreach (self::getList() as $partner) {
             $returns[$partner['code']] = $partner['name'];
         }
@@ -240,11 +240,11 @@ class Partner
 
     public static function getDetails($par_code)
     {
-        return array(
+        return [
             'code'  =>  $par_code,
             'name'  =>  self::getBackend($par_code)->getName(),
             'projects'  =>  self::getProjectsForPartner($par_code),
-        );
+        ];
     }
 
     public static function update($par_code, $projects)
@@ -256,7 +256,7 @@ class Partner
                 WHERE
                     pap_par_code = ?';
         try {
-            DB_Helper::getInstance()->query($sql, array($par_code));
+            DB_Helper::getInstance()->query($sql, [$par_code]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -269,7 +269,7 @@ class Partner
                             pap_par_code = ?,
                             pap_prj_id = ?';
                 try {
-                    DB_Helper::getInstance()->query($sql, array($par_code, $prj_id));
+                    DB_Helper::getInstance()->query($sql, [$par_code, $prj_id]);
                 } catch (DatabaseException $e) {
                     return -1;
                 }
@@ -291,9 +291,9 @@ class Partner
                     pap_prj_id = prj_id AND
                     pap_par_code = ?';
         try {
-            $res = DB_Helper::getInstance()->getPair($sql, array($par_code));
+            $res = DB_Helper::getInstance()->getPair($sql, [$par_code]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -308,7 +308,7 @@ class Partner
     {
         $files = Misc::getFileList(APP_INC_PATH . '/partner');
         $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/partner'));
-        $list = array();
+        $list = [];
         foreach ($files as $file) {
             // display a prettyfied backend name in the admin section
             if (preg_match('/^class\.(.*)\.php$/', $file, $matches)) {

@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Access;
@@ -116,13 +115,13 @@ class AccessController extends BaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'issue_id' => $this->issue_id,
                 'levels' => Access::getAccessLevels(),
                 'level' =>  Issue::getAccessLevel($this->issue_id),
                 'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
                 'access_list'   =>  Access::getAccessList($this->issue_id),
-            )
+            ]
         );
     }
 }

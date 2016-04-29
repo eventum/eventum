@@ -38,9 +38,9 @@ class Link_Filter
                 WHERE
                     lfi_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getRow($sql, array($lfi_id));
+            $res = DB_Helper::getInstance()->getRow($sql, [$lfi_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         if (count($res) > 0) {
@@ -51,13 +51,13 @@ class Link_Filter
                     WHERE
                         plf_lfi_id = ?';
             try {
-                $projects = DB_Helper::getInstance()->getColumn($sql, array($res['lfi_id']));
+                $projects = DB_Helper::getInstance()->getColumn($sql, [$res['lfi_id']]);
             } catch (DatabaseException $e) {
-                $projects = array();
+                $projects = [];
             }
 
             if ($projects === null) {
-                $projects = array();
+                $projects = [];
             }
             $res['projects'] = $projects;
         }
@@ -85,7 +85,7 @@ class Link_Filter
         try {
             $res = DB_Helper::getInstance()->getAll($sql);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         foreach ($res as &$row) {
@@ -99,12 +99,12 @@ class Link_Filter
                         prj_id = plf_prj_id AND
                         plf_lfi_id = ?';
             try {
-                $projects = DB_Helper::getInstance()->getPair($sql, array($row['lfi_id']));
+                $projects = DB_Helper::getInstance()->getPair($sql, [$row['lfi_id']]);
             } catch (DatabaseException $e) {
-                $projects = array();
+                $projects = [];
             }
             if ($projects === null) {
-                $projects = array();
+                $projects = [];
             }
             $row['projects'] = array_keys($projects);
             $row['project_names'] = array_values($projects);
@@ -131,7 +131,7 @@ class Link_Filter
                 ) VALUES (
                     ?, ?, ?, ?
                 )';
-        $params = array($_REQUEST['pattern'], $_REQUEST['replacement'], $_REQUEST['usr_role'], $_REQUEST['description']);
+        $params = [$_REQUEST['pattern'], $_REQUEST['replacement'], $_REQUEST['usr_role'], $_REQUEST['description']];
         try {
             DB_Helper::getInstance()->query($sql, $params);
         } catch (DatabaseException $e) {
@@ -149,7 +149,7 @@ class Link_Filter
                         ?, ?
                     )';
             try {
-                DB_Helper::getInstance()->query($sql, array($prj_id, $lfi_id));
+                DB_Helper::getInstance()->query($sql, [$prj_id, $lfi_id]);
             } catch (DatabaseException $e) {
                 return -1;
             }
@@ -208,13 +208,13 @@ class Link_Filter
                 WHERE
                     lfi_id = ?';
         try {
-            DB_Helper::getInstance()->query($sql, array(
+            DB_Helper::getInstance()->query($sql, [
                 $_REQUEST['pattern'],
                 $_REQUEST['replacement'],
                 $_REQUEST['usr_role'],
                 $_REQUEST['description'],
                 $_REQUEST['id'],
-            ));
+            ]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -224,7 +224,7 @@ class Link_Filter
                 WHERE
                     plf_lfi_id = ?';
         try {
-            DB_Helper::getInstance()->query($sql, array($_REQUEST['id']));
+            DB_Helper::getInstance()->query($sql, [$_REQUEST['id']]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -239,7 +239,7 @@ class Link_Filter
                         ?, ?
                     )';
             try {
-                DB_Helper::getInstance()->query($sql, array($prj_id, $_REQUEST['id']));
+                DB_Helper::getInstance()->query($sql, [$prj_id, $_REQUEST['id']]);
             } catch (DatabaseException $e) {
                 return -1;
             }
@@ -297,7 +297,7 @@ class Link_Filter
     {
         // build list of files to replace, so duplicate matches will always
         // take last matching filename.
-        $files = array();
+        $files = [];
         foreach (Attachment::getList($issue_id) as $attachment) {
             foreach ($attachment['files'] as $file) {
                 // TRANSLATORS: %1: iaf_filename, %2: iaf_filesize
@@ -327,11 +327,11 @@ class Link_Filter
     {
         // link eventum issue ids
         $base_url = APP_BASE_URL;
-        $patterns = array(
-            array('/(?P<match>issue:?\s\#?(?P<issue_id>\d+))/i', array(__CLASS__, 'LinkFilter_issues')),
+        $patterns = [
+            ['/(?P<match>issue:?\s\#?(?P<issue_id>\d+))/i', [__CLASS__, 'LinkFilter_issues']],
             # lookbehind here avoid matching "open http:// in new window" and href="http://"
-            array("#(?<!open |href=\"){$base_url}view\.php\?id=(?P<issue_id>\d+)#", array(__CLASS__, 'LinkFilter_issues')),
-        );
+            ["#(?<!open |href=\"){$base_url}view\.php\?id=(?P<issue_id>\d+)#", [__CLASS__, 'LinkFilter_issues']],
+        ];
 
         return $patterns;
     }
@@ -363,11 +363,11 @@ class Link_Filter
                     plf_prj_id = ?
                 ORDER BY
                     lfi_id";
-        $params = array(Auth::getCurrentRole(), $prj_id);
+        $params = [Auth::getCurrentRole(), $prj_id];
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params, AdapterInterface::DB_FETCHMODE_DEFAULT);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         $filters[$prj_id] = $res;

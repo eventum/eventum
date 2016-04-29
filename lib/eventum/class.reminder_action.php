@@ -57,7 +57,7 @@ class Reminder_Action
                         rma_rank=?
                      WHERE
                         rma_id=?';
-            DB_Helper::getInstance()->query($stmt, array($ranking[$rma_id], $replaced_rma_id));
+            DB_Helper::getInstance()->query($stmt, [$ranking[$rma_id], $replaced_rma_id]);
         }
         $stmt = 'UPDATE
                     {{%reminder_action}}
@@ -65,7 +65,7 @@ class Reminder_Action
                     rma_rank=?
                  WHERE
                     rma_id=?';
-        DB_Helper::getInstance()->query($stmt, array($new_rank, $rma_id));
+        DB_Helper::getInstance()->query($stmt, [$new_rank, $rma_id]);
 
         return true;
     }
@@ -89,9 +89,9 @@ class Reminder_Action
                  ORDER BY
                     rma_rank ASC';
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt, array($rem_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, [$rem_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -112,7 +112,7 @@ class Reminder_Action
                  WHERE
                     rma_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($rma_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$rma_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -135,7 +135,7 @@ class Reminder_Action
                  WHERE
                     rma_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($rma_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$rma_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -170,7 +170,7 @@ class Reminder_Action
                     ?, ?, ?, ?, ?,
                     ?, ?, ?
                  )';
-        $params = array(
+        $params = [
             $_POST['rem_id'],
             $_POST['type'],
             Date_Helper::getCurrentDateGMT(),
@@ -179,7 +179,7 @@ class Reminder_Action
             $_POST['alert_irc'],
             $_POST['alert_group_leader'],
             $_POST['boilerplate'],
-        );
+        ];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -212,12 +212,12 @@ class Reminder_Action
                  WHERE
                     ral_rma_id=?';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($rma_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$rma_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
-        $t = array();
+        $t = [];
         foreach ($res as $row) {
             if (Validation::isEmail($row['ral_email'])) {
                 $t[$row['ral_email']] = $row['ral_email'];
@@ -256,7 +256,7 @@ class Reminder_Action
                      ) VALUES (
                         ?, ?, ?
                      )';
-            DB_Helper::getInstance()->query($stmt, array($rma_id, $usr_id, $email));
+            DB_Helper::getInstance()->query($stmt, [$rma_id, $usr_id, $email]);
         }
     }
 
@@ -279,7 +279,7 @@ class Reminder_Action
                     rma_boilerplate=?
                  WHERE
                     rma_id=?';
-        $params = array(
+        $params = [
             Date_Helper::getCurrentDateGMT(),
             $_POST['rank'],
             $_POST['title'],
@@ -288,7 +288,7 @@ class Reminder_Action
             $_POST['alert_group_leader'],
             $_POST['boilerplate'],
             $_POST['id'],
-        );
+        ];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -321,15 +321,15 @@ class Reminder_Action
                  WHERE
                     rmt_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($rmt_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$rmt_id]);
         } catch (DatabaseException $e) {
             return false;
         }
 
-        $user_list_types = array(
+        $user_list_types = [
             'sms_list',
             'email_list',
-        );
+        ];
 
         if (!in_array($res, $user_list_types)) {
             return false;
@@ -347,7 +347,7 @@ class Reminder_Action
     public function clearActionUserList($rma_id)
     {
         if (!is_array($rma_id)) {
-            $rma_id = array($rma_id);
+            $rma_id = [$rma_id];
         }
 
         $items = DB_Helper::buildList($rma_id);
@@ -406,7 +406,7 @@ class Reminder_Action
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -438,9 +438,9 @@ class Reminder_Action
                  ORDER BY
                     rma_rank ASC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($rem_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$rem_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         foreach ($res as &$row) {
@@ -474,13 +474,13 @@ class Reminder_Action
                  ORDER BY
                     rma_rank ASC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($reminder_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$reminder_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         if (empty($res)) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -501,7 +501,7 @@ class Reminder_Action
                  WHERE
                     rmt_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($rmt_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$rmt_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -529,7 +529,7 @@ class Reminder_Action
                     ?, ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($issue_id, $rma_id, Date_Helper::getCurrentDateGMT()));
+            DB_Helper::getInstance()->query($stmt, [$issue_id, $rma_id, Date_Helper::getCurrentDateGMT()]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -576,7 +576,7 @@ class Reminder_Action
             case 'email_assignee':
                 $type = 'email';
                 $assignees = Issue::getAssignedUserIDs($issue_id);
-                $to = array();
+                $to = [];
                 foreach ($assignees as $assignee) {
                     $to[] = User::getFromHeader($assignee);
                 }
@@ -591,7 +591,7 @@ class Reminder_Action
             case 'email_list':
                 $type = 'email';
                 $list = self::getUserList($action['rma_id']);
-                $to = array();
+                $to = [];
                 foreach ($list as $key => $value) {
                     // add the recipient to the list if it's a simple email address
                     if (Validation::isEmail($key)) {
@@ -611,7 +611,7 @@ class Reminder_Action
             case 'sms_assignee':
                 $type = 'sms';
                 $assignees = Issue::getAssignedUserIDs($issue_id);
-                $to = array();
+                $to = [];
                 foreach ($assignees as $assignee) {
                     if (User::isClockedIn($assignee)) {
                         $sms_email = User::getSMS($assignee);
@@ -631,7 +631,7 @@ class Reminder_Action
             case 'sms_list':
                 $type = 'sms';
                 $list = self::getUserList($action['rma_id']);
-                $to = array();
+                $to = [];
                 foreach ($list as $key => $value) {
                     // add the recipient to the list if it's a simple email address
                     if (Validation::isEmail($key)) {
@@ -713,13 +713,13 @@ class Reminder_Action
             }
             $tpl = new Template_Helper();
             $tpl->setTemplate('reminders/' . $type . '_alert.tpl.text');
-            $tpl->assign(array(
+            $tpl->assign([
                 'data'                     => $data,
                 'reminder'                 => $reminder,
                 'action'                   => $action,
                 'conditions'               => $conditions,
                 'has_customer_integration' => CRM::hasCustomerIntegration(Issue::getProjectID($issue_id)),
-            ));
+            ]);
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {
                 // send email (use PEAR's classes)
@@ -753,14 +753,14 @@ class Reminder_Action
         if (count($to) > 0) {
             $tpl = new Template_Helper();
             $tpl->setTemplate('reminders/alert_no_recipients.tpl.text');
-            $tpl->assign(array(
+            $tpl->assign([
                 'type'                     => $type,
                 'data'                     => $data,
                 'reminder'                 => $reminder,
                 'action'                   => $action,
                 'conditions'               => $conditions,
                 'has_customer_integration' => CRM::hasCustomerIntegration(Issue::getProjectID($issue_id)),
-            ));
+            ]);
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {
                 // send email (use PEAR's classes)
@@ -803,7 +803,7 @@ class Reminder_Action
             return $issues;
         }
 
-        $repeat_issues = array();
+        $repeat_issues = [];
         foreach ($issues as $issue_id) {
             // if the issue was already triggered and the last triggered
             // action was the given one, then add it to the list of repeat issues
@@ -832,7 +832,7 @@ class Reminder_Action
                  WHERE
                     rta_iss_id=?';
 
-        $total = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
+        $total = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
         if ($total == 1) {
             $stmt = 'UPDATE
                         {{%reminder_triggered_action}}
@@ -840,7 +840,7 @@ class Reminder_Action
                         rta_rma_id=?
                      WHERE
                         rta_iss_id=?';
-            $params = array($rma_id, $issue_id);
+            $params = [$rma_id, $issue_id];
         } else {
             $stmt = 'INSERT INTO
                         {{%reminder_triggered_action}}
@@ -851,7 +851,7 @@ class Reminder_Action
                         ?,
                         ?
                      )';
-            $params = array($issue_id, $rma_id);
+            $params = [$issue_id, $rma_id];
         }
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -875,7 +875,7 @@ class Reminder_Action
                  WHERE
                     rta_iss_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($issue_id));
+            DB_Helper::getInstance()->query($stmt, [$issue_id]);
         } catch (DatabaseException $e) {
             return false;
         }

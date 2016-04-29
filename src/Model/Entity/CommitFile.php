@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Model\Entity;
 
 /**
@@ -254,6 +253,6 @@ class CommitFile extends BaseModel
      */
     public function findByCommitId($cid)
     {
-        return $this->findAllByConditions(array('cof_com_id' => $cid));
+        return $this->findAllByConditions(['cof_com_id' => $cid]);
     }
 }

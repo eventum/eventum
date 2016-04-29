@@ -126,7 +126,7 @@ class Mail_Helper
         $str = self::fixAddressQuoting($str);
         $str = Mime_Helper::encode($str);
         $structs = self::parseAddressList($str);
-        $addresses = array();
+        $addresses = [];
         foreach ($structs as $structure) {
             if ((!empty($structure->mailbox)) && (!empty($structure->host))) {
                 $addresses[] = $structure->mailbox . '@' . $structure->host;
@@ -164,7 +164,7 @@ class Mail_Helper
         // split multiple addresses if needed
         $addresses = self::splitAddresses($address);
 
-        $return = array();
+        $return = [];
         foreach ($addresses as $address) {
             // check if we have a <
             if ((strstr($address, '<')) && (!Mime_Helper::isQuotedPrintable($address))) {
@@ -214,30 +214,30 @@ class Mail_Helper
         }
 
         if (!$multiple) {
-            $addresslist = array($addresslist[0]);
+            $addresslist = [$addresslist[0]];
         }
 
-        $returns = array();
+        $returns = [];
         foreach ($addresslist as $row) {
             // handle "group" type addresses
             if (isset($row->groupname)) {
                 foreach ($row->addresses as $address) {
-                    $returns[] = array(
+                    $returns[] = [
                         'sender_name' => $address->personal,
                         'email' => $address->mailbox . '@' . $address->host,
                         'username' => $address->mailbox,
                         'host' => $address->host,
-                    );
+                    ];
                 }
                 continue;
             }
 
-            $returns[] = array(
+            $returns[] = [
                 'sender_name' => $row->personal,
                 'email' => $row->mailbox . '@' . $row->host,
                 'username' => $row->mailbox,
                 'host' => $row->host,
-            );
+            ];
         }
 
         if (!$returns) {
@@ -263,7 +263,7 @@ class Mail_Helper
             return '';
         }
         $addresses = self::getAddressInfo($input, true);
-        $returns = array();
+        $returns = [];
         foreach ($addresses as $address) {
             $returns[] = self::getFormattedName($address['sender_name'], $address['email']);
         }
@@ -302,7 +302,7 @@ class Mail_Helper
         if (Misc::isError($info)) {
             return $info;
         }
-        $returns = array();
+        $returns = [];
         foreach ($info as $row) {
             if (!empty($row['sender_name'])) {
                 if ((substr($row['sender_name'], 0, 1) == '"') && (substr($row['sender_name'], -1) == '"')) {
@@ -522,14 +522,14 @@ class Mail_Helper
      */
     public static function stripHeaders($headers)
     {
-        $ignore_headers = array(
+        $ignore_headers = [
             'to',
             'cc',
             'bcc',
             'return-path',
             'received',
             'Disposition-Notification-To',
-        );
+        ];
         $ignore_pattern = '/^resent.*/';
         foreach ($headers as $name => $value) {
             $lower_name = strtolower($name);
@@ -559,37 +559,37 @@ class Mail_Helper
         $to = Mime_Helper::encodeAddress($to);
         $subject = Mime_Helper::encode($subject);
 
-        $body = $this->mime->get(array(
+        $body = $this->mime->get([
             'text_charset' => APP_CHARSET,
             'html_charset' => APP_CHARSET,
             'head_charset' => APP_CHARSET,
             'text_encoding' => APP_EMAIL_ENCODING,
-        ));
-        $headers = array(
+        ]);
+        $headers = [
             'From'    => $from,
             'To'      => self::fixAddressQuoting($to),
             'Subject' => $subject,
-        );
+        ];
 
         $this->setHeaders($headers);
         $hdrs = $this->mime->headers($this->headers);
 
-        $mail = array(
+        $mail = [
             'headers' => $hdrs,
             'body' => $body,
-        );
-        $options = array(
+        ];
+        $options = [
             'save_email_copy' => $save_email_copy,
             'issue_id' => $issue_id,
             'type' => $type,
             'sender_usr_id' => $sender_usr_id,
             'type_id' => $type_id,
-        );
+        ];
 
         $res = Mail_Queue::addMail($mail, $to, $options);
         if (Misc::isError($res)) {
             /** @var PEAR_Error $res */
-            Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
+            Logger::app()->error($res->getMessage(), ['debug' => $res->getDebugInfo()]);
         }
     }
 
@@ -608,17 +608,17 @@ class Mail_Helper
         $to = Mime_Helper::encodeAddress($to);
         $subject = Mime_Helper::encode($subject);
 
-        $body = $this->mime->get(array(
+        $body = $this->mime->get([
             'text_charset' => APP_CHARSET,
             'html_charset' => APP_CHARSET,
             'head_charset' => APP_CHARSET,
             'text_encoding' => APP_EMAIL_ENCODING,
-        ));
-        $this->setHeaders(array(
+        ]);
+        $this->setHeaders([
             'From'    => $from,
             'To'      => $to,
             'Subject' => $subject,
-        ));
+        ]);
         $hdrs = $this->mime->headers($this->headers);
         // RFC 822 formatted date
         $header = 'Date: ' . Date_Helper::getRFC822Date(time()) . "\r\n";
@@ -647,7 +647,7 @@ class Mail_Helper
             return false;
         }
 
-        static $subjects = array();
+        static $subjects = [];
 
         $hdrs = &$email['headers'];
         $body = &$email['body'];
@@ -659,7 +659,7 @@ class Mail_Helper
         $structure = Mime_Helper::decode($full_email, false, false);
         $_headers = &$structure->headers;
         $header_names = Mime_Helper::getHeaderNames($hdrs);
-        $headers = array();
+        $headers = [];
         foreach ($_headers as $lowercase_name => $value) {
             // need to remove the quotes to avoid a parsing problem
             // on senders that have extended characters in the first
@@ -697,7 +697,7 @@ class Mail_Helper
         $mail = Mail::factory('smtp', $params);
         $res = $mail->send($address, $headers, $body);
         if (Misc::isError($res)) {
-            Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
+            Logger::app()->error($res->getMessage(), ['debug' => $res->getDebugInfo()]);
         }
 
         $subjects[] = $subject;
@@ -734,7 +734,7 @@ class Mail_Helper
      */
     public static function getSpecializedHeaders($issue_id, $type)
     {
-        $new_headers = array();
+        $new_headers = [];
 
         $new_headers['X-Eventum-Type'] = $type;
 
@@ -860,7 +860,7 @@ class Mail_Helper
      */
     public static function getAllReferences($text_headers)
     {
-        $references = array();
+        $references = [];
         if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers, $matches)) {
             $references[] = trim($matches[1]);
         }
@@ -935,7 +935,7 @@ class Mail_Helper
         }
         $headers['references'] = self::fold(implode(' ', $references));
 
-        return array($text_headers . "\r\n\r\n" . $body, $headers);
+        return [$text_headers . "\r\n\r\n" . $body, $headers];
     }
 
     /**
@@ -949,7 +949,7 @@ class Mail_Helper
      */
     public static function getReferences($issue_id, $msg_id, $type)
     {
-        $references = array();
+        $references = [];
         self::_getReferences($msg_id, $type, $references);
         $references[] = Issue::getRootMessageID($issue_id);
         $references = array_reverse(array_unique($references));
@@ -982,11 +982,11 @@ class Mail_Helper
     {
         $root_msg_id = Issue::getRootMessageID($issue_id);
 
-        return array(
+        return [
             'Message-ID'    =>  self::generateMessageID(),
             'In-Reply-To'   =>  $root_msg_id,
             'References'    =>  $root_msg_id,
-        );
+        ];
     }
 
     /**
@@ -1045,7 +1045,7 @@ class Mail_Helper
 
         $mail->parseAddressList();
 
-        $return = array();
+        $return = [];
         if (is_array($mail->addresses)) {
             foreach ($mail->addresses as $address) {
                 $return[] = $address['address'];

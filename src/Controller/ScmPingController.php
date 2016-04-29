@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Eventum\Monolog\Logger;
@@ -42,17 +41,17 @@ class ScmPingController extends BaseController
         try {
             ob_start();
             $this->process();
-            $status = array(
+            $status = [
                 'code' => 0,
                 'message' => ob_get_clean(),
-            );
+            ];
         } catch (Exception $e) {
             header('HTTP/1.0 500');
             $code = $e->getCode();
-            $status = array(
+            $status = [
                 'code' => $code && is_numeric($code) ? $code : -1,
                 'message' => $e->getMessage(),
-            );
+            ];
             Logger::app()->error($e);
         }
 
@@ -78,11 +77,11 @@ class ScmPingController extends BaseController
         $request = $this->getRequest();
         $logger = Logger::app();
 
-        return array(
+        return [
             new Scm\Adapter\GitlabScm($request, $logger),
             new Scm\Adapter\CvsScm($request, $logger),
             new Scm\Adapter\StdScm($request, $logger),
-        );
+        ];
     }
 
     /**

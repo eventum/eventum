@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Report;
 
 use Auth;
@@ -77,16 +76,16 @@ class WeeklyController extends ReportBaseController
         if ($this->report_type == 'weekly') {
             $dates = explode('_', $this->week);
         } else {
-            $dates = array($this->start_date, $this->end_date);
+            $dates = [$this->start_date, $this->end_date];
         }
 
-        $options = array(
+        $options = [
             'separate_closed' => $request->get('separate_closed'),
             'separate_not_assigned_to_user' => $request->get('separate_not_assigned_to_user'),
             'ignore_statuses' => $request->get('ignore_statuses'),
             'show_per_issue' => $request->get('show_per_issue'),
             'separate_no_time' => $request->get('separate_no_time'),
-        );
+        ];
         $data = Report::getWeeklyReport($usr_id, $this->prj_id, $dates[0], $dates[1], $options);
 
         // order issues by time spent on them
@@ -112,7 +111,7 @@ class WeeklyController extends ReportBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'weeks' => Date_Helper::getWeekOptions(3, 0),
                 'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
                 'start_date' => $this->start_date,
@@ -120,7 +119,7 @@ class WeeklyController extends ReportBaseController
                 'report_type' => $this->report_type,
                 'week' => $this->week ?: Date_Helper::getCurrentWeek(),
                 'developer' => $this->developer ?: Auth::getUserID(),
-            )
+            ]
         );
 
         if ($this->developer) {

@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use CRM;
@@ -55,10 +54,10 @@ class ColumnDisplayController extends ManageBaseController
     {
         $res = Display_Column::save();
         $this->tpl->assign('result', $res);
-        $map = array(
-            1 => array(ev_gettext('Thank you, columns to display was saved successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to save columns to display.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, columns to display was saved successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to save columns to display.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
@@ -72,7 +71,7 @@ class ColumnDisplayController extends ManageBaseController
         $selected = Display_Column::getSelectedColumns($this->prj_id, $page);
 
         // re-order available array to match rank
-        $available_ordered = array();
+        $available_ordered = [];
         foreach ($selected as $field_name => $field_info) {
             $available_ordered[$field_name] = $available[$field_name];
             unset($available[$field_name]);
@@ -81,7 +80,7 @@ class ColumnDisplayController extends ManageBaseController
             $available_ordered += $available;
         }
 
-        $excluded_roles = array();
+        $excluded_roles = [];
         if (!CRM::hasCustomerIntegration($this->prj_id)) {
             $excluded_roles[] = User::ROLE_CUSTOMER;
         }
@@ -90,14 +89,14 @@ class ColumnDisplayController extends ManageBaseController
         $user_roles[9] = 'Never Display';
 
         // generate ranks
-        $ranks = array();
+        $ranks = [];
         $navailable_ordered = count($available_ordered);
         for ($i = 1; $i <= $navailable_ordered; $i++) {
             $ranks[$i] = $i;
         }
 
         $this->tpl->assign(
-            array(
+            [
                 'available' => $available_ordered,
                 'selected' => $selected,
                 'user_roles' => $user_roles,
@@ -105,7 +104,7 @@ class ColumnDisplayController extends ManageBaseController
                 'ranks' => $ranks,
                 'prj_id' => $this->prj_id,
                 'project_name' => Project::getName($this->prj_id),
-            )
+            ]
         );
     }
 }

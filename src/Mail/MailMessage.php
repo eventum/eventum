@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Mail;
 
 use DomainException;
@@ -56,7 +55,7 @@ class MailMessage extends Message
      *
      * @param array $params
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         parent::__construct($params);
 
@@ -74,7 +73,7 @@ class MailMessage extends Message
      */
     public static function createNew()
     {
-        $message = new self(array('root' => true));
+        $message = new self(['root' => true]);
 
         return $message;
     }
@@ -87,7 +86,7 @@ class MailMessage extends Message
      */
     public static function createFromString($raw)
     {
-        $message = new self(array('root' => true, 'raw' => $raw));
+        $message = new self(['root' => true, 'raw' => $raw]);
 
         return $message;
     }
@@ -113,7 +112,7 @@ class MailMessage extends Message
             }
         }
 
-        $message = new self(array('root' => true, 'headers' => $headers, 'content' => $content));
+        $message = new self(['root' => true, 'headers' => $headers, 'content' => $content]);
 
         return $message;
     }
@@ -126,7 +125,7 @@ class MailMessage extends Message
      */
     public static function createFromFile($filename)
     {
-        $message = new self(array('root' => true, 'file' => $filename));
+        $message = new self(['root' => true, 'file' => $filename]);
 
         return $message;
     }
@@ -176,7 +175,7 @@ class MailMessage extends Message
             $filename = $part->getHeaderField('Content-Disposition', 'filename');
             $is_attachment = $disposition == 'attachment' || $filename;
 
-            if (in_array($ctype, array('text/plain', 'text/html', 'text/enriched'))) {
+            if (in_array($ctype, ['text/plain', 'text/html', 'text/enriched'])) {
                 $has_attachments |= $is_attachment;
             } else {
                 // avoid treating forwarded messages as attachments
@@ -199,7 +198,7 @@ class MailMessage extends Message
      */
     public function getAttachments()
     {
-        $attachments = array();
+        $attachments = [];
 
         /** @var MailMessage $attachment */
         foreach ($this as $attachment) {
@@ -236,12 +235,12 @@ class MailMessage extends Message
                     throw new LogicException("Unsupported Content-Transfer-Encoding: '{$cte->getTransferEncoding()}'");
             }
 
-            $attachments[] = array(
+            $attachments[] = [
                 'filename' => $filename,
                 'cid' => $headers->get('Content-Id')->getFieldValue(),
                 'filetype' => $ct->getType(),
                 'blob' => $body,
-            );
+            ];
         }
 
         return $attachments;
@@ -255,7 +254,7 @@ class MailMessage extends Message
      */
     public function getMessageBody()
     {
-        $parts = array();
+        $parts = [];
         foreach ($this as $part) {
             $ctype = $part->getHeaderField('Content-Type');
             $disposition = $part->getHeaderField('Content-Disposition');
@@ -314,7 +313,7 @@ class MailMessage extends Message
 
             // hack for inotes to prevent content from being displayed all on one line.
             $str = str_replace('</DIV><DIV>', "\n", $str);
-            $str = str_replace(array('<br>', '<br />', '<BR>', '<BR />'), "\n", $str);
+            $str = str_replace(['<br>', '<br />', '<BR>', '<BR />'], "\n", $str);
             // XXX: do we also need to do something here about base64 encoding?
             $str = strip_tags($str);
 
@@ -373,7 +372,7 @@ class MailMessage extends Message
      */
     public function getAllReferences()
     {
-        $references = array();
+        $references = [];
 
         if ($this->headers->has('In-Reply-To')) {
             $references[] = $this->headers->get('In-Reply-To')->getFieldValue();
@@ -422,13 +421,13 @@ class MailMessage extends Message
      * @param array $headers
      * @return string[]
      */
-    public function getAddresses($headers = array('To', 'Cc'))
+    public function getAddresses($headers = ['To', 'Cc'])
     {
         if (!$headers) {
             throw new InvalidArgumentException('No header field specified');
         }
 
-        $addresses = array();
+        $addresses = [];
         foreach ((array)$headers as $header) {
             if (!$this->headers->has($header)) {
                 continue;
@@ -659,14 +658,14 @@ class MailMessage extends Message
         $headers = $this->headers;
 
         // process exact matches
-        $ignore_headers = array(
+        $ignore_headers = [
             'to',
             'cc',
             'bcc',
             'return-path',
             'received',
             'Disposition-Notification-To',
-        );
+        ];
         foreach ($ignore_headers as $name) {
             if ($headers->has($name)) {
                 $headers->removeHeader($name);
@@ -805,13 +804,13 @@ class MailMessage extends Message
      */
     public function getHeadersArray($format = HeaderInterface::FORMAT_ENCODED)
     {
-        $headers = array();
+        $headers = [];
         /* @var $header HeaderInterface */
         foreach ($this->getHeaders() as $header) {
             if ($header instanceof MultipleHeadersInterface) {
                 $name = $header->getFieldName();
                 if (!isset($headers[$name])) {
-                    $headers[$name] = array();
+                    $headers[$name] = [];
                 }
                 $headers[$name][] = $header->getFieldValue($format);
             } else {

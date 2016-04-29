@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Model\Entity;
 
 use InvalidArgumentException;
@@ -161,11 +160,11 @@ class CommitRepo
         // $url will be null if key doesn't exist, so no need to check it
         $url = $this->config[$key];
 
-        $replace = array(
+        $replace = [
             '{PROJECT}' => $commit->getProjectName(),
             '{CHANGESET}' => $commit->getChangeset(),
             '{BRANCH}' => $commit->getBranch(),
-        );
+        ];
 
         if ($cf) {
             $replace['{FILE}'] = $cf->getFilename();

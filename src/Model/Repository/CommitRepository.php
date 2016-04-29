@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Model\Repository;
 
 use Date_Helper;
@@ -53,9 +52,9 @@ class CommitRepository extends BaseRepository
         // need to save a history entry for this
         // TRANSLATORS: %1: scm username
         History::add(
-            $issue_id, $usr_id, 'scm_checkin_associated', "SCM Checkins associated by SCM user '{user}'", array(
+            $issue_id, $usr_id, 'scm_checkin_associated', "SCM Checkins associated by SCM user '{user}'", [
                 'user' => $commit->getAuthor(),
-            )
+            ]
         );
 
         // notify workflow about new commit
@@ -132,18 +131,18 @@ class CommitRepository extends BaseRepository
      */
     public function getIssueCommits($issue_id)
     {
-        $res = array();
+        $res = [];
 
         $ics = Entity\IssueCommit::create()->findByIssueId($issue_id);
         if (!$ics) {
-            return array();
+            return [];
         }
 
         // associate commits
         foreach ($ics as $ic) {
             $c = Entity\Commit::create()->findById($ic->getCommitId());
             // associate files
-            $files = Entity\CommitFile::create()->findByCommitId($c->getId()) ?: array();
+            $files = Entity\CommitFile::create()->findByCommitId($c->getId()) ?: [];
             foreach ($files as $cf) {
                 $c->addFile($cf);
             }
@@ -175,7 +174,7 @@ class CommitRepository extends BaseRepository
     {
         $res = $this->getIssueCommits($issue_id);
 
-        $checkins = array();
+        $checkins = [];
         foreach ($res as $c) {
             $scm = $c->getCommitRepo();
 
@@ -191,7 +190,7 @@ class CommitRepository extends BaseRepository
             $checkin['changeset_url'] = $scm->getChangesetUrl($c);
             $checkin['branch_url'] = $scm->getBranchUrl($c);
             $checkin['project_url'] = $scm->getProjectUrl($c);
-            $checkin['files'] = array();
+            $checkin['files'] = [];
             foreach ($c->getFiles() as $cf) {
                 $f = $cf->toArray();
 

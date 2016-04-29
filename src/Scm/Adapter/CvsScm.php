@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Scm\Adapter;
 
 use Eventum\Model\Entity;
@@ -103,12 +102,12 @@ class CvsScm extends AbstractScmAdapter
      */
     private function generateCommitId(Entity\Commit $ci)
     {
-        $seed = array(
+        $seed = [
             $ci->getCommitDate()->getTimestamp() / self::COMMIT_TIME_DRIFT,
             $ci->getAuthorName(),
             $ci->getAuthorEmail(),
             $ci->getMessage(),
-        );
+        ];
         $checksum = md5(implode('', $seed));
 
         // CVS commitid is 16 byte length base62 encoded random and seems always end with z0

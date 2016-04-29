@@ -87,7 +87,7 @@ class AbstractBotCommands
      */
     private function getMethods()
     {
-        $methods = array();
+        $methods = [];
         $reflectionClass = new ReflectionClass($this);
         foreach ($reflectionClass->getMethods() as $method) {
             if (

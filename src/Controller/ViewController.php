@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Access;
@@ -107,10 +106,10 @@ class ViewController extends BaseController
 
         if ($auto_switched_from) {
             $this->tpl->assign(
-                array(
+                [
                     'project_auto_switched' => 1,
                     'old_project' => Project::getName($auto_switched_from),
-                )
+                ]
             );
         }
     }
@@ -143,7 +142,7 @@ class ViewController extends BaseController
             Auth::setCurrentCustomerID($details['iss_customer_id']);
             // TRANSLATORS: %1 - customer name
             Misc::setMessage(ev_gettext("Active customer changed to '%s'", $details['customer']->getName()));
-            $this->redirect(APP_RELATIVE_URL . 'view.php', array('id' => $this->issue_id));
+            $this->redirect(APP_RELATIVE_URL . 'view.php', ['id' => $this->issue_id]);
         }
 
         if ($details['iss_prj_id'] != $this->prj_id) {
@@ -160,7 +159,7 @@ class ViewController extends BaseController
         $sides = Issue::getSides($this->issue_id, $options);
 
         $this->tpl->assign(
-            array(
+            [
                 'issue_id' => $this->issue_id,
                 'issue' => $this->details,
 
@@ -185,7 +184,7 @@ class ViewController extends BaseController
                 'issue_access' => Access::getIssueAccessArray($this->issue_id, $this->usr_id),
                 'is_user_notified' => Notification::isUserNotified($this->issue_id, $this->usr_id),
                 'access_level_name' =>  Access::getAccessLevelName($this->details['iss_access_level']),
-            )
+            ]
         );
 
         if ($this->role_id != User::ROLE_CUSTOMER) {
@@ -215,7 +214,7 @@ class ViewController extends BaseController
         $time_entries = Time_Tracking::getTimeEntryListing($this->issue_id);
 
         $this->tpl->assign(
-            array(
+            [
                 'notes' => Note::getListing($this->issue_id),
                 'is_user_assigned' => Issue::isAssignedToUser($this->issue_id, $this->usr_id),
                 'is_user_authorized' => Authorized_Replier::isUserAuthorizedReplier($this->issue_id, $this->usr_id),
@@ -230,7 +229,7 @@ class ViewController extends BaseController
                 'statuses' => $statuses,
                 'drafts' => Draft::getList($this->issue_id, $show_all_drafts),
                 'groups' => Group::getAssocList($this->prj_id),
-            )
+            ]
         );
     }
 
@@ -240,40 +239,40 @@ class ViewController extends BaseController
         $display = Issue_Field::getFieldsToDisplay($this->issue_id, 'view_issue');
 
         // figure out what data to show in each column
-        $columns = array(0 => array(), 1 => array());
+        $columns = [0 => [], 1 => []];
 
         if (CRM::hasCustomerIntegration($this->prj_id) and !empty($details['iss_customer_id'])) {
-            $columns[0][] = array(
+            $columns[0][] = [
                 'title' => 'Customer',
                 'field' => 'customer_0'
-            );
-            $columns[1][] = array(
+            ];
+            $columns[1][] = [
                 'title' => 'Customer Contract',
                 'field' => 'customer_1'
-            );
+            ];
         }
 
         if (Category::getList($this->prj_id)) {
-            $columns[0][] = array(
+            $columns[0][] = [
                 'title' => ev_gettext('Category'),
                 'data' => $details['prc_title'],
                 'field' => 'category',
-            );
+            ];
         }
 
-        $columns[0][] = array(
+        $columns[0][] = [
             'title' => ev_gettext('Status'),
             'data' => $details['sta_title'],
             'data_bgcolor' => $details['status_color'],
             'field' => 'status',
-        );
+        ];
 
         if (Severity::getList($this->prj_id)) {
-            $columns[0][] = array(
+            $columns[0][] = [
                 'title' => ev_gettext('Severity'),
                 'data' => $details['sev_title'],
                 'field' => 'severity'
-            );
+            ];
         }
 
         if (!isset($display['priority']) || $display['priority'] != false) {
@@ -282,108 +281,108 @@ class ViewController extends BaseController
             } else {
                 $bgcolor = '';
             }
-            $columns[0][] = array(
+            $columns[0][] = [
                 'title' => ev_gettext('Priority'),
                 'data' => $details['pri_title'],
                 'title_bgcolor' => $bgcolor,
                 'field' => 'priority',
-            );
+            ];
         }
 
         if ($this->role_id != User::ROLE_CUSTOMER && Release::getAssocList($this->prj_id)) {
-            $columns[0][] = array(
+            $columns[0][] = [
                 'title' => ev_gettext('Scheduled Release'),
                 'data' => $details['pre_title'],
                 'title_bgcolor' => APP_INTERNAL_COLOR,
-            );
+            ];
         }
 
-        $columns[0][] = array(
+        $columns[0][] = [
             'title' => ev_gettext('Resolution'),
             'data' => $details['iss_resolution'],
             'field' => 'resolution',
-        );
+        ];
 
         if (!isset($display['percent_complete']) || $display['percent_complete'] != false) {
             $percent = empty($details['iss_percent_complete']) ? 0 : $details['iss_percent_complete'];
-            $columns[0][] = array(
+            $columns[0][] = [
                 'title' => ev_gettext('Percentage Complete'),
                 'percent' => $percent,
                 'field' => 'percentage_complete',
-            );
+            ];
         }
 
-        $columns[0][] = array(
+        $columns[0][] = [
             'title' => ev_gettext('Reporter'),
             'field' => 'reporter',
-        );
+        ];
 
         if (Product::getAssocList(false)) {
-            $columns[0][] = array(
+            $columns[0][] = [
                 'title' => ev_gettext('Product'),
                 'field' => 'product',
-            );
+            ];
         }
 
-        $columns[0][] = array(
+        $columns[0][] = [
             'title' => ev_gettext('Assignment'),
             'data' => $details['assignments'],
             'field' => 'assignment',
-        );
+        ];
 
-        $columns[1][] = array(
+        $columns[1][] = [
             'title' => ev_gettext('Notification List'),
             'field' => 'notification_list',
-        );
-        $columns[1][] = array(
+        ];
+        $columns[1][] = [
             'title' => ev_gettext('Submitted Date'),
             'data' => $details['iss_created_date'],
             'field' => 'iss_created_date',
-        );
-        $columns[1][] = array(
+        ];
+        $columns[1][] = [
             'title' => ev_gettext('Last Updated Date'),
             'data' => $details['iss_updated_date'],
             'field' => 'iss_updated_date',
-        );
-        $columns[1][] = array(
+        ];
+        $columns[1][] = [
             'title' => ev_gettext('Associated Issues'),
             'field' => 'associated_issues',
-        );
+        ];
 
         if (!isset($display['expected_resolution']) || $display['expected_resolution'] != false) {
-            $columns[1][] = array(
+            $columns[1][] = [
                 'title' => ev_gettext('Expected Resolution Date'),
                 'field' => 'expected_resolution',
-            );
+            ];
         }
 
         if (!isset($display['estimated_dev_time']) || $display['estimated_dev_time'] != false) {
-            $columns[1][] = array(
+            $columns[1][] = [
                 'title' => ev_gettext('Estimated Dev. Time'),
                 'data' => empty($details['iss_dev_time']) ? '' : $details['iss_dev_time'] . ' hours',
                 'field' => 'estimated_dev_time',
-            );
+            ];
         }
 
         if ($this->role_id > User::ROLE_CUSTOMER) {
-            $columns[1][] = array(
+            $columns[1][] = [
                 'title' => ev_gettext('Duplicates'),
                 'field' => 'duplicates',
                 'title_bgcolor' => APP_INTERNAL_COLOR,
-            );
-            $columns[1][] = array(
+            ];
+            $columns[1][] = [
                 'title' => ev_gettext('Authorized Repliers'),
                 'field' => 'authorized_repliers',
                 'title_bgcolor' => APP_INTERNAL_COLOR,
-            );
+            ];
         }
 
         if ($this->role_id > User::ROLE_CUSTOMER && Group::getAssocList($this->prj_id)) {
-            $columns[1][] = array(
+            $columns[1][] = [
                 'title' => ev_gettext('Group'),
                 'data' => isset($details['group']) ? $details['group']['grp_name'] : '',
                 'title_bgcolor' => APP_INTERNAL_COLOR,
-            );
+            ];
         }
 
         return $columns;

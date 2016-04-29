@@ -72,9 +72,9 @@ class SCM
         // need to mark this issue as updated
         Issue::markAsUpdated($issue_id);
         $usr_id = Auth::getUserID();
-        History::add($issue_id, $usr_id, 'scm_checkin_removed', 'SCM Checkins removed by {user}', array(
+        History::add($issue_id, $usr_id, 'scm_checkin_removed', 'SCM Checkins removed by {user}', [
             'user' => User::getFullName($usr_id)
-        ));
+        ]);
 
         return 1;
     }

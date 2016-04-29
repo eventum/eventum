@@ -65,12 +65,12 @@ class ConfigTest extends TestCase
     {
         $config = Setup::get();
 
-        $config['smtp'] = array(
+        $config['smtp'] = [
             'from' => 'admin@example.org',
             'host' => 'localhost',
             'port' => '25',
             'auth' => '0',
-        );
+        ];
 
         $this->assertSame('0', $config['smtp']['auth']);
 
@@ -83,7 +83,7 @@ class ConfigTest extends TestCase
         $setup = Setup::get();
 
         // init
-        $setup['email_reminder'] = array();
+        $setup['email_reminder'] = [];
 
         // pre-requirements
         $this->assertNull($setup['email_reminder']['status']);
@@ -92,37 +92,37 @@ class ConfigTest extends TestCase
         // check that this is false and does not trigger errors/notices
         $this->assertFalse($setup['email_reminder']['status'] == 'enabled' && $setup['email_reminder']['addresses']);
 
-        $setup['email_reminder'] = array(
+        $setup['email_reminder'] = [
             'status' => 'enabled',
-            'aadresses' => array(),
-        );
+            'aadresses' => [],
+        ];
         // that empty addresses list is also false
         $this->assertFalse($setup['email_reminder']['status'] == 'enabled' && $setup['email_reminder']['addresses']);
     }
 
     public function testArrayMerge()
     {
-        $defaults = array(
-            'email_routing' => array(
-                'warning' => array(),
-            ),
-            'note_routing' => array(),
-            'draft_routing' => array(),
-            'subject_based_routing' => array(),
-        );
-        $config = array(
-            'email_routing' => array(
+        $defaults = [
+            'email_routing' => [
+                'warning' => [],
+            ],
+            'note_routing' => [],
+            'draft_routing' => [],
+            'subject_based_routing' => [],
+        ];
+        $config = [
+            'email_routing' => [
                 'recipient_type_flag' => 'Eventum',
                 'flag_location' => 'before',
                 'status' => 'enabled',
                 'address_prefix' => 'issue-',
                 'address_host' => 'eventum.example.org',
                 'host_alias' => 'eventum.example.net',
-                'warning' => array(
+                'warning' => [
                     'status' => 'disabled',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
         Setup::set($defaults);
         Setup::set($config);
 

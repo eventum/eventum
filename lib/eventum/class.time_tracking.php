@@ -24,7 +24,7 @@ class Time_Tracking
      * These categories are required by Eventum and cannot be deleted.
      * @var array
      */
-    private static $default_categories = array('Note Discussion', 'Email Discussion', 'Telephone Discussion');
+    private static $default_categories = ['Note Discussion', 'Email Discussion', 'Telephone Discussion'];
 
     /**
      * Method used to get the ID of a given category.
@@ -43,7 +43,7 @@ class Time_Tracking
                     ttc_prj_id=? AND
                     ttc_title=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id, $ttc_title));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$prj_id, $ttc_title]);
         } catch (DatabaseException $e) {
             return 0;
         }
@@ -66,7 +66,7 @@ class Time_Tracking
                  WHERE
                     ttc_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($ttc_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$ttc_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -148,7 +148,7 @@ class Time_Tracking
                     ttc_prj_id=? AND
                     ttc_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($title, $prj_id, $ttc_id));
+            DB_Helper::getInstance()->query($stmt, [$title, $prj_id, $ttc_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -179,7 +179,7 @@ class Time_Tracking
                     ?, ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($prj_id, $title, Date_Helper::getCurrentDateGMT()));
+            DB_Helper::getInstance()->query($stmt, [$prj_id, $title, Date_Helper::getCurrentDateGMT()]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -259,7 +259,7 @@ class Time_Tracking
                  ORDER BY
                     ttc_title ASC';
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -274,7 +274,7 @@ class Time_Tracking
      */
     public static function fillTimeSpentByIssues(&$result)
     {
-        $ids = array();
+        $ids = [];
         foreach ($result as $res) {
             $ids[] = $res['iss_id'];
         }
@@ -319,7 +319,7 @@ class Time_Tracking
                  WHERE
                     ttr_iss_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
         } catch (DatabaseException $e) {
             return 0;
         }
@@ -355,13 +355,13 @@ class Time_Tracking
                  ORDER BY
                     ttr_created_date ASC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
         } catch (DatabaseException $e) {
             return 0;
         }
 
         $total_time_spent = 0;
-        $total_time_by_user = array();
+        $total_time_by_user = [];
 
         foreach ($res as &$row) {
             $row['ttr_summary'] = Link_Filter::processText(Issue::getProjectID($issue_id), nl2br(htmlspecialchars($row['ttr_summary'])));
@@ -370,10 +370,10 @@ class Time_Tracking
             if (isset($total_time_by_user[$row['ttr_usr_id']])) {
                 $total_time_by_user[$row['ttr_usr_id']]['time_spent'] += $row['ttr_time_spent'];
             } else {
-                $total_time_by_user[$row['ttr_usr_id']] = array(
+                $total_time_by_user[$row['ttr_usr_id']] = [
                     'usr_full_name' => $row['usr_full_name'],
                     'time_spent'    => $row['ttr_time_spent'],
-                );
+                ];
             }
             $total_time_spent += $row['ttr_time_spent'];
         }
@@ -388,11 +388,11 @@ class Time_Tracking
             $item['time_spent'] = Misc::getFormattedTime($item['time_spent']);
         }
 
-        return array(
+        return [
             'total_time_spent'   => Misc::getFormattedTime($total_time_spent),
             'total_time_by_user' => $total_time_by_user,
             'list'               => $res,
-        );
+        ];
     }
 
     /**
@@ -434,7 +434,7 @@ class Time_Tracking
                  WHERE
                     ttr_id=?';
 
-        $details = DB_Helper::getInstance()->getRow($stmt, array($time_id));
+        $details = DB_Helper::getInstance()->getRow($stmt, [$time_id]);
         // check if the owner is the one trying to remove this entry
         if (($details['owner_usr_id'] != $usr_id) || (!Issue::canAccess($details['issue_id'], $usr_id))) {
             return -1;
@@ -445,15 +445,15 @@ class Time_Tracking
                  WHERE
                     ttr_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($time_id));
+            DB_Helper::getInstance()->query($stmt, [$time_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
 
         Issue::markAsUpdated($details['issue_id']);
-        History::add($details['issue_id'], $usr_id, 'time_removed', 'Time tracking entry removed by {user}', array(
+        History::add($details['issue_id'], $usr_id, 'time_removed', 'Time tracking entry removed by {user}', [
             'user' => User::getFullName($usr_id)
-        ));
+        ]);
 
         return 1;
     }
@@ -495,14 +495,14 @@ class Time_Tracking
                  ) VALUES (
                     ?, ?, ?, ?, ?, ?
                  )';
-        $params = array(
+        $params = [
             $ttc_id,
             $iss_id,
             $usr_id,
             $created_date,
             $time_spent,
             $summary,
-        );
+        ];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -510,9 +510,9 @@ class Time_Tracking
         }
 
         Issue::markAsUpdated($iss_id, 'time added');
-        History::add($iss_id, $usr_id, 'time_added', 'Time tracking entry submitted by {user}', array(
+        History::add($iss_id, $usr_id, 'time_added', 'Time tracking entry submitted by {user}', [
             'user' => User::getFullName($usr_id)
-        ));
+        ]);
 
         return 1;
     }
@@ -541,14 +541,14 @@ class Time_Tracking
                  ) VALUES (
                     ?, ?, ?, ?, ?, ?
                  )';
-        $params = array(
+        $params = [
             $cat_id,
             $issue_id,
             $usr_id,
             Date_Helper::getCurrentDateGMT(),
             $time_spent,
             $summary,
-        );
+        ];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -556,9 +556,9 @@ class Time_Tracking
         }
 
         Issue::markAsUpdated($issue_id);
-        History::add($issue_id, $usr_id, 'remote_time_added', 'Time tracking entry submitted remotely by {user}', array(
+        History::add($issue_id, $usr_id, 'remote_time_added', 'Time tracking entry submitted remotely by {user}', [
             'user' => User::getFullName($usr_id),
-        ));
+        ]);
 
         return 1;
     }
@@ -591,12 +591,12 @@ class Time_Tracking
                  GROUP BY
                     ttc_title';
 
-        $params = array($prj_id, $usr_id, $start, $end);
+        $params = [$prj_id, $usr_id, $start, $end];
 
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params, AdapterInterface::DB_FETCHMODE_ASSOC);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         if (count($res) > 0) {
@@ -629,7 +629,7 @@ class Time_Tracking
                     ttr_created_date BETWEEN ? AND ? AND
                     ttr_iss_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id, $start, $end, $issue_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$usr_id, $start, $end, $issue_id]);
         } catch (DatabaseException $e) {
             return 0;
         }
@@ -648,7 +648,7 @@ class Time_Tracking
      */
     public static function fillTimeSpentByIssueAndTime(&$res, $usr_id, $start, $end)
     {
-        $issue_ids = array();
+        $issue_ids = [];
         foreach ($res as $row) {
             $issue_ids[] = $row['iss_id'];
         }
@@ -662,7 +662,7 @@ class Time_Tracking
                     ttr_created_date BETWEEN ? AND ? AND
                     ttr_iss_id in (' . DB_Helper::buildList($issue_ids) . ')
                  GROUP BY ttr_iss_id';
-        $params = array($usr_id, $start, $end);
+        $params = [$usr_id, $start, $end];
         $params = array_merge($params, $issue_ids);
         try {
             $result = DB_Helper::getInstance()->getPair($stmt, $params);

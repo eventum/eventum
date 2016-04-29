@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use Auth;
@@ -63,30 +62,30 @@ class ProjectsController extends ManageBaseController
 
     private function newAction()
     {
-        $map = array(
-            1 => array(ev_gettext('Thank you, the project was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the new project.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this new project.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the project was added successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new project.'), Misc::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this new project.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages(Project::insert(), $map);
     }
 
     private function updateAction()
     {
-        $map = array(
-            1 => array(ev_gettext('Thank you, the project was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to update the project information.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this project.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the project was updated successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the project information.'), Misc::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this project.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages(Project::update(), $map);
     }
 
     private function deleteAction()
     {
-        $map = array(
-            1 => array(ev_gettext('Thank you, the project was deleted successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to delete the project.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the project was deleted successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to delete the project.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages(Project::remove(), $map);
     }
 
@@ -104,14 +103,14 @@ class ProjectsController extends ManageBaseController
     {
         $usr_id = Auth::getUserID();
         $this->tpl->assign(
-            array(
+            [
                 'active_projects' => Project::getAssocList($usr_id, true),
                 'list' => Project::getList(),
                 'user_options' => User::getActiveAssocList(),
                 'status_options' => Status::getAssocList(),
                 'customer_backends' => CRM::getBackendList(),
                 'workflow_backends' => Workflow::getBackendList(),
-            )
+            ]
         );
     }
 }

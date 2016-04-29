@@ -26,7 +26,7 @@ class Workflow
     {
         $files = Misc::getFileList(APP_INC_PATH . '/workflow');
         $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/workflow'));
-        $list = array();
+        $list = [];
         foreach ($files as $file) {
             // display a prettyfied backend name in the admin section
             if (preg_match('/^class\.(.*)\.php$/', $file, $matches)) {
@@ -495,7 +495,7 @@ class Workflow
     public static function getAdditionalEmailAddresses($prj_id, $issue_id, $event, $extra = false)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return array();
+            return [];
         }
         $backend = self::_getBackend($prj_id);
 
@@ -777,7 +777,7 @@ class Workflow
     public static function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return array();
+            return [];
         }
         $backend = self::_getBackend($prj_id);
 
@@ -793,7 +793,7 @@ class Workflow
     public static function getLinkFilters($prj_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return array();
+            return [];
         }
         $backend = self::_getBackend($prj_id);
 
@@ -859,7 +859,7 @@ class Workflow
     public static function getAccessLevels($prj_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return array();
+            return [];
         }
         $backend = self::_getBackend($prj_id);
 

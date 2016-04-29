@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Model\Entity;
 
 use Date_Helper;
@@ -58,8 +57,8 @@ abstract class BaseModel
     {
         $tableName = $this->getTableName();
         $stmt = "SELECT * FROM {$tableName} WHERE ";
-        $params = array();
-        $conditions = array();
+        $params = [];
+        $conditions = [];
         foreach ($where as $col => $val) {
             $conditions[] = "$col=?";
             $params[] = $val;
@@ -80,7 +79,7 @@ abstract class BaseModel
         }
 
         // map to model
-        $res = array();
+        $res = [];
         foreach ($rows as $row) {
             $o = new static();
             foreach ($row as $field => $value) {

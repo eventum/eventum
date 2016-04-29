@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use Eventum\Crypto\CryptoException;
@@ -105,9 +104,9 @@ class EncryptionController extends ManageBaseController
     {
         $setup = Setup::get();
         $this->tpl->assign(
-            array(
+            [
                 'encryption' => $this->html->enableRadioButtons($setup['encryption']),
-            )
+            ]
         );
     }
 }

@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use CRM;
@@ -71,22 +70,22 @@ class RemindersController extends ManageBaseController
     private function newAction()
     {
         $res = Reminder::insert();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the reminder was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the new reminder.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this new reminder.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the reminder was added successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new reminder.'), Misc::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this new reminder.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = Reminder::update();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the reminder was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to update the reminder.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this reminder.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the reminder was updated successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the reminder.'), Misc::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this reminder.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
@@ -112,9 +111,9 @@ class RemindersController extends ManageBaseController
         }
 
         $this->tpl->assign(
-            array(
+            [
                 'info' => $info,
-            )
+            ]
         );
         $this->setProjectData($info['rem_prj_id']);
     }
@@ -122,9 +121,9 @@ class RemindersController extends ManageBaseController
     private function infoAction()
     {
         $this->tpl->assign(
-            array(
-                'info' => array('rem_prj_id' => $this->prj_id),
-            )
+            [
+                'info' => ['rem_prj_id' => $this->prj_id],
+            ]
         );
 
         $this->setProjectData($this->prj_id);
@@ -138,22 +137,22 @@ class RemindersController extends ManageBaseController
     private function setProjectData($prj_id)
     {
         $this->tpl->assign(
-            array(
+            [
                 'issues' => Reminder::getIssueAssocListByProject($prj_id),
                 'priorities' => $this->getPriorities($prj_id),
                 'severities' => Severity::getAssocList($prj_id),
                 'products' => Product::getAssocList(),
-            )
+            ]
         );
 
         // only show customers and support levels if the selected project really needs it
         if ($crm = CRM::getInstance($prj_id)) {
             $this->crm = $crm;
             $this->tpl->assign(
-                array(
+                [
                     'customers' => $crm->getCustomerAssocList(),
                     'support_levels' => $crm->getSupportLevelAssocList(),
-                )
+                ]
             );
         }
     }
@@ -184,12 +183,12 @@ class RemindersController extends ManageBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'backend_uses_support_levels' => false,
                 'project_has_customer_integration' => $this->crm != null,
                 'project_list' => Project::getAll(),
                 'list' => Reminder::getAdminList(),
-            )
+            ]
         );
     }
 }

@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use Misc;
@@ -60,24 +59,24 @@ class StatusesController extends ManageBaseController
     private function newAction()
     {
         $res = Status::insert();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the status was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the status.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this status.'), Misc::MSG_ERROR),
-            -3 => array(ev_gettext('Color needs to be RGB hex.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the status was added successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the status.'), Misc::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this status.'), Misc::MSG_ERROR],
+            -3 => [ev_gettext('Color needs to be RGB hex.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = Status::updateFromPost();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the status was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the status.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this status.'), Misc::MSG_ERROR),
-            -3 => array(ev_gettext('Color needs to be RGB hex.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the status was updated successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the status.'), Misc::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this status.'), Misc::MSG_ERROR],
+            -3 => [ev_gettext('Color needs to be RGB hex.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
@@ -99,10 +98,10 @@ class StatusesController extends ManageBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'list' => Status::getList(),
                 'project_list' => Project::getAll(),
-            )
+            ]
         );
     }
 }

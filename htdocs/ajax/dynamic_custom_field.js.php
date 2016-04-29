@@ -20,7 +20,7 @@ if (!empty($_REQUEST['iss_id'])) {
 } else {
     $fields = Custom_Field::getListByProject(Auth::getCurrentProject(), $_REQUEST['form_type'], false, true);
 }
-$data = array();
+$data = [];
 foreach ($fields as $field) {
     $backend = Custom_Field::getBackend($field['fld_id']);
     if ((is_object($backend)) && (is_subclass_of($backend, 'Dynamic_Custom_Field_Backend'))) {

@@ -91,7 +91,7 @@ abstract class Customer
      * @param   mixed $options Options An array of options that determine which contracts should be returned.
      * @return  Contract[] An array of Contract objects
      */
-    abstract public function getContracts($options = array());
+    abstract public function getContracts($options = []);
 
     /**
      * Returns an array of contact objects for this customer.
@@ -175,9 +175,9 @@ abstract class Customer
                 WHERE
                     cno_customer_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($this->customer_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$this->customer_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -202,15 +202,15 @@ abstract class Customer
                     cam_usr_id=usr_id AND
                     cam_prj_id=? AND
                     cam_customer_id=?';
-        $params = array($this->crm->getProjectID(), $this->customer_id);
+        $params = [$this->crm->getProjectID(), $this->customer_id];
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         if (empty($res)) {
-            return array();
+            return [];
         }
 
         return $res;

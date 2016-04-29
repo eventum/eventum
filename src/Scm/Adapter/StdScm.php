@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Scm\Adapter;
 
 use Eventum\Model\Entity;
@@ -37,7 +36,7 @@ class StdScm extends AbstractScmAdapter
         }
 
         // require 'scm' GET parameter to be 'svn' or 'git'
-        return in_array($this->request->query->get('scm'), array('svn', 'git'));
+        return in_array($this->request->query->get('scm'), ['svn', 'git']);
     }
 
     /**

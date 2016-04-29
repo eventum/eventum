@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Report;
 
 use Date_Helper;
@@ -57,11 +56,11 @@ class WorkloadTimePeriodController extends ReportBaseController
         }
 
         $this->tpl->assign(
-            array(
+            [
                 'data' => $data,
                 'type' => $this->type,
                 'user_tz' => Date_Helper::getTimezoneShortNameByUser($this->usr_id),
-            )
+            ]
         );
     }
 }

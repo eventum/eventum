@@ -38,7 +38,7 @@ class Report
         $after_ts = strtotime($after_date);
 
         // split groups out of users array
-        $groups = array();
+        $groups = [];
         if (count($users) > 0) {
             foreach ($users as $key => $value) {
                 if (substr($value, 0, 3) == 'grp') {
@@ -79,7 +79,7 @@ class Report
                     isu_usr_id=usr_id AND
                     UNIX_TIMESTAMP(iss_last_response_date) < ? AND
                     UNIX_TIMESTAMP(iss_last_response_date) > ?';
-        $params = array($prj_id, $before_ts, $after_ts);
+        $params = [$prj_id, $before_ts, $after_ts];
 
         if ($users) {
             $ids = (array) $users;
@@ -112,7 +112,7 @@ class Report
         }
 
         Time_Tracking::fillTimeSpentByIssues($res);
-        $issues = array();
+        $issues = [];
         foreach ($res as &$row) {
             if (empty($row['iss_updated_date'])) {
                 $row['iss_updated_date'] = $row['iss_created_date'];
@@ -123,7 +123,7 @@ class Report
 
             $updated_date_ts = Date_Helper::getUnixTimestamp($row['iss_updated_date'], Date_Helper::getDefaultTimezone());
             $last_response_ts = Date_Helper::getUnixTimestamp($row['iss_last_response_date'], Date_Helper::getDefaultTimezone());
-            $issues[$row['usr_full_name']][$row['iss_id']] = array(
+            $issues[$row['usr_full_name']][$row['iss_id']] = [
                 'iss_summary'         => $row['iss_summary'],
                 'sta_title'           => $row['sta_title'],
                 'iss_created_date'    => $row['iss_created_date'],
@@ -133,7 +133,7 @@ class Report
                 'last_update'         => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
                 'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
                 'iss_last_response_date' => $row['iss_last_response_date'],
-            );
+            ];
         }
 
         return $issues;
@@ -190,13 +190,13 @@ class Report
             $stmt .= 'assignee.usr_full_name';
         }
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id, $ts_diff));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$prj_id, $ts_diff]);
         } catch (DatabaseException $e) {
             return '';
         }
 
         Time_Tracking::fillTimeSpentByIssues($res);
-        $issues = array();
+        $issues = [];
         foreach ($res as &$row) {
             if (empty($row['iss_updated_date'])) {
                 $row['iss_updated_date'] = $row['iss_created_date'];
@@ -217,7 +217,7 @@ class Report
                 $row['iss_last_response_date'],
                 Date_Helper::getDefaultTimezone()
             );
-            $issues[$name][$row['iss_id']] = array(
+            $issues[$name][$row['iss_id']] = [
                 'iss_summary'         => $row['iss_summary'],
                 'sta_title'           => $row['sta_title'],
                 'iss_created_date'    => $row['iss_created_date'],
@@ -225,7 +225,7 @@ class Report
                 'status_color'        => $row['sta_color'],
                 'last_update'         => Date_Helper::getFormattedDateDiff($ts, $update_date_ts),
                 'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
-            );
+            ];
         }
 
         return $issues;
@@ -265,21 +265,21 @@ class Report
                  ORDER BY
                     usr_full_name';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
 
         Time_Tracking::fillTimeSpentByIssues($res);
-        $issues = array();
+        $issues = [];
         foreach ($res as $row) {
-            $issues[$row['usr_full_name']][$row['iss_id']] = array(
+            $issues[$row['usr_full_name']][$row['iss_id']] = [
                 'iss_summary'      => $row['iss_summary'],
                 'sta_title'        => $row['sta_title'],
                 'iss_created_date' => $row['iss_created_date'],
                 'time_spent'       => Misc::getFormattedTime($row['time_spent']),
                 'status_color'     => $row['sta_color'],
-            );
+            ];
         }
 
         return $issues;
@@ -300,7 +300,7 @@ class Report
      * - $separate_no_time Separate No time spent issues
      * @return array An array of data containing all the elements of the weekly report.
      */
-    public static function getWeeklyReport($usr_id, $prj_id, $start, $end, $options = array())
+    public static function getWeeklyReport($usr_id, $prj_id, $start, $end, $options = [])
     {
         // figure out timezone
         $user_prefs = Prefs::get($usr_id);
@@ -340,19 +340,19 @@ class Report
                     isu_usr_id = ? AND
                     iss_prj_id = ? AND
                     isu_assigned_date BETWEEN ? AND ?';
-        $params = array($usr_id, Auth::getCurrentProject(), $start_ts, $end_ts);
+        $params = [$usr_id, Auth::getCurrentProject(), $start_ts, $end_ts];
         try {
             $newly_assigned = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DatabaseException $e) {
             $newly_assigned = null;
         }
 
-        $email_count = array(
+        $email_count = [
             'associated'    =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, true),
             'other'         =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, false),
-        );
+        ];
 
-        $htt_exclude = array();
+        $htt_exclude = [];
         if (!empty($options['ignore_statuses'])) {
             $htt_exclude[] = 'status_changed';
             $htt_exclude[] = 'status_auto_changed';
@@ -360,12 +360,12 @@ class Report
         }
         $issue_list = History::getTouchedIssuesByUser($usr_id, $prj_id, $start_ts, $end_ts, $htt_exclude);
 
-        $issues = array(
-            'no_time'   => array(),
-            'not_mine'  => array(),
-            'closed'    => array(),
-            'other'     => array(),
-        );
+        $issues = [
+            'no_time'   => [],
+            'not_mine'  => [],
+            'closed'    => [],
+            'other'     => [],
+        ];
 
         // organize issues into categories
         if ($issue_list) {
@@ -397,7 +397,7 @@ class Report
             usort($issues['other'], $sort_function);
         }
 
-        return array(
+        return [
             'start'     => $start_ts,
             'end'       => $end_ts,
             'user'      => User::getDetails($usr_id),
@@ -409,7 +409,7 @@ class Report
             'phone_count'   => Phone_Support::getCountByUser($usr_id, $start_ts, $end_ts),
             'note_count'    => Note::getCountByUser($usr_id, $start_ts, $end_ts),
             'total_time'    => Misc::getFormattedTime($total_time, false),
-        );
+        ];
     }
 
     /**
@@ -439,25 +439,25 @@ class Report
                     time_period, performer
                  ORDER BY
                     time_period";
-        $params = array(Auth::getCurrentProject());
+        $params = [Auth::getCurrentProject()];
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         // get total number of developer and customer events
-        $event_count = array(
+        $event_count = [
             'developer' =>  0,
             'customer'  =>  0,
-        );
+        ];
         foreach ($res as $row) {
             $event_count['developer'] += $row['dev_events'];
             $event_count['customer'] += $row['cust_events'];
         }
 
-        $data = array();
-        $sort_values = array();
+        $data = [];
+        $sort_values = [];
         for ($i = 0; $i < 24; $i++) {
             $dt = Date_Helper::getDateTime(mktime($i, 0, 0), 'GMT');
             $gmt_time = $dt->format('H:i');
@@ -522,12 +522,12 @@ class Report
         try {
             $total = DB_Helper::getInstance()->getPair($stmt);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         // get all developer email addresses
         $users = User::getActiveAssocList(Auth::getCurrentProject(), User::ROLE_CUSTOMER);
-        $emails = array();
+        $emails = [];
         foreach ($users as $usr_id => $usr_full_name) {
             $emails[] = User::getFromHeader($usr_id);
         }
@@ -546,13 +546,13 @@ class Report
         try {
             $dev_stats = DB_Helper::getInstance()->getPair($stmt, $emails);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         // get total number of developer and customer events and build cust_stats array
         $dev_count = 0;
         $cust_count = 0;
-        $cust_stats = array();
+        $cust_stats = [];
         for ($i = 0; $i < 24; $i++) {
             if (empty($dev_stats[$i])) {
                 $dev_stats[$i] = 0;
@@ -562,8 +562,8 @@ class Report
             $dev_count += @$dev_stats[$i];
         }
 
-        $data = array();
-        $sort_values = array();
+        $data = [];
+        $sort_values = [];
         for ($i = 0; $i < 24; $i++) {
             // convert to the users time zone
             $dt = Date_Helper::getDateTime(mktime($i, 0, 0), 'GMT');
@@ -676,7 +676,7 @@ class Report
         }
 
         if ($list == true) {
-            $params = array();
+            $params = [];
             $sql = "SELECT
                         DISTINCT($group_by_field),
                         iss_id,
@@ -738,7 +738,7 @@ class Report
             try {
                 $res = DB_Helper::getInstance()->getAll($sql, $params);
             } catch (DatabaseException $e) {
-                return array();
+                return [];
             }
 
             if (CRM::hasCustomerIntegration($prj_id)) {
@@ -766,7 +766,7 @@ class Report
             return $res;
         }
 
-        $data = array();
+        $data = [];
         foreach ($options as $cfo_id => $value) {
             $fields = 1;
             $stmt = 'SELECT';
@@ -786,7 +786,7 @@ class Report
                         isu_iss_id = iss_id AND
                         icf_fld_id = ? AND
                         icf_value = ?";
-            $params = array($fld_id, $cfo_id);
+            $params = [$fld_id, $cfo_id];
             if ($start_date && $end_date) {
                 $stmt .= " AND\niss_created_date BETWEEN ? AND ?";
                 $params[] = $start_date;
@@ -809,13 +809,13 @@ class Report
                         $res = DB_Helper::getInstance()->getPair($stmt, $params);
                     }
                 } catch (DatabaseException $e) {
-                    return array();
+                    return [];
                 }
             } else {
                 try {
                     $res = DB_Helper::getInstance()->getOne($stmt, $params);
                 } catch (DatabaseException $e) {
-                    return array();
+                    return [];
                 }
             }
             $data[$value] = $res;
@@ -840,7 +840,7 @@ class Report
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
         $data['All Others'] = $res;
 
@@ -864,7 +864,7 @@ class Report
         // get field values
         $options = Custom_Field::getOptions($fld_id, $cfo_ids);
 
-        $params = array();
+        $params = [];
         $sql = 'SELECT
                     iss_id,
                     SUM(ttr_time_spent) ttr_time_spent_sum,
@@ -928,7 +928,7 @@ class Report
         try {
             $res = DB_Helper::getInstance()->getAll($sql, $params);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         foreach ($res as &$row) {
@@ -951,7 +951,7 @@ class Report
      */
     public static function getWorkloadByDateRange($interval, $type, $start, $end, $category_id)
     {
-        $data = array();
+        $data = [];
         $category_id = (int) $category_id;
 
         // figure out the correct format code
@@ -997,7 +997,7 @@ class Report
                  WHERE
                     iss_prj_id=? AND
                     iss_created_date BETWEEN ? AND ?';
-        $params = array($format, Auth::getCurrentProject(), $start, $end);
+        $params = [$format, Auth::getCurrentProject(), $start, $end];
         if (!empty($category_id)) {
             $stmt .= ' AND
                     iss_prc_id = ?';
@@ -1013,31 +1013,31 @@ class Report
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
         $data['issues']['points'] = $res;
 
-        $data['issues']['stats'] = array(
+        $data['issues']['stats'] = [
             'total' =>  0,
             'avg'   =>  0,
             'median'    =>  0,
             'max'   =>  0,
-        );
+        ];
 
         if ($res) {
             $stats = new Math_Stats();
             $stats->setData($res);
 
-            $data['issues']['stats'] = array(
+            $data['issues']['stats'] = [
                 'total' =>  $stats->sum(),
                 'avg'   =>  $stats->mean(),
                 'median'    =>  $stats->median(),
                 'max'   =>  $stats->max(),
-            );
+            ];
         }
 
         // get email counts
-        $params = array();
+        $params = [];
         $stmt = 'SELECT
                     DATE_FORMAT(sup_date, ?),
                     count(*)
@@ -1074,7 +1074,7 @@ class Report
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
         $data['emails']['points'] = $res;
 
@@ -1082,19 +1082,19 @@ class Report
             $stats = new Math_Stats();
             $stats->setData($res);
 
-            $data['emails']['stats'] = array(
+            $data['emails']['stats'] = [
                 'total' =>  $stats->sum(),
                 'avg'   =>  $stats->mean(),
                 'median'    =>  $stats->median(),
                 'max'   =>  $stats->max(),
-            );
+            ];
         } else {
-            $data['emails']['stats'] = array(
+            $data['emails']['stats'] = [
                 'total' =>  0,
                 'avg'   =>  0,
                 'median'    =>  0,
                 'max'   =>  0,
-            );
+            ];
         }
 
         return $data;
@@ -1122,7 +1122,7 @@ class Report
         GROUP BY
         	iss_prc_id';
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
+            $res = DB_Helper::getInstance()->getAll($sql, [$prj_id]);
         } catch (DbException $e) {
             return null;
         }
@@ -1139,12 +1139,12 @@ class Report
      */
     public static function getCategoryStatusReport($prj_id, $categories, $statuses)
     {
-        $data = array();
+        $data = [];
         foreach ($categories as $cat_id => $cat_title) {
-            $data[$cat_id] = array(
+            $data[$cat_id] = [
                 'title' => $cat_title,
-                'statuses' => array(),
-            );
+                'statuses' => [],
+            ];
 
             foreach ($statuses as $sta_id => $sta_title) {
                 $sql
@@ -1157,14 +1157,14 @@ class Report
                     iss_sta_id = ? AND
                     iss_prc_id = ?';
                 try {
-                    $res = DB_Helper::getInstance()->getOne($sql, array($prj_id, $sta_id, $cat_id));
+                    $res = DB_Helper::getInstance()->getOne($sql, [$prj_id, $sta_id, $cat_id]);
                 } catch (DbException $e) {
                     break 2;
                 }
-                $data[$cat_id]['statuses'][$sta_id] = array(
+                $data[$cat_id]['statuses'][$sta_id] = [
                     'title' => $sta_title,
                     'count' => $res,
-                );
+                ];
             }
         }
 

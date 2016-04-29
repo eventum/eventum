@@ -40,12 +40,12 @@ class Status
                  WHERE
                     psd_prj_id=? AND
                     psd_sta_id IN (' . DB_Helper::buildList($sta_ids). ')';
-        $params = array_merge(array($prj_id), $sta_ids);
+        $params = array_merge([$prj_id], $sta_ids);
 
         try {
             $res = DB_Helper::getInstance()->fetchAssoc($stmt, $params);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -66,7 +66,7 @@ class Status
                  WHERE
                     psd_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($psd_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$psd_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -117,7 +117,7 @@ class Status
                  WHERE
                     psd_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($prj_id, $sta_id, $date_field, $label, $psd_id));
+            DB_Helper::getInstance()->query($stmt, [$prj_id, $sta_id, $date_field, $label, $psd_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -147,7 +147,7 @@ class Status
                     ?, ?, ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($prj_id, $sta_id, $date_field, $label));
+            DB_Helper::getInstance()->query($stmt, [$prj_id, $sta_id, $date_field, $label]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -208,7 +208,7 @@ class Status
                  WHERE
                     sta_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($sta_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$sta_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -241,7 +241,7 @@ class Status
                  ) VALUES (
                     ?, ?, ?, ?, ?
                  )';
-        $params = array($_POST['title'], $_POST['abbreviation'], $_POST['rank'], $_POST['color'], $_POST['is_closed']);
+        $params = [$_POST['title'], $_POST['abbreviation'], $_POST['rank'], $_POST['color'], $_POST['is_closed']];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -284,7 +284,7 @@ class Status
                     sta_is_closed=?
                  WHERE
                     sta_id=?';
-        $params = array($_POST['title'], $_POST['abbreviation'], $_POST['rank'], $color, $_POST['is_closed'], $_POST['id']);
+        $params = [$_POST['title'], $_POST['abbreviation'], $_POST['rank'], $color, $_POST['is_closed'], $_POST['id']];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -299,7 +299,7 @@ class Status
             self::addProjectAssociation($_POST['id'], $prj_id);
         }
         // need to update all issues that are not supposed to have the changed sta_id to '0'
-        $removed_projects = array();
+        $removed_projects = [];
         foreach ($current_projects as $project_id) {
             if (!in_array($project_id, $_POST['projects'])) {
                 $removed_projects[] = $project_id;
@@ -315,7 +315,7 @@ class Status
                         iss_sta_id=? AND
                         iss_prj_id IN (' . implode(', ', $removed_projects) . ')';
             try {
-                DB_Helper::getInstance()->query($stmt, array($_POST['id']));
+                DB_Helper::getInstance()->query($stmt, [$_POST['id']]);
             } catch (DatabaseException $e) {
                 // FIXME: why no error handling?
             }
@@ -374,7 +374,7 @@ class Status
                  ) VALUES (
                     ?, ?
                  )';
-        DB_Helper::getInstance()->query($stmt, array($sta_id, $prj_id));
+        DB_Helper::getInstance()->query($stmt, [$sta_id, $prj_id]);
     }
 
     /**
@@ -388,7 +388,7 @@ class Status
     public static function removeProjectAssociations($sta_id, $prj_id = null)
     {
         if (!is_array($sta_id)) {
-            $sta_id = array($sta_id);
+            $sta_id = [$sta_id];
         }
 
         $stmt = 'DELETE FROM
@@ -425,7 +425,7 @@ class Status
                  WHERE
                     sta_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($sta_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$sta_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -483,9 +483,9 @@ class Status
                     prj_id=prs_prj_id AND
                     prs_sta_id=?';
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt, array($sta_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, [$sta_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -512,7 +512,7 @@ class Status
                  WHERE
                     sta_title=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($sta_title));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$sta_title]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -537,7 +537,7 @@ class Status
                  WHERE
                     sta_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($sta_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$sta_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -555,7 +555,7 @@ class Status
     public static function getClosedAbbreviationAssocList($prj_id)
     {
         if (!is_array($prj_id)) {
-            $prj_id = array($prj_id);
+            $prj_id = [$prj_id];
         }
 
         $stmt = 'SELECT
@@ -590,7 +590,7 @@ class Status
     public static function getAbbreviationAssocList($prj_id, $show_closed)
     {
         if (!is_array($prj_id)) {
-            $prj_id = array($prj_id);
+            $prj_id = [$prj_id];
         }
 
         $stmt = 'SELECT
@@ -628,7 +628,7 @@ class Status
     public static function getAssocStatusList($prj_id, $show_closed = true)
     {
         if (!is_array($prj_id)) {
-            $prj_id = array($prj_id);
+            $prj_id = [$prj_id];
         }
 
         $stmt = 'SELECT
@@ -702,7 +702,7 @@ class Status
                  ORDER BY
                     sta_rank ASC';
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }

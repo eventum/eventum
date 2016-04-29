@@ -24,7 +24,7 @@ class FAQ
     public static function getListBySupportLevel($support_level_ids)
     {
         if (!is_array($support_level_ids)) {
-            $support_level_ids = array($support_level_ids);
+            $support_level_ids = [$support_level_ids];
         }
         $prj_id = Auth::getCurrentProject();
 
@@ -37,7 +37,7 @@ class FAQ
                         faq_prj_id = ?
                      ORDER BY
                         faq_rank ASC';
-            $params = array($prj_id);
+            $params = [$prj_id];
         } else {
             $stmt = 'SELECT
                         *
@@ -104,7 +104,7 @@ class FAQ
     public function removeSupportLevelAssociations($faq_id)
     {
         if (!is_array($faq_id)) {
-            $faq_id = array($faq_id);
+            $faq_id = [$faq_id];
         }
 
         $stmt = 'DELETE FROM
@@ -145,7 +145,7 @@ class FAQ
                     faq_rank=?
                  WHERE
                     faq_id=?';
-        $params = array($_POST['project'], Date_Helper::getCurrentDateGMT(), $_POST['title'], $_POST['message'], $_POST['rank'], $faq_id);
+        $params = [$_POST['project'], Date_Helper::getCurrentDateGMT(), $_POST['title'], $_POST['message'], $_POST['rank'], $faq_id];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -188,7 +188,7 @@ class FAQ
                  ) VALUES (
                     ?, ?, ?, ?, ?, ?
                  )';
-        $params = array($_POST['project'], Auth::getUserID(), Date_Helper::getCurrentDateGMT(), $_POST['title'], $_POST['message'], $_POST['rank']);
+        $params = [$_POST['project'], Auth::getUserID(), Date_Helper::getCurrentDateGMT(), $_POST['title'], $_POST['message'], $_POST['rank']];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -223,7 +223,7 @@ class FAQ
                  ) VALUES (
                     ?, ?
                  )';
-        DB_Helper::getInstance()->query($stmt, array($faq_id, $support_level_id));
+        DB_Helper::getInstance()->query($stmt, [$faq_id, $support_level_id]);
     }
 
     /**
@@ -241,7 +241,7 @@ class FAQ
                  WHERE
                     faq_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($faq_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$faq_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -307,9 +307,9 @@ class FAQ
                         {{%faq_support_level}}
                      WHERE
                         fsl_faq_id=?';
-            $ids = DB_Helper::getInstance()->getColumn($stmt, array($faq_id));
+            $ids = DB_Helper::getInstance()->getColumn($stmt, [$faq_id]);
 
-            $t = array();
+            $t = [];
             $levels = $crm->getSupportLevelAssocList();
             foreach ($levels as $support_level_id => $support_level) {
                 if (in_array($support_level_id, $ids)) {
@@ -319,7 +319,7 @@ class FAQ
 
             return $t;
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -360,7 +360,7 @@ class FAQ
                         faq_rank=?
                      WHERE
                         faq_id=?';
-            DB_Helper::getInstance()->query($stmt, array($ranking[$faq_id], $replaced_faq_id));
+            DB_Helper::getInstance()->query($stmt, [$ranking[$faq_id], $replaced_faq_id]);
         }
         $stmt = 'UPDATE
                     {{%faq}}
@@ -368,7 +368,7 @@ class FAQ
                     faq_rank=?
                  WHERE
                     faq_id=?';
-        DB_Helper::getInstance()->query($stmt, array($new_rank, $faq_id));
+        DB_Helper::getInstance()->query($stmt, [$new_rank, $faq_id]);
 
         return true;
     }
@@ -391,7 +391,7 @@ class FAQ
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;

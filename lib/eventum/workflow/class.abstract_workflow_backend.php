@@ -66,7 +66,7 @@ class Abstract_Workflow_Backend
         $setup = Setup::get();
 
         if (!isset($setup['workflow'])) {
-            $setup['workflow'] = array();
+            $setup['workflow'] = [];
         }
 
         // create copy, this avoids the "indirect" error
@@ -104,7 +104,7 @@ class Abstract_Workflow_Backend
      */
     protected function getConfigDefaults()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -384,7 +384,7 @@ class Abstract_Workflow_Backend
      */
     public function getAdditionalEmailAddresses($prj_id, $issue_id, $event)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -560,7 +560,7 @@ class Abstract_Workflow_Backend
      */
     public function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -571,7 +571,7 @@ class Abstract_Workflow_Backend
      */
     public function getLinkFilters($prj_id)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -628,7 +628,7 @@ class Abstract_Workflow_Backend
      */
     public function getAccessLevels($prj_id)
     {
-        return array();
+        return [];
     }
 
     /**

@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -64,10 +63,10 @@ class HelpController extends BaseController
     {
         $topic = $this->getTopic();
         $this->tpl->assign(
-            array(
+            [
                 'topic' => $topic,
                 'links' => Help::getNavigationLinks($topic),
-            )
+            ]
         );
 
         if ($topic != 'main') {

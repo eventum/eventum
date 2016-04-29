@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Monolog\Handler;
 
 use Eventum\Monolog\Logger;
@@ -46,7 +45,7 @@ class MailHandlerTest extends TestCase
     private function configureMailHandler($status)
     {
         global $mail;
-        $mail = array();
+        $mail = [];
 
         $setup = Setup::get();
         $setup['email_error']['status'] = $status;

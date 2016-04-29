@@ -33,7 +33,7 @@ class Category
                  WHERE
                     prc_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($prc_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$prc_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -105,7 +105,7 @@ class Category
                     prc_prj_id=? AND
                     prc_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['prj_id'], $_POST['id']));
+            DB_Helper::getInstance()->query($stmt, [$_POST['title'], $_POST['prj_id'], $_POST['id']]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -133,7 +133,7 @@ class Category
                     ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST['prj_id'], $_POST['title']));
+            DB_Helper::getInstance()->query($stmt, [$_POST['prj_id'], $_POST['title']]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -160,7 +160,7 @@ class Category
                  ORDER BY
                     prc_title ASC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -193,7 +193,7 @@ class Category
                  ORDER BY
                     prc_title ASC';
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -218,7 +218,7 @@ class Category
                  WHERE
                     prc_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($prc_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$prc_id]);
         } catch (DatabaseException $e) {
             return '';
         }

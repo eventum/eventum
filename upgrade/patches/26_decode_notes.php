@@ -21,7 +21,7 @@ use Eventum\Db\Adapter\AdapterInterface;
 /** @var Closure $log */
 
 // notes that need to be decoded
-$res = $db->getAll('select not_id, not_iss_id, not_is_blocked, not_created_date, not_note, not_full_message from {{%note}} where not_note like ?', array('%&#x00%'));
+$res = $db->getAll('select not_id, not_iss_id, not_is_blocked, not_created_date, not_note, not_full_message from {{%note}} where not_note like ?', ['%&#x00%']);
 
 $render_diff = function ($old, $new) {
     $diff = new Text_Diff(explode(PHP_EOL, $old), explode(PHP_EOL, $new));
@@ -44,7 +44,7 @@ foreach ($res as $i => $row) {
     $log($diff);
     $db->query('UPDATE {{%note}} '.
         'SET not_note=? '.
-        'WHERE not_id=?', array($note, $row['not_id'])
+        'WHERE not_id=?', [$note, $row['not_id']]
     );
 }
 

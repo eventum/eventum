@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Report;
 
 use Custom_Field;
@@ -79,8 +78,8 @@ class CustomFieldsController extends ReportBaseController
     {
         // get list of fields and convert info useful arrays
         $fields = Custom_Field::getListByProject($this->prj_id, '');
-        $custom_fields = array();
-        $options = array();
+        $custom_fields = [];
+        $options = [];
         if (is_array($fields) && count($fields) > 0) {
             foreach ($fields as $field) {
                 $custom_fields[$field['fld_id']] = $field['fld_title'];
@@ -118,7 +117,7 @@ class CustomFieldsController extends ReportBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'custom_fields' => $this->getCustomFields(),
                 'custom_field' => $this->custom_field,
                 'custom_options' => $this->custom_options,
@@ -129,7 +128,7 @@ class CustomFieldsController extends ReportBaseController
                 'end_date' => $this->end ?: '--',
                 'assignees' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
                 'assignee' => $this->assignee,
-            )
+            ]
         );
     }
 }

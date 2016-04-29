@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Monolog;
 
 use Misc;
@@ -33,7 +32,7 @@ class MailHandler extends NativeMailerHandler
             // recipient list can be comma separated
             $to = Misc::trim(explode(',', $notify_list));
         } else {
-            $to = array();
+            $to = [];
         }
 
         $subject = APP_SITE_NAME . ' - Error found!';

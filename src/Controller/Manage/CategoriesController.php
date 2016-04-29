@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use Category;
@@ -66,11 +65,11 @@ class CategoriesController extends ManageBaseController
     private function updateResult($res)
     {
         $this->tpl->assign('result', $res);
-        $map = array(
-            1 => array('Thank you, the category was updated successfully.', Misc::MSG_INFO),
-            -1 => array('An error occurred while trying to update the category.', Misc::MSG_ERROR),
-            -2 => array('Please enter the title for this category.', Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => ['Thank you, the category was updated successfully.', Misc::MSG_INFO],
+            -1 => ['An error occurred while trying to update the category.', Misc::MSG_ERROR],
+            -2 => ['Please enter the title for this category.', Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
@@ -80,10 +79,10 @@ class CategoriesController extends ManageBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'list' => Category::getList($this->prj_id),
                 'project' => Project::getDetails($this->prj_id),
-            )
+            ]
         );
     }
 }

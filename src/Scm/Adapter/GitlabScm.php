@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Scm\Adapter;
 
 use Eventum\Model\Entity;
@@ -74,7 +73,7 @@ class GitlabScm extends AbstractScmAdapter
                 continue;
             }
             $branch = $payload->getBranch();
-            $this->log->debug('commit', array('issues' => $issues, 'branch' => $branch, 'commit' => $commit));
+            $this->log->debug('commit', ['issues' => $issues, 'branch' => $branch, 'commit' => $commit]);
 
             if (!$repo->branchAllowed($branch)) {
                 throw new \InvalidArgumentException("Branch not allowed: {$branch}");

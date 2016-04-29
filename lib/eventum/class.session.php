@@ -67,7 +67,7 @@ class Session
         }
 
         // clear all old session variables
-        $_SESSION = array();
+        $_SESSION = [];
 
         // regenerate ID to prevent session fixation
         session_regenerate_id();

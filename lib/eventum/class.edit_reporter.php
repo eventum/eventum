@@ -44,7 +44,7 @@ class Edit_Reporter
                     iss_id = ?';
 
         try {
-            DB_Helper::getInstance()->query($sql, array($usr_id, $issue_id));
+            DB_Helper::getInstance()->query($sql, [$usr_id, $issue_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -52,10 +52,10 @@ class Edit_Reporter
         if ($add_history) {
             // TRANSLATORS: %1: email, %2: full name
             $current_usr_id = Auth::getUserID();
-            History::add($issue_id, $current_usr_id, 'issue_updated', 'Reporter was changed to {email} by {user}', array(
+            History::add($issue_id, $current_usr_id, 'issue_updated', 'Reporter was changed to {email} by {user}', [
                 'email' => $email,
                 'user' => User::getFullName($current_usr_id)
-            ));
+            ]);
         }
 
         // Add new user to notification list

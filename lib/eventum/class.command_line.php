@@ -163,7 +163,7 @@ class Command_Line
             return;
         }
 
-        $out = array();
+        $out = [];
         $out[] = "Customer Lookup Results:\n";
         foreach ($res as $customer) {
             $out[] = '         Customer: ' . $customer['name'];
@@ -226,7 +226,7 @@ class Command_Line
             die("Configuration file '$rcfile' could not be found\n");
         }
 
-        return array($email, $password, $host, $port, $relative_url);
+        return [$email, $password, $host, $port, $relative_url];
     }
 
     /**
@@ -733,28 +733,28 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             exit;
         }
 
-        $format = array(
-            'id' => array(
+        $format = [
+            'id' => [
                 'width' => 3,
                 'title' => 'ID',
-            ),
-            'sup_date' => array(
+            ],
+            'sup_date' => [
                 'width' => 30,
                 'title' => 'Date',
-            ),
-            'sup_from' => array(
+            ],
+            'sup_from' => [
                 'width' => 24,
                 'title' => 'From',
-            ),
-            'sup_cc' => array(
+            ],
+            'sup_cc' => [
                 'width' => 24,
                 'title' => 'CC',
-            ),
-            'sup_subject' => array(
+            ],
+            'sup_subject' => [
                 'width' => 30,
                 'title' => 'Subject',
-            ),
-        );
+            ],
+        ];
 
         self::printTable($format, $emails);
     }
@@ -817,24 +817,24 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             exit;
         }
 
-        $format = array(
-            'id' => array(
+        $format = [
+            'id' => [
                 'width' => 3,
                 'title' => 'ID',
-            ),
-            'usr_full_name' => array(
+            ],
+            'usr_full_name' => [
                 'width' => 24,
                 'title' => 'User',
-            ),
-            'not_title' => array(
+            ],
+            'not_title' => [
                 'width' => 50,
                 'title' => 'Title',
-            ),
-            'not_created_date' => array(
+            ],
+            'not_created_date' => [
                 'width' => 30,
                 'title' => 'Date',
-            ),
-        );
+            ],
+        ];
 
         self::printTable($format, $notes);
     }
@@ -955,28 +955,28 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             $draft['id'] = ($i + 1);
         }
 
-        $format = array(
-            'id' => array(
+        $format = [
+            'id' => [
                 'width' => 3,
                 'title' => 'ID',
-            ),
-            'from' => array(
+            ],
+            'from' => [
                 'width' => 24,
                 'title' => 'From',
-            ),
-            'to' => array(
+            ],
+            'to' => [
                 'width' => 24,
                 'title' => 'To',
-            ),
-            'emd_subject' => array(
+            ],
+            'emd_subject' => [
                 'width' => 30,
                 'title' => 'Title',
-            ),
-            'emd_updated_date' => array(
+            ],
+            'emd_updated_date' => [
                 'width' => 30,
                 'title' => 'Date',
-            ),
-        );
+            ],
+        ];
 
         self::printTable($format, $drafts);
     }
@@ -1247,119 +1247,119 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      */
     public static function usage($script)
     {
-        $usage = array();
-        $usage[] = array(
+        $usage = [];
+        $usage[] = [
             'command'   =>  '<ticket_number> [--full]',
             'help'      =>  'View general details of an existing issue. --full displays also custom fields.',
-        );
-        $usage[] = array(
-            'command'   =>  array('<ticket_number> custom-fields', '<ticket_number> cf'),
+        ];
+        $usage[] = [
+            'command'   =>  ['<ticket_number> custom-fields', '<ticket_number> cf'],
             'help'      =>  'List custom fields associated with the given issue.',
-        );
-        $usage[] = array(
+        ];
+        $usage[] = [
             'command'   =>  '<ticket_number> assign <developer_email> [--safe]',
             'help'      =>  'Assign an issue to another developer.',
-        );
-        $usage[] = array(
+        ];
+        $usage[] = [
             'command'   =>  '<ticket_number> take [--safe]',
             'help'      =>  "Assign an issue to yourself and change status to 'Assigned'.",
-        );
-        $usage[] = array(
-            'command'   =>  array('<ticket_number> add-replier <user_email> [--safe]','<ticket_number> ar <user_email> [--safe]'),
+        ];
+        $usage[] = [
+            'command'   =>  ['<ticket_number> add-replier <user_email> [--safe]','<ticket_number> ar <user_email> [--safe]'],
             'help'      =>  'Adds the specified user to the list of authorized repliers.',
-        );
-        $usage[] = array(
+        ];
+        $usage[] = [
             'command'   =>  '<ticket_number> set-status <status> [--safe]',
             'help'      =>  "Sets the status of an issue to the desired value. If you are not sure
      about the available statuses, use command 'list-status' described below.",
-        );
-        $usage[] = array(
+        ];
+        $usage[] = [
             'command'   =>  '<ticket_number> add-time <time_worked> [--safe]',
             'help'      =>  'Records time worked to the time tracking tool of the given issue.',
-        );
-        $usage[] = array(
+        ];
+        $usage[] = [
             'command'   =>  '<ticket_number> close [--safe]',
             'help'      =>  'Marks an issue as closed.',
-        );
-        $usage[] = array(
-            'command'   =>  array('<ticket_number> list-files', '<ticket_number> lf'),
+        ];
+        $usage[] = [
+            'command'   =>  ['<ticket_number> list-files', '<ticket_number> lf'],
             'help'      =>  'List available attachments associated with the given issue.',
-        );
-        $usage[] = array(
-            'command'   =>  array('<ticket_number> get-file <file_number>', '<ticket_number> gf <file_number>'),
+        ];
+        $usage[] = [
+            'command'   =>  ['<ticket_number> get-file <file_number>', '<ticket_number> gf <file_number>'],
             'help'      =>  'Download a specific file from the given issue.',
-        );
-        $usage[] = array(
-            'command'   =>  array('<ticket_number> list-emails','<ticket_number> le'),
+        ];
+        $usage[] = [
+            'command'   =>  ['<ticket_number> list-emails','<ticket_number> le'],
             'help'      =>  'Lists emails from the given issue.',
-        );
-        $usage[] = array(
-            'command'   =>  array('<ticket_number> get-email <email_number> [--full]','<ticket_number> ge <email_number> [--full]'),
+        ];
+        $usage[] = [
+            'command'   =>  ['<ticket_number> get-email <email_number> [--full]','<ticket_number> ge <email_number> [--full]'],
             'help'      =>  'Displays a specific email for the issue. If the optional --full parameter
      is specified, the full email including headers and attachments will be
      displayed.',
-        );
-        $usage[] = array(
-            'command'   =>  array('<ticket_number> list-notes','<ticket_number> ln'),
+        ];
+        $usage[] = [
+            'command'   =>  ['<ticket_number> list-notes','<ticket_number> ln'],
             'help'      =>  'Lists notes from the given issue.',
-        );
-        $usage[] = array(
-            'command'   =>  array('<ticket_number> get-note <note_number> [--full]','<ticket_number> gn <note_number>'),
+        ];
+        $usage[] = [
+            'command'   =>  ['<ticket_number> get-note <note_number> [--full]','<ticket_number> gn <note_number>'],
             'help'      =>  'Displays a specific note for the issue.',
-        );
-        $usage[] = array(
-            'command'   =>  array('<ticket_number> convert-note <note_number> draft|email [authorize] [--safe]','<ticket_number> cn <note_number> draft|email [authorize] [--safe]'),
+        ];
+        $usage[] = [
+            'command'   =>  ['<ticket_number> convert-note <note_number> draft|email [authorize] [--safe]','<ticket_number> cn <note_number> draft|email [authorize] [--safe]'],
             'help'      =>  "Converts the specified note to a draft or an email.
     Use optional argument 'authorize' to add sender to authorized repliers list.",
-        );
-        $usage[] = array(
-            'command'   =>  array('<ticket_number> list-drafts','<ticket_number> ld'),
+        ];
+        $usage[] = [
+            'command'   =>  ['<ticket_number> list-drafts','<ticket_number> ld'],
             'help'      =>  'Lists drafts from the given issue.',
-        );
-        $usage[] = array(
-            'command'   =>  array('<ticket_number> get-draft <draft_number>','<ticket_number> gd <draft_number>'),
+        ];
+        $usage[] = [
+            'command'   =>  ['<ticket_number> get-draft <draft_number>','<ticket_number> gd <draft_number>'],
             'help'      =>  'Displays a specific draft for the issue.',
-        );
-        $usage[] = array(
-            'command'   =>  array('<ticket_number> send-draft <draft_number>','<ticket_number> sd <draft_number>'),
+        ];
+        $usage[] = [
+            'command'   =>  ['<ticket_number> send-draft <draft_number>','<ticket_number> sd <draft_number>'],
             'help'      =>  'Converts a draft to an email and sends it out.',
-        );
-        $usage[] = array(
-            'command'   =>  array('<ticket_number> redeem'),
+        ];
+        $usage[] = [
+            'command'   =>  ['<ticket_number> redeem'],
             'help'      =>  'Marks an issue as redeemed incident.',
-        );
-        $usage[] = array(
-            'command'   =>  array('<ticket_number> unredeem'),
+        ];
+        $usage[] = [
+            'command'   =>  ['<ticket_number> unredeem'],
             'help'      =>  'Un-marks an issue as redeemed incident.',
-        );
-        $usage[] = array(
+        ];
+        $usage[] = [
             'command'   =>  'developers',
             'help'      =>  "List all available developers' email addresses.",
-        );
-        $usage[] = array(
+        ];
+        $usage[] = [
             'command'   =>  'open-issues [<status>] [my]',
             'help'      =>  "List all issues that are not set to a status with a 'closed' context. Use
      optional argument 'my' if you just wish to see issues assigned to you.",
-        );
-        $usage[] = array(
+        ];
+        $usage[] = [
             'command'   =>  'list-status',
             'help'      =>  'List all available statuses in the system.',
-        );
-        $usage[] = array(
+        ];
+        $usage[] = [
             'command'   =>  'customer email|support|customer <value>',
             'help'      =>  "Looks up a customer's record information.",
-        );
-        $usage[] = array(
-            'command'   =>  array('weekly-report ([<week>] [--separate-closed])|([<start>] [<end>] [--separate-closed])', 'wr ([<week>])|([<start>] [<end>] [--separate-closed])'),
+        ];
+        $usage[] = [
+            'command'   =>  ['weekly-report ([<week>] [--separate-closed])|([<start>] [<end>] [--separate-closed])', 'wr ([<week>])|([<start>] [<end>] [--separate-closed])'],
             'help'      =>  "Fetches the weekly report. Week is specified as an integer with 0 representing
      the current week, -1 the previous week and so on. If the week is omitted it defaults
      to the current week. Alternately, a date range can be set. Dates should be in the format 'YYYY-MM-DD'.",
-        );
-        $usage[] = array(
+        ];
+        $usage[] = [
             'command'   =>  'clock [in|out]',
             'help'      =>  'Clocks you in or out of the system. When clocked out, no reminders will be sent to your account.
      If the in|out parameter is left off, your current status is displayed.',
-        );
+        ];
         $script = basename($script);
         $usage_text = '';
         $explanation = '';
