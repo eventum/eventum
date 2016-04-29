@@ -529,7 +529,7 @@ class Notification
      * @param   string $type The notification type
      * @return  array The list of users / emails
      */
-    public function getUsersByIssue($issue_id, $type)
+    public static function getUsersByIssue($issue_id, $type)
     {
         if ($type == 'notes') {
             $stmt = 'SELECT
