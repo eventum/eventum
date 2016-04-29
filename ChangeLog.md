@@ -4,6 +4,8 @@ Eventum Issue Tracking System
 2016-??-??, Version [3.1.1]
 ----------------------------
 
+- remove support for calling deprecated handleAssignment workflow method, it was deprecated in 2.4.0-pre1
+
 2016-04-28, Version [3.1.0]
 ----------------------------
 

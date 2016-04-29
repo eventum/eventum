@@ -271,16 +271,6 @@ class Workflow
         }
 
         $backend = self::_getBackend($prj_id);
-
-        // call deprecated handleAssignment() if it still exists
-        $reflection = new ReflectionClass($backend);
-        if ($reflection->hasMethod('handleAssignment')) {
-            if ($reflection->getMethod('handleAssignment')->isPublic()) {
-                trigger_error('Workflow::handleAssignment is deprecated', E_USER_DEPRECATED);
-                $backend->handleAssignment($prj_id, $issue_id, $usr_id);
-            }
-        }
-
         $backend->handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment);
     }
 
