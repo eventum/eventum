@@ -789,36 +789,6 @@ class Misc
     }
 
     /**
-     * Method used to get the standard input.
-     *
-     * @return  string The standard input value
-     */
-    public static function getInput($is_one_liner = false)
-    {
-        static $return;
-
-        if (!empty($return)) {
-            return $return;
-        }
-
-        $terminator = "\n";
-
-        $stdin = fopen('php://stdin', 'r');
-        $input = '';
-        while (!feof($stdin)) {
-            $buffer = fgets($stdin, 256);
-            $input .= $buffer;
-            if (($is_one_liner) && (strstr($input, $terminator))) {
-                break;
-            }
-        }
-        fclose($stdin);
-        $return = $input;
-
-        return $input;
-    }
-
-    /**
      * Tell whether a value is a PEAR error.
      *
      * @param   mixed $data the value to test
