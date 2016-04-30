@@ -15,7 +15,7 @@ Eventum Issue Tracking System
 - drop prompt and getInputLine from Misc (83efe3c)
 - drop unused Misc::collect (51eab96)
 - drop table prefix support (#166, @glensc)
-- drop old `APP_SQL_` constants support, support upgrade from earlier than 3.0 versions dropped
+- drop old `APP_SQL_` constants support, support upgrade from earlier than 3.0 versions dropped (30130ba)
 
 2016-04-28, Version [3.1.0]
 ----------------------------
