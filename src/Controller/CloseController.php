@@ -21,6 +21,7 @@ use Misc;
 use Notification;
 use Resolution;
 use Status;
+use Template_Helper;
 use Time_Tracking;
 use User;
 
@@ -141,9 +142,21 @@ class CloseController extends BaseController
         $this->tpl->assign('close_result', $res);
         if ($res == 1) {
             Misc::setMessage(ev_gettext('Thank you, the issue was closed successfully'));
-            Misc::displayNotifiedUsers(Notification::getLastNotifiedAddresses($this->issue_id));
+            $this->displayNotifiedUsers(Notification::getLastNotifiedAddresses($this->issue_id));
             $this->redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
         }
+    }
+
+    private function displayNotifiedUsers($notify_list)
+    {
+        if (!$notify_list) {
+            return;
+        }
+
+        $update_tpl = new Template_Helper();
+        $update_tpl->setTemplate('include/notified_list.tpl.html');
+        $update_tpl->assign('notify_list', $notify_list);
+        Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
     }
 
     private function addTimeEntry()

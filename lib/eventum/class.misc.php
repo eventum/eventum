@@ -788,16 +788,6 @@ class Misc
         }
     }
 
-    public static function displayNotifiedUsers($notify_list)
-    {
-        if (count($notify_list) > 0) {
-            $update_tpl = new Template_Helper();
-            $update_tpl->setTemplate('include/notified_list.tpl.html');
-            $update_tpl->assign('notify_list', $notify_list);
-            self::setMessage($update_tpl->getTemplateContents(false), self::MSG_HTML_BOX);
-        }
-    }
-
     /**
      * Method used to get the standard input.
      *
