@@ -198,7 +198,6 @@ clean_vendor() {
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
 	rm vendor/smarty-gettext/smarty-gettext/tsmarty2c.1
 	rm vendor/ircmaxell/security-lib/lib/SecurityLib/composer.json
-	rm vendor/ircmaxell/password-compat/version-test.php
 
 	rm vendor/defuse/php-encryption/{benchmark,example}.php
 	rm vendor/defuse/php-encryption/*.sh
