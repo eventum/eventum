@@ -15,7 +15,6 @@ namespace Eventum\Controller;
 use Access;
 use Auth;
 use Authorized_Replier;
-use Misc;
 
 class AuthorizedReplierController extends BaseController
 {
@@ -86,15 +85,15 @@ class AuthorizedReplierController extends BaseController
 
         if ($res == 1) {
             $message = ev_gettext('Thank you, the authorized replier was inserted successfully.');
-            Misc::setMessage($message);
+            $this->messages->addInfoMessage($message);
         } elseif ($res == -1) {
             $message = ev_gettext('An error occurred while trying to insert the authorized replier.');
-            Misc::setMessage($message, Misc::MSG_ERROR);
+            $this->messages->addErrorMessage($message);
         } elseif ($res == -2) {
             $message = ev_gettext(
                 "Users with a role of 'customer' or below are not allowed to be added to the authorized repliers list."
             );
-            Misc::setMessage($message, Misc::MSG_ERROR);
+            $this->messages->addErrorMessage($message);
         }
     }
 
@@ -105,10 +104,10 @@ class AuthorizedReplierController extends BaseController
         $res = Authorized_Replier::removeRepliers($post->get('items'));
         if ($res == 1) {
             $message = ev_gettext('Thank you, the authorized replier was deleted successfully.');
-            Misc::setMessage($message);
+            $this->messages->addInfoMessage($message);
         } elseif ($res == -1) {
             $message = ev_gettext('An error occurred while trying to delete the authorized replier.');
-            Misc::setMessage($message, Misc::MSG_ERROR);
+            $this->messages->addErrorMessage($message);
         }
     }
 

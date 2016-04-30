@@ -13,7 +13,7 @@
 namespace Eventum\Controller\Manage;
 
 use CRM;
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Priority;
 use Product;
 use Project;
@@ -71,22 +71,22 @@ class RemindersController extends ManageBaseController
     {
         $res = Reminder::insert();
         $map = [
-            1 => [ev_gettext('Thank you, the reminder was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new reminder.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this new reminder.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the reminder was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new reminder.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this new reminder.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = Reminder::update();
         $map = [
-            1 => [ev_gettext('Thank you, the reminder was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the reminder.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this reminder.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the reminder was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the reminder.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this reminder.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()

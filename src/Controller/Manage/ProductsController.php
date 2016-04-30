@@ -12,7 +12,7 @@
  */
 namespace Eventum\Controller\Manage;
 
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Product;
 use Project;
 
@@ -65,10 +65,10 @@ class ProductsController extends ManageBaseController
             $post->get('removed'), $post->get('email')
         );
         $map = [
-            1 => ['Thank you, the product was added successfully.', Misc::MSG_INFO],
-            -1 => ['An error occurred while trying to add the product.', Misc::MSG_ERROR],
+            1 => ['Thank you, the product was added successfully.', MessagesHelper::MSG_INFO],
+            -1 => ['An error occurred while trying to add the product.', MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
@@ -80,10 +80,10 @@ class ProductsController extends ManageBaseController
             $post->get('rank'), $post->get('removed'), $post->get('email')
         );
         $map = [
-            1 => ['Thank you, the product was updated successfully.', Misc::MSG_INFO],
-            -1 => ['An error occurred while trying to update the product.', Misc::MSG_ERROR],
+            1 => ['Thank you, the product was updated successfully.', MessagesHelper::MSG_INFO],
+            -1 => ['An error occurred while trying to update the product.', MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()

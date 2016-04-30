@@ -13,7 +13,6 @@
 namespace Eventum\Controller;
 
 use Auth;
-use Misc;
 use User;
 
 class ClockStatusController extends BaseController
@@ -52,14 +51,14 @@ class ClockStatusController extends BaseController
     protected function defaultAction()
     {
         if (User::isClockedIn($this->usr_id)) {
-            User::ClockOut($this->usr_id);
+            User::clockOut($this->usr_id);
             $message = ev_gettext('You have been clocked out');
         } else {
-            User::ClockIn($this->usr_id);
+            User::clockIn($this->usr_id);
             $message = ev_gettext('You have been clocked in');
         }
 
-        Misc::setMessage($message, Misc::MSG_INFO);
+        $this->messages->addInfoMessage($message);
 
         $url = $this->url ?: APP_RELATIVE_URL . 'list.php';
         $this->redirect($url);

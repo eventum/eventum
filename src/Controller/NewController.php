@@ -25,7 +25,6 @@ use Email_Account;
 use Group;
 use Issue;
 use Mail_Helper;
-use Misc;
 use Prefs;
 use Priority;
 use Product;
@@ -102,7 +101,7 @@ class NewController extends BaseController
             $customer = $crm->getCustomer($customer_id);
             $new_issue_message = $customer->getNewIssueMessage();
             if ($new_issue_message) {
-                Misc::setMessage($new_issue_message, Misc::MSG_INFO);
+                $this->messages->addInfoMessage($new_issue_message);
             }
         }
 
@@ -118,12 +117,12 @@ class NewController extends BaseController
         $res = Issue::createFromPost();
         if ($res != -1) {
             // redirect to view issue page
-            Misc::setMessage(ev_gettext('Your issue was created successfully.'));
+            $this->messages->addInfoMessage(ev_gettext('Your issue was created successfully.'));
             $this->redirect(APP_BASE_URL . 'view.php?id=' . $res);
         }
 
         // need to show everything again
-        Misc::setMessage(ev_gettext('There was an error creating your issue.'), Misc::MSG_ERROR);
+        $this->messages->addErrorMessage(ev_gettext('There was an error creating your issue.'));
         $this->tpl->assign('error_msg', '1');
     }
 

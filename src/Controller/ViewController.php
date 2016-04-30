@@ -28,7 +28,6 @@ use Group;
 use Impact_Analysis;
 use Issue;
 use Issue_Field;
-use Misc;
 use Note;
 use Notification;
 use Partner;
@@ -141,7 +140,8 @@ class ViewController extends BaseController
         ) {
             Auth::setCurrentCustomerID($details['iss_customer_id']);
             // TRANSLATORS: %1 - customer name
-            Misc::setMessage(ev_gettext("Active customer changed to '%s'", $details['customer']->getName()));
+            $message = ev_gettext("Active customer changed to '%s'", $details['customer']->getName());
+            $this->messages->addInfoMessage($message);
             $this->redirect(APP_RELATIVE_URL . 'view.php', ['id' => $this->issue_id]);
         }
 

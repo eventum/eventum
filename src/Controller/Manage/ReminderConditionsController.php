@@ -13,8 +13,8 @@
 namespace Eventum\Controller\Manage;
 
 use Category;
+use Eventum\Controller\Helper\MessagesHelper;
 use Group;
-use Misc;
 use Reminder;
 use Reminder_Action;
 use Reminder_Condition;
@@ -72,22 +72,22 @@ class ReminderConditionsController extends ManageBaseController
     {
         $res = Reminder_Condition::insert();
         $map = [
-            1 => [ev_gettext('Thank you, the condition was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new condition.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this new condition.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the condition was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new condition.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this new condition.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = Reminder_Condition::update();
         $map = [
-            1 => [ev_gettext('Thank you, the condition was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the condition.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this condition.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the condition was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the condition.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this condition.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()

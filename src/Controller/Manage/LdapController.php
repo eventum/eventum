@@ -12,8 +12,8 @@
  */
 namespace Eventum\Controller\Manage;
 
+use Eventum\Controller\Helper\MessagesHelper;
 use LDAP_Auth_Backend;
-use Misc;
 use Project;
 use Setup;
 use User;
@@ -69,18 +69,18 @@ class LdapController extends ManageBaseController
 
         // FIXME: translations
         $map = [
-            1 => ['Thank you, the setup information was saved successfully.', Misc::MSG_INFO],
+            1 => ['Thank you, the setup information was saved successfully.', MessagesHelper::MSG_INFO],
             -1 => ["ERROR: The system doesn't have the appropriate permissions " .
                         'to create the configuration file in the setup directory (' . APP_CONFIG_PATH . '). ".
                         "Please contact your local system administrator and ask for write privileges on the provided path.',
-                        Misc::MSG_HTML_BOX],
+                        MessagesHelper::MSG_HTML_BOX],
             -2 => ["ERROR: The system doesn't have the appropriate permissions " .
                         'to update the configuration file in the setup directory (' . APP_CONFIG_PATH . '/ldap.php). ".
                         "Please contact your local system administrator ".
                         "and ask for write privileges on the provided filename.',
-                        Misc::MSG_HTML_BOX],
+                   MessagesHelper::MSG_HTML_BOX],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
 
         $this->tpl->assign('result', $res);
     }

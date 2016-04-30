@@ -13,8 +13,8 @@
 namespace Eventum\Controller\Manage;
 
 use CRM;
+use Eventum\Controller\Helper\MessagesHelper;
 use Issue;
-use Misc;
 use Project;
 use Status;
 use User;
@@ -70,11 +70,11 @@ class CustomizeListingController extends ManageBaseController
             $post->get('project'), $post->get('status'), $post->get('date_field'), $post->get('label')
         );
         $map = [
-            1 => [ev_gettext('Thank you, the customization was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new customization.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this new customization'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the customization was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new customization.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this new customization'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
@@ -85,11 +85,11 @@ class CustomizeListingController extends ManageBaseController
             $post->get('id'), $post->get('project'), $post->get('status'), $post->get('date_field'), $post->get('label')
         );
         $map = [
-            1 => [ev_gettext('Thank you, the customization was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the customization information.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this customization.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the customization was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the customization information.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this customization.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()
@@ -97,10 +97,10 @@ class CustomizeListingController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $res = Status::removeCustomization($post->get('items'));
-        Misc::mapMessages(
+        $this->messages->mapMessages(
             $res, [
-                true => [ev_gettext('Thank you, the customization was deleted successfully.'), Misc::MSG_INFO],
-                false => [ev_gettext('An error occurred while trying to delete the customization information.'), Misc::MSG_ERROR],
+                true => [ev_gettext('Thank you, the customization was deleted successfully.'), MessagesHelper::MSG_INFO],
+                false => [ev_gettext('An error occurred while trying to delete the customization information.'), MessagesHelper::MSG_ERROR],
             ]
         );
     }

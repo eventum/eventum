@@ -12,7 +12,7 @@
  */
 namespace Eventum\Controller\Manage;
 
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use News;
 use Project;
 
@@ -56,24 +56,24 @@ class NewsController extends ManageBaseController
     {
         $res = News::insert();
         $map = [
-            1 => [ev_gettext('Thank you, the news entry was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the news entry.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this news entry.'), Misc::MSG_ERROR],
-            -3 => [ev_gettext('Please enter the message for this news entry.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the news entry was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the news entry.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this news entry.'), MessagesHelper::MSG_ERROR],
+            -3 => [ev_gettext('Please enter the message for this news entry.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = News::update();
         $map = [
-            1 => [ev_gettext('Thank you, the news entry was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the news entry.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this news entry.'), Misc::MSG_ERROR],
-            -3 => [ev_gettext('Please enter the message for this news entry.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the news entry was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the news entry.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this news entry.'), MessagesHelper::MSG_ERROR],
+            -3 => [ev_gettext('Please enter the message for this news entry.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()

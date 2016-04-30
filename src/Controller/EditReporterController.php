@@ -15,7 +15,7 @@ namespace Eventum\Controller;
 use Access;
 use Auth;
 use Edit_Reporter;
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 
 class EditReporterController extends BaseController
 {
@@ -80,11 +80,11 @@ class EditReporterController extends BaseController
 
         $res = Edit_Reporter::update($this->issue_id, $email);
         $map = [
-            1 => [ev_gettext('Thank you, the Reporter was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the Reporter.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the Reporter was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the Reporter.'), MessagesHelper::MSG_ERROR],
         ];
 
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
         $this->redirect(APP_RELATIVE_URL . 'view.php', ['id' => $this->issue_id]);
     }
 

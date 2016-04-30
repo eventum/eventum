@@ -12,7 +12,7 @@
  */
 namespace Eventum\Controller\Manage;
 
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Reminder;
 use Reminder_Action;
 use User;
@@ -63,22 +63,22 @@ class ReminderActionsController extends ManageBaseController
     {
         $res = Reminder_Action::insert();
         $map = [
-            1 => [ev_gettext('Thank you, the action was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new action.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this new action.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the action was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new action.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this new action.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = Reminder_Action::update();
         $map = [
-            1 => [ev_gettext('Thank you, the action was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the action.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this action.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the action was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the action.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this action.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()

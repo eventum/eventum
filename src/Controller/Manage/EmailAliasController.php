@@ -12,7 +12,7 @@
  */
 namespace Eventum\Controller\Manage;
 
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use User;
 
 class EmailAliasController extends ManageBaseController
@@ -58,10 +58,10 @@ class EmailAliasController extends ManageBaseController
 
         $res = User::addAlias($this->usr_id, trim($post->get('alias')));
         $map = [
-            true => [ev_gettext('Thank you, the alias was added successfully.'), Misc::MSG_INFO],
-            false => [ev_gettext('An error occurred while trying to add the alias.'), Misc::MSG_ERROR],
+            true => [ev_gettext('Thank you, the alias was added successfully.'), MessagesHelper::MSG_INFO],
+            false => [ev_gettext('An error occurred while trying to add the alias.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function removeAction()
@@ -69,13 +69,13 @@ class EmailAliasController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $map = [
-            true => [ev_gettext('Thank you, the alias was removed successfully.'), Misc::MSG_INFO],
-            false => [ev_gettext('An error occurred while trying to remove the alias.'), Misc::MSG_ERROR],
+            true => [ev_gettext('Thank you, the alias was removed successfully.'), MessagesHelper::MSG_INFO],
+            false => [ev_gettext('An error occurred while trying to remove the alias.'), MessagesHelper::MSG_ERROR],
         ];
 
         foreach ($post->get('item') as $alias) {
             $res = User::removeAlias($this->usr_id, $alias);
-            Misc::mapMessages($res, $map);
+            $this->messages->mapMessages($res, $map);
         }
     }
 

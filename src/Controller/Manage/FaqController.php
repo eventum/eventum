@@ -13,8 +13,8 @@
 namespace Eventum\Controller\Manage;
 
 use CRM;
+use Eventum\Controller\Helper\MessagesHelper;
 use FAQ;
-use Misc;
 use Project;
 
 class FaqController extends ManageBaseController
@@ -71,24 +71,24 @@ class FaqController extends ManageBaseController
     {
         $res = FAQ::insert();
         $map = [
-            1 => [ev_gettext('Thank you, the FAQ entry was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the FAQ entry.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this FAQ entry.'), Misc::MSG_ERROR],
-            -3 => [ev_gettext('Please enter the message for this FAQ entry.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the FAQ entry was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the FAQ entry.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this FAQ entry.'), MessagesHelper::MSG_ERROR],
+            -3 => [ev_gettext('Please enter the message for this FAQ entry.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = FAQ::update();
         $map = [
-            1 => [ev_gettext('Thank you, the FAQ entry was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the FAQ entry information.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this FAQ entry.'), Misc::MSG_ERROR],
-            -3 => [ev_gettext('Please enter the message for this FAQ entry.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the FAQ entry was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the FAQ entry information.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this FAQ entry.'), MessagesHelper::MSG_ERROR],
+            -3 => [ev_gettext('Please enter the message for this FAQ entry.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()

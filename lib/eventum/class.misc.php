@@ -753,41 +753,6 @@ class Misc
         return htmlentities($var, ENT_QUOTES, APP_CHARSET);
     }
 
-    const MSG_INFO = 'info';
-    const MSG_WARNING = 'warning';
-    const MSG_ERROR = 'error';
-    const MSG_HTML_BOX = 'html_box';
-    const MSG_NOTE_BOX = 'note_box';
-
-    public static function setMessage($msg, $type = self::MSG_INFO)
-    {
-        $messages = Session::get('messages', []);
-        $messages[] = [
-            'text' => $msg,
-            'type' => $type,
-        ];
-        Session::set('messages', $messages);
-    }
-
-    public static function getMessages()
-    {
-        $messages = Session::get('messages', []);
-        Session::set('messages', []);
-
-        return $messages;
-    }
-
-    public static function mapMessages($result, $map)
-    {
-        foreach ($map as $val => $info) {
-            if ($result == $val) {
-                self::setMessage($info[0], $info[1]);
-
-                return;
-            }
-        }
-    }
-
     /**
      * Tell whether a value is a PEAR error.
      *

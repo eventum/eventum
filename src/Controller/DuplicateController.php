@@ -13,8 +13,8 @@
 namespace Eventum\Controller;
 
 use Auth;
+use Eventum\Controller\Helper\MessagesHelper;
 use Issue;
-use Misc;
 
 class DuplicateController extends BaseController
 {
@@ -63,10 +63,10 @@ class DuplicateController extends BaseController
         $dup_iss_id = $this->getRequest()->request->getInt('duplicated_issue');
         $res = Issue::markAsDuplicate($this->issue_id, $dup_iss_id);
         $map = [
-            1 => [ev_gettext('Thank you, the issue was marked as a duplicate successfully'), Misc::MSG_INFO],
-            -1 => [ev_gettext('Sorry, an error happened while trying to run your query.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the issue was marked as a duplicate successfully'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('Sorry, an error happened while trying to run your query.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
 
         $this->redirect(APP_RELATIVE_URL . 'view.php', ['id' => $this->issue_id]);
     }

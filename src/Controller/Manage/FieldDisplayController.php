@@ -13,7 +13,7 @@
 namespace Eventum\Controller\Manage;
 
 use CRM;
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 use User;
 
@@ -54,10 +54,10 @@ class FieldDisplayController extends ManageBaseController
         $res = Project::updateFieldDisplaySettings($this->prj_id, $this->fields);
         $this->tpl->assign('result', $res);
         $map = [
-            1 => [ev_gettext('Thank you, the information was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the information.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the information was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the information.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     /**

@@ -171,9 +171,9 @@ class PostNoteController extends BaseController
         Issue_Field::updateValues($this->issue_id, 'post_note', $issue_field);
 
         if ($res == -1) {
-            Misc::setMessage(ev_gettext('An error occurred while trying to run your query'), Misc::MSG_ERROR);
+            $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to run your query'));
         } else {
-            Misc::setMessage(ev_gettext('Thank you, the internal note was posted successfully.'), Misc::MSG_INFO);
+            $this->messages->addInfoMessage(ev_gettext('Thank you, the internal note was posted successfully.'));
         }
         $this->tpl->assign('post_result', $res);
 

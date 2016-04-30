@@ -13,8 +13,8 @@
 namespace Eventum\Controller\Manage;
 
 use Auth;
+use Eventum\Controller\Helper\MessagesHelper;
 use Group;
-use Misc;
 use Project;
 use User;
 
@@ -54,20 +54,20 @@ class GroupsController extends ManageBaseController
     {
         $res = Group::insert();
         $map = [
-            1 => [ev_gettext('Thank you, the group was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new group.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the group was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new group.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = Group::update();
         $map = [
-            1 => [ev_gettext('Thank you, the group was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the group.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the group was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the group.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()

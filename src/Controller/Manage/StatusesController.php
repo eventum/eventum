@@ -12,7 +12,7 @@
  */
 namespace Eventum\Controller\Manage;
 
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 use Status;
 
@@ -60,24 +60,24 @@ class StatusesController extends ManageBaseController
     {
         $res = Status::insert();
         $map = [
-            1 => [ev_gettext('Thank you, the status was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the status.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this status.'), Misc::MSG_ERROR],
-            -3 => [ev_gettext('Color needs to be RGB hex.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the status was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the status.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this status.'), MessagesHelper::MSG_ERROR],
+            -3 => [ev_gettext('Color needs to be RGB hex.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = Status::updateFromPost();
         $map = [
-            1 => [ev_gettext('Thank you, the status was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the status.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this status.'), Misc::MSG_ERROR],
-            -3 => [ev_gettext('Color needs to be RGB hex.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the status was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the status.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this status.'), MessagesHelper::MSG_ERROR],
+            -3 => [ev_gettext('Color needs to be RGB hex.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()

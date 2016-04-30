@@ -12,7 +12,7 @@
  */
 namespace Eventum\Controller\Manage;
 
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Resolution;
 
 class ResolutionController extends ManageBaseController
@@ -55,22 +55,22 @@ class ResolutionController extends ManageBaseController
     {
         $res = Resolution::insert();
         $map = [
-            1 => [ev_gettext('Thank you, the issue resolution was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new issue resolution.'), Misc::MSG_INFO],
-            -2 => [ev_gettext('Please enter the title for this new issue resolution.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the issue resolution was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new issue resolution.'), MessagesHelper::MSG_INFO],
+            -2 => [ev_gettext('Please enter the title for this new issue resolution.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = Resolution::update();
         $map = [
-            1 => [ev_gettext('Thank you, the issue resolution was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the new issue resolution.'), Misc::MSG_INFO],
-            -2 => [ev_gettext('Please enter the title for this new issue resolution.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the issue resolution was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the new issue resolution.'), MessagesHelper::MSG_INFO],
+            -2 => [ev_gettext('Please enter the title for this new issue resolution.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()

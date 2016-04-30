@@ -13,7 +13,7 @@
 namespace Eventum\Controller\Manage;
 
 use Category;
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 
 class CategoriesController extends ManageBaseController
@@ -66,11 +66,11 @@ class CategoriesController extends ManageBaseController
     {
         $this->tpl->assign('result', $res);
         $map = [
-            1 => ['Thank you, the category was updated successfully.', Misc::MSG_INFO],
-            -1 => ['An error occurred while trying to update the category.', Misc::MSG_ERROR],
-            -2 => ['Please enter the title for this category.', Misc::MSG_ERROR],
+            1 => ['Thank you, the category was updated successfully.', MessagesHelper::MSG_INFO],
+            -1 => ['An error occurred while trying to update the category.', MessagesHelper::MSG_ERROR],
+            -2 => ['Please enter the title for this category.', MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     /**

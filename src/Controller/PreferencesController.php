@@ -18,7 +18,6 @@ use Date_Helper;
 use Eventum\Monolog\Logger;
 use Exception;
 use Language;
-use Misc;
 use Prefs;
 use Project;
 use User;
@@ -108,9 +107,9 @@ class PreferencesController extends BaseController
         }
 
         if ($res == 1) {
-            Misc::setMessage(ev_gettext('Your information has been updated'));
+            $this->messages->addInfoMessage(ev_gettext('Your information has been updated'));
         } elseif ($res !== null) {
-            Misc::setMessage(ev_gettext('Sorry, there was an error updating your information'), Misc::MSG_ERROR);
+            $this->messages->addErrorMessage(ev_gettext('Sorry, there was an error updating your information'));
         }
     }
 
@@ -137,7 +136,7 @@ class PreferencesController extends BaseController
 
         // verify current password
         if (!Auth::isCorrectPassword(Auth::getUserLogin(), $password)) {
-            Misc::setMessage(ev_gettext('Incorrect password'), Misc::MSG_ERROR);
+            $this->messages->addErrorMessage(ev_gettext('Incorrect password'));
 
             return -3;
         }
@@ -146,13 +145,13 @@ class PreferencesController extends BaseController
         $confirm_password = $post->get('confirm_password');
 
         if ($new_password != $confirm_password) {
-            Misc::setMessage(ev_gettext('New passwords mismatch'), Misc::MSG_ERROR);
+            $this->messages->addErrorMessage(ev_gettext('New passwords mismatch'));
 
             return -2;
         }
 
         if ($password == $new_password) {
-            Misc::setMessage(ev_gettext('Please set different password than current'), Misc::MSG_ERROR);
+            $this->messages->addErrorMessage(ev_gettext('Please set different password than current'));
 
             return -2;
         }
@@ -173,7 +172,7 @@ class PreferencesController extends BaseController
         $res = APIAuthToken::regenerateKey($this->usr_id);
         if ($res == 1) {
             // FIXME: looks like hack, return error string instead
-            Misc::setMessage(ev_gettext('Your key has been regenerated. All previous keys are now invalid.'));
+            $this->messages->addInfoMessage(ev_gettext('Your key has been regenerated. All previous keys are now invalid.'));
             $res = null;
         }
     }

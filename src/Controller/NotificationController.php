@@ -14,7 +14,6 @@ namespace Eventum\Controller;
 
 use Access;
 use Auth;
-use Misc;
 use Notification;
 use Project;
 
@@ -90,7 +89,7 @@ class NotificationController extends BaseController
 
         $res = Notification::subscribeEmail($this->usr_id, $this->issue_id, $post->get('email'), $post->get('actions'));
         if ($res == 1) {
-            Misc::setMessage(ev_gettext('Thank you, the email has been subscribed to the issue.'));
+            $this->messages->addInfoMessage(ev_gettext('Thank you, the email has been subscribed to the issue.'));
         }
     }
 
@@ -100,11 +99,11 @@ class NotificationController extends BaseController
 
         $res = Notification::update($this->issue_id, $post->get('id'), $post->get('email'));
         if ($res == 1) {
-            Misc::setMessage(ev_gettext('Thank you, the notification entry was updated successfully.'));
+            $this->messages->addInfoMessage(ev_gettext('Thank you, the notification entry was updated successfully.'));
         } elseif ($res == -1) {
-            Misc::setMessage(ev_gettext('An error occurred while trying to update the notification entry.'), Misc::MSG_ERROR);
+            $this->messages->addErrorMessage(ev_gettext('An error occurred while trying to update the notification entry.'));
         } elseif ($res == -2) {
-            Misc::setMessage(ev_gettext('Error: the given email address is not allowed to be added to the notification list.'), Misc::MSG_ERROR);
+            $this->messages->addErrorMessage(ev_gettext('Error: the given email address is not allowed to be added to the notification list.'));
         }
 
         $this->redirect(APP_RELATIVE_URL . 'notification.php', ['iss_id' => $this->issue_id]);
@@ -116,7 +115,7 @@ class NotificationController extends BaseController
 
         $res = Notification::remove($post->get('items'));
         if ($res == 1) {
-            Misc::setMessage(ev_gettext('Thank you, the items have been deleted.'));
+            $this->messages->addInfoMessage(ev_gettext('Thank you, the items have been deleted.'));
         }
     }
 

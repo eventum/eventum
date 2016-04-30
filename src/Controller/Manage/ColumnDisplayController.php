@@ -14,7 +14,7 @@ namespace Eventum\Controller\Manage;
 
 use CRM;
 use Display_Column;
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 use User;
 
@@ -55,10 +55,10 @@ class ColumnDisplayController extends ManageBaseController
         $res = Display_Column::save();
         $this->tpl->assign('result', $res);
         $map = [
-            1 => [ev_gettext('Thank you, columns to display was saved successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to save columns to display.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, columns to display was saved successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to save columns to display.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     /**

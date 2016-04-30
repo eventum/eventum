@@ -13,7 +13,7 @@
 namespace Eventum\Controller\Manage;
 
 use CRM;
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 use User;
 
@@ -84,10 +84,10 @@ class AccountManagersController extends ManageBaseController
     private function mapMessages($res)
     {
         $map = [
-            1 => [ev_gettext('Thank you, the account manager was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the the account manager.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the account manager was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the the account manager.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     /**

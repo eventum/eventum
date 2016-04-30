@@ -14,7 +14,6 @@ namespace Eventum\Controller;
 
 use Auth;
 use InvalidArgumentException;
-use Misc;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\Request;
 use Template_Helper;
@@ -26,6 +25,7 @@ use Template_Helper;
  * @property-read Helper\AttachHelper $attach
  * @property-read Helper\HtmlHelper $html
  * @property-read Helper\PlotHelper $plot
+ * @property-read Helper\MessagesHelper $messages
  */
 abstract class BaseController
 {
@@ -60,6 +60,7 @@ abstract class BaseController
         }
 
         $this->defaultAction();
+        $this->tpl->assign('messages', $this->messages->getMessages());
         $this->prepareTemplate();
 
         if (!$this->tpl_name) {
@@ -101,7 +102,7 @@ abstract class BaseController
      */
     protected function error($msg)
     {
-        Misc::setMessage($msg, Misc::MSG_ERROR);
+        $this->messages->addErrorMessage($msg);
         $tpl = new Template_Helper();
         $tpl->setTemplate('error_message.tpl.html');
         $tpl->displayTemplate();

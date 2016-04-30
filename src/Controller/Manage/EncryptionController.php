@@ -14,7 +14,6 @@ namespace Eventum\Controller\Manage;
 
 use Eventum\Crypto\CryptoException;
 use Eventum\Crypto\CryptoUpgradeManager;
-use Misc;
 use Setup;
 use User;
 
@@ -60,11 +59,10 @@ class EncryptionController extends ManageBaseController
 
         try {
             $cm->regenerateKey();
-            Misc::setMessage(ev_gettext('Thank you, new key for encryption was generated.'));
+            $this->messages->addInfoMessage(ev_gettext('Thank you, new key for encryption was generated.'));
         } catch (CryptoException $e) {
-            Misc::setMessage(
-                ev_gettext('Unable to generate new encryption key. Check server error logs.'), Misc::MSG_ERROR
-            );
+            $error = ev_gettext('Unable to generate new encryption key. Check server error logs.');
+            $this->messages->addErrorMessage($error);
         }
     }
 
@@ -77,11 +75,10 @@ class EncryptionController extends ManageBaseController
         if (!$enable) {
             try {
                 $cm->disable();
-                Misc::setMessage(ev_gettext('Encryption was disabled!'));
+                $this->messages->addInfoMessage(ev_gettext('Encryption was disabled!'));
             } catch (CryptoException $e) {
-                Misc::setMessage(
-                    ev_gettext('Encryption can not be disabled: %s', $e->getMessage()), Misc::MSG_ERROR
-                );
+                $error = ev_gettext('Encryption can not be disabled: %s', $e->getMessage());
+                $this->messages->addErrorMessage($error);
             }
 
             return;
@@ -89,11 +86,10 @@ class EncryptionController extends ManageBaseController
 
         try {
             $cm->enable();
-            Misc::setMessage(ev_gettext('Encryption was enabled!'));
+            $this->messages->addInfoMessage(ev_gettext('Encryption was enabled!'));
         } catch (CryptoException $e) {
-            Misc::setMessage(
-                ev_gettext('Encryption can not be enabled: %s', $e->getMessage()), Misc::MSG_ERROR
-            );
+            $error = ev_gettext('Encryption can not be enabled: %s', $e->getMessage());
+            $this->messages->addErrorMessage($error);
         }
     }
 

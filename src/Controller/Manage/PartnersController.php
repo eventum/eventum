@@ -12,7 +12,7 @@
  */
 namespace Eventum\Controller\Manage;
 
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Partner;
 use Project;
 
@@ -56,10 +56,10 @@ class PartnersController extends ManageBaseController
         $this->tpl->assign('result', $res);
 
         $map = [
-            1 => [ev_gettext('Thank you, the partner was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the partner information.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the partner was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the partner information.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function editAction()

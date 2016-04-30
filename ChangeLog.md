@@ -10,8 +10,8 @@ Eventum Issue Tracking System
 - use short array syntax (92c751e)
 - remove support for calling deprecated handleAssignment workflow method (d16ea3a)
 - add Message-Id column to mail queue table (#140, @glensc)
-- cleanup deprecated "APP_LOCAL_PATH" from the template search path
-- drop unused Misc::getInput
+- cleanup deprecated "APP_LOCAL_PATH" from the template search path (8cea94b)
+- drop unused Misc::getInput (5b97d89)
 
 2016-04-28, Version [3.1.0]
 ----------------------------

@@ -13,7 +13,7 @@
 namespace Eventum\Controller\Manage;
 
 use Category;
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Priority;
 use Project;
 
@@ -54,10 +54,10 @@ class AnonymousController extends ManageBaseController
         $res = Project::updateAnonymousPost($this->prj_id);
         $this->tpl->assign('result', $res);
         $map = [
-            1 => [ev_gettext('Thank you, the information was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the information.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the information was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the information.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     /**

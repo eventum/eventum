@@ -12,7 +12,7 @@
  */
 namespace Eventum\Controller\Manage;
 
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 use Round_Robin;
 use User;
@@ -61,24 +61,24 @@ class RoundRobinController extends ManageBaseController
     {
         $res = Round_Robin::insert();
         $map = [
-            1 => [ev_gettext('Thank you, the round robin entry was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the round robin entry.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this round robin entry.'), Misc::MSG_ERROR],
-            -3 => [ev_gettext('Please enter the message for this round robin entry.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the round robin entry was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the round robin entry.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this round robin entry.'), MessagesHelper::MSG_ERROR],
+            -3 => [ev_gettext('Please enter the message for this round robin entry.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = Round_Robin::update();
         $map = [
-            1 => [ev_gettext('Thank you, the round robin entry was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the round robin entry information.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this round robin entry.'), Misc::MSG_ERROR],
-            -3 => [ev_gettext('Please enter the message for this round robin entry.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the round robin entry was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the round robin entry information.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this round robin entry.'), MessagesHelper::MSG_ERROR],
+            -3 => [ev_gettext('Please enter the message for this round robin entry.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()

@@ -17,7 +17,6 @@ use Contract;
 use CRM;
 use Custom_Field;
 use Issue;
-use Misc;
 use Notification;
 use Resolution;
 use Status;
@@ -141,7 +140,7 @@ class CloseController extends BaseController
 
         $this->tpl->assign('close_result', $res);
         if ($res == 1) {
-            Misc::setMessage(ev_gettext('Thank you, the issue was closed successfully'));
+            $this->messages->addInfoMessage(ev_gettext('Thank you, the issue was closed successfully'));
             $this->displayNotifiedUsers(Notification::getLastNotifiedAddresses($this->issue_id));
             $this->redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
         }
@@ -156,7 +155,7 @@ class CloseController extends BaseController
         $update_tpl = new Template_Helper();
         $update_tpl->setTemplate('include/notified_list.tpl.html');
         $update_tpl->assign('notify_list', $notify_list);
-        Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
+        $this->messages->addHtmlBoxMessage($update_tpl->getTemplateContents(false));
     }
 
     private function addTimeEntry()

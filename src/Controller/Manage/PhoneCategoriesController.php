@@ -12,7 +12,7 @@
  */
 namespace Eventum\Controller\Manage;
 
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Phone_Support;
 use Project;
 
@@ -61,11 +61,11 @@ class PhoneCategoriesController extends ManageBaseController
         $res = Phone_Support::insertCategory();
         $this->tpl->assign('result', $res);
         $map = [
-            1 => [ev_gettext('Thank you, the phone category was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the phone category.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this new phone category.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the phone category was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the phone category.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this new phone category.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
@@ -73,11 +73,11 @@ class PhoneCategoriesController extends ManageBaseController
         $res = Phone_Support::updateCategory();
         $this->tpl->assign('result', $res);
         $map = [
-            1 => [ev_gettext('Thank you, the phone category was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to uodate the phone category.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this phone category.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the phone category was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to uodate the phone category.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this phone category.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()

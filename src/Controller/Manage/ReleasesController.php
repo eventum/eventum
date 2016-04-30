@@ -12,7 +12,7 @@
  */
 namespace Eventum\Controller\Manage;
 
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 use Release;
 
@@ -61,11 +61,11 @@ class ReleasesController extends ManageBaseController
         $res = Release::insert();
         $this->tpl->assign('result', $res);
         $map = [
-            1 => [ev_gettext('Thank you, the release was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the release.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this new release.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the release was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the release.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this new release.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
@@ -73,11 +73,11 @@ class ReleasesController extends ManageBaseController
         $res = Release::update();
         $this->tpl->assign('result', $res);
         $map = [
-            1 => [ev_gettext('Thank you, the release was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the release.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this release.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the release was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the release.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this release.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()

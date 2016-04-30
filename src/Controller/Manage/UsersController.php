@@ -12,8 +12,8 @@
  */
 namespace Eventum\Controller\Manage;
 
+use Eventum\Controller\Helper\MessagesHelper;
 use Group;
-use Misc;
 use Partner;
 use Project;
 use User;
@@ -65,10 +65,10 @@ class UsersController extends ManageBaseController
     {
         $res = User::insertFromPost();
         $map = [
-            1 => [ev_gettext('Thank you, the user was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new user.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the user was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new user.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
@@ -77,10 +77,10 @@ class UsersController extends ManageBaseController
 
         $res = User::updateFromPost();
         $map = [
-            1 => [ev_gettext('Thank you, the user was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the user information.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the user was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the user information.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
 
         $usr_id = $post->getInt('id');
         $this->redirect("users.php?cat=edit&id={$usr_id}");

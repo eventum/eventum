@@ -13,7 +13,7 @@
 namespace Eventum\Controller\Manage;
 
 use CRM;
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 
 class CustomerNotesController extends ManageBaseController
@@ -78,10 +78,10 @@ class CustomerNotesController extends ManageBaseController
 
         $res = CRM::insertNote($post->get('project'), $post->get('customer'), $post->get('note'));
         $map = [
-            1 => [ev_gettext('Thank you, the note was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new note.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the note was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new note.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateNoteAction()
@@ -89,10 +89,10 @@ class CustomerNotesController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $res = CRM::updateNote($post->get('id'), $post->get('project'), $post->get('customer'), $post->get('note'));
-        Misc::mapMessages(
+        $this->messages->mapMessages(
             $res, [
-                1 => [ev_gettext('Thank you, the note was updated successfully.'), Misc::MSG_INFO],
-                -1 => [ev_gettext('An error occurred while trying to update the note.'), Misc::MSG_ERROR],
+                1 => [ev_gettext('Thank you, the note was updated successfully.'), MessagesHelper::MSG_INFO],
+                -1 => [ev_gettext('An error occurred while trying to update the note.'), MessagesHelper::MSG_ERROR],
             ]
         );
     }
@@ -103,10 +103,10 @@ class CustomerNotesController extends ManageBaseController
 
         $res = CRM::removeNotes($post->get('items'));
         $map = [
-            1 => [ev_gettext('Thank you, the note was deleted successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to delete the note.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the note was deleted successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to delete the note.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     /**

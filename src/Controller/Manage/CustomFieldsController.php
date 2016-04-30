@@ -15,7 +15,7 @@ namespace Eventum\Controller\Manage;
 use Auth;
 use CRM;
 use Custom_Field;
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 use User;
 
@@ -65,19 +65,19 @@ class CustomFieldsController extends ManageBaseController
     {
         $res = Custom_Field::insert();
         $map = [
-            1 => [ev_gettext('Thank you, the custom field was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new custom field.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the custom field was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new custom field.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = Custom_Field::update();
-        Misc::mapMessages(
+        $this->messages->mapMessages(
             $res, [
-                1 => [ev_gettext('Thank you, the custom field was updated successfully.'), Misc::MSG_INFO],
-                -1 => [ev_gettext('An error occurred while trying to update the custom field information.'), Misc::MSG_ERROR],
+                1 => [ev_gettext('Thank you, the custom field was updated successfully.'), MessagesHelper::MSG_INFO],
+                -1 => [ev_gettext('An error occurred while trying to update the custom field information.'), MessagesHelper::MSG_ERROR],
             ]
         );
         $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php');
@@ -87,10 +87,10 @@ class CustomFieldsController extends ManageBaseController
     {
         $res = Custom_Field::remove();
         $map = [
-            true => [ev_gettext('Thank you, the custom field was removed successfully.'), Misc::MSG_INFO],
-            false => [ev_gettext('An error occurred while trying to remove the custom field information.'), Misc::MSG_ERROR],
+            true => [ev_gettext('Thank you, the custom field was removed successfully.'), MessagesHelper::MSG_INFO],
+            false => [ev_gettext('An error occurred while trying to remove the custom field information.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages($res, $map);
+        $this->messages->mapMessages($res, $map);
     }
 
     private function changeRankAction()

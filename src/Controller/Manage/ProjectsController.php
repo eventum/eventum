@@ -14,7 +14,7 @@ namespace Eventum\Controller\Manage;
 
 use Auth;
 use CRM;
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 use Status;
 use User;
@@ -63,30 +63,30 @@ class ProjectsController extends ManageBaseController
     private function newAction()
     {
         $map = [
-            1 => [ev_gettext('Thank you, the project was added successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new project.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this new project.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the project was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new project.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this new project.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages(Project::insert(), $map);
+        $this->messages->mapMessages(Project::insert(), $map);
     }
 
     private function updateAction()
     {
         $map = [
-            1 => [ev_gettext('Thank you, the project was updated successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the project information.'), Misc::MSG_ERROR],
-            -2 => [ev_gettext('Please enter the title for this project.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the project was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the project information.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this project.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages(Project::update(), $map);
+        $this->messages->mapMessages(Project::update(), $map);
     }
 
     private function deleteAction()
     {
         $map = [
-            1 => [ev_gettext('Thank you, the project was deleted successfully.'), Misc::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to delete the project.'), Misc::MSG_ERROR],
+            1 => [ev_gettext('Thank you, the project was deleted successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to delete the project.'), MessagesHelper::MSG_ERROR],
         ];
-        Misc::mapMessages(Project::remove(), $map);
+        $this->messages->mapMessages(Project::remove(), $map);
     }
 
     private function editAction()

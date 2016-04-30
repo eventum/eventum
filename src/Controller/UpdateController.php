@@ -22,7 +22,6 @@ use Date_Helper;
 use Group;
 use Issue;
 use Issue_Lock;
-use Misc;
 use Notification;
 use Prefs;
 use Priority;
@@ -93,7 +92,7 @@ class UpdateController extends BaseController
         $iss_prj_id = Issue::getProjectID($this->issue_id);
         if ($iss_prj_id && $iss_prj_id != $this->prj_id && in_array($iss_prj_id, $associated_projects)) {
             AuthCookie::setProjectCookie($iss_prj_id);
-            Misc::setMessage(ev_gettext('Note: Project automatically switched to "%1$s" from "%2$s".', Auth::getCurrentProjectName(), Project::getName($iss_prj_id)));
+            $this->messages->addInfoMessage(ev_gettext('Note: Project automatically switched to "%1$s" from "%2$s".', Auth::getCurrentProjectName(), Project::getName($iss_prj_id)));
         }
 
         // in the case of a customer user, also need to check if that customer has access to this issue
@@ -130,7 +129,7 @@ class UpdateController extends BaseController
             // be sure not to unlock somebody else's lock
             if (!$issue_lock) {
                 Issue_Lock::release($this->issue_id);
-                Misc::setMessage(ev_gettext('Cancelled Issue #%1$s update.', $this->issue_id), Misc::MSG_INFO);
+                $this->messages->addInfoMessage(ev_gettext('Cancelled Issue #%1$s update.', $this->issue_id));
             }
 
             $this->redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
@@ -155,7 +154,7 @@ class UpdateController extends BaseController
         }
 
         if ($res == 1) {
-            Misc::setMessage(ev_gettext('Thank you, issue #%1$s was updated successfully.', $this->issue_id), Misc::MSG_INFO);
+            $this->messages->addInfoMessage(ev_gettext('Thank you, issue #%1$s was updated successfully.', $this->issue_id));
         }
 
         $notify_list = Notification::getLastNotifiedAddresses($this->issue_id);
@@ -179,7 +178,7 @@ class UpdateController extends BaseController
             if ($has_duplicates) {
                 $update_tpl->assign('has_duplicates', 'yes');
             }
-            Misc::setMessage($update_tpl->getTemplateContents(false), Misc::MSG_HTML_BOX);
+            $this->messages->addHtmlBoxMessage($update_tpl->getTemplateContents(false));
         }
 
         $this->redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
