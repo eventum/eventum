@@ -570,7 +570,7 @@ function write_setup()
         'socket' => $socket,
 
         // table prefix
-        'table_prefix' => $_POST['db_table_prefix'],
+        'table_prefix' => '',
     ];
 
     Setup::save($setup);
