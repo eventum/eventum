@@ -61,7 +61,6 @@
 		"ext-session": "*",
 		"ext-spl": "*",
 		"fonts/liberation":"*",
-		"ircmaxell/password-compat": "~1.0.4",
 		"ircmaxell/random-lib": "~1.1.0",
 		"monolog/monolog": "~1.17.2",
 		"pear-pear.php.net/mail_mimedecode": "*",
