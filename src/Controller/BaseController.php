@@ -99,9 +99,11 @@ abstract class BaseController
      */
     protected function error($msg)
     {
-        // TODO: move Misc::displayErrorMessage contents here,
-        // once this is only place it's called from
-        Misc::displayErrorMessage($msg);
+        Misc::setMessage($msg, Misc::MSG_ERROR);
+        $tpl = new Template_Helper();
+        $tpl->setTemplate('error_message.tpl.html');
+        $tpl->displayTemplate();
+        exit;
     }
 
     /**

@@ -828,15 +828,6 @@ class Misc
         return $input;
     }
 
-    public static function displayErrorMessage($msg)
-    {
-        self::setMessage($msg, self::MSG_ERROR);
-        $tpl = new Template_Helper();
-        $tpl->setTemplate('error_message.tpl.html');
-        $tpl->displayTemplate();
-        exit;
-    }
-
     /**
      * Tell whether a value is a PEAR error.
      *
