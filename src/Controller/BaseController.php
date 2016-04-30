@@ -65,7 +65,6 @@ abstract class BaseController
         if (!$this->tpl_name) {
             throw new InvalidArgumentException('No template to render');
         }
-        $this->tpl->assign('messages', $this->messages->getMessages());
 
         $this->displayTemplate();
     }
@@ -88,6 +87,7 @@ abstract class BaseController
      */
     protected function displayTemplate($tpl_name = null)
     {
+        $this->tpl->assign('messages', $this->messages->getMessages());
         // set new template, if needed
         if ($tpl_name) {
             $this->tpl->setTemplate($tpl_name);
