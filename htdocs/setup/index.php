@@ -272,7 +272,7 @@ function getTimezone()
         return $ini;
     }
 
-    // if php.ini is unconfigured, this function is noisy
+    // if php.ini is not configured, this function is noisy
     return @date_default_timezone_get();
 }
 
@@ -363,15 +363,15 @@ function get_queries($file)
 function initlogger()
 {
     // init timezone, logger needs it
-  if (!defined('APP_DEFAULT_TIMEZONE')) {
-      $tz = !empty($_POST['default_timezone']) ? $_POST['default_timezone'] : @date_default_timezone_get();
-      define('APP_DEFAULT_TIMEZONE', $tz ?: 'UTC');
-  }
+    if (!defined('APP_DEFAULT_TIMEZONE')) {
+        $tz = !empty($_POST['default_timezone']) ? $_POST['default_timezone'] : @date_default_timezone_get();
+        define('APP_DEFAULT_TIMEZONE', $tz ?: 'UTC');
+    }
 
-  // and APP_VERSION
-  if (!defined('APP_VERSION')) {
-      define('APP_VERSION', '3.x');
-  }
+    // and APP_VERSION
+    if (!defined('APP_VERSION')) {
+        define('APP_VERSION', '3.x');
+    }
     Logger::initialize();
 }
 
@@ -581,7 +581,6 @@ function write_config()
     $config_file_path = APP_CONFIG_PATH . '/config.php';
 
     // disable the full-text search feature for certain mysql server users
-    /** @var AdapterInterface $conn */
     $mysql_version = DB_Helper::getInstance(false)->getOne('SELECT VERSION()');
     preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', $mysql_version, $matches);
     $enable_fulltext = $matches[1] > '4.0.23';
