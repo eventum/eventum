@@ -13,13 +13,11 @@
 namespace Eventum\Controller;
 
 use Auth;
-use Eventum\Controller\Helper\PlotHelper;
 
 /**
  * Class StatsChartController
  *
  * @package Eventum\Controller
- * @property PlotHelper $plot
  */
 class StatsChartController extends BaseController
 {

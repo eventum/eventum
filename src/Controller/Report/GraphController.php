@@ -12,12 +12,9 @@
  */
 namespace Eventum\Controller\Report;
 
-use Eventum\Controller\Helper\PlotHelper;
-
 /**
  * Class GraphController
  *
- * @property PlotHelper $plot
  * @package Eventum\Controller\Report
  */
 class GraphController extends ReportBaseController

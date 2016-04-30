@@ -77,7 +77,7 @@ $process_messages = function () use ($db, $log) {
     $logger->info("Updated $changed out of $total entries");
 };
 
-$db->query("ALTER TABLE {{%mail_queue}} ADD maq_message_id VARCHAR(255) DEFAULT NULL AFTER maq_subject");
+$db->query('ALTER TABLE {{%mail_queue}} ADD maq_message_id VARCHAR(255) DEFAULT NULL AFTER maq_subject');
 
 // Lock mail queue table for the patch run
 // as the patch is likely deployed with new code,

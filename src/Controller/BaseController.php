@@ -24,6 +24,8 @@ use Template_Helper;
  *
  * @property-read Helper\AssignHelper $assign
  * @property-read Helper\AttachHelper $attach
+ * @property-read Helper\HtmlHelper $html
+ * @property-read Helper\PlotHelper $plot
  */
 abstract class BaseController
 {
