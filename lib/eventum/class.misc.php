@@ -12,7 +12,7 @@
  */
 
 /**
- * Class to hold methods and algorythms that woudln't fit in other classes, such
+ * Class to hold methods and algorithms that woudln't fit in other classes, such
  * as functions to work around PHP bugs or incompatibilities between separate
  * PHP configurations.
  */
@@ -52,32 +52,6 @@ class Misc
         }
 
         return $diffs;
-    }
-
-    /**
-     * Retrieves values for fieldName from specified array.
-     *
-     * @param string $fieldName value to collect
-     * @param array|object $array array or object to search
-     * @return array new array containing the fieldName values from original array
-     * @deprecated use array_column for array inputs
-     */
-    public static function collect($fieldName, $array)
-    {
-        $result = [];
-        if (empty($array)) {
-            return $result;
-        }
-
-        foreach ($array as $object) {
-            if (is_object($object) && isset($object->$fieldName)) {
-                array_push($result, $object->$fieldName);
-            } elseif (is_array($object) && isset($object[$fieldName])) {
-                array_push($result, $object[$fieldName]);
-            }
-        }
-
-        return $result;
     }
 
     /*
