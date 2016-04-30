@@ -185,44 +185,6 @@ class Misc
     }
 
     /**
-     * Method used to print a prompt asking the user for information.
-     *
-     * @param   string $message The message to print
-     * @param   string $default_value The default value to be used if the user just press <enter>
-     * @return  string The user response
-     */
-    public function prompt($message, $default_value)
-    {
-        echo $message;
-        if ($default_value !== false) {
-            echo " [default: $default_value] -> ";
-        } else {
-            echo ' [required] -> ';
-        }
-        flush();
-        $input = self::getInputLine();
-        if (empty($input)) {
-            if ($default_value === false) {
-                die("ERROR: Required parameter was not provided!\n");
-            } else {
-                return $default_value;
-            }
-        } else {
-            return $input;
-        }
-    }
-
-    /**
-     * Method used to get a line from the standard input.
-     *
-     * @return  string The standard input value
-     */
-    private static function getInputLine()
-    {
-        return trim(fgets(STDIN));
-    }
-
-    /**
      * Method used to check the spelling of a given text.
      *
      * @param   string $text The text to check the spelling against
