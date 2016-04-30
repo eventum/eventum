@@ -80,7 +80,7 @@ class CustomFieldsController extends ManageBaseController
                 -1 => [ev_gettext('An error occurred while trying to update the custom field information.'), Misc::MSG_ERROR],
             ]
         );
-        Auth::redirect(APP_RELATIVE_URL . 'manage/custom_fields.php');
+        $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php');
     }
 
     private function deleteAction()

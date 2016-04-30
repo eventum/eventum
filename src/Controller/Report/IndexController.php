@@ -34,7 +34,7 @@ class IndexController extends ReportBaseController
     {
         Auth::checkAuthentication();
         if (!Access::canAccessReports(Auth::getUserID())) {
-            Auth::redirect(APP_RELATIVE_URL . 'main.php');
+            $this->redirect(APP_RELATIVE_URL . 'main.php');
         }
 
         return true;
