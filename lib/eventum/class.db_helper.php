@@ -85,37 +85,7 @@ class DB_Helper
      */
     public static function getConfig()
     {
-        $setup = Setup::get();
-
-        if (isset($setup['database'])) {
-            $config = $setup['database']->toArray();
-        } else {
-            // legacy: import from constants
-            $config = [
-                // database driver
-                'driver'  => APP_SQL_DBTYPE,
-
-                // connection info
-                'hostname' => APP_SQL_DBHOST,
-                'database' => APP_SQL_DBNAME,
-                'username' => APP_SQL_DBUSER,
-                'password' => APP_SQL_DBPASS,
-                'port'     => APP_SQL_DBPORT,
-
-                // table prefix
-                'table_prefix' => APP_TABLE_PREFIX,
-
-                /**
-                 * @deprecated APP_DEFAULT_DB is deprecated (same as APP_SQL_DBNAME)
-                 */
-                //'default_db' => APP_DEFAULT_DB,
-            ];
-
-            // save it back. this will effectively do the migration
-            Setup::save(['database' => $config]);
-        }
-
-        return $config;
+        return Setup::get()->database->toArray();
     }
 
     // assumed default if can't query from database
