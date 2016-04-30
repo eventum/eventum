@@ -12,6 +12,8 @@ Eventum Issue Tracking System
 - add Message-Id column to mail queue table (#140, @glensc)
 - cleanup deprecated "APP_LOCAL_PATH" from the template search path (8cea94b)
 - drop unused Misc::getInput (5b97d89)
+- drop prompt and getInputLine from Misc (83efe3c)
+- drop unused Misc::collect (51eab96)
 
 2016-04-28, Version [3.1.0]
 ----------------------------
