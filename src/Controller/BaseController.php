@@ -60,12 +60,12 @@ abstract class BaseController
         }
 
         $this->defaultAction();
-        $this->tpl->assign('messages', $this->messages->getMessages());
         $this->prepareTemplate();
 
         if (!$this->tpl_name) {
             throw new InvalidArgumentException('No template to render');
         }
+        $this->tpl->assign('messages', $this->messages->getMessages());
 
         $this->displayTemplate();
     }
