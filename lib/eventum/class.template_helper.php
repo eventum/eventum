@@ -32,8 +32,7 @@ class Template_Helper
     public function __construct($tpl_name = null)
     {
         $smarty = new Smarty();
-        // TODO: remove "APP_LOCAL_PATH" from the list in 2.4.1
-        $smarty->setTemplateDir([APP_LOCAL_PATH . '/templates', APP_LOCAL_PATH, APP_TPL_PATH]);
+        $smarty->setTemplateDir([APP_LOCAL_PATH . '/templates', APP_TPL_PATH]);
         $smarty->setCompileDir(APP_TPL_COMPILE_PATH);
 
         $smarty->addPluginsDir([APP_INC_PATH . '/smarty']);
