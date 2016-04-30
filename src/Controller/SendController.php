@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Access;
@@ -25,7 +24,6 @@ use Mail_Helper;
 use Misc;
 use Notification;
 use Prefs;
-use Project;
 use Status;
 use Support;
 use Time_Tracking;
@@ -119,7 +117,7 @@ class SendController extends BaseController
             $sender_details = User::getDetails($this->usr_id);
             // list the available statuses
             $this->tpl->assign(
-                array(
+                [
                     'issue_id' => $this->issue_id,
 
                     'statuses' => Status::getAssocStatusList($this->prj_id, false),
@@ -128,21 +126,17 @@ class SendController extends BaseController
                     'can_send_email' => Support::isAllowedToEmail($this->issue_id, $sender_details['usr_email']),
                     'subscribers' => Notification::getSubscribers($this->issue_id, 'emails'),
                     'should_auto_add_to_nl' =>  Workflow::shouldAutoAddToNotificationList($this->prj_id),
-                )
+                ]
             );
         }
 
         $this->tpl->assign('ema_id', $this->ema_id);
 
         $user_prefs = Prefs::get($this->usr_id);
-        // list of users to display in the lookup field in the To: and Cc: fields
-        $address_book = Project::getAddressBook($this->prj_id, $this->issue_id);
 
         $this->tpl->assign(
-            array(
+            [
                 'from' => User::getFromHeader($this->usr_id),
-                'assoc_users' => $address_book,
-                'assoc_emails' => array_keys($address_book),
                 'canned_responses' => Email_Response::getAssocList($this->prj_id),
                 'js_canned_responses' => Email_Response::getAssocListBodies($this->prj_id),
                 'issue_access' => Access::getIssueAccessArray($this->issue_id, $this->usr_id),
@@ -150,7 +144,7 @@ class SendController extends BaseController
                 'max_attachment_bytes' => Attachment::getMaxAttachmentSize(true),
                 'time_categories' => Time_Tracking::getAssocCategories($this->prj_id),
                 'email_category_id' => Time_Tracking::getCategoryId($this->prj_id, 'Email Discussion'),
-            )
+            ]
         );
 
         // don't add signature if it already exists. Note: This won't handle multiple user duplicate sigs.
@@ -167,12 +161,12 @@ class SendController extends BaseController
 
         $iaf_ids = $this->attach->getAttachedFileIds();
 
-        $options = array(
+        $options = [
             'parent_sup_id' => $post->get('parent_id'),
             'iaf_ids' => $iaf_ids,
             'add_unknown' => $post->get('add_unknown') == 'yes',
             'ema_id' => $post->has('ema_id') ? $post->getInt('ema_id') : null,
-        );
+        ];
 
         $res = Support::sendEmail(
             $this->issue_id,
@@ -186,6 +180,7 @@ class SendController extends BaseController
         );
 
         $this->tpl->assign('send_result', $res);
+        $this->tpl->assign('garlic_prefix', $post->has('garlic_prefix') ? $post->get('garlic_prefix') : '');
 
         $new_status = $post->get('new_status');
         if ($new_status && Access::canChangeStatus($this->issue_id, $this->usr_id)) {
@@ -194,10 +189,10 @@ class SendController extends BaseController
                 $status_title = Status::getStatusTitle($new_status);
                 History::add(
                     $this->issue_id, $this->usr_id, 'status_changed',
-                    "Status changed to '{status}' by {user} when sending an email", array(
+                    "Status changed to '{status}' by {user} when sending an email", [
                         'status' => $status_title,
                         'user' => User::getFullName($this->usr_id),
-                    )
+                    ]
                 );
             }
         }
@@ -247,12 +242,12 @@ class SendController extends BaseController
     private function viewDraftAction()
     {
         $draft = Draft::getDetails($_GET['id']);
-        $email = array(
+        $email = [
             'sup_subject' => $draft['emd_subject'],
             'seb_body' => $draft['emd_body'],
             'sup_from' => $draft['to'],
             'cc' => implode('; ', $draft['cc']),
-        );
+        ];
 
         // try to guess the correct email account to be associated with this email
         if (!empty($draft['emd_sup_id'])) {
@@ -263,12 +258,12 @@ class SendController extends BaseController
         }
 
         $this->tpl->assign(
-            array(
+            [
                 'draft_id' => $_GET['id'],
                 'email' => $email,
                 'parent_email_id' => $draft['emd_sup_id'],
                 'draft_status' => $draft['emd_status'],
-            )
+            ]
         );
 
         if ($draft['emd_status'] != 'pending') {
@@ -293,10 +288,10 @@ class SendController extends BaseController
         $header = Misc::formatReplyPreamble($email['timestamp'], $email['sup_from']);
         $email['seb_body'] = $header . Misc::formatReply($email['seb_body']);
         $this->tpl->assign(
-            array(
+            [
                 'email' => $email,
                 'parent_email_id' => $get->getInt('id'),
-            )
+            ]
         );
     }
 
@@ -316,11 +311,11 @@ class SendController extends BaseController
         // TRANSLATORS: %1: issue_id
         $extra_title = ev_gettext('Issue #%1$s: Reply', $this->issue_id);
         $this->tpl->assign(
-            array(
+            [
                 'email' => $details,
                 'parent_email_id' => 0,
                 'extra_title' => $extra_title,
-            )
+            ]
         );
     }
 

@@ -34,7 +34,7 @@ class Reminder_Condition
                  WHERE
                     rlc_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($rlc_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$rlc_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -61,14 +61,14 @@ class Reminder_Condition
                  ) VALUES (
                     ?, ?, ?, ?, ?, ?
                  )';
-        $params = array(
+        $params = [
             Date_Helper::getCurrentDateGMT(),
             $_POST['rma_id'],
             $_POST['field'],
             $_POST['operator'],
             @$_POST['value'],
             @$_POST['comparison_field'],
-        );
+        ];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -95,14 +95,14 @@ class Reminder_Condition
                     rlc_comparison_rmf_id = ?
                  WHERE
                     rlc_id=?';
-        $params = array(
+        $params = [
             Date_Helper::getCurrentDateGMT(),
             $_POST['field'],
             $_POST['operator'],
             @$_POST['value'],
             @$_POST['comparison_field'],
             $_POST['id'],
-        );
+        ];
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -149,13 +149,13 @@ class Reminder_Condition
                     rlc_rmf_id=rmf_id AND
                     rlc_rmo_id=rmo_id';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($action_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$action_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         if (empty($res)) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -187,9 +187,9 @@ class Reminder_Condition
                  ORDER BY
                     rlc_id ASC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($rma_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$rma_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         foreach ($res as &$row) {
@@ -224,7 +224,7 @@ class Reminder_Condition
                  WHERE
                     rmf_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($field_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$field_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -247,7 +247,7 @@ class Reminder_Condition
                  WHERE
                     rmf_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($field_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$field_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -277,7 +277,7 @@ class Reminder_Condition
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -301,7 +301,7 @@ class Reminder_Condition
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -322,7 +322,7 @@ class Reminder_Condition
                  WHERE
                     rmf_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($field_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$field_id]);
         } catch (DatabaseException $e) {
             return '';
         }

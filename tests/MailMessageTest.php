@@ -1,7 +1,17 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 use Eventum\Mail\MailMessage;
-use Eventum\Mail\Helper\MimePart;
 
 class MailMessageTest extends TestCase
 {
@@ -18,9 +28,9 @@ class MailMessageTest extends TestCase
          * @see Mail_Helper::generateMessageID()
          */
         if (PHP_INT_SIZE == 4) {
-            $exp = "<eventum.md5.68gm8417ga.clqtuo3sklwsgok@eventum.example.org>";
+            $exp = '<eventum.md5.68gm8417ga.clqtuo3sklwsgok@eventum.example.org>';
         } else {
-            $exp = "<eventum.md5.68gm8417ga.clqtuo3skl4w0gc@eventum.example.org>";
+            $exp = '<eventum.md5.68gm8417ga.clqtuo3skl4w0gc@eventum.example.org>';
         }
         $this->assertEquals($exp, $message_id);
     }
@@ -29,8 +39,26 @@ class MailMessageTest extends TestCase
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-msgid.txt');
         $message_id = $message->messageId;
-        $exp = "<81421718b55935a2f5105705f8baf571@lookout.example.org>";
+        $exp = '<81421718b55935a2f5105705f8baf571@lookout.example.org>';
         $this->assertEquals($exp, $message_id);
+    }
+
+    public function testHeaderLine()
+    {
+        $headers = [
+            'Content-Type: text/plain; charset=UTF-8',
+            'Subject: [#66] Re: LVM-i bänner',
+        ];
+        $message = MailMessage::createFromHeaderBody($headers, 'kõk');
+        $this->assertEquals('[#66] Re: LVM-i bänner', $message->subject);
+
+        $headers = 'Subject:[#83566...';
+        $message = MailMessage::createFromString($headers);
+        $this->assertEquals('[#83566...', $message->subject);
+
+        $headers = "Content-Type: text/plain; charset=UTF-8\r\nSubject: Re: LVM-i =?utf-8?b?YsOkbm5lcg==?=";
+        $message = MailMessage::createFromString($headers);
+        $this->assertEquals('Re: LVM-i bänner', $message->subject);
     }
 
     public function testMissingSubject()
@@ -74,7 +102,7 @@ class MailMessageTest extends TestCase
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
 
-        $recipients = array();
+        $recipients = [];
         foreach ($message->getTo() as $address) {
             $recipients[] = $address->getEmail();
         }
@@ -85,7 +113,7 @@ class MailMessageTest extends TestCase
         $recipients = array_unique($recipients);
 
         $exp = 'issue-73358@eventum.example.org,abcd@origin.com,our@email.com';
-        $res = join(',', $recipients);
+        $res = implode(',', $recipients);
         $this->assertEquals($exp, $res);
 
         // note it does not return the original header, but what ZF_Mail has encoded it back
@@ -98,7 +126,7 @@ class MailMessageTest extends TestCase
                 return $a->toString();
             }, iterator_to_array($message->getTo())
         );
-        $this->assertEquals($exp, join(',', $res));
+        $this->assertEquals($exp, implode(',', $res));
     }
 
     public function testMultipleToHeaders()
@@ -202,7 +230,7 @@ class MailMessageTest extends TestCase
         $ref1 = Mail_Helper::getAllReferences($mail->getHeaders()->toString());
         $ref2 = $mail->getAllReferences();
 
-        $this->assertSame(join("\n", $ref1), join("\n", $ref2));
+        $this->assertSame(implode("\n", $ref1), implode("\n", $ref2));
     }
 
     /**
@@ -221,7 +249,7 @@ class MailMessageTest extends TestCase
         $value = 'foo-bar-123';
         $this->assertEquals($value, $mail->InReplyTo);
 
-        $references = array(1, $msg_id);
+        $references = [1, $msg_id];
         $mail->setReferences($references);
         $exp = '1 <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
         $this->assertEquals($exp, $mail->References);
@@ -241,9 +269,9 @@ class MailMessageTest extends TestCase
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
         $addresses = $message->getAddresses();
-        $exp = array(
+        $exp = [
             'our@email.com',
-        );
+        ];
         $this->assertEquals($exp, $addresses);
     }
 
@@ -320,12 +348,12 @@ class MailMessageTest extends TestCase
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
 
-        $cc = join(',', $message->getAddresses('Cc'));
+        $cc = implode(',', $message->getAddresses('Cc'));
         $this->assertEquals('abcd@origin.com,our@email.com', $cc);
 
         $message->removeFromAddressList('Cc', 'our@email.com');
 
-        $cc = join(',', $message->getAddresses('Cc'));
+        $cc = implode(',', $message->getAddresses('Cc'));
         $this->assertEquals('abcd@origin.com', $cc);
     }
 
@@ -364,14 +392,14 @@ class MailMessageTest extends TestCase
         $after = array_keys($mail->getHeaders()->toArray());
         $this->assertNotSame($before, $after);
 
-        $exp = array(
+        $exp = [
             'Date',
             'Message-ID',
             'Subject',
             'MIME-Version',
             'Content-Type',
             'From',
-        );
+        ];
         $this->assertSame($exp, $after);
     }
 
@@ -379,7 +407,7 @@ class MailMessageTest extends TestCase
     {
         $mail = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
 
-        $to = "root@example.org";
+        $to = 'root@example.org';
         $mail->setTo($to);
         $this->assertEquals($to, $mail->to);
 
@@ -395,7 +423,7 @@ class MailMessageTest extends TestCase
         $mail = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
         $clone = clone $mail;
 
-        $to = "root@example.org";
+        $to = 'root@example.org';
         $clone->setTo($to);
         $this->assertEquals($to, $clone->to);
         $this->assertNotEquals($to, $mail->to);
@@ -408,15 +436,15 @@ class MailMessageTest extends TestCase
         $raw = "Message-ID: <33@JON>\nX-Eventum-Level: 1\n\nBody";
         $mail = MailMessage::createFromString($raw);
 
-        $this->assertEquals("1", $mail->getHeader('X-Eventum-Level')->getFieldValue());
+        $this->assertEquals('1', $mail->getHeader('X-Eventum-Level')->getFieldValue());
 
-        $headers = array(
+        $headers = [
             'X-Eventum-Group-Issue' => 'something 123 143',
             'X-Eventum-Group-Replier' => 'mõmin',
             'X-Eventum-Group-Assignee' => 'UUser1, juusõr2',
-            'X-Eventum-Customer' => "cust om er",
+            'X-Eventum-Customer' => 'cust om er',
             'X-Eventum-Level' => 10,
-            'X-Eventum-Assignee' => "foo, bar",
+            'X-Eventum-Assignee' => 'foo, bar',
             'X-Eventum-Category' => 'Title Cat',
             'X-Eventum-Project' => 'prjnma',
             'X-Eventum-Priority' => 'kümme',
@@ -425,11 +453,11 @@ class MailMessageTest extends TestCase
 
             'precedence' => 'bulk', // the 'classic' way, works with e.g. the unix 'vacation' tool
             'Auto-submitted' => 'auto-generated', // the RFC 3834 way
-        );
+        ];
         $mail->setHeaders($headers);
 
-        $exp = join(
-            "\r\n", array(
+        $exp = implode(
+            "\r\n", [
                 'Message-ID: <33@JON>',
                 'X-Eventum-Level: 10',
                 'Subject: ',
@@ -446,7 +474,7 @@ class MailMessageTest extends TestCase
                 'Precedence: bulk',
                 'Auto-Submitted: auto-generated',
                 ''
-            )
+            ]
         );
         $this->assertEquals($exp, $mail->getHeaders()->toString());
     }
@@ -473,16 +501,16 @@ class MailMessageTest extends TestCase
     public function testSendSimpleMail()
     {
         $text_message = 'text message';
-        $info = array(
+        $info = [
             'usr_full_name' => 'Some User',
             'usr_email' => 'nobody@example.org',
-        );
+        ];
         $subject = 'Your User Account Details';
 
-        $smtp = array(
+        $smtp = [
             'from' => 'root@example.org',
-        );
-        Setup::set(array('smtp' => $smtp));
+        ];
+        Setup::set(['smtp' => $smtp]);
 
         // send email (use PEAR's classes)
         $mail = new Mail_Helper();
@@ -505,20 +533,20 @@ class MailMessageTest extends TestCase
      */
     public function testMailSendMH()
     {
-        $this->skipCi("Uses database");
+        $this->skipCi('Uses database');
 
         $text_message = 'tere';
         $issue_id = 1;
         $from = 'Eventum <support@example.org>';
         $recipient = 'Eventum <support@example.org>';
-        $subject = "[#1] Issue Created";
+        $subject = '[#1] Issue Created';
         $msg_id = '<eventum@eventum.example.org>';
 
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
-        $headers = array(
+        $headers = [
             'Message-ID' => $msg_id,
-        );
+        ];
         $mail->setHeaders($headers);
         $mail->send($from, $recipient, $subject, 0, $issue_id, 'auto_created_issue');
     }
@@ -528,15 +556,14 @@ class MailMessageTest extends TestCase
      */
     public function testMailSendZF()
     {
-        $this->skipCi("Uses database");
+        $this->skipCi('Uses database');
 
         $text_message = 'tere';
         $issue_id = 1;
         $from = 'Eventum <support@example.org>';
         $recipient = 'Eventum <support@example.org>';
-        $subject = "[#1] Issue Created";
+        $subject = '[#1] Issue Created';
         $msg_id = '<eventum@eventum.example.org>';
-
 
         $raw = "Message-ID: $msg_id\n\n\n$text_message";
         $mail = MailMessage::createFromString($raw);
@@ -550,7 +577,7 @@ class MailMessageTest extends TestCase
 
     public function testMailFromHeaderBody()
     {
-        $headers = array(
+        $headers = [
             'MIME-Version' => '1.0',
             'Content-Type' => 'text/plain; charset=UTF-8',
             'Content-Transfer-Encoding' => '8bit',
@@ -560,7 +587,7 @@ class MailMessageTest extends TestCase
             'From' => '"Admin User " <note-3@eventum.example.org>',
             'To' => '"Admin User" <admin@example.com>',
             'Subject' => '[#3] Note: Re: example issue title',
-        );
+        ];
         $body = 'lala';
         MailMessage::createFromHeaderBody($headers, $body);
 
@@ -599,11 +626,11 @@ class MailMessageTest extends TestCase
         // do not overwrite message-id
         unset($headers['Message-ID']);
         $mail->setHeaders($headers);
-        $options = array(
+        $options = [
             'save_email_copy' => true,
             'issue_id' => $issue_id,
             'type' => $type,
-        );
+        ];
         Mail_Queue::addMail($mail, $to, $options);
 
         $mail = new \Zend\Mail\Message();
@@ -611,7 +638,7 @@ class MailMessageTest extends TestCase
         $mail->setFrom($from);
         $mail->setTo($to);
         $mail->setSubject($subject);
-        $mail->setEncoding("UTF-8");
+        $mail->setEncoding('UTF-8');
 
         $transport = new \Zend\Mail\Transport\Sendmail();
         $transport->setCallable(
@@ -625,7 +652,7 @@ class MailMessageTest extends TestCase
     public function testReSetMessageId()
     {
         $mail = MailMessage::createNew();
-        $headers = array();
+        $headers = [];
         $headers['Message-ID'] = Mail_Helper::generateMessageID();
         $mail->setHeaders($headers);
     }
@@ -638,8 +665,8 @@ class MailMessageTest extends TestCase
     {
         $textContent = 'textõ';
         $text = new Zend\Mime\Part($textContent);
-        $text->type = "text/plain";
-        $text->setCharset("UTF-8");
+        $text->type = 'text/plain';
+        $text->setCharset('UTF-8');
 
         $body = new Zend\Mime\Message();
         $body->addPart($text);
@@ -677,11 +704,59 @@ class MailMessageTest extends TestCase
         $mail->setTo($to);
         $mail->setSubject($subject);
 
-        $options = array(
+        $options = [
             'save_email_copy' => true,
             'issue_id' => $issue_id,
             'type' => $type,
-        );
+        ];
         Mail_Queue::addMail($mail, $to, $options);
+    }
+
+    /**
+     * a test showing a valid header can not be loaded from string using Headers::fromString method
+     * due underlying fail in iconv_mime_encode
+     *
+     * @see https://github.com/zendframework/zend-mail/issues/64
+     */
+    public function testParseHeaders()
+    {
+        $header
+            = "Subject: [#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, =?utf-8?b?dMOkaHRhZWc=?= xx.xx, xxxx\r\n";
+        try {
+            /** @see \Zend\Mail\Header\HeaderWrap::canBeEncoded */
+            \Zend\Mail\Headers::fromString($header);
+        } catch (PHPUnit_Framework_Error_Notice $e) {
+            error_log($e->getMessage());
+        }
+
+        // the above fails with:
+        // "iconv_mime_encode(): Unknown error (7)"
+        // because it iconv_mime_encode fails:
+        $value = '[#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, tähtaeg xx.xx, xxxx';
+        try {
+            // it fails with line length exactly 76, but suceeds with anything else, like 75 or 77
+            $v = iconv_mime_encode('x-test', $value, ['scheme' => 'Q', 'line-length' => '76', 'line-break-chars' => ' ']);
+        } catch (PHPUnit_Framework_Error_Notice $e) {
+            error_log($e->getMessage());
+        }
+
+        // the same handled better in encodeQuotedPrintable
+        $v = Mime_Helper::encodeQuotedPrintable($value);
+        var_dump($v);
+
+        // this works too
+        $v = \Zend\Mail\Header\HeaderWrap::mimeEncodeValue($value, 'UTF-8');
+        var_dump($v);
+    }
+
+    /**
+     * @link https://github.com/eventum/eventum/issues/155
+     */
+    public function testMboxHeader()
+    {
+        $full_message = file_get_contents(__DIR__ . '/data/from_nocolon.txt');
+        $this->assertNotEquals('MIME-Version', substr($full_message, 0, 12));
+        Routing::removeMboxHeader($full_message);
+        $this->assertEquals('MIME-Version', substr($full_message, 0, 12));
     }
 }

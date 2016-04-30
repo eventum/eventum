@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -59,7 +58,7 @@ class SelectProjectController extends BaseController
         $this->cat = $request->request->get('cat');
         $this->url = $request->request->get('url') ?: $request->query->get('url');
         $this->prj_id = $request->request->get('project');
-        $this->remember = $request->request->getBoolean('remember');
+        $this->remember = $request->request->get('remember') ? true : null;
     }
 
     /**

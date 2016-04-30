@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use Email_Account;
@@ -59,28 +58,28 @@ class EmailAccountsController extends ManageBaseController
 
     private function newAction()
     {
-        $map = array(
-            1 => array(ev_gettext('Thank you, the email account was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the new account.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the email account was added successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new account.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages(Email_Account::insert(), $map);
     }
 
     private function updateAction()
     {
-        $map = array(
-            1 => array(ev_gettext('Thank you, the email account was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to update the account information.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the email account was updated successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the account information.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages(Email_Account::update(), $map);
     }
 
     private function deleteAction()
     {
-        $map = array(
-            1 => array(ev_gettext('Thank you, the email account was deleted successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to delete the account information.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the email account was deleted successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to delete the account information.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages(Email_Account::remove(), $map);
     }
 
@@ -97,10 +96,10 @@ class EmailAccountsController extends ManageBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'list' => Email_Account::getList(),
                 'all_projects' => Project::getAll(),
-            )
+            ]
         );
     }
 }

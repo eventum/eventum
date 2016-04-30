@@ -28,7 +28,7 @@ all:
 pot:
 	$(MAKE) -C localization pot
 
-install: install-eventum install-cli install-scm
+install: install-eventum install-cli
 
 dist:
 	./bin/release.sh
@@ -85,7 +85,7 @@ composer-security-checker: composer.lock
 # install eventum core
 install-eventum:
 	install -d $(DESTDIR)$(sysconfdir)
-	touch $(DESTDIR)$(sysconfdir)/{config.php,private_key.php,setup.php}
+	cp -a config/* $(DESTDIR)$(sysconfdir)
 
 	install -d $(DESTDIR)$(datadir)/lib
 	cp -a lib/eventum $(DESTDIR)$(datadir)/lib
@@ -94,23 +94,16 @@ install-eventum:
 	cp -a upgrade $(DESTDIR)$(datadir)
 	cp -a bin $(DESTDIR)$(datadir)
 	cp -a src $(DESTDIR)$(datadir)
+	cp -a res $(DESTDIR)$(datadir)
 	cp -a *.php $(DESTDIR)$(datadir)
 
 	install -d $(DESTDIR)$(logdir)
-	touch $(DESTDIR)$(logdir)/{cli.log,errors.log,irc_bot.log,login_attempts.log}
+	cp -a var/log/* $(DESTDIR)$(logdir)
 
 # install eventum cli
 install-cli:
 	install -d $(DESTDIR)$(bindir)
 	install -p cli/$(name).phar $(DESTDIR)$(bindir)/$(name)
-
-# install eventum scm (cvs, svn, git) hooks
-install-scm:
-	install -d $(DESTDIR)$(sbindir)
-	install -p scm/eventum-cvs-hook.php $(DESTDIR)$(sbindir)/eventum-cvs-hook
-	install -p scm/eventum-svn-hook.php $(DESTDIR)$(sbindir)/eventum-svn-hook
-	install -p scm/eventum-git-hook.php $(DESTDIR)$(sbindir)/eventum-git-hook
-	cp -p scm/helpers.php $(DESTDIR)$(sbindir)
 
 install-localization:
 	$(MAKE) -C localization install

@@ -19,7 +19,7 @@
           {$changes[i].his_created_date|timeago}
         </th>
         <td width="85%">
-          {$changes[i].his_summary|activateLinks|replace:"no value set":"<i>no value set</i>"}
+          {$changes[i].his_summary|escape:"html"|activateLinks|replace:"no value set":"<i>no value set</i>"}
         </td>
       </tr>
       {sectionelse}

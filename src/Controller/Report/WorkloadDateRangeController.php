@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Report;
 
 use Category;
@@ -70,10 +69,10 @@ class WorkloadDateRangeController extends ReportBaseController
      */
     protected function prepareTemplate()
     {
-        $types = array(
+        $types = [
             'individual' => 'Individual',
             'aggregate' => 'Aggregate',
-        );
+        ];
 
         // if empty start date, set to be a month ago
         $start_date = $this->start_date ?: date('Y-m-d', time() - Date_Helper::MONTH);
@@ -91,7 +90,7 @@ class WorkloadDateRangeController extends ReportBaseController
         }
 
         $this->tpl->assign(
-            array(
+            [
                 'interval' => $this->interval,
                 'types' => $types,
                 'type' => $this->type,
@@ -99,7 +98,7 @@ class WorkloadDateRangeController extends ReportBaseController
                 'end_date' => $end_date,
                 'categories' => Category::getAssocList($this->prj_id),
                 'category' => $this->category,
-            )
+            ]
         );
     }
 }

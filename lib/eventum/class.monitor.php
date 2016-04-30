@@ -184,9 +184,11 @@ class Monitor
      */
     public static function checkDatabase()
     {
-        $required_tables = array(
+        $required_tables = [
             'api_token',
             'columns_to_display',
+            'commit',
+            'commit_file',
             'custom_field',
             'custom_field_option',
             'custom_filter',
@@ -202,10 +204,13 @@ class Monitor
             'history_type',
             'irc_notice',
             'issue',
+            'issue_access_list',
+            'issue_access_log',
             'issue_association',
             'issue_attachment',
             'issue_attachment_file',
             'issue_checkin',
+            'issue_commit',
             'issue_custom_field',
             'issue_history',
             'issue_partner',
@@ -267,7 +272,7 @@ class Monitor
             'user_preference',
             'user_project_preference',
             'version',
-        );
+        ];
 
         // add the table prefix to all of the required tables
         $dbc = DB_Helper::getConfig();
@@ -319,10 +324,10 @@ class Monitor
         $owner_info = posix_getpwuid(fileowner($file));
         $group_info = posix_getgrgid(filegroup($file));
 
-        return array(
+        return [
             $owner_info['name'],
             $group_info['name'],
-        );
+        ];
     }
 
     /**

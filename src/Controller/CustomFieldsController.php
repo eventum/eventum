@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -87,13 +86,13 @@ class CustomFieldsController extends BaseController
      */
     protected function prepareTemplate()
     {
-        $custom_fields = Custom_Field::getListByIssue($this->prj_id, $this->issue_id);
+        $custom_fields = Custom_Field::getListByIssue($this->prj_id, $this->issue_id, null, false, true);
 
         $this->tpl->assign(
-            array(
+            [
                 'issue_id' => $this->issue_id,
                 'custom_fields' => $custom_fields,
-            )
+            ]
         );
     }
 }

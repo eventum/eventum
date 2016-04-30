@@ -91,7 +91,7 @@ class DB_Helper
             $config = $setup['database']->toArray();
         } else {
             // legacy: import from constants
-            $config = array(
+            $config = [
                 // database driver
                 'driver'  => APP_SQL_DBTYPE,
 
@@ -109,10 +109,10 @@ class DB_Helper
                  * @deprecated APP_DEFAULT_DB is deprecated (same as APP_SQL_DBNAME)
                  */
                 //'default_db' => APP_DEFAULT_DB,
-            );
+            ];
 
             // save it back. this will effectively do the migration
-            Setup::save(array('database' => $config));
+            Setup::save(['database' => $config]);
         }
 
         return $config;
@@ -233,7 +233,7 @@ class DB_Helper
      */
     public static function buildSet($params)
     {
-        $partial = array();
+        $partial = [];
         foreach (array_keys($params) as $key) {
             $partial[] = "$key=?";
         }
@@ -261,7 +261,7 @@ class DB_Helper
      */
     public static function orderBy($order, $default = 'DESC')
     {
-        if (!in_array(strtoupper($order), array('ASC', 'DESC'))) {
+        if (!in_array(strtoupper($order), ['ASC', 'DESC'])) {
             return $default;
         }
 

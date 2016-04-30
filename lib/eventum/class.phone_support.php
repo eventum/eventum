@@ -38,7 +38,7 @@ class Phone_Support
                     ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST['prj_id'], $_POST['title']));
+            DB_Helper::getInstance()->query($stmt, [$_POST['prj_id'], $_POST['title']]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -66,7 +66,7 @@ class Phone_Support
                     phc_prj_id=? AND
                     phc_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['prj_id'], $_POST['id']));
+            DB_Helper::getInstance()->query($stmt, [$_POST['title'], $_POST['prj_id'], $_POST['id']]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -113,7 +113,7 @@ class Phone_Support
                  WHERE
                     phc_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($phc_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$phc_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -140,7 +140,7 @@ class Phone_Support
                  ORDER BY
                     phc_title ASC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -167,7 +167,7 @@ class Phone_Support
                  ORDER BY
                     phc_id ASC';
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -190,7 +190,7 @@ class Phone_Support
                  WHERE
                     phs_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($phs_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$phs_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -226,7 +226,7 @@ class Phone_Support
                  ORDER BY
                     phs_created_date ASC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -279,7 +279,7 @@ class Phone_Support
                     ?, ?, ?, ?, ?,
                     ?, ?
                  )';
-        $params = array(
+        $params = [
             $iss_id,
             $usr_id,
             $_POST['phone_category'],
@@ -292,7 +292,7 @@ class Phone_Support
             $_POST['from_fname'],
             $_POST['to_lname'],
             $_POST['to_fname'],
-        );
+        ];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -313,13 +313,13 @@ class Phone_Support
                  WHERE
                     ttr_iss_id = ? AND
                     ttr_usr_id = ?';
-        $ttr_id = DB_Helper::getInstance()->getOne($stmt, array($iss_id, $usr_id));
+        $ttr_id = DB_Helper::getInstance()->getOne($stmt, [$iss_id, $usr_id]);
 
         Issue::markAsUpdated($iss_id, 'phone call');
         // need to save a history entry for this
-        History::add($iss_id, $usr_id, 'phone_entry_added', 'Phone Support entry submitted by {user}', array(
+        History::add($iss_id, $usr_id, 'phone_entry_added', 'Phone Support entry submitted by {user}', [
             'user' => User::getFullName($usr_id),
-        ));
+        ]);
         // XXX: send notifications for the issue being updated (new notification type phone_support?)
 
         // update phone record with time tracking ID.
@@ -331,7 +331,7 @@ class Phone_Support
                      WHERE
                         phs_id = ?';
             try {
-                DB_Helper::getInstance()->query($stmt, array($ttr_id, $phs_id));
+                DB_Helper::getInstance()->query($stmt, [$ttr_id, $phs_id]);
             } catch (DatabaseException $e) {
                 return -1;
             }
@@ -357,7 +357,7 @@ class Phone_Support
                     {{%phone_support}}
                  WHERE
                     phs_id=?';
-        $details = DB_Helper::getInstance()->getRow($stmt, array($phone_id));
+        $details = DB_Helper::getInstance()->getRow($stmt, [$phone_id]);
         if ($details['phs_usr_id'] != Auth::getUserID()) {
             return -2;
         }
@@ -367,16 +367,16 @@ class Phone_Support
                  WHERE
                     phs_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($phone_id));
+            DB_Helper::getInstance()->query($stmt, [$phone_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
 
         Issue::markAsUpdated($details['phs_iss_id']);
         $usr_id = Auth::getUserID();
-        History::add($details['phs_iss_id'], $usr_id, 'phone_entry_removed', 'Phone Support entry removed by {user}', array(
+        History::add($details['phs_iss_id'], $usr_id, 'phone_entry_removed', 'Phone Support entry removed by {user}', [
             'user' => User::getFullName($usr_id)
-        ));
+        ]);
 
         if (!empty($details['phs_ttr_id'])) {
             $time_result = Time_Tracking::removeTimeEntry($details['phs_ttr_id'], $details['phs_usr_id']);
@@ -434,7 +434,7 @@ class Phone_Support
                     iss_prj_id = ? AND
                     phs_created_date BETWEEN ? AND ? AND
                     phs_usr_id = ?';
-        $params = array(Auth::getCurrentProject(), $start, $end, $usr_id);
+        $params = [Auth::getCurrentProject(), $start, $end, $usr_id];
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DatabaseException $e) {

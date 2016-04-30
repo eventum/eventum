@@ -29,9 +29,9 @@ class Prefs
     public static function getDefaults($projects = null)
     {
         $setup = Setup::get();
-        $prefs = array(
-            'receive_assigned_email'  => array(),
-            'receive_new_issue_email' => array(),
+        $prefs = [
+            'receive_assigned_email'  => [],
+            'receive_new_issue_email' => [],
             'timezone'                => Date_Helper::getDefaultTimezone(),
             'week_firstday'           => Date_Helper::getDefaultWeekday(),
             'list_refresh_rate'       => APP_DEFAULT_REFRESH_RATE,
@@ -41,7 +41,8 @@ class Prefs
             'auto_append_note_sig'    => 'no',
             'close_popup_windows'     => 1,
             'relative_date'           => (int) ($setup['relative_date'] == 'enabled'),
-        );
+            'collapsed_emails'        => 1,
+        ];
 
         if (is_array($projects)) {
             foreach ($projects as $prj_id) {
@@ -78,24 +79,26 @@ class Prefs
                     upr_auto_append_email_sig as auto_append_email_sig,
                     upr_auto_append_note_sig as auto_append_note_sig,
                     upr_auto_close_popup_window as close_popup_windows,
-                    upr_relative_date as relative_date
+                    upr_relative_date as relative_date,
+                    upr_collapsed_emails as collapsed_emails
                 FROM
                     {{%user_preference}}
                 WHERE
                     upr_usr_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($sql, array($usr_id));
+            $res = DB_Helper::getInstance()->getRow($sql, [$usr_id]);
         } catch (DatabaseException $e) {
-            return self::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
+            $res = null;
         }
-        if ($res === null) {
+
+        if (!$res) {
             return self::getDefaults(array_keys(Project::getAssocList($usr_id, false, true)));
         }
 
         $returns[$usr_id] = $res;
-        $returns[$usr_id]['receive_assigned_email'] = array();
-        $returns[$usr_id]['receive_new_issue_email'] = array();
-        $returns[$usr_id]['receive_copy_of_own_action'] = array();
+        $returns[$usr_id]['receive_assigned_email'] = [];
+        $returns[$usr_id]['receive_new_issue_email'] = [];
+        $returns[$usr_id]['receive_copy_of_own_action'] = [];
 
         // check for the refresh rate variables, and use the default values if appropriate
         if (empty($returns[$usr_id]['list_refresh_rate'])) {
@@ -106,7 +109,7 @@ class Prefs
         }
 
         // get per project preferences
-        $sql = "SELECT
+        $sql = 'SELECT
                     upp_prj_id as prj_id,
                     upp_receive_assigned_email as receive_assigned_email,
                     upp_receive_new_issue_email as receive_new_issue_email,
@@ -114,9 +117,9 @@ class Prefs
                 FROM
                     {{%user_project_preference}}
                 WHERE
-                    upp_usr_id = $usr_id";
+                    upp_usr_id = ?';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($sql, array(), AdapterInterface::DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->fetchAssoc($sql, [$usr_id], AdapterInterface::DB_FETCHMODE_ASSOC);
         } catch (DatabaseException $e) {
             return $returns[$usr_id];
         }
@@ -152,9 +155,11 @@ class Prefs
                     upr_auto_append_email_sig = ?,
                     upr_auto_append_note_sig = ?,
                     upr_auto_close_popup_window = ?,
-                    upr_relative_date = ?';
+                    upr_relative_date = ?,
+                    upr_collapsed_emails = ?
+                ';
         try {
-            DB_Helper::getInstance()->query($sql, array(
+            DB_Helper::getInstance()->query($sql, [
                 $usr_id,
                 @$preferences['timezone'],
                 @$preferences['week_firstday'],
@@ -165,7 +170,8 @@ class Prefs
                 @$preferences['auto_append_note_sig'],
                 @$preferences['close_popup_windows'],
                 @$preferences['relative_date'],
-            ));
+                @$preferences['collapsed_emails'],
+            ]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -183,13 +189,13 @@ class Prefs
                         upp_receive_copy_of_own_action = ?';
 
             try {
-                DB_Helper::getInstance()->query($sql, array(
+                DB_Helper::getInstance()->query($sql, [
                     $usr_id,
                     $prj_id,
                     $preferences['receive_assigned_email'][$prj_id],
                     $preferences['receive_new_issue_email'][$prj_id],
                     $preferences['receive_copy_of_own_action'][$prj_id],
-                ));
+                ]);
             } catch (DatabaseException $e) {
                 return -1;
             }

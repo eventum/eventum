@@ -22,6 +22,7 @@
 * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
 *
 */
+use Eventum\Monolog\Logger;
 
 /**
  * Class to handle the business logic related to the MIME email
@@ -73,10 +74,10 @@ class Mime_Helper
      */
     public static function getMessageBody(&$output)
     {
-        $parts = array();
+        $parts = [];
         self::parse_output($output, $parts);
         if (empty($parts)) {
-            Logger::app()->debug('parse_output failed. Corrupted MIME in email?', array('output' => $output));
+            Logger::app()->debug('parse_output failed. Corrupted MIME in email?', ['output' => $output]);
             // we continue as if nothing happened until it's clear it's right check to do.
         }
 
@@ -90,7 +91,7 @@ class Mime_Helper
 
             // hack for inotes to prevent content from being displayed all on one line.
             $str = str_replace('</DIV><DIV>', "\n", $str);
-            $str = str_replace(array('<br>', '<br />', '<BR>', '<BR />'), "\n", $str);
+            $str = str_replace(['<br>', '<br />', '<BR>', '<BR />'], "\n", $str);
         }
 
         // XXX: do we also need to do something here about base64 encoding?
@@ -225,18 +226,18 @@ class Mime_Helper
             // 3 +2 +10      +3 +7     + 3
             $line_length = strlen($string) * 4 + strlen(APP_CHARSET) + 11;
 
-            $params = array(
+            $params = [
                 'input-charset' => APP_CHARSET,
                 'output-charset' => APP_CHARSET,
                 'line-length' => $line_length,
-            );
+            ];
             $string = iconv_mime_encode('', $string, $params);
 
             return substr($string, 2);
         }
 
         // lookup-Tables for QuotedPrintable
-        $qpKeys = array(
+        $qpKeys = [
             "\x00","\x01","\x02","\x03","\x04","\x05","\x06","\x07",
             "\x08","\x09","\x0A","\x0B","\x0C","\x0D","\x0E","\x0F",
             "\x10","\x11","\x12","\x13","\x14","\x15","\x16","\x17",
@@ -258,9 +259,9 @@ class Mime_Helper
             "\xEF","\xF0","\xF1","\xF2","\xF3","\xF4","\xF5","\xF6",
             "\xF7","\xF8","\xF9","\xFA","\xFB","\xFC","\xFD","\xFE",
             "\xFF",
-        );
+        ];
 
-        $qpReplaceValues = array(
+        $qpReplaceValues = [
             '=00','=01','=02','=03','=04','=05','=06','=07',
             '=08','=09','=0A','=0B','=0C','=0D','=0E','=0F',
             '=10','=11','=12','=13','=14','=15','=16','=17',
@@ -282,7 +283,7 @@ class Mime_Helper
             '=EF','=F0','=F1','=F2','=F3','=F4','=F5','=F6',
             '=F7','=F8','=F9','=FA','=FB','=FC','=FD','=FE',
             '=FF',
-        );
+        ];
 
         $string = str_replace('=', '=3D', $string);
         $string = str_replace($qpKeys, $qpReplaceValues, $string);
@@ -472,7 +473,7 @@ class Mime_Helper
     public static function splitBodyHeader($input)
     {
         if (preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $input, $match)) {
-            return array($match[1], $match[2]);
+            return [$match[1], $match[2]];
         }
 
         return null;
@@ -488,10 +489,10 @@ class Mime_Helper
     public static function getHeaderNames($input)
     {
         if ($input === '') {
-            return array();
+            return [];
         }
 
-        $return = array();
+        $return = [];
         // Unfold the input
         $input = preg_replace("/\r?\n/", "\r\n", $input);
         $input = preg_replace("/\r\n(\t| )+/", ' ', $input);
@@ -599,7 +600,7 @@ class Mime_Helper
 
     private static function _getAttachmentDetails(&$mime_part, $return_body = false, $return_filename = false, $return_cid = false)
     {
-        $attachments = array();
+        $attachments = [];
         if (isset($mime_part->parts)) {
             foreach ($mime_part->parts as &$part) {
                 $t = self::_getAttachmentDetails($part, $return_body, $return_filename, $return_cid);
@@ -627,13 +628,13 @@ class Mime_Helper
         if (isset($mime_part->ctype_primary) && $mime_part->ctype_primary == 'image') {
             // if requested, return only the details of a particular filename
             if (($return_filename != false) && ($mime_part_filename != $return_filename)) {
-                return array();
+                return [];
             }
             // if requested, return only the details of
             // a particular attachment CID. Only really needed
             // as hack for inline images
             if ($return_cid != false && (@$mime_part->headers['content-id'] != $return_cid)) {
-                return array();
+                return [];
             }
             $found = 1;
 
@@ -649,17 +650,17 @@ class Mime_Helper
                     (!empty($mime_part_filename))) {
                 // if requested, return only the details of a particular filename
                 if (($return_filename != false) && ($mime_part_filename != $return_filename)) {
-                    return array();
+                    return [];
                 }
                 $found = 1;
             }
         }
         if ($found) {
-            $t = array(
+            $t = [
                 'filename' => $mime_part_filename,
                 'cid'      => @$mime_part->headers['content-id'],
                 'filetype' => $content_type,
-            );
+            ];
             // only include the body of the attachment when
             // requested to save some memory
             if ($return_body == true) {
@@ -687,12 +688,12 @@ class Mime_Helper
         }
         $details = self::_getAttachmentDetails($message, true, $filename, $cid);
         if (count($details) == 1) {
-            return array(
+            return [
                 $details[0]['filetype'],
                 $details[0]['blob'],
-            );
+            ];
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -715,12 +716,12 @@ class Mime_Helper
             $message = preg_replace($pattern, $replacement, $message);
         }
 
-        $params = array(
+        $params = [
             'crlf'           => "\r\n",
             'include_bodies' => $include_bodies,
             'decode_headers' => false,
             'decode_bodies'  => $decode_bodies,
-        );
+        ];
         $decode = new Mail_mimeDecode($message);
         $email = $decode->decode($params);
 
@@ -827,11 +828,11 @@ class Mime_Helper
      */
     private static function _getInvalidContentTypes()
     {
-        return array(
+        return [
             'message/rfc822',
             'application/pgp-signature',
             'application/ms-tnef',
-        );
+        ];
     }
 
     /**
@@ -842,10 +843,10 @@ class Mime_Helper
      */
     private static function _getValidDispositions()
     {
-        return array(
+        return [
             'attachment',
             'inline',
-        );
+        ];
     }
 
     /**
@@ -858,10 +859,10 @@ class Mime_Helper
     public static function splitHeaderBody($message, $unfold = true)
     {
         if (preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $message, $match)) {
-            return array(($unfold) ? Mail_Helper::unfold($match[1]) : $match[1], $match[2]);
+            return [($unfold) ? Mail_Helper::unfold($match[1]) : $match[1], $match[2]];
         }
 
-        return array();
+        return [];
     }
 
     /**

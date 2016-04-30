@@ -1,11 +1,23 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 use Eventum\Crypto\CryptoManager;
 use Eventum\Crypto\EncryptedValue;
 
 class CryptoTest extends TestCase
 {
-    public function testCanEncrypt() {
+    public function testCanEncrypt()
+    {
         $res = CryptoManager::canEncrypt();
         $this->assertTrue($res);
     }
@@ -30,8 +42,8 @@ class CryptoTest extends TestCase
         $encrypted = CryptoManager::encrypt($plaintext);
 
         $value = new EncryptedValue($encrypted);
-        $this->assertEquals($plaintext, (string)$value, "test that casting to string calls tostring");
-        $this->assertEquals($plaintext, $value, "test that not casting also works");
+        $this->assertEquals($plaintext, (string)$value, 'test that casting to string calls tostring');
+        $this->assertEquals($plaintext, $value, 'test that not casting also works');
 
         // test getEncrypted method
         $this->assertEquals($encrypted, $value->getEncrypted());
@@ -106,7 +118,7 @@ class CryptoTest extends TestCase
      */
     public function testEncryptZeroString()
     {
-        CryptoManager::encrypt("0");
+        CryptoManager::encrypt('0');
     }
 
     /**
@@ -129,8 +141,10 @@ class CryptoTest extends TestCase
         $f = function ($e) {
             $f = function () {
                 $e = new Exception('boo');
+
                 return $e->getTraceAsString();
             };
+
             return $f($e);
         };
 
@@ -138,7 +152,8 @@ class CryptoTest extends TestCase
         $this->assertNotContains($plaintext, $trace);
     }
 
-    public function testZendCrypt() {
+    public function testZendCrypt()
+    {
         $key = 'secretkeyvalue';
         $method = 'aes-128-cbc';
         $keysize = 16;

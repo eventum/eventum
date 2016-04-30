@@ -1,5 +1,6 @@
-*.gz
-*.gz.md5
+*.tar.gz
+*.tar.gz.md5
+*.tar.gz.asc
 *.orig
 *.patch
 *.rej
@@ -31,6 +32,7 @@ Session.vim
 /config/config.php
 /config/irc_config.php
 /config/ldap.php
+/config/logger.php
 /config/private_key.php
 /config/secret_key.php
 /config/setup.php

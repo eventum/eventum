@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Model\Entity;
+
 /**
  * Abstract Class that all workflow backends should extend. This is so any new
  * workflow methods added in future releases will not break current backends.
@@ -43,13 +45,13 @@ class Abstract_Workflow_Backend
      * @param string $option
      * @return mixed
      */
-    protected function getConfig($option)
+    public function getConfig($option = null)
     {
         if (!isset($this->config)) {
             $this->loadConfig();
         }
 
-        return $this->config[$option];
+        return $option === null ? $this->config : $this->config[$option];
     }
 
     /**
@@ -64,7 +66,7 @@ class Abstract_Workflow_Backend
         $setup = Setup::get();
 
         if (!isset($setup['workflow'])) {
-            $setup['workflow'] = array();
+            $setup['workflow'] = [];
         }
 
         // create copy, this avoids the "indirect" error
@@ -78,7 +80,10 @@ class Abstract_Workflow_Backend
         }
 
         // save back to config tree
-        $this->config = $setup['workflow'][$name] = $config;
+        $setup['workflow'][$name] = $config;
+
+        // assign again to get Zend\Config instance
+        $this->config = $setup['workflow'][$name];
     }
 
     /**
@@ -99,7 +104,7 @@ class Abstract_Workflow_Backend
      */
     protected function getConfigDefaults()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -129,7 +134,7 @@ class Abstract_Workflow_Backend
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue
      * @param   integer $usr_id The ID of the user changing the issue.
-     * @param   array   $changes
+     * @param   array $changes
      * @return  mixed. True to continue, anything else to cancel the change and return the value
      */
     public function preIssueUpdated($prj_id, $issue_id, $usr_id, &$changes)
@@ -325,19 +330,33 @@ class Abstract_Workflow_Backend
     }
 
     /**
-     * Called when SCM checkin is associated.
-     *
-     * NOTE: The $module parameter is deprecated. always NULL, use 'module' from $file object
-     *
-     * @param   integer $prj_id The project ID.
-     * @param   integer $issue_id The ID of the issue.
-     * @param   string $module The SCM module commit was made.
-     * @param   array $files File list with their version numbers changes made on.
-     * @param   string $username SCM user doing the checkin.
-     * @param   string $commit_msg Message associated with the SCM commit.
-     * @param   ScmCheckin $scm SCM config associated with the commit
+     * @deprecated removed since 3.1.0, use handleScmCommit
      */
-    public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg, $scm)
+    public function handleSCMCheckins($prj_id, $issue_id, $module, $files, $username, $commit_msg, $scm, $commitid)
+    {
+    }
+
+    /**
+     * Method called on Commit to allow workflow update project name/commit author or user id
+     *
+     * @param integer $prj_id The project ID.
+     * @param Entity\Commit $commit
+     * @param mixed $payload
+     * @since 3.1.0
+     */
+    public function preScmCommit($prj_id, Entity\Commit $commit, $payload)
+    {
+    }
+
+    /**
+     * Handle commit associated to issue
+     *
+     * @param int $prj_id The project ID.
+     * @param int $issue_id The ID of the issue.
+     * @param Entity\Commit $commit
+     * @since 3.0.12
+     */
+    public function handleScmCommit($prj_id, $issue_id, Entity\Commit $commit)
     {
     }
 
@@ -360,12 +379,12 @@ class Abstract_Workflow_Backend
      *
      * @param    integer $prj_id The project ID.
      * @param    integer $issue_id The ID of the issue.
-     * @param    string  $event The event to return additional email addresses for. Currently only "new_issue" is supported.
+     * @param    string $event The event to return additional email addresses for. Currently only "new_issue" is supported.
      * @return   array   An array of email addresses to be notified.
      */
     public function getAdditionalEmailAddresses($prj_id, $issue_id, $event)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -402,7 +421,7 @@ class Abstract_Workflow_Backend
      *
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue
-     * @param   string  $email The email address added
+     * @param   string $email The email address added
      * @return  boolean
      */
     public function handleAuthorizedReplierAdded($prj_id, $issue_id, $email)
@@ -433,7 +452,7 @@ class Abstract_Workflow_Backend
      *
      * @param   integer $prj_id
      * @param   integer $issue_id
-     * @param   array   $data
+     * @param   array $data
      * @return  mixed   Null by default, false if the note should not be inserted
      */
     public function preNoteInsert($prj_id, $issue_id, &$data)
@@ -457,14 +476,14 @@ class Abstract_Workflow_Backend
      * a new issue.
      *
      * @param   integer $prj_id The ID of the project
-     * @param   array   $info An array of info about the email account.
-     * @param   string  $headers The headers of the email.
-     * @param   string  $message_body The body of the message.
-     * @param   string  $date The date this message was sent
-     * @param   string  $from The name and email address of the sender.
-     * @param   string  $subject The subject of this message.
-     * @param   array   $to An array of to addresses
-     * @param   array   $cc An array of cc addresses
+     * @param   array $info An array of info about the email account.
+     * @param   string $headers The headers of the email.
+     * @param   string $message_body The body of the message.
+     * @param   string $date The date this message was sent
+     * @param   string $from The name and email address of the sender.
+     * @param   string $subject The subject of this message.
+     * @param   array $to An array of to addresses
+     * @param   array $cc An array of cc addresses
      * @return int
      */
     public function getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
@@ -521,8 +540,8 @@ class Abstract_Workflow_Backend
      * @see     Notification::getDefaultActions()
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue
-     * @param   string  $email The email address of the user being added
-     * @param   string  $source The source of this call
+     * @param   string $email The email address of the user being added
+     * @param   string $source The source of this call
      * @return  array   an array of actions
      */
     public function getNotificationActions($prj_id, $issue_id, $email, $source)
@@ -536,12 +555,12 @@ class Abstract_Workflow_Backend
      * @see     class.issue_field.php
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The ID of the issue
-     * @param   string  $location The location to display these fields at
+     * @param   string $location The location to display these fields at
      * @return  array   an array of fields to display and their associated options
      */
     public function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -552,13 +571,21 @@ class Abstract_Workflow_Backend
      */
     public function getLinkFilters($prj_id)
     {
-        return array();
+        return [];
     }
 
     /**
      * Returns if a user can update an issue. Return null to use default rules.
      */
     public function canUpdateIssue($prj_id, $issue_id, $usr_id)
+    {
+        return null;
+    }
+
+    /**
+     * Returns if a user can change the assignee of an issue. Return null to use default rules.
+     */
+    public function canChangeAssignee($prj_id, $issue_id, $usr_id)
     {
         return null;
     }
@@ -572,6 +599,14 @@ class Abstract_Workflow_Backend
     }
 
     /**
+     * Returns if a user can change the security settings of an issue. Return null to use default rules.
+     */
+    public function canChangeAccessLevel($prj_id, $issue_id, $usr_id)
+    {
+        return null;
+    }
+
+    /**
      * Returns the ID of the group that is "active" right now.
      */
     public function getActiveGroup($prj_id)
@@ -579,9 +614,65 @@ class Abstract_Workflow_Backend
         return null;
     }
 
-    public static function formatIRCMessage($prj_id, $notice, $issue_id = false, $usr_id = false, $category = false,
+    public function formatIRCMessage($prj_id, $notice, $issue_id = false, $usr_id = false, $category = false,
                                             $type = false)
     {
         return $notice;
+    }
+
+    /**
+     * Returns an array of additional access levels an issue can be set to
+     *
+     * @param $prj_id
+     * @return array
+     */
+    public function getAccessLevels($prj_id)
+    {
+        return [];
+    }
+
+    /**
+     * Performs additional checks on if a user can access an issue.
+     *
+     * @param $prj_id
+     * @param $issue_id
+     * @param $usr_id
+     * @return mixed null to use default rules, true or false otherwise
+     */
+    public function canAccessIssue($prj_id, $issue_id, $usr_id)
+    {
+        return null;
+    }
+
+    /**
+     * Returns custom SQL to limit what results a user can see on the list issues page
+     *
+     * @param $prj_id
+     * @param $usr_id
+     * @return mixed null to use default rules or an sql string otherwise
+     */
+    public function getAdditionalAccessSQL($prj_id, $usr_id)
+    {
+        return null;
+    }
+
+    /**
+     * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
+     *
+     * @see \Eventum\Crypto\CryptoUpgradeManager::upgradeConfig
+     * @since 3.1.0
+     */
+    public function cryptoUpgradeConfig()
+    {
+    }
+
+    /**
+     * Downgrade config: remove all EncryptedValue elements
+     * @see \Eventum\Crypto\CryptoUpgradeManager::downgradeConfig
+     *
+     * @since 3.1.0
+     */
+    public function cryptoDowngradeConfig()
+    {
     }
 }

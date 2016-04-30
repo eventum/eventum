@@ -19,7 +19,7 @@ use Eventum\Db\DatabaseException;
  */
 class Custom_Field
 {
-    public static $option_types = array('combo', 'multiple', 'checkbox');
+    public static $option_types = ['combo', 'multiple', 'checkbox'];
 
     /**
      * Method used to remove a group of custom field options.
@@ -31,10 +31,10 @@ class Custom_Field
     public function removeOptions($fld_id, $cfo_id)
     {
         if (!is_array($fld_id)) {
-            $fld_id = array($fld_id);
+            $fld_id = [$fld_id];
         }
         if (!is_array($cfo_id)) {
-            $cfo_id = array($cfo_id);
+            $cfo_id = [$cfo_id];
         }
         $stmt = 'DELETE FROM
                     {{%custom_field_option}}
@@ -69,7 +69,7 @@ class Custom_Field
     public function addOptions($fld_id, $options)
     {
         if (!is_array($options)) {
-            $options = array($options);
+            $options = [$options];
         }
 
         foreach ($options as $option) {
@@ -82,7 +82,7 @@ class Custom_Field
                         ?,
                         ' . DB_Helper::buildList($option) . '
                      )';
-            $params = array_merge(array($fld_id, $option));
+            $params = array_merge([$fld_id, $option]);
             try {
                 DB_Helper::getInstance()->query($stmt, $params);
             } catch (DatabaseException $e) {
@@ -109,7 +109,7 @@ class Custom_Field
                  WHERE
                     cfo_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($cfo_value, $cfo_id));
+            DB_Helper::getInstance()->query($stmt, [$cfo_value, $cfo_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -125,7 +125,7 @@ class Custom_Field
         if (isset($_POST['custom_fields'])) {
             $updated_fields = self::updateValues($_POST['issue_id'], $_POST['custom_fields']);
             if ($send_notification) {
-                Notification::notifyIssueUpdated($_POST['issue_id'], array(), array(), $updated_fields);
+                Notification::notifyIssueUpdated($_POST['issue_id'], [], [], $updated_fields);
             }
 
             return $updated_fields;
@@ -168,7 +168,7 @@ class Custom_Field
                         fld_id IN ($cf_list)";
             $field_titles = DB_Helper::getInstance()->getPair($stmt, $cf);
 
-            $updated_fields = array();
+            $updated_fields = [];
             foreach ($custom_fields as $fld_id => $value) {
                 // security check
                 $sql = 'SELECT
@@ -178,19 +178,19 @@ class Custom_Field
                         WHERE
                             fld_id = ?';
 
-                $min_role = DB_Helper::getInstance()->getOne($sql, array($fld_id));
+                $min_role = DB_Helper::getInstance()->getOne($sql, [$fld_id]);
                 if ($min_role > Auth::getCurrentRole()) {
                     continue;
                 }
 
-                $updated_fields[$fld_id] = array(
+                $updated_fields[$fld_id] = [
                     'title' =>  $field_titles[$fld_id],
                     'type'  =>  $field_types[$fld_id],
                     'min_role'  =>  $min_role,
                     'changes'   =>  '',
                     'old_display'   =>  '',
                     'new_display'   =>  '',
-                );
+                ];
                 if (!in_array($field_types[$fld_id], self::$option_types)) {
                     // check if this is a date field
                     $fld_db_name = self::getDBValueFieldNameByType($field_types[$fld_id]);
@@ -206,7 +206,7 @@ class Custom_Field
                                 icf_fld_id=?";
 
                     try {
-                        $res = DB_Helper::getInstance()->getRow($stmt, array($issue_id, $fld_id));
+                        $res = DB_Helper::getInstance()->getRow($stmt, [$issue_id, $fld_id]);
                     } catch (DatabaseException $e) {
                         return -1;
                     }
@@ -229,9 +229,9 @@ class Custom_Field
                                  ) VALUES (
                                     ?, ?, ?
                                  )";
-                        $params = array(
+                        $params = [
                             $issue_id, $fld_id, $value,
-                        );
+                        ];
                         try {
                             DB_Helper::getInstance()->query($stmt, $params);
                         } catch (DatabaseException $e) {
@@ -245,7 +245,7 @@ class Custom_Field
                                     $fld_db_name=?
                                  WHERE
                                     icf_id=?";
-                        $params = array($value, $icf_id);
+                        $params = [$value, $icf_id];
                         try {
                             DB_Helper::getInstance()->query($stmt, $params);
                         } catch (DatabaseException $e) {
@@ -268,10 +268,10 @@ class Custom_Field
                     }
 
                     if (!is_array($old_value)) {
-                        $old_value = array($old_value);
+                        $old_value = [$old_value];
                     }
                     if (!is_array($value)) {
-                        $value = array($value);
+                        $value = [$value];
                     }
                     if ((count(array_diff($old_value, $value)) > 0) || (count(array_diff($value, $old_value)) > 0)) {
                         $old_display_value = self::getDisplayValue($issue_id, $fld_id);
@@ -296,10 +296,10 @@ class Custom_Field
 
             if (count($updated_fields) > 0) {
                 // log the changes
-                $changes = array();
+                $changes = [];
                 foreach ($updated_fields as $fld_id => $updated_field) {
                     if (!isset($changes[$updated_field['min_role']])) {
-                        $changes[$updated_field['min_role']] = array();
+                        $changes[$updated_field['min_role']] = [];
                     }
                     $title = $updated_field['title'];
                     $value = $updated_field['changes'];
@@ -314,17 +314,17 @@ class Custom_Field
                 $usr_id = Auth::getUserID();
                 $usr_full_name = User::getFullName($usr_id);
                 foreach ($changes as $min_role => $role_changes) {
-                    History::add($issue_id, $usr_id, 'custom_field_updated', 'Custom field updated ({changes}) by {user}', array(
+                    History::add($issue_id, $usr_id, 'custom_field_updated', 'Custom field updated ({changes}) by {user}', [
                         'changes' => implode('; ', $role_changes),
                         'user' => $usr_full_name
-                    ), $min_role);
+                    ], $min_role);
                 }
             }
 
             return $updated_fields;
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -336,7 +336,7 @@ class Custom_Field
      */
     public static function getUpdatedFieldsForRole($updated_fields, $role)
     {
-        $role_updates = array();
+        $role_updates = [];
         foreach ($updated_fields as $fld_id => $field) {
             if ($role >= $field['min_role']) {
                 $role_updates[$fld_id] = $field;
@@ -358,7 +358,7 @@ class Custom_Field
         if ($role) {
             $updated_fields = self::getUpdatedFieldsForRole($updated_fields, $role);
         }
-        $diffs = array();
+        $diffs = [];
         foreach ($updated_fields as $fld_id => $field) {
             if ($field['old_display'] != $field['new_display']) {
                 if ($field['type'] == 'textarea') {
@@ -396,10 +396,10 @@ class Custom_Field
         // check if this is a date field
         $fld_details = self::getDetails($fld_id);
         if (!is_array($value)) {
-            $value = array($value);
+            $value = [$value];
         }
         foreach ($value as $item) {
-            $params = array($iss_id, $fld_id);
+            $params = [$iss_id, $fld_id];
             if ($fld_details['fld_type'] == 'integer') {
                 $params[] = $item;
             } elseif ((in_array($fld_details['fld_type'], self::$option_types) && ($item == -1))) {
@@ -435,9 +435,10 @@ class Custom_Field
      * @param   integer $prj_id The project ID
      * @param   string $form_type The type of the form
      * @param   string $fld_type The type of field (optional)
+     * @param   bool    $for_edit True if the fld_min_role_edit permission should be checked
      * @return  array The list of custom fields
      */
-    public static function getListByProject($prj_id, $form_type, $fld_type = false)
+    public static function getListByProject($prj_id, $form_type, $fld_type = false, $for_edit = false)
     {
         $stmt = 'SELECT
                     fld_id,
@@ -454,13 +455,18 @@ class Custom_Field
                     pcf_fld_id=fld_id AND
                     pcf_prj_id=?';
 
-        $params = array(
+        $params = [
             $prj_id,
-        );
+        ];
 
         if ($form_type != 'anonymous_form') {
             $stmt .= ' AND
                     fld_min_role <= ?';
+            $params[] = Auth::getCurrentRole();
+        }
+        if ($for_edit) {
+            $stmt .= ' AND
+                    fld_min_role_edit <= ?';
             $params[] = Auth::getCurrentRole();
         }
         if ($form_type != '') {
@@ -477,11 +483,11 @@ class Custom_Field
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         if (count($res) == 0) {
-            return array();
+            return [];
         }
 
         foreach ($res as &$row) {
@@ -560,7 +566,7 @@ class Custom_Field
                     cfo_fld_id=? AND
                     cfo_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($fld_id, $value));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$fld_id, $value]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -612,7 +618,7 @@ class Custom_Field
                     cfo_fld_id=? AND
                     cfo_value=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($fld_id, $value));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$fld_id, $value]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -637,9 +643,10 @@ class Custom_Field
      * @param   integer $iss_id The issue ID
      * @param   integer $usr_id The ID of the user who is going to be viewing this list.
      * @param   mixed   $form_type The name of the form this is for or if this is an array the ids of the fields to return
+     * @param   bool    $for_edit True if the fld_min_role_edit permission should be checked
      * @return  array The list of custom fields
      */
-    public static function getListByIssue($prj_id, $iss_id, $usr_id = null, $form_type = false)
+    public static function getListByIssue($prj_id, $iss_id, $usr_id = null, $form_type = false, $for_edit = false)
     {
         if (!$usr_id) {
             $usr_id = Auth::getUserID();
@@ -678,9 +685,15 @@ class Custom_Field
                     pcf_fld_id=fld_id AND
                     pcf_prj_id=? AND
                     fld_min_role <= ?';
-        $params = array(
+        $params = [
             $iss_id, $prj_id, $usr_role,
-        );
+        ];
+
+        if ($for_edit) {
+            $stmt .= ' AND
+                    fld_min_role_edit <= ?';
+            $params[] = $usr_role;
+        }
 
         if ($form_type != false) {
             if (is_array($form_type)) {
@@ -697,14 +710,14 @@ class Custom_Field
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         if (count($res) == 0) {
-            return array();
+            return [];
         }
 
-        $fields = array();
+        $fields = [];
         foreach ($res as &$row) {
             if ($row['fld_type'] == 'combo') {
                 $row['selected_cfo_id'] = $row['value'];
@@ -729,7 +742,7 @@ class Custom_Field
                 }
                 $original_value = $row['value'];
                 if (!$found) {
-                    $row['selected_cfo_id'] = array($row['value']);
+                    $row['selected_cfo_id'] = [$row['value']];
                     $row['value'] = self::getOptionValue($row['fld_id'], $row['value']);
                     $row['field_options'] = self::getOptions($row['fld_id']);
                     $fields[] = $row;
@@ -785,13 +798,13 @@ class Custom_Field
      */
     public static function getValuesByIssue($prj_id, $iss_id)
     {
-        $values = array();
+        $values = [];
         $list = self::getListByIssue($prj_id, $iss_id);
         foreach ($list as $field) {
             if ($field['fld_type'] == 'combo') {
-                $values[$field['fld_id']] = array(
+                $values[$field['fld_id']] = [
                     $field['selected_cfo_id'] => $field['value'],
-                );
+                ];
             } elseif ($field['fld_type'] == 'multiple' || $field['fld_type'] == 'checkbox') {
                 $selected = $field['selected_cfo_id'];
                 foreach ($selected as $cfo_id) {
@@ -891,6 +904,9 @@ class Custom_Field
         if (empty($_POST['min_role'])) {
             $_POST['min_role'] = 1;
         }
+        if (empty($_POST['min_role_edit'])) {
+            $_POST['min_role_edit'] = 1;
+        }
         if (!isset($_POST['rank'])) {
             $_POST['rank'] = (self::getMaxRank() + 1);
         }
@@ -909,15 +925,16 @@ class Custom_Field
                     fld_edit_form_required,
                     fld_list_display,
                     fld_min_role,
+                    fld_min_role_edit,
                     fld_rank,
                     fld_backend
                  ) VALUES (
                      ?, ?, ?, ?, ?,
                      ?, ?, ?, ?, ?,
-                     ?, ?, ?, ?
+                     ?, ?, ?, ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, array(
+            DB_Helper::getInstance()->query($stmt, [
                 $_POST['title'],
                 $_POST['description'],
                 $_POST['field_type'],
@@ -930,9 +947,10 @@ class Custom_Field
                 $_POST['edit_form_required'],
                 $_POST['list_display'],
                 $_POST['min_role'],
+                $_POST['min_role_edit'],
                 $_POST['rank'],
                 @$_POST['custom_field_backend'],
-            ));
+            ]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -970,7 +988,7 @@ class Custom_Field
                     ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($prj_id, $fld_id));
+            DB_Helper::getInstance()->query($stmt, [$prj_id, $fld_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -1009,6 +1027,7 @@ class Custom_Field
                 $row['field_options'] = 'Backend: ' . self::getBackendName($row['fld_backend']);
             }
             $row['min_role_name'] = User::getRole($row['fld_min_role']);
+            $row['min_role_edit_name'] = User::getRole($row['fld_min_role_edit']);
         }
 
         return $res;
@@ -1035,7 +1054,7 @@ class Custom_Field
                  ORDER BY
                     prj_title ASC';
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt, array($fld_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, [$fld_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -1065,7 +1084,7 @@ class Custom_Field
                  WHERE
                     fld_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($fld_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$fld_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -1121,7 +1140,7 @@ class Custom_Field
                     {{%custom_field_option}}
                  WHERE
                     cfo_fld_id=?';
-        $params = array($fld_id);
+        $params = [$fld_id];
         if ($ids) {
             $stmt .= ' AND
                     cfo_id IN(' . DB_Helper::buildList($ids) . ')';
@@ -1154,19 +1173,19 @@ class Custom_Field
     private function parseParameters($value)
     {
         if (substr($value, 0, 4) == 'new:') {
-            return array(
+            return [
                 'type'  => 'new',
                 'value' => substr($value, 4),
-            );
+            ];
         }
 
         $value = substr($value, strlen('existing:'));
 
-        return array(
+        return [
             'type'  => 'existing',
             'id'    => substr($value, 0, strpos($value, ':')),
             'value' => substr($value, strpos($value, ':') + 1),
-        );
+        ];
     }
 
     /**
@@ -1203,6 +1222,9 @@ class Custom_Field
         if (empty($_POST['min_role'])) {
             $_POST['min_role'] = 1;
         }
+        if (empty($_POST['min_role_edit'])) {
+            $_POST['min_role_edit'] = 1;
+        }
         if (!isset($_POST['rank'])) {
             $_POST['rank'] = (self::getMaxRank() + 1);
         }
@@ -1222,12 +1244,13 @@ class Custom_Field
                     fld_edit_form_required=?,
                     fld_list_display=?,
                     fld_min_role=?,
+                    fld_min_role_edit=?,
                     fld_rank = ?,
                     fld_backend = ?
                  WHERE
                     fld_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array(
+            DB_Helper::getInstance()->query($stmt, [
                 $_POST['title'],
                 $_POST['description'],
                 $_POST['field_type'],
@@ -1240,10 +1263,11 @@ class Custom_Field
                 $_POST['edit_form_required'],
                 $_POST['list_display'],
                 $_POST['min_role'],
+                $_POST['min_role_edit'],
                 $_POST['rank'],
                 @$_POST['custom_field_backend'],
                 $_POST['id'],
-            ));
+            ]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -1256,23 +1280,23 @@ class Custom_Field
                         {{%custom_field_option}}
                      WHERE
                         cfo_fld_id=?';
-            $current_options = DB_Helper::getInstance()->getColumn($stmt, array($_POST['id']));
+            $current_options = DB_Helper::getInstance()->getColumn($stmt, [$_POST['id']]);
         }
 
         if ($old_details['fld_type'] != $_POST['field_type']) {
             // gotta remove all custom field options if the field is being changed from a combo box to a text field
-            if ((!in_array($old_details['fld_type'], array('text', 'textarea'))) &&
+            if ((!in_array($old_details['fld_type'], ['text', 'textarea'])) &&
                   (!in_array($_POST['field_type'], self::$option_types))) {
                 self::removeOptionsByFields($_POST['id']);
             }
-            if (in_array($_POST['field_type'], array('text', 'textarea', 'date', 'integer'))) {
+            if (in_array($_POST['field_type'], ['text', 'textarea', 'date', 'integer'])) {
                 // update values for all other option types
                 self::updateValuesForNewType($_POST['id']);
             }
         }
         // update the custom field options, if any
         if (in_array($_POST['field_type'], self::$option_types)) {
-            $updated_options = array();
+            $updated_options = [];
             foreach ($_POST['field_options'] as $option_value) {
                 $params = self::parseParameters($option_value);
                 if ($params['type'] == 'new') {
@@ -1311,7 +1335,7 @@ class Custom_Field
                  WHERE
                     pcf_fld_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST['id']));
+            DB_Helper::getInstance()->query($stmt, [$_POST['id']]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -1339,9 +1363,9 @@ class Custom_Field
                  WHERE
                     pcf_prj_id=?';
         try {
-            $res = DB_Helper::getInstance()->getColumn($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getColumn($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -1359,12 +1383,12 @@ class Custom_Field
     public function removeIssueAssociation($fld_id, $issue_id = null, $prj_id = null)
     {
         if (!is_array($fld_id)) {
-            $fld_id = array($fld_id);
+            $fld_id = [$fld_id];
         }
 
-        $issues = array();
+        $issues = [];
         if ($issue_id) {
-            $issues = array($issue_id);
+            $issues = [$issue_id];
         } elseif ($prj_id) {
             $sql = 'SELECT
                         iss_id
@@ -1373,7 +1397,7 @@ class Custom_Field
                     WHERE
                         iss_prj_id = ?';
             try {
-                $res = DB_Helper::getInstance()->getColumn($sql, array($prj_id));
+                $res = DB_Helper::getInstance()->getColumn($sql, [$prj_id]);
             } catch (DatabaseException $e) {
                 return false;
             }
@@ -1493,9 +1517,9 @@ class Custom_Field
                 ORDER BY
                     fld_rank ASC';
         try {
-            $res = DB_Helper::getInstance()->getPair($sql, array($prj_id, Auth::getCurrentRole()));
+            $res = DB_Helper::getInstance()->getPair($sql, [$prj_id, Auth::getCurrentRole()]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -1516,7 +1540,7 @@ class Custom_Field
                 WHERE
                     fld_title = ?';
         try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($title));
+            $res = DB_Helper::getInstance()->getOne($sql, [$title]);
         } catch (DatabaseException $e) {
             return 0;
         }
@@ -1550,12 +1574,12 @@ class Custom_Field
                     icf_iss_id=? AND
                     fld_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array($iss_id, $fld_id));
+            $res = DB_Helper::getInstance()->getAll($sql, [$iss_id, $fld_id]);
         } catch (DatabaseException $e) {
             return '';
         }
 
-        $values = array();
+        $values = [];
         foreach ($res as $row) {
             if (in_array($row['fld_type'], self::$option_types)) {
                 if ($raw) {
@@ -1650,7 +1674,7 @@ class Custom_Field
                 WHERE
                     fld_id = ?';
         try {
-            DB_Helper::getInstance()->query($sql, array($rank, $fld_id));
+            DB_Helper::getInstance()->query($sql, [$rank, $fld_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -1666,7 +1690,7 @@ class Custom_Field
      */
     public static function getBackendList()
     {
-        $list = array();
+        $list = [];
         $files = Misc::getFileList(APP_INC_PATH . '/custom_field');
         $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/custom_field'));
         foreach ($files as $file) {
@@ -1716,7 +1740,7 @@ class Custom_Field
                 WHERE
                     fld_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($fld_id));
+            $res = DB_Helper::getInstance()->getOne($sql, [$fld_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -1772,15 +1796,15 @@ class Custom_Field
                         icf_value_date LIKE ?
                     )';
         try {
-            $params = array(
+            $params = [
                 $fld_id,
                 "%$search%",
                 "%$search%",
                 "%$search%",
-            );
+            ];
             $res = DB_Helper::getInstance()->getColumn($sql, $params);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -1881,7 +1905,7 @@ class Custom_Field
                 WHERE
                     $db_field_name IS NULL AND
                     icf_fld_id = ?";
-        $params = array($fld_id);
+        $params = [$fld_id];
         try {
             DB_Helper::getInstance()->query($sql, $params);
         } catch (DatabaseException $e) {

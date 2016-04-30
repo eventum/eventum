@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use CRM;
@@ -71,24 +70,24 @@ class FaqController extends ManageBaseController
     private function newAction()
     {
         $res = FAQ::insert();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the FAQ entry was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the FAQ entry.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this FAQ entry.'), Misc::MSG_ERROR),
-            -3 => array(ev_gettext('Please enter the message for this FAQ entry.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the FAQ entry was added successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the FAQ entry.'), Misc::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this FAQ entry.'), Misc::MSG_ERROR],
+            -3 => [ev_gettext('Please enter the message for this FAQ entry.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = FAQ::update();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the FAQ entry was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to update the FAQ entry information.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this FAQ entry.'), Misc::MSG_ERROR),
-            -3 => array(ev_gettext('Please enter the message for this FAQ entry.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the FAQ entry was updated successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the FAQ entry information.'), Misc::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this FAQ entry.'), Misc::MSG_ERROR],
+            -3 => [ev_gettext('Please enter the message for this FAQ entry.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
@@ -118,7 +117,7 @@ class FaqController extends ManageBaseController
 
     private function infoAction()
     {
-        $this->tpl->assign('info', array('faq_prj_id' => $this->prj_id));
+        $this->tpl->assign('info', ['faq_prj_id' => $this->prj_id]);
         if ($crm = CRM::getInstance($this->prj_id)) {
             $this->tpl->assign('support_levels', $crm->getSupportLevelAssocList());
         }
@@ -130,10 +129,10 @@ class FaqController extends ManageBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'list' => FAQ::getList(),
                 'project_list' => Project::getAll(),
-            )
+            ]
         );
     }
 }

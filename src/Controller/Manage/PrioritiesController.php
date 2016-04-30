@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use Misc;
@@ -63,11 +62,11 @@ class PrioritiesController extends ManageBaseController
     {
         $res = Priority::insert();
         $this->tpl->assign('result', $res);
-        $map = array(
-            1 => array(ev_gettext('Thank you, the priority was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the priority.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this new priority.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the priority was added successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the priority.'), Misc::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this new priority.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
@@ -75,11 +74,11 @@ class PrioritiesController extends ManageBaseController
     {
         $res = Priority::update();
         $this->tpl->assign('result', $res);
-        $map = array(
-            1 => array(ev_gettext('Thank you, the priority was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to update the priority.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this priority.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the priority was updated successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the priority.'), Misc::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this priority.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
@@ -106,10 +105,10 @@ class PrioritiesController extends ManageBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'project' => Project::getDetails($this->prj_id),
                 'list' => Priority::getList($this->prj_id),
-            )
+            ]
         );
     }
 }

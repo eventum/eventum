@@ -45,14 +45,14 @@ class RecentActivity
         }
 
         $this->prj_id = Auth::getCurrentProject();
-        $this->activity_types = !empty($_REQUEST['activity_types']) ? (array) $_REQUEST['activity_types'] : array();
+        $this->activity_types = !empty($_REQUEST['activity_types']) ? (array) $_REQUEST['activity_types'] : [];
         $this->report_type = isset($_REQUEST['report_type']) ? (string) $_REQUEST['report_type'] : null;
-        $this->unit = $this->getParam('unit', array('hour', 'day'));
+        $this->unit = $this->getParam('unit', ['hour', 'day']);
         $this->amount = isset($_REQUEST['amount']) ? $_REQUEST['amount'] : null;
         $this->developer = isset($_REQUEST['developer']) ? $_REQUEST['developer'] : null;
         $this->start_date = $this->parseDate(isset($_POST['start']) ? $_POST['start'] : null);
         $this->end_date = $this->parseDate(isset($_POST['end']) ? $_POST['end'] : null);
-        $this->sort_order = $this->getParam('sort_order', array('ASC', 'DESC'));
+        $this->sort_order = $this->getParam('sort_order', ['ASC', 'DESC']);
 
         if (CRM::hasCustomerIntegration($this->prj_id)) {
             $this->crm = CRM::getInstance($this->prj_id);
@@ -61,21 +61,21 @@ class RecentActivity
 
     public function __invoke(Template_Helper $tpl)
     {
-        $units = array(
+        $units = [
             'hour' => 'Hours',
             'day' => 'Days',
-        );
+        ];
 
-        $type_list = array(
+        $type_list = [
             'phone' => 'Phone Calls',
             'note' => 'Notes',
             'email' => 'Email',
             'draft' => 'Drafts',
             'time' => 'Time Tracking',
             'reminder' => 'Reminders',
-        );
+        ];
 
-        $tpl->assign(array(
+        $tpl->assign([
             'units' => $units,
             'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
             'developer' => $this->usr_id,
@@ -87,13 +87,13 @@ class RecentActivity
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
             'sort_order' => $this->sort_order,
-        ));
+        ]);
 
         if (!$this->unit && !$this->amount) {
             return;
         }
 
-        $data = array();
+        $data = [];
         if (in_array('phone', $this->activity_types)) {
             $data['phone'] = $this->phoneActivity();
         }
@@ -118,10 +118,10 @@ class RecentActivity
             $data['reminder'] = $this->reminderActivity();
         }
 
-        $tpl->assign(array(
+        $tpl->assign([
             'data' => $data,
             'developer' => $this->developer,
-        ));
+        ]);
     }
 
     private function phoneActivity()
@@ -145,7 +145,7 @@ class RecentActivity
                     phs_iss_id = iss_id AND
                     phs_usr_id = usr_id AND
                     iss_prj_id = ? AND\n";
-        $params = array($this->prj_id);
+        $params = [$this->prj_id];
         $this->createWhereClause($sql, $params, 'phs_created_date', 'usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
         $this->processResult($res, 'phs_created_date', 'phs_iss_id');
@@ -171,7 +171,7 @@ class RecentActivity
                     not_iss_id = iss_id AND
                     not_usr_id = usr_id AND
                     iss_prj_id = ? AND\n";
-        $params = array($this->prj_id);
+        $params = [$this->prj_id];
         $this->createWhereClause($sql, $params, 'not_created_date', 'not_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
         $this->processResult($res, 'not_created_date', 'not_iss_id');
@@ -195,7 +195,7 @@ class RecentActivity
                     iss_sta_id = sta_id AND
                     sup_iss_id = iss_id AND
                     iss_prj_id = ? AND\n";
-        $params = array($this->prj_id);
+        $params = [$this->prj_id];
         $this->createWhereClause($sql, $params, 'sup_date', 'sup_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
         $this->processResult($res, 'sup_date', 'sup_iss_id');
@@ -218,7 +218,7 @@ class RecentActivity
                     iss_sta_id = sta_id AND
                     emd_iss_id = iss_id AND
                     iss_prj_id = ? AND\n";
-        $params = array($this->prj_id);
+        $params = [$this->prj_id];
         $this->createWhereClause($sql, $params, 'emd_updated_date', 'emd_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
 
@@ -259,7 +259,7 @@ class RecentActivity
                     ttr_ttc_id = ttc_id AND
                     ttr_usr_id = usr_id AND
                     iss_prj_id = ? AND\n";
-        $params = array($this->prj_id);
+        $params = [$this->prj_id];
         $this->createWhereClause($sql, $params, 'ttr_created_date', 'ttr_usr_id');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
         $this->processResult($res, 'ttr_created_date', 'ttr_iss_id');
@@ -288,7 +288,7 @@ class RecentActivity
                     rmh_iss_id = iss_id AND
                     rmh_rma_id = rma_id AND
                     iss_prj_id = ? AND\n";
-        $params = array($this->prj_id);
+        $params = [$this->prj_id];
         $this->createWhereClause($sql, $params, 'rmh_created_date');
         $res = DB_Helper::getInstance()->getAll($sql, $params);
         $this->processResult($res, 'rmh_created_date', 'rmh_iss_id');

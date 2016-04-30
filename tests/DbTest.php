@@ -1,4 +1,16 @@
 <?php
+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\Adapter\PearAdapter;
 
@@ -30,18 +42,17 @@ class DbTest extends TestCase
 
     public function quoteData()
     {
-        return array(
-            array("C'est La Vie", "C\\'est La Vie"),
-            array(array("Jää-äär"), null),
-        );
+        return [
+            ["C'est La Vie", "C\\'est La Vie"],
+            [['Jää-äär'], null],
+        ];
     }
 
     /** @group query */
     public function testQuery()
     {
-        $res = $this->db->query('update {{%user}} set usr_lang=? where 1=0', array('en_US'));
+        $res = $this->db->query('update {{%user}} set usr_lang=? where 1=0', ['en_US']);
         $this->assertEquals(true, $res);
-
     }
 
     /** @group query */
@@ -52,7 +63,7 @@ class DbTest extends TestCase
         }
 
         // only Pear adapter returns resultset for SELECT statements
-        $res = $this->db->query("select usr_id from {{%user}} where usr_id=?", array(2));
+        $res = $this->db->query('select usr_id from {{%user}} where usr_id=?', [2]);
         $this->assertNotSame(true, $res);
         print_r($res);
     }
@@ -61,24 +72,24 @@ class DbTest extends TestCase
     public function testGetAllDefault()
     {
         $res = $this->db->getAll(
-            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?', array(2),
+            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?', [2],
             AdapterInterface::DB_FETCHMODE_DEFAULT
         );
         $this->assertInternalType('array', $res);
-        $exp = array(
-            0 => array(
+        $exp = [
+            0 => [
                 0 => 1,
                 1 => 'system',
                 2 => 'system-account@example.com',
                 3 => null,
-            ),
-            1 => array(
+            ],
+            1 => [
                 0 => 2,
                 1 => 'Admin User',
                 2 => 'admin@example.com',
                 3 => null,
-            ),
-        );
+            ],
+        ];
         $this->assertEquals($exp, $res);
     }
 
@@ -86,24 +97,24 @@ class DbTest extends TestCase
     public function testGetAllAssoc()
     {
         $res = $this->db->getAll(
-            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=? AND usr_id!=42', array(2),
+            'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=? AND usr_id!=42', [2],
             AdapterInterface::DB_FETCHMODE_ASSOC
         );
         $this->assertInternalType('array', $res);
-        $exp = array(
-            0 => array(
+        $exp = [
+            0 => [
                 'usr_id' => 1,
                 'usr_full_name' => 'system',
                 'usr_email' => 'system-account@example.com',
                 'usr_lang' => '',
-            ),
-            1 => array(
+            ],
+            1 => [
                 'usr_id' => 2,
                 'usr_full_name' => 'Admin User',
                 'usr_email' => 'admin@example.com',
                 'usr_lang' => null,
-            ),
-        );
+            ],
+        ];
         $this->assertEquals($exp, $res);
     }
 
@@ -125,8 +136,8 @@ class DbTest extends TestCase
                     lfi_id = plf_lfi_id
                 ORDER BY
                     lfi_id";
-        $res1 = $this->db->getAll($stmt, array(), AdapterInterface::DB_FETCHMODE_ORDERED);
-        $res2 = $this->db->getAll($stmt, array(), AdapterInterface::DB_FETCHMODE_DEFAULT);
+        $res1 = $this->db->getAll($stmt, [], AdapterInterface::DB_FETCHMODE_ORDERED);
+        $res2 = $this->db->getAll($stmt, [], AdapterInterface::DB_FETCHMODE_DEFAULT);
         $this->assertSame($res1, $res2);
     }
 
@@ -135,23 +146,23 @@ class DbTest extends TestCase
     {
         $res = $this->db->fetchAssoc(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
-            array(2),
+            [2],
             AdapterInterface::DB_FETCHMODE_DEFAULT
         );
 
         $this->assertInternalType('array', $res);
-        $exp = array(
-            1 => array(
+        $exp = [
+            1 => [
                 0 => 'system',
                 1 => 'system-account@example.com',
                 2 => null,
-            ),
-            2 => array(
+            ],
+            2 => [
                 0 => 'Admin User',
                 1 => 'admin@example.com',
                 2 => null,
-            ),
-        );
+            ],
+        ];
         $this->assertEquals($exp, $res);
     }
 
@@ -160,23 +171,23 @@ class DbTest extends TestCase
     {
         $res = $this->db->fetchAssoc(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
-            array(2),
+            [2],
             AdapterInterface::DB_FETCHMODE_ASSOC
         );
 
         $this->assertInternalType('array', $res);
-        $exp = array(
-            1 => array(
+        $exp = [
+            1 => [
                 'usr_full_name' => 'system',
                 'usr_email' => 'system-account@example.com',
                 'usr_lang' => null,
-            ),
-            2 => array(
+            ],
+            2 => [
                 'usr_full_name' => 'Admin User',
                 'usr_email' => 'admin@example.com',
                 'usr_lang' => null,
-            ),
-        );
+            ],
+        ];
         $this->assertEquals($exp, $res);
     }
 
@@ -194,14 +205,14 @@ class DbTest extends TestCase
         } else {
             $res = $this->db->getPair($stmt);
         }
-        $exp = array(
+        $exp = [
             1 => 'discovery',
             2 => 'requirements',
             3 => 'implementation',
             4 => 'evaluation and testing',
             5 => 'released',
             6 => 'killed',
-        );
+        ];
         $this->assertEquals($exp, $res);
     }
 
@@ -210,14 +221,14 @@ class DbTest extends TestCase
     {
         $res = $this->db->getColumn(
             'SELECT usr_full_name FROM {{%user}} WHERE usr_id<=?',
-            array(2)
+            [2]
         );
 
         $this->assertInternalType('array', $res);
-        $exp = array(
+        $exp = [
             0 => 'system',
             1 => 'Admin User',
-        );
+        ];
         $this->assertEquals($exp, $res);
     }
 
@@ -225,12 +236,12 @@ class DbTest extends TestCase
     public function testGetOne()
     {
         $res = $this->db->getOne(
-            'SELECT usr_id FROM {{%user}} WHERE usr_email=?', array('nosuchemail@.-')
+            'SELECT usr_id FROM {{%user}} WHERE usr_email=?', ['nosuchemail@.-']
         );
         $this->assertNull($res);
 
         $res = $this->db->getOne(
-            'SELECT usr_id FROM {{%user}} WHERE usr_email=?', array('admin@example.com')
+            'SELECT usr_id FROM {{%user}} WHERE usr_email=?', ['admin@example.com']
         );
         $this->assertEquals(2, $res);
     }
@@ -239,7 +250,7 @@ class DbTest extends TestCase
     public function testGetPair()
     {
         $res = $this->db->getPair(
-            'SELECT usr_id,usr_full_name FROM {{%user}} WHERE usr_email=?', array('nosuchemail@.-')
+            'SELECT usr_id,usr_full_name FROM {{%user}} WHERE usr_email=?', ['nosuchemail@.-']
         );
         $this->assertInternalType('array', $res);
         $this->assertEmpty($res);
@@ -248,7 +259,7 @@ class DbTest extends TestCase
             'SELECT usr_id,usr_full_name FROM {{%user}} WHERE usr_id<=2'
         );
         $this->assertInternalType('array', $res);
-        $exp = array(1 => 'system', 2 => 'Admin User');
+        $exp = [1 => 'system', 2 => 'Admin User'];
         $this->assertEquals($exp, $res);
     }
 
@@ -257,16 +268,16 @@ class DbTest extends TestCase
     {
         $res = $this->db->getRow(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
-            array(2), AdapterInterface::DB_FETCHMODE_DEFAULT
+            [2], AdapterInterface::DB_FETCHMODE_DEFAULT
         );
 
         $this->assertInternalType('array', $res);
-        $exp = array(
+        $exp = [
             0 => '1',
             1 => 'system',
             2 => 'system-account@example.com',
             3 => null,
-        );
+        ];
         $this->assertEquals($exp, $res);
     }
 
@@ -275,29 +286,29 @@ class DbTest extends TestCase
     {
         $res = $this->db->getRow(
             'SELECT usr_id,usr_full_name,usr_email,usr_lang FROM {{%user}} WHERE usr_id<=?',
-            array(2), AdapterInterface::DB_FETCHMODE_ASSOC
+            [2], AdapterInterface::DB_FETCHMODE_ASSOC
         );
 
         $this->assertInternalType('array', $res);
-        $exp = array(
+        $exp = [
             'usr_id' => '1',
             'usr_full_name' => 'system',
             'usr_email' => 'system-account@example.com',
             'usr_lang' => null,
-        );
+        ];
         $this->assertEquals($exp, $res);
     }
 
     public function testBuildSet()
     {
-        $table = "test_" . __FUNCTION__;
+        $table = 'test_' . __FUNCTION__;
         $this->db->query("CREATE TEMPORARY TABLE $table (id INT, v1 CHAR(1), v2 CHAR(2))");
 
-        $params = array(
+        $params = [
             'id' => 1,
             'v1' => 'a',
             'v2' => '22',
-        );
+        ];
         $stmt = "INSERT INTO $table SET " . DB_Helper::buildSet($params);
 
         DB_Helper::getInstance()->query($stmt, $params);

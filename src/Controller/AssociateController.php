@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -113,7 +112,7 @@ class AssociateController extends BaseController
                 $res = Note::insertFromPost($this->usr_id, $this->issue_id, false, true, false, true, true);
                 // remove the associated email
                 if ($res) {
-                    list($_POST['from']) = Support::getSender(array($item));
+                    list($_POST['from']) = Support::getSender([$item]);
                     Workflow::handleBlockedEmail($this->prj_id, $this->issue_id, $_POST, 'associated');
                     Support::removeEmail($item);
                 }
@@ -127,16 +126,16 @@ class AssociateController extends BaseController
     // TODO: this method could use cleanup/rewrite
     private function listAction()
     {
-        $this->tpl->assign(array(
+        $this->tpl->assign([
             'emails' => $this->items,
             'total_emails' => count($this->items),
-        ));
+        ]);
 
         if (CRM::hasCustomerIntegration($this->prj_id)) {
             // check if the selected emails all have sender email addresses that are associated with the issue' customer
             $crm = CRM::getInstance($this->prj_id);
             $senders = Support::getSender($this->items);
-            $sender_emails = array();
+            $sender_emails = [];
             foreach ($senders as $sender) {
                 $email = Mail_Helper::getEmailAddress($sender);
                 $sender_emails[$email] = $sender;
@@ -148,9 +147,9 @@ class AssociateController extends BaseController
                     // TODOCRM: Active contacts only
                     $contact_emails = array_keys($contract->getContactEmailAssocList());
                 } catch (CRMException $e) {
-                    $contact_emails = array();
+                    $contact_emails = [];
                 }
-                $unknown_contacts = array();
+                $unknown_contacts = [];
                 foreach ($sender_emails as $email => $address) {
                     if (!in_array($email, $contact_emails)) {
                         $usr_id = User::getUserIDByEmail($email);

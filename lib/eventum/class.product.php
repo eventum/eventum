@@ -17,7 +17,7 @@ class Product
 {
     public static function getList($include_removed = null)
     {
-        $params = array();
+        $params = [];
         $sql = 'SELECT
                     pro_id,
                     pro_title,
@@ -39,7 +39,7 @@ class Product
         try {
             $res = DB_Helper::getInstance()->getAll($sql, $params);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -48,7 +48,7 @@ class Product
     public static function getAssocList($removed = null)
     {
         $list = self::getList($removed);
-        $return = array();
+        $return = [];
         foreach ($list as $product) {
             $return[$product['pro_id']] = $product['pro_title'];
         }
@@ -61,7 +61,7 @@ class Product
         if ($removed != 1) {
             $removed = 0;
         }
-        $params = array($title, $version_howto, $rank, $removed, $email);
+        $params = [$title, $version_howto, $rank, $removed, $email];
         $sql = 'INSERT INTO
                     {{%product}}
                 SET
@@ -84,7 +84,7 @@ class Product
         if ($removed != 1) {
             $removed = 0;
         }
-        $params = array($title, $version_howto, $rank, $removed, $email, $id);
+        $params = [$title, $version_howto, $rank, $removed, $email, $id];
         $sql = 'UPDATE
                     {{%product}}
                 SET
@@ -135,9 +135,9 @@ class Product
                     pro_id = ?';
 
         try {
-            $res = DB_Helper::getInstance()->getRow($sql, array($pro_id));
+            $res = DB_Helper::getInstance()->getRow($sql, [$pro_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -162,7 +162,7 @@ class Product
                     ipv_iss_id = ?,
                     ipv_pro_id = ?,
                     ipv_version = ?';
-        $params = array($issue_id, $pro_id, $version);
+        $params = [$issue_id, $pro_id, $version];
         try {
             DB_Helper::getInstance()->query($sql, $params);
         } catch (DatabaseException $e) {
@@ -187,9 +187,9 @@ class Product
                     ipv_pro_id = pro_id AND
                     ipv_iss_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array($issue_id));
+            $res = DB_Helper::getInstance()->getAll($sql, [$issue_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -198,10 +198,10 @@ class Product
     public static function updateProductsByIssue($issue_id, $products, $versions)
     {
         $old = self::getProductsByIssue($issue_id);
-        $changes = array();
+        $changes = [];
         foreach ($products as $ipv_id => $pro_id) {
             if ($ipv_id == 0) {
-                $old[] = array('ipv_id' =>  0, 'pro_id' => '', 'product' => '', 'version' => '');
+                $old[] = ['ipv_id' =>  0, 'pro_id' => '', 'product' => '', 'version' => ''];
                 self::addIssueProductVersion($issue_id, $pro_id, $versions[$ipv_id]);
             } else {
                 self::updateProductAndVersion($ipv_id, $pro_id, $versions[$ipv_id]);
@@ -228,7 +228,7 @@ class Product
                         {{%issue_product_version}}
                     WHERE
                         ipv_id = ?';
-            $params = array($ipv_id);
+            $params = [$ipv_id];
         } else {
             $sql = 'UPDATE
                         {{%issue_product_version}}
@@ -237,7 +237,7 @@ class Product
                         ipv_version = ?
                     WHERE
                         ipv_id = ?';
-            $params = array($pro_id, $version, $ipv_id);
+            $params = [$pro_id, $version, $ipv_id];
         }
         try {
             DB_Helper::getInstance()->query($sql, $params);

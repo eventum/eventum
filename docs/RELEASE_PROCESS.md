@@ -6,6 +6,7 @@ Test before release
 
 - install yourself lowest supported php and it's modules (5.3 as of now) as
   depending on php version different PEAR modules may be installed
+- update git submodules to point to master
 - create release tarball, unpack and run setup
 `$ make dist`
 - make sure upgrade/drop.sql lists all created tables
@@ -26,7 +27,7 @@ Release process
 - Update the ChangeLog.md file with the correct version number and release date
 
 - create git tag
-`$ git tag -s v3.0.7`
+`$ git tag -s v3.1.1`
 
 - build tarball again
 `$ make dist`
@@ -38,15 +39,17 @@ Release process
 - fill release title and release notes
 - upload tarball and signature to the release
 - to create a digital signature, use the following command:
-`% gpg --armor --sign --detach-sig eventum-3.0.4.tar.gz`
+`% gpg --armor --sign --detach-sig eventum-3.1.1.tar.gz`
 - create tags also in scm and wiki submodules
 
 After release
 -------------
 
-- update release number in init.php to indicate next dev version (APP_VERSION)
+- publish changes also on launchpad git repo
+`$ git push launchpad master`
+`$ git push launchpad --tags`
+- update release number in init.php to indicate next dev version (`APP_VERSION`)
 - start new version entry in Changelog.md
-- update git submodules to point to master
 - add new milestone in github. just fill version number in Title field https://github.com/eventum/eventum/milestones
 - move open tickets/pull requests to new milestone
 - close old milestone

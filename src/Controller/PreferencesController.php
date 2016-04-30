@@ -10,15 +10,14 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use APIAuthToken;
 use Auth;
 use Date_Helper;
+use Eventum\Monolog\Logger;
 use Exception;
 use Language;
-use Logger;
 use Misc;
 use Prefs;
 use Project;
@@ -187,7 +186,7 @@ class PreferencesController extends BaseController
         $prefs = Prefs::get($this->usr_id);
         $prefs['sms_email'] = User::getSMS($this->usr_id);
 
-        $this->tpl->assign(array(
+        $this->tpl->assign([
                 'user_prefs' => $prefs,
                 'user_info' => User::getDetails($this->usr_id),
                 'assigned_projects' => Project::getAssocList($this->usr_id, false, true),
@@ -198,7 +197,7 @@ class PreferencesController extends BaseController
                 'can_update_name' => Auth::canUserUpdateName($this->usr_id),
                 'can_update_email' => Auth::canUserUpdateEmail($this->usr_id),
                 'can_update_password' => Auth::canUserUpdatePassword($this->usr_id),
-            )
+            ]
         );
 
         if (Auth::getCurrentRole() >= User::ROLE_USER) {

@@ -22,7 +22,7 @@ ini_set('memory_limit', '512M');
 ini_set('session.cache_limiter', 'nocache');
 
 define('APP_URL', 'https://github.com/eventum/eventum');
-define('APP_VERSION', '3.0.10-dev');
+define('APP_VERSION', '3.1.1-dev');
 
 // define base path
 define('APP_PATH', __DIR__);
@@ -110,19 +110,12 @@ $define('APP_MAINTENANCE', false);
 
 require_once APP_PATH . '/autoload.php';
 
-// fix magic_quote_gpc'ed values
-if (get_magic_quotes_gpc()) {
-    $_GET = Misc::dispelMagicQuotes($_GET);
-    $_POST = Misc::dispelMagicQuotes($_POST);
-    $_REQUEST = Misc::dispelMagicQuotes($_REQUEST);
-}
-
 Misc::stripInput($_POST);
 
 // set default timezone
 date_default_timezone_set(APP_DEFAULT_TIMEZONE);
 
-Logger::initialize();
+Eventum\Monolog\Logger::initialize();
 Language::setup();
 
 // set charset

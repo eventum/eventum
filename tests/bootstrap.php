@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
  *
@@ -44,6 +45,7 @@ define('APP_TPL_PATH', APP_PATH . '/templates');
 define('APP_NAME', 'Eventum Tests');
 define('APP_VERSION', '3.x.y-dev');
 define('APP_AUTH_BACKEND', 'mysql_auth_backend');
+define('APP_SITE_NAME', 'Eventum');
 
 require_once APP_PATH . '/autoload.php';
 
@@ -53,8 +55,8 @@ date_default_timezone_set(APP_DEFAULT_TIMEZONE);
 // create dummy file
 if (!file_exists(APP_SETUP_FILE)) {
     // create new config
-    Setup::save(array(
-        'database' => array(
+    Setup::save([
+        'database' => [
             'driver' => 'mysqli',
 
             'hostname' => 'localhost',
@@ -63,11 +65,11 @@ if (!file_exists(APP_SETUP_FILE)) {
             'password' => '',
             'port'     => 3306,
             'table_prefix' => 'eventum_',
-        ),
+        ],
 
         // used for tests
         'admin_user' => 2,
-    ));
+    ]);
 }
 
 if (!getenv('TRAVIS')) {

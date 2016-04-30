@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use CRM;
@@ -52,10 +51,10 @@ class CustomerNotesController extends ManageBaseController
             $this->deleteNoteAction();
         } elseif ($this->prj_id) {
             $this->tpl->assign(
-                array(
-                    'info' => array('cno_prj_id' => $this->prj_id),
+                [
+                    'info' => ['cno_prj_id' => $this->prj_id],
                     'customers' => CRM::getInstance($this->prj_id)->getCustomerAssocList(),
-                )
+                ]
             );
         }
 
@@ -65,10 +64,10 @@ class CustomerNotesController extends ManageBaseController
                 $info['cno_prj_id'] = $this->prj_id;
             }
             $this->tpl->assign(
-                array(
+                [
                     'customers' => CRM::getInstance($info['cno_prj_id'])->getCustomerAssocList(),
                     'info' => $info,
-                )
+                ]
             );
         }
     }
@@ -78,10 +77,10 @@ class CustomerNotesController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $res = CRM::insertNote($post->get('project'), $post->get('customer'), $post->get('note'));
-        $map = array(
-            1 => array(ev_gettext('Thank you, the note was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the new note.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the note was added successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new note.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
@@ -91,10 +90,10 @@ class CustomerNotesController extends ManageBaseController
 
         $res = CRM::updateNote($post->get('id'), $post->get('project'), $post->get('customer'), $post->get('note'));
         Misc::mapMessages(
-            $res, array(
-                1 => array(ev_gettext('Thank you, the note was updated successfully.'), Misc::MSG_INFO),
-                -1 => array(ev_gettext('An error occurred while trying to update the note.'), Misc::MSG_ERROR),
-            )
+            $res, [
+                1 => [ev_gettext('Thank you, the note was updated successfully.'), Misc::MSG_INFO],
+                -1 => [ev_gettext('An error occurred while trying to update the note.'), Misc::MSG_ERROR],
+            ]
         );
     }
 
@@ -103,10 +102,10 @@ class CustomerNotesController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $res = CRM::removeNotes($post->get('items'));
-        $map = array(
-            1 => array(ev_gettext('Thank you, the note was deleted successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to delete the note.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the note was deleted successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to delete the note.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
@@ -116,10 +115,10 @@ class CustomerNotesController extends ManageBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'list' => CRM::getNoteList(),
                 'project_list' => Project::getAll(false),
-            )
+            ]
         );
     }
 }

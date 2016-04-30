@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Custom_Field;
@@ -90,7 +89,7 @@ class PostController extends BaseController
         $show_custom_fields = isset($options['show_custom_fields']) && $options['show_custom_fields'] == 'yes';
 
         if ($show_custom_fields) {
-            $custom_fields = Custom_Field::getListByProject($prj_id, 'anonymous_form');
+            $custom_fields = Custom_Field::getListByProject($prj_id, 'anonymous_form', false, true);
             $this->tpl->assign('custom_fields', $custom_fields);
         }
 
@@ -109,7 +108,7 @@ class PostController extends BaseController
 
         if (count($projects) == 1) {
             $project_ids = array_keys($projects);
-            $this->redirect('post.php', array('post_form' => 'yes', 'project' => $project_ids[0]));
+            $this->redirect('post.php', ['post_form' => 'yes', 'project' => $project_ids[0]]);
         }
 
         if ($prj_id && !in_array($prj_id, array_keys($projects))) {

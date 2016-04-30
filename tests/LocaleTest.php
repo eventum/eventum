@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 class LocaleTest extends TestCase
 {
     public static function setUpBeforeClass()
@@ -21,7 +32,7 @@ class LocaleTest extends TestCase
 
         $rc = system("make -sC $localeDir install localedir=.");
         if ($rc != 0) {
-            throw new RuntimeException("Locale setup failed");
+            throw new RuntimeException('Locale setup failed');
         }
     }
 
@@ -40,10 +51,11 @@ class LocaleTest extends TestCase
     {
         $langs = Language::getAvailableLanguages(false);
 
-        $res = array();
+        $res = [];
         foreach ($langs as $code => $language) {
-            $res[] = array($code, $language);
+            $res[] = [$code, $language];
         }
+
         return $res;
     }
 }

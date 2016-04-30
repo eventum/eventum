@@ -28,10 +28,10 @@ class Authorized_Replier
     public static function getAuthorizedRepliers($issue_id)
     {
         // split into users and others (those with email address but no real user accounts)
-        $repliers = array(
-            'users' =>  array(),
-            'other' =>  array(),
-        );
+        $repliers = [
+            'users' =>  [],
+            'other' =>  [],
+        ];
 
         $stmt = "SELECT
                     iur_id,
@@ -46,18 +46,18 @@ class Authorized_Replier
                     iur_iss_id=? AND
                     iur_usr_id=usr_id";
 
-        $params = array(APP_SYSTEM_USER_ID, APP_SYSTEM_USER_ID, $issue_id);
+        $params = [APP_SYSTEM_USER_ID, APP_SYSTEM_USER_ID, $issue_id];
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DatabaseException $e) {
-            return array(
-                array(),
+            return [
+                [],
                 $repliers,
-            );
+            ];
         }
 
         // split into users and others (those with email address but no real user accounts)
-        $names = array();
+        $names = [];
         if (count($res) > 0) {
             foreach ($res as $row) {
                 if ($row['iur_usr_id'] == APP_SYSTEM_USER_ID) {
@@ -70,10 +70,10 @@ class Authorized_Replier
         }
         $repliers['all'] = array_merge($repliers['users'], $repliers['other']);
 
-        return array(
+        return [
             $names,
             $repliers,
-        );
+        ];
     }
 
     /**
@@ -112,10 +112,10 @@ class Authorized_Replier
             }
 
             $usr_id = Auth::getUserID();
-            History::add($issue_id, $usr_id, 'replier_removed', 'Authorized replier {replier} removed by {user}', array(
+            History::add($issue_id, $usr_id, 'replier_removed', 'Authorized replier {replier} removed by {user}', [
                 'replier' => $replier,
                 'user' => User::getFullName($usr_id)
-            ));
+            ]);
 
             return 1;
         }
@@ -163,7 +163,7 @@ class Authorized_Replier
                     ?, ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($issue_id, APP_SYSTEM_USER_ID, $email));
+            DB_Helper::getInstance()->query($stmt, [$issue_id, APP_SYSTEM_USER_ID, $email]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -171,10 +171,10 @@ class Authorized_Replier
         if ($add_history) {
             // add the change to the history of the issue
             $usr_id = Auth::getUserID();
-            History::add($issue_id, $usr_id, 'replier_other_added', '{email} added to the authorized repliers list by {user}', array(
+            History::add($issue_id, $usr_id, 'replier_other_added', '{email} added to the authorized repliers list by {user}', [
                 'email' => $email,
                 'user' => User::getFullName($usr_id)
-            ));
+            ]);
         }
 
         return 1;
@@ -203,7 +203,7 @@ class Authorized_Replier
                     ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($issue_id, $usr_id));
+            DB_Helper::getInstance()->query($stmt, [$issue_id, $usr_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -211,10 +211,10 @@ class Authorized_Replier
         if ($add_history) {
             // add the change to the history of the issue
             $current_usr_id = Auth::getUserID();
-            History::add($issue_id, $current_usr_id, 'replier_added', '{other_user} added to the authorized repliers list by {user}', array(
+            History::add($issue_id, $current_usr_id, 'replier_added', '{other_user} added to the authorized repliers list by {user}', [
                 'other_user' => User::getFullName($usr_id),
                 'user' => User::getFullName($current_usr_id)
-            ));
+            ]);
         }
 
         return 1;
@@ -252,7 +252,7 @@ class Authorized_Replier
                     iur_iss_id=? AND
                     iur_email=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id, $email));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id, $email]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -281,7 +281,7 @@ class Authorized_Replier
                     iur_iss_id = ? AND
                     iur_usr_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id, $usr_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id, $usr_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -311,7 +311,7 @@ class Authorized_Replier
                     iur_id = ?";
 
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($iur_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$iur_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -341,7 +341,7 @@ class Authorized_Replier
                     (iur_email = ? OR usr_email = ?)';
 
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id, $email, $email));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id, $email, $email]);
         } catch (DatabaseException $e) {
             return 0;
         }
@@ -362,10 +362,10 @@ class Authorized_Replier
         $res = self::manualInsert($issue_id, $replier, false);
         if ($res != -1) {
             // save a history entry about this...
-            History::add($issue_id, $usr_id, 'remote_replier_added', '{replier} remotely added to authorized repliers by {user}', array(
+            History::add($issue_id, $usr_id, 'remote_replier_added', '{replier} remotely added to authorized repliers by {user}', [
                 'replier' => $replier,
                 'user' => User::getFullName($usr_id),
-            ));
+            ]);
         }
 
         return $res;

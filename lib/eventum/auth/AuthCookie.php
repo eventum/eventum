@@ -153,12 +153,12 @@ class AuthCookie
     private static function generateAuthCookie($email, $permanent = true)
     {
         $time = time();
-        $cookie = array(
+        $cookie = [
             'email' => $email,
             'login_time' => $time,
             'permanent' => $permanent,
             'hash' => self::generateHash($time, $email),
-        );
+        ];
 
         return base64_encode(serialize($cookie));
     }
@@ -172,11 +172,11 @@ class AuthCookie
      */
     private static function generateProjectCookie($prj_id, $remember = false)
     {
-        $cookie = array(
+        $cookie = [
             'prj_id' => $prj_id,
             // it's stored as number, probably to save bytes in cookie size
             'remember' => (int) $remember,
-        );
+        ];
 
         return base64_encode(serialize($cookie));
     }

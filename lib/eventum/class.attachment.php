@@ -40,7 +40,7 @@ class Attachment
         list($type) = $parts;
 
         // display inline images and text documents
-        return in_array($type, array('image', 'text'));
+        return in_array($type, ['image', 'text']);
     }
 
     /**
@@ -103,7 +103,7 @@ class Attachment
                     iaf_id=? AND
                     iat_id=iaf_iat_id';
 
-        $params = array($iaf_id);
+        $params = [$iaf_id];
         if (Auth::getCurrentRole() < User::ROLE_MANAGER) {
             $stmt .= ' AND
                     iat_usr_id=?';
@@ -128,7 +128,7 @@ class Attachment
                  WHERE
                     iaf_id=? AND
                     iaf_iat_id=iat_id';
-        $attachment_id = DB_Helper::getInstance()->getOne($stmt, array($iaf_id));
+        $attachment_id = DB_Helper::getInstance()->getOne($stmt, [$iaf_id]);
 
         $res = self::getFileList($attachment_id);
         if (count($res) > 1) {
@@ -157,7 +157,7 @@ class Attachment
                     iat_id=iaf_iat_id AND
                     iaf_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($file_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$file_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -216,7 +216,7 @@ class Attachment
                     {{%issue_attachment}}
                  WHERE
                     iat_id=?';
-        $params = array($iat_id);
+        $params = [$iat_id];
         if (Auth::getCurrentRole() < User::ROLE_MANAGER) {
             $stmt .= ' AND
                     iat_usr_id=?';
@@ -241,7 +241,7 @@ class Attachment
                     iat_id=? AND
                     iat_iss_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($iat_id, $issue_id));
+            DB_Helper::getInstance()->query($stmt, [$iat_id, $issue_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -253,9 +253,9 @@ class Attachment
         if ($add_history) {
             Issue::markAsUpdated($usr_id);
             // need to save a history entry for this
-            History::add($issue_id, $usr_id, 'attachment_removed', 'Attachment removed by {user}', array(
+            History::add($issue_id, $usr_id, 'attachment_removed', 'Attachment removed by {user}', [
                 'user' => User::getFullName($usr_id)
-            ));
+            ]);
         }
 
         return 1;
@@ -275,7 +275,7 @@ class Attachment
                  WHERE
                     iaf_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($iaf_id));
+            DB_Helper::getInstance()->query($stmt, [$iaf_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -300,7 +300,7 @@ class Attachment
                  WHERE
                     iaf_iat_id=?';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($attachment_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$attachment_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -344,7 +344,7 @@ class Attachment
         $stmt .= '
                  ORDER BY
                     iat_created_date ASC';
-        $params = array($issue_id);
+        $params = [$issue_id];
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DatabaseException $e) {
@@ -383,7 +383,7 @@ class Attachment
         // run cleanup of stale uploads
         $stmt = "DELETE FROM {{%issue_attachment_file}} WHERE iaf_iat_id=0 AND iaf_created_date>'0000-00-00 00:00:00' AND iaf_created_date < ?";
         $expire_date = time() - self::ATTACHMENT_EXPIRE_TIME;
-        $params = array(Date_Helper::convertDateGMT($expire_date));
+        $params = [Date_Helper::convertDateGMT($expire_date)];
         DB_Helper::getInstance()->query($stmt, $params);
     }
 
@@ -408,9 +408,9 @@ class Attachment
         self::associateFiles($attachment_id, $iaf_ids);
 
         Issue::markAsUpdated($issue_id, 'file uploaded');
-        History::add($issue_id, $usr_id, 'attachment_added', 'Attachment uploaded by {user}', array(
+        History::add($issue_id, $usr_id, 'attachment_added', 'Attachment uploaded by {user}', [
             'user' => User::getFullName($usr_id),
-        ));
+        ]);
 
         // if there is customer integration, mark last customer action
         $prj_id = Issue::getProjectID($issue_id);
@@ -483,14 +483,14 @@ class Attachment
                     ?, ?, ?, ?, ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, array(
+            DB_Helper::getInstance()->query($stmt, [
                 $attachment_id,
                 $filename,
                 Misc::countBytes($blob),
                 $filetype,
                 Date_Helper::getCurrentDateGMT(),
                 $blob,
-            ));
+            ]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -539,7 +539,7 @@ class Attachment
             throw new RuntimeException('Wrong structure, dif you forgot dropfile[]?');
         }
 
-        $iaf_ids = array();
+        $iaf_ids = [];
         $nfiles = count($files['name']);
         for ($i = 0; $i < $nfiles; $i++) {
             $filename = $files['name'][$i];
@@ -579,13 +579,13 @@ class Attachment
             $attachment_status = 'public';
         }
 
-        $params = array(
+        $params = [
             'iat_iss_id' => $issue_id,
             'iat_usr_id' => $usr_id,
             'iat_created_date' => Date_Helper::getCurrentDateGMT(),
             'iat_description' => $description,
             'iat_status' => $attachment_status,
-        );
+        ];
 
         if ($unknown_user) {
             $params['iat_unknown_user'] = $unknown_user;

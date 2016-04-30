@@ -37,7 +37,7 @@ class Email_Response
                  ) VALUES (
                     ?, ?
                  )';
-        DB_Helper::getInstance()->query($stmt, array($ere_id, $prj_id));
+        DB_Helper::getInstance()->query($stmt, [$ere_id, $prj_id]);
     }
 
     /**
@@ -59,7 +59,7 @@ class Email_Response
                     ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['response_body']));
+            DB_Helper::getInstance()->query($stmt, [$_POST['title'], $_POST['response_body']]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -107,7 +107,7 @@ class Email_Response
     public function removeProjectAssociations($ere_id, $prj_id = null)
     {
         if (!is_array($ere_id)) {
-            $ere_id = array($ere_id);
+            $ere_id = [$ere_id];
         }
 
         $stmt = 'DELETE FROM
@@ -146,7 +146,7 @@ class Email_Response
                  WHERE
                     ere_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['response_body'], $_POST['id']));
+            DB_Helper::getInstance()->query($stmt, [$_POST['title'], $_POST['response_body'], $_POST['id']]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -176,7 +176,7 @@ class Email_Response
                  WHERE
                     ere_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($ere_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$ere_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -206,9 +206,9 @@ class Email_Response
                     prj_id=per_prj_id AND
                     per_ere_id=?';
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt, array($ere_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, [$ere_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -264,7 +264,7 @@ class Email_Response
                  ORDER BY
                     ere_title ASC';
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -291,16 +291,9 @@ class Email_Response
                     per_ere_id=ere_id AND
                     per_prj_id=?';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
-        }
-
-        // fix the newlines in the response bodies so javascript doesn't die
-        // FIXME: this is very wrong, escaping should be done in template where ere_response_body is output, not here
-        foreach ($res as &$row) {
-            $row['ere_response_body'] = Misc::escapeWhitespace($row['ere_response_body']);
-            $row['ere_response_body'] = str_replace('"', '\"', $row['ere_response_body']);
         }
 
         return $res;

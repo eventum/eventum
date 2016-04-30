@@ -9,6 +9,10 @@
  * that were distributed with this source code.
  */
 
+function Eventum()
+{
+}
+
 $(document).ready(function() {
 
     // see http://api.jquery.com/jQuery.param/
@@ -79,6 +83,12 @@ $(document).ready(function() {
 
     $("input.issue_field").blur(Validation.validateIssueNumberField);
 
+    // % complete progressbar
+    $("div.iss_percent_complete").each(function() {
+        var $e = $(this);
+        $e.progressbar({value: $e.data('percent')});
+    });
+
     // chosen config
     var config = {
         '.chosen-select'           : {},
@@ -117,11 +127,26 @@ $(document).ready(function() {
                 .click(timeago_toggle);
         })
     }
+
+    Eventum.setupTrimmedEmailToggle();
 });
 
-function Eventum()
-{
-}
+Eventum.TrimmedEmailToggleFunction = function () {
+    var $div = $(this).parent().parent().find('div.email-trimmed');
+    if ($div.hasClass('hidden')) {
+        $div.removeClass('hidden')
+    } else {
+        $div.addClass('hidden')
+    }
+    return false;
+};
+
+// click to open trimmed emails
+Eventum.setupTrimmedEmailToggle = function () {
+    $('span.toggle-trimmed-email').find('a')
+        .off('click', Eventum.TrimmedEmailToggleFunction)
+        .on('click', Eventum.TrimmedEmailToggleFunction);
+};
 
 Eventum.expires = new Date(new Date().getTime() + (56 * 86400000));
 Eventum.checkClose = false;
@@ -183,7 +208,7 @@ Eventum.escapeSelector = function(selector)
 Eventum.getField = function(name_or_obj, form)
 {
     if ($.type(name_or_obj) == 'string') {
-        if (form != undefined) {
+        if (form) {
             return form.find('[name="' + name_or_obj + '"]');
         } else {
             return $('[name="' + name_or_obj + '"]')
@@ -483,6 +508,18 @@ Eventum.openHelp = function(e)
     helpWin.focus();
 
     return false;
+};
+
+Eventum.clearAutoSave = function(prefix)
+{
+    var i;
+    var key;
+    for (i = localStorage.length; i >= 0; i--)   {
+        key = localStorage.key(i);
+        if (key && key.startsWith(prefix)) {
+            localStorage.removeItem(localStorage.key(i));
+        }
+    }
 };
 
 function Validation()
@@ -876,7 +913,10 @@ ExpandableCell.expand = function(expand_type, list_id) {
     var cell = row.find('td');
     if (cell.html() == '') {
         cell.load(Eventum.rel_url + 'get_remote_data.php?action=' + expand_type + '&ec_id=' + expand_type +
-            '&list_id=' + list_id);
+            '&list_id=' + list_id, function() {
+            Eventum.setupTrimmedEmailToggle();
+        });
+
     }
     row.show();
 };

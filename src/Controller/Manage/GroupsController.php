@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use Auth;
@@ -54,20 +53,20 @@ class GroupsController extends ManageBaseController
     private function newAction()
     {
         $res = Group::insert();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the group was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the new group.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the group was added successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new group.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = Group::update();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the group was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to update the group.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the group was updated successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the group.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
@@ -91,12 +90,12 @@ class GroupsController extends ManageBaseController
         }
 
         $this->tpl->assign(
-            array(
+            [
                 'user_options' => User::getActiveAssocList($prj_id, User::ROLE_CUSTOMER, true),
                 'list' => Group::getList(),
                 'project_list' => Project::getAll(),
                 'info' => $info,
-            )
+            ]
         );
     }
 }

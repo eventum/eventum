@@ -31,7 +31,7 @@
 		"component-baseurl": "/components",
 		"component-dir": "htdocs/components",
 		"platform": {
-			"php": "5.3.23"
+			"php": "5.5.0"
 		}
 	},
 	"scripts": {
@@ -78,17 +78,23 @@
 		"pear/net_smtp": "1.6.*",
 		"pear/net_socket": "*",
 		"pear/xml_rpc": "*",
-		"php": ">=5.3.23",
+		"php": ">=5.5.0",
 		"php-gettext/php-gettext": "1.0.*",
 		"phplot/phplot": "~6.1.0",
 		"smarty-gettext/smarty-gettext": "~1.0",
 		"smarty/smarty": "~3.1.12",
 		"sphinx/php-sphinxapi": "2.0.*",
 		"symfony/http-foundation": "~2.7.0",
-		"zendframework/zend-config": "2.4.*"
+		"theorchard/monolog-cascade": "^0.3.1",
+		"willdurand/email-reply-parser": "dev-set-sig-regex",
+		"zendframework/zend-config": "2.4.*",
+		"zendframework/zend-mail": "dev-develop-2.4"
 	},
 	"conflict": {
 		"pear/pear-core-minimal": ">=1.10"
+	},
+	"replace": {
+		"zendframework/zend-crypt": "2.4.9"
 	},
 	"require-dev": {
 		"bgrins/filereader.js": "*",
@@ -98,6 +104,7 @@
 		"components/jquery-cookie": "~1.4.1",
 		"components/jquery-datatables": "~1.10.4",
 		"components/jqueryui": "*",
+		"drmonty/garlicjs": "~1.2.4",
 		"enyo/dropzone": "~4.0.1",
 		"jackmoore/autosize":"*",
 		"jasig/phpcas":"~1.3.3",
@@ -106,8 +113,7 @@
 		"rmm5t/jquery-timeago": "*",
 		"roave/security-advisories": "dev-master",
 		"robloach/component-installer": "*",
-		"symfony/var-dumper": "~2.7.3",
-		"zendframework/zend-mail": "2.4.*"
+		"symfony/var-dumper": "~2.7.3"
 	},
 	"suggest": {
 		"ext-imap": "Support for fetching mail over IMAP/POP3",

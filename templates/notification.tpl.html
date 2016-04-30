@@ -2,45 +2,55 @@
 {block page_id}notification{/block}
 {block title}#{$issue_id} - Notification List{/block}
 
-{block "content"}
+{block "javascripts"}
 <script type="text/javascript">
-$(function() {
-  $('.select_all').click(function() { Eventum.toggleCheckAll('items[]') });
-});
+  $(function() {
+    $('.select_all').click(function () {
+      Eventum.toggleCheckAll('items[]')
+    });
 
-function validateForm(f)
-{
+    $('#users').change(function() {
+      Eventum.getField('email').val($(this).val());
+    });
+
+  });
+
+  function validateForm(f)
+  {
     if (Validation.isFieldWhitespace('email')) {
-        alert('{t escape=js}Please enter a valid email address.{/t}');
-        Validation.selectField('email');
-        return false;
+      alert('{t escape=js}Please enter a valid email address.{/t}');
+      Validation.selectField('email');
+      return false;
     }
-}
+  }
 
-function checkDelete(f)
-{
+  function checkDelete(f)
+  {
     if (!Validation.hasOneChecked('items[]')) {
-        alert('{t escape=js}Please select at least one of the subscribers.{/t}');
-        return false;
+      alert('{t escape=js}Please select at least one of the subscribers.{/t}');
+      return false;
     }
     if (!confirm('{t escape=js}This action will remove the selected entries.{/t}')) {
-        return false;
+      return false;
     } else {
-        return true;
+      return true;
     }
-}
-//-->
+  }
 </script>
+{/block}
 
+{block "content"}
 <form name="notification_form" class="validate" method="post" data-validation-function="validateForm">
 <table class="bordered">
     {if $smarty.get.cat|default:'' == 'edit'}
-    <input type="hidden" name="cat" value="update">
-    <input type="hidden" name="id" value="{$smarty.get.id|intval}">
+      <input type="hidden" name="cat" value="update">
+      <input type="hidden" name="id" value="{$smarty.get.id|intval}">
     {else}
-    <input type="hidden" name="cat" value="insert">
+      <input type="hidden" name="cat" value="insert">
     {/if}
+
     <input type="hidden" name="issue_id" value="{$issue_id}">
+
     {if $core.current_role > $core.roles.reporter}
     <tr class="title">
       <th colspan="2">
@@ -51,10 +61,17 @@ function checkDelete(f)
       <th width="120">
         {t}Email{/t}
       </th>
+
       <td nowrap>
+        <select id="users"
+                data-placeholder="{t}Choose User...{/t}" class="chosen-select">
+          {html_options options=$users }
+        </select><br/>
+
         <input type="text" name="email" size="40" value="{if $info.sub_email|default:'' != ''}{$info.sub_email}{else}{$core.user.usr_email}{/if}">
         {include file="error_icon.tpl.html" field="email"}
       </td>
+
     </tr>
     <tr>
       <th width="120">
@@ -77,10 +94,9 @@ function checkDelete(f)
         <input type="reset" value="{t}Reset{/t}">
       </td>
     </tr>
-    </form>
     {/if}
 </table>
-
+</form>
 
 <form onSubmit="return checkDelete(this);" method="post">
 <input type="hidden" name="cat" value="delete">

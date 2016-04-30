@@ -73,14 +73,14 @@ class Draft
         $stmt .= ') VALUES (
                     ?, ?, ?, ?, ?, ?
                 ';
-        $params = array(
+        $params = [
             Date_Helper::getCurrentDateGMT(),
             $usr_id,
             $issue_id,
             $parent_id,
             $subject,
             $message,
-        );
+        ];
         if ($unknown_user) {
             $stmt .= ', ?';
             $params[] = $unknown_user;
@@ -101,9 +101,9 @@ class Draft
         }
         Issue::markAsUpdated($issue_id, 'draft saved');
         if ($add_history_entry) {
-            History::add($issue_id, $usr_id, 'draft_added', 'Email message saved as a draft by {user}', array(
+            History::add($issue_id, $usr_id, 'draft_added', 'Email message saved as a draft by {user}', [
                 'user' => User::getFullName($usr_id)
-            ));
+            ]);
         }
 
         return 1;
@@ -136,7 +136,7 @@ class Draft
                     emd_status = 'edited'
                  WHERE
                     emd_id=?";
-        $params = array(Date_Helper::getCurrentDateGMT(), $emd_id);
+        $params = [Date_Helper::getCurrentDateGMT(), $emd_id];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -144,8 +144,8 @@ class Draft
         }
 
         Issue::markAsUpdated($issue_id, 'draft saved');
-        History::add($issue_id, $usr_id, 'draft_updated', 'Email message draft updated by {user}', array(
-            'user' => User::getFullName($usr_id))
+        History::add($issue_id, $usr_id, 'draft_updated', 'Email message draft updated by {user}', [
+            'user' => User::getFullName($usr_id)]
         );
         self::saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id, false, false);
 
@@ -167,7 +167,7 @@ class Draft
                  WHERE
                     emd_id=?";
         try {
-            DB_Helper::getInstance()->query($stmt, array($emd_id));
+            DB_Helper::getInstance()->query($stmt, [$emd_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -189,7 +189,7 @@ class Draft
                  WHERE
                     edr_emd_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($emd_id));
+            DB_Helper::getInstance()->query($stmt, [$emd_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -219,11 +219,11 @@ class Draft
                  ) VALUES (
                     ?, ?, ?
                  )';
-        $params = array(
+        $params = [
             $emd_id,
             $is_cc,
             $email,
-        );
+        ];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -249,7 +249,7 @@ class Draft
                     emd_id=?';
 
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($emd_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$emd_id]);
         } catch (DatabaseException $e) {
             throw new RuntimeException('email not found');
         }
@@ -284,7 +284,7 @@ class Draft
                     {{%email_draft}}
                  WHERE
                     emd_iss_id=?\n";
-        $params = array($issue_id);
+        $params = [$issue_id];
 
         if ($show_all == false) {
             $stmt .= "AND emd_status = 'pending'\n";
@@ -329,13 +329,13 @@ class Draft
                  WHERE
                     edr_emd_id=?';
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt, array($emd_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, [$emd_id]);
         } catch (DatabaseException $e) {
-            return array('', '');
+            return ['', ''];
         }
 
         $to = '';
-        $ccs = array();
+        $ccs = [];
         foreach ($res as $email => $is_cc) {
             if ($is_cc) {
                 $ccs[] = $email;
@@ -344,10 +344,10 @@ class Draft
             }
         }
 
-        return array(
+        return [
             $to,
             $ccs,
-        );
+        ];
     }
 
     /**
@@ -361,7 +361,7 @@ class Draft
     {
         $sequence = (int) $sequence;
         if ($sequence < 1) {
-            return array();
+            return [];
         }
         $stmt = "SELECT
                     emd_id
@@ -374,13 +374,13 @@ class Draft
                     emd_id ASC
                 LIMIT 1 OFFSET " . ($sequence - 1);
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         if (empty($res)) {
-            return array();
+            return [];
         }
 
         return self::getDetails($res);
@@ -400,9 +400,9 @@ class Draft
         $to = $draft['to'];
         $cc = implode(';', $draft['cc']);
         $subject = $draft['emd_subject'];
-        $options = array(
+        $options = [
             'ema_id' => Email_Account::getEmailAccount(),
-        );
+        ];
 
         $res = Support::sendEmail($draft['emd_iss_id'], null, $from, $to, $cc, $subject, $draft['emd_body'], $options);
         if ($res == 1) {
@@ -430,7 +430,7 @@ class Draft
                     emd_updated_date BETWEEN ? AND ? AND
                     emd_usr_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($start, $end, $usr_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$start, $end, $usr_id]);
         } catch (DatabaseException $e) {
             return '';
         }

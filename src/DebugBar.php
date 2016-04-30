@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum;
 
 use DebugBar\DataCollector\ConfigCollector;
@@ -135,18 +134,18 @@ class DebugBar
 
         $renderer = $debugbar->getJavascriptRenderer("{$rel_url}debugbar");
         $renderer->addControl(
-            'Smarty', array(
+            'Smarty', [
                 'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
                 'map' => 'Smarty',
                 'default' => '[]'
-            )
+            ]
         );
         $renderer->addControl(
-            'Config', array(
+            'Config', [
                 'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
                 'map' => 'Config',
                 'default' => '[]'
-            )
+            ]
         );
 
         return $renderer;

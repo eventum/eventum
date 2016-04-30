@@ -1,0 +1,56 @@
+{extends "base.tpl.html"}
+{block page_id}access{/block}
+{block title}#{$issue_id} - Access List{/block}
+
+{block "content"}
+<form name="access" method="post">
+    <table class="bordered">
+        <input type="hidden" name="cat" value="set_level">
+        <input type="hidden" name="issue_id" value="{$issue_id}">
+        <tr class="title">
+            <th colspan="2">
+                {t issue_id=$issue_id}Access Level for Issue #%1{/t}
+            </th>
+        </tr>
+        <tr>
+            <td nowrap colspan="2">
+                <select name="level">
+                    {html_options options=$levels selected=$level}
+                </select>
+                {include file="error_icon.tpl.html" field="level"}
+            </td>
+        </tr>
+        <tr class="buttons">
+            <td colspan="2">
+                <input type="submit" value="{t}Set Level{/t}">
+            </td>
+        </tr>
+    </table>
+</form>
+
+<form method="post">
+    <input type="hidden" name="cat" value="update_users">
+    <input type="hidden" name="issue_id" value="{$issue_id}">
+    <table class="bordered grid">
+        <tr class="title">
+            <th colspan="2">
+                {t}Access List{/t}
+            </th>
+        </tr>
+        <tr>
+            <td>
+                <select id="access_list" size="4" multiple name="access_list[]"
+                        data-placeholder="{t}Choose Users to access this Issue...{/t}" class="chosen-select">
+                    {html_options options=$users selected=$access_list}
+                </select>
+            </td>
+        </tr>
+        <tr class="buttons">
+            <td>
+                <input type="submit" value="{t}Update Users{/t}">
+                <input type="button" value="{t}Close{/t}" onClick="Eventum.close_and_refresh();">
+            </td>
+        </tr>
+    </table>
+</form>
+{/block}

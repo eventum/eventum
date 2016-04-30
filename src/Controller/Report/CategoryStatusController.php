@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Report;
 
 use Category;
@@ -46,11 +45,11 @@ class CategoryStatusController extends ReportBaseController
         $data = Report::getCategoryStatusReport($this->prj_id, $categories, $statuses);
 
         $this->tpl->assign(
-            array(
+            [
                 'statuses' => $statuses,
                 'categories' => $categories,
                 'data' => $data,
-            )
+            ]
         );
     }
 }

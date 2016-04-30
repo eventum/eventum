@@ -47,7 +47,7 @@ class History
      * @param array $context parameters used in summary
      * @param null $min_role The minimum role that can view this entry. If null will default to role from $htt_id
      */
-    public static function add($iss_id, $usr_id, $htt_id, $summary, $context = array(), $min_role = null)
+    public static function add($iss_id, $usr_id, $htt_id, $summary, $context = [], $min_role = null)
     {
         if (!is_numeric($htt_id)) {
             $htt_id = self::getTypeID($htt_id);
@@ -57,7 +57,7 @@ class History
             $min_role = self::getTypeRole($htt_id);
         }
 
-        $params = array(
+        $params = [
             'his_iss_id' => $iss_id,
             'his_usr_id' => $usr_id,
             'his_created_date' => Date_Helper::getCurrentDateGMT(),
@@ -65,7 +65,7 @@ class History
             'his_context' => json_encode($context),
             'his_htt_id' => $htt_id,
             'his_min_role'  =>  $min_role,
-        );
+        ];
 
         $stmt = 'INSERT INTO {{%issue_history}} SET '. DB_Helper::buildSet($params);
 
@@ -97,7 +97,7 @@ class History
                     his_min_role <= ?
                  ORDER BY
                     his_id $order_by";
-        $params = array($iss_id, Auth::getCurrentRole());
+        $params = [$iss_id, Auth::getCurrentRole()];
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DatabaseException $e) {
@@ -150,7 +150,7 @@ class History
         }
 
         if (!is_array($name)) {
-            $name = array($name);
+            $name = [$name];
         }
 
         $stmt = "SELECT
@@ -194,7 +194,7 @@ class History
                 WHERE
                     htt_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($id));
+            $res = DB_Helper::getInstance()->getOne($sql, [$id]);
         } catch (DatabaseException $e) {
             return null;
         }
@@ -213,10 +213,10 @@ class History
      * @param array $htt_exclude Additional History Types to ignore
      * @return array An array of issues touched by the user.
      */
-    public static function getTouchedIssuesByUser($usr_id, $prj_id, $start, $end, $htt_exclude = array())
+    public static function getTouchedIssuesByUser($usr_id, $prj_id, $start, $end, $htt_exclude = [])
     {
         $htt_exclude_list = self::getTypeID(
-            array_merge(array(
+            array_merge([
                 'notification_removed',
                 'notification_added',
                 'notification_updated',
@@ -224,7 +224,7 @@ class History
                 'replier_added',
                 'replier_removed',
                 'replier_other_added',
-            ), $htt_exclude)
+            ], $htt_exclude)
         );
 
         $stmt = 'SELECT
@@ -257,7 +257,7 @@ class History
                     iss_id
                  ORDER BY
                     iss_id ASC';
-        $params = array($usr_id, $start, $end, $prj_id);
+        $params = [$usr_id, $start, $end, $prj_id];
         try {
             return DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DatabaseException $e) {
@@ -302,11 +302,11 @@ class History
                     sta_title
                  ORDER BY
                     sta_rank';
-        $params = array($prj_id, $usr_id, $start, $end);
+        $params = [$prj_id, $usr_id, $start, $end];
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -331,7 +331,7 @@ class History
                     his_created_date DESC
                 LIMIT 1';
         try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($issue_id, self::getTypeID('issue_closed')));
+            $res = DB_Helper::getInstance()->getOne($sql, [$issue_id, self::getTypeID('issue_closed')]);
         } catch (DatabaseException $e) {
             return 0;
         }

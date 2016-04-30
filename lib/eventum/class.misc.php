@@ -28,9 +28,9 @@ class Misc
     public static function arrayDiff($foo, $bar)
     {
         if (!is_array($bar)) {
-            $bar = array();
+            $bar = [];
         }
-        $diffs = array();
+        $diffs = [];
         $foo_values = array_values($foo);
         $bar_values = array_values($bar);
         if (count($foo_values) > count($bar_values)) {
@@ -60,10 +60,11 @@ class Misc
      * @param string $fieldName value to collect
      * @param array|object $array array or object to search
      * @return array new array containing the fieldName values from original array
+     * @deprecated use array_column for array inputs
      */
     public static function collect($fieldName, $array)
     {
-        $result = array();
+        $result = [];
         if (empty($array)) {
             return $result;
         }
@@ -252,8 +253,8 @@ class Misc
         }
         $lines = array_values($lines);
 
-        $misspelled_words = array();
-        $spell_suggestions = array();
+        $misspelled_words = [];
+        $spell_suggestions = [];
         foreach ($lines as $line) {
             if (substr($line, 0, 1) == '&') {
                 // found suggestions for this word
@@ -266,7 +267,7 @@ class Misc
                 // found no suggestions for this word
                 $pieces = explode(' ', $line);
                 $misspelled_word = $pieces[1];
-                $suggestions = array();
+                $suggestions = [];
             } else {
                 // no spelling mistakes could be found
                 continue;
@@ -279,28 +280,11 @@ class Misc
             $spell_suggestions[$misspelled_word] = $suggestions;
         }
 
-        return array(
+        return [
             'total_words' => count($misspelled_words),
             'words' => $misspelled_words,
             'suggestions' => $spell_suggestions,
-        );
-    }
-
-    /**
-     * Method used to replace all special whitespace characters (\n,
-     * \r and \t) by their string equivalents. It is usually used in
-     * JavaScript code.
-     *
-     * @param   string $str The string to be escaped
-     * @return  string The escaped string
-     */
-    public static function escapeWhitespace($str)
-    {
-        $str = str_replace("\n", '\n', $str);
-        $str = str_replace("\r", '\r', $str);
-        $str = str_replace("\t", '\t', $str);
-
-        return $str;
+        ];
     }
 
     /**
@@ -313,7 +297,7 @@ class Misc
      * @param   integer $in_index Internal parameter to specify which index of the array we are currently mapping
      * @return  array The mapped array
      */
-    public static function array_map_deep(&$in_array, $in_func, $in_args = array(), $in_index = 1)
+    public static function array_map_deep(&$in_array, $in_func, $in_args = [], $in_index = 1)
     {
         // fix people from messing up the index of the value
         if ($in_index < 1) {
@@ -386,42 +370,6 @@ class Misc
         }
 
         return $val;
-    }
-
-    /**
-     * The Util:: class provides generally useful methods of different kinds.
-     *
-     * $Horde: framework/Util/Util.php,v 1.366 2004/03/30 17:03:58 jan Exp $
-     *
-     * Copyright 1999-2004 Chuck Hagenbuch <chuck@horde.org>
-     * Copyright 1999-2004 Jon Parise <jon@horde.org>
-     *
-     * See the enclosed file COPYING for license information (LGPL). If you
-     * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
-     *
-     * @author  Chuck Hagenbuch <chuck@horde.org>
-     * @author  Jon Parise <jon@horde.org>
-     * @version $Revision: 1.366 $
-     * @since   Horde 3.0
-     * @package Horde_Util
-     */
-    public static function dispelMagicQuotes(&$var)
-    {
-        static $magic_quotes;
-
-        if (!isset($magic_quotes)) {
-            $magic_quotes = get_magic_quotes_gpc();
-        }
-
-        if ($magic_quotes) {
-            if (!is_array($var)) {
-                $var = stripslashes($var);
-            } else {
-                array_walk($var, array('Misc', 'dispelMagicQuotes'));
-            }
-        }
-
-        return $var;
     }
 
     /**
@@ -528,7 +476,7 @@ class Misc
      */
     public static function prepareBooleanSearch($field, $value)
     {
-        $boolean = array();
+        $boolean = [];
         $pieces = explode(' ', $value);
         foreach ($pieces as $piece) {
             $boolean[] = "$field LIKE '%" . self::escapeString($piece) . "%'";
@@ -546,7 +494,7 @@ class Misc
      */
     public static function getFileList($directory)
     {
-        $files = array();
+        $files = [];
         $dir = @opendir($directory);
         while ($item = @readdir($dir)) {
             if (($item == '.') || ($item == '..') || ($item == 'CVS') || ($item == 'SCCS')) {
@@ -607,8 +555,8 @@ class Misc
         $text = preg_replace("'(\w+)://($range)(\.)?'", '<a title="open $1://$2 in a new window" class="' . $class . '" href="$1://$2" target="_$2">$1://$2</a>', $text);
         $text = preg_replace("'(\s+)(www\.$range)(\.\s|\s)'", '$1<a title="open http://$2 in a new window" class="' . $class . '" href="http://$2" target="_$2">$2</a>$3', $text);
 
-        $mail_pat = '/([-+a-z0-9_.]+@(?:[-a-z0-9_.]{2,63}\.)+[a-z]{2,6})/i';
-        $text = preg_replace($mail_pat, '<a title="open mailto:$1 in a new window" class="' . $class . '" href="mailto:$1" target="_$1">$1</a>', $text);
+        $mail_pat = '/(^|\s+)([-+a-z0-9_.]+@(?:[-a-z0-9_.]{2,63}\.)+[a-z]{2,6})/i';
+        $text = preg_replace($mail_pat, '$1<a title="open mailto:$2 in a new window" class="' . $class . '" href="mailto:$2" target="_$2">$2</a>', $text);
 
         return $text;
     }
@@ -797,7 +745,7 @@ class Misc
             $replacement = ' ';
         }
 
-        return str_replace(array("\n", "\r"), $replacement, $str);
+        return str_replace(["\n", "\r"], $replacement, $str);
     }
 
     public static function htmlentities($var)
@@ -813,18 +761,18 @@ class Misc
 
     public static function setMessage($msg, $type = self::MSG_INFO)
     {
-        $messages = Session::get('messages', array());
-        $messages[] = array(
+        $messages = Session::get('messages', []);
+        $messages[] = [
             'text' => $msg,
             'type' => $type,
-        );
+        ];
         Session::set('messages', $messages);
     }
 
     public static function getMessages()
     {
-        $messages = Session::get('messages', array());
-        Session::set('messages', array());
+        $messages = Session::get('messages', []);
+        Session::set('messages', []);
 
         return $messages;
     }
@@ -848,41 +796,6 @@ class Misc
             $update_tpl->assign('notify_list', $notify_list);
             self::setMessage($update_tpl->getTemplateContents(false), self::MSG_HTML_BOX);
         }
-    }
-
-    /**
-     * Shortcut method to check if if an element is set in the array and if not
-     * return a default value.
-     *
-     * @param  array $array The array to check if the element is in
-     * @param  string $var_name The name of the element to check for
-     * @param  mixed $default The default value to return if the element is not set
-     * @return mixed
-     */
-    public static function ifSet($array, $var_name, $default = null)
-    {
-        if (isset($array[$var_name])) {
-            return $array[$var_name];
-        } else {
-            return $default;
-        }
-    }
-
-    public static function arrayToQueryString($array, $parent_name = false)
-    {
-        $qs = '';
-        foreach ($array as $key => $val) {
-            if (is_array($val)) {
-                $qs .= self::arrayToQueryString($val, $key);
-            } else {
-                if ($parent_name != false) {
-                    $key = $parent_name . '[' . $key . ']';
-                }
-                $qs .= '&' . $key . '=' . urlencode($val);
-            }
-        }
-
-        return $qs;
     }
 
     /**
@@ -922,25 +835,6 @@ class Misc
         $tpl->setTemplate('error_message.tpl.html');
         $tpl->displayTemplate();
         exit;
-    }
-
-    /**
-     * Base 64 encodes all elements of an array.
-     *
-     * @param   array $data The values to encode
-     * @return  array The array of encoded values.
-     */
-    public static function base64_encode($data)
-    {
-        if (is_array($data)) {
-            foreach ($data as $k => $v) {
-                $data[$k] = self::base64_encode($v);
-            }
-        } else {
-            $data = base64_encode($data);
-        }
-
-        return $data;
     }
 
     /**
@@ -1008,7 +902,7 @@ class Misc
 
         // handle empty context
         if (!$context) {
-            $context = array();
+            $context = [];
         }
 
         // handle raw data from database (json encoded)
@@ -1016,7 +910,7 @@ class Misc
             $context = json_decode($context, true);
         }
 
-        $replacements = array();
+        $replacements = [];
         foreach ($context as $key => $val) {
             if (is_null($val) || is_scalar($val) || (is_object($val) && method_exists($val, '__toString'))) {
                 $replacements['{' . $key . '}'] = $val;

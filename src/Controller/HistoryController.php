@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Access;
@@ -64,10 +63,10 @@ class HistoryController extends BaseController
      */
     protected function prepareTemplate()
     {
-        $this->tpl->assign(array(
+        $this->tpl->assign([
             'issue_id' => $this->issue_id,
             'changes' => History::getListing($this->issue_id),
-        ));
+        ]);
 
         $role_id = Auth::getCurrentRole();
         if ($role_id > User::ROLE_CUSTOMER) {

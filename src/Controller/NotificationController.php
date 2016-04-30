@@ -10,13 +10,13 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Access;
 use Auth;
 use Misc;
 use Notification;
+use Project;
 
 class NotificationController extends BaseController
 {
@@ -34,6 +34,9 @@ class NotificationController extends BaseController
 
     /** @var int */
     private $sub_id;
+
+    /** @var int */
+    private $prj_id;
 
     /**
      * @inheritdoc
@@ -55,6 +58,7 @@ class NotificationController extends BaseController
         Auth::checkAuthentication(null, true);
 
         $this->usr_id = Auth::getUserID();
+        $this->prj_id = Auth::getCurrentProject();
 
         return Access::canViewNotificationList($this->issue_id, $this->usr_id);
     }
@@ -103,7 +107,7 @@ class NotificationController extends BaseController
             Misc::setMessage(ev_gettext('Error: the given email address is not allowed to be added to the notification list.'), Misc::MSG_ERROR);
         }
 
-        $this->redirect(APP_RELATIVE_URL . 'notification.php', array('iss_id' => $this->issue_id));
+        $this->redirect(APP_RELATIVE_URL . 'notification.php', ['iss_id' => $this->issue_id]);
     }
 
     private function deleteAction()
@@ -126,30 +130,29 @@ class NotificationController extends BaseController
         if ($this->sub_id) {
             $info = Notification::getDetails($this->sub_id);
         } else {
-            $info = array(
+            $info = [
                 'updated' => 0,
                 'closed' => 0,
                 'files' => 0,
                 'emails' => 0,
-            );
+            ];
             foreach ($default_actions as $action) {
                 $info[$action] = 1;
             }
         }
 
+        $users = Project::getAddressBook($this->prj_id, $this->issue_id);
+        // add empty value which would be the default value in dropdown
+        array_unshift($users, '');
+
         $this->tpl->assign(
-            array(
+            [
                 'issue_id' => $this->issue_id,
                 'default_actions' => $default_actions,
                 'info' => $info,
                 'list' => Notification::getSubscriberListing($this->issue_id),
-
-                /*
-                 // the autocomplete is removed, no need to fetch the data
-                'assoc_users' => Project::getAddressBook($this->prj_id, $this->issue_id),
-                'allowed_emails' => Project::getAddressBookEmails($this->prj_id, $this->issue_id),
-                */
-            )
+                'users' => $users,
+            ]
         );
     }
 }

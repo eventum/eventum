@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Monolog\Logger;
 
 /**
  * Class to handle the business logic related to the administration
@@ -28,7 +29,7 @@ class User
     const ROLE_ADMINISTRATOR = 7;
 
     // definition of roles
-    private static $roles = array(
+    private static $roles = [
         self::ROLE_VIEWER => 'Viewer',
         self::ROLE_REPORTER => 'Reporter',
         self::ROLE_CUSTOMER => 'Customer',
@@ -36,7 +37,7 @@ class User
         self::ROLE_DEVELOPER => 'Developer',
         self::ROLE_MANAGER => 'Manager',
         self::ROLE_ADMINISTRATOR => 'Administrator',
-    );
+    ];
 
     private static $localized_roles;
 
@@ -76,7 +77,7 @@ class User
                     usr_customer_contact_id=?';
 
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($customer_contact_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$customer_contact_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -100,7 +101,7 @@ class User
                  WHERE
                     usr_customer_contact_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($customer_contact_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$customer_contact_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -124,7 +125,7 @@ class User
                  WHERE
                     usr_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$usr_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -149,7 +150,7 @@ class User
                  WHERE
                     usr_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($sms_email, $usr_id));
+            DB_Helper::getInstance()->query($stmt, [$sms_email, $usr_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -173,7 +174,7 @@ class User
                  WHERE
                     usr_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$usr_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -203,7 +204,7 @@ class User
                  WHERE
                     usr_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$usr_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -228,7 +229,7 @@ class User
                  WHERE
                     usr_email=?";
         try {
-            DB_Helper::getInstance()->query($stmt, array($email));
+            DB_Helper::getInstance()->query($stmt, [$email]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -254,7 +255,7 @@ class User
                  WHERE
                     usr_email=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($email));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$email]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -295,12 +296,12 @@ class User
                  ) VALUES (?, ?, ?, ?)';
         try {
             DB_Helper::getInstance()->query(
-                $stmt, array(
+                $stmt, [
                     Date_Helper::getCurrentDateGMT(),
                     $_POST['full_name'],
                     $_POST['email'],
                     'pending',
-                )
+                ]
             );
         } catch (DatabaseException $e) {
             return -1;
@@ -328,11 +329,11 @@ class User
 
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/visitor_account.tpl.text');
-        $tpl->assign(array(
+        $tpl->assign([
             'app_title'   => Misc::getToolCaption(),
             'email'     =>  $_POST['email'],
             'hash'      =>  $hash,
-        ));
+        ]);
         $text_message = $tpl->getTemplateContents();
 
         $setup = Setup::get();
@@ -361,11 +362,11 @@ class User
 
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/password_confirmation.tpl.text');
-        $tpl->assign(array(
+        $tpl->assign([
             'app_title' => Misc::getToolCaption(),
             'user'      =>  $info,
             'hash'      =>  $hash,
-        ));
+        ]);
         $text_message = $tpl->getTemplateContents();
 
         $setup = Setup::get();
@@ -400,7 +401,7 @@ class User
                 WHERE
                     usr_external_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($external_id));
+            $res = DB_Helper::getInstance()->getOne($sql, [$external_id]);
         } catch (DatabaseException $e) {
             return null;
         }
@@ -421,12 +422,12 @@ class User
 
         if (!is_string($email)) {
             if (Misc::isError($email)) {
-                Logger::app()->error($email->getMessage(), array('debug' => $email->getDebugInfo()));
+                Logger::app()->error($email->getMessage(), ['debug' => $email->getDebugInfo()]);
 
                 return null;
             }
 
-            Logger::app()->error('$email parameter is not a string', array('type' => gettype($email)));
+            Logger::app()->error('$email parameter is not a string', ['type' => gettype($email)]);
 
             return null;
         }
@@ -441,7 +442,7 @@ class User
                     {{%user}}
                  WHERE
                     usr_email=?';
-        $res = DB_Helper::getInstance()->getOne($stmt, array($email));
+        $res = DB_Helper::getInstance()->getOne($stmt, [$email]);
 
         if (empty($res) && $check_aliases) {
             $res = self::getUserIDByAlias($email);
@@ -498,7 +499,7 @@ class User
                     usr_full_name
                  FROM
                     {{%user}}';
-        $params = array();
+        $params = [];
 
         if ($prj_id) {
             $stmt .= ',
@@ -538,7 +539,7 @@ class User
      */
     public static function getAssocRoleIDs()
     {
-        $assoc_roles = array();
+        $assoc_roles = [];
         foreach (self::$roles as $key => $value) {
             $value = str_replace(' ', '_', strtolower($value));
             $assoc_roles[$value] = (integer) $key;
@@ -562,7 +563,7 @@ class User
 
         $roles = self::getLocalizedRoles();
         if (!is_array($exclude_role)) {
-            $exclude_role = array($exclude_role);
+            $exclude_role = [$exclude_role];
         }
 
         foreach ($exclude_role as $role_id) {
@@ -630,7 +631,7 @@ class User
                     pru_usr_id=? AND
                     pru_prj_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id, $prj_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$usr_id, $prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -648,7 +649,7 @@ class User
      */
     public static function getDetails($usr_id)
     {
-        $res = self::getDetailsAssoc(array($usr_id));
+        $res = self::getDetailsAssoc([$usr_id]);
 
         return reset($res);
     }
@@ -662,10 +663,10 @@ class User
      * @param array $options
      * @return array List of accounts with account details
      */
-    public static function getDetailsAssoc($usr_ids, $options = array())
+    public static function getDetailsAssoc($usr_ids, $options = [])
     {
         static $returns;
-        $key = md5(serialize(array($usr_ids, $options)));
+        $key = md5(serialize([$usr_ids, $options]));
 
         if (empty($returns[$key])) {
             $itemlist = DB_Helper::buildList($usr_ids);
@@ -721,7 +722,7 @@ class User
         static $returns;
 
         if (!is_array($usr_id)) {
-            $items = array($usr_id);
+            $items = [$usr_id];
         } else {
             $items = $usr_id;
         }
@@ -735,7 +736,7 @@ class User
             if (!is_array($usr_id)) {
                 return '';
             } else {
-                return array();
+                return [];
             }
         }
 
@@ -773,7 +774,7 @@ class User
         static $returns;
 
         if (!is_array($usr_id)) {
-            $items = array($usr_id);
+            $items = [$usr_id];
         } else {
             $items = $usr_id;
         }
@@ -787,7 +788,7 @@ class User
             if (!is_array($usr_id)) {
                 return '';
             } else {
-                return array();
+                return [];
             }
         }
 
@@ -809,7 +810,7 @@ class User
             if (!is_array($usr_id)) {
                 return '';
             } else {
-                return array();
+                return [];
             }
         }
 
@@ -842,7 +843,7 @@ class User
                     ugr_grp_id = grp_id AND
                     ugr_usr_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getPair($sql, array($usr_id));
+            $res = DB_Helper::getInstance()->getPair($sql, [$usr_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -886,7 +887,7 @@ class User
                  WHERE
                     usr_email=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($email));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$email]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -918,7 +919,7 @@ class User
                  WHERE
                     usr_status=?';
 
-            $total_active = DB_Helper::getInstance()->getOne($stmt, array(self::USER_STATUS_ACTIVE));
+            $total_active = DB_Helper::getInstance()->getOne($stmt, [self::USER_STATUS_ACTIVE]);
             if ($total_active < 2) {
                 return false;
             }
@@ -932,7 +933,7 @@ class User
                     usr_status=?
                  WHERE
                     usr_id IN ($items)";
-        $params = array_merge(array($status), $usr_ids);
+        $params = array_merge([$status], $usr_ids);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -958,7 +959,7 @@ class User
                  WHERE
                     usr_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($full_name, $usr_id));
+            DB_Helper::getInstance()->query($stmt, [$full_name, $usr_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -983,7 +984,7 @@ class User
                  WHERE
                     usr_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST['email'], $usr_id));
+            DB_Helper::getInstance()->query($stmt, [$_POST['email'], $usr_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -1022,12 +1023,12 @@ class User
     public static function updateFromPost()
     {
         $usr_id = $_POST['id'];
-        $data = array(
+        $data = [
             'full_name' =>  $_POST['full_name'],
             'email'     =>  $_POST['email'],
             'password'  =>  $_POST['password'],
             'role'      =>  $_POST['role'],
-        );
+        ];
 
         if (isset($_POST['par_code'])) {
             $data['par_code'] = $_POST['par_code'];
@@ -1036,7 +1037,7 @@ class User
         if (isset($_POST['groups'])) {
             $data['groups'] = $_POST['groups'];
         } else {
-            $data['groups'] = array();
+            $data['groups'] = [];
         }
 
         return self::update($usr_id, $data);
@@ -1057,9 +1058,9 @@ class User
             return 1;
         }
 
-        $params = array(
+        $params = [
             'usr_email' => $data['email'],
-        );
+        ];
 
         if (isset($data['full_name'])) {
             $params['usr_full_name'] = $data['full_name'];
@@ -1101,7 +1102,7 @@ class User
                      WHERE
                         pru_usr_id=?';
             try {
-                DB_Helper::getInstance()->query($stmt, array($usr_id));
+                DB_Helper::getInstance()->query($stmt, [$usr_id]);
             } catch (DatabaseException $e) {
                 return -1;
             }
@@ -1121,9 +1122,9 @@ class User
                          )';
                 try {
                     DB_Helper::getInstance()->query(
-                        $stmt, array(
+                        $stmt, [
                             $prj_id, $usr_id, $role,
-                        )
+                        ]
                     );
                 } catch (DatabaseException $e) {
                     return -1;
@@ -1137,7 +1138,7 @@ class User
                      WHERE
                         ugr_usr_id=?';
             try {
-                DB_Helper::getInstance()->query($stmt, array($usr_id));
+                DB_Helper::getInstance()->query($stmt, [$usr_id]);
             } catch (DatabaseException $e) {
                 return -1;
             }
@@ -1160,13 +1161,13 @@ class User
 
     public static function insertFromPost()
     {
-        $user = array(
+        $user = [
             'password'  =>  $_POST['password'],
             'full_name' =>  $_POST['full_name'],
             'email'     =>  $_POST['email'],
             'role'      =>  $_POST['role'],
             'external_id'   =>  '',
-        );
+        ];
 
         if (isset($_POST['par_code'])) {
             $user['par_code'] = $_POST['par_code'];
@@ -1192,7 +1193,7 @@ class User
      */
     public static function insert($user)
     {
-        $projects = array();
+        $projects = [];
         foreach ($user['role'] as $prj_id => $role) {
             if ($role < 1) {
                 continue;
@@ -1200,7 +1201,7 @@ class User
             $projects[] = $prj_id;
         }
 
-        $params = array(
+        $params = [
             isset($user['customer_id']) ? $user['customer_id'] : null,
             isset($user['contact_id']) ? $user['contact_id'] : null,
             Date_Helper::getCurrentDateGMT(),
@@ -1208,7 +1209,7 @@ class User
             $user['email'],
             $user['external_id'],
             isset($user['par_code']) ? $user['par_code'] : null,
-        );
+        ];
         $stmt = 'INSERT INTO
                     {{%user}}
                  (
@@ -1239,7 +1240,7 @@ class User
         }
 
         // add the project associations!
-        $projects = array();
+        $projects = [];
         foreach ($user['role'] as $prj_id => $role) {
             if ($role < 1) {
                 continue;
@@ -1273,7 +1274,7 @@ class User
      * @param array $options
      * @return  array The list of users
      */
-    public static function getList($options = array())
+    public static function getList($options = [])
     {
         // FIXME: what about other statuses like "pending"?
         $stmt = 'SELECT
@@ -1282,7 +1283,7 @@ class User
                     {{%user}}
                  WHERE
                     usr_id != ?';
-        $params = array(APP_SYSTEM_USER_ID);
+        $params = [APP_SYSTEM_USER_ID];
 
         $show_inactive = isset($options['inactive']) ? $options['inactive'] : false;
         $show_customers = isset($options['customers']) ? $options['customers'] : true;
@@ -1302,7 +1303,7 @@ class User
         }
 
         $prj_id = Auth::getCurrentProject();
-        $data = array();
+        $data = [];
 
         $get_partner_name = function ($name) {
             static $cache;
@@ -1413,7 +1414,7 @@ class User
                  WHERE
                     usr_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($usr_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$usr_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -1455,7 +1456,7 @@ class User
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -1476,7 +1477,7 @@ class User
                  WHERE
                     usr_id = ?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($usr_id));
+            DB_Helper::getInstance()->query($stmt, [$usr_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -1499,7 +1500,7 @@ class User
                  WHERE
                     usr_id = ?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($usr_id));
+            DB_Helper::getInstance()->query($stmt, [$usr_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -1527,7 +1528,7 @@ class User
                  WHERE
                     usr_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$usr_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -1551,7 +1552,7 @@ class User
                     WHERE
                         usr_id = ?';
             try {
-                $res = DB_Helper::getInstance()->getOne($sql, array($usr_id));
+                $res = DB_Helper::getInstance()->getOne($sql, [$usr_id]);
             } catch (DatabaseException $e) {
                 return APP_DEFAULT_LOCALE;
             }
@@ -1574,7 +1575,7 @@ class User
                 WHERE
                     usr_id = ?';
         try {
-            DB_Helper::getInstance()->query($sql, array($language, $usr_id));
+            DB_Helper::getInstance()->query($sql, [$language, $usr_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -1591,9 +1592,9 @@ class User
                 WHERE
                     ual_usr_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getColumn($sql, array($usr_id));
+            $res = DB_Helper::getInstance()->getColumn($sql, [$usr_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -1621,7 +1622,7 @@ class User
                     ual_email = ?';
 
         try {
-            DB_Helper::getInstance()->query($sql, array($usr_id, $email));
+            DB_Helper::getInstance()->query($sql, [$usr_id, $email]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -1637,7 +1638,7 @@ class User
                     ual_usr_id = ? AND
                     ual_email = ?';
         try {
-            DB_Helper::getInstance()->query($sql, array($usr_id, $email));
+            DB_Helper::getInstance()->query($sql, [$usr_id, $email]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -1654,7 +1655,7 @@ class User
                 WHERE
                     ual_email = ?';
         try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($email));
+            $res = DB_Helper::getInstance()->getOne($sql, [$email]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -1671,7 +1672,7 @@ class User
                 WHERE
                     usr_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($usr_id));
+            $res = DB_Helper::getInstance()->getOne($sql, [$usr_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -1688,7 +1689,7 @@ class User
                 WHERE
                     usr_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($usr_id));
+            $res = DB_Helper::getInstance()->getOne($sql, [$usr_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -1705,7 +1706,7 @@ class User
                 WHERE
                     usr_id = ?';
 
-        return DB_Helper::getInstance()->getOne($sql, array($usr_id));
+        return DB_Helper::getInstance()->getOne($sql, [$usr_id]);
     }
 
     public static function unlock($usr_id)
@@ -1717,7 +1718,7 @@ class User
                  WHERE
                     usr_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($usr_id));
+            DB_Helper::getInstance()->query($stmt, [$usr_id]);
         } catch (DatabaseException $e) {
             return false;
         }

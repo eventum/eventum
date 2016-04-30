@@ -10,15 +10,14 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
 use Draft;
+use Eventum\EmailHelper;
 use Issue;
 use Link_Filter;
 use Mail_Queue;
-use Misc;
 use Note;
 use Phone_Support;
 use Support;
@@ -110,11 +109,11 @@ class RemoteDataController extends BaseController
         }
 
         // convert to wanted format
-        $res = array(
+        $res = [
             'ec_id' => $this->ec_id,
             'list_id' => $this->list_id,
             'message' => $res,
-        );
+        ];
 
         if ($this->callback) {
             echo $this->callback, '(', json_encode($res), ')';
@@ -153,7 +152,7 @@ class RemoteDataController extends BaseController
             return $info['seb_body'];
         }
 
-        return $this->processText(nl2br(Misc::highlightQuotedReply($info['seb_body'])));
+        return EmailHelper::formatEmail($info['seb_body']);
     }
 
     /**
@@ -173,7 +172,7 @@ class RemoteDataController extends BaseController
             return $note['not_note'];
         }
 
-        return $this->processText(nl2br(Misc::highlightQuotedReply($note['not_note'])));
+        return EmailHelper::formatEmail($note['not_note']);
     }
 
     /**
@@ -193,7 +192,7 @@ class RemoteDataController extends BaseController
             return $info['emd_body'];
         }
 
-        return $this->processText(nl2br(htmlspecialchars($info['emd_body'])));
+        return EmailHelper::formatEmail($info['emd_body']);
     }
 
     /**

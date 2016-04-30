@@ -36,7 +36,7 @@ class Release
                     pre_status=?';
 
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($pre_id, 'available'));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$pre_id, 'available']);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -65,7 +65,7 @@ class Release
                  WHERE
                     pre_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($pre_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$pre_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -88,7 +88,7 @@ class Release
                  WHERE
                     pre_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($pre_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$pre_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -176,7 +176,7 @@ class Release
                  WHERE
                     pre_prj_id=? AND
                     pre_id=?';
-        $params = array($_POST['title'], $scheduled_date, $_POST['status'], $_POST['prj_id'], $_POST['id']);
+        $params = [$_POST['title'], $scheduled_date, $_POST['status'], $_POST['prj_id'], $_POST['id']];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -208,12 +208,12 @@ class Release
                  ) VALUES (
                     ?, ?, ?, ?
                  )';
-        $params = array(
+        $params = [
             $_POST['prj_id'],
             $_POST['title'],
             $scheduled_date,
             $_POST['status'],
-        );
+        ];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -244,7 +244,7 @@ class Release
                  ORDER BY
                     pre_scheduled_date ASC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -271,7 +271,7 @@ class Release
                     pre_prj_id=? AND
                     (
                       pre_status=?';
-        $params = array($prj_id, 'available');
+        $params = [$prj_id, 'available'];
         if ($show_all_dates != true) {
             $stmt .= ' AND
                       pre_scheduled_date >= ?';

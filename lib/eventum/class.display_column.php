@@ -41,7 +41,7 @@ class Display_Column
         $current_role = Auth::getCurrentRole();
         $data = self::getSelectedColumns($prj_id, $page);
         $has_customer_integration = CRM::hasCustomerIntegration($prj_id);
-        $only_with_customers = array('iss_customer_id', 'support_level');
+        $only_with_customers = ['iss_customer_id', 'support_level'];
 
         // remove groups if there are no groups in the system.
         if (count(Group::getAssocList($prj_id)) < 1) {
@@ -111,12 +111,12 @@ class Display_Column
                 ORDER BY
                     ctd_rank';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id, $page), AdapterInterface::DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, [$prj_id, $page], AdapterInterface::DB_FETCHMODE_ASSOC);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
-        $returns[$prj_id][$page] = array();
+        $returns[$prj_id][$page] = [];
         foreach ($res as $field_name => $row) {
             $returns[$prj_id][$page][$field_name] = self::getColumnInfo($page, $field_name);
             $returns[$prj_id][$page][$field_name]['min_role'] = $row['ctd_min_role'];
@@ -148,74 +148,74 @@ class Display_Column
      */
     public static function getAllColumns($page)
     {
-        $columns = array(
-            'list_issues'   =>  array(
-                'pri_rank'    =>  array(
+        $columns = [
+            'list_issues'   =>  [
+                'pri_rank'    =>  [
                     'title' =>  ev_gettext('Priority'),
-                ),
-                'sev_rank'    =>  array(
+                ],
+                'sev_rank'    =>  [
                     'title' =>  ev_gettext('Severity'),
-                ),
-                'iss_id'    =>  array(
+                ],
+                'iss_id'    =>  [
                     'title' =>  ev_gettext('Issue ID'),
-                ),
-                'usr_full_name' =>  array(
+                ],
+                'usr_full_name' =>  [
                     'title' =>  ev_gettext('Reporter'),
-                ),
-                'iss_created_date'    =>  array(
+                ],
+                'iss_created_date'    =>  [
                     'title' =>  ev_gettext('Created Date'),
-                ),
-                'grp_name'    =>  array(
+                ],
+                'grp_name'    =>  [
                     'title' =>  ev_gettext('Group'),
-                ),
-                'assigned'  =>  array(
+                ],
+                'assigned'  =>  [
                     'title' =>  ev_gettext('Assigned'),
-                ),
-                'time_spent'    =>  array(
+                ],
+                'time_spent'    =>  [
                     'title' =>  ev_gettext('Time Spent'),
-                ),
-                'iss_percent_complete'    =>  array(
+                ],
+                'iss_percent_complete'    =>  [
                     'title' =>  ev_gettext('% Complete'),
                     'default_role'  =>  9,
-                ),
-                'iss_dev_time'    =>  array(
+                ],
+                'iss_dev_time'    =>  [
                     'title' =>  ev_gettext('Est Dev Time'),
                     'default_role'  =>  9,
-                ),
-                'prc_title'     =>  array(
+                ],
+                'prc_title'     =>  [
                     'title' =>  ev_gettext('Category'),
-                ),
-                'pre_title' =>  array(
+                ],
+                'pre_title' =>  [
                     'title' =>  ev_gettext('Release'),
-                ),
-                'iss_customer_id'   =>  array(
+                ],
+                'iss_customer_id'   =>  [
                     'title' =>  ev_gettext('Customer'),
-                ),
-                'support_level' =>  array(
+                ],
+                'support_level' =>  [
                     'title' =>  ev_gettext('Support Level'),
-                ),
-                'sta_rank'    =>  array(
+                ],
+                'sta_rank'    =>  [
                     'title' =>  ev_gettext('Status'),
-                ),
-                'sta_change_date'   =>  array(
+                ],
+                'sta_change_date'   =>  [
                     'title' =>  ev_gettext('Status Change Date'),
-                ),
-                'last_action_date'  =>  array(
+                ],
+                'last_action_date'  =>  [
                     'title' =>  ev_gettext('Last Action Date'),
-                ),
-                'custom_fields' =>  array(
+                ],
+                'custom_fields' =>  [
                     'title' =>  ev_gettext('Custom Fields'),
-                ),
-                'iss_summary'   =>  array(
+                ],
+                'iss_summary'   =>  [
                     'title' =>  ev_gettext('Summary'),
                     'align' =>  'left',
                     'width' =>  '30%',
-                ),
-                'iss_expected_resolution_date'  =>  array(
+                ],
+                'iss_expected_resolution_date'  =>  [
                     'title' =>  ev_gettext('Expected Resolution Date'),
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         return $columns[$page];
     }
@@ -240,7 +240,7 @@ class Display_Column
                     ctd_prj_id = ? AND
                     ctd_page = ?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($prj_id, $page));
+            DB_Helper::getInstance()->query($stmt, [$prj_id, $page]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -255,7 +255,7 @@ class Display_Column
                         ctd_field = ?,
                         ctd_min_role = ?,
                         ctd_rank = ?';
-            $params = array($prj_id, $page, $field_name, $_REQUEST['min_role'][$field_name], $rank);
+            $params = [$prj_id, $page, $field_name, $_REQUEST['min_role'][$field_name], $rank];
             try {
                 DB_Helper::getInstance()->query($sql, $params);
             } catch (DatabaseException $e) {
@@ -290,9 +290,9 @@ class Display_Column
                         ctd_prj_id = ?,
                         ctd_page = ?,
                         ctd_field = ?,
-                        ctd_min_role = ,
+                        ctd_min_role = ?,
                         ctd_rank = ?';
-            $params = array($prj_id, $page, $field_name, $min_role, $rank);
+            $params = [$prj_id, $page, $field_name, $min_role, $rank];
             try {
                 DB_Helper::getInstance()->query($stmt, $params);
             } catch (DatabaseException $e) {

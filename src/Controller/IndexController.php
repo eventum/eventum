@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -66,7 +65,7 @@ class IndexController extends BaseController
         }
 
         if ($has_valid_cookie && !$is_anon_user) {
-            $params = array();
+            $params = [];
             if ($this->url) {
                 $params['url'] = $this->url;
             }
@@ -80,7 +79,7 @@ class IndexController extends BaseController
 
     private function checkRequirements()
     {
-        $errors = array();
+        $errors = [];
 
         // check if templates_c is writable by the web server user
         if (!Misc::isWritableDirectory($dir = APP_TPL_COMPILE_PATH)) {
@@ -100,10 +99,10 @@ class IndexController extends BaseController
         $anonymous_post = (int) !empty($projects);
 
         $this->tpl->assign(
-            array(
+            [
                 'anonymous_post' => $anonymous_post,
                 'login_url' => Auth::getExternalLoginURL(),
-            )
+            ]
         );
     }
 }

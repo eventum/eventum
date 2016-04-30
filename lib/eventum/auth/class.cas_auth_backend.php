@@ -33,7 +33,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
         // For simplicities sake at the moment we are not validating the server auth.
         phpCAS::setNoCasServerValidation();
 
-        phpCAS::setPostAuthenticateCallback(array($this, 'loginCallback'));
+        phpCAS::setPostAuthenticateCallback([$this, 'loginCallback']);
     }
 
     public function checkAuthentication()
@@ -69,11 +69,11 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
 
         $usr_id = User::getUserIDByEmail($remote['mail'], true);
 
-        $data = array(
+        $data = [
             'password' => '',
             'full_name' => $remote['firstname'] . ' ' . $remote['lastname'],
             'external_id' => $remote['uid'],
-        );
+        ];
 
         if (!empty($setup['customer_id_attribute'])) {
             $data['customer_id'] = $remote[$setup['customer_id_attribute']];
@@ -88,7 +88,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
             unset($data['password']);
 
             // perspective what is main address and what is alias may be different in CAS and in eventum
-            $emails = array($remote['mail']);
+            $emails = [$remote['mail']];
             $email = User::getEmail($usr_id);
 
             if (($key = array_search($email, $emails)) !== false) {
@@ -121,7 +121,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
             }
             $data['role'] = $setup['default_role'];
 
-            $emails = array($remote['mail']);
+            $emails = [$remote['mail']];
             if (count($emails) < 1) {
                 throw new AuthException('E-mail is required');
             }
@@ -172,7 +172,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
      */
     public function updatePassword($usr_id, $password)
     {
-        return false;
+        return true;
     }
 
     public function userExists($login)
@@ -276,7 +276,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
     {
         static $setup;
         if (empty($setup) || $force == true) {
-            $setup = array();
+            $setup = [];
             $configfile = APP_CONFIG_PATH . '/cas.php';
 
             if (file_exists($configfile)) {
@@ -323,15 +323,15 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
      */
     public static function getDefaults()
     {
-        $defaults = array(
+        $defaults = [
             'host' => 'localhost',
             'port' => 443,
             'context'   =>  '/cas',
             'customer_id_attribute' => '',
             'contact_id_attribute' => '',
             'create_users' => null,
-            'default_role' => array(),
-        );
+            'default_role' => [],
+        ];
 
         if (AuthCookie::hasAuthCookie()) {
             // ensure there is entry for current project

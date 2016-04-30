@@ -1,5 +1,16 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 class RemoteApiTest extends TestCase
 {
     const DEBUG = 0;
@@ -14,7 +25,7 @@ class RemoteApiTest extends TestCase
     {
         $setup = Setup::get();
         if (!isset($setup['tests.xmlrpc_url'])) {
-            self::markTestSkipped("tests.xmlrpc_url not set in setup");
+            self::markTestSkipped('tests.xmlrpc_url not set in setup');
         }
 
         /*
@@ -100,12 +111,12 @@ class RemoteApiTest extends TestCase
     {
         $only_customer_projects = false;
         $res = self::$client->getUserAssignedProjects($this->login, $this->password, $only_customer_projects);
-        $exp = array(
-            array(
+        $exp = [
+            [
                 'id'    => '1',
                 'title' => 'Default Project',
-            ),
-        );
+            ],
+        ];
         $this->assertEquals($exp, $res);
     }
 
@@ -218,7 +229,6 @@ class RemoteApiTest extends TestCase
             $this->assertArrayHasKey('iat_id', $file);
             $this->assertArrayHasKey('iat_status', $file);
             $this->assertEquals('internal', $file['iat_status']);
-
         } catch (Exception $e) {
             $this->assertEquals('No files could be found', $e->getMessage());
         }
@@ -281,10 +291,10 @@ class RemoteApiTest extends TestCase
     {
         $prj_id = 1;
         $res = self::$client->getClosedAbbreviationAssocList($this->login, $this->password, $prj_id);
-        $exp = array(
+        $exp = [
             'REL' => 'released',
             'KIL' => 'killed',
-        );
+        ];
         $this->assertEquals($exp, $res);
     }
 
@@ -296,12 +306,12 @@ class RemoteApiTest extends TestCase
         $prj_id = 1;
         $show_closed = false;
         $res = self::$client->getAbbreviationAssocList($this->login, $this->password, $prj_id, $show_closed);
-        $exp = array(
+        $exp = [
             'DSC' => 'discovery',
             'REQ' => 'requirements',
             'IMP' => 'implementation',
             'TST' => 'evaluation and testing',
-        );
+        ];
         $this->assertEquals($exp, $res);
     }
 
@@ -331,7 +341,6 @@ class RemoteApiTest extends TestCase
         try {
             $res = self::$client->getEmail($this->login, $this->password, $issue_id, $emai_id);
         } catch (Exception $e) {
-
         }
         $this->markTestIncomplete('no test data');
     }
@@ -379,7 +388,6 @@ class RemoteApiTest extends TestCase
         try {
             $res = self::$client->convertNote($this->login, $this->password, $issue_id, $note_id, $target, $authorize_sender);
         } catch (Exception $e) {
-
         }
     }
 
@@ -399,8 +407,8 @@ class RemoteApiTest extends TestCase
     public function testGetWeeklyReport()
     {
         $week = 1;
-        $start = "";
-        $end = "";
+        $start = '';
+        $end = '';
         $separate_closed = false;
         $res = self::$client->getWeeklyReport($this->login, $this->password, $week, $start, $end, $separate_closed);
         $this->assertRegExp('/Admin User.*Weekly Report/', $res);
@@ -412,7 +420,7 @@ class RemoteApiTest extends TestCase
     public function testGetResolutionAssocList()
     {
         $res = self::$client->getResolutionAssocList();
-        $exp = array(
+        $exp = [
             2 => 'fixed',
             4 => 'unable to reproduce',
             5 => 'not fixable',
@@ -420,7 +428,7 @@ class RemoteApiTest extends TestCase
             7 => 'not a bug',
             8 => 'suspended',
             9 => "won't fix",
-        );
+        ];
         $this->assertEquals($exp, $res);
     }
 
@@ -474,7 +482,6 @@ class RemoteApiTest extends TestCase
         try {
             $res = self::$client->sendDraft($this->login, $this->password, $issue_id, $draft_id);
         } catch (Exception $e) {
-
         }
     }
 
@@ -484,12 +491,12 @@ class RemoteApiTest extends TestCase
     public function testRedeemIssue()
     {
         $issue_id = 1;
-        $types = array();
+        $types = [];
         try {
             $res = self::$client->redeemIssue($this->login, $this->password, $issue_id, $types);
             $this->assertEquals('OK', $res);
         } catch (Exception $e) {
-            $this->assertEquals("No customer integration for issue #1", $e->getMessage());
+            $this->assertEquals('No customer integration for issue #1', $e->getMessage());
         }
     }
 
@@ -499,12 +506,12 @@ class RemoteApiTest extends TestCase
     public function testUnredeemIssue()
     {
         $issue_id = 1;
-        $types = array();
+        $types = [];
         try {
             $res = self::$client->unredeemIssue($this->login, $this->password, $issue_id, $types);
             $this->assertEquals('OK', $res);
         } catch (Exception $e) {
-            $this->assertEquals("No customer integration for issue #1", $e->getMessage());
+            $this->assertEquals('No customer integration for issue #1', $e->getMessage());
         }
     }
 
@@ -519,7 +526,7 @@ class RemoteApiTest extends TestCase
         try {
             $res = self::$client->getIncidentTypes($this->login, $this->password, $issue_id, $redeemed_only);
         } catch (Exception $e) {
-            $this->assertEquals("No customer integration for issue #1", $e->getMessage());
+            $this->assertEquals('No customer integration for issue #1', $e->getMessage());
         }
     }
 

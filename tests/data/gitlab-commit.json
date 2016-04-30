@@ -1,0 +1,86 @@
+{
+	"object_kind": "push",
+	"before": "08d98f07e739ae287d507b70e6ecf33bbaab0739",
+	"after": "b53b9437923642d49d398e8353668b180a5da830",
+	"ref": "refs\/heads\/merge-tip",
+	"checkout_sha": "b53b9437923642d49d398e8353668b180a5da830",
+	"message": null,
+	"user_id": 1,
+	"user_name": "Administrator",
+	"user_email": "admin@example.com",
+	"user_avatar": "http:\/\/www.gravatar.com\/avatar\/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+	"project_id": 1,
+	"project": {
+		"name": "scm-test",
+		"description": "",
+		"web_url": "http:\/\/localhost\/root\/scm-test",
+		"avatar_url": null,
+		"git_ssh_url": "git@localhost:root\/scm-test.git",
+		"git_http_url": "http:\/\/localhost\/root\/scm-test.git",
+		"namespace": "root",
+		"visibility_level": 20,
+		"path_with_namespace": "root\/scm-test",
+		"default_branch": "merge-tip",
+		"homepage": "http:\/\/localhost\/root\/scm-test",
+		"url": "git@localhost:root\/scm-test.git",
+		"ssh_url": "git@localhost:root\/scm-test.git",
+		"http_url": "http:\/\/localhost\/root\/scm-test.git"
+	},
+	"commits": [
+		{
+			"id": "b53b9437923642d49d398e8353668b180a5da830",
+			"message": "pah. issue 1\n",
+			"timestamp": "2014-12-08T22:31:25+02:00",
+			"url": "http:\/\/localhost\/root\/scm-test\/commit\/b53b9437923642d49d398e8353668b180a5da830",
+			"author": {
+				"name": "Elan Ruusam\u00e4e",
+				"email": "glen@delfi.ee"
+			},
+			"added": [],
+			"modified": [
+				"bla"
+			],
+			"removed": []
+		},
+		{
+			"id": "a0f9580b18e435934e600e34d88e49187daa9774",
+			"message": "pah\n",
+			"timestamp": "2014-12-08T09:56:02+02:00",
+			"url": "http:\/\/localhost\/root\/scm-test\/commit\/a0f9580b18e435934e600e34d88e49187daa9774",
+			"author": {
+				"name": "Elan Ruusam\u00e4e",
+				"email": "glen@delfi.ee"
+			},
+			"added": [],
+			"modified": [
+				"bla"
+			],
+			"removed": []
+		},
+		{
+			"id": "08d98f07e739ae287d507b70e6ecf33bbaab0739",
+			"message": "pah\n",
+			"timestamp": "2014-12-08T08:43:56+02:00",
+			"url": "http:\/\/localhost\/root\/scm-test\/commit\/08d98f07e739ae287d507b70e6ecf33bbaab0739",
+			"author": {
+				"name": "Elan Ruusam\u00e4e",
+				"email": "glen@delfi.ee"
+			},
+			"added": [],
+			"modified": [
+				"bla"
+			],
+			"removed": []
+		}
+	],
+	"total_commits_count": 3,
+	"repository": {
+		"name": "scm-test",
+		"url": "git@localhost:root\/scm-test.git",
+		"description": "",
+		"homepage": "http:\/\/localhost\/root\/scm-test",
+		"git_http_url": "http:\/\/localhost\/root\/scm-test.git",
+		"git_ssh_url": "git@localhost:root\/scm-test.git",
+		"visibility_level": 20
+	}
+}

@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Access;
@@ -147,13 +146,13 @@ class NewController extends BaseController
             try {
                 $info = $crm->getCustomerInfoFromEmails($item);
                 $this->tpl->assign(
-                    array(
+                    [
                         'customer_id' => $info['customer_id'],
                         'customer_name' => $info['customer_name'],
                         'contact_id' => $info['contact_id'],
                         'contact_name' => $info['contact_name'],
                         'contacts' => $info['contacts'],
-                    )
+                    ]
                 );
             } catch (CRMException $e) {
             }
@@ -164,10 +163,10 @@ class NewController extends BaseController
         if (count($item) == 1) {
             $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($item[0]), $item[0]);
             $this->tpl->assign(
-                array(
+                [
                     'issue_summary' => $email_details['sup_subject'],
                     'issue_description' => $email_details['seb_body'],
-                )
+                ]
             );
 
             // also auto pre-fill the customer contact text fields
@@ -190,19 +189,20 @@ class NewController extends BaseController
         $request = $this->getRequest();
 
         $this->tpl->assign(
-            array(
+            [
                 'cats' => Category::getAssocList($this->prj_id),
                 'priorities' => Priority::getAssocList($this->prj_id),
                 'severities' => Severity::getList($this->prj_id),
                 'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
                 'releases' => Release::getAssocList($this->prj_id),
-                'custom_fields' => Custom_Field::getListByProject($this->prj_id, 'report_form'),
+                'custom_fields' => Custom_Field::getListByProject($this->prj_id, 'report_form', false, true),
                 'max_attachment_size' => Attachment::getMaxAttachmentSize(),
                 'max_attachment_bytes' => Attachment::getMaxAttachmentSize(true),
                 'field_display_settings' => Project::getFieldDisplaySettings($this->prj_id),
                 'groups' => Group::getAssocList($this->prj_id),
                 'products' => Product::getList(false),
-            )
+                'access_levels' =>  Access::getAccessLevels(),
+            ]
         );
 
         $prefs = Prefs::get($this->usr_id);
@@ -215,12 +215,12 @@ class NewController extends BaseController
             $customer = $crm->getCustomer($customer_id);
             // TODOCRM: Pull contacts via ajax when user selects contract
             $this->tpl->assign(
-                array(
+                [
                     'customer_id' => $customer_id,
                     'contact_id' => $customer_contact_id,
                     'customer' => $customer,
                     'contact' => $contact,
-                )
+                ]
             );
         }
 
@@ -245,7 +245,7 @@ class NewController extends BaseController
         $prj_id = Issue::getProjectID($issue_id);
         $details = Issue::getDetails($issue_id);
 
-        $defaults = array(
+        $defaults = [
             'clone_iss_id' => $issue_id,
             'category' => $details['iss_prc_id'],
             'group' => $details['iss_grp_id'],
@@ -256,16 +256,15 @@ class NewController extends BaseController
             'description' => $details['iss_original_description'],
             'expected_resolution_date' => $details['iss_expected_resolution_date'],
             'estimated_dev_time' => $details['iss_dev_time'],
-            'private' => $details['iss_private'],
-        );
+        ];
 
         if (count($details['products']) > 0) {
             $defaults['product'] = $details['products'][0]['pro_id'];
             $defaults['product_version'] = $details['products'][0]['version'];
         }
 
-        $defaults['custom_fields'] = array();
-        foreach (Custom_Field::getListByIssue($prj_id, $issue_id) as $field) {
+        $defaults['custom_fields'] = [];
+        foreach (Custom_Field::getListByIssue($prj_id, $issue_id, null, false, true) as $field) {
             if (isset($field['selected_cfo_id'])) {
                 $defaults['custom_fields'][$field['fld_id']] = $field['selected_cfo_id'];
             } else {
@@ -273,17 +272,17 @@ class NewController extends BaseController
             }
         }
 
-        $vars = array(
+        $vars = [
             'defaults' => $defaults,
-        );
+        ];
 
         if (isset($details['customer']) && isset($details['contact'])) {
-            $vars += array(
+            $vars += [
                 'customer_id' => $details['iss_customer_id'],
                 'contact_id' => $details['iss_customer_contact_id'],
                 'customer' => $details['customer'],
                 'contact' => $details['contact'],
-            );
+            ];
         }
 
         return $vars;

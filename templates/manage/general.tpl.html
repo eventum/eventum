@@ -724,6 +724,26 @@ $().ready(function() {
           </tr>
           <tr>
             <th width="120">
+              {t}Audit Trail{/t}
+            </th>
+            <td>
+                <label>
+                  <input type="radio" name="audit_trail" value="enabled" {if $setup.audit_trail == 'enabled'}checked{/if}>
+                  {t}Enabled{/t}
+                </label>
+                <label>
+                  <input type="radio" name="audit_trail" value="disabled" {if $setup.audit_trail != 'enabled'}checked{/if}>
+                  {t}Disabled{/t}
+                </label>
+                <div>
+                    &nbsp;&nbsp;{t escape=no}If enabled all issue views will be logged. <strong>WARNING: </strong> This can produce
+                    extremely large database tables if you have an active installation. You are recommended to monitor and
+                    archive/trim the <em>issue_access_log</em> table as appropriate.{/t}
+                </div>
+            </td>
+          </tr>
+          <tr>
+            <th width="120">
               {t}Default Options for Notifications{/t}
             </th>
             <td>

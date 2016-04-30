@@ -1,12 +1,23 @@
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 class PasswordAuthTest extends TestCase
 {
     /** @var string */
     private $password = 'Tr0ub4dour&3';
 
     /** @var array */
-    private $hashes = array(
+    private $hashes = [
         // hash created with password_hash($password, PASSWORD_DEFAULT)
         'password_hash' => '$2y$10$xRKqEPixGvSdeopyfzQACe2Tppb43OljoFfGUBdPTkgtpdvjvCEJO',
 
@@ -15,8 +26,7 @@ class PasswordAuthTest extends TestCase
 
         // hash created with md5
         'md5' => '6125582d980e736238e9eb1ab73d6517',
-    );
-
+    ];
 
     public function testAuthPassword()
     {
@@ -49,16 +59,16 @@ class PasswordAuthTest extends TestCase
 
     public function AuthPasswordInvalidArgumentData()
     {
-        return array(
-            array(null, '123'),
-            array('a', null),
-            array('a', 10),
-            array(-1, "10"),
-            array("", array()),
-            array(array(), ""),
-            array("", new stdClass()),
-            array(new stdClass(), ""),
-        );
+        return [
+            [null, '123'],
+            ['a', null],
+            ['a', 10],
+            [-1, '10'],
+            ['', []],
+            [[], ''],
+            ['', new stdClass()],
+            [new stdClass(), ''],
+        ];
     }
 
     public function testPasswordHash()

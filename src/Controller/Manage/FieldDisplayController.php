@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use CRM;
@@ -54,10 +53,10 @@ class FieldDisplayController extends ManageBaseController
     {
         $res = Project::updateFieldDisplaySettings($this->prj_id, $this->fields);
         $this->tpl->assign('result', $res);
-        $map = array(
-            1 => array(ev_gettext('Thank you, the information was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to update the information.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the information was updated successfully.'), Misc::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the information.'), Misc::MSG_ERROR],
+        ];
         Misc::mapMessages($res, $map);
     }
 
@@ -68,7 +67,7 @@ class FieldDisplayController extends ManageBaseController
     {
         $fields = Project::getDisplayFields();
 
-        $excluded_roles = array('viewer');
+        $excluded_roles = ['viewer'];
         if (!CRM::hasCustomerIntegration($this->prj_id)) {
             $excluded_roles[] = User::ROLE_CUSTOMER;
         }
@@ -76,13 +75,13 @@ class FieldDisplayController extends ManageBaseController
         $user_roles[9] = 'Never Display';
 
         $this->tpl->assign(
-            array(
+            [
                 'type' => 'field_display',
                 'prj_id' => $this->prj_id,
                 'fields' => $fields,
                 'user_roles' => $user_roles,
                 'display_settings' => Project::getFieldDisplaySettings($this->prj_id),
-            )
+            ]
         );
     }
 }

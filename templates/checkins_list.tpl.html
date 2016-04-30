@@ -1,0 +1,88 @@
+<div class="content" {get_display_style element_name='checkins' total=$checkins|@count}>
+  <table class="grid">
+    <tr>
+      <th nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="scm"}</th>
+      <th>{t}Changeset{/t}</th>
+      <th width="10%">{t}Date{/t}</th>
+      <th width="10%">{t}Author{/t}</th>
+      <th width="60%">{t}Message{/t}</th>
+    </tr>
+
+  {foreach from=$checkins key=i item=commit}
+    {cycle values='odd,even' assign="row_class"}
+    <tr class="{$row_class}">
+      <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="scm" list_id=$commit.com_id}</td>
+      <td>
+        {if $commit.changeset_url}
+          <a href="{$commit.changeset_url}" target="_blank">{$commit.commit_short}</a>
+        {else}
+          {$commit.commit_short}
+        {/if}
+        {if $commit.project_name}
+          in
+          {if $commit.project_url}
+            <a href="{$commit.project_url}" target="_blank">{$commit.project_name}</a>
+          {else}
+            {$commit.project_name}
+          {/if}
+        {/if}
+        {if $commit.branch}
+          on
+          {if $commit.branch_url}
+            <a href="{$commit.branch_url}" target="_blank">{$commit.branch}</a>
+          {else}
+            {$commit.branch}
+          {/if}
+        {/if}
+      </td>
+      <td>{$commit.com_commit_date|timeago}</td>
+      <td>{$commit.author|escape:"html"}</td>
+      <td>{$commit.isc_commit_msg}</td>
+    </tr>
+
+    {* prefill expendable cell content *}
+    {capture assign='content'}
+    <ul class="scm_checkin">
+      {foreach from=$commit.files key=i item=file}
+        <li>
+{*
+          <input type="checkbox" name="item[]" value="{$file.isc_id}">
+*}
+
+          {if $file.checkout_url}
+            <a title="{t 1=$file.cof_filename}see the log of of %1{/t}" target="_blank"
+               href="{$file.scm_log_url}">{$file.cof_filename|escape:"html"}</a>
+            {if $file.added}
+              ({t}Added{/t})
+            {elseif $file.removed}
+              ({t}Removed{/t})
+            {else}
+              {if $file.versions}
+              (<a
+                title="{t 1=$file.cof_new_version 2=$file.cof_filename}see the source of revision %1 of %2{/t}"
+                target="_blank" href="{$file.checkout_url}"><span
+                  class=revision>{$file.cof_new_version}</span></a>)
+              {else}
+                ({t}Modified{/t})
+              {/if}
+            {/if}
+          {else}
+            {$file.cof_filename|escape:"html"}
+          {/if}
+
+          {if $file.modified && $file.versions && $file.diff_url}
+            [
+            <a title="{t 1=$file.cof_old_version}see the diff to revision %1{/t}" target="_blank"
+               href="{$file.diff_url}">{t 1=$file.cof_old_version escape=no}diff to
+                <span class=revision>%1</span>{/t}</a>
+            ]
+          {/if}
+        </li>
+      {/foreach}
+    </ul>
+    {/capture}
+
+    {include file="expandable_cell/body.tpl.html" ec_id="scm" content=$content list_id=$commit.com_id colspan="5" class=$row_class}
+  {/foreach}
+  </table>
+</div>

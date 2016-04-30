@@ -125,7 +125,7 @@
               title="View other issues from this reporter">
               {$list[i].usr_full_name|escape:"html"}</a>
             {elseif $field_name == 'iss_percent_complete'}
-              {$list[i].iss_percent_complete|escape:"html"}%
+              <div class="iss_percent_complete ui-progressbar" data-percent="{$list[i].iss_percent_complete}"><div class="progress-label">&nbsp;{$list[i].iss_percent_complete|escape:"html"} %</div></div>
             {elseif $field_name == 'iss_expected_resolution_date'}
               <div class="inline_date_pick" id="expected_resolution_date|{$list[i].iss_id}">{$list[i].iss_expected_resolution_date|escape:"html"}&nbsp;</div>
             {elseif $field_name == 'iss_summary'}
@@ -133,8 +133,8 @@
               {if $list[i].redeemed|default:0}
                   {t}[Redeemed]{/t}
               {/if}
-              {if $list[i].iss_private == 1}
-                  <b>{t}[Private]{/t}</b>
+              {if $list[i].iss_access_level != 'normal'}
+                  <b>{t}[{$list[i].access_level_name}]{/t}</b>
               {/if}
             {/if}
           </td>

@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Monolog\Logger;
+
 require_once __DIR__ . '/../../init.php';
 
 // handle ajax upload
@@ -32,16 +34,16 @@ try {
     }
 
     $iaf_id = Attachment::addFiles($_FILES[$file]);
-    $res = array(
+    $res = [
         'error' => 0,
         'iaf_id' => $iaf_id,
-    );
+    ];
 } catch (Exception $e) {
     $code = $e->getCode();
-    $res = array(
+    $res = [
         'error' => $code ? $code : -1,
         'message' => $e->getMessage(),
-    );
+    ];
     Logger::app()->error($e);
 }
 

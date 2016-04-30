@@ -382,6 +382,13 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
     width:360px;
 }
 
+/* SCM style fixes */
+#issue_view  ul.scm_checkin {
+    list-style: outside none disc;
+    padding: 0 1.5em;
+    margin: 0;
+}
+
 /* Dropzone.js overrides */
 /* dropzone styles taken from MailChimp Filemanager background - http://blog.mailchimp.com/wp-content/uploads/2012/02/filemgr2.jpg */
 .dz-message {
@@ -420,4 +427,43 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 /* PHP Debugbar overrides */
 div.phpdebugbar {
     box-shadow: 0 -1px 5px #666666;
+}
+
+/* % complete progressbar in view issues page */
+#list_issues .ui-progressbar {
+    position: relative;
+    height: 19px;
+}
+#list_issues .progress-label {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 1px;
+    font-size: 13px;
+}
+
+/* % complete progressbar in issue view */
+#issue_view .ui-progressbar {
+    position: relative;
+    height: 16px;
+    max-width: 200px;
+}
+#issue_view .progress-label {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 0;
+    font-size: 13px;
+    line-height: 1.05em;
+}
+#issue_view .ui-widget-header {
+    background: #89A989;
+}
+
+/* Disable white background image */
+#issue_view .ui-progressbar.ui-widget-content,
+#list_issues .ui-progressbar.ui-widget-content
+{
+    background: transparent;
+    border: 1px solid #c0c0c0;
 }
