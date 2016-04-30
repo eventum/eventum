@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\Adapter\AdapterInterface;
+use Eventum\Monolog\Logger;
 use Zend\Mail\Headers;
 
 /*
@@ -26,7 +27,7 @@ $process_messages = function () use ($db, $log) {
 
     // TODO: process only status pending?
     $maq_ids = $db->getColumn(
-        "SELECT maq_id FROM {{%mail_queue}} WHERE maq_message_id IS NULL"
+        'SELECT maq_id FROM {{%mail_queue}} WHERE maq_message_id IS NULL'
     );
 
     $total = count($maq_ids);
@@ -41,7 +42,7 @@ $process_messages = function () use ($db, $log) {
     foreach ($maq_ids as $maq_id) {
         $current++;
 
-        $maq_headers = $db->getOne("SELECT maq_headers FROM {{%mail_queue}} WHERE maq_id=?", array($maq_id));
+        $maq_headers = $db->getOne('SELECT maq_headers FROM {{%mail_queue}} WHERE maq_id=?', [$maq_id]);
 
         try {
             $headers = Headers::fromString($maq_headers);
@@ -61,10 +62,10 @@ $process_messages = function () use ($db, $log) {
         $message_id = $message_id->getFieldValue();
 
         $logger->info(
-            "updated maq_id={$maq_id}", array('maq_id' => $maq_id, 'message_id' => $message_id)
+            "updated maq_id={$maq_id}", ['maq_id' => $maq_id, 'message_id' => $message_id]
         );
 
-        $db->query('UPDATE {{%mail_queue}} SET maq_message_id=? WHERE maq_id=?', array($message_id, $maq_id));
+        $db->query('UPDATE {{%mail_queue}} SET maq_message_id=? WHERE maq_id=?', [$message_id, $maq_id]);
         $changed++;
 
         if ($current % 5000 == 0) {
@@ -81,6 +82,6 @@ $db->query("ALTER TABLE {{%mail_queue}} ADD maq_message_id VARCHAR(255) DEFAULT 
 // Lock mail queue table for the patch run
 // as the patch is likely deployed with new code,
 // and new code will not work ok if message_id field is not yet filled properly
-$db->query("LOCK TABLES {{%mail_queue}} WRITE");
+$db->query('LOCK TABLES {{%mail_queue}} WRITE');
 $process_messages();
-$db->query("UNLOCK TABLES");
+$db->query('UNLOCK TABLES');
