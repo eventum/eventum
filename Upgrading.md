@@ -14,7 +14,7 @@ When upgrading to a new version of Eventum, please follow these instructions:
 2.  Extract your new Eventum copy over your existing folder structure
 3.  Run the upgrade scripts described in below
 
-Upgrading from version 2.2 and from versions upwards
+Upgrading from version 3.0 and from versions upwards
 ----------------------------------------------------
 
 * Rename your current Eventum dir to `eventum.old`
@@ -42,6 +42,11 @@ Old Value  | New Value | Description
 `templates_c`  | `var/cache` | templates cache
 `locks`  | `var/lock` | various lock and pid files
 `logs`  | `var/log` | directory for logs
+
+Upgrading from versions before 3.0
+----------------------------------
+
+Upgrading directly to 3.1 from versions before 3.0 does not work, you have to upgrade to 3.0 series first.
 
 Upgrading from versions before 2.2
 ----------------------------------
