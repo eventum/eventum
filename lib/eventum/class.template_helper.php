@@ -172,7 +172,6 @@ class Template_Helper
             'app_title' => APP_NAME,
             'app_version' => APP_VERSION,
             'app_setup' => Setup::get(),
-            'messages' => [], // this is set from controller
             'roles' => User::getAssocRoleIDs(),
             'auth_backend' => strtolower(APP_AUTH_BACKEND),
             'current_url' => $_SERVER['PHP_SELF'],
