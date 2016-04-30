@@ -93,6 +93,8 @@
 		"pear/pear-core-minimal": ">=1.10"
 	},
 	"replace": {
+		"symfony/polyfill-mbstring": "1.1.1",
+		"symfony/polyfill-php55": "1.1.1",
 		"zendframework/zend-crypt": "2.4.9"
 	},
 	"require-dev": {
