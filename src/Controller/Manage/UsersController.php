@@ -13,6 +13,7 @@
 namespace Eventum\Controller\Manage;
 
 use Eventum\Controller\Helper\MessagesHelper;
+use Auth;
 use Group;
 use Partner;
 use Project;
@@ -75,6 +76,16 @@ class UsersController extends ManageBaseController
     {
         $post = $this->getRequest()->request;
 
+        $this->user_details = User::getDetails($post->getInt('id'));
+
+        if (Auth::getCurrentRole() != User::ROLE_ADMINISTRATOR) {
+            foreach ($this->user_details['roles'] as $prj_id => $role) {
+                if ($role >= User::ROLE_ADMINISTRATOR) {
+                    $this->error(ev_gettext('Sorry, you are not allowed to access this page.'));
+                }
+            }
+        }
+
         $res = User::updateFromPost();
         $map = [
             1 => [ev_gettext('Thank you, the user was updated successfully.'), MessagesHelper::MSG_INFO],
@@ -98,6 +109,15 @@ class UsersController extends ManageBaseController
         $get = $this->getRequest()->query;
 
         $this->user_details = User::getDetails($get->getInt('id'));
+
+        if (Auth::getCurrentRole() != User::ROLE_ADMINISTRATOR) {
+            foreach ($this->user_details['roles'] as $prj_id => $role) {
+                if ($role >= User::ROLE_ADMINISTRATOR) {
+                    $this->error(ev_gettext('Sorry, you are not allowed to access this page.'));
+                }
+            }
+        }
+
         $this->tpl->assign('info', $this->user_details);
     }
 
