@@ -80,7 +80,7 @@ class UsersController extends ManageBaseController
 
         if (Auth::getCurrentRole() != User::ROLE_ADMINISTRATOR) {
             foreach ($this->user_details['roles'] as $prj_id => $role) {
-                if ($role >= User::ROLE_ADMINISTRATOR) {
+                if ($role['pru_role'] == User::ROLE_ADMINISTRATOR) {
                     $this->error(ev_gettext('Sorry, you are not allowed to access this page.'));
                 }
             }
@@ -112,7 +112,7 @@ class UsersController extends ManageBaseController
 
         if (Auth::getCurrentRole() != User::ROLE_ADMINISTRATOR) {
             foreach ($this->user_details['roles'] as $prj_id => $role) {
-                if ($role >= User::ROLE_ADMINISTRATOR) {
+                if ($role['pru_role'] == User::ROLE_ADMINISTRATOR) {
                     $this->error(ev_gettext('Sorry, you are not allowed to access this page.'));
                 }
             }
