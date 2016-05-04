@@ -103,9 +103,7 @@ abstract class BaseController
     protected function error($msg)
     {
         $this->messages->addErrorMessage($msg);
-        $tpl = new Template_Helper();
-        $tpl->setTemplate('error_message.tpl.html');
-        $tpl->displayTemplate();
+        $this->displayTemplate('error_message.tpl.html');
         exit;
     }
 

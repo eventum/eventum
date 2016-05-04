@@ -1,6 +1,6 @@
-{if $core.messages|@count|default:0 > 0}
+{if $messages|@count|default:0 > 0}
 <div id="global_messages">
-    {foreach from=$core.messages item=message}
+    {foreach from=$messages item=message}
     <div class="{$message.type}">
         {if $message.type == 'html_box'}
             {$message.text}
