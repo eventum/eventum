@@ -125,7 +125,7 @@ class CloseController extends BaseController
             $request->get('status'), $request->get('reason'), $request->get('notification_list')
         );
 
-        if ($post->has('time_spent')) {
+        if ($post->get('time_spent')) {
             $this->addTimeEntry();
         }
 
