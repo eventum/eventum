@@ -46,20 +46,22 @@ class GitlabScm extends AbstractScmAdapter
     public function process()
     {
         $eventType = $this->request->headers->get(self::GITLAB_HEADER);
+        $payload = $this->getPayload();
 
         if ($eventType == 'Push Hook') {
-            $this->processPushHook();
+            $this->processPushHook($payload);
+        } elseif ($eventType == 'System Hook' && $payload->getEventName() == 'push') {
+            // system hook can also handle pushes
+            // unfortunately it has empty commits[]
+            $this->processPushHook($payload);
         }
     }
 
     /**
      * Walk over commit messages and match issue ids
      */
-    private function processPushHook()
+    private function processPushHook(Entity\GitlabScmPayload $payload)
     {
-        $payload = $this->getPayload();
-//        $this->log->debug('processPushHook', array('payload' => $payload->getPayload()));
-
         $repo_url = $payload->getRepoUrl();
         $repo = Entity\CommitRepo::getRepoByUrl($repo_url);
         if (!$repo) {

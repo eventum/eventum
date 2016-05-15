@@ -38,6 +38,21 @@ class GitlabScmPayload implements ScmPayloadInterface
     }
 
     /**
+     * Get event name from payload.
+     * The key is present for System Hooks
+     *
+     * @return string
+     */
+    public function getEventName()
+    {
+        if (!isset($this->payload['event_name'])) {
+            return null;
+        }
+
+        return $this->payload['event_name'];
+    }
+
+    /**
      * Get branch the commit was made on
      *
      * @return string

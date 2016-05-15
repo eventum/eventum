@@ -12,8 +12,8 @@
  */
 namespace Eventum\Controller\Manage;
 
-use Eventum\Controller\Helper\MessagesHelper;
 use Auth;
+use Eventum\Controller\Helper\MessagesHelper;
 use Group;
 use Partner;
 use Project;
