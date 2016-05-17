@@ -21,7 +21,7 @@ use Eventum\Db\DatabaseException;
  */
 class DB_Helper
 {
-    const DEFAULT_ADAPTER = 'Pear';
+    const DEFAULT_ADAPTER = 'Pdo';
 
     /**
      * @param bool $fallback

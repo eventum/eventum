@@ -185,7 +185,7 @@ function checkRequirements()
         // extension => array(IS_REQUIRED, MESSAGE_TO_DISPLAY)
         'gd' => [true, 'The GD extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'],
         'session' => [true, 'The Session extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'],
-        'mysqli' => [true, 'The MySQLi extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'],
+        'pdo_mysql' => [true, 'The PDO MySQL extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'],
         'json' => [true, 'The json extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'],
         'mbstring' =>  [false, 'The Multibyte String Functions extension is not enabled in your PHP installation. For localization to work properly ' .
             'You need to install this extension. If you do not install this extension localization will be disabled.'],
@@ -558,9 +558,6 @@ function write_setup()
     }
 
     $setup['database'] = [
-        // database driver
-        'driver' => 'mysqli',
-
         // connection info
         'hostname' => $hostname,
         'database' => '', // NOTE: db name has to be written after the table has been created
