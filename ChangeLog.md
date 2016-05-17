@@ -4,6 +4,8 @@ Eventum Issue Tracking System
 2016-??-??, Version [3.1.1]
 ----------------------------
 
+This version switches to PDO driver by default (#167)
+
 - remove support for calling deprecated handleAssignment workflow method, it was deprecated in 2.4.0-pre1 (d16ea3a)
 - drop php 5.3 `$this` hacks (c58fe0c)
 - drop `dispelMagicQuotes`; magic quotes support dropped in php 5.4 (e58926c)
@@ -17,6 +19,7 @@ Eventum Issue Tracking System
 - drop table prefix support (#166, @glensc)
 - drop old `APP_SQL_` constants support, support upgrade from earlier than 3.0 versions dropped (30130ba)
 - do not allow a manager user to edit an administrative user (@balsdorf, 83ace86, cf93b17)
+- use `pdo_mysql` as default mysql driver (#167, @glensc)
 
 2016-04-28, Version [3.1.0]
 ----------------------------
