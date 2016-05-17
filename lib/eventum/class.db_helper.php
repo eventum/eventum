@@ -144,17 +144,6 @@ class DB_Helper
     }
 
     /**
-     * Strip consecutive whitespace from query
-     *
-     * @param string $query
-     * @return string
-     */
-    public static function filterQuery($query)
-    {
-        return preg_replace('/\s+/', ' ', $query);
-    }
-
-    /**
      * Method used to get the last inserted ID. This is a simple
      * wrapper to the mysql_insert_id function, as a work around to
      * the somewhat annoying implementation of PEAR::DB to create
