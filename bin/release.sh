@@ -281,7 +281,6 @@ clean_vendor() {
 
 	# not ready yet
 	rm src/Db/Adapter/YiiAdapter.php
-	rm src/Db/Adapter/*Pdo*.php
 	rm src/Mail/ImapMessage.php
 	rm src/Mail/MailStorage.php
 }
