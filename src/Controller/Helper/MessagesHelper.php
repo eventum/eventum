@@ -29,7 +29,7 @@ class MessagesHelper
      */
     public function addInfoMessage($msg)
     {
-        self::addMessage($msg, $type = self::MSG_INFO);
+        Session::getFlashBag()->add(self::MSG_INFO, $msg);
     }
 
     /**
@@ -39,7 +39,7 @@ class MessagesHelper
      */
     public function addErrorMessage($msg)
     {
-        self::addMessage($msg, $type = self::MSG_ERROR);
+        Session::getFlashBag()->add(self::MSG_ERROR, $msg);
     }
 
     /**
@@ -49,7 +49,7 @@ class MessagesHelper
      */
     public function addHtmlBoxMessage($msg)
     {
-        self::addMessage($msg, $type = self::MSG_HTML_BOX);
+        Session::getFlashBag()->add(self::MSG_HTML_BOX, $msg);
     }
 
     /**
@@ -59,30 +59,19 @@ class MessagesHelper
      */
     public function getMessages()
     {
-        $messages = Session::get('messages', []);
-        Session::set('messages', []);
-
-        return $messages;
+        return Session::getFlashBag()->all();
     }
 
     public function mapMessages($result, $map)
     {
+        $flashBag = Session::getFlashBag();
+
         foreach ($map as $val => $info) {
             if ($result == $val) {
-                self::addMessage($info[0], $info[1]);
+                $flashBag->add($info[1], $info[0]);
 
                 return;
             }
         }
-    }
-
-    private function addMessage($msg, $type)
-    {
-        $messages = Session::get('messages', []);
-        $messages[] = [
-            'text' => $msg,
-            'type' => $type,
-        ];
-        Session::set('messages', $messages);
     }
 }
