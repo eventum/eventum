@@ -12,6 +12,7 @@
  */
 namespace Eventum;
 
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session as SymfonySession;
 
 /**
@@ -57,6 +58,16 @@ class Session
 
         // store user ID in session
         $session->set('usr_id', $usr_id);
+    }
+
+    /**
+     * Gets the flashbag interface.
+     *
+     * @return FlashBagInterface
+     */
+    public static function getFlashBag()
+    {
+        return static::getInstance()->getFlashBag();
     }
 
     private static function getInstance()

@@ -13,6 +13,7 @@
 namespace Eventum\Controller\Helper;
 
 use Eventum\Session;
+use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class MessagesHelper
 {
@@ -22,6 +23,14 @@ class MessagesHelper
     const MSG_HTML_BOX = 'html_box';
     const MSG_NOTE_BOX = 'note_box';
 
+    /** @var FlashBagInterface */
+    private $flashBag;
+
+    public function __construct()
+    {
+        $this->flashBag = Session::getFlashBag();
+    }
+
     /**
      * Add message of type info
      *
@@ -29,7 +38,7 @@ class MessagesHelper
      */
     public function addInfoMessage($msg)
     {
-        self::addMessage($msg, $type = self::MSG_INFO);
+        $this->flashBag->add(self::MSG_INFO, $msg);
     }
 
     /**
@@ -39,7 +48,7 @@ class MessagesHelper
      */
     public function addErrorMessage($msg)
     {
-        self::addMessage($msg, $type = self::MSG_ERROR);
+        $this->flashBag->add(self::MSG_ERROR, $msg);
     }
 
     /**
@@ -49,7 +58,7 @@ class MessagesHelper
      */
     public function addHtmlBoxMessage($msg)
     {
-        self::addMessage($msg, $type = self::MSG_HTML_BOX);
+        $this->flashBag->add(self::MSG_HTML_BOX, $msg);
     }
 
     /**
@@ -59,30 +68,17 @@ class MessagesHelper
      */
     public function getMessages()
     {
-        $messages = Session::get('messages', []);
-        Session::set('messages', []);
-
-        return $messages;
+        return $this->flashBag->all();
     }
 
     public function mapMessages($result, $map)
     {
         foreach ($map as $val => $info) {
             if ($result == $val) {
-                self::addMessage($info[0], $info[1]);
+                $this->flashBag->add($info[1], $info[0]);
 
                 return;
             }
         }
-    }
-
-    private function addMessage($msg, $type)
-    {
-        $messages = Session::get('messages', []);
-        $messages[] = [
-            'text' => $msg,
-            'type' => $type,
-        ];
-        Session::set('messages', $messages);
     }
 }
