@@ -79,9 +79,17 @@ class UsersController extends ManageBaseController
         $this->user_details = User::getDetails($post->getInt('id'));
 
         if (Auth::getCurrentRole() != User::ROLE_ADMINISTRATOR) {
+            // don't let managers edit any users that have a role of administrator
             foreach ($this->user_details['roles'] as $prj_id => $role) {
                 if ($role['pru_role'] == User::ROLE_ADMINISTRATOR) {
                     $this->error(ev_gettext('Sorry, you are not allowed to access this page.'));
+                }
+            }
+
+            // don't let manager elevate the role of any user to administrator
+            foreach ($_POST['role'] as $prj_id => $role) {
+                if ($role >= User::ROLE_ADMINISTRATOR) {
+                    $this->error(ev_gettext('Sorry, you cannot perform that action.'));
                 }
             }
         }
