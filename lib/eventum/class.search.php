@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Session;
 
 /**
  * Holding all search relevant methods

@@ -12,6 +12,7 @@
  */
 
 use Eventum\Monolog\Logger;
+use Eventum\Session;
 
 /**
  * Class to handle authentication issues.
@@ -133,8 +134,7 @@ class Auth
 
             $usr_id = self::getUserID();
 
-            // check the session
-            Session::verify($usr_id);
+            Session::init($usr_id);
 
             if (!defined('SKIP_LANGUAGE_INIT')) {
                 Language::setPreference();

@@ -14,8 +14,8 @@ namespace Eventum\Controller\Report;
 
 use Category;
 use Date_Helper;
+use Eventum\Session;
 use Report;
-use Session;
 
 class WorkloadDateRangeController extends ReportBaseController
 {

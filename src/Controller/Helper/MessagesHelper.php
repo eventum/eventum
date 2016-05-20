@@ -12,7 +12,7 @@
  */
 namespace Eventum\Controller\Helper;
 
-use Session;
+use Eventum\Session;
 
 class MessagesHelper
 {
