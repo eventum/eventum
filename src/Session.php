@@ -56,7 +56,6 @@ class Session
         $session->set('login_ip', $_SERVER['REMOTE_ADDR']);
 
         // store user ID in session
-        // XXX: Should we perform checks on this usr ID before accepting it?
         $session->set('usr_id', $usr_id);
     }
 
