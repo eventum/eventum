@@ -17,7 +17,6 @@
 /bin/phpxref.sh export-ignore
 /config/phpxref.cfg export-ignore
 /phpcs.xml export-ignore
-/build.xml export-ignore
 
 # tests
 /phpunit.xml.dist export-ignore
