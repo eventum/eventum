@@ -12,6 +12,7 @@
  */
 
 use Eventum\Monolog\Logger;
+use Eventum\Session;
 
 /**
  * Class to handle authentication issues.
