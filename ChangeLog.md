@@ -21,6 +21,7 @@ This version switches to PDO driver by default (#167)
 - do not allow a manager user to edit an administrative user (@balsdorf, 83ace86, cf93b17)
 - use `pdo_mysql` as default mysql driver (#167, @glensc)
 - use Symfony Session for session usage (#168)
+- use Symfony FlashBag for flash messages (#169)
 
 2016-04-28, Version [3.1.0]
 ----------------------------
