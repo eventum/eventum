@@ -61,10 +61,10 @@
   {* local directory can add overrides *}
   {include file="extra_header.tpl.html"}
 </head>
-<!--[if lt IE 7 ]> <body class="ie6 {block "page_classes"}{/block} {block "page_id"}{/block}" id="{block "page_id"}{/block}"> <![endif]-->
-<!--[if IE 7 ]> <body class="ie7 {block "page_classes"}{/block} {block "page_id"}{/block}" id="{block "page_id"}{/block}"> <![endif]-->
-<!--[if IE 8 ]> <body class="ie8 {block "page_classes"}{/block} {block "page_id"}{/block}" id="{block "page_id"}{/block}"> <![endif]-->
-<!--[if !IE]>--> <body class="{block "page_classes"}{/block} {block "page_id"}{/block}" id="{block "page_id"}{/block}"><!--<![endif]-->
+<!--[if lt IE 7 ]> <body class="ie6 {block page_classes}{/block}" id="{$core.template_id}"> <![endif]-->
+<!--[if IE 7 ]> <body class="ie7 {block page_classes}{/block}" id="{$core.template_id}"> <![endif]-->
+<!--[if IE 8 ]> <body class="ie8 {block page_classes}{/block}" id="{$core.template_id}"> <![endif]-->
+<!--[if !IE]>--> <body class="{block page_classes}{/block}" id="{$core.template_id}"><!--<![endif]-->
 <div id="container">
     {block "header"}{/block}
 

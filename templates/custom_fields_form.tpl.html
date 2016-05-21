@@ -1,6 +1,5 @@
 {extends "base.tpl.html"}
 {block "title"}#{$issue_id} - Custom Fields{/block}
-{block "page_id"}custom_fields_popup{/block}
 
 {block "javascripts" append}
   <script type="text/javascript" src="{$core.rel_url}ajax/dynamic_custom_field.js.php?iss_id={$smarty.get.issue_id}"></script>
