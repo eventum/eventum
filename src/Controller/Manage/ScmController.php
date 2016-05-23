@@ -74,6 +74,11 @@ class ScmController extends ManageBaseController
      */
     protected function prepareTemplate()
     {
-        $this->tpl->assign('setup', Setup::get());
+        $this->tpl->assign(
+            [
+                'scm_ping_url' => APP_BASE_URL . 'scm_ping.php',
+                'setup' => Setup::get(),
+            ]
+        );
     }
 }
