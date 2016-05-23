@@ -73,8 +73,7 @@
           {if $file.modified && $file.versions && $file.diff_url}
             [
             <a title="{t 1=$file.cof_old_version}see the diff to revision %1{/t}" target="_blank"
-               href="{$file.diff_url}">{t 1=$file.cof_old_version escape=no}diff to
-                <span class=revision>%1</span>{/t}</a>
+               href="{$file.diff_url}">{t 1=$file.cof_old_version escape=no}diff to <span class=revision>%1</span>{/t}</a>
             ]
           {/if}
         </li>
