@@ -152,8 +152,8 @@ $find = function ($string) use ($patterns) {
 };
 
 /** @var AdapterInterface $db */
-$res = $db->query("select his_id,his_summary from {{%issue_history}} where his_context=''");
-$total = $res->numRows();
+$his_ids = $db->getColumn("SELECT his_id FROM {{%issue_history}} WHERE his_context=''");
+$total = count($his_ids);
 $current = $updated = 0;
 
 if (!$total) {
@@ -164,19 +164,21 @@ if (!$total) {
 /** @var Closure $log */
 $log("Total $total rows, this may take time. Please be patient.");
 
-// FIXME: PEAR::DB specific
-/** @var DB_result $res */
-while ($res->fetchInto($row, AdapterInterface::DB_FETCHMODE_ASSOC)) {
+$res = $db->query("select his_id,his_summary from {{%issue_history}} where his_context=''");
+
+foreach ($his_ids as $his_id) {
+    $his_summary = $db->getOne("SELECT his_summary FROM {{%issue_history}} WHERE his_id=?", [$his_id]);
+
     $current++;
-    $m = $find($row['his_summary']);
+    $m = $find($his_summary);
     if (!$m) {
-        $log("No substitution: {$row['his_id']} '{$row['his_summary']}'");
+        $log("No substitution: {$his_id} '{$his_summary}'");
         continue;
     }
 
     $db->query(
         'update {{%issue_history}} set his_summary=?, his_context=? where his_id=?', [
-        $m['message'], json_encode($m['context']), $row['his_id']
+        $m['message'], json_encode($m['context']), $his_id
     ]
     );
     $updated++;
