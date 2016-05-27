@@ -89,6 +89,7 @@ $tpl->assign('phpversion', phpversion());
 $tpl->assign('core', [
     'rel_url'   =>  $relative_url,
     'app_title' =>  APP_NAME,
+    'template_id' => 'setup',
 ]);
 if (@$_SERVER['HTTPS'] == 'on') {
     $ssl_mode = 'enabled';
