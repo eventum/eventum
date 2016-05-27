@@ -306,7 +306,7 @@ function getFirstWeekday()
  */
 function checkDatabaseExists($conn, $database)
 {
-    $exists = $conn->getOne('SHOW DATABASES LIKE ?', $database);
+    $exists = $conn->getOne('SHOW DATABASES LIKE ?', [$database]);
 
     return $exists;
 }
