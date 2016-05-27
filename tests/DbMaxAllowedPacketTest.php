@@ -19,10 +19,6 @@ class DbMaxAllowedPacketTest extends TestCase
     public function setUp()
     {
         $this->assertDatabase();
-
-        if (PHP_VERSION_ID >= 50600) {
-            $this->markTestSkipped('PEAR::DB not compatible with php 5.6');
-        }
     }
 
     public function testGetMaxAllowedPacket()
