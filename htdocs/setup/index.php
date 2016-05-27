@@ -559,6 +559,9 @@ function write_setup()
     }
 
     $setup['database'] = [
+        // database driver
+        'driver' => 'mysql',
+
         // connection info
         'hostname' => $hostname,
         'database' => '', // NOTE: db name has to be written after the table has been created
