@@ -88,30 +88,6 @@ class DB_Helper
         return Setup::get()->database->toArray();
     }
 
-    // assumed default if can't query from database
-    const max_allowed_packet = 8387584;
-
-    /**
-     * query database for 'max_allowed_packet'
-     *
-     * @return int
-     */
-    public static function getMaxAllowedPacket()
-    {
-        try {
-            $stmt = "show variables like 'max_allowed_packet'";
-            $res = self::getInstance(false)->getPair($stmt);
-            $max_allowed_packet = (int) $res['max_allowed_packet'];
-        } catch (DatabaseException $e) {
-        }
-
-        if (empty($max_allowed_packet)) {
-            return self::max_allowed_packet;
-        }
-
-        return $max_allowed_packet;
-    }
-
     /**
      * Processes a SQL statement by quoting table and column names that are enclosed within double brackets.
      * Tokens enclosed within double curly brackets are treated as table names, while
