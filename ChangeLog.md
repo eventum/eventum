@@ -5,6 +5,7 @@ Eventum Issue Tracking System
 ----------------------------
 
 This version switches to PDO driver by for new installations (#167)
+Additionally tables will be renamed without `eventum_` table prefix (#166)
 
 - remove support for calling deprecated handleAssignment workflow method, it was deprecated in 2.4.0-pre1 (d16ea3a)
 - drop php 5.3 `$this` hacks (c58fe0c)
