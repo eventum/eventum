@@ -51,3 +51,7 @@ foreach ($tables as $table) {
 // update config without table prefix
 $setup['table_prefix'] = '';
 Setup::save();
+
+// there's no simple way to handle this without hacking in some "reconnect" mechanism to db adapter,
+// so just tell the user to re-run the command
+$log("If you see error above, please retry the upgrade command");
