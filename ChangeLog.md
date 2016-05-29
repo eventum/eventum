@@ -4,7 +4,7 @@ Eventum Issue Tracking System
 2016-05-29, Version [3.1.1]
 ----------------------------
 
-This version switches to PDO driver by default (#167)
+This version switches to PDO driver by for new installations (#167)
 
 - remove support for calling deprecated handleAssignment workflow method, it was deprecated in 2.4.0-pre1 (d16ea3a)
 - drop php 5.3 `$this` hacks (c58fe0c)
