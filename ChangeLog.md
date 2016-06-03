@@ -4,7 +4,13 @@ Eventum Issue Tracking System
 2016-??-??, Version [3.1.2]
 ----------------------------
 
-- Set alternative page class for list issues page. (@balsdorf, #171)
+Previous version enabled PDO driver for all installations, but PDO was supposed
+to be used for new installations, also PDO driver has issues for non-UTF8
+`APP_CHARSET` setups, this was fixed in (de5e869) so that PDO is used only for
+new installations to ensure safer upgrades.
+
+- set alternative page class for list issues page. (@balsdorf, #171)
+- use Pdo for new installations, keep Pear for older ones (@glensc, #167, de5e869)
 
 2016-05-29, Version [3.1.1]
 ----------------------------
