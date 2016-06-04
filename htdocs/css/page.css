@@ -31,7 +31,7 @@ body#index h1 {
     text-align: center;
 }
 
-body#login form#login_form table {
+body.login form#login_form table {
     background: #006486;
     margin: 0 auto;
     width: 500px;
@@ -41,26 +41,26 @@ body#login form#login_form table {
     -moz-border-radius: 0.5em;
 }
 
-body#login form#login_form table a {
+body.login form#login_form table a {
     color: #FFFFFF;
 }
 
-body#login form#login_form table td {
+body.login form#login_form table td {
     padding: .3em;
 }
 
-body#login form#login_form table td.message {
+body.login form#login_form table td.message {
     color: #ffff00;
     text-align: center;
 }
 
-body#login form#login_form table td.label {
+body.login form#login_form table td.label {
     width: 40%;
     text-align: right;
     font-weight: bold;
 }
 
-body#login form#login_form table td.button {
+body.login form#login_form table td.button {
     text-align: center;
 }
 
