@@ -53,9 +53,6 @@ class Session
     {
         $session = static::getInstance();
 
-        // set the IP in the session so we can check it later
-        $session->set('login_ip', $_SERVER['REMOTE_ADDR']);
-
         // store user ID in session
         $session->set('usr_id', $usr_id);
     }
