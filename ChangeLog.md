@@ -10,7 +10,8 @@ to be used for new installations, also PDO driver has issues for non-UTF8
 new installations to ensure safer upgrades.
 
 - set alternative page class for list issues page. (@balsdorf, #171)
-- use Pdo for new installations, keep Pear for older ones (@glensc, #167, de5e869)
+- use Pdo for new installations, keep Pear for older ones (@glensc, de5e869, a920484, #167)
+- fix login page css. (@glensc, 2d2923c, #170)
 
 2016-05-29, Version [3.1.1]
 ----------------------------
@@ -23,18 +24,18 @@ Additionally tables will be renamed without `eventum_` table prefix (#166)
 - drop `dispelMagicQuotes`; magic quotes support dropped in php 5.4 (e58926c)
 - use short array syntax (92c751e)
 - remove support for calling deprecated handleAssignment workflow method (d16ea3a)
-- add Message-Id column to mail queue table (#140, @glensc)
+- add Message-Id column to mail queue table (@glensc, #140)
 - cleanup deprecated `APP_LOCAL_PATH` from the template search path (8cea94b)
 - drop unused Misc::getInput (5b97d89)
 - drop prompt and getInputLine from Misc (83efe3c)
 - drop unused Misc::collect (51eab96)
-- drop table prefix support (#166, @glensc)
+- drop table prefix support (@glensc, #166)
 - drop old `APP_SQL_` constants support, support upgrade from earlier than 3.0 versions dropped (30130ba)
 - do not allow a manager user to edit an administrative user (@balsdorf, 83ace86, cf93b17)
-- use `pdo_mysql` as default mysql driver (#167, @glensc)
-- use Symfony Session for session usage (#168, @glensc)
-- use Symfony FlashBag for flash messages (#169, @glensc)
-- automatically set page ID based on template path and name (#170, @balsdorf)
+- use `pdo_mysql` as default mysql driver (@glensc, #167)
+- use Symfony Session for session usage (@glensc, #168)
+- use Symfony FlashBag for flash messages (@glensc, #169)
+- automatically set page ID based on template path and name (@balsdorf, #170)
 
 2016-04-28, Version [3.1.0]
 ----------------------------
@@ -45,9 +46,9 @@ This release also no longer bundles SCM hook scripts, they are available from se
 
 - dropped scm git submodule and from install system
 - dropped deprecated `bin/route_*.php` scripts, use `process_all_emails.php`
-- add workflow methods for crypt upgrade/downgrade (#165, @glensc)
+- add workflow methods for crypt upgrade/downgrade (@glensc, #165)
 - we reached [7000th] commit! :boom:
-- scm: modularize and add gitlab adapter (#159, @glensc)
+- scm: modularize and add gitlab adapter (@glensc, #159)
 
 2016-04-19, Version [3.0.12]
 ----------------------------
@@ -55,17 +56,17 @@ This release also no longer bundles SCM hook scripts, they are available from se
 This will be last release supporting PHP 5.3, next version will require PHP 5.5 and be versioned as 3.1.0.
 This will also be last release packaging SCM hook scripts in main Eventum release tarball.
 
-- Make Bulk update feature work again (#160, #161, @balsdorf)
-- Nice Progress Bar for % Complete (#162, @phavel, @glensc, @slay123)
-- Fix bug where percentage complete is not included in changed notification (#163, #164, @balsdorf)
+- Make Bulk update feature work again (@balsdorf, #160, #161)
+- Nice Progress Bar for % Complete (@phavel, @glensc, @slay123, #162)
+- Fix bug where percentage complete is not included in changed notification (@balsdorf, #163, #164)
 
 2016-03-28, Version [3.0.11]
 ----------------------------
 
-- Updated Misc::activateLinks to not activate mail links inside of urls (d23e712, @balsorf)
-- Allow separate role for editing custom fields vs viewing (#149, @balsdorf)
-- Configuring loggers via config file using Monolog-Cascade (#146, @glensc)
-- Use Zend\Mail in MailQueue::addMail (#139, @glensc)
+- Updated Misc::activateLinks to not activate mail links inside of urls (@balsorf, d23e712)
+- Allow separate role for editing custom fields vs viewing (@balsdorf, #149)
+- Configuring loggers via config file using Monolog-Cascade (@glensc, #146)
+- Use Zend\Mail in MailQueue::addMail (@glensc, #139)
 - Setup correct project roles when updating user projects (@Alexey-Architect, #152)
 - Remove "Product Version" field from view issue page since it is bundled with "Product" (@balsdorf)
 
