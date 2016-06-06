@@ -55,8 +55,6 @@ class SelectCustomerController extends BaseController
     {
         // FIXME: why not just default Auth::checkAuthentication() here?
 
-        session_start();
-
         // check if cookies are enabled, first of all
         if (!AuthCookie::hasCookieSupport()) {
             $this->redirect('index.php?err=11');
