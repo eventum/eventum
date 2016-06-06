@@ -26,6 +26,8 @@ Release process
 
 - Update the ChangeLog.md file with the correct version number and release date
 
+Do not forget to update changeset link to point to tag not master
+
 - create git tag
 `$ git tag -s v3.1.1`
 

@@ -1,6 +1,9 @@
 Eventum Issue Tracking System
 =============================
 
+2016-??-??, Version [3.1.3]
+----------------------------
+
 2016-06-06, Version [3.1.2]
 ----------------------------
 
@@ -1233,7 +1236,8 @@ This release uses Composer for PHP Class autoloader.
 
 - Initial release (João; Bryan)
 
-[3.1.2]: https://github.com/eventum/eventum/compare/v3.1.1...master
+[3.1.3]: https://github.com/eventum/eventum/compare/v3.1.2...master
+[3.1.2]: https://github.com/eventum/eventum/compare/v3.1.1...v3.1.2
 [3.1.1]: https://github.com/eventum/eventum/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/eventum/eventum/compare/v3.0.12...v3.1.0
 [3.0.12]: https://github.com/eventum/eventum/compare/v3.0.11...v3.0.12
