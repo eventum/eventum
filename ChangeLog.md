@@ -1,7 +1,7 @@
 Eventum Issue Tracking System
 =============================
 
-2016-??-??, Version [3.1.2]
+2016-06-06, Version [3.1.2]
 ----------------------------
 
 Previous version enabled PDO driver for all installations, but PDO was supposed
@@ -9,9 +9,12 @@ to be used for new installations, also PDO driver has issues for non-UTF8
 `APP_CHARSET` setups, this was fixed in (de5e869) so that PDO is used only for
 new installations to ensure safer upgrades.
 
+This version fixes login for Eventum installs using more than one project (3281d6d)
+
 - set alternative page class for list issues page. (@balsdorf, #171)
 - use Pdo for new installations, keep Pear for older ones (@glensc, de5e869, a920484, #167)
 - fix login page css. (@glensc, 2d2923c, #170)
+- drop unneeded session init (@glensc, 3281d6d, #168)
 
 2016-05-29, Version [3.1.1]
 ----------------------------
