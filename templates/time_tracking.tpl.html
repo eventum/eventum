@@ -1,29 +1,3 @@
-
-<script type="text/javascript">
-<!--
-function deleteTimeEntry(time_id)
-{
-    if (!confirm('{t escape=js}This action will permanently delete the specified time tracking entry.{/t}')) {
-        return false;
-    } else {
-        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var popupWin = window.open('popup.php?cat=delete_time&id=' + time_id, '_popup', features);
-        popupWin.focus();
-    }
-}
-function addTimeEntry()
-{
-    var features = 'width=550,height=250,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-
-    var issue_id = {$smarty.get.id|intval};
-    var popupWin = window.open('time_tracking.php?iss_id=' + issue_id, 'time_tracking_' + issue_id, features);
-
-    popupWin.focus();
-}
-//-->
-</script>
-
-
 <form name="add_time_form" method="post" action="#">
 <div class="issue_section bordered internal" id="time_tracking">
     <div class="title">
@@ -53,7 +27,16 @@ function addTimeEntry()
             </td>
             <td>{$time_entries[i].formatted_time}</td>
             <td nowrap>{$time_entries[i].ttc_title}</td>
-            <td>{$time_entries[i].ttr_summary}</td>
+            <td>
+                {if $time_entries[i].ttr_usr_id == $core.current_user_id or $core.current_role >= $core.roles.manager}
+                    {assign var="edit_entry" value=true}
+                {else}
+                    {assign var="edit_entry" value=false}
+                {/if}
+                {if $edit_entry}<a class="edit_time_entry" data-ttr-id="{$time_entries[i].ttr_id}" href="time_tracking.php?ttr_id={$time_entries[i].ttr_id}">{/if}
+                {$time_entries[i].ttr_summary}
+                {if $edit_entry}</a>{/if}
+            </td>
           </tr>
           {if $smarty.section.i.last}
             {if count($total_time_by_user) > 1}
@@ -80,7 +63,7 @@ function addTimeEntry()
     </div>
     {if $core.current_role > $core.roles.viewer}
     <div class="buttons">
-        <input type="button" value="{t}Add Time Entry{/t}" onClick="addTimeEntry()">
+        <input type="button" value="{t}Add Time Entry{/t}" class="add_time_entry">
     </div>
     {/if}
 </div>

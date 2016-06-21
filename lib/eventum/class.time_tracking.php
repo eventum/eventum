@@ -396,6 +396,41 @@ class Time_Tracking
     }
 
     /**
+     * Method used to get the details of a specific entry
+     *
+     * @param   integer $ttr_id The time tracking ID
+     * @return  array The time tracking details
+     */
+    public static function getTimeEntryDetails($ttr_id)
+    {
+        $stmt = 'SELECT
+                    ttr_id,
+                    ttr_iss_id,
+                    ttr_created_date,
+                    ttr_summary,
+                    ttr_time_spent,
+                    ttc_id,
+                    ttc_title,
+                    ttr_usr_id,
+                    usr_full_name
+                 FROM
+                    {{%time_tracking}},
+                    {{%time_tracking_category}},
+                    {{%user}}
+                 WHERE
+                    ttr_ttc_id=ttc_id AND
+                    ttr_usr_id=usr_id AND
+                    ttr_id=?';
+        try {
+            $res = DB_Helper::getInstance()->getRow($stmt, [$ttr_id]);
+        } catch (DatabaseException $e) {
+            return false;
+        }
+
+        return $res;
+    }
+
+    /**
      * Method used to remove all time entries associated with the specified list
      * of issues.
      *
@@ -512,6 +547,64 @@ class Time_Tracking
         Issue::markAsUpdated($iss_id, 'time added');
         History::add($iss_id, $usr_id, 'time_added', 'Time tracking entry submitted by {user}', [
             'user' => User::getFullName($usr_id)
+        ]);
+
+        return 1;
+    }
+
+    /**
+     * Method used to update an existing time entry in the system.
+     *
+     * @param int $ttr_id The id the time entry is associated with
+     * @param int $ttc_id time tracking category id
+     * @param int $time_spent time spent in minutes
+     * @param array $date date structure
+     * @param string $summary summary about time tracking entry
+     * @return int 1 if the update worked, -1 otherwise
+     */
+    public static function updateTimeEntry($ttr_id, $ttc_id, $time_spent, $date, $summary)
+    {
+        if ($date) {
+            // format the date from the form
+            $created_date = sprintf('%04d-%02d-%02d %02d:%02d:%02d',
+                $date['Year'], $date['Month'],
+                $date['Day'], $date['Hour'],
+                $date['Minute'], 0);
+            // convert the date to GMT timezone
+            $created_date = Date_Helper::convertDateGMT($created_date . ' ' . Date_Helper::getPreferredTimezone());
+        } else {
+            $created_date = Date_Helper::getCurrentDateGMT();
+        }
+
+        $usr_id = Auth::getUserID();
+        $stmt = 'UPDATE
+                    {{%time_tracking}}
+                 SET
+                    ttr_ttc_id = ?,
+                    ttr_created_date = ?,
+                    ttr_time_spent = ?,
+                    ttr_summary = ?
+                  WHERE
+                    ttr_id = ?';
+        $params = [
+            $ttc_id,
+            $created_date,
+            $time_spent,
+            $summary,
+            $ttr_id
+        ];
+        try {
+            DB_Helper::getInstance()->query($stmt, $params);
+        } catch (DatabaseException $e) {
+            return -1;
+        }
+
+        $details = self::getTimeEntryDetails($ttr_id);
+
+        History::add($details['ttr_iss_id'], $usr_id, 'time_update', "Time tracking entry '{summary}' updated by {user}", [
+            'user' => User::getFullName($usr_id),
+            'summary'   =>  $summary,
+            'ttr_id'    =>  $ttr_id,
         ]);
 
         return 1;
