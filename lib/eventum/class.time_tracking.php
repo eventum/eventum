@@ -421,13 +421,7 @@ class Time_Tracking
                     ttr_ttc_id=ttc_id AND
                     ttr_usr_id=usr_id AND
                     ttr_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getRow($stmt, [$ttr_id]);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return $res;
+        return DB_Helper::getInstance()->getRow($stmt, [$ttr_id]);
     }
 
     /**
@@ -593,11 +587,7 @@ class Time_Tracking
             $summary,
             $ttr_id
         ];
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+        DB_Helper::getInstance()->query($stmt, $params);
 
         $details = self::getTimeEntryDetails($ttr_id);
 

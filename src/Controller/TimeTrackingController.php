@@ -14,6 +14,7 @@ namespace Eventum\Controller;
 
 use Auth;
 use DateInterval;
+use Date_Helper;
 use Issue;
 use Time_Tracking;
 use User;
@@ -118,7 +119,11 @@ class TimeTrackingController extends BaseController
         $ttc_id = $post->getInt('category');
         $time_spent = $post->getInt('time_spent');
         $summary = $post->get('summary');
-        $res = Time_Tracking::updateTimeEntry($this->ttr_id, $ttc_id, $time_spent, $date, $summary);
+        try {
+            $res = Time_Tracking::updateTimeEntry($this->ttr_id, $ttc_id, $time_spent, $date, $summary);
+        } catch (DatabaseException $e) {
+            $res = -1;
+        }
 
         return $res;
     }
@@ -139,8 +144,8 @@ class TimeTrackingController extends BaseController
         if ($this->time_tracking_details) {
             $this->tpl->assign([
                 'details'   =>  $this->time_tracking_details,
-                'start_date'    =>  \Date_Helper::getDateTime($this->time_tracking_details['ttr_created_date']),
-                'end_date'    =>  \Date_Helper::getDateTime($this->time_tracking_details['ttr_created_date'])->sub(
+                'start_date'    =>  Date_Helper::getDateTime($this->time_tracking_details['ttr_created_date']),
+                'end_date'    =>  Date_Helper::getDateTime($this->time_tracking_details['ttr_created_date'])->sub(
                         new DateInterval('PT' . $this->time_tracking_details['ttr_time_spent'] . "M"))
             ]);
         }
