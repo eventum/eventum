@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum;
 
 /**
@@ -30,7 +29,7 @@ class MemoizeDecorator
      *
      * @var callable[]
      */
-    private $methods = array();
+    private $methods = [];
 
     public function __construct($decorated)
     {
@@ -54,7 +53,7 @@ class MemoizeDecorator
      */
     private function memoize($method)
     {
-        $function = array($this->decorated, $method);
+        $function = [$this->decorated, $method];
         if (!is_callable($function)) {
             throw new \InvalidArgumentException(
                 sprintf(
@@ -64,7 +63,7 @@ class MemoizeDecorator
             );
         }
 
-        $memoized = array();
+        $memoized = [];
 
         return function ($args) use (&$memoized, $function) {
             $key = md5(serialize($args));

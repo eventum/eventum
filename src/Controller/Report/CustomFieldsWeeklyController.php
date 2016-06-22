@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Report;
 
 use Custom_Field;
@@ -79,8 +78,8 @@ class CustomFieldsWeeklyController extends ReportBaseController
     {
         // get list of fields and convert info useful arrays
         $fields = Custom_Field::getListByProject($this->prj_id, '');
-        $custom_fields = array();
-        $options = array();
+        $custom_fields = [];
+        $options = [];
         if (is_array($fields) && count($fields) > 0) {
             foreach ($fields as $field) {
                 $custom_fields[$field['fld_id']] = $field['fld_title'];
@@ -92,7 +91,7 @@ class CustomFieldsWeeklyController extends ReportBaseController
         }
 
         $this->tpl->assign(
-            array(
+            [
                 'custom_fields' => $custom_fields,
                 'custom_field' => $this->custom_field,
                 'options' => $options,
@@ -104,14 +103,14 @@ class CustomFieldsWeeklyController extends ReportBaseController
                 'per_user' => $this->per_user,
                 'weeks' => Date_Helper::getWeekOptions(3, 0),
                 'week' => $this->week ?: Date_Helper::getCurrentWeek(),
-            )
+            ]
         );
 
         if ($this->custom_field) {
             $this->tpl->assign(
-                array(
+                [
                     'field_info' => Custom_Field::getDetails($this->custom_field),
-                )
+                ]
             );
         }
 
@@ -120,16 +119,16 @@ class CustomFieldsWeeklyController extends ReportBaseController
             if ($this->report_type == 'weekly') {
                 $dates = explode('_', $this->week);
             } else {
-                $dates = array($this->start, $this->end);
+                $dates = [$this->start, $this->end];
             }
 
             $data = Report::getCustomFieldWeeklyReport(
                 $this->custom_field, $this->custom_options, $dates[0], $dates[1], $this->per_user
             );
             $this->tpl->assign(
-                array(
+                [
                     'data' => $data,
-                )
+                ]
             );
         }
     }

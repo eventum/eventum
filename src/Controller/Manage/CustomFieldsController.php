@@ -10,13 +10,12 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use Auth;
 use CRM;
 use Custom_Field;
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 use User;
 
@@ -65,33 +64,33 @@ class CustomFieldsController extends ManageBaseController
     private function newAction()
     {
         $res = Custom_Field::insert();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the custom field was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the new custom field.'), Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            1 => [ev_gettext('Thank you, the custom field was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new custom field.'), MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = Custom_Field::update();
-        Misc::mapMessages(
-            $res, array(
-                1 => array(ev_gettext('Thank you, the custom field was updated successfully.'), Misc::MSG_INFO),
-                -1 => array(ev_gettext('An error occurred while trying to update the custom field information.'), Misc::MSG_ERROR),
-            )
+        $this->messages->mapMessages(
+            $res, [
+                1 => [ev_gettext('Thank you, the custom field was updated successfully.'), MessagesHelper::MSG_INFO],
+                -1 => [ev_gettext('An error occurred while trying to update the custom field information.'), MessagesHelper::MSG_ERROR],
+            ]
         );
-        Auth::redirect(APP_RELATIVE_URL . 'manage/custom_fields.php');
+        $this->redirect(APP_RELATIVE_URL . 'manage/custom_fields.php');
     }
 
     private function deleteAction()
     {
         $res = Custom_Field::remove();
-        $map = array(
-            true => array(ev_gettext('Thank you, the custom field was removed successfully.'), Misc::MSG_INFO),
-            false => array(ev_gettext('An error occurred while trying to remove the custom field information.'), Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            true => [ev_gettext('Thank you, the custom field was removed successfully.'), MessagesHelper::MSG_INFO],
+            false => [ev_gettext('An error occurred while trying to remove the custom field information.'), MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     private function changeRankAction()
@@ -104,7 +103,7 @@ class CustomFieldsController extends ManageBaseController
      */
     protected function prepareTemplate()
     {
-        $excluded_roles = array();
+        $excluded_roles = [];
         if (!CRM::hasCustomerIntegration(Auth::getCurrentProject())) {
             $excluded_roles[] = User::ROLE_CUSTOMER;
         }
@@ -112,12 +111,12 @@ class CustomFieldsController extends ManageBaseController
         $user_roles[9] = 'Never Display';
 
         $this->tpl->assign(
-            array(
+            [
                 'project_list' => Project::getAll(),
                 'list' => Custom_Field::getList(),
                 'user_roles' => $user_roles,
                 'backend_list' => Custom_Field::getBackendList(),
-            )
+            ]
         );
     }
 }

@@ -69,31 +69,55 @@ $(function() {
       <th></th>
       <td>
         <p>
-        {t escape=no 1="{$core.base_url}scm_ping.php"}The SCM ping endpoint url is: <b>%1</b>{/t}
+        {t escape=no 1=$scm_ping_url}The SCM ping endpoint url is: <b>%1</b>{/t}
         </p>
         {t escape=no}To add scm backends, add to your <b>setup.php</b> like{/t}:
         {literal}<pre>
   'scm' => array(
     'cvs' => array(
-      // cvsweb urls
+      // viewvc urls
       'name' => 'cvs',
-      'checkout_url' => 'http://cvs.example.org/{MODULE}/{FILE}?rev={NEW_VERSION}&content-type=text/x-cvsweb-markup',
-      'diff_url' => 'http://cvs.example.org/{MODULE}/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&f=h',
-      'log_url' => 'http://cvs.example.org/{MODULE}/{FILE}?r1={VERSION}#rev{VERSION}',
+      'checkout_url' => 'https://cvs.example.org/{FILE}?view=markup&revision={NEW_VERSION}',
+      'diff_url' => 'https://cvs.example.org/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&f=h',
+      'log_url' => 'https://cvs.example.org/{FILE}?r1={NEW_VERSION}#rev{NEW_VERSION}',
     ),
     'svn' => array(
       // trac urls
       'name' => 'svn',
-      'checkout_url' => 'http://trac.example.org/browser/{MODULE}/{FILE}?rev={VERSION}',
-      'diff_url' => 'http://trac.example.org/changeset/{VERSION}/{MODULE}/{FILE}',
-      'log_url' => 'http://trac.example.org/log/{MODULE}/{FILE}?rev={VERSION}',
+      'checkout_url' => 'https://trac.example.org/browser/{FILE}?rev={CHANGESET}',
+      'diff_url' => 'https://trac.example.org/changeset/{CHANGESET}/{FILE}',
+      'log_url' => 'https://trac.example.org/log/{FILE}?rev={CHANGESET}',
+      'changeset_url' => 'https://trac.example.org/changeset/{CHANGESET}',
     ),
     'git' => array(
       // gitweb urls
       'name' => 'git',
-      'checkout_url' => 'http://git.example.org/?p=test.git;a=blob;f={FILE};hb={VERSION}',
-      'diff_url' => 'http://git.example.org/?p=test.git;a=commitdiff;h={VERSION}',
-      'log_url' => 'http://git.example.org/?p=test.git;a=history;f={FILE};hb={VERSION}',
+      'checkout_url' => 'https://git.example.org/?p={PROJECT}.git;a=blob;f={FILE};hb={CHANGESET}',
+      'diff_url' => 'https://git.example.org/?p={PROJECT}.git;a=commitdiff;h={CHANGESET}',
+      'log_url' => 'https://git.example.org/?p={PROJECT}.git;a=history;f={FILE};hb={CHANGESET}',
+      'changeset_url' => 'https://git.example.org/?p={PROJECT}.git;a=commitdiff;h={CHANGESET}',
+      'project_url' => 'https://git.example.org/?p={PROJECT}.git;a=summary',
+    ),
+    'gitlab' => array(
+      // gitlab urls
+      'name' => 'gitlab',
+      'checkout_url' => 'https://gitlab.example.org/{PROJECT}/blob/{CHANGESET}/{FILE}',
+      'diff_url' => 'https://gitlab.example.org/{PROJECT}/commit/{CHANGESET}#{FILE}',
+      'log_url' => 'https://gitlab.example.org/{PROJECT}/commits/{CHANGESET}/{FILE}',
+      'changeset_url' => 'https://gitlab.example.org/{PROJECT}/commit/{CHANGESET}',
+      'branch_url' => 'https://gitlab.example.org/{PROJECT}/tree/{BRANCH}',
+      'project_url' => 'https://gitlab.example.org/{PROJECT}',
+      // push urls to identify this instance
+      'urls' => array(
+          'git@gitlab.example.net',
+          'gitlab@gitlab.local'
+      ),
+      // branch filtering
+      'only' => array(
+          'master',
+      ),
+      'except' => array(
+      ),
     ),
   )
 </pre>{/literal}

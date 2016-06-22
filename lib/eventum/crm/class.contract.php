@@ -78,7 +78,7 @@ abstract class Contract
      *
      * @var array
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * Constructs the contract object and loads contract data.
@@ -325,7 +325,7 @@ abstract class Contract
      */
     public static function getAllDetails($contracts)
     {
-        $contracts_temp = array();
+        $contracts_temp = [];
         foreach ($contracts as $contract_id => $contract) {
             $contracts_temp[$contract_id] = $contract->getDetails();
         }

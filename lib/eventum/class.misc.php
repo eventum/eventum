@@ -12,7 +12,7 @@
  */
 
 /**
- * Class to hold methods and algorythms that woudln't fit in other classes, such
+ * Class to hold methods and algorithms that woudln't fit in other classes, such
  * as functions to work around PHP bugs or incompatibilities between separate
  * PHP configurations.
  */
@@ -28,9 +28,9 @@ class Misc
     public static function arrayDiff($foo, $bar)
     {
         if (!is_array($bar)) {
-            $bar = array();
+            $bar = [];
         }
-        $diffs = array();
+        $diffs = [];
         $foo_values = array_values($foo);
         $bar_values = array_values($bar);
         if (count($foo_values) > count($bar_values)) {
@@ -52,32 +52,6 @@ class Misc
         }
 
         return $diffs;
-    }
-
-    /**
-     * Retrieves values for fieldName from specified array.
-     *
-     * @param string $fieldName value to collect
-     * @param array|object $array array or object to search
-     * @return array new array containing the fieldName values from original array
-     * @deprecated use array_column for array inputs
-     */
-    public static function collect($fieldName, $array)
-    {
-        $result = array();
-        if (empty($array)) {
-            return $result;
-        }
-
-        foreach ($array as $object) {
-            if (is_object($object) && isset($object->$fieldName)) {
-                array_push($result, $object->$fieldName);
-            } elseif (is_array($object) && isset($object[$fieldName])) {
-                array_push($result, $object[$fieldName]);
-            }
-        }
-
-        return $result;
     }
 
     /*
@@ -185,109 +159,6 @@ class Misc
     }
 
     /**
-     * Method used to print a prompt asking the user for information.
-     *
-     * @param   string $message The message to print
-     * @param   string $default_value The default value to be used if the user just press <enter>
-     * @return  string The user response
-     */
-    public function prompt($message, $default_value)
-    {
-        echo $message;
-        if ($default_value !== false) {
-            echo " [default: $default_value] -> ";
-        } else {
-            echo ' [required] -> ';
-        }
-        flush();
-        $input = self::getInputLine();
-        if (empty($input)) {
-            if ($default_value === false) {
-                die("ERROR: Required parameter was not provided!\n");
-            } else {
-                return $default_value;
-            }
-        } else {
-            return $input;
-        }
-    }
-
-    /**
-     * Method used to get a line from the standard input.
-     *
-     * @return  string The standard input value
-     */
-    private static function getInputLine()
-    {
-        return trim(fgets(STDIN));
-    }
-
-    /**
-     * Method used to check the spelling of a given text.
-     *
-     * @param   string $text The text to check the spelling against
-     * @return  array Information about the mispelled words, if any
-     */
-    public static function checkSpelling($text)
-    {
-        $temptext = tempnam('/tmp', 'spelltext');
-        if ($fd = fopen($temptext, 'w')) {
-            $textarray = explode("\n", $text);
-            fwrite($fd, "!\n");
-            foreach ($textarray as $value) {
-                // adding the carat to each line prevents the use of aspell commands within the text...
-                fwrite($fd, "^$value\n");
-            }
-            fclose($fd);
-            $return = shell_exec("cat $temptext | /usr/bin/aspell -a");
-            unlink($temptext);
-        }
-        $lines = explode("\n", $return);
-        // remove the first line that is only the aspell copyright banner
-        array_shift($lines);
-        // remove all blank lines
-        foreach ($lines as $key => $value) {
-            if (empty($value)) {
-                unset($lines[$key]);
-            }
-        }
-        $lines = array_values($lines);
-
-        $misspelled_words = array();
-        $spell_suggestions = array();
-        foreach ($lines as $line) {
-            if (substr($line, 0, 1) == '&') {
-                // found suggestions for this word
-                $first_part = substr($line, 0, strpos($line, ':'));
-                $pieces = explode(' ', $first_part);
-                $misspelled_word = $pieces[1];
-                $last_part = substr($line, strpos($line, ':') + 2);
-                $suggestions = explode(', ', $last_part);
-            } elseif (substr($line, 0, 1) == '#') {
-                // found no suggestions for this word
-                $pieces = explode(' ', $line);
-                $misspelled_word = $pieces[1];
-                $suggestions = array();
-            } else {
-                // no spelling mistakes could be found
-                continue;
-            }
-            // prevent duplicates...
-            if (in_array($misspelled_word, $misspelled_words)) {
-                continue;
-            }
-            $misspelled_words[] = $misspelled_word;
-            $spell_suggestions[$misspelled_word] = $suggestions;
-        }
-
-        return array(
-            'total_words' => count($misspelled_words),
-            'words' => $misspelled_words,
-            'suggestions' => $spell_suggestions,
-        );
-    }
-
-    /**
      * Method used to simulate array_map()'s functionality in a deeply nested
      * array. The PHP built-in function does not allow that.
      *
@@ -297,7 +168,7 @@ class Misc
      * @param   integer $in_index Internal parameter to specify which index of the array we are currently mapping
      * @return  array The mapped array
      */
-    public static function array_map_deep(&$in_array, $in_func, $in_args = array(), $in_index = 1)
+    public static function array_map_deep(&$in_array, $in_func, $in_args = [], $in_index = 1)
     {
         // fix people from messing up the index of the value
         if ($in_index < 1) {
@@ -370,42 +241,6 @@ class Misc
         }
 
         return $val;
-    }
-
-    /**
-     * The Util:: class provides generally useful methods of different kinds.
-     *
-     * $Horde: framework/Util/Util.php,v 1.366 2004/03/30 17:03:58 jan Exp $
-     *
-     * Copyright 1999-2004 Chuck Hagenbuch <chuck@horde.org>
-     * Copyright 1999-2004 Jon Parise <jon@horde.org>
-     *
-     * See the enclosed file COPYING for license information (LGPL). If you
-     * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
-     *
-     * @author  Chuck Hagenbuch <chuck@horde.org>
-     * @author  Jon Parise <jon@horde.org>
-     * @version $Revision: 1.366 $
-     * @since   Horde 3.0
-     * @package Horde_Util
-     */
-    public static function dispelMagicQuotes(&$var)
-    {
-        static $magic_quotes;
-
-        if (!isset($magic_quotes)) {
-            $magic_quotes = get_magic_quotes_gpc();
-        }
-
-        if ($magic_quotes) {
-            if (!is_array($var)) {
-                $var = stripslashes($var);
-            } else {
-                array_walk($var, array('Misc', 'dispelMagicQuotes'));
-            }
-        }
-
-        return $var;
     }
 
     /**
@@ -512,7 +347,7 @@ class Misc
      */
     public static function prepareBooleanSearch($field, $value)
     {
-        $boolean = array();
+        $boolean = [];
         $pieces = explode(' ', $value);
         foreach ($pieces as $piece) {
             $boolean[] = "$field LIKE '%" . self::escapeString($piece) . "%'";
@@ -530,7 +365,7 @@ class Misc
      */
     public static function getFileList($directory)
     {
-        $files = array();
+        $files = [];
         $dir = @opendir($directory);
         while ($item = @readdir($dir)) {
             if (($item == '.') || ($item == '..') || ($item == 'CVS') || ($item == 'SCCS')) {
@@ -781,96 +616,12 @@ class Misc
             $replacement = ' ';
         }
 
-        return str_replace(array("\n", "\r"), $replacement, $str);
+        return str_replace(["\n", "\r"], $replacement, $str);
     }
 
     public static function htmlentities($var)
     {
         return htmlentities($var, ENT_QUOTES, APP_CHARSET);
-    }
-
-    const MSG_INFO = 'info';
-    const MSG_WARNING = 'warning';
-    const MSG_ERROR = 'error';
-    const MSG_HTML_BOX = 'html_box';
-    const MSG_NOTE_BOX = 'note_box';
-
-    public static function setMessage($msg, $type = self::MSG_INFO)
-    {
-        $messages = Session::get('messages', array());
-        $messages[] = array(
-            'text' => $msg,
-            'type' => $type,
-        );
-        Session::set('messages', $messages);
-    }
-
-    public static function getMessages()
-    {
-        $messages = Session::get('messages', array());
-        Session::set('messages', array());
-
-        return $messages;
-    }
-
-    public static function mapMessages($result, $map)
-    {
-        foreach ($map as $val => $info) {
-            if ($result == $val) {
-                self::setMessage($info[0], $info[1]);
-
-                return;
-            }
-        }
-    }
-
-    public static function displayNotifiedUsers($notify_list)
-    {
-        if (count($notify_list) > 0) {
-            $update_tpl = new Template_Helper();
-            $update_tpl->setTemplate('include/notified_list.tpl.html');
-            $update_tpl->assign('notify_list', $notify_list);
-            self::setMessage($update_tpl->getTemplateContents(false), self::MSG_HTML_BOX);
-        }
-    }
-
-    /**
-     * Method used to get the standard input.
-     *
-     * @return  string The standard input value
-     */
-    public static function getInput($is_one_liner = false)
-    {
-        static $return;
-
-        if (!empty($return)) {
-            return $return;
-        }
-
-        $terminator = "\n";
-
-        $stdin = fopen('php://stdin', 'r');
-        $input = '';
-        while (!feof($stdin)) {
-            $buffer = fgets($stdin, 256);
-            $input .= $buffer;
-            if (($is_one_liner) && (strstr($input, $terminator))) {
-                break;
-            }
-        }
-        fclose($stdin);
-        $return = $input;
-
-        return $input;
-    }
-
-    public static function displayErrorMessage($msg)
-    {
-        self::setMessage($msg, self::MSG_ERROR);
-        $tpl = new Template_Helper();
-        $tpl->setTemplate('error_message.tpl.html');
-        $tpl->displayTemplate();
-        exit;
     }
 
     /**
@@ -938,7 +689,7 @@ class Misc
 
         // handle empty context
         if (!$context) {
-            $context = array();
+            $context = [];
         }
 
         // handle raw data from database (json encoded)
@@ -946,7 +697,7 @@ class Misc
             $context = json_decode($context, true);
         }
 
-        $replacements = array();
+        $replacements = [];
         foreach ($context as $key => $val) {
             if (is_null($val) || is_scalar($val) || (is_object($val) && method_exists($val, '__toString'))) {
                 $replacements['{' . $key . '}'] = $val;

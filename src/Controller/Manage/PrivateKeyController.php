@@ -10,12 +10,10 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use Auth;
 use Exception;
-use Misc;
 use User;
 
 class PrivateKeyController extends ManageBaseController
@@ -53,9 +51,9 @@ class PrivateKeyController extends ManageBaseController
     {
         try {
             Auth::generatePrivateKey();
-            Misc::setMessage(ev_gettext('Thank you, the private key was regenerated.'));
+            $this->messages->addInfoMessage(ev_gettext('Thank you, the private key was regenerated.'));
         } catch (Exception $e) {
-            Misc::setMessage(ev_gettext('Private key regeneration error. Check server error logs.'), Misc::MSG_ERROR);
+            $this->messages->addErrorMessage(ev_gettext('Private key regeneration error. Check server error logs.'));
         }
     }
 

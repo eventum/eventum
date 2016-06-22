@@ -23,12 +23,12 @@ class Issue_Field
      */
     public static function getAvailableFields()
     {
-        return array(
+        return [
             'assignee'  =>  'Assignee',
             'priority'  =>  'Priority',
             'severity'  =>  'Severity',
             'custom'    =>  'Custom Fields',
-        );
+        ];
     }
 
     /**
@@ -44,13 +44,13 @@ class Issue_Field
         $prj_id = Issue::getProjectID($issue_id);
         $available_fields = self::getAvailableFields();
         $fields = self::getFieldsToDisplay($issue_id, $location);
-        $data = array();
+        $data = [];
         foreach ($fields as $field_name => $field_options) {
-            $data[$field_name] = array(
+            $data[$field_name] = [
                 'title' =>  $available_fields[$field_name],
                 'options'   =>  self::getOptions($field_name, $issue_id),
                 'value'     =>  self::getValue($issue_id, $field_name),
-            );
+            ];
             if ($field_name == 'custom') {
                 $data[$field_name]['custom'] = Custom_Field::getListByIssue($prj_id, $issue_id, Auth::getUserID(), $field_options, true);
             }
@@ -149,7 +149,7 @@ class Issue_Field
                 return Severity::getAssocList($prj_id);
         }
 
-        return array();
+        return [];
     }
 
     /**

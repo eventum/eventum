@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Helper;
 
 class HtmlHelper
@@ -29,12 +28,12 @@ class HtmlHelper
      */
     public function enableRadioButtons($value)
     {
-        return array(
-            'options' => array(
+        return [
+            'options' => [
                 1 => ev_gettext('Enabled'),
                 0 => ev_gettext('Disabled'),
-            ),
+            ],
             'selected' => (int)($value == 'enabled'),
-        );
+        ];
     }
 }

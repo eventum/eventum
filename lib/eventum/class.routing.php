@@ -36,7 +36,7 @@ class Routing
         $structure = Mime_Helper::decode($full_message, false, true);
 
         // we create addresses array so it can be reused
-        $addresses = array();
+        $addresses = [];
         if (isset($structure->headers['to'])) {
             $addresses[] = $structure->headers['to'];
         }
@@ -49,13 +49,13 @@ class Routing
         $setup = Setup::get();
 
         // create mapping for quickly checking if routing is enabled
-        $routing = array(
+        $routing = [
             'email' => $setup['email_routing']['status'] == 'enabled',
             'note' => $setup['note_routing']['status'] == 'enabled',
             'draft' => $setup['draft_routing']['status'] == 'enabled',
-        );
+        ];
 
-        $types = array('email', 'note', 'draft');
+        $types = ['email', 'note', 'draft'];
         foreach ($addresses as $address) {
             // NOTE: $address is not individual recipients,
             // but rather raw To or Cc header containing multiple addresses
@@ -177,7 +177,7 @@ class Routing
         }
 
         // associate the email to the issue
-        $parts = array();
+        $parts = [];
         Mime_Helper::parse_output($structure, $parts);
 
         // get the sender's email address
@@ -214,7 +214,7 @@ class Routing
         // Remove excess Re's
         $structure->headers['subject'] = Mail_Helper::removeExcessRe(@$structure->headers['subject'], true);
 
-        $t = array(
+        $t = [
             'issue_id'       => $issue_id,
             'ema_id'         => $email_account_id,
             'message_id'     => @$structure->headers['message-id'],
@@ -227,7 +227,7 @@ class Routing
             'full_email'     => @$full_message,
             'has_attachment' => $has_attachments,
             'headers'        => @$structure->headers,
-        );
+        ];
         // automatically associate this incoming email with a customer
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
@@ -284,9 +284,9 @@ class Routing
             }
 
             // log routed email
-            History::add($issue_id, $usr_id, 'email_routed', 'Email routed from {from}', array(
+            History::add($issue_id, $usr_id, 'email_routed', 'Email routed from {from}', [
                 'from' => $structure->headers['from'],
-            ));
+            ]);
         }
 
         return true;
@@ -379,7 +379,7 @@ class Routing
         AuthCookie::setProjectCookie($prj_id);
 
         // parse the Cc: list, if any, and add these internal users to the issue notification list
-        $addresses = array();
+        $addresses = [];
         $to_addresses = Mail_Helper::getEmailAddresses(@$structure->headers['to']);
         if (count($to_addresses)) {
             $addresses = $to_addresses;
@@ -388,7 +388,7 @@ class Routing
         if (count($cc_addresses)) {
             $addresses = array_merge($addresses, $cc_addresses);
         }
-        $cc_users = array();
+        $cc_users = [];
         foreach ($addresses as $email) {
             $cc_usr_id = User::getUserIDByEmail(strtolower($email), true);
             if ((!empty($cc_usr_id)) && (User::getRoleByUser($cc_usr_id, $prj_id) >= User::ROLE_USER)) {
@@ -405,14 +405,14 @@ class Routing
         }
 
         // insert the new note and send notification about it
-        $_POST = array(
+        $_POST = [
             'title'                => @$structure->headers['subject'],
             'note'                 => $body,
             'note_cc'              => $cc_users,
             'add_extra_recipients' => 'yes',
             'message_id'           => @$structure->headers['message-id'],
             'parent_id'            => $parent_id,
-        );
+        ];
 
         // add the full email to the note if there are any attachments
         // this is needed because the front end code will display attachment links
@@ -428,9 +428,9 @@ class Routing
         }
 
         // FIXME! $res == -2 is not handled
-        History::add($issue_id, $usr_id, 'note_routed', 'Note routed from {user}', array(
+        History::add($issue_id, $usr_id, 'note_routed', 'Note routed from {user}', [
             'user' => $structure->headers['from'],
-        ));
+        ]);
 
         return true;
     }
@@ -510,7 +510,7 @@ class Routing
         Draft::saveEmail($issue_id, @$structure->headers['to'], @$structure->headers['cc'], @$structure->headers['subject'], $body, false, false, false);
         // XXX: need to handle attachments coming from drafts as well?
         $usr_id = Auth::getUserID();
-        History::add($issue_id, $usr_id, 'draft_routed', 'Draft routed from {from}', array('from' => $structure->headers['from']));
+        History::add($issue_id, $usr_id, 'draft_routed', 'Draft routed from {from}', ['from' => $structure->headers['from']]);
 
         return true;
     }
@@ -557,7 +557,7 @@ class Routing
         // if there are multiple CC or To headers Mail_Mime creates array.
         // handle both cases (strings and arrays).
         if (!is_array($addresses)) {
-            $addresses = array($addresses);
+            $addresses = [$addresses];
         }
 
         // everything safely escaped and checked, try matching address
@@ -596,7 +596,7 @@ class Routing
         }
 
         // loop until no \r or \n
-        while (in_array($message[$i], array("\r", "\n"))) {
+        while (in_array($message[$i], ["\r", "\n"])) {
             $i++;
         }
         $message = substr($message, $i);

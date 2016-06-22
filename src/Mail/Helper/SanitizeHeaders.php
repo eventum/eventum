@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Mail\Helper;
 
 use DomainException;
@@ -47,13 +46,13 @@ class SanitizeHeaders
         }
 
         // headers to check and whether they need to be unique
-        $checkHeaders = array(
+        $checkHeaders = [
             'From' => true,
             'Subject' => true,
             'Message-Id' => true,
             'To' => false,
             'Cc' => false,
-        );
+        ];
         // NOTE: the headerClass does not match the format for Message-Id,
         // but luckily Message-Id header is always present (see above)
         foreach ($checkHeaders as $headerName => $unique) {

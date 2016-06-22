@@ -24,7 +24,7 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
     function ev_gettext($string)
     {
         if (func_num_args() > 1) {
-            $arg = array();
+            $arg = [];
             for ($i = 1; $i < func_num_args(); $i++) {
                 $arg[] = func_get_arg($i);
             }
@@ -43,7 +43,7 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
     function ev_gettext($string)
     {
         if (func_num_args() > 1) {
-            $arg = array();
+            $arg = [];
             for ($i = 1; $i < func_num_args(); $i++) {
                 $arg[] = func_get_arg($i);
             }

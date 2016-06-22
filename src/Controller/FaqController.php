@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -62,16 +61,16 @@ class FaqController extends BaseController
     {
         if (Auth::getCurrentRole() != User::ROLE_CUSTOMER) {
             // show all FAQ entries
-            return array();
+            return [];
         }
 
         if (!CRM::hasCustomerIntegration($this->prj_id)) {
             // show all FAQ entries
-            return array();
+            return [];
         }
 
         $contact = Auth::getCurrentContact();
-        $support_level_ids = array();
+        $support_level_ids = [];
         // TODOCRM: only active contracts?
         foreach ($contact->getContracts() as $contract) {
             $support_level_ids[] = $contract->getSupportLevel()->getLevelID();
@@ -109,10 +108,10 @@ class FaqController extends BaseController
     {
         $support_level_ids = $this->getSupportLevelIds();
         $this->tpl->assign(
-            array(
+            [
                 'faqs' => FAQ::getListBySupportLevel($support_level_ids),
                 'faq' => $this->getFaqDetails($support_level_ids)
-            )
+            ]
         );
     }
 }

@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db;
 use Eventum\Db\DatabaseException;
 
 class Monitor
@@ -184,92 +185,7 @@ class Monitor
      */
     public static function checkDatabase()
     {
-        $required_tables = array(
-            'api_token',
-            'columns_to_display',
-            'custom_field',
-            'custom_field_option',
-            'custom_filter',
-            'customer_account_manager',
-            'customer_note',
-            'email_account',
-            'email_draft',
-            'email_draft_recipient',
-            'email_response',
-            'faq',
-            'faq_support_level',
-            'group',
-            'history_type',
-            'irc_notice',
-            'issue',
-            'issue_access_list',
-            'issue_access_log',
-            'issue_association',
-            'issue_attachment',
-            'issue_attachment_file',
-            'issue_checkin',
-            'issue_custom_field',
-            'issue_history',
-            'issue_partner',
-            'issue_product_version',
-            'issue_quarantine',
-            'issue_requirement',
-            'issue_user',
-            'issue_user_replier',
-            'link_filter',
-            'mail_queue',
-            'mail_queue_log',
-            'news',
-            'note',
-            'partner_project',
-            'phone_support',
-            'product',
-            'project',
-            'project_category',
-            'project_custom_field',
-            'project_email_response',
-            'project_field_display',
-            'project_group',
-            'project_link_filter',
-            'project_news',
-            'project_phone_category',
-            'project_priority',
-            'project_release',
-            'project_round_robin',
-            'project_severity',
-            'project_status',
-            'project_status_date',
-            'project_user',
-            'reminder_action',
-            'reminder_action_list',
-            'reminder_action_type',
-            'reminder_field',
-            'reminder_history',
-            'reminder_level',
-            'reminder_level_condition',
-            'reminder_operator',
-            'reminder_priority',
-            'reminder_product',
-            'reminder_requirement',
-            'reminder_severity',
-            'reminder_triggered_action',
-            'resolution',
-            'round_robin_user',
-            'search_profile',
-            'status',
-            'subscription',
-            'subscription_type',
-            'support_email',
-            'support_email_body',
-            'time_tracking',
-            'time_tracking_category',
-            'user',
-            'user_alias',
-            'user_group',
-            'user_preference',
-            'user_project_preference',
-            'version',
-        );
+        $required_tables = Db\Table::getTableList();
 
         // add the table prefix to all of the required tables
         $dbc = DB_Helper::getConfig();
@@ -321,10 +237,10 @@ class Monitor
         $owner_info = posix_getpwuid(fileowner($file));
         $group_info = posix_getgrgid(filegroup($file));
 
-        return array(
+        return [
             $owner_info['name'],
             $group_info['name'],
-        );
+        ];
     }
 
     /**

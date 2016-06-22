@@ -78,6 +78,8 @@
                         {elseif $row.field == 'customer_0'}
                             {$issue.customer.name}
                             (<a href="#customer_details">{t}Complete Details{/t}</a>)
+                        {elseif $row.field == 'percentage_complete'}
+                            <div class="ui-progressbar iss_percent_complete" data-percent="{$row.percent}"><div class="progress-label">&nbsp;{$row.percent} %</div></div>
                         {/if}
                     </td>
                 </tr>

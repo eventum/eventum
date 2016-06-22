@@ -34,7 +34,7 @@ class Resolution
                  WHERE
                     res_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($res_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$res_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -57,7 +57,7 @@ class Resolution
                  WHERE
                     res_title=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($title));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$title]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -120,7 +120,7 @@ class Resolution
                  WHERE
                     res_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['rank'], $_POST['id']));
+            DB_Helper::getInstance()->query($stmt, [$_POST['title'], $_POST['rank'], $_POST['id']]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -143,7 +143,7 @@ class Resolution
                  WHERE
                     res_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($res_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$res_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -221,7 +221,7 @@ class Resolution
                  ) VALUES (
                     ?, ?, ?
                  )';
-        $params = array($_POST['title'], $_POST['rank'], Date_Helper::getCurrentDateGMT());
+        $params = [$_POST['title'], $_POST['rank'], Date_Helper::getCurrentDateGMT()];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {

@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Helper;
 
 use Auth;
@@ -34,11 +33,11 @@ class AssignHelper
      */
     public function getAssignOptions($users)
     {
-        $assign_options = array(
+        $assign_options = [
             '' => ev_gettext('Any'),
             '-1' => ev_gettext('un-assigned'),
             '-2' => ev_gettext('myself and un-assigned'),
-        );
+        ];
 
         $user_groups = User::getGroups($this->usr_id);
 

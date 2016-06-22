@@ -10,11 +10,10 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use Email_Response;
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 
 class EmailResponsesController extends ManageBaseController
@@ -56,24 +55,24 @@ class EmailResponsesController extends ManageBaseController
     private function newAction()
     {
         $res = Email_Response::insert();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the email response was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the new email response.'), Misc::MSG_INFO),
-            -2 => array(ev_gettext('Please enter the title for this new issue resolution.'), Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map
+        $map = [
+            1 => [ev_gettext('Thank you, the email response was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new email response.'), MessagesHelper::MSG_INFO],
+            -2 => [ev_gettext('Please enter the title for this new issue resolution.'), MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map
         );
     }
 
     private function updateAction()
     {
         $res = Email_Response::update();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the email response was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to update the new email response.'), Misc::MSG_INFO),
-            -2 => array(ev_gettext('Please enter the title for this issue resolution.'), Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            1 => [ev_gettext('Thank you, the email response was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the new email response.'), MessagesHelper::MSG_INFO],
+            -2 => [ev_gettext('Please enter the title for this issue resolution.'), MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()
@@ -94,10 +93,10 @@ class EmailResponsesController extends ManageBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'project_list' => Project::getAll(),
                 'list' => Email_Response::getList(),
-            )
+            ]
         );
     }
 }

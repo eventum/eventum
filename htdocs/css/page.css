@@ -9,13 +9,6 @@
  * that were distributed with this source code.
  */
 
-/* Stats Page */
-body#stats {
-
-}
-
-/* END Stats Page */
-
 /* Setup Page */
 body#setup {
     line-height: 1.25em;
@@ -34,11 +27,11 @@ body#new_issue #create_issue {
 
 
 /* Login Page */
-body#login h1 {
+body#index h1 {
     text-align: center;
 }
 
-body#login form#login_form table {
+body.login form#login_form table {
     background: #006486;
     margin: 0 auto;
     width: 500px;
@@ -48,26 +41,26 @@ body#login form#login_form table {
     -moz-border-radius: 0.5em;
 }
 
-body#login form#login_form table a {
+body.login form#login_form table a {
     color: #FFFFFF;
 }
 
-body#login form#login_form table td {
+body.login form#login_form table td {
     padding: .3em;
 }
 
-body#login form#login_form table td.message {
+body.login form#login_form table td.message {
     color: #ffff00;
     text-align: center;
 }
 
-body#login form#login_form table td.label {
+body.login form#login_form table td.label {
     width: 40%;
     text-align: right;
     font-weight: bold;
 }
 
-body#login form#login_form table td.button {
+body.login form#login_form table td.button {
     text-align: center;
 }
 
@@ -128,72 +121,72 @@ body#login form#login_form table td.button {
     text-align: center;
 }
 
-body#issue_view div#issue_links {
+body.issue_view div#issue_links {
     width: 100%;
 }
-body#issue_view div#issue_links a {
+body.issue_view div#issue_links a {
     text-decoration: none;
 }
 
-body#issue_view div#issue_links div:first-child {
+body.issue_view div#issue_links div:first-child {
     float: left;
     width: 300px;
 }
 
-body#issue_view div#issue_links div.right {
+body.issue_view div#issue_links div.right {
     float: right;
     width: 300px;
     text-align: right;
 }
 
-body#issue_view div.issue_section {
+body.issue_view div.issue_section {
     margin-bottom: 1em;
 }
 
-body#issue_view div.issue_section div.content table {
+body.issue_view div.issue_section div.content table {
     width: 100%;
 }
 td#email_message,
-body#issue_view div.issue_section div.content table tr.note_content {
+body.issue_view div.issue_section div.content table tr.note_content {
     -ms-word-break: break-all;
     word-break: break-all;
     word-break: break-word;
 }
 
-body#issue_view div#time_tracking tr.total_time td:first-child {
+body.issue_view div#time_tracking tr.total_time td:first-child {
     background: #9c494b;
     color: #FFFFFF;
     text-align: right;
 }
 
-body#issue_view div#custom_fields div.content th {
+body.issue_view div#custom_fields div.content th {
     width: 200px;
 }
 
-body#issue_view #drafts .buttons_div {
+body.issue_view #drafts .buttons_div {
     width: 200px;
     text-align: right;
 }
 
-body#issue_view .revision {
+body.issue_view .revision {
     max-width: 5em;
     overflow: hidden;
     text-decoration: underline;
 }
 
-body#issue_view td.checkins > a {
+body.issue_view td.checkins > a {
     display: inline-block;
     overflow: hidden;
     vertical-align: top;
 }
 
-body#issue_view td.message > span {
+body.issue_view td.message > span {
     display: inline-block;
     max-height: 200px;
     overflow: auto;
 }
 
-body#issue_view #issue_summary {
+body.issue_view #issue_summary {
     font-weight: bold;
     border-bottom: 1px solid #eeeeee;
 }
@@ -211,17 +204,17 @@ body#issue_update #page_locked {
 /* End Issue Update Page */
 
 /* Begin List issue page */
-body#list_issues div#quick_filter {
+body#list div#quick_filter {
     width: 80%;
     margin: 0 auto;
 }
 
-body#list_issues div#quick_filter div#ft_options div {
+body#list div#quick_filter div#ft_options div {
     width: 50%;
     float: left;
 }
 
-body#list_issues div#quick_filter div.bottom_bar {
+body#list div#quick_filter div.bottom_bar {
     background: #dddddd;
     border-bottom-left-radius: 0.5em;
     -webkit-border-bottom-left-radius: 0.5em;
@@ -232,36 +225,36 @@ body#list_issues div#quick_filter div.bottom_bar {
 
 }
 
-body#list_issues div#quick_filter div.bottom_bar table {
+body#list div#quick_filter div.bottom_bar table {
     width: 100%;
 }
 
-body#list_issues div#quick_filter div.bottom_bar table td {
+body#list div#quick_filter div.bottom_bar table td {
     width: 33%;
 }
 
-body#list_issues #current_filters {
+body#list #current_filters {
     text-align: center;
     margin: 1em;
 }
 
-body#list_issues #current_filters span {
+body#list #current_filters span {
     background: #ffffaa;
     padding: .5em;
     display: inline-block;
     width: inherit;
 }
 
-body#list_issues #bulk_update {
+body#list #bulk_update {
     width: 80%;
     margin: 1em auto;
 }
 
-body#list_issues #bulk_update table {
+body#list #bulk_update table {
     width: 100%;
 }
 
-body#list_issues td.custom_field {
+body#list td.custom_field {
     cursor: pointer;
 }
 
@@ -378,8 +371,15 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
     display: block;
 }
 
-#custom_fields_popup .chosen-select {
+#custom_fields_form .chosen-select {
     width:360px;
+}
+
+/* SCM style fixes */
+.issue_view  ul.scm_checkin {
+    list-style: outside none disc;
+    padding: 0 1.5em;
+    margin: 0;
 }
 
 /* Dropzone.js overrides */
@@ -420,4 +420,43 @@ body#adv_search #date_fields, body#adv_search #custom_fields_row {
 /* PHP Debugbar overrides */
 div.phpdebugbar {
     box-shadow: 0 -1px 5px #666666;
+}
+
+/* % complete progressbar in view issues page */
+#list .ui-progressbar {
+    position: relative;
+    height: 19px;
+}
+#list .progress-label {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 1px;
+    font-size: 13px;
+}
+
+/* % complete progressbar in issue view */
+.issue_view .ui-progressbar {
+    position: relative;
+    height: 16px;
+    max-width: 200px;
+}
+.issue_view .progress-label {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 0;
+    font-size: 13px;
+    line-height: 1.05em;
+}
+.issue_view .ui-widget-header {
+    background: #89A989;
+}
+
+/* Disable white background image */
+.issue_view .ui-progressbar.ui-widget-content,
+#list .ui-progressbar.ui-widget-content
+{
+    background: transparent;
+    border: 1px solid #c0c0c0;
 }

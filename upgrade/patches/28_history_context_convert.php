@@ -29,7 +29,7 @@ use Eventum\Db\Adapter\AdapterInterface;
 # :%s#"$#$/",
 #
 
-$patterns = array(
+$patterns = [
     '/^Attachment removed by (?P<user>.*)$/',
     '/^Attachment uploaded by (?P<user>.*)$/',
     '/^Authorized replier (?P<replier>.*) removed by (?P<user>.*)$/',
@@ -107,7 +107,7 @@ $patterns = array(
     // custom workflow methods
     '/^Status changed to "(?P<status>.+)" through assignment change$/',
     "/^Status changed from '(?P<old_status>.+)' to '(?P<new_status>.+)' because (?P<user>.+) assigned the issue and is the only assignee\.?$/",
-);
+];
 
 // find contexts from history entries
 $find = function ($string) use ($patterns) {
@@ -125,7 +125,7 @@ $find = function ($string) use ($patterns) {
     }
 
     $message = '';
-    $context = array();
+    $context = [];
     $offset = 0;
     foreach ($matches as $token => $match) {
         // want only named captures
@@ -145,15 +145,15 @@ $find = function ($string) use ($patterns) {
     $message .= substr($string, $offset);
 
     // give it out
-    return array(
+    return [
         'message' => $message,
         'context' => $context,
-    );
+    ];
 };
 
 /** @var AdapterInterface $db */
-$res = $db->query("select his_id,his_summary from {{%issue_history}} where his_context=''");
-$total = $res->numRows();
+$his_ids = $db->getColumn("SELECT his_id FROM {{%issue_history}} WHERE his_context=''");
+$total = count($his_ids);
 $current = $updated = 0;
 
 if (!$total) {
@@ -164,20 +164,22 @@ if (!$total) {
 /** @var Closure $log */
 $log("Total $total rows, this may take time. Please be patient.");
 
-// FIXME: PEAR::DB specific
-/** @var DB_result $res */
-while ($res->fetchInto($row, AdapterInterface::DB_FETCHMODE_ASSOC)) {
+$res = $db->query("select his_id,his_summary from {{%issue_history}} where his_context=''");
+
+foreach ($his_ids as $his_id) {
+    $his_summary = $db->getOne('SELECT his_summary FROM {{%issue_history}} WHERE his_id=?', [$his_id]);
+
     $current++;
-    $m = $find($row['his_summary']);
+    $m = $find($his_summary);
     if (!$m) {
-        $log("No substitution: {$row['his_id']} '{$row['his_summary']}'");
+        $log("No substitution: {$his_id} '{$his_summary}'");
         continue;
     }
 
     $db->query(
-        'update {{%issue_history}} set his_summary=?, his_context=? where his_id=?', array(
-        $m['message'], json_encode($m['context']), $row['his_id']
-    )
+        'update {{%issue_history}} set his_summary=?, his_context=? where his_id=?', [
+        $m['message'], json_encode($m['context']), $his_id
+    ]
     );
     $updated++;
 

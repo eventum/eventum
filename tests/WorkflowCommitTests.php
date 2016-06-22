@@ -34,10 +34,10 @@ class WorkflowCommitTestsCase extends WorkflowTestCase
 
     public function commitData()
     {
-        $files = array();
+        $files = [];
 
-        return array(
-            array(1, 1, 'test', $files, 'test', 'test'),
-        );
+        return [
+            [1, 1, 'test', $files, 'test', 'test'],
+        ];
     }
 }

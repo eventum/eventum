@@ -15,10 +15,10 @@ class DbHelperTest extends TestCase
 {
     public function testBuildSet()
     {
-        $params = array(
+        $params = [
             'a' => 'b',
             'c' => 'd',
-        );
+        ];
 
         $params['d'] = 'f';
 
@@ -37,9 +37,9 @@ class DbHelperTest extends TestCase
     public function testBuildList()
     {
         // simple test
-        $ids = array(
+        $ids = [
             1, 2, 'a', 'f'
-        );
+        ];
         $res = DB_Helper::buildList($ids);
         $exp = '?, ?, ?, ?';
         $this->assertEquals($exp, $res);
@@ -50,7 +50,7 @@ class DbHelperTest extends TestCase
         $this->assertEquals($exp, $res);
 
         // test combining params with a list
-        $params = array(110);
+        $params = [110];
         $stmt = 'psd_prj_id=? AND psd_sta_id IN (' . DB_Helper::buildList($ids) . ')';
         $params = array_merge($params, $ids);
         $res = $stmt . '|' . implode(',', $params);

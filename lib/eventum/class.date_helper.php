@@ -355,7 +355,7 @@ class Date_Helper
      */
     public static function getWeekOptions($weeks_past, $weeks_future)
     {
-        $options = array();
+        $options = [];
 
         // get current week details
         $current_start = date('U') - (self::DAY * (date('w') - 1));
@@ -419,7 +419,7 @@ class Date_Helper
         $value = date($value_format, $start) . '_' . date($value_format, $end);
         $display = date($display_format, $start) . ' - ' . date($display_format, $end);
 
-        return array($value, $display);
+        return [$value, $display];
     }
 
     /**

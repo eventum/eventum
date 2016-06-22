@@ -75,7 +75,7 @@ if (@$_POST['cat'] == 'install') {
 
 $full_url = dirname($_SERVER['PHP_SELF']);
 $pieces = explode('/', $full_url);
-$relative_url = array();
+$relative_url = [];
 $relative_url[] = '';
 foreach ($pieces as $piece) {
     if ((!empty($piece)) && ($piece != 'setup')) {
@@ -86,10 +86,11 @@ $relative_url[] = '';
 $relative_url = implode('/', $relative_url);
 define('APP_REL_URL', $relative_url);
 $tpl->assign('phpversion', phpversion());
-$tpl->assign('core', array(
+$tpl->assign('core', [
     'rel_url'   =>  $relative_url,
     'app_title' =>  APP_NAME,
-));
+    'template_id' => 'setup',
+]);
 if (@$_SERVER['HTTPS'] == 'on') {
     $ssl_mode = 'enabled';
 } else {
@@ -178,20 +179,20 @@ function getPermissionError($file, $desc, $is_directory, $exists)
 
 function checkRequirements()
 {
-    $errors = array();
-    $warnings = array();
+    $errors = [];
+    $warnings = [];
 
-    $extensions = array(
+    $extensions = [
         // extension => array(IS_REQUIRED, MESSAGE_TO_DISPLAY)
-        'gd' => array(true, 'The GD extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'),
-        'session' => array(true, 'The Session extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'),
-        'mysqli' => array(true, 'The MySQLi extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'),
-        'json' => array(true, 'The json extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'),
-        'mbstring' =>  array(false, 'The Multibyte String Functions extension is not enabled in your PHP installation. For localization to work properly ' .
-            'You need to install this extension. If you do not install this extension localization will be disabled.', ),
-        'iconv' => array(false, 'The ICONV extension is not enabled in your PHP installation. '.
-            'You need to install this extension for optimal operation. If you do not install this extension some unicode data will be corrupted.', ),
-    );
+        'gd' => [true, 'The GD extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'],
+        'session' => [true, 'The Session extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'],
+        'pdo_mysql' => [true, 'The PDO MySQL extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'],
+        'json' => [true, 'The json extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'],
+        'mbstring' =>  [false, 'The Multibyte String Functions extension is not enabled in your PHP installation. For localization to work properly ' .
+            'You need to install this extension. If you do not install this extension localization will be disabled.'],
+        'iconv' => [false, 'The ICONV extension is not enabled in your PHP installation. '.
+            'You need to install this extension for optimal operation. If you do not install this extension some unicode data will be corrupted.'],
+    ];
 
     foreach ($extensions as $extension => $value) {
         list($required, $message) = $value;
@@ -243,7 +244,7 @@ function checkRequirements()
         $errors[] = $error;
     }
 
-    return array($warnings, $errors);
+    return [$warnings, $errors];
 }
 
 function getErrorMessage($type, $message)
@@ -272,7 +273,7 @@ function getTimezone()
         return $ini;
     }
 
-    // if php.ini is unconfigured, this function is noisy
+    // if php.ini is not configured, this function is noisy
     return @date_default_timezone_get();
 }
 
@@ -305,7 +306,7 @@ function getFirstWeekday()
  */
 function checkDatabaseExists($conn, $database)
 {
-    $exists = $conn->getOne('SHOW DATABASES LIKE ?', $database);
+    $exists = $conn->getOne('SHOW DATABASES LIKE ?', [$database]);
 
     return $exists;
 }
@@ -322,7 +323,7 @@ function getUserList($conn)
         $users = $conn->getColumn('SELECT DISTINCT User from user');
     } catch (DatabaseException $e) {
         // if the user cannot select from the mysql.user table, then return an empty list
-        return array();
+        return [];
     }
 
     // FIXME: why lowercase neccessary?
@@ -363,15 +364,15 @@ function get_queries($file)
 function initlogger()
 {
     // init timezone, logger needs it
-  if (!defined('APP_DEFAULT_TIMEZONE')) {
-      $tz = !empty($_POST['default_timezone']) ? $_POST['default_timezone'] : @date_default_timezone_get();
-      define('APP_DEFAULT_TIMEZONE', $tz ?: 'UTC');
-  }
+    if (!defined('APP_DEFAULT_TIMEZONE')) {
+        $tz = !empty($_POST['default_timezone']) ? $_POST['default_timezone'] : @date_default_timezone_get();
+        define('APP_DEFAULT_TIMEZONE', $tz ?: 'UTC');
+    }
 
-  // and APP_VERSION
-  if (!defined('APP_VERSION')) {
-      define('APP_VERSION', '3.x');
-  }
+    // and APP_VERSION
+    if (!defined('APP_VERSION')) {
+        define('APP_VERSION', '3.x');
+    }
     Logger::initialize();
 }
 
@@ -429,7 +430,7 @@ function setup_database()
                 if (!$user_exists) {
                     $stmt = "GRANT SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE, INDEX ON {{{$_POST['db_name']}}}.* TO ?@'%' IDENTIFIED BY ?";
                     try {
-                        $conn->query($stmt, array($_POST['eventum_user'], $_POST['eventum_password']));
+                        $conn->query($stmt, [$_POST['eventum_user'], $_POST['eventum_password']]);
                     } catch (DatabaseException $e) {
                         throw new RuntimeException(getErrorMessage('create_user', $e->getMessage()));
                     }
@@ -480,7 +481,7 @@ function setup_database()
     }
 
     // setup database with upgrade script
-    $buffer = array();
+    $buffer = [];
     try {
         $dbmigrate = new Migrate(APP_PATH . '/upgrade');
         $dbmigrate->setLogger(function ($e) use (&$buffer) {
@@ -496,17 +497,17 @@ function setup_database()
 
     if ($e) {
         $upgrade_script = APP_PATH . '/bin/upgrade.php';
-        $error = array(
+        $error = [
             'Database setup failed on upgrade:',
             "<tt>{$e->getMessage()}</tt>",
             '',
             "You may want run update script <tt>$upgrade_script</tt> manually"
-        );
+        ];
         throw new RuntimeException(implode('<br/>', $error));
     }
 
     // write db name now that it has been created
-    $setup = array();
+    $setup = [];
     $setup['database'] = $_POST['db_name'];
 
     // substitute the appropriate values in config.php!!!
@@ -515,7 +516,7 @@ function setup_database()
         $setup['password'] = $_POST['eventum_password'];
     }
 
-    Setup::save(array('database' => $setup));
+    Setup::save(['database' => $setup]);
 }
 
 function write_file($file, $contents)
@@ -557,9 +558,12 @@ function write_setup()
         $socket = null;
     }
 
-    $setup['database'] = array(
+    $setup['database'] = [
         // database driver
-        'driver' => 'mysqli',
+        'driver' => 'mysql',
+
+        // use Pdo for new installations
+        'classname' => 'Pdo',
 
         // connection info
         'hostname' => $hostname,
@@ -570,8 +574,8 @@ function write_setup()
         'socket' => $socket,
 
         // table prefix
-        'table_prefix' => $_POST['db_table_prefix'],
-    );
+        'table_prefix' => '',
+    ];
 
     Setup::save($setup);
 }
@@ -581,12 +585,11 @@ function write_config()
     $config_file_path = APP_CONFIG_PATH . '/config.php';
 
     // disable the full-text search feature for certain mysql server users
-    /** @var AdapterInterface $conn */
     $mysql_version = DB_Helper::getInstance(false)->getOne('SELECT VERSION()');
     preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', $mysql_version, $matches);
     $enable_fulltext = $matches[1] > '4.0.23';
 
-    $replace = array(
+    $replace = [
         "'%{APP_HOSTNAME}%'" => e($_POST['hostname']),
         "'%{CHARSET}%'" => e(APP_CHARSET),
         "'%{APP_RELATIVE_URL}%'" => e($_POST['relative_url']),
@@ -594,7 +597,7 @@ function write_config()
         "'%{APP_DEFAULT_WEEKDAY}%'" => (int) $_POST['default_weekday'],
         "'%{PROTOCOL_TYPE}%'" => e(@$_POST['is_ssl'] == 'yes' ? 'https://' : 'http://'),
         "'%{APP_ENABLE_FULLTEXT}%'" => e($enable_fulltext),
-    );
+    ];
 
     $config_contents = file_get_contents(APP_CONFIG_PATH . '/config.dist.php');
     $config_contents = str_replace(array_keys($replace), array_values($replace), $config_contents);

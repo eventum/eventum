@@ -10,15 +10,11 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Report;
-
-use Eventum\Controller\Helper\PlotHelper;
 
 /**
  * Class GraphController
  *
- * @property PlotHelper $plot
  * @package Eventum\Controller\Report
  */
 class GraphController extends ReportBaseController

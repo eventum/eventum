@@ -39,18 +39,18 @@ $log("Total $total rows, this may take time. Please be patient.");
 foreach ($res as $row) {
     $current++;
 
-    $params = array();
+    $params = [];
     foreach ($row as $k => $v) {
         $params[$k] = Mime_Helper::decodeQuotedPrintable($v);
     }
 
     if ($row == $params) {
-        $logger->warning("maq_id={$row['maq_id']} no changes", array('maq_id' => $row['maq_id'], 'old' => $row));
+        $logger->warning("maq_id={$row['maq_id']} no changes", ['maq_id' => $row['maq_id'], 'old' => $row]);
         continue;
     }
 
     $logger->info(
-        "updated maq_id={$row['maq_id']}", array('maq_id' => $row['maq_id'], 'old' => $row, 'new' => $params)
+        "updated maq_id={$row['maq_id']}", ['maq_id' => $row['maq_id'], 'old' => $row, 'new' => $params]
     );
 
     $params[] = $row['maq_id'];

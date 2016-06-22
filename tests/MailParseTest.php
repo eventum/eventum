@@ -51,6 +51,6 @@ class MailParseTest extends TestCase
         $recipients = Mail::parseRecipients($maq_recipient);
         $this->assertFalse(Misc::isError($recipients), Misc::isError($recipients) ? $recipients->getMessage() : '');
         // success
-        $this->assertEquals(array('glen@delfi.ee'), $recipients);
+        $this->assertEquals(['glen@delfi.ee'], $recipients);
     }
 }

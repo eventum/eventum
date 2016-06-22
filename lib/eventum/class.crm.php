@@ -30,7 +30,7 @@ abstract class CRM
      *
      * @var     CRM[]
      */
-    private static $instances = array();
+    private static $instances = [];
 
     /**
      * The Project ID for this instance
@@ -214,7 +214,7 @@ abstract class CRM
      * @param array $options
      * @return  array The list of customer IDs
      */
-    abstract public function getCustomerIDsByString($keyword, $options = array());
+    abstract public function getCustomerIDsByString($keyword, $options = []);
 
     /**
      * Method used to get the associated customer and customer contact from
@@ -301,7 +301,7 @@ abstract class CRM
     {
         $files = Misc::getFileList(APP_INC_PATH . 'crm/');
         $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/crm'));
-        $list = array();
+        $list = [];
         foreach ($files as $file) {
             $list['class.' . $file . '.php'] = $file;
         }
@@ -330,7 +330,7 @@ abstract class CRM
                     {{%project}}
                  WHERE prj_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             $res = false;
         }
@@ -444,7 +444,7 @@ abstract class CRM
                  )';
         try {
             DB_Helper::getInstance()->query(
-                $stmt, array($_POST['project'], $_POST['customer'], $_POST['manager'], $_POST['type'])
+                $stmt, [$_POST['project'], $_POST['customer'], $_POST['manager'], $_POST['type']]
             );
         } catch (DatabaseException $e) {
             return -1;
@@ -468,9 +468,9 @@ abstract class CRM
                  WHERE
                     cam_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($cam_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$cam_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -494,7 +494,7 @@ abstract class CRM
                     cam_id=?';
         try {
             DB_Helper::getInstance()->query(
-                $stmt, array($_POST['project'], $_POST['customer'], $_POST['manager'], $_POST['type'], $_POST['id'])
+                $stmt, [$_POST['project'], $_POST['customer'], $_POST['manager'], $_POST['type'], $_POST['id']]
             );
         } catch (DatabaseException $e) {
             return -1;
@@ -547,13 +547,13 @@ abstract class CRM
                     cam_prj_id=? AND
                     cam_customer_id=?';
         try {
-            $res = DB_Helper::getInstance()->fetchAssoc($stmt, array($prj_id, $customer_id), AdapterInterface::DB_FETCHMODE_ASSOC);
+            $res = DB_Helper::getInstance()->fetchAssoc($stmt, [$prj_id, $customer_id], AdapterInterface::DB_FETCHMODE_ASSOC);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         if (empty($res)) {
-            return array();
+            return [];
         } else {
             return $res;
         }
@@ -577,9 +577,9 @@ abstract class CRM
                 WHERE
                     cno_customer_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($customer_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$customer_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -602,9 +602,9 @@ abstract class CRM
                 WHERE
                     cno_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($cno_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$cno_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -629,7 +629,7 @@ abstract class CRM
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         foreach ($res as &$row) {
@@ -665,7 +665,7 @@ abstract class CRM
                     cno_id=?';
         try {
             DB_Helper::getInstance()->query(
-                $stmt, array($note, $prj_id, $customer_id, Date_Helper::getCurrentDateGMT(), $cno_id)
+                $stmt, [$note, $prj_id, $customer_id, Date_Helper::getCurrentDateGMT(), $cno_id]
             );
         } catch (DatabaseException $e) {
             return -1;
@@ -698,7 +698,7 @@ abstract class CRM
         try {
             DB_Helper::getInstance()->query(
                 $stmt,
-                array($prj_id, $customer_id, Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $note)
+                [$prj_id, $customer_id, Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $note]
             );
         } catch (DatabaseException $e) {
             return -1;

@@ -56,7 +56,7 @@ class Priority
                      WHERE
                         pri_prj_id=? AND
                         pri_id=?';
-            DB_Helper::getInstance()->query($stmt, array($ranking[$pri_id], $prj_id, $replaced_pri_id));
+            DB_Helper::getInstance()->query($stmt, [$ranking[$pri_id], $prj_id, $replaced_pri_id]);
         }
         $stmt = 'UPDATE
                     {{%project_priority}}
@@ -65,7 +65,7 @@ class Priority
                  WHERE
                     pri_prj_id=? AND
                     pri_id=?';
-        DB_Helper::getInstance()->query($stmt, array($new_rank, $prj_id, $pri_id));
+        DB_Helper::getInstance()->query($stmt, [$new_rank, $prj_id, $pri_id]);
 
         return true;
     }
@@ -89,9 +89,9 @@ class Priority
                  ORDER BY
                     pri_rank ASC';
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -112,7 +112,7 @@ class Priority
                  WHERE
                     pri_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($pri_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$pri_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -187,7 +187,7 @@ class Priority
                     pri_prj_id=? AND
                     pri_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST['title'], $_POST['rank'], $_POST['prj_id'], $_POST['id']));
+            DB_Helper::getInstance()->query($stmt, [$_POST['title'], $_POST['rank'], $_POST['prj_id'], $_POST['id']]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -215,7 +215,7 @@ class Priority
                     ?, ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($_POST['prj_id'], $_POST['title'], $_POST['rank']));
+            DB_Helper::getInstance()->query($stmt, [$_POST['prj_id'], $_POST['title'], $_POST['rank']]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -243,7 +243,7 @@ class Priority
                  ORDER BY
                     pri_rank ASC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -266,7 +266,7 @@ class Priority
                  WHERE
                     pri_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($pri_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$pri_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -299,7 +299,7 @@ class Priority
                  ORDER BY
                     pri_rank ASC';
         try {
-            $res = DB_Helper::getInstance()->getPair($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -328,7 +328,7 @@ class Priority
                     AND pri_title = ?';
 
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id, $pri_title));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$prj_id, $pri_title]);
         } catch (DatabaseException $e) {
             return null;
         }

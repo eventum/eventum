@@ -19,7 +19,7 @@ class Dynamic_Custom_Field_Backend
 {
     public function getList($fld_id, $issue_id = false)
     {
-        $list = array();
+        $list = [];
         $data = $this->getStructuredData();
         foreach ($data as $row) {
             $list += $row['options'];
@@ -59,7 +59,7 @@ class Dynamic_Custom_Field_Backend
      */
    public function getStructuredData()
    {
-       return array();
+       return [];
    }
 
     /**

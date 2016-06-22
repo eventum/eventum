@@ -83,6 +83,12 @@ $(document).ready(function() {
 
     $("input.issue_field").blur(Validation.validateIssueNumberField);
 
+    // % complete progressbar
+    $("div.iss_percent_complete").each(function() {
+        var $e = $(this);
+        $e.progressbar({value: $e.data('percent')});
+    });
+
     // chosen config
     var config = {
         '.chosen-select'           : {},
@@ -514,7 +520,7 @@ Eventum.clearAutoSave = function(prefix)
             localStorage.removeItem(localStorage.key(i));
         }
     }
-}
+};
 
 function Validation()
 {

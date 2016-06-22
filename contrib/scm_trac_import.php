@@ -122,7 +122,7 @@ class TracScm extends SCM
      */
     public static function importCheckin($issue_id, $commit_time, $scm_name, $file, $username, $commit_msg)
     {
-        return self::insertCheckin($issue_id, $commit_time, $scm_name, $file, $username, $commit_msg);
+        throw new LogicException("Needs porting to new code");
     }
 }
 

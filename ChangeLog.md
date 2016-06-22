@@ -1,17 +1,81 @@
 Eventum Issue Tracking System
 =============================
 
-2016-??-??, Version 3.0.12
+2016-??-??, Version [3.1.3]
 ----------------------------
-- make Bulk update feature work again (#160, #161, @balsdorf)
+
+- Allow time tracking entries to be edited (@balsdorf, #174)
+- Update weekly report to look at time tracking when calculating touched issues. (@balsdorf, #175)
+
+2016-06-06, Version [3.1.2]
+----------------------------
+
+Previous version enabled PDO driver for all installations, but PDO was supposed
+to be used for new installations, also PDO driver has issues for non-UTF8
+`APP_CHARSET` setups, this was fixed in (de5e869) so that PDO is used only for
+new installations to ensure safer upgrades.
+
+This version fixes login for Eventum installs using more than one project (3281d6d)
+
+- set alternative page class for list issues page. (@balsdorf, #171)
+- use Pdo for new installations, keep Pear for older ones (@glensc, de5e869, a920484, #167)
+- fix login page css. (@glensc, 2d2923c, #170)
+- drop unneeded session init (@glensc, 3281d6d, #168)
+
+2016-05-29, Version [3.1.1]
+----------------------------
+
+This version switches to PDO driver by for new installations (#167)
+Additionally tables will be renamed without `eventum_` table prefix (#166)
+
+- remove support for calling deprecated handleAssignment workflow method, it was deprecated in 2.4.0-pre1 (d16ea3a)
+- drop php 5.3 `$this` hacks (c58fe0c)
+- drop `dispelMagicQuotes`; magic quotes support dropped in php 5.4 (e58926c)
+- use short array syntax (92c751e)
+- remove support for calling deprecated handleAssignment workflow method (d16ea3a)
+- add Message-Id column to mail queue table (@glensc, #140)
+- cleanup deprecated `APP_LOCAL_PATH` from the template search path (8cea94b)
+- drop unused Misc::getInput (5b97d89)
+- drop prompt and getInputLine from Misc (83efe3c)
+- drop unused Misc::collect (51eab96)
+- drop table prefix support (@glensc, #166)
+- drop old `APP_SQL_` constants support, support upgrade from earlier than 3.0 versions dropped (30130ba)
+- do not allow a manager user to edit an administrative user (@balsdorf, 83ace86, cf93b17)
+- use `pdo_mysql` as default mysql driver (@glensc, #167)
+- use Symfony Session for session usage (@glensc, #168)
+- use Symfony FlashBag for flash messages (@glensc, #169)
+- automatically set page ID based on template path and name (@balsdorf, #170)
+
+2016-04-28, Version [3.1.0]
+----------------------------
+
+The minimum supported PHP version from this version onwards is 5.5 (5.6 recommended).
+While this release still works with 5.3, it is not supported anymore.
+This release also no longer bundles SCM hook scripts, they are available from separate project.
+
+- dropped scm git submodule and from install system
+- dropped deprecated `bin/route_*.php` scripts, use `process_all_emails.php`
+- add workflow methods for crypt upgrade/downgrade (@glensc, #165)
+- we reached [7000th] commit! :boom:
+- scm: modularize and add gitlab adapter (@glensc, #159)
+
+2016-04-19, Version [3.0.12]
+----------------------------
+
+This will be last release supporting PHP 5.3, next version will require PHP 5.5 and be versioned as 3.1.0.
+This will also be last release packaging SCM hook scripts in main Eventum release tarball.
+
+- Make Bulk update feature work again (@balsdorf, #160, #161)
+- Nice Progress Bar for % Complete (@phavel, @glensc, @slay123, #162)
+- Fix bug where percentage complete is not included in changed notification (@balsdorf, #163, #164)
 
 2016-03-28, Version [3.0.11]
 ----------------------------
 
-- Updated Misc::activateLinks to not activate mail links inside of urls (d23e712, @balsorf)
-- Allow separate role for editing custom fields vs viewing (#149, @balsdorf)
-- Configuring loggers via config file using Monolog-Cascade (#146, @glensc)
-- Use Zend\Mail in MailQueue::addMail (#139, @glensc)
+- Updated Misc::activateLinks to not activate mail links inside of urls (@balsorf, d23e712)
+- Allow separate role for editing custom fields vs viewing (@balsdorf, #149)
+- Configuring loggers via config file using Monolog-Cascade (@glensc, #146)
+- Use Zend\Mail in MailQueue::addMail (@glensc, #139)
 - Setup correct project roles when updating user projects (@Alexey-Architect, #152)
 - Remove "Product Version" field from view issue page since it is bundled with "Product" (@balsdorf)
 
@@ -25,6 +89,10 @@ Eventum Issue Tracking System
 
 2016-02-06, Version [3.0.9]
 ---------------------------
+
+This release highlights optional support to encrypt DB, IMAP/POP3, LDAP passwords (#134)
+and allowing users to be in multiple groups (#135).
+
 - Deprecate `bin/route_*.php` scripts in favour of `bin/process_all_emails.php` (@glensc, a4ea0c5)
 - Add support to (re)-run specific patch by it's number (@glensc, 16cb41d)
 - Fix wrapping the long lines (@slay123, #133)
@@ -40,6 +108,11 @@ Eventum Issue Tracking System
 
 2016-01-18, Version [3.0.8]
 ---------------------------
+
+From release version 3.0.4 a bug existed where logged in users could
+incorrectly access some management pages (60866f8d). Please upgrade to 3.0.8
+immediately.
+
 - Add "Reply as Note" to emails (@balsdorf)
 - Fix Reply subjects when sending notes (@glensc)
 - Add preference support to turn off relative dates (@balsdorf, #125)
@@ -51,6 +124,10 @@ Eventum Issue Tracking System
 
 2015-12-31, Version [3.0.7]
 ---------------------------
+
+Release highlights are new monolog based logging (#97), showing dates human
+friendly (#116) and introduction of API tokens (besides passwords) for remote
+access (#122)
 
 - emails.php: handle better empty "From:" header (@glensc, #91)
 - Added ability to require custom fields on the edit form (@balsdorf, #107)
@@ -76,6 +153,11 @@ Eventum Issue Tracking System
 
 2015-11-10, Version [3.0.6]
 ---------------------------
+
+This release highlight is automatic password hashes upgrade to be more secure
+on user authentication (sign in). You can force all users to re-authenticate by
+regenerating Eventum private key from Administration panel. (See #93).
+
 - Update custom fields from update issue page (Bryan Alsdorf, #88)
 - Allow time category/summary to be set when sending emails (Bryan Alsdorf)
 - Add missing 'Scheduled Release' and 'Group' field back to update page (Bryan Alsdorf, #89)
@@ -92,6 +174,16 @@ Eventum Issue Tracking System
 
 2015-10-31, Version [3.0.4]
 ---------------------------
+
+To simplify setup and directory layout we have moved all directories that
+contain files to which Eventum writes data during the course of its operation
+into `var/`. You need to grant write permissions on `/path/to/eventum/var/`
+sub-directories to your webserver. (#81)
+
+New passwords are saved using more secure hashing than before (#77)
+
+This release was buggy and was yanked, bug itself is fixed in v3.0.5
+
 - Fix few Static & Deprecated calls (Craig Pinfold, #72)
 - Use randomlib for private key generation, add UI to regenerate it (Elan Ruusamäe, #73)
 - Fix misplaced {if} in preferences template (Robbert-Jan Roos, LP#1506279)
@@ -114,6 +206,9 @@ Eventum Issue Tracking System
 
 2015-10-13, Version [3.0.3]
 ---------------------------
+
+This release includes copy of wiki documents in release tarball.
+
 - Added bin/truncate_mail_queue.php (Bryan Alsdorf)
 - Add admin interface for required fields (Bryan Alsdorf, #67)
 - UI fix for Issue Assignees (Kristo Klausson, #68)
@@ -126,6 +221,8 @@ Eventum Issue Tracking System
 
 2015-08-04, Version [3.0.2]
 ---------------------------
+
+This release highlights translatable history entries, CAS Auth Backend and lots of UI fixes.
 
 - Fix sql error in disassociate custom field (Elan Ruusamäe)
 - Fix cancel update issue action (Elan Ruusamäe, #47)
@@ -153,6 +250,9 @@ Eventum Issue Tracking System
 2015-04-21, Version [3.0.1]
 ---------------------------
 
+This release highlights are ajax based file uploads via dropzone and clone issue feature.
+The MySQL driver for new installs is now mysqli, not deprecated mysql.
+
 - Add option to set time summary when sending a note (Bryan)
 - Optionally send reminders to a different IRC channel (Bryan)
 - Fix broken Workflow::handleSCMCheckins call from 3.0.0pre1 (Elan Ruusamäe, GH#15)
@@ -167,6 +267,12 @@ Eventum Issue Tracking System
 
 2015-02-03, Version [3.0.0-pre1]
 --------------------------------
+
+Added DB layer to replace PEAR in the future.
+Rework of XMLRPC code.
+LDAP integration improvements.
+SCM supports now multiple SCM systems.
+Eventum CLI is now distributed as PHAR file.
 
 - Make Custom Fields Weekly Report honor Project ID (Raul Raat, GH#6)
 - Exclude removed notes when generating note sequence number (Bryan Alsdorf, Fixes LP#1377921)
@@ -197,6 +303,10 @@ Eventum Issue Tracking System
 
 2014-10-04, Version [2.4.0-pre1]
 --------------------------------
+
+The templates have been ported to Smarty3, this is rewrite to use CSS for styling.
+PEAR Date class has been replaced by PHP DateTime class, users having incompatible timezone, may need to set timezone again in their preferences.
+This release uses Composer for PHP Class autoloader.
 
 - Fixed bug with having multiple dynamic custom fields on a page (Bryan Alsdorf)
 - Added "User Filter" functionality to LDAP integration (Bryan Alsdorf)
@@ -1129,6 +1239,11 @@ Eventum Issue Tracking System
 
 - Initial release (João; Bryan)
 
+[3.1.3]: https://github.com/eventum/eventum/compare/v3.1.2...master
+[3.1.2]: https://github.com/eventum/eventum/compare/v3.1.1...v3.1.2
+[3.1.1]: https://github.com/eventum/eventum/compare/v3.1.0...v3.1.1
+[3.1.0]: https://github.com/eventum/eventum/compare/v3.0.12...v3.1.0
+[3.0.12]: https://github.com/eventum/eventum/compare/v3.0.11...v3.0.12
 [3.0.11]: https://github.com/eventum/eventum/compare/v3.0.10...v3.0.11
 [3.0.10]: https://github.com/eventum/eventum/compare/v3.0.9...v3.0.10
 [3.0.9]: https://github.com/eventum/eventum/compare/v3.0.8...v3.0.9
@@ -1142,3 +1257,4 @@ Eventum Issue Tracking System
 [3.0.1]: https://github.com/eventum/eventum/compare/v3.0.0-pre1...v3.0.1
 [3.0.0-pre1]: https://github.com/eventum/eventum/compare/v2.4.0-pre1...v3.0.0-pre1
 [2.4.0-pre1]: https://github.com/eventum/eventum/compare/v2.3.4...v2.4.0-pre1
+[7000th]: https://gitter.im/eventum/eventum?at=571fcd410f156f102b41020c

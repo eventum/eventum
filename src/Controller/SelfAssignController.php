@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -68,10 +67,10 @@ class SelfAssignController extends BaseController
         // check if issue is assigned to someone else and if so, confirm change.
         if (!$this->target && ($assigned_users = Issue::getAssignedUsers($this->issue_id))) {
             $this->tpl->assign(
-                array(
+                [
                     'prompt_override' => 1,
                     'assigned_users' => $assigned_users,
-                )
+                ]
             );
 
             return;
@@ -104,9 +103,9 @@ class SelfAssignController extends BaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'issue_id' => $this->issue_id,
-            )
+            ]
         );
     }
 }

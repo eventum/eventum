@@ -10,13 +10,12 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Access;
 use Auth;
 use Edit_Reporter;
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 
 class EditReporterController extends BaseController
 {
@@ -80,13 +79,13 @@ class EditReporterController extends BaseController
         $email = trim($post->get('email'));
 
         $res = Edit_Reporter::update($this->issue_id, $email);
-        $map = array(
-            1 => array(ev_gettext('Thank you, the Reporter was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to update the Reporter.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            1 => [ev_gettext('Thank you, the Reporter was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the Reporter.'), MessagesHelper::MSG_ERROR],
+        ];
 
-        Misc::mapMessages($res, $map);
-        $this->redirect(APP_RELATIVE_URL . 'view.php', array('id' => $this->issue_id));
+        $this->messages->mapMessages($res, $map);
+        $this->redirect(APP_RELATIVE_URL . 'view.php', ['id' => $this->issue_id]);
     }
 
     /**
@@ -95,9 +94,9 @@ class EditReporterController extends BaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'issue_id' => $this->issue_id,
-            )
+            ]
         );
     }
 }

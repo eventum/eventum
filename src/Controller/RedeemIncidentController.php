@@ -10,14 +10,13 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
 use Contract;
 use CRM;
+use Eventum\Controller\Helper\MessagesHelper;
 use Issue;
-use Misc;
 use User;
 
 /**
@@ -86,11 +85,11 @@ class RedeemIncidentController extends BaseController
         $details = $contract->getDetails();
 
         $this->tpl->assign(
-            array(
+            [
                 'issue_id' => $this->issue_id,
                 'redeemed' => $contract->getRedeemedIncidentDetails($this->issue_id),
                 'incident_details' => $details['incident_details'],
-            )
+            ]
         );
     }
 
@@ -107,12 +106,12 @@ class RedeemIncidentController extends BaseController
         $res = $contract->updateRedeemedIncidents($this->issue_id, $redeem);
         $this->tpl->assign('res', $res);
         // FIXME: translate
-        $map = array(
-            1 => array('Thank you, the issue was successfully marked.', Misc::MSG_INFO),
-            -1 => array('There was an error marking this issue as redeemed', Misc::MSG_ERROR),
-            -2 => array('This issue already has been marked as redeemed', Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            1 => ['Thank you, the issue was successfully marked.', MessagesHelper::MSG_INFO],
+            -1 => ['There was an error marking this issue as redeemed', MessagesHelper::MSG_ERROR],
+            -2 => ['This issue already has been marked as redeemed', MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     /**

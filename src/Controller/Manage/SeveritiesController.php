@@ -10,10 +10,9 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 use Severity;
 
@@ -64,12 +63,12 @@ class SeveritiesController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $res = Severity::insert($this->prj_id, $post->get('title'), $post->get('description'), $post->get('rank'));
-        $map = array(
-            1 => array('Thank you, the severity was added successfully.', Misc::MSG_INFO),
-            -1 => array('An error occurred while trying to add the severity.', Misc::MSG_ERROR),
-            -2 => array('Please enter the title for this new severity.', Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            1 => ['Thank you, the severity was added successfully.', MessagesHelper::MSG_INFO],
+            -1 => ['An error occurred while trying to add the severity.', MessagesHelper::MSG_ERROR],
+            -2 => ['Please enter the title for this new severity.', MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
@@ -77,12 +76,12 @@ class SeveritiesController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $res = Severity::update($post->get('id'), $post->get('title'), $post->get('description'), $post->get('rank'));
-        $map = array(
-            1 => array('Thank you, the severity was added successfully.', Misc::MSG_INFO),
-            -1 => array('An error occurred while trying to add the severity.', Misc::MSG_ERROR),
-            -2 => array('Please enter the title for this new severity.', Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            1 => ['Thank you, the severity was added successfully.', MessagesHelper::MSG_INFO],
+            -1 => ['An error occurred while trying to add the severity.', MessagesHelper::MSG_ERROR],
+            -2 => ['Please enter the title for this new severity.', MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()
@@ -112,10 +111,10 @@ class SeveritiesController extends ManageBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'list' => Severity::getList($this->prj_id),
                 'project' => Project::getDetails($this->prj_id),
-            )
+            ]
         );
     }
 }

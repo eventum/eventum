@@ -10,12 +10,11 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use Category;
+use Eventum\Controller\Helper\MessagesHelper;
 use Group;
-use Misc;
 use Reminder;
 use Reminder_Action;
 use Reminder_Condition;
@@ -72,23 +71,23 @@ class ReminderConditionsController extends ManageBaseController
     private function newAction()
     {
         $res = Reminder_Condition::insert();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the condition was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the new condition.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this new condition.'), Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            1 => [ev_gettext('Thank you, the condition was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new condition.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this new condition.'), MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = Reminder_Condition::update();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the condition was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to update the condition.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this condition.'), Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            1 => [ev_gettext('Thank you, the condition was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the condition.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this condition.'), MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()
@@ -113,10 +112,10 @@ class ReminderConditionsController extends ManageBaseController
     {
         if (Reminder_Condition::canFieldBeCompared($this->field)) {
             $this->tpl->assign(
-                array(
+                [
                     'show_field_options' => 'yes',
                     'comparable_fields' => Reminder_Condition::getFieldAdminList(true),
-                )
+                ]
             );
 
             return;
@@ -127,10 +126,10 @@ class ReminderConditionsController extends ManageBaseController
 
         if ($field_title == 'status') {
             $this->tpl->assign(
-                array(
+                [
                     'show_status_options' => 'yes',
                     'statuses' => Status::getAssocStatusList($prj_id),
-                )
+                ]
             );
 
             return;
@@ -138,10 +137,10 @@ class ReminderConditionsController extends ManageBaseController
 
         if ($field_title == 'category') {
             $this->tpl->assign(
-                array(
+                [
                     'show_category_options' => 'yes',
                     'categories' => Category::getAssocList($prj_id),
-                )
+                ]
             );
 
             return;
@@ -149,10 +148,10 @@ class ReminderConditionsController extends ManageBaseController
 
         if ($field_title == 'group' || $field_title == 'active group') {
             $this->tpl->assign(
-                array(
+                [
                     'show_group_options' => 'yes',
                     'groups' => Group::getAssocList($prj_id),
-                )
+                ]
             );
 
             return;
@@ -171,17 +170,17 @@ class ReminderConditionsController extends ManageBaseController
 
             if ($this->cat != 'edit') {
                 $this->tpl->assign(
-                    'info', array(
+                    'info', [
                         'rlc_rmf_id' => $this->field,
                         'rlc_rmo_id' => '',
                         'rlc_value' => '',
-                    )
+                    ]
                 );
             }
         }
 
         $this->tpl->assign(
-            array(
+            [
                 'rem_id' => $this->rem_id,
                 'rma_id' => $this->rma_id,
                 'rem_title' => Reminder::getTitle($this->rem_id),
@@ -189,7 +188,7 @@ class ReminderConditionsController extends ManageBaseController
                 'fields' => Reminder_Condition::getFieldAdminList(),
                 'operators' => Reminder_Condition::getOperatorAdminList(),
                 'list' => Reminder_Condition::getAdminList($this->rma_id),
-            )
+            ]
         );
     }
 }

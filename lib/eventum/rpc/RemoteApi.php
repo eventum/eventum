@@ -62,14 +62,14 @@ class RemoteApi
             throw new RemoteApiException("Issue #$issue_id could not be found");
         }
 
-        return array(
+        return [
             'summary'          => $details['iss_summary'],
             'customer'         => isset($details['customer_info']['customer_name']) ? $details['customer_info']['customer_name'] : null,
             'status'           => $details['sta_title'],
             'is_closed'        => $details['sta_is_closed'],
             'assignments'      => $details['assignments'],
             'authorized_names' => implode(', ', $details['authorized_names']),
-        );
+        ];
     }
 
     /**
@@ -91,14 +91,14 @@ class RemoteApi
             throw new RemoteApiException('There are currently no open issues');
         }
 
-        $structs = array();
+        $structs = [];
         foreach ($results as $res) {
-            $structs[] = array(
+            $structs[] = [
                 'issue_id'       => $res['iss_id'],
                 'summary'        => $res['iss_summary'],
                 'assigned_users' => $res['assigned_users'],
                 'status'         => $res['sta_title'],
-            );
+            ];
         }
 
         return $structs;
@@ -169,12 +169,12 @@ class RemoteApi
             throw new RemoteApiException('You are not assigned to any projects at this moment or you lack the proper role');
         }
 
-        $structs = array();
+        $structs = [];
         foreach ($res as $prj_id => $prj_title) {
-            $structs[] = array(
+            $structs[] = [
                 'id'    => $prj_id,
                 'title' => $prj_title,
-            );
+            ];
         }
 
         return $structs;
@@ -203,9 +203,6 @@ class RemoteApi
         if (empty($res)) {
             throw new RemoteApiException("Issue #$issue_id could not be found");
         }
-
-        // remove some naughty fields
-        unset($res['iss_original_description']);
 
         // returns custom fields in an array
         $res['custom_fields'] = Custom_Field::getListByIssue($res['iss_prj_id'], $res['iss_id']);
@@ -444,14 +441,14 @@ class RemoteApi
             throw new RemoteApiException('File not uploaded');
         }
 
-        $iaf_ids = array($iaf_id);
+        $iaf_ids = [$iaf_id];
         Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description);
 
-        $res = array(
+        $res = [
             'usr_id' => $usr_id,
             'iaf_id' => $iaf_id,
             'filesize' => $filesize,
-        );
+        ];
 
         return $res;
     }
@@ -465,7 +462,7 @@ class RemoteApi
      */
     public function lookupCustomer($prj_id, $field, $value)
     {
-        $possible_fields = array('email', 'support', 'customer');
+        $possible_fields = ['email', 'support', 'customer'];
         if (!in_array($field, $possible_fields)) {
             throw new RemoteApiException("Unknown field type '$field'");
         }
@@ -482,7 +479,7 @@ class RemoteApi
         if (!$crm) {
             throw new RemoteApiException("Customer Integration not enabled for project $prj_id");
         }
-        $res = $crm->lookup($field, $value, array());
+        $res = $crm->lookup($field, $value, []);
 
         return $res;
     }
@@ -567,16 +564,16 @@ class RemoteApi
 
         if (isset($setup['description_email_0']) && $setup['description_email_0'] == 'enabled') {
             $issue = Issue::getDetails($issue_id);
-            $email = array(
+            $email = [
                 'id'          => 0,
                 'sup_date'    => $issue['iss_created_date'],
                 'sup_from'    => $issue['reporter'],
                 'sup_to'      => '',
                 'sup_cc'      => '',
                 'sup_subject' => $issue['iss_summary'],
-            );
+            ];
             if ($real_emails != '') {
-                $emails = array_merge(array($email), $real_emails);
+                $emails = array_merge([$email], $real_emails);
             } else {
                 $emails[] = $email;
             }
@@ -598,7 +595,7 @@ class RemoteApi
         if ($email_id == 0) {
             // return issue description instead
             $issue = Issue::getDetails($issue_id);
-            $email = array(
+            $email = [
                 'sup_date'           => $issue['iss_created_date'],
                 'sup_from'           => $issue['reporter'],
                 'sup_to'             => '',
@@ -608,7 +605,7 @@ class RemoteApi
                 'sup_subject'        => $issue['iss_summary'],
                 'message'            => $issue['iss_original_description'],
                 'seb_full_email'     => $issue['iss_original_description'],
-            );
+            ];
         } else {
             $email = Support::getEmailBySequence($issue_id, $email_id);
         }
@@ -747,15 +744,15 @@ class RemoteApi
             // {if $smarty.post.separate_closed == 1}
             $_POST['separate_closed'] = true;
         }
-        $options = array(
+        $options = [
             'separate_closed' => $separate_closed,
-        );
+        ];
         $tpl = new Template_Helper();
         $tpl->setTemplate('reports/weekly_data.tpl.html');
-        $tpl->assign(array(
+        $tpl->assign([
             'report_type' => 'weekly',
             'data' => Report::getWeeklyReport($usr_id, $prj_id, $start, $end, $options),
-        ));
+        ]);
 
         $ret = $tpl->getTemplateContents() . "\n";
 
@@ -1008,7 +1005,7 @@ class RemoteApi
         $usr_id = Auth::getUserID();
         $email = User::getEmail($usr_id);
 
-        Logger::cli()->info($command, array('usr_id' => $usr_id, 'email' => $email));
+        Logger::cli()->info($command, ['usr_id' => $usr_id, 'email' => $email]);
 
         return 'OK';
     }

@@ -45,10 +45,10 @@ class MailMessageTest extends TestCase
 
     public function testHeaderLine()
     {
-        $headers = array(
+        $headers = [
             'Content-Type: text/plain; charset=UTF-8',
             'Subject: [#66] Re: LVM-i bänner',
-        );
+        ];
         $message = MailMessage::createFromHeaderBody($headers, 'kõk');
         $this->assertEquals('[#66] Re: LVM-i bänner', $message->subject);
 
@@ -102,7 +102,7 @@ class MailMessageTest extends TestCase
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
 
-        $recipients = array();
+        $recipients = [];
         foreach ($message->getTo() as $address) {
             $recipients[] = $address->getEmail();
         }
@@ -249,7 +249,7 @@ class MailMessageTest extends TestCase
         $value = 'foo-bar-123';
         $this->assertEquals($value, $mail->InReplyTo);
 
-        $references = array(1, $msg_id);
+        $references = [1, $msg_id];
         $mail->setReferences($references);
         $exp = '1 <CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
         $this->assertEquals($exp, $mail->References);
@@ -269,9 +269,9 @@ class MailMessageTest extends TestCase
     {
         $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
         $addresses = $message->getAddresses();
-        $exp = array(
+        $exp = [
             'our@email.com',
-        );
+        ];
         $this->assertEquals($exp, $addresses);
     }
 
@@ -392,14 +392,14 @@ class MailMessageTest extends TestCase
         $after = array_keys($mail->getHeaders()->toArray());
         $this->assertNotSame($before, $after);
 
-        $exp = array(
+        $exp = [
             'Date',
             'Message-ID',
             'Subject',
             'MIME-Version',
             'Content-Type',
             'From',
-        );
+        ];
         $this->assertSame($exp, $after);
     }
 
@@ -438,7 +438,7 @@ class MailMessageTest extends TestCase
 
         $this->assertEquals('1', $mail->getHeader('X-Eventum-Level')->getFieldValue());
 
-        $headers = array(
+        $headers = [
             'X-Eventum-Group-Issue' => 'something 123 143',
             'X-Eventum-Group-Replier' => 'mõmin',
             'X-Eventum-Group-Assignee' => 'UUser1, juusõr2',
@@ -453,11 +453,11 @@ class MailMessageTest extends TestCase
 
             'precedence' => 'bulk', // the 'classic' way, works with e.g. the unix 'vacation' tool
             'Auto-submitted' => 'auto-generated', // the RFC 3834 way
-        );
+        ];
         $mail->setHeaders($headers);
 
         $exp = implode(
-            "\r\n", array(
+            "\r\n", [
                 'Message-ID: <33@JON>',
                 'X-Eventum-Level: 10',
                 'Subject: ',
@@ -474,7 +474,7 @@ class MailMessageTest extends TestCase
                 'Precedence: bulk',
                 'Auto-Submitted: auto-generated',
                 ''
-            )
+            ]
         );
         $this->assertEquals($exp, $mail->getHeaders()->toString());
     }
@@ -501,16 +501,16 @@ class MailMessageTest extends TestCase
     public function testSendSimpleMail()
     {
         $text_message = 'text message';
-        $info = array(
+        $info = [
             'usr_full_name' => 'Some User',
             'usr_email' => 'nobody@example.org',
-        );
+        ];
         $subject = 'Your User Account Details';
 
-        $smtp = array(
+        $smtp = [
             'from' => 'root@example.org',
-        );
-        Setup::set(array('smtp' => $smtp));
+        ];
+        Setup::set(['smtp' => $smtp]);
 
         // send email (use PEAR's classes)
         $mail = new Mail_Helper();
@@ -544,9 +544,9 @@ class MailMessageTest extends TestCase
 
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
-        $headers = array(
+        $headers = [
             'Message-ID' => $msg_id,
-        );
+        ];
         $mail->setHeaders($headers);
         $mail->send($from, $recipient, $subject, 0, $issue_id, 'auto_created_issue');
     }
@@ -577,7 +577,7 @@ class MailMessageTest extends TestCase
 
     public function testMailFromHeaderBody()
     {
-        $headers = array(
+        $headers = [
             'MIME-Version' => '1.0',
             'Content-Type' => 'text/plain; charset=UTF-8',
             'Content-Transfer-Encoding' => '8bit',
@@ -587,7 +587,7 @@ class MailMessageTest extends TestCase
             'From' => '"Admin User " <note-3@eventum.example.org>',
             'To' => '"Admin User" <admin@example.com>',
             'Subject' => '[#3] Note: Re: example issue title',
-        );
+        ];
         $body = 'lala';
         MailMessage::createFromHeaderBody($headers, $body);
 
@@ -626,11 +626,11 @@ class MailMessageTest extends TestCase
         // do not overwrite message-id
         unset($headers['Message-ID']);
         $mail->setHeaders($headers);
-        $options = array(
+        $options = [
             'save_email_copy' => true,
             'issue_id' => $issue_id,
             'type' => $type,
-        );
+        ];
         Mail_Queue::addMail($mail, $to, $options);
 
         $mail = new \Zend\Mail\Message();
@@ -652,7 +652,7 @@ class MailMessageTest extends TestCase
     public function testReSetMessageId()
     {
         $mail = MailMessage::createNew();
-        $headers = array();
+        $headers = [];
         $headers['Message-ID'] = Mail_Helper::generateMessageID();
         $mail->setHeaders($headers);
     }
@@ -704,11 +704,11 @@ class MailMessageTest extends TestCase
         $mail->setTo($to);
         $mail->setSubject($subject);
 
-        $options = array(
+        $options = [
             'save_email_copy' => true,
             'issue_id' => $issue_id,
             'type' => $type,
-        );
+        ];
         Mail_Queue::addMail($mail, $to, $options);
     }
 
@@ -735,7 +735,7 @@ class MailMessageTest extends TestCase
         $value = '[#77675] New Issue:xxxxxxxxx xxxxxxx xxxxxxxx xxxxxxxxxxxxx xxxxxxxxxx xxxxxxxx, tähtaeg xx.xx, xxxx';
         try {
             // it fails with line length exactly 76, but suceeds with anything else, like 75 or 77
-            $v = iconv_mime_encode('x-test', $value, array('scheme' => 'Q', 'line-length' => '76', 'line-break-chars' => ' '));
+            $v = iconv_mime_encode('x-test', $value, ['scheme' => 'Q', 'line-length' => '76', 'line-break-chars' => ' ']);
         } catch (PHPUnit_Framework_Error_Notice $e) {
             error_log($e->getMessage());
         }

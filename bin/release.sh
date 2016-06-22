@@ -92,8 +92,8 @@ update_version() {
 	version=$(awk -F"'" '/APP_VERSION/{print $4}' init.php)
 
 	version=$(git describe --tags)
-	# not good tags, try trimming
-	version=$(echo "$version" | sed -e 's,release-,,; s/-final$//; s/^v//; s/-pre[0-9]*//; ')
+	# trim 'v' prefix
+	version=${version#v}
 
 	sed -i -e "
 		/define('APP_VERSION'/ {
@@ -159,6 +159,14 @@ clean_scripts() {
 	find -name '*.php' | xargs -r sed -i -e 's,\r$,,'
 }
 
+# strip require_once calls from pear code
+pear_require_strip() {
+	grep -rF require_once vendor/pear* -l | xargs sed -i -re '
+		# remove require_once calls
+		s#require_once[^;]+?;#//&#
+	'
+}
+
 # cleanup excess files from vendor
 # but not that much that composer won't work
 clean_vendor() {
@@ -190,7 +198,6 @@ clean_vendor() {
 	rm -f vendor/php-gettext/php-gettext/[A-Z]*
 	rm vendor/smarty-gettext/smarty-gettext/tsmarty2c.1
 	rm vendor/ircmaxell/security-lib/lib/SecurityLib/composer.json
-	rm vendor/ircmaxell/password-compat/version-test.php
 
 	rm vendor/defuse/php-encryption/{benchmark,example}.php
 	rm vendor/defuse/php-encryption/*.sh
@@ -254,6 +261,7 @@ clean_vendor() {
 
 	# auto-fix pear packages
 	$quick || make pear-fix php-cs-fixer=$phpcsfixer
+	$quick || pear_require_strip
 	# run twice, to fix all occurrences
 	$quick || make pear-fix php-cs-fixer=$phpcsfixer
 
@@ -273,7 +281,6 @@ clean_vendor() {
 
 	# not ready yet
 	rm src/Db/Adapter/YiiAdapter.php
-	rm src/Db/Adapter/*Pdo*.php
 	rm src/Mail/ImapMessage.php
 	rm src/Mail/MailStorage.php
 }
@@ -282,8 +289,6 @@ build_phars() {
 	$quick && return
 	# eventum standalone cli
 	make -C cli eventum.phar composer=$composer box=$box
-	# eventum scm
-	make -C scm phar box=$box
 }
 
 cleanup_postdist() {
@@ -356,6 +361,7 @@ prepare_source() {
 	install -d var/{log,cache,lock}
 	touch var/log/{eventum.log,auth.log,cli.log,errors.log,login_attempts.log}
 	touch var/log/{irc_bot_error.log,irc_bot_smartirc.log}
+	touch config/{config.php,private_key.php,secret_key.php,setup.php}
 	chmod -R a+rX .
 	chmod -R a+rwX config var
 

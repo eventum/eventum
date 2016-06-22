@@ -35,7 +35,7 @@ class Mail_Queue
      * - integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @return bool true if entry was added to mail queue table
      */
-    public static function addMail($mail, $recipient, array $options = array())
+    public static function addMail($mail, $recipient, array $options = [])
     {
         /** @var MailMessage $mail */
         if (!$mail instanceof MailMessage) {
@@ -66,7 +66,7 @@ class Mail_Queue
         $recipient = Mail_Helper::fixAddressQuoting($recipient);
 
         $reminder_addresses = Reminder::_getReminderAlertAddresses();
-        $headers = array();
+        $headers = [];
 
         $role_id = User::getRoleByUser($usr_id, Issue::getProjectID($issue_id));
         $is_reminder_address = in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses);
@@ -86,7 +86,7 @@ class Mail_Queue
 
         $mail->setHeaders($headers);
 
-        $params = array(
+        $params = [
             'maq_save_copy' => $save_email_copy,
             'maq_queued_date' => Date_Helper::getCurrentDateGMT(),
             'maq_sender_ip_address' => !empty($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '',
@@ -96,7 +96,7 @@ class Mail_Queue
             'maq_iss_id' => $issue_id ?: null,
             'maq_subject' => $mail->subject,
             'maq_type' => $type,
-        );
+        ];
 
         if ($sender_usr_id) {
             $params['maq_usr_id'] = $sender_usr_id;
@@ -130,7 +130,7 @@ class Mail_Queue
             // TODO: handle self::MAX_RETRIES, but that should be done per queue item
             foreach (self::_getMergedList($status, $limit) as $maq_ids) {
                 $emails = self::_getEntries($maq_ids);
-                $recipients = array();
+                $recipients = [];
 
                 foreach ($emails as $email) {
                     $recipients[] = $email['recipient'];
@@ -147,7 +147,7 @@ class Mail_Queue
 
                 $res = Mail_Helper::prepareHeaders($headers);
                 if (Misc::isError($res)) {
-                    Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
+                    Logger::app()->error($res->getMessage(), ['debug' => $res->getDebugInfo()]);
 
                     return;
                 }
@@ -223,7 +223,7 @@ class Mail_Queue
     {
         $header_names = Mime_Helper::getHeaderNames($text_headers);
         $_headers = self::_getHeaders($text_headers, $body);
-        $headers = array();
+        $headers = [];
         foreach ($_headers as $lowercase_name => $value) {
             // need to remove the quotes to avoid a parsing problem
             // on senders that have extended characters in the first
@@ -255,7 +255,7 @@ class Mail_Queue
         $res = $mail->send($recipient, $headers, $body);
         if (Misc::isError($res)) {
             /** @var PEAR_Error $res */
-            Logger::app()->error($res->getMessage(), array('debug' => $res->getDebugInfo()));
+            Logger::app()->error($res->getMessage(), ['debug' => $res->getDebugInfo()]);
 
             return $res;
         }
@@ -300,9 +300,9 @@ class Mail_Queue
                  LIMIT
                     $limit OFFSET 0";
         try {
-            $res = DB_Helper::getInstance()->getColumn($sql, array($status));
+            $res = DB_Helper::getInstance()->getColumn($sql, [$status]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -336,9 +336,9 @@ class Mail_Queue
         }
 
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array($status));
+            $res = DB_Helper::getInstance()->getAll($sql, [$status]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         foreach ($res as &$value) {
@@ -370,9 +370,9 @@ class Mail_Queue
                  WHERE
                     maq_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($maq_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$maq_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -402,7 +402,7 @@ class Mail_Queue
         try {
             $res = DB_Helper::getInstance()->getAll($stmt);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -417,7 +417,7 @@ class Mail_Queue
     private function getQueueErrorCount($maq_id)
     {
         $sql = 'select count(*) from {{%mail_queue_log}} where mql_maq_id=? and mql_status=?';
-        $res = DB_Helper::getInstance()->getOne($sql, array($maq_id, 'error'));
+        $res = DB_Helper::getInstance()->getOne($sql, [$maq_id, 'error']);
 
         return (int) $res;
     }
@@ -443,12 +443,12 @@ class Mail_Queue
                  ) VALUES (
                     ?, ?, ?, ?
                  )';
-        $params = array(
+        $params = [
             $maq_id,
             Date_Helper::getCurrentDateGMT(),
             $status,
             $server_message,
-        );
+        ];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -462,7 +462,7 @@ class Mail_Queue
                  WHERE
                     maq_id=?';
 
-        DB_Helper::getInstance()->query($stmt, array($status, $maq_id));
+        DB_Helper::getInstance()->query($stmt, [$status, $maq_id]);
 
         return true;
     }
@@ -488,7 +488,7 @@ class Mail_Queue
                  ORDER BY
                     maq_queued_date ASC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -518,7 +518,7 @@ class Mail_Queue
                  WHERE
                     maq_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($maq_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$maq_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -529,7 +529,7 @@ class Mail_Queue
     public static function getMessageRecipients($types, $type_id)
     {
         if (!is_array($types)) {
-            $types = array($types);
+            $types = [$types];
         }
 
         $types_list = DB_Helper::buildList($types);

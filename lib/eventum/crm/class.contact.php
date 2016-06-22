@@ -77,7 +77,7 @@ abstract class Contact
      *
      * @var array
      */
-    protected $associated_contracts = array();
+    protected $associated_contracts = [];
 
     /**
      * Constructs the object representing this contact and loads contact data.

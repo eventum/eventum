@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -103,10 +102,10 @@ class ViewEmailController extends BaseController
         } else {
             $sides = Support::getIssueSides($this->issue_id, $this->sup_id);
             $this->tpl->assign(
-                array(
+                [
                     'previous' => $sides['previous'],
                     'next' => $sides['next'],
-                )
+                ]
             );
         }
     }
@@ -115,10 +114,10 @@ class ViewEmailController extends BaseController
     {
         $sides = Support::getListingSides($this->sup_id);
         $this->tpl->assign(
-            array(
+            [
                 'previous' => $sides['previous'],
                 'next' => $sides['next'],
-            )
+            ]
         );
     }
 
@@ -126,9 +125,9 @@ class ViewEmailController extends BaseController
     {
         $res = Support::moveEmail($this->sup_id, $this->ema_id, $this->new_ema_id);
         $this->tpl->assign(
-            array(
+            [
                 'move_email_result' => $res,
-            )
+            ]
         );
     }
 
@@ -140,7 +139,7 @@ class ViewEmailController extends BaseController
         $email = Support::getEmailDetails($_GET['ema_id'], $this->sup_id);
         $email['seb_body'] = str_replace('&amp;nbsp;', '&nbsp;', $email['seb_body']);
 
-        $recipients = Mail_Queue::getMessageRecipients(array('customer_email', 'other_email'), $this->sup_id);
+        $recipients = Mail_Queue::getMessageRecipients(['customer_email', 'other_email'], $this->sup_id);
         $projects = Project::getAssocList($this->usr_id);
         $email_accounts = Email_Account::getAssocList(array_keys($projects), true);
         $seq_id = Support::getSequenceByID($this->sup_id);
@@ -149,13 +148,13 @@ class ViewEmailController extends BaseController
         $extra_title = ev_gettext('Issue #%1$s Email #%3$s: %2$s', $this->issue_id, $email['sup_subject'], $seq_id);
 
         $this->tpl->assign(
-            array(
+            [
                 'email' => $email,
                 'issue_id' => $this->issue_id,
                 'extra_title' => $extra_title,
                 'email_accounts' => $email_accounts,
                 'recipients' => $recipients,
-            )
+            ]
         );
     }
 }

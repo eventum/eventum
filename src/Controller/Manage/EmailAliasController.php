@@ -10,10 +10,9 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use User;
 
 class EmailAliasController extends ManageBaseController
@@ -58,25 +57,25 @@ class EmailAliasController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $res = User::addAlias($this->usr_id, trim($post->get('alias')));
-        $map = array(
-            true => array(ev_gettext('Thank you, the alias was added successfully.'), Misc::MSG_INFO),
-            false => array(ev_gettext('An error occurred while trying to add the alias.'), Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            true => [ev_gettext('Thank you, the alias was added successfully.'), MessagesHelper::MSG_INFO],
+            false => [ev_gettext('An error occurred while trying to add the alias.'), MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     private function removeAction()
     {
         $post = $this->getRequest()->request;
 
-        $map = array(
-            true => array(ev_gettext('Thank you, the alias was removed successfully.'), Misc::MSG_INFO),
-            false => array(ev_gettext('An error occurred while trying to remove the alias.'), Misc::MSG_ERROR),
-        );
+        $map = [
+            true => [ev_gettext('Thank you, the alias was removed successfully.'), MessagesHelper::MSG_INFO],
+            false => [ev_gettext('An error occurred while trying to remove the alias.'), MessagesHelper::MSG_ERROR],
+        ];
 
         foreach ($post->get('item') as $alias) {
             $res = User::removeAlias($this->usr_id, $alias);
-            Misc::mapMessages($res, $map);
+            $this->messages->mapMessages($res, $map);
         }
     }
 
@@ -86,11 +85,11 @@ class EmailAliasController extends ManageBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'list' => User::getAliases($this->usr_id),
                 'username' => User::getFullName($this->usr_id),
                 'id' => $this->usr_id,
-            )
+            ]
         );
     }
 }

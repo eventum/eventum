@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -174,7 +173,7 @@ class RssController extends BaseController
     {
         $filter = Filter::getDetails($this->cst_id, false);
 
-        $options = array(
+        $options = [
             'users' => $filter['cst_users'],
             'keywords' => $filter['cst_keywords'],
             'priority' => $filter['cst_iss_pri_id'],
@@ -185,20 +184,20 @@ class RssController extends BaseController
             'sort_order' => $filter['cst_sort_order'],
             'custom_field' => $filter['cst_custom_field'],
             'search_type' => $filter['cst_search_type'],
-        );
+        ];
 
         $issues = Search::getListing($filter['cst_prj_id'], $options, 0, 'ALL');
         $issues = $issues['list'];
         Issue::getDescriptionByIssues($issues);
 
         $this->tpl->assign(
-            array(
+            [
                 'charset' => APP_CHARSET,
                 'project_title' => Project::getName($filter['cst_prj_id']),
                 'setup' => Setup::get(),
                 'filter' => $filter,
                 'issues' => $issues,
-            )
+            ]
         );
 
         header('Content-Type: text/xml; charset=' . APP_CHARSET);

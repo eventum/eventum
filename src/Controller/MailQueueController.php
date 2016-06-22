@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -74,10 +73,10 @@ class MailQueueController extends BaseController
         $data = Mail_Queue::getListByIssueID($this->issue_id);
 
         $this->tpl->assign(
-            array(
+            [
                 'data' => $data,
                 'issue_id' => $this->issue_id,
-            )
+            ]
         );
     }
 }

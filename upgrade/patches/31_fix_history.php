@@ -28,7 +28,7 @@ foreach ($res as $idx => $row) {
     unset($context['from']);
 
     $context = json_encode($context);
-    $params = array($context, $row['his_id']);
+    $params = [$context, $row['his_id']];
     $db->query('UPDATE {{%issue_history}} SET his_context=? WHERE his_id=?', $params);
 }
 $count = count($res);

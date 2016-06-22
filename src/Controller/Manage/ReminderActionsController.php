@@ -10,10 +10,9 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Reminder;
 use Reminder_Action;
 use User;
@@ -63,23 +62,23 @@ class ReminderActionsController extends ManageBaseController
     private function newAction()
     {
         $res = Reminder_Action::insert();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the action was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the new action.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this new action.'), Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            1 => [ev_gettext('Thank you, the action was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new action.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this new action.'), MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = Reminder_Action::update();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the action was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to update the action.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this action.'), Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            1 => [ev_gettext('Thank you, the action was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the action.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this action.'), MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()
@@ -110,13 +109,13 @@ class ReminderActionsController extends ManageBaseController
     {
         $user_options = User::getActiveAssocList(Reminder::getProjectID($this->rem_id), User::ROLE_CUSTOMER);
         $this->tpl->assign(
-            array(
+            [
                 'rem_id' => $this->rem_id,
                 'rem_title' => Reminder::getTitle($this->rem_id),
                 'action_types' => Reminder_Action::getActionTypeList(),
                 'list' => Reminder_Action::getAdminList($this->rem_id),
                 'user_options' => $user_options,
-            )
+            ]
         );
     }
 }

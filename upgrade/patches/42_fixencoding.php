@@ -28,17 +28,17 @@ $res = $db->getAll(
 
 $changed = 0;
 foreach ($res as $idx => $row) {
-    $params = array();
+    $params = [];
     foreach ($row as $k => $v) {
         $params[$k] = Mime_Helper::decodeQuotedPrintable($v);
     }
 
     if ($row == $params) {
-        $logger->warning("sup_id={$row['sup_id']} no changes", array('sup_id' => $row['sup_id'], 'old' => $row));
+        $logger->warning("sup_id={$row['sup_id']} no changes", ['sup_id' => $row['sup_id'], 'old' => $row]);
         continue;
     }
     $logger->info(
-        "updated sup_id={$row['sup_id']}", array('sup_id' => $row['sup_id'], 'old' => $row, 'new' => $params)
+        "updated sup_id={$row['sup_id']}", ['sup_id' => $row['sup_id'], 'old' => $row, 'new' => $params]
     );
 
     $params[] = $row['sup_id'];

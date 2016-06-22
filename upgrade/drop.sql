@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS {{%api_token}};
 DROP TABLE IF EXISTS {{%columns_to_display}};
+DROP TABLE IF EXISTS {{%commit_file}};
+DROP TABLE IF EXISTS {{%commit}};
 DROP TABLE IF EXISTS {{%custom_field_option}};
 DROP TABLE IF EXISTS {{%custom_field}};
 DROP TABLE IF EXISTS {{%custom_filter}};
@@ -20,6 +22,7 @@ DROP TABLE IF EXISTS {{%issue_association}};
 DROP TABLE IF EXISTS {{%issue_attachment_file}};
 DROP TABLE IF EXISTS {{%issue_attachment}};
 DROP TABLE IF EXISTS {{%issue_checkin}};
+DROP TABLE IF EXISTS {{%issue_commit}};
 DROP TABLE IF EXISTS {{%issue_custom_field}};
 DROP TABLE IF EXISTS {{%issue_history}};
 DROP TABLE IF EXISTS {{%issue_partner}};

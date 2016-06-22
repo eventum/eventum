@@ -76,63 +76,63 @@ class MailHelperTest extends TestCase
 
     public function testRemoveExcessReIssueIdData()
     {
-        return array(
-            array(
+        return [
+            [
                 'no reply prefix',
                 '[#123] subject',
                 'subject',
                 true,
-            ),
-            array(
+            ],
+            [
                 'no reply prefix',
                 'subject',
                 'subject',
                 false,
-            ),
-            array(
+            ],
+            [
                 're: once',
                 're: [#123] subject',
                 're: subject',
                 true,
-            ),
-            array(
+            ],
+            [
                 're: once',
                 're: subject',
                 're: subject',
                 false,
-            ),
-            array(
+            ],
+            [
                 're: twice',
                 're: re: [#123] subject',
                 'Re: subject',
                 true,
-            ),
-            array(
+            ],
+            [
                 're: twice',
                 're: re: subject',
                 'Re: subject',
                 false,
-            ),
-            array(
+            ],
+            [
                 're[2]: with squares',
                 're[2]: [#123] re: subject',
                 'Re: subject',
                 true,
-            ),
-            array(
+            ],
+            [
                 're[2]: with squares',
                 're[2]: re: subject',
                 'Re: subject',
                 false,
-            ),
+            ],
             // Italian
-            array(
+            [
                 'RIF/rif prefix',
                 'RIF: rif: Rif.: subject',
                 'Re: subject',
                 true,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -147,33 +147,33 @@ class MailHelperTest extends TestCase
 
     public function testGetAddressInfoData()
     {
-        return array(
-            0 => array(
+        return [
+            0 => [
                 'Test User <test@example.com>',
                 '"Test User"',
                 'test@example.com',
-            ),
-            1 => array(
+            ],
+            1 => [
                 '"Test User" <test@example.com>',
                 '"Test User"',
                 'test@example.com',
-            ),
-            2 => array(
+            ],
+            2 => [
                 '<test@example.com>',
                 '',
                 'test@example.com',
-            ),
-            3 => array(
+            ],
+            3 => [
                 'test@example.com',
                 '',
                 'test@example.com',
-            ),
-            4 => array(
+            ],
+            4 => [
                 '"Test User <test@example.com>" <test@example.com>',
                 '"Test User <test@example.com>"',
                 'test@example.com',
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -187,20 +187,20 @@ class MailHelperTest extends TestCase
 
     public function testGetAddressInfoMultipleData()
     {
-        return array(
+        return [
             // test for "addressgroup" with empty list
             // see https://github.com/eventum/eventum/issues/91
-            1 => array(
+            1 => [
                 'destinatarios-no-revelados: ',
-                array(),
-            ),
+                [],
+            ],
             // example taken from RFC822.php class source
             // this doesn't parse correctly, because fixAddressQuoting() breaks it
             // but at least document what it does
-            2 => array(
+            2 => [
                 'My Group: "Richard" <richard@localhost> (A comment), ted@example.com (Ted Bloggs), Barney;',
-                array(
-                    array(
+                [
+                    [
                         // this is how it currently is parsed
                         'sender_name' => '"My Group: \"Richard"',
                         // this is how it should be parsed if fixAddressQuoting didn't break it
@@ -208,22 +208,22 @@ class MailHelperTest extends TestCase
                         'email' => 'richard@localhost',
                         'username' => 'richard',
                         'host' => 'localhost',
-                    ),
-                    array(
+                    ],
+                    [
                         'sender_name' => '',
                         'email' => 'ted@example.com',
                         'username' => 'ted',
                         'host' => 'example.com',
-                    ),
-                    array(
+                    ],
+                    [
                         'sender_name' => '',
                         'email' => 'Barney@localhost',
                         'username' => 'Barney',
                         'host' => 'localhost',
-                    ),
-                ),
-            ),
-        );
+                    ],
+                ],
+            ],
+        ];
     }
 
     /**
@@ -239,20 +239,20 @@ class MailHelperTest extends TestCase
 
     public function testFormatEmailAddressesData()
     {
-        return array(
-            array(
+        return [
+            [
                 'test@example.com,blah@example.com',
                 'test@example.com, blah@example.com',
-            ),
-            array(
+            ],
+            [
                 'Test Name <test@example.com>,blah@example.com',
                 '"Test Name" <test@example.com>, blah@example.com',
-            ),
-            array(
+            ],
+            [
                 '"Bob O\'Reilly" <bob@example.com>,blah@example.com',
                 '"Bob O\'Reilly" <bob@example.com>, blah@example.com',
-            ),
-            array('', ''),
-        );
+            ],
+            ['', ''],
+        ];
     }
 }

@@ -1,5 +1,4 @@
 {extends "base.tpl.html"}
-{block "page_id"}setup{/block}
 {block "title"}Eventum Installation{/block}
 
 {block javascripts}
@@ -239,14 +238,6 @@ function disableAuthFields(bool)
             {include file="error_icon.tpl.html" field="db_name"}
             <br/>
             <label><input type="checkbox" name="create_db" value="yes" tabindex="{$tabindex}" {if $smarty.post.create_db|default:'' == 'yes'}checked{/if}> Create Database</label>
-          </td>
-        </tr>
-        <tr>
-          <td width="180" align="right">
-            <b>{t}MySQL Table Prefix{/t}:</b>
-          </td>
-          <td>
-            <input type="text" name="db_table_prefix" value="{$smarty.post.db_table_prefix|default:'eventum_'}" size="30" tabindex="{$tabindex}">
           </td>
         </tr>
         <tr>

@@ -33,7 +33,7 @@ class Search_Profile
                     sep_prj_id=? AND
                     sep_type=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($usr_id, $prj_id, $type));
+            DB_Helper::getInstance()->query($stmt, [$usr_id, $prj_id, $type]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -67,13 +67,13 @@ class Search_Profile
                     sep_prj_id=? AND
                     sep_type=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id, $prj_id, $type));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$usr_id, $prj_id, $type]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         if (empty($res)) {
-            return array();
+            return [];
         }
 
         $returns[$usr_id][$prj_id][$type] = unserialize($res);
@@ -101,7 +101,7 @@ class Search_Profile
                     sep_prj_id=? AND
                     sep_type=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($usr_id, $prj_id, $type));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$usr_id, $prj_id, $type]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -155,7 +155,7 @@ class Search_Profile
                     ?, ?, ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, array($usr_id, $prj_id, $type, serialize($profile)));
+            DB_Helper::getInstance()->query($stmt, [$usr_id, $prj_id, $type, serialize($profile)]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -185,7 +185,7 @@ class Search_Profile
                     sep_type=?';
 
         try {
-            DB_Helper::getInstance()->query($stmt, array(serialize($profile), $usr_id, $prj_id, $type));
+            DB_Helper::getInstance()->query($stmt, [serialize($profile), $usr_id, $prj_id, $type]);
         } catch (DatabaseException $e) {
             return false;
         }

@@ -51,9 +51,9 @@ class LocaleTest extends TestCase
     {
         $langs = Language::getAvailableLanguages(false);
 
-        $res = array();
+        $res = [];
         foreach ($langs as $code => $language) {
-            $res[] = array($code, $language);
+            $res[] = [$code, $language];
         }
 
         return $res;

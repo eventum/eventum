@@ -35,24 +35,24 @@ class MimeHelperTest extends TestCase
 
     public function dataDecodeQuotedPrintable()
     {
-        return array(
+        return [
             // iconv test from php manual
-            array('=?UTF-8?B?UHLDvGZ1bmcgUHLDvGZ1bmc=?=', 'Prüfung Prüfung'),
+            ['=?UTF-8?B?UHLDvGZ1bmcgUHLDvGZ1bmc=?=', 'Prüfung Prüfung'],
 
             // test that result is returned to APP_CHARSET
-            array('=?ISO-8859-1?B?SuTkZ2VybWVpc3Rlcg==?=', 'Jäägermeister'),
+            ['=?ISO-8859-1?B?SuTkZ2VybWVpc3Rlcg==?=', 'Jäägermeister'],
 
             // different charsets inside one string
-            array('=?ISO-8859-1?q?M=FCller=2C?= ACME =?US-ASCII?q?Corp=2E?=', 'Müller, ACME Corp.'),
+            ['=?ISO-8859-1?q?M=FCller=2C?= ACME =?US-ASCII?q?Corp=2E?=', 'Müller, ACME Corp.'],
 
             // bug
-            array('Subject: =?iso-8859-15?Q?n=FC=FCd_ei_t=F6=F6ta_adminni_publish_nupp_?=', 'Subject: nüüd ei tööta adminni publish nupp '),
-            array('Subject: nüüd ei tööta adminni publish nupp ', 'Subject: nüüd ei tööta adminni publish nupp '),
+            ['Subject: =?iso-8859-15?Q?n=FC=FCd_ei_t=F6=F6ta_adminni_publish_nupp_?=', 'Subject: nüüd ei tööta adminni publish nupp '],
+            ['Subject: nüüd ei tööta adminni publish nupp ', 'Subject: nüüd ei tööta adminni publish nupp '],
 
             // thunderbird test
-            array('Subject: =?utf-8?Q?Kas_Teie_tahate_teada,_millele_kulutate_raha_k=C3=B5ige_rohkem=3F?=', 'Subject: Kas Teie tahate teada, millele kulutate raha kõige rohkem?'),
-            array('Subject: =?utf-8?Q?Kas_Teie_tahate_teada,_millele_kulutate_raha_k=C3=B5ige_rohkem??=', 'Subject: =?utf-8?Q?Kas_Teie_tahate_teada,_millele_kulutate_raha_k=C3=B5ige_rohkem??='),
-        );
+            ['Subject: =?utf-8?Q?Kas_Teie_tahate_teada,_millele_kulutate_raha_k=C3=B5ige_rohkem=3F?=', 'Subject: Kas Teie tahate teada, millele kulutate raha kõige rohkem?'],
+            ['Subject: =?utf-8?Q?Kas_Teie_tahate_teada,_millele_kulutate_raha_k=C3=B5ige_rohkem??=', 'Subject: =?utf-8?Q?Kas_Teie_tahate_teada,_millele_kulutate_raha_k=C3=B5ige_rohkem??='],
+        ];
     }
 
     /**
@@ -64,10 +64,10 @@ class MimeHelperTest extends TestCase
      */
     public function testQuoteSender()
     {
-        $test_data = array(
+        $test_data = [
             '<email@example.org>'   =>  'email@example.org',
             'John Doe <email@example.org>'   =>  '"John Doe" <email@example.org>',
-        );
+        ];
         foreach ($test_data as $string => $exp) {
             $res = Mime_Helper::quoteSender($string);
             $this->assertEquals($exp, $res);
@@ -83,10 +83,10 @@ class MimeHelperTest extends TestCase
      */
     public function testRemoveQuotes()
     {
-        $test_data = array(
+        $test_data = [
             '<email@example.org>'   =>  'email@example.org',
             '"John Doe" <email@example.org>'   =>  'John Doe <email@example.org>',
-        );
+        ];
         foreach ($test_data as $string => $exp) {
             $res = Mime_Helper::removeQuotes($string);
             $this->assertEquals($exp, $res);
