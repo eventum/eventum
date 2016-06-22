@@ -279,6 +279,8 @@ issue_view.ready = function(page_id)
     $('.reply_issue').click(issue_view.replyIssue);
     $('.reply_issue_note').click(issue_view.replyIssueNote);
     $('.edit_incident_redemption').click(issue_view.editIncidentRedemption);
+    $('a.edit_time_entry').click(issue_view.editTimeEntry);
+    $('.add_time_entry').click(issue_view.addTimeEntry);
 
     $('.mark_duplicate').click(function() { window.location.href='duplicate.php?id=' + issue_view.get_issue_id(); });
     $('.close_issue').click(function() { window.location.href='close.php?id=' + issue_view.get_issue_id(); });
@@ -489,6 +491,37 @@ issue_view.openReporter = function(issue_id)
     var popupWin = window.open('edit_reporter.php?iss_id=' + issue_id, '_reporter', features);
     popupWin.focus();
 };
+
+issue_view.deleteTimeEntry = function(time_id)
+{
+    if (!confirm('{t escape=js}This action will permanently delete the specified time tracking entry.{/t}')) {
+        return false;
+    } else {
+        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('popup.php?cat=delete_time&id=' + time_id, '_popup', features);
+        popupWin.focus();
+    }
+}
+
+issue_view.addTimeEntry = function()
+{
+    var features = 'width=550,height=250,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('time_tracking.php?iss_id=' + issue_view.get_issue_id(), 'time_tracking_' + issue_view.get_issue_id(), features);
+
+    popupWin.focus();
+}
+
+issue_view.editTimeEntry = function(e)
+{
+    var target = $(e.target);
+    var features = 'width=550,height=250,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+
+    var ttr_id = target.data('ttr-id');
+    var popupWin = window.open('time_tracking.php?ttr_id=' + ttr_id, 'time_tracking_edit_' + ttr_id, features);
+
+    popupWin.focus();
+    return false;
+}
 
 /*
  * Update Issue Page
