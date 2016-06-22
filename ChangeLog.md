@@ -4,6 +4,9 @@ Eventum Issue Tracking System
 2016-??-??, Version [3.1.3]
 ----------------------------
 
+- Allow time tracking entries to be edited (@balsdorf, #174)
+- Update weekly report to look at time tracking when calculating touched issues. (@balsdorf, #175)
+
 2016-06-06, Version [3.1.2]
 ----------------------------
 
