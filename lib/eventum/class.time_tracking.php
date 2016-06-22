@@ -609,6 +609,50 @@ class Time_Tracking
     }
 
     /**
+     * Returns a list of issues touched by the specified user in the specified time frame in specified project.
+     *
+     * @param integer $usr_id The id of the user
+     * @param int $prj_id The project id
+     * @param string $start The start date
+     * @param string $end The end date
+     * @return array An array of issues touched by the user.
+     */
+    public static function getTouchedIssuesByUser($usr_id, $prj_id, $start, $end)
+    {
+        $stmt = 'SELECT
+                    iss_id,
+                    iss_prj_id,
+                    iss_summary,
+                    iss_customer_id,
+                    iss_customer_contract_id,
+                    sta_title,
+                    pri_title,
+                    sta_is_closed
+                 FROM
+                    {{%time_tracking}},
+                    {{%issue}}
+                    LEFT JOIN
+                        {{%status}}
+                    ON
+                        iss_sta_id = sta_id
+                 LEFT JOIN
+                    {{%project_priority}}
+                 ON
+                    iss_pri_id = pri_id
+                 WHERE
+                    ttr_iss_id = iss_id AND
+                    ttr_usr_id = ? AND
+                    ttr_created_date BETWEEN ? AND ? AND
+                    iss_prj_id = ?
+                 GROUP BY
+                    iss_id
+                 ORDER BY
+                    iss_id ASC';
+        $params = [$usr_id, $start, $end, $prj_id];
+        return DB_Helper::getInstance()->getAll($stmt, $params);
+    }
+
+    /**
      * Method used to get the time spent for a specific issue
      * at a specific time.
      *

@@ -359,6 +359,7 @@ class Report
             $htt_exclude[] = 'remote_status_change';
         }
         $issue_list = History::getTouchedIssuesByUser($usr_id, $prj_id, $start_ts, $end_ts, $htt_exclude);
+        $issue_list += Time_Tracking::getTouchedIssuesByUser($usr_id, $prj_id, $start_ts, $end_ts);
 
         $issues = [
             'no_time'   => [],
