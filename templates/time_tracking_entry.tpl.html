@@ -1,10 +1,11 @@
 {extends "base.tpl.html"}
+{block "title"}
 {if $details|default:"" == ""}
-    {assign var='action' value="Add"}
+    {t 1=$issue_id}#%1 - Add Time Tracking{/t}
 {else}
-    {assign var='action' value="Edit"}
+    {t 1=$issue_id}#%1 - Edit Time Tracking{/t}
 {/if}
-{block "title"}{t 1=$issue_id 2=$action}#%1 - %2 Time Tracking{/t}{/block}
+{/block}
 
 {block "content"}
 
@@ -108,7 +109,13 @@ $().ready(function() {
         <table class="bordered">
             {if $core.current_role > $core.roles.viewer}
             <tr class="title">
-                <th colspan="2">{t 1=$action}%1 Time Worked{/t}</th>
+                <th colspan="2">
+                    {if $details|default:"" == ""}
+                        {t}Add Time Worked{/t}
+                    {else}
+                        {t}Edit Time Worked{/t}
+                    {/if}
+                </th>
             </tr>
             <tr>
                 <th width="190" nowrap>{t}Summary{/t}</th>
@@ -151,7 +158,7 @@ $().ready(function() {
             </tr>
             <tr class="buttons">
                 <td colspan="2">
-                    <input type="submit" value="{t 1=$action}%1 Time Entry{/t}">
+                    <input type="submit" value="{if $details|default:"" == ""}{t}Add Time Entry{/t}{else}{t}Edit Time Entry{/t}{/if}">
                     <input name="cancel" type="reset" value="{t}Cancel{/t}" onClick="window.close();">
                 </td>
             </tr>
