@@ -1,6 +1,10 @@
 language: php
 sudo: false
 
+# disable the default submodule logic
+git:
+  submodules: false
+
 addons:
   apt:
     packages:
