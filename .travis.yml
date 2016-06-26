@@ -1,4 +1,44 @@
 language: php
+sudo: false
+
+addons:
+  apt:
+    packages:
+    # install all locales used by eventum
+    - language-pack-br
+    - language-pack-ca
+    - language-pack-cs
+    - language-pack-da
+    - language-pack-de
+    - language-pack-eo
+    - language-pack-es
+    - language-pack-et
+    - language-pack-fi
+    - language-pack-fo
+    - language-pack-fr
+    - language-pack-he
+    - language-pack-ht
+    - language-pack-hu
+    - language-pack-id
+    - language-pack-it
+    - language-pack-ja
+    - language-pack-ko
+    - language-pack-lt
+    - language-pack-lv
+    - language-pack-nl
+    - language-pack-oc
+    - language-pack-pl
+    - language-pack-pt
+    - language-pack-ru
+    - language-pack-si
+    - language-pack-sv
+    - language-pack-ta
+    - language-pack-th
+    - language-pack-tr
+    - language-pack-uk
+    - language-pack-ur
+    - language-pack-vi
+    - language-pack-zh-hans
 
 php:
   - 7.0
@@ -17,14 +57,12 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
-# install all locales used by eventum
-  - sudo apt-get update && travis_retry sudo apt-get --reinstall install -qq language-pack-{br,ca,cs,da,de,eo,es,et,fi,fo,fr,he,ht,hu,id,it,ja,ko,lt,lv,nl,oc,pl,pt,ru,si,sv,ta,th,tr,uk,ur,vi,zh-hans}
-# display some info from system
+  # display some info from system
   - dpkg --list | grep language-pack
   - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - locale -a
   - make php-cs-fixer.phar
-# pull translations from launchpad
+  # pull translations from launchpad
   - bzr branch lp:~glen666/eventum/po po
   - cp -af po/localization/*.po localization
 
