@@ -66,6 +66,7 @@ before_install:
   # display some info from system
   - dpkg --list | grep language-pack
   - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - phpenv config-rm xdebug.ini
   - locale -a
   - make php-cs-fixer.phar
   # pull translations from launchpad
