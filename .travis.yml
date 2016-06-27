@@ -61,6 +61,7 @@ cache:
   apt: true
   directories:
     - $HOME/.composer/cache
+    - vendor
 
 before_install:
   # display some info from system
@@ -75,7 +76,7 @@ before_install:
   - cp -af po/localization/*.po localization
 
 install:
-  - composer install --no-interaction --prefer-source
+  - composer install --no-interaction --prefer-dist
   - make pear-fix
 
 notifications:
