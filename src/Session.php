@@ -14,6 +14,7 @@ namespace Eventum;
 
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpFoundation\Session\Session as SymfonySession;
+use Symfony\Component\HttpFoundation\Session\Storage\PhpBridgeSessionStorage;
 
 /**
  * Wrapper class for sessions. This is an initial bare bones implementation.
@@ -72,7 +73,8 @@ class Session
         static $session;
 
         if (!$session) {
-            $session = new SymfonySession();
+            // use PhpBridge so any libraries using native session handling such as CAS Authentication will still work
+            $session = new SymfonySession(new PhpBridgeSessionStorage());
             $session->start();
         }
 

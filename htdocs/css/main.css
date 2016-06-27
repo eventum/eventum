@@ -127,28 +127,12 @@ div#header #search_menu, div#header #go_issue_menu {
     text-align: right;
 }
 
-div#header #shortcut.inactive {
-    color: lightgray;
-}
-
-div#header #search.inactive {
-    color: lightgray;
-}
-
 div#header #go_issue_menu {
     margin-left: 1em;
 }
 
 div#header #search_menu input, div#header #go_issue_menu input {
     font-size: .9em;
-}
-
-div#header #shortcut.inactive {
-    color: lightgray;
-}
-
-div#header #search.inactive {
-    color: lightgray;
 }
 
 ul#main_menu {

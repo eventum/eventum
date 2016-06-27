@@ -57,20 +57,6 @@ $(document).ready(function() {
         firstDay: user_prefs.week_firstday
     });
 
-    $('#search, #shortcut').focus(function(e) {
-        var target = $(this);
-        this.select();
-        target.removeClass('inactive');
-
-        // Work around Chrome's little problem
-        target.mouseup(function() {
-            // Prevent further mouseup intervention
-            target.unbind("mouseup");
-            return false;
-        });
-    }).blur(function(e) {
-        $(this).addClass('inactive');
-    });
     $('#shortcut_form').submit(function(e) {
         var target = $('#shortcut');
         if (!Validation.isNumberOnly(target.val())) {
