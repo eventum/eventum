@@ -6,6 +6,7 @@ Eventum Issue Tracking System
 
 - Allow time tracking entries to be edited (@balsdorf, #174)
 - Update weekly report to look at time tracking when calculating touched issues. (@balsdorf, #175)
+- Allow SymphonySession to co-exist with native session handling code (@balsdorf)
 
 2016-06-06, Version [3.1.2]
 ----------------------------
