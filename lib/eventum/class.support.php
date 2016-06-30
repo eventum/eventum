@@ -1593,7 +1593,7 @@ class Support
             return [];
         }
 
-        return self::getEmailDetails($res['sup_id'], $res['sup_ema_id']);
+        return self::getEmailDetails($res['sup_ema_id'], $res['sup_id']);
     }
 
     /**
