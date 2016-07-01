@@ -10,10 +10,9 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 use Round_Robin;
 use User;
@@ -61,25 +60,25 @@ class RoundRobinController extends ManageBaseController
     private function newAction()
     {
         $res = Round_Robin::insert();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the round robin entry was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the round robin entry.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this round robin entry.'), Misc::MSG_ERROR),
-            -3 => array(ev_gettext('Please enter the message for this round robin entry.'), Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            1 => [ev_gettext('Thank you, the round robin entry was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the round robin entry.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this round robin entry.'), MessagesHelper::MSG_ERROR],
+            -3 => [ev_gettext('Please enter the message for this round robin entry.'), MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
     {
         $res = Round_Robin::update();
-        $map = array(
-            1 => array(ev_gettext('Thank you, the round robin entry was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to update the round robin entry information.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this round robin entry.'), Misc::MSG_ERROR),
-            -3 => array(ev_gettext('Please enter the message for this round robin entry.'), Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            1 => [ev_gettext('Thank you, the round robin entry was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the round robin entry information.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this round robin entry.'), MessagesHelper::MSG_ERROR],
+            -3 => [ev_gettext('Please enter the message for this round robin entry.'), MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()
@@ -102,10 +101,10 @@ class RoundRobinController extends ManageBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'list' => Round_Robin::getList(),
                 'project_list' => Project::getAll(),
-            )
+            ]
         );
 
         if ($this->prj_id) {

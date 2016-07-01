@@ -35,7 +35,7 @@ class Filter
                     cst_id=? AND
                     cst_is_global=1';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($cst_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$cst_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -66,7 +66,7 @@ class Filter
                     cst_usr_id=?';
 
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($cst_id, $usr_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$cst_id, $usr_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -88,13 +88,13 @@ class Filter
     {
         $cst_id = self::getFilterID($_POST['title']);
         // loop through all available date fields and prepare the values for the sql query
-        $date_fields = array(
+        $date_fields = [
             'created_date',
             'updated_date',
             'last_response_date',
             'first_response_date',
             'closed_date',
-        );
+        ];
 
         /**
          * @var $created_date
@@ -198,7 +198,7 @@ class Filter
                         cst_custom_field=?
                      WHERE
                         cst_id=?';
-            $params = array(
+            $params = [
                 @$_POST['priority'],
                 @$_POST['severity'],
                 $_POST['keywords'],
@@ -238,7 +238,7 @@ class Filter
                 $_POST['search_type'],
                 $custom_field_string,
                 $cst_id,
-            );
+            ];
         } else {
             $stmt = 'INSERT INTO
                         {{%custom_filter}}
@@ -291,7 +291,7 @@ class Filter
                          ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
                          ?
                      )';
-            $params = array(
+            $params = [
                 Auth::getUserID(),
                 Auth::getCurrentProject(),
                 $_POST['title'],
@@ -333,7 +333,7 @@ class Filter
                 $is_global_filter,
                 $_POST['search_type'],
                 $custom_field_string,
-            );
+            ];
         }
 
         try {
@@ -362,7 +362,7 @@ class Filter
                     cst_usr_id=? AND
                     cst_prj_id=? AND
                     cst_title=?';
-        $params = array(Auth::getUserID(), Auth::getCurrentProject(), $cst_title);
+        $params = [Auth::getUserID(), Auth::getCurrentProject(), $cst_title];
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DatabaseException $e) {
@@ -394,7 +394,7 @@ class Filter
                     )
                  ORDER BY
                     cst_title';
-        $params = array(Auth::getCurrentProject(), Auth::getUserID());
+        $params = [Auth::getCurrentProject(), Auth::getUserID()];
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DatabaseException $e) {
@@ -426,7 +426,7 @@ class Filter
                     )
                  ORDER BY
                     cst_title';
-        $params = array(Auth::getCurrentProject(), Auth::getUserID());
+        $params = [Auth::getCurrentProject(), Auth::getUserID()];
         try {
             $res = DB_Helper::getInstance()->getAll($stmt, $params);
         } catch (DatabaseException $e) {
@@ -445,7 +445,7 @@ class Filter
 
     private static function removeCSTprefix($res)
     {
-        $return = array();
+        $return = [];
         foreach ($res as $key => $val) {
             $return[str_replace('cst_', '', $key)] = $val;
         }
@@ -525,7 +525,7 @@ class Filter
                  FROM
                     {{%custom_filter}}
                  WHERE';
-        $params = array();
+        $params = [];
         if ($check_perm) {
             $stmt .= '
                     cst_usr_id=? AND
@@ -561,7 +561,7 @@ class Filter
             $stmt = 'DELETE FROM
                         {{%custom_filter}}
                      WHERE';
-            $params = array();
+            $params = [];
 
             if (self::isGlobal($cst_id)) {
                 if (Auth::getCurrentRole() >= User::ROLE_MANAGER) {
@@ -625,7 +625,7 @@ class Filter
         $prj_id = Auth::getCurrentProject();
         $filter_info = self::getFiltersInfo();
 
-        $return = array();
+        $return = [];
 
         foreach ($filter_info as $filter_key => $filter) {
             $display = false;
@@ -663,13 +663,13 @@ class Filter
                                 $display = $filter_details['value'];
                         }
                     }
-                } elseif (in_array($filter['fld_type'], array('multiple', 'combo'))) {
+                } elseif (in_array($filter['fld_type'], ['multiple', 'combo'])) {
                     $display = implode(', ', Custom_Field::getOptions($fld_id, $options['custom_field'][$fld_id]));
                 } else {
                     $display = $options['custom_field'][$fld_id];
                 }
             } elseif ((!isset($options[$filter['param']])) || (empty($options[$filter['param']])) ||
-                    (in_array($filter_key, array('sort_order', 'sort_by', 'rows', 'search_type')))) {
+                    (in_array($filter_key, ['sort_order', 'sort_by', 'rows', 'search_type']))) {
                 continue;
             } elseif ((isset($filter['is_date'])) && ($filter['is_date'] == true)) {
                 if ((!empty($filter_details['Year'])) || (isset($filter_details['time_period']))) {
@@ -698,7 +698,7 @@ class Filter
             } elseif ($filter['param'] == 'category') {
                 $categories = Category::getAssocList($prj_id);
                 if (is_array($filter_details)) {
-                    $active_categories = array();
+                    $active_categories = [];
                     foreach ($filter_details as $category) {
                         $active_categories[] = $categories[$category];
                     }
@@ -749,10 +749,10 @@ class Filter
             }
 
             if ($display != false) {
-                $return[$filter['title']] = array(
+                $return[$filter['title']] = [
                     'value' =>  $display,
                     'remove_link'   =>  'list.php?view=clearandfilter&' . self::buildUrl($filter_info, $options, $filter_key, true),
-                );
+                ];
             }
         }
 
@@ -769,119 +769,119 @@ class Filter
         // format is "name_of_db_field" => array(
         //      "title" => human readable title,
         //      "param" => name that appears in get, post or cookie
-        $fields = array(
-            'iss_pri_id'    =>  array(
+        $fields = [
+            'iss_pri_id'    =>  [
                 'title' =>  ev_gettext('Priority'),
                 'param' =>  'priority',
                 'quickfilter'   =>  true,
-            ),
-            'iss_sev_id'    =>  array(
+            ],
+            'iss_sev_id'    =>  [
                 'title' =>  ev_gettext('Severity'),
                 'param' =>  'severity',
                 'quickfilter'   =>  true,
-            ),
-            'keywords'  =>  array(
+            ],
+            'keywords'  =>  [
                 'title' =>  ev_gettext('Keyword(s)'),
                 'param' =>  'keywords',
                 'quickfilter'   =>  true,
-            ),
-            'users' =>  array(
+            ],
+            'users' =>  [
                 'title' =>  ev_gettext('Assigned'),
                 'param' =>  'users',
                 'quickfilter'   =>  true,
-            ),
-            'iss_prc_id'    =>  array(
+            ],
+            'iss_prc_id'    =>  [
                 'title' =>  ev_gettext('Category'),
                 'param' =>  'category',
                 'quickfilter'   =>  true,
-            ),
-            'iss_sta_id'    =>  array(
+            ],
+            'iss_sta_id'    =>  [
                 'title' =>  ev_gettext('Status'),
                 'param' =>  'status',
                 'quickfilter'   =>  true,
-            ),
-            'iss_pre_id'    =>  array(
+            ],
+            'iss_pre_id'    =>  [
                 'title' =>  ev_gettext('Release'),
                 'param' =>  'release',
-            ),
-            'created_date'  =>  array(
+            ],
+            'created_date'  =>  [
                 'title' =>  ev_gettext('Created Date'),
                 'param' =>  'created_date',
                 'is_date'   =>  true,
-            ),
-            'updated_date'  =>  array(
+            ],
+            'updated_date'  =>  [
                 'title' =>  ev_gettext('Updated Date'),
                 'param' =>  'updated_date',
                 'is_date'   =>  true,
-            ),
-            'last_response_date'  =>  array(
+            ],
+            'last_response_date'  =>  [
                 'title' =>  ev_gettext('Last Response Date'),
                 'param' =>  'last_response_date',
                 'is_date'   =>  true,
-            ),
-            'first_response_date'  =>  array(
+            ],
+            'first_response_date'  =>  [
                 'title' =>  ev_gettext('First Response Date'),
                 'param' =>  'first_response_date',
                 'is_date'   =>  true,
-            ),
-            'closed_date'  =>  array(
+            ],
+            'closed_date'  =>  [
                 'title' =>  ev_gettext('Closed Date'),
                 'param' =>  'closed_date',
                 'is_date'   =>  true,
-            ),
-            'rows'  =>  array(
+            ],
+            'rows'  =>  [
                 'title' =>  ev_gettext('Rows Per Page'),
                 'param' =>  'rows',
-            ),
-            'sort_by'   =>  array(
+            ],
+            'sort_by'   =>  [
                 'title' =>  ev_gettext('Sort By'),
                 'param' =>  'sort_by',
-            ),
-            'sort_order'    =>  array(
+            ],
+            'sort_order'    =>  [
                 'title' =>  ev_gettext('Sort Order'),
                 'param' =>  'sort_order',
-            ),
-            'hide_closed'   =>  array(
+            ],
+            'hide_closed'   =>  [
                 'title' =>  ev_gettext('Hide Closed Issues'),
                 'param' =>  'hide_closed',
-            ),
-            'show_authorized'   =>  array(
+            ],
+            'show_authorized'   =>  [
                 'title' =>  ev_gettext('Authorized to Send Emails'),
                 'param' =>  'show_authorized_issues',
-            ),
-            'show_notification_list'    =>  array(
+            ],
+            'show_notification_list'    =>  [
                 'title' =>  ev_gettext('In Notification List'),
                 'param' =>  'show_notification_list_issues',
-            ),
-            'search_type'   =>  array(
+            ],
+            'search_type'   =>  [
                 'title' =>  ev_gettext('Search Type'),
                 'param' =>  'search_type',
-            ),
-            'reporter'  =>  array(
+            ],
+            'reporter'  =>  [
                 'title' =>  ev_gettext('Reporter'),
                 'param' =>  'reporter',
-            ),
-            'customer_id' =>  array(
+            ],
+            'customer_id' =>  [
                 'title' =>  ev_gettext('Customer'),
                 'param' =>  'customer_id',
-            ),
-            'pro_id'   =>  array(
+            ],
+            'pro_id'   =>  [
                 'title' =>  ev_gettext('Product'),
                 'param' =>  'product',
-            ),
-        );
+            ],
+        ];
 
         // add custom fields
         $custom_fields = Custom_Field::getFieldsByProject(Auth::getCurrentProject());
         if (count($custom_fields) > 0) {
             foreach ($custom_fields as $fld_id) {
                 $field = Custom_Field::getDetails($fld_id);
-                $fields['custom_field_' . $fld_id] = array(
+                $fields['custom_field_' . $fld_id] = [
                     'title' =>  $field['fld_title'],
                     'is_custom' =>  1,
                     'fld_id'    =>  $fld_id,
                     'fld_type'  =>  $field['fld_type'],
-                );
+                ];
             }
         }
 

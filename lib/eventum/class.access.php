@@ -361,7 +361,7 @@ class Access
 
     public static function getIssueAccessArray($issue_id, $usr_id)
     {
-        return array(
+        return [
             'files'     =>  self::canViewAttachedFiles($issue_id, $usr_id),
             'drafts'    =>  self::canViewDrafts($issue_id, $usr_id),
             'notes'     =>  self::canViewInternalNotes($issue_id, $usr_id),
@@ -378,7 +378,7 @@ class Access
             'clone_issue'   =>  self::canCloneIssue($issue_id, $usr_id),
             'change_access' =>  self::canChangeAccessLevel($issue_id, $usr_id),
             'change_assignee' =>  self::canChangeAssignee($issue_id, $usr_id),
-        );
+        ];
     }
 
     public static function canUpdateIssue($issue_id, $usr_id)
@@ -480,12 +480,12 @@ class Access
 
     public static function getFeatureAccessArray($usr_id)
     {
-        return array(
+        return [
             'create_issue'  =>  self::canCreateIssue($usr_id),
             'associate_emails'  =>  self::canAccessAssociateEmails($usr_id),
             'reports'       =>  self::canAccessReports($usr_id),
             'export'        =>  self::canExportData($usr_id),
-        );
+        ];
     }
 
     public static function canExportData($usr_id)
@@ -505,10 +505,10 @@ class Access
     {
         $prj_id = Auth::getCurrentProject();
 
-        $levels = array(
+        $levels = [
             'normal'    =>  'Normal',
             'assignees_only'    =>  'Assignees Only',
-        );
+        ];
 
         foreach (Group::getAssocList($prj_id) as $grp_id => $group) {
             $levels['group_' . $grp_id] = 'Group: ' . $group . ' only';
@@ -541,9 +541,9 @@ class Access
                 WHERE
                     ial_iss_id = ?';
         try {
-            return DB_Helper::getInstance()->getColumn($sql, array($issue_id));
+            return DB_Helper::getInstance()->getColumn($sql, [$issue_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
     }
 
@@ -556,11 +556,11 @@ class Access
                     ial_usr_id = ?,
                     ial_created = ?';
         try {
-            $res = DB_Helper::getInstance()->query($sql, array($issue_id, $usr_id, Date_Helper::getCurrentDateGMT()));
-            History::add($issue_id, Auth::getUserID(), 'access_list_added', 'Access list entry ({target_user}) added by {user}', array(
+            $res = DB_Helper::getInstance()->query($sql, [$issue_id, $usr_id, Date_Helper::getCurrentDateGMT()]);
+            History::add($issue_id, Auth::getUserID(), 'access_list_added', 'Access list entry ({target_user}) added by {user}', [
                 'target_user' => User::getFullName($usr_id),
                 'user' => User::getFullName(Auth::getUserID())
-            ));
+            ]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -576,11 +576,11 @@ class Access
                     ial_iss_id = ? AND
                     ial_usr_id = ?';
         try {
-            $res = DB_Helper::getInstance()->query($sql, array($issue_id, $usr_id));
-            History::add($issue_id, Auth::getUserID(), 'access_list_removed', 'Access list entry ({target_user}) removed by {user}', array(
+            $res = DB_Helper::getInstance()->query($sql, [$issue_id, $usr_id]);
+            History::add($issue_id, Auth::getUserID(), 'access_list_removed', 'Access list entry ({target_user}) removed by {user}', [
                 'target_user' => User::getFullName($usr_id),
                 'user' => User::getFullName(Auth::getUserID())
-            ));
+            ]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -643,16 +643,16 @@ class Access
                     alg_item = ?,
                     alg_item_id = ?,
                     alg_url = ?';
-        $params = array(
+        $params = [
             $issue_id,
             $usr_id,
             Date_Helper::getCurrentDateGMT(),
             isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null,
-            !$return,
+            (int) !$return,
             $item,
             $item_id,
             isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null
-        );
+        ];
         try {
             $res = DB_Helper::getInstance()->query($sql, $params);
         } catch (DatabaseException $e) {
@@ -665,15 +665,15 @@ class Access
     private static function extractInfoFromURL($url)
     {
         if (preg_match("/view_note\.php\?id=(?P<item_id>\d+)/", $url, $matches)) {
-            return array('note', $matches[1]);
+            return ['note', $matches[1]];
         } elseif (preg_match("/view_email\.php\?ema_id=\d+&id=(?P<item_id>\d+)/", $url, $matches)) {
-            return array('email', $matches[1]);
+            return ['email', $matches[1]];
         } elseif (preg_match("/download\.php\?cat=attachment&id=(?P<item_id>\d+)/", $url, $matches)) {
-            return array('file', $matches[1]);
+            return ['file', $matches[1]];
         } elseif (preg_match("/update\.php/", $url, $matches)) {
-            return array('update', null);
+            return ['update', null];
         }
 
-        return array(null, null);
+        return [null, null];
     }
 }

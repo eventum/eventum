@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use Support;
@@ -48,14 +47,14 @@ class CheckEmailSettingsController extends ManageBaseController
             return;
         }
 
-        $account = array(
+        $account = [
             'ema_hostname' => $hostname,
             'ema_port' => $post->get('port'),
             'ema_type' => $post->get('type'),
             'ema_folder' => $post->get('folder'),
             'ema_username' => $post->get('username'),
             'ema_password' => $post->get('password'),
-        );
+        ];
         $mbox = Support::connectEmailServer($account);
         if (!$mbox) {
             $this->tpl->assign('error', 'could_not_connect');

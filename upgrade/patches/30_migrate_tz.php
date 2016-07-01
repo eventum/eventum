@@ -28,7 +28,7 @@ use Eventum\Db\Adapter\AdapterInterface;
 // build list of abbreviation => Timezone
 // we take first timezone and hope it's correct
 
-$timezones = array();
+$timezones = [];
 foreach (DateTimeZone::listAbbreviations() as $abbrevation => $list) {
     // take first timezone
     $timezone = current($list);
@@ -43,7 +43,7 @@ foreach ($res as $row) {
     $tz = $row['upr_timezone'];
 
     // skip UTC
-    if (in_array($tz, array('UTC', 'GMT'))) {
+    if (in_array($tz, ['UTC', 'GMT'])) {
         continue;
     }
 

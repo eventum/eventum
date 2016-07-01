@@ -10,12 +10,10 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
 use AuthCookie;
-use Misc;
 
 class SwitchController extends BaseController
 {
@@ -48,7 +46,7 @@ class SwitchController extends BaseController
     protected function defaultAction()
     {
         AuthCookie::setProjectCookie($this->prj_id);
-        Misc::setMessage(ev_gettext('The project has been switched'), Misc::MSG_INFO);
+        $this->messages->addInfoMessage(ev_gettext('The project has been switched'));
 
         $url = $this->getRedirectUrl();
         $this->redirect($url);

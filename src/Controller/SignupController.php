@@ -10,12 +10,11 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
 use AuthCookie;
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Setup;
 use User;
 
@@ -73,12 +72,12 @@ class SignupController extends BaseController
         $this->tpl->assign('signup_result', $res);
 
         //  TODO: translate
-        $map = array(
-            1 => array('Thank you, your account creation request was processed successfully. For security reasons a confirmation email was sent to the provided email address with instructions on how to confirm your request and activate your account.', Misc::MSG_INFO),
-            -1 => array('Error: An error occurred while trying to run your query.', Misc::MSG_ERROR),
-            -2 => array('Error: The email address specified is already associated with an user in the system.', Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            1 => ['Thank you, your account creation request was processed successfully. For security reasons a confirmation email was sent to the provided email address with instructions on how to confirm your request and activate your account.', MessagesHelper::MSG_INFO],
+            -1 => ['Error: An error occurred while trying to run your query.', MessagesHelper::MSG_ERROR],
+            -2 => ['Error: The email address specified is already associated with an user in the system.', MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     /**

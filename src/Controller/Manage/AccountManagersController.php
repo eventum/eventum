@@ -10,11 +10,10 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use CRM;
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 use User;
 
@@ -60,10 +59,10 @@ class AccountManagersController extends ManageBaseController
         } elseif ($this->prj_id) {
             $crm = CRM::getInstance($this->prj_id);
             $this->tpl->assign(
-                array(
-                    'info' => array('cam_prj_id' => $this->prj_id),
+                [
+                    'info' => ['cam_prj_id' => $this->prj_id],
                     'customers' => $crm->getCustomerAssocList(),
-                )
+                ]
             );
         }
 
@@ -73,22 +72,22 @@ class AccountManagersController extends ManageBaseController
                 $info['cam_prj_id'] = $this->prj_id;
             }
             $this->tpl->assign(
-                array(
+                [
                     'customers' => CRM::getInstance($info['cam_prj_id'])->getCustomerAssocList(),
                     'user_options' => User::getActiveAssocList($info['cam_prj_id'], User::ROLE_CUSTOMER),
                     'info' => $info,
-                )
+                ]
             );
         }
     }
 
     private function mapMessages($res)
     {
-        $map = array(
-            1 => array(ev_gettext('Thank you, the account manager was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the the account manager.'), Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            1 => [ev_gettext('Thank you, the account manager was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the the account manager.'), MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     /**
@@ -97,10 +96,10 @@ class AccountManagersController extends ManageBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'project_list' => Project::getAll(false),
                 'list' => CRM::getAccountManagerList(),
-            )
+            ]
         );
 
         if ($this->prj_id) {

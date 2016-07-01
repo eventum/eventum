@@ -39,7 +39,7 @@ class Note
                  ORDER BY
                     not_created_date ASC';
         try {
-            $res = DB_Helper::getInstance()->getColumn($stmt, array($issue_id));
+            $res = DB_Helper::getInstance()->getColumn($stmt, [$issue_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -52,10 +52,10 @@ class Note
             $previous = $res[$index - 1];
         }
 
-        return array(
+        return [
             'next'     => @$next,
             'previous' => @$previous,
-        );
+        ];
     }
 
     /**
@@ -77,7 +77,7 @@ class Note
                     not_usr_id=usr_id AND
                     not_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($note_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$note_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -130,7 +130,7 @@ class Note
                 ORDER BY
                     not_created_date ASC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -163,7 +163,7 @@ class Note
                  WHERE
                     not_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($note_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$note_id]);
         } catch (DatabaseException $e) {
             throw new RuntimeException("Can't find note");
         }
@@ -186,7 +186,7 @@ class Note
                  WHERE
                     not_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($note_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$note_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -215,9 +215,9 @@ class Note
                     not_created_date ASC
                 LIMIT 1 OFFSET $offset";
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return self::getDetails($res);
@@ -238,7 +238,7 @@ class Note
                  WHERE
                     not_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($note_id));
+            $res = DB_Helper::getInstance()->getOne($sql, [$note_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -279,7 +279,7 @@ class Note
      */
     public static function insertFromPost($usr_id, $issue_id, $unknown_user = null, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
     {
-        $options = array(
+        $options = [
             'unknown_user' => $unknown_user,
             'log' => $log,
             'closing' => $closing,
@@ -291,7 +291,7 @@ class Note
             'parent_id' => !empty($_POST['parent_id']) ? $_POST['parent_id'] : null,
             'add_extra_recipients' => isset($_POST['add_extra_recipients']) ? $_POST['add_extra_recipients'] == 'yes' : false,
             'cc' => !empty($_POST['note_cc']) ? $_POST['note_cc'] : null,
-        );
+        ];
 
         return self::insertNote($usr_id, $issue_id, $_POST['title'], $_POST['note'], $options);
     }
@@ -316,13 +316,13 @@ class Note
      * - (string) unknown_user: The email address of a user that sent the blocked email that was turned into this note
      * @return int the new note id if the insert worked, -1 or -2 otherwise
      */
-    public static function insertNote($usr_id, $issue_id, $title, $note, $options = array())
+    public static function insertNote($usr_id, $issue_id, $title, $note, $options = [])
     {
         if (Validation::isWhitespace($note)) {
             return -2;
         }
 
-        $options = array_merge(array(
+        $options = array_merge([
             'unknown_user' => null,
             'log' => true,
             'closing' => false,
@@ -334,15 +334,15 @@ class Note
             'cc' => null,
             'full_message' => null,
             'parent_id' => null,
-        ), $options);
+        ], $options);
 
         $prj_id = Issue::getProjectID($issue_id);
         // NOTE: workflow may modify the parameters as $data is passed as reference
-        $data = array(
+        $data = [
             'title' => &$title,
             'note' => &$note,
             'options' => $options,
-        );
+        ];
         $workflow = Workflow::preNoteInsert($prj_id, $issue_id, $data);
         if ($workflow !== null) {
             // cancel insert of note
@@ -352,7 +352,7 @@ class Note
         // add the poster to the list of people to be subscribed to the notification list
         // only if there is no 'unknown user' and the note is not blocked
         if (!$options['unknown_user'] && !$options['is_blocked']) {
-            $note_cc = $options['add_extra_recipients'] ? $options['cc'] : array();
+            $note_cc = $options['add_extra_recipients'] ? $options['cc'] : [];
             // always add the current user to the note_cc list
             $note_cc[] = $usr_id;
 
@@ -362,14 +362,14 @@ class Note
             }
         }
 
-        $params = array(
+        $params = [
             'not_iss_id' => $issue_id,
             'not_usr_id' => $usr_id,
             'not_created_date' => Date_Helper::getCurrentDateGMT(),
             'not_note' => $note,
             'not_title' => $title,
             'not_message_id' => $options['message_id'] ?: Mail_Helper::generateMessageID(),
-        );
+        ];
 
         if ($options['full_message']) {
             $params['not_full_message'] = $options['full_message'];
@@ -402,11 +402,11 @@ class Note
         if ($options['log']) {
             // need to save a history entry for this
             if ($options['is_blocked']) {
-                History::add($issue_id, $usr_id, 'email_blocked', "Email from '{from}' blocked", array(
+                History::add($issue_id, $usr_id, 'email_blocked', "Email from '{from}' blocked", [
                     'from' => User::getFromHeader($usr_id),
-                ));
+                ]);
             } else {
-                History::add($issue_id, $usr_id, 'note_added', 'Note added by {subject}', array('subject' => User::getFullName($usr_id)));
+                History::add($issue_id, $usr_id, 'note_added', 'Note added by {subject}', ['subject' => User::getFullName($usr_id)]);
             }
         }
 
@@ -463,7 +463,7 @@ class Note
                  WHERE
                     not_id=?';
 
-        $details = DB_Helper::getInstance()->getRow($stmt, array($note_id));
+        $details = DB_Helper::getInstance()->getRow($stmt, [$note_id]);
         if ($details['not_usr_id'] != Auth::getUserID() && $details['has_blocked_message'] != 1 && Auth::getCurrentRole() < User::ROLE_MANAGER) {
             return -2;
         }
@@ -475,7 +475,7 @@ class Note
                  WHERE
                     not_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($note_id));
+            DB_Helper::getInstance()->query($stmt, [$note_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -487,15 +487,15 @@ class Note
                     iat_not_id=? AND
                     iat_status='internal'";
 
-        DB_Helper::getInstance()->query($stmt, array($note_id));
+        DB_Helper::getInstance()->query($stmt, [$note_id]);
 
         Issue::markAsUpdated($details['not_iss_id']);
         if ($log) {
             // need to save a history entry for this
             $usr_id = Auth::getUserID();
-            History::add($details['not_iss_id'], $usr_id, 'note_removed', 'Note removed by {user}', array(
+            History::add($details['not_iss_id'], $usr_id, 'note_removed', 'Note removed by {user}', [
                 'user' => User::getFullName($usr_id)
-            ));
+            ]);
         }
 
         return 1;
@@ -529,7 +529,7 @@ class Note
                  ORDER BY
                     not_created_date ASC';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -537,7 +537,7 @@ class Note
         // only show the internal notes for users with the appropriate permission level
         $role_id = Auth::getCurrentRole();
         $user_role_id = User::ROLE_USER;
-        $t = array();
+        $t = [];
         foreach ($res as &$row) {
             if ($role_id < $user_role_id) {
                 continue;
@@ -582,7 +582,7 @@ class Note
                 $has_attachments = 0;
             }
             list($blocked_message, $headers) = Mail_Helper::rewriteThreadingHeaders($issue_id, $blocked_message, @$structure->headers);
-            $t = array(
+            $t = [
                 'issue_id'       => $issue_id,
                 'ema_id'         => $email_account_id,
                 'message_id'     => @$structure->headers['message-id'],
@@ -595,7 +595,7 @@ class Note
                 'full_email'     => @$blocked_message,
                 'has_attachment' => $has_attachments,
                 'headers'        => $headers,
-            );
+            ];
 
             // need to check for a possible customer association
             if (!empty($structure->headers['from'])) {
@@ -633,10 +633,10 @@ class Note
                 Notification::notifyNewEmail($current_usr_id, $issue_id, $t, $internal_only, false, '', $sup_id);
                 Issue::markAsUpdated($issue_id, $update_type);
                 self::remove($note_id, false);
-                History::add($issue_id, $current_usr_id, 'note_converted_email', 'Note converted to e-mail (from: {from}) by {user}', array(
+                History::add($issue_id, $current_usr_id, 'note_converted_email', 'Note converted to e-mail (from: {from}) by {user}', [
                     'from' => @$structure->headers['from'],
                     'user' => User::getFullName($current_usr_id)
-                ));
+                ]);
                 // now add sender as an authorized replier
                 if ($authorize_sender) {
                     Authorized_Replier::manualInsert($issue_id, @$structure->headers['from']);
@@ -658,10 +658,10 @@ class Note
         if ($res) {
             self::remove($note_id, false);
             $usr_id = $current_usr_id;
-            History::add($issue_id, $usr_id, 'note_converted_draft', 'Note converted to draft (from: {from}) by {user}', array(
+            History::add($issue_id, $usr_id, 'note_converted_draft', 'Note converted to draft (from: {from}) by {user}', [
                 'from' => @$structure->headers['from'],
                 'user' => User::getFullName($current_usr_id)
-            ));
+            ]);
         }
 
         return $res;
@@ -688,7 +688,7 @@ class Note
                     not_created_date BETWEEN ? AND ? AND
                     not_usr_id = ? AND
                     not_removed = 0';
-        $params = array(Auth::getCurrentProject(), $start, $end, $usr_id);
+        $params = [Auth::getCurrentProject(), $start, $end, $usr_id];
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, $params);
         } catch (DatabaseException $e) {
@@ -713,7 +713,7 @@ class Note
                  WHERE
                     not_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($note_id));
+            DB_Helper::getInstance()->query($stmt, [$note_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -737,7 +737,7 @@ class Note
                     not_iss_id=? AND
                     not_removed = 0';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
         } catch (DatabaseException $e) {
             return 0;
         }
@@ -764,7 +764,7 @@ class Note
                  WHERE
                     not_message_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($message_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$message_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -792,7 +792,7 @@ class Note
                     parent.not_id = child.not_parent_id AND
                     child.not_message_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($message_id));
+            $res = DB_Helper::getInstance()->getOne($sql, [$message_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -823,7 +823,7 @@ class Note
                  WHERE
                     not_message_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($message_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$message_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -851,7 +851,7 @@ class Note
                  WHERE
                     not_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -878,7 +878,7 @@ class Note
                 WHERE
                     not_message_id = ?';
         try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($message_id));
+            $res = DB_Helper::getInstance()->getOne($sql, [$message_id]);
         } catch (DatabaseException $e) {
             return false;
         }

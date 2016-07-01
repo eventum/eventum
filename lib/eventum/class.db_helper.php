@@ -85,61 +85,7 @@ class DB_Helper
      */
     public static function getConfig()
     {
-        $setup = Setup::get();
-
-        if (isset($setup['database'])) {
-            $config = $setup['database']->toArray();
-        } else {
-            // legacy: import from constants
-            $config = array(
-                // database driver
-                'driver'  => APP_SQL_DBTYPE,
-
-                // connection info
-                'hostname' => APP_SQL_DBHOST,
-                'database' => APP_SQL_DBNAME,
-                'username' => APP_SQL_DBUSER,
-                'password' => APP_SQL_DBPASS,
-                'port'     => APP_SQL_DBPORT,
-
-                // table prefix
-                'table_prefix' => APP_TABLE_PREFIX,
-
-                /**
-                 * @deprecated APP_DEFAULT_DB is deprecated (same as APP_SQL_DBNAME)
-                 */
-                //'default_db' => APP_DEFAULT_DB,
-            );
-
-            // save it back. this will effectively do the migration
-            Setup::save(array('database' => $config));
-        }
-
-        return $config;
-    }
-
-    // assumed default if can't query from database
-    const max_allowed_packet = 8387584;
-
-    /**
-     * query database for 'max_allowed_packet'
-     *
-     * @return int
-     */
-    public static function getMaxAllowedPacket()
-    {
-        try {
-            $stmt = "show variables like 'max_allowed_packet'";
-            $res = self::getInstance(false)->getPair($stmt);
-            $max_allowed_packet = (int) $res['max_allowed_packet'];
-        } catch (DatabaseException $e) {
-        }
-
-        if (empty($max_allowed_packet)) {
-            return self::max_allowed_packet;
-        }
-
-        return $max_allowed_packet;
+        return Setup::get()->database->toArray();
     }
 
     /**
@@ -171,17 +117,6 @@ class DB_Helper
         );
 
         return $sql;
-    }
-
-    /**
-     * Strip consecutive whitespace from query
-     *
-     * @param string $query
-     * @return string
-     */
-    public static function filterQuery($query)
-    {
-        return preg_replace('/\s+/', ' ', $query);
     }
 
     /**
@@ -233,7 +168,7 @@ class DB_Helper
      */
     public static function buildSet($params)
     {
-        $partial = array();
+        $partial = [];
         foreach (array_keys($params) as $key) {
             $partial[] = "$key=?";
         }
@@ -261,7 +196,7 @@ class DB_Helper
      */
     public static function orderBy($order, $default = 'DESC')
     {
-        if (!in_array(strtoupper($order), array('ASC', 'DESC'))) {
+        if (!in_array(strtoupper($order), ['ASC', 'DESC'])) {
             return $default;
         }
 

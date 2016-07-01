@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Crypto;
 
 use InvalidArgumentException;
@@ -90,7 +89,7 @@ final class EncryptedValue
      * @param array $data
      * @return EncryptedValue
      */
-    public function __set_state($data)
+    public static function __set_state($data)
     {
         return new self($data['ciphertext']);
     }

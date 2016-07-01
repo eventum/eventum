@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -87,7 +86,7 @@ class AdvSearchController extends BaseController
         $users = Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER);
         $assign_options = $this->assign->getAssignOptions($users);
 
-        $this->tpl->assign(array(
+        $this->tpl->assign([
             'cats'          => Category::getAssocList($this->prj_id),
             'priorities'    => Priority::getList($this->prj_id),
             'severities'    => Severity::getList($this->prj_id),
@@ -98,7 +97,7 @@ class AdvSearchController extends BaseController
             'custom_fields' => Custom_Field::getListByProject($this->prj_id, ''),
             'reporters'     => Project::getReporters($this->prj_id),
             'products'      => Product::getAssocList(false),
-        ));
+        ]);
 
         if ($this->custom_id) {
             $check_perm = true;
@@ -109,7 +108,7 @@ class AdvSearchController extends BaseController
             }
             $options = Filter::getDetails($this->custom_id, $check_perm);
         } else {
-            $options = array();
+            $options = [];
             $options['cst_rows'] = APP_DEFAULT_PAGER_SIZE;
         }
 

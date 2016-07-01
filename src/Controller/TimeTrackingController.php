@@ -10,10 +10,11 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
+use DateInterval;
+use Date_Helper;
 use Issue;
 use Time_Tracking;
 use User;
@@ -21,10 +22,16 @@ use User;
 class TimeTrackingController extends BaseController
 {
     /** @var string */
-    protected $tpl_name = 'add_time_tracking.tpl.html';
+    protected $tpl_name = 'time_tracking_entry.tpl.html';
 
     /** @var int */
     private $issue_id;
+
+    /** @var int */
+    private $ttr_id;
+
+    /** @var array */
+    private $time_tracking_details;
 
     /** @var int */
     private $usr_id;
@@ -41,6 +48,12 @@ class TimeTrackingController extends BaseController
 
         $this->issue_id = $request->request->getInt('issue_id') ?: $request->query->getInt('iss_id');
         $this->cat = $request->request->get('cat');
+        $this->ttr_id = $request->request->getInt('ttr_id') ?: $request->query->getInt('ttr_id');
+
+        if ($this->ttr_id) {
+            $this->time_tracking_details = Time_Tracking::getTimeEntryDetails($this->ttr_id);
+            $this->issue_id = $this->time_tracking_details['ttr_iss_id'];
+        }
     }
 
     /**
@@ -51,6 +64,13 @@ class TimeTrackingController extends BaseController
         Auth::checkAuthentication(null, true);
 
         $this->usr_id = Auth::getUserID();
+
+
+        if ($this->ttr_id) {
+            if (!($this->time_tracking_details['ttr_usr_id'] == $this->usr_id or Auth::getCurrentRole() >= User::ROLE_MANAGER)) {
+                return false;
+            }
+        }
 
         if (!Issue::canAccess($this->issue_id, $this->usr_id)) {
             return false;
@@ -72,6 +92,9 @@ class TimeTrackingController extends BaseController
         if ($this->cat == 'add_time') {
             $res = $this->addTimeEntry();
             $this->tpl->assign('time_add_result', $res);
+        } elseif ($this->cat == 'update_time') {
+            $res = $this->updateTimeEntry();
+            $this->tpl->assign('time_update_result', $res);
         }
     }
 
@@ -88,6 +111,23 @@ class TimeTrackingController extends BaseController
         return $res;
     }
 
+    private function updateTimeEntry()
+    {
+        $post = $this->getRequest()->request;
+
+        $date = (array) $post->get('date');
+        $ttc_id = $post->getInt('category');
+        $time_spent = $post->getInt('time_spent');
+        $summary = $post->get('summary');
+        try {
+            $res = Time_Tracking::updateTimeEntry($this->ttr_id, $ttc_id, $time_spent, $date, $summary);
+        } catch (DatabaseException $e) {
+            $res = -1;
+        }
+
+        return $res;
+    }
+
     /**
      * @inheritdoc
      */
@@ -95,10 +135,19 @@ class TimeTrackingController extends BaseController
     {
         $prj_id = Auth::getCurrentProject();
         $this->tpl->assign(
-            array(
+            [
                 'issue_id' => $this->issue_id,
                 'time_categories' => Time_Tracking::getAssocCategories($prj_id),
-            )
+            ]
         );
+
+        if ($this->time_tracking_details) {
+            $this->tpl->assign([
+                'details'   =>  $this->time_tracking_details,
+                'start_date'    =>  Date_Helper::getDateTime($this->time_tracking_details['ttr_created_date']),
+                'end_date'    =>  Date_Helper::getDateTime($this->time_tracking_details['ttr_created_date'])->sub(
+                        new DateInterval('PT' . $this->time_tracking_details['ttr_time_spent'] . "M"))
+            ]);
+        }
     }
 }

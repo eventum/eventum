@@ -73,9 +73,9 @@ class Setup
         $existing = $config[$section]->toArray();
 
         // add defaults
-        $config->merge(new Config(array($section => $defaults)));
+        $config->merge(new Config([$section => $defaults]));
         // and then whatever was already there
-        $config->merge(new Config(array($section => $existing)));
+        $config->merge(new Config([$section => $existing]));
 
         return $config[$section];
     }
@@ -87,7 +87,7 @@ class Setup
      * @param array $options Options to modify (does not need to be full setup)
      * @return integer 1 if the update worked, -1 or -2 otherwise
      */
-    public static function save($options = array())
+    public static function save($options = [])
     {
         $config = self::set($options);
         try {
@@ -126,9 +126,9 @@ class Setup
         }
 
         // some subtrees are saved to different files
-        $extra_configs = array(
+        $extra_configs = [
             'ldap' => APP_CONFIG_PATH . '/ldap.php',
-        );
+        ];
 
         foreach ($extra_configs as $section => $filename) {
             if (!file_exists($filename)) {
@@ -141,7 +141,7 @@ class Setup
                     // save config in new format
                     self::saveConfig($filename, new Config($subconfig));
                 }
-                $config->merge(new Config(array($section => $subconfig)));
+                $config->merge(new Config([$section => $subconfig]));
             }
         }
 
@@ -163,7 +163,7 @@ class Setup
         // return empty array if the file is empty
         // this is to help eventum installation wizard to proceed
         if (!file_exists($path) || !filesize($path)) {
-            return array();
+            return [];
         }
 
         // config array is supposed to be returned from that path
@@ -184,7 +184,7 @@ class Setup
             $migrate = true;
         } elseif ($config == 1) {
             // something went wrong, do not return "1", but empty array
-            $config = array();
+            $config = [];
         }
 
         return $config;
@@ -239,34 +239,35 @@ class Setup
     {
         // at minimum should define top level array elements
         // so that fluent access works without errors and notices
-        $defaults = array(
-            'monitor' => array(
-                'diskcheck' => array(
+        $defaults = [
+            'monitor' => [
+                'diskcheck' => [
                     'status' => 'enabled',
                     'partition' => APP_PATH,
-                ),
-                'paths' => array(
+                ],
+                'paths' => [
                     'status' => 'enabled',
-                ),
-                'ircbot' => array(
+                ],
+                'ircbot' => [
                     'status' => 'enabled',
-                ),
-            ),
+                ],
+            ],
 
-            'smtp' => array(),
-            'ldap' => array(),
+            'scm' => [],
+            'smtp' => [],
+            'ldap' => [],
 
-            'email_error' => array(),
+            'email_error' => [],
 
-            'email_routing' => array(
-                'warning' => array(),
-            ),
-            'note_routing' => array(),
-            'draft_routing' => array(),
+            'email_routing' => [
+                'warning' => [],
+            ],
+            'note_routing' => [],
+            'draft_routing' => [],
 
-            'subject_based_routing' => array(),
+            'subject_based_routing' => [],
 
-            'email_reminder' => array(),
+            'email_reminder' => [],
 
             'handle_clock_in' => 'enabled',
 
@@ -275,7 +276,7 @@ class Setup
 
             'relative_date' => 'enabled',
             'audit_trail' => 'disabled',
-        );
+        ];
 
         return $defaults;
     }

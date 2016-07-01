@@ -46,7 +46,7 @@ if (in_array('--debug', $argv)) {
     $debug = false;
 }
 
-$auth = array($user_email, $user_password);
+$auth = [$user_email, $user_password];
 
 $issue_id = (integer) $argv[1];
 try {

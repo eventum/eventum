@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Mail;
 
 use Date_Helper;
@@ -65,22 +64,22 @@ class ImapMessage extends MailMessage
         $content = imap_body($mbox, $num);
 
         // fill with "\Seen", "\Deleted", "\Answered", ... etc
-        $knownFlags = array(
+        $knownFlags = [
             'recent' => ZendMailStorage::FLAG_RECENT,
             'flagged' => ZendMailStorage::FLAG_FLAGGED,
             'answered' => ZendMailStorage::FLAG_ANSWERED,
             'deleted' => ZendMailStorage::FLAG_DELETED,
             'seen' => ZendMailStorage::FLAG_SEEN,
             'draft' => ZendMailStorage::FLAG_DRAFT,
-        );
-        $flags = array();
+        ];
+        $flags = [];
         foreach ($knownFlags as $flag => $value) {
             if ($overview->$flag) {
                 $flags[] = $value;
             }
         }
 
-        $message = new self(array('root' => true, 'headers' => $headers, 'content' => $content, 'flags' => $flags));
+        $message = new self(['root' => true, 'headers' => $headers, 'content' => $content, 'flags' => $flags]);
 
         // set MailDate to $message object, as it's not available in message headers, only in IMAP itself
         // this likely "message received date"

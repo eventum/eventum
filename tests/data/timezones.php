@@ -11,7 +11,7 @@
  * that were distributed with this source code.
  */
 
-return array(
+return [
   491 => 'ACT',
   498 => 'AET',
   192 => 'AGT',
@@ -743,4 +743,4 @@ return array(
   704 => 'Yap Time',
   646 => 'Yekaterinburg Time',
   268 => 'Zulu',
-);
+];

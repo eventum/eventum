@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -55,8 +54,6 @@ class SelectCustomerController extends BaseController
     protected function canAccess()
     {
         // FIXME: why not just default Auth::checkAuthentication() here?
-
-        session_start();
 
         // check if cookies are enabled, first of all
         if (!AuthCookie::hasCookieSupport()) {

@@ -10,10 +10,9 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
-use Misc;
+use Eventum\Controller\Helper\MessagesHelper;
 use Project;
 use Setup;
 use User;
@@ -55,7 +54,7 @@ class GeneralController extends ManageBaseController
 
         $smtp = $post->get('smtp');
         $smtp['auth'] = (bool)$smtp['auth'];
-        $setup = array(
+        $setup = [
             'tool_caption' => $post->get('tool_caption'),
             'support_email' => $post->get('support_email'),
             'description_email_0' => $post->get('description_email_0'),
@@ -78,26 +77,26 @@ class GeneralController extends ManageBaseController
             'handle_clock_in' => $post->get('handle_clock_in'),
             'relative_date' => $post->get('relative_date'),
             'audit_trail' => $post->get('audit_trail'),
-        );
+        ];
         $res = Setup::save($setup);
         $this->tpl->assign('result', $res);
 
-        $map = array(
-            1 => array(ev_gettext('Thank you, the setup information was saved successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext(
+        $map = [
+            1 => [ev_gettext('Thank you, the setup information was saved successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext(
                             "ERROR: The system doesn't have the appropriate permissions to create the configuration file in the setup directory (%1\$s). " .
                             'Please contact your local system administrator and ask for write privileges on the provided path.',
                             APP_CONFIG_PATH
                         ),
-                        Misc::MSG_NOTE_BOX),
-            -2 => array(ev_gettext(
+                        MessagesHelper::MSG_NOTE_BOX],
+            -2 => [ev_gettext(
                             "ERROR: The system doesn't have the appropriate permissions to update the configuration file in the setup directory (%1\$s). " .
                             'Please contact your local system administrator and ask for write privileges on the provided filename.',
                             APP_SETUP_FILE
                         ),
-                        Misc::MSG_NOTE_BOX),
-        );
-        Misc::mapMessages($res, $map);
+                   MessagesHelper::MSG_NOTE_BOX],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     /**
@@ -106,11 +105,11 @@ class GeneralController extends ManageBaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'project_list' => Project::getAll(),
                 'setup' => Setup::get(),
-                'user_roles' => User::getRoles(array(User::ROLE_CUSTOMER)),
-            )
+                'user_roles' => User::getRoles([User::ROLE_CUSTOMER]),
+            ]
         );
     }
 }

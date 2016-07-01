@@ -32,20 +32,19 @@ class Template_Helper
     public function __construct($tpl_name = null)
     {
         $smarty = new Smarty();
-        // TODO: remove "APP_LOCAL_PATH" from the list in 2.4.1
-        $smarty->setTemplateDir(array(APP_LOCAL_PATH . '/templates', APP_LOCAL_PATH, APP_TPL_PATH));
+        $smarty->setTemplateDir([APP_LOCAL_PATH . '/templates', APP_TPL_PATH]);
         $smarty->setCompileDir(APP_TPL_COMPILE_PATH);
 
-        $smarty->addPluginsDir(array(APP_INC_PATH . '/smarty'));
+        $smarty->addPluginsDir([APP_INC_PATH . '/smarty']);
 
-        $smarty->registerPlugin('modifier', 'activateLinks', array('Link_Filter', 'activateLinks'));
-        $smarty->registerPlugin('modifier', 'activateAttachmentLinks', array('Link_Filter', 'activateAttachmentLinks'));
-        $smarty->registerPlugin('modifier', 'formatCustomValue', array('Custom_Field', 'formatValue'));
-        $smarty->registerPlugin('modifier', 'bool', array('Misc', 'getBooleanDisplayValue'));
-        $smarty->registerPlugin('modifier', 'format_date', array('Date_Helper', 'getFormattedDate'));
-        $smarty->registerPlugin('modifier', 'timeago', array('Date_Helper', 'formatTimeAgo'));
+        $smarty->registerPlugin('modifier', 'activateLinks', ['Link_Filter', 'activateLinks']);
+        $smarty->registerPlugin('modifier', 'activateAttachmentLinks', ['Link_Filter', 'activateAttachmentLinks']);
+        $smarty->registerPlugin('modifier', 'formatCustomValue', ['Custom_Field', 'formatValue']);
+        $smarty->registerPlugin('modifier', 'bool', ['Misc', 'getBooleanDisplayValue']);
+        $smarty->registerPlugin('modifier', 'format_date', ['Date_Helper', 'getFormattedDate']);
+        $smarty->registerPlugin('modifier', 'timeago', ['Date_Helper', 'formatTimeAgo']);
         /** @see Eventum\EmailHelper::formatEmail */
-        $smarty->registerPlugin('modifier', 'format_email', array('\\Eventum\\EmailHelper', 'formatEmail'));
+        $smarty->registerPlugin('modifier', 'format_email', ['\\Eventum\\EmailHelper', 'formatEmail']);
 
         // Fixes problem with CRM API and dynamic includes.
         // See https://code.google.com/p/smarty-php/source/browse/trunk/distribution/3.1.16_RELEASE_NOTES.txt?spec=svn4800&r=4800
@@ -167,17 +166,17 @@ class Template_Helper
      */
     private function processTemplate()
     {
-        $core = array(
+        $core = [
             'rel_url' => APP_RELATIVE_URL,
             'base_url' => APP_BASE_URL,
             'app_title' => APP_NAME,
             'app_version' => APP_VERSION,
             'app_setup' => Setup::get(),
-            'messages' => Misc::getMessages(),
             'roles' => User::getAssocRoleIDs(),
             'auth_backend' => strtolower(APP_AUTH_BACKEND),
             'current_url' => $_SERVER['PHP_SELF'],
-        );
+            'template_id'    =>  str_replace(['/', '.tpl.html'], ['_'], $this->tpl_name),
+        ];
 
         // If VCS version is present "Eventum 2.3.3-148-g78b3368", link ref to github
         $vcsVersion = self::getVcsVersion();
@@ -198,14 +197,14 @@ class Template_Helper
             if (!empty($prj_id)) {
                 $role_id = User::getRoleByUser($usr_id, $prj_id);
                 $has_crm = CRM::hasCustomerIntegration($prj_id);
-                $core = $core + array(
+                $core = $core + [
                         'project_id' => $prj_id,
                         'project_name' => Auth::getCurrentProjectName(),
                         'has_crm' => $has_crm,
                         'current_role' => $role_id,
                         'current_role_name' => User::getRole($role_id),
                         'feature_access' => Access::getFeatureAccessArray($usr_id),
-                    );
+                    ];
                 if ($has_crm) {
                     $crm = CRM::getInstance($prj_id);
                     $core['crm_template_path'] = $crm->getTemplatePath();
@@ -221,14 +220,14 @@ class Template_Helper
             }
             $info = User::getDetails($usr_id);
             $raw_projects = Project::getAssocList($usr_id, false, true);
-            $active_projects = array();
+            $active_projects = [];
             foreach ($raw_projects as $prj_id => $prj_info) {
                 if ($prj_info['status'] == 'archived') {
                     $prj_info['prj_title'] .= ' ' . ev_gettext('(archived)');
                 }
                 $active_projects[$prj_id] = $prj_info['prj_title'];
             }
-            $core += array(
+            $core += [
                     'active_projects' => $active_projects,
                     'current_full_name' => $info['usr_full_name'],
                     'current_email' => $info['usr_email'],
@@ -239,7 +238,7 @@ class Template_Helper
                     'is_current_user_partner' => !empty($info['usr_par_code']),
                     'roles' => User::getAssocRoleIDs(),
                     'current_user_prefs' => Prefs::get($usr_id),
-                );
+                ];
             $this->assign('current_full_name', $core['user']['usr_full_name']);
             $this->assign('current_email', $core['user']['usr_email']);
             $this->assign('current_user_id', $usr_id);

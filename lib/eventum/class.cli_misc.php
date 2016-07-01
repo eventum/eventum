@@ -34,7 +34,7 @@ class CLI_Misc
             echo ' [required] -> ';
         }
         flush();
-        $input = trim(self::getInput());
+        $input = trim(self::getInputLine());
         if (empty($input)) {
             if ($default_value === false) {
                 die("ERROR: Required parameter was not provided!\n");
@@ -51,7 +51,7 @@ class CLI_Misc
      *
      * @return  string The standard input value
      */
-    public function getInput()
+    public function getInputLine()
     {
         return fgets(STDIN);
     }

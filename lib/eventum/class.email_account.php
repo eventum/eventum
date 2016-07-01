@@ -33,7 +33,7 @@ class Email_Account
                  WHERE
                     ema_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($ema_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$ema_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -61,7 +61,7 @@ class Email_Account
                  WHERE
                     ema_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, array($auto_creation, @serialize($options), $ema_id));
+            DB_Helper::getInstance()->query($stmt, [$auto_creation, @serialize($options), $ema_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -85,7 +85,7 @@ class Email_Account
                  WHERE
                     sup_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($sup_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$sup_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -111,7 +111,7 @@ class Email_Account
                     ema_username=? AND
                     ema_hostname=?';
         try {
-            $params = array($username, $hostname);
+            $params = [$username, $hostname];
             if ($mailbox !== null) {
                 $stmt .= ' AND ema_folder=?';
                 $params[] = $mailbox;
@@ -159,7 +159,7 @@ class Email_Account
 
         // IMPORTANT: do not print out $emai_id without sanitizing, it may contain XSS
         try {
-            $res = DB_Helper::getInstance()->getRow($stmt, array($ema_id));
+            $res = DB_Helper::getInstance()->getRow($stmt, [$ema_id]);
         } catch (DatabaseException $e) {
             throw new RuntimeException('email account not found');
         }
@@ -274,7 +274,7 @@ class Email_Account
                     ?, ?, ?, ?, ?,
                     ?, ?, ?, ?, ?
                  )';
-        $params = array(
+        $params = [
             $_POST['project'],
             $_POST['type'],
             $_POST['hostname'],
@@ -285,7 +285,7 @@ class Email_Account
             $_POST['get_only_new'],
             $_POST['leave_copy'],
             $_POST['use_routing'],
-        );
+        ];
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -329,7 +329,7 @@ class Email_Account
                     ema_use_routing=?
                  WHERE
                     ema_id=?';
-        $params = array(
+        $params = [
             $_POST['project'],
             $_POST['type'],
             $_POST['hostname'],
@@ -340,7 +340,7 @@ class Email_Account
             $_POST['leave_copy'],
             $_POST['use_routing'],
             $_POST['id'],
-        );
+        ];
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -368,10 +368,10 @@ class Email_Account
                     ema_password=?
                  WHERE
                     ema_id=?';
-        $params = array(
+        $params = [
             CryptoManager::encrypt($password),
             $ema_id,
-        );
+        ];
 
         DB_Helper::getInstance()->query($stmt, $params);
     }
@@ -416,7 +416,7 @@ class Email_Account
     public static function getAssocList($projects, $include_project_title = false)
     {
         if (!is_array($projects)) {
-            $projects = array($projects);
+            $projects = [$projects];
         }
         if ($include_project_title) {
             $title_sql = "CONCAT(prj_title, ': ', ema_username, '@', ema_hostname, ' ', ema_folder)";
@@ -464,7 +464,7 @@ class Email_Account
                  LIMIT
                     1 OFFSET 0';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($prj_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$prj_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -490,7 +490,7 @@ class Email_Account
                     ema_prj_id=iss_prj_id AND
                     iss_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($stmt, array($issue_id));
+            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
         } catch (DatabaseException $e) {
             return '';
         }

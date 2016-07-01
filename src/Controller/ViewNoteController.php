@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Access;
@@ -93,12 +92,12 @@ class ViewNoteController extends BaseController
         // TRANSLATORS: %1: note sequence number, %2: note title
         $extra_title = ev_gettext('Note #%1$s: %2$s', $seq_no, $note['not_title']);
         $this->tpl->assign(
-            array(
+            [
                 'note' => $note,
                 'issue_id' => $this->issue_id,
                 'extra_title' => $extra_title,
                 'recipients' => Mail_Queue::getMessageRecipients('notes', $this->note_id),
-            )
+            ]
         );
         $this->setSideLinks();
     }
@@ -115,10 +114,10 @@ class ViewNoteController extends BaseController
 
         $sides = Note::getSideLinks($this->issue_id, $this->note_id);
         $this->tpl->assign(
-            array(
+            [
                 'previous' => $sides['previous'],
                 'next' => $sides['next'],
-            )
+            ]
         );
     }
 }

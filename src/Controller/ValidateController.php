@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -66,7 +65,7 @@ class ValidateController extends BaseController
         $exclude_issue = $request->get('exclude_issue');
         $exclude_duplicates = $request->get('exclude_duplicates') == 1;
 
-        $bad_issues = array();
+        $bad_issues = [];
         foreach ($issues as $issue_id) {
             if ($exclude_issue == $issue_id
                 || ($issue_id != '' && !Issue::exists($issue_id, $check_project))

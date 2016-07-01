@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -110,11 +109,11 @@ class RemoteDataController extends BaseController
         }
 
         // convert to wanted format
-        $res = array(
+        $res = [
             'ec_id' => $this->ec_id,
             'list_id' => $this->list_id,
             'message' => $res,
-        );
+        ];
 
         if ($this->callback) {
             echo $this->callback, '(', json_encode($res), ')';

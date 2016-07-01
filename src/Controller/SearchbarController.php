@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Filter;
@@ -56,7 +55,7 @@ class SearchbarController extends BaseController
         }
 
         $request = $this->getRequest();
-        $params = array();
+        $params = [];
 
         // merge with GET and POST
         $params += $request->request->all();

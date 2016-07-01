@@ -57,20 +57,6 @@ $(document).ready(function() {
         firstDay: user_prefs.week_firstday
     });
 
-    $('#search, #shortcut').focus(function(e) {
-        var target = $(this);
-        this.select();
-        target.removeClass('inactive');
-
-        // Work around Chrome's little problem
-        target.mouseup(function() {
-            // Prevent further mouseup intervention
-            target.unbind("mouseup");
-            return false;
-        });
-    }).blur(function(e) {
-        $(this).addClass('inactive');
-    });
     $('#shortcut_form').submit(function(e) {
         var target = $('#shortcut');
         if (!Validation.isNumberOnly(target.val())) {
@@ -82,6 +68,12 @@ $(document).ready(function() {
     $("a.help").click(Eventum.openHelp);
 
     $("input.issue_field").blur(Validation.validateIssueNumberField);
+
+    // % complete progressbar
+    $("div.iss_percent_complete").each(function() {
+        var $e = $(this);
+        $e.progressbar({value: $e.data('percent')});
+    });
 
     // chosen config
     var config = {
@@ -514,7 +506,7 @@ Eventum.clearAutoSave = function(prefix)
             localStorage.removeItem(localStorage.key(i));
         }
     }
-}
+};
 
 function Validation()
 {

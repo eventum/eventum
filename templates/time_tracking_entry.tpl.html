@@ -1,16 +1,26 @@
 {extends "base.tpl.html"}
-{block "title"}#{$issue_id} - Add Time Tracking{/block}
+{block "title"}
+{if $details|default:"" == ""}
+    {t 1=$issue_id}#%1 - Add Time Tracking{/t}
+{else}
+    {t 1=$issue_id}#%1 - Edit Time Tracking{/t}
+{/if}
+{/block}
 
 {block "content"}
 
-{if $time_add_result|default:'' != ''}
+{if $time_add_result|default:'' != '' or $time_update_result|default:'' != ''}
     <br />
     <center>
     <span><b>
-    {if $time_add_result == -1}
+    {if $time_add_result|default:'' == -1}
         {t}An error occurred while trying to run your query{/t}
-    {elseif $time_add_result == 1}
+    {elseif $time_add_result|default:'' == 1}
         {t}Thank you, the time tracking entry was added successfully.{/t}
+    {elseif $time_update_result|default:'' == -1}
+        {t}An error occurred while trying to run your query{/t}
+    {elseif $time_update_result|default:'' == 1}
+        {t}Thank you, the time tracking entry was updated successfully.{/t}
     {/if}
     </b></span>
     </center>
@@ -79,58 +89,76 @@ $().ready(function() {
     }
   });
 
+{if $details|default:'' == ''}
   Eventum.updateTimeFields($form, 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');
   Eventum.updateTimeFields($form, 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]');
+{/if}
   $form.submit(validateTimeForm);
 });
 //-->
 </script>
 
     <form id="add_time_form" method="post">
+        {if $details|default:'' != ''}
+        <input type="hidden" name="cat" value="update_time">
+        <input type="hidden" name="ttr_id" value="{$details.ttr_id}">
+        {else}
         <input type="hidden" name="cat" value="add_time">
         <input type="hidden" name="issue_id" value="{$issue_id}">
+        {/if}
         <table class="bordered">
             {if $core.current_role > $core.roles.viewer}
             <tr class="title">
-                <th colspan="2">{t}Record Time Worked{/t}</th>
+                <th colspan="2">
+                    {if $details|default:"" == ""}
+                        {t}Add Time Worked{/t}
+                    {else}
+                        {t}Edit Time Worked{/t}
+                    {/if}
+                </th>
             </tr>
             <tr>
                 <th width="190" nowrap>{t}Summary{/t}</th>
-                <td><input type="text" name="summary" size="45">{include file="error_icon.tpl.html" field="summary"}</td>
+                <td><input type="text" name="summary" size="45" value="{$details.ttr_summary|default:''}">{include file="error_icon.tpl.html" field="summary"}</td>
             </tr>
             <tr>
                 <th nowrap>{t}Category{/t}</th>
                 <td>
                     <select name="category">
                         <option value="">{t}Please choose a category{/t}</option>
-                        {html_options options=$time_categories}
+                        {html_options options=$time_categories selected=$details.ttc_id|default:''}
                     </select>
                     {include file="error_icon.tpl.html" field="category"}
                 </td>
             </tr>
             <tr>
                 <th nowrap>{t}Time Spent{/t}</th>
-                <td><input type="text" size="5" name="time_spent" onChange="Eventum.calcDateDiff(this.form, 0)"> <span>({t}in minutes{/t})</span>{include file="error_icon.tpl.html" field="time_spent"}</td>
+                <td><input type="text" size="5" name="time_spent" onChange="Eventum.calcDateDiff(this.form, 0)"
+                         value="{$details.ttr_time_spent|default:''}"> <span>({t}in minutes{/t})</span>{include file="error_icon.tpl.html" field="time_spent"}</td>
             </tr>
             <tr>
             <th nowrap>{t}Work started{/t}:</th>
                 <td>
-                    {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"'}&nbsp;
-                    {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"' display_seconds=false}
-                    <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#add_time_form'), 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');Eventum.calcDateDiff($('form#post_note_form'), 11)"><img src="images/icons/refresh.gif" border="0"></a>
+                    {html_select_date start_year='-1' day_value_format='%02d' field_array='date' prefix='' all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"'
+                        time=$start_date|default:''}&nbsp;
+                    {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"' display_seconds=false
+                        time=$start_date|default:''}
+                    <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#add_time_form'), 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');Eventum.calcDateDiff($('form#add_time_form'), 11)"><img src="images/icons/refresh.gif" border="0"></a>
                 </td>
             </tr>
             <tr>
                 <th nowrap>{t}Work ended{/t}:</th>
                 <td>
-                    {html_select_date start_year='-1' day_value_format='%02d' field_array='date2' prefix='' all_extra=' class="default" onChange="Eventum.calcDateDiff(this.form, 2, this.name)"'}&nbsp;
-                    {html_select_time minute_interval=5 field_array='date2' prefix='' all_extra=' class="default" onChange="Eventum.calcDateDiff(this.form, 2, this.name)"' display_seconds=false}
-                    <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#add_time_form'), 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]'); Eventum.calcDateDiff($('form#post_note_form'), 12)"><img src="images/icons/refresh.gif" border="0"></a>
+                    {html_select_date start_year='-1' day_value_format='%02d' field_array='date2' prefix='' all_extra=' class="default" onChange="Eventum.calcDateDiff(this.form, 2, this.name)"'
+                        time=$start_date|default:''}&nbsp;
+                    {html_select_time minute_interval=5 field_array='date2' prefix='' all_extra=' class="default" onChange="Eventum.calcDateDiff(this.form, 2, this.name)"' display_seconds=false
+                        time=$end_date|default:''}
+                    <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#add_time_form'), 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]'); Eventum.calcDateDiff($('form#add_time_form'), 12)"><img src="images/icons/refresh.gif" border="0"></a>
                 </td>
             </tr>
             <tr class="buttons">
                 <td colspan="2">
-                    <input type="submit" value="{t}Add Time Entry{/t}">
+                    <input type="submit" value="{if $details|default:"" == ""}{t}Add Time Entry{/t}{else}{t}Edit Time Entry{/t}{/if}">
                     <input name="cancel" type="reset" value="{t}Cancel{/t}" onClick="window.close();">
                 </td>
             </tr>

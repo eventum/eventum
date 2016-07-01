@@ -10,12 +10,11 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Manage;
 
 use CRM;
+use Eventum\Controller\Helper\MessagesHelper;
 use Issue;
-use Misc;
 use Project;
 use Status;
 use User;
@@ -70,12 +69,12 @@ class CustomizeListingController extends ManageBaseController
         $res = Status::insertCustomization(
             $post->get('project'), $post->get('status'), $post->get('date_field'), $post->get('label')
         );
-        $map = array(
-            1 => array(ev_gettext('Thank you, the customization was added successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to add the new customization.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this new customization'), Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            1 => [ev_gettext('Thank you, the customization was added successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to add the new customization.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this new customization'), MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     private function updateAction()
@@ -85,12 +84,12 @@ class CustomizeListingController extends ManageBaseController
         $res = Status::updateCustomization(
             $post->get('id'), $post->get('project'), $post->get('status'), $post->get('date_field'), $post->get('label')
         );
-        $map = array(
-            1 => array(ev_gettext('Thank you, the customization was updated successfully.'), Misc::MSG_INFO),
-            -1 => array(ev_gettext('An error occurred while trying to update the customization information.'), Misc::MSG_ERROR),
-            -2 => array(ev_gettext('Please enter the title for this customization.'), Misc::MSG_ERROR),
-        );
-        Misc::mapMessages($res, $map);
+        $map = [
+            1 => [ev_gettext('Thank you, the customization was updated successfully.'), MessagesHelper::MSG_INFO],
+            -1 => [ev_gettext('An error occurred while trying to update the customization information.'), MessagesHelper::MSG_ERROR],
+            -2 => [ev_gettext('Please enter the title for this customization.'), MessagesHelper::MSG_ERROR],
+        ];
+        $this->messages->mapMessages($res, $map);
     }
 
     private function deleteAction()
@@ -98,11 +97,11 @@ class CustomizeListingController extends ManageBaseController
         $post = $this->getRequest()->request;
 
         $res = Status::removeCustomization($post->get('items'));
-        Misc::mapMessages(
-            $res, array(
-                true => array(ev_gettext('Thank you, the customization was deleted successfully.'), Misc::MSG_INFO),
-                false => array(ev_gettext('An error occurred while trying to delete the customization information.'), Misc::MSG_ERROR),
-            )
+        $this->messages->mapMessages(
+            $res, [
+                true => [ev_gettext('Thank you, the customization was deleted successfully.'), MessagesHelper::MSG_INFO],
+                false => [ev_gettext('An error occurred while trying to delete the customization information.'), MessagesHelper::MSG_ERROR],
+            ]
         );
     }
 
@@ -112,11 +111,11 @@ class CustomizeListingController extends ManageBaseController
 
         $details = Status::getCustomizationDetails($get->get('id'));
         $this->tpl->assign(
-            array(
+            [
                 'info' => $details,
                 'project_id' => $details['psd_prj_id'],
                 'status_list' => Status::getAssocStatusList($details['psd_prj_id'], true),
-            )
+            ]
         );
     }
 
@@ -127,10 +126,10 @@ class CustomizeListingController extends ManageBaseController
     {
         if ($this->prj_id) {
             $this->tpl->assign(
-                array(
+                [
                     'status_list' => Status::getAssocStatusList($this->prj_id, true),
                     'project_id' => $this->prj_id,
-                )
+                ]
             );
             $display_customer_fields = CRM::hasCustomerIntegration($this->prj_id);
         } else {
@@ -138,11 +137,11 @@ class CustomizeListingController extends ManageBaseController
         }
 
         $this->tpl->assign(
-            array(
+            [
                 'project_list' => Project::getAll(),
                 'date_fields' => Issue::getDateFieldsAssocList($display_customer_fields),
                 'list' => Status::getCustomizationList(),
-            )
+            ]
         );
     }
 }

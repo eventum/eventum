@@ -10,17 +10,16 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller\Helper;
 
 use Auth;
 use Custom_Field;
 use Date_Helper;
+use Eventum\Session;
 use PHPlot;
 use Prefs;
 use Project;
 use Report;
-use Session;
 use Stats;
 use Status;
 use User;
@@ -66,7 +65,7 @@ class PlotHelper
             return false;
         }
 
-        $colors = array();
+        $colors = [];
 
         switch ($plotType) {
             case 'status':
@@ -114,10 +113,10 @@ class PlotHelper
             $plot->SetDataColors($colors);
         }
 
-        $legend = $dataValue = array();
+        $legend = $dataValue = [];
         foreach ($data as $label => $count) {
             $legend[] = $label . ' (' . $count . ')';
-            $dataValue[] = array($label, $count);
+            $dataValue[] = [$label, $count];
         }
 
         $plot->SetDataValues($dataValue);
@@ -153,10 +152,10 @@ class PlotHelper
 
         // convert to phplot format
         $i = 0;
-        $plotData = $labels = array();
+        $plotData = $labels = [];
         unset($data['All Others']);
         foreach ($data as $label => $value) {
-            $plotData[$i] = array($label, $value);
+            $plotData[$i] = [$label, $value];
             $labels[] = $label;
             $i++;
         }
@@ -217,8 +216,8 @@ class PlotHelper
         $xtitle = ev_gettext('Hours (%s)', Date_Helper::getTimezoneShortNameByUser($usr_id));
 
         // rebuild data for phplot format
-        $plotData = array();
-        $legends = array();
+        $plotData = [];
+        $legends = [];
 
         $i = 1;
         foreach ($data as $performer => $values) {
@@ -336,9 +335,9 @@ class PlotHelper
         }
 
         // convert to phplot format
-        $plotData = array();
+        $plotData = [];
         foreach ($plots as $i => $plot) {
-            $plotData[] = array($labels[$i], $plot);
+            $plotData[] = [$labels[$i], $plot];
         }
 
         if ($type == 'pie') {

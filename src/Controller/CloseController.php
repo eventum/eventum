@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -18,10 +17,10 @@ use Contract;
 use CRM;
 use Custom_Field;
 use Issue;
-use Misc;
 use Notification;
 use Resolution;
 use Status;
+use Template_Helper;
 use Time_Tracking;
 use User;
 
@@ -91,9 +90,9 @@ class CloseController extends BaseController
     {
         $extra_title = ev_gettext('Close Issue #%1$s', $this->issue_id);
         $this->tpl->assign(
-            array(
+            [
                 'extra_title' => $extra_title,
-            )
+            ]
         );
 
         if (!Issue::exists($this->issue_id, false)) {
@@ -126,7 +125,7 @@ class CloseController extends BaseController
             $request->get('status'), $request->get('reason'), $request->get('notification_list')
         );
 
-        if ($post->has('time_spent')) {
+        if ($post->get('time_spent')) {
             $this->addTimeEntry();
         }
 
@@ -141,10 +140,22 @@ class CloseController extends BaseController
 
         $this->tpl->assign('close_result', $res);
         if ($res == 1) {
-            Misc::setMessage(ev_gettext('Thank you, the issue was closed successfully'));
-            Misc::displayNotifiedUsers(Notification::getLastNotifiedAddresses($this->issue_id));
+            $this->messages->addInfoMessage(ev_gettext('Thank you, the issue was closed successfully'));
+            $this->displayNotifiedUsers(Notification::getLastNotifiedAddresses($this->issue_id));
             $this->redirect(APP_RELATIVE_URL . 'view.php?id=' . $this->issue_id);
         }
+    }
+
+    private function displayNotifiedUsers($notify_list)
+    {
+        if (!$notify_list) {
+            return;
+        }
+
+        $update_tpl = new Template_Helper();
+        $update_tpl->setTemplate('include/notified_list.tpl.html');
+        $update_tpl->assign('notify_list', $notify_list);
+        $this->messages->addHtmlBoxMessage($update_tpl->getTemplateContents(false));
     }
 
     private function addTimeEntry()
@@ -166,22 +177,22 @@ class CloseController extends BaseController
         $custom_fields = Custom_Field::getListByIssue($this->prj_id, $this->issue_id, $this->usr_id, 'close_form', true);
 
         $this->tpl->assign(
-            array(
+            [
                 'statuses' => Status::getClosedAssocList($this->prj_id),
                 'resolutions' => Resolution::getAssocList(),
                 'time_categories' => Time_Tracking::getAssocCategories($this->prj_id),
                 'notify_list' => Notification::getLastNotifiedAddresses($this->issue_id),
                 'custom_fields' => $custom_fields,
                 'issue_id' => $this->issue_id,
-            )
+            ]
         );
 
         if ($this->contract && $this->contract->hasPerIncident()) {
             $this->tpl->assign(
-                array(
+                [
                     'redeemed' => $this->contract->getRedeemedIncidentDetails($this->issue_id),
                     'incident_details' => $this->details['customer']['incident_details'],
-                )
+                ]
             );
         }
     }

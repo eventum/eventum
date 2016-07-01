@@ -1,0 +1,41 @@
+{
+	"object_kind": "push",
+	"event_name": "push",
+	"before": "0000000000000000000000000000000000000000",
+	"after": "66e42abd2f773259b08e5761a28de58cc250a8aa",
+	"ref": "refs/heads/mmf",
+	"checkout_sha": "66e42abd2f773259b08e5761a28de58cc250a8aa",
+	"message": null,
+	"user_id": 1,
+	"user_name": "Elan Ruusamäe",
+	"user_email": "glen@delfi.ee",
+	"user_avatar": "http://www.gravatar.com/avatar/effff0989c8041ef98aaf916c7092d6d?s=80\u0026d=identicon",
+	"project_id": 1,
+	"project": {
+		"name": "test",
+		"description": null,
+		"web_url": "http://gitlab.local/glen/test",
+		"avatar_url": null,
+		"git_ssh_url": "git@gitlab.local:glen/test.git",
+		"git_http_url": "http://gitlab.local/glen/test.git",
+		"namespace": "glen",
+		"visibility_level": 0,
+		"path_with_namespace": "glen/test",
+		"default_branch": "master",
+		"homepage": "http://gitlab.local/glen/test",
+		"url": "git@gitlab.local:glen/test.git",
+		"ssh_url": "git@gitlab.local:glen/test.git",
+		"http_url": "http://gitlab.local/glen/test.git"
+	},
+	"commits": [],
+	"total_commits_count": 0,
+	"repository": {
+		"name": "test",
+		"url": "git@gitlab.local:glen/test.git",
+		"description": null,
+		"homepage": "http://gitlab.local/glen/test",
+		"git_http_url": "http://gitlab.local/glen/test.git",
+		"git_ssh_url": "git@gitlab.local:glen/test.git",
+		"visibility_level": 0
+	}
+}

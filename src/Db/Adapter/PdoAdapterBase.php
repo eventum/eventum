@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Db\Adapter;
 
 use BadMethodCallException;
@@ -76,7 +75,7 @@ abstract class PdoAdapterBase
             throw new BadMethodCallException(self::PDO_EXT_MISSING_ERROR);
         }
 
-        $driver = $config['driver'] ?: self::DEFAULT_DRIVER;
+        $driver = isset($config['driver']) ? $config['driver'] : self::DEFAULT_DRIVER;
         if ($driver == 'mysqli') {
             $driver = 'mysql';
         }

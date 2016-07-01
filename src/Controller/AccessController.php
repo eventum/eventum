@@ -10,13 +10,11 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Access;
 use Auth;
 use Issue;
-use Misc;
 use Project;
 use User;
 
@@ -86,9 +84,9 @@ class AccessController extends BaseController
 
         $res = Issue::setAccessLevel($this->issue_id, $post->get('level'));
         if ($res == 1) {
-            Misc::setMessage(ev_gettext('Thank you, the access level has been updated.'));
+            $this->messages->addInfoMessage(ev_gettext('Thank you, the access level has been updated.'));
         } else {
-            Misc::setMessage(ev_gettext('Sorry, there was an error setting the access level'), Misc::MSG_ERROR);
+            $this->messages->addErrorMessage(ev_gettext('Sorry, there was an error setting the access level'));
         }
     }
 
@@ -107,7 +105,7 @@ class AccessController extends BaseController
             Access::addUserToIssue($this->issue_id, $usr_id);
         }
 
-        Misc::setMessage(ev_gettext('Thank you, the access list has been updated.'));
+        $this->messages->addInfoMessage(ev_gettext('Thank you, the access list has been updated.'));
     }
 
     /**
@@ -116,13 +114,13 @@ class AccessController extends BaseController
     protected function prepareTemplate()
     {
         $this->tpl->assign(
-            array(
+            [
                 'issue_id' => $this->issue_id,
                 'levels' => Access::getAccessLevels(),
                 'level' =>  Issue::getAccessLevel($this->issue_id),
                 'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
                 'access_list'   =>  Access::getAccessList($this->issue_id),
-            )
+            ]
         );
     }
 }

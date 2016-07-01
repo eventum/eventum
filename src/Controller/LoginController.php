@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
@@ -57,7 +56,7 @@ class LoginController extends BaseController
         }
 
         if (Validation::isWhitespace($this->passwd)) {
-            $this->loginFailure(2, 'empty password', array('email' => $this->login));
+            $this->loginFailure(2, 'empty password', ['email' => $this->login]);
         }
 
         // check if user exists
@@ -73,12 +72,12 @@ class LoginController extends BaseController
 
         // check if the password matches
         if (!Auth::isCorrectPassword($this->login, $this->passwd)) {
-            $this->loginFailure(3, 'wrong password', array('email' => $this->login));
+            $this->loginFailure(3, 'wrong password', ['email' => $this->login]);
         }
 
         Auth::login($this->login);
 
-        $params = array();
+        $params = [];
         if ($this->url) {
             $params['url'] = $this->url;
         }
@@ -93,7 +92,7 @@ class LoginController extends BaseController
      * @param string $reason
      * @param array $params
      */
-    private function loginFailure($error, $reason, $params = array())
+    private function loginFailure($error, $reason, $params = [])
     {
         Auth::saveLoginAttempt($this->login, 'failure', $reason);
 

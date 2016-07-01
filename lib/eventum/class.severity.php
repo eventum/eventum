@@ -58,9 +58,9 @@ class Severity
                         sev_prj_id=? AND
                         sev_id=?';
             try {
-                DB_Helper::getInstance()->query($sql, array($ranking[$sev_id], $prj_id, $replaced_sev_id));
+                DB_Helper::getInstance()->query($sql, [$ranking[$sev_id], $prj_id, $replaced_sev_id]);
             } catch (DatabaseException $e) {
-                return array();
+                return [];
             }
         }
         $sql = 'UPDATE
@@ -71,9 +71,9 @@ class Severity
                     sev_prj_id=? AND
                     sev_id=?';
         try {
-            DB_Helper::getInstance()->query($sql, array($new_rank, $prj_id, $sev_id));
+            DB_Helper::getInstance()->query($sql, [$new_rank, $prj_id, $sev_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return true;
@@ -98,9 +98,9 @@ class Severity
                  ORDER BY
                     sev_rank ASC';
         try {
-            $res = DB_Helper::getInstance()->getPair($sql, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($sql, [$prj_id]);
         } catch (DatabaseException $e) {
-            return array();
+            return [];
         }
 
         return $res;
@@ -121,7 +121,7 @@ class Severity
                  WHERE
                     sev_id=?';
         try {
-            $res = DB_Helper::getInstance()->getRow($sql, array($sev_id));
+            $res = DB_Helper::getInstance()->getRow($sql, [$sev_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -198,7 +198,7 @@ class Severity
                  WHERE
                     sev_id=?';
         try {
-            DB_Helper::getInstance()->query($sql, array($title, $description, $rank, $sev_id));
+            DB_Helper::getInstance()->query($sql, [$title, $description, $rank, $sev_id]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -224,7 +224,7 @@ class Severity
                     sev_description=?,
                     sev_rank=?';
         try {
-            DB_Helper::getInstance()->query($sql, array($prj_id, $title, $description, $rank));
+            DB_Helper::getInstance()->query($sql, [$prj_id, $title, $description, $rank]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -254,7 +254,7 @@ class Severity
                     sev_rank ASC';
 
         try {
-            $res = DB_Helper::getInstance()->getAll($sql, array($prj_id));
+            $res = DB_Helper::getInstance()->getAll($sql, [$prj_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -277,7 +277,7 @@ class Severity
                  WHERE
                     sev_id=?';
         try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($sev_id));
+            $res = DB_Helper::getInstance()->getOne($sql, [$sev_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -310,7 +310,7 @@ class Severity
                  ORDER BY
                     sev_rank ASC';
         try {
-            $res = DB_Helper::getInstance()->getPair($sql, array($prj_id));
+            $res = DB_Helper::getInstance()->getPair($sql, [$prj_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -338,7 +338,7 @@ class Severity
                     sev_prj_id=?
 					AND sev_title = ?';
         try {
-            $res = DB_Helper::getInstance()->getOne($sql, array($prj_id, $sev_title));
+            $res = DB_Helper::getInstance()->getOne($sql, [$prj_id, $sev_title]);
         } catch (DatabaseException $e) {
             return false;
         }

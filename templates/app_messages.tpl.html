@@ -1,15 +1,15 @@
-{if $core.messages|@count|default:0 > 0}
-<div id="global_messages">
-    {foreach from=$core.messages item=message}
-    <div class="{$message.type}">
-        {if $message.type == 'html_box'}
-            {$message.text}
-        {else}
-        <span>
-            {$message.text|escape}
-        </span>
-        {/if}
-    </div>
+{if $messages|@count|default:0 > 0}
+  <div id="global_messages">
+    {foreach from=$messages key=type item=items}
+      {foreach from=$items item=message}
+        <div class="{$type}">
+          {if $type == 'html_box'}
+            {$message}
+          {else}
+            <span>{$message|escape}</span>
+          {/if}
+        </div>
+      {/foreach}
     {/foreach}
-</div>
+  </div>
 {/if}

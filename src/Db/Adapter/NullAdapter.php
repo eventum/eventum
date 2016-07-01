@@ -10,7 +10,6 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Db\Adapter;
 
 /**
@@ -24,27 +23,27 @@ class NullAdapter implements AdapterInterface
     {
     }
 
-    public function getAll($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
+    public function getAll($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
     }
 
-    public function fetchAssoc($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_DEFAULT)
+    public function fetchAssoc($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_DEFAULT)
     {
     }
 
-    public function getColumn($query, $params = array())
+    public function getColumn($query, $params = [])
     {
     }
 
-    public function getOne($query, $params = array())
+    public function getOne($query, $params = [])
     {
     }
 
-    public function getPair($query, $params = array())
+    public function getPair($query, $params = [])
     {
     }
 
-    public function getRow($query, $params = array(), $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
+    public function getRow($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
     }
 
@@ -52,7 +51,7 @@ class NullAdapter implements AdapterInterface
     {
     }
 
-    public function query($query, $params = array())
+    public function query($query, $params = [])
     {
     }
 

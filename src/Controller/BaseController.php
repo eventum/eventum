@@ -10,12 +10,10 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
-
 namespace Eventum\Controller;
 
 use Auth;
 use InvalidArgumentException;
-use Misc;
 use ReflectionClass;
 use Symfony\Component\HttpFoundation\Request;
 use Template_Helper;
@@ -25,6 +23,9 @@ use Template_Helper;
  *
  * @property-read Helper\AssignHelper $assign
  * @property-read Helper\AttachHelper $attach
+ * @property-read Helper\HtmlHelper $html
+ * @property-read Helper\PlotHelper $plot
+ * @property-read Helper\MessagesHelper $messages
  */
 abstract class BaseController
 {
@@ -86,6 +87,7 @@ abstract class BaseController
      */
     protected function displayTemplate($tpl_name = null)
     {
+        $this->tpl->assign('messages', $this->messages->getMessages());
         // set new template, if needed
         if ($tpl_name) {
             $this->tpl->setTemplate($tpl_name);
@@ -100,9 +102,9 @@ abstract class BaseController
      */
     protected function error($msg)
     {
-        // TODO: move Misc::displayErrorMessage contents here,
-        // once this is only place it's called from
-        Misc::displayErrorMessage($msg);
+        $this->messages->addErrorMessage($msg);
+        $this->displayTemplate('error_message.tpl.html');
+        exit;
     }
 
     /**
@@ -112,7 +114,7 @@ abstract class BaseController
      * @param string $url
      * @param array $params
      */
-    protected function redirect($url, $params = array())
+    protected function redirect($url, $params = [])
     {
         if ($params) {
             $q = strstr($url, '?') ? '&' : '?';

@@ -40,7 +40,7 @@ class Impact_Analysis
                  ) VALUES (
                     ?, ?, ?, ?
                  )';
-        $params = array($issue_id, $usr_id, Date_Helper::getCurrentDateGMT(), $_POST['new_requirement']);
+        $params = [$issue_id, $usr_id, Date_Helper::getCurrentDateGMT(), $_POST['new_requirement']];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -49,9 +49,9 @@ class Impact_Analysis
 
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
-        History::add($issue_id, $usr_id, 'impact_analysis_added', 'New requirement submitted by {user}', array(
+        History::add($issue_id, $usr_id, 'impact_analysis_added', 'New requirement submitted by {user}', [
             'user' => User::getFullName($usr_id)
-        ));
+        ]);
 
         return 1;
     }
@@ -85,7 +85,7 @@ class Impact_Analysis
                     isr_iss_id=? AND
                     isr_usr_id=A.usr_id';
         try {
-            $res = DB_Helper::getInstance()->getAll($stmt, array($issue_id));
+            $res = DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
         } catch (DatabaseException $e) {
             return '';
         }
@@ -119,7 +119,7 @@ class Impact_Analysis
                     {{%issue_requirement}}
                  WHERE
                     isr_id=?';
-        $issue_id = DB_Helper::getInstance()->getOne($stmt, array($isr_id));
+        $issue_id = DB_Helper::getInstance()->getOne($stmt, [$isr_id]);
 
         // we are storing minutes, not hours
         $dev_time = $_POST['dev_time'] * 60;
@@ -133,7 +133,7 @@ class Impact_Analysis
                     isr_impact_analysis=?
                  WHERE
                     isr_id=?';
-        $params = array($usr_id, Date_Helper::getCurrentDateGMT(), $dev_time, $_POST['impact_analysis'], $isr_id);
+        $params = [$usr_id, Date_Helper::getCurrentDateGMT(), $dev_time, $_POST['impact_analysis'], $isr_id];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -142,9 +142,9 @@ class Impact_Analysis
 
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
-        History::add($issue_id, $usr_id, 'impact_analysis_updated', 'Impact analysis submitted by {user}', array(
+        History::add($issue_id, $usr_id, 'impact_analysis_updated', 'Impact analysis submitted by {user}', [
             'user' => User::getFullName($usr_id)
-        ));
+        ]);
 
         return 1;
     }
@@ -180,9 +180,9 @@ class Impact_Analysis
         Issue::markAsUpdated($issue_id);
         // need to save a history entry for this
         $usr_id = Auth::getUserID();
-        History::add($issue_id, $usr_id, 'impact_analysis_removed', 'Impact analysis removed by {user}', array(
+        History::add($issue_id, $usr_id, 'impact_analysis_removed', 'Impact analysis removed by {user}', [
             'user' => User::getFullName($usr_id)
-        ));
+        ]);
 
         return 1;
     }

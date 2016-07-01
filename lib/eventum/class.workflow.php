@@ -13,6 +13,7 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\MailMessage;
+use Eventum\Model\Entity;
 
 class Workflow
 {
@@ -25,7 +26,7 @@ class Workflow
     {
         $files = Misc::getFileList(APP_INC_PATH . '/workflow');
         $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/workflow'));
-        $list = array();
+        $list = [];
         foreach ($files as $file) {
             // display a prettyfied backend name in the admin section
             if (preg_match('/^class\.(.*)\.php$/', $file, $matches)) {
@@ -270,16 +271,6 @@ class Workflow
         }
 
         $backend = self::_getBackend($prj_id);
-
-        // call deprecated handleAssignment() if it still exists
-        $reflection = new ReflectionClass($backend);
-        if ($reflection->hasMethod('handleAssignment')) {
-            if ($reflection->getMethod('handleAssignment')->isPublic()) {
-                trigger_error('Workflow::handleAssignment is deprecated', E_USER_DEPRECATED);
-                $backend->handleAssignment($prj_id, $issue_id, $usr_id);
-            }
-        }
-
         $backend->handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment);
     }
 
@@ -440,27 +431,37 @@ class Workflow
     }
 
     /**
-     * Called when SCM checkins are associated.
-     *
-     * @param   integer $prj_id The project ID.
-     * @param   ScmCheckin $scm SCM config associated with the commit
-     * @param   integer $issue_id The ID of the issue.
-     * @param   array $files File list with their version numbers changes made on.
-     * @param   string $username SCM user doing the checkin.
-     * @param   string $commit_msg Message associated with the SCM commit.
+     * @param int $prj_id The project ID.
+     * @param int $issue_id The ID of the issue.
+     * @param Entity\Commit $commit
+     * @since 3.1.0
      */
-    public static function handleSCMCheckins($prj_id, $scm, $issue_id, $files, $username, $commit_msg)
+    public static function handleScmCommit($prj_id, $issue_id, Entity\Commit $commit)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
 
         $backend = self::_getBackend($prj_id);
+        $backend->handleScmCommit($prj_id, $issue_id, $commit);
+    }
 
-        /**
-         * @deprecated. The $module parameter is deprecated. always NULL, use 'module' from $file object
-         */
-        $backend->handleSCMCheckins($prj_id, $issue_id, null, $files, $username, $commit_msg, $scm);
+    /**
+     * Method called on Commit to allow workflow update project name/commit author or user id
+     *
+     * @param integer $prj_id The project ID.
+     * @param Entity\Commit $commit
+     * @param mixed $payload
+     * @since 3.1.0
+     */
+    public static function preScmCommit($prj_id, $commit, $payload)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+
+        $backend = self::_getBackend($prj_id);
+        $backend->preScmCommit($prj_id, $commit, $payload);
     }
 
     /**
@@ -494,7 +495,7 @@ class Workflow
     public static function getAdditionalEmailAddresses($prj_id, $issue_id, $event, $extra = false)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return array();
+            return [];
         }
         $backend = self::_getBackend($prj_id);
 
@@ -776,7 +777,7 @@ class Workflow
     public static function getIssueFieldsToDisplay($prj_id, $issue_id, $location)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return array();
+            return [];
         }
         $backend = self::_getBackend($prj_id);
 
@@ -792,7 +793,7 @@ class Workflow
     public static function getLinkFilters($prj_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return array();
+            return [];
         }
         $backend = self::_getBackend($prj_id);
 
@@ -858,7 +859,7 @@ class Workflow
     public static function getAccessLevels($prj_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return array();
+            return [];
         }
         $backend = self::_getBackend($prj_id);
 
@@ -898,5 +899,33 @@ class Workflow
         $backend = self::_getBackend($prj_id);
 
         return $backend->getAdditionalAccessSQL($prj_id, $usr_id);
+    }
+
+    /**
+     * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
+     * NOTE: this isn't really project specific, therefore it uses hardcoded project id to obtain workflow class
+     *
+     * @since 3.1.0
+     */
+    public static function cryptoUpgradeConfig($prj_id = 1)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+        self::_getBackend($prj_id)->cryptoUpgradeConfig();
+    }
+
+    /**
+     * Downgrade config: remove all EncryptedValue elements.
+     * NOTE: this isn't really project specific, therefore it uses hardcoded project id to obtain workflow class
+     *
+     * @since 3.1.0
+     */
+    public static function cryptoDowngradeConfig($prj_id = 1)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return;
+        }
+        self::_getBackend($prj_id)->cryptoDowngradeConfig();
     }
 }

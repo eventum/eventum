@@ -44,18 +44,18 @@ class MailStorageTest extends TestCase
     public function testNewMails()
     {
         $mbox = new MailStorage($this->account);
-        $flags = array(
+        $flags = [
             Mail\Storage::FLAG_UNSEEN,
 //            'UNDELETED',
 //            'UNANSWERED',
-        );
+        ];
         var_dump($mbox->countMessages($flags));
     }
 
     public function testGetEmailInfo()
     {
         $mbox = new MailStorage($this->account);
-        $flags = array();
+        $flags = [];
         var_dump($mbox->countMessages($flags));
 
         // not sure how to iterate messages over flags
@@ -80,7 +80,7 @@ class MailStorageTest extends TestCase
         $message_id = '<5d36173add8b60.67944236+8@origin.com>';
         $protocol = $mbox->getProtocol();
 //        $protocol->select('INBOX.support');
-        $response = $protocol->requestAndResponse('TEXT', array($protocol->escapeString($message_id)));
+        $response = $protocol->requestAndResponse('TEXT', [$protocol->escapeString($message_id)]);
 //        $response = $protocol->requestAndResponse('TEXT', array($message_id));
         var_dump($response);
 
@@ -113,22 +113,22 @@ class MailStorageTest extends TestCase
         $content = imap_body($mbox, $num);
 
         // fill with "\Seen", "\Deleted", "\Answered", ... etc
-        $knownFlags = array(
+        $knownFlags = [
             'recent' => Zend\Mail\Storage::FLAG_RECENT,
             'flagged' => Zend\Mail\Storage::FLAG_FLAGGED,
             'answered' => Zend\Mail\Storage::FLAG_ANSWERED,
             'deleted' => Zend\Mail\Storage::FLAG_DELETED,
             'seen' => Zend\Mail\Storage::FLAG_SEEN,
             'draft' => Zend\Mail\Storage::FLAG_DRAFT,
-        );
-        $flags = array();
+        ];
+        $flags = [];
         foreach ($knownFlags as $flag => $value) {
             if ($overview->$flag) {
                 $flags[] = $value;
             }
         }
 
-        $message = new \Zend\Mail\Storage\Message(array('headers' => $header, 'content' => $content, 'flags' => $flags));
+        $message = new \Zend\Mail\Storage\Message(['headers' => $header, 'content' => $content, 'flags' => $flags]);
 
         return $message;
     }

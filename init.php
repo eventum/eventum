@@ -22,7 +22,7 @@ ini_set('memory_limit', '512M');
 ini_set('session.cache_limiter', 'nocache');
 
 define('APP_URL', 'https://github.com/eventum/eventum');
-define('APP_VERSION', '3.0.12-dev');
+define('APP_VERSION', '3.1.3-dev');
 
 // define base path
 define('APP_PATH', __DIR__);
@@ -109,13 +109,6 @@ $define('APP_HIDE_CLOSED_STATS_COOKIE', 'eventum_hide_closed_stats');
 $define('APP_MAINTENANCE', false);
 
 require_once APP_PATH . '/autoload.php';
-
-// fix magic_quote_gpc'ed values
-if (get_magic_quotes_gpc()) {
-    $_GET = Misc::dispelMagicQuotes($_GET);
-    $_POST = Misc::dispelMagicQuotes($_POST);
-    $_REQUEST = Misc::dispelMagicQuotes($_REQUEST);
-}
 
 Misc::stripInput($_POST);
 

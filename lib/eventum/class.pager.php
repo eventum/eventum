@@ -93,13 +93,13 @@ class Pager
     {
         // check for emptyness
         if ((empty($total_rows)) || (empty($per_page))) {
-            return array();
+            return [];
         }
         if ($link_str == -1) {
-            $link_str = array(
+            $link_str = [
                 'previous' => '&lt;&lt; ' . ev_gettext('Previous'),
                 'next'     => ev_gettext('Next') . ' &gt;&gt;',
-            );
+            ];
         }
         $extra_vars = self::_buildQueryString();
         $file = $_SERVER['SCRIPT_NAME'];

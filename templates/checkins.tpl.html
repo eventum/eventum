@@ -1,7 +1,5 @@
 
-
 <script type="text/javascript">
-<!--
 function removeCheckins(f)
 {
     if (!hasOneChecked(f, 'item[]')) {
@@ -56,8 +54,6 @@ $(function() {
   var $scroll_el = $table.eq(1);
   $scroll_el.parent('div').scrollTop($scroll_el.parent('div').scrollTop() + $scroll_el.height());
 });
-
-//-->
 </script>
 
 <form onSubmit="return removeCheckins(this);" target="_removeCheckins" action="popup.php" method="post">
@@ -70,65 +66,14 @@ $(function() {
             [ <a href="javascript:void(null);" onClick="toggleVisibility('checkins');">{get_display_label element_name="checkins" total=$checkins|@count}</a> ]
         </span>
     </div>
-    <div class="content" {get_display_style element_name='checkins' total=$checkins|@count}>
-        <table class="grid scrollTable">
-          <tr>
-            <th width="5">
-              {if $checkins != ""}
-              <input type="button" value="All" class="shortcut" onClick="toggleSelectAll(this.form, 'item[]');">
-              {/if}
-            </th>
-            <th nowrap>{t}Date{/t}</th>
-            <th>{t}User{/t}</th>
-            <th nowrap>{t}Module / Directory{/t}</th>
-            <th nowrap>{t}File{/t}</th>
-            <th width="55%">{t}Commit Message{/t}</th>
-          </tr>
-          {section name="i" loop=$checkins}
-          <tr class="{cycle values='odd,even'}">
-            <td valign="top">
-              <input type="checkbox" name="item[]" value="{$checkins[i].isc_id}">
-            </td>
-            <td valign="top" nowrap>{$checkins[i].isc_created_date|timeago}</td>
-            <td valign="top" >{$checkins[i].isc_username|escape:"html"}</td>
-            <td valign="top">{$checkins[i].isc_module|escape:"html"}</td>
-            <td valign="top" nowrap class="checkins">
-              {if $checkins[i].checkout_url}
-                <a title="{t 1=$checkins[i].isc_filename}see the log of of %1{/t}" target="_blank" href="{$checkins[i].scm_log_url}">{$checkins[i].isc_filename|escape:"html"}</a>
-                {if $checkins[i].added}
-                  ({t}ADDED{/t})
-                {elseif $checkins[i].removed}
-                  ({t}REMOVED{/t})
-                {else}
-                  (<a title="{t 1=$checkins[i].isc_new_version 2=$checkins[i].isc_filename}see the source of revision %1 of %2{/t}" target="_blank" href="{$checkins[i].checkout_url}"><span class=revision>{$checkins[i].isc_new_version}</span></a>)
-                {/if}
-              {else}
-              {$checkins[i].isc_filename|escape:"html"}
-              {/if}
-              {if $checkins[i].diff_url && !$checkins[i].added && !$checkins[i].removed}
-                [<a title="{t 1=$checkins[i].isc_old_version}see the diff to revision %1{/t}" target="_blank" href="{$checkins[i].diff_url}">{t 1=$checkins[i].isc_old_version escape=no}diff to <span class=revision>%1</span>{/t}</a>]
-              {/if}
-            </td>
-            <td valign=top class=message>
-              <span>
-              {$checkins[i].isc_commit_msg}
-              </span>
-            </td>
-          </tr>
-          {sectionelse}
-          <tr class="no_results">
-            <td colspan="6">
-              {t}No checkins could be found.{/t}
-            </td>
-          </tr>
-          {/section}
-        </table>
-    </div>
+
+    {if $checkins}
+      {include file="checkins_list.tpl.html" checkins=$checkins}
+    {/if}
+
     <div class="buttons">
-      {if $checkins != ""}
       <input type="button" value="{t}All{/t}" onClick="toggleSelectAll(this.form, 'item[]');">
       <input type="submit" value="{t}Remove Selected{/t}">
-      {/if}
     </div>
 </div>
 </form>

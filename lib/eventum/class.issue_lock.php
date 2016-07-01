@@ -39,10 +39,10 @@ class Issue_Lock
         }
 
         $lockfile = self::getLockFilename($issue_id);
-        $info = array(
+        $info = [
             'usr_id' => $usr_id,
             'expires' => $expires,
-        );
+        ];
         $fp = fopen($lockfile, 'w');
         flock($fp, LOCK_EX);
         fwrite($fp, serialize($info));
