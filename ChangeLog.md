@@ -8,6 +8,7 @@ Eventum Issue Tracking System
 - Update weekly report to look at time tracking when calculating touched issues. (@balsdorf, #175)
 - Allow SymphonySession to co-exist with native session handling code (@balsdorf)
 - Fix 'get email' command in CLI (@balsdorf)
+- Fix bug with page specific JS not being called (@balsdorf)
 
 2016-06-06, Version [3.1.2]
 ----------------------------
