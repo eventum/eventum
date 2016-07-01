@@ -73,6 +73,10 @@ class Session
         static $session;
 
         if (!$session) {
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+
             // use PhpBridge so any libraries using native session handling such as CAS Authentication will still work
             $session = new SymfonySession(new PhpBridgeSessionStorage());
             $session->start();
