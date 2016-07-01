@@ -9,6 +9,7 @@ Eventum Issue Tracking System
 - Allow SymphonySession to co-exist with native session handling code (@balsdorf)
 - Fix 'get email' command in CLI (@balsdorf)
 - Fix bug with page specific JS not being called (@balsdorf)
+- Fix bug where session variable was never returned (@balsdorf)
 
 2016-06-06, Version [3.1.2]
 ----------------------------

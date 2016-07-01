@@ -42,7 +42,7 @@ class Session
      */
     public static function get($name, $default = null)
     {
-        static::getInstance()->get($name, $default);
+        return static::getInstance()->get($name, $default);
     }
 
     /**
