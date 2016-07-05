@@ -60,6 +60,10 @@ Session.vim
 /tests/secret_key.php
 /tests/_output/*
 /tests/_support/_generated/*
+/tests/acceptance.suite.yml
+/tests/functional.suite.yml
+/tests/unit.suite.yml
+/codeception.yml
 
 /misc/routed_emails/*
 /misc/routed_notes/*
