@@ -12,15 +12,24 @@
  * @method void am($role)
  * @method void lookForwardTo($achieveValue)
  * @method void comment($description)
- * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = NULL)
+ * @method \Codeception\Lib\Friend haveFriend($name, $actorClass = null)
  *
  * @SuppressWarnings(PHPMD)
-*/
+ */
 class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
+    
+    public function login($name, $password)
+    {
+        $I = $this;
+        $I->amOnPage('/');
+        
+        $I->see('Login:');
+        $I->see('Password:');
 
-   /**
-    * Define custom actions here
-    */
+        $I->fillField('email', $name);
+        $I->fillField('passwd', $password);
+        $I->click('Login');
+    }
 }
