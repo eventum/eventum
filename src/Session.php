@@ -42,7 +42,7 @@ class Session
      */
     public static function get($name, $default = null)
     {
-        static::getInstance()->get($name, $default);
+        return static::getInstance()->get($name, $default);
     }
 
     /**
@@ -73,6 +73,10 @@ class Session
         static $session;
 
         if (!$session) {
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+
             // use PhpBridge so any libraries using native session handling such as CAS Authentication will still work
             $session = new SymfonySession(new PhpBridgeSessionStorage());
             $session->start();
