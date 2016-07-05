@@ -29,7 +29,6 @@ Session.vim
 /cli/build/
 
 /composer.lock
-/composer.phar
 /vendor
 
 /config/cas.php
@@ -51,14 +50,16 @@ Session.vim
 
 /localization/*.mo
 /localization/*/
-
 /po
-/tests/_*
+
+/tests/_setup.php
+/tests/_locales.stamp
 !/tests/_bootstrap.php
 /tests/ldap.php
 /tests/private_key.php
 /tests/secret_key.php
 /tests/_output/*
+/tests/_support/_generated/*
 
 /misc/routed_emails/*
 /misc/routed_notes/*
