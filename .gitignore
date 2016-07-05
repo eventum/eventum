@@ -18,9 +18,13 @@ Session.vim
 /TODO.*
 
 /box.phar
+/codecept.phar
+/composer.phar
+/gush.phar
 /php-cs-fixer.phar
-/phpcompatinfo.phar
 /phpab.phar
+/phpcompatinfo.phar
+/phpunit.phar
 /cli/*.phar
 /cli/build/
 
