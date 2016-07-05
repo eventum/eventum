@@ -13,8 +13,6 @@ extensions:
     enabled:
         - Codeception\Extension\RunFailed
 modules:
-    enabled:
-        Filesystem
     config:
         Db:
             dsn: 'mysql:host=localhost;dbname=e_test'

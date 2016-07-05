@@ -17,4 +17,14 @@ namespace Helper;
 
 class Acceptance extends \Codeception\Module
 {
+    /**
+     * Delete setup config.
+     * This is needed to happen before Page\Setup is loaded as it requests the "/setup/" url in its constructor
+     *
+     * @param \AcceptanceTester $I
+     */
+    public function deleteSetupConfig(\AcceptanceTester $I)
+    {
+        $I->deleteFile('dist/eventum/config/config.php');
+    }
 }
