@@ -54,6 +54,7 @@ Session.vim
 
 /po
 /tests/_*
+!/tests/_bootstrap.php
 /tests/ldap.php
 /tests/private_key.php
 /tests/secret_key.php
