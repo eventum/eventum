@@ -13,6 +13,11 @@
 
 class SetupCest
 {
+    public function _before(AcceptanceTester $I)
+    {
+        $I->deleteSetupConfig($I);
+    }
+
     public function setup(AcceptanceTester $I, \Page\Setup $setupPage)
     {
         $I->am('Administrator');
