@@ -10,7 +10,7 @@ class LoginCest
     public function loginInvalidUser(AcceptanceTester $I)
     {
         $I->am('User'); // actor's role
-        $I->wantTo('Login'); // feature to test
+        $I->wantTo('Login Failure'); // feature to test
         $I->amGoingTo('Login to website'); // feature to test
 
         $I->see('Login:');
@@ -25,7 +25,7 @@ class LoginCest
     public function loginAdminUser(AcceptanceTester $I)
     {
         $I->am('Admin'); // actor's role
-        $I->wantTo('Login'); // feature to test
+        $I->wantTo('Login Success'); // feature to test
         $I->amGoingTo('Login to website'); // feature to test
 
         $I->see('Login:');
