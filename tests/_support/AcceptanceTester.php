@@ -19,17 +19,4 @@
 class AcceptanceTester extends \Codeception\Actor
 {
     use _generated\AcceptanceTesterActions;
-    
-    public function login($name, $password)
-    {
-        $I = $this;
-        $I->amOnPage('/');
-        
-        $I->see('Login:');
-        $I->see('Password:');
-
-        $I->fillField('email', $name);
-        $I->fillField('passwd', $password);
-        $I->click('Login');
-    }
 }

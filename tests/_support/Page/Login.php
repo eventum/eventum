@@ -3,6 +3,16 @@ namespace Page;
 
 class Login
 {
+    /**
+     * @var \AcceptanceTester
+     */
+    protected $tester;
+
+    public function __construct(\AcceptanceTester $I)
+    {
+        $this->tester = $I;
+    }
+
     // include url of current page
     public static $URL = '';
 
@@ -20,5 +30,21 @@ class Login
     public static function route($param)
     {
         return static::$URL . $param;
+    }
+
+    public function login($name, $password)
+    {
+        $I = $this->tester;
+
+        $I->amOnPage('/');
+
+        $I->see('Login:');
+        $I->see('Password:');
+
+        $I->fillField('email', $name);
+        $I->fillField('passwd', $password);
+        $I->click('Login');
+
+        return $this;
     }
 }
