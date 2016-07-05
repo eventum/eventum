@@ -4,7 +4,6 @@ class LoginCest
 {
     public function _before(AcceptanceTester $I)
     {
-        $I->amOnPage('/');
     }
 
     public function loginInvalidUser(AcceptanceTester $I)
@@ -13,12 +12,7 @@ class LoginCest
         $I->wantTo('Login Failure'); // feature to test
         $I->amGoingTo('Login to website'); // feature to test
 
-        $I->see('Login:');
-        $I->see('Password:');
-
-        $I->fillField('email', 'admin@example.com');
-        $I->fillField('passwd', 'qwerty');
-        $I->click('Login');
+        $I->login('admin@example.com', 'qwerty');
         $I->see('Error: The login / password combination could not be found in the system.');
     }
 
@@ -28,13 +22,7 @@ class LoginCest
         $I->wantTo('Login Success'); // feature to test
         $I->amGoingTo('Login to website'); // feature to test
 
-        $I->see('Login:');
-        $I->see('Password:');
-
-        $I->fillField('email', 'admin@example.com');
-        $I->fillField('passwd', 'admin');
-        $I->click('Login');
-
+        $I->login('admin@example.com', 'admin');
         // after login should see "Create Issue"
         $I->see('Create Issue');
     }
