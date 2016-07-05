@@ -20,15 +20,17 @@ $(document).ready(function() {
 
     // check the class of the body and try to execute the prep functions if there is a class defined for that
     var $body = $("body");
+    var classes = $body.attr('class').split(" ");
     var page_id = $body.attr('id');
-    $.each($body.attr('class').split(" "), function(indexInArray, valueOfElement) {
-        if (valueOfElement == '') {
+    classes.push(page_id);
+    $.each(classes, function(indexInArray, className) {
+        if (className == '') {
             return
         }
-        valueOfElement = valueOfElement.replace('-', '_');
-        if (eval("typeof " + valueOfElement) !== "undefined" &&
-                eval("typeof " + valueOfElement + '.ready') == 'function') {
-            eval(valueOfElement + '.ready(page_id)');
+        className = className.replace('-', '_');
+        if (eval("typeof " + className) !== "undefined" &&
+                eval("typeof " + className + '.ready') == 'function') {
+            eval(className + '.ready(page_id)');
         }
     });
 
