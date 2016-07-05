@@ -53,6 +53,7 @@ Session.vim
 /tests/ldap.php
 /tests/private_key.php
 /tests/secret_key.php
+/tests/_output/*
 
 /misc/routed_emails/*
 /misc/routed_notes/*
