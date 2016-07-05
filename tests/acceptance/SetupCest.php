@@ -20,11 +20,13 @@ class SetupCest
 
         $setupPage->dontSeeLogin();
         $setupPage->shouldSeeInstallForm();
-        
+
+        $rel_url = $I->grabValueFrom('input[name=relative_url]');
+
         $params = [
             'cat' => 'install',
             'hostname' => 'localhost',
-            'relative_url' => '/~glen/eventum-setup/',
+            'relative_url' => $rel_url,
             'db_hostname' => 'localhost',
             'db_name' => 'e',
             'create_db' => 'yes',
