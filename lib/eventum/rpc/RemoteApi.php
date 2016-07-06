@@ -13,6 +13,8 @@
 
 use Eventum\Monolog\Logger;
 
+ini_set('html_errors', 0);
+
 class RemoteApiException extends RuntimeException
 {
 }
@@ -714,18 +716,15 @@ class RemoteApi
      * @param string $start
      * @param string $end
      * @param bool $separate_closed
+     * @param int $prj_id
      * @return string
      * @access protected
      * @deprecated use getWeeklyReportData() and format data yourself
      */
-    public function getWeeklyReport($week, $start, $end, $separate_closed)
+    public function getWeeklyReport($week, $start, $end, $separate_closed, $prj_id)
     {
         $usr_id = Auth::getUserID();
         $week = abs($week);
-
-        // we have to set a project so the template class works, even though the weekly report doesn't actually need it
-        $projects = Project::getAssocList(Auth::getUserID());
-        $prj_id = current(array_keys($projects));
         AuthCookie::setProjectCookie($prj_id);
         $prj_id = Auth::getCurrentProject();
 
