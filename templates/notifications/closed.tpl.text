@@ -20,6 +20,9 @@
            {t escape=no}Status{/t}: {$data.sta_title}
           {t escape=no}Project{/t}: {$data.prj_title}
       {t escape=no}Reported By{/t}: {$data.reporter}
+{if $data.prc_title != ''}
+         {t escape=no}Category{/t}: {$data.prc_title}
+{/if}
          {t escape=no}Priority{/t}: {$data.pri_title}
       {t escape=no}Description{/t}:
 ----------------------------------------------------------------------
