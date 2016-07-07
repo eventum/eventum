@@ -916,7 +916,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      */
     public static function getWeeklyReport($client, $auth, $week, $start_date = '', $end_date = '', $separate_closed = false)
     {
-        $ret = $client->getWeeklyReport($auth[0], $auth[1], (int) $week, $start_date, $end_date, $separate_closed);
+        $prj_id = self::promptProjectSelection($client, $auth);
+        $ret = $client->getWeeklyReport($auth[0], $auth[1], (int) $week, $start_date, $end_date, $separate_closed, $prj_id);
         echo $ret;
     }
 

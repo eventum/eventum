@@ -10,6 +10,8 @@ Eventum Issue Tracking System
 - Fix 'get email' command in CLI (@balsdorf)
 - Fix bug with page specific JS not being called (@balsdorf)
 - Fix bug where session variable was never returned (@balsdorf)
+- Add project selection to CLI getWeeklyReport (@balsdorf)
+- Add category to notification emails (@balsdorf)
 
 2016-06-06, Version [3.1.2]
 ----------------------------
