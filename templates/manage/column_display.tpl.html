@@ -45,6 +45,12 @@
                 <select name="min_role[{$field_name}]">
                     {html_options options=$user_roles selected=$selected_role}
                 </select>
+                {if $field_name == 'sta_change_date'}
+                <br />
+                <em>
+                    Note: You need to <a href="{$core.rel_url}manage/customize_listing.php?prj_id={$prj_id}">configure this field</a> before it can be used.
+                </em>
+                {/if}
             </td>
             <td align="center" width="40%">
                 {assign var="selected_field" value=$selected[$field_name]|default:''}
