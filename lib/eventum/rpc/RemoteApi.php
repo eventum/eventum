@@ -753,7 +753,7 @@ class RemoteApi
             'data' => Report::getWeeklyReport($usr_id, $prj_id, $start, $end, $options),
         ]);
 
-        $ret = $tpl->getTemplateContents() . "\n";
+        $ret = strip_tags($tpl->getTemplateContents()) . "\n";
 
         return $ret;
     }
