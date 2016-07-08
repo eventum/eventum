@@ -59,6 +59,10 @@ class Display_Column
         if ($current_role == User::ROLE_CUSTOMER) {
             unset($data['iss_customer_id']);
         }
+        // remove status change date column if no customizations setup
+        if (count(Status::getProjectStatusCustomization($prj_id, array_keys(Status::getAssocStatusList($prj_id)))) < 1) {
+            unset($data['sta_change_date']);
+        }
 
         foreach ($data as $field => $info) {
             // remove fields based on role
