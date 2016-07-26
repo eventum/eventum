@@ -263,6 +263,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
 
             // read in details, and make modification only if data has changed
             $user_details = User::getDetails($usr_id);
+            $aliases = User::getAliases($usr_id);
             $stored_data = [
                 'full_name' => $user_details['usr_full_name'],
                 'external_id' => $user_details['usr_external_id'],
@@ -280,11 +281,13 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
                 User::update($usr_id, $data, false);
             }
 
-            $aliases = User::getAliases($usr_id);
             // as we are only adding aliases (never removing)
             // check only one way
             if (array_diff($emails, $aliases)) {
-                $this->updateAliases($usr_id, $emails);
+                $res = $this->updateAliases($usr_id, $emails);
+                if (!$res) {
+                    error_log("aliases update failed");
+                }
             }
 
             return $usr_id;
@@ -327,11 +330,21 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         return $usr_id;
     }
 
+    /**
+     * @return true if all aliases were added
+     */
     private function updateAliases($usr_id, $aliases)
     {
+        $updated = 0;
         foreach ($aliases as $alias) {
-            User::addAlias($usr_id, $alias);
+            $res = User::addAlias($usr_id, $alias);
+            if (!$res) {
+                error_log("updating $alias failed");
+            } else {
+                $updated++;
+            }
         }
+        return $updated === count($aliases);
     }
 
     public function getUserIDByLogin($login)
