@@ -271,13 +271,20 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
                 'contact_id' => $user_details['usr_customer_contact_id'],
                 'email' => $user_details['usr_email'],
             ];
+            $remove_aliases = [];
 
             if ($stored_data != $data) {
                 $diff = array_diff_assoc($data, $stored_data);
                 // if email is about to be updated, move current one to aliases
                 if (isset($diff['email']) && isset($stored_data['email'])) {
                     $emails[] = $stored_data['email'];
+
+                    // if new email is present in aliases remove it from there
+                    if (($key = array_search($data['email'], $aliases)) !== false) {
+                        $remove_aliases[] = $aliases[$key];
+                    }
                 }
+
                 User::update($usr_id, $data, false);
             }
 
@@ -287,6 +294,12 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
                 $res = $this->updateAliases($usr_id, $emails);
                 if (!$res) {
                     error_log("aliases update failed");
+                }
+            }
+
+            if ($remove_aliases) {
+                foreach ($remove_aliases as $email) {
+                    User::removeAlias($usr_id, $email);
                 }
             }
 
