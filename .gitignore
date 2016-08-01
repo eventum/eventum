@@ -18,14 +18,17 @@ Session.vim
 /TODO.*
 
 /box.phar
+/codecept.phar
+/composer.phar
+/gush.phar
 /php-cs-fixer.phar
-/phpcompatinfo.phar
 /phpab.phar
+/phpcompatinfo.phar
+/phpunit.phar
 /cli/*.phar
 /cli/build/
 
 /composer.lock
-/composer.phar
 /vendor
 
 /config/cas.php
@@ -47,12 +50,20 @@ Session.vim
 
 /localization/*.mo
 /localization/*/
-
 /po
-/tests/_*
+
+/tests/_setup.php
+/tests/_locales.stamp
+!/tests/_bootstrap.php
 /tests/ldap.php
 /tests/private_key.php
 /tests/secret_key.php
+/tests/_output/*
+/tests/_support/_generated/*
+/tests/acceptance.suite.yml
+/tests/functional.suite.yml
+/tests/unit.suite.yml
+/codeception.yml
 
 /misc/routed_emails/*
 /misc/routed_notes/*
