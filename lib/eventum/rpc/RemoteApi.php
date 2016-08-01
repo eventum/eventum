@@ -13,8 +13,6 @@
 
 use Eventum\Monolog\Logger;
 
-ini_set('html_errors', 0);
-
 class RemoteApiException extends RuntimeException
 {
 }
