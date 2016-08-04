@@ -280,6 +280,7 @@ issue_view.ready = function(page_id)
     $('.reply_issue_note').click(issue_view.replyIssueNote);
     $('.edit_incident_redemption').click(issue_view.editIncidentRedemption);
     $('a.edit_time_entry').click(issue_view.editTimeEntry);
+    $('a.delete_time_entry').click(issue_view.deleteTimeEntry);
     $('.add_time_entry').click(issue_view.addTimeEntry);
 
     $('.mark_duplicate').click(function() { window.location.href='duplicate.php?id=' + issue_view.get_issue_id(); });
@@ -492,16 +493,20 @@ issue_view.openReporter = function(issue_id)
     popupWin.focus();
 };
 
-issue_view.deleteTimeEntry = function(time_id)
+issue_view.deleteTimeEntry = function(e)
 {
-    if (!confirm('{t escape=js}This action will permanently delete the specified time tracking entry.{/t}')) {
+    var target = $(e.target);
+    var ttr_id = target.data('ttr-id');
+    var warning_msg = target.closest('form').data('delete-warning');
+    if (!confirm(warning_msg)) {
         return false;
+    } else {
+        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+        var popupWin = window.open('popup.php?cat=delete_time&id=' + ttr_id, '_popup', features);
+        popupWin.focus();
     }
-
-    var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-    var popupWin = window.open('popup.php?cat=delete_time&id=' + time_id, '_popup', features);
-    popupWin.focus();
-};
+    return false;
+}
 
 issue_view.addTimeEntry = function()
 {
