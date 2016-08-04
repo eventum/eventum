@@ -496,12 +496,12 @@ issue_view.deleteTimeEntry = function(time_id)
 {
     if (!confirm('{t escape=js}This action will permanently delete the specified time tracking entry.{/t}')) {
         return false;
-    } else {
-        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var popupWin = window.open('popup.php?cat=delete_time&id=' + time_id, '_popup', features);
-        popupWin.focus();
     }
-}
+
+    var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('popup.php?cat=delete_time&id=' + time_id, '_popup', features);
+    popupWin.focus();
+};
 
 issue_view.addTimeEntry = function()
 {
@@ -509,7 +509,7 @@ issue_view.addTimeEntry = function()
     var popupWin = window.open('time_tracking.php?iss_id=' + issue_view.get_issue_id(), 'time_tracking_' + issue_view.get_issue_id(), features);
 
     popupWin.focus();
-}
+};
 
 issue_view.editTimeEntry = function(e)
 {
@@ -521,7 +521,7 @@ issue_view.editTimeEntry = function(e)
 
     popupWin.focus();
     return false;
-}
+};
 
 /*
  * Update Issue Page
@@ -853,12 +853,12 @@ adv_search.validateRemove = function()
     }
     if (!confirm('This action will permanently delete the selected entries.')) {
         return false;
-    } else {
-        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var popupWin = window.open('', '_removeFilter', features);
-        popupWin.focus();
-        return true;
     }
+
+    var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('', '_removeFilter', features);
+    popupWin.focus();
+    return true;
 };
 
 /*
@@ -1054,7 +1054,7 @@ preferences.ready = function()
         var $this = $(this);
         $this.select();
     });
-}
+};
 
 preferences.validateName = function()
 {
@@ -1064,7 +1064,7 @@ preferences.validateName = function()
         return false;
     }
     return true;
-}
+};
 
 preferences.validateEmail = function()
 {
@@ -1074,7 +1074,7 @@ preferences.validateEmail = function()
         return false;
     }
     return true;
-}
+};
 
 preferences.validatePassword = function()
 {
@@ -1096,7 +1096,7 @@ preferences.validatePassword = function()
         return false;
     }
     return true;
-}
+};
 
 preferences.confirmRegenerateToken = function()
 {
@@ -1104,4 +1104,4 @@ preferences.confirmRegenerateToken = function()
         return true;
     }
     return false;
-}
+};
