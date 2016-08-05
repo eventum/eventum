@@ -432,11 +432,11 @@ issue_view.delete_attachment = function(e)
     var iat_id = $(e.target).attr('data-iat-id');
     if (!confirm('This action will permanently delete the selected attachment.')) {
         return false;
-    } else {
-        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var popupWin = window.open('popup.php?cat=delete_attachment&id=' + iat_id, '_popup', features);
-        popupWin.focus();
     }
+
+    var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('popup.php?cat=delete_attachment&id=' + iat_id, '_popup', features);
+    popupWin.focus();
 };
 
 issue_view.delete_file = function(e)
@@ -444,11 +444,11 @@ issue_view.delete_file = function(e)
     var iaf_id = $(e.target).attr('data-iaf-id');
     if (!confirm('This action will permanently delete the selected file.')) {
         return false;
-    } else {
-        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var popupWin = window.open('popup.php?cat=delete_file&id=' + iaf_id, '_popup', features);
-        popupWin.focus();
     }
+
+    var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('popup.php?cat=delete_file&id=' + iaf_id, '_popup', features);
+    popupWin.focus();
 };
 
 issue_view.removeQuarantine = function()
@@ -500,13 +500,14 @@ issue_view.deleteTimeEntry = function(e)
     var warning_msg = target.closest('form').data('delete-warning');
     if (!confirm(warning_msg)) {
         return false;
-    } else {
-        var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var popupWin = window.open('popup.php?cat=delete_time&id=' + ttr_id, '_popup', features);
-        popupWin.focus();
     }
+
+    var features = 'width=420,height=200,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var popupWin = window.open('popup.php?cat=delete_time&id=' + ttr_id, '_popup', features);
+    popupWin.focus();
+
     return false;
-}
+};
 
 issue_view.addTimeEntry = function()
 {
