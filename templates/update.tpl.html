@@ -2,6 +2,11 @@
 {block page_classes}issue_update issue_view product CustomField{/block}
 {block title}{t 1=$issue_id}Issue #%1 - Update{/t}{/block}
 
+{block "javascripts" append}
+  <script type="text/javascript" src="{$core.rel_url}ajax/dynamic_custom_field.js.php?form_type=update_form"></script>
+  <script type="text/javascript" src="{$core.rel_url}js/dynamic_custom_field.js"></script>
+{/block}
+
 {block "content"}
 {if $issue|default:'' != ''}
 {include file="update_form.tpl.html"}
