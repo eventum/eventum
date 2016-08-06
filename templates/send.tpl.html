@@ -330,8 +330,6 @@ $().ready(function() {
             <input type="text" name="time_summary" size="40" data-storage="false">{include file="error_icon.tpl.html" field="time_summary"}
         </td>
     </tr>
-    {elseif $issue_id and $core.current_role == $core.roles.customer}
-    <input type="hidden" name="new_status" value="{$new_status}">
     {/if}
     {if $hide_email_buttons|default:'' != 'yes'}
     <tr class="buttons">
