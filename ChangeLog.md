@@ -13,6 +13,7 @@ Eventum Issue Tracking System
 - Add project selection to CLI getWeeklyReport (@balsdorf)
 - Add category to notification emails (@balsdorf)
 - Don't display Status Change Date column if it has not been customized (@balsdorf)
+- Strip tabs and newlines from email subjects (@balsdorf)
 
 2016-06-06, Version [3.1.2]
 ----------------------------
