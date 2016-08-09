@@ -4,14 +4,16 @@
 {section name="i" loop=$custom_fields}
 {assign var='fld_id' value=$custom_fields[i].fld_id}
 {assign var="custom_field_id" value=$custom_fields[i].fld_id}
-{if $form_type == 'report'}
+{if $form_type|default:'' == 'report'}
   {assign var="cf_required" value=$custom_fields[i].fld_report_form_required}
-{elseif $form_type == 'anonymous'}
+{elseif $form_type|default:'' == 'anonymous'}
   {assign var="cf_required" value=$custom_fields[i].fld_anonymous_form_required}
-{elseif $form_type == 'close'}
+{elseif $form_type|default:'' == 'close'}
   {assign var="cf_required" value=$custom_fields[i].fld_close_form_required}
-{elseif $form_type == 'edit'}
+{elseif $form_type|default:'' == 'edit'}
   {assign var="cf_required" value=$custom_fields[i].fld_edit_form_required}
+{else}
+  {assign var="cf_required" value=""}
 {/if}
 <tr class="custom_field"
     data-custom-id="{$custom_fields[i].fld_id}"
@@ -48,7 +50,7 @@
           <input type="hidden" name="custom_fields[{$custom_field_id}][]" value="" />
       {foreach $custom_fields[i].field_options as $key => $display}
           <li><label><input type="checkbox" name="custom_fields[{$custom_field_id}][]" value="{$key}"
-                  {if in_array($key, $selected_cfo_ids)}checked{/if} />{$display}</label></li>
+                  {if is_array($selected_cfo_ids) and in_array($key, $selected_cfo_ids)}checked{/if} />{$display}</label></li>
       {/foreach}
       </ul>
     {else}

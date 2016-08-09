@@ -263,6 +263,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
 
             // read in details, and make modification only if data has changed
             $user_details = User::getDetails($usr_id);
+            $aliases = User::getAliases($usr_id);
             $stored_data = [
                 'full_name' => $user_details['usr_full_name'],
                 'external_id' => $user_details['usr_external_id'],
@@ -270,21 +271,36 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
                 'contact_id' => $user_details['usr_customer_contact_id'],
                 'email' => $user_details['usr_email'],
             ];
+            $remove_aliases = [];
 
             if ($stored_data != $data) {
                 $diff = array_diff_assoc($data, $stored_data);
                 // if email is about to be updated, move current one to aliases
                 if (isset($diff['email']) && isset($stored_data['email'])) {
                     $emails[] = $stored_data['email'];
+
+                    // if new email is present in aliases remove it from there
+                    if (($key = array_search($data['email'], $aliases)) !== false) {
+                        $remove_aliases[] = $aliases[$key];
+                    }
                 }
+
                 User::update($usr_id, $data, false);
             }
 
-            $aliases = User::getAliases($usr_id);
             // as we are only adding aliases (never removing)
             // check only one way
             if (array_diff($emails, $aliases)) {
-                $this->updateAliases($usr_id, $emails);
+                $res = $this->updateAliases($usr_id, $emails);
+                if (!$res) {
+                    error_log("aliases update failed");
+                }
+            }
+
+            if ($remove_aliases) {
+                foreach ($remove_aliases as $email) {
+                    User::removeAlias($usr_id, $email);
+                }
             }
 
             return $usr_id;
@@ -327,11 +343,21 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         return $usr_id;
     }
 
+    /**
+     * @return true if all aliases were added
+     */
     private function updateAliases($usr_id, $aliases)
     {
+        $updated = 0;
         foreach ($aliases as $alias) {
-            User::addAlias($usr_id, $alias);
+            $res = User::addAlias($usr_id, $alias);
+            if (!$res) {
+                error_log("updating $alias failed");
+            } else {
+                $updated++;
+            }
         }
+        return $updated === count($aliases);
     }
 
     public function getUserIDByLogin($login)

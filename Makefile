@@ -65,6 +65,9 @@ phpab.phar:
 gush.phar:
 	$(call fetch_tool,http://gushphp.org/gush.phar)
 
+codecept.phar:
+	$(call fetch_tool,http://codeception.com/codecept.phar)
+
 pear-fix: composer.lock
 	-$(php-cs-fixer) fix vendor/pear-pear.php.net --fixers=php4_constructor --verbose
 
