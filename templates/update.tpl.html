@@ -3,7 +3,7 @@
 {block title}{t 1=$issue_id}Issue #%1 - Update{/t}{/block}
 
 {block "javascripts" append}
-  <script type="text/javascript" src="{$core.rel_url}ajax/dynamic_custom_field.js.php?form_type=update_form"></script>
+  <script type="text/javascript" src="{$core.rel_url}ajax/dynamic_custom_field.js.php?iss_id={$issue_id}"></script>
   <script type="text/javascript" src="{$core.rel_url}js/dynamic_custom_field.js"></script>
 {/block}
 
