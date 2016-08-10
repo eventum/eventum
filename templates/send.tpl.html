@@ -90,7 +90,7 @@ function validateForm()
     }
 
     var leave_page = true;
-{if $core.current_role != $core.roles.customer and $issue_id != 0}
+{if $core.current_role != $core.roles.customer and $issue_id|default:'' != 0}
     {if !$can_send_email}
     var warning_msg = "{t}WARNING: You are not assigned to this issue so your email will be blocked.\nYour blocked email will be converted to a note that can be recovered later.\nFor more information, please see the topic 'email blocking' in help.{/t}";
     {elseif $core.has_crm}
@@ -217,7 +217,7 @@ $().ready(function() {
         {t}To{/t} *
       </th>
       <td>
-        {if $issue_id == ''}
+        {if $issue_id|default:'' == ''}
             <input type="text" name="to" size="50" value="{$email.sup_from|escape:"html"}">
             {include file="error_icon.tpl.html" field="to"}
         {else}
@@ -232,7 +232,7 @@ $().ready(function() {
       <td>
         <input type="text" name="cc" size="50" value="{$email.cc|default:''|escape:"html"}" {if $read_only|default:'' == 1}readonly{/if}>
           {include file="error_icon.tpl.html" field="cc"}<br />
-        {if $issue_id and $core.current_role != $core.roles.customer and $read_only|default:'' != 1}
+        {if $issue_id|default:'' and $core.current_role != $core.roles.customer and $read_only|default:'' != 1}
         <label>
             <input type="checkbox" name="add_unknown" value="yes" {if $should_auto_add_to_nl}checked{/if}>
             {t}Add Unknown Recipients to Issue Notification List{/t}
@@ -298,7 +298,7 @@ $().ready(function() {
         </div>
       </td>
     </tr>
-    {if $issue_id and $core.current_role > $core.roles.customer and $read_only|default:'' != 1}
+    {if $issue_id|default:'' and $core.current_role > $core.roles.customer and $read_only|default:'' != 1}
         {if $hide_email_buttons|default:'' != 'yes'}
     <tr>
       <th width="120">
@@ -349,7 +349,7 @@ $().ready(function() {
       </td>
     </tr>
     {/if}
-    {if $issue_id and $core.current_role != $core.roles.customer}
+    {if $issue_id|default:'' and $core.current_role != $core.roles.customer}
     <tr class="buttons internal">
       <td colspan="2">
         {if $read_only|default:'' != 1}
