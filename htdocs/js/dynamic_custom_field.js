@@ -12,6 +12,7 @@
 (function (exports, dynamic_options) {
 
     exports.custom_field_init_dynamic_options = custom_field_init_dynamic_options;
+    exports.custom_field_set_new_options = custom_field_set_new_options;
 
     /**
      * @access private

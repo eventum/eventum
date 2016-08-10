@@ -1,4 +1,4 @@
-<form name="add_time_form" method="post" action="#">
+<form name="add_time_form" method="post" action="#" data-delete-warning="{t}This action will permanently delete the specified time tracking entry.{/t}">
 <div class="issue_section bordered internal" id="time_tracking">
     <div class="title">
         {t}Time Tracking{/t} ({$time_entries|@count})
@@ -23,7 +23,7 @@
             <td nowrap>{$time_entries[i].ttr_created_date|timeago}</td>
             <td nowrap>
               {$time_entries[i].usr_full_name|escape:html}
-              {if $core.user.usr_id == $time_entries[i].ttr_usr_id}[ <a href="javascript:void(null);" onClick="deleteTimeEntry({$time_entries[i].ttr_id});">{t}delete{/t}</a> ]{/if}
+              {if $core.user.usr_id == $time_entries[i].ttr_usr_id}[ <a class="delete_time_entry" data-ttr-id="{$time_entries[i].ttr_id}" href="popup.php?cat=delete_time&id={$time_entries[i].ttr_id}">{t}delete{/t}</a> ]{/if}
             </td>
             <td>{$time_entries[i].formatted_time}</td>
             <td nowrap>{$time_entries[i].ttc_title}</td>

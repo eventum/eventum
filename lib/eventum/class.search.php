@@ -473,6 +473,8 @@ class Search
                         $col_key = 'status_change_date';break;
                     case 'sev_rank':
                         $col_key = 'sev_title';break;
+                    case 'iss_customer_id':
+                        $col_key = 'customer_title';break;
                 }
                 if ($col_key == 'custom_fields' && count($custom_fields) > 0) {
                     $custom_field_values = Custom_Field::getListByIssue($prj_id, $row['iss_id']);

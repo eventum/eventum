@@ -44,7 +44,7 @@ class HistoryController extends BaseController
         Auth::checkAuthentication(null, true);
 
         $usr_id = Auth::getUserID();
-        if (!Access::canViewHistory($usr_id, $usr_id)) {
+        if (!Access::canViewHistory($this->issue_id, $usr_id)) {
             return false;
         }
 
