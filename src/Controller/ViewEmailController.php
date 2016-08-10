@@ -12,6 +12,7 @@
  */
 namespace Eventum\Controller;
 
+use Access;
 use Auth;
 use Email_Account;
 use Issue;
@@ -75,7 +76,7 @@ class ViewEmailController extends BaseController
 
         $this->issue_id = Support::getIssueFromEmail($this->sup_id);
         if (!$this->issue_id) {
-            return false;
+            return Access::canAccessAssociateEmails($this->usr_id);
         }
 
         if (!Issue::canAccess($this->issue_id, $this->usr_id)) {
