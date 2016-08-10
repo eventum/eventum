@@ -71,7 +71,11 @@ class SendController extends BaseController
         $this->prj_id = Auth::getCurrentProject();
         $this->usr_id = Auth::getUserID();
 
-        return Issue::canAccess($this->issue_id, $this->usr_id);
+        if ($this->issue_id) {
+            return Issue::canAccess($this->issue_id, $this->usr_id);
+        } else {
+            return Access::canAccessAssociateEmails($this->usr_id);
+        }
     }
 
     protected function defaultAction()
