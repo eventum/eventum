@@ -165,7 +165,19 @@ class PostNoteController extends BaseController
             $this->setIssueStatus($status);
         }
 
-        $res = Note::insertFromPost($this->usr_id, $this->issue_id);
+        $options = [
+            'parent_id' => $post->get('parent_id', null),
+            'add_extra_recipients' => ($post->get('add_extra_recipients', '') == 'yes'),
+            'cc' => $post->get('note_cc'),
+        ];
+
+        $res = Note::insertNote(
+            $this->usr_id,
+            $this->issue_id,
+            Mail_Helper::cleanSubject($post->get('title')),
+            $post->get('note'),
+            $options
+        );
 
         $issue_field = $post->get('issue_field') ?: $get->get('issue_field');
         Issue_Field::updateValues($this->issue_id, 'post_note', $issue_field);

@@ -178,7 +178,7 @@ class SendController extends BaseController
             $post->get('from'),
             $post->get('to', ''),
             $post->get('cc'),
-            $this->cleanSubject($post->get('subject')),
+            Mail_Helper::cleanSubject($post->get('subject')),
             $post->get('message'),
             $options
         );
@@ -338,14 +338,5 @@ class SendController extends BaseController
         $summary = $post->get('time_summary') ?: $default_summary;
         $ttc_id = (int) $post->get('time_category');
         Time_Tracking::addTimeEntry($this->issue_id, $ttc_id, $time_spent, null, $summary);
-    }
-
-
-    /**
-     * Removes newlines and tabs from subject
-     */
-    private function cleanSubject($subject)
-    {
-        return str_replace(["\t", "\n"], "", $subject);
     }
 }
