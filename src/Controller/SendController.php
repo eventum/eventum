@@ -220,7 +220,7 @@ class SendController extends BaseController
 
         $res = Draft::saveEmail(
             $this->issue_id,
-            $post->get('to'), $post->get('cc'), $this->cleanSubject($post->get('subject')), $post->get('message'),
+            $post->get('to'), $post->get('cc'), Mail_Helper::cleanSubject($post->get('subject')), $post->get('message'),
             $post->get('parent_id')
         );
         $this->tpl->assign('draft_result', $res);
