@@ -38,6 +38,15 @@ update_timestamps() {
 	done
 }
 
+# rename wiki pages to be compatible with windows filesystems
+# https://github.com/eventum/eventum/issues/180
+wiki_pages_rename() {
+	find $dir -name '*:*' | while read file; do
+		f=$(echo "$file" | sed -e 's/:/_/g')
+		mv "$file" "$f"
+	done
+}
+
 vcs_checkout() {
 	local submodule dir=$dir absdir
 
@@ -71,6 +80,8 @@ vcs_checkout() {
 
 	# reset submodules to previous state
 	git submodule update
+
+	wiki_pages_rename
 }
 
 # checkout localizations from launchpad
