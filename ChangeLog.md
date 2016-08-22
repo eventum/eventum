@@ -14,6 +14,7 @@ Eventum Issue Tracking System
 - Add category to notification emails (@balsdorf)
 - Don't display Status Change Date column if it has not been customized (@balsdorf)
 - Strip tabs and newlines from note / email subjects (@balsdorf)
+- Do not associate forwarded emails to original issue (@glen)
 
 2016-06-06, Version [3.1.2]
 ----------------------------
