@@ -468,6 +468,10 @@ class Auth
      */
     public static function setCookie($name, $value, $expiration)
     {
+        // for testing
+        if (PHP_SAPI == 'cli') {
+            return;
+        }
         if (APP_COOKIE_DOMAIN === null) {
             setcookie($name, $value, $expiration, APP_COOKIE_URL);
         } else {
