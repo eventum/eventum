@@ -1,0 +1,37 @@
+Subject: Problematic query report for example.local
+References: <20160815020206.A0FCB10116B@example.local>
+To: Support List <support@example.local>
+From: =?UTF-8?Q?Elan_Ruusam=c3=a4e?= <glen@delfi.ee>
+X-Forwarded-Message-Id: <20160815020206.A0FCB10116B@example.local>
+Message-ID: <57BAA4F3.2040909@example.local>
+Date: Mon, 22 Aug 2016 10:08:35 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+ Icedove/38.5.0
+MIME-Version: 1.0
+In-Reply-To: <20160815020206.A0FCB10116B@example.local>
+Content-Type: multipart/alternative;
+ boundary="------------060106020003010809010007"
+
+This is a multi-part message in MIME format.
+--------------060106020003010809010007
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
+
+kuku
+
+--------------060106020003010809010007
+Content-Type: text/html; charset=windows-1252
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=windows-1252">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+
+
+  </body>
+</html>
+
+--------------060106020003010809010007--

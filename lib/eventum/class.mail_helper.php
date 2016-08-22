@@ -861,6 +861,12 @@ class Mail_Helper
     public static function getAllReferences($text_headers)
     {
         $references = [];
+
+        // if X-Forwarded-Message-Id is present, assume this is forwarded email and this root email
+        if (preg_match('/^X-Forwarded-Message-Id: .*/mi', $text_headers)) {
+            return $references;
+        }
+
         if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers, $matches)) {
             $references[] = trim($matches[1]);
         }
