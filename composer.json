@@ -104,7 +104,7 @@
 		"components/jquery-chosen": "*",
 		"components/jquery-cookie": "~1.4.1",
 		"components/jquery-datatables": "~1.10.4",
-		"components/jqueryui": "*",
+		"components/jqueryui": "1.11.*",
 		"drmonty/garlicjs": "~1.2.4",
 		"enyo/dropzone": "~4.0.1",
 		"jackmoore/autosize":"*",
