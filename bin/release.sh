@@ -333,9 +333,15 @@ make_tarball() {
 }
 
 sign_tarball() {
+	local manual=0
 	if [ -x /usr/bin/gpg ] && [ "$(gpg --list-keys | wc -l)" -gt 0 ]; then
-		gpg --armor --sign --detach-sig $app-$version$rc.tar.gz
+		gpg --armor --sign --detach-sig $app-$version$rc.tar.gz || manual=1
 	else
+		manual=1
+	fi
+
+	# show manual instructions
+	if [ "$manual" ]; then
 		cat <<-EOF
 
 		To create a digital signature, use the following command:
