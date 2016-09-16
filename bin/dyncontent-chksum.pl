@@ -35,7 +35,7 @@ sub process_file {
 	open(my $fh, '<', $file) or die $!;
 	my $modified = 0;
 	while (<$fh>) {
-		if (my ($tag, $script) = $_ =~ /(<(?:script.+src|link.+rel="stylesheet".+href)="{\$core\.rel_url})([^"]+)/i) {
+		if (my ($tag, $script) = $_ =~ /(<(?:script.+src|link.+rel="stylesheet".+href)="\{\$core\.rel_url\})([^"]+)/i) {
 			my ($pre, $post) = ($`, $');
 			if ($script !~ /\?/) {
 				$_ = $pre. $tag. $script .'?c='.checksum($script). $post;

@@ -64,7 +64,7 @@ if (!file_exists(APP_SETUP_FILE)) {
             'username' => 'mysql',
             'password' => '',
             'port'     => 3306,
-            'table_prefix' => 'eventum_',
+            'table_prefix' => '',
         ],
 
         // used for tests

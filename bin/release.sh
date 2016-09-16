@@ -38,6 +38,15 @@ update_timestamps() {
 	done
 }
 
+# rename wiki pages to be compatible with windows filesystems
+# https://github.com/eventum/eventum/issues/180
+wiki_pages_rename() {
+	find $dir -name '*:*' | while read file; do
+		f=$(echo "$file" | sed -e 's/:/_/g')
+		mv "$file" "$f"
+	done
+}
+
 vcs_checkout() {
 	local submodule dir=$dir absdir
 
@@ -71,6 +80,8 @@ vcs_checkout() {
 
 	# reset submodules to previous state
 	git submodule update
+
+	wiki_pages_rename
 }
 
 # checkout localizations from launchpad
@@ -322,9 +333,15 @@ make_tarball() {
 }
 
 sign_tarball() {
+	local manual=0
 	if [ -x /usr/bin/gpg ] && [ "$(gpg --list-keys | wc -l)" -gt 0 ]; then
-		gpg --armor --sign --detach-sig $app-$version$rc.tar.gz
+		gpg --armor --sign --detach-sig $app-$version$rc.tar.gz || manual=1
 	else
+		manual=1
+	fi
+
+	# show manual instructions
+	if [ "$manual" ]; then
 		cat <<-EOF
 
 		To create a digital signature, use the following command:
