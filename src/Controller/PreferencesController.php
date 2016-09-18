@@ -38,16 +38,6 @@ class PreferencesController extends BaseController
 
     public function __construct()
     {
-        $this->cat = $this->getRequest()->request->get('cat');
-
-        // must do Language::setPreference before template is initialized
-        if ($this->cat == 'update_account') {
-            if ($this->lang) {
-                User::setLang($this->usr_id, $this->lang);
-                Language::setPreference();
-            }
-        }
-
         parent::__construct();
     }
 
@@ -86,6 +76,10 @@ class PreferencesController extends BaseController
 
         switch ($this->cat) {
             case 'update_account':
+                if ($this->lang) {
+                    User::setLang($this->usr_id, $this->lang);
+                    Language::setPreference();
+                }
                 $res = $this->updateAccountAction();
                 break;
 
