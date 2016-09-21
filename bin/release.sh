@@ -389,7 +389,7 @@ prepare_source() {
 }
 
 # download tools
-make php-cs-fixer.phar phpcompatinfo.phar
+make php-cs-fixer.phar phpcompatinfo.phar box.phar
 
 composer=$(find_prog composer)
 box=$(find_prog box)
