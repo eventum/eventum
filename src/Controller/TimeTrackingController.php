@@ -13,8 +13,8 @@
 namespace Eventum\Controller;
 
 use Auth;
-use DateInterval;
 use Date_Helper;
+use DateInterval;
 use Issue;
 use Time_Tracking;
 use User;
@@ -64,7 +64,6 @@ class TimeTrackingController extends BaseController
         Auth::checkAuthentication(null, true);
 
         $this->usr_id = Auth::getUserID();
-
 
         if ($this->ttr_id) {
             if (!($this->time_tracking_details['ttr_usr_id'] == $this->usr_id or Auth::getCurrentRole() >= User::ROLE_MANAGER)) {
@@ -146,7 +145,7 @@ class TimeTrackingController extends BaseController
                 'details'   =>  $this->time_tracking_details,
                 'start_date'    =>  Date_Helper::getDateTime($this->time_tracking_details['ttr_created_date']),
                 'end_date'    =>  Date_Helper::getDateTime($this->time_tracking_details['ttr_created_date'])->sub(
-                        new DateInterval('PT' . $this->time_tracking_details['ttr_time_spent'] . "M"))
+                        new DateInterval('PT' . $this->time_tracking_details['ttr_time_spent'] . 'M'))
             ]);
         }
     }

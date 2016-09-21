@@ -421,6 +421,7 @@ class Time_Tracking
                     ttr_ttc_id=ttc_id AND
                     ttr_usr_id=usr_id AND
                     ttr_id=?';
+
         return DB_Helper::getInstance()->getRow($stmt, [$ttr_id]);
     }
 
@@ -732,6 +733,7 @@ class Time_Tracking
                  ORDER BY
                     iss_id ASC';
         $params = [$usr_id, $start, $end, $prj_id];
+
         return DB_Helper::getInstance()->getAll($stmt, $params);
     }
 

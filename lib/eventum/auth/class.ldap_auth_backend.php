@@ -294,7 +294,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             if (array_diff($emails, $aliases)) {
                 $res = $this->updateAliases($usr_id, $emails);
                 if (!$res) {
-                    error_log("aliases update failed");
+                    error_log('aliases update failed');
                 }
             }
 
@@ -358,6 +358,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
                 $updated++;
             }
         }
+
         return $updated === count($aliases);
     }
 
