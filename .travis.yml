@@ -86,5 +86,7 @@ notifications:
 
 script:
   - echo phpunit -v --debug
+  # prepare release tarball
+  - bin/release.sh
 
 # vim:ts=2:sw=2:et
