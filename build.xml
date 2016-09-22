@@ -14,6 +14,7 @@
 					it requires php 5.6 and is loaded conditionally by autoload_real.php
 				 -->
 				<exclude name="vendor/composer/autoload_static.php" />
+				<exclude name=".idea/**" />
 			</fileset>
 		</phplint>
 	</target>
