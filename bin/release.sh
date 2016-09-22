@@ -344,7 +344,7 @@ phplint() {
 
 	echo "Running php lint on source files using $(php --version | head -n1)"
 
-	find -name '*.php' | xargs -l1 php -n -l
+	find -name '*.php' | grep -vF autoload_static.php | xargs -l1 php -n -l
 }
 
 # make tarball and md5 checksum
