@@ -344,6 +344,7 @@ phplint() {
 
 	echo "Running php lint on source files using $(php --version | head -n1)"
 	phing -f $topdir/build.xml phplint
+	rm .phplint.cache
 }
 
 # make tarball and md5 checksum
