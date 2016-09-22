@@ -76,6 +76,8 @@ before_install:
   - cp -af po/localization/*.po localization
 
 install:
+  # disable secure-http because sourceforge redirects to http:// urls
+  - composer config secure-http false
   - composer install --no-interaction --prefer-dist
   - make pear-fix
 
