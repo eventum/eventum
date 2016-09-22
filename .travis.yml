@@ -88,7 +88,7 @@ script:
   - echo phpunit -v --debug
   # prepare release tarball
   # need to fetch tags first for release process
-  - git fetch --tags
+  - git fetch --depth=1000 --tags
   - git tag -l
   - bin/release.sh
 
