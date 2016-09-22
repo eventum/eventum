@@ -182,112 +182,11 @@ pear_require_strip() {
 # cleanup excess files from vendor
 # but not that much that composer won't work
 clean_vendor() {
-	rm vendor/*/*/*.md
-	rm vendor/*/*/*.mdown
-	rm vendor/*/*/.coveralls.yml
-	rm vendor/*/*/.gitattributes
-	rm vendor/*/*/.gitignore
-	rm vendor/*/*/.php_cs
-	rm vendor/*/*/.travis.yml
-#	rm vendor/*/*/CHANGELOG*
-#	rm vendor/*/*/CONTRIBUTING.md
-	rm vendor/*/*/COPYING
-	rm vendor/*/*/ChangeLog*
-	rm vendor/*/*/LICENSE*
-	rm vendor/*/*/README*
-	rm vendor/*/*/composer.lock
-	rm vendor/*/*/phpunit.xml*
 
-	rm -r vendor/*/*/*/*/Test
-	rm -r vendor/*/*/Tests
-	rm -r vendor/*/*/doc
-	rm -r vendor/*/*/docs
-	rm -r vendor/*/*/examples
-	rm -r vendor/*/*/test
-	rm -r vendor/*/*/tests
-	rm -r vendor/bin
+	phing -f $topdir/build.xml clean-vendor
 
-	rm -f vendor/php-gettext/php-gettext/[A-Z]*
-	rm vendor/smarty-gettext/smarty-gettext/tsmarty2c.1
-	rm vendor/ircmaxell/security-lib/lib/SecurityLib/composer.json
-
-	rm vendor/defuse/php-encryption/benchmark.php
-	rm vendor/defuse/php-encryption/example.php
-	rm vendor/defuse/php-encryption/*.sh
-
-	# smarty: use -f, as dist and src packages differ
-	# smarty src
-	rm -rf vendor/smarty/smarty/.svn
-	rm -rf vendor/smarty/smarty/development
-	rm -rf vendor/smarty/smarty/documentation
-	rm -rf vendor/smarty/smarty/distribution/demo
-	rm -f vendor/smarty/smarty/distribution/[A-Z]*
-	rm -f vendor/smarty/smarty/distribution/*.txt
-	rm -f vendor/smarty/smarty/distribution/*.json
-	# smarty dist
-	rm -rf vendor/smarty/smarty/demo
-	# smarty dist
-	rm -f vendor/smarty/smarty/[A-Z]*
-	rm -f vendor/smarty/smarty/*.txt
-
-	# not used, and fails php lint under 5.3
-	rm vendor/zendframework/zend-stdlib/src/Guard/*Trait.php
-	rm vendor/zendframework/zend-stdlib/src/Hydrator/*Trait.php
-	rm vendor/psr/log/Psr/Log/*Trait.php
-
-	# we need *only* zf-config Config.php class
-	(
-	cd vendor/zendframework/zend-config/src
-	mkdir .tmp
-	mv Config.php Exception .tmp
-	rm -r *
-	mv .tmp/* .
-	rmdir .tmp
-	)
-
-	# not used yet
-	rm -r vendor/zendframework/zend-mail/src/Protocol
-	rm -r vendor/zendframework/zend-mail/src/Transport
-
-	rm -r vendor/zendframework/zend-validator/src/Barcode*
-	rm -r vendor/zendframework/zend-validator/src/Db
-	rm -r vendor/zendframework/zend-validator/src/File
-	rm -r vendor/zendframework/zend-validator/src/Sitemap
-
-	# pear
-	rm vendor/pear*/*/package.xml
-	rm -r vendor/pear-pear.php.net/Math_Stats/data
-	rm -r vendor/pear-pear.php.net/Math_Stats/contrib
-	rm vendor/pear-pear.php.net/XML_RPC/XML/RPC/Dump.php
-	rm vendor/pear/pear-core-minimal/src/OS/Guess.php
-	rm vendor/pear/net_smtp/phpdoc.sh
-
-	# not used
-	rm -r vendor/pear/console_getopt
-	rm vendor/monolog/monolog/src/Monolog/Handler/TestHandler.php
-
-	(
-	cd vendor/pear/db/DB
-	mkdir .tmp
-	mv common.php mysql*.php .tmp
-	rm *.php
-	mv .tmp/*.php .
-	rmdir .tmp
-	)
-
-	# we need just LiberationSans-Regular.ttf
-	(
-	cd vendor/fonts/liberation
-	mkdir .tmp
-	mv LiberationSans-Regular.ttf .tmp
-	rm *
-	mv .tmp/* .
-	rmdir .tmp
-	)
-
-	# need just phplot.php and maybe rgb.php
-	rm -r vendor/phplot/phplot/contrib
-	rm -r vendor/phplot/phplot/[A-Z]*
+	# clean empty dirs
+	find vendor -type d | sort -r | xargs rmdir --ignore-fail-on-non-empty
 
 	cd vendor
 	clean_scripts
@@ -334,7 +233,6 @@ cleanup_postdist() {
 
 	# cleanup vendors
 	rm vendor/composer/*.json
-	rm vendor/*/*/composer.json
 	rm vendor/*/LICENSE
 	rm composer.lock
 }
