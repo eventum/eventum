@@ -210,16 +210,24 @@ clean_vendor() {
 	rm vendor/smarty-gettext/smarty-gettext/tsmarty2c.1
 	rm vendor/ircmaxell/security-lib/lib/SecurityLib/composer.json
 
-	rm vendor/defuse/php-encryption/{benchmark,example}.php
+	rm vendor/defuse/php-encryption/benchmark.php
+	rm vendor/defuse/php-encryption/example.php
 	rm vendor/defuse/php-encryption/*.sh
 
 	# smarty: use -f, as dist and src packages differ
 	# smarty src
-	rm -rf vendor/smarty/smarty/{.svn,development,documentation,distribution/demo}
-	rm -f vendor/smarty/smarty/distribution/{[A-Z]*,*.{txt,json}}
+	rm -rf vendor/smarty/smarty/.svn
+	rm -rf vendor/smarty/smarty/development
+	rm -rf vendor/smarty/smarty/documentation
+	rm -rf vendor/smarty/smarty/distribution/demo
+	rm -f vendor/smarty/smarty/distribution/[A-Z]*
+	rm -f vendor/smarty/smarty/distribution/*.txt
+	rm -f vendor/smarty/smarty/distribution/*.json
 	# smarty dist
 	rm -rf vendor/smarty/smarty/demo
-	rm -f vendor/smarty/smarty/{[A-Z]*,*.txt}
+	# smarty dist
+	rm -f vendor/smarty/smarty/[A-Z]*
+	rm -f vendor/smarty/smarty/*.txt
 
 	# not used, and fails php lint under 5.3
 	rm vendor/zendframework/zend-stdlib/src/Guard/*Trait.php
@@ -227,10 +235,14 @@ clean_vendor() {
 	rm vendor/psr/log/Psr/Log/*Trait.php
 
 	# we need *only* zf-config Config.php class
-	mkdir tmp
-	mv vendor/zendframework/zend-config/src/{Config.php,Exception} tmp
-	rm -r vendor/zendframework/zend-config/*
-	mv tmp vendor/zendframework/zend-config/src
+	(
+	cd vendor/zendframework/zend-config/src
+	mkdir .tmp
+	mv Config.php Exception .tmp
+	rm -r *
+	mv .tmp/* .
+	rmdir .tmp
+	)
 
 	# not used yet
 	rm -r vendor/zendframework/zend-mail/src/Protocol
@@ -243,7 +255,8 @@ clean_vendor() {
 
 	# pear
 	rm vendor/pear*/*/package.xml
-	rm -r vendor/pear-pear.php.net/Math_Stats/{data,contrib}
+	rm -r vendor/pear-pear.php.net/Math_Stats/data
+	rm -r vendor/pear-pear.php.net/Math_Stats/contrib
 	rm vendor/pear-pear.php.net/XML_RPC/XML/RPC/Dump.php
 	rm vendor/pear/pear-core-minimal/src/OS/Guess.php
 	rm vendor/pear/net_smtp/phpdoc.sh
@@ -252,19 +265,28 @@ clean_vendor() {
 	rm -r vendor/pear/console_getopt
 	rm vendor/monolog/monolog/src/Monolog/Handler/TestHandler.php
 
-	mkdir tmp
-	mv vendor/pear/db/DB/{common,mysql*}.php tmp
-	rm -r vendor/pear/db/DB/*.php
-	mv tmp/*.php vendor/pear/db/DB
-	rmdir tmp
+	(
+	cd vendor/pear/db/DB
+	mkdir .tmp
+	mv common.php mysql*.php .tmp
+	rm *.php
+	mv .tmp/*.php .
+	rmdir .tmp
+	)
 
 	# we need just LiberationSans-Regular.ttf
-	mv vendor/fonts/liberation/{,.}LiberationSans-Regular.ttf
-	rm vendor/fonts/liberation/*
-	mv vendor/fonts/liberation/{.,}LiberationSans-Regular.ttf
+	(
+	cd vendor/fonts/liberation
+	mkdir .tmp
+	mv LiberationSans-Regular.ttf .tmp
+	rm *
+	mv .tmp/* .
+	rmdir .tmp
+	)
 
 	# need just phplot.php and maybe rgb.php
-	rm -r vendor/phplot/phplot/{contrib,[A-Z]*}
+	rm -r vendor/phplot/phplot/contrib
+	rm -r vendor/phplot/phplot/[A-Z]*
 
 	cd vendor
 	clean_scripts
@@ -282,9 +304,9 @@ clean_vendor() {
 	rm htdocs/components/*-built.js
 	rm htdocs/components/jquery-ui/*.js
 	rm htdocs/components/require.*
-	mv htdocs/components/jquery-ui/themes/{base,.base}
+	mv htdocs/components/jquery-ui/themes/base .base
 	rm -r htdocs/components/jquery-ui/themes/*
-	mv htdocs/components/jquery-ui/themes/{.base,base}
+	mv .base htdocs/components/jquery-ui/themes/base
 	rm -r htdocs/components/jquery-ui/ui/minified
 	rm -r htdocs/components/jquery-ui/ui/i18n
 	rm htdocs/components/dropzone/index.js
