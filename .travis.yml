@@ -93,7 +93,6 @@ script:
   # prepare release tarball
   # need to fetch tags first for release process
   - git fetch --tags --unshallow
-  - git tag -l
   - bin/release.sh
 
 # vim:ts=2:sw=2:et

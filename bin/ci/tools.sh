@@ -19,7 +19,7 @@ get() {
 }
 
 install_phing() {
-	phing -version && return 0
+	phing -version 2>/dev/null && return 0
 
 	pear channel-discover pear.phing.info
 	pear install phing/phing
