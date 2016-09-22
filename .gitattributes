@@ -19,6 +19,7 @@
 /config/phpxref.cfg export-ignore
 
 # tests
+/codeception.dist.yml export-ignore
 /phpunit.xml.dist export-ignore
 /tests export-ignore
 
