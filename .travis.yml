@@ -64,6 +64,11 @@ cache:
     - vendor
 
 before_install:
+  # install phing
+  - pear channel-discover pear.phing.info
+  - pear install phing/phing
+  - phing -version
+
   # display some info from system
   - dpkg --list | grep language-pack
   - mkdir -p ~/.phpenv/versions/$(phpenv version-name)/etc
