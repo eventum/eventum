@@ -67,6 +67,7 @@ before_install:
   # install phing
   - pear channel-discover pear.phing.info
   - pear install phing/phing
+  - phpenv rehash
   - phing -version
 
   # display some info from system
