@@ -61,14 +61,11 @@ cache:
   apt: true
   directories:
     - $HOME/.composer/cache
+    - cache
     - vendor
 
 before_install:
-  # install phing
-  - pear channel-discover pear.phing.info
-  - pear install phing/phing
-  - phpenv rehash
-  - phing -version
+  - bin/ci/tools.sh
 
   # display some info from system
   - dpkg --list | grep language-pack
@@ -76,7 +73,6 @@ before_install:
   - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - if ! phpenv config-rm xdebug.ini; then :; fi
   - locale -a
-  - make php-cs-fixer.phar
   # pull translations from launchpad
   - bzr branch lp:~glen666/eventum/po po
   - cp -af po/localization/*.po localization
