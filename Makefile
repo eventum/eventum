@@ -6,7 +6,7 @@ bindir          := /usr/bin
 logdir          := /var/log/$(name)
 smartyplugindir := $(datadir)/lib/Smarty/plugins
 
-PHPCOMPATINFO_VERSION := 4.4.0
+PHPCOMPATINFO_VERSION := 5.0.1
 PHPUNIT_VERSION := 4.8.11
 PHPAB_VERSION := 1.20.3
 
