@@ -326,7 +326,9 @@ build_phars() {
 
 cleanup_postdist() {
 	rm composer.json phpcompatinfo.json
-	rm cli/{composer.json,box.json.dist,Makefile}
+	rm cli/composer.json
+	rm cli/box.json.dist
+	rm cli/Makefile
 	rm htdocs/debugbar
 
 	# cleanup vendors
