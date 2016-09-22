@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="eventum" basedir="." default="">
+	<property name="name" value="${phing.project.name}" />
+	<property name="basedir" value="." />
+
+	<!-- phplint -->
+	<target name="phplint" description="Run PHP Lint.">
+		<echo msg="Checking syntax with PHP lint."/>
+		<phplint haltonfailure="true" cachefile="${basedir}/.phplint.cache">
+			<fileset dir="${basedir}">
+				<include name="**/*.php" />
+				<!--
+					skip autoload_static.php from phplint
+					it requires php 5.6 and is loaded conditionally by autoload_real.php
+				 -->
+				<exclude name="vendor/composer/autoload_static.php" />
+			</fileset>
+		</phplint>
+	</target>
+</project>

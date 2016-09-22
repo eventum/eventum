@@ -12,6 +12,7 @@ Session.vim
 .netrwhist
 /.idea
 /.php_cs.cache
+/.phplint.cache
 /.project
 /.settings
 /dropin

@@ -343,8 +343,7 @@ phplint() {
 	$quick && return
 
 	echo "Running php lint on source files using $(php --version | head -n1)"
-
-	find -name '*.php' | grep -vF autoload_static.php | xargs -l1 php -n -l
+	phing -f $topdir/build.xml phplint
 }
 
 # make tarball and md5 checksum
