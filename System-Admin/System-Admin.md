@@ -5,7 +5,7 @@
     * [x] [[Doing a Fresh Install|System-Admin:-Doing-a-fresh-install]]
       * [[Troubleshooting: Displaying PHP Errors|System-Admin:-Displaying-PHP-errors]]
       * [[Installation Notes|System-Admin:-Installation-Notes]]
-    * [[Email Intergration|System-Admin:-Email-integration]]
+    * [[Email Integration|System-Admin:-Email-integration]]
     * [[Email Routing Interface|System-Admin:-Email-Routing-Interface]]
  * [[General Setup|System-Admin:-General-Setup]]
  * [[Adding Users|System-Admin:-Users]]
