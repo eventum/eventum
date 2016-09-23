@@ -1,3 +1,10 @@
+#
+# This is Maintainers makefile
+#
+# See installation documentation how to install Eventum:
+# https://github.com/eventum/eventum/wiki/System-Admin%3A-Doing-a-fresh-install#installation-process
+#
+
 name            := eventum
 datadir         := /usr/share/$(name)
 sysconfdir      := $(datadir)/config
@@ -34,6 +41,13 @@ pot:
 	fi
 
 install: install-eventum install-cli
+
+# create snapshot release from current HEAD
+# travis will build release tarball and upload it to github release page
+snapshot:
+	-git tag -d snapshot
+	git tag -am 'snapshot' snapshot HEAD
+	git push -f git@github.com:eventum/eventum.git snapshot
 
 dist:
 	./bin/release.sh
