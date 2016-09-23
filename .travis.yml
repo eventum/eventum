@@ -83,16 +83,29 @@ install:
   - composer install --no-interaction --prefer-dist
   - make pear-fix
 
-notifications:
-  irc:
-    channels: "chat.freenode.net#eventum"
-    skip_join: true
-
 script:
   - echo phpunit -v --debug
   # prepare release tarball
   # need to fetch tags first for release process
   - git fetch --tags --unshallow
   - bin/release.sh
+
+# https://docs.travis-ci.com/user/deployment/releases
+deploy:
+  provider: releases
+  api_key:
+    secure: Fd00429tuyw6fX8br8jiYaPFLYZvoSDMUyQ3xBj9TsUS8/LgxwHXKWGYz4JHvms4e8QgQd9vuI0gN3M9tzG0/SFph+rj1p5BlfRH35xO8F/FDzUyL0B63ozScBFVf+R9SAHwILPKbHNQy/xcw3Iw8KiLc9klSWMU6PY0Ux/tiEg=
+  file:
+    - eventum-*.tar.gz
+  skip_cleanup: true
+  on:
+    repo: eventum/eventum
+    php: '5.5'
+    tags: true
+
+notifications:
+  irc:
+    channels: "chat.freenode.net#eventum"
+    skip_join: true
 
 # vim:ts=2:sw=2:et
