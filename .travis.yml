@@ -95,6 +95,7 @@ deploy:
   provider: releases
   api_key:
     secure: Fd00429tuyw6fX8br8jiYaPFLYZvoSDMUyQ3xBj9TsUS8/LgxwHXKWGYz4JHvms4e8QgQd9vuI0gN3M9tzG0/SFph+rj1p5BlfRH35xO8F/FDzUyL0B63ozScBFVf+R9SAHwILPKbHNQy/xcw3Iw8KiLc9klSWMU6PY0Ux/tiEg=
+  file_glob: true
   file:
     - eventum-*.tar.gz
   skip_cleanup: true
