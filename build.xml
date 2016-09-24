@@ -16,6 +16,8 @@
 				 -->
 				<exclude name="vendor/composer/autoload_static.php" />
 				<exclude name=".idea/**" />
+				<exclude name="releases/**" />
+				<exclude name="var/**" />
 			</fileset>
 		</phplint>
 	</target>
