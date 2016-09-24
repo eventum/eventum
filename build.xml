@@ -51,6 +51,7 @@
 				<include name="**/example.php" />
 				<include name="**/package.xml" />
 				<include name="**/phpunit.xml*" />
+				<include name="**/travis.ini" />
 				<!-- traits are not used -->
 				<include name="**/*Trait.php" />
 			</fileset>
