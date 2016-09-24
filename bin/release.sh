@@ -183,7 +183,7 @@ pear_require_strip() {
 # but not that much that composer won't work
 clean_vendor() {
 
-	phing -f $topdir/build.xml clean-vendor
+	$phing -f $topdir/build.xml clean-vendor
 
 	# clean empty dirs
 	find vendor -type d | sort -r | xargs rmdir --ignore-fail-on-non-empty
@@ -241,7 +241,7 @@ phplint() {
 	$quick && return
 
 	echo "Running php lint on source files using $(php --version | head -n1)"
-	phing -f $topdir/build.xml phplint
+	$phing -f $topdir/build.xml phplint
 	rm .phplint.cache
 }
 
@@ -312,12 +312,13 @@ prepare_source() {
 }
 
 # download tools
-make php-cs-fixer.phar phpcompatinfo.phar box.phar
+make php-cs-fixer.phar phpcompatinfo.phar box.phar phing.phar
 
 composer=$(find_prog composer)
 box=$(find_prog box)
 phpcsfixer=$(find_prog php-cs-fixer)
 phpcompatinfo=$(find_prog phpcompatinfo)
+phing=$(find_prog phing)
 
 # checkout
 vcs_checkout

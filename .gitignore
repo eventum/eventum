@@ -22,6 +22,7 @@ Session.vim
 /codecept.phar
 /composer.phar
 /gush.phar
+/phing.phar
 /php-cs-fixer.phar
 /phpab.phar
 /phpcompatinfo.phar

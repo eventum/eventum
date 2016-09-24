@@ -18,17 +18,7 @@ get() {
 	fi
 }
 
-install_phing() {
-	phing -version 2>/dev/null && return 0
-
-	pear channel-discover pear.phing.info
-	pear install phing/phing
-	phpenv rehash
-	phing -version
-}
-
-install_phing
-
 get php-cs-fixer.phar
 get phpcompatinfo.phar
 get box.phar
+get phing.phar
