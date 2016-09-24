@@ -43,12 +43,8 @@ pot:
 
 install: install-eventum install-cli
 
-# create snapshot release from current HEAD
-# travis will build release tarball and upload it to github release page
 snapshot:
-	-git tag -d snapshot
-	git tag -am 'snapshot' snapshot HEAD
-	git push -f git@github.com:eventum/eventum.git snapshot
+	./bin/ci/snapshot.sh
 
 dist:
 	./bin/release.sh
