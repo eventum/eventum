@@ -1,8 +1,8 @@
 Eventum Issue Tracking System
 =============================
 
-2016-??-??, Version [3.1.3]
-----------------------------
+2016-09-25, Version [3.1.3]
+---------------------------
 
 - Allow time tracking entries to be edited (@balsdorf, #174)
 - Update weekly report to look at time tracking when calculating touched issues. (@balsdorf, #175)
@@ -15,9 +15,11 @@ Eventum Issue Tracking System
 - Don't display Status Change Date column if it has not been customized (@balsdorf)
 - Strip tabs and newlines from note / email subjects (@balsdorf)
 - Do not associate forwarded emails to original issue (@glen)
+- Add travis configuration to make releases (@glensc, #198)
+- Keep `iss_original_description` in getIssueDetails method (@glensc, 98916a8)
 
 2016-06-06, Version [3.1.2]
-----------------------------
+---------------------------
 
 Previous version enabled PDO driver for all installations, but PDO was supposed
 to be used for new installations, also PDO driver has issues for non-UTF8
@@ -32,7 +34,7 @@ This version fixes login for Eventum installs using more than one project (3281d
 - drop unneeded session init (@glensc, 3281d6d, #168)
 
 2016-05-29, Version [3.1.1]
-----------------------------
+---------------------------
 
 This version switches to PDO driver by for new installations (#167)
 Additionally tables will be renamed without `eventum_` table prefix (#166)
@@ -55,7 +57,7 @@ Additionally tables will be renamed without `eventum_` table prefix (#166)
 - automatically set page ID based on template path and name (@balsdorf, #170)
 
 2016-04-28, Version [3.1.0]
-----------------------------
+---------------------------
 
 The minimum supported PHP version from this version onwards is 5.5 (5.6 recommended).
 While this release still works with 5.3, it is not supported anymore.
