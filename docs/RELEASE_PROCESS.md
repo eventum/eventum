@@ -36,7 +36,7 @@ Do not forget to update changeset link to point to tag not master
 
 - create git tag
 ```
-$ git tag -s v3.1.1
+$ git tag -s v3.1.4
 ```
 
 - build tarball again
@@ -54,9 +54,9 @@ $ git push --tags
 - upload tarball and signature to the release
 - to create a digital signature, use the following command:
 ```
-% gpg --armor --sign --detach-sig eventum-3.1.1.tar.gz
+% gpg --armor --sign --detach-sig eventum-3.1.4.tar.gz
 ```
-- create tags also in scm and wiki submodules
+- create tag also in wiki submodule
 
 After release
 -------------
@@ -66,8 +66,9 @@ After release
 $ git push launchpad master
 $ git push launchpad --tags
 ```
-- update release number in init.php to indicate next dev version (`APP_VERSION`)
-- start new version entry in Changelog.md
 - add new milestone in github. just fill version number in Title field https://github.com/eventum/eventum/milestones
 - move open tickets/pull requests to new milestone
 - close old milestone
+- verify that you did not forget to update wiki submodule
+- update release number in init.php to indicate next dev version (`APP_VERSION`)
+- start new version entry in Changelog.md

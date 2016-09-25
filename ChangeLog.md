@@ -1,8 +1,8 @@
-Eventum Issue Tracking System
-=============================
+# Eventum Issue Tracking System
 
-2016-09-25, Version [3.1.3]
----------------------------
+## 2016-??-??, Version [3.1.4]
+
+## 2016-09-25, Version [3.1.3]
 
 - Allow time tracking entries to be edited (@balsdorf, #174)
 - Update weekly report to look at time tracking when calculating touched issues. (@balsdorf, #175)
@@ -18,8 +18,7 @@ Eventum Issue Tracking System
 - Add travis configuration to make releases (@glensc, #198)
 - Keep `iss_original_description` in getIssueDetails method (@glensc, 98916a8)
 
-2016-06-06, Version [3.1.2]
----------------------------
+## 2016-06-06, Version [3.1.2]
 
 Previous version enabled PDO driver for all installations, but PDO was supposed
 to be used for new installations, also PDO driver has issues for non-UTF8
@@ -33,8 +32,7 @@ This version fixes login for Eventum installs using more than one project (3281d
 - fix login page css. (@glensc, 2d2923c, #170)
 - drop unneeded session init (@glensc, 3281d6d, #168)
 
-2016-05-29, Version [3.1.1]
----------------------------
+## 2016-05-29, Version [3.1.1]
 
 This version switches to PDO driver by for new installations (#167)
 Additionally tables will be renamed without `eventum_` table prefix (#166)
@@ -56,8 +54,7 @@ Additionally tables will be renamed without `eventum_` table prefix (#166)
 - use Symfony FlashBag for flash messages (@glensc, #169)
 - automatically set page ID based on template path and name (@balsdorf, #170)
 
-2016-04-28, Version [3.1.0]
----------------------------
+## 2016-04-28, Version [3.1.0]
 
 The minimum supported PHP version from this version onwards is 5.5 (5.6 recommended).
 While this release still works with 5.3, it is not supported anymore.
@@ -69,8 +66,7 @@ This release also no longer bundles SCM hook scripts, they are available from se
 - we reached [7000th] commit! :boom:
 - scm: modularize and add gitlab adapter (@glensc, #159)
 
-2016-04-19, Version [3.0.12]
-----------------------------
+## 2016-04-19, Version [3.0.12]
 
 This will be last release supporting PHP 5.3, next version will require PHP 5.5 and be versioned as 3.1.0.
 This will also be last release packaging SCM hook scripts in main Eventum release tarball.
@@ -79,8 +75,7 @@ This will also be last release packaging SCM hook scripts in main Eventum releas
 - Nice Progress Bar for % Complete (@phavel, @glensc, @slay123, #162)
 - Fix bug where percentage complete is not included in changed notification (@balsdorf, #163, #164)
 
-2016-03-28, Version [3.0.11]
-----------------------------
+## 2016-03-28, Version [3.0.11]
 
 - Updated Misc::activateLinks to not activate mail links inside of urls (@balsorf, d23e712)
 - Allow separate role for editing custom fields vs viewing (@balsdorf, #149)
@@ -89,16 +84,14 @@ This will also be last release packaging SCM hook scripts in main Eventum releas
 - Setup correct project roles when updating user projects (@Alexey-Architect, #152)
 - Remove "Product Version" field from view issue page since it is bundled with "Product" (@balsdorf)
 
-2016-02-29, Version [3.0.10]
-----------------------------
+## 2016-02-29, Version [3.0.10]
 
 - Add back notification user picker (@glensc, #34)
 - Autosave notes/emails/etc to local storage in case of browser crash (@balsdorf, @glensc, @slay123, #145)
 - Allow issue view access to be restricted to assignees or groups (@balsdorf #141, #148)
 - Collapse replies in email like GMail, GitHub do (@glensc, #143)
 
-2016-02-06, Version [3.0.9]
----------------------------
+## 2016-02-06, Version [3.0.9]
 
 This release highlights optional support to encrypt DB, IMAP/POP3, LDAP passwords (#134)
 and allowing users to be in multiple groups (#135).
@@ -116,8 +109,7 @@ and allowing users to be in multiple groups (#135).
 - Improvements to manage/users page, add datatables paginator (@glensc)
 - Optional support to encrypt (DB, IMAP/POP3, LDAP) passwords (@glensc, #134)
 
-2016-01-18, Version [3.0.8]
----------------------------
+## 2016-01-18, Version [3.0.8]
 
 From release version 3.0.4 a bug existed where logged in users could
 incorrectly access some management pages (60866f8d). Please upgrade to 3.0.8
@@ -132,8 +124,7 @@ immediately.
 - Convert manage pages to Controller logic (@glensc, #128)
 - Add severity descriptions to issue update page (@balsdorf, #37)
 
-2015-12-31, Version [3.0.7]
----------------------------
+## 2015-12-31, Version [3.0.7]
 
 Release highlights are new monolog based logging (#97), showing dates human
 friendly (#116) and introduction of API tokens (besides passwords) for remote
@@ -161,8 +152,7 @@ access (#122)
 - Restore "remember me" in template, lost in 2.4.0 release (@glensc, aec62f5)
 - Restore usability of "Add Unknown Recipients to Issue Notification List" checkbox (@balsdorf)
 
-2015-11-10, Version [3.0.6]
----------------------------
+## 2015-11-10, Version [3.0.6]
 
 This release highlight is automatic password hashes upgrade to be more secure
 on user authentication (sign in). You can force all users to re-authenticate by
@@ -177,13 +167,11 @@ regenerating Eventum private key from Administration panel. (See #93).
 - Use AJAX for /manage/email_accounts.php test (Craig Pinfold, #96)
 - LDAP auth backend: create connection only if needed (Elan Ruusamäe)
 
-2015-11-02, Version [3.0.5]
----------------------------
+## 2015-11-02, Version [3.0.5]
 
 - Fix routing settings read error (Elan Ruusamäe, #80)
 
-2015-10-31, Version [3.0.4]
----------------------------
+## 2015-10-31, Version [3.0.4]
 
 To simplify setup and directory layout we have moved all directories that
 contain files to which Eventum writes data during the course of its operation
@@ -214,8 +202,7 @@ This release was buggy and was yanked, bug itself is fixed in v3.0.5
 - Manage Emails: Accept prj_id from GET to allow link bookmarking (Elan Ruusamäe)
 - Add DebugBar debug bar in development mode (Elan Ruusamäe, #87)
 
-2015-10-13, Version [3.0.3]
----------------------------
+## 2015-10-13, Version [3.0.3]
 
 This release includes copy of wiki documents in release tarball.
 
@@ -229,8 +216,7 @@ This release includes copy of wiki documents in release tarball.
 - Fix POP3 download bug (Craig Pinfold, #66, #69)
 - Add autosize plugin to all TEXAREAs (Elan Ruusamäe, #70)
 
-2015-08-04, Version [3.0.2]
----------------------------
+## 2015-08-04, Version [3.0.2]
 
 This release highlights translatable history entries, CAS Auth Backend and lots of UI fixes.
 
@@ -257,8 +243,7 @@ This release highlights translatable history entries, CAS Auth Backend and lots 
 - Allow customers to export data and only export visible fields (Bryan Alsdorf)
 - Fix "Assignment: Array" bug in template when issue is assigned to multiple assignees (Elan Ruusamäe)
 
-2015-04-21, Version [3.0.1]
----------------------------
+## 2015-04-21, Version [3.0.1]
 
 This release highlights are ajax based file uploads via dropzone and clone issue feature.
 The MySQL driver for new installs is now mysqli, not deprecated mysql.
@@ -275,8 +260,7 @@ The MySQL driver for new installs is now mysqli, not deprecated mysql.
 - Use mysqli PEAR::DB driver in new installs (Elan Ruusamäe)
 - Replace jpgraph 1.5.3 with phplot 6.1.0 (Elan Ruusamäe, GH#46)
 
-2015-02-03, Version [3.0.0-pre1]
---------------------------------
+## 2015-02-03, Version [3.0.0-pre1]
 
 Added DB layer to replace PEAR in the future.
 Rework of XMLRPC code.
@@ -311,8 +295,7 @@ Eventum CLI is now distributed as PHAR file.
 - Added notification email address for products (Bryan Alsdorf)
 - Use DB query placeholders (Elan Ruusamäe, GH#26)
 
-2014-10-04, Version [2.4.0-pre1]
---------------------------------
+## 2014-10-04, Version [2.4.0-pre1]
 
 The templates have been ported to Smarty3, this is rewrite to use CSS for styling.
 PEAR Date class has been replaced by PHP DateTime class, users having incompatible timezone, may need to set timezone again in their preferences.
@@ -364,8 +347,7 @@ This release uses Composer for PHP Class autoloader.
 - Add lock support when updating issue details (Elan Ruusamäe, GH#4)
 - Get rid of PEAR Date, use native DateTime in PHP (Elan Ruusamäe, LP#684907)
 
-2013-11-28, Version 2.3.4
--------------------------
+## 2013-11-28, Version 2.3.4
 
 - Fixed STR_PAD_LEFT PHP 5.3 compatability issue. Info and fix from mailinglist (Elan Ruusamäe)
 - Fixed custom_fields_weekly not encoding data properly for JavaScript (Elan Ruusamäe)
@@ -386,20 +368,17 @@ This release uses Composer for PHP Class autoloader.
 - Change downloading attachments encoding to urlencode (Elan Ruusamäe) (#1251335)
 - Save eventum setup.php as PHP code, not base64 encoded data (Elan Ruusamäe)
 
-2012-07-09, Version 2.3.3 RC3
------------------------------
+## 2012-07-09, Version 2.3.3 RC3
 
 - Fixed bug #1021258 where users password is not hashed when they are initially created (Bryan Alsdorf)
 - Made SCM commits section scrollable using CSS (and jQuery) (Elan Ruusamäe)
 
-2012-06-05, Version 2.3.3 RC2
------------------------------
+## 2012-06-05, Version 2.3.3 RC2
 
 - Added shouldAttachFile workflow method (Elan Ruusamäe)
 - Bug fixes for schema file relating to customer and contact id (Bryan Alsdorf)
 
-2012-05-30, Version 2.3.3 RC1
------------------------------
+## 2012-05-30, Version 2.3.3 RC1
 
 - Added email association check (for unassociated emails) to monitor script (Elan Ruusamäe)
 - Fixed bug with users not receiving notification of own actions (Bryan Alsdorf)
@@ -413,8 +392,7 @@ This release uses Composer for PHP Class autoloader.
 - Changed customer_id and contact_id to be strings (Bryan)
 - Added "remember me" option to login (Elan Ruusamäe)
 
-2011-12-03, Version 2.3.2 RC1
------------------------------
+## 2011-12-03, Version 2.3.2 RC1
 
 - Remove unused HTTP and HTTP_Request, Benchmark_Timer classes from bzr (Elan Ruusamäe)
 - Separate search methods to new Search class (Elan Ruusamäe)
@@ -434,8 +412,7 @@ This release uses Composer for PHP Class autoloader.
 - Added interface for Workflow classes to store arbitary workflow configuration in Setup (Elan Ruusamäe)
 - Added sphinx fulltext search backend (Bryan Alsdorf, Elan Ruusamäe)
 
-2011-02-10, Version 2.3.1
--------------------------
+## 2011-02-10, Version 2.3.1
 
 - Improve getCustomFieldWeeklyReport (merge request 31659)
 - Update Smarty 2.6.18 -> 2.6.26 (Elan Ruusamäe)
@@ -465,8 +442,7 @@ This release uses Composer for PHP Class autoloader.
 - Fixed bug with quoting email addresses when they are surrounded by < > (Bryan Alsdorf)
 - Fixed XSS vulnerabilities in advisory ZSL-2011-4989 (Bryan, Elan Ruusamäe) [lp#706385]
 
-2010-08-19, Version 2.3
------------------------
+## 2010-08-19, Version 2.3
 
 - Removed reference to dynCalendar.css (Bryan, #42301)
 - Get default actions individualy for each address being added to notification list (Bryan)
@@ -525,8 +501,7 @@ This release uses Composer for PHP Class autoloader.
 - Fixed formatting bug in email accounts admin page (Bryan)
 - Fixed bug with fix-charset script (Bryan Alsdorf, Bug #42294)
 
-2009-01-14, Version 2.2
------------------------
+## 2009-01-14, Version 2.2
 
 - Fixed few errors with template localization (Alessandro Ogier)
 - Added Precedence: Bulk header to emails to prevent out of office replies. Fixes #34466 (Bryan)
@@ -589,8 +564,7 @@ This release uses Composer for PHP Class autoloader.
 - Add a simple screen on the issue page for amending the reporter (Elan Ruusamäe, Dave Anderson)
 - Fix search returning deleted notes. Bug #788718 (Elan Ruusamäe)
 
-2008-01-09, Version 2.1.1
--------------------------
+## 2008-01-09, Version 2.1.1
 
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)
 - Fix unwanted breakage of PHP 4.x compatability (Elan Ruusamäe)
@@ -601,8 +575,7 @@ This release uses Composer for PHP Class autoloader.
 - Update php-gettext to find LC_MESSAGES from various dirs like glibc function does (Elan Ruusamäe)
 - MIME decode attachment filenames from emails properly (Elan Ruusamäe)
 
-2007-11-20, Version 2.1
------------------------
+## 2007-11-20, Version 2.1
 
 - Fixed error with DB error when removing assignnees from issue assignment list (Bryan)
 - Rewritten error handling to create less smaller error reports (Elan Ruusamäe)
@@ -649,13 +622,11 @@ This release uses Composer for PHP Class autoloader.
 - Fixed tab order of custom fields (Bryan)
 - Fixed bug with expandable tables (Bryan)
 
-2007-04-17, Version 2.0.1
--------------------------
+## 2007-04-17, Version 2.0.1
 
 - Fixed packaging bug that prevented setup from running (Bryan)
 
-2007-04-12, Version 2.0
------------------------
+## 2007-04-12, Version 2.0
 
 - Fixed bug with user recieving an update email when they updated the issue (Bryan)
 - Fixed bug with inserting attachment from email with an apostrophe in the email name (Bryan)
@@ -729,8 +700,7 @@ This release uses Composer for PHP Class autoloader.
 - Fixed detection in process_{svn,cvs}_commits whether there was issue id specified in commit message (Elan Ruusamäe)
 - Order weekly report by Issue ID (Bryan)
 
-31 Mar 2006, Version 1.7.1
---------------------------
+## 31 Mar 2006, Version 1.7.1
 
 - Fixed bug with Workflow::handleAssignmentChange() being called too often (Bryan)
 - Fixed bug that allowed unassigned issues even if "Allow unassigned issues" is set to no (Bryan)
@@ -780,8 +750,7 @@ This release uses Composer for PHP Class autoloader.
 - Prevent users with a role of reporter from accessing time tracking information (Bryan)
 - Display multi-combo custom fields on custom fields report (Bryan)
 
-29 Dec 2005, Version 1.7.0
---------------------------
+## 29 Dec 2005, Version 1.7.0
 
 - Added feature to support custom fields with dynamic option lists (Bryan)
 - Fixed bug with highlight quoted replies plugin with handling line seperators (Bryan, Elan Ruusamäe)
@@ -817,8 +786,7 @@ This release uses Composer for PHP Class autoloader.
 - Added code to prevent caching of csv export page (Bryan)
 - Added priority and category to bulk update (Bryan)
 
-19 Aug 2005, Version 1.6.1
---------------------------
+## 19 Aug 2005, Version 1.6.1
 
 - Fixed the installation procedure to add the INDEX privilege to the MySQL user (João)
 - Fixed bug with handling HTML characters in Internal FAQ entries (Bryan)
@@ -833,8 +801,7 @@ This release uses Composer for PHP Class autoloader.
 - Added feature to highlight quoted replies in notes and emails using smarty plugin from Joscha Feth (Bryan)
 - Updated the bundled XML-RPC library to the latest PEAR 1.4.0 release (João)
 
-29 Jul 2005, Version 1.6.0
---------------------------
+## 29 Jul 2005, Version 1.6.0
 
 - Added feature to control order of custom fields (Bryan)
 - Added feature to specify custom field backend (Bryan)
@@ -862,8 +829,7 @@ This release uses Composer for PHP Class autoloader.
 - Added feature to customize the boilerplate text of reminder alert messages (João)
 - Fixed the RSS feature of custom filters to behave properly under Microsoft IIS (João)
 
-26 Jul 2005, Version 1.5.5
---------------------------
+## 26 Jul 2005, Version 1.5.5
 
 - Fixed the issue details page to properly escape the summary of associated issues (Bug #10464) (João)
 - Fixed the link activation code to properly parse and ignore certain words (Bug #10263) (João)
@@ -893,8 +859,7 @@ This release uses Composer for PHP Class autoloader.
 - Improved the Workflow::handleIssueClosed API to receive all arguments related to an issue being closed (Elan Ruusamäe)
 - Fixed bug with spell checker (Bryan)
 
-6 Jun 2005, Version 1.5.4
--------------------------
+## 6 Jun 2005, Version 1.5.4
 
 - Fixed bug with 'reply' button having a hard coded email account ID (Bryan)
 - Added workflow method be to be called when adding a user to the notification list (Bryan)
@@ -929,8 +894,7 @@ This release uses Composer for PHP Class autoloader.
 - Fixed the notification code to use a more descriptive subject about an issue being created from an email (Bryan)
 - Fixed small time formatting bug that would only be triggered for values bigger than a day (João)
 
-21 Apr 2005, Version 1.5.3
---------------------------
+## 21 Apr 2005, Version 1.5.3
 
 - Fixed bug with segregate reporters that allowed reporters to access issues they didn't report (Bryan)
 - Fixed problem with resetting user permissions when updating a project (João)
@@ -954,8 +918,7 @@ This release uses Composer for PHP Class autoloader.
 - Fixed magic quote problem by auto-unescaping quotes on $_REQUEST array (Bug #9915) (Bryan)
 - Allow reporters to access issues they are on the authorized repliers list when segregate reporters is enabled (Bryan)
 
-15 Apr 2005, Version 1.5.2
---------------------------
+## 15 Apr 2005, Version 1.5.2
 
 - Fixed the note viewing screen to prevent users with permission levels lower than "Standard User" from displaying notes (Bug #9134) (João)
 - Fixed the time tracking remove routine to check if the person removing the entry is really its owner (Bug #9137) (João)
@@ -999,8 +962,7 @@ This release uses Composer for PHP Class autoloader.
 - Fixed bug that caused release changes not to show up in update email (Bryan)
 - Added feature so route emails script can now figure out what email account to use automatically (Bryan)
 
-11 Mar 2005, Version 1.5.1
---------------------------
+## 11 Mar 2005, Version 1.5.1
 
 - Fixed bug in which associating an email to a new issue with a quotation mark on the subject would break the summary input tag (João)
 - Avoid displaying PHP warnings when running Eventum under safe_mode (João)
@@ -1027,8 +989,7 @@ This release uses Composer for PHP Class autoloader.
 - Changed the error handling routines to save an error log with more detailed information (João)
 - Fixed bug that would prevent users from downloading files because of encoded content-type headers (João)
 
-01 Mar 2005, Version 1.5
-------------------------
+## 01 Mar 2005, Version 1.5
 
 - Fixed bug with looking up addresses not working when replying to email (Bryan)
 - Fixed bug with APP_TITLE not being displayed in issue auto created messages (Bryan)
@@ -1082,8 +1043,7 @@ This release uses Composer for PHP Class autoloader.
 - Fixed the CVS commit handling regular expression to properly match "issue" or "bug" followed by a number (Elan Ruusamäe)
 - Fixed the monitor code to properly escape the dash when searching for the IRC bot pid (Elan Ruusamäe)
 
-04 Jan 2005, Version 1.4
-------------------------
+## 04 Jan 2005, Version 1.4
 
 - Fixed the notification code to properly handle the condition in which the recipient type flag is empty (João)
 - Fixed the MIME handling code to support inline attachments (João)
@@ -1140,8 +1100,7 @@ This release uses Composer for PHP Class autoloader.
 - Added default charset of 'ISO-8859-1' (Bryan)
 - Inline file attachments (such as images) now have filename set (Bryan)
 
-15 Sep 2004, Version 1.3.1
---------------------------
+## 15 Sep 2004, Version 1.3.1
 
 - Added the missing maq_iss_id and maq_subject columns to the mail_queue table schema (João)
 - Fixed a database schema upgrade bug that tried to do "default '0'" in a auto_increment field (João)
@@ -1153,8 +1112,7 @@ This release uses Composer for PHP Class autoloader.
 - Added the ability to sort by the Last Action Date column in saved searches (João)
 - Added an initial set of commands to the IRC bot: !help; !auth; !clock; !list-clocked-in and !list-quarantined (João)
 
-10 Sep 2004, Version 1.3
-------------------------
+## 10 Sep 2004, Version 1.3
 
 - Customer integration API (João, Bryan)
 - Custom Workflow API (Bryan)
@@ -1199,8 +1157,7 @@ This release uses Composer for PHP Class autoloader.
 - Changed the history of changes window to dynamically hide internal-only actions from customer users (Bryan)
 - Fixed bug in the notification email code to properly display the project name in the outgoing emails (Clay Loveless)
 
-30 Jun 2004, Version 1.2.2
---------------------------
+## 30 Jun 2004, Version 1.2.2
 
 - Forced cookies to always be set using APP_RELATIVE_URL to prevent multiple cookies from being created (Bryan)
 - Properly handling email attachments with uppercase MIME related values (João)
@@ -1221,15 +1178,13 @@ This release uses Composer for PHP Class autoloader.
 - Fixed cookie related problem that prevented users from logging into IIS based installations (João)
 - Fixed a bug that was preventing the selected list of statuses from being stored when creating a new project (João)
 
-15 Jun 2004, Version 1.2.1
---------------------------
+## 15 Jun 2004, Version 1.2.1
 
 - Fixed the email download routine to properly handle emails without any issue association (João)
 - Changed the reminder email alert so it displays the current assignment list (João)
 - Fixed the database upgrade script to properly respect the table prefix chosen by the user (João)
 
-14 Jun 2004, Version 1.2
-------------------------
+## 14 Jun 2004, Version 1.2
 
 - SMS email address can now be set back to empty (Bryan)
 - Fixed a problem with a duplicate key name in the history_type table (João)
@@ -1244,12 +1199,12 @@ This release uses Composer for PHP Class autoloader.
 - Removed 'to' field when sending emails from an issue since emails are sent to notification list (Bryan)
 - Fixed a bug in which the selected date for a phone call would be ignored (João)
 
-05 Jun 2004, Version 1.1
-------------------------
+## 05 Jun 2004, Version 1.1
 
 - Initial release (João; Bryan)
 
-[3.1.3]: https://github.com/eventum/eventum/compare/v3.1.2...master
+[3.1.4]: https://github.com/eventum/eventum/compare/v3.1.3...master
+[3.1.3]: https://github.com/eventum/eventum/compare/v3.1.2...v3.1.3
 [3.1.2]: https://github.com/eventum/eventum/compare/v3.1.1...v3.1.2
 [3.1.1]: https://github.com/eventum/eventum/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/eventum/eventum/compare/v3.0.12...v3.1.0
