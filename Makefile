@@ -17,6 +17,7 @@ PHPCOMPATINFO_VERSION := 5.0.1
 PHPUNIT_VERSION := 4.8.11
 PHPAB_VERSION := 1.20.3
 PHING_VERSION := 2.15.0
+PHPCB_VERSION := 1.1.1
 
 define find_tool
 $(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
@@ -72,6 +73,9 @@ phpunit.phar:
 
 phpab.phar:
 	$(call fetch_tool,http://phpab.net/phpab-$(PHPAB_VERSION).phar)
+
+phpcb.phar:
+	$(call fetch_tool,https://github.com/mayflower/PHP_CodeBrowser/releases/download/$(PHPCB_VERSION)/phpcb-$(PHPCB_VERSION).phar)
 
 phing.phar:
 	$(call fetch_tool,https://www.phing.info/get/phing-$(PHING_VERSION).phar)
