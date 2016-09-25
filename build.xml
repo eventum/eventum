@@ -78,6 +78,18 @@
 				<include name="tsmarty2c.1" />
 			</fileset>
 
+			<fileset dir="${vendor}/smarty/smarty">
+				<include name="libs/Autoloader.php" />
+			</fileset>
+
+			<fileset dir="${vendor}/willdurand/email-reply-parser">
+				<include name="src/autoload.php" />
+			</fileset>
+
+			<fileset dir="${vendor}/zendframework/zend-stdlib/src">
+				<include name="compatibility/autoload.php" />
+			</fileset>
+
 			<fileset dir="${vendor}/zendframework/zend-config/src">
 				<exclude name="Config.php" />
 				<exclude name="Exception/**" />
