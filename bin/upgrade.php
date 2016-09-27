@@ -14,9 +14,9 @@ define('CONFIG_PATH', INSTALL_PATH . '/config');
 $setup_path = CONFIG_PATH . '/setup.php';
 if (!file_exists($setup_path) || !filesize($setup_path) || !is_readable($setup_path)) {
     // make path absolute first for readable error messages
-    $config_path = realpath(CONFIG_PATH);
-    error_log("ERROR: Can't get setup.php in '$config_path'");
-    error_log('Did you forgot to copy config from old install? Is file readable?');
+    $setup_path = realpath($setup_path);
+    error_log("ERROR: $setup_path does not exist, is not readable, or is an empty file.");
+    error_log('Did you forgot to copy config from old install?');
     exit(1);
 }
 
