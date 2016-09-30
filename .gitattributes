@@ -6,8 +6,6 @@
 /.gitmodules export-ignore
 
 # maintenance tools
-/bin/dyncontent-chksum.pl export-ignore
-/bin/release.sh export-ignore
 /.codeclimate.yml export-ignore
 /.gush.yml export-ignore
 /.php_cs export-ignore
@@ -16,7 +14,6 @@
 /build.xml export-ignore
 /bin/ci/ export-ignore
 
-/bin/phpxref.sh export-ignore
 /config/phpxref.cfg export-ignore
 
 # tests

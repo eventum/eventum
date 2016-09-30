@@ -290,7 +290,7 @@ prepare_source() {
 	phpcompatinfo_report
 
 	# update to include checksums of js/css files
-	$topdir/bin/dyncontent-chksum.pl
+	$topdir/bin/ci/dyncontent-chksum.pl
 
 	build_phars
 

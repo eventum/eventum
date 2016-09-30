@@ -48,10 +48,10 @@ snapshot:
 	./bin/ci/snapshot.sh
 
 dist:
-	./bin/release.sh
+	./bin/ci/release.sh
 
 quickdist:
-	QUICK=true ./bin/release.sh
+	QUICK=true ./bin/ci/release.sh
 
 test:
 	phpunit
