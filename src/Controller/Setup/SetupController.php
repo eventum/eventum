@@ -30,6 +30,9 @@ use Template_Helper;
 
 class SetupController extends BaseController
 {
+    /** @var string */
+    protected $tpl_name = 'setup.tpl.html';
+
     protected function configure()
     {
     }
@@ -89,12 +92,17 @@ class SetupController extends BaseController
         $tpl->assign('default_timezone', $this->getTimezone());
         $tpl->assign('default_weekday', $this->getFirstWeekday());
 
-        $tpl->setTemplate('setup.tpl.html');
+        $tpl->setTemplate($this->tpl_name);
         $tpl->displayTemplate(false);
     }
 
     protected function prepareTemplate()
     {
+    }
+
+    protected function displayTemplate($tpl_name = null)
+    {
+        // override to do nothing
     }
 
     /**
