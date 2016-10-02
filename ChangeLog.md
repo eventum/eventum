@@ -2,6 +2,8 @@
 
 ## 2016-??-??, Version [3.1.4]
 
+- encryption: assume no key present if `secret_key.php` file is empty (@glensc)
+
 ## 2016-09-25, Version [3.1.3]
 
 - Allow time tracking entries to be edited (@balsdorf, #174)

@@ -77,7 +77,7 @@ final class CryptoKeyManager
 
     private function loadPrivateKey()
     {
-        if (!file_exists($this->keyfile)) {
+        if (!file_exists($this->keyfile) || !filesize($this->keyfile)) {
             return null;
         }
         if (!is_readable($this->keyfile)) {
