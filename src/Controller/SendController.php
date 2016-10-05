@@ -77,9 +77,12 @@ class SendController extends BaseController
         $this->usr_id = Auth::getUserID();
 
         if ($this->issue_id) {
-            return Issue::canAccess($this->issue_id, $this->usr_id);
-        } elseif ($this->note_id) {
-            return (Access::canViewInternalNotes($this->issue_id, $this->usr_id) && Access::canAccessAssociateEmails($this->usr_id));
+            $issue_access = Issue::canAccess($this->issue_id, $this->usr_id);
+            if ($issue_access === true && $this->note_id) {
+                return (Access::canViewInternalNotes($this->issue_id, $this->usr_id) && Access::canAccessAssociateEmails($this->usr_id));
+            } else {
+                return $issue_access;
+            }
         } else {
             return Access::canAccessAssociateEmails($this->usr_id);
         }
