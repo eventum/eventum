@@ -1,8 +1,8 @@
 # Eventum Issue Tracking System
 
 ## 2016-??-??, Version [3.1.4]
-- Add 'reply as email' option to notes (@balsdorf, #205)
 
+- Add 'reply as email' option to notes (@balsdorf, #205)
 - encryption: assume no key present if `secret_key.php` file is empty (@glensc)
 
 ## 2016-09-25, Version [3.1.3]
