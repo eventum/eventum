@@ -22,6 +22,10 @@ function reply(id, issue_id)
 {
     window.location.href = 'post_note.php?cat=reply&id=' + id + '&issue_id=' + issue_id;
 }
+function replyAsEmail(id, issue_id)
+{
+    window.location.href = 'send.php?cat=reply_to_note&note_id=' + id + '&issue_id=' + issue_id;
+}
 function openRawHeaders()
 {
 
@@ -133,6 +137,7 @@ function viewNote(id)
         <tr class="buttons">
           <td colspan="2">
             <input type="button" value="{t}Reply{/t}" onClick="reply({$smarty.get.id|intval}, {$issue_id});">&nbsp;&nbsp;
+            <input type="button" value="{t}Reply as Email{/t}" onClick="replyAsEmail({$smarty.get.id|intval}, {$issue_id});">&nbsp;&nbsp;
             <input type="button" value="{t}Close{/t}" onClick="window.close();">
           </td>
         </tr>

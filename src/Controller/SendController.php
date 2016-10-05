@@ -22,6 +22,7 @@ use History;
 use Issue;
 use Mail_Helper;
 use Misc;
+use Note;
 use Notification;
 use Prefs;
 use Status;
@@ -53,6 +54,9 @@ class SendController extends BaseController
     /** @var int */
     private $ema_id;
 
+    /** @var  int */
+    private $note_id;
+
     /**
      * create variables from request, etc
      */
@@ -62,6 +66,7 @@ class SendController extends BaseController
         $this->issue_id = $request->request->getInt('issue_id') ?: $request->query->getInt('issue_id');
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
         $this->ema_id = (int) $request->get('ema_id');
+        $this->note_id = $request->get('note_id');
     }
 
     protected function canAccess()
@@ -73,6 +78,8 @@ class SendController extends BaseController
 
         if ($this->issue_id) {
             return Issue::canAccess($this->issue_id, $this->usr_id);
+        } elseif ($this->note_id) {
+            return (Access::canViewInternalNotes($this->issue_id, $this->usr_id) && Access::canAccessAssociateEmails($this->usr_id));
         } else {
             return Access::canAccessAssociateEmails($this->usr_id);
         }
@@ -105,6 +112,9 @@ class SendController extends BaseController
                 break;
             case 'create_draft':
                 $this->createDraftAction();
+                break;
+            case 'reply_to_note':
+                $this->replyNoteAction();
                 break;
             default:
                 $this->otherAction();
@@ -318,6 +328,30 @@ class SendController extends BaseController
             [
                 'email' => $details,
                 'parent_email_id' => 0,
+                'extra_title' => $extra_title,
+            ]
+        );
+    }
+
+    /**
+     * special handling when someone tries to 'reply' to a note
+     */
+    private function replyNoteAction()
+    {
+        $note = Note::getDetails($this->note_id);
+        if (!$note) {
+            return;
+        }
+
+        $header = Misc::formatReplyPreamble($note['timestamp'], $note['not_from']);
+        $details['reply_subject'] = $note['not_title'];
+        $details['seb_body'] = $header . Misc::formatReply($note['not_note']);
+        // TRANSLATORS: %1: issue_id
+        $extra_title = ev_gettext('Issue #%1$s: Reply', $this->issue_id);
+        $this->tpl->assign(
+            [
+                'note_id'   =>  $this->note_id,
+                'email' => $details,
                 'extra_title' => $extra_title,
             ]
         );
