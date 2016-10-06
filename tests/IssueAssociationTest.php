@@ -21,6 +21,15 @@ class IssueAssociation extends TestCase
         Logger::initialize();
     }
 
+    public function setUp()
+    {
+        $db = DB_Helper::getInstance();
+        $issues = '12,13,14,15';
+        $db->query(
+            "delete FROM {{%issue_association}} WHERE isa_issue_id in ($issues) OR isa_associated_id in($issues)"
+        );
+    }
+
     public function testAssociateIssue()
     {
         $usr_id = APP_SYSTEM_USER_ID;
@@ -66,5 +75,29 @@ class IssueAssociation extends TestCase
         } catch (InvalidArgumentException $e) {
             $this->assertEquals("Issue $iss2_id not associated to $iss1_id", $e->getMessage());
         }
+    }
+
+    public function testBulkUpdate()
+    {
+        $usr_id = APP_SYSTEM_USER_ID;
+        $issue_id = 12;
+        $repo = IssueAssociationRepository::create();
+
+        $associated_issues = [$issue_id, '13', '14', 15, $issue_id, 13, 'lol', -1, null, '', false];
+        $res = $repo->updateAssociations($usr_id, $issue_id, $associated_issues);
+        // no "issue does not exist errors" expected
+        $this->assertEmpty($res);
+
+        $res = $repo->getAssociatedIssues($issue_id);
+        $exp = [13, 14, 15];
+        $this->assertEquals($exp, $res);
+
+        // test that removing also works
+        $associated_issues = ['13'];
+        $res = $repo->updateAssociations($usr_id, $issue_id, $associated_issues);
+        $this->assertEmpty($res);
+        $res = $repo->getAssociatedIssues($issue_id);
+        $exp = [13];
+        $this->assertEquals($exp, $res);
     }
 }

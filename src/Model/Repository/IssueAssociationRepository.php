@@ -15,6 +15,7 @@ namespace Eventum\Model\Repository;
 use Eventum\Model\Entity;
 use History;
 use InvalidArgumentException;
+use Issue;
 use LogicException;
 use User;
 
@@ -122,5 +123,75 @@ class IssueAssociationRepository extends BaseRepository
                 'Issue association to Issue #{issue_id} removed by {user}', $params
             );
         }
+    }
+
+    /**
+     * Update the issue associations
+     *
+     * @param int $usr_id User Id performing the operation
+     * @param int $issue_id issue_id to update associations
+     * @param int[] $issues issue_id's to associate with
+     * @return string[] errors from operation
+     */
+    public function updateAssociations($usr_id, $issue_id, $issues)
+    {
+        list($issues, $errors) = $this->filterExistingIssues($issues, $issue_id);
+        $existing_associations = $this->getAssociatedIssues($issue_id);
+
+        $add = array_diff($issues, $existing_associations);
+        $remove = array_diff($existing_associations, $issues);
+        if (!$add && !$remove) {
+            return [];
+        }
+
+        foreach ($add as $associated_id) {
+            $this->addIssueAssociation($usr_id, $issue_id, $associated_id);
+        }
+        foreach ($remove as $associated_id) {
+            $this->removeAssociation($usr_id, $issue_id, $associated_id);
+        }
+
+        return $errors;
+    }
+
+    /**
+     * Filter issues for invalid input and issues that do not exist.
+     *
+     * XXX: check_project was false in old code even if it said it does check for project
+     *
+     * @param int[] $issues
+     * @param int $issue_id current issue id to remove if present
+     * @param bool $check_project
+     * @return array
+     */
+    private function filterExistingIssues($issues, $issue_id, $check_project = false)
+    {
+        // make unique first by flipping it
+        // otherwise removing itself from the list removes only first occurrence
+        $issues = array_flip(array_filter($issues));
+        unset($issues[$issue_id]);
+
+        $res = $errors = [];
+        foreach (array_keys($issues) as $iss_id) {
+            $iss_id = (int)$iss_id;
+            if ($iss_id <= 0) {
+                // add error it being invalid?
+                continue;
+            }
+            if (!Issue::exists($iss_id, $check_project)) {
+                $errors[] = $this->getIssueRemovedError($iss_id);
+                continue;
+            }
+            $res[] = $iss_id;
+        }
+
+        return [$res, $errors];
+    }
+
+    private function getIssueRemovedError($issue_id)
+    {
+        return ev_gettext(
+            'Issue #%s does not exist and was removed from the list of associated issues.', $issue_id
+        );
     }
 }
