@@ -1780,7 +1780,7 @@ class Issue
      * @param   integer $issue_id The other issue ID
      * @return  void
      */
-    public function addAssociation($issue_id, $associated_id, $usr_id, $link_issues = true)
+    public static function addAssociation($issue_id, $associated_id, $usr_id, $link_issues = true)
     {
         $stmt = 'INSERT INTO
                     {{%issue_association}}

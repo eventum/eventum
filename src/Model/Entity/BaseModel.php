@@ -53,7 +53,7 @@ abstract class BaseModel
         return $id;
     }
 
-    protected function findAllByConditions($where, $limit = null, $order = null)
+    protected function findAllByConditions($where, $limit = null, $order = null, $conditionJoin = ' AND ')
     {
         $tableName = $this->getTableName();
         $stmt = "SELECT * FROM {$tableName} WHERE ";
@@ -63,7 +63,7 @@ abstract class BaseModel
             $conditions[] = "$col=?";
             $params[] = $val;
         }
-        $stmt .= implode(' AND ', $conditions);
+        $stmt .= implode($conditionJoin, $conditions);
         if ($order) {
             $stmt .= " ORDER BY $order";
         }
