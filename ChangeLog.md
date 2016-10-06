@@ -4,6 +4,7 @@
 
 - Add 'reply as email' option to notes (@balsdorf, #205)
 - encryption: assume no key present if `secret_key.php` file is empty (@glensc)
+- rewrite issue association code (@glensc)
 
 ## 2016-09-25, Version [3.1.3]
 

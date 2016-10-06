@@ -52,16 +52,16 @@ class IssueAssociation extends TestCase
         }
 
         // now remove the association
-        $repo->removeAssociation($iss1_id, $iss2_id);
+        $repo->removeAssociation($usr_id, $iss1_id, $iss2_id);
         // second remove should fail both sides
         try {
-            $repo->removeAssociation($iss1_id, $iss2_id);
+            $repo->removeAssociation($usr_id, $iss1_id, $iss2_id);
             $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertEquals("Issue $iss1_id not associated to $iss2_id", $e->getMessage());
         }
         try {
-            $repo->removeAssociation($iss2_id, $iss1_id);
+            $repo->removeAssociation($usr_id, $iss2_id, $iss1_id);
             $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertEquals("Issue $iss2_id not associated to $iss1_id", $e->getMessage());

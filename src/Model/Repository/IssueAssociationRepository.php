@@ -12,7 +12,6 @@
  */
 namespace Eventum\Model\Repository;
 
-use Auth;
 use Eventum\Model\Entity;
 use History;
 use InvalidArgumentException;
@@ -24,8 +23,8 @@ class IssueAssociationRepository extends BaseRepository
     /**
      * Method used to get the list of issues associated to a specific issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  array The list of associated issues
+     * @param int $issue_id The issue ID
+     * @return int[] The list of associated issues
      */
     public function getAssociatedIssues($issue_id)
     {
@@ -64,8 +63,9 @@ class IssueAssociationRepository extends BaseRepository
     /**
      * Method used to associate an existing issue with another one.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $associated_issue_id The other issue ID
+     * @param int $usr_id User Id performing the operation
+     * @param int $issue_id The issue ID
+     * @param int $associated_issue_id The other issue ID
      */
     public function addIssueAssociation($usr_id, $issue_id, $associated_issue_id)
     {
@@ -91,10 +91,11 @@ class IssueAssociationRepository extends BaseRepository
     /**
      * Method used to remove a issue association from an issue.
      *
-     * @param integer $issue_id The issue ID
-     * @param integer $associated_issue_id The associated issue ID to remove.
+     * @param int $usr_id User Id performing the operation
+     * @param int $issue_id The issue ID
+     * @param int $associated_issue_id The associated issue ID to remove.
      */
-    public function removeAssociation($issue_id, $associated_issue_id)
+    public function removeAssociation($usr_id, $issue_id, $associated_issue_id)
     {
         // see if there already is association
         $assoc = $this->getAssociatedIssues($issue_id);
@@ -104,7 +105,6 @@ class IssueAssociationRepository extends BaseRepository
 
         Entity\IssueAssociation::create()->removeAssociation($issue_id, $associated_issue_id);
 
-        $usr_id = Auth::getUserID();
         $full_name = User::getFullName($usr_id);
         $pairs = [
             [$issue_id, $associated_issue_id],
