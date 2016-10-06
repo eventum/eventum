@@ -89,4 +89,14 @@ class IssueAssociation extends BaseModel
 
         return $this->findAllByConditions($where, null, null, $conditionJoin = ' OR ');
     }
+
+    public function removeAssociation($issue_id, $associated_id)
+    {
+        $query = '(isa_issue_id = ? AND isa_associated_id = ?) OR (isa_issue_id = ? AND isa_associated_id = ?)';
+        $params = [
+            $issue_id, $associated_id,
+            $associated_id, $issue_id,
+        ];
+        $this->deleteByQuery($query, $params);
+    }
 }

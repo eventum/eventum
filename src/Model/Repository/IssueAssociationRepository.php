@@ -12,8 +12,7 @@
  */
 namespace Eventum\Model\Repository;
 
-use DB_Helper;
-use Eventum\Db\DatabaseException;
+use Auth;
 use Eventum\Model\Entity;
 use History;
 use InvalidArgumentException;
@@ -87,5 +86,41 @@ class IssueAssociationRepository extends BaseRepository
                 'user' => User::getFullName($usr_id)
             ]
         );
+    }
+
+    /**
+     * Method used to remove a issue association from an issue.
+     *
+     * @param integer $issue_id The issue ID
+     * @param integer $associated_issue_id The associated issue ID to remove.
+     */
+    public function removeAssociation($issue_id, $associated_issue_id)
+    {
+        // see if there already is association
+        $assoc = $this->getAssociatedIssues($issue_id);
+        if (!in_array($associated_issue_id, $assoc)) {
+            throw new InvalidArgumentException("Issue $issue_id not associated to $associated_issue_id");
+        }
+
+        Entity\IssueAssociation::create()->removeAssociation($issue_id, $associated_issue_id);
+
+        $usr_id = Auth::getUserID();
+        $full_name = User::getFullName($usr_id);
+        $pairs = [
+            [$issue_id, $associated_issue_id],
+            [$associated_issue_id, $issue_id],
+        ];
+
+        foreach ($pairs as $pair) {
+            list($issue_id, $associated_issue_id) = $pair;
+            $params = [
+                'issue_id' => $associated_issue_id,
+                'user' => $full_name
+            ];
+            History::add(
+                $issue_id, $usr_id, 'issue_unassociated',
+                'Issue association to Issue #{issue_id} removed by {user}', $params
+            );
+        }
     }
 }
