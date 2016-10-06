@@ -43,7 +43,8 @@ function validateUpload(f)
     }
   {else}
   if ($("#iaf_ids").val().length < 1) {
-    Validation.errors[Validation.errors.length] = new Option('Files', 'dropfile[]');
+      alert('Please select at least one file to upload');
+      return false;
   }
   {/if}
 }

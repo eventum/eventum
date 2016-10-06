@@ -1061,7 +1061,6 @@ class Mail_Helper
         return $return;
     }
 
-
     /**
      * Removes newlines and tabs from subject
      * @param $subject string The subject to clean
@@ -1069,6 +1068,6 @@ class Mail_Helper
      */
     public static function cleanSubject($subject)
     {
-        return str_replace(["\t", "\n"], "", $subject);
+        return str_replace(["\t", "\n"], '', $subject);
     }
 }

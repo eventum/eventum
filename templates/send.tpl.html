@@ -156,7 +156,7 @@ $().ready(function() {
 
     var $send_email_form = $('#sendEmailForm');
     var field_keys = ['garlic', $send_email_form.find('input[name=issue_id]').val(),
-        $send_email_form.find('input[name=parent_id]').val()];
+        $send_email_form.find('input[name=parent_id]').val(), $send_email_form.find('input[name=note_id]').val()];
     if ($send_email_form.find('input[name=draft_id]').length) {
         field_keys.push($send_email_form.find('input[name=draft_id]').val());
     }
@@ -182,6 +182,7 @@ $().ready(function() {
 <form class="validate dropzone" data-validation-function='validateForm' id="sendEmailForm" name="sendEmailForm" method="post" enctype="multipart/form-data" data-destroy="false">
 <input type="hidden" name="cat" value="send_email">
 <input type="hidden" name="parent_id" value="{$parent_email_id|default:''}">
+<input type="hidden" name="note_id" value="{$note_id|default:''}">
 <input type="hidden" name="ema_id" value="{$ema_id|default:''}">
 <input type="hidden" name="issue_id" value="{$issue_id|default:''}">
 <input type="hidden" name="garlic_prefix" value="" id="garlic_prefix">

@@ -355,7 +355,7 @@ class Email_Account
     }
 
     /**
-     * Update password fir specified email account
+     * Update password for specified email account
      *
      * @param int $ema_id
      * @param string $password plain text password

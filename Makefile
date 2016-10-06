@@ -1,3 +1,10 @@
+#
+# This is Maintainers makefile
+#
+# See installation documentation how to install Eventum:
+# https://github.com/eventum/eventum/wiki/System-Admin%3A-Doing-a-fresh-install#installation-process
+#
+
 name            := eventum
 datadir         := /usr/share/$(name)
 sysconfdir      := $(datadir)/config
@@ -6,16 +13,18 @@ bindir          := /usr/bin
 logdir          := /var/log/$(name)
 smartyplugindir := $(datadir)/lib/Smarty/plugins
 
-PHPCOMPATINFO_VERSION := 4.4.0
+PHPCOMPATINFO_VERSION := 5.0.1
 PHPUNIT_VERSION := 4.8.11
 PHPAB_VERSION := 1.20.3
+PHING_VERSION := 2.15.0
+PHPCB_VERSION := 1.1.1
 
 define find_tool
 $(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
 endef
 
 define fetch_tool
-curl -sSf $1 -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
+curl -sSLf $1 -o $@.tmp && chmod +x $@.tmp && mv $@.tmp $@
 endef
 
 php-cs-fixer := $(call find_tool, php-cs-fixer)
@@ -35,11 +44,14 @@ pot:
 
 install: install-eventum install-cli
 
+snapshot:
+	./bin/ci/snapshot.sh
+
 dist:
-	./bin/release.sh
+	./bin/ci/release.sh
 
 quickdist:
-	QUICK=true ./bin/release.sh
+	QUICK=true ./bin/ci/release.sh
 
 test:
 	phpunit
@@ -61,6 +73,12 @@ phpunit.phar:
 
 phpab.phar:
 	$(call fetch_tool,http://phpab.net/phpab-$(PHPAB_VERSION).phar)
+
+phpcb.phar:
+	$(call fetch_tool,https://github.com/mayflower/PHP_CodeBrowser/releases/download/$(PHPCB_VERSION)/phpcb-$(PHPCB_VERSION).phar)
+
+phing.phar:
+	$(call fetch_tool,https://www.phing.info/get/phing-$(PHING_VERSION).phar)
 
 gush.phar:
 	$(call fetch_tool,http://gushphp.org/gush.phar)

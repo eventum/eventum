@@ -40,6 +40,9 @@ Dropzone.options.{$form} = {
 
       // remove id to iaf_ids list
       remove: function (id) {
+        if (id == undefined) {
+            return;
+        }
         var current = $iaf_ids.val();
         var ids = current ? current.split(/,/) : [];
         // NOTE:  id needs to be string, not int
@@ -47,7 +50,7 @@ Dropzone.options.{$form} = {
 
         // sanity check to avoid removing last item
         if (index == -1) {
-          alert('Attachment File Id ', id, ' not found');
+          alert('Attachment File Id ' + id + ' not found');
           return;
         }
 

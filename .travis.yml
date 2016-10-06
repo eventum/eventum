@@ -52,6 +52,7 @@ php:
   - nightly
 
 matrix:
+  fast_finish: true
   allow_failures:
     - php: hhvm
     - php: nightly
@@ -61,30 +62,53 @@ cache:
   apt: true
   directories:
     - $HOME/.composer/cache
+    - cache
     - vendor
 
 before_install:
+  - bin/ci/tools.sh
+
   # display some info from system
   - dpkg --list | grep language-pack
   - mkdir -p ~/.phpenv/versions/$(phpenv version-name)/etc
   - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - if ! phpenv config-rm xdebug.ini; then :; fi
   - locale -a
-  - make php-cs-fixer.phar
   # pull translations from launchpad
   - bzr branch lp:~glen666/eventum/po po
   - cp -af po/localization/*.po localization
 
 install:
+  # disable secure-http because sourceforge redirects to http:// urls
+  - composer config secure-http false
   - composer install --no-interaction --prefer-dist
   - make pear-fix
+
+script:
+  - echo phpunit -v --debug
+  # prepare release tarball
+  # need to fetch tags first for release process
+  - git fetch --tags --unshallow
+  - bin/release.sh
+
+# https://docs.travis-ci.com/user/deployment/releases
+deploy:
+  provider: releases
+  api_key:
+    secure: Fd00429tuyw6fX8br8jiYaPFLYZvoSDMUyQ3xBj9TsUS8/LgxwHXKWGYz4JHvms4e8QgQd9vuI0gN3M9tzG0/SFph+rj1p5BlfRH35xO8F/FDzUyL0B63ozScBFVf+R9SAHwILPKbHNQy/xcw3Iw8KiLc9klSWMU6PY0Ux/tiEg=
+  file_glob: true
+  file:
+    - eventum-*.tar.gz
+  skip_cleanup: true
+  overwrite: true
+  on:
+    repo: eventum/eventum
+    php: '5.5'
+    tags: true
 
 notifications:
   irc:
     channels: "chat.freenode.net#eventum"
     skip_join: true
-
-script:
-  - phpunit -v --debug
 
 # vim:ts=2:sw=2:et
