@@ -1734,19 +1734,6 @@ class Issue
     }
 
     /**
-     * Method used to associate an existing issue with another one.
-     *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $issue_id The other issue ID
-     * @deprecated use IssueAssociationRepository
-     */
-    public static function addAssociation($issue_id, $associated_id, $usr_id)
-    {
-        $repo = IssueAssociationRepository::create();
-        $repo->addIssueAssociation($usr_id, $issue_id, $associated_id);
-    }
-
-    /**
      * Method used to remove the issue associations related to a specific issue.
      *
      * @param int|array $issue_id The issue ID
@@ -2139,7 +2126,9 @@ class Issue
             History::add($clone_iss_id, $current_usr_id, 'issue_cloned_to', 'Issue cloned to issue #{issue_id}', [
                 'issue_id' => $issue_id,
             ]);
-            self::addAssociation($issue_id, $clone_iss_id, $usr_id);
+
+            IssueAssociationRepository::create()
+                ->addIssueAssociation($usr_id, $issue_id, $clone_iss_id);
         }
 
         $emails = [];
