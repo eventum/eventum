@@ -10,6 +10,7 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
+
 namespace Eventum\Controller;
 
 use Access;
@@ -81,6 +82,7 @@ class SendController extends BaseController
             if ($issue_access === true && $this->note_id) {
                 return (Access::canViewInternalNotes($this->issue_id, $this->usr_id) && Access::canAccessAssociateEmails($this->usr_id));
             }
+
             return $issue_access;
         }
 

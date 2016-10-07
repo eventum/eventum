@@ -10,6 +10,7 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
+
 namespace Eventum\Controller;
 
 use Custom_Field;
