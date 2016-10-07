@@ -1760,20 +1760,6 @@ class Issue
     }
 
     /**
-     * Method used to remove a issue association from an issue.
-     *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $associated_id The associated issue ID to remove.
-     * @deprecated use IssueAssociationRepository
-     */
-    public static function deleteAssociation($issue_id, $associated_id)
-    {
-        $usr_id = Auth::getUserID();
-        $repo = IssueAssociationRepository::create();
-        $repo->removeAssociation($usr_id, $issue_id, $associated_id);
-    }
-
-    /**
      * Method used to assign an issue with an user.
      *
      * @param   integer $usr_id The user ID of the person performing this change
