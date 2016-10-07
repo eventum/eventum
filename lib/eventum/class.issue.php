@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Model\Repository\IssueAssociationRepository;
 
 /**
  * Class designed to handle all business logic related to the issues in the
@@ -1395,58 +1396,17 @@ class Issue
      *
      * @param int $issue_id issue to associate
      * @param array $associated_issues issue_id's to associate with
+     * @deprecated use IssueAssociationRepository
      */
     private function updateAssociatedIssuesRelations($issue_id, $associated_issues)
     {
-        global $errors;
-
-        // trim and remove empty values
-        $associated_issues = array_filter(Misc::trim($associated_issues));
-
-        // make sure all associated issues are valid (and in this project)
-        foreach ($associated_issues as $i => $iss_id) {
-            if ($iss_id == $issue_id) {
-                // skip issue itself
-                unset($associated_issues[$i]);
-                continue;
-            }
-            if (!self::exists($iss_id, false)) {
-                $error = ev_gettext(
-                    'Issue #%s does not exist and was removed from the list of associated issues.', $iss_id
-                );
-                $errors['Associated Issues'][] = $error;
-                unset($associated_issues[$i]);
-            }
-        }
-        // this reindexes the array and removes duplicates filled by user
-        $associated_issues = array_unique($associated_issues);
-
-        $current = self::getDetails($issue_id);
-        $association_diff = Misc::arrayDiff($current['associated_issues'], $associated_issues);
-        if (!$association_diff) {
-            // no diffs, return back
-            return;
-        }
-
         $usr_id = Auth::getUserID();
+        $repo = IssueAssociationRepository::create();
+        $res = $repo->updateAssociations($usr_id, $issue_id, $associated_issues);
 
-        // go through the new associations, if association already exists, skip it
-        $associations_to_remove = $current['associated_issues'];
-        if (count($associated_issues) > 0) {
-            foreach ($associated_issues as $associated_id) {
-                if (!in_array($associated_id, $current['associated_issues'])) {
-                    self::addAssociation($issue_id, $associated_id, $usr_id);
-                } else {
-                    // already assigned, remove this user from list of issues to remove
-                    unset($associations_to_remove[array_search($associated_id, $associations_to_remove)]);
-                }
-            }
-        }
-
-        if ($associations_to_remove) {
-            foreach ($associations_to_remove as $associated_id) {
-                self::deleteAssociation($issue_id, $associated_id);
-            }
+        global $errors;
+        foreach ($res as $error) {
+            $errors['Associated Issues'][] = $error;
         }
     }
 
@@ -1778,27 +1738,12 @@ class Issue
      *
      * @param   integer $issue_id The issue ID
      * @param   integer $issue_id The other issue ID
-     * @return  void
+     * @deprecated use IssueAssociationRepository
      */
-    public static function addAssociation($issue_id, $associated_id, $usr_id, $link_issues = true)
+    public static function addAssociation($issue_id, $associated_id, $usr_id)
     {
-        $stmt = 'INSERT INTO
-                    {{%issue_association}}
-                 (
-                    isa_issue_id,
-                    isa_associated_id
-                 ) VALUES (
-                    ?, ?
-                 )';
-        DB_Helper::getInstance()->query($stmt, [$issue_id, $associated_id]);
-        History::add($issue_id, $usr_id, 'issue_associated', 'Issue associated to Issue #{associated_id} by {user}', [
-            'associated_id' => $associated_id,
-            'user' => User::getFullName($usr_id)
-        ]);
-        // link the associated issue back to this one
-        if ($link_issues) {
-            self::addAssociation($associated_id, $issue_id, $usr_id, false);
-        }
+        $repo = IssueAssociationRepository::create();
+        $repo->addIssueAssociation($usr_id, $issue_id, $associated_id);
     }
 
     /**
@@ -1832,34 +1777,13 @@ class Issue
      *
      * @param   integer $issue_id The issue ID
      * @param   integer $associated_id The associated issue ID to remove.
+     * @deprecated use IssueAssociationRepository
      */
-    public function deleteAssociation($issue_id, $associated_id)
+    public static function deleteAssociation($issue_id, $associated_id)
     {
-        $stmt = 'DELETE FROM
-                    {{%issue_association}}
-                 WHERE
-                    (
-                        isa_issue_id = ? AND
-                        isa_associated_id = ?
-                    ) OR
-                    (
-                        isa_issue_id = ? AND
-                        isa_associated_id = ?
-                    )';
-        DB_Helper::getInstance()->query($stmt, [$issue_id, $associated_id, $associated_id, $issue_id]);
-
         $usr_id = Auth::getUserID();
-        $full_name = User::getFullName($usr_id);
-
-        History::add($issue_id, $usr_id, 'issue_unassociated', 'Issue association to Issue #{issue_id} removed by {user}', [
-            'issue_id' => $associated_id,
-            'user' => $full_name
-        ]);
-
-        History::add($associated_id, $usr_id, 'issue_unassociated', 'Issue association to Issue #{issue_id} removed by {user}', [
-            'issue_id' => $issue_id,
-            'user' => $full_name
-        ]);
+        $repo = IssueAssociationRepository::create();
+        $repo->removeAssociation($usr_id, $issue_id, $associated_id);
     }
 
     /**
@@ -2215,7 +2139,7 @@ class Issue
             History::add($clone_iss_id, $current_usr_id, 'issue_cloned_to', 'Issue cloned to issue #{issue_id}', [
                 'issue_id' => $issue_id,
             ]);
-            self::addAssociation($issue_id, $clone_iss_id, $usr_id, true);
+            self::addAssociation($issue_id, $clone_iss_id, $usr_id);
         }
 
         $emails = [];
