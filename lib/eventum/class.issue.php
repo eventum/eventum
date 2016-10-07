@@ -1394,13 +1394,13 @@ class Issue
     /**
      * Update the issue associations
      *
+     * @param int $usr_id User Id performing the operation
      * @param int $issue_id issue to associate
      * @param array $associated_issues issue_id's to associate with
      * @deprecated use IssueAssociationRepository
      */
-    private function updateAssociatedIssuesRelations($issue_id, $associated_issues)
+    private function updateAssociatedIssuesRelations($usr_id, $issue_id, $associated_issues)
     {
-        $usr_id = Auth::getUserID();
         $repo = IssueAssociationRepository::create();
         $res = $repo->updateAssociations($usr_id, $issue_id, $associated_issues);
 
@@ -1432,7 +1432,7 @@ class Issue
         $current = self::getDetails($issue_id);
 
         $associated_issues = isset($_POST['associated_issues']) ? explode(',', $_POST['associated_issues']) : [];
-        self::updateAssociatedIssuesRelations($issue_id, $associated_issues);
+        self::updateAssociatedIssuesRelations($usr_id, $issue_id, $associated_issues);
 
         $assignments_changed = false;
         if (@$_POST['keep_assignments'] == 'no' && Access::canChangeAssignee($issue_id, $usr_id)) {
@@ -2276,7 +2276,7 @@ class Issue
             if ($clone_iss_id) {
                 $associated_issues[] = $clone_iss_id;
             }
-            self::updateAssociatedIssuesRelations($issue_id, $associated_issues);
+            self::updateAssociatedIssuesRelations($usr_id, $issue_id, $associated_issues);
         }
 
         Workflow::handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
