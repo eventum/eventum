@@ -21,6 +21,7 @@ use Exception;
 use Language;
 use Prefs;
 use Project;
+use Symfony\Component\HttpFoundation\Request;
 use User;
 
 class PreferencesController extends BaseController
@@ -37,29 +38,15 @@ class PreferencesController extends BaseController
     /** @var string */
     private $lang;
 
-    public function __construct()
-    {
-        $this->cat = $this->getRequest()->request->get('cat');
-
-        // must do Language::setPreference before template is initialized
-        if ($this->cat == 'update_account') {
-            if ($this->lang) {
-                User::setLang($this->usr_id, $this->lang);
-                Language::setPreference();
-            }
-        }
-
-        parent::__construct();
-    }
-
     /**
      * @inheritdoc
      */
     protected function configure()
     {
-        $request = $this->getRequest();
+        $post = $this->getRequest()->request;
 
-        $this->lang = $request->request->get('language');
+        $this->cat = $post->get('cat');
+        $this->lang = $post->get('language');
     }
 
     /**
@@ -112,6 +99,12 @@ class PreferencesController extends BaseController
         } elseif ($res !== null) {
             $this->messages->addErrorMessage(ev_gettext('Sorry, there was an error updating your information'));
         }
+
+        // redirect back to preferences because ui language may have changed
+        // and also to avoid reload page repost
+        if ($this->getRequest()->isMethod(Request::METHOD_POST)) {
+            $this->redirect('preferences.php');
+        }
     }
 
     private function updateAccountAction()
@@ -123,9 +116,14 @@ class PreferencesController extends BaseController
             $preferences['email_signature'] = file_get_contents($_FILES['file_signature']['tmp_name']);
         }
 
+        // XXX: $res only updated for Prefs::set
         $res = Prefs::set($this->usr_id, $preferences);
 
         User::updateSMS($this->usr_id, $preferences['sms_email']);
+
+        if ($this->lang) {
+            User::setLang($this->usr_id, $this->lang);
+        }
 
         return $res;
     }

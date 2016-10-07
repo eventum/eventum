@@ -135,10 +135,7 @@ class Auth
             $usr_id = self::getUserID();
 
             Session::init($usr_id);
-
-            if (!defined('SKIP_LANGUAGE_INIT')) {
-                Language::setPreference();
-            }
+            Language::setPreference();
 
             // check whether the project selection is set or not
             $prj_id = self::getCurrentProject();
