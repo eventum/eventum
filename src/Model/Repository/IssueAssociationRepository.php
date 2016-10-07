@@ -46,7 +46,6 @@ class IssueAssociationRepository extends BaseRepository
             // can't be itself!
             if ($iss_id == $issue_id) {
                 throw new LogicException();
-                continue;
             }
 
             $res[] = $iss_id;
