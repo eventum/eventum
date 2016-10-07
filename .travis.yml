@@ -89,7 +89,7 @@ script:
   # prepare release tarball
   # need to fetch tags first for release process
   - git fetch --tags --unshallow
-  - bin/release.sh
+  - make dist
 
 # https://docs.travis-ci.com/user/deployment/releases
 deploy:
