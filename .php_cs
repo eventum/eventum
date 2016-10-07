@@ -56,7 +56,6 @@ return Symfony\CS\Config\Config::create()
 		'line_after_namespace',
 		'linefeed',
 		'list_commas',
-		'long_array_syntax',
 		'lowercase_constants',
 		'lowercase_keywords',
 		'method_argument_space',
