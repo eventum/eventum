@@ -126,6 +126,17 @@ abstract class BaseController
         Auth::redirect($url);
     }
 
+    /**
+     * Returns TRUE if current request is HTTP POST.
+     *
+     * @return bool
+     * @since 3.1.4
+     */
+    protected function isPostRequest()
+    {
+        return $this->getRequest()->isMethod(Request::METHOD_POST);
+    }
+
     public function __get($name)
     {
         $className = 'Eventum\\Controller\\Helper\\' . ucfirst($name) . 'Helper';

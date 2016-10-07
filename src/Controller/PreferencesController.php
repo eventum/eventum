@@ -21,7 +21,6 @@ use Exception;
 use Language;
 use Prefs;
 use Project;
-use Symfony\Component\HttpFoundation\Request;
 use User;
 
 class PreferencesController extends BaseController
@@ -102,7 +101,7 @@ class PreferencesController extends BaseController
 
         // redirect back to preferences because ui language may have changed
         // and also to avoid reload page repost
-        if ($this->getRequest()->isMethod(Request::METHOD_POST)) {
+        if ($this->isPostRequest()) {
             $this->redirect('preferences.php');
         }
     }
