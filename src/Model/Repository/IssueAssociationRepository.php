@@ -140,7 +140,7 @@ class IssueAssociationRepository extends BaseRepository
         $add = array_diff($issues, $existing_associations);
         $remove = array_diff($existing_associations, $issues);
         if (!$add && !$remove) {
-            return [];
+            return $errors;
         }
 
         foreach ($add as $associated_id) {
