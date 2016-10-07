@@ -90,7 +90,7 @@ class IssueAssociationRepository extends BaseRepository
     }
 
     /**
-     * Method used to remove a issue association from an issue.
+     * Method used to remove an issue association from an issue.
      *
      * @param int $usr_id User Id performing the operation
      * @param int $issue_id The issue ID
@@ -166,8 +166,8 @@ class IssueAssociationRepository extends BaseRepository
      */
     private function filterExistingIssues($issues, $issue_id, $check_project = false)
     {
-        // make unique first by flipping it
-        // otherwise removing itself from the list removes only first occurrence
+        // make issues list unique by flipping the array
+        // otherwise removing $issue_id from the list (using array_search) would removes only first occurrence
         $issues = array_flip(array_filter($issues));
         unset($issues[$issue_id]);
 
@@ -175,7 +175,7 @@ class IssueAssociationRepository extends BaseRepository
         foreach (array_keys($issues) as $iss_id) {
             $iss_id = (int)$iss_id;
             if ($iss_id <= 0) {
-                // add error it being invalid?
+                // XXX: add to $errors[] that invalid input was skipped?
                 continue;
             }
             if (!Issue::exists($iss_id, $check_project)) {
