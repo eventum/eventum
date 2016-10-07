@@ -2088,8 +2088,7 @@ class Issue
         }
 
         $prj_id = Auth::getCurrentProject();
-        $current_usr_id = Auth::getUserID();
-        $usr_id = $current_usr_id;
+        $usr_id = Auth::getUserID();
 
         // if we are creating an issue for a customer, put the
         // main customer contact as the reporter for it
@@ -2114,16 +2113,16 @@ class Issue
         $has_RR = false;
         $info = User::getNameEmail($usr_id);
         // log the creation of the issue
-        History::add($issue_id, $current_usr_id, 'issue_opened', 'Issue opened by {user}', [
-            'user' => User::getFullName($current_usr_id),
+        History::add($issue_id, $usr_id, 'issue_opened', 'Issue opened by {user}', [
+            'user' => User::getFullName($usr_id),
         ]);
 
         $clone_iss_id = isset($_POST['clone_iss_id']) ? (int) $_POST['clone_iss_id'] : null;
-        if ($clone_iss_id && Access::canCloneIssue($clone_iss_id, $current_usr_id)) {
-            History::add($issue_id, $current_usr_id, 'issue_cloned_from', 'Issue cloned from issue #{issue_id}', [
+        if ($clone_iss_id && Access::canCloneIssue($clone_iss_id, $usr_id)) {
+            History::add($issue_id, $usr_id, 'issue_cloned_from', 'Issue cloned from issue #{issue_id}', [
                 'issue_id' => $clone_iss_id
             ]);
-            History::add($clone_iss_id, $current_usr_id, 'issue_cloned_to', 'Issue cloned to issue #{issue_id}', [
+            History::add($clone_iss_id, $usr_id, 'issue_cloned_to', 'Issue cloned to issue #{issue_id}', [
                 'issue_id' => $issue_id,
             ]);
 
