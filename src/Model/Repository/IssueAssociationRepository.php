@@ -17,6 +17,7 @@ use History;
 use InvalidArgumentException;
 use Issue;
 use LogicException;
+use Misc;
 use User;
 
 class IssueAssociationRepository extends BaseRepository
@@ -164,14 +165,15 @@ class IssueAssociationRepository extends BaseRepository
     {
         // make issues list unique by flipping the array
         // otherwise removing $issue_id from the list (using array_search) would removes only first occurrence
-        $issues = array_flip(array_filter($issues));
+        $issues = array_flip(array_filter(Misc::trim($issues)));
         unset($issues[$issue_id]);
 
         $res = $errors = [];
-        foreach (array_keys($issues) as $iss_id) {
-            $iss_id = (int)$iss_id;
+        foreach (array_keys($issues) as $input) {
+            $iss_id = (int)$input;
             if ($iss_id <= 0) {
-                // XXX: add to $errors[] that invalid input was skipped?
+                $errors[] = $this->getInvalidIssueError($input);
+
                 continue;
             }
             if (!Issue::exists($iss_id, false)) {
@@ -182,6 +184,13 @@ class IssueAssociationRepository extends BaseRepository
         }
 
         return [$res, $errors];
+    }
+
+    private function getInvalidIssueError($input)
+    {
+        return ev_gettext(
+            '"%s" was not valid Issue Id and was removed.', $input
+        );
     }
 
     private function getIssueRemovedError($issue_id)
