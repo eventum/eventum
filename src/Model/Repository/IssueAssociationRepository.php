@@ -156,14 +156,11 @@ class IssueAssociationRepository extends BaseRepository
     /**
      * Filter issues for invalid input and issues that do not exist.
      *
-     * XXX: check_project was false in old code even if it said it does check for project
-     *
      * @param int[] $issues
      * @param int $issue_id current issue id to remove if present
-     * @param bool $check_project
      * @return array
      */
-    private function filterExistingIssues($issues, $issue_id, $check_project = false)
+    private function filterExistingIssues($issues, $issue_id)
     {
         // make issues list unique by flipping the array
         // otherwise removing $issue_id from the list (using array_search) would removes only first occurrence
@@ -177,7 +174,7 @@ class IssueAssociationRepository extends BaseRepository
                 // XXX: add to $errors[] that invalid input was skipped?
                 continue;
             }
-            if (!Issue::exists($iss_id, $check_project)) {
+            if (!Issue::exists($iss_id, false)) {
                 $errors[] = $this->getIssueRemovedError($iss_id);
                 continue;
             }
