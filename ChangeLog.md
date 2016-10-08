@@ -3,8 +3,9 @@
 ## 2016-??-??, Version [3.1.4]
 
 - Add 'reply as email' option to notes (@balsdorf, #205)
-- encryption: assume no key present if `secret_key.php` file is empty (@glensc)
+- Encryption: assume no key present if `secret_key.php` file is empty (@glensc)
 - Fix "Available Languages" preferences save bug (@glensc, @yangmx, #195, #194)
+- Fix bugs in issue association code (@glensc, #207)
 
 ## 2016-09-25, Version [3.1.3]
 
