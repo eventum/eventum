@@ -399,7 +399,7 @@ class Date_Helper
      */
     public static function formatTimeAgo($date)
     {
-        $formatted_date = Date_Helper::getFormattedDate($date);
+        $formatted_date = self::getFormattedDate($date);
         $gmt_date = self::getDateTime($date, 'GMT')->format('Y-m-d\TH:i:s\Z');
 
         return sprintf('<time class="timeago" datetime="%s">%s</time>', $gmt_date, $formatted_date);

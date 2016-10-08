@@ -31,6 +31,9 @@ return Symfony\CS\Config\Config::create()
 	->level(Symfony\CS\FixerInterface::NONE_LEVEL)
 	# before sort: sed -e "/'-/ {s/-//;s/',/-',/}" .php_cs
 	#  after sort: sed -e "/-'/ {s/-//;s/'/'-/}" .php_cs
+	#
+	# Try to use StyleCI "recommended" preset:
+	# https://styleci.readme.io/v1.0/docs/presets#recommended
 	->fixers(array(
 		'-align_double_arrow',
 		'-align_equals',
@@ -75,6 +78,8 @@ return Symfony\CS\Config\Config::create()
 		'php4_constructor',
 		'php_closing_tag',
 		'-phpdoc_indent',
+		'-phpdoc_inline_tag',
+		'-phpdoc_no_access', // RemoteApi.php uses @access tags internally
 		'-phpdoc_no_empty_return',
 		'-phpdoc_no_package',
 		'-phpdoc_order',
@@ -91,6 +96,7 @@ return Symfony\CS\Config\Config::create()
 		'remove_leading_slash_use',
 		'remove_lines_between_uses',
 		'return',
+		'self_accessor',
 		'short_array_syntax',
 		'short_tag',
 		'single_array_no_trailing_comma',
