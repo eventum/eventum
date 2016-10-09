@@ -100,4 +100,44 @@ class IssueAssociation extends TestCase
         $exp = [13];
         $this->assertEquals($exp, $res);
     }
+
+    /**
+     * @test Issue::getAssociatedIssuesDetails();
+     * @test Issue::getAssociatedIssues();
+     */
+    public function testGetDetails()
+    {
+        $usr_id = APP_SYSTEM_USER_ID;
+        $iss1_id = 12;
+        $iss2_id = 13;
+
+        $repo = IssueAssociationRepository::create();
+        $repo->addIssueAssociation($usr_id, $iss1_id, $iss2_id);
+
+        // direct view
+        $associated_issues = Issue::getAssociatedIssues($iss1_id);
+        $associated_issues_details = Issue::getAssociatedIssuesDetails($iss1_id);
+
+        $this->assertEquals([$iss2_id], $associated_issues);
+        // array(
+        //  'associated_issue' => '13',
+        //  'associated_title' => '',
+        //  'current_status' => 'discovery',
+        // 'is_closed' => '0',
+        // ),
+        $this->assertEquals($iss2_id, $associated_issues_details[0]['associated_issue']);
+
+        // reverse view
+        $associated_issues = Issue::getAssociatedIssues($iss2_id);
+        $associated_issues_details = Issue::getAssociatedIssuesDetails($iss2_id);
+
+        $this->assertEquals([$iss1_id], $associated_issues);
+        // array(
+        //  'associated_issue' => '13',
+        //  'associated_title' => '',
+        //  'current_status' => 'discovery',
+        // 'is_closed' => '0',
+        // ),
+        $this->assertEquals($iss1_id, $associated_issues_details[0]['associated_issue']);
+    }
 }
