@@ -35,6 +35,9 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
 
         $options = [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+
+            // http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET SQL_MODE = ''",
         ];
 
         $pdo = new PDO($dsn, $config['username'], $config['password'], $options);

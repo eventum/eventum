@@ -80,6 +80,7 @@ class PearAdapter implements AdapterInterface
         switch ($dsn['phptype']) {
             case 'mysql':
             case 'mysqli':
+                // http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html
                 $db->query("SET SQL_MODE = ''");
                 if (Language::isUTF8()) {
                     $db->query('SET NAMES utf8');

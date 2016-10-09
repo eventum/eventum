@@ -7,6 +7,7 @@
 - Fix "Available Languages" preferences save bug (@glensc, @yangmx, #195, #194)
 - Fix bugs in issue association code (@glensc, #207)
 - Fix `PEAR_Error` class autoload error (@glensc, #200)
+- Reset `sql_mode` also for PDO driver (@glensc, #176)
 
 ## 2016-09-25, Version [3.1.3]
 
