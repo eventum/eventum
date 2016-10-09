@@ -6,6 +6,7 @@
 - Encryption: assume no key present if `secret_key.php` file is empty (@glensc)
 - Fix "Available Languages" preferences save bug (@glensc, @yangmx, #195, #194)
 - Fix bugs in issue association code (@glensc, #207)
+- Fix `PEAR_Error` class autoload error (@glensc, #200)
 
 ## 2016-09-25, Version [3.1.3]
 

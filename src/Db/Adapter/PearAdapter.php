@@ -69,6 +69,10 @@ class PearAdapter implements AdapterInterface
                 break;
         }
 
+        // probe autoloader to load PEAR_Error class
+        // https://github.com/eventum/eventum/issues/200#issuecomment-252485838
+        class_exists('PEAR');
+
         $db = DB::connect($dsn);
         $this->assertError($db);
 
