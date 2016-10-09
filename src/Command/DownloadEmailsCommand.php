@@ -136,7 +136,6 @@ class DownloadEmailsCommand extends Command
     {
         // some defaults,
         $config = [
-            'fix-lock' => false,
             'username' => null,
             'hostname' => null,
             'mailbox' => null,
@@ -144,12 +143,6 @@ class DownloadEmailsCommand extends Command
 
         if ($this->SAPI_CLI) {
             global $argc, $argv;
-            // --fix-lock may be only the last argument (first or fourth)
-            if ($argv[$argc - 1] == '--fix-lock') {
-                // no other args are allowed
-                $config['fix-lock'] = true;
-            }
-
             if ($argc > 1) {
                 $config['username'] = $argv[1];
             }
