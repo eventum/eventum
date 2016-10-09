@@ -13,6 +13,7 @@
 
 namespace Eventum\Model\Repository;
 
+use DB_Helper;
 use Eventum\Model\Entity;
 use History;
 use InvalidArgumentException;
@@ -60,6 +61,33 @@ class IssueAssociationRepository extends BaseRepository
         asort($res);
 
         return $res;
+    }
+
+    /**
+     * Get issue status and title details for specified issues.
+     *
+     * TODO: this is not right place for this method,
+     * it should be in IssueRepository, but that class does not exist yet
+     *
+     * @param int[] $issues
+     * @return array limited details for issues
+     */
+    public function getIssueDetails($issues)
+    {
+        $stmt
+            = 'SELECT
+                    iss_id associated_issue,
+                    iss_summary associated_title,
+                    sta_title current_status,
+                    sta_is_closed is_closed
+                 FROM
+                    {{%issue}},
+                    {{%status}}
+                 WHERE
+                    iss_sta_id=sta_id AND
+                    iss_id IN (' . DB_Helper::buildList($issues) . ')';
+
+        return DB_Helper::getInstance()->getAll($stmt, $issues);
     }
 
     /**

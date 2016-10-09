@@ -115,8 +115,8 @@ class IssueAssociation extends TestCase
         $repo->addIssueAssociation($usr_id, $iss1_id, $iss2_id);
 
         // direct view
-        $associated_issues = Issue::getAssociatedIssues($iss1_id);
-        $associated_issues_details = Issue::getAssociatedIssuesDetails($iss1_id);
+        $associated_issues = $repo->getAssociatedIssues($iss1_id);
+        $associated_issues_details = $repo->getIssueDetails($associated_issues);
 
         $this->assertEquals([$iss2_id], $associated_issues);
         // array(
@@ -128,8 +128,8 @@ class IssueAssociation extends TestCase
         $this->assertEquals($iss2_id, $associated_issues_details[0]['associated_issue']);
 
         // reverse view
-        $associated_issues = Issue::getAssociatedIssues($iss2_id);
-        $associated_issues_details = Issue::getAssociatedIssuesDetails($iss2_id);
+        $associated_issues = $repo->getAssociatedIssues($iss2_id);
+        $associated_issues_details = $repo->getIssueDetails($associated_issues);
 
         $this->assertEquals([$iss1_id], $associated_issues);
         // array(

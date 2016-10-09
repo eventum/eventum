@@ -2799,8 +2799,11 @@ class Issue
         } else {
             $res['is_current_user_assigned'] = 0;
         }
-        $res['associated_issues_details'] = self::getAssociatedIssuesDetails($res['iss_id']);
-        $res['associated_issues'] = self::getAssociatedIssues($res['iss_id']);
+
+        $repo = IssueAssociationRepository::create();
+        $res['associated_issues'] = $repo->getAssociatedIssues($res['iss_id']);
+        $res['associated_issues_details'] = $repo->getIssueDetails($res['associated_issues']);
+
         $res['reporter'] = User::getFullName($res['iss_usr_id']);
         if (empty($res['iss_updated_date'])) {
             $res['iss_updated_date'] = $res['iss_created_date'];
@@ -3105,62 +3108,6 @@ class Issue
         } catch (DatabaseException $e) {
             return '';
         }
-
-        return $res;
-    }
-
-    /**
-     * Method used to get the list of issues associated to a specific issue.
-     *
-     * @param   integer $issue_id The issue ID
-     * @return  array The list of associated issues
-     */
-    public static function getAssociatedIssues($issue_id)
-    {
-        $issues = self::getAssociatedIssuesDetails($issue_id);
-        $associated = [];
-        foreach ($issues as $issue) {
-            $associated[] = $issue['associated_issue'];
-        }
-
-        return $associated;
-    }
-
-    /**
-     * Method used to get the list of issues associated details to a
-     * specific issue.
-     *
-     * @param   integer $issue_id The issue ID
-     * @return  array The list of associated issues
-     */
-    public static function getAssociatedIssuesDetails($issue_id)
-    {
-        static $returns;
-
-        if (!empty($returns[$issue_id])) {
-            return $returns[$issue_id];
-        }
-
-        $stmt = 'SELECT
-                    isa_associated_id associated_issue,
-                    iss_summary associated_title,
-                    sta_title current_status,
-                    sta_is_closed is_closed
-                 FROM
-                    {{%issue_association}},
-                    {{%issue}},
-                    {{%status}}
-                 WHERE
-                    isa_associated_id=iss_id AND
-                    iss_sta_id=sta_id AND
-                    isa_issue_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return [];
-        }
-
-        $returns[$issue_id] = $res;
 
         return $res;
     }
