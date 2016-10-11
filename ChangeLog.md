@@ -9,6 +9,7 @@
 - Fix `PEAR_Error` class autoload error (@glensc, #200)
 - Reset `sql_mode` also for PDO driver (@glensc, #176)
 - Throw Exception in CLI if Eventum is not configured (@glensc, 9f04950)
+- Fix Admin/Time Tracking editint of existing categories (@glensc, @yangmx, #197)
 
 ## 2016-09-25, Version [3.1.3]
 
@@ -22,7 +23,7 @@
 - Add category to notification emails (@balsdorf)
 - Don't display Status Change Date column if it has not been customized (@balsdorf)
 - Strip tabs and newlines from note / email subjects (@balsdorf)
-- Do not associate forwarded emails to original issue (@glen)
+- Do not associate forwarded emails to original issue (@glensc)
 - Add travis configuration to make releases (@glensc, #198)
 - Keep `iss_original_description` in getIssueDetails method (@glensc, 98916a8)
 
