@@ -244,7 +244,7 @@ class Template_Helper
             $this->assign('current_user_id', $usr_id);
             $this->assign('handle_clock_in', $setup['handle_clock_in'] == 'enabled');
             $this->assign('is_current_user_clocked_in', $core['is_current_user_clocked_in']);
-            $this->assign('roles', User::getAssocRoleIDs());
+            $this->assign('roles', $core['roles']);
         }
         $this->assign('core', $core);
 
