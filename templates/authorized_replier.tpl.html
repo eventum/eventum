@@ -14,13 +14,6 @@ function validate(f)
     }
     return true;
 }
-function addSelection(f, from, to)
-{
-    var selected = [];
-    var field = getFormElement(f, from);
-    selected = getSelectedItems(field);
-    addOptions(f, to, selected);
-}
 function removeOption(f, field_name)
 {
     var field = getFormElement(f, field_name);
@@ -39,9 +32,9 @@ function checkDelete(f)
     }
     if (!confirm('{t escape=js}This action will remove the selected entries.{/t}')) {
         return false;
-    } else {
-        return true;
     }
+
+    return true;
 }
 //-->
 </script>
