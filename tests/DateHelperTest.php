@@ -213,4 +213,22 @@ class DateHelperTest extends TestCase
         $created_date = Date_Helper::convertDateGMT('2015-05-19 12:22:24 Europe/Tallinn');
         $this->assertEquals('2015-05-19 09:22:24', $created_date);
     }
+
+    /**
+     * @link https://github.com/eventum/eventum/issues/204
+     */
+    public function testBug_204()
+    {
+        try {
+            Date_Helper::convertDateGMT('2016-10-03 10:20:00 US/Central');
+            $this->fail();
+        } catch (Exception $e) {
+            $this->assertEquals(
+                'DateTime::__construct(): Failed to parse time string (2016-10-03 10:20:00 US/Central) at position 20 (U): The timezone could not be found in the database',
+                $e->getMessage()
+            );
+        }
+        $d = Date_Helper::convertDateGMT('2016-10-03 10:20:00 America/Chicago');
+        $this->assertNotEmpty($d);
+    }
 }
