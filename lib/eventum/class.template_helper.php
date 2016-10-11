@@ -233,7 +233,7 @@ class Template_Helper
                     'current_email' => $info['usr_email'],
                     'current_user_id' => $usr_id,
                     'current_user_datetime' => Date_Helper::getISO8601date('now', '', true),
-                    'is_current_user_clocked_in' => User::isCLockedIn($usr_id),
+                    'is_current_user_clocked_in' => User::isClockedIn($usr_id),
                     'is_anon_user' => Auth::isAnonUser(),
                     'is_current_user_partner' => !empty($info['usr_par_code']),
                     'roles' => User::getAssocRoleIDs(),
@@ -243,7 +243,7 @@ class Template_Helper
             $this->assign('current_email', $core['user']['usr_email']);
             $this->assign('current_user_id', $usr_id);
             $this->assign('handle_clock_in', $setup['handle_clock_in'] == 'enabled');
-            $this->assign('is_current_user_clocked_in', User::isClockedIn($usr_id));
+            $this->assign('is_current_user_clocked_in', $core['is_current_user_clocked_in']);
             $this->assign('roles', User::getAssocRoleIDs());
         }
         $this->assign('core', $core);
