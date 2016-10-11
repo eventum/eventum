@@ -273,7 +273,7 @@ $().ready(function() {
         <tr class="{cycle values='odd,even'}">
           <td width="4" align="center" nowrap "><input type="checkbox" name="items[]" value="{$list[i].prj_id}"></td>
           <td width="30%" >
-            &nbsp;<a href="{$current_url}?cat=edit&id={$list[i].prj_id}" title="{t}update this entry{/t}">{$list[i].prj_title}</a>
+            &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].prj_id}" title="{t}update this entry{/t}">{$list[i].prj_title}</a>
           </td>
           <td width="20%" >&nbsp;{$list[i].usr_full_name|escape:html}</td>
           <td >&nbsp;{$list[i].prj_status|capitalize}</td>
