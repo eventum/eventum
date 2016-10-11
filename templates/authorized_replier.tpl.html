@@ -5,7 +5,7 @@
 <script type="text/javascript">
 function validate(f)
 {
-    if (isWhitespace(f.email.value)) {
+    if (Validation.isWhitespace(f.email.value)) {
         alert('{t escape=js}Please enter a valid email address.{/t}');
         selectField(f, 'email');
         return false;

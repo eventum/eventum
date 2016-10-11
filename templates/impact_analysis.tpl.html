@@ -9,17 +9,17 @@
         <!--
         function validateImpactAnalysis(f)
         {
-            if (isWhitespace(f.dev_time.value)) {
+            if (Validation.isWhitespace(f.dev_time.value)) {
                 alert('{t escape=js}Please enter the estimated development time for this task.{/t}');
                 selectField(f, 'dev_time');
                 return false;
             }
-            if (!isFloat(f.dev_time.value)) {
+            if (!Validation.isFloat(f.dev_time.value)) {
                 alert('{t escape=js}Please use only floating point numbers (or integers) on the estimated development time field.{/t}');
                 selectField(f, 'dev_time');
                 return false;
             }
-            if (isWhitespace(f.impact_analysis.value)) {
+            if (Validation.isWhitespace(f.impact_analysis.value)) {
                 alert('{t escape=js}Please enter the analysis for the changes required by this issue.{/t}');
                 selectField(f, 'impact_analysis');
                 return false;
@@ -170,7 +170,7 @@
               <!--
               function validateNewRequirement(f)
               {
-                  if (isWhitespace(f.new_requirement.value)) {
+                  if (Validation.isWhitespace(f.new_requirement.value)) {
                       alert('{t escape=js}Please enter the new requirement for this issue.{/t}');
                       selectField(f, 'new_requirement');
                       return false;
