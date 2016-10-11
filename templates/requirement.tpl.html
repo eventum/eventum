@@ -26,12 +26,12 @@ setTimeout('window.close()', 2000);
 <!--
 function validate(f)
 {
-    if (!isFloat(f.dev_time.value)) {
+    if (!Validation.isFloat(f.dev_time.value)) {
         alert('{t escape=js}Please use only floating point numbers on the estimated development time field.{/t}');
         selectField(f, 'dev_time');
         return false;
     }
-    if (isWhitespace(f.impact_analysis.value)) {
+    if (Validation.isWhitespace(f.impact_analysis.value)) {
         alert('{t escape=js}Please enter the impact analysis for this new requirement.{/t}');
         selectField(f, 'impact_analysis');
         return false;
