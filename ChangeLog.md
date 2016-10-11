@@ -8,6 +8,7 @@
 - Fix bugs in issue association code (@glensc, #207)
 - Fix `PEAR_Error` class autoload error (@glensc, #200)
 - Reset `sql_mode` also for PDO driver (@glensc, #176)
+- Throw Exception in CLI if Eventum is not configured
 
 ## 2016-09-25, Version [3.1.3]
 
