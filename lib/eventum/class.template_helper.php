@@ -235,7 +235,6 @@ class Template_Helper
                     'is_current_user_clocked_in' => User::isClockedIn($usr_id),
                     'is_anon_user' => Auth::isAnonUser(),
                     'is_current_user_partner' => !empty($info['usr_par_code']),
-                    'roles' => User::getAssocRoleIDs(),
                     'current_user_prefs' => Prefs::get($usr_id),
                 ];
             $this->assign('current_full_name', $core['user']['usr_full_name']);
