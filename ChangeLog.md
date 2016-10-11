@@ -9,7 +9,7 @@
 - Fix `PEAR_Error` class autoload error (@glensc, #200)
 - Reset `sql_mode` also for PDO driver (@glensc, #176)
 - Throw Exception in CLI if Eventum is not configured (@glensc, 9f04950)
-- Fix Admin/Time Tracking editint of existing categories (@glensc, @yangmx, #197)
+- Fix Time Tracking administration bugs (@glensc, @yangmx, #197, #196)
 
 ## 2016-09-25, Version [3.1.3]
 
