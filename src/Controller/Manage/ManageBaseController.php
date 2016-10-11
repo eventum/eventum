@@ -25,6 +25,17 @@ abstract class ManageBaseController extends BaseController
     /** @var int */
     protected $role_id;
 
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->tpl->assign(
+            [
+                'auth_backend' => strtolower(APP_AUTH_BACKEND),
+            ]
+        );
+    }
+
     /**
      * @inheritdoc
      */

@@ -173,7 +173,6 @@ class Template_Helper
             'app_version' => APP_VERSION,
             'app_setup' => Setup::get(),
             'roles' => User::getAssocRoleIDs(),
-            'auth_backend' => strtolower(APP_AUTH_BACKEND),
             'current_url' => $_SERVER['PHP_SELF'],
             'template_id'    =>  str_replace(['/', '.tpl.html'], ['_'], $this->tpl_name),
         ];
