@@ -20,27 +20,25 @@ class DateHelperUserTest extends TestCase
      * timezone used for preferred user timezone tests
      */
     const USER_TIMEZONE = 'Europe/Tallinn';
+    const ADMIN_TIMEZONE = 'UTC';
 
     public static function setUpBeforeClass()
     {
         self::assertDatabase();
+        self::setTimezone(APP_ADMIN_USER_ID, self::USER_TIMEZONE);
+        self::setTimezone(APP_SYSTEM_USER_ID, self::ADMIN_TIMEZONE);
     }
 
-    /**
-     * @test Dependency test regarding user preferences
-     */
-    public function setAdminUserPreferences()
+    private function setTimezone($usr_id, $timezone)
     {
-        $usr_id = APP_ADMIN_USER_ID;
         $prefs = Prefs::get($usr_id);
-        $prefs['timezone'] = self::USER_TIMEZONE;
+        $prefs['timezone'] = $timezone;
         Prefs::set($usr_id, $prefs);
         // this will force db refetch
         Prefs::get($usr_id, true);
     }
 
     /**
-     * @depends setAdminUserPreferences
      * @covers  Date_Helper::getTimezoneShortNameByUser
      */
     public function testGetTimezoneShortNameByUser()
@@ -53,7 +51,6 @@ class DateHelperUserTest extends TestCase
     }
 
     /**
-     * @depends setAdminUserPreferences
      * @covers  Date_Helper::getPreferredTimezone
      */
     public function testGetPreferredTimezone()
