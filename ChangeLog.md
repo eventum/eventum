@@ -10,6 +10,7 @@
 - Reset `sql_mode` also for PDO driver (@glensc, #176)
 - Throw Exception in CLI if Eventum is not configured (@glensc, 9f04950)
 - Fix Time Tracking administration bugs (@glensc, @yangmx, #197, #196)
+- Add back Authorized Repliers user picker (@glensc, #210)
 
 ## 2016-09-25, Version [3.1.3]
 

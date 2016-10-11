@@ -1,10 +1,8 @@
 {extends "base.tpl.html"}
 {block title}#{$issue_id} - Authorized Replier List{/block}
 
-{block "content"}
-
+{block "javascripts" append}
 <script type="text/javascript">
-<!--
 function validate(f)
 {
     if (isWhitespace(f.email.value)) {
@@ -36,10 +34,19 @@ function checkDelete(f)
 
     return true;
 }
-//-->
+
+$(function ($) {
+  $('#users').change(function () {
+    Eventum.getField('email').val($(this).val());
+  });
+});
+
 </script>
 
-{if $core.current_role > $core.roles.reporter}
+{/block}
+
+{block "content"}
+  {if $core.current_role > $core.roles.reporter}
 <form name="replier_form" onSubmit="return validate(this);" method="post">
 {if $smarty.get.cat|default:'' == 'edit'}
 <input type="hidden" name="cat" value="update">
@@ -59,6 +66,10 @@ function checkDelete(f)
         {t}Email{/t}
       </th>
       <td>
+        <select id="users" class="chosen-select"
+                data-placeholder="{t}Choose User...{/t}">
+          {html_options options=$users}
+        </select><br/>
         <input type="text" name="email" size="40" value="{$info.sub_email|default:''}">
         {include file="error_icon.tpl.html" field="email"}
       </td>
