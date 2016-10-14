@@ -166,6 +166,7 @@ class Template_Helper
      */
     private function processTemplate()
     {
+        $setup = Setup::get();
         $core = [
             'rel_url' => APP_RELATIVE_URL,
             'base_url' => APP_BASE_URL,
@@ -175,6 +176,7 @@ class Template_Helper
             'roles' => User::getAssocRoleIDs(),
             'current_url' => $_SERVER['PHP_SELF'],
             'template_id'    =>  str_replace(['/', '.tpl.html'], ['_'], $this->tpl_name),
+            'handle_clock_in'   =>  $setup['handle_clock_in'] == 'enabled',
         ];
 
         // If VCS version is present "Eventum 2.3.3-148-g78b3368", link ref to github
@@ -192,7 +194,6 @@ class Template_Helper
         if ($usr_id) {
             $core['user'] = User::getDetails($usr_id);
             $prj_id = Auth::getCurrentProject();
-            $setup = Setup::get();
             if (!empty($prj_id)) {
                 $role_id = User::getRoleByUser($usr_id, $prj_id);
                 $has_crm = CRM::hasCustomerIntegration($prj_id);
@@ -237,12 +238,6 @@ class Template_Helper
                     'is_current_user_partner' => !empty($info['usr_par_code']),
                     'current_user_prefs' => Prefs::get($usr_id),
                 ];
-            $this->assign('current_full_name', $core['user']['usr_full_name']);
-            $this->assign('current_email', $core['user']['usr_email']);
-            $this->assign('current_user_id', $usr_id);
-            $this->assign('handle_clock_in', $setup['handle_clock_in'] == 'enabled');
-            $this->assign('is_current_user_clocked_in', $core['is_current_user_clocked_in']);
-            $this->assign('roles', $core['roles']);
         }
         $this->assign('core', $core);
 
