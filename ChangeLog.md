@@ -12,6 +12,7 @@
 - Fix Time Tracking administration bugs (@glensc, @yangmx, #197, #196)
 - Add back Authorized Repliers user picker (@glensc, #210)
 - Removed non '$core' default variables from templates (@balsdorf, #211)
+- Allow replies to original message to use "in-reply-to" header for message-id matching (@cpinfold, #212)
 
 ## 2016-09-25, Version [3.1.3]
 
