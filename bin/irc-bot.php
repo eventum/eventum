@@ -15,19 +15,6 @@ ini_set('memory_limit', '1024M');
 
 require_once __DIR__ . '/../init.php';
 
-// if requested, clear the lock
-if (in_array('--fix-lock', $argv)) {
-    Lock::release('irc_bot');
-    echo "The lock file was removed successfully.\n";
-    exit;
-}
-
-if (in_array('--check-process', $argv)) {
-    $check = true;
-} else {
-    $check = false;
-}
-
 // NB: must require this in global context
 // otherise $SMARTIRC_nreplycodes from defines.php is not initialized
 require_once 'Net/SmartIRC/defines.php';
@@ -40,13 +27,4 @@ try {
     exit(1);
 }
 
-// acquire a lock to prevent multiple scripts from
-// running at the same time
-if (!$bot->lock($check)) {
-    error_log('Error: Another instance of the script is still running.');
-    error_log("If this is not accurate, you may fix it by running this script with '--fix-lock' as the only parameter.");
-    exit(1);
-}
-
 $bot->run();
-$bot->unlock();

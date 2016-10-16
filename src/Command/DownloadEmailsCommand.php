@@ -14,14 +14,15 @@
 namespace Eventum\Command;
 
 use Email_Account;
-use Lock;
-use Project;
 use Support;
 
 class DownloadEmailsCommand extends Command
 {
     /** @var array */
     private $config;
+
+    /** @var int */
+    private $account_id;
 
     protected function configure()
     {
@@ -45,7 +46,7 @@ class DownloadEmailsCommand extends Command
         $config = $this->getParams();
 
         // check for the required parameters
-        if (!$config['fix-lock'] && (empty($config['username']) || empty($config['hostname']))) {
+        if (empty($config['username']) || empty($config['hostname'])) {
             if ($this->SAPI_CLI) {
                 $this->fatal(
                     'Wrong number of parameters given. Expected parameters related to the email account:',
@@ -63,47 +64,15 @@ class DownloadEmailsCommand extends Command
         }
 
         $this->config = $config;
+
+        $this->account_id = $this->getAccountId();
+
+        $this->lockname = 'download_emails_' . $this->account_id;
     }
 
     protected function execute()
     {
-        $config = $this->config;
-
-        // get the account ID early since we need it also for unlocking.
-        $account_id = Email_Account::getAccountID(
-            $config['username'], $config['hostname'], $config['mailbox']
-        );
-        if (!$account_id && !$config['fix-lock']) {
-            $this->fatal(
-                'Could not find a email account with the parameter provided.',
-                'Please verify your email account settings and try again.'
-            );
-        }
-
-        // if there is no account id, unlock all accounts
-        if ($config['fix-lock'] && !$account_id) {
-            $prj_ids = array_keys(Project::getAll());
-            foreach ($prj_ids as $prj_id) {
-                $ema_ids = Email_Account::getAssocList($prj_id);
-                foreach ($ema_ids as $ema_id => $ema_title) {
-                    $lockfile = 'download_emails_' . $ema_id;
-                    if (Lock::release($lockfile)) {
-                        $this->msg("Removed lock file '$lockfile'.");
-                    }
-                }
-            }
-            exit(0);
-        }
-
-        $lockname = 'download_emails_' . $account_id;
-        $this->lock($lockname);
-
-        // clear the lock in all cases of termination
-        register_shutdown_function(function () use ($lockname) {
-            Lock::release($lockname);
-        });
-
-        $account = Email_Account::getDetails($account_id, true);
+        $account = Email_Account::getDetails($this->account_id, true);
         $mbox = Support::connectEmailServer($account);
         if ($mbox == false) {
             $uri = Support::getServerURI($account);
@@ -139,6 +108,22 @@ class DownloadEmailsCommand extends Command
         Support::clearErrors();
     }
 
+    private function getAccountId()
+    {
+        $config = $this->config;
+
+        // get the account ID early since we need it also for unlocking.
+        $account_id = Email_Account::getAccountID(
+            $config['username'], $config['hostname'], $config['mailbox']
+        );
+        if (!$account_id) {
+            $this->fatal(
+                'Could not find a email account with the parameter provided.',
+                'Please verify your email account settings and try again.'
+            );
+        }
+    }
+
     /**
      * Get parameters needed for this script.
      *
@@ -151,7 +136,6 @@ class DownloadEmailsCommand extends Command
     {
         // some defaults,
         $config = [
-            'fix-lock' => false,
             'username' => null,
             'hostname' => null,
             'mailbox' => null,
@@ -159,12 +143,6 @@ class DownloadEmailsCommand extends Command
 
         if ($this->SAPI_CLI) {
             global $argc, $argv;
-            // --fix-lock may be only the last argument (first or fourth)
-            if ($argv[$argc - 1] == '--fix-lock') {
-                // no other args are allowed
-                $config['fix-lock'] = true;
-            }
-
             if ($argc > 1) {
                 $config['username'] = $argv[1];
             }
