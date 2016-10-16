@@ -427,28 +427,6 @@ class Time_Tracking
     }
 
     /**
-     * Method used to remove all time entries associated with the specified list
-     * of issues.
-     *
-     * @param   array $ids The list of issues
-     * @return  boolean
-     */
-    public static function removeTimeEntriesByIssues($ids)
-    {
-        $stmt = 'DELETE FROM
-                    {{%time_tracking}}
-                 WHERE
-                    ttr_iss_id IN (' . DB_Helper::buildList($ids) . ')';
-        try {
-            DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to remove a specific time entry from the system.
      *
      * @param   integer $time_id The time entry ID

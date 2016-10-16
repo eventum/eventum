@@ -1451,29 +1451,6 @@ class Custom_Field
     }
 
     /**
-     * Method used to remove all custom field entries associated with
-     * a given set of issues.
-     *
-     * @param   array $ids The array of issue IDs
-     * @return  boolean
-     */
-    public static function removeByIssues($ids)
-    {
-        $items = DB_Helper::buildList($ids);
-        $stmt = "DELETE FROM
-                    {{%issue_custom_field}}
-                 WHERE
-                    icf_iss_id IN ($items)";
-        try {
-            DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to remove all custom fields associated with
      * a given set of projects.
      *

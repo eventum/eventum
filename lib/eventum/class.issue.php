@@ -1259,16 +1259,7 @@ class Issue
         }
 
         if (count($res) > 0) {
-            Attachment::removeByIssues($res);
-            SCM::removeByIssues($res);
-            Impact_Analysis::removeByIssues($res);
             self::deleteUserAssociations($res);
-            Note::removeByIssues($res);
-            Time_Tracking::removeTimeEntriesByIssues($res);
-            Notification::removeByIssues($res);
-            Custom_Field::removeByIssues($res);
-            Phone_Support::removeByIssues($res);
-            History::removeByIssues($res);
             // now really delete the issues
             $items = implode(', ', $res);
             $stmt = "DELETE FROM

@@ -20,28 +20,6 @@ use Eventum\Db\DatabaseException;
 class SCM
 {
     /**
-     * Method used to remove all checkins associated with a list of issues.
-     *
-     * @param   array $ids The list of issues
-     * @return  boolean
-     */
-    public static function removeByIssues($ids)
-    {
-        $items = DB_Helper::buildList($ids);
-        $stmt = "DELETE FROM
-                    {{%issue_checkin}}
-                 WHERE
-                    isc_iss_id IN ($items)";
-        try {
-            DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to remove a specific list of checkins
      *
      * @param   int[] $items list to remove
