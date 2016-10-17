@@ -42,28 +42,6 @@ class Category
     }
 
     /**
-     * Method used to remove all categories related to a set of
-     * specific projects.
-     *
-     * @param   array $ids The project IDs to be removed
-     * @return  boolean Whether the removal worked or not
-     */
-    public static function removeByProjects($ids)
-    {
-        $stmt = 'DELETE FROM
-                    {{%project_category}}
-                 WHERE
-                    prc_prj_id IN (' . DB_Helper::buildList($ids) . ')';
-        try {
-            DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to remove user-selected categories from the
      * database.
      *

@@ -1236,43 +1236,6 @@ class Issue
     }
 
     /**
-     * Method used to remove all issues associated with a specific list of
-     * projects.
-     *
-     * XXX: this is dangerous, maybe remove such methods?
-     *
-     * @param   array $ids The list of projects to look for
-     * @return  boolean
-     */
-    public static function removeByProjects($ids)
-    {
-        $stmt = 'SELECT
-                    iss_id
-                 FROM
-                    {{%issue}}
-                 WHERE
-                    iss_prj_id IN (' . DB_Helper::buildList($ids) . ')';
-        try {
-            $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        if (count($res) > 0) {
-            self::deleteUserAssociations($res);
-            // now really delete the issues
-            $items = implode(', ', $res);
-            $stmt = "DELETE FROM
-                        {{%issue}}
-                     WHERE
-                        iss_id IN ($items)";
-            DB_Helper::getInstance()->query($stmt);
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to close off an issue.
      *
      * @param   integer $usr_id The user ID

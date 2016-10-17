@@ -1451,28 +1451,6 @@ class Custom_Field
     }
 
     /**
-     * Method used to remove all custom fields associated with
-     * a given set of projects.
-     *
-     * @param   array $ids The array of project IDs
-     * @return  boolean
-     */
-    public static function removeByProjects($ids)
-    {
-        $stmt = 'DELETE FROM
-                    {{%project_custom_field}}
-                 WHERE
-                    pcf_prj_id IN (' . DB_Helper::buildList($ids) . ')';
-        try {
-            DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Method to return the names of the fields which should be displayed on the list issues page.
      *
      * @param   integer $prj_id The ID of the project.
