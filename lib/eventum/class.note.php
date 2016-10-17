@@ -423,29 +423,6 @@ class Note
     }
 
     /**
-     * Method used to remove all notes associated with a specific set
-     * of issues.
-     *
-     * @param   array $ids The list of issues
-     * @return  boolean
-     */
-    public static function removeByIssues($ids)
-    {
-        $items = DB_Helper::buildList($ids);
-        $stmt = "DELETE FROM
-                    {{%note}}
-                 WHERE
-                    not_iss_id IN ($items)";
-        try {
-            DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to remove a specific note from the application.
      *
      * @param   integer $note_id The note ID

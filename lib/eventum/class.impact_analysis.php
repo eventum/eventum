@@ -186,27 +186,4 @@ class Impact_Analysis
 
         return 1;
     }
-
-    /**
-     * Method used to remove all of the requirements associated with a set of
-     * issue IDs.
-     *
-     * @param   array $ids The list of issue IDs
-     * @return  boolean
-     */
-    public static function removeByIssues($ids)
-    {
-        $items = DB_Helper::buildList($ids);
-        $stmt = "DELETE FROM
-                    {{%issue_requirement}}
-                 WHERE
-                    isr_iss_id IN ($items)";
-        try {
-            DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
 }

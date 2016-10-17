@@ -304,41 +304,6 @@ class Project
     }
 
     /**
-     * Method used to remove a given set of projects from the system.
-     *
-     * @return  boolean
-     */
-    public static function remove()
-    {
-        $items = $_POST['items'];
-        $stmt = 'DELETE FROM
-                    {{%project}}
-                 WHERE
-                    prj_id IN (' . DB_Helper::buildList($items) . ')';
-        try {
-            DB_Helper::getInstance()->query($stmt, $items);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        self::removeUserByProjects($items);
-        Category::removeByProjects($items);
-        Release::removeByProjects($items);
-        Filter::removeByProjects($items);
-        Email_Account::removeAccountByProjects($items);
-        Issue::removeByProjects($items);
-        Custom_Field::removeByProjects($items);
-
-        $statuses = array_keys(Status::getAssocStatusList($items));
-        foreach ($items as $prj_id) {
-            Status::removeProjectAssociations($statuses, $prj_id);
-        }
-        Group::disassociateProjects($items);
-
-        return 1;
-    }
-
-    /**
      * Method used to remove all project/user associations for a given
      * set of projects.
      *

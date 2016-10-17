@@ -593,28 +593,6 @@ class Filter
     }
 
     /**
-     * Method used to remove all custom filters associated with some
-     * specific projects.
-     *
-     * @param   array $ids List of projects to remove from
-     * @return  boolean Whether the removal worked properly or not
-     */
-    public static function removeByProjects($ids)
-    {
-        $stmt = 'DELETE FROM
-                    {{%custom_filter}}
-                 WHERE
-                    cst_prj_id IN (' . DB_Helper::buildList($ids) . ')';
-        try {
-            DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Returns an array of active filters
      *
      * @param   array $options The options array

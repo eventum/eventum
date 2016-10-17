@@ -179,43 +179,6 @@ class Email_Account
     }
 
     /**
-     * Method used to remove all support email accounts associated
-     * with a specified set of projects.
-     *
-     * @param   array $ids The list of projects
-     * @return  boolean
-     */
-    public static function removeAccountByProjects($ids)
-    {
-        $id_list = DB_Helper::buildList($ids);
-        $stmt = "SELECT
-                    ema_id
-                 FROM
-                    {{%email_account}}
-                 WHERE
-                    ema_prj_id IN ($id_list)";
-        try {
-            $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        Support::removeEmailByAccounts($res);
-
-        $stmt = "DELETE FROM
-                    {{%email_account}}
-                 WHERE
-                    ema_prj_id IN ($id_list)";
-        try {
-            DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to remove the specified support email accounts.
      *
      * @return  boolean

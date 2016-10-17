@@ -1236,53 +1236,6 @@ class Issue
     }
 
     /**
-     * Method used to remove all issues associated with a specific list of
-     * projects.
-     *
-     * XXX: this is dangerous, maybe remove such methods?
-     *
-     * @param   array $ids The list of projects to look for
-     * @return  boolean
-     */
-    public static function removeByProjects($ids)
-    {
-        $stmt = 'SELECT
-                    iss_id
-                 FROM
-                    {{%issue}}
-                 WHERE
-                    iss_prj_id IN (' . DB_Helper::buildList($ids) . ')';
-        try {
-            $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        if (count($res) > 0) {
-            self::deleteAssociations($res);
-            Attachment::removeByIssues($res);
-            SCM::removeByIssues($res);
-            Impact_Analysis::removeByIssues($res);
-            self::deleteUserAssociations($res);
-            Note::removeByIssues($res);
-            Time_Tracking::removeTimeEntriesByIssues($res);
-            Notification::removeByIssues($res);
-            Custom_Field::removeByIssues($res);
-            Phone_Support::removeByIssues($res);
-            History::removeByIssues($res);
-            // now really delete the issues
-            $items = implode(', ', $res);
-            $stmt = "DELETE FROM
-                        {{%issue}}
-                     WHERE
-                        iss_id IN ($items)";
-            DB_Helper::getInstance()->query($stmt);
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to close off an issue.
      *
      * @param   integer $usr_id The user ID
@@ -1731,32 +1684,6 @@ class Issue
         Notification::notifyNewIssue($new_prj_id, $issue_id);
 
         return 1;
-    }
-
-    /**
-     * Method used to remove the issue associations related to a specific issue.
-     *
-     * @param int|array $issue_id The issue ID
-     * @param int $usr_id
-     */
-    public function deleteAssociations($issue_id, $usr_id = null)
-    {
-        $issues = (array) $issue_id;
-        $list = DB_Helper::buildList($issues);
-
-        $stmt = "DELETE FROM
-                    {{%issue_association}}
-                 WHERE
-                    isa_issue_id IN ($list) OR
-                    isa_associated_id IN ($list)";
-        $params = array_merge($issues, $issues);
-
-        DB_Helper::getInstance()->query($stmt, $params);
-        if ($usr_id) {
-            History::add($issue_id, $usr_id, 'issue_all_unassociated', 'Issue associations removed by {user}', [
-                'user' => User::getFullName($usr_id)
-            ]);
-        }
     }
 
     /**
