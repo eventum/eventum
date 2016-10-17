@@ -9,7 +9,7 @@
 - Fix `PEAR_Error` class autoload error (@glensc, #200)
 - Reset `sql_mode` also for PDO driver (@glensc, #176)
 - Throw Exception in CLI if Eventum is not configured (@glensc, 9f04950)
-- Fix Time Tracking administration bugs (@glensc, @yangmx, #197, #196)
+- Fix Time Tracking administration bugs (@glensc, @yangmx, #197, #196, #208)
 - Add back Authorized Repliers user picker (@glensc, #210)
 - Removed non '$core' default variables from templates (@balsdorf, #211)
 - Allow replies to original message to use "in-reply-to" header for message-id matching (@cpinfold, #212)
