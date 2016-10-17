@@ -13,7 +13,7 @@
 - Add back Authorized Repliers user picker (@glensc, #210)
 - Removed non '$core' default variables from templates (@balsdorf, #211)
 - Allow replies to original message to use "in-reply-to" header for message-id matching (@cpinfold, #212)
-- Remove dangerous feature: removing issues by project (@glensc, @balsdorf, #206)
+- Remove dangerous feature: removing projects and issues by project (@glensc, @balsdorf, #206)
 
 ## 2016-09-25, Version [3.1.3]
 
