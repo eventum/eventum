@@ -449,7 +449,7 @@ class Search
         $csv[] = @implode("\t", $column_headings);
 
         if (@$options['hide_excerpts'] != 1 && self::doesBackendSupportExcerpts() == true) {
-            $excerpts = self::getFullTextExcerpts();
+            $excerpts = self::getFullTextExcerpts($options);
         }
 
         foreach ($res as &$row) {
@@ -741,6 +741,7 @@ class Search
         if ((APP_ENABLE_FULLTEXT) && (@$options['search_type'] != 'all_text')) {
             Session::set('fulltext_string', '');
             Session::set('fulltext_issues', '');
+            Session::set('fulltext_excerpts', '');
         }
 
         return $stmt;
@@ -769,6 +770,7 @@ class Search
 
         Session::set('fulltext_string', $options['keywords']);
         Session::set('fulltext_issues', $issues);
+        Session::set('fulltext_excerpts', '');
 
         return $issues;
     }
@@ -776,13 +778,20 @@ class Search
     /**
      * This needs to be called after getFullTextIssues
      */
-    public static function getFullTextExcerpts()
+    public static function getFullTextExcerpts($options)
     {
-        if (APP_ENABLE_FULLTEXT) {
-            return self::getFullTextSearchInstance()->getExcerpts();
-        } else {
+        if (!APP_ENABLE_FULLTEXT || empty($options['keywords'])) {
             return [];
         }
+
+        // check if excerpts for this full text search is already cached
+        $fulltext_string = Session::get('fulltext_string');
+        $excerpts = Session::get('fulltext_excerpts');
+        if (empty($excerpts)) {
+            $excerpts = self::getFullTextSearchInstance()->getExcerpts();
+            Session::set('fulltext_excerpts', $excerpts);
+        }
+        return $excerpts;
     }
 
     /**
