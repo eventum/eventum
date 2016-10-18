@@ -74,6 +74,9 @@ class IssueAssociationRepository extends BaseRepository
      */
     public function getIssueDetails($issues)
     {
+        if (count($issues) < 1) {
+            return array();
+        }
         $stmt
             = 'SELECT
                     iss_id associated_issue,
