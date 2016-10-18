@@ -10,6 +10,7 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
+
 namespace Eventum\Model\Entity;
 
 use Date_Helper;
@@ -53,7 +54,7 @@ abstract class BaseModel
         return $id;
     }
 
-    protected function findAllByConditions($where, $limit = null, $order = null)
+    protected function findAllByConditions($where, $limit = null, $order = null, $conditionJoin = ' AND ')
     {
         $tableName = $this->getTableName();
         $stmt = "SELECT * FROM {$tableName} WHERE ";
@@ -63,7 +64,7 @@ abstract class BaseModel
             $conditions[] = "$col=?";
             $params[] = $val;
         }
-        $stmt .= implode(' AND ', $conditions);
+        $stmt .= implode($conditionJoin, $conditions);
         if ($order) {
             $stmt .= " ORDER BY $order";
         }
@@ -92,6 +93,14 @@ abstract class BaseModel
         }
 
         return $res;
+    }
+
+    protected function deleteByQuery($query, $params)
+    {
+        $tableName = $this->getTableName();
+        $stmt = "DELETE FROM {$tableName} WHERE " . $query;
+        $db = DB_Helper::getInstance();
+        $db->query($stmt, $params);
     }
 
     /**

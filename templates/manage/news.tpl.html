@@ -129,7 +129,7 @@ function checkDelete()
     <tr class="{cycle values='odd,even'}">
       <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].nws_id}"></td>
       <td width="40%">
-        &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].nws_id}" title="{t}update this entry{/t}">{$list[i].nws_title}</a>
+        &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].nws_id}" title="{t}update this entry{/t}">{$list[i].nws_title}</a>
       </td>
       <td width="40%">
         &nbsp;{$list[i].projects|escape:"html"}

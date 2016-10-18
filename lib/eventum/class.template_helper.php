@@ -166,6 +166,7 @@ class Template_Helper
      */
     private function processTemplate()
     {
+        $setup = Setup::get();
         $core = [
             'rel_url' => APP_RELATIVE_URL,
             'base_url' => APP_BASE_URL,
@@ -173,9 +174,9 @@ class Template_Helper
             'app_version' => APP_VERSION,
             'app_setup' => Setup::get(),
             'roles' => User::getAssocRoleIDs(),
-            'auth_backend' => strtolower(APP_AUTH_BACKEND),
             'current_url' => $_SERVER['PHP_SELF'],
             'template_id'    =>  str_replace(['/', '.tpl.html'], ['_'], $this->tpl_name),
+            'handle_clock_in'   =>  $setup['handle_clock_in'] == 'enabled',
         ];
 
         // If VCS version is present "Eventum 2.3.3-148-g78b3368", link ref to github
@@ -193,7 +194,6 @@ class Template_Helper
         if ($usr_id) {
             $core['user'] = User::getDetails($usr_id);
             $prj_id = Auth::getCurrentProject();
-            $setup = Setup::get();
             if (!empty($prj_id)) {
                 $role_id = User::getRoleByUser($usr_id, $prj_id);
                 $has_crm = CRM::hasCustomerIntegration($prj_id);
@@ -233,18 +233,11 @@ class Template_Helper
                     'current_email' => $info['usr_email'],
                     'current_user_id' => $usr_id,
                     'current_user_datetime' => Date_Helper::getISO8601date('now', '', true),
-                    'is_current_user_clocked_in' => User::isCLockedIn($usr_id),
+                    'is_current_user_clocked_in' => User::isClockedIn($usr_id),
                     'is_anon_user' => Auth::isAnonUser(),
                     'is_current_user_partner' => !empty($info['usr_par_code']),
-                    'roles' => User::getAssocRoleIDs(),
                     'current_user_prefs' => Prefs::get($usr_id),
                 ];
-            $this->assign('current_full_name', $core['user']['usr_full_name']);
-            $this->assign('current_email', $core['user']['usr_email']);
-            $this->assign('current_user_id', $usr_id);
-            $this->assign('handle_clock_in', $setup['handle_clock_in'] == 'enabled');
-            $this->assign('is_current_user_clocked_in', User::isClockedIn($usr_id));
-            $this->assign('roles', User::getAssocRoleIDs());
         }
         $this->assign('core', $core);
 

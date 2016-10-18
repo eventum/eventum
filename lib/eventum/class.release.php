@@ -97,28 +97,6 @@ class Release
     }
 
     /**
-     * Method used to remove all releases associated with a specific
-     * set of projects.
-     *
-     * @param   array $ids The list of projects
-     * @return  boolean
-     */
-    public static function removeByProjects($ids)
-    {
-        $stmt = 'DELETE FROM
-                    {{%project_release}}
-                 WHERE
-                    pre_prj_id IN (' . DB_Helper::buildList($ids) . ')';
-        try {
-            DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to remove releases by using the administrative
      * interface of the system.
      *

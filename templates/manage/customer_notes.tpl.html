@@ -3,7 +3,7 @@
 {block "manage_content"}
 <script type="text/javascript">
 <!--
-var url = '{$smarty.server.PHP_SELF}';
+var url = '{$core.current_url}';
 var cno_id = {$smarty.get.id|intval|default:''};
 
 function populateCustomerComboBox()
@@ -124,7 +124,7 @@ function checkDelete()
         <tr class="{cycle values='odd,even'}">
           <td nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].cno_id}"></td>
           <td>
-            <a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].cno_id}">{$list[i].customer_title|default:''|escape:"html"}</a>
+            <a href="{$core.current_url}?cat=edit&id={$list[i].cno_id}">{$list[i].customer_title|default:''|escape:"html"}</a>
           </td>
           <td>
             {$list[i].cno_note|escape:"html"|nl2br}

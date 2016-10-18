@@ -112,29 +112,6 @@ class History
     }
 
     /**
-     * Method used to remove all history entries associated with a
-     * given set of issues.
-     *
-     * @param   array $ids The array of issue IDs
-     * @return  boolean
-     */
-    public static function removeByIssues($ids)
-    {
-        $items = implode(', ', $ids);
-        $stmt = "DELETE FROM
-                    {{%issue_history}}
-                 WHERE
-                    his_iss_id IN ($items)";
-        try {
-            DB_Helper::getInstance()->query($stmt);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Returns the id for the history type based on name.
      *
      * @param   string $name The name of the history type

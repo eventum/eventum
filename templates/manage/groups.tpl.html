@@ -155,7 +155,7 @@ function checkDelete()
             <input type="checkbox" name="items[]" value="{$list[i].grp_id}" {if $smarty.section.i.total == 0}disabled{/if}>
         </td>
         <td width="20%">
-            &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].grp_id}" title="{t}update this entry{/t}">{$list[i].grp_name}</a>
+            &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].grp_id}" title="{t}update this entry{/t}">{$list[i].grp_name}</a>
         </td>
         <td width="20%">
             &nbsp;{$list[i].grp_description}

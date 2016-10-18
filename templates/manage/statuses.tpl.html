@@ -166,7 +166,7 @@
               <td align="center">{$list[i].sta_rank}</td>
               <td align="center">{$list[i].sta_abbreviation}</td>
               <td width="40%">
-                &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].sta_id}" title="{t}update this entry{/t}">{$list[i].sta_title}</a>
+                &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].sta_id}" title="{t}update this entry{/t}">{$list[i].sta_title}</a>
               </td>
               <td width="30%">
                 &nbsp;{$list[i].projects|escape:"html"}

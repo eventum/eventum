@@ -11,10 +11,6 @@
  * that were distributed with this source code.
  */
 
-// delay language init if we're saving language
-if (!empty($_POST['language'])) {
-    define('SKIP_LANGUAGE_INIT', true);
-}
 require_once __DIR__ . '/../init.php';
 
 $controller = new Eventum\Controller\PreferencesController();

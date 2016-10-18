@@ -391,30 +391,6 @@ class Phone_Support
     }
 
     /**
-     * Method used to remove all phone support entries associated with
-     * a given set of issues.
-     *
-     * @param   array $ids The array of issue IDs
-     * @return  boolean
-     */
-    public static function removeByIssues($ids)
-    {
-        $items = DB_Helper::buildList($ids);
-
-        $stmt = "DELETE FROM
-                    {{%phone_support}}
-                 WHERE
-                    phs_iss_id IN ($items)";
-        try {
-            DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Returns the number of calls by a user in a time range.
      *
      * @param   string $usr_id The ID of the user

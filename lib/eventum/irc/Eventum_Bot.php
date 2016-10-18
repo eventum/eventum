@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\ConcurrentLock;
+
 class Eventum_Bot
 {
     /**
@@ -132,21 +134,11 @@ class Eventum_Bot
     }
 
     /**
-     * acquire a lock to prevent multiple scripts from running at the same time.
-     * if the lock was acquired, setup event handler to release lock on shutdown
-     *
-     * @param bool|true $check
-     * @return bool
+     * setup event handlers to cleanup on shutdown
      */
-    public function lock($check = true)
+    public function cleanup()
     {
-        $locked = Lock::acquire($this->config['lock'], $check);
-
-        if (!$locked) {
-            return $locked;
-        }
-
-        // setup signal handler to be able to remove lock and shutdown cleanly
+        // setup signal handler to shutdown cleanly
         $handler = function ($signal = null) {
             $this->shutdown = true;
             // if stream_select receives signal, SmartIRC will automatically retry
@@ -165,8 +157,6 @@ class Eventum_Bot
 
             // QUIT has no effect if not connected
             $this->irc->disconnect();
-
-            $this->unlock();
         };
 
         if ($this->have_pcntl) {
@@ -179,19 +169,22 @@ class Eventum_Bot
         // NOTE: signal handler is not enough because stream_select() also catches the signals and aborts the process
         // so register the shutdown handler as well
         register_shutdown_function($handler);
-
-        return $locked;
     }
 
-    public function unlock()
+    public function run()
     {
-        Lock::release($this->config['lock']);
+        $lock = new ConcurrentLock($this->config['lock']);
+        $lock->synchronized(
+            function () {
+                $this->execute();
+            }
+        );
     }
 
     /**
      * Create IRC Bot, connect, login and listen for events, and finally disconnect.
      */
-    public function run()
+    private function execute()
     {
         $config = $this->config;
 

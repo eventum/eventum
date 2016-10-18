@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Model\Repository\IssueAssociationRepository;
 
 /**
  * Class designed to handle all business logic related to the issues in the
@@ -1235,53 +1236,6 @@ class Issue
     }
 
     /**
-     * Method used to remove all issues associated with a specific list of
-     * projects.
-     *
-     * XXX: this is dangerous, maybe remove such methods?
-     *
-     * @param   array $ids The list of projects to look for
-     * @return  boolean
-     */
-    public static function removeByProjects($ids)
-    {
-        $stmt = 'SELECT
-                    iss_id
-                 FROM
-                    {{%issue}}
-                 WHERE
-                    iss_prj_id IN (' . DB_Helper::buildList($ids) . ')';
-        try {
-            $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        if (count($res) > 0) {
-            self::deleteAssociations($res);
-            Attachment::removeByIssues($res);
-            SCM::removeByIssues($res);
-            Impact_Analysis::removeByIssues($res);
-            self::deleteUserAssociations($res);
-            Note::removeByIssues($res);
-            Time_Tracking::removeTimeEntriesByIssues($res);
-            Notification::removeByIssues($res);
-            Custom_Field::removeByIssues($res);
-            Phone_Support::removeByIssues($res);
-            History::removeByIssues($res);
-            // now really delete the issues
-            $items = implode(', ', $res);
-            $stmt = "DELETE FROM
-                        {{%issue}}
-                     WHERE
-                        iss_id IN ($items)";
-            DB_Helper::getInstance()->query($stmt);
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to close off an issue.
      *
      * @param   integer $usr_id The user ID
@@ -1393,60 +1347,19 @@ class Issue
     /**
      * Update the issue associations
      *
+     * @param int $usr_id User Id performing the operation
      * @param int $issue_id issue to associate
      * @param array $associated_issues issue_id's to associate with
+     * @deprecated use IssueAssociationRepository
      */
-    private function updateAssociatedIssuesRelations($issue_id, $associated_issues)
+    private function updateAssociatedIssuesRelations($usr_id, $issue_id, $associated_issues)
     {
+        $repo = IssueAssociationRepository::create();
+        $res = $repo->updateAssociations($usr_id, $issue_id, $associated_issues);
+
         global $errors;
-
-        // trim and remove empty values
-        $associated_issues = array_filter(Misc::trim($associated_issues));
-
-        // make sure all associated issues are valid (and in this project)
-        foreach ($associated_issues as $i => $iss_id) {
-            if ($iss_id == $issue_id) {
-                // skip issue itself
-                unset($associated_issues[$i]);
-                continue;
-            }
-            if (!self::exists($iss_id, false)) {
-                $error = ev_gettext(
-                    'Issue #%s does not exist and was removed from the list of associated issues.', $iss_id
-                );
-                $errors['Associated Issues'][] = $error;
-                unset($associated_issues[$i]);
-            }
-        }
-        // this reindexes the array and removes duplicates filled by user
-        $associated_issues = array_unique($associated_issues);
-
-        $current = self::getDetails($issue_id);
-        $association_diff = Misc::arrayDiff($current['associated_issues'], $associated_issues);
-        if (!$association_diff) {
-            // no diffs, return back
-            return;
-        }
-
-        $usr_id = Auth::getUserID();
-
-        // go through the new associations, if association already exists, skip it
-        $associations_to_remove = $current['associated_issues'];
-        if (count($associated_issues) > 0) {
-            foreach ($associated_issues as $associated_id) {
-                if (!in_array($associated_id, $current['associated_issues'])) {
-                    self::addAssociation($issue_id, $associated_id, $usr_id);
-                } else {
-                    // already assigned, remove this user from list of issues to remove
-                    unset($associations_to_remove[array_search($associated_id, $associations_to_remove)]);
-                }
-            }
-        }
-
-        if ($associations_to_remove) {
-            foreach ($associations_to_remove as $associated_id) {
-                self::deleteAssociation($issue_id, $associated_id);
-            }
+        foreach ($res as $error) {
+            $errors['Associated Issues'][] = $error;
         }
     }
 
@@ -1472,7 +1385,7 @@ class Issue
         $current = self::getDetails($issue_id);
 
         $associated_issues = isset($_POST['associated_issues']) ? explode(',', $_POST['associated_issues']) : [];
-        self::updateAssociatedIssuesRelations($issue_id, $associated_issues);
+        self::updateAssociatedIssuesRelations($usr_id, $issue_id, $associated_issues);
 
         $assignments_changed = false;
         if (@$_POST['keep_assignments'] == 'no' && Access::canChangeAssignee($issue_id, $usr_id)) {
@@ -1771,95 +1684,6 @@ class Issue
         Notification::notifyNewIssue($new_prj_id, $issue_id);
 
         return 1;
-    }
-
-    /**
-     * Method used to associate an existing issue with another one.
-     *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $issue_id The other issue ID
-     * @return  void
-     */
-    public function addAssociation($issue_id, $associated_id, $usr_id, $link_issues = true)
-    {
-        $stmt = 'INSERT INTO
-                    {{%issue_association}}
-                 (
-                    isa_issue_id,
-                    isa_associated_id
-                 ) VALUES (
-                    ?, ?
-                 )';
-        DB_Helper::getInstance()->query($stmt, [$issue_id, $associated_id]);
-        History::add($issue_id, $usr_id, 'issue_associated', 'Issue associated to Issue #{associated_id} by {user}', [
-            'associated_id' => $associated_id,
-            'user' => User::getFullName($usr_id)
-        ]);
-        // link the associated issue back to this one
-        if ($link_issues) {
-            self::addAssociation($associated_id, $issue_id, $usr_id, false);
-        }
-    }
-
-    /**
-     * Method used to remove the issue associations related to a specific issue.
-     *
-     * @param int|array $issue_id The issue ID
-     * @param int $usr_id
-     */
-    public function deleteAssociations($issue_id, $usr_id = null)
-    {
-        $issues = (array) $issue_id;
-        $list = DB_Helper::buildList($issues);
-
-        $stmt = "DELETE FROM
-                    {{%issue_association}}
-                 WHERE
-                    isa_issue_id IN ($list) OR
-                    isa_associated_id IN ($list)";
-        $params = array_merge($issues, $issues);
-
-        DB_Helper::getInstance()->query($stmt, $params);
-        if ($usr_id) {
-            History::add($issue_id, $usr_id, 'issue_all_unassociated', 'Issue associations removed by {user}', [
-                'user' => User::getFullName($usr_id)
-            ]);
-        }
-    }
-
-    /**
-     * Method used to remove a issue association from an issue.
-     *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $associated_id The associated issue ID to remove.
-     */
-    public function deleteAssociation($issue_id, $associated_id)
-    {
-        $stmt = 'DELETE FROM
-                    {{%issue_association}}
-                 WHERE
-                    (
-                        isa_issue_id = ? AND
-                        isa_associated_id = ?
-                    ) OR
-                    (
-                        isa_issue_id = ? AND
-                        isa_associated_id = ?
-                    )';
-        DB_Helper::getInstance()->query($stmt, [$issue_id, $associated_id, $associated_id, $issue_id]);
-
-        $usr_id = Auth::getUserID();
-        $full_name = User::getFullName($usr_id);
-
-        History::add($issue_id, $usr_id, 'issue_unassociated', 'Issue association to Issue #{issue_id} removed by {user}', [
-            'issue_id' => $associated_id,
-            'user' => $full_name
-        ]);
-
-        History::add($associated_id, $usr_id, 'issue_unassociated', 'Issue association to Issue #{issue_id} removed by {user}', [
-            'issue_id' => $issue_id,
-            'user' => $full_name
-        ]);
     }
 
     /**
@@ -2177,8 +2001,7 @@ class Issue
         }
 
         $prj_id = Auth::getCurrentProject();
-        $current_usr_id = Auth::getUserID();
-        $usr_id = $current_usr_id;
+        $usr_id = Auth::getUserID();
 
         // if we are creating an issue for a customer, put the
         // main customer contact as the reporter for it
@@ -2203,19 +2026,21 @@ class Issue
         $has_RR = false;
         $info = User::getNameEmail($usr_id);
         // log the creation of the issue
-        History::add($issue_id, $current_usr_id, 'issue_opened', 'Issue opened by {user}', [
-            'user' => User::getFullName($current_usr_id),
+        History::add($issue_id, $usr_id, 'issue_opened', 'Issue opened by {user}', [
+            'user' => User::getFullName($usr_id),
         ]);
 
         $clone_iss_id = isset($_POST['clone_iss_id']) ? (int) $_POST['clone_iss_id'] : null;
-        if ($clone_iss_id && Access::canCloneIssue($clone_iss_id, $current_usr_id)) {
-            History::add($issue_id, $current_usr_id, 'issue_cloned_from', 'Issue cloned from issue #{issue_id}', [
+        if ($clone_iss_id && Access::canCloneIssue($clone_iss_id, $usr_id)) {
+            History::add($issue_id, $usr_id, 'issue_cloned_from', 'Issue cloned from issue #{issue_id}', [
                 'issue_id' => $clone_iss_id
             ]);
-            History::add($clone_iss_id, $current_usr_id, 'issue_cloned_to', 'Issue cloned to issue #{issue_id}', [
+            History::add($clone_iss_id, $usr_id, 'issue_cloned_to', 'Issue cloned to issue #{issue_id}', [
                 'issue_id' => $issue_id,
             ]);
-            self::addAssociation($issue_id, $clone_iss_id, $usr_id, true);
+
+            IssueAssociationRepository::create()
+                ->addIssueAssociation($usr_id, $issue_id, $clone_iss_id);
         }
 
         $emails = [];
@@ -2352,7 +2177,7 @@ class Issue
             if ($clone_iss_id) {
                 $associated_issues[] = $clone_iss_id;
             }
-            self::updateAssociatedIssuesRelations($issue_id, $associated_issues);
+            self::updateAssociatedIssuesRelations($usr_id, $issue_id, $associated_issues);
         }
 
         Workflow::handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR);
@@ -2901,8 +2726,11 @@ class Issue
         } else {
             $res['is_current_user_assigned'] = 0;
         }
-        $res['associated_issues_details'] = self::getAssociatedIssuesDetails($res['iss_id']);
-        $res['associated_issues'] = self::getAssociatedIssues($res['iss_id']);
+
+        $repo = IssueAssociationRepository::create();
+        $res['associated_issues'] = $repo->getAssociatedIssues($res['iss_id']);
+        $res['associated_issues_details'] = $repo->getIssueDetails($res['associated_issues']);
+
         $res['reporter'] = User::getFullName($res['iss_usr_id']);
         if (empty($res['iss_updated_date'])) {
             $res['iss_updated_date'] = $res['iss_created_date'];
@@ -3207,62 +3035,6 @@ class Issue
         } catch (DatabaseException $e) {
             return '';
         }
-
-        return $res;
-    }
-
-    /**
-     * Method used to get the list of issues associated to a specific issue.
-     *
-     * @param   integer $issue_id The issue ID
-     * @return  array The list of associated issues
-     */
-    public static function getAssociatedIssues($issue_id)
-    {
-        $issues = self::getAssociatedIssuesDetails($issue_id);
-        $associated = [];
-        foreach ($issues as $issue) {
-            $associated[] = $issue['associated_issue'];
-        }
-
-        return $associated;
-    }
-
-    /**
-     * Method used to get the list of issues associated details to a
-     * specific issue.
-     *
-     * @param   integer $issue_id The issue ID
-     * @return  array The list of associated issues
-     */
-    public static function getAssociatedIssuesDetails($issue_id)
-    {
-        static $returns;
-
-        if (!empty($returns[$issue_id])) {
-            return $returns[$issue_id];
-        }
-
-        $stmt = 'SELECT
-                    isa_associated_id associated_issue,
-                    iss_summary associated_title,
-                    sta_title current_status,
-                    sta_is_closed is_closed
-                 FROM
-                    {{%issue_association}},
-                    {{%issue}},
-                    {{%status}}
-                 WHERE
-                    isa_associated_id=iss_id AND
-                    iss_sta_id=sta_id AND
-                    isa_issue_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return [];
-        }
-
-        $returns[$issue_id] = $res;
 
         return $res;
     }

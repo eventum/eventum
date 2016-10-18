@@ -49,7 +49,7 @@
                   {$issue.iss_contact_timezone}
                 </td>
               </tr>
-              {if $current_role > $roles.standard_user}
+              {if $current_role > $core.roles.standard_user}
               <tr>
                 <td bgcolor="{$internal_color}">
                   <nobr><b>{t}Contact's Local Time{/t}:</b>&nbsp;</nobr>
@@ -103,7 +103,7 @@
                   {$issue.customer_info.expiration_date}
                 </td>
               </tr>
-              {if $current_role > $roles.standard_user}
+              {if $current_role > $core.roles.standard_user}
               <tr>
                 <td bgcolor="{$internal_color}">
                   <b>{t}Sales Account Manager{/t}:</b>&nbsp;<br />
@@ -115,7 +115,7 @@
               <tr>
                 <td bgcolor="{$internal_color}">
                   <b>{t}Notes About Customer{/t}:</b>&nbsp;<br />
-                  {if $current_role > $roles.developer}
+                  {if $current_role > $core.roles.developer}
                     {if $issue.customer_info.note.cno_id eq ''}
                         <a href="{$core.base_url}manage/customer_notes.php?customer_id={$issue.iss_customer_id}" class="white_link">{t}Add{/t}</a>
                     {else}

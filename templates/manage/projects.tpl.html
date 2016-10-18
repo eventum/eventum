@@ -57,31 +57,11 @@ function checkLeadSelection()
     Eventum.selectOption('users[]', $('select[name=lead_usr_id]').val());
 }
 
-function checkDelete()
-{
-  var total_selected = $('[name="items[]"]:checked').length;
-  var total = $('[name="items[]"]').length
-  if (total == total_selected) {
-      alert('{t escape=js}You cannot remove all of the projects in the system.{/t}');
-      return false;
-  }
-  if (total_selected == 0) {
-      alert('{t escape=js}Please select at least one of the projects.{/t}');
-      return false;
-  }
-  if (!confirm('{t escape=js}WARNING: This action will remove the selected projects permanently.{/t}\n{t}It will remove all of its associated entries as well (issues, notes, attachments,\netc), so please click OK to confirm.{/t}')) {
-      return false;
-  } else {
-      return true;
-  }
-}
-
 $().ready(function() {
     $('.select_all').click(function() { Eventum.toggleCheckAll('item[]'); });
     $('select[name=lead_usr_id]').change(checkLeadSelection);
     checkLeadSelection();
 
-    $('#delete_form').submit(checkDelete);
     $('#project_form').submit(validateForm);
 });
 //-->
@@ -254,8 +234,6 @@ $().ready(function() {
     </table>
     </form>
 
-    <form id="delete_form" method="post">
-    <input type="hidden" name="cat" value="delete">
     <table class="bordered grid">
       <tr class="title">
         <th colspan="5">
@@ -263,7 +241,6 @@ $().ready(function() {
         </th>
       </tr>
         <tr>
-          <th width="4" nowrap><input type="button" value="{t}All{/t}" class="select_all"></th>
           <th>{t}Title{/t}</th>
           <th>{t}Project Lead{/t}</th>
           <th>{t}Status{/t}</th>
@@ -271,9 +248,8 @@ $().ready(function() {
         </tr>
         {section name="i" loop=$list}
         <tr class="{cycle values='odd,even'}">
-          <td width="4" align="center" nowrap "><input type="checkbox" name="items[]" value="{$list[i].prj_id}"></td>
           <td width="30%" >
-            &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].prj_id}" title="{t}update this entry{/t}">{$list[i].prj_title}</a>
+            &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].prj_id}" title="{t}update this entry{/t}">{$list[i].prj_title}</a>
           </td>
           <td width="20%" >&nbsp;{$list[i].usr_full_name|escape:html}</td>
           <td >&nbsp;{$list[i].prj_status|capitalize}</td>
@@ -298,14 +274,5 @@ $().ready(function() {
           </td>
         </tr>
         {/section}
-        <tr class="buttons">
-          <td width="4" align="center">
-            <input type="button" value="{t}All{/t}" class="select_all">
-          </td>
-          <td colspan="4" align="center">
-            <input type="submit" value="{t}Delete{/t}">
-          </td>
-        </tr>
     </table>
-    </form>
 {/block}

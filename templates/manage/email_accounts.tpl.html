@@ -246,7 +246,7 @@
       <td width="4" align="center" nowrap><input type="checkbox" name="items[]" value="{$list[i].ema_id}"></td>
       <td>&nbsp;{$list[i].prj_title}</td>
       <td width="30%">
-        &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].ema_id}" title="{t}update this entry{/t}">{$list[i].ema_hostname|escape:"html"}</a></td>
+        &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].ema_id}" title="{t}update this entry{/t}">{$list[i].ema_hostname|escape:"html"}</a></td>
       <td>&nbsp;{$list[i].ema_type}</td>
       <td>&nbsp;{$list[i].ema_port}</td>
       <td>&nbsp;{$list[i].ema_username|escape:"html"}</td>

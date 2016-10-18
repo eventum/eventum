@@ -172,35 +172,6 @@ class Attachment
     }
 
     /**
-     * Removes all attachments (and associated files) related to a set
-     * of specific issues.
-     *
-     * @param   array $ids The issue IDs that need to be removed
-     * @return  boolean Whether the removal worked or not
-     */
-    public static function removeByIssues($ids)
-    {
-        $stmt = 'SELECT
-                    iat_id
-                 FROM
-                    {{%issue_attachment}}
-                 WHERE
-                    iat_iss_id IN (' . DB_Helper::buildList($ids) . ')';
-
-        try {
-            $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        foreach ($res as $id) {
-            self::remove($id);
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to remove attachments from the database.
      *
      * @param   integer $iat_id attachment_id.

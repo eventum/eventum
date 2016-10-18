@@ -10,6 +10,7 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
+
 namespace Eventum\Db\Adapter;
 
 use DB;
@@ -68,6 +69,10 @@ class PearAdapter implements AdapterInterface
                 break;
         }
 
+        // probe autoloader to load PEAR_Error class
+        // https://github.com/eventum/eventum/issues/200#issuecomment-252485838
+        class_exists('PEAR');
+
         $db = DB::connect($dsn);
         $this->assertError($db);
 
@@ -75,6 +80,7 @@ class PearAdapter implements AdapterInterface
         switch ($dsn['phptype']) {
             case 'mysql':
             case 'mysqli':
+                // http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html
                 $db->query("SET SQL_MODE = ''");
                 if (Language::isUTF8()) {
                     $db->query('SET NAMES utf8');

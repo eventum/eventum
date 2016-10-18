@@ -11,28 +11,12 @@
  * that were distributed with this source code.
  */
 
+/**
+ * DateHelper tests that do not use database.
+ * Put user specific tests (that requires database) to DateHelperUserTests class
+ */
 class DateHelperTest extends TestCase
 {
-    /**
-     * timezone used for preferred user timezone tests
-     */
-    const USER_TIMEZONE = 'Europe/Tallinn';
-
-    /**
-     * @test Dependency test regarding user preferences
-     */
-    public function setAdminUserPreferences()
-    {
-        $this->assertDatabase();
-
-        $usr_id = APP_ADMIN_USER_ID;
-        $prefs = Prefs::get($usr_id);
-        $prefs['timezone'] = self::USER_TIMEZONE;
-        Prefs::set($usr_id, $prefs);
-        // this will force db refetch
-        Prefs::get($usr_id, true);
-    }
-
     /**
      * @covers       Date_Helper::isAM
      * @dataProvider testIsAM_data
@@ -130,21 +114,6 @@ class DateHelperTest extends TestCase
     }
 
     /**
-     * @depends setAdminUserPreferences
-     * @covers  Date_Helper::getTimezoneShortNameByUser
-     */
-    public function testGetTimezoneShortNameByUser()
-    {
-        $this->assertDatabase();
-
-        $res = Date_Helper::getTimezoneShortNameByUser(APP_SYSTEM_USER_ID);
-        $this->assertEquals('UTC', $res);
-
-        $res = Date_Helper::getTimezoneShortNameByUser(APP_ADMIN_USER_ID);
-        $this->assertRegExp('/EET|EEST/', $res);
-    }
-
-    /**
      * @covers       Date_Helper::getFormattedDate
      * @dataProvider testGetFormattedDate_data
      */
@@ -180,24 +149,6 @@ class DateHelperTest extends TestCase
             [1391212800, true, '01 Feb 2014'],
             [1391299199, true, '01 Feb 2014'],
         ];
-    }
-
-    /**
-     * @depends setAdminUserPreferences
-     * @covers  Date_Helper::getPreferredTimezone
-     */
-    public function testGetPreferredTimezone()
-    {
-        $this->assertDatabase();
-
-        $res = Date_Helper::getPreferredTimezone();
-        $this->assertEquals('UTC', $res);
-
-        $res = Date_Helper::getPreferredTimezone(APP_SYSTEM_USER_ID);
-        $this->assertEquals('UTC', $res);
-
-        $res = Date_Helper::getPreferredTimezone(APP_ADMIN_USER_ID);
-        $this->assertEquals(self::USER_TIMEZONE, $res);
     }
 
     /**
@@ -261,5 +212,23 @@ class DateHelperTest extends TestCase
 
         $created_date = Date_Helper::convertDateGMT('2015-05-19 12:22:24 Europe/Tallinn');
         $this->assertEquals('2015-05-19 09:22:24', $created_date);
+    }
+
+    /**
+     * @link https://github.com/eventum/eventum/issues/204
+     */
+    public function testBug_204()
+    {
+        try {
+            Date_Helper::convertDateGMT('2016-10-03 10:20:00 US/Central');
+            $this->fail();
+        } catch (Exception $e) {
+            $this->assertEquals(
+                'DateTime::__construct(): Failed to parse time string (2016-10-03 10:20:00 US/Central) at position 20 (U): The timezone could not be found in the database',
+                $e->getMessage()
+            );
+        }
+        $d = Date_Helper::convertDateGMT('2016-10-03 10:20:00 America/Chicago');
+        $this->assertNotEmpty($d);
     }
 }

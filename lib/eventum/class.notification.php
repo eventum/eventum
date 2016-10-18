@@ -1850,33 +1850,6 @@ class Notification
     }
 
     /**
-     * Method used to remove all subscriptions associated with a given
-     * set of issues.
-     *
-     * @param   array $ids The list of issues
-     * @return  boolean
-     */
-    public static function removeByIssues($ids)
-    {
-        $items = DB_Helper::buildList($ids);
-        $stmt = "SELECT
-                    sub_id
-                 FROM
-                    {{%subscription}}
-                 WHERE
-                    sub_iss_id IN ($items)";
-        try {
-            $res = DB_Helper::getInstance()->getColumn($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        self::remove($res);
-
-        return true;
-    }
-
-    /**
      * Method used to remove all rows associated with a set of
      * subscription IDs
      *

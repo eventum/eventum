@@ -184,29 +184,6 @@ class Group
     }
 
     /**
-     * Removes specified projects from all groups.
-     *
-     * @param   array $projects An array of projects to remove from all groups.
-     * @return  integer 1 if successful, -1 otherwise
-     */
-    public static function disassociateProjects($projects)
-    {
-        // delete all current associations
-        $stmt = 'DELETE FROM
-                    {{%project_group}}
-                 WHERE
-
-                    pgr_prj_id IN (' . DB_Helper::buildList($projects) . ')';
-        try {
-            DB_Helper::getInstance()->query($stmt, $projects);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        return 1;
-    }
-
-    /**
      * Returns details about a specific group
      *
      * @param   integer $grp_id The ID of the group.

@@ -221,11 +221,11 @@
                     <tr class="{cycle values='odd,even'}">
                       <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].rma_id}"></td>
                       <td align="center" nowrap>
-                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].rma_id}&rem_id={$rem_id}&rank=desc"><img src="{$core.rel_url}images/desc.gif" border="0"></a> {$list[i].rma_rank}
-                        <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].rma_id}&rem_id={$rem_id}&rank=asc"><img src="{$core.rel_url}images/asc.gif" border="0"></a>
+                        <a href="{$core.current_url}?cat=change_rank&id={$list[i].rma_id}&rem_id={$rem_id}&rank=desc"><img src="{$core.rel_url}images/desc.gif" border="0"></a> {$list[i].rma_rank}
+                        <a href="{$core.current_url}?cat=change_rank&id={$list[i].rma_id}&rem_id={$rem_id}&rank=asc"><img src="{$core.rel_url}images/asc.gif" border="0"></a>
                       </td>
                       <td width="20%">
-                        &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&rem_id={$rem_id}&id={$list[i].rma_id}" title="{t}update this entry{/t}">{$list[i].rma_title|escape:"html"}</a>
+                        &nbsp;<a href="{$core.current_url}?cat=edit&rem_id={$rem_id}&id={$list[i].rma_id}" title="{t}update this entry{/t}">{$list[i].rma_title|escape:"html"}</a>
                       </td>
                       <td width="50%">
                         &nbsp;{$list[i].rmt_title}

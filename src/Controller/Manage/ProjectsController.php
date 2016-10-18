@@ -10,6 +10,7 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
+
 namespace Eventum\Controller\Manage;
 
 use Auth;
@@ -51,11 +52,7 @@ class ProjectsController extends ManageBaseController
             $this->newAction();
         } elseif ($this->cat == 'update') {
             $this->updateAction();
-        } elseif ($this->cat == 'delete') {
-            $this->deleteAction();
-        }
-
-        if ($this->cat == 'edit') {
+        } elseif ($this->cat == 'edit') {
             $this->editAction();
         }
     }
@@ -78,15 +75,6 @@ class ProjectsController extends ManageBaseController
             -2 => [ev_gettext('Please enter the title for this project.'), MessagesHelper::MSG_ERROR],
         ];
         $this->messages->mapMessages(Project::update(), $map);
-    }
-
-    private function deleteAction()
-    {
-        $map = [
-            1 => [ev_gettext('Thank you, the project was deleted successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to delete the project.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages(Project::remove(), $map);
     }
 
     private function editAction()

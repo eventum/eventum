@@ -416,11 +416,11 @@
                 <input type="checkbox" name="items[]" value="{$list[i].fld_id}" {if $smarty.section.i.total == 0}disabled{/if}>
               </td>
               <td nowrap>
-                &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].fld_id}&direction=1" title="{t}move field down{/t}"><img src="{$core.rel_url}images/desc.gif" border="0"></a> {$list[i].fld_rank}
-                <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].fld_id}&direction=-1" title="{t}move field up{/t}"><img src="{$core.rel_url}images/asc.gif" border="0"></a>
+                &nbsp;<a href="{$core.current_url}?cat=change_rank&id={$list[i].fld_id}&direction=1" title="{t}move field down{/t}"><img src="{$core.rel_url}images/desc.gif" border="0"></a> {$list[i].fld_rank}
+                <a href="{$core.current_url}?cat=change_rank&id={$list[i].fld_id}&direction=-1" title="{t}move field up{/t}"><img src="{$core.rel_url}images/asc.gif" border="0"></a>
               </td>
               <td width="15%">
-                &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].fld_id}" title="{t}update this entry{/t}">{$list[i].fld_title}</a>
+                &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].fld_id}" title="{t}update this entry{/t}">{$list[i].fld_title}</a>
               </td>
               <td width="20%">
                 &nbsp;{$list[i].projects}

@@ -3,7 +3,18 @@
 ## 2016-??-??, Version [3.1.4]
 
 - Add 'reply as email' option to notes (@balsdorf, #205)
-- encryption: assume no key present if `secret_key.php` file is empty (@glensc)
+- Encryption: assume no key present if `secret_key.php` file is empty (@glensc)
+- Fix "Available Languages" preferences save bug (@glensc, @yangmx, #195, #194)
+- Fix bugs in issue association code (@glensc, #207)
+- Fix `PEAR_Error` class autoload error (@glensc, #200)
+- Reset `sql_mode` also for PDO driver (@glensc, #176)
+- Throw Exception in CLI if Eventum is not configured (@glensc, 9f04950)
+- Fix Time Tracking administration bugs (@glensc, @yangmx, #197, #196, #208)
+- Add back Authorized Repliers user picker (@glensc, #210)
+- Removed non '$core' default variables from templates (@balsdorf, #211)
+- Allow replies to original message to use "in-reply-to" header for message-id matching (@cpinfold, #212)
+- Remove dangerous feature: removing projects and issues by project (@glensc, @balsdorf, #206)
+- Fix bug with SphinxSearch not showing excerpts (Bryan)
 
 ## 2016-09-25, Version [3.1.3]
 
@@ -17,7 +28,7 @@
 - Add category to notification emails (@balsdorf)
 - Don't display Status Change Date column if it has not been customized (@balsdorf)
 - Strip tabs and newlines from note / email subjects (@balsdorf)
-- Do not associate forwarded emails to original issue (@glen)
+- Do not associate forwarded emails to original issue (@glensc)
 - Add travis configuration to make releases (@glensc, #198)
 - Keep `iss_original_description` in getIssueDetails method (@glensc, 98916a8)
 

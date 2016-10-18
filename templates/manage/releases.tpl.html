@@ -111,7 +111,7 @@
             <tr class="{cycle values='odd,even'}">
               <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].pre_id}"></td>
               <td width="40%">
-                &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].pre_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].pre_title}</a>
+                &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].pre_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].pre_title}</a>
               </td>
               <td>&nbsp;{$list[i].pre_scheduled_date}</td>
               <td>&nbsp;{$list[i].pre_status}</td>

@@ -73,7 +73,7 @@ pot: tools-check
 	(cd .. && $(SETUP_WORKDIR)) | tar -x -C workdir; \
 	cd workdir; \
 		find templates -name '*.tpl.html' -o -name '*.tpl.text' -o -name '*.tpl.js' -o -name '*.tpl.xml' | xargs $(tsmarty2c) -o ts.pot; \
-		grep -rl History::add lib htdocs | xargs sed -i -e 's/History::add/History__add/g'; \
+		grep -rl History::add src lib htdocs | xargs sed -i -e 's/History::add/History__add/g'; \
 		find -name '*.php' | xgettext -L PHP --files-from=- --add-comments=TRANSLATORS: \
 			--keyword=gettext --keyword=ev_gettext \
 			--keyword=History__add:4 \

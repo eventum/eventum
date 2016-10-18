@@ -3,7 +3,7 @@
 {block "manage_content"}
   <script type="text/javascript">
   <!--
-  var url = '{$smarty.server.PHP_SELF}';
+  var url = '{$core.current_url}';
   var id = {$smarty.get.id|intval|default:''};
 
   function populateComboBox()
@@ -174,11 +174,11 @@
         <tr class="{cycle values="odd,even"}">
           <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].faq_id}"></td>
           <td align="center" nowrap>
-            <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].faq_id}&rank=desc"><img src="{$core.rel_url}images/desc.gif" border="0"></a> {$list[i].faq_rank}
-            <a href="{$smarty.server.PHP_SELF}?cat=change_rank&id={$list[i].faq_id}&rank=asc"><img src="{$core.rel_url}images/asc.gif" border="0"></a>
+            <a href="{$core.current_url}?cat=change_rank&id={$list[i].faq_id}&rank=desc"><img src="{$core.rel_url}images/desc.gif" border="0"></a> {$list[i].faq_rank}
+            <a href="{$core.current_url}?cat=change_rank&id={$list[i].faq_id}&rank=asc"><img src="{$core.rel_url}images/asc.gif" border="0"></a>
           </td>
           <td width="50%">
-            &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].faq_id}" title="{t}update this entry{/t}">{$list[i].faq_title|escape:"html"}</a>
+            &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].faq_id}" title="{t}update this entry{/t}">{$list[i].faq_title|escape:"html"}</a>
           </td>
           {if $backend_uses_support_levels|default:''}
           <td width="50%">

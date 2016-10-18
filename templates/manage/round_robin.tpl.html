@@ -3,7 +3,7 @@
 {block "manage_content"}
 <script type="text/javascript">
 <!--
-var url = '{$smarty.server.PHP_SELF}';
+var url = '{$core.current_url}';
 
 function populateUserComboBox()
 {
@@ -131,7 +131,7 @@ function checkDelete()
     <tr class="{cycle values="odd,even"}">
       <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].prr_id}"></td>
       <td width="30%">
-        &nbsp;<a href="{$smarty.server.PHP_SELF}?cat=edit&id={$list[i].prr_id}" title="{t}update this entry{/t}">{$list[i].prj_title}</a>
+        &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].prr_id}" title="{t}update this entry{/t}">{$list[i].prj_title}</a>
       </td>
       <td width="70%">
         &nbsp;{$list[i].users|escape:"html"}

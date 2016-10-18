@@ -83,12 +83,13 @@ class Time_Tracking
     {
         $stmt = 'SELECT
                     ttr_ttc_id,
-                    COUNT(*)
+                    COUNT(ttr_ttc_id)
                  FROM
-                    {{%time_tracking}}
-                 WHERE
-                    ttr_ttc_id IN (' . DB_Helper::buildList($ttc_ids) . ')
-                 GROUP BY 1';
+                    {{%time_tracking}}';
+        if (count($ttc_ids) > 0) {
+            $stmt .= ' WHERE ttr_ttc_id IN (' . DB_Helper::buildList($ttc_ids) . ')';
+        }
+        $stmt .= ' GROUP BY 1';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $ttc_ids);
         } catch (DatabaseException $e) {
@@ -423,28 +424,6 @@ class Time_Tracking
                     ttr_id=?';
 
         return DB_Helper::getInstance()->getRow($stmt, [$ttr_id]);
-    }
-
-    /**
-     * Method used to remove all time entries associated with the specified list
-     * of issues.
-     *
-     * @param   array $ids The list of issues
-     * @return  boolean
-     */
-    public static function removeTimeEntriesByIssues($ids)
-    {
-        $stmt = 'DELETE FROM
-                    {{%time_tracking}}
-                 WHERE
-                    ttr_iss_id IN (' . DB_Helper::buildList($ids) . ')';
-        try {
-            DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
     }
 
     /**

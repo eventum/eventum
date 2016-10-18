@@ -18,6 +18,7 @@ PHPUNIT_VERSION := 4.8.11
 PHPAB_VERSION := 1.20.3
 PHING_VERSION := 2.15.0
 PHPCB_VERSION := 1.1.1
+PHPCS_FIXER_VERSION := 1.11.8
 
 define find_tool
 $(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
@@ -63,7 +64,7 @@ composer.phar:
 	curl -sS https://getcomposer.org/installer | php
 
 php-cs-fixer.phar:
-	$(call fetch_tool,http://get.sensiolabs.org/php-cs-fixer.phar)
+	$(call fetch_tool,https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v$(PHPCS_FIXER_VERSION)/php-cs-fixer.phar)
 
 phpcompatinfo.phar:
 	$(call fetch_tool,http://bartlett.laurent-laville.org/get/phpcompatinfo-$(PHPCOMPATINFO_VERSION).phar)

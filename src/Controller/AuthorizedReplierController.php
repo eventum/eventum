@@ -10,11 +10,13 @@
  * please see the COPYING and AUTHORS files
  * that were distributed with this source code.
  */
+
 namespace Eventum\Controller;
 
 use Access;
 use Auth;
 use Authorized_Replier;
+use Project;
 
 class AuthorizedReplierController extends BaseController
 {
@@ -118,10 +120,15 @@ class AuthorizedReplierController extends BaseController
     {
         list(, $repliers) = Authorized_Replier::getAuthorizedRepliers($this->issue_id);
 
+        $users = Project::getAddressBook($this->prj_id, $this->issue_id);
+        // add empty value which would be the default value in dropdown
+        array_unshift($users, '');
+
         $this->tpl->assign(
             [
                 'issue_id' => $this->issue_id,
                 'list' => $repliers,
+                'users' => $users,
             ]
         );
     }
