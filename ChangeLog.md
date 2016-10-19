@@ -15,6 +15,7 @@
 - Allow replies to original message to use "in-reply-to" header for message-id matching (@cpinfold, #212)
 - Remove dangerous feature: removing projects and issues by project (@glensc, @balsdorf, #206)
 - Fix bug with SphinxSearch not showing excerpts (Bryan)
+- Fix bug with SphinxSearch including removed notes (Bryan)
 
 ## 2016-09-25, Version [3.1.3]
 

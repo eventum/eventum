@@ -373,6 +373,7 @@ source src_note : eventum
             <?php echo $dbconfig['table_prefix']; ?>issue \
         WHERE \
             not_iss_id = iss_id AND \
+            not_removed = 0 AND \
             not_id>=$start AND not_id<=$end
     sql_attr_uint       = index_id
     sql_attr_uint       = issue_id
