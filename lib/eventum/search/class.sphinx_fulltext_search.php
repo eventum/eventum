@@ -37,7 +37,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         // Build the Sphinx client
         $this->sphinx->SetSortMode(SPH_SORT_RELEVANCE);
 //        $this->sphinx->SetWeights(array(1, 1));
-        $this->sphinx->SetLimits(0, 500, 100000);
+        $this->sphinx->SetLimits(0, 5000, 100000);
         $this->sphinx->SetArrayResult(true);
 
         if (empty($options['match_mode'])) {
@@ -97,7 +97,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
             }
         }
 
-        return $issue_ids;
+        return array_unique($issue_ids);
     }
 
     public function getExcerpts()

@@ -122,6 +122,7 @@ class DownloadEmailsCommand extends Command
                 'Please verify your email account settings and try again.'
             );
         }
+        return $account_id;
     }
 
     /**
