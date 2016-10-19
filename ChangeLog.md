@@ -16,6 +16,7 @@
 - Remove dangerous feature: removing projects and issues by project (@glensc, @balsdorf, #206)
 - Fix bug with SphinxSearch not showing excerpts (Bryan)
 - Fix bug with SphinxSearch including removed notes (Bryan)
+- Fix bug with SphinxSearch not returning all results (Bryan)
 
 ## 2016-09-25, Version [3.1.3]
 
