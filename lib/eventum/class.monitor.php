@@ -209,23 +209,6 @@ class Monitor
     }
 
     /**
-     * Checks on the status of the IRC bot.
-     *
-     * @return  integer Number of errors encountered.
-     */
-    public static function checkIRCBot()
-    {
-        $pid = Lock::getProcessID('irc_bot', true);
-        if (!$pid) {
-            echo ev_gettext('ERROR: Could not find IRC bot pid from process list.'), "\n";
-
-            return 1;
-        }
-
-        return 0;
-    }
-
-    /**
      * Returns the owner and group name for the given file.
      *
      * @static

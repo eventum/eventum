@@ -79,9 +79,6 @@ class MonitorCommand extends Command
             $errors += Monitor::checkRequiredFiles($required_files);
             $errors += Monitor::checkRequiredDirs($required_directories);
         }
-        if ($prefs['ircbot']['status'] == 'enabled') {
-            $errors += Monitor::checkIRCBot();
-        }
 
         if ($errors) {
             // propagate status code to shell
