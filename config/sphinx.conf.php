@@ -50,7 +50,6 @@ searchd
     read_timeout = 5
     max_children = 30
     pid_file     = <?php echo SPHINX_RUN_PATH; ?>searchd-eventum.pid
-    max_matches  = 100000
 }
 
 source eventum
@@ -98,7 +97,6 @@ source src_issue : eventum
     sql_attr_uint   = contract_id
     sql_attr_timestamp   = iss_created_date
     sql_query_pre      = SET NAMES utf8
-    sql_query_info     = SELECT iss_summary FROM <?php echo $dbconfig['table_prefix']; ?>issue WHERE iss_id=$id
 }
 
 index issue
@@ -107,7 +105,6 @@ index issue
     path                = <?php echo SPHINX_DATA_PATH; ?>issue
     morphology          = none
     min_word_len        = 1
-    charset_type        = sbcs
 }
 
 index issue_stemmed : issue
@@ -139,7 +136,6 @@ index issue_recent
     path                = <?php echo SPHINX_DATA_PATH; ?>issue_recent
     morphology          = none
     min_word_len        = 1
-    charset_type        = sbcs
 }
 
 index issue_recent_stemmed : issue_recent
@@ -193,7 +189,6 @@ source src_email : eventum
     sql_attr_uint       = contract_id
     sql_attr_timestamp  = iss_created_date
     sql_query_pre       = SET NAMES utf8
-    sql_query_info      = SELECT seb_body FROM <?php echo $dbconfig['table_prefix']; ?>support_email_body WHERE seb_sup_id=$id
 }
 
 index email
@@ -202,7 +197,6 @@ index email
     path            = <?php echo SPHINX_DATA_PATH; ?>email
     morphology      = none
     min_word_len    = 1
-    charset_type    = sbcs
 }
 
 index email_stemmed : email
@@ -237,7 +231,6 @@ index email_recent
     morphology      = none
     stopwords       =
     min_word_len    = 1
-    charset_type    = sbcs
 }
 
 index email_recent_stemmed : email_recent
@@ -288,7 +281,6 @@ source src_phonesupport : eventum
     sql_attr_uint       = contract_id
     sql_attr_timestamp  = iss_created_date
     sql_query_pre       = SET NAMES utf8
-    sql_query_info      = SELECT phs_description FROM <?php echo $dbconfig['table_prefix']; ?>phone_support WHERE phs_id=$id
 }
 
 index phonesupport
@@ -297,7 +289,6 @@ index phonesupport
     path                = <?php echo SPHINX_DATA_PATH; ?>phonesupport
     morphology          = none
     min_word_len        = 1
-    charset_type        = sbcs
 }
 
 index phonesupport_stemmed : phonesupport
@@ -332,7 +323,6 @@ index phonesupport_recent
     path                = <?php echo SPHINX_DATA_PATH; ?>phonesupport_recent
     morphology          = none
     min_word_len        = 1
-    charset_type        = sbcs
 }
 
 index phonesupport_recent_stemmed : phonesupport_recent
@@ -382,7 +372,6 @@ source src_note : eventum
     sql_attr_uint       = contract_id
     sql_attr_timestamp  = iss_created_date
     sql_query_pre       = SET NAMES utf8
-    sql_query_info      = SELECT not_id, not_iss_id, not_title FROM <?php echo $dbconfig['table_prefix']; ?>note WHERE not_id=$id
 }
 
 index note
@@ -391,7 +380,6 @@ index note
     path                = <?php echo SPHINX_DATA_PATH; ?>note
     morphology          = none
     min_word_len        = 1
-    charset_type        = sbcs
 }
 
 index note_stemmed : note
@@ -425,7 +413,6 @@ index note_recent
     path                = <?php echo SPHINX_DATA_PATH; ?>note_recent
     morphology          = none
     min_word_len        = 1
-    charset_type        = sbcs
 }
 
 index note_recent_stemmed : note_recent
