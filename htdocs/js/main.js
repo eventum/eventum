@@ -27,7 +27,7 @@ $(document).ready(function() {
         if (className == '') {
             return
         }
-        className = className.replace('-', '_');
+        className = className.replace(/-/g, '_');
         if (className != 'new' && eval("typeof " + className) !== "undefined" &&
                 eval("typeof " + className + '.ready') == 'function') {
             eval(className + '.ready(page_id)');
