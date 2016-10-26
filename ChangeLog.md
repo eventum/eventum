@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## 2016-??-??, Version [3.1.4]
+## 2016-10-26, Version [3.1.4]
 
 - Add 'reply as email' option to notes (@balsdorf, #205)
 - Encryption: assume no key present if `secret_key.php` file is empty (@glensc)
@@ -1220,7 +1220,7 @@ This release uses Composer for PHP Class autoloader.
 
 - Initial release (João; Bryan)
 
-[3.1.4]: https://github.com/eventum/eventum/compare/v3.1.3...master
+[3.1.4]: https://github.com/eventum/eventum/compare/v3.1.3...v3.1.4
 [3.1.3]: https://github.com/eventum/eventum/compare/v3.1.2...v3.1.3
 [3.1.2]: https://github.com/eventum/eventum/compare/v3.1.1...v3.1.2
 [3.1.1]: https://github.com/eventum/eventum/compare/v3.1.0...v3.1.1
