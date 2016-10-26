@@ -18,11 +18,11 @@ $ make snapshot
 - Create and download snapshot tarball
 - Make sure `upgrade/drop.sql` lists all created tables
 ```
-$ sed -e 's,{{%\([^}]*\)}},eventum_\1,' upgrade/drop.sql
+$ sed -e 's,{{%\([^}]*\)}},\1,' upgrade/drop.sql
 ```
 - install twice to same database, second time select drop tables, install must not fail
 ```
-$ mysql -s -e 'show tables;' e | sed -e 's/^eventum_/DROP TABLE IF EXISTS {{%/; s/$/}};/' | LC_ALL=C sort > upgrade/drop.sql
+$ mysql -s -e 'show tables;' e | sed -e 's/^/DROP TABLE IF EXISTS {{%/; s/$/}};/' | LC_ALL=C sort > upgrade/drop.sql
 ```
 - also update `src/Db/Table.php` with list of tables
 if it fails the error is something like `DB Error: already exists`
