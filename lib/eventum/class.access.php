@@ -152,6 +152,20 @@ class Access
         return false;
     }
 
+    public static function canViewCheckins($issue_id, $usr_id)
+    {
+        if (!self::canAccessIssue($issue_id, $usr_id)) {
+            return false;
+        }
+        $prj_id = Auth::getCurrentProject();
+
+        if (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER) {
+            return true;
+        }
+
+        return false;
+    }
+
     public static function canViewInternalNotes($issue_id, $usr_id, $not_id = null)
     {
         if (!self::canAccessIssue($issue_id, $usr_id, false)) {
@@ -368,6 +382,7 @@ class Access
             'partners'  =>  self::canViewIssuePartners($issue_id, $usr_id),
             'phone'     =>  self::canViewPhoneCalls($issue_id, $usr_id),
             'time'      =>  self::canViewTimeTracking($issue_id, $usr_id),
+            'checkins' => self::canViewCheckins($issue_id, $usr_id),
             'history'   =>  self::canViewHistory($issue_id, $usr_id),
             'notification_list' =>  self::canViewNotificationList($issue_id, $usr_id),
             'authorized_repliers'   =>  self::canViewAuthorizedRepliers($issue_id, $usr_id),
