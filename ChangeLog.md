@@ -1,6 +1,7 @@
 # Eventum Issue Tracking System
 
 ## 2016-??-??, Version [3.1.5]
+- Fix SCM checkins being displayed as "public" (@glensc, #215, #216)
 
 ## 2016-10-26, Version [3.1.4]
 
