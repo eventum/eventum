@@ -2,6 +2,7 @@
 
 ## 2016-??-??, Version [3.1.5]
 - Fix SCM checkins being displayed as "public" (@glensc, #215, #216)
+- Make public attachments visible for Viewers (@glensc, #214, #217)
 
 ## 2016-10-26, Version [3.1.4]
 
