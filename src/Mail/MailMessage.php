@@ -676,10 +676,10 @@ class MailMessage extends Message
         // process patterns
         array_walk(
             $headers->toArray(), function ($value, $name) use ($headers) {
-            if (preg_match('/^resent.*/i', $name)) {
-                $headers->removeHeader($name);
+                if (preg_match('/^resent.*/i', $name)) {
+                    $headers->removeHeader($name);
+                }
             }
-        }
         );
     }
 

@@ -250,7 +250,7 @@ class Eventum_Bot
         // doing it cleanly with dispatch is not possible currently
         // @see http://pear.php.net/bugs/bug.php?id=20973
         if ($this->have_pcntl) {
-            declare (ticks = 1);
+            declare(ticks=1);
             //$irc->registerTimehandler(1000, $this, 'signalDispatch');
         }
 
