@@ -5,6 +5,12 @@ One of our objectives is to make upgrading from an earlier release as
 painless as possible, and we provide scripts that should bring your
 existing Eventum installation up-to-date.
 
+Please note that if your database encoding is not UTF-8, you may encounter various bugs:
+* PDO Driver is [unusable](https://github.com/eventum/eventum/pull/167) 
+* Issue History entries [get corrupted](https://gitter.im/eventum/eventum?at=58225f1d45c9e3eb4314b58c) (JSON requires UTF-8 encoding)
+
+See 2.2 upgrade instructions how to convert database to UTF-8.
+
 IMPORTANT
 ---------
 
@@ -55,3 +61,10 @@ Upgrading from these versions not supported, you have to go back and upgrade to 
 
 If you find any problems while upgrading, please email us in the mailing lists
 described in the [README.md](https://github.com/eventum/eventum) file.
+
+Since version 2.2 the database is assumed to be in UTF-8 encoding, it includes [scripts](https://github.com/eventum/eventum/tree/v2.4.0-pre1/upgrade/v2.1.1_to_v2.2) to convert.
+
+The charset convert scripts exists up to 2.4.0 version and are removed in 3.x series.
+
+While it may work to use other encodings than UTF-8,
+then be aware that such configuration is not tested and you may encounter various problems.
