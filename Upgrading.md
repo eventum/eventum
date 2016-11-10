@@ -68,3 +68,8 @@ The charset convert scripts exists up to 2.4.0 version and are removed in 3.x se
 
 While it may work to use other encodings than UTF-8,
 then be aware that such configuration is not tested and you may encounter various problems.
+
+- use `convert-utf8.php` script to update database to utf8 if the former encoding was proper
+- use `fix-charset.php` script to update database to utf8 if the former encoding was improper
+
+See scripts contents for inline comments and customization
