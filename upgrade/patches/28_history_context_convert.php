@@ -176,9 +176,14 @@ foreach ($his_ids as $his_id) {
         continue;
     }
 
+    $context = json_encode($m['context']);
+    if (!$context) {
+        $log("{$his_id}: context encode failure; skipping");
+        continue;
+    }
     $db->query(
         'update {{%issue_history}} set his_summary=?, his_context=? where his_id=?', [
-        $m['message'], json_encode($m['context']), $his_id
+        $m['message'], $m['context'], $his_id
     ]
     );
     $updated++;
