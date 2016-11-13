@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
  *
@@ -15,7 +16,7 @@
  */
 class Default_Value_Custom_Field_Backend
 {
-    function getDefaultValue($fld_id)
+    public function getDefaultValue($fld_id)
     {
         // your logic here
         return '123';

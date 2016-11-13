@@ -1,5 +1,16 @@
 <?php
-// File: irc_config.dist.php
+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 // This is an example config file for the IRC bot.
 // This file should be renamed to irc_config.php and customized for your needs.
 // You can remove this comment :)
@@ -17,11 +28,11 @@
 //      Project => array(
 //          '#issues_2' =>  array(APP_EVENTUM_IRC_CATEGORY_DEFAULT, 'other')
 //      )
-$irc_channels = array(
+$irc_channels = [
     'Default Project' => '#issues',
-);
+];
 
-return array(
+return [
     /// connection parameters
     // IRC server address
     'hostname' => 'localhost',
@@ -55,4 +66,4 @@ return array(
     ,
 
     'default_category' => APP_EVENTUM_IRC_CATEGORY_DEFAULT,
-);
+];

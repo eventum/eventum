@@ -43,12 +43,12 @@ function expandPath($filename)
     // special for "dirname/" case, pathinfo would set dir to '.' and filename to 'dirname'
     $length = strlen($filename);
     if ($filename[$length - 1] == '/') {
-        return array(rtrim($filename, '/'), '');
+        return [rtrim($filename, '/'), ''];
     }
 
     $fi = pathinfo($filename);
 
-    return array($fi['dirname'], $fi['basename']);
+    return [$fi['dirname'], $fi['basename']];
 }
 
 function getRevInfo($repository_id, $revision_id)
@@ -56,20 +56,20 @@ function getRevInfo($repository_id, $revision_id)
     global $db;
 
     $sth = $db->prepare('SELECT * FROM node_change WHERE repos=? AND rev=?');
-    $sth->execute(array($repository_id, $revision_id));
+    $sth->execute([$repository_id, $revision_id]);
 
-    $files = array();
+    $files = [];
     while ($change = $sth->fetch(PDO::FETCH_ASSOC)) {
         list($module, $filename) = expandPath($change['path']);
 
         $base_rev = (int) ltrim($change['base_rev'], '0');
         $rev = (int) ltrim($change['rev'], '0');
-        $file = array(
+        $file = [
             'file'        => $filename,
             'old_version' => $base_rev >= 0 ? $base_rev : null,
             'new_version' => $rev,
             'module'      => $module,
-        );
+        ];
         $files[] = $file;
     }
 
@@ -86,7 +86,7 @@ function processCommits($repository_id)
     global $db, $scm_name;
 
     $sth = $db->prepare('SELECT * FROM revision WHERE repos=? AND message LIKE ?');
-    $sth->execute(array($repository_id, '%issue%'));
+    $sth->execute([$repository_id, '%issue%']);
 
     $nissues = $ncommits = 0;
 
@@ -122,7 +122,7 @@ class TracScm extends SCM
      */
     public static function importCheckin($issue_id, $commit_time, $scm_name, $file, $username, $commit_msg)
     {
-        throw new LogicException("Needs porting to new code");
+        throw new LogicException('Needs porting to new code');
     }
 }
 

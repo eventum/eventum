@@ -1,12 +1,16 @@
 <?php
+
 /*
- * Smarty plugin
- * -------------------------------------------------------------
- * Type:     function
- * Name:     calendar
- * Purpose:
- * -------------------------------------------------------------
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
  */
+
 function _get_month_view($params)
 {
     extract($params);
@@ -17,14 +21,14 @@ function _get_month_view($params)
 
     $time = time();
     if (!isset($month)) {
-        $month = date("n", $time);
+        $month = date('n', $time);
     }
     if (!isset($year)) {
-        $year = date("Y", $time);
+        $year = date('Y', $time);
     }
 
-    $total_days = date("t", mktime(0, 0, 0, $month, 1, $year));
-    $first_day = date("w", mktime(0, 0, 0, $month, 1, $year));
+    $total_days = date('t', mktime(0, 0, 0, $month, 1, $year));
+    $first_day = date('w', mktime(0, 0, 0, $month, 1, $year));
     $current_day = 1;
     $current_week = 1;
 
@@ -81,6 +85,7 @@ function _get_month_view($params)
         $current_week++;
     }
     $html_result .= '</table>';
+
     return $html_result;
 }
 
@@ -97,13 +102,13 @@ function _get_week_view($params)
         $week = 1;
     }
     if (!isset($month)) {
-        $month = date("n", $time);
+        $month = date('n', $time);
     }
     if (!isset($year)) {
-        $year = date("Y", $time);
+        $year = date('Y', $time);
     }
-    $total_days = date("t", mktime(0, 0, 0, $month, 1, $year));
-    $first_day = date("w", mktime(0, 0, 0, $month, 1, $year));
+    $total_days = date('t', mktime(0, 0, 0, $month, 1, $year));
+    $first_day = date('w', mktime(0, 0, 0, $month, 1, $year));
     $current_day = 1;
     $current_week = 1;
 
@@ -175,6 +180,7 @@ function _get_week_view($params)
         $current_week++;
     }
     $html_result .= '</table>';
+
     return $html_result;
 }
 
@@ -183,14 +189,14 @@ function smarty_function_calendar($params, &$smarty)
     $print_result = true;
     extract($params);
 
-    if ($view == "month") {
+    if ($view == 'month') {
         $html_result = _get_month_view($params);
-    } elseif ($view == "week") {
+    } elseif ($view == 'week') {
         $html_result = _get_week_view($params);
     }
 
     if ($print_result) {
-        print $html_result;
+        echo $html_result;
     } else {
         return $html_result;
     }
