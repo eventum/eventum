@@ -20,9 +20,10 @@ require __DIR__ . '/../init.php';
 
 function check_delete(AdapterInterface $db, $tables, $issue_id)
 {
-    $res = $db->getOne('SELECT iss_id FROM {{%issue}} where iss_id=?', array($issue_id));
+    $res = $db->getOne('SELECT iss_id FROM {{%issue}} where iss_id=?', [$issue_id]);
     if (!$res) {
         echo "# issue $issue_id does not exist\n";
+
         return;
     }
 
@@ -35,7 +36,7 @@ function check_delete(AdapterInterface $db, $tables, $issue_id)
 function check_delete_table(AdapterInterface $db, $table, $column, $issue_id)
 {
     $query = "select count(*) from {{%{$table}}} where {$column}=?";
-    $res = $db->getOne($query, array($issue_id));
+    $res = $db->getOne($query, [$issue_id]);
     if (!$res) {
         // no records, skip table
         return;
@@ -44,7 +45,7 @@ function check_delete_table(AdapterInterface $db, $table, $column, $issue_id)
     echo $db->getOne("select 'delete from {{%{$table}}} where {$column}={$issue_id};'"), "\n";
 }
 
-$tables = array(
+$tables = [
     'issue_association' => 'isa_issue_id',
     'issue_attachment' => 'iat_iss_id',
     'issue_checkin' => 'isc_iss_id',
@@ -66,7 +67,7 @@ $tables = array(
     'mail_queue' => 'maq_iss_id',
 
     'issue' => 'iss_id',
-);
+];
 
 /** @var AdapterInterface $db */
 $db = DB_Helper::getInstance();

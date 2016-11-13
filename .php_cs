@@ -13,17 +13,22 @@ EOF;
 
 Symfony\CS\Fixer\Contrib\HeaderCommentFixer::setHeader($header);
 
+# use git for defining input files
+# https://github.com/FriendsOfPHP/PHP-CS-Fixer/issues/2214
+
+$files = explode("\n", shell_exec('git ls-files'));
 $finder = Symfony\CS\Finder\DefaultFinder::create()
-	->in(__DIR__ . '/bin')
-	->in(__DIR__ . '/cli')
-	->in(__DIR__ . '/htdocs')
-	->in(__DIR__ . '/lib/eventum')
-	->in(__DIR__ . '/res')
-	->in(__DIR__ . '/src')
-	->in(__DIR__ . '/tests')
-	->in(__DIR__ . '/upgrade')
-	->exclude('smarty')
-	->exclude('var')
+	->in(__DIR__)
+	// this filter would accept only files that are present in Git
+	->filter(function(\SplFileInfo $file) use (&$files) {
+		$key = array_search($file->getRelativePathname(), $files);
+		if ($key) {
+			error_log("ACCEPT: ".$file->getRelativePathname());
+		} else {
+			error_log("REJECT: ".$file->getRelativePathname());
+		}
+		return $key;
+	})
 ;
 
 return Symfony\CS\Config\Config::create()

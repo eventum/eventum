@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 
-require_once __DIR__ . "/../init.php";
+require_once __DIR__ . '/../init.php';
 
 if (!defined('SPHINX_LOG_PATH')) {
     define('SPHINX_LOG_PATH', '/var/log/sphinx/');

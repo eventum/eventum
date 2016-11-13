@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
  *
@@ -130,15 +131,15 @@ if (APP_MAINTENANCE) {
     $is_manage = (strpos($_SERVER['PHP_SELF'], '/manage/') !== false);
     if (APP_MAINTENANCE && !$is_manage) {
         $tpl = new Template_Helper();
-        $tpl->setTemplate("maintenance.tpl.html");
+        $tpl->setTemplate('maintenance.tpl.html');
         $tpl->displayTemplate();
         exit(0);
     }
 }
 
 // Default IRC category
-$define("APP_EVENTUM_IRC_CATEGORY_DEFAULT", "default");
-$define("APP_EVENTUM_IRC_CATEGORY_REMINDER", APP_EVENTUM_IRC_CATEGORY_DEFAULT);
+$define('APP_EVENTUM_IRC_CATEGORY_DEFAULT', 'default');
+$define('APP_EVENTUM_IRC_CATEGORY_REMINDER', APP_EVENTUM_IRC_CATEGORY_DEFAULT);
 
 // legacy constants, enable this block if you need time to migrate custom workflow, custom_field, customer, etc classes
 /*

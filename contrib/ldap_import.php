@@ -29,8 +29,8 @@ class LDAP_Wrapper extends LDAP_Auth_Backend
     public function getByEmail($usr)
     {
         $filter = Net_LDAP2_Filter::create('mail', 'equals', $usr->email);
-        $requested_attributes = array('cn', 'uid', 'mail');
-        $search = $this->connect()->search($this->basedn, $filter, array('attributes' => $requested_attributes));
+        $requested_attributes = ['cn', 'uid', 'mail'];
+        $search = $this->connect()->search($this->basedn, $filter, ['attributes' => $requested_attributes]);
 
         if (Misc::isError($search)) {
             $entry = $search;
@@ -52,11 +52,11 @@ class LDAP_Wrapper extends LDAP_Auth_Backend
 
     public function updateLocalUser($usr)
     {
-        $data = array(
+        $data = [
             'full_name' =>  $usr->full_name,
             'email'     =>  $usr->email,
             'external_id'   =>  $usr->uid,
-        );
+        ];
 
         return User::update($usr->id, $data, false);
     }
@@ -67,7 +67,7 @@ if (strtolower(APP_AUTH_BACKEND) != 'ldap_auth_backend') {
     exit(1);
 }
 
-$users = array();
+$users = [];
 foreach (User::getList() as $entry) {
     $usr = new UserEntry($entry);
     $users[$usr->id] = $usr;

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
  *
@@ -18,45 +19,46 @@ require_once 'class.dynamic.php';
  */
 class Dynamic_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
 {
-    function getStructuredData()
+    public function getStructuredData()
     {
         $fld_id = self::getControllingCustomFieldID();
         // should pull from a dynamic data source but will hard code for now
-        $data = array(
-            array(
-                "keys"  => array(Custom_Field::getOptionKey($fld_id, 'red')),
-                "options"   =>  array(
-                    "1" =>  "Apple",
-                    "2" =>  "Fire Engine",
-                    "3" =>  "Fire",
-                )
-            ),
-            array(
-                "keys"  => array(Custom_Field::getOptionKey($fld_id, 'blue')),
-                "options"   =>  array(
-                    "4" =>  "water",
-                    "5" =>  "sky",
-                )
-            ),
-            array(
-                "keys"  =>  array(Custom_Field::getOptionKey($fld_id, 'yellow')),
-                "options"   =>  array(
+        $data = [
+            [
+                'keys'  => [Custom_Field::getOptionKey($fld_id, 'red')],
+                'options'   =>  [
+                    '1' =>  'Apple',
+                    '2' =>  'Fire Engine',
+                    '3' =>  'Fire',
+                ]
+            ],
+            [
+                'keys'  => [Custom_Field::getOptionKey($fld_id, 'blue')],
+                'options'   =>  [
+                    '4' =>  'water',
+                    '5' =>  'sky',
+                ]
+            ],
+            [
+                'keys'  =>  [Custom_Field::getOptionKey($fld_id, 'yellow')],
+                'options'   =>  [
                     '6' =>  'bannana',
                     '7' =>  'gold',
                     '8' =>  'yellow things',
                     '9' =>  'more yellow things',
-                )
-            ),
-        );
+                ]
+            ],
+        ];
+
         return $data;
     }
 
-    function getControllingCustomFieldID()
+    public function getControllingCustomFieldID()
     {
         return Custom_Field::getIDByTitle(self::getControllingCustomFieldName());
     }
 
-    function getControllingCustomFieldName()
+    public function getControllingCustomFieldName()
     {
         return 'Dynamic Controller';
     }
