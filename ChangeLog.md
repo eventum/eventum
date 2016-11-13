@@ -10,6 +10,7 @@ details: #219
 - Fix SCM checkins being displayed as "public" (@glensc, #215, #216)
 - Make public attachments visible for Viewers (@glensc, #214, #217)
 - Removed outdated / unused Impact Analysis code (@balsdorf, #219)
+- Re-apply patches number 28 because they could have not been executed (@glensc, #220)
 
 ## 2016-10-26, Version [3.1.4]
 
