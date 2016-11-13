@@ -56,7 +56,6 @@ class Table
             'issue_partner',
             'issue_product_version',
             'issue_quarantine',
-            'issue_requirement',
             'issue_user',
             'issue_user_replier',
             'link_filter',

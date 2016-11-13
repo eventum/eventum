@@ -28,7 +28,6 @@ DROP TABLE IF EXISTS {{%issue_history}};
 DROP TABLE IF EXISTS {{%issue_partner}};
 DROP TABLE IF EXISTS {{%issue_product_version}};
 DROP TABLE IF EXISTS {{%issue_quarantine}};
-DROP TABLE IF EXISTS {{%issue_requirement}};
 DROP TABLE IF EXISTS {{%issue_user_replier}};
 DROP TABLE IF EXISTS {{%issue_user}};
 DROP TABLE IF EXISTS {{%issue}};
