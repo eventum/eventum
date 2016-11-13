@@ -1,8 +1,15 @@
 # Eventum Issue Tracking System
 
 ## 2016-??-??, Version [3.1.5]
+
+Please make sure your database is backed up before applying this upgrade. We are
+removing some legacy tables and fields which should not contain any data but
+backups should be made as a precaution. Please see the following issue for more
+details: https://github.com/eventum/eventum/pull/219
+
 - Fix SCM checkins being displayed as "public" (@glensc, #215, #216)
 - Make public attachments visible for Viewers (@glensc, #214, #217)
+- Removed outdated / unused Impact Analysis code (@balsdorf, #219)
 
 ## 2016-10-26, Version [3.1.4]
 
