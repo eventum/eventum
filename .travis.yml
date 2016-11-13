@@ -85,6 +85,7 @@ install:
   - make pear-fix
 
 script:
+  - bin/ci/check_patches.sh
   - echo phpunit -v --debug
   # prepare release tarball
   # need to fetch tags first for release process
