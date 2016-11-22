@@ -28,7 +28,7 @@
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"require": {
-		"eventum/rpc": "*",
+		"eventum/rpc": "~3.0.0",
 		"php": ">=5.1.2"
 	},
 	"autoload": {
