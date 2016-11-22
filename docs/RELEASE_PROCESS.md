@@ -42,7 +42,7 @@ Do not forget to update changeset link to point to tag not master
 
 - Create git tag
 ```
-$ git tag -s v3.1.5
+$ git tag -s v3.1.6
 ```
 - wait for Travis-CI to build release tarball, download and test it again
 - go to github releases page, edit the new tag
@@ -50,7 +50,7 @@ $ git tag -s v3.1.5
 - upload tarball and signature to the release
 - to create a digital signature, use the following command:
 ```
-% gpg --armor --sign --detach-sig eventum-3.1.5.tar.gz
+% gpg --armor --sign --detach-sig eventum-3.1.6.tar.gz
 ```
 - create tag also in wiki submodule
 
