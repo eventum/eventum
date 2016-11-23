@@ -356,11 +356,11 @@ table.grid td {
     padding: .3em;
 }
 
-table.grid tr.odd td {
+table.grid tr.odd {
     background: #cacaca;
 }
 
-table.grid tr.even td {
+table.grid tr.even {
     background: #dddddd;
 }
 
