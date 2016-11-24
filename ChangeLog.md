@@ -32,6 +32,7 @@ details: #219
 - Fix bug with SphinxSearch including removed notes (Bryan)
 - Fix bug with SphinxSearch not returning all results (Bryan)
 - Fix bug where issue closed notifications went to all users even when "internal" was selected (Bryan)
+- Rewrite locking code to use flock (@glensc, #209)
 
 ## 2016-09-25, Version [3.1.3]
 
