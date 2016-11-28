@@ -2,6 +2,8 @@
 
 ## 2016-??-??, Version [3.1.6]
 
+- Fix error caused by incomplete legacy code removal (@balsdorf, #221)
+
 ## 2016-11-23, Version [3.1.5]
 
 Please make sure your database is backed up before applying this upgrade. We are
