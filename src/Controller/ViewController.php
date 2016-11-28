@@ -26,7 +26,6 @@ use Draft;
 use Email_Account;
 use Eventum\Model\Repository\CommitRepository;
 use Group;
-use Impact_Analysis;
 use Issue;
 use Issue_Field;
 use Note;
@@ -226,7 +225,6 @@ class ViewController extends BaseController
                 'time_entries' => $time_entries['list'],
                 'total_time_by_user' => $time_entries['total_time_by_user'],
                 'total_time_spent' => $time_entries['total_time_spent'],
-                'impacts' => Impact_Analysis::getListing($this->issue_id),
                 'statuses' => $statuses,
                 'drafts' => Draft::getList($this->issue_id, $show_all_drafts),
                 'groups' => Group::getAssocList($this->prj_id),

@@ -31,30 +31,6 @@
   {t}An error occurred while trying to run your query{/t}
 {/if}
 
-{if $set_initial_impact_result|default:'' == -1}
-  {t}An error occurred while trying to run your query{/t}
-{elseif $set_initial_impact_result|default:'' == 1}
-  {t}Thank you, the inital impact analysis was set successfully.{/t}
-{/if}
-
-{if $add_requirement_result|default:'' == -1}
-  {t}An error occurred while trying to run your query{/t}
-{elseif $add_requirement_result|default:'' == 1}
-  {t}Thank you, the new requirement was added successfully.{/t}
-{/if}
-
-{if $set_impact_requirement_result|default:'' == -1}
-  {t}An error occurred while trying to run your query{/t}
-{elseif $set_impact_requirement_result|default:'' == 1}
-  {t}Thank you, the impact analysis was set successfully.{/t}
-{/if}
-
-{if $requirement_delete_result|default:'' == -1}
-  {t}An error occurred while trying to run your query{/t}
-{elseif $requirement_delete_result|default:'' == 1}
-  {t}Thank you, the selected requirements were removed successfully.{/t}
-{/if}
-
 {if $save_filter_result|default:'' == -1}
   {t}An error occurred while trying to run your query{/t}
 {elseif $save_filter_result|default:'' == 1}
