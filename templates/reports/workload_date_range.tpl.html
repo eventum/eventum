@@ -1,5 +1,5 @@
 {extends "reports/reports_base.tpl.html"}
-{block "title"}Workload Date Range{/block}
+{block "title"}{t}Workload Date Range{/t}{/block}
 
 {block "report_content"}
 <h3 align="center">
@@ -100,24 +100,24 @@
 </script>
 {if $data|default:'' != ''}
 <center>
-    <h3>Project: {$core.project_name}</h3>
+    <h3>{t}Project{/t}: {$core.project_name}</h3>
 </center>
 <table class="bordered">
     <tr>
-        <th>
-            &nbsp;
+        <th>&nbsp;
+            
         </th>
         <th>
-            Total
+            {t}Total{/t}
         </th>
         <th>
-            Avg
+            {t}Avg{/t}
         </th>
         <th>
-            Med
+            {t}Med{/t}
         </th>
         <th>
-            Max
+            {t}Max{/t}
         </th>
     </tr>
     {foreach name="workload" from=$data key=loop_name item=row}
@@ -133,15 +133,15 @@
 <div align="center">
     {t}Avg/Med/Max Issues/Emails{/t}
     {if $interval == 'day'}
-    per day
+    {t}per day{/t}
     {elseif $interval == 'week'}
-    per week
+    {t}per week{/t}
     {elseif $interval == 'month'}
-    per month
+    {t}per month{/t}
     {elseif $interval == 'dow'}
-    per day of week
+    {t}per day of week{/t}
     {/if}
-    for {$start_date} through {$end_date}.
+    {t 1=$start_date 2=$end_date}for %1 through %2{/t}.
 </div>
 <br />
 <div align="center">
