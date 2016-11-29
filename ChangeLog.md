@@ -3,6 +3,7 @@
 ## 2016-??-??, Version [3.1.6]
 
 - Fix error caused by incomplete legacy code removal (@balsdorf, #221)
+- Swap order of note reply buttons for consistency (@balsdorf)
 
 ## 2016-11-23, Version [3.1.5]
 
