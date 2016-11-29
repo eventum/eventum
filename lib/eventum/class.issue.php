@@ -61,10 +61,10 @@ class Issue
     public static function getDateFieldsAssocList($display_customer_fields = false)
     {
         $fields = [
-            'iss_created_date'              => 'Created Date',
-            'iss_updated_date'              => 'Last Updated Date',
-            'iss_last_response_date'        => 'Last Response Date',
-            'iss_closed_date'               => 'Closed Date',
+            'iss_created_date'              => ev_gettext('Created Date'),
+            'iss_updated_date'              => ev_gettext('Last Updated Date'),
+            'iss_last_response_date'        => ev_gettext('Last Response Date'),
+            'iss_closed_date'               => ev_gettext('Closed Date'),
         ];
         if ($display_customer_fields) {
             $fields['iss_last_customer_action_date'] = 'Customer Action Date';
@@ -1288,7 +1288,7 @@ class Issue
             $from = User::getFromHeader($usr_id);
             $message_id = User::getFromHeader($usr_id);
             $full_email = Support::buildFullHeaders($issue_id, $message_id, $from,
-                '', '', 'Issue closed comments', $reason, '');
+                '', '', ev_gettext('Issue closed comments'), $reason, '');
 
             $structure = Mime_Helper::decode($full_email, true, false);
 
@@ -1297,7 +1297,7 @@ class Issue
                 'issue_id'      =>  $issue_id,
                 'message_id'    =>  $message_id,
                 'date'          =>  Date_Helper::getCurrentDateGMT(),
-                'subject'       =>  'Issue closed comments',
+                'subject'       =>  ev_gettext('Issue closed comments'),
                 'from'          =>  $from,
                 'has_attachment' =>  0,
                 'body'          =>  $reason,
@@ -1313,7 +1313,7 @@ class Issue
                 'send_notification' => false,
                 'closing'           => true,
             ];
-            Note::insertNote($usr_id, $issue_id, 'Issue closed comments', $reason, $options);
+            Note::insertNote($usr_id, $issue_id, ev_gettext('Issue closed comments'), $reason, $options);
             $ids = false;
         }
 

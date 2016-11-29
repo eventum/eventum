@@ -87,7 +87,7 @@ class ColumnDisplayController extends ManageBaseController
         }
 
         $user_roles = User::getRoles($excluded_roles);
-        $user_roles[9] = 'Never Display';
+        $user_roles[9] = ev_gettext('Never Display');
 
         // generate ranks
         $ranks = [];
