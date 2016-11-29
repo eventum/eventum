@@ -30,6 +30,15 @@ This localization files contain name value pairs for each translation item.  The
 
 > Spanish Output: Hola mundo
 
+### Translation Notes
+
+https://github.com/eventum/eventum/pull/222/files#r90018478
+```php
+// TRANSLATORS: %1 - issue_id, %2: issue summary
+$full_subject = ev_gettext('[#%1$s] New Issue Assigned: %2$s' ,$issue_id, $data['iss_summary']);
+```
+
+
 ### System Variables & Example Strings
 
 When making contributions to the localization effort, there are system variables and example strings that do not require translation. 
