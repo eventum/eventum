@@ -1019,7 +1019,8 @@ class Notification
                     $full_subject = "[#$issue_id] $subject: $extra_subject";
                 }
             } elseif (($type == 'new_issue') && ($is_assigned)) {
-                $full_subject = "[#$issue_id] " . ev_gettext('New Issue Assigned') . ": " . $data['iss_summary'];
+                // TRANSLATORS: %1 - issue_id, %2: issue summary
+                $full_subject = ev_gettext('[#%1$s] New Issue Assigned: %2$s' ,$issue_id, $data['iss_summary']);
             } else {
                 $extra_subject = $data['iss_summary'];
                 $full_subject = "[#$issue_id] $subject: $extra_subject";
@@ -1580,7 +1581,8 @@ class Notification
         foreach ($emails as $email) {
             $text_message = $tpl->getTemplateContents();
             Language::set(User::getLang(User::getUserIDByEmail(Mail_Helper::getEmailAddress($email))));
-            $subject = "[#$issue_id] " . ev_gettext('New Assignment') . ": " . $issue['iss_summary'];
+            // TRANSLATORS: %1 - issue_id, %2: issue summary
+            $subject = ev_gettext('[#%1$s] New Assignment: %2$s', $issue_id, $issue['iss_summary']);
             $from = self::getFixedFromHeader($issue_id, '', 'issue');
 
             // send email (use PEAR's classes)
