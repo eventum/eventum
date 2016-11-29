@@ -2317,7 +2317,41 @@ class Issue
 
             $dateDiff = Date_Helper::getFormattedDateDiff(time(), $last_date);
             $row['last_action_date_diff'] = $dateDiff;
-            $row['last_action_date_label'] = ucwords($label);
+            switch ($label) {
+                case "customer action":
+                    $label = ev_gettext('Customer Action'); break;
+                case "update":
+                    $label = ev_gettext('Update'); break;
+                case "updated":
+                    $label = ev_gettext('Updated'); break;
+                case "created":
+                    $label = ev_gettext('Created'); break;
+                case "closed":
+                    $label = ev_gettext('Closed'); break;
+                case "time added":
+                    $label = ev_gettext('Time Added'); break;
+                case "file uploaded":
+                    $label = ev_gettext('File Uploaded'); break;
+                case "draft saved":
+                    $label = ev_gettext('Draft Saved'); break;
+                case "note":
+                    $label = ev_gettext('Note'); break;
+                case "staff response":
+                    $label = ev_gettext('Staff Response'); break;
+                case "customer action":
+                    $label = ev_gettext('Customer Action'); break;
+                case "phone call":
+                    $label = ev_gettext('Phone Call'); break;
+                case "user response":
+                    $label = ev_gettext('User Response'); break;
+                case "email":
+                    $label = ev_gettext('Email'); break;
+                case "scm checkin":
+                    $label = ev_gettext('SCM Checkin'); break;
+                default:
+                    $label = ucwords($label);
+            }
+            $row['last_action_date_label'] = $label;
         }
     }
 
