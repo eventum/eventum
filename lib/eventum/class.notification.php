@@ -645,7 +645,7 @@ class Notification
             $diff = new Text_Diff($old['iss_description'], $new['description']);
             $renderer = new Text_Diff_Renderer_unified();
             $desc_diff = explode("\n", trim($renderer->render($diff)));
-            $diffs[] = ev_gettext('Description:');
+            $diffs[] = ev_gettext('Description') . ':';
             foreach ($desc_diff as $diff) {
                 $diffs[] = $diff;
             }
