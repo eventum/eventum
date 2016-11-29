@@ -100,7 +100,8 @@
 </script>
 {if $data|default:'' != ''}
 <center>
-    <h3>{t}Project{/t}: {$core.project_name}</h3>
+    {* TRANSLATORS: %1: project name *}
+    <h3>{t 1=$core.project_name}Project: %1{/t}</h3>
 </center>
 <table class="bordered">
     <tr>
@@ -141,6 +142,7 @@
     {elseif $interval == 'dow'}
     {t}per day of week{/t}
     {/if}
+    {* TRANSLATORS: %1: start_date, 2: end_date *}
     {t 1=$start_date 2=$end_date}for %1 through %2{/t}.
 </div>
 <br />
