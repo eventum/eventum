@@ -109,7 +109,7 @@ class CustomFieldsController extends ManageBaseController
             $excluded_roles[] = User::ROLE_CUSTOMER;
         }
         $user_roles = User::getRoles($excluded_roles);
-        $user_roles[9] = 'Never Display';
+        $user_roles[9] = ev_gettext('Never Display');
 
         $this->tpl->assign(
             [

@@ -15,7 +15,7 @@
         <b>{t}Update Issue Overview{/t}</b> (ID: <a href="{$core.rel_url}view.php?id={$issue.iss_id}" title="{t}view issue details{/t}">{$issue.iss_id}</a>)
 
         {if $core.current_role >= $core.roles.developer}
-        &nbsp;<strong>Project:</strong>
+        &nbsp;<strong>{t}Project{/t}:</strong>
         <select name="new_prj">
             {html_options options=$core.active_projects selected=$core.project_id}
         </select>

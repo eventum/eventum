@@ -48,7 +48,7 @@
                 {if $field_name == 'sta_change_date'}
                 <br />
                 <em>
-                    Note: You need to <a href="{$core.rel_url}manage/customize_listing.php?prj_id={$prj_id}">configure this field</a> before it can be used.
+                    {t escape=no 1="customize_listing.php?prj_id=$prj_id"}Note: You need to <a href="%1">configure this field</a> before it can be used.{/t}
                 </em>
                 {/if}
             </td>
