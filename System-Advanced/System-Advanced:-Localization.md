@@ -20,8 +20,8 @@ Strings that require translation can be found in the HTML templates or PHP.
 
 * HTML templates files will surround the text to be translated with '`{t}`' and '`{/t}`'.  
 `<html> <body> {t}Hello world{/t} </body> </html>`  
-* Strings found in the PHP files use the `gettext('_string_')` function.  
-`<?php echo gettext('Hello world'); ?>`  
+* Strings found in the PHP files use the `ev_gettext('_string_')` function.  
+`<?php echo ev_gettext('Hello world'); ?>`  
 
 This localization files contain name value pairs for each translation item.  The original string is identified with `msgid` and the `msgstr` value contains the localized string.
 
