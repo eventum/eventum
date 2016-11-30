@@ -7,6 +7,7 @@
 - Fix error caused by incomplete legacy code removal (@balsdorf, #221)
 - Swap order of note reply buttons for consistency (@balsdorf)
 - Add add some missing translate of strings (@phavel, #222)
+- Add workflow method for moving an issue between projects (@balsdorf)
 
 ## 2016-11-23, Version [3.1.5]
 

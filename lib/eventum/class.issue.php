@@ -1681,6 +1681,8 @@ class Issue
         // clear project cache
         self::getProjectID($issue_id, true);
 
+        Workflow::handleIssueMoved($currentDetails['iss_prj_id'], $issue_id, $new_prj_id);
+
         Notification::notifyNewIssue($new_prj_id, $issue_id);
 
         return 1;
