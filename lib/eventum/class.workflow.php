@@ -938,13 +938,30 @@ class Workflow
      * @return null
      * @since 3.1.6
      */
-    public static function handleIssueMoved($prj_id, $issue_id, $new_prj_id)
+    public static function handleIssueMoved($prj_id, $issue_id, $new_prj_id) {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return NULL;
+        }
+        $backend = self::_getBackend($prj_id);
+    }
+
+    /**
+     * Returns fields to be updated when an issue is moved from one project to another.
+     *
+     * @param $prj_id
+     * @param $issue_id
+     * @param $mapping
+     * @param $new_prj_id
+     * @return array An array containing field names / values
+     * @since 3.1.6
+     */
+    public static function getMovedIssueMapping($prj_id, $issue_id, $mapping, $new_prj_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return null;
+            return $mapping;
         }
         $backend = self::_getBackend($prj_id);
 
-        $backend->handleIssueMoved($prj_id, $issue_id, $new_prj_id);
+        return $backend->getMovedIssueMapping($prj_id, $issue_id, $mapping, $new_prj_id);
     }
 }
