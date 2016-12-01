@@ -255,6 +255,7 @@ class Search
                     iss_usr_id,
                     iss_summary,
                     pri_title,
+                    pri_icon,
                     prc_title,
                     sta_title,
                     sta_color status_color,

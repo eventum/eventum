@@ -182,12 +182,13 @@ class Priority
                     {{%project_priority}}
                  SET
                     pri_title=?,
-                    pri_rank=?
+                    pri_rank=?,
+                    pri_icon=?
                  WHERE
                     pri_prj_id=? AND
                     pri_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, [$_POST['title'], $_POST['rank'], $_POST['prj_id'], $_POST['id']]);
+            DB_Helper::getInstance()->query($stmt, [$_POST['title'], $_POST['rank'], $_POST['icon'], $_POST['prj_id'], $_POST['id']]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -210,12 +211,13 @@ class Priority
                  (
                     pri_prj_id,
                     pri_title,
-                    pri_rank
+                    pri_rank,
+                    pri_icon
                  ) VALUES (
                     ?, ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, [$_POST['prj_id'], $_POST['title'], $_POST['rank']]);
+            DB_Helper::getInstance()->query($stmt, [$_POST['prj_id'], $_POST['title'], $_POST['rank'], $_POST['icon']]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -235,7 +237,8 @@ class Priority
         $stmt = 'SELECT
                     pri_id,
                     pri_title,
-                    pri_rank
+                    pri_rank,
+                    pri_icon
                  FROM
                     {{%project_priority}}
                  WHERE

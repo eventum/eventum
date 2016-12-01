@@ -282,7 +282,8 @@ class ViewController extends BaseController
             }
             $columns[0][] = [
                 'title' => ev_gettext('Priority'),
-                'data' => $details['pri_title'],
+                'pri_title' => $details['pri_title'],
+                'pri_icon' => $details['pri_icon'],
                 'title_bgcolor' => $bgcolor,
                 'field' => 'priority',
             ];
