@@ -2318,35 +2318,35 @@ class Issue
             $dateDiff = Date_Helper::getFormattedDateDiff(time(), $last_date);
             $row['last_action_date_diff'] = $dateDiff;
             switch ($label) {
-                case "customer action":
+                case 'customer action':
                     $label = ev_gettext('Customer Action'); break;
-                case "update":
+                case 'update':
                     $label = ev_gettext('Update'); break;
-                case "updated":
+                case 'updated':
                     $label = ev_gettext('Updated'); break;
-                case "created":
+                case 'created':
                     $label = ev_gettext('Created'); break;
-                case "closed":
+                case 'closed':
                     $label = ev_gettext('Closed'); break;
-                case "time added":
+                case 'time added':
                     $label = ev_gettext('Time Added'); break;
-                case "file uploaded":
+                case 'file uploaded':
                     $label = ev_gettext('File Uploaded'); break;
-                case "draft saved":
+                case 'draft saved':
                     $label = ev_gettext('Draft Saved'); break;
-                case "note":
+                case 'note':
                     $label = ev_gettext('Note'); break;
-                case "staff response":
+                case 'staff response':
                     $label = ev_gettext('Staff Response'); break;
-                case "customer action":
+                case 'customer action':
                     $label = ev_gettext('Customer Action'); break;
-                case "phone call":
+                case 'phone call':
                     $label = ev_gettext('Phone Call'); break;
-                case "user response":
+                case 'user response':
                     $label = ev_gettext('User Response'); break;
-                case "email":
+                case 'email':
                     $label = ev_gettext('Email'); break;
-                case "scm checkin":
+                case 'scm checkin':
                     $label = ev_gettext('SCM Checkin'); break;
                 default:
                     $label = ucwords($label);

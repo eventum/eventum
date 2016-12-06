@@ -1020,7 +1020,7 @@ class Notification
                 }
             } elseif (($type == 'new_issue') && ($is_assigned)) {
                 // TRANSLATORS: %1 - issue_id, %2: issue summary
-                $full_subject = ev_gettext('[#%1$s] New Issue Assigned: %2$s' ,$issue_id, $data['iss_summary']);
+                $full_subject = ev_gettext('[#%1$s] New Issue Assigned: %2$s', $issue_id, $data['iss_summary']);
             } else {
                 $extra_subject = $data['iss_summary'];
                 $full_subject = "[#$issue_id] $subject: $extra_subject";
