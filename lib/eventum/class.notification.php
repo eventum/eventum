@@ -645,7 +645,7 @@ class Notification
             $diff = new Text_Diff($old['iss_description'], $new['description']);
             $renderer = new Text_Diff_Renderer_unified();
             $desc_diff = explode("\n", trim($renderer->render($diff)));
-            $diffs[] = 'Description:';
+            $diffs[] = ev_gettext('Description') . ':';
             foreach ($desc_diff as $diff) {
                 $diffs[] = $diff;
             }
@@ -753,7 +753,7 @@ class Notification
         $data = Issue::getDetails($issue_id);
         $data['diffs'] = implode("\n", $diffs);
         $data['updated_by'] = User::getFullName(Auth::getUserID());
-        self::notifySubscribers($issue_id, $emails, 'updated', $data, 'Status Change', false);
+        self::notifySubscribers($issue_id, $emails, 'updated', $data, ev_gettext('Status Change'), false);
     }
 
     /**
@@ -874,14 +874,14 @@ class Notification
                     $headers['In-Reply-To'] = Issue::getRootMessageID($issue_id);
                 }
                 $headers['References'] = Mail_Helper::fold(implode(' ', Mail_Helper::getReferences($issue_id, @$data['note']['reference_msg_id'], 'note')));
-                $subject = 'Note';
+                $subject = ev_gettext('Note');
                 break;
             case 'emails':
                 // this should not be used anymore
                 return false;
             case 'files':
                 $data = self::getAttachment($issue_id, $entry_id);
-                $subject = 'File Attached';
+                $subject = ev_gettext('File Attached');
                 break;
         }
 
@@ -1019,7 +1019,8 @@ class Notification
                     $full_subject = "[#$issue_id] $subject: $extra_subject";
                 }
             } elseif (($type == 'new_issue') && ($is_assigned)) {
-                $full_subject = "[#$issue_id] New Issue Assigned: " . $data['iss_summary'];
+                // TRANSLATORS: %1 - issue_id, %2: issue summary
+                $full_subject = ev_gettext('[#%1$s] New Issue Assigned: %2$s' ,$issue_id, $data['iss_summary']);
             } else {
                 $extra_subject = $data['iss_summary'];
                 $full_subject = "[#$issue_id] $subject: $extra_subject";
@@ -1580,7 +1581,8 @@ class Notification
         foreach ($emails as $email) {
             $text_message = $tpl->getTemplateContents();
             Language::set(User::getLang(User::getUserIDByEmail(Mail_Helper::getEmailAddress($email))));
-            $subject = "[#$issue_id] New Assignment: " . $issue['iss_summary'];
+            // TRANSLATORS: %1 - issue_id, %2: issue summary
+            $subject = ev_gettext('[#%1$s] New Assignment: %2$s', $issue_id, $issue['iss_summary']);
             $from = self::getFixedFromHeader($issue_id, '', 'issue');
 
             // send email (use PEAR's classes)

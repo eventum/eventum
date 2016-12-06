@@ -1,5 +1,5 @@
 {extends "reports/reports_base.tpl.html"}
-{block "title"}Custom Fields{/block}
+{block "title"}{t}Custom Fields{/t}{/block}
 
 {block "report_content"}
 
@@ -66,17 +66,17 @@ function validateForm(f)
         </tr>
     <tr>
       <th align="center" height="10">
-          <b>Interval</b>
+          <b>{t}Interval{/t}</b>
       </th>
     </tr>
     <tr>
       <td align="center" valign="top">
         <select name="interval">
             <option value=""></option>
-            <option value="day"{if $smarty.request.interval|default:'' == 'day'} selected{/if}>Day</option>
-            <option value="week"{if $smarty.request.interval|default:'' == 'week'} selected{/if}>Week</option>
-            <option value="month"{if $smarty.request.interval|default:'' == 'month'} selected{/if}>Month</option>
-            <option value="year"{if $smarty.request.interval|default:'' == 'year'} selected{/if}>Year</option>
+            <option value="day"{if $smarty.request.interval|default:'' == 'day'} selected{/if}>{t}Day{/t}</option>
+            <option value="week"{if $smarty.request.interval|default:'' == 'week'} selected{/if}>{t}Week{/t}</option>
+            <option value="month"{if $smarty.request.interval|default:'' == 'month'} selected{/if}>{t}Month{/t}</option>
+            <option value="year"{if $smarty.request.interval|default:'' == 'year'} selected{/if}>{t}Year{/t}</option>
         </select>
       </td>
     </tr>

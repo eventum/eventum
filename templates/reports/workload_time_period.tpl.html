@@ -1,5 +1,5 @@
 {extends "reports/reports_base.tpl.html"}
-{block "title"}Workload by Time Period{/block}
+{block "title"}{t}Workload by Time Period{/t}{/block}
 
 {block "report_content"}
 {if $type == 'email'}
@@ -22,10 +22,10 @@
             {t}(GMT){/t}
           </th>
           <th>
-            {t}Developer{/t} {if $type == "email"}{t}Emails{/t}{else}{t}Actions{/t}{/if}
+            {if $type == "email"}{t}Developer Emails{/t}{else}{t}Developer Actions{/t}{/if}
           </th>
           <th>
-            {t}Customer{/t}{if $type == "email"}{t}Emails{/t}{else}{t}Actions{/t}{/if}
+            {if $type == "email"}{t}Customer Emails{/t}{else}{t}Customer Actions{/t}{/if}
           </th>
           <th>
             {t}Time Period{/t}<br />

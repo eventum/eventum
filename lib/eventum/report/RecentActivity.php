@@ -62,17 +62,17 @@ class RecentActivity
     public function __invoke(Template_Helper $tpl)
     {
         $units = [
-            'hour' => 'Hours',
-            'day' => 'Days',
+            'hour' => ev_gettext('Hours'),
+            'day' => ev_gettext('Days'),
         ];
 
         $type_list = [
-            'phone' => 'Phone Calls',
-            'note' => 'Notes',
-            'email' => 'Email',
-            'draft' => 'Drafts',
-            'time' => 'Time Tracking',
-            'reminder' => 'Reminders',
+            'phone' => ev_gettext('Phone Calls'),
+            'note' => ev_gettext('Notes'),
+            'email' => ev_gettext('Email'),
+            'draft' => ev_gettext('Drafts'),
+            'time' => ev_gettext('Time Tracking'),
+            'reminder' => ev_gettext('Reminders'),
         ];
 
         $tpl->assign([

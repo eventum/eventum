@@ -61,10 +61,10 @@ class Issue
     public static function getDateFieldsAssocList($display_customer_fields = false)
     {
         $fields = [
-            'iss_created_date'              => 'Created Date',
-            'iss_updated_date'              => 'Last Updated Date',
-            'iss_last_response_date'        => 'Last Response Date',
-            'iss_closed_date'               => 'Closed Date',
+            'iss_created_date'              => ev_gettext('Created Date'),
+            'iss_updated_date'              => ev_gettext('Last Updated Date'),
+            'iss_last_response_date'        => ev_gettext('Last Response Date'),
+            'iss_closed_date'               => ev_gettext('Closed Date'),
         ];
         if ($display_customer_fields) {
             $fields['iss_last_customer_action_date'] = 'Customer Action Date';
@@ -1288,7 +1288,7 @@ class Issue
             $from = User::getFromHeader($usr_id);
             $message_id = User::getFromHeader($usr_id);
             $full_email = Support::buildFullHeaders($issue_id, $message_id, $from,
-                '', '', 'Issue closed comments', $reason, '');
+                '', '', ev_gettext('Issue closed comments'), $reason, '');
 
             $structure = Mime_Helper::decode($full_email, true, false);
 
@@ -1297,7 +1297,7 @@ class Issue
                 'issue_id'      =>  $issue_id,
                 'message_id'    =>  $message_id,
                 'date'          =>  Date_Helper::getCurrentDateGMT(),
-                'subject'       =>  'Issue closed comments',
+                'subject'       =>  ev_gettext('Issue closed comments'),
                 'from'          =>  $from,
                 'has_attachment' =>  0,
                 'body'          =>  $reason,
@@ -1313,7 +1313,7 @@ class Issue
                 'send_notification' => false,
                 'closing'           => true,
             ];
-            Note::insertNote($usr_id, $issue_id, 'Issue closed comments', $reason, $options);
+            Note::insertNote($usr_id, $issue_id, ev_gettext('Issue closed comments'), $reason, $options);
             $ids = false;
         }
 
@@ -2317,7 +2317,41 @@ class Issue
 
             $dateDiff = Date_Helper::getFormattedDateDiff(time(), $last_date);
             $row['last_action_date_diff'] = $dateDiff;
-            $row['last_action_date_label'] = ucwords($label);
+            switch ($label) {
+                case "customer action":
+                    $label = ev_gettext('Customer Action'); break;
+                case "update":
+                    $label = ev_gettext('Update'); break;
+                case "updated":
+                    $label = ev_gettext('Updated'); break;
+                case "created":
+                    $label = ev_gettext('Created'); break;
+                case "closed":
+                    $label = ev_gettext('Closed'); break;
+                case "time added":
+                    $label = ev_gettext('Time Added'); break;
+                case "file uploaded":
+                    $label = ev_gettext('File Uploaded'); break;
+                case "draft saved":
+                    $label = ev_gettext('Draft Saved'); break;
+                case "note":
+                    $label = ev_gettext('Note'); break;
+                case "staff response":
+                    $label = ev_gettext('Staff Response'); break;
+                case "customer action":
+                    $label = ev_gettext('Customer Action'); break;
+                case "phone call":
+                    $label = ev_gettext('Phone Call'); break;
+                case "user response":
+                    $label = ev_gettext('User Response'); break;
+                case "email":
+                    $label = ev_gettext('Email'); break;
+                case "scm checkin":
+                    $label = ev_gettext('SCM Checkin'); break;
+                default:
+                    $label = ucwords($label);
+            }
+            $row['last_action_date_label'] = $label;
         }
     }
 
