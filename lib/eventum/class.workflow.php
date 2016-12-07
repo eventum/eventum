@@ -930,19 +930,37 @@ class Workflow
     }
 
     /**
-     * Called when an issue is moved from one project to another.
+     * Called when an issue is moved from this project to another.
      *
      * @param $prj_id
      * @param $issue_id
      * @param $new_prj_id
-     * @return null
      * @since 3.1.6
+     * @return null
      */
-    public static function handleIssueMoved($prj_id, $issue_id, $new_prj_id) {
+    public static function handleIssueMovedFromProject($prj_id, $issue_id, $new_prj_id)
+    {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return NULL;
         }
-        $backend = self::_getBackend($prj_id);
+        self::_getBackend($prj_id)->handleIssueMovedFromProject($prj_id, $issue_id, $new_prj_id);
+    }
+
+    /**
+     * Called when an issue is moved to this project from another.
+     *
+     * @param $prj_id
+     * @param $issue_id
+     * @param $old_prj_id
+     * @since 3.1.6
+     * @return null
+     */
+    public static function handleIssueMovedToProject($prj_id, $issue_id, $old_prj_id)
+    {
+        if (!self::hasWorkflowIntegration($prj_id)) {
+            return NULL;
+        }
+        self::_getBackend($prj_id)->handleIssueMovedToProject($prj_id, $issue_id, $old_prj_id);
     }
 
     /**
@@ -951,17 +969,17 @@ class Workflow
      * @param $prj_id
      * @param $issue_id
      * @param $mapping
-     * @param $new_prj_id
+     * @param $old_prj_id
      * @return array An array containing field names / values
      * @since 3.1.6
      */
-    public static function getMovedIssueMapping($prj_id, $issue_id, $mapping, $new_prj_id)
+    public static function getMovedIssueMapping($prj_id, $issue_id, $mapping, $old_prj_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return $mapping;
         }
         $backend = self::_getBackend($prj_id);
 
-        return $backend->getMovedIssueMapping($prj_id, $issue_id, $mapping, $new_prj_id);
+        return $backend->getMovedIssueMapping($prj_id, $issue_id, $mapping, $old_prj_id);
     }
 }

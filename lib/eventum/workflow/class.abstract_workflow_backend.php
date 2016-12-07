@@ -685,22 +685,34 @@ class Abstract_Workflow_Backend
      * @return null
      * @since 3.1.6
      */
-    public static function handleIssueMoved($prj_id, $issue_id, $new_prj_id)
+    public static function handleIssueMovedFromProject($prj_id, $issue_id, $new_prj_id)
+    {
+    }
+
+    /**
+     * Called when an issue is moved to this project from another.
+     *
+     * @param $prj_id
+     * @param $issue_id
+     * @param $old_prj_id
+     * @since 3.1.6
+     */
+    public static function handleIssueMovedToProject($prj_id, $issue_id, $old_prj_id)
     {
     }
 
 
     /**
-     * Returns fields to be updated when an issue is moved from one project to another.
+     * Returns fields to be updated when an issue is moved to this project from another.
      *
      * @param $prj_id
      * @param $issue_id
      * @param $mapping
-     * @param $new_prj_id
+     * @param $old_prj_id
      * @return array An array containing field names / values
      * @since 3.1.6
      */
-    public static function getMovedIssueMapping($prj_id, $issue_id, $mapping, $new_prj_id)
+    public static function getMovedIssueMapping($prj_id, $issue_id, $mapping, $old_prj_id)
     {
         return $mapping;
     }
