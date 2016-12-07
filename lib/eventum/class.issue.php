@@ -1660,7 +1660,8 @@ class Issue
         // clear project cache
         self::getProjectID($issue_id, true);
 
-        Workflow::handleIssueMoved($current_prj_id, $issue_id, $new_prj_id);
+        Workflow::handleIssueMovedFromProject($current_prj_id, $issue_id, $new_prj_id);
+        Workflow::handleIssueMovedToProject($new_prj_id, $issue_id, $current_prj_id);
 
         Notification::notifyNewIssue($new_prj_id, $issue_id);
 
@@ -1691,7 +1692,7 @@ class Issue
             $mapping['iss_pri_id'] = key($new_iss_pri_list);
         }
 
-        return Workflow::getMovedIssueMapping($current_details['iss_prj_id'], $issue_id, $mapping, $new_prj_id);
+        return Workflow::getMovedIssueMapping($new_prj_id, $issue_id, $mapping, $current_details['iss_prj_id']);
     }
 
     /**
