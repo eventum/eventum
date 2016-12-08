@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## 2016-??-??, Version [3.1.6]
+## 2016-12-08, Version [3.1.6]
 
 - Fix error caused by incomplete legacy code removal (@balsdorf, #221)
 - Swap order of note reply buttons for consistency (@balsdorf)
@@ -1239,7 +1239,7 @@ This release uses Composer for PHP Class autoloader.
 
 - Initial release (João; Bryan)
 
-[3.1.6]: https://github.com/eventum/eventum/compare/v3.1.5...master
+[3.1.6]: https://github.com/eventum/eventum/compare/v3.1.5...v3.1.6
 [3.1.5]: https://github.com/eventum/eventum/compare/v3.1.4...v3.1.5
 [3.1.4]: https://github.com/eventum/eventum/compare/v3.1.3...v3.1.4
 [3.1.3]: https://github.com/eventum/eventum/compare/v3.1.2...v3.1.3
