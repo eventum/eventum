@@ -20,7 +20,9 @@ Before opening [new issue](https://github.com/eventum/eventum/issues/new), first
 - Push to the branch (`git push -u origin fixing-blah`).
 - Create a new pull request.
 
-Do not update changelog or attempt to change version, the changes may not be merged on codebase you created patch for and it will just create annoying merge conflicts later.
+Commits follow good practices for message and content
+  - Write [good commit messages]
+  - Strive for [atomic commits] whenever you can
 
 ## Mailing Lists
 
@@ -29,3 +31,5 @@ Do not update changelog or attempt to change version, the changes may not be mer
 
   [1]: http://news.gmane.org/gmane.comp.bug-tracking.eventum.user
   [2]: http://news.gmane.org/gmane.comp.bug-tracking.eventum.devel
+[good commit messages]: http://chris.beams.io/posts/git-commit/
+[atomic commits]: http://www.freshconsulting.com/atomic-commits/
