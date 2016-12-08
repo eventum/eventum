@@ -1,5 +1,7 @@
 # Eventum Issue Tracking System
 
+## 201?-??-??, Version [3.1.7]
+
 ## 2016-12-08, Version [3.1.6]
 
 - Fix error caused by incomplete legacy code removal (@balsdorf, #221)
@@ -1239,6 +1241,7 @@ This release uses Composer for PHP Class autoloader.
 
 - Initial release (João; Bryan)
 
+[3.1.7]: https://github.com/eventum/eventum/compare/v3.1.6...master
 [3.1.6]: https://github.com/eventum/eventum/compare/v3.1.5...v3.1.6
 [3.1.5]: https://github.com/eventum/eventum/compare/v3.1.4...v3.1.5
 [3.1.4]: https://github.com/eventum/eventum/compare/v3.1.3...v3.1.4
