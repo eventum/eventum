@@ -31,7 +31,6 @@ if it fails the error is something like `DB Error: already exists`
   * see that tables created are also in upgrade/drop.sql
 - update translation keywords to launchpad
 this should be done day before release so launchpad cron would update .po files.
-- update git submodules to point to master
 
 Release process
 ---------------
@@ -40,9 +39,11 @@ Release process
 
 Do not forget to update changeset link to point to tag not master
 
+- Update git submodule to point to master
+
 - Create git tag
 ```
-$ git tag -s v3.1.6
+$ git tag -s v3.1.7
 ```
 - wait for Travis-CI to build release tarball, download and test it again
 - go to github releases page, edit the new tag
@@ -50,7 +51,7 @@ $ git tag -s v3.1.6
 - upload tarball and signature to the release
 - to create a digital signature, use the following command:
 ```
-% gpg --armor --sign --detach-sig eventum-3.1.6.tar.gz
+% gpg --armor --sign --detach-sig eventum-3.1.7.tar.gz
 ```
 - create tag also in wiki submodule
 
