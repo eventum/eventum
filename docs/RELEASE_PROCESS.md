@@ -73,4 +73,4 @@ $ git push launchpad
 - close old milestone
 - verify that you did not forget to update wiki submodule
 - update release number in init.php to indicate next dev version (`APP_VERSION`)
-c start new version entry in Changelog.md
+- start new version entry in Changelog.md
