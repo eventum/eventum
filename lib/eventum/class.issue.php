@@ -1635,55 +1635,64 @@ class Issue
      */
     public function moveIssue($issue_id, $new_prj_id)
     {
+        $current_prj_id = self::getProjectID($issue_id);
+        $mapping = self::getMovedIssueMapping($issue_id, $new_prj_id);
+
+        $values = [$new_prj_id];
         $stmt = 'UPDATE
               {{%issue}}
           SET
-              iss_prj_id = ?
+              iss_prj_id = ?';
+        foreach ($mapping as $fld_name => $fld_value)  {
+            $stmt .= ",\n$fld_name = ?";
+            $values[] = $fld_value;
+        }
+        $stmt .= '
           WHERE
               iss_id = ?';
+        $values[] = $issue_id;
         try {
-            DB_Helper::getInstance()->query($stmt, [$new_prj_id, $issue_id]);
+            DB_Helper::getInstance()->query($stmt, $values);
         } catch (DatabaseException $e) {
             return -1;
         }
 
-        $currentDetails = self::getDetails($issue_id);
-
-        // set new category
-        $new_iss_prc_list = Category::getAssocList($new_prj_id);
-        $iss_prc_title = Category::getTitle($currentDetails['iss_prc_id']);
-        $new_prc_id = array_search($iss_prc_title, $new_iss_prc_list);
-        if ($new_prc_id === false) {
-            // use the first category listed in the new project
-          $new_prc_id = key($new_iss_prc_list);
-        }
-
-        // set new priority
-        $new_iss_pri_list = Priority::getAssocList($new_prj_id);
-        $iss_pri_title = Priority::getTitle($currentDetails['iss_pri_id']);
-        $new_pri_id = array_search($iss_pri_title, $new_iss_pri_list);
-        if ($new_pri_id === false) {
-            // use the first category listed in the new project
-          $new_pri_id = key($new_iss_pri_list);
-        }
-
-        // XXX: Set status if needed when moving issue
-        $stmt = 'UPDATE
-              {{%issue}}
-          SET
-              iss_prc_id=?,
-              iss_pri_id=?
-          WHERE
-              iss_id=?';
-
-        DB_Helper::getInstance()->query($stmt, [$new_prc_id, $new_pri_id, $issue_id]);
-
         // clear project cache
         self::getProjectID($issue_id, true);
+
+        Workflow::handleIssueMovedFromProject($current_prj_id, $issue_id, $new_prj_id);
+        Workflow::handleIssueMovedToProject($new_prj_id, $issue_id, $current_prj_id);
 
         Notification::notifyNewIssue($new_prj_id, $issue_id);
 
         return 1;
+    }
+
+
+    private static function getMovedIssueMapping($issue_id, $new_prj_id)
+    {
+        $mapping = array();
+        $current_details = self::getDetails($issue_id);
+
+        // set new category
+        $new_iss_prc_list = Category::getAssocList($new_prj_id);
+        $iss_prc_title = Category::getTitle($current_details['iss_prc_id']);
+        $new_prc_id = array_search($iss_prc_title, $new_iss_prc_list);
+        if ($new_prc_id === false) {
+            // use the first category listed in the new project
+            $mapping['iss_prc_id'] = key($new_iss_prc_list);
+        }
+
+        // set new priority
+        $new_iss_pri_list = Priority::getAssocList($new_prj_id);
+        $iss_pri_title = Priority::getTitle($current_details['iss_pri_id']);
+        $new_pri_id = array_search($iss_pri_title, $new_iss_pri_list);
+        if ($new_pri_id === false) {
+            // use the first category listed in the new project
+            $mapping['iss_pri_id'] = key($new_iss_pri_list);
+        }
+
+        return Workflow::getMovedIssueMapping($new_prj_id, $issue_id, $mapping, $current_details['iss_prj_id']);
     }
 
     /**
