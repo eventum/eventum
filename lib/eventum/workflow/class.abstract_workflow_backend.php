@@ -677,13 +677,12 @@ class Abstract_Workflow_Backend
     }
 
     /**
-     * Called when an issue is moved from one project to another
+     * Called when an issue is moved from this project to another.
      *
-     * @param $prj_id
-     * @param $issue_id
-     * @param $new_prj_id
-     * @return null
-     * @since 3.1.6
+     * @param $prj_id integer
+     * @param $issue_id integer
+     * @param $new_prj_id integer
+     * @since 3.1.7
      */
     public static function handleIssueMovedFromProject($prj_id, $issue_id, $new_prj_id)
     {
@@ -692,25 +691,24 @@ class Abstract_Workflow_Backend
     /**
      * Called when an issue is moved to this project from another.
      *
-     * @param $prj_id
-     * @param $issue_id
-     * @param $old_prj_id
-     * @since 3.1.6
+     * @param $prj_id integer
+     * @param $issue_id integer
+     * @param $old_prj_id integer
+     * @since 3.1.7
      */
     public static function handleIssueMovedToProject($prj_id, $issue_id, $old_prj_id)
     {
     }
 
-
     /**
-     * Returns fields to be updated when an issue is moved to this project from another.
+     * Returns fields to be updated when an issue is moved from one project to another.
      *
-     * @param $prj_id
-     * @param $issue_id
-     * @param $mapping
-     * @param $old_prj_id
-     * @return array An array containing field names / values
-     * @since 3.1.6
+     * @param $prj_id integer The ID of the project the issue is being moved to
+     * @param $issue_id integer
+     * @param $mapping array a key/value array containing default mappings
+     * @param $old_prj_id integer The ID of the project the issue is being moved from
+     * @return array A key/value array with the keys being field names in the issue table
+     * @since 3.1.7
      */
     public static function getMovedIssueMapping($prj_id, $issue_id, $mapping, $old_prj_id)
     {
