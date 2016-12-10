@@ -164,8 +164,6 @@ if (!$total) {
 /** @var Closure $log */
 $log("Total $total rows, this may take time. Please be patient.");
 
-$res = $db->query("select his_id,his_summary from {{%issue_history}} where his_context=''");
-
 foreach ($his_ids as $his_id) {
     $his_summary = $db->getOne('SELECT his_summary FROM {{%issue_history}} WHERE his_id=?', [$his_id]);
 
