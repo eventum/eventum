@@ -44,8 +44,10 @@ script:
 # https://docs.travis-ci.com/user/deployment/releases
 deploy:
   provider: releases
-  api_key:
-    secure: Fd00429tuyw6fX8br8jiYaPFLYZvoSDMUyQ3xBj9TsUS8/LgxwHXKWGYz4JHvms4e8QgQd9vuI0gN3M9tzG0/SFph+rj1p5BlfRH35xO8F/FDzUyL0B63ozScBFVf+R9SAHwILPKbHNQy/xcw3Iw8KiLc9klSWMU6PY0Ux/tiEg=
+  # Create token in https://github.com/settings/tokens and set as env var:
+  # $ travis env set -p GITHUB_API_TOKEN ...
+  # or via https://travis-ci.org/eventum/eventum/settings
+  api_key: $GITHUB_API_TOKEN
   file_glob: true
   file:
     - eventum-*.tar.gz
