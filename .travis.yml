@@ -39,7 +39,7 @@ install:
 script:
   - bin/ci/check_patches.sh
   - echo phpunit -v --debug
-  - test "$RELEASE" = "yes" && bin/ci/dist.sh
+  - bin/ci/dist.sh
 
 # https://docs.travis-ci.com/user/deployment/releases
 deploy:
