@@ -11,6 +11,9 @@
  * that were distributed with this source code.
  */
 
+use Eventum\RPC\RemoteApi;
+use Eventum\RPC\XmlRpcServer;
+
 require_once __DIR__ . '/../../init.php';
 
 // close session

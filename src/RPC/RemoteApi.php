@@ -11,14 +11,35 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Monolog\Logger;
+namespace Eventum\RPC;
 
-class RemoteApiException extends RuntimeException
-{
-}
+use APIAuthToken;
+use Attachment;
+use Auth;
+use AuthCookie;
+use Authorized_Replier;
+use CRM;
+use CRMException;
+use Custom_Field;
+use Date_Helper;
+use DateTime;
+use Draft;
+use Eventum\Monolog\Logger;
+use InvalidArgumentException;
+use Issue;
+use Note;
+use Project;
+use Report;
+use Resolution;
+use Setup;
+use Status;
+use Support;
+use Template_Helper;
+use Time_Tracking;
+use User;
 
 /**
- * Class RemoteApi
+ * Class Eventum\RPC\RemoteApi
  *
  * All public non-static methods are exposed for XMLRPC
  */
@@ -63,11 +84,12 @@ class RemoteApi
         }
 
         return [
-            'summary'          => $details['iss_summary'],
-            'customer'         => isset($details['customer_info']['customer_name']) ? $details['customer_info']['customer_name'] : null,
-            'status'           => $details['sta_title'],
-            'is_closed'        => $details['sta_is_closed'],
-            'assignments'      => $details['assignments'],
+            'summary' => $details['iss_summary'],
+            'customer' => isset($details['customer_info']['customer_name']) ? $details['customer_info']['customer_name']
+                : null,
+            'status' => $details['sta_title'],
+            'is_closed' => $details['sta_is_closed'],
+            'assignments' => $details['assignments'],
             'authorized_names' => implode(', ', $details['authorized_names']),
         ];
     }
@@ -94,10 +116,10 @@ class RemoteApi
         $structs = [];
         foreach ($results as $res) {
             $structs[] = [
-                'issue_id'       => $res['iss_id'],
-                'summary'        => $res['iss_summary'],
+                'issue_id' => $res['iss_id'],
+                'summary' => $res['iss_summary'],
                 'assigned_users' => $res['assigned_users'],
-                'status'         => $res['sta_title'],
+                'status' => $res['sta_title'],
             ];
         }
 
@@ -166,13 +188,15 @@ class RemoteApi
 
         $res = Project::getRemoteAssocListByUser($usr_id, $only_customer_projects);
         if (empty($res)) {
-            throw new RemoteApiException('You are not assigned to any projects at this moment or you lack the proper role');
+            throw new RemoteApiException(
+                'You are not assigned to any projects at this moment or you lack the proper role'
+            );
         }
 
         $structs = [];
         foreach ($res as $prj_id => $prj_title) {
             $structs[] = [
-                'id'    => $prj_id,
+                'id' => $prj_id,
                 'title' => $prj_title,
             ];
         }
@@ -565,11 +589,11 @@ class RemoteApi
         if (isset($setup['description_email_0']) && $setup['description_email_0'] == 'enabled') {
             $issue = Issue::getDetails($issue_id);
             $email = [
-                'id'          => 0,
-                'sup_date'    => $issue['iss_created_date'],
-                'sup_from'    => $issue['reporter'],
-                'sup_to'      => '',
-                'sup_cc'      => '',
+                'id' => 0,
+                'sup_date' => $issue['iss_created_date'],
+                'sup_from' => $issue['reporter'],
+                'sup_to' => '',
+                'sup_cc' => '',
                 'sup_subject' => $issue['iss_summary'],
             ];
             if ($real_emails != '') {
@@ -596,15 +620,15 @@ class RemoteApi
             // return issue description instead
             $issue = Issue::getDetails($issue_id);
             $email = [
-                'sup_date'           => $issue['iss_created_date'],
-                'sup_from'           => $issue['reporter'],
-                'sup_to'             => '',
-                'recipients'         => '',
-                'sup_cc'             => '',
+                'sup_date' => $issue['iss_created_date'],
+                'sup_from' => $issue['reporter'],
+                'sup_to' => '',
+                'recipients' => '',
+                'sup_cc' => '',
                 'sup_has_attachment' => 0,
-                'sup_subject'        => $issue['iss_summary'],
-                'message'            => $issue['iss_original_description'],
-                'seb_full_email'     => $issue['iss_original_description'],
+                'sup_subject' => $issue['iss_summary'],
+                'message' => $issue['iss_original_description'],
+                'seb_full_email' => $issue['iss_original_description'],
             ];
         } else {
             $email = Support::getEmailBySequence($issue_id, $email_id);
@@ -746,10 +770,12 @@ class RemoteApi
         ];
         $tpl = new Template_Helper();
         $tpl->setTemplate('reports/weekly_data.tpl.html');
-        $tpl->assign([
-            'report_type' => 'weekly',
-            'data' => Report::getWeeklyReport($usr_id, $prj_id, $start, $end, $options),
-        ]);
+        $tpl->assign(
+            [
+                'report_type' => 'weekly',
+                'data' => Report::getWeeklyReport($usr_id, $prj_id, $start, $end, $options),
+            ]
+        );
 
         $ret = strip_tags($tpl->getTemplateContents()) . "\n";
 
