@@ -940,7 +940,7 @@ class Workflow
     public static function handleIssueMovedFromProject($prj_id, $issue_id, $new_prj_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return NULL;
+            return null;
         }
         self::_getBackend($prj_id)->handleIssueMovedFromProject($prj_id, $issue_id, $new_prj_id);
     }
@@ -956,7 +956,7 @@ class Workflow
     public static function handleIssueMovedToProject($prj_id, $issue_id, $old_prj_id)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
-            return NULL;
+            return null;
         }
         self::_getBackend($prj_id)->handleIssueMovedToProject($prj_id, $issue_id, $old_prj_id);
     }

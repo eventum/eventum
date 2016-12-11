@@ -1643,7 +1643,7 @@ class Issue
               {{%issue}}
           SET
               iss_prj_id = ?';
-        foreach ($mapping as $fld_name => $fld_value)  {
+        foreach ($mapping as $fld_name => $fld_value) {
             $stmt .= ",\n$fld_name = ?";
             $values[] = $fld_value;
         }
@@ -1668,10 +1668,9 @@ class Issue
         return 1;
     }
 
-
     private static function getMovedIssueMapping($issue_id, $new_prj_id)
     {
-        $mapping = array();
+        $mapping = [];
         $current_details = self::getDetails($issue_id);
 
         // set new category
