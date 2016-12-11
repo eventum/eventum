@@ -18,6 +18,9 @@ matrix:
     - php: hhvm
     - php: nightly
     - php: 7.0
+  include:
+    - php: "5.5"
+      env: RELEASE=yes
 
 cache:
   apt: true
@@ -27,9 +30,6 @@ cache:
     - vendor
 
 before_install:
-  - bin/ci/tools.sh
-  - bin/ci/locales.sh
-
   - mkdir -p ~/.phpenv/versions/$(phpenv version-name)/etc
   - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - if ! phpenv config-rm xdebug.ini; then :; fi
@@ -42,6 +42,7 @@ install:
 script:
   - bin/ci/check_patches.sh
   - echo phpunit -v --debug
+  - test "$RELEASE" = "yes" && bin/ci/dist.sh
 
 # https://docs.travis-ci.com/user/deployment/releases
 deploy:
