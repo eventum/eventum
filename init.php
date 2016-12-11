@@ -141,14 +141,4 @@ if (APP_MAINTENANCE) {
 $define('APP_EVENTUM_IRC_CATEGORY_DEFAULT', 'default');
 $define('APP_EVENTUM_IRC_CATEGORY_REMINDER', APP_EVENTUM_IRC_CATEGORY_DEFAULT);
 
-// legacy constants, enable this block if you need time to migrate custom workflow, custom_field, customer, etc classes
-/*
-if (!defined('APP_DEFAULT_DB') || !defined('APP_TABLE_PREFIX')) {
-    $dbconfig = DB_Helper::getConfig();
-    $define('APP_DEFAULT_DB', $dbconfig['database']);
-    $define('APP_TABLE_PREFIX', $dbconfig['table_prefix']);
-    unset($dbconfig);
-}
-*/
-
 Eventum\DebugBar::initialize();
