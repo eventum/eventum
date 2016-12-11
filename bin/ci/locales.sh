@@ -9,7 +9,3 @@ sudo apt-get --reinstall install -qq \
 # display some info from system
 dpkg --list | grep language-pack
 locale -a
-
-# pull translations from launchpad
-bzr branch lp:~glen666/eventum/po po
-cp -af po/localization/*.po localization
