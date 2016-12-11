@@ -5,45 +5,6 @@ sudo: false
 git:
   submodules: false
 
-addons:
-  apt:
-    packages:
-    # install all locales used by eventum
-    - language-pack-br
-    - language-pack-ca
-    - language-pack-cs
-    - language-pack-da
-    - language-pack-de
-    - language-pack-eo
-    - language-pack-es
-    - language-pack-et
-    - language-pack-fi
-    - language-pack-fo
-    - language-pack-fr
-    - language-pack-he
-    - language-pack-ht
-    - language-pack-hu
-    - language-pack-id
-    - language-pack-it
-    - language-pack-ja
-    - language-pack-ko
-    - language-pack-lt
-    - language-pack-lv
-    - language-pack-nl
-    - language-pack-oc
-    - language-pack-pl
-    - language-pack-pt
-    - language-pack-ru
-    - language-pack-si
-    - language-pack-sv
-    - language-pack-ta
-    - language-pack-th
-    - language-pack-tr
-    - language-pack-uk
-    - language-pack-ur
-    - language-pack-vi
-    - language-pack-zh-hans
-
 php:
   - 7.0
   - 5.6
@@ -67,16 +28,11 @@ cache:
 
 before_install:
   - bin/ci/tools.sh
+  - bin/ci/locales.sh
 
-  # display some info from system
-  - dpkg --list | grep language-pack
   - mkdir -p ~/.phpenv/versions/$(phpenv version-name)/etc
   - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - if ! phpenv config-rm xdebug.ini; then :; fi
-  - locale -a
-  # pull translations from launchpad
-  - bzr branch lp:~glen666/eventum/po po
-  - cp -af po/localization/*.po localization
 
 install:
   # disable secure-http because sourceforge redirects to http:// urls
