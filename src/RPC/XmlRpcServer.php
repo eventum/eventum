@@ -17,32 +17,32 @@ use APIAuthToken;
 use Auth;
 use AuthCookie;
 use Exception;
+use PhpXmlRpc;
 use ReflectionClass;
 use ReflectionMethod;
-use XML_RPC_Message;
-use XML_RPC_Response;
-use XML_RPC_Server;
 
 class XmlRpcServer
 {
-    /**
-     * @var RemoteApi
-     */
+    /** @var RemoteApi */
     protected $api;
 
-    /**
-     * @var \ReflectionClass
-     */
+    /** @var \ReflectionClass */
     protected $reflectionClass;
+
+    /** @var PhpXmlRpc\Server */
+    protected $server;
+
+    /** @var PhpXmlRpc\Encoder */
+    protected $encoder;
 
     public function __construct($api)
     {
         $this->api = $api;
         $this->reflectionClass = new ReflectionClass($this->api);
+        $this->encoder = new PhpXmlRpc\Encoder();
 
         $services = $this->getXmlRpcMethodSignatures();
-        $server = new XML_RPC_Server($services);
-        $this->server = $server;
+        $this->server = new PhpXmlRpc\Server($services);
     }
 
     /**
@@ -219,11 +219,11 @@ class XmlRpcServer
     private function getFunctionDecorator($method, $public, $pdesc)
     {
         $function = function ($message) use ($method, $public, $pdesc) {
-            /** @var XML_RPC_Message $message */
+            /** @var PhpXmlRpc\Request $message */
             $params = [];
             $n = $message->getNumParams();
             for ($i = 0; $i < $n; $i++) {
-                $params[] = XML_RPC_decode($message->getParam($i));
+                $params[] = $this->encoder->decode($message->getParam($i));
             }
 
             return $this->handle($method, $params, $public, $pdesc);
@@ -241,10 +241,6 @@ class XmlRpcServer
      */
     private function handle($method, $params, $public, $pdesc)
     {
-        // there's method to set this via $client->setAutoBase64(true);
-        // but nothing at server side. where we actually need it
-        $GLOBALS['XML_RPC_auto_base64'] = true;
-
         try {
             if (!$public) {
                 list($email, $password) = $this->getAuthParams($params);
@@ -269,13 +265,14 @@ class XmlRpcServer
 
             $res = $method->invokeArgs($this->api, $params);
         } catch (Exception $e) {
-            global $XML_RPC_erruser;
             $code = $e->getCode() ?: 1;
-            $res = new XML_RPC_Response(0, $XML_RPC_erruser + $code, $e->getMessage());
+            $code += PhpXmlRpc\PhpXmlRpc::$xmlrpcerruser;
+
+            $res = new PhpXmlRpc\Response(0, $code, $e->getMessage());
         }
 
-        if (!$res instanceof XML_RPC_Response) {
-            $res = new XML_RPC_Response(XML_RPC_Encode($res));
+        if (!$res instanceof PhpXmlRpc\Response) {
+            $res = new PhpXmlRpc\Response($this->encoder->encode($res));
         }
 
         return $res;
