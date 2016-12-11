@@ -17,9 +17,6 @@ class RemoteApiTest extends TestCase
 {
     const DEBUG = 0;
 
-    private $login = 'admin@example.com';
-    private $password = 'admin';
-
     /** @var RemoteApi */
     private static $client;
 
@@ -32,9 +29,12 @@ class RemoteApiTest extends TestCase
 
         /*
          * 'tests.xmlrpc_url' => 'http://localhost/eventum/rpc/xmlrpc.php',
+         * 'tests.xmlrpc_login' => 'admin@example.com',
+         * 'tests.xmlrpc_token' => 'admin',
          */
 
         $client = new Eventum_RPC($setup['tests.xmlrpc_url']);
+        $client->setCredentials($setup['tests.xmlrpc_login'], $setup['tests.xmlrpc_token']);
         $client->setDebug(self::DEBUG);
 
         self::$client = $client;
@@ -46,7 +46,7 @@ class RemoteApiTest extends TestCase
     public function testGetDeveloperList()
     {
         $prj_id = 1;
-        $res = self::$client->getDeveloperList($this->login, $this->password, $prj_id);
+        $res = self::$client->getDeveloperList($prj_id);
         $this->assertInternalType('array', $res);
         $this->assertArrayHasKey('Admin User', $res);
         $this->assertEquals('admin@example.com', $res['Admin User']);
@@ -58,7 +58,7 @@ class RemoteApiTest extends TestCase
     public function testGetSimpleIssueDetails()
     {
         $issue_id = 1;
-        $res = self::$client->getSimpleIssueDetails($this->login, $this->password, $issue_id);
+        $res = self::$client->getSimpleIssueDetails($issue_id);
         $this->assertInternalType('array', $res);
         $this->assertArrayHasKey('summary', $res);
         $this->assertArrayHasKey('customer', $res);
@@ -75,7 +75,7 @@ class RemoteApiTest extends TestCase
         $prj_id = 1;
         $show_all_issues = true;
         $status = '';
-        $res = self::$client->getOpenIssues($this->login, $this->password, $prj_id, $show_all_issues, $status);
+        $res = self::$client->getOpenIssues($prj_id, $show_all_issues, $status);
 
         $this->assertInternalType('array', $res);
         $this->assertArrayHasKey('0', $res);
@@ -112,7 +112,7 @@ class RemoteApiTest extends TestCase
     public function testGetUserAssignedProjects()
     {
         $only_customer_projects = false;
-        $res = self::$client->getUserAssignedProjects($this->login, $this->password, $only_customer_projects);
+        $res = self::$client->getUserAssignedProjects($only_customer_projects);
         $exp = [
             [
                 'id'    => '1',
@@ -128,7 +128,7 @@ class RemoteApiTest extends TestCase
     public function testGetIssueDetails()
     {
         $issue_id = 1;
-        $res = self::$client->getIssueDetails($this->login, $this->password, $issue_id);
+        $res = self::$client->getIssueDetails($issue_id);
         $this->assertInternalType('array', $res);
         $this->assertArrayHasKey('iss_id', $res);
         $this->assertEquals(1, $res['iss_id']);
@@ -140,7 +140,7 @@ class RemoteApiTest extends TestCase
     public function testGetTimeTrackingCategories()
     {
         $issue_id = 1;
-        $res = self::$client->getTimeTrackingCategories($this->login, $this->password, $issue_id);
+        $res = self::$client->getTimeTrackingCategories($issue_id);
         $this->assertInternalType('array', $res);
         $this->assertContains('Tech-Support', $res);
     }
@@ -154,7 +154,7 @@ class RemoteApiTest extends TestCase
         $cat_id = 1;
         $summary = __FUNCTION__;
         $time_spent = 10;
-        $res = self::$client->recordTimeWorked($this->login, $this->password, $issue_id, $cat_id, $summary, $time_spent);
+        $res = self::$client->recordTimeWorked($issue_id, $cat_id, $summary, $time_spent);
 
         $this->assertEquals('OK', $res);
     }
@@ -166,7 +166,7 @@ class RemoteApiTest extends TestCase
     {
         $issue_id = 1;
         $new_status = 'implementation';
-        $res = self::$client->setIssueStatus($this->login, $this->password, $issue_id, $new_status);
+        $res = self::$client->setIssueStatus($issue_id, $new_status);
 
         $this->assertEquals('OK', $res);
     }
@@ -179,7 +179,7 @@ class RemoteApiTest extends TestCase
         $issue_id = 1;
         $prj_id = 1;
         $developer = 'admin@example.com';
-        $res = self::$client->assignIssue($this->login, $this->password, $issue_id, $prj_id, $developer);
+        $res = self::$client->assignIssue($issue_id, $prj_id, $developer);
 
         $this->assertEquals('OK', $res);
     }
@@ -192,7 +192,7 @@ class RemoteApiTest extends TestCase
         $issue_id = 1;
         $prj_id = 1;
         try {
-            $res = self::$client->takeIssue($this->login, $this->password, $issue_id, $prj_id);
+            $res = self::$client->takeIssue($issue_id, $prj_id);
             $this->assertEquals('OK', $res);
         } catch (Exception $e) {
             // already assigned
@@ -208,7 +208,7 @@ class RemoteApiTest extends TestCase
         $issue_id = 1;
         $prj_id = 1;
         $new_replier = 'admin@example.com';
-        $res = self::$client->addAuthorizedReplier($this->login, $this->password, $issue_id, $prj_id, $new_replier);
+        $res = self::$client->addAuthorizedReplier($issue_id, $prj_id, $new_replier);
 
         $this->assertEquals('OK', $res);
     }
@@ -221,7 +221,7 @@ class RemoteApiTest extends TestCase
         $issue_id = 1;
 
         try {
-            $res = self::$client->getFileList($this->login, $this->password, $issue_id);
+            $res = self::$client->getFileList($issue_id);
 
             $this->assertInternalType('array', $res);
             $this->assertArrayHasKey('0', $res);
@@ -243,7 +243,7 @@ class RemoteApiTest extends TestCase
     {
         $file_id = 1;
 
-        $res = self::$client->getFile($this->login, $this->password, $file_id);
+        $res = self::$client->getFile($file_id);
 
         $this->assertInternalType('array', $res);
         $this->assertArrayHasKey('iat_id', $res);
@@ -261,7 +261,7 @@ class RemoteApiTest extends TestCase
         $value = 'id';
 
         try {
-            $res = self::$client->lookupCustomer($this->login, $this->password, $prj_id, $field, $value);
+            $res = self::$client->lookupCustomer($prj_id, $field, $value);
             $this->assertInternalType('string', $res);
         } catch (Exception $e) {
             $this->assertEquals("Customer Integration not enabled for project $prj_id", $e->getMessage());
@@ -281,7 +281,7 @@ class RemoteApiTest extends TestCase
         $send_notification = false;
         $note = __FUNCTION__;
 
-        $res = self::$client->closeIssue($this->login, $this->password, $issue_id, $new_status, $resolution_id, $send_notification, $note);
+        $res = self::$client->closeIssue($issue_id, $new_status, $resolution_id, $send_notification, $note);
 
         $this->assertEquals('OK', $res);
     }
@@ -292,7 +292,7 @@ class RemoteApiTest extends TestCase
     public function testGetClosedAbbreviationAssocList()
     {
         $prj_id = 1;
-        $res = self::$client->getClosedAbbreviationAssocList($this->login, $this->password, $prj_id);
+        $res = self::$client->getClosedAbbreviationAssocList($prj_id);
         $exp = [
             'REL' => 'released',
             'KIL' => 'killed',
@@ -307,7 +307,7 @@ class RemoteApiTest extends TestCase
     {
         $prj_id = 1;
         $show_closed = false;
-        $res = self::$client->getAbbreviationAssocList($this->login, $this->password, $prj_id, $show_closed);
+        $res = self::$client->getAbbreviationAssocList($prj_id, $show_closed);
         $exp = [
             'DSC' => 'discovery',
             'REQ' => 'requirements',
@@ -323,7 +323,7 @@ class RemoteApiTest extends TestCase
     public function testGetEmailListing()
     {
         $issue_id = 1;
-        $res = self::$client->getEmailListing($this->login, $this->password, $issue_id);
+        $res = self::$client->getEmailListing($issue_id);
         $this->assertInternalType('array', $res);
         $this->assertArrayHasKey('0', $res);
 
@@ -341,7 +341,7 @@ class RemoteApiTest extends TestCase
         $issue_id = 1;
         $emai_id = 1;
         try {
-            $res = self::$client->getEmail($this->login, $this->password, $issue_id, $emai_id);
+            $res = self::$client->getEmail($issue_id, $emai_id);
         } catch (Exception $e) {
         }
         $this->markTestIncomplete('no test data');
@@ -353,7 +353,7 @@ class RemoteApiTest extends TestCase
     public function testGetNoteListing()
     {
         $issue_id = 1;
-        $res = self::$client->getNoteListing($this->login, $this->password, $issue_id);
+        $res = self::$client->getNoteListing($issue_id);
         $this->assertInternalType('array', $res);
         $this->arrayHasKey('0', $res);
 
@@ -370,7 +370,7 @@ class RemoteApiTest extends TestCase
     {
         $issue_id = 1;
         $note_id = 1;
-        $res = self::$client->getNote($this->login, $this->password, $issue_id, $note_id);
+        $res = self::$client->getNote($issue_id, $note_id);
         $this->assertInternalType('array', $res);
 
         $this->assertArrayHasKey('not_id', $res);
@@ -388,7 +388,7 @@ class RemoteApiTest extends TestCase
         $target = 'email';
         $authorize_sender = false;
         try {
-            $res = self::$client->convertNote($this->login, $this->password, $issue_id, $note_id, $target, $authorize_sender);
+            $res = self::$client->convertNote($issue_id, $note_id, $target, $authorize_sender);
         } catch (Exception $e) {
         }
     }
@@ -399,7 +399,7 @@ class RemoteApiTest extends TestCase
     public function testMayChangeIssue()
     {
         $issue_id = 1;
-        $res = self::$client->mayChangeIssue($this->login, $this->password, $issue_id);
+        $res = self::$client->mayChangeIssue($issue_id);
         $this->assertEquals('no', $res);
     }
 
@@ -412,7 +412,7 @@ class RemoteApiTest extends TestCase
         $start = '';
         $end = '';
         $separate_closed = false;
-        $res = self::$client->getWeeklyReport($this->login, $this->password, $week, $start, $end, $separate_closed);
+        $res = self::$client->getWeeklyReport($week, $start, $end, $separate_closed);
         $this->assertRegExp('/Admin User.*Weekly Report/', $res);
     }
 
@@ -440,7 +440,7 @@ class RemoteApiTest extends TestCase
     public function testTimeClock()
     {
         $action = 'out';
-        $res = self::$client->timeClock($this->login, $this->password, $action);
+        $res = self::$client->timeClock($action);
         $this->assertEquals("admin@example.com successfully clocked out.\n", $res);
     }
 
@@ -450,7 +450,7 @@ class RemoteApiTest extends TestCase
     public function testGetDraftListing()
     {
         $issue_id = 1;
-        $res = self::$client->getDraftListing($this->login, $this->password, $issue_id);
+        $res = self::$client->getDraftListing($issue_id);
         $this->assertInternalType('array', $res);
         $this->arrayHasKey('0', $res);
 
@@ -467,7 +467,7 @@ class RemoteApiTest extends TestCase
     {
         $issue_id = 1;
         $draft_id = 1;
-        $res = self::$client->getDraft($this->login, $this->password, $issue_id, $draft_id);
+        $res = self::$client->getDraft($issue_id, $draft_id);
         $this->assertInternalType('array', $res);
         $this->assertArrayHasKey('emd_id', $res);
         $this->assertArrayHasKey('emd_status', $res);
@@ -482,7 +482,7 @@ class RemoteApiTest extends TestCase
         $issue_id = 1;
         $draft_id = 1;
         try {
-            $res = self::$client->sendDraft($this->login, $this->password, $issue_id, $draft_id);
+            $res = self::$client->sendDraft($issue_id, $draft_id);
         } catch (Exception $e) {
         }
     }
@@ -495,7 +495,7 @@ class RemoteApiTest extends TestCase
         $issue_id = 1;
         $types = [];
         try {
-            $res = self::$client->redeemIssue($this->login, $this->password, $issue_id, $types);
+            $res = self::$client->redeemIssue($issue_id, $types);
             $this->assertEquals('OK', $res);
         } catch (Exception $e) {
             $this->assertEquals('No customer integration for issue #1', $e->getMessage());
@@ -510,7 +510,7 @@ class RemoteApiTest extends TestCase
         $issue_id = 1;
         $types = [];
         try {
-            $res = self::$client->unredeemIssue($this->login, $this->password, $issue_id, $types);
+            $res = self::$client->unredeemIssue($issue_id, $types);
             $this->assertEquals('OK', $res);
         } catch (Exception $e) {
             $this->assertEquals('No customer integration for issue #1', $e->getMessage());
@@ -526,7 +526,7 @@ class RemoteApiTest extends TestCase
         $redeemed_only = false;
 
         try {
-            $res = self::$client->getIncidentTypes($this->login, $this->password, $issue_id, $redeemed_only);
+            $res = self::$client->getIncidentTypes($issue_id, $redeemed_only);
         } catch (Exception $e) {
             $this->assertEquals('No customer integration for issue #1', $e->getMessage());
         }
@@ -538,7 +538,7 @@ class RemoteApiTest extends TestCase
     public function testLogCommand()
     {
         $command = 'hello world';
-        $res = self::$client->logCommand($this->login, $this->password, $command);
+        $res = self::$client->logCommand($command);
         $this->assertEquals('OK', $res);
     }
 }
