@@ -51,7 +51,6 @@
 	"prefer-stable": true,
 	"require": {
 		"defuse/php-encryption": "~1.2.1",
-		"eventum/rpc": "~3.0.0",
 		"ext-filter": "*",
 		"ext-iconv": "*",
 		"ext-json": "*",
@@ -108,6 +107,7 @@
 		"components/jqueryui": "1.11.*",
 		"drmonty/garlicjs": "~1.2.4",
 		"enyo/dropzone": "~4.0.1",
+		"eventum/rpc": "~4.0.0",
 		"jackmoore/autosize":"*",
 		"jasig/phpcas":"~1.3.3",
 		"malsup/form" :"*",
