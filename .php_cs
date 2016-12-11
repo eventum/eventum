@@ -19,6 +19,7 @@ Symfony\CS\Fixer\Contrib\HeaderCommentFixer::setHeader($header);
 $files = explode("\n", shell_exec('git ls-files'));
 $finder = Symfony\CS\Finder\DefaultFinder::create()
 	->in(__DIR__)
+	->notPath('localization/LINGUAS.php')
 	// this filter would accept only files that are present in Git
 	->filter(function(\SplFileInfo $file) use (&$files) {
 		$key = array_search($file->getRelativePathname(), $files);
