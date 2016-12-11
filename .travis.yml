@@ -41,6 +41,9 @@ script:
   - echo phpunit -v --debug
   - bin/ci/dist.sh
 
+before_deploy:
+  - bin/ci/changelog.sh
+
 # https://docs.travis-ci.com/user/deployment/releases
 deploy:
   provider: releases
