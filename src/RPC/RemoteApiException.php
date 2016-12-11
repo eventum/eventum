@@ -13,13 +13,8 @@
 
 namespace Eventum\RPC;
 
-/*
- * Fake classes for RemoteApi phpdoc annotation
- */
-abstract class struct implements \ArrayAccess, \Iterator, \Countable
-{
-}
+use RuntimeException;
 
-abstract class base64
+class RemoteApiException extends RuntimeException
 {
 }

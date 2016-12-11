@@ -11,6 +11,18 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\RPC;
+
+use APIAuthToken;
+use Auth;
+use AuthCookie;
+use Exception;
+use ReflectionClass;
+use ReflectionMethod;
+use XML_RPC_Message;
+use XML_RPC_Response;
+use XML_RPC_Server;
+
 class XmlRpcServer
 {
     /**
@@ -237,7 +249,11 @@ class XmlRpcServer
             if (!$public) {
                 list($email, $password) = $this->getAuthParams($params);
 
-                if (!Auth::isCorrectPassword($email, $password) && !APIAuthToken::isTokenValidForEmail($password, $email)) {
+                if (!Auth::isCorrectPassword($email, $password)
+                    && !APIAuthToken::isTokenValidForEmail(
+                        $password, $email
+                    )
+                ) {
                     // FIXME: role is not checked here
                     throw new RemoteApiException(
                         "Authentication failed for $email. Your login/password/api key is invalid or you do not have the proper role."
