@@ -89,24 +89,6 @@ class RemoteApiTest extends TestCase
     }
 
     /**
-     * @covers RemoteApi::isValidLogin
-     */
-    public function testIsValidLogin()
-    {
-        $res = self::$client->isValidLogin($this->login, $this->password);
-        $this->assertInternalType('boolean', $res);
-        $this->assertEquals(true, $res);
-
-        $res = self::$client->isValidLogin($this->login . '1', $this->password);
-        $this->assertInternalType('boolean', $res);
-        $this->assertEquals(false, $res);
-
-        $res = self::$client->isValidLogin($this->login . '1', $this->password . '1');
-        $this->assertInternalType('boolean', $res);
-        $this->assertEquals(false, $res);
-    }
-
-    /**
      * @covers RemoteApi::getUserAssignedProjects
      */
     public function testGetUserAssignedProjects()
