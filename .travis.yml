@@ -1,5 +1,5 @@
 language: php
-sudo: false
+sudo: required
 
 # disable the default submodule logic
 git:
