@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 class Access
 {
     /**
@@ -505,7 +507,6 @@ class Access
 
     public static function canExportData($usr_id)
     {
-        $prj_id = Auth::getCurrentProject();
         if (User::isPartner($usr_id)) {
             $partner = Partner::canUserAccessFeature($usr_id, 'reports');
             if (is_bool($partner)) {
@@ -571,7 +572,7 @@ class Access
                     ial_usr_id = ?,
                     ial_created = ?';
         try {
-            $res = DB_Helper::getInstance()->query($sql, [$issue_id, $usr_id, Date_Helper::getCurrentDateGMT()]);
+            DB_Helper::getInstance()->query($sql, [$issue_id, $usr_id, Date_Helper::getCurrentDateGMT()]);
             History::add($issue_id, Auth::getUserID(), 'access_list_added', 'Access list entry ({target_user}) added by {user}', [
                 'target_user' => User::getFullName($usr_id),
                 'user' => User::getFullName(Auth::getUserID())
@@ -591,7 +592,7 @@ class Access
                     ial_iss_id = ? AND
                     ial_usr_id = ?';
         try {
-            $res = DB_Helper::getInstance()->query($sql, [$issue_id, $usr_id]);
+            DB_Helper::getInstance()->query($sql, [$issue_id, $usr_id]);
             History::add($issue_id, Auth::getUserID(), 'access_list_removed', 'Access list entry ({target_user}) removed by {user}', [
                 'target_user' => User::getFullName($usr_id),
                 'user' => User::getFullName(Auth::getUserID())
@@ -669,7 +670,7 @@ class Access
             isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null
         ];
         try {
-            $res = DB_Helper::getInstance()->query($sql, $params);
+            DB_Helper::getInstance()->query($sql, $params);
         } catch (DatabaseException $e) {
             // do nothing besides log it
         }

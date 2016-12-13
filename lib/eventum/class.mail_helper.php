@@ -652,7 +652,6 @@ class Mail_Helper
         $hdrs = &$email['headers'];
         $body = &$email['body'];
         $issue_id = $email['maq_iss_id'];
-        $sender_usr_id = $email['maq_usr_id'];
 
         // ok, now parse the headers text and build the assoc array
         $full_email = $hdrs . "\n\n" . $body;

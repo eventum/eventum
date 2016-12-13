@@ -836,7 +836,7 @@ class Support
         if (($should_create_issue) && ($info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes') &&
                 (CRM::hasCustomerIntegration($info['ema_prj_id'])) && !$customer_id) {
             try {
-                $crm = CRM::getInstance($info['ema_prj_id']);
+                CRM::getInstance($info['ema_prj_id']);
                 $should_create_issue = true;
             } catch (CRMException $e) {
                 $should_create_issue = false;

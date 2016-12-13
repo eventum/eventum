@@ -435,8 +435,6 @@ class Search
             Auth::redirect("list.php?pagerRow=0&rows=$max");
         }
 
-        $groups = Group::getAssocList($prj_id);
-        $categories = Category::getAssocList($prj_id);
         $column_headings = [];
         $columns_to_display = Display_Column::getColumnsToDisplay($prj_id, 'list_issues');
         foreach ($columns_to_display as $col_key => $column) {
@@ -787,7 +785,6 @@ class Search
         }
 
         // check if excerpts for this full text search is already cached
-        $fulltext_string = Session::get('fulltext_string');
         $excerpts = Session::get('fulltext_excerpts');
         if (empty($excerpts)) {
             $excerpts = self::getFullTextSearchInstance()->getExcerpts();

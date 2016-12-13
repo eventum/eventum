@@ -52,6 +52,7 @@ class DB_Helper
                 throw $e;
             }
             /** @global $error_type */
+            /** @noinspection PhpUnusedLocalVariableInspection */
             $error_type = 'db';
             require APP_PATH . '/htdocs/offline.php';
             exit(2);

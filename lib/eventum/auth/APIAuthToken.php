@@ -45,6 +45,7 @@ class APIAuthToken
         } catch (DatabaseException $e) {
             return -1;
         }
+        return $res;
     }
 
     public static function isTokenValidForEmail($token, $email)
@@ -135,7 +136,7 @@ class APIAuthToken
             return -1;
         }
 
-        $res = self::generate($usr_id);
+        self::generate($usr_id);
 
         return 1;
     }
