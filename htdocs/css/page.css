@@ -191,6 +191,12 @@ body.issue_view #issue_summary {
     border-bottom: 1px solid #eeeeee;
 }
 
+body.issue_view form[target="_removeCheckins"] table.grid tr td:nth-child(5) {
+	display: block;
+	max-height: 200px;
+	overflow: auto;
+}
+
 /* End View Issue Page */
 
 /* Begin Issue Update Page */

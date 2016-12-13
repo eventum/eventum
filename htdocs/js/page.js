@@ -255,6 +255,7 @@ issue_view.get_ema_id = function()
 issue_view.ready = function(page_id)
 {
     $('#toggle_time_tracking').click(function() { issue_view.toggle_issue_section('time_tracking'); });
+    $('#toggle_checkins').click(function() { issue_view.toggle_issue_section('checkins'); });
     $('#toggle_custom_fields').click(function() { issue_view.toggle_issue_section('custom_fields'); });
     $('#toggle_internal_notes').click(function() { issue_view.toggle_issue_section('internal_notes'); });
     $('#toggle_phone_calls').click(function() { issue_view.toggle_issue_section('phone_calls'); });

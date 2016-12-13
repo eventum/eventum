@@ -1,4 +1,16 @@
 <?php
+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 function smarty_function_get_display_style($params, &$smarty)
 {
     $html_result = '';
@@ -16,7 +28,7 @@ function smarty_function_get_display_style($params, &$smarty)
     }
 
     if ($print_result) {
-        print $html_result;
+        echo $html_result;
     } else {
         return $html_result;
     }

@@ -71,8 +71,8 @@ class WorkloadDateRangeController extends ReportBaseController
     protected function prepareTemplate()
     {
         $types = [
-            'individual' => 'Individual',
-            'aggregate' => 'Aggregate',
+            'individual' => ev_gettext('Individual'),
+            'aggregate' => ev_gettext('Aggregate'),
         ];
 
         // if empty start date, set to be a month ago

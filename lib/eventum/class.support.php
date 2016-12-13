@@ -773,16 +773,16 @@ class Support
             $issue_id = $workflow;
         } else {
             $setup = Setup::get();
-            if (($setup['subject_based_routing']['status'] == 'enabled') 
+            if (($setup['subject_based_routing']['status'] == 'enabled')
                 and (preg_match("/\[#(\d+)\]( Note| BLOCKED)*/", $subject, $matches))) {
-                    // look for [#XXXX] in the subject line
+                // look for [#XXXX] in the subject line
                     $should_create_issue = false;
-                    $issue_id = $matches[1];
-                    if (!Issue::exists($issue_id, false)) {
-                        $issue_id = '';
-                    } elseif (!empty($matches[2])) {
-                        $type = 'note';
-                    }
+                $issue_id = $matches[1];
+                if (!Issue::exists($issue_id, false)) {
+                    $issue_id = '';
+                } elseif (!empty($matches[2])) {
+                    $type = 'note';
+                }
             } else {
                 // - if this email is a reply:
                 if (count($references) > 0) {
@@ -2107,7 +2107,7 @@ class Support
             if ($issue_id) {
                 // send direct emails only to the unknown addresses, and leave the rest to be
                 // catched by the notification list
-                $from = Notification::getFixedFromHeader($issue_id, $from, 'issue');
+                $fixed_from = Notification::getFixedFromHeader($issue_id, $from, 'issue');
                 // build the list of unknown recipients
                 if ($to) {
                     $recipients = [$to];
@@ -2128,7 +2128,7 @@ class Support
                     $cc2 = implode('; ', $unknowns);
                     // send direct emails
                     self::sendDirectEmail(
-                        $issue_id, $from, $to2, $cc2,
+                        $issue_id, $fixed_from, $to2, $cc2,
                         $subject, $body, $iaf_ids, $message_id, $sender_usr_id);
                 }
             } else {

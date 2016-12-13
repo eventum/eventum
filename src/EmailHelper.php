@@ -88,7 +88,6 @@ class EmailHelper
                 }
 
                 return htmlspecialchars($fragment);
-
             }, $email->getFragments()
         );
         $text = rtrim(implode("\n", $blocks));

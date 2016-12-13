@@ -1,6 +1,29 @@
 # Eventum Issue Tracking System
 
-## 2016-??-??, Version [3.1.4]
+## 201?-??-??, Version [3.1.7]
+- Add workflow method for moving an issue between projects (@balsdorf, #223)
+- Don't QP encode sender when storing in the DB (@balsdorf, #226, #225)
+- Replace XMLRPC PEAR implementation with phpxmlrpc (@glensc, #228)
+
+## 2016-12-08, Version [3.1.6]
+
+- Fix error caused by incomplete legacy code removal (@balsdorf, #221)
+- Swap order of note reply buttons for consistency (@balsdorf)
+- Add add some missing translate of strings (@phavel, #222)
+
+## 2016-11-23, Version [3.1.5]
+
+Please make sure your database is backed up before applying this upgrade. We are
+removing some legacy tables and fields which should not contain any data but
+backups should be made as a precaution. Please see the following issue for more
+details: #219
+
+- Fix SCM checkins being displayed as "public" (@glensc, #215, #216)
+- Make public attachments visible for Viewers (@glensc, #214, #217)
+- Removed outdated / unused Impact Analysis code (@balsdorf, #219)
+- Re-apply patches number 28 because they could have not been executed (@glensc, #220)
+
+## 2016-10-26, Version [3.1.4]
 
 - Add 'reply as email' option to notes (@balsdorf, #205)
 - Encryption: assume no key present if `secret_key.php` file is empty (@glensc)
@@ -18,6 +41,7 @@
 - Fix bug with SphinxSearch including removed notes (Bryan)
 - Fix bug with SphinxSearch not returning all results (Bryan)
 - Fix bug where issue closed notifications went to all users even when "internal" was selected (Bryan)
+- Rewrite locking code to use flock (@glensc, #209)
 
 ## 2016-09-25, Version [3.1.3]
 
@@ -1220,7 +1244,10 @@ This release uses Composer for PHP Class autoloader.
 
 - Initial release (João; Bryan)
 
-[3.1.4]: https://github.com/eventum/eventum/compare/v3.1.3...master
+[3.1.7]: https://github.com/eventum/eventum/compare/v3.1.6...master
+[3.1.6]: https://github.com/eventum/eventum/compare/v3.1.5...v3.1.6
+[3.1.5]: https://github.com/eventum/eventum/compare/v3.1.4...v3.1.5
+[3.1.4]: https://github.com/eventum/eventum/compare/v3.1.3...v3.1.4
 [3.1.3]: https://github.com/eventum/eventum/compare/v3.1.2...v3.1.3
 [3.1.2]: https://github.com/eventum/eventum/compare/v3.1.1...v3.1.2
 [3.1.1]: https://github.com/eventum/eventum/compare/v3.1.0...v3.1.1

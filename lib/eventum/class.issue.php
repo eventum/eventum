@@ -61,10 +61,10 @@ class Issue
     public static function getDateFieldsAssocList($display_customer_fields = false)
     {
         $fields = [
-            'iss_created_date'              => 'Created Date',
-            'iss_updated_date'              => 'Last Updated Date',
-            'iss_last_response_date'        => 'Last Response Date',
-            'iss_closed_date'               => 'Closed Date',
+            'iss_created_date'              => ev_gettext('Created Date'),
+            'iss_updated_date'              => ev_gettext('Last Updated Date'),
+            'iss_last_response_date'        => ev_gettext('Last Response Date'),
+            'iss_closed_date'               => ev_gettext('Closed Date'),
         ];
         if ($display_customer_fields) {
             $fields['iss_last_customer_action_date'] = 'Customer Action Date';
@@ -1288,7 +1288,7 @@ class Issue
             $from = User::getFromHeader($usr_id);
             $message_id = User::getFromHeader($usr_id);
             $full_email = Support::buildFullHeaders($issue_id, $message_id, $from,
-                '', '', 'Issue closed comments', $reason, '');
+                '', '', ev_gettext('Issue closed comments'), $reason, '');
 
             $structure = Mime_Helper::decode($full_email, true, false);
 
@@ -1297,7 +1297,7 @@ class Issue
                 'issue_id'      =>  $issue_id,
                 'message_id'    =>  $message_id,
                 'date'          =>  Date_Helper::getCurrentDateGMT(),
-                'subject'       =>  'Issue closed comments',
+                'subject'       =>  ev_gettext('Issue closed comments'),
                 'from'          =>  $from,
                 'has_attachment' =>  0,
                 'body'          =>  $reason,
@@ -1313,7 +1313,7 @@ class Issue
                 'send_notification' => false,
                 'closing'           => true,
             ];
-            Note::insertNote($usr_id, $issue_id, 'Issue closed comments', $reason, $options);
+            Note::insertNote($usr_id, $issue_id, ev_gettext('Issue closed comments'), $reason, $options);
             $ids = false;
         }
 
@@ -1635,55 +1635,63 @@ class Issue
      */
     public function moveIssue($issue_id, $new_prj_id)
     {
+        $current_prj_id = self::getProjectID($issue_id);
+        $mapping = self::getMovedIssueMapping($issue_id, $new_prj_id);
+
+        $values = [$new_prj_id];
         $stmt = 'UPDATE
               {{%issue}}
           SET
-              iss_prj_id = ?
+              iss_prj_id = ?';
+        foreach ($mapping as $fld_name => $fld_value) {
+            $stmt .= ",\n$fld_name = ?";
+            $values[] = $fld_value;
+        }
+        $stmt .= '
           WHERE
               iss_id = ?';
+        $values[] = $issue_id;
         try {
-            DB_Helper::getInstance()->query($stmt, [$new_prj_id, $issue_id]);
+            DB_Helper::getInstance()->query($stmt, $values);
         } catch (DatabaseException $e) {
             return -1;
         }
 
-        $currentDetails = self::getDetails($issue_id);
-
-        // set new category
-        $new_iss_prc_list = Category::getAssocList($new_prj_id);
-        $iss_prc_title = Category::getTitle($currentDetails['iss_prc_id']);
-        $new_prc_id = array_search($iss_prc_title, $new_iss_prc_list);
-        if ($new_prc_id === false) {
-            // use the first category listed in the new project
-          $new_prc_id = key($new_iss_prc_list);
-        }
-
-        // set new priority
-        $new_iss_pri_list = Priority::getAssocList($new_prj_id);
-        $iss_pri_title = Priority::getTitle($currentDetails['iss_pri_id']);
-        $new_pri_id = array_search($iss_pri_title, $new_iss_pri_list);
-        if ($new_pri_id === false) {
-            // use the first category listed in the new project
-          $new_pri_id = key($new_iss_pri_list);
-        }
-
-        // XXX: Set status if needed when moving issue
-        $stmt = 'UPDATE
-              {{%issue}}
-          SET
-              iss_prc_id=?,
-              iss_pri_id=?
-          WHERE
-              iss_id=?';
-
-        DB_Helper::getInstance()->query($stmt, [$new_prc_id, $new_pri_id, $issue_id]);
-
         // clear project cache
         self::getProjectID($issue_id, true);
+
+        Workflow::handleIssueMovedFromProject($current_prj_id, $issue_id, $new_prj_id);
+        Workflow::handleIssueMovedToProject($new_prj_id, $issue_id, $current_prj_id);
 
         Notification::notifyNewIssue($new_prj_id, $issue_id);
 
         return 1;
+    }
+
+    private static function getMovedIssueMapping($issue_id, $new_prj_id)
+    {
+        $mapping = [];
+        $current_details = self::getDetails($issue_id);
+
+        // set new category
+        $new_iss_prc_list = Category::getAssocList($new_prj_id);
+        $iss_prc_title = Category::getTitle($current_details['iss_prc_id']);
+        $new_prc_id = array_search($iss_prc_title, $new_iss_prc_list);
+        if ($new_prc_id === false) {
+            // use the first category listed in the new project
+            $mapping['iss_prc_id'] = key($new_iss_prc_list);
+        }
+
+        // set new priority
+        $new_iss_pri_list = Priority::getAssocList($new_prj_id);
+        $iss_pri_title = Priority::getTitle($current_details['iss_pri_id']);
+        $new_pri_id = array_search($iss_pri_title, $new_iss_pri_list);
+        if ($new_pri_id === false) {
+            // use the first category listed in the new project
+            $mapping['iss_pri_id'] = key($new_iss_pri_list);
+        }
+
+        return Workflow::getMovedIssueMapping($new_prj_id, $issue_id, $mapping, $current_details['iss_prj_id']);
     }
 
     /**
@@ -2317,7 +2325,41 @@ class Issue
 
             $dateDiff = Date_Helper::getFormattedDateDiff(time(), $last_date);
             $row['last_action_date_diff'] = $dateDiff;
-            $row['last_action_date_label'] = ucwords($label);
+            switch ($label) {
+                case 'customer action':
+                    $label = ev_gettext('Customer Action'); break;
+                case 'update':
+                    $label = ev_gettext('Update'); break;
+                case 'updated':
+                    $label = ev_gettext('Updated'); break;
+                case 'created':
+                    $label = ev_gettext('Created'); break;
+                case 'closed':
+                    $label = ev_gettext('Closed'); break;
+                case 'time added':
+                    $label = ev_gettext('Time Added'); break;
+                case 'file uploaded':
+                    $label = ev_gettext('File Uploaded'); break;
+                case 'draft saved':
+                    $label = ev_gettext('Draft Saved'); break;
+                case 'note':
+                    $label = ev_gettext('Note'); break;
+                case 'staff response':
+                    $label = ev_gettext('Staff Response'); break;
+                case 'customer action':
+                    $label = ev_gettext('Customer Action'); break;
+                case 'phone call':
+                    $label = ev_gettext('Phone Call'); break;
+                case 'user response':
+                    $label = ev_gettext('User Response'); break;
+                case 'email':
+                    $label = ev_gettext('Email'); break;
+                case 'scm checkin':
+                    $label = ev_gettext('SCM Checkin'); break;
+                default:
+                    $label = ucwords($label);
+            }
+            $row['last_action_date_label'] = $label;
         }
     }
 
@@ -2705,7 +2747,6 @@ class Issue
         $res['iss_original_percent_complete'] = $res['iss_percent_complete'];
         $res['iss_description'] = nl2br(htmlspecialchars($res['iss_description']));
         $res['iss_resolution'] = Resolution::getTitle($res['iss_res_id']);
-        $res['iss_impact_analysis'] = nl2br(htmlspecialchars($res['iss_impact_analysis']));
         $res['iss_created_date_ts'] = $created_date_ts;
         $res['assignments'] = @implode(', ', array_values(self::getAssignedUsers($res['iss_id'])));
         list($res['authorized_names'], $res['authorized_repliers']) = Authorized_Replier::getAuthorizedRepliers($res['iss_id']);
@@ -2942,40 +2983,6 @@ class Issue
         }
 
         return true;
-    }
-
-    /**
-     * Method used to set the initial impact analysis for a specific issue
-     *
-     * @param   integer $issue_id The issue ID
-     * @return  integer 1 if the update worked, -1 otherwise
-     */
-    public static function setImpactAnalysis($issue_id)
-    {
-        $stmt = "UPDATE
-                    {{%issue}}
-                 SET
-                    iss_updated_date=?,
-                    iss_last_internal_action_date=?,
-                    iss_last_internal_action_type='update',
-                    iss_developer_est_time=?,
-                    iss_impact_analysis=?
-                 WHERE
-                    iss_id=?";
-        $params = [Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $_POST['dev_time'], $_POST['impact_analysis'], $issue_id];
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        // add the impact analysis to the history of the issue
-        $usr_id = Auth::getUserID();
-        History::add($issue_id, $usr_id, 'impact_analysis_added', 'Initial Impact Analysis for issue set by {user}', [
-            'user' => User::getFullName($usr_id)
-        ]);
-
-        return 1;
     }
 
     /**

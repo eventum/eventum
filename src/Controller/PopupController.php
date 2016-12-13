@@ -18,7 +18,6 @@ use Auth;
 use Authorized_Replier;
 use Filter;
 use History;
-use Impact_Analysis;
 use Issue;
 use Note;
 use Notification;
@@ -106,26 +105,6 @@ class PopupController extends BaseController
             case 'bulk_update':
                 $res = Issue::bulkUpdate();
                 $this->tpl->assign('bulk_update_result', $res);
-                break;
-
-            case 'set_initial_impact':
-                $res = Issue::setImpactAnalysis($this->issue_id);
-                $this->tpl->assign('set_initial_impact_result', $res);
-                break;
-
-            case 'add_requirement':
-                $res = Impact_Analysis::insert($this->issue_id);
-                $this->tpl->assign('add_requirement_result', $res);
-                break;
-
-            case 'set_impact_requirement':
-                $res = Impact_Analysis::update($this->isr_id);
-                $this->tpl->assign('set_impact_requirement_result', $res);
-                break;
-
-            case 'delete_requirement':
-                $res = Impact_Analysis::remove();
-                $this->tpl->assign('requirement_delete_result', $res);
                 break;
 
             case 'save_filter':

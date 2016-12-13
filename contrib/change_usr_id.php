@@ -27,13 +27,13 @@ function replace(AdapterInterface $db, $table, $prefix, $source_usr_id, $target_
 {
     $column = ($prefix ? "${prefix}_" : '') . 'usr_id';
     $query = "select count(*) from {{%{$table}}} where {$column}=?";
-    $res = $db->getOne($query, array($source_usr_id));
+    $res = $db->getOne($query, [$source_usr_id]);
     if (!$res) {
         // no records, skip table
         return;
     }
     // check that target usr id is not in use
-    $res = $db->getOne($query, array($target_usr_id));
+    $res = $db->getOne($query, [$target_usr_id]);
     if ($res) {
         echo "# WARNING: target usr_id=$target_usr_id in use in $table: $res records\n";
     }
@@ -41,7 +41,7 @@ function replace(AdapterInterface $db, $table, $prefix, $source_usr_id, $target_
     echo $db->getOne("select 'update {{%{$table}}} set $column={$target_usr_id} where {$column}={$source_usr_id};\n'");
 }
 
-$tables = array(
+$tables = [
     'email_draft' => 'emd',
     'issue' => 'iss',
     'issue_attachment' => 'iat',
@@ -60,7 +60,7 @@ $tables = array(
     'user_alias' => 'ual',
     'user_preference' => 'upr',
     'user_project_preference' => 'upp',
-);
+];
 
 foreach ($tables as $table => $prefix) {
     replace($db, $table, $prefix, $source_usr_id, $target_usr_id);

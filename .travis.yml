@@ -1,58 +1,19 @@
 language: php
-sudo: false
+sudo: required
 
 # disable the default submodule logic
 git:
   submodules: false
 
-addons:
-  apt:
-    packages:
-    # install all locales used by eventum
-    - language-pack-br
-    - language-pack-ca
-    - language-pack-cs
-    - language-pack-da
-    - language-pack-de
-    - language-pack-eo
-    - language-pack-es
-    - language-pack-et
-    - language-pack-fi
-    - language-pack-fo
-    - language-pack-fr
-    - language-pack-he
-    - language-pack-ht
-    - language-pack-hu
-    - language-pack-id
-    - language-pack-it
-    - language-pack-ja
-    - language-pack-ko
-    - language-pack-lt
-    - language-pack-lv
-    - language-pack-nl
-    - language-pack-oc
-    - language-pack-pl
-    - language-pack-pt
-    - language-pack-ru
-    - language-pack-si
-    - language-pack-sv
-    - language-pack-ta
-    - language-pack-th
-    - language-pack-tr
-    - language-pack-uk
-    - language-pack-ur
-    - language-pack-vi
-    - language-pack-zh-hans
-
-php:
-  - 7.0
-  - 5.6
-  - 5.5
-  - hhvm
-  - nightly
-
 matrix:
   fast_finish: true
+  include:
+    - php: "5.5"
+      env: RELEASE=yes
+    - php: "5.6"
+    - php: "7.0"
+    - php: "hhvm"
+    - php: "nightly"
   allow_failures:
     - php: hhvm
     - php: nightly
@@ -66,36 +27,30 @@ cache:
     - vendor
 
 before_install:
-  - bin/ci/tools.sh
-
-  # display some info from system
-  - dpkg --list | grep language-pack
   - mkdir -p ~/.phpenv/versions/$(phpenv version-name)/etc
   - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - if ! phpenv config-rm xdebug.ini; then :; fi
-  - locale -a
-  # pull translations from launchpad
-  - bzr branch lp:~glen666/eventum/po po
-  - cp -af po/localization/*.po localization
 
 install:
   # disable secure-http because sourceforge redirects to http:// urls
   - composer config secure-http false
   - composer install --no-interaction --prefer-dist
-  - make pear-fix
 
 script:
+  - bin/ci/check_patches.sh
   - echo phpunit -v --debug
-  # prepare release tarball
-  # need to fetch tags first for release process
-  - git fetch --tags --unshallow
-  - make dist
+  - bin/ci/dist.sh
+
+before_deploy:
+  - bin/ci/changelog.sh
 
 # https://docs.travis-ci.com/user/deployment/releases
 deploy:
   provider: releases
-  api_key:
-    secure: Fd00429tuyw6fX8br8jiYaPFLYZvoSDMUyQ3xBj9TsUS8/LgxwHXKWGYz4JHvms4e8QgQd9vuI0gN3M9tzG0/SFph+rj1p5BlfRH35xO8F/FDzUyL0B63ozScBFVf+R9SAHwILPKbHNQy/xcw3Iw8KiLc9klSWMU6PY0Ux/tiEg=
+  # Create token in https://github.com/settings/tokens and set as env var:
+  # $ travis env set -p GITHUB_API_TOKEN ...
+  # or via https://travis-ci.org/eventum/eventum/settings
+  api_key: $GITHUB_API_TOKEN
   file_glob: true
   file:
     - eventum-*.tar.gz

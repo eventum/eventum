@@ -1,11 +1,11 @@
 {extends "reports/reports_base.tpl.html"}
-{block "title"}Categories and Statuses{/block}
+{block "title"}{t}Categories and Statuses{/t}{/block}
 
 {block "report_content"}<br />
 
 <table class="bordered grid">
     <tr>
-        <th>Category</th>
+        <th>{t}Category{/t}</th>
         {foreach from=$statuses item=status}
         <th>{$status}</th>
         {/foreach}

@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\RPC\RemoteApi;
+
 $_displayed_confirmation = false;
 
 class Command_Line

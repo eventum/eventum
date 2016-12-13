@@ -164,8 +164,6 @@ if (!$total) {
 /** @var Closure $log */
 $log("Total $total rows, this may take time. Please be patient.");
 
-$res = $db->query("select his_id,his_summary from {{%issue_history}} where his_context=''");
-
 foreach ($his_ids as $his_id) {
     $his_summary = $db->getOne('SELECT his_summary FROM {{%issue_history}} WHERE his_id=?', [$his_id]);
 
@@ -176,9 +174,14 @@ foreach ($his_ids as $his_id) {
         continue;
     }
 
+    $context = json_encode($m['context']);
+    if (!$context) {
+        $log("{$his_id}: context encode failure; skipping");
+        continue;
+    }
     $db->query(
         'update {{%issue_history}} set his_summary=?, his_context=? where his_id=?', [
-        $m['message'], json_encode($m['context']), $his_id
+        $m['message'], $m['context'], $his_id
     ]
     );
     $updated++;

@@ -23,11 +23,11 @@ use Eventum\Model\Entity\Commit;
 require __DIR__ . '/../init.php';
 
 # map repo types, everything that is not mapped, is treated as git repo
-$repo_types = array(
+$repo_types = [
     'default' => 'cvs',
     'svn' => 'svn',
     'cvs' => 'cvs',
-);
+];
 # git repo name to use after migration
 $git_name = 'git';
 
@@ -38,7 +38,7 @@ function all_repos()
 {
     global $db;
 
-    return $db->getColumn("SELECT DISTINCT com_scm_name FROM {{%commit}}");
+    return $db->getColumn('SELECT DISTINCT com_scm_name FROM {{%commit}}');
 }
 
 /**
@@ -57,11 +57,11 @@ function migrate_git_repos()
     );
 
     foreach ($git_repos as $repo) {
-        $commits = $db->getColumn("SELECT com_id FROM {{%commit}} WHERE com_scm_name=?", array($repo));
-        $commits = join(',', $commits);
+        $commits = $db->getColumn('SELECT com_id FROM {{%commit}} WHERE com_scm_name=?', [$repo]);
+        $commits = implode(',', $commits);
         $db->query(
-            "UPDATE {{%commit}} SET com_project_name=com_scm_name, com_scm_name=? WHERE com_scm_name=? and com_scm_name!=?",
-            array($git_name, $repo, $git_name)
+            'UPDATE {{%commit}} SET com_project_name=com_scm_name, com_scm_name=? WHERE com_scm_name=? and com_scm_name!=?',
+            [$git_name, $repo, $git_name]
         );
         echo "$repo -> $commits\n";
     }
@@ -83,7 +83,7 @@ function migrate_git_repos()
  */
 function find_common_path($dirList)
 {
-    $arr = array();
+    $arr = [];
     foreach ($dirList as $i => $path) {
         $dirList[$i] = explode('/', $path);
         unset($dirList[$i][0]);
@@ -143,18 +143,18 @@ function migrate_svn_repos()
     global $db, $all_repos, $repo_types;
     $svn_repos = array_filter(
         $all_repos, function ($e) use ($repo_types) {
-        return isset($repo_types[$e]) && $repo_types[$e] == 'svn';
-    }
+            return isset($repo_types[$e]) && $repo_types[$e] == 'svn';
+        }
     );
     $list = DB_Helper::buildList($svn_repos);
     $commits = $db->getColumn("select com_id from {{%commit}} where com_scm_name in ($list)", $svn_repos);
 
     foreach ($commits as $commit) {
-        $files = $db->getColumn("SELECT cof_filename FROM {{%commit_file}} WHERE cof_com_id=?", array($commit));
+        $files = $db->getColumn('SELECT cof_filename FROM {{%commit_file}} WHERE cof_com_id=?', [$commit]);
         $commit_root = find_common_root($files);
         $db->query(
-            "UPDATE {{%commit}} SET com_project_name=? WHERE com_id=?",
-            array($commit_root, $commit)
+            'UPDATE {{%commit}} SET com_project_name=? WHERE com_id=?',
+            [$commit_root, $commit]
         );
         echo "$commit -> $commit_root\n";
     }
@@ -174,10 +174,10 @@ function set_commit_users($prj_id = 1)
         return;
     }
 
-    $commits = $db->getColumn("SELECT com_id FROM {{%commit}} WHERE com_usr_id IS NULL");
+    $commits = $db->getColumn('SELECT com_id FROM {{%commit}} WHERE com_usr_id IS NULL');
     echo count($commits), " commits to check\n";
     $co = Commit::create();
-    $cache = array();
+    $cache = [];
     foreach ($commits as $com_id) {
         $commit = $co->findById($com_id);
         $cache_key = $commit->getAuthor();
@@ -195,10 +195,10 @@ function set_commit_users($prj_id = 1)
 
         $usr_id = $cache[$cache_key];
         if ($usr_id) {
-//            echo "Updating: #{$commit->getId()} [$cache_key]: usr_id={$usr_id}\n";
+            //            echo "Updating: #{$commit->getId()} [$cache_key]: usr_id={$usr_id}\n";
             $db->query(
-                "UPDATE {{%commit}} SET com_usr_id=? WHERE com_id=?",
-                array($usr_id, $commit->getId())
+                'UPDATE {{%commit}} SET com_usr_id=? WHERE com_id=?',
+                [$usr_id, $commit->getId()]
             );
         }
     }

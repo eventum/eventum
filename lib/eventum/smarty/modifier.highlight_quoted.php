@@ -1,4 +1,16 @@
 <?php
+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 /*
 * Smarty plugin
 * Type:		modifier
@@ -19,8 +31,7 @@
 *						indenters | or >
 *						and output with indenter: >
 *		or
-*		{$text|highlight_quoted:0:"-_"} if the text is indented with - or _ and not
-escaped
+*		{$text|highlight_quoted:0:"-_"} if the text is indented with - or _ and not escaped
 * Params:
 *		string	text		the text to highlight
 *		int	escape		determines if the HTML special chars
@@ -32,41 +43,40 @@ escaped
 *					default: google groups standard
 * Install:	Drop into the plugin directory
 */
-
-function smarty_modifier_highlight_quoted($text, $escape = true, $indenter =
-'|>',$colors = false)
+function smarty_modifier_highlight_quoted($text, $escape = true, $indenter = '|>', $colors = false)
 {
-    if(!is_array($colors)) {
-        $colors = array();
-        $colors[] = "#000000";
-        $colors[] = "#0000BB";
-        $colors[] = "#681E80";
-        $colors[] = "#0070FF";
-        $colors[] = "#C67900";
-        $colors[] = "#008800";
-        $colors[] = "#FF3333";
+    if (!is_array($colors)) {
+        $colors = [];
+        $colors[] = '#000000';
+        $colors[] = '#0000BB';
+        $colors[] = '#681E80';
+        $colors[] = '#0070FF';
+        $colors[] = '#C67900';
+        $colors[] = '#008800';
+        $colors[] = '#FF3333';
     }
-    $matches = array();
-    preg_match_all(    '/^([ '.preg_quote($indenter).']*)(.*)/m',
+    $matches = [];
+    preg_match_all('/^([ '.preg_quote($indenter).']*)(.*)/m',
                     $text,
                     $matches,
                     PREG_SET_ORDER);
-    $ret = "";
-    foreach($matches AS $match) {
+    $ret = '';
+    foreach ($matches as $match) {
         if ($escape) {
             $match[2]    =    htmlspecialchars($match[2]);
         }
         $line = trim($match[2]);
         if ($line) {
-            $indent =    strlen(preg_replace('/[\s]*/','',$match[1]));
+            $indent =    strlen(preg_replace('/[\s]*/', '', $match[1]));
             $color  =    $indent % count($colors);
             $ret   .=    '<font color="'.$colors[$color].'">';
-            $ret   .=    htmlspecialchars($match[1])." ";
+            $ret   .=    htmlspecialchars($match[1]).' ';
             $ret   .=    $line;
             $ret   .=    "</font>\n";
         } else {
             $ret   .=   "\n";
         }
     }
+
     return $ret;
 }

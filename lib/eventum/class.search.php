@@ -791,6 +791,7 @@ class Search
             $excerpts = self::getFullTextSearchInstance()->getExcerpts();
             Session::set('fulltext_excerpts', $excerpts);
         }
+
         return $excerpts;
     }
 

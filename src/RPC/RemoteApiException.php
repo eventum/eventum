@@ -11,7 +11,10 @@
  * that were distributed with this source code.
  */
 
-require_once __DIR__ . '/../init.php';
+namespace Eventum\RPC;
 
-$controller = new Eventum\Controller\RequirementController();
-$controller->run();
+use RuntimeException;
+
+class RemoteApiException extends RuntimeException
+{
+}

@@ -453,7 +453,9 @@ class Misc
     public static function formatReply($str)
     {
         $lines = explode("\n", str_replace("\r", '', $str));
-        $lines = array_map(function ($s) { return Misc::indent($s); }, $lines);
+        $lines = array_map(function ($s) {
+            return Misc::indent($s);
+        }, $lines);
 
         return implode("\n", $lines);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Eventum (Issue Tracking System) package.
  *
@@ -38,15 +39,15 @@ foreach ($customers as $customer_id => $customer_name) {
                         usr_customer_id = ?,
                         usr_customer_contact_id = ?,
                         usr_preferences = ?';
-            $params = array(
+            $params = [
                 Date_Helper::getCurrentDateGMT(),
                 $contact['first_name'] . ' ' . $contact['last_name'],
                 $contact['email'],
                 $customer_id,
                 $contact['contact_id'],
                 // FIXME: usr_preferences needs to be json encoded?
-                Prefs::getDefaults(array($prj_id)),
-            );
+                Prefs::getDefaults([$prj_id]),
+            ];
             try {
                 DB_Helper::getInstance()->query($sql, $params);
             } catch (DatabaseException $e) {

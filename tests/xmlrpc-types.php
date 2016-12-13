@@ -11,10 +11,12 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\RPC;
+
 /*
  * Fake classes for RemoteApi phpdoc annotation
  */
-abstract class struct implements ArrayAccess, Iterator, Countable
+abstract class struct implements \ArrayAccess, \Iterator, \Countable
 {
 }
 
