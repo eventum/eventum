@@ -15,8 +15,6 @@ use Eventum\Db\DatabaseException;
 
 class APIAuthToken
 {
-    private static $default_alg = 'HS256';
-
     public static function generate($usr_id)
     {
         $factory = new RandomLib\Factory();
