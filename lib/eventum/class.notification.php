@@ -2324,7 +2324,7 @@ class Notification
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = Mail_Helper::getSMTPSettings();
-        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+        $to = Mail_Helper::getFormattedName($info['usr_full_name'], $info['usr_email']);
         $mail->send($setup['from'], $to, $subject);
 
         Language::restore();
