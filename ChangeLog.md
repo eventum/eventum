@@ -2,6 +2,7 @@
 
 ## 201?-??-??, Version [3.1.7]
 - Add workflow method for moving an issue between projects (@balsdorf, #223)
+- Don't QP encode sender when storing in the DB(@balsdorf, #226, #225)
 
 ## 2016-12-08, Version [3.1.6]
 
