@@ -69,14 +69,14 @@ class AbstractBotCommands
     public function register(Net_SmartIRC $irc)
     {
         // register timer to handle events from database
-        $irc->registerTimehandler(3000, $this, 'notifyEvents');
+        $irc->registerTimeHandler(3000, $this, 'notifyEvents');
 
         // register all commands
         $methods = $this->getMethods();
         foreach ($methods as $methodName => $method) {
             $commandName = $this->getCommandName($methodName);
             $regex = "^!?{$commandName}\b";
-            $irc->registerActionhandler(SMARTIRC_TYPE_QUERY, $regex, $this, $methodName);
+            $irc->registerActionHandler(SMARTIRC_TYPE_QUERY, $regex, $this, $methodName);
         }
     }
 

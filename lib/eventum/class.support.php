@@ -748,7 +748,7 @@ class Support
         $references = Mail_Helper::getAllReferences($headers);
 
         $message_id = Mail_Helper::getMessageID($headers, $message_body);
-        $workflow = Workflow::getIssueIDforNewEmail($info['ema_prj_id'], $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
+        $workflow = Workflow::getIssueIDForNewEmail($info['ema_prj_id'], $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
         if (is_array($workflow)) {
             if (isset($workflow['customer_id'])) {
                 $customer_id = $workflow['customer_id'];

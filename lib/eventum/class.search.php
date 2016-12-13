@@ -542,7 +542,7 @@ class Search
         if ($role_id == User::ROLE_CUSTOMER) {
             $crm = CRM::getInstance($prj_id);
             $contact = $crm->getContact($usr_details['usr_customer_contact_id']);
-            $stmt .= " AND iss_customer_contract_id IN('" . implode("','", $contact->getContractIDS()) . "')";
+            $stmt .= " AND iss_customer_contract_id IN('" . implode("','", $contact->getContractIDs()) . "')";
             $stmt .= " AND iss_customer_id ='" . Auth::getCurrentCustomerID() . "'";
         } elseif (($role_id == User::ROLE_REPORTER) && (Project::getSegregateReporters($prj_id))) {
             $stmt .= " AND (

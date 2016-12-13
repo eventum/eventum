@@ -84,7 +84,7 @@ final class CryptoManager
         }
 
         try {
-            $ciphertext = Crypto::encrypt($plaintext, $key ?: self::getKey());
+            $ciphertext = Crypto::Encrypt($plaintext, $key ?: self::getKey());
         } catch (CryptoTestFailedException $e) {
             throw new CryptoException('Cannot safely perform encryption');
         } catch (CannotPerformOperationException $e) {
@@ -109,7 +109,7 @@ final class CryptoManager
         }
 
         try {
-            $decrypted = Crypto::decrypt(base64_decode($ciphertext), self::getKey());
+            $decrypted = Crypto::Decrypt(base64_decode($ciphertext), self::getKey());
         } catch (InvalidCiphertextException $e) {
             // VERY IMPORTANT
             // Either:

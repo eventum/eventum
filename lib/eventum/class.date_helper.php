@@ -57,7 +57,7 @@ class Date_Helper
             $timezone = self::getPreferredTimezone();
         }
         try {
-            $dateTime->setTimeZone(new DateTimeZone($timezone));
+            $dateTime->setTimezone(new DateTimeZone($timezone));
         } catch (Exception $e) {
             // Yes, the exception name is just "Exception":
             // "Exception : DateTimeZone::__construct(): Unknown or bad timezone (Eastern Standard Time)"

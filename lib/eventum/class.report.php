@@ -463,7 +463,7 @@ class Report
             $dt = Date_Helper::getDateTime(mktime($i, 0, 0), 'GMT');
             $gmt_time = $dt->format('H:i');
             // convert to the users time zone
-            $dt->setTimeZone(new DateTimeZone($timezone));
+            $dt->setTimezone(new DateTimeZone($timezone));
             $hour = $dt->format('H');
             $user_time = $dt->format('H:i');
 
@@ -569,7 +569,7 @@ class Report
             // convert to the users time zone
             $dt = Date_Helper::getDateTime(mktime($i, 0, 0), 'GMT');
             $gmt_time = $dt->format('H:i');
-            $dt->setTimeZone(new DateTimeZone($timezone));
+            $dt->setTimezone(new DateTimeZone($timezone));
             $hour = $dt->format('H');
             $user_time = $dt->format('H:i');
 
