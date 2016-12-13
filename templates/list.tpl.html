@@ -89,7 +89,7 @@
             {if $field_name == 'iss_id'}
               <a href="view.php?id={$list[i].iss_id}" title="{t}view issue details{/t}">{$list[i].iss_id}</a>
             {elseif $field_name == 'pri_rank'}
-              {$list[i].pri_title|escape:"html"}
+              {if $list[i].pri_icon > 0}<span class="priority_icon priority-icon-{$list[i].pri_icon}"></span> {/if}{$list[i].pri_title|escape:"html"}
             {elseif $field_name == 'sev_rank'}
               {$list[i].sev_title|escape:"html"}
             {elseif $field_name == 'grp_name'}

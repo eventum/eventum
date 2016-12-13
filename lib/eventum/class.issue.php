@@ -2672,6 +2672,7 @@ class Issue
                     prc_title,
                     pre_title,
                     pri_title,
+                    pri_icon,
                     sev_title,
                     sta_title,
                     sta_abbreviation,

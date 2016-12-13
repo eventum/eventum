@@ -459,6 +459,47 @@ div.phpdebugbar {
     background: #89A989;
 }
 
+/* Icon of priority (list, view, manage/priorities) */
+.priority_icon {
+    background-repeat:no-repeat;
+    background-position: left center;
+    padding-left: 16px;
+    margin: 0 3px 0 0px;
+}
+.priority-icon-1 {background-image: url("../images/priority/1.png");}
+.priority-icon-2 {background-image: url("../images/priority/2.png");}
+.priority-icon-3 {background-image: url("../images/priority/3.png");}
+.priority-icon-4 {background-image: url("../images/priority/4.png");}
+.priority-icon-5 {background-image: url("../images/priority/5.png");}
+.priority-icon-6 {background-image: url("../images/priority/6.png");}
+.priority-icon-7 {background-image: url("../images/priority/7.png");}
+.priority-icon-8 {background-image: url("../images/priority/8.png");}
+.priority-icon-9 {background-image: url("../images/priority/9.png");}
+.priority-icon-10 {background-image: url("../images/priority/10.png");}
+.priority-icon-11 {background-image: url("../images/priority/11.png");}
+.priority-icon-12 {background-image: url("../images/priority/12.png");}
+.priority-icon-13 {background-image: url("../images/priority/13.png");}
+.priority-icon-14 {background-image: url("../images/priority/14.png");}
+.priority-icon-15 {background-image: url("../images/priority/15.png");}
+.priority-icon-16 {background-image: url("../images/priority/16.png");}
+.priority-icon-17 {background-image: url("../images/priority/17.png");}
+.priority-icon-18 {background-image: url("../images/priority/18.png");}
+.priority-icon-19 {background-image: url("../images/priority/19.png");}
+.priority-icon-20 {background-image: url("../images/priority/20.png");}
+.priority-icon-21 {background-image: url("../images/priority/21.png");}
+
+/* Select icon of priority – jQueryUI Selectmenu */
+#select_menu_priority_icon {
+    width: 82px;
+}
+option.select_icon_priority {
+    background-repeat: no-repeat !important;
+    padding-left: 20px;
+}
+.select_icon_priority .ui-icon {
+    background-position: left top;
+}
+
 /* Disable white background image */
 .issue_view .ui-progressbar.ui-widget-content,
 #list .ui-progressbar.ui-widget-content
