@@ -1352,7 +1352,7 @@ class Issue
      * @param array $associated_issues issue_id's to associate with
      * @deprecated use IssueAssociationRepository
      */
-    private function updateAssociatedIssuesRelations($usr_id, $issue_id, $associated_issues)
+    private static function updateAssociatedIssuesRelations($usr_id, $issue_id, $associated_issues)
     {
         $repo = IssueAssociationRepository::create();
         $res = $repo->updateAssociations($usr_id, $issue_id, $associated_issues);
@@ -2203,7 +2203,7 @@ class Issue
      * @param   array $data of issue to be inserted
      * @return  integer The new issue ID
      */
-    private function insertIssue($prj_id, $data)
+    private static function insertIssue($prj_id, $data)
     {
         // if there is no reporter set, use the system user
         if (empty($data['reporter'])) {
