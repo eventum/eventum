@@ -4,6 +4,7 @@
 - Add workflow method for moving an issue between projects (@balsdorf, #223)
 - Don't QP encode sender when storing in the DB (@balsdorf, #226, #225)
 - Replace XMLRPC PEAR implementation with phpxmlrpc (@glensc, #228)
+- Add icons for priority (@phavel, #224)
 - Allow sort by "% Complete" column (@phavel, #229, #188)
 
 ## 2016-12-08, Version [3.1.6]
