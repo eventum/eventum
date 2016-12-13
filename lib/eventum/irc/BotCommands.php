@@ -115,6 +115,7 @@ class BotCommands extends AbstractBotCommands
         switch (count($data->messageex)) {
             case 1:
                 break;
+            /** @noinspection PhpMissingBreakStatementInspection */
             case 2:
                 if (in_array($data->messageex[1], ['in', 'out'])) {
                     break;

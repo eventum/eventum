@@ -2346,8 +2346,6 @@ class Issue
                     $label = ev_gettext('Note'); break;
                 case 'staff response':
                     $label = ev_gettext('Staff Response'); break;
-                case 'customer action':
-                    $label = ev_gettext('Customer Action'); break;
                 case 'phone call':
                     $label = ev_gettext('Phone Call'); break;
                 case 'user response':

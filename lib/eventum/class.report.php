@@ -132,7 +132,6 @@ class Report
                 'status_color'        => $row['sta_color'],
                 'last_update'         => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
                 'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
-                'iss_last_response_date' => $row['iss_last_response_date'],
             ];
         }
 
