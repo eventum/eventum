@@ -375,9 +375,6 @@ abstract class Contract
 
     public function __toString()
     {
-        // FIXME: $options unused
-        $options = $this->getOptions(true);
-
         return "Contract\nID: " . $this->contract_id . '
             Start: ' . $this->start_date . '
             End: ' . $this->end_date . "\n";
