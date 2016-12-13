@@ -183,6 +183,7 @@ class Search
             'pre_title' => 'asc',
             'assigned' => 'asc',
             'grp_name'  =>  'asc',
+            'iss_percent_complete'  =>  'asc',
         ];
 
         foreach ($custom_fields as $fld_id => $fld_name) {
