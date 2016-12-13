@@ -204,9 +204,10 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
      * @param   integer $resolution_id The resolution ID
      * @param   integer $status_id The status ID
      * @param   string $reason The reason for closing this issue
+     * @param   integer $usr_id The ID of the user closing this issue
      * @return  void
      */
-    public function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason)
+    public function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id)
     {
         $sql = "UPDATE
                     {{%issue}}
@@ -230,8 +231,9 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
      * @param   integer $issue_id The ID of the issue
      * @param   array $old The custom fields before the update.
      * @param   array $new The custom fields after the update.
+     * @param   array $changed An array containing what was changed.
      */
-    public function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new)
+    public function handleCustomFieldsUpdated($prj_id, $issue_id, $old, $new, $changed)
     {
         echo "Workflow: handleCustomFieldsUpdated<br />\n";
     }
@@ -241,9 +243,11 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
      *
      * @param   integer $prj_id The project ID
      * @param   string $address The email address to check
+     * @param   integer $issue_id The ID of the issue.
+     * @param   string $type The type of notification to send.
      * @return  boolean
      */
-    public function shouldEmailAddress($prj_id, $address)
+    public function shouldEmailAddress($prj_id, $address, $issue_id = null, $type = null)
     {
         if ($address == 'bad_email@example.com') {
             return false;
