@@ -343,7 +343,7 @@ abstract class Contract
      *
      * @return Customer
      */
-    public function &getCustomer()
+    public function getCustomer()
     {
         return $this->customer;
     }

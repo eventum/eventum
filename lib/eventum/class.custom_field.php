@@ -1679,7 +1679,7 @@ class Custom_Field
      * @param   integer $fld_id The ID of the field
      * @return  mixed false if there is no backend or an instance of the backend class
      */
-    public static function &getBackend($fld_id)
+    public static function getBackend($fld_id)
     {
         static $returns;
 

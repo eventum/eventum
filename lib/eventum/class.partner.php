@@ -25,7 +25,7 @@ class Partner
      * @param   string $par_code The partner code
      * @return  Abstract_Partner_Backend
      */
-    private static function &getBackend($par_code)
+    private static function getBackend($par_code)
     {
         static $setup_backends;
 
