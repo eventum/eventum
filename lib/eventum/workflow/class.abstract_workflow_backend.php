@@ -380,9 +380,10 @@ class Abstract_Workflow_Backend
      * @param    integer $prj_id The project ID.
      * @param    integer $issue_id The ID of the issue.
      * @param    string $event The event to return additional email addresses for. Currently only "new_issue" is supported.
+     * @param   array $extra Extra information, contains different info depending on where it is called from
      * @return   array   An array of email addresses to be notified.
      */
-    public function getAdditionalEmailAddresses($prj_id, $issue_id, $event)
+    public function getAdditionalEmailAddresses($prj_id, $issue_id, $event, $extra)
     {
         return [];
     }
