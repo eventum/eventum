@@ -534,7 +534,7 @@ class Custom_Field
      * @param   integer $value The custom field option ID
      * @return  string The custom field option value
      */
-    public function getOptionValue($fld_id, $value)
+    public static function getOptionValue($fld_id, $value)
     {
         static $returns;
 
