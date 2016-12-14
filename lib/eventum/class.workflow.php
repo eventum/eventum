@@ -80,7 +80,7 @@ class Workflow
      * @param   integer $prj_id The project ID
      * @return  Abstract_Workflow_Backend
      */
-    public static function &_getBackend($prj_id)
+    public static function _getBackend($prj_id)
     {
         static $setup_backends;
 

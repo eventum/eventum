@@ -924,9 +924,8 @@ class Notification
      * @param   string $subject The subject of the email
      * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @param   array $headers Any extra headers that need to be added to this email (Default false)
-     * @return  void
      */
-    public function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $type_id = false, $headers = false)
+    public static function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $type_id = false, $headers = false)
     {
         global $_EVENTUM_LAST_NOTIFIED_LIST;
 
@@ -2229,9 +2228,8 @@ class Notification
      *
      * @param   integer $sub_id The subscription ID
      * @param   string $type The subscription type
-     * @return  void
      */
-    public function addType($sub_id, $type)
+    public static function addType($sub_id, $type)
     {
         $stmt = 'INSERT INTO
                     {{%subscription_type}}
@@ -2326,7 +2324,7 @@ class Notification
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
         $setup = Mail_Helper::getSMTPSettings();
-        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
+        $to = Mail_Helper::getFormattedName($info['usr_full_name'], $info['usr_email']);
         $mail->send($setup['from'], $to, $subject);
 
         Language::restore();

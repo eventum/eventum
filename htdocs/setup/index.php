@@ -160,7 +160,6 @@ function checkPermissions($file, $desc, $is_directory = false)
 
 function getPermissionError($file, $desc, $is_directory, $exists)
 {
-    $error = '';
     if ($is_directory) {
         $title = 'Directory';
     } else {

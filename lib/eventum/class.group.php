@@ -429,7 +429,7 @@ class Group
                   ugr_grp_id = ?,
                   ugr_created = ?';
         try {
-            $res = DB_Helper::getInstance()->query($sql, [$usr_id, $grp_id, Date_Helper::getCurrentDateGMT()]);
+            DB_Helper::getInstance()->query($sql, [$usr_id, $grp_id, Date_Helper::getCurrentDateGMT()]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -452,7 +452,7 @@ class Group
                   ugr_usr_id = ? AND
                   ugr_grp_id = ?';
         try {
-            $res = DB_Helper::getInstance()->query($sql, [$usr_id, $grp_id]);
+            DB_Helper::getInstance()->query($sql, [$usr_id, $grp_id]);
         } catch (DatabaseException $e) {
             return -1;
         }

@@ -132,7 +132,6 @@ class Report
                 'status_color'        => $row['sta_color'],
                 'last_update'         => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
                 'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
-                'iss_last_response_date' => $row['iss_last_response_date'],
             ];
         }
 
@@ -463,7 +462,7 @@ class Report
             $dt = Date_Helper::getDateTime(mktime($i, 0, 0), 'GMT');
             $gmt_time = $dt->format('H:i');
             // convert to the users time zone
-            $dt->setTimeZone(new DateTimeZone($timezone));
+            $dt->setTimezone(new DateTimeZone($timezone));
             $hour = $dt->format('H');
             $user_time = $dt->format('H:i');
 
@@ -569,7 +568,7 @@ class Report
             // convert to the users time zone
             $dt = Date_Helper::getDateTime(mktime($i, 0, 0), 'GMT');
             $gmt_time = $dt->format('H:i');
-            $dt->setTimeZone(new DateTimeZone($timezone));
+            $dt->setTimezone(new DateTimeZone($timezone));
             $hour = $dt->format('H');
             $user_time = $dt->format('H:i');
 

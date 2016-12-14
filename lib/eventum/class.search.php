@@ -435,8 +435,6 @@ class Search
             Auth::redirect("list.php?pagerRow=0&rows=$max");
         }
 
-        $groups = Group::getAssocList($prj_id);
-        $categories = Category::getAssocList($prj_id);
         $column_headings = [];
         $columns_to_display = Display_Column::getColumnsToDisplay($prj_id, 'list_issues');
         foreach ($columns_to_display as $col_key => $column) {
@@ -542,7 +540,7 @@ class Search
         if ($role_id == User::ROLE_CUSTOMER) {
             $crm = CRM::getInstance($prj_id);
             $contact = $crm->getContact($usr_details['usr_customer_contact_id']);
-            $stmt .= " AND iss_customer_contract_id IN('" . implode("','", $contact->getContractIDS()) . "')";
+            $stmt .= " AND iss_customer_contract_id IN('" . implode("','", $contact->getContractIDs()) . "')";
             $stmt .= " AND iss_customer_id ='" . Auth::getCurrentCustomerID() . "'";
         } elseif (($role_id == User::ROLE_REPORTER) && (Project::getSegregateReporters($prj_id))) {
             $stmt .= " AND (
@@ -787,7 +785,6 @@ class Search
         }
 
         // check if excerpts for this full text search is already cached
-        $fulltext_string = Session::get('fulltext_string');
         $excerpts = Session::get('fulltext_excerpts');
         if (empty($excerpts)) {
             $excerpts = self::getFullTextSearchInstance()->getExcerpts();
