@@ -30,22 +30,3 @@ UPDATE eventum_project_user SET pru_role = 7 WHERE pru_usr_id = 2 LIMI
 -   2 is the user's ID
 
 In this example all the eventum tables have the prefix: `eventum_`
-
-if you're having recent MySQL server you can use subquery:
-
-```sql
-update eventum_project_user set pru_role=7 where pru_usr_id in
-(select usr_id from eventum_user where usr_email='your_email_here@example.com');
-```
-
-* * * * *
-
-another solution from Eventum User mailing list http://lists.mysql.com/eventum-users/1415 from Joao to update the level access to one user and one project (but administrator have a full access in all projects)
-- Update the role
-
-```sql
-REPLACE project_user VALUES (USER_ID_HERE, PROJECT_ID_HERE, 7);
-```
-
-The PROJECT_ID_HERE is the ID of the project in which this user is
-supposed to be an administrator under.
