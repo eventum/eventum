@@ -110,6 +110,8 @@ This release also no longer bundles SCM hook scripts, they are available from se
 - we reached [7000th] commit! :boom:
 - scm: modularize and add gitlab adapter (@glensc, #159)
 
+[7000th]: https://gitter.im/eventum/eventum?at=571fcd410f156f102b41020c
+
 ## 2016-04-19, Version [3.0.12]
 
 This will be last release supporting PHP 5.3, next version will require PHP 5.5 and be versioned as 3.1.0.
@@ -246,6 +248,11 @@ This release was buggy and was yanked, bug itself is fixed in v3.0.5
 - Manage Emails: Accept prj_id from GET to allow link bookmarking (Elan Ruusamäe)
 - Add DebugBar debug bar in development mode (Elan Ruusamäe, #87)
 
+[LP#741768]: https://bugs.launchpad.net/eventum/+bug/741768
+[LP#1450152]: https://bugs.launchpad.net/eventum/+bug/1450152
+[LP#1494732]: https://bugs.launchpad.net/eventum/+bug/1494732
+[LP#1506279]: https://bugs.launchpad.net/eventum/+bug/1506279
+
 ## 2015-10-13, Version [3.0.3]
 
 This release includes copy of wiki documents in release tarball.
@@ -259,6 +266,10 @@ This release includes copy of wiki documents in release tarball.
 - Display pretty error page for auth exceptions (Bryan Alsdorf)
 - Fix POP3 download bug (Craig Pinfold, #66, #69)
 - Add autosize plugin to all TEXAREAs (Elan Ruusamäe, #70)
+
+[LP#1481894]: https://bugs.launchpad.net/eventum/+bug/1481894
+[LP#1494536]: https://bugs.launchpad.net/eventum/+bug/1494536
+[LP#1494723]: https://bugs.launchpad.net/eventum/+bug/1494723
 
 ## 2015-08-04, Version [3.0.2]
 
@@ -339,6 +350,12 @@ Eventum CLI is now distributed as PHAR file.
 - Added notification email address for products (Bryan Alsdorf)
 - Use DB query placeholders (Elan Ruusamäe, GH#26)
 
+[LP#788699]: https://bugs.launchpad.net/eventum/+bug/788699
+[LP#898607]: https://bugs.launchpad.net/eventum/+bug/898607
+[LP#1201415]: https://bugs.launchpad.net/eventum/+bug/1201415
+[LP#1201415]: https://bugs.launchpad.net/eventum/+bug/1201415
+[LP#1377921]: https://bugs.launchpad.net/eventum/+bug/1377921
+
 ## 2014-10-04, Version [2.4.0-pre1]
 
 The templates have been ported to Smarty3, this is rewrite to use CSS for styling.
@@ -389,7 +406,13 @@ This release uses Composer for PHP Class autoloader.
 - Add option to "Separate Not Assigned to User" to weekly report (Raul Raat, GH#2)
 - Replace "Only Status Changes" with "No time spent" in weekly report (Raul Raat, GH#3)
 - Add lock support when updating issue details (Elan Ruusamäe, GH#4)
-- Get rid of PEAR Date, use native DateTime in PHP (Elan Ruusamäe, LP#684907)
+- Get rid of PEAR Date, use native DateTime in PHP (Elan Ruusamäe, [LP#684907])
+
+[CVE-2014-1631]: http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1631
+[CVE-2014-1632]: http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1632
+[CWE-276]: http://cwe.mitre.org/data/definitions/276.html
+[CWE-94]: http://cwe.mitre.org/data/definitions/94.html
+[LP#684907]: https://bugs.launchpad.net/eventum/+bug/684907
 
 ## 2013-11-28, Version 2.3.4
 
@@ -463,12 +486,12 @@ This release uses Composer for PHP Class autoloader.
 - Put 'Release' in the 'The issue was updated by' e-mail (Robbert-Jan Roos)
 - Changed ereg to preg_match in template helper for compatability (Bryan)
 - Removed assignment by reference in db helper to prevent PHP warning (Bryan)
-- Fix problem with custom field validation (Bryan) [lp#628862]
+- Fix problem with custom field validation (Bryan) [LP#628862]
 - Allow using GET parameters in reports/weekly.php (Elan Ruusamäe)
 - Added workflow method to supply custom Link_Filter rules. Supports also callbacks (Elan Ruusamäe)
 - Changed 'recieved' to 'received' (Robbert-Jan Roos)
 - XSS Fix: escape issue_id in templates accessing it directly via {$smarty.get.id} (Elan Ruusamäe)
-- Fix bug with ajax dynamic custom fields not honoring "hideWhenNoOptions" (Bryan Alsdorf) [lp#641133]
+- Fix bug with ajax dynamic custom fields not honoring "hideWhenNoOptions" (Bryan Alsdorf) [LP#641133]
 - Make attachment names linked in issue Initial Description (Elan Ruusamäe)
 - Set memory limit to ~2GiB to be able to download 10MiB emails (Elan Ruusamäe)
 - Use KiB, MiB keywords for filesizes (Elan Ruusamäe)
@@ -477,14 +500,19 @@ This release uses Composer for PHP Class autoloader.
 - Add better xmlrpc client class and sample (Elan Ruusamäe)
 - Rewritten monitor script and class with modern code and flexible (Elan Ruusamäe)
 - Support for configuring Monitor preferences (Elan Ruusamäe)
-- Fix user group when creating new user (Elan Ruusamäe) [lp#691398]
+- Fix user group when creating new user (Elan Ruusamäe) [LP#691398]
 - Allow translating 'Re: ' in email subjects (Elan Ruusamäe)
 - Add 'Subscribe Me' button to issue details screen for quickly add user itself to default notification options (Elan Ruusamäe)
 - Fix charset when processing Mime_Helper::fixEncoding (replaced by decodeQuotedPrintable)
 - Recognize Italian reply prefix in mail subject (Harri Porten)
 - Show summary of users time tracking if there are more than one user timetracking record (Raul Raat)
 - Fixed bug with quoting email addresses when they are surrounded by < > (Bryan Alsdorf)
-- Fixed XSS vulnerabilities in advisory ZSL-2011-4989 (Bryan, Elan Ruusamäe) [lp#706385]
+- Fixed XSS vulnerabilities in advisory ZSL-2011-4989 (Bryan, Elan Ruusamäe) [LP#706385]
+
+[LP#628862]: https://bugs.launchpad.net/eventum/+bug/628862
+[LP#641133]: https://bugs.launchpad.net/eventum/+bug/641133
+[LP#691398]: https://bugs.launchpad.net/eventum/+bug/691398
+[LP#706385]: https://bugs.launchpad.net/eventum/+bug/706385
 
 ## 2010-08-19, Version 2.3
 
@@ -651,7 +679,7 @@ This release uses Composer for PHP Class autoloader.
 - Added more parameters to Customer::notifyIssueClosed() (Bryan)
 - Call Workflow::getAdditionalEmailAddresses() when notifying an issue has been updated (Bryan)
 - Add extra parameter to Workflow::getAdditionalEmailAddresses() to allow issue diffs to be passed (Bryan)
-- Fixed bug with not encoding [ and ] in address strings (Bryan)
+- Fixed bug with not encoding `[` and `]` in address strings (Bryan)
 - Changed roles needed to move issues between projects (Bryan)
 - Added option to hide closed issues on stats page (CmputrAce)
 - Make variable available for workflow to be able to detect whether the email created new issue (Elan Ruusamäe)
@@ -959,7 +987,7 @@ This release uses Composer for PHP Class autoloader.
 - Added some extra checks to the login screen to properly report problems on the Eventum installation (João)
 - Added some code to properly identify closed issues when displaying duplicate or associated issues (João)
 - Fixed problem that prevented search options from being saved on the advanced search screen (Bug #10026) (Bryan)
-- Fixed magic quote problem by auto-unescaping quotes on $_REQUEST array (Bug #9915) (Bryan)
+- Fixed magic quote problem by auto-unescaping quotes on `$_REQUEST` array (Bug #9915) (Bryan)
 - Allow reporters to access issues they are on the authorized repliers list when segregate reporters is enabled (Bryan)
 
 ## 15 Apr 2005, Version 1.5.2
@@ -1183,7 +1211,7 @@ This release uses Composer for PHP Class autoloader.
 - Added note to remind people to protect their setup directories after installation (João)
 - Removed the "default notification options" feature. Too complex for something that should be simple (João)
 - Added user preference to automatically pre-fill the email signature in the internal notes module (João)
-- Fixed a bug that would continualy add "[#3333] Note: " to messages that already have that in the subject line (João)
+- Fixed a bug that would continualy add `[#3333] Note: ` to messages that already have that in the subject line (João)
 - Added a feature to save the issue/email listing screen search parameters in a per-project basis, so switching projects no longer is a problem (João)
 - Added a feature to allow a issue reminder to trigger a specific action and also a IRC notification (João)
 - Fixed the issue-xxxx@ code to properly ignore vacation auto-responder messages (João)
@@ -1269,4 +1297,3 @@ This release uses Composer for PHP Class autoloader.
 [3.0.1]: https://github.com/eventum/eventum/compare/v3.0.0-pre1...v3.0.1
 [3.0.0-pre1]: https://github.com/eventum/eventum/compare/v2.4.0-pre1...v3.0.0-pre1
 [2.4.0-pre1]: https://github.com/eventum/eventum/compare/v2.3.4...v2.4.0-pre1
-[7000th]: https://gitter.im/eventum/eventum?at=571fcd410f156f102b41020c
