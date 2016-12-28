@@ -46,6 +46,7 @@
 				<include name="**/ChangeLog*" />
 				<include name="**/LICENSE*" />
 				<include name="**/Makefile*" />
+				<include name="**/NEWS" />
 				<include name="**/README*" />
 				<include name="**/benchmark.php" />
 				<include name="**/composer.json" />
@@ -147,6 +148,13 @@
 				<exclude name="mutex/Mutex.php" />
 				<exclude name="util/DoubleCheckedLocking.php" />
 				<exclude name="exception/*.php" />
+			</fileset>
+
+			<fileset dir="${vendor}/phpxmlrpc/phpxmlrpc">
+				<include name="debugger" />
+				<include name="extras" />
+				<include name="lib" />
+				<include name="pakefile.php" />
 			</fileset>
 		</delete>
 	</target>
