@@ -1,6 +1,7 @@
 # Eventum Issue Tracking System
 
-## 201?-??-??, Version [3.1.7]
+## 2016-12-28, Version [3.1.7]
+
 - Add workflow method for moving an issue between projects (@balsdorf, #223)
 - Don't QP encode sender when storing in the DB (@balsdorf, #226, #225)
 - Replace XMLRPC PEAR implementation with phpxmlrpc (@glensc, #228)
@@ -1275,7 +1276,7 @@ This release uses Composer for PHP Class autoloader.
 
 - Initial release (João; Bryan)
 
-[3.1.7]: https://github.com/eventum/eventum/compare/v3.1.6...master
+[3.1.7]: https://github.com/eventum/eventum/compare/v3.1.6...v3.1.7
 [3.1.6]: https://github.com/eventum/eventum/compare/v3.1.5...v3.1.6
 [3.1.5]: https://github.com/eventum/eventum/compare/v3.1.4...v3.1.5
 [3.1.4]: https://github.com/eventum/eventum/compare/v3.1.3...v3.1.4
