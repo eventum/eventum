@@ -1,6 +1,8 @@
 # Eventum Issue Tracking System
 
-## [3.1.8] - 201?-??-??
+## [3.1.8] - 2016-12-30
+
+- fix smarty autoloader (@glensc, 0789211c)
 
 ## [3.1.7] - 2016-12-28
 
@@ -1278,7 +1280,7 @@ This release uses Composer for PHP Class autoloader.
 
 - Initial release (João; Bryan)
 
-[3.1.8]: https://github.com/eventum/eventum/compare/v3.1.7...master
+[3.1.8]: https://github.com/eventum/eventum/compare/v3.1.7...v3.1.8
 [3.1.7]: https://github.com/eventum/eventum/compare/v3.1.6...v3.1.7
 [3.1.6]: https://github.com/eventum/eventum/compare/v3.1.5...v3.1.6
 [3.1.5]: https://github.com/eventum/eventum/compare/v3.1.4...v3.1.5
