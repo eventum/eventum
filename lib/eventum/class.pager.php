@@ -88,8 +88,9 @@ class Pager
      * @param   array $link_str The strings to be used instead of the default 'Next >>' and '<< Previous'
      * @return  array The list of paginated links
      * @see     getTotalRows()
+     * @deprecated method not used?
      */
-    public function getLinks($row, $total_rows, $per_page, $show_links = 'all', $show_blank = 'off', $link_str = -1)
+    public static function getLinks($row, $total_rows, $per_page, $show_links = 'all', $show_blank = 'off', $link_str = -1)
     {
         // check for emptyness
         if ((empty($total_rows)) || (empty($per_page))) {
@@ -153,8 +154,9 @@ class Pager
      * @param   int $target_size The maximum number of paginated links
      * @return  array The list of paginated links
      * @see     getLinks()
+     * @deprecated method not used?
      */
-    public function getPortion($array, $current, $target_size = 20)
+    public static function getPortion($array, $current, $target_size = 20)
     {
         $size = count($array);
         if (($size <= 2) || ($size < $target_size)) {

@@ -227,7 +227,7 @@ class Reminder
      * @param   integer $rem_id The reminder ID
      * @return  array The list of associated priority IDs
      */
-    public function getAssociatedPriorities($rem_id)
+    public static function getAssociatedPriorities($rem_id)
     {
         $stmt = 'SELECT
                     rep_pri_id
@@ -244,7 +244,7 @@ class Reminder
         return $res;
     }
 
-    public function getAssociatedProducts($rem_id)
+    public static function getAssociatedProducts($rem_id)
     {
         $stmt = 'SELECT
                     rpr_pro_id
@@ -268,7 +268,7 @@ class Reminder
      * @param   integer $rem_id The reminder ID
      * @return  array The list of associated severity IDs
      */
-    public function getAssociatedSeverities($rem_id)
+    public static function getAssociatedSeverities($rem_id)
     {
         $stmt = 'SELECT
                     rms_sev_id
@@ -293,7 +293,7 @@ class Reminder
      * @param   integer $support_level_id The support level ID
      * @return  boolean
      */
-    public function addSupportLevelAssociation($rem_id, $support_level_id)
+    public static function addSupportLevelAssociation($rem_id, $support_level_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_requirement}}
@@ -319,7 +319,7 @@ class Reminder
      * @param   integer $issue_id The issue ID
      * @return  boolean
      */
-    public function addIssueAssociation($rem_id, $issue_id)
+    public static function addIssueAssociation($rem_id, $issue_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_requirement}}
@@ -346,7 +346,7 @@ class Reminder
      * @param   integer $customer_id The customer ID
      * @return  boolean
      */
-    public function addCustomerAssociation($rem_id, $customer_id)
+    public static function addCustomerAssociation($rem_id, $customer_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_requirement}}
@@ -371,7 +371,7 @@ class Reminder
      * @param   integer $rem_id The reminder ID
      * @return  boolean
      */
-    public function associateAllIssues($rem_id)
+    public static function associateAllIssues($rem_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_requirement}}
@@ -397,7 +397,7 @@ class Reminder
      * @param   integer $priority_id The priority ID
      * @return  boolean
      */
-    public function addPriorityAssociation($rem_id, $priority_id)
+    public static function addPriorityAssociation($rem_id, $priority_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_priority}}
@@ -416,7 +416,7 @@ class Reminder
         return true;
     }
 
-    public function addProductAssociation($rem_id, $pro_id)
+    public static function addProductAssociation($rem_id, $pro_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_product}}
@@ -442,7 +442,7 @@ class Reminder
      * @param   integer $priority_id The severity ID
      * @return  boolean
      */
-    public function addSeverityAssociation($rem_id, $severity_id)
+    public static function addSeverityAssociation($rem_id, $severity_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_severity}}
@@ -467,7 +467,7 @@ class Reminder
      *
      * @param   integer $rem_id The reminder ID
      */
-    public function removeAllAssociations($rem_id)
+    public static function removeAllAssociations($rem_id)
     {
         if (!is_array($rem_id)) {
             $rem_id = [$rem_id];
@@ -676,7 +676,7 @@ class Reminder
      * @param   integer $rem_id The reminder ID
      * @return  array The list of requirements
      */
-    public function getRequirements($rem_id)
+    public static function getRequirements($rem_id)
     {
         $stmt = 'SELECT
                     rer_customer_id,
@@ -863,7 +863,7 @@ class Reminder
      * @param   array $conditions The list of conditions
      * @return  string The where clause
      */
-    public function getWhereClause($reminder, $conditions)
+    public static function getWhereClause($reminder, $conditions)
     {
         $stmt = '
                   WHERE

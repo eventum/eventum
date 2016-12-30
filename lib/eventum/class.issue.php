@@ -226,8 +226,9 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @param   integer $contract_id The contract ID
      * @return  integer 1 if the update worked, -1 otherwise
+     * @deprecated method not used?
      */
-    public function setContractID($issue_id, $contract_id)
+    public static function setContractID($issue_id, $contract_id)
     {
         $old_contract_id = self::getContractID($issue_id);
 
@@ -258,8 +259,9 @@ class Issue
      *
      * @param   integer $issue_id The issue ID
      * @return  integer The customer ID associated with the issue
+     * @deprecated method not used?
      */
-    public function getContactID($issue_id)
+    public static function getContactID($issue_id)
     {
         static $returns;
 
@@ -433,7 +435,7 @@ class Issue
      * @param   integer $pre_id The ID of the release to set this issue too
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function setRelease($issue_id, $pre_id)
+    public static function setRelease($issue_id, $pre_id)
     {
         if ($pre_id != self::getRelease($issue_id)) {
             $sql = 'UPDATE
@@ -458,7 +460,7 @@ class Issue
      * @param   integer $issue_id The ID of the issue
      * @return  integer The release ID
      */
-    public function getRelease($issue_id)
+    public static function getRelease($issue_id)
     {
         $sql = 'SELECT
                     iss_pre_id
@@ -616,7 +618,7 @@ class Issue
      * @param   integer $issue_id The ID of the issue
      * @return  string The Expected Resolution Date
      */
-    public function getExpectedResolutionDate($issue_id)
+    public static function getExpectedResolutionDate($issue_id)
     {
         $sql = 'SELECT
                     iss_expected_resolution_date
@@ -640,7 +642,7 @@ class Issue
      * @param   integer $prc_id The ID of the category to set this issue too
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function setCategory($issue_id, $prc_id)
+    public static function setCategory($issue_id, $prc_id)
     {
         if ($prc_id != self::getPriority($issue_id)) {
             $sql = 'UPDATE
@@ -874,7 +876,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  integer 1 if the update worked, -1 otherwise
      */
-    public function updateDuplicates($issue_id)
+    public static function updateDuplicates($issue_id)
     {
         $ids = self::getDuplicateList($issue_id);
         if ($ids == '') {
@@ -1140,8 +1142,9 @@ class Issue
      *
      * @param   string $summary The summary to look for
      * @return  integer The issue ID
+     * @deprecated method not used
      */
-    public function getIssueID($summary)
+    public static function getIssueID($summary)
     {
         $stmt = 'SELECT
                     iss_id
@@ -1633,7 +1636,7 @@ class Issue
      * @param integer $new_prj_id
      * @return integer 1 on success, -1 otherwise
      */
-    public function moveIssue($issue_id, $new_prj_id)
+    public static function moveIssue($issue_id, $new_prj_id)
     {
         $current_prj_id = self::getProjectID($issue_id);
         $mapping = self::getMovedIssueMapping($issue_id, $new_prj_id);
@@ -2477,9 +2480,9 @@ class Issue
      * list of issues.
      *
      * @param   array $result The result set
-     * @return  void
+     * @deprecated method not used
      */
-    public function getReportersByIssues(&$result)
+    public static function getReportersByIssues(&$result)
     {
         $ids = [];
         foreach ($result as $res) {
@@ -2624,8 +2627,9 @@ class Issue
      *
      * @param   integer $issue_id The issue ID
      * @return  array The list of users
+     * @deprecated method not used
      */
-    public function getAssignedUserEmailHandles($issue_id)
+    public static function getAssignedUserEmailHandles($issue_id)
     {
         $stmt = "SELECT
                     usr_id,
@@ -2812,7 +2816,7 @@ class Issue
      * @param   integer $issue_id The issue ID
      * @return  array The duplicated issue details
      */
-    public function getDuplicatedDetails($issue_id)
+    public static function getDuplicatedDetails($issue_id)
     {
         $stmt = 'SELECT
                     iss_summary title,
@@ -3020,8 +3024,9 @@ class Issue
      *
      * @param   string $extra_condition An extra condition in the WHERE clause
      * @return  array The list of issues
+     * @deprecated method not used
      */
-    public function getAssocList($extra_condition = null)
+    public static function getAssocList($extra_condition = null)
     {
         $stmt = 'SELECT
                     iss_id,
@@ -3216,8 +3221,9 @@ class Issue
      * @param   integer $issue_id The ID of the issue
      * @param   integer $group_id The ID of the group
      * @return  integer 1 if successful, -1 or -2 otherwise
+     * @deprecated method not used
      */
-    public function setGroup($issue_id, $group_id)
+    public static function setGroup($issue_id, $group_id)
     {
         $issue_id = (int) $issue_id;
         $group_id = (int) $group_id;
@@ -3304,7 +3310,7 @@ class Issue
      * @param   integer $issue_id The ID of the issue
      * @return int
      */
-    public function clearClosed($issue_id)
+    public static function clearClosed($issue_id)
     {
         $stmt = 'UPDATE
                     {{%issue}}

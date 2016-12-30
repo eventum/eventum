@@ -202,7 +202,7 @@ class Reminder_Action
      * @param   integer $rma_id The reminder action ID
      * @return  array The list of associated users
      */
-    public function getUserList($rma_id)
+    public static function getUserList($rma_id)
     {
         $stmt = 'SELECT
                     ral_usr_id,
@@ -235,9 +235,8 @@ class Reminder_Action
      *
      * @param   integer $rma_id The reminder action ID
      * @param   array $user_list The list of users
-     * @return  void
      */
-    public function associateUserList($rma_id, $user_list)
+    public static function associateUserList($rma_id, $user_list)
     {
         foreach ($user_list as $user) {
             if (!Validation::isEmail($user)) {
@@ -312,7 +311,7 @@ class Reminder_Action
      * @param   integer $rmt_id The reminder action type ID
      * @return  boolean
      */
-    public function isUserList($rmt_id)
+    public static function isUserList($rmt_id)
     {
         $stmt = 'SELECT
                     rmt_type
@@ -342,9 +341,8 @@ class Reminder_Action
      * Removes the full user list for a given reminder action ID.
      *
      * @param   integer $rma_id The reminder action ID
-     * @return  void
      */
-    public function clearActionUserList($rma_id)
+    public static function clearActionUserList($rma_id)
     {
         if (!is_array($rma_id)) {
             $rma_id = [$rma_id];
@@ -492,7 +490,7 @@ class Reminder_Action
      * @param   integer $rmt_id The reminder action type
      * @return  string The action type title
      */
-    public function getActionType($rmt_id)
+    public static function getActionType($rmt_id)
     {
         $stmt = 'SELECT
                     rmt_type
@@ -517,7 +515,7 @@ class Reminder_Action
      * @param   integer $rma_id The reminder action ID
      * @return  boolean
      */
-    public function saveHistory($issue_id, $rma_id)
+    public static function saveHistory($issue_id, $rma_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_history}}
@@ -823,7 +821,7 @@ class Reminder_Action
      * @param   integer $rma_id The reminder action ID
      * @return  boolean
      */
-    public function recordLastTriggered($issue_id, $rma_id)
+    public static function recordLastTriggered($issue_id, $rma_id)
     {
         $stmt = 'SELECT
                     COUNT(*)

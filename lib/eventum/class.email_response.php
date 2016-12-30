@@ -25,9 +25,8 @@ class Email_Response
      *
      * @param   integer $ere_id The email response ID
      * @param   integer $prj_id The project ID
-     * @return  void
      */
-    public function addProjectAssociation($ere_id, $prj_id)
+    public static function addProjectAssociation($ere_id, $prj_id)
     {
         $stmt = 'INSERT INTO
                     {{%project_email_response}}
@@ -104,7 +103,7 @@ class Email_Response
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
-    public function removeProjectAssociations($ere_id, $prj_id = null)
+    public static function removeProjectAssociations($ere_id, $prj_id = null)
     {
         if (!is_array($ere_id)) {
             $ere_id = [$ere_id];
@@ -194,7 +193,7 @@ class Email_Response
      * @param   integer $ere_id The email response ID
      * @return  array The list of projects
      */
-    public function getAssociatedProjects($ere_id)
+    public static function getAssociatedProjects($ere_id)
     {
         $stmt = 'SELECT
                     prj_id,

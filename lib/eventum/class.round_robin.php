@@ -23,7 +23,7 @@ class Round_Robin
      * @param   integer $end The blackout end hour
      * @return  array The blackout dates
      */
-    public function getBlackoutDates($date, $start, $end)
+    public static function getBlackoutDates($date, $start, $end)
     {
         $start = substr($start, 0, 2);
         $end = substr($end, 0, 2);
@@ -167,7 +167,7 @@ class Round_Robin
      * @param   integer $usr_id The assignee's user ID
      * @return  boolean
      */
-    public function markNextAssignee($prj_id, $usr_id)
+    public static function markNextAssignee($prj_id, $usr_id)
     {
         $prr_id = self::getID($prj_id);
         $stmt = 'UPDATE
@@ -204,7 +204,7 @@ class Round_Robin
      * @param   integer $prj_id The project ID
      * @return  integer The round robin entry ID
      */
-    public function getID($prj_id)
+    public static function getID($prj_id)
     {
         $stmt = 'SELECT
                     prr_id
@@ -228,7 +228,7 @@ class Round_Robin
      * @param   integer $prj_id The project ID
      * @return  array The list of users
      */
-    public function getUsersByProject($prj_id)
+    public static function getUsersByProject($prj_id)
     {
         $stmt = 'SELECT
                     usr_id,
@@ -311,7 +311,7 @@ class Round_Robin
      * @param   integer $usr_id The user ID
      * @return  boolean
      */
-    public function addUserAssociation($prr_id, $usr_id)
+    public static function addUserAssociation($prr_id, $usr_id)
     {
         $stmt = 'INSERT INTO
                     {{%round_robin_user}}
@@ -370,7 +370,7 @@ class Round_Robin
      * @param   integer $prr_id The round robin entry ID
      * @return  array The list of users
      */
-    public function getAssociatedUsers($prr_id)
+    public static function getAssociatedUsers($prr_id)
     {
         $stmt = 'SELECT
                     usr_id,
@@ -457,7 +457,7 @@ class Round_Robin
      * @param   integer $prr_id The round robin ID
      * @return  boolean
      */
-    public function removeUserAssociations($prr_id)
+    public static function removeUserAssociations($prr_id)
     {
         if (!is_array($prr_id)) {
             $prr_id = [$prr_id];

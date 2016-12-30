@@ -181,8 +181,9 @@ class Draft
      *
      * @param   integer $emd_id The email draft ID
      * @return  boolean
+     * @deprecated method not used
      */
-    public function removeRecipients($emd_id)
+    public static function removeRecipients($emd_id)
     {
         $stmt = 'DELETE FROM
                     {{%email_draft_recipient}}
@@ -419,8 +420,9 @@ class Draft
      * @param   integer $start The timestamp of the start date
      * @param   integer $end The timestanp of the end date
      * @return  integer The number of note by the user.
+     * @deprecated method not used
      */
-    public function getCountByUser($usr_id, $start, $end)
+    public static function getCountByUser($usr_id, $start, $end)
     {
         $stmt = 'SELECT
                     COUNT(emd_id)

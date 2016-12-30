@@ -352,7 +352,7 @@ class Filter
      * @param   string $cst_title The custom filter title
      * @return  integer The custom filter ID
      */
-    public function getFilterID($cst_title)
+    public static function getFilterID($cst_title)
     {
         $stmt = 'SELECT
                     cst_id

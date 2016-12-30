@@ -299,7 +299,7 @@ class Authorized_Replier
      * @param   integer $iur_id The id of the authorized replier
      * @return  string The name/email of the replier
      */
-    public function getReplier($iur_id)
+    public static function getReplier($iur_id)
     {
         $stmt = "SELECT
                     if (iur_usr_id = '" . APP_SYSTEM_USER_ID . "', iur_email, usr_full_name) replier
@@ -325,8 +325,9 @@ class Authorized_Replier
      * @param   integer $issue_id The id of the issue.
      * @param   string $email The email address of the user
      * @return  integer The id of the replier
+     * @deprecated method not used
      */
-    public function getReplierIDByEmail($issue_id, $email)
+    public static function getReplierIDByEmail($issue_id, $email)
     {
         $stmt = 'SELECT
                     iur_id

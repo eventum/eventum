@@ -239,7 +239,7 @@ class Attachment
      * @param   integer $iaf_id The attachment file ID
      * @return int
      */
-    public function removeFile($iaf_id)
+    public static function removeFile($iaf_id)
     {
         $stmt = 'DELETE FROM
                     {{%issue_attachment_file}}

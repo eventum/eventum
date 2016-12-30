@@ -67,9 +67,8 @@ class News
      *
      * @param   integer $nws_id The news ID
      * @param   integer $prj_id The project ID
-     * @return  void
      */
-    public function addProjectAssociation($nws_id, $prj_id)
+    public static function addProjectAssociation($nws_id, $prj_id)
     {
         $stmt = 'INSERT INTO
                     {{%project_news}}
@@ -160,7 +159,7 @@ class News
      * @param   integer $prj_id The project ID
      * @return  boolean
      */
-    public function removeProjectAssociations($nws_id, $prj_id = false)
+    public static function removeProjectAssociations($nws_id, $prj_id = false)
     {
         if (!is_array($nws_id)) {
             $nws_id = [$nws_id];
@@ -311,7 +310,7 @@ class News
      * @param   integer $nws_id The news ID
      * @return  array The list of projects
      */
-    public function getAssociatedProjects($nws_id)
+    public static function getAssociatedProjects($nws_id)
     {
         $stmt = 'SELECT
                     prj_id,

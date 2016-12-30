@@ -126,8 +126,9 @@ class Priority
      *
      * @param   array $ids The project IDs to be removed
      * @return  boolean Whether the removal worked or not
+     * @deprecated method not used
      */
-    public function removeByProjects($ids)
+    public static function removeByProjects($ids)
     {
         $items = DB_Helper::buildList($ids);
         $stmt = "DELETE FROM

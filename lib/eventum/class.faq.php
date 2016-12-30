@@ -101,7 +101,7 @@ class FAQ
      * @param   integer $faq_id The FAQ ID
      * @return  boolean
      */
-    public function removeSupportLevelAssociations($faq_id)
+    public static function removeSupportLevelAssociations($faq_id)
     {
         if (!is_array($faq_id)) {
             $faq_id = [$faq_id];
@@ -211,9 +211,8 @@ class FAQ
      *
      * @param   integer $faq_id The FAQ ID
      * @param   integer $support_level_id The support level ID
-     * @return  void
      */
-    public function addSupportLevelAssociation($faq_id, $support_level_id)
+    public static function addSupportLevelAssociation($faq_id, $support_level_id)
     {
         $stmt = 'INSERT INTO
                     {{%faq_support_level}}
@@ -297,7 +296,7 @@ class FAQ
      * @param   integer $faq_id The FAQ ID
      * @return  array The list of projects
      */
-    public function getAssociatedSupportLevels($prj_id, $faq_id)
+    public static function getAssociatedSupportLevels($prj_id, $faq_id)
     {
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);

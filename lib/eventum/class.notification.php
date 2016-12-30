@@ -407,7 +407,7 @@ class Notification
      * @param   integer $note_id The note ID
      * @return  array The details of the note / issue
      */
-    public function getNote($issue_id, $note_id)
+    public static function getNote($issue_id, $note_id)
     {
         $stmt = 'SELECT
                     not_usr_id,
@@ -457,8 +457,9 @@ class Notification
      * @param   integer $issue_id The issue ID
      * @param   array $sup_ids The list of associated emails
      * @return  array The issue / emails details
+     * @deprecated method not used
      */
-    public function getEmails($issue_id, $sup_ids)
+    public static function getEmails($issue_id, $sup_ids)
     {
         $items = DB_Helper::buildList($sup_ids);
         $stmt = "SELECT
@@ -493,7 +494,7 @@ class Notification
      * @param   integer $attachment_id The attachment ID
      * @return  array The issue / attachment details
      */
-    public function getAttachment($issue_id, $attachment_id)
+    public static function getAttachment($issue_id, $attachment_id)
     {
         $stmt = 'SELECT
                     iat_id,
@@ -1497,8 +1498,9 @@ class Notification
      * @param   integer $issue_id The ID of the issue
      * @param   string $type The type of notification to send
      * @param   array $data Any extra data to pass to the template
+     * @deprecated method not used
      */
-    public function notifyAssignees($issue_id, $type, $data, $title = '')
+    public static function notifyAssignees($issue_id, $type, $data, $title = '')
     {
         $prj_id = Issue::getProjectID($issue_id);
         $assignees = Issue::getAssignedUserIDs($issue_id);
@@ -1597,9 +1599,9 @@ class Notification
      * Method used to send the account details of an user.
      *
      * @param   integer $usr_id The user ID
-     * @return  void
+     * @deprecated method not used?
      */
-    public function notifyAccountDetails($usr_id)
+    public static function notifyAccountDetails($usr_id)
     {
         $info = User::getDetails($usr_id);
         $info['projects'] = Project::getAssocList($usr_id, true, true);
@@ -1771,7 +1773,7 @@ class Notification
      * @param   integer $sub_id The subscription ID
      * @return  array The subscribed actions
      */
-    public function getSubscribedActions($sub_id)
+    public static function getSubscribedActions($sub_id)
     {
         $stmt = 'SELECT
                     sbt_type,
@@ -1960,7 +1962,7 @@ class Notification
      * @param   integer $sub_id The subscription ID
      * @return  string The email address
      */
-    public function getSubscriber($sub_id)
+    public static function getSubscriber($sub_id)
     {
         $stmt = 'SELECT
                     sub_usr_id,

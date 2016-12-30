@@ -94,8 +94,9 @@ class Validation
      *
      * @param   string $str The string to check against
      * @return  boolean
+     * @deprecated method not used
      */
-    public function hasValidChars($str)
+    public static function hasValidChars($str)
     {
         $valid_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
                                 'j', 'l', 'k', 'm', 'n', 'o', 'p', 'q', 'r',

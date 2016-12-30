@@ -229,7 +229,7 @@ class Note
      * @param   integer $note_id The note ID
      * @return string
      */
-    public function getUnknownUser($note_id)
+    public static function getUnknownUser($note_id)
     {
         $sql = 'SELECT
                     not_unknown_user
@@ -703,8 +703,9 @@ class Note
      *
      * @param   string $issue_id The issue ID
      * @return  integer The number of notes
+     * @deprecated method not used
      */
-    public function getTotalNotesByIssue($issue_id)
+    public static function getTotalNotesByIssue($issue_id)
     {
         $stmt = 'SELECT
                     COUNT(*)

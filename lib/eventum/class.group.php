@@ -137,7 +137,7 @@ class Group
      * @param   array $projects An array of projects to associate with the group.
      * @return int
      */
-    public function setProjects($grp_id, $projects)
+    public static function setProjects($grp_id, $projects)
     {
         self::removeProjectsByGroup($grp_id);
 

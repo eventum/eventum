@@ -438,7 +438,7 @@ class Misc
      * @param   string $str The string to be indented
      * @return  string The indented string
      */
-    public function indent($str)
+    public static function indent($str)
     {
         return '> ' . $str;
     }

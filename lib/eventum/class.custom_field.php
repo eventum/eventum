@@ -28,7 +28,7 @@ class Custom_Field
      * @param   array $fld_id The list of custom field option IDs
      * @return  boolean
      */
-    public function removeOptions($fld_id, $cfo_id)
+    public static function removeOptions($fld_id, $cfo_id)
     {
         if (!is_array($fld_id)) {
             $fld_id = [$fld_id];
@@ -66,7 +66,7 @@ class Custom_Field
      * @param   array $options The list of options that need to be added
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    public function addOptions($fld_id, $options)
+    public static function addOptions($fld_id, $options)
     {
         if (!is_array($options)) {
             $options = [$options];
@@ -100,7 +100,7 @@ class Custom_Field
      * @param   string $cfo_value The custom field option value
      * @return  boolean
      */
-    public function updateOption($cfo_id, $cfo_value)
+    public static function updateOption($cfo_id, $cfo_value)
     {
         $stmt = 'UPDATE
                     {{%custom_field_option}}
@@ -977,7 +977,7 @@ class Custom_Field
      * @param   integer $fld_id The custom field ID
      * @return  boolean
      */
-    public function associateProject($prj_id, $fld_id)
+    public static function associateProject($prj_id, $fld_id)
     {
         $stmt = 'INSERT INTO
                     {{%project_custom_field}}
@@ -1040,7 +1040,7 @@ class Custom_Field
      * @param   integer $fld_id The project ID
      * @return  array The list of associated projects
      */
-    public function getAssociatedProjects($fld_id)
+    public static function getAssociatedProjects($fld_id)
     {
         $stmt = 'SELECT
                     prj_id,
@@ -1380,7 +1380,7 @@ class Custom_Field
      * @param   integer $prj_id The project ID (not required)
      * @return  boolean
      */
-    public function removeIssueAssociation($fld_id, $issue_id = null, $prj_id = null)
+    public static function removeIssueAssociation($fld_id, $issue_id = null, $prj_id = null)
     {
         if (!is_array($fld_id)) {
             $fld_id = [$fld_id];
@@ -1430,7 +1430,7 @@ class Custom_Field
      * @param   array $ids The list of custom field IDs
      * @return  boolean
      */
-    public function removeOptionsByFields($ids)
+    public static function removeOptionsByFields($ids)
     {
         $items = DB_Helper::buildList($ids);
         $stmt = "SELECT
@@ -1559,7 +1559,7 @@ class Custom_Field
      *
      * @return  integer The highest rank
      */
-    public function getMaxRank()
+    public static function getMaxRank()
     {
         $sql = 'SELECT
                     max(fld_rank)
@@ -1620,7 +1620,7 @@ class Custom_Field
      * @param   integer $rank The new rank for this field
      * @return  integer 1 if successful, -1 otherwise
      */
-    public function setRank($fld_id, $rank)
+    public static function setRank($fld_id, $rank)
     {
         $sql = 'UPDATE
                     {{%custom_field}}
@@ -1665,7 +1665,7 @@ class Custom_Field
      * @param   string $backend The full backend file name
      * @return  string The pretty name of the backend.
      */
-    public function getBackendName($backend)
+    public static function getBackendName($backend)
     {
         preg_match('/^class\.(.*)\.php$/', $backend, $matches);
 
@@ -1736,8 +1736,9 @@ class Custom_Field
      * @param   integer $fld_id The ID of the custom field
      * @param   string  $search The string to search for
      * @return  array An array of issue IDs
+     * @deprecated method not used
      */
-    public function getIssuesByString($fld_id, $search)
+    public static function getIssuesByString($fld_id, $search)
     {
         $sql = 'SELECT
                     icf_iss_id
@@ -1788,8 +1789,9 @@ class Custom_Field
      * It currently is not called by the main code, but is included to be called from workflow classes.
      *
      * @param   integer $issue_id The Issue ID
+     * @deprecated method not used
      */
-    public function populateAllFields($issue_id)
+    public static function populateAllFields($issue_id)
     {
         $prj_id = Issue::getProjectID($issue_id);
         $fields = self::getListByIssue($prj_id, $issue_id, APP_SYSTEM_USER_ID);

@@ -310,8 +310,9 @@ class Time_Tracking
      *
      * @param   integer $issue_id The issue ID
      * @return  integer The total time spent
+     * @deprecated method not used
      */
-    public function getTimeSpentByIssue($issue_id)
+    public static function getTimeSpentByIssue($issue_id)
     {
         $stmt = 'SELECT
                     SUM(ttr_time_spent)
@@ -725,8 +726,9 @@ class Time_Tracking
      * @param   integer $start The timestamp of the beginning of the report.
      * @param   integer $end The timestamp of the end of this report.
      * @return  integer The time spent
+     * @deprecated method not used
      */
-    public function getTimeSpentByIssueAndTime($issue_id, $usr_id, $start, $end)
+    public static function getTimeSpentByIssueAndTime($issue_id, $usr_id, $start, $end)
     {
         $stmt = 'SELECT
                     SUM(ttr_time_spent)

@@ -38,8 +38,9 @@ class Mime_Helper
      *
      * @param   mixed   $input The full body of the message or decoded email.
      * @return  string charset extracted from Content-Type header of email.
+     * @deprecated method not used
      */
-    public function getCharacterSet($input)
+    public static function getCharacterSet($input)
     {
         if (!is_object($input)) {
             $structure = self::decode($input, false, false);
@@ -450,6 +451,7 @@ class Mime_Helper
      * @param   string $hdr_value The string to be encoded
      * @param   string $charset The charset of the string
      * @return  string The encoded string
+     * @deprecated method not used
      */
     public function encodeValue($hdr_value, $charset = 'iso-8859-1')
     {

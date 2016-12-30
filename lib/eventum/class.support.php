@@ -731,7 +731,7 @@ class Support
      * @param   array   $cc An array of cc addresses
      * @return  array   An array of information about the message
      */
-    public function createIssueFromEmail($info, $headers, $message_body, $date, $from, $subject, $to, $cc)
+    public static function createIssueFromEmail($info, $headers, $message_body, $date, $from, $subject, $to, $cc)
     {
         $should_create_issue = false;
         $issue_id = '';
@@ -910,8 +910,9 @@ class Support
      *
      * @param   integer $ema_id The support email account ID
      * @return  array The list of message-ids
+     * @deprecated method not used
      */
-    public function getMessageIDs($ema_id)
+    public static function getMessageIDs($ema_id)
     {
         $stmt = 'SELECT
                     DISTINCT sup_message_id
@@ -934,7 +935,7 @@ class Support
      * @param   string $message_id The Message-ID header
      * @return  boolean
      */
-    public function exists($message_id)
+    public static function exists($message_id)
     {
         $sql = 'SELECT
                     count(*)
@@ -1932,9 +1933,8 @@ class Support
      * @param   string $message_id The message-id
      * @param   integer $sender_usr_id The ID of the user sending this message.
      * @param   array $iaf_ids An array with attachment information.
-     * @return  void
      */
-    public function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $iaf_ids, $message_id, $sender_usr_id = false)
+    public static function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $iaf_ids, $message_id, $sender_usr_id = false)
     {
         $prj_id = Issue::getProjectID($issue_id);
         $subject = Mail_Helper::formatSubject($issue_id, $subject);
@@ -1981,7 +1981,7 @@ class Support
      * @param   string $cc The Cc list
      * @return  array The list of email addresses
      */
-    public function getRecipientsCC($cc)
+    public static function getRecipientsCC($cc)
     {
         $cc = trim($cc);
         if (empty($cc)) {
@@ -2226,7 +2226,7 @@ class Support
      * @param   integer $sup_id The support email ID
      * @return  integer The email ID
      */
-    public function getMessageIDByID($sup_id)
+    public static function getMessageIDByID($sup_id)
     {
         $stmt = 'SELECT
                     sup_message_id
@@ -2250,7 +2250,7 @@ class Support
      * @param   string $message_id The message ID
      * @return  integer The email ID
      */
-    public function getIDByMessageID($message_id)
+    public static function getIDByMessageID($message_id)
     {
         if (!$message_id) {
             return false;
@@ -2399,7 +2399,7 @@ class Support
      * @param   integer $ema_id The id of the email account.
      * @return  integer The ID of the of the project.
      */
-    public function getProjectByEmailAccount($ema_id)
+    public static function getProjectByEmailAccount($ema_id)
     {
         static $returns;
 
@@ -2507,7 +2507,7 @@ class Support
      * @param   resource $mbox The mailbox object
      * @param   integer $num The number of the message to delete.
      */
-    public function deleteMessage($info, $mbox, $num)
+    public static function deleteMessage($info, $mbox, $num)
     {
         // need to delete the message from the server?
         if (!$info['ema_leave_copy']) {
@@ -2597,7 +2597,7 @@ class Support
         return false;
     }
 
-    public function addExtraRecipientsToNotificationList($prj_id, $email, $is_auto_created = false)
+    public static function addExtraRecipientsToNotificationList($prj_id, $email, $is_auto_created = false)
     {
         if ((empty($email['to'])) && (!empty($email['sup_to']))) {
             $email['to'] = $email['sup_to'];

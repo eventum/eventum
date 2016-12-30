@@ -441,8 +441,9 @@ class Email_Account
      *
      * @param   integer $issue_id The issue ID
      * @return  integer The email account ID
+     * @deprecated method not used
      */
-    public function getEmailAccountByIssueID($issue_id)
+    public static function getEmailAccountByIssueID($issue_id)
     {
         $stmt = 'SELECT
                     ema_id

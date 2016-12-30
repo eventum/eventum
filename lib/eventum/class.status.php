@@ -198,8 +198,9 @@ class Status
      * not.
      *
      * @return  boolean
+     * @deprecated method not used
      */
-    public function hasClosedContext($sta_id)
+    public static function hasClosedContext($sta_id)
     {
         $stmt = 'SELECT
                     sta_is_closed
@@ -471,7 +472,7 @@ class Status
      * @param   integer $sta_id The custom status ID
      * @return  array The list of projects
      */
-    public function getAssociatedProjects($sta_id)
+    public static function getAssociatedProjects($sta_id)
     {
         $stmt = 'SELECT
                     prj_id,
@@ -714,8 +715,9 @@ class Status
      * Method used to get the list of statuses and their respective colors
      *
      * @return  array List of statuses
+     * @deprecated method not used
      */
-    public function getStatusColors()
+    public static function getStatusColors()
     {
         $stmt = 'SELECT
                     sta_color,

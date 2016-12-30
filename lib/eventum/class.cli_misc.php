@@ -51,7 +51,7 @@ class CLI_Misc
      *
      * @return  string The standard input value
      */
-    public function getInputLine()
+    public static function getInputLine()
     {
         return fgets(STDIN);
     }
