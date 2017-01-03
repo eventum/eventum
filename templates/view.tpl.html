@@ -9,10 +9,10 @@
   {include file="custom_fields.tpl.html"}
   {/if}
   {if $issue_access.partners && $enabled_partners|@count > 0}
-  <div class="view_issue_seperator"></div>
+  <div class="view_issue_separator"></div>
   {include file="partners.tpl.html"}
   {/if}
-  <div class="view_issue_seperator"></div>
+  <div class="view_issue_separator"></div>
 
   {if $core.has_crm and $issue.iss_customer_id}
   {include file="`$core.crm_template_path`/customer_info.tpl.html"}
@@ -20,7 +20,7 @@
 
   {if $issue_access.files}
   {include file="attachments.tpl.html"}
-  <div class="view_issue_seperator"></div>
+  <div class="view_issue_separator"></div>
   {/if}
 
   {if $core.app_setup.scm_integration|default:'' == 'enabled' and $issue_access.checkins}
