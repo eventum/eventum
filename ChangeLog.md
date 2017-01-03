@@ -423,7 +423,7 @@ This release uses Composer for PHP Class autoloader.
 
 ## 2.3.4 - 2013-11-28
 
-- Fixed STR_PAD_LEFT PHP 5.3 compatability issue. Info and fix from mailinglist (Elan Ruusamäe)
+- Fixed STR_PAD_LEFT PHP 5.3 compatibility issue. Info and fix from mailinglist (Elan Ruusamäe)
 - Fixed custom_fields_weekly not encoding data properly for JavaScript (Elan Ruusamäe)
 - Add logged in username in automated error reports (Elan Ruusamäe)
 - Added X-Eventum-Priority header to outgoing emails (Elan Ruusamäe)
@@ -491,7 +491,7 @@ This release uses Composer for PHP Class autoloader.
 - Improve getCustomFieldWeeklyReport (merge request 31659)
 - Update Smarty 2.6.18 -> 2.6.26 (Elan Ruusamäe)
 - Put 'Release' in the 'The issue was updated by' e-mail (Robbert-Jan Roos)
-- Changed ereg to preg_match in template helper for compatability (Bryan)
+- Changed ereg to preg_match in template helper for compatibility (Bryan)
 - Removed assignment by reference in db helper to prevent PHP warning (Bryan)
 - Fix problem with custom field validation (Bryan) [LP#628862]
 - Allow using GET parameters in reports/weekly.php (Elan Ruusamäe)
@@ -586,7 +586,7 @@ This release uses Composer for PHP Class autoloader.
 - Added Precedence: Bulk header to emails to prevent out of office replies. Fixes #34466 (Bryan)
 - Replaced prototype JS library with jQuery JS library (Bryan)
 - Added datepicker UI to date fields (Bryan)
-- Added compatability for MySQL 6 (Bryan)
+- Added compatibility for MySQL 6 (Bryan)
 - Added workflow method to determine what issue an email or note should be associated with (Bryan)
 - Adding attachments to outgoing messages support (Harri Porten)
 - Allow selecting initial project with /select_project.php?project=PROJECT_ID query parameter (Elan Ruusamäe)
@@ -646,7 +646,7 @@ This release uses Composer for PHP Class autoloader.
 ## 2.1.1 - 2008-01-09
 
 - Added missing PEAR classes for Text_Diff (Elan Ruusamäe)
-- Fix unwanted breakage of PHP 4.x compatability (Elan Ruusamäe)
+- Fix unwanted breakage of PHP 4.x compatibility (Elan Ruusamäe)
 - Include JavaScript files client side, not from Smarty. Fixes #32619 (Elan Ruusamäe)
 - Avoid redefine error of APP_GETTEXT_MODE constant in language class (Elan Ruusamäe)
 - Added 'Category' to workload by date range report (Bryan)
@@ -671,7 +671,7 @@ This release uses Composer for PHP Class autoloader.
 - Added more information to Workflow::shouldEmailAddress (Bryan)
 - Fixed bug with adding warning message to base64 encoded email (Bryan)
 - Added "Recipients" to view email and view note page (Bryan)
-- Added seperate columns for different custom field datatypes (Bryan)
+- Added separate columns for different custom field datatypes (Bryan)
 - Display database error in text mode when invoked from cron (Elan Ruusamäe, Raul Raat)
 - Hide issue stats from reporters when "Segregate Reporters" is enabled (Bryan)
 - Fixed bug with lookup layer on edit notification list (Bryan)
@@ -823,7 +823,7 @@ This release uses Composer for PHP Class autoloader.
 - Changed mail handling routines to be case insensitive (Elan Ruusamäe)
 - Changed link filters to match more links and email addresses (Elan Ruusamäe)
 - Fixed bug with associate emails page not remembering search parameters (Bryan)
-- Changed configuration structure to seperate directories / files (Bryan, Elan Ruusamäe)
+- Changed configuration structure to separate directories / files (Bryan, Elan Ruusamäe)
 - Changed default to "Allow un-assigned issues" to "Yes" (Bryan)
 - Enabled email integration by default (Bryan)
 - Prevent users with a role of reporter from accessing time tracking information (Bryan)
@@ -832,7 +832,7 @@ This release uses Composer for PHP Class autoloader.
 ## 1.7.0 - 2005-12-29
 
 - Added feature to support custom fields with dynamic option lists (Bryan)
-- Fixed bug with highlight quoted replies plugin with handling line seperators (Bryan, Elan Ruusamäe)
+- Fixed bug with highlight quoted replies plugin with handling line separators (Bryan, Elan Ruusamäe)
 - Fixed bug with displaying values from multiple option custom fields (Bug #12494) (Bryan)
 - Added feature to allow custom fields to store date values (Bryan)
 - Added URL parameter to specify the project to switch to when loading a page (Bryan)
@@ -1079,7 +1079,7 @@ This release uses Composer for PHP Class autoloader.
 - Display the current textarea value when trying to update the custom fields (João)
 - Issue assignment emails now go out from project email address (Bryan)
 - Back button on mail queue log page uses app_base_url now (Bryan)
-- Users can now have seperate roles per project (Bryan)
+- Users can now have separate roles per project (Bryan)
 - Added option to hide priority and file field on create issue page (Bryan)
 - Drafts are now never deleted (Bryan)
 - Issues Descriptions are now collapsible (Bryan)
@@ -1142,7 +1142,7 @@ This release uses Composer for PHP Class autoloader.
 - Added a prompt message to confirm the closing of the email window (Bryan)
 - Changed reminder system to allow date fields to be compared with other date fields (Bryan)
 - Changed IRC notification system to not always be tied to a specific issue (Bryan)
-- Workflow: When a new email is recieved, the handleNewEmail method is always called. Previously the method was only called if the email was associated with an issue (Bryan)
+- Workflow: When a new email is received, the handleNewEmail method is always called. Previously the method was only called if the email was associated with an issue (Bryan)
 - Fixed bug that generated error when changing priority (Bryan)
 - Added option to list custom fields on list issues page (Bryan)
 - Fixed 'Issues by Release' link to actually only list issues from the correct release (Bryan)
@@ -1251,8 +1251,8 @@ This release uses Composer for PHP Class autoloader.
 - Added an automatic check to handle concurrency issues with the mail queue process script (João)
 - Phone call module now uses expandable cell to save space (João; Bryan)
 - When Phone call is added, time tracking entry is also added (João; Bryan)
-- Moved description to seperate table to prevent wide descriptions from pushing the rest of the table over (Bryan)
-- Added security to reports to prevent users with a role lower then "Standard User" from accessing them (Bryan)
+- Moved description to separate table to prevent wide descriptions from pushing the rest of the table over (Bryan)
+- Added security to reports to prevent users with a role lower than "Standard User" from accessing them (Bryan)
 - Auto reconnect to the IRC server if the connection is lost (João)
 - Fixed cookie related problem that prevented users from logging into IIS based installations (João)
 - Fixed a bug that was preventing the selected list of statuses from being stored when creating a new project (João)

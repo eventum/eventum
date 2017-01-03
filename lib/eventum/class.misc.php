@@ -382,7 +382,7 @@ class Misc
      * the number of hours and minutes (02:30)
      *
      * @param   integer $minutes The number of minutes to format
-     * @param   boolean $omit_days If days should not be used, hours will just show up as greater then 24.
+     * @param   boolean $omit_days If days should not be used, hours will just show up as greater than 24.
      * @param   boolean $omit_empty If true, values that are "00" will be omitted.
      * @return  string The formatted time
      */

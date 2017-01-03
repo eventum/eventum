@@ -305,7 +305,7 @@ prepare_source() {
 	chmod -R a+rX .
 	chmod -R a+rwX config var
 
-	# cleanup rest of the stuff, that was neccessary for release preparation process
+	# cleanup rest of the stuff, that was necessary for release preparation process
 	cleanup_postdist
 
 	phplint

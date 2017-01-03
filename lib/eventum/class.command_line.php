@@ -1097,7 +1097,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             }
         }
 
-        $prompt = 'Please enter a comma seperated list of incident types to ';
+        $prompt = 'Please enter a comma separated list of incident types to ';
         if ($redeemed_only) {
             $prompt .= 'un';
         }
@@ -1108,7 +1108,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         $requested_types = CLI_Misc::prompt($prompt, false);
         $requested_types = explode(',', $requested_types);
         if (count($requested_types) < 1) {
-            self::quit('Please enter a comma seperated list of issue types');
+            self::quit('Please enter a comma separated list of issue types');
         }
 
         $type_keys = array_keys($types);

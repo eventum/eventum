@@ -801,7 +801,7 @@ class RemoteApi
     public function timeClock($action)
     {
         $usr_id = Auth::getUserID();
-        // TODO: is the email printing neccessary?
+        // TODO: is the email printing necessary?
         $email = User::getEmail($usr_id);
 
         if ($action == 'in') {
@@ -923,7 +923,7 @@ class RemoteApi
         foreach ($types as $type_id) {
             $res = $contract->redeemIncident($issue_id, $type_id);
             if ($res == -1) {
-                throw new RemoteApiException('An error occured trying to mark issue as redeemed.');
+                throw new RemoteApiException('An error occurred trying to mark issue as redeemed.');
             }
         }
 
@@ -970,7 +970,7 @@ class RemoteApi
         foreach ($types as $type_id) {
             $res = $contract->unRedeemIncident($issue_id, $type_id);
             if ($res == -1) {
-                throw new RemoteApiException('An error occured trying to mark issue as unredeemed.');
+                throw new RemoteApiException('An error occurred trying to mark issue as unredeemed.');
             }
         }
 

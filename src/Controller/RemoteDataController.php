@@ -137,7 +137,7 @@ class RemoteDataController extends BaseController
     /**
      * Selects the email from the table and returns the contents.
      *
-     * @param   string $id The sup_ema_id and sup_id seperated by a -.
+     * @param   string $id The sup_ema_id and sup_id separated by a -.
      * @return  string A string containing the body of the email,
      */
     private function getEmail($id)

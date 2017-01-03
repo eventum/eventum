@@ -596,7 +596,7 @@ class Workflow
     }
 
     /**
-     * Called at the begining of the email download process. If it returns -1, the
+     * Called at the beginning of the email download process. If it returns -1, the
      * rest of the email code will not be executed.
      *
      * @param   integer $prj_id The project ID

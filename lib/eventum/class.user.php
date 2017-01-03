@@ -139,7 +139,7 @@ class User
      *
      * @param   integer $usr_id The user ID
      * @param   string $sms_email The user's SMS email address
-     * @return  boolean Whether the update was successfull or not
+     * @return  boolean Whether the update was successful or not
      */
     public static function updateSMS($usr_id, $sms_email)
     {
