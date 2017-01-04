@@ -116,6 +116,30 @@ class Misc
     }
 
     /**
+     * Process string with callback function. Input can be string or array of strings
+     *
+     * @param string|string[] $mixed
+     * @param callable $callback
+     * @return string|string[]
+     */
+    private static function recursiveWalk($mixed, $callback)
+    {
+        if (!$mixed) {
+            return $mixed;
+        }
+
+        if (is_array($mixed)) {
+            foreach ($mixed as $i => $item) {
+                $mixed[$i] = self::recursiveWalk($item, $callback);
+            }
+
+            return $mixed;
+        } else {
+            return $callback($mixed);
+        }
+    }
+
+    /**
      * Lowercase string, it can be array of strings
      *
      * @param string|string[] $mixed
@@ -713,5 +737,25 @@ class Misc
         $message = strtr($message, $replacements);
 
         return $message;
+    }
+
+
+    /**
+     * Remove any objects from the input.
+     *
+     * @param $input
+     * @return string|\string[]
+     */
+    public static function removeNestedObjects($input)
+    {
+        $remover = function ($element) {
+            if (is_object($element)) {
+                return null;
+            } else {
+                return $element;
+            }
+        };
+
+        return self::recursiveWalk($input, $remover);
     }
 }

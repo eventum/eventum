@@ -4,6 +4,8 @@
 - Add workflow method for moving an issue between projects (@balsdorf, #223)
 - Replace XMLRPC PEAR implementation with phpxmlrpc (@glensc, #228)
 - Don't QP encode sender when storing in the DB(@balsdorf, #226, #225)
+- Don't QP encode sender when storing in the DB (@balsdorf, #226, #225)
+- Replace XMLRPC PEAR implementation with phpxmlrpc (@glensc, #228)
 
 ## 2016-12-08, Version [3.1.6]
 
