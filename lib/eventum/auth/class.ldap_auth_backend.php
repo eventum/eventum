@@ -32,6 +32,8 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     protected $customer_id_attribute;
     /** @var string */
     protected $contact_id_attribute;
+    /** @var bool */
+    protected $create_users;
 
     /**
      * configures LDAP
@@ -47,6 +49,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $this->user_filter_string = $setup['user_filter'];
         $this->customer_id_attribute = $setup['customer_id_attribute'];
         $this->contact_id_attribute = $setup['contact_id_attribute'];
+        $this->create_users = (bool)$setup['create_users'];
     }
 
     /**
@@ -318,6 +321,10 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      */
     private function createUser($remote)
     {
+        if (!$this->create_users) {
+            throw new AuthException('User does not exist and will not be created.');
+        }
+
         $emails = $remote['emails'];
         if (!$emails) {
             throw new AuthException('E-mail is required');

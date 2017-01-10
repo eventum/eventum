@@ -2,6 +2,8 @@
 
 ## [3.1.10] - 2017-??-??
 
+- ldap: respect `create_users` configuration
+
 [3.1.10]: https://github.com/eventum/eventum/compare/v3.1.9...master
 
 ## [3.1.9] - 2017-01-10
