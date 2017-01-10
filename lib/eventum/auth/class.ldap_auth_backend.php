@@ -87,15 +87,10 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      *
      * @return Net_LDAP2_Search|Net_LDAP2_Error Net_LDAP2_Search object or Net_LDAP2_Error object
      */
-    public function getUserListing()
+    public function getUserListing($dn = null)
     {
         $filter = Net_LDAP2_Filter::create('uid', 'equals', '*', false);
-        if (!empty($this->user_filter_string)) {
-            $user_filter = Net_LDAP2_Filter::parse($this->user_filter_string);
-            $filter = Net_LDAP2_Filter::combine('and', [$filter, $user_filter]);
-        }
-
-        $search = $this->connect()->search($this->basedn, $filter);
+        $search = $this->connect()->search($dn ?: $this->basedn, $filter);
 
         if (Misc::isError($search)) {
             throw new AuthException($search->getMessage(), $search->getCode());
@@ -196,6 +191,13 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         return null;
     }
 
+    /**
+     * Disable account by external id.
+     *
+     * @param string $uid
+     * @return bool
+     * @throws AuthException if the account was not active
+     */
     public function disableAccount($uid)
     {
         $usr_id = User::getUserIDByExternalID($uid);
@@ -203,7 +205,31 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             return false;
         }
 
+        if ($this->accountActive($uid) !== true) {
+            throw new AuthException("User[usr_id=$usr_id; external_id=$uid] status is not active");
+        }
+
         return User::changeStatus($usr_id, User::USER_STATUS_INACTIVE);
+    }
+
+    /**
+     * Return true if external uid is locally active user,
+     * returns NULL if local user not found.
+     *
+     * @param string $uid external_id
+     * @return bool
+     */
+    public function accountActive($uid)
+    {
+        $usr_id = User::getUserIDByExternalID($uid);
+        if ($usr_id <= 0) {
+            return null;
+        }
+
+        $details = User::getDetails($usr_id);
+        $status = $details['usr_status'];
+
+        return $status === User::USER_STATUS_ACTIVE;
     }
 
     /**

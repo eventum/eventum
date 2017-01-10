@@ -25,33 +25,45 @@ if (strtolower(APP_AUTH_BACKEND) != 'ldap_auth_backend') {
 $active_dn = 'ou=People,dc=example,dc=net';
 $inactive_dn = 'ou=Inactive Accounts,dc=example,dc=net';
 
-$backend = new LDAP_Auth_Backend();
-$search = $backend->getUserListing();
+$ldap = new LDAP_Auth_Backend();
 
-while ($entry = $search->shiftEntry()) {
+$findUsers = function ($dn) use ($ldap) {
+    $search = $ldap->getUserListing($dn);
+
+    while ($entry = $search->shiftEntry()) {
+        // skip entries with no email
+        $emails = $entry->get_value('mail', 'all');
+        if (!$emails) {
+            $uid = $entry->getValue('uid');
+            echo "skip (no email): $uid, $dn\n";
+            continue;
+        }
+
+        yield $entry;
+    }
+};
+
+// process active users from ldap
+foreach ($findUsers($active_dn) as $entry) {
     $uid = $entry->getValue('uid');
     $dn = $entry->dn();
 
-    // if no email, skip completely
-    $emails = $entry->get_value('mail', 'all');
-    if (!$emails) {
-        echo "skip (no email): $uid, $dn\n";
-        continue;
+    // FIXME: where's adding new users part?
+    echo "checking: $uid, $dn\n";
+    try {
+        $ldap->updateLocalUserFromBackend($uid);
+    } catch (Exception $e) {
+        error_log("$uid: ". $e->getMessage());
     }
+}
 
-//    if ($uid != 'telvislightuploader') {
-//        continue;
-//    }
+// process inactive users from ldap
+foreach ($findUsers($inactive_dn) as $entry) {
+    $uid = $entry->getValue('uid');
+    $dn = $entry->dn();
 
-    $suffix = substr($dn, -strlen($inactive_dn));
-    if ($suffix == $inactive_dn) {
+    if ($ldap->accountActive($uid) === true) {
         echo "disabling: $uid, $dn\n";
-        $backend->disableAccount($uid);
-    }
-    $suffix = substr($dn, -strlen($active_dn));
-    if ($suffix == $active_dn) {
-        $active = true;
-        echo "updating: $uid, $dn\n";
-        $backend->updateLocalUserFromBackend($uid);
+        $ldap->disableAccount($uid);
     }
 }
