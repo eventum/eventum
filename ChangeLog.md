@@ -1,5 +1,9 @@
 # Eventum Issue Tracking System
 
+## [3.1.10] - 2017-??-??
+
+[3.1.10]: https://github.com/eventum/eventum/compare/v3.1.9...master
+
 ## [3.1.9] - 2017-01-10
 
 - Escape url parameter on login screen (florian.platzer@gmx.de, steffen-sanwald@gmx.net)
