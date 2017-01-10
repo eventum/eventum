@@ -496,7 +496,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     /**
      * Method used to get the system-wide defaults.
      *
-     * @return  string array of the default parameters
+     * @return array of the default parameters
      */
     public static function getDefaults()
     {
