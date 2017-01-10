@@ -27,13 +27,25 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     /** @var string */
     protected $basedn;
     /** @var string */
-    protected $user_dn_string;
-    /** @var string */
     protected $customer_id_attribute;
     /** @var string */
     protected $contact_id_attribute;
     /** @var bool */
     protected $create_users;
+
+    /**
+     * Use %UID% to specify where the UID should be substituted.
+     *
+     * @var string
+     */
+    protected $user_dn_string;
+
+    /**
+     * Optional filter when binding the user
+     *
+     * @var string
+     */
+    protected $user_filter_string;
 
     /**
      * configures LDAP
