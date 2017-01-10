@@ -4,9 +4,13 @@
 
 - Escape url parameter on login screen (florian.platzer@gmx.de, steffen-sanwald@gmx.net)
 
+[3.1.9]: https://github.com/eventum/eventum/compare/v3.1.8...v3.1.9
+
 ## [3.1.8] - 2016-12-30
 
 - fix smarty autoloader (@glensc, 0789211c)
+
+[3.1.8]: https://github.com/eventum/eventum/compare/v3.1.7...v3.1.8
 
 ## [3.1.7] - 2016-12-28
 
@@ -17,11 +21,15 @@
 - Allow sort by "% Complete" column (@phavel, #229, #188)
 - Fix some strict mode issues (@glensc, #218, #230)
 
+[3.1.7]: https://github.com/eventum/eventum/compare/v3.1.6...v3.1.7
+
 ## [3.1.6] - 2016-12-08
 
 - Fix error caused by incomplete legacy code removal (@balsdorf, #221)
 - Swap order of note reply buttons for consistency (@balsdorf)
 - Add add some missing translate of strings (@phavel, #222)
+
+[3.1.6]: https://github.com/eventum/eventum/compare/v3.1.5...v3.1.6
 
 ## [3.1.5] - 2016-11-23
 
@@ -34,6 +42,8 @@ details: #219
 - Make public attachments visible for Viewers (@glensc, #214, #217)
 - Removed outdated / unused Impact Analysis code (@balsdorf, #219)
 - Re-apply patches number 28 because they could have not been executed (@glensc, #220)
+
+[3.1.5]: https://github.com/eventum/eventum/compare/v3.1.4...v3.1.5
 
 ## [3.1.4] - 2016-10-26
 
@@ -55,6 +65,8 @@ details: #219
 - Fix bug where issue closed notifications went to all users even when "internal" was selected (Bryan)
 - Rewrite locking code to use flock (@glensc, #209)
 
+[3.1.4]: https://github.com/eventum/eventum/compare/v3.1.3...v3.1.4
+
 ## [3.1.3] - 2016-09-25
 
 - Allow time tracking entries to be edited (@balsdorf, #174)
@@ -71,6 +83,8 @@ details: #219
 - Add travis configuration to make releases (@glensc, #198)
 - Keep `iss_original_description` in getIssueDetails method (@glensc, 98916a8)
 
+[3.1.3]: https://github.com/eventum/eventum/compare/v3.1.2...v3.1.3
+
 ## [3.1.2] - 2016-06-06
 
 Previous version enabled PDO driver for all installations, but PDO was supposed
@@ -84,6 +98,8 @@ This version fixes login for Eventum installs using more than one project (3281d
 - use Pdo for new installations, keep Pear for older ones (@glensc, de5e869, a920484, #167)
 - fix login page css. (@glensc, 2d2923c, #170)
 - drop unneeded session init (@glensc, 3281d6d, #168)
+
+[3.1.2]: https://github.com/eventum/eventum/compare/v3.1.1...v3.1.2
 
 ## [3.1.1] - 2016-05-29
 
@@ -107,6 +123,8 @@ Additionally tables will be renamed without `eventum_` table prefix (#166)
 - use Symfony FlashBag for flash messages (@glensc, #169)
 - automatically set page ID based on template path and name (@balsdorf, #170)
 
+[3.1.1]: https://github.com/eventum/eventum/compare/v3.1.0...v3.1.1
+
 ## [3.1.0] - 2016-04-28
 
 The minimum supported PHP version from this version onwards is 5.5 (5.6 recommended).
@@ -119,6 +137,7 @@ This release also no longer bundles SCM hook scripts, they are available from se
 - we reached [7000th] commit! :boom:
 - scm: modularize and add gitlab adapter (@glensc, #159)
 
+[3.1.0]: https://github.com/eventum/eventum/compare/v3.0.12...v3.1.0
 [7000th]: https://gitter.im/eventum/eventum?at=571fcd410f156f102b41020c
 
 ## [3.0.12] - 2016-04-19
@@ -130,6 +149,8 @@ This will also be last release packaging SCM hook scripts in main Eventum releas
 - Nice Progress Bar for % Complete (@phavel, @glensc, @slay123, #162)
 - Fix bug where percentage complete is not included in changed notification (@balsdorf, #163, #164)
 
+[3.0.12]: https://github.com/eventum/eventum/compare/v3.0.11...v3.0.12
+
 ## [3.0.11] - 2016-03-28
 
 - Updated Misc::activateLinks to not activate mail links inside of urls (@balsorf, d23e712)
@@ -139,12 +160,16 @@ This will also be last release packaging SCM hook scripts in main Eventum releas
 - Setup correct project roles when updating user projects (@Alexey-Architect, #152)
 - Remove "Product Version" field from view issue page since it is bundled with "Product" (@balsdorf)
 
+[3.0.11]: https://github.com/eventum/eventum/compare/v3.0.10...v3.0.11
+
 ## [3.0.10] - 2016-02-29
 
 - Add back notification user picker (@glensc, #34)
 - Autosave notes/emails/etc to local storage in case of browser crash (@balsdorf, @glensc, @slay123, #145)
 - Allow issue view access to be restricted to assignees or groups (@balsdorf #141, #148)
 - Collapse replies in email like GMail, GitHub do (@glensc, #143)
+
+[3.0.10]: https://github.com/eventum/eventum/compare/v3.0.9...v3.0.10
 
 ## [3.0.9] - 2016-02-06
 
@@ -164,6 +189,8 @@ and allowing users to be in multiple groups (#135).
 - Improvements to manage/users page, add datatables paginator (@glensc)
 - Optional support to encrypt (DB, IMAP/POP3, LDAP) passwords (@glensc, #134)
 
+[3.0.9]: https://github.com/eventum/eventum/compare/v3.0.8...v3.0.9
+
 ## [3.0.8] - 2016-01-18
 
 From release version 3.0.4 a bug existed where logged in users could
@@ -178,6 +205,8 @@ immediately.
 - Improve user manage page (@glensc, 5ff030b)
 - Convert manage pages to Controller logic (@glensc, #128)
 - Add severity descriptions to issue update page (@balsdorf, #37)
+
+[3.0.8]: https://github.com/eventum/eventum/compare/v3.0.7...v3.0.8
 
 ## [3.0.7] - 2015-12-31
 
@@ -207,6 +236,8 @@ access (#122)
 - Restore "remember me" in template, lost in 2.4.0 release (@glensc, aec62f5)
 - Restore usability of "Add Unknown Recipients to Issue Notification List" checkbox (@balsdorf)
 
+[3.0.7]: https://github.com/eventum/eventum/compare/v3.0.6...v3.0.7
+
 ## [3.0.6] - 2015-11-10
 
 This release highlight is automatic password hashes upgrade to be more secure
@@ -222,9 +253,13 @@ regenerating Eventum private key from Administration panel. (See #93).
 - Use AJAX for /manage/email_accounts.php test (Craig Pinfold, #96)
 - LDAP auth backend: create connection only if needed (Elan Ruusamäe)
 
+[3.0.6]: https://github.com/eventum/eventum/compare/v3.0.5...v3.0.6
+
 ## [3.0.5] - 2015-11-02
 
 - Fix routing settings read error (Elan Ruusamäe, #80)
+
+[3.0.5]: https://github.com/eventum/eventum/compare/v3.0.4...v3.0.5
 
 ## [3.0.4] - 2015-10-31
 
@@ -239,13 +274,13 @@ This release was buggy and was yanked, bug itself is fixed in v3.0.5
 
 - Fix few Static & Deprecated calls (Craig Pinfold, #72)
 - Use randomlib for private key generation, add UI to regenerate it (Elan Ruusamäe, #73)
-- Fix misplaced {if} in preferences template (Robbert-Jan Roos, LP#1506279)
+- Fix misplaced {if} in preferences template (Robbert-Jan Roos, [LP#1506279])
 - Auth and Project cookie related internal refactor (Elan Ruusamäe, #74)
 - Set limit 20 retries to try to send one mail (Elan Ruusamäe)
-- Add html_charset to be APP_CHARSET (Elan Ruusamäe, LP#741768)
+- Add html_charset to be APP_CHARSET (Elan Ruusamäe, [LP#741768])
 - Use password_hash family functions for password hashing (Elan Ruusamäe, GH#77)
-- Unify size of pri_id in databases (Elan Ruusamäe, LP#1450152)
-- Handle mbstring function overload (Elan Ruusamäe, LP#1494732)
+- Unify size of pri_id in databases (Elan Ruusamäe, [LP#1450152])
+- Handle mbstring function overload (Elan Ruusamäe, [LP#1494732])
 - Make version table log based (Elan Ruusamäe)
 - Removed local/include/ from include path and added to composer instead (Bryan Alsdorf)
 - Use zf2 config for setup config (Elan Ruusamäe, #80)
@@ -257,6 +292,7 @@ This release was buggy and was yanked, bug itself is fixed in v3.0.5
 - Manage Emails: Accept prj_id from GET to allow link bookmarking (Elan Ruusamäe)
 - Add DebugBar debug bar in development mode (Elan Ruusamäe, #87)
 
+[3.0.4]: https://github.com/eventum/eventum/compare/v3.0.3...v3.0.4
 [LP#741768]: https://bugs.launchpad.net/eventum/+bug/741768
 [LP#1450152]: https://bugs.launchpad.net/eventum/+bug/1450152
 [LP#1494732]: https://bugs.launchpad.net/eventum/+bug/1494732
@@ -269,13 +305,14 @@ This release includes copy of wiki documents in release tarball.
 - Added bin/truncate_mail_queue.php (Bryan Alsdorf)
 - Add admin interface for required fields (Bryan Alsdorf, #67)
 - UI fix for Issue Assignees (Kristo Klausson, #68)
-- Remove File/Util.php manual include (Elan Ruusamäe, LP#1494536)
-- Eventum Mail Processing Enhancements (Kevin Seymour, LP#1481894)
-- Fix bugs with estimated dev time (Bryan Alsdorf, LP#1494723)
+- Remove File/Util.php manual include (Elan Ruusamäe, [LP#1494536])
+- Eventum Mail Processing Enhancements (Kevin Seymour, [LP#1481894])
+- Fix bugs with estimated dev time (Bryan Alsdorf, [LP#1494723])
 - Display pretty error page for auth exceptions (Bryan Alsdorf)
 - Fix POP3 download bug (Craig Pinfold, #66, #69)
 - Add autosize plugin to all TEXAREAs (Elan Ruusamäe, #70)
 
+[3.0.3]: https://github.com/eventum/eventum/compare/v3.0.2...v3.0.3
 [LP#1481894]: https://bugs.launchpad.net/eventum/+bug/1481894
 [LP#1494536]: https://bugs.launchpad.net/eventum/+bug/1494536
 [LP#1494723]: https://bugs.launchpad.net/eventum/+bug/1494723
@@ -307,6 +344,8 @@ This release highlights translatable history entries, CAS Auth Backend and lots 
 - Allow customers to export data and only export visible fields (Bryan Alsdorf)
 - Fix "Assignment: Array" bug in template when issue is assigned to multiple assignees (Elan Ruusamäe)
 
+[3.0.2]: https://github.com/eventum/eventum/compare/v3.0.1...v3.0.2
+
 ## [3.0.1] - 2015-04-21
 
 This release highlights are ajax based file uploads via dropzone and clone issue feature.
@@ -324,6 +363,8 @@ The MySQL driver for new installs is now mysqli, not deprecated mysql.
 - Use mysqli PEAR::DB driver in new installs (Elan Ruusamäe)
 - Replace jpgraph 1.5.3 with phplot 6.1.0 (Elan Ruusamäe, GH#46)
 
+[3.0.1]: https://github.com/eventum/eventum/compare/v3.0.0-pre1...v3.0.1
+
 ## [3.0.0-pre1] - 2015-02-03
 
 Added DB layer to replace PEAR in the future.
@@ -333,12 +374,12 @@ SCM supports now multiple SCM systems.
 Eventum CLI is now distributed as PHAR file.
 
 - Make Custom Fields Weekly Report honor Project ID (Raul Raat, GH#6)
-- Exclude removed notes when generating note sequence number (Bryan Alsdorf, Fixes LP#1377921)
+- Exclude removed notes when generating note sequence number (Bryan Alsdorf, Fixes [LP#1377921])
 - Catch exception from invalid timezones and default to UTC (Bryan Alsdorf, GH#8)
-- Remove duplicate key (Elan Ruusamäe, LP#788699)
-- Fix weekly report excluding last day (Elan Ruusamäe, LP#898607)
+- Remove duplicate key (Elan Ruusamäe, [LP#788699])
+- Fix weekly report excluding last day (Elan Ruusamäe, [LP#898607])
 - Package release assets with component (Elan Ruusamäe)
-- Fixed Search for issues where I am in the notification list (Bryan Alsdorf, LP#1201415)
+- Fixed Search for issues where I am in the notification list (Bryan Alsdorf, [LP#1201415])
 - Modernize select multiple using jQuery-chosen (Elan Ruusamäe, GH#12)
 - Build eventum.phar (CLI tool) (Elan Ruusamäe, GH#14)
 - Add layer for database to replace PEAR DB in the future (Elan Ruusamäe, GH#13)
@@ -359,9 +400,9 @@ Eventum CLI is now distributed as PHAR file.
 - Added notification email address for products (Bryan Alsdorf)
 - Use DB query placeholders (Elan Ruusamäe, GH#26)
 
+[3.0.0-pre1]: https://github.com/eventum/eventum/compare/v2.4.0-pre1...v3.0.0-pre1
 [LP#788699]: https://bugs.launchpad.net/eventum/+bug/788699
 [LP#898607]: https://bugs.launchpad.net/eventum/+bug/898607
-[LP#1201415]: https://bugs.launchpad.net/eventum/+bug/1201415
 [LP#1201415]: https://bugs.launchpad.net/eventum/+bug/1201415
 [LP#1377921]: https://bugs.launchpad.net/eventum/+bug/1377921
 
@@ -417,6 +458,7 @@ This release uses Composer for PHP Class autoloader.
 - Add lock support when updating issue details (Elan Ruusamäe, GH#4)
 - Get rid of PEAR Date, use native DateTime in PHP (Elan Ruusamäe, [LP#684907])
 
+[2.4.0-pre1]: https://github.com/eventum/eventum/compare/v2.3.4...v2.4.0-pre1
 [CVE-2014-1631]: http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1631
 [CVE-2014-1632]: http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-1632
 [CWE-276]: http://cwe.mitre.org/data/definitions/276.html
@@ -778,7 +820,7 @@ This release uses Composer for PHP Class autoloader.
 - Fixed bug with extracting attachments (Bryan)
 - Added Finnish translation (Jyrki Heinonen)
 - Fixed bug attachment history entry not being added due variable overwrite (Elan Ruusamäe)
-- Fixed detection in process_{svn,cvs}_commits whether there was issue id specified in commit message (Elan Ruusamäe)
+- Fixed detection in `process_{svn,cvs}_commits` whether there was issue id specified in commit message (Elan Ruusamäe)
 - Order weekly report by Issue ID (Bryan)
 
 ## 1.7.1 - 2006-03-31
@@ -1283,28 +1325,3 @@ This release uses Composer for PHP Class autoloader.
 ## 1.1 - 2004-06-05
 
 - Initial release (João; Bryan)
-
-[3.1.9]: https://github.com/eventum/eventum/compare/v3.1.8...v3.1.9
-[3.1.8]: https://github.com/eventum/eventum/compare/v3.1.7...v3.1.8
-[3.1.7]: https://github.com/eventum/eventum/compare/v3.1.6...v3.1.7
-[3.1.6]: https://github.com/eventum/eventum/compare/v3.1.5...v3.1.6
-[3.1.5]: https://github.com/eventum/eventum/compare/v3.1.4...v3.1.5
-[3.1.4]: https://github.com/eventum/eventum/compare/v3.1.3...v3.1.4
-[3.1.3]: https://github.com/eventum/eventum/compare/v3.1.2...v3.1.3
-[3.1.2]: https://github.com/eventum/eventum/compare/v3.1.1...v3.1.2
-[3.1.1]: https://github.com/eventum/eventum/compare/v3.1.0...v3.1.1
-[3.1.0]: https://github.com/eventum/eventum/compare/v3.0.12...v3.1.0
-[3.0.12]: https://github.com/eventum/eventum/compare/v3.0.11...v3.0.12
-[3.0.11]: https://github.com/eventum/eventum/compare/v3.0.10...v3.0.11
-[3.0.10]: https://github.com/eventum/eventum/compare/v3.0.9...v3.0.10
-[3.0.9]: https://github.com/eventum/eventum/compare/v3.0.8...v3.0.9
-[3.0.8]: https://github.com/eventum/eventum/compare/v3.0.7...v3.0.8
-[3.0.7]: https://github.com/eventum/eventum/compare/v3.0.6...v3.0.7
-[3.0.6]: https://github.com/eventum/eventum/compare/v3.0.5...v3.0.6
-[3.0.5]: https://github.com/eventum/eventum/compare/v3.0.4...v3.0.5
-[3.0.4]: https://github.com/eventum/eventum/compare/v3.0.3...v3.0.4
-[3.0.3]: https://github.com/eventum/eventum/compare/v3.0.2...v3.0.3
-[3.0.2]: https://github.com/eventum/eventum/compare/v3.0.1...v3.0.2
-[3.0.1]: https://github.com/eventum/eventum/compare/v3.0.0-pre1...v3.0.1
-[3.0.0-pre1]: https://github.com/eventum/eventum/compare/v2.4.0-pre1...v3.0.0-pre1
-[2.4.0-pre1]: https://github.com/eventum/eventum/compare/v2.3.4...v2.4.0-pre1
