@@ -54,10 +54,22 @@ class LdapController extends ManageBaseController
     {
         $post = $this->getRequest()->request;
 
+        $setup = Setup::get()->ldap->toArray();
+
+        // special handling for binddn/bindpw:
+        // update bindpw only if submitted new value
+        // but as this makes impossible to clear its value
+        // clear bindpw if binddn is empty
+        $setup['binddn'] = $post->get('binddn');
+        if ($post->get('bindpw')) {
+            $setup['bindpw'] = $post->get('bindpw');
+        }
+        if ($setup['binddn'] == '') {
+            $setup['bindpw'] = '';
+        }
+
         $setup['host'] = $post->get('host');
         $setup['port'] = $post->get('port');
-        $setup['binddn'] = $post->get('binddn');
-        $setup['bindpw'] = $post->get('bindpw');
         $setup['basedn'] = $post->get('basedn');
         $setup['userdn'] = $post->get('userdn');
         $setup['user_filter'] = $post->get('user_filter');
