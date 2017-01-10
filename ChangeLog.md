@@ -1,6 +1,7 @@
 # Eventum Issue Tracking System
 
-## [3.1.9] - 201?-??-??
+## [3.1.9] - 2017-01-09
+- Escape url parameter on login screen (florian.platzer@gmx.de, steffen-sanwald@gmx.net)
 
 ## [3.1.8] - 2016-12-30
 
