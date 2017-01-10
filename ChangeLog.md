@@ -1283,7 +1283,7 @@ This release uses Composer for PHP Class autoloader.
 
 - Initial release (João; Bryan)
 
-[3.1.9]: https://github.com/eventum/eventum/compare/v3.1.8...master
+[3.1.9]: https://github.com/eventum/eventum/compare/v3.1.8...v3.1.9
 [3.1.8]: https://github.com/eventum/eventum/compare/v3.1.7...v3.1.8
 [3.1.7]: https://github.com/eventum/eventum/compare/v3.1.6...v3.1.7
 [3.1.6]: https://github.com/eventum/eventum/compare/v3.1.5...v3.1.6
