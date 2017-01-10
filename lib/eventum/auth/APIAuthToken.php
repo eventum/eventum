@@ -43,6 +43,7 @@ class APIAuthToken
         } catch (DatabaseException $e) {
             return -1;
         }
+
         return $res;
     }
 

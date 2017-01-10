@@ -81,7 +81,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     }
 
     /**
-     * Get all users from LDAP server
+     * Get all users from LDAP server.
+     *
+     * NOTE: not used for auth backend, but used by contrib/ldap_udate_users.php script
      *
      * @return Net_LDAP2_Search|Net_LDAP2_Error Net_LDAP2_Search object or Net_LDAP2_Error object
      */
