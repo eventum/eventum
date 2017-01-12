@@ -29,7 +29,7 @@ class MailTransport
 
     public function __construct()
     {
-        $this->smtp = Mail::factory('smtp', $this->getSMTPSettings());
+        $this->smtp = new Mail_smtp($this->getSMTPSettings());
     }
 
     /**
