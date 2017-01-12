@@ -13,6 +13,7 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\MailMessage;
+use Eventum\Mail\MailTransport;
 use Eventum\Monolog\Logger;
 
 class Mail_Queue
@@ -249,18 +250,9 @@ class Mail_Queue
             $headers['MIME-Version'] = '1.0';
         }
 
-        $mail = Mail::factory('smtp', Mail_Helper::getSMTPSettings());
-        // TODO: mail::send wants just bare addresses, do that ourselves
-        $recipient = Mime_Helper::encodeAddress($recipient);
-        $res = $mail->send($recipient, $headers, $body);
-        if (Misc::isError($res)) {
-            /** @var PEAR_Error $res */
-            Logger::app()->error($res->getMessage(), ['debug' => $res->getDebugInfo()]);
+        $transport = new MailTransport();
 
-            return $res;
-        }
-
-        return true;
+        return $transport->send($recipient, $headers, $body);
     }
 
     /**

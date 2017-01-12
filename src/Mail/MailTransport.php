@@ -1,0 +1,71 @@
+<?php
+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
+namespace Eventum\Mail;
+
+use Eventum\Monolog\Logger;
+use Mail;
+use Mail_Helper;
+use Mail_smtp;
+use Mime_Helper;
+use Misc;
+use PEAR_Error;
+
+class MailTransport
+{
+    /** @var Mail_smtp */
+    private $smtp;
+
+    public function __construct()
+    {
+        $this->smtp = Mail::factory('smtp', Mail_Helper::getSMTPSettings());
+    }
+
+    /**
+     * Implements Mail::send() function using SMTP.
+     *
+     * @param mixed $recipients Either a comma-seperated list of recipients
+     *              (RFC822 compliant), or an array of recipients,
+     *              each RFC822 valid. This may contain recipients not
+     *              specified in the headers, for Bcc:, resending
+     *              messages, etc.
+     *
+     * @param array $headers The array of headers to send with the mail, in an
+     *              associative array, where the array key is the
+     *              header name (e.g., 'Subject'), and the array value
+     *              is the header value (e.g., 'test'). The header
+     *              produced from those values would be 'Subject:
+     *              test'.
+     *
+     * @param string $body The full text of the message body, including any
+     *               MIME parts, etc.
+     *
+     * @return mixed Returns true on success, or a PEAR_Error
+     *               containing a descriptive error message on
+     *               failure.
+     */
+    public function send($recipient, $headers, $body)
+    {
+        // TODO: mail::send wants just bare addresses, do that ourselves
+        $recipient = Mime_Helper::encodeAddress($recipient);
+        $res = $this->smtp->send($recipient, $headers, $body);
+        if (Misc::isError($res)) {
+            /** @var PEAR_Error $res */
+            Logger::app()->error($res->getMessage(), ['debug' => $res->getDebugInfo()]);
+
+            return $res;
+        }
+
+        return true;
+    }
+}

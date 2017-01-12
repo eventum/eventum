@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Mail\MailTransport;
 use Eventum\Monolog\Logger;
 
 /**
@@ -692,12 +693,8 @@ class Mail_Helper
             $headers += self::getSpecializedHeaders($issue_id, $email['maq_type']);
         }
 
-        $params = self::getSMTPSettings();
-        $mail = Mail::factory('smtp', $params);
-        $res = $mail->send($address, $headers, $body);
-        if (Misc::isError($res)) {
-            Logger::app()->error($res->getMessage(), ['debug' => $res->getDebugInfo()]);
-        }
+        $mail = new MailTransport();
+        $mail->send($address, $headers, $body);
 
         $subjects[] = $subject;
     }
@@ -719,6 +716,7 @@ class Mail_Helper
     public static function prepareHeaders($headers)
     {
         $params = self::getSMTPSettings();
+        /** @var Mail_smtp $mail */
         $mail = Mail::factory('smtp', $params);
 
         return $mail->prepareHeaders($headers);
