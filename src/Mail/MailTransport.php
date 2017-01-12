@@ -57,8 +57,6 @@ class MailTransport
      */
     public function send($recipient, $headers, $body)
     {
-        // TODO: mail::send wants just bare addresses, do that ourselves
-        $recipient = Mime_Helper::encodeAddress($recipient);
         $res = $this->smtp->send($recipient, $headers, $body);
         if (Misc::isError($res)) {
             /** @var PEAR_Error $res */
