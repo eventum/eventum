@@ -20,6 +20,7 @@ use Mail_smtp;
 use Mime_Helper;
 use Misc;
 use PEAR_Error;
+use Setup;
 
 class MailTransport
 {
@@ -28,7 +29,7 @@ class MailTransport
 
     public function __construct()
     {
-        $this->smtp = Mail::factory('smtp', Mail_Helper::getSMTPSettings());
+        $this->smtp = Mail::factory('smtp', $this->getSMTPSettings());
     }
 
     /**
@@ -67,5 +68,22 @@ class MailTransport
         }
 
         return true;
+    }
+
+    /**
+     * Method used to get the application specific settings regarding
+     * which SMTP server to use, such as login and server information.
+     *
+     * @return  array
+     */
+    private function getSMTPSettings()
+    {
+        $settings = Setup::get();
+
+        if (file_exists('/etc/mailname')) {
+            $settings['smtp']['localhost'] = trim(file_get_contents('/etc/mailname'));
+        }
+
+        return $settings['smtp']->toArray();
     }
 }

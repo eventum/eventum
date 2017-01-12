@@ -339,23 +339,6 @@ class Mail_Helper
     }
 
     /**
-     * Method used to get the application specific settings regarding
-     * which SMTP server to use, such as login and server information.
-     *
-     * @return  array
-     */
-    public static function getSMTPSettings()
-    {
-        $settings = Setup::get();
-
-        if (file_exists('/etc/mailname')) {
-            $settings['smtp']['localhost'] = trim(file_get_contents('/etc/mailname'));
-        }
-
-        return $settings['smtp'];
-    }
-
-    /**
      * Method used to set the text version of the body of the MIME
      * multipart message that you wish to send.
      *
@@ -555,6 +538,9 @@ class Mail_Helper
      */
     public function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
     {
+        if ($from === null) {
+            $from = Setup::get()->smtp->from;
+        }
         // encode the addresses
         $from = Mime_Helper::encodeAddress($from);
         $to = Mime_Helper::encodeAddress($to);
@@ -715,9 +701,8 @@ class Mail_Helper
      */
     public static function prepareHeaders($headers)
     {
-        $params = self::getSMTPSettings();
-        /** @var Mail_smtp $mail */
-        $mail = Mail::factory('smtp', $params);
+        $params = Setup::get()->smtp->toArray();
+        $mail = new Mail_smtp($params);
 
         return $mail->prepareHeaders($headers);
     }

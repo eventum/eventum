@@ -1249,7 +1249,7 @@ class Notification
             $mail = new Mail_Helper();
             $mail->setTextBody($text_message);
             $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-            $setup = Mail_Helper::getSMTPSettings();
+            $setup = Setup::get()->smtp->toArray();
             $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
             $recipient = Mime_Helper::decodeQuotedPrintable($recipient);
             // TRANSLATORS: %1: $issue_id, %2 = iss_summary
@@ -1331,7 +1331,7 @@ class Notification
             // send email (use PEAR's classes)
             $mail = new Mail_Helper();
             $mail->setTextBody($text_message);
-            $setup = Mail_Helper::getSMTPSettings();
+            $setup = Setup::get()->smtp->toArray();
             $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
             $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
 
@@ -2325,9 +2325,8 @@ class Notification
         // send email (use PEAR's classes)
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
-        $setup = Mail_Helper::getSMTPSettings();
         $to = Mail_Helper::getFormattedName($info['usr_full_name'], $info['usr_email']);
-        $mail->send($setup['from'], $to, $subject);
+        $mail->send(null, $to, $subject);
 
         Language::restore();
     }

@@ -515,14 +515,14 @@ class MailMessageTest extends TestCase
         // send email (use PEAR's classes)
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
-        $setup = $mail->getSMTPSettings();
+        $from = Setup::get()->smtp->from;
         $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
-        $mail->send($setup['from'], $to, $subject);
+        $mail->send($from , $to, $subject);
 
         // the same but with ZF
         $mail = MailMessage::createNew();
         $mail->setSubject($subject);
-        $mail->setFrom($setup['from']);
+        $mail->setFrom($from);
         $mail->setTo($to);
         $mail->setContent($text_message);
         Mail_Queue::addMail($mail, $to);
