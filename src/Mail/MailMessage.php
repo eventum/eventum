@@ -95,21 +95,23 @@ class MailMessage extends Message
     /**
      * Create Mail object from headers array and body string
      *
-     * @param array $headers
+     * @param string|array $headers
      * @param string $content
      * @return MailMessage
      */
     public static function createFromHeaderBody($headers, $content)
     {
-        foreach ($headers as $k => $v) {
-            // Zend\Mail does not like empty headers, "Cc:" for example
-            if ($v === '') {
-                unset($headers[$k]);
-            }
+        if (is_array($headers)) {
+            foreach ($headers as $k => $v) {
+                // Zend\Mail does not like empty headers, "Cc:" for example
+                if ($v === '') {
+                    unset($headers[$k]);
+                }
 
-            // also it doesn't like 8bit headers
-            if (Mime_Helper::is8bit($v)) {
-                $headers[$k] = Mime_Helper::encode($v);
+                // also it doesn't like 8bit headers
+                if (Mime_Helper::is8bit($v)) {
+                    $headers[$k] = Mime_Helper::encode($v);
+                }
             }
         }
 
