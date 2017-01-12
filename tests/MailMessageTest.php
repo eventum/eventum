@@ -517,7 +517,7 @@ class MailMessageTest extends TestCase
         $mail->setTextBody($text_message);
         $from = Setup::get()->smtp->from;
         $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
-        $mail->send($from , $to, $subject);
+        $mail->send($from, $to, $subject);
 
         // the same but with ZF
         $mail = MailMessage::createNew();
@@ -758,5 +758,37 @@ class MailMessageTest extends TestCase
         $this->assertNotEquals('MIME-Version', substr($full_message, 0, 12));
         Routing::removeMboxHeader($full_message);
         $this->assertEquals('MIME-Version', substr($full_message, 0, 12));
+    }
+
+    /**
+     * @see Mail_Queue::send for getMergedList handling
+     */
+    public function testRecipientConcat()
+    {
+        $recipients = [
+            '"Some Öne" <Some.One@example.org>',
+            'root@example.org',
+            'Root Mäe <root2@example.org>',
+        ];
+        $headers = "Message-ID: <eventum.md5.1bddof5dyu68w08.3117t0idh7ggk4@localhost>\n";
+        $headers .= "From: root@example.org\n";
+
+        $body = 'body';
+        $recipients = implode(',', $recipients);
+        $message = $headers . "\r\n\r\n" . $body;
+        $structure = Mime_Helper::decode($message, false, false);
+        $headers = $structure->headers;
+
+        $headers['to'] = $recipients;
+        $headers = Mime_Helper::encodeHeaders($headers);
+
+        $res = Mail_Helper::headersAsString($headers);
+        $exp = [
+            'root@example.org',
+            "message-id: <eventum.md5.1bddof5dyu68w08.3117t0idh7ggk4@localhost>\r\n" .
+            "from: root@example.org\r\n" .
+            'to: "Some =?utf-8?b?w5ZuZSI=?= <Some.One@example.org>,root@example.org,Root =?utf-8?b?TcOkZQ==?= <root2@example.org>',
+        ];
+        $this->assertEquals($exp, $res);
     }
 }

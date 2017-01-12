@@ -15,9 +15,7 @@ namespace Eventum\Mail;
 
 use Eventum\Monolog\Logger;
 use Mail;
-use Mail_Helper;
 use Mail_smtp;
-use Mime_Helper;
 use Misc;
 use PEAR_Error;
 use Setup;
