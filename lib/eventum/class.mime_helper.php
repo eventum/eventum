@@ -181,7 +181,7 @@ class Mime_Helper
             $qq = preg_replace_callback(
                 '/([\x80-\xFF]|[\x21-\x2F]|[\xFC]|\[|\])/',
                 function ($m) {
-                    return "=" . strtoupper(dechex(ord(stripslashes($m[1]))));
+                    return '=' . strtoupper(dechex(ord(stripslashes($m[1]))));
                 },
                 $matches[1]
             );

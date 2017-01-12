@@ -790,7 +790,7 @@ class MailMessageTest extends TestCase
 
         $exp = "\"Some =?utf-8?b?w5ZuZSI=?= <Some.One@example.org>,\r\n" .
             " root@example.org,\r\n" .
-            " Root =?utf-8?b?TcOkZQ==?= <root2@example.org>";
+            ' Root =?utf-8?b?TcOkZQ==?= <root2@example.org>';
         $this->assertEquals($exp, $m->to);
     }
 }
