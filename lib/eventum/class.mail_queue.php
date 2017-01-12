@@ -14,7 +14,8 @@
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
-use Eventum\Monolog\Logger;
+use Zend\Mail\AddressList;
+use Zend\Mail\Header\To;
 
 class Mail_Queue
 {
@@ -131,30 +132,21 @@ class Mail_Queue
             // TODO: handle self::MAX_RETRIES, but that should be done per queue item
             foreach (self::_getMergedList($status, $limit) as $maq_ids) {
                 $emails = self::_getEntries($maq_ids);
-                $recipients = [];
 
+                $addresslist = new AddressList();
                 foreach ($emails as $email) {
-                    $recipients[] = $email['recipient'];
+                    if (Mime_Helper::is8bit($email)) {
+                        $email = Mime_Helper::encode($email);
+                    }
+
+                    $addresslist->addFromString($email['recipient']);
                 }
 
                 $email = $emails[0];
-                $recipients = implode(',', $recipients);
-                $message = $email['headers'] . "\r\n\r\n" . $email['body'];
-                $structure = Mime_Helper::decode($message, false, false);
-                $headers = $structure->headers;
+                $m = MailMessage::createFromHeaderBody($email['headers'], $email['body']);
+                $m->setTo($addresslist);
 
-                $headers['to'] = $recipients;
-                $headers = Mime_Helper::encodeHeaders($headers);
-
-                $res = Mail_Helper::prepareHeaders($headers);
-                if (Misc::isError($res)) {
-                    Logger::app()->error($res->getMessage(), ['debug' => $res->getDebugInfo()]);
-
-                    return;
-                }
-
-                list(, $text_headers) = $res;
-                $result = self::_sendEmail($recipients, $text_headers, $email['body']);
+                $result = self::_sendEmail($m->to, $m->getHeaders()->toString(), $email['body']);
 
                 if (Misc::isError($e = $result)) {
                     /** @var PEAR_Error $e */
@@ -181,6 +173,8 @@ class Mail_Queue
                     }
                 }
             }
+            // FIXME: should not process the list again?
+            //return;
         }
 
         foreach (self::_getList($status, $limit) as $maq_id) {

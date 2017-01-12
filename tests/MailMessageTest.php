@@ -12,6 +12,7 @@
  */
 
 use Eventum\Mail\MailMessage;
+use Zend\Mail\AddressList;
 
 class MailMessageTest extends TestCase
 {
@@ -770,25 +771,26 @@ class MailMessageTest extends TestCase
             'root@example.org',
             'Root Mäe <root2@example.org>',
         ];
+
+        $addresslist = new AddressList();
+        foreach ($recipients as $recipient) {
+            if (Mime_Helper::is8bit($recipient)) {
+                $recipient = Mime_Helper::encode($recipient);
+            }
+
+            $addresslist->addFromString($recipient);
+        }
+
         $headers = "Message-ID: <eventum.md5.1bddof5dyu68w08.3117t0idh7ggk4@localhost>\n";
         $headers .= "From: root@example.org\n";
-
         $body = 'body';
-        $recipients = implode(',', $recipients);
-        $message = $headers . "\r\n\r\n" . $body;
-        $structure = Mime_Helper::decode($message, false, false);
-        $headers = $structure->headers;
 
-        $headers['to'] = $recipients;
-        $headers = Mime_Helper::encodeHeaders($headers);
+        $m = MailMessage::createFromHeaderBody($headers, $body);
+        $m->setTo($addresslist);
 
-        $res = Mail_Helper::headersAsString($headers);
-        $exp = [
-            'root@example.org',
-            "message-id: <eventum.md5.1bddof5dyu68w08.3117t0idh7ggk4@localhost>\r\n" .
-            "from: root@example.org\r\n" .
-            'to: "Some =?utf-8?b?w5ZuZSI=?= <Some.One@example.org>,root@example.org,Root =?utf-8?b?TcOkZQ==?= <root2@example.org>',
-        ];
-        $this->assertEquals($exp, $res);
+        $exp = "\"Some =?utf-8?b?w5ZuZSI=?= <Some.One@example.org>,\r\n" .
+            " root@example.org,\r\n" .
+            " Root =?utf-8?b?TcOkZQ==?= <root2@example.org>";
+        $this->assertEquals($exp, $m->to);
     }
 }

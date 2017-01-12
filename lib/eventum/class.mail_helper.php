@@ -686,28 +686,6 @@ class Mail_Helper
     }
 
     /**
-     * Since Mail::prepareHeaders() is not supposed to be called statically, this method
-     * instantiates an instance of the mail class and calls prepareHeaders on it.
-     *
-     * @param array $headers The array of headers to prepare, in an associative
-     *              array, where the array key is the header name (ie,
-     *              'Subject'), and the array value is the header
-     *              value (ie, 'test'). The header produced from those
-     *              values would be 'Subject: test'.
-     * @return mixed Returns false if it encounters a bad address,
-     *               otherwise returns an array containing two
-     *               elements: Any From: address found in the headers,
-     *               and the plain text version of the headers.
-     */
-    public static function prepareHeaders($headers)
-    {
-        $params = Setup::get()->smtp->toArray();
-        $mail = new Mail_smtp($params);
-
-        return $mail->prepareHeaders($headers);
-    }
-
-    /**
      * Generates the specialized headers for an email.
      *
      * @param   integer $issue_id The issue ID
