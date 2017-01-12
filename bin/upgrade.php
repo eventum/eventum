@@ -7,6 +7,8 @@
  * https://github.com/eventum/eventum/wiki/Upgrading
  */
 
+use Symfony\Component\Console\Input\ArgvInput;
+
 define('INSTALL_PATH', __DIR__ . '/..');
 define('CONFIG_PATH', INSTALL_PATH . '/config');
 
@@ -22,5 +24,15 @@ if (!file_exists($setup_path) || !filesize($setup_path) || !is_readable($setup_p
 
 require_once INSTALL_PATH . '/init.php';
 
+// run legacy eventum db updater
 $app = new Eventum\Command\UpgradeCommand();
 $app->run();
+
+// run phinx based updater
+chdir(__DIR__ . '/../res/config');
+
+// emulate running "migrate" command
+$input = new ArgvInput([$argv[0], 'migrate']);
+
+$app = new Phinx\Console\PhinxApplication();
+$app->run($input);
