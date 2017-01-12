@@ -519,7 +519,7 @@ class MailMessage extends Message
     /**
      * Set To: header
      *
-     * @param string $value
+     * @param string|AddressList $value
      */
     public function setTo($value)
     {
@@ -540,14 +540,18 @@ class MailMessage extends Message
      * Set AddressList type header a value
      *
      * @param string $name
-     * @param string $value
+     * @param string|AddressList $value
      */
     public function setAddressListHeader($name, $value)
     {
         /** @var AbstractAddressList $header */
         $header = $this->getHeader($name);
-        $addresslist = new AddressList();
-        $addresslist->addFromString($value);
+        if ($value instanceof AddressList) {
+            $addresslist = $value;
+        } else {
+            $addresslist = new AddressList();
+            $addresslist->addFromString($value);
+        }
         $header->setAddressList($addresslist);
     }
 
