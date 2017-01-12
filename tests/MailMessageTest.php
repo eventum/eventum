@@ -644,7 +644,7 @@ class MailMessageTest extends TestCase
         $transport = new \Zend\Mail\Transport\Sendmail();
         $transport->setCallable(
             function ($to, $subject, $body, $headers, $params) {
-                error_log("to[$to] subject[$subject] body[$body] headers[$headers] params[$params]");
+                //error_log("to[$to] subject[$subject] body[$body] headers[$headers] params[$params]");
             }
         );
         $transport->send($mail);
@@ -675,10 +675,10 @@ class MailMessageTest extends TestCase
         $message = new Zend\Mail\Message();
         $message->setBody($body);
 
-        echo $message->toString();
+//        echo $message->toString();
 
         $mail = MailMessage::createFromMessage($message);
-        echo $mail->getRawContent();
+//        echo $mail->getRawContent();
 
         $mail = MailMessage::createNew();
         $mime = $mail->addMimePart($textContent, 'text/plain', 'UTF-8');
@@ -743,11 +743,11 @@ class MailMessageTest extends TestCase
 
         // the same handled better in encodeQuotedPrintable
         $v = Mime_Helper::encodeQuotedPrintable($value);
-        var_dump($v);
+//        var_dump($v);
 
         // this works too
         $v = \Zend\Mail\Header\HeaderWrap::mimeEncodeValue($value, 'UTF-8');
-        var_dump($v);
+//        var_dump($v);
     }
 
     /**
