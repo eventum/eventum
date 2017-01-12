@@ -116,10 +116,10 @@ class Routing
         if ($setup['email_routing']['status'] != 'enabled') {
             throw RoutingException::noEmailRouting();
         }
-        if (empty($setup['email_routing']['address_prefix'])) {
+        if (!$setup['email_routing']['address_prefix']) {
             throw RoutingException::noEmailPrefixConfigured();
         }
-        if (empty($setup['email_routing']['address_host'])) {
+        if (!$setup['email_routing']['address_host']) {
             throw RoutingException::noEmailDomainConfigured();
         }
 
@@ -328,10 +328,10 @@ class Routing
         if ($setup['note_routing']['status'] != 'enabled') {
             throw RoutingException::noEmailRouting();
         }
-        if (empty($setup['note_routing']['address_prefix'])) {
+        if (!$setup['note_routing']['address_prefix']) {
             throw RoutingException::noEmailPrefixConfigured();
         }
-        if (empty($setup['note_routing']['address_host'])) {
+        if (!$setup['note_routing']['address_host']) {
             throw RoutingException::noEmailDomainConfigured();
         }
         $structure = Mime_Helper::decode($full_message, true, true);
@@ -468,10 +468,10 @@ class Routing
         if ($setup['draft_routing']['status'] != 'enabled') {
             throw RoutingException::noDraftRouting();
         }
-        if (empty($setup['draft_routing']['address_prefix'])) {
+        if (!$setup['draft_routing']['address_prefix']) {
             throw RoutingException::noEmailPrefixConfigured();
         }
-        if (empty($setup['draft_routing']['address_host'])) {
+        if (!$setup['draft_routing']['address_host']) {
             throw RoutingException::noEmailDomainConfigured();
         }
 

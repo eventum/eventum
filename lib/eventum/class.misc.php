@@ -155,7 +155,7 @@ class Misc
     {
         $setup = Setup::get();
 
-        return !empty($setup['tool_caption']) ? $setup['tool_caption'] : APP_NAME;
+        return $setup['tool_caption'] ?: APP_NAME;
     }
 
     /**

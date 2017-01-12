@@ -179,7 +179,7 @@ class Notification
             $info = Mail_Helper::getAddressInfo($sender);
         }
         // allow flags even without routing enabled
-        if (!empty($setup[$routing]['recipient_type_flag'])) {
+        if ($setup[$routing]['recipient_type_flag']) {
             $flag = '[' . $setup[$routing]['recipient_type_flag'] . '] ';
         } else {
             $flag = '';
