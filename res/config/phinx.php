@@ -22,9 +22,6 @@ $config = DB_Helper::getConfig();
 // TODO: use "connection" => $pdo_instance once PEAR DB support is dropped
 // http://docs.phinx.org/en/latest/commands.html#configuration-file-parameter
 
-// TODO: support unix sockets
-// http://docs.phinx.org/en/latest/configuration.html#socket-connections
-
 return [
     'paths' => [
         'migrations' => 'db/migrations'
@@ -38,7 +35,8 @@ return [
             'name' => $config['database'],
             'user' => $config['username'],
             'pass' => $config['password'],
-            'port' => $config['port']
+            'port' => $config['port'],
+            'unix_socket' => $config['socket'],
         ]
     ]
 ];
