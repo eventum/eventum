@@ -441,10 +441,9 @@ class Support
         // send email (use PEAR's classes)
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
-        $setup = Mail_Helper::getSMTPSettings();
         // TRANSLATORS: %s: APP_SHORT_NAME
         $subject = ev_gettext('%s: Postmaster notify: see transcript for details', APP_SHORT_NAME);
-        $mail->send($setup['from'], $sender_email, $subject);
+        $mail->send(null, $sender_email, $subject);
 
         if ($usr_id) {
             Language::restore();

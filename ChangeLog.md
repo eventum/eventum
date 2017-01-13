@@ -2,8 +2,9 @@
 
 ## [3.1.10] - 2017-??-??
 
-- ldap: respect `create_users` configuration
+- ldap: respect `create_users` configuration (@glensc)
 - Fix bug creating new priority (@balsdorf)
+- add MailTransport class to encapsulate smtp transport (@glensc, #236, #234)
 
 [3.1.10]: https://github.com/eventum/eventum/compare/v3.1.9...master
 

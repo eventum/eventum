@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Mail\MailTransport;
 use Eventum\Monolog\Logger;
 
 /**
@@ -338,23 +339,6 @@ class Mail_Helper
     }
 
     /**
-     * Method used to get the application specific settings regarding
-     * which SMTP server to use, such as login and server information.
-     *
-     * @return  array
-     */
-    public static function getSMTPSettings()
-    {
-        $settings = Setup::get();
-
-        if (file_exists('/etc/mailname')) {
-            $settings['smtp']['localhost'] = trim(file_get_contents('/etc/mailname'));
-        }
-
-        return $settings['smtp'];
-    }
-
-    /**
      * Method used to set the text version of the body of the MIME
      * multipart message that you wish to send.
      *
@@ -554,6 +538,9 @@ class Mail_Helper
      */
     public function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
     {
+        if ($from === null) {
+            $from = Setup::get()->smtp->from;
+        }
         // encode the addresses
         $from = Mime_Helper::encodeAddress($from);
         $to = Mime_Helper::encodeAddress($to);
@@ -692,36 +679,10 @@ class Mail_Helper
             $headers += self::getSpecializedHeaders($issue_id, $email['maq_type']);
         }
 
-        $params = self::getSMTPSettings();
-        $mail = Mail::factory('smtp', $params);
-        $res = $mail->send($address, $headers, $body);
-        if (Misc::isError($res)) {
-            Logger::app()->error($res->getMessage(), ['debug' => $res->getDebugInfo()]);
-        }
+        $mail = new MailTransport();
+        $mail->send($address, $headers, $body);
 
         $subjects[] = $subject;
-    }
-
-    /**
-     * Since Mail::prepareHeaders() is not supposed to be called statically, this method
-     * instantiates an instance of the mail class and calls prepareHeaders on it.
-     *
-     * @param array $headers The array of headers to prepare, in an associative
-     *              array, where the array key is the header name (ie,
-     *              'Subject'), and the array value is the header
-     *              value (ie, 'test'). The header produced from those
-     *              values would be 'Subject: test'.
-     * @return mixed Returns false if it encounters a bad address,
-     *               otherwise returns an array containing two
-     *               elements: Any From: address found in the headers,
-     *               and the plain text version of the headers.
-     */
-    public static function prepareHeaders($headers)
-    {
-        $params = self::getSMTPSettings();
-        $mail = Mail::factory('smtp', $params);
-
-        return $mail->prepareHeaders($headers);
     }
 
     /**
