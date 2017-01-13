@@ -147,6 +147,20 @@ class MailMessage extends Message
     }
 
     /**
+     * Convert to Mail\Message
+     *
+     * @return Mail\Message
+     */
+    public function toMessage()
+    {
+        $message = new Mail\Message();
+        $message->setHeaders($this->getHeaders());
+        $message->setBody($this->getContent());
+
+        return $message;
+    }
+
+    /**
      * Assemble email into raw format including headers.
      *
      * @return string

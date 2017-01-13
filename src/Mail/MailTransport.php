@@ -14,20 +14,17 @@
 namespace Eventum\Mail;
 
 use Eventum\Monolog\Logger;
-use Mail;
-use Mail_smtp;
-use Misc;
-use PEAR_Error;
 use Setup;
+use Zend\Mail\Transport;
 
 class MailTransport
 {
-    /** @var Mail_smtp */
-    private $smtp;
+    /** @var Transport\TransportInterface|Transport\Smtp|Transport\File */
+    private $transport;
 
     public function __construct()
     {
-        $this->smtp = new Mail_smtp($this->getSMTPSettings());
+        $this->transport = Transport\Factory::create($this->getSpec());
     }
 
     /**
@@ -49,37 +46,73 @@ class MailTransport
      * @param string $body the full text of the message body, including any
      *               MIME parts, etc
      *
-     * @return mixed returns true on success, or a PEAR_Error
+     * @return mixed Returns true on success, or a exception class
      *               containing a descriptive error message on
      *               failure
      */
     public function send($recipient, $headers, $body)
     {
-        $res = $this->smtp->send($recipient, $headers, $body);
-        if (Misc::isError($res)) {
-            /** @var PEAR_Error $res */
-            Logger::app()->error($res->getMessage(), ['debug' => $res->getDebugInfo()]);
-
-            return $res;
+        if ($this->transport instanceof Transport\Smtp) {
+            $envelope = new Transport\Envelope();
+            $envelope->setTo($recipient);
+            $this->transport->setEnvelope($envelope);
         }
 
-        return true;
+        $message = MailMessage::createFromHeaderBody($headers, $body);
+
+        try {
+            $this->transport->send($message->toMessage());
+            $res = true;
+        } catch (\Exception $e) {
+            Logger::app()->error($e->getMessage());
+            $res = $e;
+        } finally {
+            // avoid leaking recipient in case of transport reuse
+            if ($this->transport instanceof Transport\Smtp) {
+                $this->transport->setEnvelope(new Transport\Envelope());
+            }
+        }
+
+        return $res;
     }
 
     /**
-     * Method used to get the application specific settings regarding
-     * which SMTP server to use, such as login and server information.
+     * Get Specification for Mail Transport Factory
      *
-     * @return  array
+     * @return array
      */
-    private function getSMTPSettings()
+    private function getSpec()
     {
-        $settings = Setup::get();
+        $setup = Setup::get()['smtp'];
 
-        if (file_exists('/etc/mailname')) {
-            $settings['smtp']['localhost'] = trim(file_get_contents('/etc/mailname'));
+        $options = [];
+        if ($setup['host']) {
+            $options['host'] = $setup['host'];
+        }
+        if ($setup['port']) {
+            $options['port'] = $setup['port'];
         }
 
-        return $settings['smtp']->toArray();
+        if (file_exists('/etc/mailname')) {
+            $options['name'] = trim(file_get_contents('/etc/mailname'));
+        }
+
+        if ($setup['auth']) {
+            $options['connection_class'] = 'login';
+            $options['connection_config'] = [
+                'username' => $setup['username'],
+                'password' => $setup['password'],
+            ];
+        }
+
+        $spec = [
+            /**
+             * @see \Zend\Mail\Transport\Factory::$classMap
+             */
+            'type' => $setup['type'] ?: 'smtp',
+            'options' => $options,
+        ];
+
+        return $spec;
     }
 }

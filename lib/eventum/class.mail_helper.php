@@ -686,6 +686,8 @@ class Mail_Helper
         $mail->send($address, $headers, $body);
 
         $subjects[] = $subject;
+
+        return true;
     }
 
     /**

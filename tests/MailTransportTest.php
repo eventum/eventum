@@ -17,11 +17,16 @@ use Eventum\Mail\MailTransport;
 
 class MailTransportTest extends TestCase
 {
-    public function test1()
+    public static function setUpBeforeClass()
+    {
+        Logger::initialize();
+    }
+
+    public function testSimpleMail()
     {
         $transport = new MailTransport();
         $recipient = 'root@localhost';
-        $headers = [];
+        $headers = ['Subject: lol'];
         $body = 'nothing';
         $transport->send($recipient, $headers, $body);
     }
