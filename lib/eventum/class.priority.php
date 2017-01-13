@@ -215,7 +215,7 @@ class Priority
                     pri_rank,
                     pri_icon
                  ) VALUES (
-                    ?, ?, ?
+                    ?, ?, ?, ?
                  )';
         try {
             DB_Helper::getInstance()->query($stmt, [$_POST['prj_id'], $_POST['title'], $_POST['rank'], $_POST['icon']]);

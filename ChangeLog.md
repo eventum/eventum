@@ -3,6 +3,7 @@
 ## [3.1.10] - 2017-??-??
 
 - ldap: respect `create_users` configuration
+- Fix bug creating new priority (@balsdorf)
 
 [3.1.10]: https://github.com/eventum/eventum/compare/v3.1.9...master
 
