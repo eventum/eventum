@@ -119,6 +119,11 @@
 				<exclude name="DB/mysql*.php" />
 			</fileset>
 
+			<fileset dir="${vendor}/pear/net_smartirc">
+				<exclude name="Net/SmartIRC.php" />
+				<exclude name="Net/SmartIRC/*.php" />
+			</fileset>
+
 			<!-- package not used -->
 			<fileset dir="${vendor}/pear/console_getopt">
 			</fileset>
