@@ -30,8 +30,6 @@ before_install:
   - bin/ci/configure.sh
 
 install:
-  # disable secure-http because sourceforge redirects to http:// urls
-  - composer config secure-http false
   - composer install --no-interaction --prefer-dist
 
 script:
