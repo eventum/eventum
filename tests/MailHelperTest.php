@@ -83,6 +83,15 @@ class MailHelperTest extends TestCase
         ];
         $this->assertEquals($exp, $res);
 
+        // test that QP encoded input also works
+        $addresses = 'Erika =?utf-8?b?TWthaXTElyI=?= <erika@example.net>, =?utf-8?b?UsO2w7Z0IA==?= =?utf-8?b?KMWgdXBlcnVzZXIp?= <root@example.org>';
+        $res = AddressHeader::fromString($addresses)->getEmails();
+        $exp = [
+            'erika@example.net',
+            'root@example.org',
+        ];
+        $this->assertEquals($exp, $res);
+
         // the @$array['foo'] results NULL
         $addresses = null;
         $res = AddressHeader::fromString($addresses)->getEmails();
