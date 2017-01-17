@@ -52,7 +52,7 @@ class ScmCommitTest extends TestCase
         ];
         Setup::set(['scm' => $scm]);
 
-        DB_Helper::getInstance()->query("DELETE FROM {{%issue_commit}} WHERE isc_iss_id=?", [$this->issue_id]);
+        DB_Helper::getInstance()->query('DELETE FROM {{%issue_commit}} WHERE isc_iss_id=?', [$this->issue_id]);
         $this->createCommit();
     }
 

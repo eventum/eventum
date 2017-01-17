@@ -13,7 +13,6 @@
 
 namespace Eventum\Test;
 
-use Cascade\Cascade;
 use DB_Helper;
 use Eventum\Db\DatabaseException;
 use Eventum\Monolog\Logger;
