@@ -13,6 +13,7 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\Exception\RoutingException;
+use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Monolog\Logger;
 
 /**
@@ -603,14 +604,16 @@ class Support
                         $users = array_flip($users);
 
                         $addresses = [];
-                        $to_addresses = Mail_Helper::getEmailAddresses(@$structure->headers['to']);
-                        if (count($to_addresses)) {
+
+                        $to_addresses = AddressHeader::fromString(@$structure->headers['to'])->getEmails();
+                        if ($to_addresses) {
                             $addresses = $to_addresses;
                         }
-                        $cc_addresses = Mail_Helper::getEmailAddresses(@$structure->headers['cc']);
-                        if (count($cc_addresses)) {
+                        $cc_addresses = AddressHeader::fromString(@$structure->headers['cc'])->getEmails();
+                        if ($cc_addresses) {
                             $addresses = array_merge($addresses, $cc_addresses);
                         }
+
                         $cc_users = [];
                         foreach ($addresses as $email) {
                             if (in_array(strtolower($email), $user_emails)) {
@@ -2605,14 +2608,16 @@ class Support
         array_push($addresses_not_too_add, $project_details['prj_outgoing_sender_email']);
 
         $addresses = [];
-        $to_addresses = Mail_Helper::getEmailAddresses(@$email['to']);
-        if (count($to_addresses)) {
+
+        $to_addresses = AddressHeader::fromString(@$email['to'])->getEmails();
+        if ($to_addresses) {
             $addresses = $to_addresses;
         }
-        $cc_addresses = Mail_Helper::getEmailAddresses(@$email['cc']);
-        if (count($cc_addresses)) {
+        $cc_addresses = AddressHeader::fromString($email['cc'])->getEmails();
+        if ($cc_addresses) {
             $addresses = array_merge($addresses, $cc_addresses);
         }
+
         $subscribers = Notification::getSubscribedEmails($email['issue_id']);
         foreach ($addresses as $address) {
             $address = strtolower($address);
