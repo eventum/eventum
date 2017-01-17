@@ -127,6 +127,14 @@ class Mail_Helper
         $str = self::fixAddressQuoting($str);
         $str = Mime_Helper::encode($str);
         $structs = self::parseAddressList($str);
+        if (Misc::isError($structs)) {
+            /** @var PEAR_Error $e */
+            $e = $structs;
+            Logger::app()->error($e->getMessage(), ['addresses' => $str]);
+
+            return [];
+        }
+
         $addresses = [];
         foreach ($structs as $structure) {
             if ((!empty($structure->mailbox)) && (!empty($structure->host))) {
