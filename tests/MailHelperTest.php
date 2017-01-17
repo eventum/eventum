@@ -13,6 +13,7 @@
 
 namespace Eventum\Test;
 
+use Eventum\Mail\Helper\AddressHeader;
 use Mail_Helper;
 
 /**
@@ -63,6 +64,24 @@ class MailHelperTest extends TestCase
         // <eventum.md5.54hebbwge.myyt4c@eventum.example.org>
         $exp = '<eventum\.md5\.[0-9a-z]{8,64}\.[0-9a-z]{8,64}@' . APP_HOSTNAME . '>';
         $this->assertRegExp($exp, $msgid, 'Missing msg-id header');
+    }
+
+    /**
+     * test that @see Support::addExtraRecipientsToNotificationList adds cc addresses that are not 7bit
+     * but @see Mail_Helper::getEmailAddresses results errors because
+     * @see Mail_Helper::fixAddressQuoting encodes just wrong.
+     * test the alternative implementation using Zend Mail
+     */
+    public function getEmailAddresses()
+    {
+        $addresses = '"Erika Mkaitė" <erika@example.net>, Rööt (Šuperuser) <root@example.org>';
+
+        $res = AddressHeader::fromString($addresses)->getEmails();
+        $exp = [
+            'erika@example.net',
+            'root@example.org',
+        ];
+        $this->assertEquals($exp, $res);
     }
 
     /**
@@ -208,7 +227,7 @@ class MailHelperTest extends TestCase
                         // this is how it currently is parsed
                         'sender_name' => '"My Group: \"Richard"',
                         // this is how it should be parsed if fixAddressQuoting didn't break it
-//                        'sender_name' => '"Richard"',
+                        //'sender_name' => '"Richard"',
                         'email' => 'richard@localhost',
                         'username' => 'richard',
                         'host' => 'localhost',
