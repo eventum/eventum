@@ -32,6 +32,11 @@ class AddressHeader
 
     public static function fromString($addresses)
     {
+        // avoid exceptions if NULL or empty string passed as input
+        if (!$addresses) {
+            return new static(new To());
+        }
+
         // fromString expects 7bit input
         $addresses = Mime_Helper::encode($addresses);
 

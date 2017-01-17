@@ -68,11 +68,11 @@ class MailHelperTest extends TestCase
 
     /**
      * test that @see Support::addExtraRecipientsToNotificationList adds cc addresses that are not 7bit
-     * but @see Mail_Helper::getEmailAddresses results errors because
-     * @see Mail_Helper::fixAddressQuoting encodes just wrong.
+     * but @see Mail_Helper::getEmailAddresses results errors
+     * because @see Mail_Helper::fixAddressQuoting encodes just wrong.
      * test the alternative implementation using Zend Mail
      */
-    public function getEmailAddresses()
+    public function testGetEmailAddresses()
     {
         $addresses = '"Erika Mkaitė" <erika@example.net>, Rööt (Šuperuser) <root@example.org>';
 
@@ -81,6 +81,12 @@ class MailHelperTest extends TestCase
             'erika@example.net',
             'root@example.org',
         ];
+        $this->assertEquals($exp, $res);
+
+        // the @$array['foo'] results NULL
+        $addresses = null;
+        $res = AddressHeader::fromString($addresses)->getEmails();
+        $exp = [];
         $this->assertEquals($exp, $res);
     }
 
