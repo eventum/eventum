@@ -13,7 +13,6 @@
 
 namespace Eventum\Test;
 
-use Mail;
 use Mime_Helper;
 use Misc;
 
@@ -54,9 +53,17 @@ class MailParseTest extends TestCase
         $maq_recipient = Mime_Helper::encodeAddress($maq_recipient);
 
         // call private parseRecipients
-        $recipients = Mail::parseRecipients($maq_recipient);
+        $recipients = Pear_Mail::_parseRecipients($maq_recipient);
         $this->assertFalse(Misc::isError($recipients), Misc::isError($recipients) ? $recipients->getMessage() : '');
         // success
         $this->assertEquals(['glen@delfi.ee'], $recipients);
+    }
+}
+
+class Pear_Mail extends \Mail
+{
+    public static function _parseRecipients($recipients)
+    {
+        return parent::parseRecipients($recipients);
     }
 }
