@@ -11,16 +11,12 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
 use Eventum\Mail\MailTransport;
-use Eventum\Monolog\Logger;
 
 class MailTransportTest extends TestCase
 {
-    public static function setUpBeforeClass()
-    {
-        Logger::initialize();
-    }
-
     public function test1()
     {
         $transport = new MailTransport();

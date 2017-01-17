@@ -45,6 +45,9 @@
 		"files": [ "lib/eventum/gettext.php" ]
 	},
 	"autoload-dev": {
+		"psr-4": {
+			"Eventum\\Test\\": "tests/"
+		},
 		"classmap": [ "tests/src" ]
 	},
 	"minimum-stability": "dev",

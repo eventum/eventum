@@ -11,7 +11,17 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Date_Helper;
 use Eventum\Mail\MailMessage;
+use Mail_Helper;
+use Mail_Queue;
+use Mime_Helper;
+use PHPUnit_Framework_Error_Notice;
+use Routing;
+use Setup;
+use Zend;
 use Zend\Mail\AddressList;
 
 class MailMessageTest extends TestCase

@@ -11,50 +11,52 @@
  * that were distributed with this source code.
  */
 
-namespace Monolog\Handler;
-
-use Eventum\Monolog\Logger;
-use Setup;
-use TestCase;
-
-function mail()
-{
-    global $mail;
-    $mail[] = func_get_args();
+namespace Monolog\Handler {
+    function mail()
+    {
+        global $mail;
+        $mail[] = func_get_args();
+    }
 }
 
-class MailHandlerTest extends TestCase
-{
-    public function testMailHandler()
+namespace Eventum\Test {
+
+    use Eventum\Monolog\Logger;
+    use Setup;
+
+    class MailHandlerTest extends TestCase
     {
-        $logger = $this->configureMailHandler('enabled');
-        $logger->error('error');
+        public function testMailHandler()
+        {
+            $logger = $this->configureMailHandler('enabled');
+            $logger->error('error');
 
-        global $mail;
-        $this->assertCount(1, $mail);
-    }
+            global $mail;
+            $this->assertCount(1, $mail);
+        }
 
-    public function testMailHandlerDisabled()
-    {
-        $logger = $this->configureMailHandler('disabled');
-        $logger->error('error');
+        public function testMailHandlerDisabled()
+        {
+            $logger = $this->configureMailHandler('disabled');
+            $logger->error('error');
 
-        global $mail;
-        $this->assertCount(0, $mail);
-    }
+            global $mail;
+            $this->assertCount(0, $mail);
+        }
 
-    private function configureMailHandler($status)
-    {
-        global $mail;
-        $mail = [];
+        private function configureMailHandler($status)
+        {
+            global $mail;
+            $mail = [];
 
-        $setup = Setup::get();
-        $setup['email_error']['status'] = $status;
-        $setup['email_error']['addresses'] = 'root@localhost';
-        $setup['smtp']['from'] = 'root@locahost';
+            $setup = Setup::get();
+            $setup['email_error']['status'] = $status;
+            $setup['email_error']['addresses'] = 'root@localhost';
+            $setup['smtp']['from'] = 'root@locahost';
 
-        Logger::initialize();
+            Logger::initialize();
 
-        return Logger::app();
+            return Logger::app();
+        }
     }
 }

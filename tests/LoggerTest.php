@@ -11,18 +11,19 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
 use Cascade\Cascade;
+use DB_Helper;
 use Eventum\Db\DatabaseException;
 use Eventum\Monolog\Logger;
+use Exception;
+use Monolog;
 use Monolog\Handler\StreamHandler;
+use PEAR_Error;
 
 class LoggerTest extends TestCase
 {
-    public static function setUpBeforeClass()
-    {
-        Logger::initialize();
-    }
-
     public function testLogger()
     {
         // create a log channel
@@ -82,27 +83,5 @@ class LoggerTest extends TestCase
     public function testCliLog()
     {
         Logger::cli()->info('moo');
-    }
-
-    /**
-     * Test monolog-cascade project
-     */
-    public function testCascade()
-    {
-        // configure your loggers
-        Cascade::fileConfig(APP_CONFIG_PATH . '/logger.yml');
-
-        $fooLogger = Cascade::getLogger('foo');
-        $this->assertInstanceOf('Monolog\Logger', $fooLogger);
-
-        // undefined logger should do nothing
-        $this->assertCount(0, $fooLogger->getHandlers());
-        $this->assertCount(0, $fooLogger->getProcessors());
-
-        // this is declared logger
-        $myLogger = Cascade::getLogger('myLogger');
-        $this->assertInstanceOf('Monolog\Logger', $myLogger);
-        $this->assertCount(2, $myLogger->getHandlers());
-        $this->assertCount(1, $myLogger->getProcessors());
     }
 }

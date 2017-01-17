@@ -11,6 +11,12 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Date_Helper;
+use DateTime;
+use Exception;
+
 /**
  * DateHelper tests that do not use database.
  * Put user specific tests (that requires database) to DateHelperUserTests class
@@ -184,7 +190,7 @@ class DateHelperTest extends TestCase
         return [
             ['Sat Oct 11 11:51:12 EEST 2014', 'Europe/Tallinn', 'Sat, 11 Oct 2014, 11:51:12 EEST'],
             ['Sat Oct 11 11:51:12 EEST 2014', 'America/New_York', 'Sat, 11 Oct 2014, 04:51:12 EDT'],
-//            array("Sat Oct 11 11:51:12 EEST 2014", "Eastern Standard Time", "Sat, 11 Oct 2014, 08:51:12 UTC"),
+//            ["Sat Oct 11 11:51:12 EEST 2014", "Eastern Standard Time", "Sat, 11 Oct 2014, 08:51:12 UTC"],
             ['2014-10-14 11:32:57', 'Eastern Standard Time', 'Tue, 14 Oct 2014, 11:32:57 GMT'],
             ['2014-10-14 11:32:57', 'America/New_York', 'Tue, 14 Oct 2014, 07:32:57 EDT'],
         ];

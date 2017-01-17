@@ -11,7 +11,12 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
 use Eventum\RPC\RemoteApi;
+use Eventum_RPC;
+use Exception;
+use Setup;
 
 class RemoteApiTest extends TestCase
 {
@@ -97,7 +102,7 @@ class RemoteApiTest extends TestCase
         $res = self::$client->getUserAssignedProjects($only_customer_projects);
         $exp = [
             [
-                'id'    => '1',
+                'id' => '1',
                 'title' => 'Default Project',
             ],
         ];

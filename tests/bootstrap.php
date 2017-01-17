@@ -13,6 +13,8 @@
 
 // we init paths ourselves like init.php does, to be independent and not
 // needing actual config being present.
+use Eventum\Monolog\Logger;
+
 define('APP_PATH', realpath(__DIR__ . '/..'));
 define('APP_CONFIG_PATH', __DIR__);
 define('APP_SETUP_FILE', APP_CONFIG_PATH . '/_setup.php');
@@ -40,7 +42,7 @@ define('APP_PROJECT_COOKIE_EXPIRE', time() + (60 * 60 * 24));
 define('APP_BASE_URL', 'http://localhost');
 define('APP_LOG_PATH', APP_CONFIG_PATH);
 define('APP_LOCAL_PATH', APP_CONFIG_PATH);
-define('APP_TPL_COMPILE_PATH', APP_CONFIG_PATH.'/tpl_c');
+define('APP_TPL_COMPILE_PATH', APP_CONFIG_PATH . '/tpl_c');
 define('APP_TPL_PATH', APP_PATH . '/templates');
 define('APP_NAME', 'Eventum Tests');
 define('APP_VERSION', '3.x.y-dev');
@@ -63,7 +65,7 @@ if (!file_exists(APP_SETUP_FILE)) {
             'database' => 'eventum',
             'username' => 'mysql',
             'password' => '',
-            'port'     => 3306,
+            'port' => 3306,
             'table_prefix' => '',
         ],
 
@@ -82,3 +84,4 @@ if (!getenv('TRAVIS')) {
 
 // this setups ev_gettext wrappers
 Language::setup();
+Logger::initialize();

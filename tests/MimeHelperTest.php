@@ -11,6 +11,10 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Mime_Helper;
+
 /**
  * Test class for Mime_Helper.
  */
