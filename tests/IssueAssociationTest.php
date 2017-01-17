@@ -15,16 +15,10 @@ namespace Eventum\Test;
 
 use DB_Helper;
 use Eventum\Model\Repository\IssueAssociationRepository;
-use Eventum\Monolog\Logger;
 use InvalidArgumentException;
 
 class IssueAssociation extends TestCase
 {
-    public static function setUpBeforeClass()
-    {
-        Logger::initialize();
-    }
-
     public function setUp()
     {
         $db = DB_Helper::getInstance();

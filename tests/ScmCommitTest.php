@@ -22,11 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ScmCommitTest extends TestCase
 {
-    public static function setUpBeforeClass()
-    {
-        Logger::initialize();
-    }
-
     public function testCommit()
     {
         $ci = Entity\Commit::create()

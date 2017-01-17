@@ -24,11 +24,6 @@ use PEAR_Error;
 
 class LoggerTest extends TestCase
 {
-    public static function setUpBeforeClass()
-    {
-        Logger::initialize();
-    }
-
     public function testLogger()
     {
         // create a log channel
