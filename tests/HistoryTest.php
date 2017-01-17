@@ -11,6 +11,10 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Misc;
+
 class HistoryTest extends TestCase
 {
     public function testHistoryContext()

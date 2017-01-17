@@ -11,6 +11,9 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use DB_Helper;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\Adapter\PearAdapter;
 

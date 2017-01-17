@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Test\TestCase;
+
 class WorkflowTestCase extends TestCase
 {
     protected $workflow_class = 'TestWorkflow';

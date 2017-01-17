@@ -11,6 +11,11 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Auth;
+use AuthCookie;
+
 class AuthCookieTest extends TestCase
 {
     public static function setupBeforeClass()

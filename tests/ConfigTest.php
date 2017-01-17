@@ -11,6 +11,10 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Setup;
+
 class ConfigTest extends TestCase
 {
     public function testConfig()

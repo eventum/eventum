@@ -11,6 +11,10 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Mail_Helper;
+
 /**
  * Test class for Mail_Helper.
  */

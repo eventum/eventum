@@ -11,10 +11,16 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
 use Cascade\Cascade;
+use DB_Helper;
 use Eventum\Db\DatabaseException;
 use Eventum\Monolog\Logger;
+use Exception;
+use Monolog;
 use Monolog\Handler\StreamHandler;
+use PEAR_Error;
 
 class LoggerTest extends TestCase
 {

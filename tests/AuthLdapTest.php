@@ -11,6 +11,10 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use LDAP_Auth_Backend;
+
 class AuthLdapTest extends TestCase
 {
     /** @var LDAP_Auth_Backend */

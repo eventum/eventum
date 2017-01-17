@@ -11,6 +11,10 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Link_Filter;
+
 class LinkFilterTest extends TestCase
 {
     public function setUp()

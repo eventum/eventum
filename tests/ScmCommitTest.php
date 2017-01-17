@@ -11,9 +11,13 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Date_Helper;
 use Eventum\Model\Entity;
 use Eventum\Monolog\Logger;
 use Eventum\Scm\Adapter\GitlabScm;
+use Setup;
 use Symfony\Component\HttpFoundation\Request;
 
 class ScmCommitTest extends TestCase

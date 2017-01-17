@@ -11,6 +11,12 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Mail;
+use Mime_Helper;
+use Misc;
+
 class MailParseTest extends TestCase
 {
     /**

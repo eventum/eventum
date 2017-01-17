@@ -11,6 +11,13 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use AuthPassword;
+use InvalidArgumentException;
+use Misc;
+use stdClass;
+
 class PasswordAuthTest extends TestCase
 {
     /** @var string */

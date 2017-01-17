@@ -11,8 +11,12 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use DB_Helper;
 use Eventum\Model\Repository\IssueAssociationRepository;
 use Eventum\Monolog\Logger;
+use InvalidArgumentException;
 
 class IssueAssociation extends TestCase
 {
