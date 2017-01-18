@@ -101,6 +101,13 @@ class MailHelperTest extends TestCase
             ],
             // the @$array['foo'] results NULL
             [null, []],
+
+            // test comments
+            // https://github.com/zendframework/zend-mail/pull/12
+            [
+                'ted@example.com (Ted Bloggs)',
+                ['ted@example.com'],
+            ],
         ];
     }
 
