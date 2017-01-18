@@ -38,7 +38,7 @@ class AddressHeader
         }
 
         // fromString expects 7bit input
-        $addresses = Mime_Helper::encode($addresses);
+        $addresses = Mime_Helper::encodeValue($addresses);
 
         // use To header to utilize AddressList functionality
         return new static(To::fromString('To:' . $addresses));
