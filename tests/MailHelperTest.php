@@ -71,32 +71,37 @@ class MailHelperTest extends TestCase
      * but @see Mail_Helper::getEmailAddresses results errors
      * because @see Mail_Helper::fixAddressQuoting encodes just wrong.
      * test the alternative implementation using Zend Mail
+     *
+     * @dataProvider validGetEmailAddressesData
      */
-    public function testGetEmailAddresses()
+    public function testGetEmailAddresses($input, $exp)
     {
-        $addresses = '"Erika Mkaitė" <erika@example.net>, Rööt (Šuperuser) <root@example.org>';
+        $res = AddressHeader::fromString($input)->getEmails();
+        $this->assertEquals($exp, $res);
+    }
 
-        $res = AddressHeader::fromString($addresses)->getEmails();
-        $exp = [
-            'erika@example.net',
-            'root@example.org',
+    public function validGetEmailAddressesData()
+    {
+        return [
+            [
+                // decoded input
+                '"Erika Mkaitė" <erika@example.net>, Rööt (Šuperuser) <root@example.org>',
+                [
+                    'erika@example.net',
+                    'root@example.org',
+                ],
+            ],
+            [
+                // test that QP encoded input also works
+                'Erika =?utf-8?b?TWthaXTElyI=?= <erika@example.net>, =?utf-8?b?UsO2w7Z0IA==?= =?utf-8?b?KMWgdXBlcnVzZXIp?= <root@example.org>',
+                [
+                    'erika@example.net',
+                    'root@example.org',
+                ],
+            ],
+            // the @$array['foo'] results NULL
+            [null, []],
         ];
-        $this->assertEquals($exp, $res);
-
-        // test that QP encoded input also works
-        $addresses = 'Erika =?utf-8?b?TWthaXTElyI=?= <erika@example.net>, =?utf-8?b?UsO2w7Z0IA==?= =?utf-8?b?KMWgdXBlcnVzZXIp?= <root@example.org>';
-        $res = AddressHeader::fromString($addresses)->getEmails();
-        $exp = [
-            'erika@example.net',
-            'root@example.org',
-        ];
-        $this->assertEquals($exp, $res);
-
-        // the @$array['foo'] results NULL
-        $addresses = null;
-        $res = AddressHeader::fromString($addresses)->getEmails();
-        $exp = [];
-        $this->assertEquals($exp, $res);
     }
 
     /**
