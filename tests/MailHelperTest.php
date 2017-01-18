@@ -108,6 +108,17 @@ class MailHelperTest extends TestCase
                 'ted@example.com (Ted Bloggs)',
                 ['ted@example.com'],
             ],
+            [
+                // https://github.com/zendframework/zend-mail/pull/13
+                'undisclosed-recipients:;',
+                [],
+            ],
+            [
+                // https://github.com/zendframework/zend-mail/pull/13
+                // https://github.com/eventum/eventum/issues/91
+                'destinatarios-no-revelados:;',
+                [],
+            ],
         ];
     }
 
