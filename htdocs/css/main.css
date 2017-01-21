@@ -584,3 +584,16 @@ span.toggle-trimmed-email a:active {
     color: #fff;
     background-color: #4078c0;
 }
+
+.ui-sortable {
+    margin: 0;
+    padding: 0;
+}
+
+.ui-sortable-handle {
+    border: 1px dashed #000000;
+    list-style: none;
+    margin: 1em;
+    padding: 1em;
+    cursor: move;
+}
