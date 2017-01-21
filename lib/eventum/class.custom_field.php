@@ -26,8 +26,7 @@ class Custom_Field
         'cfo_id DESC' => 'Reverse insert',
         'cfo_value ASC' => 'Alphabetical',
         'cfo_value DESC' => 'Reverse alphabetical',
-        'cfo_rank ASC' => 'Manual',
-        'cfo_rank DESC' => 'Reverse manual',
+        'cfo_rank ASC' => 'Manual'
     ];
 
     public static function updateOptions($fld_id, $options, $new_options)
@@ -46,7 +45,7 @@ class Custom_Field
         }
 
         if (count($new_options) > 0) {
-            self:;self::addOptions($fld_id, $new_options);
+            self::addOptions($fld_id, $new_options, $rank);
         }
 
         return 1;
@@ -95,9 +94,10 @@ class Custom_Field
      *
      * @param   integer $fld_id The custom field ID
      * @param   array $options The list of options that need to be added
+     * @param   integer $start_rank The rank for the first new option to be inserted with
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    public static function addOptions($fld_id, $options)
+    public static function addOptions($fld_id, $options, $start_rank)
     {
         if (!is_array($options)) {
             $options = [$options];
@@ -111,12 +111,14 @@ class Custom_Field
                         {{%custom_field_option}}
                      (
                         cfo_fld_id,
-                        cfo_value
+                        cfo_value,
+                        cfo_rank
                      ) VALUES (
                         ?,
-                        ' . DB_Helper::buildList($option) . '
+                        ?,
+                        ?
                      )';
-            $params = array_merge([$fld_id, $option]);
+            $params = [$fld_id, $option, $start_rank++];
             try {
                 DB_Helper::getInstance()->query($stmt, $params);
             } catch (DatabaseException $e) {
