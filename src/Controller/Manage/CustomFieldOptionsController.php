@@ -42,13 +42,8 @@ class CustomFieldOptionsController extends ManageBaseController
         $request = $this->getRequest();
 
         $this->fld_id = $request->request->get('fld_id') ?: $request->query->get('fld_id');
-        $this->field_info = Custom_Field::getDetails($this->fld_id);
 
         $this->cat = $request->request->get('cat') ?: $request->query->get('cat');
-
-        if (empty($this->field_info)) {
-            $this->error(ev_gettext("Invalid custom field ID"));
-        }
     }
 
     /**
@@ -81,8 +76,14 @@ class CustomFieldOptionsController extends ManageBaseController
      */
     protected function prepareTemplate()
     {
+
+        $field_info = Custom_Field::getDetails($this->fld_id);
+        if (empty($field_info)) {
+            $this->error(ev_gettext("Invalid custom field ID"));
+        }
+
         $this->tpl->assign([
-                'info' => $this->field_info,
+                'info' => $field_info,
                 'options'   =>  Custom_Field::getOptions($this->fld_id),
         ]);
     }
