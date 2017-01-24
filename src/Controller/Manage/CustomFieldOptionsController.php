@@ -76,7 +76,6 @@ class CustomFieldOptionsController extends ManageBaseController
      */
     protected function prepareTemplate()
     {
-
         $field_info = Custom_Field::getDetails($this->fld_id);
         if (empty($field_info)) {
             $this->error(ev_gettext("Invalid custom field ID"));
