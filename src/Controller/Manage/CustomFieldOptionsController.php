@@ -31,9 +31,6 @@ class CustomFieldOptionsController extends ManageBaseController
     /** @var int */
     private $fld_id;
 
-    /** @var array */
-    private $field_info;
-
     /**
      * @inheritdoc
      */
