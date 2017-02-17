@@ -507,3 +507,33 @@ option.select_icon_priority {
     background: transparent;
     border: 1px solid #c0c0c0;
 }
+
+/* manage custom field options */
+.custom_field_options #add_option {
+    margin-left: 1em;
+    cursor: pointer;
+}
+
+.custom_field_options .new_options {
+    margin: 0;
+    padding: 0;
+}
+
+.custom_field_options .new_options li {
+    border: 1px solid #000000;
+    list-style: none;
+    margin: 1em;
+    padding: 1em;
+    cursor: move;
+}
+
+.custom_field_options .delete {
+    float: right;
+    cursor: pointer;
+}
+
+.custom_field_options .instructions {
+    margin-left: 1em;
+    margin-top: .5em;
+    font-style: italic;
+}

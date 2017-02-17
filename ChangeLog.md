@@ -5,6 +5,7 @@
 - ldap: respect `create_users` configuration (@glensc)
 - Fix bug creating new priority (@balsdorf)
 - add MailTransport class to encapsulate smtp transport (@glensc, #236, #234)
+- Add option to control ordering of custom field options (@balsdorf, #240)
 
 [3.1.10]: https://github.com/eventum/eventum/compare/v3.1.9...master
 

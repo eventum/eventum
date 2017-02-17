@@ -1,0 +1,57 @@
+{extends "manage/manage.tpl.html"}
+{block page_classes}custom_field_options{/block}
+
+{block "manage_content"}
+<form id="custom_field_options" method="post">
+  <input type="hidden" name="cat" value="update">
+  <input type="hidden" name="fld_id" value="{$info.fld_id|intval}">
+  <table class="bordered">
+    <tr class="title">
+      <th colspan="2">
+        {t}Manage Custom Field Options{/t}
+        <div class="right">
+          <a href="custom_fields.php?cat=edit&id={$info.fld_id}">Back to Custom Field</a>
+        </div>
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <div class="instructions">
+          Drag and drop options to re-order them. This only matters if option sort order is set to &quot;Manual&quot; or
+          &quot;Reverse Manual&quot;.
+          </div>
+        <ul id="sortable">
+          {foreach from=$options key=cfo_id item=option}
+          <li data-cfo-id="{$cfo_id}">
+            <input type="text" name="existing_options[{$cfo_id}]" value="{$option}" />
+            <div class="delete">[remove]</div>
+          </li>
+          {/foreach}
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <th>
+        New Options
+      </th>
+    </tr>
+    <tr>
+      <td>
+        <ul class="new_options">
+          <li id="new_option_template" class="hidden">
+            <input type="text" name="new_options[]" />
+             <div class="delete">[remove]</div>
+          </li>
+        </ul>
+        <div id="add_option">Add Another Option</div>
+      </td>
+    </tr>
+    <tr class="buttons">
+      <td colspan="2">
+        <input type="submit" value="{t}Save Options{/t}">
+      </td>
+    </tr>
+  </table>
+</form>
+
+{/block}

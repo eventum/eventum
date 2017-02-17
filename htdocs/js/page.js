@@ -1112,3 +1112,44 @@ preferences.confirmRegenerateToken = function()
     }
     return false;
 };
+
+
+function custom_field_options()
+{
+}
+
+custom_field_options.ready = function()
+{
+    $('#sortable').sortable();
+
+    custom_field_options.bind_actions();
+
+    $('#add_option').click(custom_field_options.add_option);
+    custom_field_options.add_option();
+};
+
+custom_field_options.bind_actions = function()
+{
+    $('.ui-sortable-handle .delete').off('click.delete').on('click.delete', function(e) {
+        $(e.target).parent().fadeOut(function() {
+            $(this).remove();
+        });
+    });
+
+    $('#custom_field_options input').off('keydown.blockenter').on('keydown.blockenter', function(e) {
+        if(e.keyCode == 13) {
+            if ($(this).prop('name') == 'new_options[]' && $(this).val() != '') {
+                custom_field_options.add_option();
+                $("input[name='new_options[]']:last").focus()
+            }
+            e.preventDefault();
+            return false;
+        }
+    })
+}
+
+custom_field_options.add_option = function() {
+    var template = $('#new_option_template').first();
+    template.clone().prop('id', '').insertAfter('.new_options li:last').show()
+    custom_field_options.bind_actions();
+}

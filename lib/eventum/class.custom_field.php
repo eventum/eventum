@@ -21,6 +21,36 @@ class Custom_Field
 {
     public static $option_types = ['combo', 'multiple', 'checkbox'];
 
+    public static $order_by_choices = [
+        'cfo_id ASC' => 'Insert',
+        'cfo_id DESC' => 'Reverse insert',
+        'cfo_value ASC' => 'Alphabetical',
+        'cfo_value DESC' => 'Reverse alphabetical',
+        'cfo_rank ASC' => 'Manual'
+    ];
+
+    public static function updateOptions($fld_id, $options, $new_options)
+    {
+        $old_options = self::getOptions($fld_id);
+
+        $rank = 1;
+        foreach ($options as $cfo_id => $cfo_value) {
+            self::updateOption($cfo_id, $cfo_value, $rank++);
+            unset($old_options[$cfo_id]);
+        }
+
+        // delete any options leftover
+        if (count($old_options) > 0) {
+            self::removeOptions($fld_id, array_keys($old_options));
+        }
+
+        if (count($new_options) > 0) {
+            self::addOptions($fld_id, $new_options, $rank);
+        }
+
+        return 1;
+    }
+
     /**
      * Method used to remove a group of custom field options.
      *
@@ -64,25 +94,31 @@ class Custom_Field
      *
      * @param   integer $fld_id The custom field ID
      * @param   array $options The list of options that need to be added
+     * @param   integer $start_rank The rank for the first new option to be inserted with
      * @return  integer 1 if the insert worked, -1 otherwise
      */
-    public static function addOptions($fld_id, $options)
+    public static function addOptions($fld_id, $options, $start_rank)
     {
         if (!is_array($options)) {
             $options = [$options];
         }
 
         foreach ($options as $option) {
+            if (empty($option)) {
+                continue;
+            }
             $stmt = 'INSERT INTO
                         {{%custom_field_option}}
                      (
                         cfo_fld_id,
-                        cfo_value
+                        cfo_value,
+                        cfo_rank
                      ) VALUES (
                         ?,
-                        ' . DB_Helper::buildList($option) . '
+                        ?,
+                        ?
                      )';
-            $params = array_merge([$fld_id, $option]);
+            $params = [$fld_id, $option, $start_rank++];
             try {
                 DB_Helper::getInstance()->query($stmt, $params);
             } catch (DatabaseException $e) {
@@ -98,18 +134,20 @@ class Custom_Field
      *
      * @param   integer $cfo_id The custom field option ID
      * @param   string $cfo_value The custom field option value
+     * @param   integer $rank The rank of the custom field option
      * @return  boolean
      */
-    public static function updateOption($cfo_id, $cfo_value)
+    public static function updateOption($cfo_id, $cfo_value, $rank=null)
     {
         $stmt = 'UPDATE
                     {{%custom_field_option}}
                  SET
-                    cfo_value=?
+                    cfo_value=?,
+                    cfo_rank=?
                  WHERE
                     cfo_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, [$cfo_value, $cfo_id]);
+            DB_Helper::getInstance()->query($stmt, [$cfo_value, $rank, $cfo_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -956,12 +994,6 @@ class Custom_Field
         }
 
         $new_id = DB_Helper::get_last_insert_id();
-        if (in_array($_POST['field_type'], self::$option_types)) {
-            foreach ($_POST['field_options'] as $option_value) {
-                $params = self::parseParameters($option_value);
-                self::addOptions($new_id, $params['value']);
-            }
-        }
         // add the project associations!
         foreach ($_POST['projects'] as $prj_id) {
             self::associateProject($prj_id, $new_id);
@@ -1028,6 +1060,8 @@ class Custom_Field
             }
             $row['min_role_name'] = User::getRole($row['fld_min_role']);
             $row['min_role_edit_name'] = User::getRole($row['fld_min_role_edit']);
+            $row['has_options'] = in_array($row['fld_type'], self::$option_types);
+            $row['field_options'] = self::getOptions($row['fld_id']);
         }
 
         return $res;
@@ -1088,13 +1122,13 @@ class Custom_Field
         } catch (DatabaseException $e) {
             return '';
         }
+        if (empty($res)) {
+            return null;
+        }
 
         $res['projects'] = @array_keys(self::getAssociatedProjects($fld_id));
+        $res['field_options'] = self::getOptions($fld_id, null, null, null, $res['fld_order_by']);
 
-        $options = self::getOptions($fld_id);
-        foreach ($options as $cfo_id => $cfo_value) {
-            $res['field_options']['existing:' . $cfo_id . ':' . $cfo_value] = $cfo_value;
-        }
         $returns[$fld_id] = $res;
 
         return $res;
@@ -1107,9 +1141,11 @@ class Custom_Field
      * @param   integer $fld_id The custom field ID
      * @param   array $ids An array of ids to return values for.
      * @param   integer $issue_id The ID of the issue
-     * @return  array The list of custom field options
+     * @param   string $form_type
+     * @param   string $order_by The field and order to sort by. If null it will use the field setting
+     * @return array The list of custom field options
      */
-    public static function getOptions($fld_id, $ids = null, $issue_id = null, $form_type = null)
+    public static function getOptions($fld_id, $ids = null, $issue_id = null, $form_type = null, $order_by = null)
     {
         static $returns;
 
@@ -1133,6 +1169,11 @@ class Custom_Field
             return $list;
         }
 
+        if (is_null($order_by)) {
+            $fld_details = self::getDetails($fld_id);
+            $order_by = $fld_details['fld_order_by'];
+        }
+
         $stmt = 'SELECT
                     cfo_id,
                     cfo_value
@@ -1148,44 +1189,16 @@ class Custom_Field
         }
         $stmt .= '
                  ORDER BY
-                    cfo_id ASC';
+                    ' . $order_by;
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DatabaseException $e) {
             return '';
         }
 
-        asort($res);
         $returns[$return_key] = $res;
 
         return $res;
-    }
-
-    /**
-     * Method used to parse the special format used in the combo boxes
-     * in the administration section of the system, in order to be
-     * used as a way to flag the system for whether the custom field
-     * option is a new one or one that should be updated.
-     *
-     * @param   string $value The custom field option format string
-     * @return  array Parameters used by the update/insert methods
-     */
-    private function parseParameters($value)
-    {
-        if (substr($value, 0, 4) == 'new:') {
-            return [
-                'type'  => 'new',
-                'value' => substr($value, 4),
-            ];
-        }
-
-        $value = substr($value, strlen('existing:'));
-
-        return [
-            'type'  => 'existing',
-            'id'    => substr($value, 0, strpos($value, ':')),
-            'value' => substr($value, strpos($value, ':') + 1),
-        ];
     }
 
     /**
@@ -1228,6 +1241,9 @@ class Custom_Field
         if (!isset($_POST['rank'])) {
             $_POST['rank'] = (self::getMaxRank() + 1);
         }
+        if (!isset($_POST['order_by'])) {
+            $_POST['order_by'] = 'cfo_id ASC';
+        }
         $old_details = self::getDetails($_POST['id']);
         $stmt = 'UPDATE
                     {{%custom_field}}
@@ -1246,7 +1262,8 @@ class Custom_Field
                     fld_min_role=?,
                     fld_min_role_edit=?,
                     fld_rank = ?,
-                    fld_backend = ?
+                    fld_backend = ?,
+                    fld_order_by = ?
                  WHERE
                     fld_id=?';
         try {
@@ -1266,6 +1283,7 @@ class Custom_Field
                 $_POST['min_role_edit'],
                 $_POST['rank'],
                 @$_POST['custom_field_backend'],
+                $_POST['order_by'],
                 $_POST['id'],
             ]);
         } catch (DatabaseException $e) {
@@ -1294,34 +1312,10 @@ class Custom_Field
                 self::updateValuesForNewType($_POST['id']);
             }
         }
-        // update the custom field options, if any
-        if (in_array($_POST['field_type'], self::$option_types)) {
-            $updated_options = [];
-            foreach ($_POST['field_options'] as $option_value) {
-                $params = self::parseParameters($option_value);
-                if ($params['type'] == 'new') {
-                    self::addOptions($_POST['id'], $params['value']);
-                } else {
-                    $updated_options[] = $params['id'];
-                    // check if the user is trying to update the value of this option
-                    if ($params['value'] != self::getOptionValue($_POST['id'], $params['id'])) {
-                        self::updateOption($params['id'], $params['value']);
-                    }
-                }
-            }
-        }
-        // get the diff between the current options and the ones posted by the form
-        // and then remove the options not found in the form submissions
-        if (in_array($_POST['field_type'], self::$option_types)) {
-            $diff_ids = @array_diff($current_options, $updated_options);
-            if (@count($diff_ids) > 0) {
-                self::removeOptions($_POST['id'], array_values($diff_ids));
-            }
-        }
+
         // now we need to check for any changes in the project association of this custom field
         // and update the mapping table accordingly
         $old_proj_ids = @array_keys(self::getAssociatedProjects($_POST['id']));
-        // COMPAT: this next line requires PHP > 4.0.4
         $diff_ids = array_diff($old_proj_ids, $_POST['projects']);
         if (count($diff_ids) > 0) {
             foreach ($diff_ids as $removed_prj_id) {
