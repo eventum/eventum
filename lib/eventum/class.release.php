@@ -97,6 +97,31 @@ class Release
     }
 
     /**
+     * Method used to get the id of a release by title.
+     *
+     * @param   string $title The title of the release
+     * @param   integer $prj_id The project ID of the release
+     * @return   integer The release ID
+     */
+    public static function getReleaseID($title, $prj_id)
+    {
+        $stmt = 'SELECT
+                    pre_id
+                 FROM
+                    {{%project_release}}
+                 WHERE
+                    pre_title=? AND
+                    pre_prj_id=?';
+        try {
+            $res = DB_Helper::getInstance()->getOne($stmt, [$title, $prj_id]);
+        } catch (DatabaseException $e) {
+            return '';
+        }
+
+        return $res;
+    }
+
+    /**
      * Method used to remove releases by using the administrative
      * interface of the system.
      *
@@ -137,12 +162,16 @@ class Release
      * Method used to update the release by using the administrative
      * interface of the system.
      *
-     * @return  integer 1 if the update worked, -1 or -2 otherwise
+     * @return  integer 1 if the update worked, -1, -2 or -3 otherwise
      */
     public static function update()
     {
         if (Validation::isWhitespace($_POST['title'])) {
             return -2;
+        }
+        $duplicate_release_id = self::getReleaseID($_POST['title'], $_POST['prj_id']);
+        if (!empty($duplicate_release_id) && $duplicate_release_id != $_POST['id']) {
+            return -3;
         }
         $scheduled_date = $_POST['scheduled_date']['Year'] . '-' . $_POST['scheduled_date']['Month'] . '-' . $_POST['scheduled_date']['Day'];
         $stmt = 'UPDATE
@@ -168,12 +197,15 @@ class Release
      * Method used to add a new release by using the administrative
      * interface of the system.
      *
-     * @return  integer 1 if the update worked, -1 or -2 otherwise
+     * @return  integer 1 if the update worked, -1, -2 or -3 otherwise
      */
     public static function insert()
     {
         if (Validation::isWhitespace($_POST['title'])) {
             return -2;
+        }
+        if (self::getReleaseID($_POST['title'], $_POST['prj_id'])) {
+            return -3;
         }
         $scheduled_date = $_POST['scheduled_date']['Year'] . '-' . $_POST['scheduled_date']['Month'] . '-' . $_POST['scheduled_date']['Day'];
         $stmt = 'INSERT INTO

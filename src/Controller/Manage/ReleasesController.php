@@ -65,6 +65,7 @@ class ReleasesController extends ManageBaseController
             1 => [ev_gettext('Thank you, the release was added successfully.'), MessagesHelper::MSG_INFO],
             -1 => [ev_gettext('An error occurred while trying to add the release.'), MessagesHelper::MSG_ERROR],
             -2 => [ev_gettext('Please enter the title for this new release.'), MessagesHelper::MSG_ERROR],
+            -3 => [ev_gettext('A release with this title already exists.'), MessagesHelper::MSG_ERROR],
         ];
         $this->messages->mapMessages($res, $map);
     }
@@ -77,6 +78,7 @@ class ReleasesController extends ManageBaseController
             1 => [ev_gettext('Thank you, the release was updated successfully.'), MessagesHelper::MSG_INFO],
             -1 => [ev_gettext('An error occurred while trying to update the release.'), MessagesHelper::MSG_ERROR],
             -2 => [ev_gettext('Please enter the title for this release.'), MessagesHelper::MSG_ERROR],
+            -3 => [ev_gettext('A release with this title already exists.'), MessagesHelper::MSG_ERROR],
         ];
         $this->messages->mapMessages($res, $map);
     }
