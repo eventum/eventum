@@ -324,6 +324,17 @@
                 </td>
               </tr>
               <tr>
+                <th>
+                  {t}Custom Field Backend{/t}
+                </th>
+                <td valign="top">
+                  <select name="custom_field_backend">
+                    <option value="" label="{t}Please select a backend{/t}">{t}Please select a backend{/t}</option>
+                    {html_options options=$backend_list selected=$info.fld_backend|default:''}
+                  </select>
+                </td>
+              </tr>
+              <tr>
                 <th width="120">
                   {t}Minimum View Role{/t}
                 </th>
