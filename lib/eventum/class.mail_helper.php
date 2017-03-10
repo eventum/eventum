@@ -280,7 +280,8 @@ class Mail_Helper
      */
     public static function getEmailAddress($address)
     {
-        $address = Mime_Helper::encodeAddress($address);
+        // MARIADB-CSTM: Don't encode address before splitting.
+//        $address = Mime_Helper::encodeAddress($address);
         $info = self::getAddressInfo($address);
         if (Misc::isError($info)) {
             return $info;

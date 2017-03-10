@@ -142,6 +142,9 @@ class Routing
             $full_message = preg_replace("/^(reply-to:).*\n/im", '', $full_message, 1);
         }
 
+        // MARIADB-CSTM: Ugly hack to handle commas in encoded strings that contain unicode and a comma
+        $full_message = preg_replace("/^(From: =\?.*\?Q\?.*)(=2c)(.*\?=)/im", '$1$3', $full_message, 1);
+
         AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
 
         $structure = Mime_Helper::decode($full_message, true, true);
