@@ -162,9 +162,9 @@ class Notification
             $routing = 'note_routing';
         }
         $project_id = Issue::getProjectID($issue_id);
+        $project_info = Project::getOutgoingSenderAddress($project_id);
         // if sender is empty, get project email address
         if (empty($sender)) {
-            $project_info = Project::getOutgoingSenderAddress($project_id);
             $info = [
                 'sender_name'   =>  $project_info['name'],
                 'email'         =>  $project_info['email'],
@@ -178,11 +178,15 @@ class Notification
         } else {
             $info = Mail_Helper::getAddressInfo($sender);
         }
-        // allow flags even without routing enabled
-        if ($setup[$routing]['recipient_type_flag']) {
+        // use per project flag first
+        $flag = '';
+        $flag_location = '';
+        if (!empty($project_info['flag'])) {
+            $flag = '[' . $project_info['flag'] . '] ';
+            $flag_location = $project_info['flag_location'];
+        } elseif ($setup[$routing]['recipient_type_flag']) {
             $flag = '[' . $setup[$routing]['recipient_type_flag'] . '] ';
-        } else {
-            $flag = '';
+            $flag_location = $setup[$routing]['flag_location'];
         }
         if ($setup[$routing]['status'] != 'enabled') {
             // let's use the custom outgoing sender address
@@ -208,13 +212,13 @@ class Notification
         }
         // also check where we need to append/prepend a special string to the sender name
         if (substr($info['sender_name'], strlen($info['sender_name']) - 1) == '"') {
-            if ($setup[$routing]['flag_location'] == 'before') {
+            if ($flag_location == 'before') {
                 $info['sender_name'] = '"' . $flag . substr($info['sender_name'], 1);
             } else {
                 $info['sender_name'] = substr($info['sender_name'], 0, strlen($info['sender_name']) - 1) . ' ' . trim($flag) . '"';
             }
         } else {
-            if ($setup[$routing]['flag_location'] == 'before') {
+            if ($flag_location == 'before') {
                 $info['sender_name'] = '"' . $flag . $info['sender_name'] . '"';
             } else {
                 $info['sender_name'] = '"' . $info['sender_name'] . ' ' . trim($flag) . '"';
