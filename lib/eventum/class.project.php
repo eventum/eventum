@@ -38,8 +38,8 @@ class Project
         $stmt = 'SELECT
                     prj_outgoing_sender_name,
                     prj_outgoing_sender_email,
-                    prj_recipient_type_flag,
-                    prj_flag_location
+                    prj_sender_flag,
+                    prj_sender_flag_location
                  FROM
                     {{%project}}
                  WHERE
@@ -54,8 +54,8 @@ class Project
             return [
                 'name'  => $res['prj_outgoing_sender_name'],
                 'email' => $res['prj_outgoing_sender_email'],
-                'flag' => $res['prj_recipient_type_flag'],
-                'flag_location' => $res['prj_flag_location'],
+                'flag' => $res['prj_sender_flag'],
+                'flag_location' => $res['prj_sender_flag_location'],
             ];
         }
 
@@ -358,8 +358,8 @@ class Project
                     prj_initial_sta_id=?,
                     prj_outgoing_sender_name=?,
                     prj_outgoing_sender_email=?,
-                    prj_recipient_type_flag=?,
-                    prj_flag_location=?,
+                    prj_sender_flag=?,
+                    prj_sender_flag_location=?,
                     prj_mail_aliases=?,
                     prj_remote_invocation=?,
                     prj_segregate_reporter=?,
@@ -375,7 +375,7 @@ class Project
                 $_POST['initial_status'],
                 $_POST['outgoing_sender_name'],
                 $_POST['outgoing_sender_email'],
-                $_POST['recipient_type_flag'],
+                $_POST['sender_flag'],
                 $_POST['flag_location'],
                 $_POST['mail_aliases'],
                 $_POST['remote_invocation'],
@@ -487,8 +487,8 @@ class Project
                     prj_initial_sta_id,
                     prj_outgoing_sender_name,
                     prj_outgoing_sender_email,
-                    prj_recipient_type_flag,
-                    prj_flag_location,
+                    prj_sender_flag,
+                    prj_sender_flag_location,
                     prj_mail_aliases,
                     prj_remote_invocation,
                     prj_customer_backend,
@@ -506,7 +506,7 @@ class Project
                 $_POST['initial_status'],
                 $_POST['outgoing_sender_name'],
                 $_POST['outgoing_sender_email'],
-                $_POST['recipient_type_flag'],
+                $_POST['sender_flag'],
                 $_POST['flag_location'],
                 $_POST['mail_aliases'],
                 $_POST['remote_invocation'],
