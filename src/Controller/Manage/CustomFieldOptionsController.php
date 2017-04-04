@@ -53,7 +53,6 @@ class CustomFieldOptionsController extends ManageBaseController
         }
     }
 
-
     private function updateAction()
     {
         $post = $this->getRequest()->request;
@@ -67,7 +66,6 @@ class CustomFieldOptionsController extends ManageBaseController
         $this->redirect(APP_RELATIVE_URL . 'manage/custom_field_options.php?fld_id=' . $this->fld_id);
     }
 
-
     /**
      * @inheritdoc
      */
@@ -75,7 +73,7 @@ class CustomFieldOptionsController extends ManageBaseController
     {
         $field_info = Custom_Field::getDetails($this->fld_id);
         if (empty($field_info)) {
-            $this->error(ev_gettext("Invalid custom field ID"));
+            $this->error(ev_gettext('Invalid custom field ID'));
         }
 
         $this->tpl->assign([
