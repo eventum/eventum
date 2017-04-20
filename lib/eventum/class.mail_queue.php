@@ -135,11 +135,12 @@ class Mail_Queue
 
                 $addresslist = new AddressList();
                 foreach ($emails as $email) {
-                    if (Mime_Helper::is8bit($email)) {
-                        $email = Mime_Helper::encode($email);
+                    $recipient = $email['recipient'];
+                    if (Mime_Helper::is8bit($recipient)) {
+                        $recipient = Mime_Helper::encode($recipient);
                     }
 
-                    $addresslist->addFromString($email['recipient']);
+                    $addresslist->addFromString($recipient);
                 }
 
                 $email = $emails[0];
