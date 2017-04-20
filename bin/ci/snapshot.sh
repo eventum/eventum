@@ -5,7 +5,7 @@
 
 set -xe
 
-git for-each-ref refs/tags/snapshot --format '%(refname:strip=2)' | xargs git tag -d
+git tag -d snapshot || :
 
 branch=$(git rev-parse --abbrev-ref HEAD)
 commit=$(git rev-parse --short HEAD)
