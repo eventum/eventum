@@ -4,8 +4,9 @@ set -xe
 PHP_INI_DIR=~/.phpenv/versions/$(phpenv version-name)/etc
 install -d $PHP_INI_DIR
 
-# enable ldap ext
-echo "extension=ldap.so" >> $PHP_INI_DIR/php.ini
+# disabled: broken on trusty (and we have tests disabled)
+#echo "extension=ldap.so" >> $PHP_INI_DIR/php.ini
+composer config platform.ext-ldap '0'
 
 # disable xdebug
 phpenv config-rm xdebug.ini || :
