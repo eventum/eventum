@@ -43,6 +43,7 @@ Do not forget to update changeset link to point to tag not master
 ```
 git submodule update
 cd docs/wiki
+git fetch origin
 git checkout master
 cd ../..
 git commit -am 'updated wiki submodule'
@@ -50,7 +51,8 @@ git commit -am 'updated wiki submodule'
 
 - Create git tag
 ```
-$ git tag -s v3.1.9
+$ git tag -s v3.1.10 -m 'release v3.1.10'
+
 ```
 - wait for Travis-CI to build release tarball, download and test it again
 - go to github releases page, edit the new tag
@@ -58,13 +60,13 @@ $ git tag -s v3.1.9
 - upload tarball and signature to the release
 - to create a digital signature, use the following command:
 ```
-% gpg --armor --sign --detach-sig eventum-3.1.9.tar.gz
+% gpg --armor --sign --detach-sig eventum-3.1.10.tar.gz
 ```
 - create tag also in wiki submodule
 ```
 cd docs/wiki
-git tag v3.1.9
-git push origin v3.1.9
+git tag v3.1.10
+git push origin v3.1.10
 ```
 
 After release
