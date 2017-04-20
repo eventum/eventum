@@ -8,7 +8,7 @@ install -d $PHP_INI_DIR
 echo "extension=ldap.so" >> $PHP_INI_DIR/php.ini
 
 # disable xdebug
-phpenv config-rm xdebug.ini ||
+phpenv config-rm xdebug.ini || :
 
 # PHP 7.2 does not have mcrypt
 # Installation request for defuse/php-encryption ~1.2.1 -> satisfiable by defuse/php-encryption[v1.2.1].
