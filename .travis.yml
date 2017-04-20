@@ -1,5 +1,6 @@
 language: php
 sudo: required
+dist: trusty
 
 # disable the default submodule logic
 git:
