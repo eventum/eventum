@@ -18,7 +18,7 @@ $ make snapshot
 - Create and download snapshot tarball
 - Make sure `upgrade/drop.sql` lists all created tables
 ```
-$ sed -e 's,{{%\([^}]*\)}},\1,' upgrade/drop.sql
+$ sed -e 's,{{%\([^}]*\)}},`\1`,' upgrade/drop.sql
 ```
 - install twice to same database, second time select drop tables, install must not fail
 ```
