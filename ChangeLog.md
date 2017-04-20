@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.1.10] - 2017-??-??
+## [3.1.10] - 2017-04-21
 
 - ldap: respect `create_users` configuration (@glensc)
 - Fix bug creating new priority (@balsdorf)
@@ -9,7 +9,7 @@
 - Check for release name uniqueness (@balsdorf, #246)
 - Add a per project recipient flag for outgoing emails (@balsdorf, #247)
 
-[3.1.10]: https://github.com/eventum/eventum/compare/v3.1.9...master
+[3.1.10]: https://github.com/eventum/eventum/compare/v3.1.9...v3.1.10
 
 ## [3.1.9] - 2017-01-10
 
