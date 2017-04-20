@@ -1,5 +1,9 @@
 # Eventum Issue Tracking System
 
+## [3.1.11] - 2017-??-??
+
+[3.1.11]: https://github.com/eventum/eventum/compare/v3.1.10...master
+
 ## [3.1.10] - 2017-04-21
 
 - ldap: respect `create_users` configuration (@glensc)
