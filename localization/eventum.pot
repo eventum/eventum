@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-20 23:06+0300\n"
+"POT-Creation-Date: 2017-04-23 22:10+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3738,6 +3738,7 @@ msgid "Last Update"
 msgstr ""
 
 #: templates/adv_search.tpl.html:233 templates/adv_search.tpl.html:249
+#: templates/faq.tpl.html:16
 msgid "Last Updated"
 msgstr ""
 
@@ -3745,10 +3746,6 @@ msgstr ""
 #: src/Controller/ViewController.php:343 templates/email_drafts.tpl.html:55
 #: templates/faq.tpl.html:33
 msgid "Last Updated Date"
-msgstr ""
-
-#: templates/faq.tpl.html:16
-msgid "Last updated"
 msgstr ""
 
 #. TRANSLATORS: Translation of Latvian language in preferences dropdown
