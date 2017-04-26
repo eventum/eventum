@@ -114,8 +114,9 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
 
             return $usr_id;
         }
-            // create new local user
-            $setup = self::loadSetup();
+
+        // create new local user
+        $setup = self::loadSetup();
         if ($setup['create_users'] == false) {
             throw new AuthException('User does not exist and will not be created.');
         }
@@ -325,7 +326,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
         $defaults = [
             'host' => 'localhost',
             'port' => 443,
-            'context'   =>  '/cas',
+            'context' => '/cas',
             'customer_id_attribute' => '',
             'contact_id_attribute' => '',
             'create_users' => null,

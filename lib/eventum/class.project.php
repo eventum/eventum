@@ -52,7 +52,7 @@ class Project
 
         if (!empty($res)) {
             return [
-                'name'  => $res['prj_outgoing_sender_name'],
+                'name' => $res['prj_outgoing_sender_name'],
                 'email' => $res['prj_outgoing_sender_email'],
                 'flag' => $res['prj_sender_flag'],
                 'flag_location' => $res['prj_sender_flag_location'],
@@ -1084,53 +1084,53 @@ class Project
     public static function getDisplayFields()
     {
         return [
-            'category'  =>  [
-                'title' =>  ev_gettext('Category'),
-                'required'  =>  1,
+            'category' => [
+                'title' => ev_gettext('Category'),
+                'required' => 1,
             ],
-            'priority'  =>    [
-                'title' =>  ev_gettext('Priority'),
-                'required'  =>  1,
+            'priority' => [
+                'title' => ev_gettext('Priority'),
+                'required' => 1,
             ],
-            'severity'  =>    [
-                'title' =>  ev_gettext('Severity'),
-                'required'  =>  1,
+            'severity' => [
+                'title' => ev_gettext('Severity'),
+                'required' => 1,
             ],
-            'assignment'    =>    [
-                'title' =>  ev_gettext('Assignment'),
-                'required'  =>  0,
+            'assignment' => [
+                'title' => ev_gettext('Assignment'),
+                'required' => 0,
             ],
-            'release'   =>    [
-                'title' =>  ev_gettext('Scheduled Release'),
-                'required'  =>  0,
+            'release' => [
+                'title' => ev_gettext('Scheduled Release'),
+                'required' => 0,
             ],
-            'estimated_dev_time'    =>    [
-                'title' =>  ev_gettext('Estimated Dev. Time'),
-                'required'  =>  0,
+            'estimated_dev_time' => [
+                'title' => ev_gettext('Estimated Dev. Time'),
+                'required' => 0,
             ],
-            'expected_res_date'     =>    [
-                'title' =>  ev_gettext('Expected Resolution Date'),
-                'required'  =>  0,
+            'expected_res_date' => [
+                'title' => ev_gettext('Expected Resolution Date'),
+                'required' => 0,
             ],
-            'group'     =>    [
-                'title' =>  ev_gettext('Group'),
-                'required'  =>  0,
+            'group' => [
+                'title' => ev_gettext('Group'),
+                'required' => 0,
             ],
-            'file'  =>    [
-                'title' =>  ev_gettext('File'),
-                'required'  =>  0,
+            'file' => [
+                'title' => ev_gettext('File'),
+                'required' => 0,
             ],
-            'product'   =>    [
-                'title' =>  ev_gettext('Product'),
-                'required'  =>  0,
+            'product' => [
+                'title' => ev_gettext('Product'),
+                'required' => 0,
             ],
-            'associated_issues'   =>    [
-                'title' =>  ev_gettext('Associated Issues'),
-                'required'  =>  0,
+            'associated_issues' => [
+                'title' => ev_gettext('Associated Issues'),
+                'required' => 0,
             ],
-            'access_level'   =>    [
-                'title' =>  ev_gettext('Access Level'),
-                'required'  =>  0,
+            'access_level' => [
+                'title' => ev_gettext('Access Level'),
+                'required' => 0,
             ],
         ];
     }
@@ -1146,8 +1146,8 @@ class Project
         $settings = [];
         foreach ($fields as $field_name => $field_info) {
             $settings[$field_name] = [
-                'required'  =>  $field_info['required'],
-                'min_role'  =>  0,
+                'required' => $field_info['required'],
+                'min_role' => 0,
             ];
         }
         self::updateFieldDisplaySettings($prj_id, $settings);

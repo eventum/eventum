@@ -105,49 +105,51 @@ class Round_Robin
                 break;
             }
         }
-            // if no user is currently set as the 'next' assignee,
-            // then just get the first one in the list
-            if (empty($next_usr_id)) {
-                $next_usr_id = $user_ids[0];
-            }
-            // counter to keep the number of times we found an invalid user
-            $ignored_users = 0;
-            // check the blackout hours
-            do {
-                $timezone = $users[$next_usr_id]['timezone'];
-                $user = Date_Helper::getDateTime(false, $timezone);
-                list($today, $tomorrow) = self::getBlackoutDates($user, $blackout_start, $blackout_end);
-                $first = Date_Helper::getDateTime($today . ' ' . $blackout_start, $timezone);
-                $second = Date_Helper::getDateTime($tomorrow . ' ' . $blackout_end, $timezone);
 
-                if ($first < $user && $user < $second) {
-                    $ignored_users++;
-                    $current_index = array_search($next_usr_id, $user_ids);
-                    // if we reached the end of the list of users and none of them
-                    // was a valid one, then just select the first one
-                    // however, we want to complete at least one full iteration over the list of users
-                    // that is, if we didn't start checking the users in the beginning of the list,
-                    // then do another run over the users just in case
-                    if (($ignored_users >= count($user_ids)) && ($current_index == (count($user_ids) - 1))) {
-                        $assignee = $user_ids[0];
-                        break;
-                    }
-                    // if we reached the end of the list, and we still didn't find an user,
-                    // then go back to the beginning of the list one last time
-                    if ($current_index == (count($user_ids) - 1)) {
-                        $current_index = 0;
-                        $next_usr_id = $user_ids[++$current_index];
-                        continue;
-                    }
-                    $next_usr_id = $user_ids[++$current_index];
-                    $found = 0;
-                } else {
-                    $assignee = $next_usr_id;
-                    $found = 1;
+        // if no user is currently set as the 'next' assignee,
+        // then just get the first one in the list
+        if (empty($next_usr_id)) {
+            $next_usr_id = $user_ids[0];
+        }
+        // counter to keep the number of times we found an invalid user
+        $ignored_users = 0;
+        // check the blackout hours
+        do {
+            $timezone = $users[$next_usr_id]['timezone'];
+            $user = Date_Helper::getDateTime(false, $timezone);
+            list($today, $tomorrow) = self::getBlackoutDates($user, $blackout_start, $blackout_end);
+            $first = Date_Helper::getDateTime($today . ' ' . $blackout_start, $timezone);
+            $second = Date_Helper::getDateTime($tomorrow . ' ' . $blackout_end, $timezone);
+
+            if ($first < $user && $user < $second) {
+                $ignored_users++;
+                $current_index = array_search($next_usr_id, $user_ids);
+                // if we reached the end of the list of users and none of them
+                // was a valid one, then just select the first one
+                // however, we want to complete at least one full iteration over the list of users
+                // that is, if we didn't start checking the users in the beginning of the list,
+                // then do another run over the users just in case
+                if (($ignored_users >= count($user_ids)) && ($current_index == (count($user_ids) - 1))) {
+                    $assignee = $user_ids[0];
+                    break;
                 }
-            } while (!$found);
-            // mark the next user in the list as the 'next' assignment
-            $assignee_index = array_search($assignee, $user_ids);
+                // if we reached the end of the list, and we still didn't find an user,
+                // then go back to the beginning of the list one last time
+                if ($current_index == (count($user_ids) - 1)) {
+                    $current_index = 0;
+                    $next_usr_id = $user_ids[++$current_index];
+                    continue;
+                }
+                $next_usr_id = $user_ids[++$current_index];
+                $found = 0;
+            } else {
+                $assignee = $next_usr_id;
+                $found = 1;
+            }
+        } while (!$found);
+
+        // mark the next user in the list as the 'next' assignment
+        $assignee_index = array_search($assignee, $user_ids);
         if ($assignee_index == (count($user_ids) - 1)) {
             $next_assignee = $user_ids[0];
         } else {
@@ -259,7 +261,7 @@ class Round_Robin
             $prefs = Prefs::get($row['usr_id']);
             $t[$row['usr_id']] = [
                 'timezone' => $prefs['timezone'],
-                'is_next'  => $row['rru_next'],
+                'is_next' => $row['rru_next'],
             ];
         }
 

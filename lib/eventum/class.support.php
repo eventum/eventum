@@ -158,7 +158,7 @@ class Support
         }
 
         return [
-            'next'     => [
+            'next' => [
                 'sup_id' => @$next,
                 'ema_id' => @$res[$next],
             ],
@@ -204,7 +204,7 @@ class Support
         }
 
         return [
-            'next'     => [
+            'next' => [
                 'sup_id' => @$next,
                 'ema_id' => @$res[$next],
             ],
@@ -718,14 +718,14 @@ class Support
      * Creates a new issue from an email if appropriate. Also returns if this message is related
      * to a previous message.
      *
-     * @param   array   $info An array of info about the email account.
-     * @param   string  $headers The headers of the email.
-     * @param   string  $message_body The body of the message.
-     * @param   string  $date The date this message was sent
-     * @param   string  $from The name and email address of the sender.
-     * @param   string  $subject The subject of this message.
-     * @param   array   $to An array of to addresses
-     * @param   array   $cc An array of cc addresses
+     * @param   array $info An array of info about the email account.
+     * @param   string $headers The headers of the email.
+     * @param   string $message_body The body of the message.
+     * @param   string $date The date this message was sent
+     * @param   string $from The name and email address of the sender.
+     * @param   string $subject The subject of this message.
+     * @param   array $to An array of to addresses
+     * @param   array $cc An array of cc addresses
      * @return  array   An array of information about the message
      */
     public static function createIssueFromEmail($info, $headers, $message_body, $date, $from, $subject, $to, $cc)
@@ -811,9 +811,9 @@ class Support
                             }
                             break;
                         }
-                            //  no matching note, email or issue:
-                            //    => create new issue and associate current email with it
-                            $should_create_issue = true;
+                        //  no matching note, email or issue:
+                        //    => create new issue and associate current email with it
+                        $should_create_issue = true;
                     }
                 } else {
                     // - if this email is not a reply:
@@ -878,13 +878,13 @@ class Support
         }
 
         return [
-            'should_create_issue'   =>  $should_create_issue,
-            'associate_email'   =>  $associate_email,
-            'issue_id'  =>  $issue_id,
-            'customer_id'   =>  $customer_id,
-            'contact_id'   =>  $contact_id,
-            'type'      =>  $type,
-            'parent_id' =>  $parent_id,
+            'should_create_issue' => $should_create_issue,
+            'associate_email' => $associate_email,
+            'issue_id' => $issue_id,
+            'customer_id' => $customer_id,
+            'contact_id' => $contact_id,
+            'type' => $type,
+            'parent_id' => $parent_id,
         ];
     }
 
@@ -1141,7 +1141,7 @@ class Support
             'sup_subject',
         ];
         $items = [
-            'links'  => [],
+            'links' => [],
             'images' => [],
         ];
 
@@ -1331,7 +1331,7 @@ class Support
      * to the given issue.
      *
      * @param   int $issue_id The issue ID
-     * @param   mixed   $input The full body of the message or decoded email.
+     * @param   mixed $input The full body of the message or decoded email.
      * @param   bool $internal_only Whether these files are supposed to be internal only or not
      * @param   int $associated_note_id The note ID that these attachments should be associated with
      */

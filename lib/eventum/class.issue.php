@@ -61,10 +61,10 @@ class Issue
     public static function getDateFieldsAssocList($display_customer_fields = false)
     {
         $fields = [
-            'iss_created_date'              => ev_gettext('Created Date'),
-            'iss_updated_date'              => ev_gettext('Last Updated Date'),
-            'iss_last_response_date'        => ev_gettext('Last Response Date'),
-            'iss_closed_date'               => ev_gettext('Closed Date'),
+            'iss_created_date' => ev_gettext('Created Date'),
+            'iss_updated_date' => ev_gettext('Last Updated Date'),
+            'iss_last_response_date' => ev_gettext('Last Response Date'),
+            'iss_closed_date' => ev_gettext('Closed Date'),
         ];
         if ($display_customer_fields) {
             $fields['iss_last_customer_action_date'] = 'Customer Action Date';
@@ -776,7 +776,7 @@ class Issue
         }
 
         // TRANSLATORS: %1 = issue_id, %2 = issue summary
-        $res['reply_subject'] = ev_gettext('Re: [#%1$s] %2$s', (int) $issue_id, $res['sup_subject']);
+        $res['reply_subject'] = ev_gettext('Re: [#%1$s] %2$s', (int)$issue_id, $res['sup_subject']);
         $res['created_date_ts'] = Date_Helper::getUnixTimestamp($res['iss_created_date'], 'GMT');
 
         return $res;
@@ -905,7 +905,7 @@ class Issue
                     iss_sta_id=?,
                     iss_res_id=?
                  WHERE
-                    iss_id IN (' . DB_Helper::buildList($ids). ')';
+                    iss_id IN (' . DB_Helper::buildList($ids) . ')';
         $params[] = $_POST['priority'];
         $params[] = $_POST['status'];
         $params[] = $_POST['resolution'];
@@ -917,7 +917,7 @@ class Issue
         }
 
         // record the change
-        $issue_id = (int) $issue_id;
+        $issue_id = (int)$issue_id;
         $usr_id = Auth::getUserID();
         $full_name = User::getFullName($usr_id);
         $htt_id = History::getTypeID('duplicate_update');
@@ -1247,7 +1247,7 @@ class Issue
      * @param   int $resolution_id The resolution ID
      * @param   int $status_id The status ID
      * @param   string $reason The reason for closing this issue
-     * @param   string  $send_notification_to Who this notification should be sent too
+     * @param   string $send_notification_to Who this notification should be sent too
      * @return  int 1 if the update worked, -1 otherwise
      */
     public static function close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason,
@@ -1296,16 +1296,16 @@ class Issue
             $structure = Mime_Helper::decode($full_email, true, false);
 
             $email = [
-                'ema_id'        =>  Email_Account::getEmailAccount(self::getProjectID($issue_id)),
-                'issue_id'      =>  $issue_id,
-                'message_id'    =>  $message_id,
-                'date'          =>  Date_Helper::getCurrentDateGMT(),
-                'subject'       =>  ev_gettext('Issue closed comments'),
-                'from'          =>  $from,
-                'has_attachment' =>  0,
-                'body'          =>  $reason,
-                'full_email'    =>  $full_email,
-                'headers'       =>  $structure->headers,
+                'ema_id' => Email_Account::getEmailAccount(self::getProjectID($issue_id)),
+                'issue_id' => $issue_id,
+                'message_id' => $message_id,
+                'date' => Date_Helper::getCurrentDateGMT(),
+                'subject' => ev_gettext('Issue closed comments'),
+                'from' => $from,
+                'has_attachment' => 0,
+                'body' => $reason,
+                'full_email' => $full_email,
+                'headers' => $structure->headers,
             ];
             $sup_id = null;
             Support::insertEmail($email, $structure, $sup_id, true);
@@ -1314,7 +1314,7 @@ class Issue
             // add note with the reason to close the issue
             $options = [
                 'send_notification' => false,
-                'closing'           => true,
+                'closing' => true,
             ];
             Note::insertNote($usr_id, $issue_id, ev_gettext('Issue closed comments'), $reason, $options);
             $ids = false;
@@ -1838,14 +1838,14 @@ class Issue
             'description' => $description,
             'summary' => $summary,
             'msg_id' => $msg_id,
-            'customer'  =>  false,
-            'contact'   =>  false,
-            'contract'  =>  false,
-            'contact_person_lname'  =>  '',
-            'contact_person_fname'  =>  '',
-            'contact_email' =>  '',
-            'contact_phone' =>  '',
-            'contact_timezone'  =>  '',
+            'customer' => false,
+            'contact' => false,
+            'contract' => false,
+            'contact_person_lname' => '',
+            'contact_person_fname' => '',
+            'contact_email' => '',
+            'contact_phone' => '',
+            'contact_timezone' => '',
         ];
 
         if (CRM::hasCustomerIntegration($prj_id)) {
@@ -2329,33 +2329,47 @@ class Issue
             $row['last_action_date_diff'] = $dateDiff;
             switch ($label) {
                 case 'customer action':
-                    $label = ev_gettext('Customer Action'); break;
+                    $label = ev_gettext('Customer Action');
+                    break;
                 case 'update':
-                    $label = ev_gettext('Update'); break;
+                    $label = ev_gettext('Update');
+                    break;
                 case 'updated':
-                    $label = ev_gettext('Updated'); break;
+                    $label = ev_gettext('Updated');
+                    break;
                 case 'created':
-                    $label = ev_gettext('Created'); break;
+                    $label = ev_gettext('Created');
+                    break;
                 case 'closed':
-                    $label = ev_gettext('Closed'); break;
+                    $label = ev_gettext('Closed');
+                    break;
                 case 'time added':
-                    $label = ev_gettext('Time Added'); break;
+                    $label = ev_gettext('Time Added');
+                    break;
                 case 'file uploaded':
-                    $label = ev_gettext('File Uploaded'); break;
+                    $label = ev_gettext('File Uploaded');
+                    break;
                 case 'draft saved':
-                    $label = ev_gettext('Draft Saved'); break;
+                    $label = ev_gettext('Draft Saved');
+                    break;
                 case 'note':
-                    $label = ev_gettext('Note'); break;
+                    $label = ev_gettext('Note');
+                    break;
                 case 'staff response':
-                    $label = ev_gettext('Staff Response'); break;
+                    $label = ev_gettext('Staff Response');
+                    break;
                 case 'phone call':
-                    $label = ev_gettext('Phone Call'); break;
+                    $label = ev_gettext('Phone Call');
+                    break;
                 case 'user response':
-                    $label = ev_gettext('User Response'); break;
+                    $label = ev_gettext('User Response');
+                    break;
                 case 'email':
-                    $label = ev_gettext('Email'); break;
+                    $label = ev_gettext('Email');
+                    break;
                 case 'scm checkin':
-                    $label = ev_gettext('SCM Checkin'); break;
+                    $label = ev_gettext('SCM Checkin');
+                    break;
                 default:
                     $label = ucwords($label);
             }
@@ -2426,7 +2440,7 @@ class Issue
         }
 
         return [
-            'next'     => @$next,
+            'next' => @$next,
             'previous' => @$previous,
         ];
     }
@@ -3140,7 +3154,7 @@ class Issue
      *
      * @param   int $issue_id The issue ID
      * @param   int $status The quarantine status
-     * @param   string  $expiration The expiration date of quarantine (default empty)
+     * @param   string $expiration The expiration date of quarantine (default empty)
      * @return int
      */
     public static function setQuarantine($issue_id, $status, $expiration = '')
@@ -3349,6 +3363,7 @@ class Issue
 
     /**
      * Returns the issue ID of the issue with the specified root message ID, or false
+     *
      * @param   string $msg_id The Message ID
      * @return  int The ID of the issue
      */
