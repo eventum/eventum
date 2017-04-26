@@ -45,9 +45,9 @@ $finder = $config->getFinder()
     });
 
 $risky_rules = [
+    'ereg_to_preg' => true,
     'no_alias_functions' => true,
     'no_php4_constructor' => true,
-    'ereg_to_preg' => true,
 ];
 
 $symfony_rules = [
@@ -86,7 +86,7 @@ $symfony_rules = [
 #
 # Try to use StyleCI "recommended" preset:
 # https://styleci.readme.io/v1.0/docs/presets#recommended
-$rules = $symfony_rules + [
+$rules = $risky_rules + $symfony_rules + [
     '@PSR2' => true,
     'array_syntax' => ['syntax' => 'short'],
     'braces' => ['allow_single_line_closure' => false],
@@ -102,10 +102,10 @@ $rules = $symfony_rules + [
     'phpdoc_order' => true,
     'semicolon_after_instruction' => true,
     'simplified_null_return' => false,
-    'strict_comparison' => false,
     'single_blank_line_before_namespace' => true,
+    'strict_comparison' => false,
 ];
 
 return $config
-    ->setRiskyAllowed(false)
+    ->setRiskyAllowed(true)
     ->setRules($rules);
