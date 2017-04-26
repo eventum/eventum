@@ -18,7 +18,7 @@ PHPUNIT_VERSION := 4.8.11
 PHPAB_VERSION := 1.20.3
 PHING_VERSION := 2.15.0
 PHPCB_VERSION := 1.1.1
-PHPCS_FIXER_VERSION := 1.11.8
+PHPCS_FIXER_VERSION := 2.3.1
 
 define find_tool
 $(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
