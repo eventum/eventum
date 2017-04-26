@@ -84,7 +84,7 @@ class PreferencesController extends BaseController
                 $res = User::updateEmail($this->usr_id);
                 break;
 
-            case 'update_password';
+            case 'update_password':
                 $res = $this->updatePasswordAction();
                 break;
 
