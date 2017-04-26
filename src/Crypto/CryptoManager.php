@@ -70,8 +70,8 @@ final class CryptoManager
      *
      * @param string $plaintext
      * @param string $key optional key to encrypt
-     * @return string
      * @throws CryptoException
+     * @return string
      */
     public static function encrypt($plaintext, $key = null)
     {
@@ -99,8 +99,8 @@ final class CryptoManager
      * $ciphertext is the ciphertext to decrypt.
      *
      * @param string $ciphertext
-     * @return string
      * @throws CryptoException
+     * @return string
      */
     public static function decrypt($ciphertext)
     {

@@ -22,8 +22,8 @@ class AuthPassword
      * Hash the password
      *
      * @param string $password The password to hash
-     * @return string The hashed password, throws on error.
      * @throws RuntimeException
+     * @return string The hashed password, throws on error.
      */
     public static function hash($password)
     {
@@ -40,8 +40,8 @@ class AuthPassword
      *
      * @param string $hash The hash to verify against
      * @param string $password The password to verify
-     * @return bool If the password matches the hash
      * @throws InvalidArgumentException in case non-strings were passed as hash or password
+     * @return bool If the password matches the hash
      */
     public static function verify($password, $hash)
     {

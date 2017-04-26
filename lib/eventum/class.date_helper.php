@@ -144,8 +144,8 @@ class Date_Helper
      *
      * NOTE: $timezone param is deprecated as input is always GMT and result is also always GMT
      *
-     * @return  string $ts The current GMT date
      * @param   string $timezone The needed timezone
+     * @return  string $ts The current GMT date
      */
     public static function getRFC822Date($ts, $timezone = null)
     {
@@ -159,10 +159,10 @@ class Date_Helper
      * iso8601 compliant format. If no timezone is specified it will
      * use the users preferred timezone.
      *
-     * @return  string $ts The current GMT date
      * @param   int|DateTime|string $ts
      * @param   string $timezone
      * @param   bool $omit_offset
+     * @return  string $ts The current GMT date
      */
     public static function getISO8601date($ts, $timezone = null, $omit_offset = false)
     {

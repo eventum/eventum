@@ -25,9 +25,9 @@ class DB_Helper
 
     /**
      * @param bool $fallback
-     * @return AdapterInterface
      * @throws DatabaseException
      * @throws Exception
+     * @return AdapterInterface
      */
     public static function getInstance($fallback = true)
     {

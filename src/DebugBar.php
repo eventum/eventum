@@ -75,8 +75,8 @@ class DebugBar
      * Get PDO proxy which traces statements for DebugBar
      *
      * @param PDO $pdo
-     * @return TraceablePDO
      * @throws DebugBarException
+     * @return TraceablePDO
      */
     public static function getTraceablePDO(PDO $pdo)
     {
@@ -111,8 +111,8 @@ class DebugBar
      * Get DebugBar renderer, if it's first time called, add Smarty and Config tabs.
      *
      * @param Smarty $smarty
-     * @return JavascriptRenderer
      * @throws DebugBarException
+     * @return JavascriptRenderer
      */
     private static function getDebugBarRenderer(Smarty $smarty)
     {

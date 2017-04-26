@@ -22,8 +22,8 @@ class Routing
      * Route all mail kinds: emails, notes, drafts (in that order) processing "To:" and "Cc:" headers
      *
      * @param string &$full_message
-     * @return array|bool
      * @throws RoutingException in case of failure
+     * @return array|bool
      */
     public static function route(&$full_message)
     {
@@ -98,8 +98,8 @@ class Routing
      * Routes an email to the correct issue.
      *
      * @param string $full_message The full email message, including headers
-     * @return bool true if mail was routed
      * @throws RoutingException in case of failure
+     * @return bool true if mail was routed
      */
     protected static function route_emails($full_message)
     {
@@ -296,8 +296,8 @@ class Routing
      * Routes a note to the correct issue
      *
      * @param string $full_message The full note
-     * @return bool true if mail was routed
      * @throws RoutingException in case of failure
+     * @return bool true if mail was routed
      */
     protected static function route_notes($full_message)
     {
@@ -439,8 +439,8 @@ class Routing
      * Routes a draft to the correct issue.
      *
      * @param string $full_message The complete draft.
-     * @return bool true if mail was routed
      * @throws RoutingException in case of failure
+     * @return bool true if mail was routed
      */
     protected static function route_drafts($full_message)
     {

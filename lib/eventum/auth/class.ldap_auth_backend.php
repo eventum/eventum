@@ -207,8 +207,8 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      * Disable account by external id.
      *
      * @param string $uid
-     * @return bool
      * @throws AuthException if the account was not active
+     * @return bool
      */
     public function disableAccount($uid)
     {
