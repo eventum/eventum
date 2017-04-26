@@ -100,7 +100,7 @@ $rules = $symfony_rules + [
     'no_useless_return' => true,
     'ordered_imports' => true,
     'phpdoc_order' => false, // XXX enable later
-    'semicolon_after_instruction' => false, // XXX enable later
+    'semicolon_after_instruction' => true,
     'simplified_null_return' => false,
     'strict_comparison' => false,
 ];
