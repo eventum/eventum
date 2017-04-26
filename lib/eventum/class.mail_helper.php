@@ -121,12 +121,21 @@ class Mail_Helper
      *
      * @param   string $str The string containing email addresses
      * @return  array The list of email addresses
+     * @deprecated use AddressHeader helper instead
      */
     public static function getEmailAddresses($str)
     {
         $str = self::fixAddressQuoting($str);
         $str = Mime_Helper::encode($str);
         $structs = self::parseAddressList($str);
+        if (Misc::isError($structs)) {
+            /** @var PEAR_Error $e */
+            $e = $structs;
+            Logger::app()->error($e->getMessage(), ['addresses' => $str]);
+
+            return [];
+        }
+
         $addresses = [];
         foreach ($structs as $structure) {
             if ((!empty($structure->mailbox)) && (!empty($structure->host))) {
@@ -158,7 +167,8 @@ class Mail_Helper
      * "Sender Name" <sender@example.com>.
      *
      * @param   string $address The email address value
-     * @return  array The address information
+     * @return  string The address information
+     * @deprecated stay away from this method, it corrupts data!
      */
     public static function fixAddressQuoting($address)
     {

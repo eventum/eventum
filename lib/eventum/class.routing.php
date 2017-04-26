@@ -12,6 +12,7 @@
  */
 
 use Eventum\Mail\Exception\RoutingException;
+use Eventum\Mail\Helper\AddressHeader;
 
 /**
  * Class to handle all routing functionality
@@ -380,12 +381,13 @@ class Routing
 
         // parse the Cc: list, if any, and add these internal users to the issue notification list
         $addresses = [];
-        $to_addresses = Mail_Helper::getEmailAddresses(@$structure->headers['to']);
-        if (count($to_addresses)) {
+
+        $to_addresses = AddressHeader::fromString(@$structure->headers['to'])->getEmails();
+        if ($to_addresses) {
             $addresses = $to_addresses;
         }
-        $cc_addresses = Mail_Helper::getEmailAddresses(@$structure->headers['cc']);
-        if (count($cc_addresses)) {
+        $cc_addresses = AddressHeader::fromString(@$structure->headers['cc'])->getEmails();
+        if ($cc_addresses) {
             $addresses = array_merge($addresses, $cc_addresses);
         }
         $cc_users = [];
