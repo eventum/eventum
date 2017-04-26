@@ -444,9 +444,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $local_user_info = User::getDetails($usr_id);
         if (empty($local_user_info['usr_external_id'])) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     public function verifyPassword($login, $password)
@@ -468,9 +468,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $external_id = User::getExternalID($usr_id);
         if (empty($external_id)) {
             return Auth::getFallBackAuthBackend()->canUserUpdateName($usr_id);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function canUserUpdateEmail($usr_id)
@@ -478,9 +478,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $external_id = User::getExternalID($usr_id);
         if (empty($external_id)) {
             return Auth::getFallBackAuthBackend()->canUserUpdateEmail($usr_id);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function canUserUpdatePassword($usr_id)
@@ -488,9 +488,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $external_id = User::getExternalID($usr_id);
         if (empty($external_id)) {
             return Auth::getFallBackAuthBackend()->canUserUpdatePassword($usr_id);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -527,9 +527,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     {
         if (!$this->isLDAPuser($usr_id)) {
             return Auth::getFallBackAuthBackend()->updatePassword($usr_id, $password);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function incrementFailedLogins($usr_id)

@@ -110,9 +110,9 @@ class DB_Helper
             function ($matches) use ($db, $tablePrefix) {
                 if (isset($matches[3])) {
                     return $db->quoteIdentifier($matches[3]);
-                } else {
-                    return str_replace('%', $tablePrefix, $db->quoteIdentifier($matches[2]));
                 }
+
+                return str_replace('%', $tablePrefix, $db->quoteIdentifier($matches[2]));
             },
             $sql
         );

@@ -96,7 +96,7 @@ $rules = $symfony_rules + [
     'method_argument_space' => ['keep_multiple_spaces_after_comma' => false],
     'no_multiline_whitespace_before_semicolons' => true,
     'no_short_echo_tag' => true,
-    'no_useless_else' => false, // XXX messes up formatting. needs to be ran manually
+    'no_useless_else' => true,
     'no_useless_return' => true,
     'ordered_imports' => true,
     'phpdoc_order' => true,

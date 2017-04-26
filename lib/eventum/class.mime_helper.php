@@ -125,13 +125,12 @@ class Mime_Helper
         if (strstr($address, '<')) {
             if (substr($address, 0, 1) == '<') {
                 return substr($address, 1, -1);
-            } else {
-                $address = stripslashes($address);
-                $first_part = substr($address, 0, strrpos($address, '<') - 1);
-                $first_part = '"' . str_replace('"', '\"', ($first_part)) . '"';
-                $second_part = substr($address, strrpos($address, '<'));
-                $address = $first_part . ' ' . $second_part;
             }
+            $address = stripslashes($address);
+            $first_part = substr($address, 0, strrpos($address, '<') - 1);
+            $first_part = '"' . str_replace('"', '\"', ($first_part)) . '"';
+            $second_part = substr($address, strrpos($address, '<'));
+            $address = $first_part . ' ' . $second_part;
         }
 
         return $address;
@@ -148,12 +147,11 @@ class Mime_Helper
         if (strstr($address, '<')) {
             if (substr($address, 0, 1) == '<') {
                 return substr($address, 1, -1);
-            } else {
-                $address = stripslashes($address);
-                $first_part = substr($address, 0, strrpos($address, '<') - 1);
-                $second_part = substr($address, strrpos($address, '<'));
-                $address = $first_part;
             }
+            $address = stripslashes($address);
+            $first_part = substr($address, 0, strrpos($address, '<') - 1);
+            $second_part = substr($address, strrpos($address, '<'));
+            $address = $first_part;
         }
         if (preg_match('/^".*"/', $address)) {
             $address = preg_replace('/^"(.*)"/', '\\1', $address);
@@ -191,9 +189,9 @@ class Mime_Helper
                 )) . '?= <' . $matches[2] . '>';
 
             return $address;
-        } else {
-            return self::quoteSender($address);
         }
+
+        return self::quoteSender($address);
     }
 
     /**
@@ -209,9 +207,9 @@ class Mime_Helper
     {
         if (preg_match("/=\?.+\?Q\?(.+)\?= <(.+)>/i", $address, $matches)) {
             return str_replace('_', ' ', quoted_printable_decode($matches[1])) . ' <' . $matches[2] . '>';
-        } else {
-            return self::removeQuotes($address);
         }
+
+        return self::removeQuotes($address);
     }
 
     /**
@@ -358,9 +356,9 @@ class Mime_Helper
     {
         if (preg_match("/=\?.+\?Q\?.+\?= <.+>/i", $address)) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -373,9 +371,9 @@ class Mime_Helper
     {
         if (is_string($string) && preg_match('/[\x80-\xff]+/', $string)) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public static function encodeHeaders($headers)
@@ -444,9 +442,9 @@ class Mime_Helper
             $pos = intval((68 - $char_len) / 2);
 
             return self::_encode(substr($text, 0, $pos), $charset) . ' ' . self::_encode(substr($text, $pos), $charset);
-        } else {
-            return '=?' . $charset . '?b?' . trim(base64_encode($text)) . '?=';
         }
+
+        return '=?' . $charset . '?b?' . trim(base64_encode($text)) . '?=';
     }
 
     /**
@@ -548,9 +546,9 @@ class Mime_Helper
             }
 
             return self::getAttachmentName($list, $filename);
-        } else {
-            return $filename;
         }
+
+        return $filename;
     }
 
     /**
@@ -567,9 +565,9 @@ class Mime_Helper
         $attachments = self::_getAttachmentDetails($message, true);
         if (count($attachments) > 0) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -698,9 +696,9 @@ class Mime_Helper
                 $details[0]['filetype'],
                 $details[0]['blob'],
             ];
-        } else {
-            return [];
         }
+
+        return [];
     }
 
     /**
@@ -754,11 +752,10 @@ class Mime_Helper
     {
         if ($source_charset == false || $source_charset == APP_CHARSET) {
             return $string;
-        } else {
-            $res = iconv($source_charset, APP_CHARSET, $string);
-
-            return $res === false ? $string : $res;
         }
+        $res = iconv($source_charset, APP_CHARSET, $string);
+
+        return $res === false ? $string : $res;
     }
 
     /**

@@ -622,9 +622,9 @@ class Filter
                 } elseif ($filter['fld_type'] == 'integer') {
                     if ((!isset($options['custom_field'][$fld_id]['value'])) || (empty($options['custom_field'][$fld_id]['value']))) {
                         continue;
-                    } else {
-                        $filter_details = $options['custom_field'][$fld_id];
-                        switch ($filter_details['filter_type']) {
+                    }
+                    $filter_details = $options['custom_field'][$fld_id];
+                    switch ($filter_details['filter_type']) {
                             case 'ge':
                                 $display = ev_gettext('%1$s or greater', $filter_details['value']);
                                 break;
@@ -640,7 +640,6 @@ class Filter
                             default:
                                 $display = $filter_details['value'];
                         }
-                    }
                 } elseif (in_array($filter['fld_type'], ['multiple', 'combo'])) {
                     $display = implode(', ', Custom_Field::getOptions($fld_id, $options['custom_field'][$fld_id]));
                 } else {

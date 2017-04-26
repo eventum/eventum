@@ -810,11 +810,10 @@ class Support
                                 $should_create_issue = false;
                             }
                             break;
-                        } else {
+                        }
                             //  no matching note, email or issue:
                             //    => create new issue and associate current email with it
                             $should_create_issue = true;
-                        }
                     }
                 } else {
                     // - if this email is not a reply:
@@ -1064,9 +1063,9 @@ class Support
             return $_POST[$name];
         } elseif (($profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'email')) && (isset($profile[$name]))) {
             return $profile[$name];
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     /**
@@ -1982,11 +1981,10 @@ class Support
         $cc = trim($cc);
         if (empty($cc)) {
             return [];
-        } else {
-            $cc = str_replace(',', ';', $cc);
-
-            return explode(';', $cc);
         }
+        $cc = str_replace(',', ';', $cc);
+
+        return explode(';', $cc);
     }
 
     /**

@@ -113,31 +113,30 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
             }
 
             return $usr_id;
-        } else {
+        }
             // create new local user
             $setup = self::loadSetup();
-            if ($setup['create_users'] == false) {
-                throw new AuthException('User does not exist and will not be created.');
-            }
-            $data['role'] = $setup['default_role'];
+        if ($setup['create_users'] == false) {
+            throw new AuthException('User does not exist and will not be created.');
+        }
+        $data['role'] = $setup['default_role'];
 
-            $emails = [$remote['mail']];
-            if (count($emails) < 1) {
-                throw new AuthException('E-mail is required');
-            }
-            $data['email'] = array_shift($emails);
+        $emails = [$remote['mail']];
+        if (count($emails) < 1) {
+            throw new AuthException('E-mail is required');
+        }
+        $data['email'] = array_shift($emails);
 
-            if (!empty($data['customer_id']) && !empty($data['contact_id'])) {
-                foreach ($data['role'] as $prj_id => $role) {
-                    if ($role > 0) {
-                        $data['role'][$prj_id] = User::ROLE_CUSTOMER;
-                    }
+        if (!empty($data['customer_id']) && !empty($data['contact_id'])) {
+            foreach ($data['role'] as $prj_id => $role) {
+                if ($role > 0) {
+                    $data['role'][$prj_id] = User::ROLE_CUSTOMER;
                 }
             }
-            $usr_id = User::insert($data);
-            if ($usr_id > 0 && $emails) {
-                $this->updateAliases($usr_id, $emails);
-            }
+        }
+        $usr_id = User::insert($data);
+        if ($usr_id > 0 && $emails) {
+            $this->updateAliases($usr_id, $emails);
         }
 
         return $usr_id;

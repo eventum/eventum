@@ -127,9 +127,9 @@ class Search_Profile
     {
         if (!self::_exists($usr_id, $prj_id, $type)) {
             return self::_insert($usr_id, $prj_id, $type, $profile);
-        } else {
-            return self::_update($usr_id, $prj_id, $type, $profile);
         }
+
+        return self::_update($usr_id, $prj_id, $type, $profile);
     }
 
     /**

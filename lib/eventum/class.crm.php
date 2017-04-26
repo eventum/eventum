@@ -553,9 +553,9 @@ abstract class CRM
 
         if (empty($res)) {
             return [];
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**

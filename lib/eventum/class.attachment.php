@@ -165,9 +165,9 @@ class Attachment
         $user_role_id = User::getRoleByUser(Auth::getUserID(), Issue::getProjectID($res['iat_iss_id']));
         if (($res['iat_status'] == 'internal') && $user_role_id <= User::ROLE_CUSTOMER) {
             return '';
-        } else {
-            return $res;
         }
+
+        return $res;
     }
 
     /**

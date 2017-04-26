@@ -38,9 +38,9 @@ class Notification
         $subscribed_emails = Misc::lowercase($subscribed_emails);
         if (in_array($email, $subscribed_emails)) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -240,9 +240,9 @@ class Notification
     {
         if (strtolower(substr($email, 0, 14)) == 'mailer-daemon@') {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -260,9 +260,9 @@ class Notification
         $sender_email = strtolower(Mail_Helper::getEmailAddress($sender));
         if ($check_email == $sender_email) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -1977,9 +1977,9 @@ class Notification
 
         if (empty($res['sub_usr_id'])) {
             return $res['sub_email'];
-        } else {
-            return User::getFromHeader($res['sub_usr_id']);
         }
+
+        return User::getFromHeader($res['sub_usr_id']);
     }
 
     /**

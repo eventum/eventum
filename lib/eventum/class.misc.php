@@ -110,9 +110,9 @@ class Misc
             }
 
             return $mixed;
-        } else {
-            return $callback($mixed);
         }
+
+        return $callback($mixed);
     }
 
     /**
@@ -208,11 +208,10 @@ class Misc
             $kbytes = $bytes / 1024;
 
             return sprintf('%.1f', round($kbytes, 1)) . ' KiB';
-        } else {
-            $mbytes = ($bytes / 1024) / 1024;
-
-            return sprintf('%.1f', round($mbytes, 1)) . ' MiB';
         }
+        $mbytes = ($bytes / 1024) / 1024;
+
+        return sprintf('%.1f', round($mbytes, 1)) . ' MiB';
     }
 
     /**
@@ -605,9 +604,9 @@ class Misc
     {
         if ($value == true) {
             return ev_gettext('Yes');
-        } else {
-            return ev_gettext('No');
         }
+
+        return ev_gettext('No');
     }
 
     public static function removeNewLines($str, $no_space = false)

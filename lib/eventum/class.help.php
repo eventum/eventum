@@ -148,9 +148,9 @@ class Help
 
         if (isset($topics[$topic])) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -167,12 +167,12 @@ class Help
         $child = @$topics[$topic];
         if (empty($child['parent'])) {
             return false;
-        } else {
-            return [
+        }
+
+        return [
                 'topic' => $child['parent'],
                 'title' => $topics[$child['parent']]['title'],
             ];
-        }
     }
 
     /**
@@ -197,9 +197,9 @@ class Help
         }
         if (count($links) == 0) {
             return '';
-        } else {
-            return $links;
         }
+
+        return $links;
     }
 
     /**

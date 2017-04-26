@@ -451,20 +451,19 @@ class Project
             }
 
             return true;
-        } else {
-            $stmt = 'UPDATE {{%project_user}}
+        }
+        $stmt = 'UPDATE {{%project_user}}
                         SET pru_role = ?
                     WHERE
                         pru_prj_id = ? AND
                         pru_usr_id = ?';
-            try {
-                DB_Helper::getInstance()->query($stmt, [$role, $prj_id, $usr_id]);
-            } catch (DatabaseException $e) {
-                return false;
-            }
-
-            return true;
+        try {
+            DB_Helper::getInstance()->query($stmt, [$role, $prj_id, $usr_id]);
+        } catch (DatabaseException $e) {
+            return false;
         }
+
+        return true;
     }
 
     /**

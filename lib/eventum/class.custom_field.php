@@ -1773,9 +1773,9 @@ class Custom_Field
         $backend = self::getBackend($fld_id);
         if ((is_object($backend)) && (method_exists($backend, 'formatValue'))) {
             return $backend->formatValue($value, $fld_id, $issue_id);
-        } else {
-            return Link_Filter::processText(Auth::getCurrentProject(), Misc::htmlentities($value));
         }
+
+        return Link_Filter::processText(Auth::getCurrentProject(), Misc::htmlentities($value));
     }
 
     /**

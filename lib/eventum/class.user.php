@@ -462,9 +462,9 @@ class User
     {
         if ($status == 'active') {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -478,9 +478,9 @@ class User
     {
         if ($status == 'pending') {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -734,9 +734,9 @@ class User
         if (count($items) < 1) {
             if (!is_array($usr_id)) {
                 return '';
-            } else {
-                return [];
             }
+
+            return [];
         }
 
         $itemlist = DB_Helper::buildList($items);
@@ -786,9 +786,9 @@ class User
         if (count($items) < 1) {
             if (!is_array($usr_id)) {
                 return '';
-            } else {
-                return [];
             }
+
+            return [];
         }
 
         $itemlist = DB_Helper::buildList($items);
@@ -808,9 +808,9 @@ class User
         } catch (DatabaseException $e) {
             if (!is_array($usr_id)) {
                 return '';
-            } else {
-                return [];
             }
+
+            return [];
         }
 
         $returns[$key] = $res;
@@ -1179,9 +1179,9 @@ class User
         $insert = self::insert($user);
         if ($insert != -1) {
             return 1;
-        } else {
-            return -1;
         }
+
+        return -1;
     }
 
     /**
@@ -1534,9 +1534,9 @@ class User
 
         if ($res == 1) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public static function getLang($usr_id, $force_refresh = false)

@@ -23,8 +23,8 @@ class CSC_Number_Custom_Field_Backend
             }
 
             return implode(', ', $links);
-        } else {
-            return $value;
         }
+
+        return $value;
     }
 }

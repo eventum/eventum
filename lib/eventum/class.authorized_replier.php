@@ -259,9 +259,9 @@ class Authorized_Replier
 
         if ($res > 0) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -288,9 +288,9 @@ class Authorized_Replier
 
         if ($res > 0) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

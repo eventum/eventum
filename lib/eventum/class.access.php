@@ -543,9 +543,9 @@ class Access
         $access_levels = self::getAccessLevels();
         if (isset($access_levels[$level])) {
             return $access_levels[$level];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     public static function getAccessList($issue_id)
@@ -608,9 +608,9 @@ class Access
     {
         if (in_array($usr_id, self::getAccessList($issue_id))) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public static function getListingSQL($prj_id)

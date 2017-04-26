@@ -223,9 +223,9 @@ class Auth
         $status = User::getStatusByEmail($email);
         if ($status != 'pending') {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -239,9 +239,9 @@ class Auth
         $status = User::getStatusByEmail($email);
         if ($status != 'active') {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -416,9 +416,9 @@ class Auth
         $usr_id = self::getUserID();
         if ((!empty($prj_id)) && (!empty($usr_id))) {
             return User::getRoleByUser($usr_id, $prj_id);
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -562,9 +562,9 @@ class Auth
         $backend_login_url = self::getAuthBackend()->getExternalLoginURL();
         if (!$backend_login_url) {
             return null;
-        } else {
-            return $backend_login_url;
         }
+
+        return $backend_login_url;
     }
 
     public static function autoRedirectToExternalLogin()

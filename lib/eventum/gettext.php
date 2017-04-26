@@ -31,9 +31,9 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
             $string = _gettext($string);
 
             return vsprintf($string, $arg);
-        } else {
-            return _gettext($string);
         }
+
+        return _gettext($string);
     }
     function ev_ngettext($string, $plural, $number)
     {
@@ -51,9 +51,9 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
             $string = gettext($string);
 
             return vsprintf($string, $arg);
-        } else {
-            return gettext($string);
         }
+
+        return gettext($string);
     }
 
     function ev_ngettext($string, $plural, $number)

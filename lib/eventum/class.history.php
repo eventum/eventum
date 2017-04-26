@@ -32,9 +32,9 @@ class History
             return 'no value set -> ' . $new_value;
         } elseif (empty($new_value)) {
             return $old_value . ' -> no value set';
-        } else {
-            return $old_value . ' -> ' . $new_value;
         }
+
+        return $old_value . ' -> ' . $new_value;
     }
 
     /**

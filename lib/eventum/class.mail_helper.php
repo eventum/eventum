@@ -74,9 +74,9 @@ class Mail_Helper
             $subject = preg_replace($re_pattern, $re_format, $subject);
 
             return self::removeExcessRe($subject);
-        } else {
-            return $subject;
         }
+
+        return $subject;
     }
 
     /**
@@ -110,9 +110,9 @@ class Mail_Helper
 
         if ((@$headers['x-vacationmessage'] == 'Yes') || ((isset($headers['auto-submitted'])) && (!empty($headers['auto-submitted'])))) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -316,9 +316,9 @@ class Mail_Helper
         }
         if ($multiple) {
             return $returns;
-        } else {
-            return $returns[0];
         }
+
+        return $returns[0];
     }
 
     /**
@@ -333,9 +333,9 @@ class Mail_Helper
     {
         if (empty($name)) {
             return $email;
-        } else {
-            return $name . ' <' . $email . '>';
         }
+
+        return $name . ' <' . $email . '>';
     }
 
     /**
@@ -484,9 +484,9 @@ class Mail_Helper
         }
         if (@$headers['Content-Transfer-Encoding'] == 'base64') {
             return base64_encode($warning . "\n\n" . trim(base64_decode($body)));
-        } else {
-            return $warning . "\n\n" . $body;
         }
+
+        return $warning . "\n\n" . $body;
     }
 
     /**

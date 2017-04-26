@@ -201,9 +201,9 @@ class Partner
     {
         if (in_array($par_code, self::getPartnerCodesByIssue($iss_id))) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

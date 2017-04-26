@@ -118,9 +118,9 @@ class Workflow
         $backend = self::_getBackendNameByProject($prj_id);
         if (empty($backend)) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**

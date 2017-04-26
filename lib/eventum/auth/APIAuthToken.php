@@ -113,9 +113,9 @@ class APIAuthToken
                 self::generate($usr_id);
 
                 return self::getTokensForUser($usr_id, false);
-            } else {
-                return [];
             }
+
+            return [];
         }
 
         return $res;

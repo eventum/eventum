@@ -317,9 +317,9 @@ class FAQ
             }
 
             return $t;
-        } else {
-            return [];
         }
+
+        return [];
     }
 
     /**

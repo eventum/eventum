@@ -30,9 +30,9 @@ class Validation
         $str = trim($str);
         if (strlen($str) == 0) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

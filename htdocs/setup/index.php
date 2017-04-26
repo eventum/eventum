@@ -250,19 +250,18 @@ function getErrorMessage($type, $message)
 {
     if (empty($message)) {
         return '';
-    } else {
-        if (stristr($message, 'Unknown MySQL Server Host')) {
-            return 'Could not connect to the MySQL database server with the provided information.';
-        } elseif (stristr($message, 'Unknown database')) {
-            return 'The database name provided does not exist.';
-        } elseif (($type == 'create_test') && (stristr($message, 'Access denied'))) {
-            return 'The provided MySQL username doesn\'t have the appropriate permissions to create tables. Please contact your local system administrator for further assistance.';
-        } elseif (($type == 'drop_test') && (stristr($message, 'Access denied'))) {
-            return 'The provided MySQL username doesn\'t have the appropriate permissions to drop tables. Please contact your local system administrator for further assistance.';
-        }
-
-        return $message;
     }
+    if (stristr($message, 'Unknown MySQL Server Host')) {
+        return 'Could not connect to the MySQL database server with the provided information.';
+    } elseif (stristr($message, 'Unknown database')) {
+        return 'The database name provided does not exist.';
+    } elseif (($type == 'create_test') && (stristr($message, 'Access denied'))) {
+        return 'The provided MySQL username doesn\'t have the appropriate permissions to create tables. Please contact your local system administrator for further assistance.';
+    } elseif (($type == 'drop_test') && (stristr($message, 'Access denied'))) {
+        return 'The provided MySQL username doesn\'t have the appropriate permissions to drop tables. Please contact your local system administrator for further assistance.';
+    }
+
+    return $message;
 }
 
 function getTimezone()

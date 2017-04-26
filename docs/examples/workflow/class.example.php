@@ -250,9 +250,9 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     {
         if ($address == 'bad_email@example.com') {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -271,8 +271,8 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
                         'assignee'  =>  [],
                         'custom'    =>  [1],
             ];
-        } else {
-            return [];
         }
+
+        return [];
     }
 }

@@ -1890,7 +1890,6 @@ class Issue
                 }
             } catch (CustomerNotFoundException $e) {
             }
-        } else {
         }
 
         if (empty($reporter)) {
@@ -2303,9 +2302,9 @@ class Issue
         }
         if (count($last_action_fields) > 1) {
             return 'GREATEST(' . implode(', IFNULL(', $last_action_fields) . ", '0000-00-00')) AS last_action_date";
-        } else {
-            return $last_action_fields[0] . ' AS last_action_date';
         }
+
+        return $last_action_fields[0] . ' AS last_action_date';
     }
 
     /**
@@ -2470,9 +2469,9 @@ class Issue
         $assigned_users = self::getAssignedUserIDs($issue_id);
         if (in_array($usr_id, $assigned_users)) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -2908,12 +2907,11 @@ class Issue
                     $total = DB_Helper::getInstance()->getOne($stmt, [$issue_id, $usr_id]);
                     if ($total > 0) {
                         continue;
-                    } else {
-                        $new_assignees[] = $usr_id;
+                    }
+                    $new_assignees[] = $usr_id;
                         // add the assignment
                         self::addUserAssociation(Auth::getUserID(), $issue_id, $usr_id, false);
-                        Notification::subscribeUser(Auth::getUserID(), $issue_id, $usr_id, Notification::getAllActions());
-                    }
+                    Notification::subscribeUser(Auth::getUserID(), $issue_id, $usr_id, Notification::getAllActions());
                 }
 
                 $prj_id = Auth::getCurrentProject();

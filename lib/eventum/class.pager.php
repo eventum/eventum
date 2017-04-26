@@ -177,8 +177,8 @@ class Pager
         // extra check to make sure
         if (count($temp) == 0) {
             return '';
-        } else {
-            return $temp;
         }
+
+        return $temp;
     }
 }

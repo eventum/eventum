@@ -50,9 +50,9 @@ class Search
         $profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'issue');
         if (isset($profile[$name])) {
             return $profile[$name];
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     /**

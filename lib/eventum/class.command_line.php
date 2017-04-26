@@ -1238,9 +1238,9 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             array_pop($argv);
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

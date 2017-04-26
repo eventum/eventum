@@ -707,12 +707,12 @@ class RemoteApi
         if (count($assignees) > 0) {
             if (in_array($usr_id, $assignees)) {
                 return 'yes';
-            } else {
-                return 'no';
             }
-        } else {
-            return 'yes';
+
+            return 'no';
         }
+
+        return 'yes';
     }
 
     /**
