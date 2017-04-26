@@ -29,6 +29,7 @@ $config = PhpCsFixer\Config::create();
 $files = explode("\n", shell_exec('git ls-files'));
 $finder = $config->getFinder()
     ->in(__DIR__)
+    ->ignoreDotFiles(false)
     ->name('.php_cs')
     ->notPath('localization/LINGUAS.php')
     // this filter would accept only files that are present in Git
