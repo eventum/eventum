@@ -262,7 +262,6 @@ class Support
     /**
      * Method used to clear the error stack as required by the IMAP PHP extension.
      *
-     * @return  void
      */
     public static function clearErrors()
     {
@@ -459,7 +458,6 @@ class Support
      * @param   resource $mbox The mailbox
      * @param   array $info The support email account information
      * @param   integer $num The index of the message
-     * @return  void
      */
     public static function getEmailInfo($mbox, $info, $num)
     {
@@ -1337,7 +1335,6 @@ class Support
      * @param   mixed   $input The full body of the message or decoded email.
      * @param   boolean $internal_only Whether these files are supposed to be internal only or not
      * @param   integer $associated_note_id The note ID that these attachments should be associated with
-     * @return  void
      */
     public static function extractAttachments($issue_id, $input, $internal_only = false, $associated_note_id = null)
     {

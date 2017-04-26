@@ -343,7 +343,6 @@ class Mail_Helper
      * multipart message that you wish to send.
      *
      * @param   string $text The text-based message
-     * @return  void
      */
     public function setTextBody($text)
     {
@@ -356,7 +355,6 @@ class Mail_Helper
      * multipart message that you wish to send.
      *
      * @param   string $html The HTML-based message
-     * @return  void
      */
     public function setHTMLBody($html)
     {
@@ -367,7 +365,6 @@ class Mail_Helper
      * Method used to add an embedded image to a MIME message.
      *
      * @param   string $filename The full path to the image
-     * @return  void
      */
     public function addHTMLImage($filename)
     {
@@ -380,7 +377,6 @@ class Mail_Helper
      *
      * @param   mixed $header The header(s) to set
      * @param   mixed $value The value of the header to be set
-     * @return  void
      */
     public function setHeaders($header, $value = false)
     {
@@ -397,7 +393,6 @@ class Mail_Helper
      * Method used to add an email address in the Cc list.
      *
      * @param   string $email The email address to be added
-     * @return  void
      */
     public function addCc($email)
     {
@@ -410,7 +405,6 @@ class Mail_Helper
      * @param   string $name The attachment name
      * @param   string $data The attachment data
      * @param   string $content_type The content type of the attachment
-     * @return  void
      */
     public function addAttachment($name, $data, $content_type)
     {

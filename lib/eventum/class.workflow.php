@@ -378,7 +378,6 @@ class Workflow
      * @param   integer $status_id The status ID
      * @param   string $reason The reason for closing this issue
      * @param   integer $usr_id The ID of the user closing this issue
-     * @return  void
      */
     public static function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id)
     {
@@ -733,7 +732,6 @@ class Workflow
      *
      * @param   integer $prj_id The project ID
      * @param   string $page_name The name of the page
-     * @return  null
      */
     public static function prePage($prj_id, $page_name)
     {

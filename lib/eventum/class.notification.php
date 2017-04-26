@@ -275,7 +275,6 @@ class Notification
      * @param   boolean $assignee_only Whether the email should only be sent to the assignee
      * @param   boolean $type The type of email this is
      * @param   integer $sup_id the ID of this email
-     * @return  void
      */
     public static function notifyNewEmail($usr_id, $issue_id, $message, $internal_only = false, $assignee_only = false, $type = '', $sup_id = false)
     {
@@ -1051,7 +1050,6 @@ class Notification
      * @param   integer $prj_id The project ID
      * @param   integer $issue_id The issue ID
      * @param   array   $exclude_list The list of users NOT to notify. This can either be usr_ids or email addresses
-     * @return  void
      */
     public static function notifyNewIssue($prj_id, $issue_id, $exclude_list = [])
     {
@@ -1185,7 +1183,6 @@ class Notification
      * @param   string $date The arrival date of the email message
      * @param   string $subject The subject line of the email message
      * @param bool|string $additional_recipient The user who should receive this email who is not the sender of the original email.
-     * @return  void
      */
     public static function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject, $additional_recipient = false)
     {
@@ -1422,7 +1419,6 @@ class Notification
      * details of an user is changed.
      *
      * @param   integer $usr_id The user ID
-     * @return  void
      */
     public static function notifyUserAccount($usr_id)
     {
@@ -1448,7 +1444,6 @@ class Notification
      *
      * @param   integer $usr_id The user ID
      * @param   string $password The user' password
-     * @return  void
      */
     public static function notifyUserPassword($usr_id, $password)
     {
@@ -1475,7 +1470,6 @@ class Notification
      *
      * @param   integer $usr_id The user ID
      * @param   string $password The user' password
-     * @return  void
      */
     public static function notifyNewUser($usr_id, $password)
     {

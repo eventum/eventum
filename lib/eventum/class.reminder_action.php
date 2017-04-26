@@ -741,7 +741,6 @@ class Reminder_Action
      * @param   string $type Which reminder are we trying to send, email or sms
      * @param   array $reminder The reminder details
      * @param   array $action The action details
-     * @return  void
      */
     private function _recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions)
     {

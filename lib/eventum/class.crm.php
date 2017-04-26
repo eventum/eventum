@@ -235,7 +235,6 @@ abstract class CRM
      * @param   string $sender The sender of the email message (and the recipient of this notification)
      * @param   string $date The arrival date of the email message
      * @param   string $subject The subject line of the email message
-     * @return  void
      */
     abstract public function notifyAutoCreatedIssue($issue_id, $sender, $date, $subject);
 

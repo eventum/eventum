@@ -352,7 +352,6 @@ class User
      * to the email address.
      *
      * @param   string $usr_id The user ID
-     * @return  void
      */
     public static function sendPasswordConfirmationEmail($usr_id)
     {

@@ -2517,7 +2517,6 @@ class Issue
      * listing page.
      *
      * @param   array $result The result set
-     * @return  void
      */
     public static function getAssignedUsersByIssues(&$result)
     {
@@ -2563,7 +2562,6 @@ class Issue
      * Method used to add the issue description to a list of issues.
      *
      * @param   array $result The result set
-     * @return  void
      */
     public static function getDescriptionByIssues(&$result)
     {

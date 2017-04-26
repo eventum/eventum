@@ -151,7 +151,6 @@ abstract class Contact
      *
      * @param   integer $issue_id The issue ID
      * @param   string $reason
-     * @return  void
      */
     abstract public function notifyIssueClosed($issue_id, $reason);
 
@@ -220,7 +219,6 @@ abstract class Contact
      * created and associated with his Eventum user.
      *
      * @param   integer $issue_id The issue ID
-     * @return  void
      */
     abstract public function notifyNewIssue($issue_id);
 }

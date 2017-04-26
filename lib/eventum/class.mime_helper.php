@@ -767,7 +767,6 @@ class Mime_Helper
      *
      * @param   object $obj The decoded object structure of the MIME message
      * @param   array $parts The parsed parts of the MIME message
-     * @return  void
      */
     public static function parse_output($obj, &$parts)
     {

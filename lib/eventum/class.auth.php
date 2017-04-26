@@ -79,7 +79,6 @@ class Auth
      *
      * @param   string $failed_url The URL to redirect to if the user is not authenticated
      * @param   boolean $is_popup Flag to tell the function if the current page is a popup window or not
-     * @return  void
      */
     public static function checkAuthentication($failed_url = null, $is_popup = false)
     {
@@ -260,7 +259,6 @@ class Auth
      *
      * @param   string $url The URL the user should be redirected to
      * @param   boolean $is_popup Whether the current window is a popup or not
-     * @return  void
      */
     public static function redirect($url, $is_popup = false)
     {
@@ -293,7 +291,6 @@ class Auth
      * Method used to remove a cookie from the user's browser.
      *
      * @param   string $cookie_name The name of the cookie that needs to be deleted
-     * @return  void
      */
     public static function removeCookie($cookie_name)
     {

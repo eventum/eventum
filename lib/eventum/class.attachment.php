@@ -54,7 +54,6 @@ class Attachment
      * @param   integer $filesize The size of this file
      * @param   string $mimetype The mimetype of this file
      * @param   boolean $force_inline If the file should be forced to render in the browser
-     * @return  void
      */
     public static function outputDownload(&$data, $filename, $filesize, $mimetype, $force_inline = false)
     {

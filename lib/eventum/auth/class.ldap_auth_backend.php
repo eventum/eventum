@@ -562,7 +562,6 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      * Called on every page load and can be used to process external authentication checks before the rest of the
      * authentication process happens.
      *
-     * @return null
      */
     public function checkAuthentication()
     {

@@ -754,7 +754,6 @@ class Time_Tracking
      * @param   string $usr_id The ID of the user this report is for.
      * @param   integer $start The timestamp of the beginning of the report.
      * @param   integer $end The timestamp of the end of this report.
-     * @return  void
      */
     public static function fillTimeSpentByIssueAndTime(&$res, $usr_id, $start, $end)
     {

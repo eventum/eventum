@@ -363,7 +363,6 @@ class Status
      *
      * @param   integer $sta_id The status ID
      * @param   integer $prj_id The project ID
-     * @return  void
      */
     public static function addProjectAssociation($sta_id, $prj_id)
     {
