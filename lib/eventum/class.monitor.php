@@ -19,7 +19,7 @@ class Monitor
     /**
      * Checks the mail queue logs for any email that wasn't delivered.
      *
-     * @return  integer Number of errors encountered.
+     * @return  int Number of errors encountered.
      */
     public static function checkMailQueue()
     {
@@ -52,7 +52,7 @@ class Monitor
      * Checks the associated emails page (emails.php) that there aren't any unassociated mails
      *
      * @see class.support.php getEmailListing()
-     * @return  integer Number of mails not associated.
+     * @return  int Number of mails not associated.
      */
     public static function checkMailAssociation()
     {
@@ -87,7 +87,7 @@ class Monitor
     /**
      * Checks the free disk space status on the server.
      *
-     * @return  integer Number of errors encountered.
+     * @return  int Number of errors encountered.
      */
     public static function checkDiskspace($partition, $low_limit = 5, $high_limit = 15)
     {
@@ -113,7 +113,7 @@ class Monitor
      * and directories.
      *
      * @param   array $required_files An array of files that should be checked on.
-     * @return  integer Number of errors encountered.
+     * @return  int Number of errors encountered.
      */
     public static function checkRequiredFiles($required_files)
     {
@@ -155,7 +155,7 @@ class Monitor
      * Checks on the status of the required directories.
      *
      * @param   array $required_directories An array of files that should be checked on.
-     * @return  integer Number of errors encountered.
+     * @return  int Number of errors encountered.
      */
     public static function checkRequiredDirs($required_directories)
     {
@@ -181,7 +181,7 @@ class Monitor
     /**
      * Checks on the status of the MySQL database.
      *
-     * @return  integer Number of errors encountered.
+     * @return  int Number of errors encountered.
      */
     public static function checkDatabase()
     {

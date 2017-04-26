@@ -19,8 +19,8 @@ class Round_Robin
      * Returns the blackout dates according to the user's timezone.
      *
      * @param   DateTime $date The DateTime object associated with the user's timezone
-     * @param   integer $start The blackout start hour
-     * @param   integer $end The blackout end hour
+     * @param   int $start The blackout start hour
+     * @param   int $end The blackout end hour
      * @return  array The blackout dates
      */
     public static function getBlackoutDates($date, $start, $end)
@@ -87,8 +87,8 @@ class Round_Robin
     /**
      * Retrieves the next assignee in the given project's round robin queue.
      *
-     * @param   integer $prj_id The project ID
-     * @return  integer The assignee's user ID
+     * @param   int $prj_id The project ID
+     * @return  int The assignee's user ID
      */
     public static function getNextAssignee($prj_id)
     {
@@ -163,9 +163,9 @@ class Round_Robin
      * Marks the next user in the round robin list as the next assignee in the
      * round robin queue.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $usr_id The assignee's user ID
-     * @return  boolean
+     * @param   int $prj_id The project ID
+     * @param   int $usr_id The assignee's user ID
+     * @return  bool
      */
     public static function markNextAssignee($prj_id, $usr_id)
     {
@@ -201,8 +201,8 @@ class Round_Robin
     /**
      * Returns the round robin entry ID associated with a given project.
      *
-     * @param   integer $prj_id The project ID
-     * @return  integer The round robin entry ID
+     * @param   int $prj_id The project ID
+     * @return  int The round robin entry ID
      */
     public static function getID($prj_id)
     {
@@ -225,7 +225,7 @@ class Round_Robin
      * Retrieves the list of users, round robin blackout hours and their
      * respective preferences with regards to timezones.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of users
      */
     public static function getUsersByProject($prj_id)
@@ -274,7 +274,7 @@ class Round_Robin
     /**
      * Creates a new round robin entry.
      *
-     * @return  integer 1 if the creation worked, -1 otherwise
+     * @return  int 1 if the creation worked, -1 otherwise
      */
     public static function insert()
     {
@@ -307,9 +307,9 @@ class Round_Robin
     /**
      * Associates a round robin entry with a user ID.
      *
-     * @param   integer $prr_id The round robin entry ID
-     * @param   integer $usr_id The user ID
-     * @return  boolean
+     * @param   int $prr_id The round robin entry ID
+     * @param   int $usr_id The user ID
+     * @return  bool
      */
     public static function addUserAssociation($prr_id, $usr_id)
     {
@@ -367,7 +367,7 @@ class Round_Robin
      * Returns an associative array in the form of user id => name of the users
      * associated to a given round robin entry ID.
      *
-     * @param   integer $prr_id The round robin entry ID
+     * @param   int $prr_id The round robin entry ID
      * @return  array The list of users
      */
     public static function getAssociatedUsers($prr_id)
@@ -395,7 +395,7 @@ class Round_Robin
     /**
      * Method used to get the details of a round robin entry.
      *
-     * @param   integer $prr_id The round robin entry ID
+     * @param   int $prr_id The round robin entry ID
      * @return  array The round robin entry details
      */
     public static function getDetails($prr_id)
@@ -421,7 +421,7 @@ class Round_Robin
     /**
      * Method used to update a round robin entry in the system.
      *
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function update()
     {
@@ -454,8 +454,8 @@ class Round_Robin
      * Method used to remove the user associations for a given round robin
      * entry ID.
      *
-     * @param   integer $prr_id The round robin ID
-     * @return  boolean
+     * @param   int $prr_id The round robin ID
+     * @return  bool
      */
     public static function removeUserAssociations($prr_id)
     {
@@ -479,7 +479,7 @@ class Round_Robin
     /**
      * Method used to remove a round robin entry from the system.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function remove()
     {

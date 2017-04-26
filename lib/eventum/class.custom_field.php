@@ -56,7 +56,7 @@ class Custom_Field
      *
      * @param   array $fld_id The list of custom field IDs
      * @param   array $fld_id The list of custom field option IDs
-     * @return  boolean
+     * @return  bool
      */
     public static function removeOptions($fld_id, $cfo_id)
     {
@@ -92,10 +92,10 @@ class Custom_Field
     /**
      * Method used to add possible options into a given custom field.
      *
-     * @param   integer $fld_id The custom field ID
+     * @param   int $fld_id The custom field ID
      * @param   array $options The list of options that need to be added
-     * @param   integer $start_rank The rank for the first new option to be inserted with
-     * @return  integer 1 if the insert worked, -1 otherwise
+     * @param   int $start_rank The rank for the first new option to be inserted with
+     * @return  int 1 if the insert worked, -1 otherwise
      */
     public static function addOptions($fld_id, $options, $start_rank)
     {
@@ -132,10 +132,10 @@ class Custom_Field
     /**
      * Method used to update an existing custom field option value.
      *
-     * @param   integer $cfo_id The custom field option ID
+     * @param   int $cfo_id The custom field option ID
      * @param   string $cfo_value The custom field option value
-     * @param   integer $rank The rank of the custom field option
-     * @return  boolean
+     * @param   int $rank The rank of the custom field option
+     * @return  bool
      */
     public static function updateOption($cfo_id, $cfo_value, $rank=null)
     {
@@ -424,10 +424,10 @@ class Custom_Field
      * Method used to associate a custom field value to a given
      * issue ID.
      *
-     * @param   integer $iss_id The issue ID
-     * @param   integer $fld_id The custom field ID
+     * @param   int $iss_id The issue ID
+     * @param   int $fld_id The custom field ID
      * @param   string  $value The custom field value
-     * @return  boolean Whether the association worked or not
+     * @return  bool Whether the association worked or not
      */
     public static function associateIssue($iss_id, $fld_id, $value)
     {
@@ -470,7 +470,7 @@ class Custom_Field
      * Method used to get the list of custom fields associated with
      * a given project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @param   string $form_type The type of the form
      * @param   string $fld_type The type of field (optional)
      * @param   bool    $for_edit True if the fld_min_role_edit permission should be checked
@@ -568,8 +568,8 @@ class Custom_Field
     /**
      * Method used to get the custom field option value.
      *
-     * @param   integer $fld_id The custom field ID
-     * @param   integer $value The custom field option ID
+     * @param   int $fld_id The custom field ID
+     * @param   int $value The custom field option ID
      * @return  string The custom field option value
      */
     public static function getOptionValue($fld_id, $value)
@@ -623,8 +623,8 @@ class Custom_Field
     /**
      * Method used to get the custom field key based on the value.
      *
-     * @param   integer $fld_id The custom field ID
-     * @param   integer $value The custom field option ID
+     * @param   int $fld_id The custom field ID
+     * @param   int $value The custom field option ID
      * @return  string The custom field option value
      */
     public static function getOptionKey($fld_id, $value)
@@ -677,9 +677,9 @@ class Custom_Field
      * values associated with a given issue ID. If usr_id is false method
      * defaults to current user.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $iss_id The issue ID
-     * @param   integer $usr_id The ID of the user who is going to be viewing this list.
+     * @param   int $prj_id The project ID
+     * @param   int $iss_id The issue ID
+     * @param   int $usr_id The ID of the user who is going to be viewing this list.
      * @param   mixed   $form_type The name of the form this is for or if this is an array the ids of the fields to return
      * @param   bool    $for_edit True if the fld_min_role_edit permission should be checked
      * @return  array The list of custom fields
@@ -830,8 +830,8 @@ class Custom_Field
     /**
      * Returns an array of fields and values for a specific issue
      *
-     * @param   integer $prj_id The ID of the project
-     * @param   integer $iss_id The ID of the issue to return values for
+     * @param   int $prj_id The ID of the project
+     * @param   int $iss_id The ID of the issue to return values for
      * @return  array An array containging fld_id => value
      */
     public static function getValuesByIssue($prj_id, $iss_id)
@@ -859,7 +859,7 @@ class Custom_Field
     /**
      * Method used to remove a given list of custom fields.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function remove()
     {
@@ -911,7 +911,7 @@ class Custom_Field
     /**
      * Method used to add a new custom field to the system.
      *
-     * @return  integer 1 if the insert worked, -1 otherwise
+     * @return  int 1 if the insert worked, -1 otherwise
      */
     public static function insert()
     {
@@ -1005,9 +1005,9 @@ class Custom_Field
     /**
      * Method used to associate a custom field to a project.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $fld_id The custom field ID
-     * @return  boolean
+     * @param   int $prj_id The project ID
+     * @param   int $fld_id The custom field ID
+     * @return  bool
      */
     public static function associateProject($prj_id, $fld_id)
     {
@@ -1071,7 +1071,7 @@ class Custom_Field
      * Method used to get the list of associated projects with a given
      * custom field ID.
      *
-     * @param   integer $fld_id The project ID
+     * @param   int $fld_id The project ID
      * @return  array The list of associated projects
      */
     public static function getAssociatedProjects($fld_id)
@@ -1099,8 +1099,8 @@ class Custom_Field
     /**
      * Method used to get the details of a specific custom field.
      *
-     * @param   integer $fld_id The custom field ID
-     * @param   boolean $force_refresh If the details must be loaded again from the database
+     * @param   int $fld_id The custom field ID
+     * @param   bool $force_refresh If the details must be loaded again from the database
      * @return  array The custom field details
      */
     public static function getDetails($fld_id, $force_refresh = false)
@@ -1138,9 +1138,9 @@ class Custom_Field
      * Method used to get the list of custom field options associated
      * with a given custom field ID.
      *
-     * @param   integer $fld_id The custom field ID
+     * @param   int $fld_id The custom field ID
      * @param   array $ids An array of ids to return values for.
-     * @param   integer $issue_id The ID of the issue
+     * @param   int $issue_id The ID of the issue
      * @param   string $form_type
      * @param   string $order_by The field and order to sort by. If null it will use the field setting
      * @return array The list of custom field options
@@ -1204,7 +1204,7 @@ class Custom_Field
     /**
      * Method used to update the details for a specific custom field.
      *
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function update()
     {
@@ -1345,7 +1345,7 @@ class Custom_Field
      * Method used to get the list of custom fields associated with a
      * given project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of custom fields
      */
     public static function getFieldsByProject($prj_id)
@@ -1369,10 +1369,10 @@ class Custom_Field
      * Method used to remove the issue associations related to a given
      * custom field ID.
      *
-     * @param   integer[] $fld_id The custom field ID
-     * @param   integer $issue_id The issue ID (not required)
-     * @param   integer $prj_id The project ID (not required)
-     * @return  boolean
+     * @param   int[] $fld_id The custom field ID
+     * @param   int $issue_id The issue ID (not required)
+     * @param   int $prj_id The project ID (not required)
+     * @return  bool
      */
     public static function removeIssueAssociation($fld_id, $issue_id = null, $prj_id = null)
     {
@@ -1422,7 +1422,7 @@ class Custom_Field
      * a given list of custom field IDs.
      *
      * @param   array $ids The list of custom field IDs
-     * @return  boolean
+     * @return  bool
      */
     public static function removeOptionsByFields($ids)
     {
@@ -1447,7 +1447,7 @@ class Custom_Field
     /**
      * Method to return the names of the fields which should be displayed on the list issues page.
      *
-     * @param   integer $prj_id The ID of the project.
+     * @param   int $prj_id The ID of the project.
      * @return  array An array of custom field names.
      */
     public static function getFieldsToBeListed($prj_id)
@@ -1478,7 +1478,7 @@ class Custom_Field
      * Returns the fld_id of the field with the specified title
      *
      * @param   string $title The title of the field
-     * @return  integer The fld_id
+     * @return  int The fld_id
      */
     public static function getIDByTitle($title)
     {
@@ -1504,9 +1504,9 @@ class Custom_Field
     /**
      * Returns the value for the specified field
      *
-     * @param   integer $iss_id The ID of the issue
-     * @param   integer $fld_id The ID of the field
-     * @param   boolean $raw If the raw value should be displayed
+     * @param   int $iss_id The ID of the issue
+     * @param   int $fld_id The ID of the field
+     * @param   bool $raw If the raw value should be displayed
      * @return mixed an array or string containing the value
      */
     public static function getDisplayValue($iss_id, $fld_id, $raw = false)
@@ -1551,7 +1551,7 @@ class Custom_Field
     /**
      * Returns the current maximum rank of any custom fields.
      *
-     * @return  integer The highest rank
+     * @return  int The highest rank
      */
     public static function getMaxRank()
     {
@@ -1610,9 +1610,9 @@ class Custom_Field
     /**
      * Sets the rank of a custom field
      *
-     * @param   integer $fld_id The ID of the field
-     * @param   integer $rank The new rank for this field
-     * @return  integer 1 if successful, -1 otherwise
+     * @param   int $fld_id The ID of the field
+     * @param   int $rank The new rank for this field
+     * @return  int 1 if successful, -1 otherwise
      */
     public static function setRank($fld_id, $rank)
     {
@@ -1670,7 +1670,7 @@ class Custom_Field
      * Returns an instance of custom field backend class if it exists for the
      * specified field.
      *
-     * @param   integer $fld_id The ID of the field
+     * @param   int $fld_id The ID of the field
      * @return  mixed false if there is no backend or an instance of the backend class
      */
     public static function getBackend($fld_id)
@@ -1727,7 +1727,7 @@ class Custom_Field
     /**
      * Searches a specified custom field for a string and returns any issues that match
      *
-     * @param   integer $fld_id The ID of the custom field
+     * @param   int $fld_id The ID of the custom field
      * @param   string  $search The string to search for
      * @return  array An array of issue IDs
      * @deprecated method not used
@@ -1764,8 +1764,8 @@ class Custom_Field
      * Formats the return value
      *
      * @param   mixed   $value The value to format
-     * @param   integer $fld_id The ID of the field
-     * @param   integer $issue_id The ID of the issue
+     * @param   int $fld_id The ID of the field
+     * @param   int $issue_id The ID of the issue
      * @return  mixed   the formatted value.
      */
     public static function formatValue($value, $fld_id, $issue_id)
@@ -1782,7 +1782,7 @@ class Custom_Field
      * This method inserts a blank value for all custom fields that do not already have a record.
      * It currently is not called by the main code, but is included to be called from workflow classes.
      *
-     * @param   integer $issue_id The Issue ID
+     * @param   int $issue_id The Issue ID
      * @deprecated method not used
      */
     public static function populateAllFields($issue_id)
@@ -1827,7 +1827,7 @@ class Custom_Field
      * Analyzes the contents of the issue_custom_field and updates
      * contents based on the fld_type.
      *
-     * @param   integer $fld_id
+     * @param   int $fld_id
      * @return bool
      */
     public static function updateValuesForNewType($fld_id)

@@ -114,8 +114,8 @@ abstract class Abstract_Partner_Backend
     /**
      * If the partner can edit the issue.
      *
-     * @param integer   $issue_id
-     * @param integer   $usr_id
+     * @param int   $issue_id
+     * @param int   $usr_id
      * @return bool
      */
     public static function canUpdateIssue($issue_id, $usr_id)

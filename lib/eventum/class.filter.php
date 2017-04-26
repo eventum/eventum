@@ -22,8 +22,8 @@ class Filter
      * Method used to check whether the given custom filter is a
      * global one or not.
      *
-     * @param   integer $cst_id The custom filter ID
-     * @return  boolean
+     * @param   int $cst_id The custom filter ID
+     * @return  bool
      */
     public static function isGlobal($cst_id)
     {
@@ -51,9 +51,9 @@ class Filter
      * Method used to check whether the given user is the owner of the custom
      * filter ID.
      *
-     * @param   integer $cst_id The custom filter ID
-     * @param   integer $usr_id The user ID
-     * @return  boolean
+     * @param   int $cst_id The custom filter ID
+     * @param   int $usr_id The user ID
+     * @return  bool
      */
     public static function isOwner($cst_id, $usr_id)
     {
@@ -82,7 +82,7 @@ class Filter
      * Method used to save the changes made to an existing custom
      * filter, or to create a new custom filter.
      *
-     * @return  integer 1 if the update worked properly, any other value otherwise
+     * @return  int 1 if the update worked properly, any other value otherwise
      */
     public static function save()
     {
@@ -350,7 +350,7 @@ class Filter
      * filter title.
      *
      * @param   string $cst_title The custom filter title
-     * @return  integer The custom filter ID
+     * @return  int The custom filter ID
      */
     public static function getFilterID($cst_title)
     {
@@ -409,7 +409,7 @@ class Filter
      * filters associated with the current user and the current
      * 'active' project.
      *
-     * @param   boolean $build_url If a URL for this filter should be constructed.
+     * @param   bool $build_url If a URL for this filter should be constructed.
      * @return  array The full list of custom filters
      */
     public static function getListing($build_url = false)
@@ -514,8 +514,8 @@ class Filter
      * Method used to get an associative array of the full details of
      * a specific custom filter.
      *
-     * @param   integer $cst_id The custom filter ID
-     * @param   boolean $check_perm Whether to check for the permissions or not
+     * @param   int $cst_id The custom filter ID
+     * @param   bool $check_perm Whether to check for the permissions or not
      * @return  array The custom filter details
      */
     public static function getDetails($cst_id, $check_perm = true)
@@ -553,7 +553,7 @@ class Filter
     /**
      * Method used to remove specific custom filters.
      *
-     * @return  integer 1 if the removals worked properly, any other value otherwise
+     * @return  int 1 if the removals worked properly, any other value otherwise
      */
     public static function remove()
     {

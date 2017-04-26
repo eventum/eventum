@@ -42,7 +42,7 @@ class Mail_Helper
     /**
      * Correctly formats the subject line of outgoing emails/notes
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $subject The subject to be formatted
      * @return  string The formatted subject
      */
@@ -57,7 +57,7 @@ class Mail_Helper
      * If the second parameter is true, issue #'s will also be stripped.
      *
      * @param   string $subject The subject line
-     * @param   boolean $remove_issue_id If the issue ID should be removed
+     * @param   bool $remove_issue_id If the issue ID should be removed
      * @return  string The subject line with the extra occurrences removed from it
      */
     public static function removeExcessRe($subject, $remove_issue_id = false)
@@ -99,7 +99,7 @@ class Mail_Helper
      * auto-responder message or not.
      *
      * @param   array $headers The list of headers
-     * @return  boolean
+     * @return  bool
      */
     public static function isVacationAutoResponder($headers)
     {
@@ -142,8 +142,8 @@ class Mail_Helper
      *
      * @param string  $address         The address(es) to validate.
      * @param string  $default_domain  Default domain/host etc.
-     * @param boolean $nest_groups     Whether to return the structure with groups nested for easier viewing.
-     * @param boolean $validate        Whether to validate atoms. Turn this off if you need to run addresses through before encoding the personal names, for instance.
+     * @param bool $nest_groups     Whether to return the structure with groups nested for easier viewing.
+     * @param bool $validate        Whether to validate atoms. Turn this off if you need to run addresses through before encoding the personal names, for instance.
      * @return array A structured array of addresses.
      */
     public static function parseAddressList($address, $default_domain = null, $nest_groups = null, $validate = null, $limit = null)
@@ -203,7 +203,7 @@ class Mail_Helper
      * Expands "Groups" into single addresses.
      *
      * @param   string $address The email address value
-     * @param   boolean $multiple If multiple addresses should be returned
+     * @param   bool $multiple If multiple addresses should be returned
      * @return  array The address information
      */
     public static function getAddressInfo($address, $multiple = false)
@@ -294,7 +294,7 @@ class Mail_Helper
      * Method used to get the name portion of a given recipient information.
      *
      * @param   string $address The email address value
-     * @param   boolean $multiple If multiple addresses should be returned
+     * @param   bool $multiple If multiple addresses should be returned
      * @return  mixed The name or an array of names if multiple is true
      */
     public static function getName($address, $multiple = false)
@@ -449,7 +449,7 @@ class Mail_Helper
      * Method used to add a customized warning message to the body
      * of outgoing emails.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $to The recipient of the message
      * @param   string $body The body of the message
      * @param   array $headers The headers of the message
@@ -525,10 +525,10 @@ class Mail_Helper
      * @param   string $from The originator of the message
      * @param   string $to The recipient of the message
      * @param   string $subject The subject of the message
-     * @param   integer $issue_id The ID of the issue. If false, email will not be associated with issue.
+     * @param   int $issue_id The ID of the issue. If false, email will not be associated with issue.
      * @param   string $type The type of message this is
-     * @param   integer $sender_usr_id The id of the user sending this email.
-     * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
+     * @param   int $sender_usr_id The id of the user sending this email.
+     * @param   int $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      */
     public function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
     {
@@ -682,7 +682,7 @@ class Mail_Helper
     /**
      * Generates the specialized headers for an email.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $type The type of message this is
      * @return  array An array of specialized headers
      */
@@ -902,7 +902,7 @@ class Mail_Helper
      * Returns a complete list of references for an email/note, including
      * the issue root message ID
      *
-     * @param   integer $issue_id The ID of the issue
+     * @param   int $issue_id The ID of the issue
      * @param   string $msg_id The ID of the message
      * @param   string $type If this is a note or an email
      * @return  array An array of message IDs

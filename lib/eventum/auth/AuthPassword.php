@@ -40,7 +40,7 @@ class AuthPassword
      *
      * @param string $hash The hash to verify against
      * @param string $password The password to verify
-     * @return boolean If the password matches the hash
+     * @return bool If the password matches the hash
      * @throws InvalidArgumentException in case non-strings were passed as hash or password
      */
     public static function verify($password, $hash)
@@ -67,7 +67,7 @@ class AuthPassword
      * If the answer is true, after validating the password using password_verify, rehash it.
      *
      * @param string $hash The hash to test
-     * @return boolean True if the password needs to be rehashed.
+     * @return bool True if the password needs to be rehashed.
      */
     public static function needs_rehash($hash)
     {

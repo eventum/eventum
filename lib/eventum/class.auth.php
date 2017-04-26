@@ -78,7 +78,7 @@ class Auth
      * to another page if needed.
      *
      * @param   string $failed_url The URL to redirect to if the user is not authenticated
-     * @param   boolean $is_popup Flag to tell the function if the current page is a popup window or not
+     * @param   bool $is_popup Flag to tell the function if the current page is a popup window or not
      */
     public static function checkAuthentication($failed_url = null, $is_popup = false)
     {
@@ -216,7 +216,7 @@ class Auth
      * or not.
      *
      * @param   string $email The email address to be checked
-     * @return  boolean
+     * @return  bool
      */
     public static function isPendingUser($email)
     {
@@ -232,7 +232,7 @@ class Auth
      * Method to check whether an user is active or not.
      *
      * @param   string $email The email address to be checked
-     * @return  boolean
+     * @return  bool
      */
     public static function isActiveUser($email)
     {
@@ -247,7 +247,7 @@ class Auth
     /**
      * Method to check if the current user is an anonymous user.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function isAnonUser()
     {
@@ -258,7 +258,7 @@ class Auth
      * Method used to redirect people to another URL.
      *
      * @param   string $url The URL the user should be redirected to
-     * @param   boolean $is_popup Whether the current window is a popup or not
+     * @param   bool $is_popup Whether the current window is a popup or not
      */
     public static function redirect($url, $is_popup = false)
     {
@@ -301,7 +301,7 @@ class Auth
      * Checks whether an user exists or not in the database.
      *
      * @param string $login The email address to check for
-     * @return boolean
+     * @return bool
      */
     public static function userExists($login)
     {
@@ -318,7 +318,7 @@ class Auth
      *
      * @param   string $email The email address to check for
      * @param   string $password The password of the user to check for
-     * @return  boolean
+     * @return  bool
      */
     public static function isCorrectPassword($email, $password)
     {
@@ -329,7 +329,7 @@ class Auth
      * Returns the true if the account is currently locked becouse of Back-Off lock
      *
      * @param   string $usr_id The user id to check for
-     * @return  boolean
+     * @return  bool
      */
     public static function isUserBackOffLocked($usr_id)
     {
@@ -339,7 +339,7 @@ class Auth
     /**
      * Gets the current user ID.
      *
-     * @return  integer The ID of the user
+     * @return  int The ID of the user
      */
     public static function getUserID()
     {
@@ -369,7 +369,7 @@ class Auth
     /**
      * Gets the current selected project from the project cookie.
      *
-     * @return  integer The project ID
+     * @return  int The project ID
      */
     public static function getCurrentProject($redirect = true)
     {
@@ -408,7 +408,7 @@ class Auth
     /**
      * Gets the current role in the current project.
      *
-     * @return  integer The current role ID
+     * @return  int The current role ID
      */
     public static function getCurrentRole()
     {

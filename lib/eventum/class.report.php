@@ -22,7 +22,7 @@ class Report
     /**
      * Method used to get all open issues and group them by user.
      *
-     * @param integer $prj_id The project ID
+     * @param int $prj_id The project ID
      * @param array $users
      * @param array $status
      * @param string $before_date
@@ -141,8 +141,8 @@ class Report
     /**
      * Method used to get all open issues and group them by assignee or reporter.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $cutoff_days The number of days to use as a cutoff period
+     * @param   int $prj_id The project ID
+     * @param   int $cutoff_days The number of days to use as a cutoff period
      * @param bool $group_by_reporter
      * @return  array The list of issues
      */
@@ -234,7 +234,7 @@ class Report
      * Method used to get the list of issues in a project, and group
      * them by the assignee.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of issues
      */
     public static function getIssuesByUser($prj_id)
@@ -416,7 +416,7 @@ class Report
      * Returns data used by the workload by time period report.
      *
      * @param   string $timezone Timezone to display time in in addition to GMT
-     * @param   boolean $graph If the data should be formatted for use in a graph. Default false
+     * @param   bool $graph If the data should be formatted for use in a graph. Default false
      * @return  array An array of data.
      */
     public static function getWorkloadByTimePeriod($timezone, $graph = false)
@@ -506,7 +506,7 @@ class Report
      * Returns data on when support emails are sent/received.
      *
      * @param   string $timezone Timezone to display time in in addition to GMT
-     * @param   boolean $graph If the data should be formatted for use in a graph. Default false
+     * @param   bool $graph If the data should be formatted for use in a graph. Default false
      * @return  array An array of data.
      */
     public static function getEmailWorkloadByTimePeriod($timezone, $graph = false)
@@ -626,14 +626,14 @@ class Report
     /**
      * Returns data for the custom fields report, based on the field and options passed in.
      *
-     * @param   integer $fld_id The id of the custom field.
+     * @param   int $fld_id The id of the custom field.
      * @param   array $cfo_ids An array of option ids.
      * @param   string $group_by How the data should be grouped.
      * @param   string $start_date
      * @param   string $end_date
-     * @param   boolean $list If the values should be listed out instead of just counted.
+     * @param   bool $list If the values should be listed out instead of just counted.
      * @param   string $interval The interval values should be grouped over time, empty (none) by default.
-     * @param   integer $assignee The assignee the issue should belong to.
+     * @param   int $assignee The assignee the issue should belong to.
      * @return  array An array of data.
      */
     public static function getCustomFieldReport($fld_id, $cfo_ids, $group_by = 'issue', $start_date = null, $end_date = null, $list = false, $interval = null, $assignee = null)
@@ -850,11 +850,11 @@ class Report
     /**
      * Returns data for the custom fields weekly report, based on the field and options passed in.
      *
-     * @param   integer $fld_id The id of the custom field.
+     * @param   int $fld_id The id of the custom field.
      * @param   array $cfo_ids An array of option ids.
      * @param   string $start_date
      * @param   string $end_date
-     * @param   boolean $per_user Show time spent per user
+     * @param   bool $per_user Show time spent per user
      * @return  array An array of data.
      */
     public static function getCustomFieldWeeklyReport($fld_id, $cfo_ids, $start_date, $end_date, $per_user = false)
@@ -946,7 +946,7 @@ class Report
      * @param   string $type If this report is aggregate or individual
      * @param   string $start The start date of this report.
      * @param   string $end The end date of this report.
-     * @param   integer $category_id The category to restrict this report to
+     * @param   int $category_id The category to restrict this report to
      * @return  array An array containing workload data.
      */
     public static function getWorkloadByDateRange($interval, $type, $start, $end, $category_id)

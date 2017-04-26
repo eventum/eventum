@@ -221,10 +221,10 @@ class Search
     /**
      * Method used to get the list of issues to be displayed in the grid layout.
      *
-     * @param   integer $prj_id The current project ID
+     * @param   int $prj_id The current project ID
      * @param   array $options The search parameters
-     * @param   integer $current_row The current page number
-     * @param   integer $max The maximum number of rows per page. 'ALL' for unlimited.
+     * @param   int $current_row The current page number
+     * @param   int $max The maximum number of rows per page. 'ALL' for unlimited.
      * @return  array The list of issues to be displayed
      */
     public static function getListing($prj_id, $options, $current_row = 0, $max = 5)

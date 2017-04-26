@@ -123,8 +123,8 @@ class Mail_Queue
      * emails just recently queued (status = 'pending').
      *
      * @param   string $status The status of the messages that need to be sent
-     * @param   integer $limit The limit of emails that we should send at one time
-     * @param   boolean $merge Whether or not to send one merged email for multiple entries with the same status and type.
+     * @param   int $limit The limit of emails that we should send at one time
+     * @param   bool $merge Whether or not to send one merged email for multiple entries with the same status and type.
      */
     public static function send($status, $limit = null, $merge = false)
     {
@@ -273,7 +273,7 @@ class Mail_Queue
      * Retrieves the list of queued email messages ids, given a status.
      *
      * @param   string $status The status of the messages
-     * @param   integer $limit The limit on the number of messages that need to be returned
+     * @param   int $limit The limit on the number of messages that need to be returned
      * @return  array The list of queued email messages
      */
     private function _getList($status, $limit)
@@ -302,7 +302,7 @@ class Mail_Queue
      * Retrieves the list of queued email messages ids, given a status, merged together by type
      *
      * @param   string $status The status of the messages
-     * @param   integer $limit The limit on the number of messages that need to be returned
+     * @param   int $limit The limit on the number of messages that need to be returned
      * @return  array The list of queued email messages
      */
     private function _getMergedList($status, $limit = null)
@@ -341,7 +341,7 @@ class Mail_Queue
     /**
      * Retrieves queued email by maq_id.
      *
-     * @param   integer $maq_id ID of queue entry
+     * @param   int $maq_id ID of queue entry
      * @return  array The queued email message
      */
     private function _getEntry($maq_id)
@@ -416,10 +416,10 @@ class Mail_Queue
      * Saves a log entry about the attempt, successful or otherwise, to send the
      * queued email message. Also updates maq_status of $maq_id to $status.
      *
-     * @param   integer $maq_id The queued email message ID
+     * @param   int $maq_id The queued email message ID
      * @param   string $status The status of the attempt ('sent' or 'error')
      * @param   string $server_message The full message from the SMTP server, in case of an error
-     * @return  boolean
+     * @return  bool
      */
     private function _saveStatusLog($maq_id, $status, $server_message)
     {
@@ -460,7 +460,7 @@ class Mail_Queue
     /**
      * Returns the mail queue for a specific issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array An array of emails from the queue
      */
     public static function getListByIssueID($issue_id)
@@ -490,7 +490,7 @@ class Mail_Queue
      * Returns the mail queue entry based on ID.
      *
      * @acess   public
-     * @param   integer $maq_id The id of the mail queue entry.
+     * @param   int $maq_id The id of the mail queue entry.
      * @return  array An array of information
      */
     public static function getEntry($maq_id)
@@ -549,7 +549,7 @@ class Mail_Queue
     /**
      * Truncates the maq_body field of any emails older then one month.
      *
-     * @return boolean
+     * @return bool
      */
     public static function truncate()
     {

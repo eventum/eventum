@@ -58,7 +58,7 @@ class Prefs
     /**
      * Method used to get the preferences set by a specific user.
      *
-     * @param integer $usr_id The user ID
+     * @param int $usr_id The user ID
      * @param bool $force Set to true to force database refresh
      * @return array The preferences
      */
@@ -136,9 +136,9 @@ class Prefs
     /**
      * Method used to set the preferences for a specific user.
      *
-     * @param   integer $usr_id The user ID
+     * @param   int $usr_id The user ID
      * @param   array   $preferences An array of preferences
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function set($usr_id, $preferences)
     {

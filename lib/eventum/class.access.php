@@ -18,10 +18,10 @@ class Access
     /**
      * Method to determine if user can access a particular issue
      *
-     * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The ID of the user
-     * @param   boolean $log If the check should be logged. Default true
-     * @return  boolean If the user can access the issue
+     * @param   int $issue_id The ID of the issue.
+     * @param   int $usr_id The ID of the user
+     * @param   bool $log If the check should be logged. Default true
+     * @return  bool If the user can access the issue
      */
     public static function canAccessIssue($issue_id, $usr_id, $log = true)
     {

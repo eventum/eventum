@@ -22,7 +22,7 @@ class Authorized_Replier
      * Method used to get the full list of users (the full names) authorized to
      * reply to emails in a given issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The list of users
      */
     public static function getAuthorizedRepliers($issue_id)
@@ -79,7 +79,7 @@ class Authorized_Replier
     /**
      * Removes the specified authorized replier
      *
-     * @param   integer[] $iur_ids The ids of the authorized repliers
+     * @param   int[] $iur_ids The ids of the authorized repliers
      * @return int
      */
     public static function removeRepliers($iur_ids)
@@ -124,9 +124,9 @@ class Authorized_Replier
     /**
      * Adds the specified email address to the list of authorized users.
      *
-     * @param   integer $issue_id The id of the issue.
+     * @param   int $issue_id The id of the issue.
      * @param   string $email The email of the user.
-     * @param   boolean $add_history If this should be logged.
+     * @param   bool $add_history If this should be logged.
      * @return int
      */
     public static function manualInsert($issue_id, $email, $add_history = true)
@@ -183,9 +183,9 @@ class Authorized_Replier
     /**
      * Adds a real user to the authorized repliers list.
      *
-     * @param   integer $issue_id The id of the issue.
-     * @param   integer $usr_id The id of the user.
-     * @param   boolean $add_history If this should be logged.
+     * @param   int $issue_id The id of the issue.
+     * @param   int $usr_id The id of the user.
+     * @param   bool $add_history If this should be logged.
      */
     public static function addUser($issue_id, $usr_id, $add_history = true)
     {
@@ -223,9 +223,9 @@ class Authorized_Replier
     /**
      * Returns if the specified user is authorized to reply to this issue.
      *
-     * @param   integer $issue_id The id of the issue.
+     * @param   int $issue_id The id of the issue.
      * @param   string  $email The email address to check.
-     * @return  boolean If the specified user is allowed to reply to the issue.
+     * @return  bool If the specified user is allowed to reply to the issue.
      */
     public static function isAuthorizedReplier($issue_id, $email)
     {
@@ -267,9 +267,9 @@ class Authorized_Replier
     /**
      * Returns if the specified usr_id is authorized to reply.
      *
-     * @param   integer $issue_id The id of the issue
-     * @param   integer $usr_id The id of the user.
-     * @return  boolean If the user is authorized to reply.
+     * @param   int $issue_id The id of the issue
+     * @param   int $usr_id The id of the user.
+     * @return  bool If the user is authorized to reply.
      */
     public static function isUserAuthorizedReplier($issue_id, $usr_id)
     {
@@ -296,7 +296,7 @@ class Authorized_Replier
     /**
      * Returns the replier based on the iur_id
      *
-     * @param   integer $iur_id The id of the authorized replier
+     * @param   int $iur_id The id of the authorized replier
      * @return  string The name/email of the replier
      */
     public static function getReplier($iur_id)
@@ -322,9 +322,9 @@ class Authorized_Replier
     /**
      * Returns the replier based on the given issue and email address combo.
      *
-     * @param   integer $issue_id The id of the issue.
+     * @param   int $issue_id The id of the issue.
      * @param   string $email The email address of the user
-     * @return  integer The id of the replier
+     * @return  int The id of the replier
      * @deprecated method not used
      */
     public static function getReplierIDByEmail($issue_id, $email)
@@ -353,10 +353,10 @@ class Authorized_Replier
     /**
      * Method used to remotely add an authorized replier to a given issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $usr_id The user ID of the person performing the change
-     * @param   boolean $replier The user ID of the authorized replier
-     * @return  integer The status ID
+     * @param   int $issue_id The issue ID
+     * @param   int $usr_id The user ID of the person performing the change
+     * @param   bool $replier The user ID of the authorized replier
+     * @return  int The status ID
      */
     public static function remoteAddAuthorizedReplier($issue_id, $usr_id, $replier)
     {

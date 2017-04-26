@@ -25,7 +25,7 @@ class Display_Column
      * This method will remove columns that should not be displayed, due to
      * lack of customer integration or insufficient role.
      *
-     * @param   integer $prj_id The ID of the project.
+     * @param   int $prj_id The ID of the project.
      * @param   string $page The page to return columns for.
      * @return  array An array of columns that should be displayed.
      */
@@ -90,7 +90,7 @@ class Display_Column
      * Returns the columns that have been selected to be displayed on the specified page. This list
      * contains all selected columns, even if they won't actually be displayed.
      *
-     * @param   integer $prj_id The ID of the project.
+     * @param   int $prj_id The ID of the project.
      * @param   string $page The page to return columns for.
      * @return  array An array of columns that should be displayed.
      */
@@ -227,7 +227,7 @@ class Display_Column
     /**
      * Saves settings on which columns should be displayed.
      *
-     * @return  integer 1 if settings were saved successfully, -1 if there was an error.
+     * @return  int 1 if settings were saved successfully, -1 if there was an error.
      */
     public static function save()
     {
@@ -274,7 +274,7 @@ class Display_Column
     /**
      * Adds records in database for new project.
      *
-     * @param   integer $prj_id The ID of the project.
+     * @param   int $prj_id The ID of the project.
      * @return int
      */
     public static function setupNewProject($prj_id)

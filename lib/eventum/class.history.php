@@ -40,9 +40,9 @@ class History
     /**
      * Method used to log the changes made against a specific issue.
      *
-     * @param integer $iss_id The issue ID
-     * @param integer $usr_id The ID of the user.
-     * @param integer|string $htt_id The type ID of this history event.
+     * @param int $iss_id The issue ID
+     * @param int $usr_id The ID of the user.
+     * @param int|string $htt_id The type ID of this history event.
      * @param string $summary The summary of the changes
      * @param array $context parameters used in summary
      * @param null $min_role The minimum role that can view this entry. If null will default to role from $htt_id
@@ -78,7 +78,7 @@ class History
     /**
      * Method used to get the list of changes made against a specific issue.
      *
-     * @param   integer $iss_id The issue ID
+     * @param   int $iss_id The issue ID
      * @param   string $order_by The order to sort the history
      * @return  array The list of changes
      */
@@ -115,7 +115,7 @@ class History
      * Returns the id for the history type based on name.
      *
      * @param   string $name The name of the history type
-     * @return  integer The id of this type.
+     * @return  int The id of this type.
      */
     public static function getTypeID($name)
     {
@@ -153,8 +153,8 @@ class History
     /**
      * Returns the role for the history type based on id.
      *
-     * @param   integer $id The id of the history type
-     * @return  integer The role of this type.
+     * @param   int $id The id of the history type
+     * @return  int The role of this type.
      */
     public static function getTypeRole($id)
     {
@@ -183,7 +183,7 @@ class History
     /**
      * Returns a list of issues touched by the specified user in the specified time frame in specified project.
      *
-     * @param integer $usr_id The id of the user
+     * @param int $usr_id The id of the user
      * @param int $prj_id The project id
      * @param string $start The start date
      * @param string $end The end date
@@ -245,7 +245,7 @@ class History
     /**
      * Returns the number of issues for the specified user that are currently set to the specified status(es).
      *
-     * @param integer $usr_id The id of the user.
+     * @param int $usr_id The id of the user.
      * @param int $prj_id The project id
      * @param string $start The start date
      * @param string $end The end date
@@ -292,8 +292,8 @@ class History
     /**
      * Returns the last person to close the issue
      *
-     * @param   integer $issue_id The ID of the issue
-     * @return  integer usr_id
+     * @param   int $issue_id The ID of the issue
+     * @return  int usr_id
      */
     public static function getIssueCloser($issue_id)
     {

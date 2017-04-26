@@ -51,9 +51,9 @@ class Attachment
      *
      * @param   string $data The binary data of this file download
      * @param   string $filename The filename
-     * @param   integer $filesize The size of this file
+     * @param   int $filesize The size of this file
      * @param   string $mimetype The mimetype of this file
-     * @param   boolean $force_inline If the file should be forced to render in the browser
+     * @param   bool $force_inline If the file should be forced to render in the browser
      */
     public static function outputDownload(&$data, $filename, $filesize, $mimetype, $force_inline = false)
     {
@@ -87,7 +87,7 @@ class Attachment
     /**
      * Method used to remove a specific file out of an existing attachment.
      *
-     * @param   integer $iaf_id The attachment file ID
+     * @param   int $iaf_id The attachment file ID
      * @return int -1 or -2 if the removal was not successful, 1 otherwise
      */
     public static function removeIndividualFile($iaf_id)
@@ -142,7 +142,7 @@ class Attachment
     /**
      * Method used to return the details for a given attachment.
      *
-     * @param   integer $file_id The attachment ID
+     * @param   int $file_id The attachment ID
      * @return  array The details of the attachment
      */
     public static function getDetails($file_id)
@@ -173,9 +173,9 @@ class Attachment
     /**
      * Method used to remove attachments from the database.
      *
-     * @param   integer $iat_id attachment_id.
-     * @param   boolean $add_history whether to add history entry.
-     * @return  integer Numeric code used to check for any errors
+     * @param   int $iat_id attachment_id.
+     * @param   bool $add_history whether to add history entry.
+     * @return  int Numeric code used to check for any errors
      */
     public static function remove($iat_id, $add_history = true)
     {
@@ -235,7 +235,7 @@ class Attachment
      * Method used to remove a specific file from an attachment, since every
      * attachment can have several files associated with it.
      *
-     * @param   integer $iaf_id The attachment file ID
+     * @param   int $iaf_id The attachment file ID
      * @return int
      */
     public static function removeFile($iaf_id)
@@ -256,7 +256,7 @@ class Attachment
     /**
      * Method used to get the full listing of files for a specific attachment.
      *
-     * @param   integer $attachment_id The attachment ID
+     * @param   int $attachment_id The attachment ID
      * @return  array The full list of files
      */
     public static function getFileList($attachment_id)
@@ -286,7 +286,7 @@ class Attachment
      * Method used to return the full list of attachments related to a specific
      * issue in the database.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The full list of attachments
      */
     public static function getList($issue_id)
@@ -364,10 +364,10 @@ class Attachment
      * @param int $issue_id The issue ID
      * @param int $usr_id The user ID
      * @param int[] $iaf_ids attachment file id-s to attach
-     * @param boolean $internal_only Whether this attachment is supposed to be internal only or not
+     * @param bool $internal_only Whether this attachment is supposed to be internal only or not
      * @param string $file_description File description text
      * @param string $unknown_user The email of the user who originally sent this email, who doesn't have an account.
-     * @param integer $associated_note_id The note ID that these attachments should be associated with
+     * @param int $associated_note_id The note ID that these attachments should be associated with
      */
     public static function attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description, $unknown_user = null, $associated_note_id = null)
     {
@@ -403,9 +403,9 @@ class Attachment
      * -2 - The uploaded file is already attached to the current issue.
      *  1 - The uploaded file was associated with the issue.
      *
-     * @param integer $usr_id The user ID
+     * @param int $usr_id The user ID
      * @param string $status The attachment status
-     * @return integer Numeric code used to check for any errors
+     * @return int Numeric code used to check for any errors
      * @deprecated this method uses super-globals, and doesn't emit exceptions
      */
     public static function attach($usr_id, $status = 'public')
@@ -434,9 +434,9 @@ class Attachment
     /**
      * Method used to add files to a specific attachment in the database.
      *
-     * @param   integer $attachment_id The attachment ID
+     * @param   int $attachment_id The attachment ID
      * @param   string $filename The filename to be added
-     * @return  int|boolean iaf_id if insert was success
+     * @return  int|bool iaf_id if insert was success
      */
     public static function addFile($attachment_id, $filename, $filetype, &$blob)
     {
@@ -533,13 +533,13 @@ class Attachment
     /**
      * Method used to add an attachment to the database.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $usr_id The user ID
+     * @param   int $issue_id The issue ID
+     * @param   int $usr_id The user ID
      * @param   string $description The description for this new attachment
-     * @param   boolean $internal_only Whether this attachment is supposed to be internal only or not
+     * @param   bool $internal_only Whether this attachment is supposed to be internal only or not
      * @param   string $unknown_user The email of the user who originally sent this email, who doesn't have an account.
-     * @param   integer $associated_note_id The note ID that these attachments should be associated with
-     * @return  integer The new attachment ID
+     * @param   int $associated_note_id The note ID that these attachments should be associated with
+     * @return  int The new attachment ID
      */
     public static function add($issue_id, $usr_id, $description, $internal_only = false, $unknown_user = null, $associated_note_id = null)
     {

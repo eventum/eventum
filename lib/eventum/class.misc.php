@@ -165,7 +165,7 @@ class Misc
      * @param   array $in_array The array to run the function against
      * @param   string $in_func The function to run
      * @param   array $in_args The array of arguments to pass to the function
-     * @param   integer $in_index Internal parameter to specify which index of the array we are currently mapping
+     * @param   int $in_index Internal parameter to specify which index of the array we are currently mapping
      * @return  array The mapped array
      */
     public static function array_map_deep(&$in_array, $in_func, $in_args = [], $in_index = 1)
@@ -195,7 +195,7 @@ class Misc
      * Method used to format a filesize in bytes to the appropriate string,
      * showing 'Kb' and 'Mb'.
      *
-     * @param   integer $bytes The filesize to format
+     * @param   int $bytes The filesize to format
      * @return  string The formatted filesize
      */
     public static function formatFileSize($bytes)
@@ -222,7 +222,7 @@ class Misc
      * (for Gigabytes; available since PHP 5.1.0).
      *
      * @param   string $val The size to format
-     * @return  integer size in bytes
+     * @return  int size in bytes
      */
     public static function return_bytes($val)
     {
@@ -381,9 +381,9 @@ class Misc
      * Method used to format the given number of minutes in a string showing
      * the number of hours and minutes (02:30)
      *
-     * @param   integer $minutes The number of minutes to format
-     * @param   boolean $omit_days If days should not be used, hours will just show up as greater than 24.
-     * @param   boolean $omit_empty If true, values that are "00" will be omitted.
+     * @param   int $minutes The number of minutes to format
+     * @param   bool $omit_days If days should not be used, hours will just show up as greater than 24.
+     * @param   bool $omit_empty If true, values that are "00" will be omitted.
      * @return  string The formatted time
      */
     public static function getFormattedTime($minutes, $omit_days = false, $omit_empty = false)
@@ -482,7 +482,7 @@ class Misc
      * web server user or not.
      *
      * @param   string $file The full path to the directory
-     * @return  boolean
+     * @return  bool
      */
     public static function isWritableDirectory($file)
     {
@@ -598,7 +598,7 @@ class Misc
     /**
      * Changes a boolean value to either "Yes" or "No".
      *
-     * @param   boolean $value The boolean value
+     * @param   bool $value The boolean value
      * @return  string Either 'Yes' or 'No'.
      */
     public static function getBooleanDisplayValue($value)

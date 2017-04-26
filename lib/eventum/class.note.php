@@ -23,8 +23,8 @@ class Note
      * Returns the next and previous notes associated with the given issue ID
      * and the currently selected note.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $not_id The currently selected note ID
+     * @param   int $issue_id The issue ID
+     * @param   int $not_id The currently selected note ID
      * @return  array The next and previous note ID
      */
     public static function getSideLinks($issue_id, $not_id)
@@ -61,7 +61,7 @@ class Note
     /**
      * Retrieves the details about a given note.
      *
-     * @param   integer $note_id The note ID
+     * @param   int $note_id The note ID
      * @return  array The note details
      */
     public static function getDetails($note_id)
@@ -151,7 +151,7 @@ class Note
     /**
      * Returns the blocked email message body associated with the given note ID.
      *
-     * @param   integer $note_id The note ID
+     * @param   int $note_id The note ID
      * @return  string The blocked email message body
      */
     public static function getBlockedMessage($note_id)
@@ -174,8 +174,8 @@ class Note
     /**
      * Returns the issue ID associated with the given note ID.
      *
-     * @param   integer $note_id The note ID
-     * @return  integer The issue ID
+     * @param   int $note_id The note ID
+     * @return  int The issue ID
      */
     public static function getIssueID($note_id)
     {
@@ -197,8 +197,8 @@ class Note
     /**
      * Returns the nth note for the specific issue. Sequence starts at 1.
      *
-     * @param   integer $issue_id The id of the issue.
-     * @param   integer $sequence The sequential number of the note.
+     * @param   int $issue_id The id of the issue.
+     * @param   int $sequence The sequential number of the note.
      * @return  array An array of data containing details about the note.
      */
     public static function getNoteBySequence($issue_id, $sequence)
@@ -226,7 +226,7 @@ class Note
     /**
      * Method used to get the unknown_user from the note table for the specified note id.
      *
-     * @param   integer $note_id The note ID
+     * @param   int $note_id The note ID
      * @return string
      */
     public static function getUnknownUser($note_id)
@@ -267,14 +267,14 @@ class Note
      * Method used to add a note using the user interface form
      * available in the application.
      *
-     * @param   integer $usr_id The user ID
-     * @param   integer $issue_id The issue ID
+     * @param   int $usr_id The user ID
+     * @param   int $issue_id The issue ID
      * @param   string  $unknown_user The email address of a user that sent the blocked email that was turned into this note. Default is false.
-     * @param   boolean $log If adding this note should be logged. Default true.
-     * @param   boolean $closing If The issue is being closed. Default false
-     * @param   boolean $send_notification Whether to send a notification about this note or not
+     * @param   bool $log If adding this note should be logged. Default true.
+     * @param   bool $closing If The issue is being closed. Default false
+     * @param   bool $send_notification Whether to send a notification about this note or not
      * @param bool $is_blocked
-     * @return  integer the new note id if the insert worked, -1 or -2 otherwise
+     * @return  int the new note id if the insert worked, -1 or -2 otherwise
      * @deprecated use insertNote() instead
      */
     public static function insertFromPost($usr_id, $issue_id, $unknown_user = null, $log = true, $closing = false, $send_notification = true, $is_blocked = false)
@@ -425,9 +425,9 @@ class Note
     /**
      * Method used to remove a specific note from the application.
      *
-     * @param   integer $note_id The note ID
-     * @param   boolean $log If this event should be logged or not. Default true
-     * @return  integer 1 if the removal worked, -1 or -2 otherwise
+     * @param   int $note_id The note ID
+     * @param   bool $log If this event should be logged or not. Default true
+     * @return  int 1 if the removal worked, -1 or -2 otherwise
      */
     public static function remove($note_id, $log = true)
     {
@@ -482,7 +482,7 @@ class Note
      * Method used to get the full listing of notes associated with
      * a specific issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The list of notes
      */
     public static function getListing($issue_id)
@@ -648,9 +648,9 @@ class Note
      * Returns the number of notes by a user in a time range.
      *
      * @param   string $usr_id The ID of the user
-     * @param   integer $start The timestamp of the start date
-     * @param   integer $end The timestanp of the end date
-     * @return  integer The number of notes by the user
+     * @param   int $start The timestamp of the start date
+     * @param   int $end The timestanp of the end date
+     * @return  int The number of notes by the user
      */
     public static function getCountByUser($usr_id, $start, $end)
     {
@@ -678,8 +678,8 @@ class Note
     /**
      * Method used to mark a note as having attachments associated with it.
      *
-     * @param   integer $note_id The note ID
-     * @return  boolean
+     * @param   int $note_id The note ID
+     * @return  bool
      */
     public static function setAttachmentFlag($note_id)
     {
@@ -702,7 +702,7 @@ class Note
      * Returns the total number of notes associated to the given issue ID.
      *
      * @param   string $issue_id The issue ID
-     * @return  integer The number of notes
+     * @return  int The number of notes
      * @deprecated method not used
      */
     public static function getTotalNotesByIssue($issue_id)
@@ -728,7 +728,7 @@ class Note
      * message-id.
      *
      * @param   string $message_id The message ID
-     * @return  integer The issue ID
+     * @return  int The issue ID
      */
     public static function getIssueByMessageID($message_id)
     {
@@ -787,7 +787,7 @@ class Note
      * message-id.
      *
      * @param   string $message_id The message ID
-     * @return  integer The note ID
+     * @return  int The note ID
      */
     public static function getIDByMessageID($message_id)
     {
@@ -817,7 +817,7 @@ class Note
      * Method used to get the message-ID associated with a given note
      * id.
      *
-     * @param   integer $id The ID
+     * @param   int $id The ID
      * @return  string The Message-ID
      */
     public static function getMessageIDbyID($id)
@@ -845,7 +845,7 @@ class Note
      * Checks if a message already is downloaded..
      *
      * @param   string $message_id The Message-ID header
-     * @return  boolean
+     * @return  bool
      */
     public static function exists($message_id)
     {

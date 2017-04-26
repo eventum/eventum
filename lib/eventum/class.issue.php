@@ -23,9 +23,9 @@ class Issue
     /**
      * Method used to check whether a given issue ID exists or not.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   boolean $check_project If we should check that this issue is in the current project
-     * @return  boolean
+     * @param   int $issue_id The issue ID
+     * @param   bool $check_project If we should check that this issue is in the current project
+     * @return  bool
      */
     public static function exists($issue_id, $check_project = true)
     {
@@ -55,7 +55,7 @@ class Issue
      * be used when customizing the issue listing screen in the 'last status
      * change date' column.
      *
-     * @param   boolean $display_customer_fields Whether to include any customer related fields or not
+     * @param   bool $display_customer_fields Whether to include any customer related fields or not
      * @return  array The list of available date fields
      */
     public static function getDateFieldsAssocList($display_customer_fields = false)
@@ -78,7 +78,7 @@ class Issue
      * Method used to get the full list of issue IDs and their respective
      * titles associated to a given project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of issues
      */
     public static function getAssocListByProject($prj_id)
@@ -104,8 +104,8 @@ class Issue
     /**
      * Method used to get the status of a given issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  integer The status ID
+     * @param   int $issue_id The issue ID
+     * @return  int The status ID
      */
     public static function getStatusID($issue_id)
     {
@@ -135,8 +135,8 @@ class Issue
     /**
      * Records the last customer action date for a given issue ID.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $issue_id The issue ID
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function recordLastCustomerAction($issue_id)
     {
@@ -161,8 +161,8 @@ class Issue
     /**
      * Returns the customer ID associated with the given issue ID.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  integer The customer ID associated with the issue
+     * @param   int $issue_id The issue ID
+     * @return  int The customer ID associated with the issue
      */
     public static function getCustomerID($issue_id)
     {
@@ -192,8 +192,8 @@ class Issue
     /**
      * Returns the contract ID associated with the given issue ID.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  integer The contract ID associated with the issue
+     * @param   int $issue_id The issue ID
+     * @return  int The contract ID associated with the issue
      */
     public static function getContractID($issue_id)
     {
@@ -223,9 +223,9 @@ class Issue
     /**
      * Sets the contract ID for a specific issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $contract_id The contract ID
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $issue_id The issue ID
+     * @param   int $contract_id The contract ID
+     * @return  int 1 if the update worked, -1 otherwise
      * @deprecated method not used?
      */
     public static function setContractID($issue_id, $contract_id)
@@ -257,8 +257,8 @@ class Issue
     /**
      * Returns the customer ID associated with the given issue ID.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  integer The customer ID associated with the issue
+     * @param   int $issue_id The issue ID
+     * @return  int The customer ID associated with the issue
      * @deprecated method not used?
      */
     public static function getContactID($issue_id)
@@ -289,9 +289,9 @@ class Issue
     /**
      * Method used to get the project associated to a given issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   boolean $force_refresh If the cache should not be used.
-     * @return  integer The project ID
+     * @param   int $issue_id The issue ID
+     * @param   bool $force_refresh If the cache should not be used.
+     * @return  int The project ID
      */
     public static function getProjectID($issue_id, $force_refresh = false)
     {
@@ -321,10 +321,10 @@ class Issue
     /**
      * Method used to remotely assign a given issue to an user.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $usr_id The user ID of the person performing the change
-     * @param   boolean $assignee The user ID of the assignee
-     * @return  integer The status ID
+     * @param   int $issue_id The issue ID
+     * @param   int $usr_id The user ID of the person performing the change
+     * @param   bool $assignee The user ID of the assignee
+     * @return  int The status ID
      */
     public static function remoteAssign($issue_id, $usr_id, $assignee)
     {
@@ -349,10 +349,10 @@ class Issue
     /**
      * Method used to set the status of a given issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $status_id The new status ID
-     * @param   boolean $notify If a notification should be sent about this change.
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $issue_id The issue ID
+     * @param   int $status_id The new status ID
+     * @param   bool $notify If a notification should be sent about this change.
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function setStatus($issue_id, $status_id, $notify = false)
     {
@@ -407,10 +407,10 @@ class Issue
     /**
      * Method used to remotely set the status of a given issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $usr_id The user ID of the person performing this change
-     * @param   integer $new_status The new status ID
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $issue_id The issue ID
+     * @param   int $usr_id The user ID of the person performing this change
+     * @param   int $new_status The new status ID
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function setRemoteStatus($issue_id, $usr_id, $new_status)
     {
@@ -431,9 +431,9 @@ class Issue
     /**
      * Method used to set the release of an issue
      *
-     * @param   integer $issue_id The ID of the issue
-     * @param   integer $pre_id The ID of the release to set this issue too
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $issue_id The ID of the issue
+     * @param   int $pre_id The ID of the release to set this issue too
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function setRelease($issue_id, $pre_id)
     {
@@ -457,8 +457,8 @@ class Issue
     /**
      * Returns the current release of an issue
      *
-     * @param   integer $issue_id The ID of the issue
-     * @return  integer The release ID
+     * @param   int $issue_id The ID of the issue
+     * @return  int The release ID
      */
     public static function getRelease($issue_id)
     {
@@ -480,9 +480,9 @@ class Issue
     /**
      * Method used to set the priority of an issue
      *
-     * @param   integer $issue_id The ID of the issue
-     * @param   integer $pri_id The ID of the priority to set this issue too
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $issue_id The ID of the issue
+     * @param   int $pri_id The ID of the priority to set this issue too
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function setPriority($issue_id, $pri_id)
     {
@@ -506,8 +506,8 @@ class Issue
     /**
      * Returns the current issue priority
      *
-     * @param   integer $issue_id The ID of the issue
-     * @return  integer The priority
+     * @param   int $issue_id The ID of the issue
+     * @return  int The priority
      */
     public static function getPriority($issue_id)
     {
@@ -529,9 +529,9 @@ class Issue
     /**
      * Method used to set the severity of an issue
      *
-     * @param   integer $issue_id The ID of the issue
-     * @param   integer $sev_id The ID of the severity to set this issue to
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $issue_id The ID of the issue
+     * @param   int $sev_id The ID of the severity to set this issue to
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function setSeverity($issue_id, $sev_id)
     {
@@ -555,8 +555,8 @@ class Issue
     /**
      * Returns the current issue severity
      *
-     * @param   integer $issue_id The ID of the issue
-     * @return  integer The severity
+     * @param   int $issue_id The ID of the issue
+     * @return  int The severity
      */
     public static function getSeverity($issue_id)
     {
@@ -578,9 +578,9 @@ class Issue
     /**
      * Method used to set the expected resolution date of an issue
      *
-     * @param   integer $issue_id The ID of the issue
+     * @param   int $issue_id The ID of the issue
      * @param   string $expected_resolution_date The Expected Resolution Date to set this issue too
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function setExpectedResolutionDate($issue_id, $expected_resolution_date)
     {
@@ -615,7 +615,7 @@ class Issue
     /**
      * Returns the current issue expected resolution date
      *
-     * @param   integer $issue_id The ID of the issue
+     * @param   int $issue_id The ID of the issue
      * @return  string The Expected Resolution Date
      */
     public static function getExpectedResolutionDate($issue_id)
@@ -638,9 +638,9 @@ class Issue
     /**
      * Method used to set the category of an issue
      *
-     * @param   integer $issue_id The ID of the issue
-     * @param   integer $prc_id The ID of the category to set this issue too
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $issue_id The ID of the issue
+     * @param   int $prc_id The ID of the category to set this issue too
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function setCategory($issue_id, $prc_id)
     {
@@ -664,8 +664,8 @@ class Issue
     /**
      * Returns the current issue category
      *
-     * @param   integer $issue_id The ID of the issue
-     * @return  integer The category
+     * @param   int $issue_id The ID of the issue
+     * @return  int The category
      */
     public static function getCategory($issue_id)
     {
@@ -688,10 +688,10 @@ class Issue
      * Method used to get all issues associated with a status that doesn't have
      * the 'closed' context.
      *
-     * @param   integer $prj_id The project ID to list issues from
-     * @param   integer $usr_id The user ID of the user requesting this information
-     * @param   boolean $show_all_issues Whether to show all open issues, or just the ones assigned to the given email address
-     * @param   integer $status_id The status ID to be used to restrict results
+     * @param   int $prj_id The project ID to list issues from
+     * @param   int $usr_id The user ID of the user requesting this information
+     * @param   bool $show_all_issues Whether to show all open issues, or just the ones assigned to the given email address
+     * @param   int $status_id The status ID to be used to restrict results
      * @return  array The list of open issues
      */
     public static function getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id)
@@ -752,7 +752,7 @@ class Issue
      * to the user who reported the issue, using the issue details like summary
      * and description as email fields.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The email parameters
      */
     public static function getReplyDetails($issue_id)
@@ -786,9 +786,9 @@ class Issue
      * Method used to record the last updated timestamp for a given
      * issue ID.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $type The type of update that was made (optional)
-     * @return  boolean
+     * @return  bool
      */
     public static function markAsUpdated($issue_id, $type = null)
     {
@@ -849,8 +849,8 @@ class Issue
      * Method used to check whether a given issue has duplicates
      * or not.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  boolean
+     * @param   int $issue_id The issue ID
+     * @return  bool
      */
     public static function hasDuplicates($issue_id)
     {
@@ -873,8 +873,8 @@ class Issue
      * Method used to update the duplicated issues for a given
      * issue ID.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $issue_id The issue ID
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function updateDuplicates($issue_id)
     {
@@ -935,7 +935,7 @@ class Issue
      * Method used to get a list of the duplicate issues for a given
      * issue ID.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The list of duplicates
      */
     public static function getDuplicateList($issue_id)
@@ -957,7 +957,7 @@ class Issue
      * Method used to get a list of the duplicate issues (and their details)
      * for a given issue ID.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The list of duplicates
      */
     public static function getDuplicateDetailsList($issue_id)
@@ -993,8 +993,8 @@ class Issue
     /**
      * Method used to clear the duplicate status of an issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $issue_id The issue ID
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function clearDuplicateStatus($issue_id)
     {
@@ -1026,9 +1026,9 @@ class Issue
     /**
      * Method used to mark an issue as a duplicate of an existing one.
      *
-     * @param integer $issue_id The issue ID
+     * @param int $issue_id The issue ID
      * @param int $dup_iss_id
-     * @return integer 1 if the update worked, -1 otherwise
+     * @return int 1 if the update worked, -1 otherwise
      */
     public static function markAsDuplicate($issue_id, $dup_iss_id)
     {
@@ -1091,7 +1091,7 @@ class Issue
      * Method used to get an associative array of user ID => user
      * status associated with a given issue ID.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The list of users
      */
     public static function getAssignedUsersStatus($issue_id)
@@ -1117,7 +1117,7 @@ class Issue
     /**
      * Method used to get the summary associated with a given issue ID.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  string The issue summary
      */
     public static function getTitle($issue_id)
@@ -1141,7 +1141,7 @@ class Issue
      * Method used to get the issue ID associated with a specific summary.
      *
      * @param   string $summary The summary to look for
-     * @return  integer The issue ID
+     * @return  int The issue ID
      * @deprecated method not used
      */
     public static function getIssueID($summary)
@@ -1164,7 +1164,7 @@ class Issue
     /**
      * Method used to add a new anonymous based issue in the system.
      *
-     * @return  integer The new issue ID
+     * @return  int The new issue ID
      */
     public static function addAnonymousReport()
     {
@@ -1241,14 +1241,14 @@ class Issue
     /**
      * Method used to close off an issue.
      *
-     * @param   integer $usr_id The user ID
-     * @param   integer $issue_id The issue ID
+     * @param   int $usr_id The user ID
+     * @param   int $issue_id The issue ID
      * @param   bool $send_notification Whether to send a notification about this action or not
-     * @param   integer $resolution_id The resolution ID
-     * @param   integer $status_id The status ID
+     * @param   int $resolution_id The resolution ID
+     * @param   int $status_id The status ID
      * @param   string $reason The reason for closing this issue
      * @param   string  $send_notification_to Who this notification should be sent too
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function close($usr_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason,
                                  $send_notification_to = 'internal')
@@ -1369,8 +1369,8 @@ class Issue
     /**
      * Method to update the details of a specific issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  integer 1 if the update worked, -1 or -2 otherwise
+     * @param   int $issue_id The issue ID
+     * @return  int 1 if the update worked, -1 or -2 otherwise
      */
     public static function update($issue_id)
     {
@@ -1632,9 +1632,9 @@ class Issue
     /**
      * Move the issue to a new project
      *
-     * @param integer $issue_id
-     * @param integer $new_prj_id
-     * @return integer 1 on success, -1 otherwise
+     * @param int $issue_id
+     * @param int $new_prj_id
+     * @return int 1 on success, -1 otherwise
      */
     public static function moveIssue($issue_id, $new_prj_id)
     {
@@ -1700,11 +1700,11 @@ class Issue
     /**
      * Method used to assign an issue with an user.
      *
-     * @param   integer $usr_id The user ID of the person performing this change
-     * @param   integer $issue_id The issue ID
-     * @param   integer $assignee_usr_id The user ID of the assignee
-     * @param   boolean $add_history Whether to add a history entry about this or not
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $usr_id The user ID of the person performing this change
+     * @param   int $issue_id The issue ID
+     * @param   int $assignee_usr_id The user ID of the assignee
+     * @param   bool $add_history Whether to add a history entry about this or not
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function addUserAssociation($usr_id, $issue_id, $assignee_usr_id, $add_history = true)
     {
@@ -1738,7 +1738,7 @@ class Issue
      * Method used to delete all user assignments for a specific issue.
      *
      * @param   int|array $issue_id The issue ID
-     * @param   integer $usr_id The user ID of the person performing the change
+     * @param   int $usr_id The user ID of the person performing the change
      * @return int
      */
     public static function deleteUserAssociations($issue_id, $usr_id = null)
@@ -1768,9 +1768,9 @@ class Issue
     /**
      * Method used to delete a single user assignments for a specific issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $usr_id The user to remove.
-     * @param   boolean $add_history Whether to add a history entry about this or not
+     * @param   int $issue_id The issue ID
+     * @param   int $usr_id The user to remove.
+     * @param   bool $add_history Whether to add a history entry about this or not
      * @return int
      */
     public static function deleteUserAssociation($issue_id, $usr_id, $add_history = true)
@@ -1800,17 +1800,17 @@ class Issue
     /**
      * Creates an issue with the given email information.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $usr_id The user responsible for this action
+     * @param   int $prj_id The project ID
+     * @param   int $usr_id The user responsible for this action
      * @param   string $sender The original sender of this email
      * @param   string $summary The issue summary
      * @param   string $description The issue description
-     * @param   integer $category The category ID
-     * @param   integer $priority The priority ID
+     * @param   int $category The category ID
+     * @param   int $priority The priority ID
      * @param   array $assignment The list of users to assign this issue to
      * @param   string $date The date the email was originally sent.
      * @param   string $msg_id The message ID of the email we are creating this issue from.
-     * @param   integer $severity
+     * @param   int $severity
      * @param   string $customer_id
      * @param   string $contact_id
      * @param   string $contract_id
@@ -1994,7 +1994,7 @@ class Issue
     /**
      * Method used to add a new issue using the normal report form.
      *
-     * @return  integer The new issue ID
+     * @return  int The new issue ID
      */
     public static function createFromPost()
     {
@@ -2202,9 +2202,9 @@ class Issue
     /**
      * Insert issue to database.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @param   array $data of issue to be inserted
-     * @return  integer The new issue ID
+     * @return  int The new issue ID
      */
     private static function insertIssue($prj_id, $data)
     {
@@ -2367,7 +2367,7 @@ class Issue
     /**
      * Retrieves the last status change date for the given issue.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @param   array $result The associative array of data
      * @see     Search::getListing()
      */
@@ -2410,7 +2410,7 @@ class Issue
      * Method used to get the previous and next issues that are available
      * according to the current search parameters.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   array $options The search parameters
      * @return  array The list of issues
      */
@@ -2436,7 +2436,7 @@ class Issue
      * Method used to get the full list of user IDs assigned to a specific
      * issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The list of user IDs
      */
     public static function getAssignedUserIDs($issue_id)
@@ -2461,9 +2461,9 @@ class Issue
     /**
      * Method used to see if a user is assigned to an issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $usr_id An integer containg the ID of the user.
-     * @return  boolean true if the user(s) are assigned to the issue.
+     * @param   int $issue_id The issue ID
+     * @param   int $usr_id An integer containg the ID of the user.
+     * @return  bool true if the user(s) are assigned to the issue.
      */
     public static function isAssignedToUser($issue_id, $usr_id)
     {
@@ -2597,7 +2597,7 @@ class Issue
      * Method used to get the full list of users (the full names) assigned to a
      * specific issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The list of users
      */
     public static function getAssignedUsers($issue_id)
@@ -2623,7 +2623,7 @@ class Issue
      * Method used to get the full list of users (the email usernames) assigned to a
      * specific issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The list of users
      * @deprecated method not used
      */
@@ -2650,8 +2650,8 @@ class Issue
     /**
      * Method used to get the details for a specific issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   boolean $force_refresh If the cache should not be used.
+     * @param   int $issue_id The issue ID
+     * @param   bool $force_refresh If the cache should not be used.
      * @return  array The details for the specified issue
      */
     public static function getDetails($issue_id, $force_refresh = false)
@@ -2811,7 +2811,7 @@ class Issue
     /**
      * Method used to get some simple details about the given duplicated issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The duplicated issue details
      */
     public static function getDuplicatedDetails($issue_id)
@@ -2838,7 +2838,7 @@ class Issue
     /**
      * Method used to bulk update a list of issues
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function bulkUpdate()
     {
@@ -3051,8 +3051,8 @@ class Issue
     /**
      * Method used to check whether an issue was already closed or not.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  boolean
+     * @param   int $issue_id The issue ID
+     * @return  bool
      */
     public static function isClosed($issue_id)
     {
@@ -3108,8 +3108,8 @@ class Issue
     /**
      * Returns the status of a quarantine.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  integer Indicates what the current state of quarantine is.
+     * @param   int $issue_id The issue ID
+     * @return  int Indicates what the current state of quarantine is.
      */
     public static function getQuarantineInfo($issue_id)
     {
@@ -3140,8 +3140,8 @@ class Issue
      * Sets the quarantine status. Optionally an expiration date can be set
      * to indicate when the quarantine expires. A status > 0 indicates that quarantine is active.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $status The quarantine status
+     * @param   int $issue_id The issue ID
+     * @param   int $status The quarantine status
      * @param   string  $expiration The expiration date of quarantine (default empty)
      * @return int
      */
@@ -3216,9 +3216,9 @@ class Issue
     /**
      * Sets the group of the issue.
      *
-     * @param   integer $issue_id The ID of the issue
-     * @param   integer $group_id The ID of the group
-     * @return  integer 1 if successful, -1 or -2 otherwise
+     * @param   int $issue_id The ID of the issue
+     * @param   int $group_id The ID of the group
+     * @return  int 1 if successful, -1 or -2 otherwise
      * @deprecated method not used
      */
     public static function setGroup($issue_id, $group_id)
@@ -3258,8 +3258,8 @@ class Issue
     /**
      * Returns the group ID associated with the given issue ID.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  integer The associated group ID
+     * @param   int $issue_id The issue ID
+     * @return  int The associated group ID
      */
     public static function getGroupID($issue_id)
     {
@@ -3281,9 +3281,9 @@ class Issue
     /**
      * Method to determine if user can access a particular issue
      *
-     * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The ID of the user
-     * @return  boolean If the user can access the issue
+     * @param   int $issue_id The ID of the issue.
+     * @param   int $usr_id The ID of the user
+     * @return  bool If the user can access the issue
      */
     public static function canAccess($issue_id, $usr_id)
     {
@@ -3293,9 +3293,9 @@ class Issue
     /**
      * Returns true if the user can update the issue
      *
-     * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The ID of the user
-     * @return  boolean If the user can update the issue
+     * @param   int $issue_id The ID of the issue.
+     * @param   int $usr_id The ID of the user
+     * @return  bool If the user can update the issue
      */
     public static function canUpdate($issue_id, $usr_id)
     {
@@ -3305,7 +3305,7 @@ class Issue
     /**
      * Clears closed information from an issues.
      *
-     * @param   integer $issue_id The ID of the issue
+     * @param   int $issue_id The ID of the issue
      * @return int
      */
     public static function clearClosed($issue_id)
@@ -3329,7 +3329,7 @@ class Issue
     /**
      * Returns the message ID that should be used as the parent ID for all messages
      *
-     * @param   integer $issue_id The ID of the issue
+     * @param   int $issue_id The ID of the issue
      * @return bool
      */
     public static function getRootMessageID($issue_id)
@@ -3352,7 +3352,7 @@ class Issue
     /**
      * Returns the issue ID of the issue with the specified root message ID, or false
      * @param   string $msg_id The Message ID
-     * @return  integer The ID of the issue
+     * @return  int The ID of the issue
      */
     public static function getIssueByRootMessageID($msg_id)
     {
@@ -3386,7 +3386,7 @@ class Issue
     /**
      * Sets the assignees for the issue
      *
-     * @param   integer $issue_id
+     * @param   int $issue_id
      * @param   array $assignees
      * @return  int 1 if success, -1 if error, 0 if no change was needed.
      */
@@ -3431,9 +3431,9 @@ class Issue
     /**
      * Sets the access level of the issue.
      *
-     * @param   integer $issue_id The ID of the issue
+     * @param   int $issue_id The ID of the issue
      * @param   string $level The Access level
-     * @return  integer 1 if successful, -1 otherwise
+     * @return  int 1 if successful, -1 otherwise
      */
     public static function setAccessLevel($issue_id, $level)
     {
@@ -3468,7 +3468,7 @@ class Issue
     /**
      * Returns the access level associated with the given issue ID.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  string The Access Level
      */
     public static function getAccessLevel($issue_id)

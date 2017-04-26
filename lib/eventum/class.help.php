@@ -140,7 +140,7 @@ class Help
      * otherwise.
      *
      * @param   string $topic The topic title to check for
-     * @return  boolean Whether the topic exists or not
+     * @return  bool Whether the topic exists or not
      */
     public static function topicExists($topic)
     {

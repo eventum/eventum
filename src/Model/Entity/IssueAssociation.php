@@ -20,12 +20,12 @@ namespace Eventum\Model\Entity;
 class IssueAssociation extends BaseModel
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $isa_issue_id;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $isa_associated_id;
 
@@ -37,7 +37,7 @@ class IssueAssociation extends BaseModel
     /**
      * Set Issue Id
      *
-     * @param integer $isa_issue_id
+     * @param int $isa_issue_id
      * @return IssueAssociation
      */
     public function setIssueId($isa_issue_id)
@@ -50,7 +50,7 @@ class IssueAssociation extends BaseModel
     /**
      * Get Issue Id
      *
-     * @return integer
+     * @return int
      */
     public function getIssueId()
     {
@@ -60,7 +60,7 @@ class IssueAssociation extends BaseModel
     /**
      * Set associated Issue Id
      *
-     * @param integer $isa_associated_id
+     * @param int $isa_associated_id
      * @return IssueAssociation
      */
     public function setAssociatedId($isa_associated_id)
@@ -73,7 +73,7 @@ class IssueAssociation extends BaseModel
     /**
      * Get associated Issue Id
      *
-     * @return integer
+     * @return int
      */
     public function getAssociatedId()
     {

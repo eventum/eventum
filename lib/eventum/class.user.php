@@ -64,8 +64,8 @@ class User
      * Method used to get the user ID associated with the given customer
      * contact ID.
      *
-     * @param   integer $customer_contact_id The customer contact ID
-     * @return  integer The user ID
+     * @param   int $customer_contact_id The customer contact ID
+     * @return  int The user ID
      */
     public static function getUserIDByContactID($customer_contact_id)
     {
@@ -89,7 +89,7 @@ class User
      * Method used to get the account email address associated with the given
      * customer contact ID.
      *
-     * @param   integer $customer_contact_id The customer contact ID
+     * @param   int $customer_contact_id The customer contact ID
      * @return  string The user's email address
      */
     public static function getEmailByContactID($customer_contact_id)
@@ -113,7 +113,7 @@ class User
      * Method used to get the SMS email address associated with the given
      * user ID.
      *
-     * @param   integer $usr_id The user ID
+     * @param   int $usr_id The user ID
      * @return  string The user's SMS email address
      */
     public static function getSMS($usr_id)
@@ -137,9 +137,9 @@ class User
      * Method used to update the SMS email address associated with the given
      * user ID.
      *
-     * @param   integer $usr_id The user ID
+     * @param   int $usr_id The user ID
      * @param   string $sms_email The user's SMS email address
-     * @return  boolean Whether the update was successful or not
+     * @return  bool Whether the update was successful or not
      */
     public static function updateSMS($usr_id, $sms_email)
     {
@@ -162,8 +162,8 @@ class User
      * Method used to get the customer contact ID associated with
      * the given user ID.
      *
-     * @param   integer $usr_id The user ID
-     * @return  integer The customer contact ID
+     * @param   int $usr_id The user ID
+     * @return  int The customer contact ID
      */
     public static function getCustomerContactID($usr_id)
     {
@@ -186,8 +186,8 @@ class User
      * Method used to get the customer ID associated with
      * the given user ID.
      *
-     * @param   integer $usr_id The user ID
-     * @return  integer The customer ID
+     * @param   int $usr_id The user ID
+     * @return  int The customer ID
      */
     public static function getCustomerID($usr_id)
     {
@@ -218,7 +218,7 @@ class User
      * Method used to update the user account and set the user as a confirmed one.
      *
      * @param   string $email The email address
-     * @return  boolean
+     * @return  bool
      */
     public static function confirmVisitorAccount($email)
     {
@@ -243,7 +243,7 @@ class User
      *
      * @param   string $email The email address associated with the user account
      * @param   string $hash The md5 hash string to be checked against
-     * @return  integer -1 if there was an error in the query, -2 for users that don't exist,
+     * @return  int -1 if there was an error in the query, -2 for users that don't exist,
      *                  -3 if it cannot be authenticated and 1 if it did work
      */
     public static function checkHash($email, $hash)
@@ -277,7 +277,7 @@ class User
      *
      * @param   string $role The user role
      * @param   array $projects The list of projects that this user will be associated with
-     * @return  integer 1 if the creation worked, -1 otherwise
+     * @return  int 1 if the creation worked, -1 otherwise
      */
     public static function createVisitorAccount($role, $projects)
     {
@@ -412,8 +412,8 @@ class User
      * Method used to lookup the user ID of a given email address.
      *
      * @param   string $email The email address associated with the user account
-     * @param   boolean $check_aliases If user aliases should be checked as well.
-     * @return  integer The user ID
+     * @param   bool $check_aliases If user aliases should be checked as well.
+     * @return  int The user ID
      */
     public static function getUserIDByEmail($email, $check_aliases = false)
     {
@@ -456,7 +456,7 @@ class User
      * or not.
      *
      * @param   string $status The status of the user
-     * @return  boolean
+     * @return  bool
      */
     public static function isActiveStatus($status)
     {
@@ -472,7 +472,7 @@ class User
      * or not.
      *
      * @param   string $status The status of the user
-     * @return  boolean
+     * @return  bool
      */
     public static function isPendingStatus($status)
     {
@@ -487,8 +487,8 @@ class User
      * Method used to get the list of all active users available in the system
      * as an associative array of user IDs => user full names.
      *
-     * @param   integer $prj_id The id of the project to show users from
-     * @param   integer $role The role ID of the user
+     * @param   int $prj_id The id of the project to show users from
+     * @param   int $role The role ID of the user
      * @return  array The associative array of users
      */
     public static function getActiveAssocList($prj_id = null, $role = null)
@@ -575,7 +575,7 @@ class User
     /**
      * Method used to get the role title for a specific role ID.
      *
-     * @param   integer $role_id The role ID
+     * @param   int $role_id The role ID
      * @return  string The role title
      */
     public static function getRole($role_id)
@@ -589,7 +589,7 @@ class User
      * Method used to get the role ID for a specific role title.
      *
      * @param   string $role_title The role title
-     * @return  integer The role ID
+     * @return  int The role ID
      * @deprecated use ROLE_ constant directly
      */
     public static function getRoleID($role_title)
@@ -606,9 +606,9 @@ class User
     /**
      * Method used to get the role for a specific user and project.
      *
-     * @param   integer $usr_id The user ID
-     * @param   integer $prj_id The project ID
-     * @return  integer The role ID
+     * @param   int $usr_id The user ID
+     * @param   int $prj_id The project ID
+     * @return  int The role ID
      */
     public static function getRoleByUser($usr_id, $prj_id)
     {
@@ -643,7 +643,7 @@ class User
     /**
      * Method used to get the account details of a specific user.
      *
-     * @param   integer $usr_id The user ID
+     * @param   int $usr_id The user ID
      * @return  array The account details
      */
     public static function getDetails($usr_id)
@@ -713,7 +713,7 @@ class User
     /**
      * Method used to get the full name of the specified user.
      *
-     * @param   integer|array $usr_id The user ID
+     * @param   int|array $usr_id The user ID
      * @return  string The user' full name
      */
     public static function getFullName($usr_id)
@@ -821,7 +821,7 @@ class User
     /**
      * Method used to get the group ids and titles for the specified user.
      *
-     * @param   integer $usr_id The user ID
+     * @param   int $usr_id The user ID
      * @return  string The user' full name
      */
     public static function getGroups($usr_id)
@@ -905,7 +905,7 @@ class User
      *
      * @param int[] $usr_ids
      * @param string $status
-     * @return  boolean
+     * @return  bool
      */
     public static function changeStatus($usr_ids, $status)
     {
@@ -945,8 +945,8 @@ class User
     /**
      * Method used to update the account full name for a specific user.
      *
-     * @param   integer $usr_id The user ID
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $usr_id The user ID
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function updateFullName($usr_id)
     {
@@ -971,8 +971,8 @@ class User
     /**
      * Method used to update the account email for a specific user.
      *
-     * @param   integer $usr_id The user ID
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $usr_id The user ID
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function updateEmail($usr_id)
     {
@@ -997,9 +997,9 @@ class User
      * Method to set the user password.
      * It calls out auth backend, which will store the password hash.
      *
-     * @param integer $usr_id The user ID
+     * @param int $usr_id The user ID
      * @param string $password Plain text user password
-     * @param boolean $send_notification Whether to send the notification email or not
+     * @param bool $send_notification Whether to send the notification email or not
      * @throw InvalidArgumentException|BadMethodCallException in case password was not set
      */
     public static function updatePassword($usr_id, $password, $send_notification = false)
@@ -1048,7 +1048,7 @@ class User
      * @param $usr_id
      * @param $data
      * @param bool $notify
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function update($usr_id, $data, $notify = true)
     {
@@ -1188,7 +1188,7 @@ class User
      * Method used to add a new user to the system.
      *
      * @param   array $user The array of user information
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function insert($user)
     {
@@ -1394,7 +1394,7 @@ class User
      * Method used to get the full name and email for the specified
      * user.
      *
-     * @param   integer $usr_id The user ID
+     * @param   int $usr_id The user ID
      * @return  array The email and full name
      */
     public static function getNameEmail($usr_id)
@@ -1427,7 +1427,7 @@ class User
      * Method used to get the appropriate 'From' header for a
      * specified user.
      *
-     * @param   integer $usr_id The user ID
+     * @param   int $usr_id The user ID
      * @return  string The formatted 'From' header
      */
     public static function getFromHeader($usr_id)
@@ -1487,7 +1487,7 @@ class User
     /**
      * Marks a user as clocked out.
      *
-     * @param   integer $usr_id The id of the user to clock out.
+     * @param   int $usr_id The id of the user to clock out.
      * @return int
      */
     public static function clockOut($usr_id)
@@ -1510,8 +1510,8 @@ class User
     /**
      * Returns true if a user is clocked in.
      *
-     * @param   integer $usr_id The id of the user to clock out.
-     * @return  boolean True if the user is logged in, false otherwise
+     * @param   int $usr_id The id of the user to clock out.
+     * @return  bool True if the user is logged in, false otherwise
      */
     public static function isClockedIn($usr_id)
     {

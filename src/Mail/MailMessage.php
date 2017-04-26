@@ -160,7 +160,7 @@ class MailMessage extends Message
      * Return true if mail has attachments,
      * inline text messages are not accounted as attachments.
      *
-     * @return  boolean
+     * @return  bool
      */
     public function hasAttachments()
     {

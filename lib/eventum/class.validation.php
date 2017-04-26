@@ -23,7 +23,7 @@ class Validation
      * whitespace characters, such as spaces, tabs or newlines.
      *
      * @param   string $str The string to check against
-     * @return  boolean
+     * @return  bool
      */
     public static function isWhitespace($str)
     {
@@ -39,7 +39,7 @@ class Validation
      * Method used to check whether an email address is a valid one.
      *
      * @param   string $str The email address to check against
-     * @return  boolean
+     * @return  bool
      */
     public static function isEmail($str)
     {
@@ -93,7 +93,7 @@ class Validation
      * characters.
      *
      * @param   string $str The string to check against
-     * @return  boolean
+     * @return  bool
      * @deprecated method not used
      */
     public static function hasValidChars($str)

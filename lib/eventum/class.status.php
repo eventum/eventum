@@ -23,7 +23,7 @@ class Status
      * Returns the label and date field associated with the customization of
      * the given project and status IDs.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @param   array $sta_ids The list of status IDs
      * @return  array The label and date field
      */
@@ -54,7 +54,7 @@ class Status
     /**
      * Returns the details of a given project status customization entry.
      *
-     * @param   integer $psd_id The customization entry ID
+     * @param   int $psd_id The customization entry ID
      * @return  array The details
      */
     public static function getCustomizationDetails($psd_id)
@@ -78,7 +78,7 @@ class Status
      * Removes a given set of customizations.
      *
      * @param   array $items The customization entry IDs
-     * @return  boolean
+     * @return  bool
      */
     public static function removeCustomization($items)
     {
@@ -98,12 +98,12 @@ class Status
     /**
      * Method used to update the details of a customization entry in the system.
      *
-     * @param   integer $psd_id The customization entry ID
-     * @param   integer $prj_id The project ID
-     * @param   integer $sta_id The status ID
+     * @param   int $psd_id The customization entry ID
+     * @param   int $prj_id The project ID
+     * @param   int $sta_id The status ID
      * @param   string $date_field The date field name
      * @param   string $label The label that should appear in the issue listing screen
-     * @return  integer 1 if the insert worked properly, any other value otherwise
+     * @return  int 1 if the insert worked properly, any other value otherwise
      */
     public static function updateCustomization($psd_id, $prj_id, $sta_id, $date_field, $label)
     {
@@ -128,11 +128,11 @@ class Status
     /**
      * Method used to add a new customization entry to the system.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $sta_id The status ID
+     * @param   int $prj_id The project ID
+     * @param   int $sta_id The status ID
      * @param   string $date_field The date field name
      * @param   string $label The label that should appear in the issue listing screen
-     * @return  integer 1 if the insert worked properly, any other value otherwise
+     * @return  int 1 if the insert worked properly, any other value otherwise
      */
     public static function insertCustomization($prj_id, $sta_id, $date_field, $label)
     {
@@ -197,7 +197,7 @@ class Status
      * Method used to check whether the given status has a closed context or
      * not.
      *
-     * @return  boolean
+     * @return  bool
      * @deprecated method not used
      */
     public static function hasClosedContext($sta_id)
@@ -224,7 +224,7 @@ class Status
     /**
      * Method used to add a new custom status to the system.
      *
-     * @return  integer 1 if the insert worked properly, any other value otherwise
+     * @return  int 1 if the insert worked properly, any other value otherwise
      */
     public static function insert()
     {
@@ -261,7 +261,7 @@ class Status
     /**
      * Method used to update the details of a given custom status.
      *
-     * @return  integer 1 if the update worked properly, any other value otherwise
+     * @return  int 1 if the update worked properly, any other value otherwise
      */
     public static function updateFromPost()
     {
@@ -328,7 +328,7 @@ class Status
     /**
      * Method used to remove a set of custom statuses.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function remove()
     {
@@ -361,8 +361,8 @@ class Status
     /**
      * Method used to add a project association to a status.
      *
-     * @param   integer $sta_id The status ID
-     * @param   integer $prj_id The project ID
+     * @param   int $sta_id The status ID
+     * @param   int $prj_id The project ID
      */
     public static function addProjectAssociation($sta_id, $prj_id)
     {
@@ -382,8 +382,8 @@ class Status
      * custom status.
      *
      * @param   int|array $sta_id The custom status ID
-     * @param   integer $prj_id The project ID
-     * @return  boolean
+     * @param   int $prj_id The project ID
+     * @return  bool
      */
     public static function removeProjectAssociations($sta_id, $prj_id = null)
     {
@@ -413,7 +413,7 @@ class Status
     /**
      * Method used to get the details of a given status ID.
      *
-     * @param   integer $sta_id The custom status ID
+     * @param   int $sta_id The custom status ID
      * @return  array The status details
      */
     public static function getDetails($sta_id)
@@ -468,7 +468,7 @@ class Status
      * Method used to get the list of associated projects for a given
      * custom status.
      *
-     * @param   integer $sta_id The custom status ID
+     * @param   int $sta_id The custom status ID
      * @return  array The list of projects
      */
     public static function getAssociatedProjects($sta_id)
@@ -495,7 +495,7 @@ class Status
      * Method used to get the status ID for a given status title.
      *
      * @param   string $sta_title The status title
-     * @return  integer The status ID
+     * @return  int The status ID
      */
     public static function getStatusID($sta_title)
     {
@@ -525,7 +525,7 @@ class Status
     /**
      * Method used to get the status title for a given status ID.
      *
-     * @param   integer $sta_id The status ID
+     * @param   int $sta_id The status ID
      * @return  string The status title
      */
     public static function getStatusTitle($sta_id)
@@ -584,7 +584,7 @@ class Status
      * in the style of (abbreviation => title)
      *
      * @param   array|int $prj_id List of project IDs
-     * @param   boolean $show_closed Whether to also return closed-context statuses or not
+     * @param   bool $show_closed Whether to also return closed-context statuses or not
      * @return  array The list of statuses
      */
     public static function getAbbreviationAssocList($prj_id, $show_closed)
@@ -622,7 +622,7 @@ class Status
      * in the style of (id => title)
      *
      * @param   array|int $prj_id List of project IDs
-     * @param   boolean $show_closed Whether to show closed context statuses or not
+     * @param   bool $show_closed Whether to show closed context statuses or not
      * @return  array The list of statuses
      */
     public static function getAssocStatusList($prj_id, $show_closed = true)
@@ -684,7 +684,7 @@ class Status
      * in the style of (id => title). Only return the list of statuses that have
      * a 'closed' context.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of statuses
      */
     public static function getClosedAssocList($prj_id)

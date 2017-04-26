@@ -48,7 +48,7 @@ abstract class CRM
      * Setups a new instance for the specified project. If the instance already exists,
      * return the current instance.
      *
-     * @param   integer $prj_id The Project ID
+     * @param   int $prj_id The Project ID
      * @return  CRM An instance of a CRM class
      */
     public static function getInstance($prj_id)
@@ -73,7 +73,7 @@ abstract class CRM
     /**
      * Returns a contract object
      *
-     * @param   integer $contract_id A contract id
+     * @param   int $contract_id A contract id
      * @return  Contract A contract object
      */
     abstract public function getContract($contract_id);
@@ -81,7 +81,7 @@ abstract class CRM
     /**
      * Returns a contact object for the specified contact ID
      *
-     * @param   integer $email
+     * @param   int $email
      * @return  Contact A contact object
      */
     abstract public function getContactByEmail($email);
@@ -89,7 +89,7 @@ abstract class CRM
     /**
      * Returns a contact object for the specified email address
      *
-     * @param   integer $contact_id
+     * @param   int $contact_id
      * @return  Contact A contact object
      */
     abstract public function getContact($contact_id);
@@ -116,7 +116,7 @@ abstract class CRM
      * Setups the backend for use. Generally will be used to establish a connection to a database
      * or preload data.
      *
-     * @param   integer $prj_id
+     * @param   int $prj_id
      */
     abstract protected function setup($prj_id);
 
@@ -179,10 +179,10 @@ abstract class CRM
      * Method used to get an associative array of all companies
      * available, in a format of customer ID => company name.
      *
-     * @param   string|boolean  $search_string A string to search for
-     * @param   boolean $include_expired If expired customers should be included
-     * @param   integer|boolean $limit The maximum number of records to return
-     * @param   integer|boolean $customer_ids The ids to limit the results too
+     * @param   string|bool  $search_string A string to search for
+     * @param   bool $include_expired If expired customers should be included
+     * @param   int|bool $limit The maximum number of records to return
+     * @param   int|bool $customer_ids The ids to limit the results too
      * @return  array The associative array of companies
      */
     abstract public function getCustomerAssocList($search_string = false, $include_expired = false, $limit = false,
@@ -192,7 +192,7 @@ abstract class CRM
      * Method used to get an associative array of all contracts
      * available, in a format of contract ID => contract details.
      *
-     * @param   string|boolean  $search_string A string to search for
+     * @param   string|bool  $search_string A string to search for
      * @return  array The associative array of contracts
      */
     abstract public function getContractAssocList($search_string = false);
@@ -201,7 +201,7 @@ abstract class CRM
      * Method used to get an associative array of all contacts
      * available, in a format of contact ID => contact details.
      *
-     * @param   string|boolean  $search_string A string to search for
+     * @param   string|bool  $search_string A string to search for
      * @return  array The associative array of contacts
      */
     abstract public function getContactAssocList($search_string = false);
@@ -231,7 +231,7 @@ abstract class CRM
      * Method used to send an email notification to the sender of an
      * email message that was automatically converted into an issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $sender The sender of the email message (and the recipient of this notification)
      * @param   string $date The arrival date of the email message
      * @param   string $subject The subject line of the email message
@@ -243,9 +243,9 @@ abstract class CRM
      * set of email messages that were manually converted into an
      * issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   array $sup_ids The email IDs
-     * @param   integer|boolean $contract_id The contract ID
+     * @param   int|bool $contract_id The contract ID
      * @return  array The list of recipient emails
      */
     abstract public function notifyEmailConvertedIntoIssue($issue_id, $sup_ids, $contract_id = false);
@@ -270,7 +270,7 @@ abstract class CRM
     /**
      * Returns the list of contract IDs for a given support contract level.
      *
-     * @param   integer $level_id The support level ID
+     * @param   int $level_id The support level ID
      * @param   mixed $support_options An integer or array of integers indicating various options to get customers with.
      * @return  array The list of contract IDs
      */
@@ -280,8 +280,8 @@ abstract class CRM
      * Checks whether the given project ID is setup to use customer integration
      * or not.
      *
-     * @param   integer $prj_id The project ID
-     * @return  boolean
+     * @param   int $prj_id The project ID
+     * @return  bool
      */
     public static function hasCustomerIntegration($prj_id)
     {
@@ -312,7 +312,7 @@ abstract class CRM
      * Returns the customer backend class file associated with the given
      * project ID.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  string The customer backend class filename
      */
     public static function getBackendNameByProject($prj_id)
@@ -345,8 +345,8 @@ abstract class CRM
      * Includes the appropriate customer backend class associated with the
      * given project ID, instantiates it and returns the class.
      *
-     * @param   integer $prj_id The project ID
-     * @return  boolean
+     * @param   int $prj_id The project ID
+     * @return  bool
      */
     private static function getBackendByProject($prj_id)
     {
@@ -427,7 +427,7 @@ abstract class CRM
      * customer ID. This association will provide the basis for a
      * new role of technical account manager in Eventum.
      *
-     * @return  integer 1 if the insert worked properly, any other value otherwise
+     * @return  int 1 if the insert worked properly, any other value otherwise
      */
     public static function insertAccountManager()
     {
@@ -455,7 +455,7 @@ abstract class CRM
     /**
      * Method used to get the details of a given account manager.
      *
-     * @param   integer $cam_id The account manager ID
+     * @param   int $cam_id The account manager ID
      * @return  array The account manager details
      */
     public static function getAccountManagerDetails($cam_id)
@@ -478,7 +478,7 @@ abstract class CRM
     /**
      * Method used to update the details of an account manager.
      *
-     * @return  integer 1 if the update worked properly, any other value otherwise
+     * @return  int 1 if the update worked properly, any other value otherwise
      */
     public static function updateAccountManager()
     {
@@ -506,7 +506,7 @@ abstract class CRM
      * Method used to remove a technical account manager from the
      * system.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function removeAccountManager()
     {
@@ -528,8 +528,8 @@ abstract class CRM
      * Method used to get the list of technical account managers for
      * a given customer ID.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $customer_id The customer ID
+     * @param   int $prj_id The project ID
+     * @param   int $customer_id The customer ID
      * @return  array The list of account managers
      */
     public static function getAccountManagers($prj_id, $customer_id)
@@ -561,7 +561,7 @@ abstract class CRM
     /**
      * Returns any notes for for the specified customer.
      *
-     * @param   integer $customer_id The customer ID
+     * @param   int $customer_id The customer ID
      * @return  array An array containg the note details.
      */
     public static function getNoteDetailsByCustomer($customer_id)
@@ -645,9 +645,9 @@ abstract class CRM
     /**
      * Updates a note.
      *
-     * @param   integer $cno_id The id of this note.
-     * @param   integer $prj_id The project ID
-     * @param   integer $customer_id The id of the customer.
+     * @param   int $cno_id The id of this note.
+     * @param   int $prj_id The project ID
+     * @param   int $customer_id The id of the customer.
      * @param   string $note The text of this note.
      * @return int
      */
@@ -676,8 +676,8 @@ abstract class CRM
     /**
      * Adds a quick note for the specified customer.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $customer_id The id of the customer.
+     * @param   int $prj_id The project ID
+     * @param   int $customer_id The id of the customer.
      * @param   string  $note The note to add.
      * @return int
      */
@@ -740,7 +740,7 @@ abstract class CRM
     /**
      * Returns the number of days expired contracts are allowed to login.
      *
-     * @return  integer The number of days.
+     * @return  int The number of days.
      */
     abstract public function getExpirationOffset();
 
@@ -755,7 +755,7 @@ abstract class CRM
 
     /**
      * Helper function to return customer name.
-     * @param integer $prj_id
+     * @param int $prj_id
      * @param string $customer_id
      * @return string
      */

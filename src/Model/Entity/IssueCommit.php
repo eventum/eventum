@@ -19,17 +19,17 @@ namespace Eventum\Model\Entity;
 class IssueCommit extends BaseModel
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $isc_id;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $isc_iss_id;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $isc_com_id;
 
@@ -47,7 +47,7 @@ class IssueCommit extends BaseModel
     /**
      * Get iscId
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -57,7 +57,7 @@ class IssueCommit extends BaseModel
     /**
      * Set iscIssId
      *
-     * @param integer $issueId
+     * @param int $issueId
      * @return IssueCommit
      */
     public function setIssueId($issueId)
@@ -70,7 +70,7 @@ class IssueCommit extends BaseModel
     /**
      * Get iscIssId
      *
-     * @return integer
+     * @return int
      */
     public function getIssueId()
     {
@@ -80,7 +80,7 @@ class IssueCommit extends BaseModel
     /**
      * Set iscComId
      *
-     * @param integer $commitId
+     * @param int $commitId
      * @return IssueCommit
      */
     public function setCommitId($commitId)
@@ -93,7 +93,7 @@ class IssueCommit extends BaseModel
     /**
      * Get iscComId
      *
-     * @return integer
+     * @return int
      */
     public function getCommitId()
     {

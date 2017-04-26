@@ -365,7 +365,7 @@ class Eventum_Bot
      * Helper method to get the list of channels that should be used in the
      * notifications
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of channels
      */
     public function getChannels($prj_id)

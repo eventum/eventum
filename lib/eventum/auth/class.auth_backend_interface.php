@@ -22,16 +22,16 @@ interface Auth_Backend_Interface
      *
      * @param   string $login The login or email to check for
      * @param   string $password The password of the user to check for
-     * @return  boolean
+     * @return  bool
      */
     public function verifyPassword($login, $password);
 
     /**
      * Method used to update the account password for a specific user.
      *
-     * @param   integer $usr_id The user ID
+     * @param   int $usr_id The user ID
      * @param   string $password The password.
-     * @return  boolean true if update worked, false otherwise
+     * @return  bool true if update worked, false otherwise
      */
     public function updatePassword($usr_id, $password);
 
@@ -82,24 +82,24 @@ interface Auth_Backend_Interface
     /**
      * Increment the failed logins attempts for this user
      *
-     * @param   integer $usr_id The ID of the user
-     * @return  boolean
+     * @param   int $usr_id The ID of the user
+     * @return  bool
      */
     public function incrementFailedLogins($usr_id);
 
     /**
      * Reset the failed logins attempts for this user
      *
-     * @param   integer $usr_id The ID of the user
-     * @return  boolean
+     * @param   int $usr_id The ID of the user
+     * @return  bool
      */
     public function resetFailedLogins($usr_id);
 
     /**
      * Returns the true if the account is currently locked because of Back-Off locking
      *
-     * @param   integer $usr_id The ID of the user
-     * @return  boolean
+     * @param   int $usr_id The ID of the user
+     * @return  bool
      */
     public function isUserBackOffLocked($usr_id);
 
@@ -114,7 +114,7 @@ interface Auth_Backend_Interface
     /**
      * Returns true if the user should automatically be redirected to the external login URL, false otherwise
      *
-     * @return  boolean
+     * @return  bool
      */
     public function autoRedirectToExternalLogin();
 

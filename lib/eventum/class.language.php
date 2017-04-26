@@ -160,7 +160,7 @@ class Language
      * Sets active language for for the application.
      * Returns false if locale is invalid or cannot be used.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function set($locale)
     {

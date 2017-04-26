@@ -21,7 +21,7 @@ class Email_Account
      * Method used to get the options related to the auto creation of
      * new issues.
      *
-     * @param   integer $ema_id The email account ID
+     * @param   int $ema_id The email account ID
      * @return  array The issue auto creation options
      */
     public static function getIssueAutoCreationOptions($ema_id)
@@ -48,8 +48,8 @@ class Email_Account
     /**
      * Method used to update the issue auto creation related options.
      *
-     * @param   integer $ema_id The email account ID
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $ema_id The email account ID
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function updateIssueAutoCreation($ema_id, $auto_creation, $options)
     {
@@ -73,8 +73,8 @@ class Email_Account
      * Method used to get the support email account associated with a given
      * support email message.
      *
-     * @param   integer $sup_id The support email ID
-     * @return  integer The email account ID
+     * @param   int $sup_id The support email ID
+     * @return  int The email account ID
      */
     public static function getAccountByEmail($sup_id)
     {
@@ -99,7 +99,7 @@ class Email_Account
      * @param   string $username The username for the specific email account
      * @param   string $hostname The hostname for the specific email account
      * @param   string $mailbox The mailbox for the specific email account
-     * @return  integer The support email account ID
+     * @return  int The support email account ID
      */
     public static function getAccountID($username, $hostname, $mailbox)
     {
@@ -131,8 +131,8 @@ class Email_Account
     /**
      * Method used to get the project ID associated with a given email account.
      *
-     * @param   integer $ema_id The support email account ID
-     * @return  integer The project ID
+     * @param   int $ema_id The support email account ID
+     * @return  int The project ID
      */
     public static function getProjectID($ema_id)
     {
@@ -145,7 +145,7 @@ class Email_Account
      * Method used to get the details of a given support email
      * account.
      *
-     * @param   integer $ema_id The support email account ID
+     * @param   int $ema_id The support email account ID
      * @return  array The account details
      */
     public static function getDetails($ema_id, $include_password = false)
@@ -181,7 +181,7 @@ class Email_Account
     /**
      * Method used to remove the specified support email accounts.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function remove()
     {
@@ -204,7 +204,7 @@ class Email_Account
     /**
      * Method used to add a new support email account.
      *
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function insert()
     {
@@ -262,7 +262,7 @@ class Email_Account
     /**
      * Method used to update a support email account details.
      *
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function update()
     {
@@ -373,7 +373,7 @@ class Email_Account
      * Method used to get an associative array of the support email
      * accounts in the format of account ID => account title.
      *
-     * @param   integer $projects An array of project IDs
+     * @param   int $projects An array of project IDs
      * @return  array The list of accounts
      */
     public static function getAssocList($projects, $include_project_title = false)
@@ -410,8 +410,8 @@ class Email_Account
      * Method used to get the first support email account associated
      * with the current activated project.
      *
-     * @param   integer $prj_id The ID of the project. If blank the currently project will be used.
-     * @return  integer The email account ID
+     * @param   int $prj_id The ID of the project. If blank the currently project will be used.
+     * @return  int The email account ID
      */
     public static function getEmailAccount($prj_id = false)
     {
@@ -439,8 +439,8 @@ class Email_Account
      * Method used to get the email account associated with the given
      * issue' project.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  integer The email account ID
+     * @param   int $issue_id The issue ID
+     * @return  int The email account ID
      * @deprecated method not used
      */
     public static function getEmailAccountByIssueID($issue_id)

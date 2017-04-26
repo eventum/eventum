@@ -37,7 +37,7 @@ class AbstractBotCommands
      *
      * @param string $target The target for this message
      * @param string|string[] $response The message to send
-     * @param integer $priority the priority level of the message
+     * @param int $priority the priority level of the message
      */
     protected function sendResponse($target, $response, $priority = SMARTIRC_MEDIUM)
     {

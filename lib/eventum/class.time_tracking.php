@@ -29,9 +29,9 @@ class Time_Tracking
     /**
      * Method used to get the ID of a given category.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @param   string $ttc_title The time tracking category title
-     * @return  integer The time tracking category ID
+     * @return  int The time tracking category ID
      */
     public static function getCategoryId($prj_id, $ttc_title)
     {
@@ -54,7 +54,7 @@ class Time_Tracking
     /**
      * Method used to get the details of a time tracking category.
      *
-     * @param   integer $ttc_id The time tracking category ID
+     * @param   int $ttc_id The time tracking category ID
      * @return  array The details of the category
      */
     public static function getCategoryDetails($ttc_id)
@@ -160,9 +160,9 @@ class Time_Tracking
     /**
      * Method used to add a new time tracking category
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @param   string $title The title of the time tracking category
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function insertCategory($prj_id, $title)
     {
@@ -191,8 +191,8 @@ class Time_Tracking
     /**
      * Method used to add a default timetracking categories for project.
      *
-     * @param   integer $prj_id The project ID
-     * @return  integer 1 if the inserts worked, -1 otherwise
+     * @param   int $prj_id The project ID
+     * @return  int 1 if the inserts worked, -1 otherwise
      */
     public static function addProjectDefaults($prj_id)
     {
@@ -208,7 +208,7 @@ class Time_Tracking
      * Method used to get the full list of time tracking categories associated
      * with a specific project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of categories
      */
     public static function getCategoryList($prj_id)
@@ -308,8 +308,8 @@ class Time_Tracking
     /**
      * Method used to get the total time spent for a specific issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  integer The total time spent
+     * @param   int $issue_id The issue ID
+     * @return  int The total time spent
      * @deprecated method not used
      */
     public static function getTimeSpentByIssue($issue_id)
@@ -333,7 +333,7 @@ class Time_Tracking
      * Method used to get the full listing of time entries in the system for a
      * specific issue
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The full list of time entries
      */
     public static function getTimeEntryListing($issue_id)
@@ -400,7 +400,7 @@ class Time_Tracking
     /**
      * Method used to get the details of a specific entry
      *
-     * @param   integer $ttr_id The time tracking ID
+     * @param   int $ttr_id The time tracking ID
      * @return  array The time tracking details
      */
     public static function getTimeEntryDetails($ttr_id)
@@ -430,9 +430,9 @@ class Time_Tracking
     /**
      * Method used to remove a specific time entry from the system.
      *
-     * @param   integer $time_id The time entry ID
-     * @param   integer $usr_id The user ID of the person trying to remove this entry
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $time_id The time entry ID
+     * @param   int $usr_id The user ID of the person trying to remove this entry
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function removeTimeEntry($time_id, $usr_id)
     {
@@ -584,12 +584,12 @@ class Time_Tracking
     /**
      * Method used to remotely record a time tracking entry.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $usr_id The user ID
-     * @param   integer $cat_id The time tracking category ID
+     * @param   int $issue_id The issue ID
+     * @param   int $usr_id The user ID
+     * @param   int $cat_id The time tracking category ID
      * @param   string $summary The summary of the work entry
-     * @param   integer $time_spent The time spent in minutes
-     * @return  integer 1 if the insert worked, -1 otherwise
+     * @param   int $time_spent The time spent in minutes
+     * @return  int 1 if the insert worked, -1 otherwise
      */
     public static function recordRemoteTimeEntry($issue_id, $usr_id, $cat_id, $summary, $time_spent)
     {
@@ -675,7 +675,7 @@ class Time_Tracking
     /**
      * Returns a list of issues touched by the specified user in the specified time frame in specified project.
      *
-     * @param integer $usr_id The id of the user
+     * @param int $usr_id The id of the user
      * @param int $prj_id The project id
      * @param string $start The start date
      * @param string $end The end date
@@ -721,11 +721,11 @@ class Time_Tracking
      * Method used to get the time spent for a specific issue
      * at a specific time.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $usr_id The ID of the user this report is for.
-     * @param   integer $start The timestamp of the beginning of the report.
-     * @param   integer $end The timestamp of the end of this report.
-     * @return  integer The time spent
+     * @param   int $start The timestamp of the beginning of the report.
+     * @param   int $end The timestamp of the end of this report.
+     * @return  int The time spent
      * @deprecated method not used
      */
     public static function getTimeSpentByIssueAndTime($issue_id, $usr_id, $start, $end)
@@ -752,8 +752,8 @@ class Time_Tracking
      *
      * @param   array $res User issues
      * @param   string $usr_id The ID of the user this report is for.
-     * @param   integer $start The timestamp of the beginning of the report.
-     * @param   integer $end The timestamp of the end of this report.
+     * @param   int $start The timestamp of the beginning of the report.
+     * @param   int $end The timestamp of the end of this report.
      */
     public static function fillTimeSpentByIssueAndTime(&$res, $usr_id, $start, $end)
     {

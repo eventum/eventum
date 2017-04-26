@@ -19,12 +19,12 @@ namespace Eventum\Model\Entity;
 class CommitFile extends BaseModel
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $cof_id;
 
     /**
-     * @var integer
+     * @var int
      */
     protected $cof_com_id;
 
@@ -72,7 +72,7 @@ class CommitFile extends BaseModel
     /**
      * Get cofId
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {
@@ -82,7 +82,7 @@ class CommitFile extends BaseModel
     /**
      * Set cofComId
      *
-     * @param integer $commitId
+     * @param int $commitId
      * @return CommitFile
      */
     public function setCommitId($commitId)
@@ -95,7 +95,7 @@ class CommitFile extends BaseModel
     /**
      * Get cofComId
      *
-     * @return integer
+     * @return int
      */
     public function getCommitId()
     {

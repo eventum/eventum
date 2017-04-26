@@ -23,7 +23,7 @@ class SCM
      * Method used to remove a specific list of checkins
      *
      * @param   int[] $items list to remove
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function remove($items)
     {

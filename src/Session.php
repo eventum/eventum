@@ -49,7 +49,7 @@ class Session
     /**
      * Initialize the session with $usr_id
      *
-     * @param   integer $usr_id The ID of the user
+     * @param   int $usr_id The ID of the user
      */
     public static function init($usr_id)
     {

@@ -19,7 +19,7 @@ class News
      * Method used to get the list of news entries available in the
      * system for a given project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of news entries
      */
     public static function getListByProject($prj_id, $show_full_message = false)
@@ -65,8 +65,8 @@ class News
     /**
      * Method used to add a project association to a news entry.
      *
-     * @param   integer $nws_id The news ID
-     * @param   integer $prj_id The project ID
+     * @param   int $nws_id The news ID
+     * @param   int $prj_id The project ID
      */
     public static function addProjectAssociation($nws_id, $prj_id)
     {
@@ -84,7 +84,7 @@ class News
     /**
      * Method used to add a news entry to the system.
      *
-     * @return  integer 1 if the insert worked, -1 otherwise
+     * @return  int 1 if the insert worked, -1 otherwise
      */
     public static function insert()
     {
@@ -130,7 +130,7 @@ class News
     /**
      * Method used to remove a news entry from the system.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function remove()
     {
@@ -155,9 +155,9 @@ class News
      * Method used to remove the project associations for a given
      * news entry.
      *
-     * @param   integer $nws_id The news ID
-     * @param   integer $prj_id The project ID
-     * @return  boolean
+     * @param   int $nws_id The news ID
+     * @param   int $prj_id The project ID
+     * @return  bool
      */
     public static function removeProjectAssociations($nws_id, $prj_id = false)
     {
@@ -187,7 +187,7 @@ class News
     /**
      * Method used to update a news entry in the system.
      *
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function update()
     {
@@ -224,7 +224,7 @@ class News
     /**
      * Method used to get the details of a news entry for a given news ID.
      *
-     * @param   integer $nws_id The news entry ID
+     * @param   int $nws_id The news entry ID
      * @return  array The news entry details
      */
     public static function getDetails($nws_id)
@@ -251,7 +251,7 @@ class News
     /**
      * Method used to get the details of a news entry for a given news ID.
      *
-     * @param   integer $nws_id The news entry ID
+     * @param   int $nws_id The news entry ID
      * @return  array The news entry details
      */
     public static function getAdminDetails($nws_id)
@@ -307,7 +307,7 @@ class News
      * Method used to get the list of associated projects for a given
      * news entry.
      *
-     * @param   integer $nws_id The news ID
+     * @param   int $nws_id The news ID
      * @return  array The list of projects
      */
     public static function getAssociatedProjects($nws_id)

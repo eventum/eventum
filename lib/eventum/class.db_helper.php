@@ -126,7 +126,7 @@ class DB_Helper
      * the somewhat annoying implementation of PEAR::DB to create
      * separate tables to host the ID sequences.
      *
-     * @return  integer The last inserted ID
+     * @return  int The last inserted ID
      */
     public static function get_last_insert_id()
     {

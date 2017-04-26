@@ -22,9 +22,9 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     /**
      * Called when an issue is updated.
      *
-     * @param integer $prj_id The project ID.
-     * @param integer $issue_id The ID of the issue.
-     * @param integer $usr_id The ID of the user.
+     * @param int $prj_id The project ID.
+     * @param int $issue_id The ID of the issue.
+     * @param int $usr_id The ID of the user.
      * @param array $old_details The old details of the issues.
      * @param array $changes The changes that were applied to this issue (the $_POST)
      */
@@ -36,9 +36,9 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     /**
      * Called when a file is attached to an issue.
      *
-     * @param   integer $prj_id The projectID
-     * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The id of the user who locked the issue.
+     * @param   int $prj_id The projectID
+     * @param   int $issue_id The ID of the issue.
+     * @param   int $usr_id The id of the user who locked the issue.
      */
     public function handleAttachment($prj_id, $issue_id, $usr_id)
     {
@@ -48,9 +48,9 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     /**
      * Called when the priority of an issue changes.
      *
-     * @param   integer $prj_id The projectID
-     * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The id of the user who locked the issue.
+     * @param   int $prj_id The projectID
+     * @param   int $issue_id The ID of the issue.
+     * @param   int $usr_id The id of the user who locked the issue.
      * @param   array $old_details The old details of the issue.
      * @param   array $changes The changes that were applied to this issue (the $_POST)
      */
@@ -62,8 +62,8 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     /**
      * Called when an email is blocked.
      *
-     * @param   integer $prj_id The projectID
-     * @param   integer $issue_id The ID of the issue.
+     * @param   int $prj_id The projectID
+     * @param   int $issue_id The ID of the issue.
      * @param   array $email_details Details of the issue
      * @param   string $type What type of blocked email this is.
      */
@@ -75,11 +75,11 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     /**
      * Called when a note is routed.
      *
-     * @param   integer $prj_id The projectID
-     * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The user ID of the person posting this new note
-     * @param   boolean $closing If the issue is being closed
-     * @param   integer $note_id The ID of the new note
+     * @param   int $prj_id The projectID
+     * @param   int $issue_id The ID of the issue.
+     * @param   int $usr_id The user ID of the person posting this new note
+     * @param   bool $closing If the issue is being closed
+     * @param   int $note_id The ID of the new note
      */
     public function handleNewNote($prj_id, $issue_id, $usr_id, $closing, $note_id)
     {
@@ -89,12 +89,12 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     /**
      * Called when the assignment on an issue changes.
      *
-     * @param   integer $prj_id The projectID
-     * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The id of the user who assigned the issue.
+     * @param   int $prj_id The projectID
+     * @param   int $issue_id The ID of the issue.
+     * @param   int $usr_id The id of the user who assigned the issue.
      * @param   array $issue_details The old details of the issue.
      * @param   array $new_assignees The new assignees of this issue.
-     * @param   boolean $remote_assignment If this issue was remotely assigned.
+     * @param   bool $remote_assignment If this issue was remotely assigned.
      */
     public function handleAssignmentChange($prj_id, $issue_id, $usr_id, $issue_details, $new_assignees, $remote_assignment)
     {
@@ -104,10 +104,10 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     /**
      * Called when a new issue is created.
      *
-     * @param   integer $prj_id The projectID
-     * @param   integer $issue_id The ID of the issue.
-     * @param   boolean $has_TAM If this issue has a technical account manager.
-     * @param   boolean $has_RR If Round Robin was used to assign this issue.
+     * @param   int $prj_id The projectID
+     * @param   int $issue_id The ID of the issue.
+     * @param   bool $has_TAM If this issue has a technical account manager.
+     * @param   bool $has_RR If Round Robin was used to assign this issue.
      */
     public function handleNewIssue($prj_id, $issue_id, $has_TAM, $has_RR)
     {
@@ -119,8 +119,8 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
      * manually associated to an existing issue.
      *
      * @access  public
-     * @param   integer $prj_id The projectID
-     * @param   integer $issue_id The issue ID
+     * @param   int $prj_id The projectID
+     * @param   int $issue_id The issue ID
      */
     public function handleManualEmailAssociation($prj_id, $issue_id)
     {
@@ -130,11 +130,11 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     /**
      * Called when a new message is received.
      *
-     * @param   integer $prj_id The projectID
-     * @param   integer $issue_id The ID of the issue.
+     * @param   int $prj_id The projectID
+     * @param   int $issue_id The ID of the issue.
      * @param   object $message An object containing the new email
      * @param   array $row The array of data that was inserted into the database.
-     * @param   boolean $closing If we are closing the issue.
+     * @param   bool $closing If we are closing the issue.
      */
     public function handleNewEmail($prj_id, $issue_id, $message, $row = false, $closing = false)
     {
@@ -148,8 +148,8 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     /**
      * Method is called to return the list of statuses valid for a specific issue.
      *
-     * @param   integer $prj_id The projectID
-     * @param   integer $issue_id The ID of the issue.
+     * @param   int $prj_id The projectID
+     * @param   int $issue_id The ID of the issue.
      * @return  array An associative array of statuses valid for this issue.
      */
     public function getAllowedStatuses($prj_id, $issue_id)
@@ -165,9 +165,9 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
      * Called when an attempt is made to add a user or email address to the
      * notification list.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $issue_id The ID of the issue.
-     * @param   integer $subscriber_usr_id The ID of the user to subscribe if this is a real user (false otherwise).
+     * @param   int $prj_id The project ID
+     * @param   int $issue_id The ID of the issue.
+     * @param   int $subscriber_usr_id The ID of the user to subscribe if this is a real user (false otherwise).
      * @param   string $email The email address to subscribe to subscribe (if this is not a real user).
      * @param   array $types The action types.
      * @return  mixed An array of information or true to continue unchanged or false to prevent the user from being added.
@@ -198,13 +198,13 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     /**
      * Called when issue is closed.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $issue_id The ID of the issue.
-     * @param   boolean $send_notification Whether to send a notification about this action or not
-     * @param   integer $resolution_id The resolution ID
-     * @param   integer $status_id The status ID
+     * @param   int $prj_id The project ID
+     * @param   int $issue_id The ID of the issue.
+     * @param   bool $send_notification Whether to send a notification about this action or not
+     * @param   int $resolution_id The resolution ID
+     * @param   int $status_id The status ID
      * @param   string $reason The reason for closing this issue
-     * @param   integer $usr_id The ID of the user closing this issue
+     * @param   int $usr_id The ID of the user closing this issue
      */
     public function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id)
     {
@@ -226,8 +226,8 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     /**
      * Called when custom fields are updated
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $issue_id The ID of the issue
+     * @param   int $prj_id The project ID
+     * @param   int $issue_id The ID of the issue
      * @param   array $old The custom fields before the update.
      * @param   array $new The custom fields after the update.
      * @param   array $changed An array containing what was changed.
@@ -240,11 +240,11 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     /**
      * Determines if the address should should be emailed.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @param   string $address The email address to check
-     * @param   integer $issue_id The ID of the issue.
+     * @param   int $issue_id The ID of the issue.
      * @param   string $type The type of notification to send.
-     * @return  boolean
+     * @return  bool
      */
     public function shouldEmailAddress($prj_id, $address, $issue_id = null, $type = null)
     {
@@ -259,8 +259,8 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
      * Returns which "issue fields" should be displayed in a given location.
      *
      * @see     class.issue_field.php
-     * @param   integer $prj_id The project ID
-     * @param   integer $issue_id The ID of the issue
+     * @param   int $prj_id The project ID
+     * @param   int $issue_id The ID of the issue
      * @param   string  $location The location to display these fields at
      * @return  array   an array of fields to display and their associated options
      */

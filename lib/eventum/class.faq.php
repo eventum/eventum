@@ -74,7 +74,7 @@ class FAQ
     /**
      * Method used to remove a FAQ entry from the system.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function remove()
     {
@@ -98,8 +98,8 @@ class FAQ
      * Method used to remove the support level associations for a given
      * FAQ entry.
      *
-     * @param   integer $faq_id The FAQ ID
-     * @return  boolean
+     * @param   int $faq_id The FAQ ID
+     * @return  bool
      */
     public static function removeSupportLevelAssociations($faq_id)
     {
@@ -123,7 +123,7 @@ class FAQ
     /**
      * Method used to update a FAQ entry in the system.
      *
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function update()
     {
@@ -166,7 +166,7 @@ class FAQ
     /**
      * Method used to add a FAQ entry to the system.
      *
-     * @return  integer 1 if the insert worked, -1 otherwise
+     * @return  int 1 if the insert worked, -1 otherwise
      */
     public static function insert()
     {
@@ -209,8 +209,8 @@ class FAQ
     /**
      * Method used to add a support level association to a FAQ entry.
      *
-     * @param   integer $faq_id The FAQ ID
-     * @param   integer $support_level_id The support level ID
+     * @param   int $faq_id The FAQ ID
+     * @param   int $support_level_id The support level ID
      */
     public static function addSupportLevelAssociation($faq_id, $support_level_id)
     {
@@ -228,7 +228,7 @@ class FAQ
     /**
      * Method used to get the details of a FAQ entry for a given FAQ ID.
      *
-     * @param   integer $faq_id The FAQ entry ID
+     * @param   int $faq_id The FAQ entry ID
      * @return  array The FAQ entry details
      */
     public static function getDetails($faq_id)
@@ -292,8 +292,8 @@ class FAQ
      * Method used to get the list of associated support levels for a given
      * FAQ entry.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $faq_id The FAQ ID
+     * @param   int $prj_id The project ID
+     * @param   int $faq_id The FAQ ID
      * @return  array The list of projects
      */
     public static function getAssociatedSupportLevels($prj_id, $faq_id)
@@ -326,9 +326,9 @@ class FAQ
      * Method used to quickly change the ranking of a faq entry
      * from the administration screen.
      *
-     * @param   integer $faq_id The faq entry ID
+     * @param   int $faq_id The faq entry ID
      * @param   string $rank_type Whether we should change the entry down or up (options are 'asc' or 'desc')
-     * @return  boolean
+     * @return  bool
      */
     public static function changeRank($faq_id, $rank_type)
     {

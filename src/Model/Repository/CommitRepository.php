@@ -25,7 +25,7 @@ class CommitRepository extends BaseRepository
     /**
      * Method called on Commit to allow workflow update project name/commit author or user id
      *
-     * @param integer $prj_id The project ID.     *
+     * @param int $prj_id The project ID.     *
      * @param Entity\Commit $ci
      * @param Entity\GitlabScmPayload|Entity\StdScmPayload $payload
      */
@@ -168,7 +168,7 @@ class CommitRepository extends BaseRepository
     /**
      * Get commits related to issue formatted to array for templating
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The list of checkins
      */
     public function getIssueCommitsArray($issue_id)

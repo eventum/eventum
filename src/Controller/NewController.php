@@ -237,7 +237,7 @@ class NewController extends BaseController
     /**
      * Returns an array of variables to be set on the new issue page when cloning an issue.
      *
-     * @param integer $issue_id The ID of the issue to clone
+     * @param int $issue_id The ID of the issue to clone
      * @return array
      */
     private function getCloneIssueTemplateVariables($issue_id)

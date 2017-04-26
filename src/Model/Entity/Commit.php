@@ -19,7 +19,7 @@ namespace Eventum\Model\Entity;
 class Commit extends BaseModel
 {
     /**
-     * @var integer
+     * @var int
      */
     protected $com_id;
 
@@ -82,7 +82,7 @@ class Commit extends BaseModel
     /**
      * Get comId
      *
-     * @return integer
+     * @return int
      */
     public function getId()
     {

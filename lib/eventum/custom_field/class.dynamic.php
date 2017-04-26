@@ -65,7 +65,7 @@ class Dynamic_Custom_Field_Backend
     /**
      * Returns the ID of the "controlling" custom field.
      *
-     * @return   integer The ID of the controlling custom field
+     * @return   int The ID of the controlling custom field
      */
     public function getControllingCustomFieldID()
     {
@@ -85,7 +85,7 @@ class Dynamic_Custom_Field_Backend
     /**
      * Returns true if this row should be hidden if it has no value
      *
-     * @return  boolean True if this field should be hidden before options are set
+     * @return  bool True if this field should be hidden before options are set
      */
     public function hideWhenNoOptions()
     {

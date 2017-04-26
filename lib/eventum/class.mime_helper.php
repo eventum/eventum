@@ -352,7 +352,7 @@ class Mime_Helper
      * TODO: make it support any parameter not just email address
      *
      * @param   string $address The email address
-     * @return  boolean If the address is quoted printable encoded.
+     * @return  bool If the address is quoted printable encoded.
      */
     public static function isQuotedPrintable($address)
     {
@@ -367,7 +367,7 @@ class Mime_Helper
      * Determine if a string contains 8-bit characters.
      *
      * @param string $string  The string to check.
-     * @return boolean  True if it does, false if it doesn't.
+     * @return bool  True if it does, false if it doesn't.
      */
     public static function is8bit($string)
     {
@@ -557,7 +557,7 @@ class Mime_Helper
      * Method used to check whether a given email message has any attachments.
      *
      * @param   mixed   $message The full body of the message or parsed message structure.
-     * @return  boolean
+     * @return  bool
      */
     public static function hasAttachments($message)
     {
@@ -707,7 +707,7 @@ class Mime_Helper
      * Method used to decode the content of a MIME encoded message.
      *
      * @param   string $message The full body of the message
-     * @param   boolean $include_bodies Whether to include the bodies in the return value or not
+     * @param   bool $include_bodies Whether to include the bodies in the return value or not
      * @return  mixed The decoded content of the message
      */
     public static function decode(&$message, $include_bodies = false, $decode_bodies = true)
@@ -858,7 +858,7 @@ class Mime_Helper
      * Splits the full email into headers and body
      *
      * @param   string $message The full email message
-     * @param   boolean $unfold If headers should be unfolded
+     * @param   bool $unfold If headers should be unfolded
      * @return  array An array containing the headers and body
      */
     public static function splitHeaderBody($message, $unfold = true)

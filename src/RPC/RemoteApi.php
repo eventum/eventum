@@ -96,7 +96,7 @@ class RemoteApi
 
     /**
      * @param int $prj_id
-     * @param boolean $show_all_issues
+     * @param bool $show_all_issues
      * @param string $status
      * @return array
      * @access protected
