@@ -103,11 +103,8 @@ $rules = $symfony_rules + [
     'semicolon_after_instruction' => true,
     'simplified_null_return' => false,
     'strict_comparison' => false,
+    'single_blank_line_before_namespace' => true,
 ];
-
-// XXX: check which one works with headercomment
-//	'no_blank_lines_before_namespace' => true,
-//	'single_blank_line_before_namespace' => true, // SYM
 
 return $config
     ->setRiskyAllowed(false)
