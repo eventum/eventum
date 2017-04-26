@@ -775,7 +775,7 @@ class Mime_Helper
             return;
         }
 
-        $ctype = @strtolower($obj->ctype_primary.'/'.$obj->ctype_secondary);
+        $ctype = @strtolower($obj->ctype_primary . '/' . $obj->ctype_secondary);
         switch ($ctype) {
             case 'text/plain':
                 if (((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) || (!empty($obj->d_parameters['filename']))) {

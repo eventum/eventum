@@ -74,6 +74,6 @@ class SupportLevelNotFoundException extends CRMException
 {
     public function __construct($level_id, Exception $previous = null)
     {
-        parent::__construct("Support Level '" . $level_id. "' not found", 0, $previous);
+        parent::__construct("Support Level '" . $level_id . "' not found", 0, $previous);
     }
 }

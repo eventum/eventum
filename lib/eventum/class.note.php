@@ -389,7 +389,7 @@ class Note
 
         $stmt = 'INSERT INTO
                     {{%note}}
-                 SET '. DB_Helper::buildSet($params);
+                 SET ' . DB_Helper::buildSet($params);
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);

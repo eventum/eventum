@@ -1404,7 +1404,7 @@ class Notification
             $params['ino_target_usr_id'] = $usr_id;
         }
 
-        $stmt = 'INSERT INTO {{%irc_notice}} SET '. DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO {{%irc_notice}} SET ' . DB_Helper::buildSet($params);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {

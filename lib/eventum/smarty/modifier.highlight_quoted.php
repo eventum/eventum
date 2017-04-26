@@ -56,7 +56,7 @@ function smarty_modifier_highlight_quoted($text, $escape = true, $indenter = '|>
         $colors[] = '#FF3333';
     }
     $matches = [];
-    preg_match_all('/^([ '.preg_quote($indenter).']*)(.*)/m',
+    preg_match_all('/^([ ' . preg_quote($indenter) . ']*)(.*)/m',
                     $text,
                     $matches,
                     PREG_SET_ORDER);
@@ -69,8 +69,8 @@ function smarty_modifier_highlight_quoted($text, $escape = true, $indenter = '|>
         if ($line) {
             $indent =    strlen(preg_replace('/[\s]*/', '', $match[1]));
             $color  =    $indent % count($colors);
-            $ret   .=    '<font color="'.$colors[$color].'">';
-            $ret   .=    htmlspecialchars($match[1]).' ';
+            $ret   .=    '<font color="' . $colors[$color] . '">';
+            $ret   .=    htmlspecialchars($match[1]) . ' ';
             $ret   .=    $line;
             $ret   .=    "</font>\n";
         } else {

@@ -385,6 +385,6 @@ class ContractNotFoundException extends CRMException
 {
     public function __construct($contract_id, Exception $previous = null)
     {
-        parent::__construct("Contract '" . $contract_id. "' not found", 0, $previous);
+        parent::__construct("Contract '" . $contract_id . "' not found", 0, $previous);
     }
 }

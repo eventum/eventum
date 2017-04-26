@@ -70,7 +70,7 @@ class Mail_Helper
         $re_pattern = "/(\[#\d+\] ){0,1}(([Rr][Ee][Ss]?|Ответ|Antwort|SV|[Aa][Ww]|[Rr][Ii][Ff]\.?)(\[[0-9]+\])?[ \t]*: ){2}(.*)/";
         if (preg_match($re_pattern, $subject, $matches)) {
             // TRANSLATORS: %1 = email subject
-            $re_format = '$1'.ev_gettext('Re: %1$s', '$5');
+            $re_format = '$1' . ev_gettext('Re: %1$s', '$5');
             $subject = preg_replace($re_pattern, $re_format, $subject);
 
             return self::removeExcessRe($subject);
@@ -749,7 +749,7 @@ class Mail_Helper
 
             // convert spaces for header fields
             $cf_title = str_replace(' ', '_', $cf_titles[$fld_id]);
-            $new_headers['X-Eventum-CustomField-'. $cf_title] = $cf_value;
+            $new_headers['X-Eventum-CustomField-' . $cf_title] = $cf_value;
         }
 
         return $new_headers;
@@ -984,7 +984,7 @@ class Mail_Helper
      */
     public static function getMessageID($headers, $body)
     {
-        $full_email = $headers. "\n\n";
+        $full_email = $headers . "\n\n";
         $structure = Mime_Helper::decode($full_email);
 
         $has_message_id = isset($structure->headers['message-id']);

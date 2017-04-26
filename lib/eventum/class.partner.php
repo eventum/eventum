@@ -307,7 +307,7 @@ class Partner
     public static function getBackendList()
     {
         $files = Misc::getFileList(APP_INC_PATH . '/partner');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/partner'));
+        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/partner'));
         $list = [];
         foreach ($files as $file) {
             // display a prettyfied backend name in the admin section

@@ -67,7 +67,7 @@ class History
             'his_min_role'  =>  $min_role,
         ];
 
-        $stmt = 'INSERT INTO {{%issue_history}} SET '. DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO {{%issue_history}} SET ' . DB_Helper::buildSet($params);
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);

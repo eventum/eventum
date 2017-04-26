@@ -1270,7 +1270,7 @@ class Issue
             $params['iss_res_id'] = $resolution_id;
         }
 
-        $stmt = 'UPDATE {{%issue}} SET ' . DB_Helper::buildSet($params). ' WHERE iss_id=?';
+        $stmt = 'UPDATE {{%issue}} SET ' . DB_Helper::buildSet($params) . ' WHERE iss_id=?';
         $params[] = $issue_id;
 
         try {
@@ -1475,7 +1475,7 @@ class Issue
             $params['iss_pre_id'] = $_POST['scheduled_release'];
         }
 
-        $stmt = 'UPDATE {{%issue}} SET ' . DB_Helper::buildSet($params). ' WHERE iss_id=?';
+        $stmt = 'UPDATE {{%issue}} SET ' . DB_Helper::buildSet($params) . ' WHERE iss_id=?';
         $params[] = $issue_id;
 
         try {

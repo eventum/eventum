@@ -189,7 +189,7 @@ function checkRequirements()
         'json' => [true, 'The json extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'],
         'mbstring' =>  [false, 'The Multibyte String Functions extension is not enabled in your PHP installation. For localization to work properly ' .
             'You need to install this extension. If you do not install this extension localization will be disabled.'],
-        'iconv' => [false, 'The ICONV extension is not enabled in your PHP installation. '.
+        'iconv' => [false, 'The ICONV extension is not enabled in your PHP installation. ' .
             'You need to install this extension for optimal operation. If you do not install this extension some unicode data will be corrupted.'],
     ];
 
@@ -213,15 +213,15 @@ function checkRequirements()
     if (!empty($error)) {
         $errors[] = $error;
     }
-    $error = checkPermissions(APP_SETUP_FILE, "File '" . APP_SETUP_FILE. "'");
+    $error = checkPermissions(APP_SETUP_FILE, "File '" . APP_SETUP_FILE . "'");
     if (!empty($error)) {
         $errors[] = $error;
     }
-    $error = checkPermissions(APP_CONFIG_PATH . '/private_key.php', "File '" . APP_CONFIG_PATH . '/private_key.php'. "'");
+    $error = checkPermissions(APP_CONFIG_PATH . '/private_key.php', "File '" . APP_CONFIG_PATH . '/private_key.php' . "'");
     if (!empty($error)) {
         $errors[] = $error;
     }
-    $error = checkPermissions(APP_CONFIG_PATH . '/config.php', "File '" . APP_CONFIG_PATH . '/config.php'. "'");
+    $error = checkPermissions(APP_CONFIG_PATH . '/config.php', "File '" . APP_CONFIG_PATH . '/config.php' . "'");
     if (!empty($error)) {
         $errors[] = $error;
     }
@@ -230,7 +230,7 @@ function checkRequirements()
     if (!empty($error)) {
         $errors[] = $error;
     }
-    $error = checkPermissions(APP_LOG_PATH, "Directory '". APP_LOG_PATH . "'", true);
+    $error = checkPermissions(APP_LOG_PATH, "Directory '" . APP_LOG_PATH . "'", true);
     if (!empty($error)) {
         $errors[] = $error;
     }

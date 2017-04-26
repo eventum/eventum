@@ -36,9 +36,9 @@ $finder = $config->getFinder()
     ->filter(function (\SplFileInfo $file) use (&$files) {
         $key = array_search($file->getRelativePathname(), $files);
         if ($key) {
-            error_log('ACCEPT: '.$file->getRelativePathname());
+            error_log('ACCEPT: ' . $file->getRelativePathname());
         } else {
-            error_log('REJECT: '.$file->getRelativePathname());
+            error_log('REJECT: ' . $file->getRelativePathname());
         }
 
         return $key;
@@ -54,7 +54,7 @@ $symfony_rules = [
     'blank_line_after_opening_tag' => false,
     'blank_line_before_return' => true,
     'cast_spaces' => false,
-    'concat_space' => false, // ['spacing' => 'one'], XXX check later, sym: 'none'
+    'concat_space' => ['spacing' => 'one'],
     'include' => true,
     'new_with_braces' => true,
     'no_blank_lines_after_class_opening' => true,

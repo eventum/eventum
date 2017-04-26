@@ -53,7 +53,7 @@ foreach ($findUsers($active_dn) as $entry) {
     try {
         $ldap->updateLocalUserFromBackend($uid);
     } catch (Exception $e) {
-        error_log("$uid: ". $e->getMessage());
+        error_log("$uid: " . $e->getMessage());
     }
 }
 

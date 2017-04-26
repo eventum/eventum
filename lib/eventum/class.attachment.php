@@ -78,7 +78,7 @@ class Attachment
         $disposition = self::displayInline($mimetype) ? 'inline' : 'attachment';
         $filename = rawurlencode($filename);
         header('Content-Type: ' . $mimetype);
-        header("Content-Disposition: {$disposition}; filename=\"{$filename}\"; filename*=".APP_CHARSET."''{$filename}");
+        header("Content-Disposition: {$disposition}; filename=\"{$filename}\"; filename*=" . APP_CHARSET . "''{$filename}");
         header("Content-Length: {$filesize}");
         echo $data;
         exit;
@@ -565,7 +565,7 @@ class Attachment
             $params['iat_not_id'] = $associated_note_id;
         }
 
-        $stmt = 'INSERT INTO {{%issue_attachment}} SET '. DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO {{%issue_attachment}} SET ' . DB_Helper::buildSet($params);
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);

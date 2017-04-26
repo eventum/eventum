@@ -29,7 +29,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         $this->match_mode = '';
 
         // generate unique placeholder
-        $this->excerpt_placeholder = 'excerpt' . rand(). 'placeholder';
+        $this->excerpt_placeholder = 'excerpt' . rand() . 'placeholder';
     }
 
     public function getIssueIDs($options)

@@ -299,7 +299,7 @@ abstract class CRM
     public static function getBackendList()
     {
         $files = Misc::getFileList(APP_INC_PATH . 'crm/');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/crm'));
+        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/crm'));
         $list = [];
         foreach ($files as $file) {
             $list['class.' . $file . '.php'] = $file;

@@ -574,7 +574,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         if (!empty($details['custom_fields'])) {
             foreach ($details['custom_fields'] as $custom_field) {
                 $msg .= str_pad($custom_field['fld_title'], 15, ' ', STR_PAD_LEFT) . ': ' .
-              $custom_field['value'] ."\n";
+              $custom_field['value'] . "\n";
             }
         }
 

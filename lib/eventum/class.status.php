@@ -39,7 +39,7 @@ class Status
                     {{%project_status_date}}
                  WHERE
                     psd_prj_id=? AND
-                    psd_sta_id IN (' . DB_Helper::buildList($sta_ids). ')';
+                    psd_sta_id IN (' . DB_Helper::buildList($sta_ids) . ')';
         $params = array_merge([$prj_id], $sta_ids);
 
         try {

@@ -34,7 +34,7 @@ class LDAP_Wrapper extends LDAP_Auth_Backend
 
         if (Misc::isError($search)) {
             $entry = $search;
-            error_log($entry->getCode(). ': '. $entry->getMessage());
+            error_log($entry->getCode() . ': ' . $entry->getMessage());
 
             return null;
         }

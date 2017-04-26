@@ -735,7 +735,7 @@ class Custom_Field
 
         if ($form_type != false) {
             if (is_array($form_type)) {
-                $stmt .= ' AND fld_id IN(' . DB_Helper::buildList($form_type). ')';
+                $stmt .= ' AND fld_id IN(' . DB_Helper::buildList($form_type) . ')';
                 $params = array_merge($params, $form_type);
             } else {
                 $fld_name = 'fld_' . Misc::escapeString($form_type);
@@ -1641,7 +1641,7 @@ class Custom_Field
     {
         $list = [];
         $files = Misc::getFileList(APP_INC_PATH . '/custom_field');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/custom_field'));
+        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/custom_field'));
         foreach ($files as $file) {
             // make sure we only list the backends
             if (preg_match('/^class\.(.*)\.php$/', $file)) {
