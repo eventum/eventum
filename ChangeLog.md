@@ -1,10 +1,10 @@
 # Eventum Issue Tracking System
 
-## [3.1.11] - 2017-??-??
+## [3.2.0] - 2017-??-??
 
 - replace buggy `Mail_Helper::getEmailAddresses` with Zend\Mail based implementation (@glensc, #238)
 
-[3.1.11]: https://github.com/eventum/eventum/compare/v3.1.10...master
+[3.2.0]: https://github.com/eventum/eventum/compare/v3.1.10...master
 
 ## [3.1.10] - 2017-04-21
 
