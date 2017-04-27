@@ -41,7 +41,7 @@ return [
             'user' => $config['username'],
             'pass' => $config['password'],
             'port' => $config['port'],
-            'unix_socket' => $config['socket'],
+            'unix_socket' => isset($config['socket']) ? $config['socket'] : null,
         ]
     ]
 ];
