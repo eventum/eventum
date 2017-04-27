@@ -12,8 +12,8 @@
  */
 
 // if gettext disabled (cli app) then return early
-if (defined('APP_NO_GETTEXT')) {
-    return;
+if (defined('APP_NO_GETTEXT') || !defined('APP_PATH')) {
+	return;
 }
 
 // if there is no gettext support built into PHP, or we are running in language compatibility mode include PHP-gettext
