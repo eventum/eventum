@@ -68,8 +68,8 @@ class MimeHelperTest extends TestCase
     public function testQuoteSender()
     {
         $test_data = [
-            '<email@example.org>'   =>  'email@example.org',
-            'John Doe <email@example.org>'   =>  '"John Doe" <email@example.org>',
+            '<email@example.org>' => 'email@example.org',
+            'John Doe <email@example.org>' => '"John Doe" <email@example.org>',
         ];
         foreach ($test_data as $string => $exp) {
             $res = Mime_Helper::quoteSender($string);
@@ -86,8 +86,8 @@ class MimeHelperTest extends TestCase
     public function testRemoveQuotes()
     {
         $test_data = [
-            '<email@example.org>'   =>  'email@example.org',
-            '"John Doe" <email@example.org>'   =>  'John Doe <email@example.org>',
+            '<email@example.org>' => 'email@example.org',
+            '"John Doe" <email@example.org>' => 'John Doe <email@example.org>',
         ];
         foreach ($test_data as $string => $exp) {
             $res = Mime_Helper::removeQuotes($string);

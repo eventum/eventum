@@ -727,8 +727,8 @@ class Filter
 
             if ($display != false) {
                 $return[$filter['title']] = [
-                    'value' =>  $display,
-                    'remove_link'   =>  'list.php?view=clearandfilter&' . self::buildUrl($filter_info, $options, $filter_key, true),
+                    'value' => $display,
+                    'remove_link' => 'list.php?view=clearandfilter&' . self::buildUrl($filter_info, $options, $filter_key, true),
                 ];
             }
         }

@@ -664,7 +664,7 @@ class Mime_Helper
         if ($found) {
             $t = [
                 'filename' => $mime_part_filename,
-                'cid'      => @$mime_part->headers['content-id'],
+                'cid' => @$mime_part->headers['content-id'],
                 'filetype' => $content_type,
             ];
             // only include the body of the attachment when
@@ -723,10 +723,10 @@ class Mime_Helper
         }
 
         $params = [
-            'crlf'           => "\r\n",
+            'crlf' => "\r\n",
             'include_bodies' => $include_bodies,
             'decode_headers' => false,
-            'decode_bodies'  => $decode_bodies,
+            'decode_bodies' => $decode_bodies,
         ];
         $decode = new Mail_mimeDecode($message);
         $email = $decode->decode($params);

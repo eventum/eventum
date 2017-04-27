@@ -29,8 +29,8 @@ class Authorized_Replier
     {
         // split into users and others (those with email address but no real user accounts)
         $repliers = [
-            'users' =>  [],
-            'other' =>  [],
+            'users' => [],
+            'other' => [],
         ];
 
         $stmt = "SELECT

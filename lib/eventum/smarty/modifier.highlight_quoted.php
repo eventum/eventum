@@ -63,18 +63,18 @@ function smarty_modifier_highlight_quoted($text, $escape = true, $indenter = '|>
     $ret = '';
     foreach ($matches as $match) {
         if ($escape) {
-            $match[2]    =    htmlspecialchars($match[2]);
+            $match[2] = htmlspecialchars($match[2]);
         }
         $line = trim($match[2]);
         if ($line) {
-            $indent =    strlen(preg_replace('/[\s]*/', '', $match[1]));
-            $color  =    $indent % count($colors);
-            $ret   .=    '<font color="' . $colors[$color] . '">';
-            $ret   .=    htmlspecialchars($match[1]) . ' ';
-            $ret   .=    $line;
-            $ret   .=    "</font>\n";
+            $indent = strlen(preg_replace('/[\s]*/', '', $match[1]));
+            $color = $indent % count($colors);
+            $ret .= '<font color="' . $colors[$color] . '">';
+            $ret .= htmlspecialchars($match[1]) . ' ';
+            $ret .= $line;
+            $ret .= "</font>\n";
         } else {
-            $ret   .=   "\n";
+            $ret .= "\n";
         }
     }
 

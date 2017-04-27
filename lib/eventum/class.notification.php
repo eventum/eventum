@@ -166,8 +166,8 @@ class Notification
         // if sender is empty, get project email address
         if (empty($sender)) {
             $info = [
-                'sender_name'   =>  $project_info['name'],
-                'email'         =>  $project_info['email'],
+                'sender_name' => $project_info['name'],
+                'email' => $project_info['email'],
             ];
 
             // if no project name, use eventum wide sender name
@@ -778,7 +778,7 @@ class Notification
             foreach ($extra_recipients as $user) {
                 $extra[] = [
                     'sub_usr_id' => $user,
-                    'sub_email'  => '',
+                    'sub_email' => '',
                 ];
             }
         }
@@ -870,7 +870,7 @@ class Notification
             case 'notes':
                 $data = self::getNote($issue_id, $entry_id);
                 $headers = [
-                    'Message-ID'    =>  $data['note']['not_message_id'],
+                    'Message-ID' => $data['note']['not_message_id'],
                 ];
                 if (@$data['note']['reference_msg_id'] != false) {
                     $headers['In-Reply-To'] = $data['note']['reference_msg_id'];
@@ -939,8 +939,8 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/' . $type . '.tpl.text');
         $tpl->assign([
-            'app_title'    => Misc::getToolCaption(),
-            'data'         => $data,
+            'app_title' => Misc::getToolCaption(),
+            'data' => $data,
             'current_user' => User::getFullName(Auth::getUserID()),
         ]);
 
@@ -1213,11 +1213,11 @@ class Notification
             $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
             $tpl->assign([
-                'app_title'   => Misc::getToolCaption(),
-                'data'        => $data,
+                'app_title' => Misc::getToolCaption(),
+                'data' => $data,
                 'sender_name' => Mail_Helper::getName($sender),
-                'recipient_name'    => Mail_Helper::getName($recipient),
-                'is_message_sender' =>  $is_message_sender,
+                'recipient_name' => Mail_Helper::getName($recipient),
+                'is_message_sender' => $is_message_sender,
             ]);
 
             // figure out if sender has a real account or not
@@ -1229,10 +1229,10 @@ class Notification
             }
 
             $tpl->assign([
-                'sender_can_access' =>  $can_access,
+                'sender_can_access' => $can_access,
                 'email' => [
-                    'date'    => $date,
-                    'from'    => Mime_Helper::decodeQuotedPrintable($sender),
+                    'date' => $date,
+                    'from' => Mime_Helper::decodeQuotedPrintable($sender),
                     'subject' => $subject,
                 ],
             ]);
@@ -1304,16 +1304,16 @@ class Notification
             $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
             $tpl->assign([
-                'data'        => $data,
+                'data' => $data,
                 'sender_name' => Mail_Helper::getName($recipient),
-                'app_title'   => Misc::getToolCaption(),
-                'recipient_name'    => Mail_Helper::getName($recipient),
+                'app_title' => Misc::getToolCaption(),
+                'recipient_name' => Mail_Helper::getName($recipient),
             ]);
             $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($sup_id), $sup_id);
             $tpl->assign([
                 'email' => [
-                    'date'    => $email_details['sup_date'],
-                    'from'    => $email_details['sup_from'],
+                    'date' => $email_details['sup_date'],
+                    'from' => $email_details['sup_from'],
                     'subject' => $email_details['sup_subject'],
                 ],
             ]);
@@ -1428,8 +1428,8 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/updated_account.tpl.text');
         $tpl->assign([
-            'app_title'    => Misc::getToolCaption(),
-            'user'         => $info,
+            'app_title' => Misc::getToolCaption(),
+            'user' => $info,
         ]);
 
         // TRANSLATORS: %s - APP_SHORT_NAME
@@ -1454,8 +1454,8 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/updated_password.tpl.text');
         $tpl->assign([
-            'app_title'    => Misc::getToolCaption(),
-            'user'         => $info,
+            'app_title' => Misc::getToolCaption(),
+            'user' => $info,
         ]);
 
         // TRANSLATORS: %s - APP_SHORT_NAME
@@ -1480,8 +1480,8 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/new_user.tpl.text');
         $tpl->assign([
-            'app_title'    => Misc::getToolCaption(),
-            'user'         => $info,
+            'app_title' => Misc::getToolCaption(),
+            'user' => $info,
         ]);
 
         // TRANSLATORS: %s - APP_SHORT_NAME
@@ -1512,9 +1512,9 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/' . $type . '.tpl.text');
         $tpl->assign([
-            'app_title'    => Misc::getToolCaption(),
-            'issue'        => $issue,
-            'data'         => $data,
+            'app_title' => Misc::getToolCaption(),
+            'issue' => $issue,
+            'data' => $data,
         ]);
 
         foreach ($assignees as $usr_id) {
@@ -1572,8 +1572,8 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/assigned.tpl.text');
         $tpl->assign([
-            'app_title'    => Misc::getToolCaption(),
-            'issue'        => $issue,
+            'app_title' => Misc::getToolCaption(),
+            'issue' => $issue,
             'current_user' => User::getFullName(Auth::getUserID()),
         ]);
 
@@ -1607,8 +1607,8 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/account_details.tpl.text');
         $tpl->assign([
-            'app_title'    => Misc::getToolCaption(),
-            'user'         => $info,
+            'app_title' => Misc::getToolCaption(),
+            'user' => $info,
         ]);
 
         // TRANSLATORS: %s = APP_SHORT_NAME
@@ -1628,9 +1628,9 @@ class Notification
     public static function getSubscribers($issue_id, $type = null, $min_role = null)
     {
         $subscribers = [
-            'staff'     => [],
+            'staff' => [],
             'customers' => [],
-            'all'       => [],
+            'all' => [],
         ];
         $prj_id = Issue::getProjectID($issue_id);
         $stmt = 'SELECT

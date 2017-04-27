@@ -82,33 +82,33 @@ class Search
             $custom_field = unserialize(urldecode($custom_field));
         }
         $cookie = [
-            'rows'           => Misc::escapeString($rows ? $rows : APP_DEFAULT_PAGER_SIZE),
-            'pagerRow'       => Misc::escapeInteger(self::getParam('pagerRow', $request_only)),
-            'hide_closed'    => $hide_closed,
-            'sort_by'        => Misc::stripHTML($sort_by ? $sort_by : 'pri_rank'),
-            'sort_order'     => Misc::stripHTML($sort_order ? $sort_order : 'ASC'),
-            'customer_id'    => Misc::escapeString(self::getParam('customer_id')),
-            'nosave'         => self::getParam('nosave', $request_only),
+            'rows' => Misc::escapeString($rows ? $rows : APP_DEFAULT_PAGER_SIZE),
+            'pagerRow' => Misc::escapeInteger(self::getParam('pagerRow', $request_only)),
+            'hide_closed' => $hide_closed,
+            'sort_by' => Misc::stripHTML($sort_by ? $sort_by : 'pri_rank'),
+            'sort_order' => Misc::stripHTML($sort_order ? $sort_order : 'ASC'),
+            'customer_id' => Misc::escapeString(self::getParam('customer_id')),
+            'nosave' => self::getParam('nosave', $request_only),
             // quick filter form
-            'keywords'       => self::getParam('keywords', $request_only),
-            'match_mode'     => self::getParam('match_mode', $request_only),
-            'hide_excerpts'  => self::getParam('hide_excerpts', $request_only),
-            'search_type'    => Misc::stripHTML($search_type),
-            'users'          => Misc::escapeString(self::getParam('users', $request_only)),
-            'status'         => Misc::escapeInteger(self::getParam('status', $request_only)),
-            'priority'       => Misc::escapeInteger(self::getParam('priority', $request_only)),
-            'severity'       => Misc::escapeInteger(self::getParam('severity', $request_only)),
-            'category'       => Misc::escapeInteger(self::getParam('category', $request_only)),
+            'keywords' => self::getParam('keywords', $request_only),
+            'match_mode' => self::getParam('match_mode', $request_only),
+            'hide_excerpts' => self::getParam('hide_excerpts', $request_only),
+            'search_type' => Misc::stripHTML($search_type),
+            'users' => Misc::escapeString(self::getParam('users', $request_only)),
+            'status' => Misc::escapeInteger(self::getParam('status', $request_only)),
+            'priority' => Misc::escapeInteger(self::getParam('priority', $request_only)),
+            'severity' => Misc::escapeInteger(self::getParam('severity', $request_only)),
+            'category' => Misc::escapeInteger(self::getParam('category', $request_only)),
             'customer_email' => Misc::stripHTML(self::getParam('customer_email', $request_only)),
             // advanced search form
-            'show_authorized_issues'        => Misc::escapeString(self::getParam('show_authorized_issues', $request_only)),
+            'show_authorized_issues' => Misc::escapeString(self::getParam('show_authorized_issues', $request_only)),
             'show_notification_list_issues' => Misc::escapeString(self::getParam('show_notification_list_issues', $request_only)),
-            'reporter'       => Misc::escapeInteger(self::getParam('reporter', $request_only)),
-            'product'        => Misc::escapeInteger(self::getParam('product', $request_only)),
+            'reporter' => Misc::escapeInteger(self::getParam('reporter', $request_only)),
+            'product' => Misc::escapeInteger(self::getParam('product', $request_only)),
             // other fields
-            'release'        => Misc::escapeInteger(self::getParam('release', $request_only)),
+            'release' => Misc::escapeInteger(self::getParam('release', $request_only)),
             // custom fields
-            'custom_field'   => Misc::stripHTML($custom_field),
+            'custom_field' => Misc::stripHTML($custom_field),
         ];
         // now do some magic to properly format the date fields
         $date_fields = [
@@ -125,25 +125,25 @@ class Search
             }
             if (@$field['filter_type'] == 'in_past') {
                 @$cookie[$field_name] = [
-                    'filter_type'   =>  'in_past',
-                    'time_period'   =>  $field['time_period'],
+                    'filter_type' => 'in_past',
+                    'time_period' => $field['time_period'],
                 ];
             } else {
                 $end_field_name = $field_name . '_end';
                 $end_field = Misc::stripHTML(self::getParam($end_field_name, $request_only));
                 @$cookie[$field_name] = [
-                    'past_hour'   => $field['past_hour'],
-                    'Year'        => $field['Year'],
-                    'Month'       => $field['Month'],
-                    'Day'         => $field['Day'],
-                    'start'       => $field['Year'] . '-' . $field['Month'] . '-' . $field['Day'],
+                    'past_hour' => $field['past_hour'],
+                    'Year' => $field['Year'],
+                    'Month' => $field['Month'],
+                    'Day' => $field['Day'],
+                    'start' => $field['Year'] . '-' . $field['Month'] . '-' . $field['Day'],
                     'filter_type' => $field['filter_type'],
-                    'end'         => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day'],
+                    'end' => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day'],
                 ];
                 @$cookie[$end_field_name] = [
-                    'Year'        => $end_field['Year'],
-                    'Month'       => $end_field['Month'],
-                    'Day'         => $end_field['Day'],
+                    'Year' => $end_field['Year'],
+                    'Month' => $end_field['Month'],
+                    'Day' => $end_field['Day'],
                 ];
             }
         }
@@ -182,8 +182,8 @@ class Search
             'iss_expected_resolution_date' => 'desc',
             'pre_title' => 'asc',
             'assigned' => 'asc',
-            'grp_name'  =>  'asc',
-            'iss_percent_complete'  =>  'asc',
+            'grp_name' => 'asc',
+            'iss_percent_complete' => 'asc',
         ];
 
         foreach ($custom_fields as $fld_id => $fld_name) {
@@ -195,7 +195,7 @@ class Search
         $sortfields['assigned'] = 'isu_usr_id';
 
         $items = [
-            'links'  => [],
+            'links' => [],
             'images' => [],
         ];
         $current_sort_by = $options['sort_by'];
@@ -509,14 +509,14 @@ class Search
         return [
             'list' => $res,
             'info' => [
-                'current_page'  => $current_row,
-                'start_offset'  => $start,
-                'end_offset'    => $start + count($res),
-                'total_rows'    => $total_rows,
-                'total_pages'   => $total_pages,
+                'current_page' => $current_row,
+                'start_offset' => $start,
+                'end_offset' => $start + count($res),
+                'total_rows' => $total_rows,
+                'total_pages' => $total_pages,
                 'previous_page' => ($current_row == 0) ? '-1' : ($current_row - 1),
-                'next_page'     => ($current_row == $last_page) ? '-1' : ($current_row + 1),
-                'last_page'     => $last_page,
+                'next_page' => ($current_row == $last_page) ? '-1' : ($current_row + 1),
+                'last_page' => $last_page,
                 'custom_fields' => $custom_fields,
             ],
             'csv' => @implode("\n", $csv),

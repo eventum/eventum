@@ -557,8 +557,8 @@ class Mail_Helper
             'text_encoding' => APP_EMAIL_ENCODING,
         ]);
         $headers = [
-            'From'    => $from,
-            'To'      => self::fixAddressQuoting($to),
+            'From' => $from,
+            'To' => self::fixAddressQuoting($to),
             'Subject' => $subject,
         ];
 
@@ -606,8 +606,8 @@ class Mail_Helper
             'text_encoding' => APP_EMAIL_ENCODING,
         ]);
         $this->setHeaders([
-            'From'    => $from,
-            'To'      => $to,
+            'From' => $from,
+            'To' => $to,
             'Subject' => $subject,
         ]);
         $hdrs = $this->mime->headers($this->headers);
@@ -953,9 +953,9 @@ class Mail_Helper
         $root_msg_id = Issue::getRootMessageID($issue_id);
 
         return [
-            'Message-ID'    =>  self::generateMessageID(),
-            'In-Reply-To'   =>  $root_msg_id,
-            'References'    =>  $root_msg_id,
+            'Message-ID' => self::generateMessageID(),
+            'In-Reply-To' => $root_msg_id,
+            'References' => $root_msg_id,
         ];
     }
 

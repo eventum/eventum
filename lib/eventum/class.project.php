@@ -30,10 +30,10 @@ class Project
     public static function getOutgoingSenderAddress($prj_id)
     {
         $default = [
-            'name'  => '',
+            'name' => '',
             'email' => '',
-            'flag'  =>  '',
-            'flag_location' =>  '',
+            'flag' => '',
+            'flag_location' => '',
         ];
         $stmt = 'SELECT
                     prj_outgoing_sender_name,
@@ -1067,8 +1067,8 @@ class Project
         foreach ($fields as $field_name => $field_info) {
             if (!isset($res[$field_name])) {
                 $res[$field_name] = [
-                    'required'  =>  $field_info['required'],
-                    'min_role'  =>  0,
+                    'required' => $field_info['required'],
+                    'min_role' => 0,
                 ];
             }
         }

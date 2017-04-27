@@ -216,18 +216,18 @@ class Routing
         $structure->headers['subject'] = Mail_Helper::removeExcessRe(@$structure->headers['subject'], true);
 
         $t = [
-            'issue_id'       => $issue_id,
-            'ema_id'         => $email_account_id,
-            'message_id'     => @$structure->headers['message-id'],
-            'date'           => Date_Helper::getCurrentDateGMT(),
-            'from'           => @$structure->headers['from'],
-            'to'             => @$structure->headers['to'],
-            'cc'             => @$structure->headers['cc'],
-            'subject'        => @$structure->headers['subject'],
-            'body'           => @$body,
-            'full_email'     => @$full_message,
+            'issue_id' => $issue_id,
+            'ema_id' => $email_account_id,
+            'message_id' => @$structure->headers['message-id'],
+            'date' => Date_Helper::getCurrentDateGMT(),
+            'from' => @$structure->headers['from'],
+            'to' => @$structure->headers['to'],
+            'cc' => @$structure->headers['cc'],
+            'subject' => @$structure->headers['subject'],
+            'body' => @$body,
+            'full_email' => @$full_message,
             'has_attachment' => $has_attachments,
-            'headers'        => @$structure->headers,
+            'headers' => @$structure->headers,
         ];
         // automatically associate this incoming email with a customer
         if (CRM::hasCustomerIntegration($prj_id)) {
@@ -408,12 +408,12 @@ class Routing
 
         // insert the new note and send notification about it
         $_POST = [
-            'title'                => @$structure->headers['subject'],
-            'note'                 => $body,
-            'note_cc'              => $cc_users,
+            'title' => @$structure->headers['subject'],
+            'note' => $body,
+            'note_cc' => $cc_users,
             'add_extra_recipients' => 'yes',
-            'message_id'           => @$structure->headers['message-id'],
-            'parent_id'            => $parent_id,
+            'message_id' => @$structure->headers['message-id'],
+            'parent_id' => $parent_id,
         ];
 
         // add the full email to the note if there are any attachments

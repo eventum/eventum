@@ -175,8 +175,8 @@ class Template_Helper
             'app_setup' => Setup::get(),
             'roles' => User::getAssocRoleIDs(),
             'current_url' => $_SERVER['PHP_SELF'],
-            'template_id'    =>  str_replace(['/', '.tpl.html'], ['_'], $this->tpl_name),
-            'handle_clock_in'   =>  $setup['handle_clock_in'] == 'enabled',
+            'template_id' => str_replace(['/', '.tpl.html'], ['_'], $this->tpl_name),
+            'handle_clock_in' => $setup['handle_clock_in'] == 'enabled',
         ];
 
         // If VCS version is present "Eventum 2.3.3-148-g78b3368", link ref to github

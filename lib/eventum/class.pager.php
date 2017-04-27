@@ -99,7 +99,7 @@ class Pager
         if ($link_str == -1) {
             $link_str = [
                 'previous' => '&lt;&lt; ' . ev_gettext('Previous'),
-                'next'     => ev_gettext('Next') . ' &gt;&gt;',
+                'next' => ev_gettext('Next') . ' &gt;&gt;',
             ];
         }
         $extra_vars = self::_buildQueryString();

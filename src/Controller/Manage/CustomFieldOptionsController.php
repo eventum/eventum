@@ -78,7 +78,7 @@ class CustomFieldOptionsController extends ManageBaseController
 
         $this->tpl->assign([
                 'info' => $field_info,
-                'options'   =>  Custom_Field::getOptions($this->fld_id),
+                'options' => Custom_Field::getOptions($this->fld_id),
         ]);
     }
 }

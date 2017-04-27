@@ -65,10 +65,10 @@ function getRevInfo($repository_id, $revision_id)
         $base_rev = (int) ltrim($change['base_rev'], '0');
         $rev = (int) ltrim($change['rev'], '0');
         $file = [
-            'file'        => $filename,
+            'file' => $filename,
             'old_version' => $base_rev >= 0 ? $base_rev : null,
             'new_version' => $rev,
-            'module'      => $module,
+            'module' => $module,
         ];
         $files[] = $file;
     }

@@ -53,7 +53,7 @@ class Note
         }
 
         return [
-            'next'     => @$next,
+            'next' => @$next,
             'previous' => @$previous,
         ];
     }
@@ -328,7 +328,7 @@ class Note
             'closing' => false,
             'send_notification' => true,
             'is_blocked' => false,
-            'add_extra_recipients'  =>  false,
+            'add_extra_recipients' => false,
 
             'message_id' => null,
             'cc' => null,
@@ -560,18 +560,18 @@ class Note
             }
             list($blocked_message, $headers) = Mail_Helper::rewriteThreadingHeaders($issue_id, $blocked_message, @$structure->headers);
             $t = [
-                'issue_id'       => $issue_id,
-                'ema_id'         => $email_account_id,
-                'message_id'     => @$structure->headers['message-id'],
-                'date'           => Date_Helper::getCurrentDateGMT(),
-                'from'           => @$structure->headers['from'],
-                'to'             => @$structure->headers['to'],
-                'cc'             => @$structure->headers['cc'],
-                'subject'        => @$structure->headers['subject'],
-                'body'           => @$body,
-                'full_email'     => @$blocked_message,
+                'issue_id' => $issue_id,
+                'ema_id' => $email_account_id,
+                'message_id' => @$structure->headers['message-id'],
+                'date' => Date_Helper::getCurrentDateGMT(),
+                'from' => @$structure->headers['from'],
+                'to' => @$structure->headers['to'],
+                'cc' => @$structure->headers['cc'],
+                'subject' => @$structure->headers['subject'],
+                'body' => @$body,
+                'full_email' => @$blocked_message,
                 'has_attachment' => $has_attachments,
-                'headers'        => $headers,
+                'headers' => $headers,
             ];
 
             // need to check for a possible customer association

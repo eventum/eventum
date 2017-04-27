@@ -64,7 +64,7 @@ class History
             'his_summary' => $summary,
             'his_context' => json_encode($context),
             'his_htt_id' => $htt_id,
-            'his_min_role'  =>  $min_role,
+            'his_min_role' => $min_role,
         ];
 
         $stmt = 'INSERT INTO {{%issue_history}} SET ' . DB_Helper::buildSet($params);

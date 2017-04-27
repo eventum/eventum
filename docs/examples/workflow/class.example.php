@@ -268,8 +268,8 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     {
         if ($location == 'post_note') {
             return [
-                        'assignee'  =>  [],
-                        'custom'    =>  [1],
+                        'assignee' => [],
+                        'custom' => [1],
             ];
         }
 

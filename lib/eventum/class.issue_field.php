@@ -24,10 +24,10 @@ class Issue_Field
     public static function getAvailableFields()
     {
         return [
-            'assignee'  =>  'Assignee',
-            'priority'  =>  'Priority',
-            'severity'  =>  'Severity',
-            'custom'    =>  'Custom Fields',
+            'assignee' => 'Assignee',
+            'priority' => 'Priority',
+            'severity' => 'Severity',
+            'custom' => 'Custom Fields',
         ];
     }
 
@@ -47,9 +47,9 @@ class Issue_Field
         $data = [];
         foreach ($fields as $field_name => $field_options) {
             $data[$field_name] = [
-                'title' =>  $available_fields[$field_name],
-                'options'   =>  self::getOptions($field_name, $issue_id),
-                'value'     =>  self::getValue($issue_id, $field_name),
+                'title' => $available_fields[$field_name],
+                'options' => self::getOptions($field_name, $issue_id),
+                'value' => self::getValue($issue_id, $field_name),
             ];
             if ($field_name == 'custom') {
                 $data[$field_name]['custom'] = Custom_Field::getListByIssue($prj_id, $issue_id, Auth::getUserID(), $field_options, true);

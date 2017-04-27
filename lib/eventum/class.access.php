@@ -378,23 +378,23 @@ class Access
     public static function getIssueAccessArray($issue_id, $usr_id)
     {
         return [
-            'files'     =>  self::canViewAttachedFiles($issue_id, $usr_id),
-            'drafts'    =>  self::canViewDrafts($issue_id, $usr_id),
-            'notes'     =>  self::canViewInternalNotes($issue_id, $usr_id),
-            'partners'  =>  self::canViewIssuePartners($issue_id, $usr_id),
-            'phone'     =>  self::canViewPhoneCalls($issue_id, $usr_id),
-            'time'      =>  self::canViewTimeTracking($issue_id, $usr_id),
+            'files' => self::canViewAttachedFiles($issue_id, $usr_id),
+            'drafts' => self::canViewDrafts($issue_id, $usr_id),
+            'notes' => self::canViewInternalNotes($issue_id, $usr_id),
+            'partners' => self::canViewIssuePartners($issue_id, $usr_id),
+            'phone' => self::canViewPhoneCalls($issue_id, $usr_id),
+            'time' => self::canViewTimeTracking($issue_id, $usr_id),
             'checkins' => self::canViewCheckins($issue_id, $usr_id),
-            'history'   =>  self::canViewHistory($issue_id, $usr_id),
-            'notification_list' =>  self::canViewNotificationList($issue_id, $usr_id),
-            'authorized_repliers'   =>  self::canViewAuthorizedRepliers($issue_id, $usr_id),
-            'change_reporter'   =>  self::canChangeReporter($issue_id, $usr_id),
-            'change_status' =>  self::canChangeStatus($issue_id, $usr_id),
-            'convert_note'  =>  self::canConvertNote($issue_id, $usr_id),
-            'update'    =>  self::canUpdateIssue($issue_id, $usr_id),
-            'clone_issue'   =>  self::canCloneIssue($issue_id, $usr_id),
-            'change_access' =>  self::canChangeAccessLevel($issue_id, $usr_id),
-            'change_assignee' =>  self::canChangeAssignee($issue_id, $usr_id),
+            'history' => self::canViewHistory($issue_id, $usr_id),
+            'notification_list' => self::canViewNotificationList($issue_id, $usr_id),
+            'authorized_repliers' => self::canViewAuthorizedRepliers($issue_id, $usr_id),
+            'change_reporter' => self::canChangeReporter($issue_id, $usr_id),
+            'change_status' => self::canChangeStatus($issue_id, $usr_id),
+            'convert_note' => self::canConvertNote($issue_id, $usr_id),
+            'update' => self::canUpdateIssue($issue_id, $usr_id),
+            'clone_issue' => self::canCloneIssue($issue_id, $usr_id),
+            'change_access' => self::canChangeAccessLevel($issue_id, $usr_id),
+            'change_assignee' => self::canChangeAssignee($issue_id, $usr_id),
         ];
     }
 
@@ -498,10 +498,10 @@ class Access
     public static function getFeatureAccessArray($usr_id)
     {
         return [
-            'create_issue'  =>  self::canCreateIssue($usr_id),
-            'associate_emails'  =>  self::canAccessAssociateEmails($usr_id),
-            'reports'       =>  self::canAccessReports($usr_id),
-            'export'        =>  self::canExportData($usr_id),
+            'create_issue' => self::canCreateIssue($usr_id),
+            'associate_emails' => self::canAccessAssociateEmails($usr_id),
+            'reports' => self::canAccessReports($usr_id),
+            'export' => self::canExportData($usr_id),
         ];
     }
 
@@ -522,8 +522,8 @@ class Access
         $prj_id = Auth::getCurrentProject();
 
         $levels = [
-            'normal'    =>  'Normal',
-            'assignees_only'    =>  'Assignees Only',
+            'normal' => 'Normal',
+            'assignees_only' => 'Assignees Only',
         ];
 
         foreach (Group::getAssocList($prj_id) as $grp_id => $group) {

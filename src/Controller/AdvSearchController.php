@@ -88,16 +88,16 @@ class AdvSearchController extends BaseController
         $assign_options = $this->assign->getAssignOptions($users);
 
         $this->tpl->assign([
-            'cats'          => Category::getAssocList($this->prj_id),
-            'priorities'    => Priority::getList($this->prj_id),
-            'severities'    => Severity::getList($this->prj_id),
-            'status'        => Status::getAssocStatusList($this->prj_id),
-            'users'         => $assign_options,
-            'releases'      => Release::getAssocList($this->prj_id, true),
-            'custom'        => Filter::getListing($this->prj_id),
+            'cats' => Category::getAssocList($this->prj_id),
+            'priorities' => Priority::getList($this->prj_id),
+            'severities' => Severity::getList($this->prj_id),
+            'status' => Status::getAssocStatusList($this->prj_id),
+            'users' => $assign_options,
+            'releases' => Release::getAssocList($this->prj_id, true),
+            'custom' => Filter::getListing($this->prj_id),
             'custom_fields' => Custom_Field::getListByProject($this->prj_id, ''),
-            'reporters'     => Project::getReporters($this->prj_id),
-            'products'      => Product::getAssocList(false),
+            'reporters' => Project::getReporters($this->prj_id),
+            'products' => Product::getAssocList(false),
         ]);
 
         if ($this->custom_id) {

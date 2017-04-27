@@ -201,7 +201,7 @@ class NewController extends BaseController
                 'field_display_settings' => Project::getFieldDisplaySettings($this->prj_id),
                 'groups' => Group::getAssocList($this->prj_id),
                 'products' => Product::getList(false),
-                'access_levels' =>  Access::getAccessLevels(),
+                'access_levels' => Access::getAccessLevels(),
             ]
         );
 

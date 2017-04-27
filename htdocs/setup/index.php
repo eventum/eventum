@@ -87,8 +87,8 @@ $relative_url = implode('/', $relative_url);
 define('APP_REL_URL', $relative_url);
 $tpl->assign('phpversion', phpversion());
 $tpl->assign('core', [
-    'rel_url'   =>  $relative_url,
-    'app_title' =>  APP_NAME,
+    'rel_url' => $relative_url,
+    'app_title' => APP_NAME,
     'template_id' => 'setup',
 ]);
 if (@$_SERVER['HTTPS'] == 'on') {
@@ -187,7 +187,7 @@ function checkRequirements()
         'session' => [true, 'The Session extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'],
         'pdo_mysql' => [true, 'The PDO MySQL extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'],
         'json' => [true, 'The json extension needs to be enabled in your PHP.INI file in order for Eventum to work properly.'],
-        'mbstring' =>  [false, 'The Multibyte String Functions extension is not enabled in your PHP installation. For localization to work properly ' .
+        'mbstring' => [false, 'The Multibyte String Functions extension is not enabled in your PHP installation. For localization to work properly ' .
             'You need to install this extension. If you do not install this extension localization will be disabled.'],
         'iconv' => [false, 'The ICONV extension is not enabled in your PHP installation. ' .
             'You need to install this extension for optimal operation. If you do not install this extension some unicode data will be corrupted.'],

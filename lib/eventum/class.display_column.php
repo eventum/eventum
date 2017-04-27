@@ -153,70 +153,70 @@ class Display_Column
     public static function getAllColumns($page)
     {
         $columns = [
-            'list_issues'   =>  [
-                'pri_rank'    =>  [
-                    'title' =>  ev_gettext('Priority'),
+            'list_issues' => [
+                'pri_rank' => [
+                    'title' => ev_gettext('Priority'),
                 ],
-                'sev_rank'    =>  [
-                    'title' =>  ev_gettext('Severity'),
+                'sev_rank' => [
+                    'title' => ev_gettext('Severity'),
                 ],
-                'iss_id'    =>  [
-                    'title' =>  ev_gettext('Issue ID'),
+                'iss_id' => [
+                    'title' => ev_gettext('Issue ID'),
                 ],
-                'usr_full_name' =>  [
-                    'title' =>  ev_gettext('Reporter'),
+                'usr_full_name' => [
+                    'title' => ev_gettext('Reporter'),
                 ],
-                'iss_created_date'    =>  [
-                    'title' =>  ev_gettext('Created Date'),
+                'iss_created_date' => [
+                    'title' => ev_gettext('Created Date'),
                 ],
-                'grp_name'    =>  [
-                    'title' =>  ev_gettext('Group'),
+                'grp_name' => [
+                    'title' => ev_gettext('Group'),
                 ],
-                'assigned'  =>  [
-                    'title' =>  ev_gettext('Assigned'),
+                'assigned' => [
+                    'title' => ev_gettext('Assigned'),
                 ],
-                'time_spent'    =>  [
-                    'title' =>  ev_gettext('Time Spent'),
+                'time_spent' => [
+                    'title' => ev_gettext('Time Spent'),
                 ],
-                'iss_percent_complete'    =>  [
-                    'title' =>  ev_gettext('% Complete'),
-                    'default_role'  =>  9,
+                'iss_percent_complete' => [
+                    'title' => ev_gettext('% Complete'),
+                    'default_role' => 9,
                 ],
-                'iss_dev_time'    =>  [
-                    'title' =>  ev_gettext('Est Dev Time'),
-                    'default_role'  =>  9,
+                'iss_dev_time' => [
+                    'title' => ev_gettext('Est Dev Time'),
+                    'default_role' => 9,
                 ],
-                'prc_title'     =>  [
-                    'title' =>  ev_gettext('Category'),
+                'prc_title' => [
+                    'title' => ev_gettext('Category'),
                 ],
-                'pre_title' =>  [
-                    'title' =>  ev_gettext('Release'),
+                'pre_title' => [
+                    'title' => ev_gettext('Release'),
                 ],
-                'iss_customer_id'   =>  [
-                    'title' =>  ev_gettext('Customer'),
+                'iss_customer_id' => [
+                    'title' => ev_gettext('Customer'),
                 ],
-                'support_level' =>  [
-                    'title' =>  ev_gettext('Support Level'),
+                'support_level' => [
+                    'title' => ev_gettext('Support Level'),
                 ],
-                'sta_rank'    =>  [
-                    'title' =>  ev_gettext('Status'),
+                'sta_rank' => [
+                    'title' => ev_gettext('Status'),
                 ],
-                'sta_change_date'   =>  [
-                    'title' =>  ev_gettext('Status Change Date'),
+                'sta_change_date' => [
+                    'title' => ev_gettext('Status Change Date'),
                 ],
-                'last_action_date'  =>  [
-                    'title' =>  ev_gettext('Last Action Date'),
+                'last_action_date' => [
+                    'title' => ev_gettext('Last Action Date'),
                 ],
-                'custom_fields' =>  [
-                    'title' =>  ev_gettext('Custom Fields'),
+                'custom_fields' => [
+                    'title' => ev_gettext('Custom Fields'),
                 ],
-                'iss_summary'   =>  [
-                    'title' =>  ev_gettext('Summary'),
-                    'align' =>  'left',
-                    'width' =>  '30%',
+                'iss_summary' => [
+                    'title' => ev_gettext('Summary'),
+                    'align' => 'left',
+                    'width' => '30%',
                 ],
-                'iss_expected_resolution_date'  =>  [
-                    'title' =>  ev_gettext('Expected Resolution Date'),
+                'iss_expected_resolution_date' => [
+                    'title' => ev_gettext('Expected Resolution Date'),
                 ],
             ],
         ];

@@ -57,7 +57,7 @@ function smarty_modifier_relative_datetime($timestamp)
 
     $difference = round($difference);
     if ($difference != 1) {
-        $periods[$j].= 's';
+        $periods[$j] .= 's';
     }
 
     $text = "$difference $periods[$j] $ending";

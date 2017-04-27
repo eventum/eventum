@@ -117,7 +117,7 @@ class CustomFieldsController extends ManageBaseController
                 'list' => Custom_Field::getList(),
                 'user_roles' => $user_roles,
                 'backend_list' => Custom_Field::getBackendList(),
-                'order_by_list' =>  Custom_Field::$order_by_choices
+                'order_by_list' => Custom_Field::$order_by_choices
             ]
         );
     }

@@ -124,13 +124,13 @@ class Report
             $updated_date_ts = Date_Helper::getUnixTimestamp($row['iss_updated_date'], Date_Helper::getDefaultTimezone());
             $last_response_ts = Date_Helper::getUnixTimestamp($row['iss_last_response_date'], Date_Helper::getDefaultTimezone());
             $issues[$row['usr_full_name']][$row['iss_id']] = [
-                'iss_summary'         => $row['iss_summary'],
-                'sta_title'           => $row['sta_title'],
-                'iss_created_date'    => $row['iss_created_date'],
+                'iss_summary' => $row['iss_summary'],
+                'sta_title' => $row['sta_title'],
+                'iss_created_date' => $row['iss_created_date'],
                 'iss_last_response_date' => $row['iss_last_response_date'],
-                'time_spent'          => Misc::getFormattedTime($row['time_spent']),
-                'status_color'        => $row['sta_color'],
-                'last_update'         => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
+                'time_spent' => Misc::getFormattedTime($row['time_spent']),
+                'status_color' => $row['sta_color'],
+                'last_update' => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
                 'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
             ];
         }
@@ -217,12 +217,12 @@ class Report
                 Date_Helper::getDefaultTimezone()
             );
             $issues[$name][$row['iss_id']] = [
-                'iss_summary'         => $row['iss_summary'],
-                'sta_title'           => $row['sta_title'],
-                'iss_created_date'    => $row['iss_created_date'],
-                'time_spent'          => Misc::getFormattedTime($row['time_spent']),
-                'status_color'        => $row['sta_color'],
-                'last_update'         => Date_Helper::getFormattedDateDiff($ts, $update_date_ts),
+                'iss_summary' => $row['iss_summary'],
+                'sta_title' => $row['sta_title'],
+                'iss_created_date' => $row['iss_created_date'],
+                'time_spent' => Misc::getFormattedTime($row['time_spent']),
+                'status_color' => $row['sta_color'],
+                'last_update' => Date_Helper::getFormattedDateDiff($ts, $update_date_ts),
                 'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
             ];
         }
@@ -273,11 +273,11 @@ class Report
         $issues = [];
         foreach ($res as $row) {
             $issues[$row['usr_full_name']][$row['iss_id']] = [
-                'iss_summary'      => $row['iss_summary'],
-                'sta_title'        => $row['sta_title'],
+                'iss_summary' => $row['iss_summary'],
+                'sta_title' => $row['sta_title'],
                 'iss_created_date' => $row['iss_created_date'],
-                'time_spent'       => Misc::getFormattedTime($row['time_spent']),
-                'status_color'     => $row['sta_color'],
+                'time_spent' => Misc::getFormattedTime($row['time_spent']),
+                'status_color' => $row['sta_color'],
             ];
         }
 
@@ -347,8 +347,8 @@ class Report
         }
 
         $email_count = [
-            'associated'    =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, true),
-            'other'         =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, false),
+            'associated' => Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, true),
+            'other' => Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, false),
         ];
 
         $htt_exclude = [];
@@ -361,10 +361,10 @@ class Report
         $issue_list += Time_Tracking::getTouchedIssuesByUser($usr_id, $prj_id, $start_ts, $end_ts);
 
         $issues = [
-            'no_time'   => [],
-            'not_mine'  => [],
-            'closed'    => [],
-            'other'     => [],
+            'no_time' => [],
+            'not_mine' => [],
+            'closed' => [],
+            'other' => [],
         ];
 
         // organize issues into categories
@@ -398,17 +398,17 @@ class Report
         }
 
         return [
-            'start'     => $start_ts,
-            'end'       => $end_ts,
-            'user'      => User::getDetails($usr_id),
-            'issues'    => $issues,
+            'start' => $start_ts,
+            'end' => $end_ts,
+            'user' => User::getDetails($usr_id),
+            'issues' => $issues,
             'status_counts' => History::getTouchedIssueCountByStatus($usr_id, $prj_id, $start_ts, $end_ts),
-            'new_assigned_count'    =>  $newly_assigned,
+            'new_assigned_count' => $newly_assigned,
             'time_tracking' => $time_tracking,
-            'email_count'   => $email_count,
-            'phone_count'   => Phone_Support::getCountByUser($usr_id, $start_ts, $end_ts),
-            'note_count'    => Note::getCountByUser($usr_id, $start_ts, $end_ts),
-            'total_time'    => Misc::getFormattedTime($total_time, false),
+            'email_count' => $email_count,
+            'phone_count' => Phone_Support::getCountByUser($usr_id, $start_ts, $end_ts),
+            'note_count' => Note::getCountByUser($usr_id, $start_ts, $end_ts),
+            'total_time' => Misc::getFormattedTime($total_time, false),
         ];
     }
 
@@ -448,8 +448,8 @@ class Report
 
         // get total number of developer and customer events
         $event_count = [
-            'developer' =>  0,
-            'customer'  =>  0,
+            'developer' => 0,
+            'customer' => 0,
         ];
         foreach ($res as $row) {
             $event_count['developer'] += $row['dev_events'];
@@ -1018,10 +1018,10 @@ class Report
         $data['issues']['points'] = $res;
 
         $data['issues']['stats'] = [
-            'total' =>  0,
-            'avg'   =>  0,
-            'median'    =>  0,
-            'max'   =>  0,
+            'total' => 0,
+            'avg' => 0,
+            'median' => 0,
+            'max' => 0,
         ];
 
         if ($res) {
@@ -1029,10 +1029,10 @@ class Report
             $stats->setData($res);
 
             $data['issues']['stats'] = [
-                'total' =>  $stats->sum(),
-                'avg'   =>  $stats->mean(),
-                'median'    =>  $stats->median(),
-                'max'   =>  $stats->max(),
+                'total' => $stats->sum(),
+                'avg' => $stats->mean(),
+                'median' => $stats->median(),
+                'max' => $stats->max(),
             ];
         }
 
@@ -1083,17 +1083,17 @@ class Report
             $stats->setData($res);
 
             $data['emails']['stats'] = [
-                'total' =>  $stats->sum(),
-                'avg'   =>  $stats->mean(),
-                'median'    =>  $stats->median(),
-                'max'   =>  $stats->max(),
+                'total' => $stats->sum(),
+                'avg' => $stats->mean(),
+                'median' => $stats->median(),
+                'max' => $stats->max(),
             ];
         } else {
             $data['emails']['stats'] = [
-                'total' =>  0,
-                'avg'   =>  0,
-                'median'    =>  0,
-                'max'   =>  0,
+                'total' => 0,
+                'avg' => 0,
+                'median' => 0,
+                'max' => 0,
             ];
         }
 

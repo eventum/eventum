@@ -154,7 +154,7 @@ class Partner
         $return = [];
         foreach ($res as $partner) {
             $return[$partner] = [
-                'name'  =>  self::getName($partner),
+                'name' => self::getName($partner),
             ];
         }
 
@@ -189,8 +189,8 @@ class Partner
         $return = [];
         foreach ($partners as $par_code) {
             $return[$par_code] = [
-                'name'  =>  self::getName($par_code),
-                'message'   =>  self::getIssueMessage($par_code, $iss_id),
+                'name' => self::getName($par_code),
+                'message' => self::getIssueMessage($par_code, $iss_id),
             ];
         }
 
@@ -219,9 +219,9 @@ class Partner
         foreach ($backends as $par_code) {
             $backend = self::getBackend($par_code);
             $partners[] = [
-                'code'  =>  $par_code,
-                'name'  =>  $backend->getName(),
-                'projects'  =>  self::getProjectsForPartner($par_code),
+                'code' => $par_code,
+                'name' => $backend->getName(),
+                'projects' => self::getProjectsForPartner($par_code),
             ];
         }
 
@@ -241,9 +241,9 @@ class Partner
     public static function getDetails($par_code)
     {
         return [
-            'code'  =>  $par_code,
-            'name'  =>  self::getBackend($par_code)->getName(),
-            'projects'  =>  self::getProjectsForPartner($par_code),
+            'code' => $par_code,
+            'name' => self::getBackend($par_code)->getName(),
+            'projects' => self::getProjectsForPartner($par_code),
         ];
     }
 

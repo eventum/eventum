@@ -485,9 +485,9 @@ class Stats
         }
 
         return [
-            'pending'    => $res['unassociated'],
+            'pending' => $res['unassociated'],
             'associated' => $res['associated'],
-            'removed'    => $res3,
+            'removed' => $res3,
         ];
     }
 }

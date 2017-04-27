@@ -137,7 +137,7 @@ class Custom_Field
      * @param   int $rank The rank of the custom field option
      * @return  bool
      */
-    public static function updateOption($cfo_id, $cfo_value, $rank=null)
+    public static function updateOption($cfo_id, $cfo_value, $rank = null)
     {
         $stmt = 'UPDATE
                     {{%custom_field_option}}
@@ -222,12 +222,12 @@ class Custom_Field
                 }
 
                 $updated_fields[$fld_id] = [
-                    'title' =>  $field_titles[$fld_id],
-                    'type'  =>  $field_types[$fld_id],
-                    'min_role'  =>  $min_role,
-                    'changes'   =>  '',
-                    'old_display'   =>  '',
-                    'new_display'   =>  '',
+                    'title' => $field_titles[$fld_id],
+                    'type' => $field_types[$fld_id],
+                    'min_role' => $min_role,
+                    'changes' => '',
+                    'old_display' => '',
+                    'new_display' => '',
                 ];
                 if (!in_array($field_types[$fld_id], self::$option_types)) {
                     // check if this is a date field

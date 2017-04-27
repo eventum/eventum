@@ -713,7 +713,7 @@ class Reminder
         }
 
         return [
-            'type'   => $type,
+            'type' => $type,
             'values' => $values,
         ];
     }

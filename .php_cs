@@ -75,7 +75,7 @@ $symfony_rules = [
     'phpdoc_no_empty_return' => true,
     'phpdoc_scalar' => true,
     'phpdoc_summary' => false,
-    'self_accessor' =>  true,
+    'self_accessor' => true,
     'single_quote' => true,
     'standardize_not_equals' => true,
     'ternary_operator_spaces' => true,
@@ -89,6 +89,7 @@ $symfony_rules = [
 $rules = $risky_rules + $symfony_rules + [
     '@PSR2' => true,
     'array_syntax' => ['syntax' => 'short'],
+    'binary_operator_spaces' => ['align_double_arrow' => false],
     'braces' => ['allow_single_line_closure' => false],
     'function_declaration' => ['closure_function_spacing' => 'one'],
     'header_comment' => ['header' => $header],

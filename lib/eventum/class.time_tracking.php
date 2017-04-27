@@ -374,7 +374,7 @@ class Time_Tracking
             } else {
                 $total_time_by_user[$row['ttr_usr_id']] = [
                     'usr_full_name' => $row['usr_full_name'],
-                    'time_spent'    => $row['ttr_time_spent'],
+                    'time_spent' => $row['ttr_time_spent'],
                 ];
             }
             $total_time_spent += $row['ttr_time_spent'];
@@ -391,9 +391,9 @@ class Time_Tracking
         }
 
         return [
-            'total_time_spent'   => Misc::getFormattedTime($total_time_spent),
+            'total_time_spent' => Misc::getFormattedTime($total_time_spent),
             'total_time_by_user' => $total_time_by_user,
-            'list'               => $res,
+            'list' => $res,
         ];
     }
 
@@ -574,8 +574,8 @@ class Time_Tracking
 
         History::add($details['ttr_iss_id'], $usr_id, 'time_update', "Time tracking entry '{summary}' updated by {user}", [
             'user' => User::getFullName($usr_id),
-            'summary'   =>  $summary,
-            'ttr_id'    =>  $ttr_id,
+            'summary' => $summary,
+            'ttr_id' => $ttr_id,
         ]);
 
         return 1;

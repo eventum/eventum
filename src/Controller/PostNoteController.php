@@ -138,8 +138,8 @@ class PostNoteController extends BaseController
         $note = [];
         $note['not_body'] = $header . Misc::formatReply($email['message']);
         $this->tpl->assign([
-            'note'           => $note,
-            'sup_id'         => $sup_id,
+            'note' => $note,
+            'sup_id' => $sup_id,
         ]);
         $this->reply_subject = $email['sup_subject'];
     }
@@ -150,7 +150,7 @@ class PostNoteController extends BaseController
         $note = [];
         $note['not_body'] = $header . Misc::formatReply($this->issue_details['iss_original_description']);
         $this->tpl->assign([
-            'note'           => $note
+            'note' => $note
         ]);
         $this->reply_subject = $this->issue_details['iss_summary'];
     }

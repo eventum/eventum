@@ -420,13 +420,13 @@ class Support
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/bounced_email.tpl.text');
         $tpl->assign([
-            'error_code'        => $error->getCode(),
-            'error_message'     => $error->getMessage(),
-            'date'              => $message->date,
-            'subject'           => Mime_Helper::decodeQuotedPrintable($message->subject),
-            'from'              => Mime_Helper::decodeQuotedPrintable($message->fromaddress),
-            'to'                => Mime_Helper::decodeQuotedPrintable($message->toaddress),
-            'cc'                => Mime_Helper::decodeQuotedPrintable(@$message->ccaddress),
+            'error_code' => $error->getCode(),
+            'error_message' => $error->getMessage(),
+            'date' => $message->date,
+            'subject' => Mime_Helper::decodeQuotedPrintable($message->subject),
+            'from' => Mime_Helper::decodeQuotedPrintable($message->fromaddress),
+            'to' => Mime_Helper::decodeQuotedPrintable($message->toaddress),
+            'cc' => Mime_Helper::decodeQuotedPrintable(@$message->ccaddress),
         ]);
 
         $sender_email = Mail_Helper::getEmailAddress($message->fromaddress);
@@ -544,18 +544,18 @@ class Support
         }
 
         $t = [
-            'ema_id'         => $info['ema_id'],
-            'message_id'     => $message_id,
-            'date'           => Date_Helper::convertDateGMTByTS($email->udate),
-            'from'           => $sender_email,
-            'to'             => @$structure->headers['to'],
-            'cc'             => @$structure->headers['cc'],
-            'subject'        => @$structure->headers['subject'],
-            'body'           => @$message_body,
-            'full_email'     => @$message,
+            'ema_id' => $info['ema_id'],
+            'message_id' => $message_id,
+            'date' => Date_Helper::convertDateGMTByTS($email->udate),
+            'from' => $sender_email,
+            'to' => @$structure->headers['to'],
+            'cc' => @$structure->headers['cc'],
+            'subject' => @$structure->headers['subject'],
+            'body' => @$message_body,
+            'full_email' => @$message,
             'has_attachment' => $has_attachments,
             // the following items are not inserted, but useful in some methods
-            'headers'        => @$structure->headers,
+            'headers' => @$structure->headers,
         ];
 
         $subject = Mime_Helper::decodeQuotedPrintable(@$structure->headers['subject']);
@@ -623,12 +623,12 @@ class Support
 
                         // XXX FIXME, this is not nice thing to do
                         $_POST = [
-                            'title'                => Mail_Helper::removeExcessRe($t['subject']),
-                            'note'                 => $t['body'],
-                            'note_cc'              => $cc_users,
+                            'title' => Mail_Helper::removeExcessRe($t['subject']),
+                            'note' => $t['body'],
+                            'note_cc' => $cc_users,
                             'add_extra_recipients' => 'yes',
-                            'message_id'           => $t['message_id'],
-                            'parent_id'            => $should_create_array['parent_id'],
+                            'message_id' => $t['message_id'],
+                            'parent_id' => $should_create_array['parent_id'],
                         ];
                         $res = Note::insertFromPost($usr_id, $t['issue_id']);
 
@@ -1084,17 +1084,17 @@ class Support
         $sort_order = self::getParam('sort_order');
         $rows = self::getParam('rows');
         $cookie = [
-            'rows'             => $rows ? $rows : APP_DEFAULT_PAGER_SIZE,
-            'pagerRow'         => self::getParam('pagerRow'),
-            'hide_associated'  => self::getParam('hide_associated'),
-            'sort_by'          => $sort_by ? $sort_by : 'sup_date',
-            'sort_order'       => $sort_order ? $sort_order : 'DESC',
+            'rows' => $rows ? $rows : APP_DEFAULT_PAGER_SIZE,
+            'pagerRow' => self::getParam('pagerRow'),
+            'hide_associated' => self::getParam('hide_associated'),
+            'sort_by' => $sort_by ? $sort_by : 'sup_date',
+            'sort_order' => $sort_order ? $sort_order : 'DESC',
             // quick filter form options
-            'keywords'         => self::getParam('keywords'),
-            'sender'           => self::getParam('sender'),
-            'to'               => self::getParam('to'),
-            'ema_id'           => self::getParam('ema_id'),
-            'filter'           => self::getParam('filter'),
+            'keywords' => self::getParam('keywords'),
+            'sender' => self::getParam('sender'),
+            'to' => self::getParam('to'),
+            'ema_id' => self::getParam('ema_id'),
+            'filter' => self::getParam('filter'),
         ];
         // now do some magic to properly format the date fields
         $date_fields = [
@@ -1108,17 +1108,17 @@ class Support
             $end_field_name = $field_name . '_end';
             $end_field = self::getParam($end_field_name);
             @$cookie[$field_name] = [
-                'Year'        => $field['Year'],
-                'Month'       => $field['Month'],
-                'Day'         => $field['Day'],
-                'start'       => $field['Year'] . '-' . $field['Month'] . '-' . $field['Day'],
+                'Year' => $field['Year'],
+                'Month' => $field['Month'],
+                'Day' => $field['Day'],
+                'start' => $field['Year'] . '-' . $field['Month'] . '-' . $field['Day'],
                 'filter_type' => $field['filter_type'],
-                'end'         => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day'],
+                'end' => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day'],
             ];
             @$cookie[$end_field_name] = [
-                'Year'        => $end_field['Year'],
-                'Month'       => $end_field['Month'],
-                'Day'         => $end_field['Day'],
+                'Year' => $end_field['Year'],
+                'Month' => $end_field['Month'],
+                'Day' => $end_field['Day'],
             ];
         }
         Search_Profile::save(Auth::getUserID(), Auth::getCurrentProject(), 'email', $cookie);
@@ -1265,14 +1265,14 @@ class Support
         return [
             'list' => $res,
             'info' => [
-                'current_page'  => $current_row,
-                'start_offset'  => $start,
-                'end_offset'    => $start + count($res),
-                'total_rows'    => $total_rows,
-                'total_pages'   => $total_pages,
+                'current_page' => $current_row,
+                'start_offset' => $start,
+                'end_offset' => $start + count($res),
+                'total_rows' => $total_rows,
+                'total_pages' => $total_pages,
                 'previous_page' => ($current_row == 0) ? '-1' : ($current_row - 1),
-                'next_page'     => ($current_row == $last_page) ? '-1' : ($current_row + 1),
-                'last_page'     => $last_page,
+                'next_page' => ($current_row == $last_page) ? '-1' : ($current_row + 1),
+                'last_page' => $last_page,
             ],
         ];
     }
@@ -1488,17 +1488,17 @@ class Support
                 $has_attachments = 0;
             }
             $t = [
-                'issue_id'       => $issue_id,
-                'message_id'     => @$structure->headers['message-id'],
-                'from'           => @$structure->headers['from'],
-                'to'             => @$structure->headers['to'],
-                'cc'             => @$structure->headers['cc'],
-                'subject'        => @$structure->headers['subject'],
-                'body'           => Mime_Helper::getMessageBody($structure),
-                'full_email'     => $row['seb_full_email'],
+                'issue_id' => $issue_id,
+                'message_id' => @$structure->headers['message-id'],
+                'from' => @$structure->headers['from'],
+                'to' => @$structure->headers['to'],
+                'cc' => @$structure->headers['cc'],
+                'subject' => @$structure->headers['subject'],
+                'body' => Mime_Helper::getMessageBody($structure),
+                'full_email' => $row['seb_full_email'],
                 'has_attachment' => $has_attachments,
                 // the following items are not inserted, but useful in some methods
-                'headers'        => @$structure->headers,
+                'headers' => @$structure->headers,
             ];
 
             $prj_id = Issue::getProjectID($t['issue_id']);
@@ -2153,17 +2153,17 @@ class Support
 
         $email = [
             // FIXME: use actual null, not string 'null'
-            'customer_id'    => 'NULL',
-            'issue_id'       => $issue_id,
-            'ema_id'         => $ema_id,
-            'message_id'     => $message_id,
-            'date'           => Date_Helper::getCurrentDateGMT(),
-            'from'           => $from,
-            'to'             => $to,
-            'cc'             => $cc,
-            'subject'        => $subject,
-            'body'           => $body,
-            'full_email'     => $full_email,
+            'customer_id' => 'NULL',
+            'issue_id' => $issue_id,
+            'ema_id' => $ema_id,
+            'message_id' => $message_id,
+            'date' => Date_Helper::getCurrentDateGMT(),
+            'from' => $from,
+            'to' => $to,
+            'cc' => $cc,
+            'subject' => $subject,
+            'body' => $body,
+            'full_email' => $full_email,
         ];
 
         // associate this new email with a customer, if appropriate
@@ -2477,18 +2477,18 @@ class Support
         }
 
         $row = [
-            'sup_id'         => $email['sup_id'],
-            'customer_id'    => $customer_id,
-            'issue_id'       => $issue_id,
-            'ema_id'         => $new_ema_id,
-            'message_id'     => $email['sup_message_id'],
-            'date'           => $email['timestamp'],
-            'from'           => $email['sup_from'],
-            'to'             => $email['sup_to'],
-            'cc'             => $email['sup_cc'],
-            'subject'        => $email['sup_subject'],
-            'body'           => $email['seb_body'],
-            'full_email'     => $email['seb_full_email'],
+            'sup_id' => $email['sup_id'],
+            'customer_id' => $customer_id,
+            'issue_id' => $issue_id,
+            'ema_id' => $new_ema_id,
+            'message_id' => $email['sup_message_id'],
+            'date' => $email['timestamp'],
+            'from' => $email['sup_from'],
+            'to' => $email['sup_to'],
+            'cc' => $email['sup_cc'],
+            'subject' => $email['sup_subject'],
+            'body' => $email['seb_body'],
+            'full_email' => $email['seb_full_email'],
             'has_attachment' => $email['sup_has_attachment'],
         ];
         Workflow::handleNewEmail(self::getProjectByEmailAccount($new_ema_id), $issue_id, $structure, $row);
@@ -2548,7 +2548,7 @@ class Support
                 'send_notification' => $notify,
                 'is_blocked' => true,
                 'full_message' => $email['full_email'],
-                'message_id'  => Mail_Helper::getMessageID($text_headers, $body),
+                'message_id' => Mail_Helper::getMessageID($text_headers, $body),
             ];
 
             $body = Mail_Helper::getCannedBlockedMsgExplanation() . $email['body'];

@@ -712,10 +712,10 @@ class Reminder_Action
             $tpl = new Template_Helper();
             $tpl->setTemplate('reminders/' . $type . '_alert.tpl.text');
             $tpl->assign([
-                'data'                     => $data,
-                'reminder'                 => $reminder,
-                'action'                   => $action,
-                'conditions'               => $conditions,
+                'data' => $data,
+                'reminder' => $reminder,
+                'action' => $action,
+                'conditions' => $conditions,
                 'has_customer_integration' => CRM::hasCustomerIntegration(Issue::getProjectID($issue_id)),
             ]);
             $text_message = $tpl->getTemplateContents();
@@ -749,11 +749,11 @@ class Reminder_Action
             $tpl = new Template_Helper();
             $tpl->setTemplate('reminders/alert_no_recipients.tpl.text');
             $tpl->assign([
-                'type'                     => $type,
-                'data'                     => $data,
-                'reminder'                 => $reminder,
-                'action'                   => $action,
-                'conditions'               => $conditions,
+                'type' => $type,
+                'data' => $data,
+                'reminder' => $reminder,
+                'action' => $action,
+                'conditions' => $conditions,
                 'has_customer_integration' => CRM::hasCustomerIntegration(Issue::getProjectID($issue_id)),
             ]);
             $text_message = $tpl->getTemplateContents();

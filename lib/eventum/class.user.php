@@ -330,9 +330,9 @@ class User
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/visitor_account.tpl.text');
         $tpl->assign([
-            'app_title'   => Misc::getToolCaption(),
-            'email'     =>  $_POST['email'],
-            'hash'      =>  $hash,
+            'app_title' => Misc::getToolCaption(),
+            'email' => $_POST['email'],
+            'hash' => $hash,
         ]);
         $text_message = $tpl->getTemplateContents();
 
@@ -363,8 +363,8 @@ class User
         $tpl->setTemplate('notifications/password_confirmation.tpl.text');
         $tpl->assign([
             'app_title' => Misc::getToolCaption(),
-            'user'      =>  $info,
-            'hash'      =>  $hash,
+            'user' => $info,
+            'hash' => $hash,
         ]);
         $text_message = $tpl->getTemplateContents();
 
@@ -1023,10 +1023,10 @@ class User
     {
         $usr_id = $_POST['id'];
         $data = [
-            'full_name' =>  $_POST['full_name'],
-            'email'     =>  $_POST['email'],
-            'password'  =>  $_POST['password'],
-            'role'      =>  $_POST['role'],
+            'full_name' => $_POST['full_name'],
+            'email' => $_POST['email'],
+            'password' => $_POST['password'],
+            'role' => $_POST['role'],
         ];
 
         if (isset($_POST['par_code'])) {
@@ -1161,11 +1161,11 @@ class User
     public static function insertFromPost()
     {
         $user = [
-            'password'  =>  $_POST['password'],
-            'full_name' =>  $_POST['full_name'],
-            'email'     =>  $_POST['email'],
-            'role'      =>  $_POST['role'],
-            'external_id'   =>  '',
+            'password' => $_POST['password'],
+            'full_name' => $_POST['full_name'],
+            'email' => $_POST['email'],
+            'role' => $_POST['role'],
+            'external_id' => '',
         ];
 
         if (isset($_POST['par_code'])) {
