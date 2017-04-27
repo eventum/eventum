@@ -17,6 +17,11 @@
  * @link http://docs.phinx.org/en/latest/commands.html#configuration-file-parameter
  */
 
+// init minimal constants needed for some classes to work
+define('APP_PATH', __DIR__);
+define('APP_CONFIG_PATH', APP_PATH . '/config');
+define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
+
 $config = DB_Helper::getConfig();
 
 // TODO: use "connection" => $pdo_instance once PEAR DB support is dropped

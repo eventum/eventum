@@ -29,7 +29,7 @@ $app = new Eventum\Command\UpgradeCommand();
 $app->run();
 
 // run phinx based updater
-chdir(__DIR__ . '/../res/config');
+chdir(__DIR__ . '/..');
 
 // emulate running "migrate" command
 $input = new ArgvInput([$argv[0], 'migrate']);
