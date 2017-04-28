@@ -617,6 +617,9 @@ class Search
         if (!empty($options['priority'])) {
             $stmt .= ' AND iss_pri_id=' . Misc::escapeInteger($options['priority']);
         }
+        if (!empty($options['severity'])) {
+            $stmt .= ' AND iss_sev_id=' . Misc::escapeInteger($options['severity']);
+        }
         if (!empty($options['status'])) {
             $stmt .= ' AND iss_sta_id=' . Misc::escapeInteger($options['status']);
         }

@@ -3,6 +3,7 @@
 ## [3.2.0] - 2017-??-??
 
 - replace buggy `Mail_Helper::getEmailAddresses` with Zend\Mail based implementation (@glensc, #238)
+- Enable filtering by Severity (@balsdorf)
 
 [3.2.0]: https://github.com/eventum/eventum/compare/v3.1.10...master
 
