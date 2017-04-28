@@ -1268,7 +1268,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             'help' => "Assign an issue to yourself and change status to 'Assigned'.",
         ];
         $usage[] = [
-            'command' => ['<ticket_number> add-replier <user_email> [--safe]','<ticket_number> ar <user_email> [--safe]'],
+            'command' => ['<ticket_number> add-replier <user_email> [--safe]', '<ticket_number> ar <user_email> [--safe]'],
             'help' => 'Adds the specified user to the list of authorized repliers.',
         ];
         $usage[] = [
@@ -1293,38 +1293,38 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             'help' => 'Download a specific file from the given issue.',
         ];
         $usage[] = [
-            'command' => ['<ticket_number> list-emails','<ticket_number> le'],
+            'command' => ['<ticket_number> list-emails', '<ticket_number> le'],
             'help' => 'Lists emails from the given issue.',
         ];
         $usage[] = [
-            'command' => ['<ticket_number> get-email <email_number> [--full]','<ticket_number> ge <email_number> [--full]'],
+            'command' => ['<ticket_number> get-email <email_number> [--full]', '<ticket_number> ge <email_number> [--full]'],
             'help' => 'Displays a specific email for the issue. If the optional --full parameter
      is specified, the full email including headers and attachments will be
      displayed.',
         ];
         $usage[] = [
-            'command' => ['<ticket_number> list-notes','<ticket_number> ln'],
+            'command' => ['<ticket_number> list-notes', '<ticket_number> ln'],
             'help' => 'Lists notes from the given issue.',
         ];
         $usage[] = [
-            'command' => ['<ticket_number> get-note <note_number> [--full]','<ticket_number> gn <note_number>'],
+            'command' => ['<ticket_number> get-note <note_number> [--full]', '<ticket_number> gn <note_number>'],
             'help' => 'Displays a specific note for the issue.',
         ];
         $usage[] = [
-            'command' => ['<ticket_number> convert-note <note_number> draft|email [authorize] [--safe]','<ticket_number> cn <note_number> draft|email [authorize] [--safe]'],
+            'command' => ['<ticket_number> convert-note <note_number> draft|email [authorize] [--safe]', '<ticket_number> cn <note_number> draft|email [authorize] [--safe]'],
             'help' => "Converts the specified note to a draft or an email.
     Use optional argument 'authorize' to add sender to authorized repliers list.",
         ];
         $usage[] = [
-            'command' => ['<ticket_number> list-drafts','<ticket_number> ld'],
+            'command' => ['<ticket_number> list-drafts', '<ticket_number> ld'],
             'help' => 'Lists drafts from the given issue.',
         ];
         $usage[] = [
-            'command' => ['<ticket_number> get-draft <draft_number>','<ticket_number> gd <draft_number>'],
+            'command' => ['<ticket_number> get-draft <draft_number>', '<ticket_number> gd <draft_number>'],
             'help' => 'Displays a specific draft for the issue.',
         ];
         $usage[] = [
-            'command' => ['<ticket_number> send-draft <draft_number>','<ticket_number> sd <draft_number>'],
+            'command' => ['<ticket_number> send-draft <draft_number>', '<ticket_number> sd <draft_number>'],
             'help' => 'Converts a draft to an email and sends it out.',
         ];
         $usage[] = [
