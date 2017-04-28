@@ -393,8 +393,30 @@ class InitialData extends AbstractMigration
         $table->saveData();
     }
 
+    /**
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L687-L690
+     */
     private function reminder_action_type()
     {
+        $action_types = [
+            'email_assignee' => 'Send Email Alert to Assignee',
+            'sms_assignee' => 'Send SMS Alert to Assignee',
+            'email_list' => 'Send Email Alert To...',
+            'sms_list' => 'Send SMS Alert To...',
+        ];
+        $rmt_id = 1;
+
+        $table = $this->table(__FUNCTION__);
+        foreach ($action_types as $rmt_type => $rmt_title) {
+            $row = [
+                'rmt_id' => $rmt_id++,
+                'rmt_type' => $rmt_type,
+                'rmt_title' => $rmt_title,
+            ];
+            $table->insert($row);
+        }
+
+        $table->saveData();
     }
 
     private function reminder_field()
