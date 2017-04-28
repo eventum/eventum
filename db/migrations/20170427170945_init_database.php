@@ -30,7 +30,11 @@ class InitDatabase extends AbstractMigration
 
     const PHINX_TYPE_BLOB = MysqlAdapter::PHINX_TYPE_BLOB;
 
-    const MYSQL_ENGINE = 'MyISAM';
+    /**
+     * MySQL Engine
+     * @var $engine
+     */
+    private $engine;
 
     /**
      * MySQL Charset
@@ -50,6 +54,7 @@ class InitDatabase extends AbstractMigration
         $options = $this->getAdapter()->getOptions();
         $this->charset = $options['charset'];
         $this->collation = $options['collation'];
+        $this->engine = $options['engine'];
     }
 
     public function change()
@@ -905,7 +910,7 @@ class InitDatabase extends AbstractMigration
      */
     public function table($tableName, $options = [])
     {
-        $options['engine'] = self::MYSQL_ENGINE;
+        $options['engine'] = $this->engine;
         $options['charset'] = $this->charset;
         $options['collation'] = $this->collation;
 

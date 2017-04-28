@@ -43,11 +43,16 @@ return [
             'port' => $config['port'],
             'unix_socket' => isset($config['socket']) ? $config['socket'] : null,
 
+            // Specify MySQL storage engine
+            // if not specified mysql server default will be used
+            // Examples: 'MyISAM', 'InnoDB'
+            'engine' => 'MyISAM',
+
             // charset and collation must be utf8 compatible
 
             // for MySQL < 5.5.3
             'charset' => 'utf8',
-            'collation' => 'utf8_unicode_ci',
+            'collation' => 'utf8_general_ci',
 
             // for MySQL >= 5.5.3
 //            'charset' => 'utf8mb4',
