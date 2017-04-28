@@ -90,7 +90,8 @@ class SetupController extends BaseController
 
     private function getSslMode()
     {
-        if (@$_SERVER['HTTPS'] == 'on') {
+        $https = $this->getRequest()->server->get('HTTPS');
+        if ($https == 'on') {
             $ssl_mode = 'enabled';
         } else {
             $ssl_mode = 'disabled';
@@ -99,8 +100,10 @@ class SetupController extends BaseController
         return $ssl_mode;
     }
 
-    private function getRelativeUrl() {
-        $full_url = dirname($_SERVER['PHP_SELF']);
+    private function getRelativeUrl()
+    {
+        $php_self = $this->getRequest()->server->get('PHP_SELF');
+        $full_url = dirname($php_self);
         $pieces = explode('/', $full_url);
         $relative_url = [];
         $relative_url[] = '';
@@ -110,6 +113,7 @@ class SetupController extends BaseController
             }
         }
         $relative_url[] = '';
+
         return implode('/', $relative_url);
     }
 
@@ -382,7 +386,7 @@ class SetupController extends BaseController
     {
         // init timezone, logger needs it
         if (!defined('APP_DEFAULT_TIMEZONE')) {
-            $tz = !empty($_POST['default_timezone']) ? $_POST['default_timezone'] : @date_default_timezone_get();
+            $tz = $this->getRequest()->request->get('default_timezone');
             define('APP_DEFAULT_TIMEZONE', $tz ?: 'UTC');
         }
 
@@ -423,12 +427,17 @@ class SetupController extends BaseController
     private function setup_database()
     {
         $conn = $this->getDb();
+        $post = $this->getRequest()->request;
 
-        $db_exists = $this->checkDatabaseExists($conn, $_POST['db_name']);
+        $db_name = $post->get('db_name');
+        $eventum_user = $post->get('eventum_user');
+        $eventum_password = $post->get('eventum_password');
+
+        $db_exists = $this->checkDatabaseExists($conn, $db_name);
         if (!$db_exists) {
-            if (@$_POST['create_db'] == 'yes') {
+            if ($post->get('create_db') == 'yes') {
                 try {
-                    $conn->query("CREATE DATABASE {{{$_POST['db_name']}}}");
+                    $conn->query("CREATE DATABASE {{{$db_name}}}");
                 } catch (DatabaseException $e) {
                     throw new RuntimeException($this->getErrorMessage('create_db', $e->getMessage()));
                 }
@@ -440,17 +449,17 @@ class SetupController extends BaseController
         }
 
         // create the new user, if needed
-        if (@$_POST['alternate_user'] == 'yes') {
+        if ($post->get('alternate_user') == 'yes') {
             $user_list = $this->getUserList($conn);
             if ($user_list) {
-                $user_exists = in_array(strtolower(@$_POST['eventum_user']), $user_list);
+                $user_exists = in_array(strtolower($eventum_user), $user_list);
 
-                if (@$_POST['create_user'] == 'yes') {
+                if ($post->get('create_user') == 'yes') {
                     if (!$user_exists) {
                         $stmt
-                            = "GRANT SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE, INDEX ON {{{$_POST['db_name']}}}.* TO ?@'%' IDENTIFIED BY ?";
+                            = "GRANT SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE, INDEX ON {{{$db_name}}}.* TO ?@'%' IDENTIFIED BY ?";
                         try {
-                            $conn->query($stmt, [$_POST['eventum_user'], $_POST['eventum_password']]);
+                            $conn->query($stmt, [$eventum_user, $eventum_password]);
                         } catch (DatabaseException $e) {
                             throw new RuntimeException($this->getErrorMessage('create_user', $e->getMessage()));
                         }
@@ -467,7 +476,7 @@ class SetupController extends BaseController
 
         // check if we can use the database
         try {
-            $conn->query("USE {{{$_POST['db_name']}}}");
+            $conn->query("USE {{{$db_name}}}");
         } catch (DatabaseException $e) {
             throw new RuntimeException($this->getErrorMessage('select_db', $e->getMessage()));
         }
@@ -491,7 +500,7 @@ class SetupController extends BaseController
         }
 
         // if requested. drop tables first
-        if (@$_POST['drop_tables'] == 'yes') {
+        if ($post->get('drop_tables') == 'yes') {
             $queries = $this->get_queries(APP_PATH . '/upgrade/drop.sql');
             foreach ($queries as $stmt) {
                 try {
@@ -531,12 +540,12 @@ class SetupController extends BaseController
 
         // write db name now that it has been created
         $setup = [];
-        $setup['database'] = $_POST['db_name'];
+        $setup['database'] = $db_name;
 
         // substitute the appropriate values in config.php!!!
-        if (@$_POST['alternate_user'] == 'yes') {
-            $setup['username'] = $_POST['eventum_user'];
-            $setup['password'] = $_POST['eventum_password'];
+        if ($post->get('alternate_user') == 'yes') {
+            $setup['username'] = $eventum_user;
+            $setup['password'] = $eventum_password;
         }
 
         Setup::save(['database' => $setup]);
@@ -572,14 +581,16 @@ class SetupController extends BaseController
      */
     private function write_setup()
     {
-        $setup = $_REQUEST['setup'];
+        $post = $this->getRequest()->request;
+        $setup = $post->get('setup');
         $setup['update'] = 1;
         $setup['closed'] = 1;
         $setup['emails'] = 1;
         $setup['files'] = 1;
         $setup['support_email'] = 'enabled';
 
-        $parts = explode(':', $_POST['db_hostname'], 2);
+        $db_hostname = $post->get('db_hostname');
+        $parts = explode(':', $db_hostname, 2);
         if (count($parts) > 1) {
             list($hostname, $socket) = $parts;
         } else {
@@ -597,8 +608,8 @@ class SetupController extends BaseController
             // connection info
             'hostname' => $hostname,
             'database' => '', // NOTE: db name has to be written after the table has been created
-            'username' => $_POST['db_username'],
-            'password' => $_POST['db_password'],
+            'username' => $post->get('db_username'),
+            'password' => $post->get('db_password'),
             'port' => 3306,
             'socket' => $socket,
 
@@ -611,6 +622,7 @@ class SetupController extends BaseController
 
     private function write_config()
     {
+        $post = $this->getRequest()->request;
         $config_file_path = APP_CONFIG_PATH . '/config.php';
 
         // disable the full-text search feature for certain mysql server users
@@ -618,13 +630,15 @@ class SetupController extends BaseController
         preg_match('/(\d{1,2}\.\d{1,2}\.\d{1,2})/', $mysql_version, $matches);
         $enable_fulltext = $matches[1] > '4.0.23';
 
+        $protocol_type = $post->get('is_ssl') == 'yes' ? 'https://' : 'http://';
+
         $replace = [
-            "'%{APP_HOSTNAME}%'" => $this->e($_POST['hostname']),
+            "'%{APP_HOSTNAME}%'" => $this->e($post->get('hostname')),
             "'%{CHARSET}%'" => $this->e(APP_CHARSET),
-            "'%{APP_RELATIVE_URL}%'" => $this->e($_POST['relative_url']),
-            "'%{APP_DEFAULT_TIMEZONE}%'" => $this->e($_POST['default_timezone']),
-            "'%{APP_DEFAULT_WEEKDAY}%'" => (int)$_POST['default_weekday'],
-            "'%{PROTOCOL_TYPE}%'" => $this->e(@$_POST['is_ssl'] == 'yes' ? 'https://' : 'http://'),
+            "'%{APP_RELATIVE_URL}%'" => $this->e($post->get('relative_url')),
+            "'%{APP_DEFAULT_TIMEZONE}%'" => $this->e($post->get('default_timezone')),
+            "'%{APP_DEFAULT_WEEKDAY}%'" => (int)$post->getInt('default_weekday'),
+            "'%{PROTOCOL_TYPE}%'" => $this->e($protocol_type),
             "'%{APP_ENABLE_FULLTEXT}%'" => $this->e($enable_fulltext),
         ];
 
