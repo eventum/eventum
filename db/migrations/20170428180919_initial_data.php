@@ -252,8 +252,30 @@ class InitialData extends AbstractMigration
         $table->saveData();
     }
 
+    /**
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L884-L887
+     */
     private function project_phone_category()
     {
+        $categories = [
+            'Sales Issues',
+            'Technical Issues',
+            'Administrative Issues',
+            'Other',
+        ];
+        $phc_id = 1;
+
+        $table = $this->table(__FUNCTION__);
+        foreach ($categories as $phc_title) {
+            $row = [
+                'phc_id' => $phc_id++,
+                'phc_prj_id' => self::PROJECT_ID,
+                'phc_title' => $phc_title,
+            ];
+            $table->insert($row);
+        }
+
+        $table->saveData();
     }
 
     private function project_priority()
