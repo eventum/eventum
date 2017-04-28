@@ -589,8 +589,37 @@ class InitialData extends AbstractMigration
         $table->saveData();
     }
 
+    /**
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L451-L460
+     */
     private function time_tracking_category()
     {
+        $titles = [
+            'Development',
+            'Design',
+            'Planning',
+            'Gathering Requirements',
+            'Database Changes',
+            'Tech-Support',
+            'Release',
+            'Telephone Discussion',
+            'Email Discussion',
+            'Note Discussion',
+        ];
+        $ttc_id = 1;
+
+        $table = $this->table(__FUNCTION__);
+        foreach ($titles as $ttc_title) {
+            $row = [
+                'ttc_id' => $ttc_id++,
+                'ttc_prj_id' => self::PROJECT_ID,
+                'ttc_title' => $ttc_title,
+                'ttc_created_date' => $this->currentDateTime(),
+            ];
+            $table->insert($row);
+        }
+
+        $table->saveData();
     }
 
     private function user()
