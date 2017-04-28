@@ -29,7 +29,7 @@ $config = DB_Helper::getConfig();
 
 return [
     'paths' => [
-        'migrations' => 'db/migrations'
+        'migrations' => 'db/migrations',
     ],
     'environments' => [
         'default_migration_table' => 'phinxlog',
@@ -42,6 +42,16 @@ return [
             'pass' => $config['password'],
             'port' => $config['port'],
             'unix_socket' => isset($config['socket']) ? $config['socket'] : null,
-        ]
-    ]
+
+            // charset and collation must be utf8 compatible
+
+            // for MySQL < 5.5.3
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+
+            // for MySQL >= 5.5.3
+//            'charset' => 'utf8mb4',
+//            'collation' => 'utf8mb4_unicode_ci',
+        ],
+    ],
 ];

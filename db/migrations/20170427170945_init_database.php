@@ -31,11 +31,31 @@ class InitDatabase extends AbstractMigration
     const PHINX_TYPE_BLOB = MysqlAdapter::PHINX_TYPE_BLOB;
 
     const MYSQL_ENGINE = 'MyISAM';
-    // TODO: utf8mb4_unicode_ci or take from config
-    const MYSQL_COLLATION = 'utf8_general_ci';
+
+    /**
+     * MySQL Charset
+     * @var $string
+     */
+    private $charset;
+
+    /**
+     * MySQL Collation
+     * @var $string
+     */
+    private $collation;
+
+    private function initOptions()
+    {
+        // extract options from phinx.php config
+        $options = $this->getAdapter()->getOptions();
+        $this->charset = $options['charset'];
+        $this->collation = $options['collation'];
+    }
 
     public function change()
     {
+        $this->initOptions();
+
         $this->table('api_token', ['id' => 'apt_id'])
             ->addColumn('apt_usr_id', 'integer', ['length' => 10])
             ->addColumn('apt_created', 'datetime')
@@ -886,7 +906,8 @@ class InitDatabase extends AbstractMigration
     public function table($tableName, $options = [])
     {
         $options['engine'] = self::MYSQL_ENGINE;
-        $options['collation'] = self::MYSQL_COLLATION;
+        $options['charset'] = $this->charset;
+        $options['collation'] = $this->collation;
 
         return parent::table($tableName, $options);
     }
