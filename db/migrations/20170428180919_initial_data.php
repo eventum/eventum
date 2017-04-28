@@ -18,6 +18,7 @@ class InitialData extends AbstractMigration
     public function change()
     {
         $this->insertColumnsToDisplay();
+        $this->insertHistoryType();
     }
 
     /**
@@ -25,8 +26,6 @@ class InitialData extends AbstractMigration
      */
     private function insertColumnsToDisplay()
     {
-        $table = $this->table('columns_to_display');
-
         $ctd_prj_id = 1;
         $ctd_page = 'list_issues';
         $rank = 1;
@@ -51,6 +50,7 @@ class InitialData extends AbstractMigration
             'iss_percent_complete' => 9,
         ];
 
+        $table = $this->table('columns_to_display');
         foreach ($columns as $field => $min_role) {
             $row = [
                 'ctd_prj_id' => $ctd_prj_id,
@@ -58,6 +58,94 @@ class InitialData extends AbstractMigration
                 'ctd_field' => $field,
                 'ctd_min_role' => $min_role,
                 'ctd_rank' => $rank++,
+            ];
+            $table->insert($row);
+        }
+
+        $table->saveData();
+    }
+
+    /**
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L73-L132
+     */
+    private function insertHistoryType()
+    {
+        $history_types = [
+            'attachment_removed' => [1, 0],
+            'attachment_added' => [2, 0],
+            'custom_field_updated' => [3, 0],
+            'draft_added' => [4, 4],
+            'draft_updated' => [5, 4],
+            'status_changed' => [9, 0],
+            'remote_status_change' => [10, 0],
+            'remote_assigned' => [11, 0],
+            'remote_replier_added' => [12, 0],
+            'details_updated' => [13, 0],
+            'customer_details_updated' => [14, 0],
+            'issue_opened' => [15, 0],
+            'issue_auto_assigned' => [16, 0],
+            'rr_issue_assigned' => [17, 0],
+            'duplicate_update' => [18, 0],
+            'duplicate_removed' => [19, 0],
+            'duplicate_added' => [20, 0],
+            'issue_opened_anon' => [21, 0],
+            'remote_issue_created' => [22, 0],
+            'issue_closed' => [23, 0],
+            'issue_updated' => [24, 0],
+            'user_associated' => [25, 0],
+            'user_all_unassociated' => [26, 0],
+            'replier_added' => [27, 0],
+            'remote_note_added' => [28, 0],
+            'note_added' => [29, 4],
+            'note_removed' => [30, 4],
+            'note_converted_draft' => [31, 4],
+            'note_converted_email' => [32, 4],
+            'notification_removed' => [33, 0],
+            'notification_added' => [34, 0],
+            'notification_updated' => [35, 0],
+            'phone_entry_added' => [36, 4],
+            'phone_entry_removed' => [37, 4],
+            'scm_checkin_removed' => [38, 0],
+            'email_associated' => [39, 0],
+            'email_disassociated' => [40, 0],
+            'email_sent' => [41, 0],
+            'time_added' => [42, 4],
+            'time_removed' => [43, 4],
+            'remote_time_added' => [44, 4],
+            'email_blocked' => [45, 4],
+            'email_routed' => [46, 0],
+            'note_routed' => [47, 4],
+            'replier_removed' => [48, 0],
+            'replier_other_added' => [49, 0],
+            'issue_associated' => [50, 0],
+            'issue_all_unassociated' => [51, 0],
+            'user_unassociated' => [52, 0],
+            'issue_unassociated' => [53, 0],
+            'group_changed' => [54, 4],
+            'status_auto_changed' => [55, 4],
+            'incident_redeemed' => [56, 4],
+            'incident_unredeemed' => [57, 4],
+            'scm_checkin_associated' => [58, 0],
+            'issue_bulk_updated' => [59, 0],
+            'draft_routed' => [60, 4],
+            'version_details_updated' => [61, 4],
+            'partner_added' => [62, 4],
+            'partner_removed' => [63, 4],
+            'issue_cloned_from' => [64, 4],
+            'issue_cloned_to' => [65, 4],
+            'access_level_changed' => [66, 4],
+            'access_list_added' => [67, 4],
+            'access_list_removed' => [68, 4],
+            'time_update' => [69, 4],
+        ];
+
+        $table = $this->table('history_type');
+        foreach ($history_types as $htt_name => $values) {
+            list($htt_id, $htt_role) = $values;
+            $row = [
+                'htt_id' => $htt_id,
+                'htt_name' => $htt_name,
+                'htt_role' => $htt_role,
             ];
             $table->insert($row);
         }
