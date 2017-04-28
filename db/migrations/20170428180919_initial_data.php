@@ -558,8 +558,35 @@ class InitialData extends AbstractMigration
         $table->saveData();
     }
 
+    /**
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L580-L585
+     */
     private function status()
     {
+        $statuses = [
+            1 => ['discovery', 'DSC', 1, '#CCFFFF', 0],
+            2 => ['requirements', 'REQ', 2, '#99CC66', 0],
+            3 => ['implementation', 'IMP', 3, '#6699CC', 0],
+            4 => ['evaluation and testing', 'TST', 4, '#FFCC99', 0],
+            5 => ['released', 'REL', 5, '#CCCCCC', 1],
+            6 => ['killed', 'KIL', 6, '#FFFFFF', 1],
+        ];
+
+        $table = $this->table(__FUNCTION__);
+        foreach ($statuses as $sta_id => $values) {
+            list($sta_title, $sta_abbreviation, $sta_rank, $sta_color, $sta_is_closed) = $values;
+            $row = [
+                'sta_id' => $sta_id,
+                'sta_title' => $sta_title,
+                'sta_abbreviation' => $sta_abbreviation,
+                'sta_rank' => $sta_rank,
+                'sta_color' => $sta_color,
+                'sta_is_closed' => $sta_is_closed,
+            ];
+            $table->insert($row);
+        }
+
+        $table->saveData();
     }
 
     private function time_tracking_category()
