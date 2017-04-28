@@ -278,8 +278,35 @@ class InitialData extends AbstractMigration
         $table->saveData();
     }
 
+    /**
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L296-L300
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/63_project_priority_icon.sql
+     */
     private function project_priority()
     {
+        $priorities = [
+            'Critical',
+            'High',
+            'Medium',
+            'Low',
+            'Not Prioritized',
+        ];
+        $pri_id = 1;
+        $pri_rank = 1;
+
+        $table = $this->table(__FUNCTION__);
+        foreach ($priorities as $pri_title) {
+            $row = [
+                'pri_id' => $pri_id++,
+                'pri_prj_id' => self::PROJECT_ID,
+                'pri_title' => $pri_title,
+                'pri_rank' => $pri_rank++,
+                'pri_icon' => 0,
+            ];
+            $table->insert($row);
+        }
+
+        $table->saveData();
     }
 
     private function project_release()
