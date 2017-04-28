@@ -31,6 +31,7 @@ class InitDatabase extends AbstractMigration
     const PHINX_TYPE_BLOB = MysqlAdapter::PHINX_TYPE_BLOB;
 
     const MYSQL_ENGINE = 'MyISAM';
+    const MYSQL_COLLATION = 'utf8_general_ci';
 
     public function change()
     {
@@ -320,7 +321,7 @@ class InitDatabase extends AbstractMigration
             ->addColumn('iat_created_date', 'datetime', ['default' => '0000-00-00 00:00:00'])
             ->addColumn('iat_description', 'text', ['null' => true])
             ->addColumn('iat_unknown_user', 'string', ['null' => true])
-            ->addColumn('iat_status', 'enum', ['default' => 'public', 'values' => [0 => 'internal',  1 => 'public']])
+            ->addColumn('iat_status', 'enum', ['default' => 'public', 'values' => [0 => 'internal', 1 => 'public']])
             ->addColumn('iat_not_id', 'integer', ['null' => true])
             ->addIndex(['iat_iss_id', 'iat_usr_id'])
         ->create();
@@ -493,7 +494,7 @@ class InitDatabase extends AbstractMigration
             ->addColumn('phs_call_to_lname', 'string', ['length' => 64, 'null' => true])
             ->addColumn('phs_call_to_fname', 'string', ['length' => 64, 'null' => true])
             ->addColumn('phs_created_date', 'datetime', ['default' => '0000-00-00 00:00:00'])
-            ->addColumn('phs_type', 'enum', ['default' => 'incoming', 'values' => [0 => 'incoming',  1 => 'outgoing']])
+            ->addColumn('phs_type', 'enum', ['default' => 'incoming', 'values' => [0 => 'incoming', 1 => 'outgoing']])
             ->addColumn('phs_phone_number', 'string', ['length' => 32, 'default' => ''])
             ->addColumn('phs_phone_type', 'string', ['length' => 6])
             ->addColumn('phs_phc_id', 'integer')
@@ -884,6 +885,7 @@ class InitDatabase extends AbstractMigration
     public function table($tableName, $options = [])
     {
         $options['engine'] = self::MYSQL_ENGINE;
+        $options['collation'] = self::MYSQL_COLLATION;
 
         return parent::table($tableName, $options);
     }
