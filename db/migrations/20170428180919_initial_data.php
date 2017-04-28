@@ -622,8 +622,44 @@ class InitialData extends AbstractMigration
         $table->saveData();
     }
 
+    /**
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L481-L482
+     */
     private function user()
     {
+        $titles = [
+            1 => [
+                'system',
+                'system-account@example.com',
+                '',
+                'inactive',
+
+            ],
+            2 => [
+                'Admin User',
+                'admin@example.com',
+                // TODO: issue for changing this: https://github.com/eventum/eventum/issues/138
+                md5('admin'),
+                'active',
+            ],
+
+        ];
+
+        $table = $this->table(__FUNCTION__);
+        foreach ($titles as $usr_id => $values) {
+            list($usr_full_name, $usr_email, $usr_password, $usr_status) = $values;
+            $row = [
+                'usr_id' => $usr_id,
+                'usr_created_date' => $this->currentDateTime(),
+                'usr_status' => $usr_status,
+                'usr_password' => $usr_password,
+                'usr_full_name' => $usr_full_name,
+                'usr_email' => $usr_email,
+            ];
+            $table->insert($row);
+        }
+
+        $table->saveData();
     }
 
     /**
