@@ -52,13 +52,11 @@ class SetupController extends BaseController
             }
         }
 
-        $tpl = new Template_Helper();
-
         if (@$_POST['cat'] == 'install') {
             $res = $this->install();
-            $tpl->assign('result', $res);
+            $this->tpl->assign('result', $res);
             // check for the optional IMAP extension
-            $tpl->assign('is_imap_enabled', function_exists('imap_open'));
+            $this->tpl->assign('is_imap_enabled', function_exists('imap_open'));
         }
 
         $full_url = dirname($_SERVER['PHP_SELF']);
@@ -73,8 +71,8 @@ class SetupController extends BaseController
         $relative_url[] = '';
         $relative_url = implode('/', $relative_url);
         define('APP_REL_URL', $relative_url);
-        $tpl->assign('phpversion', phpversion());
-        $tpl->assign(
+        $this->tpl->assign('phpversion', phpversion());
+        $this->tpl->assign(
             'core', [
                 'rel_url' => $relative_url,
                 'app_title' => APP_NAME,
@@ -86,14 +84,14 @@ class SetupController extends BaseController
         } else {
             $ssl_mode = 'disabled';
         }
-        $tpl->assign('ssl_mode', $ssl_mode);
+        $this->tpl->assign('ssl_mode', $ssl_mode);
 
-        $tpl->assign('zones', Date_Helper::getTimezoneList());
-        $tpl->assign('default_timezone', $this->getTimezone());
-        $tpl->assign('default_weekday', $this->getFirstWeekday());
+        $this->tpl->assign('zones', Date_Helper::getTimezoneList());
+        $this->tpl->assign('default_timezone', $this->getTimezone());
+        $this->tpl->assign('default_weekday', $this->getFirstWeekday());
 
-        $tpl->setTemplate($this->tpl_name);
-        $tpl->displayTemplate(false);
+        $this->tpl->setTemplate($this->tpl_name);
+        $this->tpl->displayTemplate(false);
     }
 
     protected function prepareTemplate()
@@ -508,8 +506,7 @@ class SetupController extends BaseController
         } catch (Exception $e) {
         }
 
-        global $tpl;
-        $tpl->assign('db_result', implode("\n", $buffer));
+        $this->tpl->assign('db_result', implode("\n", $buffer));
 
         if ($e) {
             $upgrade_script = APP_PATH . '/bin/upgrade.php';
