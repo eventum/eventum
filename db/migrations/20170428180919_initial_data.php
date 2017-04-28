@@ -180,7 +180,7 @@ class InitialData extends AbstractMigration
         // TODO: use constants or values from config
         $row = [
             'prj_id' => self::PROJECT_ID,
-            'prj_created_date' => (new DateTime())->format(''),
+            'prj_created_date' => $this->currentDateTime(),
             'prj_title' => 'Default Project',
             'prj_status' => 'active',
             'prj_lead_usr_id' => 2,
@@ -272,5 +272,16 @@ class InitialData extends AbstractMigration
 
     private function user()
     {
+    }
+
+    /**
+     * Return current date/time in MySQL ISO8601 compatible format.
+     * the same format MySQL CURRENT_TIMESTAMP() uses.
+     *
+     * @return string
+     */
+    private function currentDateTime($format = 'Y-m-d H:i:s')
+    {
+        return (new DateTime())->format($format);
     }
 }
