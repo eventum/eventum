@@ -26,6 +26,7 @@ use IntlCalendar;
 use Misc;
 use RuntimeException;
 use Setup;
+use Symfony\Component\Filesystem\Filesystem;
 
 class SetupController extends BaseController
 {
@@ -551,31 +552,6 @@ class SetupController extends BaseController
         Setup::save(['database' => $setup]);
     }
 
-    private function write_file($file, $contents)
-    {
-        clearstatcache();
-        // check if directory is writable
-        $dir = dirname($file);
-        if (!is_writable($dir)) {
-            throw new RuntimeException(
-                "The file '{$dir}' directory needs to be writable by the web server user. Please correct this problem and try again."
-            );
-        }
-        $fp = @fopen($file, 'w');
-        if ($fp === false) {
-            throw new RuntimeException(
-                "Could not open the file '$file' for writing. The permissions on the file should be set as to allow the user that the web server runs as to open it. Please correct this problem and try again."
-            );
-        }
-        $res = fwrite($fp, $contents);
-        if ($res <= 0) {
-            throw new RuntimeException(
-                "Could not write the configuration information to '$file'. The file should be writable by the user that the web server runs as. Please correct this problem and try again."
-            );
-        }
-        fclose($fp);
-    }
-
     /**
      * write initial values for setup file
      */
@@ -645,7 +621,8 @@ class SetupController extends BaseController
         $config_contents = file_get_contents(APP_CONFIG_PATH . '/config.dist.php');
         $config_contents = str_replace(array_keys($replace), array_values($replace), $config_contents);
 
-        $this->write_file($config_file_path, $config_contents);
+        $fs = new Filesystem();
+        $fs->dumpFile($config_file_path, $config_contents, null);
     }
 
     private function install()
