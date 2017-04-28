@@ -17,14 +17,30 @@ class InitialData extends AbstractMigration
 {
     public function change()
     {
-        $this->insertColumnsToDisplay();
-        $this->insertHistoryType();
+        $this->columns_to_display();
+        $this->history_type();
+        $this->project();
+        $this->project_category();
+        $this->project_field_display();
+        $this->project_phone_category();
+        $this->project_priority();
+        $this->project_release();
+        $this->project_severity();
+        $this->project_status();
+        $this->project_user();
+        $this->reminder_action_type();
+        $this->reminder_field();
+        $this->reminder_operator();
+        $this->resolution();
+        $this->status();
+        $this->time_tracking_category();
+        $this->user();
     }
 
     /**
      * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L942-L957
      */
-    private function insertColumnsToDisplay()
+    private function columns_to_display()
     {
         $ctd_prj_id = 1;
         $ctd_page = 'list_issues';
@@ -50,7 +66,7 @@ class InitialData extends AbstractMigration
             'iss_percent_complete' => 9,
         ];
 
-        $table = $this->table('columns_to_display');
+        $table = $this->table(__FUNCTION__);
         foreach ($columns as $field => $min_role) {
             $row = [
                 'ctd_prj_id' => $ctd_prj_id,
@@ -68,7 +84,7 @@ class InitialData extends AbstractMigration
     /**
      * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L73-L132
      */
-    private function insertHistoryType()
+    private function history_type()
     {
         $history_types = [
             'attachment_removed' => [1, 0],
@@ -139,7 +155,7 @@ class InitialData extends AbstractMigration
             'time_update' => [69, 4],
         ];
 
-        $table = $this->table('history_type');
+        $table = $this->table(__FUNCTION__);
         foreach ($history_types as $htt_name => $values) {
             list($htt_id, $htt_role) = $values;
             $row = [
@@ -151,5 +167,69 @@ class InitialData extends AbstractMigration
         }
 
         $table->saveData();
+    }
+
+    private function project()
+    {
+    }
+
+    private function project_category()
+    {
+    }
+
+    private function project_field_display()
+    {
+    }
+
+    private function project_phone_category()
+    {
+    }
+
+    private function project_priority()
+    {
+    }
+
+    private function project_release()
+    {
+    }
+
+    private function project_severity()
+    {
+    }
+
+    private function project_status()
+    {
+    }
+
+    private function project_user()
+    {
+    }
+
+    private function reminder_action_type()
+    {
+    }
+
+    private function reminder_field()
+    {
+    }
+
+    private function reminder_operator()
+    {
+    }
+
+    private function resolution()
+    {
+    }
+
+    private function status()
+    {
+    }
+
+    private function time_tracking_category()
+    {
+    }
+
+    private function user()
+    {
     }
 }
