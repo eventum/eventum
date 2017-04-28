@@ -2,11 +2,14 @@
 
 ## [3.2.0] - 2017-??-??
 
+This version switches to use [PDO MySQL] driver, ensure you have the extension enabled.
+
 - replace buggy `Mail_Helper::getEmailAddresses` with Zend\Mail based implementation (@glensc, #238)
 - Enable filtering by Severity (@balsdorf)
 - drop PEAR DB support, only PDO is supported (@glensc, #252)
 
 [3.2.0]: https://github.com/eventum/eventum/compare/v3.1.10...master
+[PDO MySQL]: http://php.net/manual/en/ref.pdo-mysql.php
 
 ## [3.1.10] - 2017-04-21
 
