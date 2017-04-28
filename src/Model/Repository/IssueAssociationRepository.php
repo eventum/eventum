@@ -116,7 +116,7 @@ class IssueAssociationRepository extends BaseRepository
         History::add(
             $issue_id, $usr_id, 'issue_associated', 'Issue associated to Issue #{associated_id} by {user}', [
                 'associated_id' => $associated_issue_id,
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]
         );
     }
@@ -148,7 +148,7 @@ class IssueAssociationRepository extends BaseRepository
             list($issue_id, $associated_issue_id) = $pair;
             $params = [
                 'issue_id' => $associated_issue_id,
-                'user' => $full_name
+                'user' => $full_name,
             ];
             History::add(
                 $issue_id, $usr_id, 'issue_unassociated',

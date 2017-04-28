@@ -111,7 +111,7 @@ class FaqController extends BaseController
         $this->tpl->assign(
             [
                 'faqs' => FAQ::getListBySupportLevel($support_level_ids),
-                'faq' => $this->getFaqDetails($support_level_ids)
+                'faq' => $this->getFaqDetails($support_level_ids),
             ]
         );
     }

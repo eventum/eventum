@@ -138,14 +138,14 @@ class DebugBar
             'Smarty', [
                 'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
                 'map' => 'Smarty',
-                'default' => '[]'
+                'default' => '[]',
             ]
         );
         $renderer->addControl(
             'Config', [
                 'widget' => 'PhpDebugBar.Widgets.VariableListWidget',
                 'map' => 'Config',
-                'default' => '[]'
+                'default' => '[]',
             ]
         );
 

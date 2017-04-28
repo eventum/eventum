@@ -54,7 +54,7 @@ class Edit_Reporter
             $current_usr_id = Auth::getUserID();
             History::add($issue_id, $current_usr_id, 'issue_updated', 'Reporter was changed to {email} by {user}', [
                 'email' => $email,
-                'user' => User::getFullName($current_usr_id)
+                'user' => User::getFullName($current_usr_id),
             ]);
         }
 

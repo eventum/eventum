@@ -224,7 +224,7 @@ class Attachment
             Issue::markAsUpdated($usr_id);
             // need to save a history entry for this
             History::add($issue_id, $usr_id, 'attachment_removed', 'Attachment removed by {user}', [
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
         }
 

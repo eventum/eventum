@@ -1443,7 +1443,7 @@ class Support
         foreach ($res as $row) {
             History::add($issue_id, $usr_id, 'email_associated', "Email (subject: '{subject}') associated by {user}", [
                 'subject' => $row,
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
@@ -2209,7 +2209,7 @@ class Support
             }
 
             History::add($issue_id, $current_usr_id, 'email_sent', 'Outgoing email sent by {user}', [
-                'user' => User::getFullName($current_usr_id)
+                'user' => User::getFullName($current_usr_id),
             ]);
         }
 

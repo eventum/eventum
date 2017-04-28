@@ -26,14 +26,14 @@ class Dynamic_Ajax_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Bac
                     '1' => 'Apple',
                     '2' => 'Fire Engine',
                     '3' => 'Fire',
-                ]
+                ],
             ],
             [
                 'keys' => [2],
                 'options' => [
                     '4' => 'water',
                     '5' => 'sky',
-                ]
+                ],
             ],
             [
                 'keys' => [3],
@@ -42,7 +42,7 @@ class Dynamic_Ajax_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Bac
                     '7' => 'gold',
                     '8' => 'yellow things',
                     '9' => 'more yellow things',
-                ]
+                ],
             ],
         ];
 

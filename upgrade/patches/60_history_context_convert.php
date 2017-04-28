@@ -181,7 +181,7 @@ foreach ($his_ids as $his_id) {
     }
     $db->query(
         'update {{%issue_history}} set his_summary=?, his_context=? where his_id=?', [
-        $m['message'], $m['context'], $his_id
+        $m['message'], $m['context'], $his_id,
     ]
     );
     $updated++;

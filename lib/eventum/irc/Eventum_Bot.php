@@ -106,7 +106,7 @@ class Eventum_Bot
              *
              * @see Net_SmartIRC::setDebugLevel
              */
-            'debuglevel' => SMARTIRC_DEBUG_NOTICE
+            'debuglevel' => SMARTIRC_DEBUG_NOTICE,
         ];
 
         $config = require $config_file;

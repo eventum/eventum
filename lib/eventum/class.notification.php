@@ -1945,7 +1945,7 @@ class Notification
         $current_usr_id = Auth::getUserID();
         History::add($issue_id, $current_usr_id, 'notification_removed', 'Notification list entry ({email}) removed by {user}', [
             'email' => $email,
-            'user' => User::getFullName($current_usr_id)
+            'user' => User::getFullName($current_usr_id),
         ]);
 
         Issue::markAsUpdated($issue_id);
@@ -2216,7 +2216,7 @@ class Notification
         // FIXME: XSS possible as $email is not escaped for html?
         History::add($issue_id, $usr_id, 'notification_added', "Notification list entry ('{subscriber}') added by {user}", [
             'subscriber' => $email,
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         return 1;

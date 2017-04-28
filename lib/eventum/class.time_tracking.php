@@ -462,7 +462,7 @@ class Time_Tracking
 
         Issue::markAsUpdated($details['issue_id']);
         History::add($details['issue_id'], $usr_id, 'time_removed', 'Time tracking entry removed by {user}', [
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         return 1;
@@ -521,7 +521,7 @@ class Time_Tracking
 
         Issue::markAsUpdated($iss_id, 'time added');
         History::add($iss_id, $usr_id, 'time_added', 'Time tracking entry submitted by {user}', [
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         return 1;
@@ -566,7 +566,7 @@ class Time_Tracking
             $created_date,
             $time_spent,
             $summary,
-            $ttr_id
+            $ttr_id,
         ];
         DB_Helper::getInstance()->query($stmt, $params);
 

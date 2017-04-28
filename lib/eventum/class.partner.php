@@ -104,7 +104,7 @@ class Partner
             $usr_id = Auth::getUserID();
             History::add($iss_id, $usr_id, 'partner_added', "Partner '{partner}' added to issue by {user}", [
                 'partner' => $backend->getName(),
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
@@ -130,7 +130,7 @@ class Partner
         $usr_id = Auth::getUserID();
         History::add($iss_id, $usr_id, 'partner_removed', "Partner '{partner}' removed from issue by {user}", [
             'partner' => $backend->getName(),
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         return true;

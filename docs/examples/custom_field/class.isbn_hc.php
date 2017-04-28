@@ -20,8 +20,8 @@ class Isbn_Hc_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
         $data = [
             [
                 'keys' => [Custom_Field::getOptionKey($fld_id, 'present')],
-                'options' => []
-            ]
+                'options' => [],
+            ],
         ];
 
         return $data;

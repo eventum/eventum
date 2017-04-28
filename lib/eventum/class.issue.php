@@ -248,7 +248,7 @@ class Issue
         History::add($issue_id, $usr_id, 'contract_changed', 'Contract changed from {old_contract_id} to {contract_id} by {user}', [
             'old_contract_id' => $old_contract_id,
             'contract_id' => $contract_id,
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         return 1;
@@ -421,7 +421,7 @@ class Issue
             // record history entry
             History::add($issue_id, $usr_id, 'remote_status_change', "Status remotely changed to '{status}' by {user}", [
                 'status' => $new_status,
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
@@ -603,7 +603,7 @@ class Issue
             Notification::notifyIssueUpdated($issue_id, ['iss_expected_resolution_date' => $current], ['expected_resolution_date' => $expected_resolution_date], []);
             History::add($issue_id, $usr_id, 'issue_updated', 'Issue updated (Expected Resolution Date: {changes}) by {user}', [
                 'changes' => History::formatChanges($current, $expected_resolution_date),
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
 
             return 1;
@@ -1017,7 +1017,7 @@ class Issue
         // record the change
         $usr_id = Auth::getUserID();
         History::add($issue_id, $usr_id, 'duplicate_removed', 'Duplicate flag was reset by {user}', [
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         return 1;
@@ -1063,7 +1063,7 @@ class Issue
         // record the change
         History::add($issue_id, $usr_id, 'duplicate_added', 'Issue marked as a duplicate of issue #{issue_id} by {user}', [
             'issue_id' => $dup_iss_id,
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         return 1;
@@ -1284,7 +1284,7 @@ class Issue
         // record the change
         History::add($issue_id, $usr_id, 'issue_closed', "Issue updated to status '{status}' by {user}", [
             'status' => Status::getStatusTitle($status_id),
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         if ($send_notification_to == 'all') {
@@ -1570,7 +1570,7 @@ class Issue
             }
             History::add($issue_id, $usr_id, 'issue_updated', 'Issue updated ({changes}) by {user}', [
                 'changes' => $changes,
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
@@ -1727,7 +1727,7 @@ class Issue
         if ($add_history) {
             History::add($issue_id, $usr_id, 'user_associated', 'Issue assigned to {assignee} by {user}', [
                 'assignee' => User::getFullName($assignee_usr_id),
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
@@ -1758,7 +1758,7 @@ class Issue
 
         if ($usr_id) {
             History::add($issue_id, $usr_id, 'user_all_unassociated', 'Issue assignments removed by {user}', [
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
@@ -1906,7 +1906,7 @@ class Issue
         $has_RR = false;
         // log the creation of the issue
         History::add($issue_id, $usr_id, 'issue_opened', 'Issue opened by {sender}', [
-            'sender' => $sender
+            'sender' => $sender,
         ]);
 
         $emails = [];
@@ -2043,7 +2043,7 @@ class Issue
         $clone_iss_id = isset($_POST['clone_iss_id']) ? (int) $_POST['clone_iss_id'] : null;
         if ($clone_iss_id && Access::canCloneIssue($clone_iss_id, $usr_id)) {
             History::add($issue_id, $usr_id, 'issue_cloned_from', 'Issue cloned from issue #{issue_id}', [
-                'issue_id' => $clone_iss_id
+                'issue_id' => $clone_iss_id,
             ]);
             History::add($clone_iss_id, $usr_id, 'issue_cloned_to', 'Issue cloned to issue #{issue_id}', [
                 'issue_id' => $issue_id,
@@ -2116,7 +2116,7 @@ class Issue
                     $users[] = $assignee;
                     self::addUserAssociation($usr_id, $issue_id, $assignee, false);
                     History::add($issue_id, APP_SYSTEM_USER_ID, 'rr_issue_assigned', 'Issue auto-assigned to {assignee} (RR)', [
-                         'assignee' => User::getFullName($assignee)
+                         'assignee' => User::getFullName($assignee),
                     ]);
                     $has_RR = true;
                 }
@@ -2985,7 +2985,7 @@ class Issue
                 $usr_id = Auth::getUserID();
                 History::add($issue_id, $usr_id, 'issue_bulk_updated', 'Issue updated ({changes}) by {user}', [
                     'changes' => $changes,
-                    'user' => User::getFullName(Auth::getUserID())
+                    'user' => User::getFullName(Auth::getUserID()),
                 ]);
             }
 
@@ -3261,7 +3261,7 @@ class Issue
 
         History::add($issue_id, $usr_id, 'group_changed', 'Group changed ({changes}) by {user}', [
             'changes' => History::formatChanges(Group::getName($current['iss_grp_id']), Group::getName($group_id)),
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         return 1;
@@ -3435,7 +3435,7 @@ class Issue
         $usr_id = Auth::getUserID();
         History::add($issue_id, $usr_id, 'user_associated', 'Issue assignment to changed ({changes}) by {user}', [
             'changes' => History::formatChanges(implode(', ', $old_assignee_names), implode(', ', $assignee_names)),
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         return 1;
@@ -3472,7 +3472,7 @@ class Issue
 
         History::add($issue_id, $usr_id, 'access_level_changed', 'Access level changed ({changes}) by {user}', [
             'changes' => History::formatChanges(Access::getAccessLevelName($old_access_level), Access::getAccessLevelName($level)),
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         return 1;

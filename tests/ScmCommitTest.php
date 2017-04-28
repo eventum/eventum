@@ -48,7 +48,7 @@ class ScmCommitTest extends TestCase
                 'checkout_url' => 'http://localhost:10080/{PROJECT}/blob/{VERSION}/{FILE}',
                 'diff_url' => 'http://localhost:10080/{PROJECT}/commit/{VERSION}#{FILE}',
                 'log_url' => 'http://localhost:10080/{PROJECT}/commits/{VERSION}/{FILE}',
-            ]
+            ],
         ];
         Setup::set(['scm' => $scm]);
 

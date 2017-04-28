@@ -243,11 +243,11 @@ class UpdateController extends BaseController
         if (CRM::hasCustomerIntegration($prj_id) and !empty($details['iss_customer_id'])) {
             $columns[0][] = [
                 'title' => 'Customer',
-                'field' => 'customer_0'
+                'field' => 'customer_0',
             ];
             $columns[1][] = [
                 'title' => 'Customer Contract',
-                'field' => 'customer_1'
+                'field' => 'customer_1',
             ];
         }
 
@@ -269,7 +269,7 @@ class UpdateController extends BaseController
             $columns[0][] = [
                 'title' => ev_gettext('Severity'),
                 'data' => $details['sev_title'],
-                'field' => 'severity'
+                'field' => 'severity',
             ];
         }
 

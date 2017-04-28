@@ -575,7 +575,7 @@ class Access
             DB_Helper::getInstance()->query($sql, [$issue_id, $usr_id, Date_Helper::getCurrentDateGMT()]);
             History::add($issue_id, Auth::getUserID(), 'access_list_added', 'Access list entry ({target_user}) added by {user}', [
                 'target_user' => User::getFullName($usr_id),
-                'user' => User::getFullName(Auth::getUserID())
+                'user' => User::getFullName(Auth::getUserID()),
             ]);
         } catch (DatabaseException $e) {
             return -1;
@@ -595,7 +595,7 @@ class Access
             DB_Helper::getInstance()->query($sql, [$issue_id, $usr_id]);
             History::add($issue_id, Auth::getUserID(), 'access_list_removed', 'Access list entry ({target_user}) removed by {user}', [
                 'target_user' => User::getFullName($usr_id),
-                'user' => User::getFullName(Auth::getUserID())
+                'user' => User::getFullName(Auth::getUserID()),
             ]);
         } catch (DatabaseException $e) {
             return -1;
@@ -667,7 +667,7 @@ class Access
             (int) !$return,
             $item,
             $item_id,
-            isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null
+            isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null,
         ];
         try {
             DB_Helper::getInstance()->query($sql, $params);

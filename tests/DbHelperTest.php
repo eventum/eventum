@@ -42,7 +42,7 @@ class DbHelperTest extends TestCase
     {
         // simple test
         $ids = [
-            1, 2, 'a', 'f'
+            1, 2, 'a', 'f',
         ];
         $res = DB_Helper::buildList($ids);
         $exp = '?, ?, ?, ?';

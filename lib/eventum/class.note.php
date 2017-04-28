@@ -471,7 +471,7 @@ class Note
             // need to save a history entry for this
             $usr_id = Auth::getUserID();
             History::add($details['not_iss_id'], $usr_id, 'note_removed', 'Note removed by {user}', [
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
@@ -612,7 +612,7 @@ class Note
                 self::remove($note_id, false);
                 History::add($issue_id, $current_usr_id, 'note_converted_email', 'Note converted to e-mail (from: {from}) by {user}', [
                     'from' => @$structure->headers['from'],
-                    'user' => User::getFullName($current_usr_id)
+                    'user' => User::getFullName($current_usr_id),
                 ]);
                 // now add sender as an authorized replier
                 if ($authorize_sender) {
@@ -637,7 +637,7 @@ class Note
             $usr_id = $current_usr_id;
             History::add($issue_id, $usr_id, 'note_converted_draft', 'Note converted to draft (from: {from}) by {user}', [
                 'from' => @$structure->headers['from'],
-                'user' => User::getFullName($current_usr_id)
+                'user' => User::getFullName($current_usr_id),
             ]);
         }
 

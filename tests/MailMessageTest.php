@@ -484,7 +484,7 @@ class MailMessageTest extends TestCase
                 'X-Eventum-Type: elisabeth bathory',
                 'Precedence: bulk',
                 'Auto-Submitted: auto-generated',
-                ''
+                '',
             ]
         );
         $this->assertEquals($exp, $mail->getHeaders()->toString());

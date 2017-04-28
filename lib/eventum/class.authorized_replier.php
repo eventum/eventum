@@ -114,7 +114,7 @@ class Authorized_Replier
             $usr_id = Auth::getUserID();
             History::add($issue_id, $usr_id, 'replier_removed', 'Authorized replier {replier} removed by {user}', [
                 'replier' => $replier,
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
 
             return 1;
@@ -173,7 +173,7 @@ class Authorized_Replier
             $usr_id = Auth::getUserID();
             History::add($issue_id, $usr_id, 'replier_other_added', '{email} added to the authorized repliers list by {user}', [
                 'email' => $email,
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
@@ -213,7 +213,7 @@ class Authorized_Replier
             $current_usr_id = Auth::getUserID();
             History::add($issue_id, $current_usr_id, 'replier_added', '{other_user} added to the authorized repliers list by {user}', [
                 'other_user' => User::getFullName($usr_id),
-                'user' => User::getFullName($current_usr_id)
+                'user' => User::getFullName($current_usr_id),
             ]);
         }
 

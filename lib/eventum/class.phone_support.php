@@ -375,7 +375,7 @@ class Phone_Support
         Issue::markAsUpdated($details['phs_iss_id']);
         $usr_id = Auth::getUserID();
         History::add($details['phs_iss_id'], $usr_id, 'phone_entry_removed', 'Phone Support entry removed by {user}', [
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         if (!empty($details['phs_ttr_id'])) {

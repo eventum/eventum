@@ -206,7 +206,7 @@ class PopupController extends BaseController
     {
         $this->tpl->assign(
             [
-                'cat' => $this->cat
+                'cat' => $this->cat,
             ]
         );
     }

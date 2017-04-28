@@ -26,7 +26,7 @@ class Custom_Field
         'cfo_id DESC' => 'Reverse insert',
         'cfo_value ASC' => 'Alphabetical',
         'cfo_value DESC' => 'Reverse alphabetical',
-        'cfo_rank ASC' => 'Manual'
+        'cfo_rank ASC' => 'Manual',
     ];
 
     public static function updateOptions($fld_id, $options, $new_options)
@@ -354,7 +354,7 @@ class Custom_Field
                 foreach ($changes as $min_role => $role_changes) {
                     History::add($issue_id, $usr_id, 'custom_field_updated', 'Custom field updated ({changes}) by {user}', [
                         'changes' => implode('; ', $role_changes),
-                        'user' => $usr_full_name
+                        'user' => $usr_full_name,
                     ], $min_role);
                 }
             }

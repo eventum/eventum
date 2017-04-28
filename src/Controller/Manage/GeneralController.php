@@ -89,13 +89,13 @@ class GeneralController extends ManageBaseController
                             'Please contact your local system administrator and ask for write privileges on the provided path.',
                             APP_CONFIG_PATH
                         ),
-                        MessagesHelper::MSG_NOTE_BOX],
+                        MessagesHelper::MSG_NOTE_BOX, ],
             -2 => [ev_gettext(
                             "ERROR: The system doesn't have the appropriate permissions to update the configuration file in the setup directory (%1\$s). " .
                             'Please contact your local system administrator and ask for write privileges on the provided filename.',
                             APP_SETUP_FILE
                         ),
-                   MessagesHelper::MSG_NOTE_BOX],
+                   MessagesHelper::MSG_NOTE_BOX, ],
         ];
         $this->messages->mapMessages($res, $map);
     }

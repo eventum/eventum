@@ -102,7 +102,7 @@ class Draft
         Issue::markAsUpdated($issue_id, 'draft saved');
         if ($add_history_entry) {
             History::add($issue_id, $usr_id, 'draft_added', 'Email message saved as a draft by {user}', [
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
@@ -145,7 +145,7 @@ class Draft
 
         Issue::markAsUpdated($issue_id, 'draft saved');
         History::add($issue_id, $usr_id, 'draft_updated', 'Email message draft updated by {user}', [
-            'user' => User::getFullName($usr_id)]
+            'user' => User::getFullName($usr_id), ]
         );
         self::saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id, false, false);
 
