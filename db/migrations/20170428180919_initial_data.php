@@ -498,8 +498,34 @@ class InitialData extends AbstractMigration
         $table->saveData();
     }
 
+    /**
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L729-L736
+     */
     private function reminder_operator()
     {
+        $reminder_operators = [
+            'equal to' => '=',
+            'not equal to' => '<>',
+            'is' => 'IS',
+            'is not' => 'IS NOT',
+            'greater than' => '>',
+            'less than' => '<',
+            'greater or equal than' => '>=',
+            'less or equal than' => '<=',
+        ];
+        $rmo_id = 1;
+
+        $table = $this->table(__FUNCTION__);
+        foreach ($reminder_operators as $rmo_title => $rmo_sql_representation) {
+            $row = [
+                'rmo_id' => $rmo_id++,
+                'rmo_title' => $rmo_title,
+                'rmo_sql_representation' => $rmo_sql_representation,
+            ];
+            $table->insert($row);
+        }
+
+        $table->saveData();
     }
 
     private function resolution()
