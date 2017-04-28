@@ -309,8 +309,22 @@ class InitialData extends AbstractMigration
         $table->saveData();
     }
 
+    /**
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L352
+     */
     private function project_release()
     {
+        $table = $this->table(__FUNCTION__);
+        $row = [
+            'pre_id' => 1,
+            'pre_prj_id' => self::PROJECT_ID,
+            'pre_title' => 'Example Release',
+            'pre_scheduled_date' => $this->currentDateTime('Y-m-d', 'P1M'),
+            'pre_status' => 'available',
+        ];
+        $table->insert($row);
+
+        $table->saveData();
     }
 
     private function project_severity()
@@ -357,10 +371,17 @@ class InitialData extends AbstractMigration
      * Return current date/time in MySQL ISO8601 compatible format.
      * the same format MySQL CURRENT_TIMESTAMP() uses.
      *
+     * @param string $dateFormat
+     * @param string $dateAdd
      * @return string
      */
-    private function currentDateTime($format = 'Y-m-d H:i:s')
+    private function currentDateTime($dateFormat = 'Y-m-d H:i:s', $dateAdd = null)
     {
-        return (new DateTime())->format($format);
+        $dateTime = new DateTime();
+        if ($dateAdd) {
+            $dateTime->add(new DateInterval($dateAdd));
+        }
+
+        return $dateTime->format($dateFormat);
     }
 }
