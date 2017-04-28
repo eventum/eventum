@@ -26,15 +26,20 @@ use IntlCalendar;
 use Misc;
 use RuntimeException;
 use Setup;
-use Template_Helper;
 
 class SetupController extends BaseController
 {
     /** @var string */
     protected $tpl_name = 'setup.tpl.html';
 
+    /** @var string */
+    private $cat;
+
     protected function configure()
     {
+        $request = $this->getRequest();
+
+        $this->cat = $request->request->get('cat');
     }
 
     protected function canAccess()
@@ -52,55 +57,60 @@ class SetupController extends BaseController
             }
         }
 
-        if (@$_POST['cat'] == 'install') {
+        if ($this->cat == 'install') {
             $res = $this->install();
             $this->tpl->assign('result', $res);
             // check for the optional IMAP extension
             $this->tpl->assign('is_imap_enabled', function_exists('imap_open'));
         }
+    }
 
-        $full_url = dirname($_SERVER['PHP_SELF']);
-        $pieces = explode('/', $full_url);
-        $relative_url = [];
-        $relative_url[] = '';
-        foreach ($pieces as $piece) {
-            if ((!empty($piece)) && ($piece != 'setup')) {
-                $relative_url[] = $piece;
-            }
-        }
-        $relative_url[] = '';
-        $relative_url = implode('/', $relative_url);
-        define('APP_REL_URL', $relative_url);
-        $this->tpl->assign('phpversion', phpversion());
+    protected function prepareTemplate()
+    {
         $this->tpl->assign(
-            'core', [
-                'rel_url' => $relative_url,
-                'app_title' => APP_NAME,
-                'template_id' => 'setup',
+            [
+                'phpversion' => phpversion(),
+                'core' => [
+                    'rel_url' => $this->getRelativeUrl(),
+                    'app_title' => APP_NAME,
+                    'template_id' => 'setup',
+                ],
+                'ssl_mode' => $this->getSslMode(),
+                'zones' => Date_Helper::getTimezoneList(),
+                'default_timezone' => $this->getTimezone(),
+                'default_weekday' => $this->getFirstWeekday(),
             ]
         );
+    }
+
+    protected function displayTemplate($tpl_name = null)
+    {
+        $this->tpl->displayTemplate(false);
+    }
+
+    private function getSslMode()
+    {
         if (@$_SERVER['HTTPS'] == 'on') {
             $ssl_mode = 'enabled';
         } else {
             $ssl_mode = 'disabled';
         }
-        $this->tpl->assign('ssl_mode', $ssl_mode);
 
-        $this->tpl->assign('zones', Date_Helper::getTimezoneList());
-        $this->tpl->assign('default_timezone', $this->getTimezone());
-        $this->tpl->assign('default_weekday', $this->getFirstWeekday());
-
-        $this->tpl->setTemplate($this->tpl_name);
-        $this->tpl->displayTemplate(false);
+        return $ssl_mode;
     }
 
-    protected function prepareTemplate()
-    {
-    }
-
-    protected function displayTemplate($tpl_name = null)
-    {
-        // override to do nothing
+    private function getRelativeUrl() {
+        $full_url = dirname($_SERVER['PHP_SELF']);
+        $pieces = explode('/', $full_url);
+        $relative_url = [];
+        $relative_url[] = '';
+        foreach ($pieces as $piece) {
+            if (!empty($piece) && $piece != 'setup') {
+                $relative_url[] = $piece;
+            }
+        }
+        $relative_url[] = '';
+        return implode('/', $relative_url);
     }
 
     /**
