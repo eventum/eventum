@@ -356,8 +356,24 @@ class InitialData extends AbstractMigration
         $table->saveData();
     }
 
+    /**
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L594-L599
+     */
     private function project_status()
     {
+        $prs_id = 1;
+
+        $table = $this->table(__FUNCTION__);
+        foreach (range(1, 6) as $prs_sta_id) {
+            $row = [
+                'prs_id' => $prs_id++,
+                'prs_prj_id' => self::PROJECT_ID,
+                'prs_sta_id' => $prs_sta_id,
+            ];
+            $table->insert($row);
+        }
+
+        $table->saveData();
     }
 
     private function project_user()
