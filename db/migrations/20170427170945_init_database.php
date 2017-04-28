@@ -857,7 +857,7 @@ class InitDatabase extends AbstractMigration
         // FIXME: upgrade/patches/07_user_preference.php:24:
         $this->table('user_preference', ['id' => false, 'primary_key' => ['upr_usr_id']])
             ->addColumn('upr_usr_id', 'integer')
-            ->addColumn('upr_timezone', 'string', ['length' => 100, 'collation' => 'latin1_swedish_ci'])
+            ->addColumn('upr_timezone', 'string', ['length' => 100])
             ->addColumn('upr_week_firstday', 'boolean', ['default' => 0])
             ->addColumn('upr_list_refresh_rate', 'integer', ['length' => 5, 'default' => 5, 'null' => true])
             ->addColumn('upr_email_refresh_rate', 'integer', ['length' => 5, 'default' => 5, 'null' => true])
