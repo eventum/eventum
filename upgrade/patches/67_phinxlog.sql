@@ -9,4 +9,7 @@ CREATE TABLE `phinxlog` (
 	PRIMARY KEY (`version`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-INSERT INTO `phinxlog` VALUES (20170427170945,'InitDatabase','2017-04-28 17:07:14','2017-04-28 17:07:15',0);
+SET @now := current_timestamp(), @bp := 0;
+
+INSERT INTO `phinxlog` SET version=20170427170945, migration_name='InitDatabase', start_time=@now, end_time=@now, breakpoint=@bp;
+INSERT INTO `phinxlog` SET version=20170428180919, migration_name='InitialData',  start_time=@now, end_time=@now, breakpoint=@bp;
