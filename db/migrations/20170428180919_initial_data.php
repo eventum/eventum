@@ -528,8 +528,34 @@ class InitialData extends AbstractMigration
         $table->saveData();
     }
 
+    /**
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L371-L377
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/09_resolution_rank.sql
+     */
     private function resolution()
     {
+        $resolutions = [
+            2 => 'fixed',
+            4 => 'unable to reproduce',
+            5 => 'not fixable',
+            6 => 'duplicate',
+            7 => 'not a bug',
+            8 => 'suspended',
+            9 => "won't fix",
+        ];
+
+        $table = $this->table(__FUNCTION__);
+        foreach ($resolutions as $res_id => $res_title) {
+            $row = [
+                'res_id' => $res_id,
+                'res_title' => $res_title,
+                'res_created_date' => $this->currentDateTime(),
+                'res_rank' => $res_id,
+            ];
+            $table->insert($row);
+        }
+
+        $table->saveData();
     }
 
     private function status()
