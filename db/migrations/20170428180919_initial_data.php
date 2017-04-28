@@ -218,8 +218,38 @@ class InitialData extends AbstractMigration
         $table->saveData();
     }
 
+    /**
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/33_set_required_fields.php
+     */
     private function project_field_display()
     {
+        $fields = [
+            'category' => 1,
+            'priority' => 1,
+            'severity' => 1,
+            'assignment' => 0,
+            'release' => 0,
+            'estimated_dev_time' => 0,
+            'expected_res_date' => 0,
+            'group' => 0,
+            'file' => 0,
+            'product' => 0,
+            'associated_issues' => 0,
+            'access_level' => 0,
+        ];
+
+        $table = $this->table(__FUNCTION__);
+        foreach ($fields as $pfd_field => $pfd_required) {
+            $row = [
+                'pfd_prj_id' => self::PROJECT_ID,
+                'pfd_field' => $pfd_field,
+                'pfd_min_role' => '0',
+                'pfd_required' => $pfd_required,
+            ];
+            $table->insert($row);
+        }
+
+        $table->saveData();
     }
 
     private function project_phone_category()
