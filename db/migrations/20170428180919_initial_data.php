@@ -17,7 +17,7 @@ class InitialData extends AbstractMigration
 {
     const PROJECT_ID = 1;
 
-    public function change()
+    public function up()
     {
         $this->columns_to_display();
         $this->history_type();
