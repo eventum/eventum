@@ -31,6 +31,7 @@ class InitDatabase extends AbstractMigration
     const PHINX_TYPE_BLOB = MysqlAdapter::PHINX_TYPE_BLOB;
 
     const MYSQL_ENGINE = 'MyISAM';
+    // TODO: utf8mb4_unicode_ci or take from config
     const MYSQL_COLLATION = 'utf8_general_ci';
 
     public function change()
