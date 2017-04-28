@@ -419,8 +419,83 @@ class InitialData extends AbstractMigration
         $table->saveData();
     }
 
+    /**
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L713-L720
+     */
     private function reminder_field()
     {
+        $reminder_fields = [
+            'Status' => [
+                'iss_sta_id',
+                'iss_sta_id',
+                0,
+            ],
+            'Last Response Date' => [
+                'iss_last_response_date',
+                '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_last_response_date), 0))',
+                1,
+            ],
+            'Last Customer Action Date' => [
+                'iss_last_customer_action_date',
+                '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_last_customer_action_date), 0))',
+                1,
+            ],
+            'Last Update Date' => [
+                'iss_updated_date',
+                '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_updated_date), 0))',
+                1,
+            ],
+            'Created Date' => [
+                'iss_created_date',
+                '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_created_date), 0))',
+                1,
+            ],
+            'First Response Date' => [
+                'iss_first_response_date',
+                '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_first_response_date), 0))',
+                1,
+            ],
+            'Closed Date' => [
+                'iss_closed_date', '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_closed_date), 0))',
+                1,
+            ],
+            'Category' => [
+                'iss_prc_id',
+                'iss_prc_id',
+                0,
+            ],
+            'Group' => [
+                'iss_grp_id',
+                'iss_grp_id',
+                0,
+            ],
+            'Active Group' => [
+                'iss_grp_id',
+                '',
+                0,
+            ],
+            'Expected Resolution Date' => [
+                'iss_expected_resolution_date',
+                '(UNIX_TIMESTAMP() - IFNULL(UNIX_TIMESTAMP(iss_expected_resolution_date), 0))',
+                1,
+            ],
+        ];
+        $rmt_id = 1;
+
+        $table = $this->table(__FUNCTION__);
+        foreach ($reminder_fields as $rmf_title => $values) {
+            list($rmf_sql_field, $rmf_sql_representation, $rmf_allow_column_compare) = $values;
+            $row = [
+                'rmf_id' => $rmt_id++,
+                'rmf_title' => $rmf_title,
+                'rmf_sql_field' => $rmf_sql_field,
+                'rmf_sql_representation' => $rmf_sql_representation,
+                'rmf_allow_column_compare' => $rmf_allow_column_compare,
+            ];
+            $table->insert($row);
+        }
+
+        $table->saveData();
     }
 
     private function reminder_operator()
