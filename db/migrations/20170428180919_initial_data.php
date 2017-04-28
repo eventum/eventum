@@ -15,6 +15,8 @@ use Phinx\Migration\AbstractMigration;
 
 class InitialData extends AbstractMigration
 {
+    const PROJECT_ID = 1;
+
     public function change()
     {
         $this->columns_to_display();
@@ -177,7 +179,7 @@ class InitialData extends AbstractMigration
         $table = $this->table(__FUNCTION__);
         // TODO: use constants or values from config
         $row = [
-            'prj_id' => 1,
+            'prj_id' => self::PROJECT_ID,
             'prj_created_date' => (new DateTime())->format(''),
             'prj_title' => 'Default Project',
             'prj_status' => 'active',
@@ -193,8 +195,27 @@ class InitialData extends AbstractMigration
         $table->saveData();
     }
 
+    /**
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L339-L341
+     */
     private function project_category()
     {
+        $categories = [
+            'Bug',
+            'Feature Request',
+            'Technical Support',
+        ];
+
+        $table = $this->table(__FUNCTION__);
+        foreach ($categories as $prc_title) {
+            $row = [
+                'prc_prj_id' => self::PROJECT_ID,
+                'prc_title' => $prc_title,
+            ];
+            $table->insert($row);
+        }
+
+        $table->saveData();
     }
 
     private function project_field_display()
