@@ -742,7 +742,7 @@ class InitDatabase extends AbstractMigration
             ->addColumn('sep_usr_id', 'integer')
             ->addColumn('sep_prj_id', 'integer')
             ->addColumn('sep_type', 'char', ['length' => 5, 'collation' => 'utf8_general_ci'])
-            ->addColumn('sep_user_profile', 'binary')
+            ->addColumn('sep_user_profile', self::PHINX_TYPE_BLOB)
             ->addIndex(['sep_usr_id', 'sep_prj_id', 'sep_type'], ['unique' => true])
         ->create();
 
