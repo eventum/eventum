@@ -327,8 +327,33 @@ class InitialData extends AbstractMigration
         $table->saveData();
     }
 
+    /**
+     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/15_severity.sql
+     */
     private function project_severity()
     {
+        $severities = [
+            'S1' => 'Total Production Outage',
+            'S2' => 'Serious Production Failure',
+            'S3' => 'Minor Failure',
+            'S4' => 'General Requests',
+        ];
+        $sev_id = 1;
+        $sev_rank = 0;
+
+        $table = $this->table(__FUNCTION__);
+        foreach ($severities as $sev_title => $sev_description) {
+            $row = [
+                'sev_id' => $sev_id++,
+                'sev_prj_id' => self::PROJECT_ID,
+                'sev_title' => $sev_title,
+                'sev_description' => $sev_description,
+                'sev_rank' => $sev_rank++,
+            ];
+            $table->insert($row);
+        }
+
+        $table->saveData();
     }
 
     private function project_status()
