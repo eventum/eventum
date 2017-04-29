@@ -551,9 +551,6 @@ class SetupController extends BaseController
             // database driver
             'driver' => 'mysql',
 
-            // use Pdo for new installations
-            'classname' => 'Pdo',
-
             // connection info
             'hostname' => $hostname,
             'database' => '', // NOTE: db name has to be written after the table has been created
