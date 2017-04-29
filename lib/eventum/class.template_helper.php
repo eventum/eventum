@@ -80,17 +80,13 @@ class Template_Helper
     /**
      * Assigns variables to specific placeholders on the target template
      *
-     * @param  string $var_name Placeholder on the template
+     * @param  array|string $var_name Placeholder on the template
      * @param  string $value Value to be assigned to this placeholder
      * @return $this
      */
-    public function assign($var_name, $value = '')
+    public function assign($var_name, $value = null)
     {
-        if (!is_array($var_name)) {
-            $this->smarty->assign($var_name, $value);
-        } else {
-            $this->smarty->assign($var_name);
-        }
+        $this->smarty->assign($var_name, $value);
 
         return $this;
     }

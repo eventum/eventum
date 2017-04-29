@@ -208,7 +208,7 @@ function disableAuthFields(bool)
             <input type="text" name="hostname" value="{$smarty.post.hostname|default:$smarty.server.HTTP_HOST}" size="30" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="hostname"}
             <br/>
-            <label><input type="checkbox" name="is_ssl" value="yes" tabindex="{$tabindex}" {if $ssl_mode == 'enabled'}checked{/if}>{t}SSL Server{/t}</label>
+            <label><input type="checkbox" name="is_ssl" value="yes" tabindex="{$tabindex}" {if $is_secure}checked{/if}>{t}SSL Server{/t}</label>
           </td>
         </tr>
         <tr>
