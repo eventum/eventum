@@ -12,16 +12,16 @@
  */
 
 /**
-* The MIME:: class provides methods for dealing with MIME standards.
-*
-* $Horde: horde/lib/MIME.php,v 1.121 2003/11/06 15:26:17 chuck Exp $
-*
-* Copyright 1999-2003 Chuck Hagenbuch <chuck@horde.org>
-*
-* See the enclosed file COPYING for license information (LGPL). If you
-* did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
-*
-*/
+ * The MIME:: class provides methods for dealing with MIME standards.
+ *
+ * $Horde: horde/lib/MIME.php,v 1.121 2003/11/06 15:26:17 chuck Exp $
+ *
+ * Copyright 1999-2003 Chuck Hagenbuch <chuck@horde.org>
+ *
+ * See the enclosed file COPYING for license information (LGPL). If you
+ * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
+ *
+ */
 use Eventum\Monolog\Logger;
 
 /**

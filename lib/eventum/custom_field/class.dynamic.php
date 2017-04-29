@@ -57,10 +57,10 @@ class Dynamic_Custom_Field_Backend
      *
      * @return  array An array of data to display
      */
-   public function getStructuredData()
-   {
-       return [];
-   }
+    public function getStructuredData()
+    {
+        return [];
+    }
 
     /**
      * Returns the ID of the "controlling" custom field.

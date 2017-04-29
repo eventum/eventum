@@ -74,6 +74,7 @@ $symfony_rules = [
     'object_operator_without_whitespace' => true,
     'phpdoc_align' => false,
     'phpdoc_annotation_without_dot' => true,
+    'phpdoc_indent' => true,
     'phpdoc_no_empty_return' => true,
     'phpdoc_no_package' => true,
     'phpdoc_scalar' => true,
