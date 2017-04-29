@@ -21,7 +21,6 @@ use RecentActivity;
  *
  * This report shows a list of activity performed in recent history.
  *
- * @package Eventum\Controller\Report
  */
 class RecentActivityController extends ReportBaseController
 {

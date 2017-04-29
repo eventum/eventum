@@ -180,7 +180,7 @@ class Date_Helper
     /**
      * Method used to get the current date in the GMT timezone.
      *
-     * @return  string The current GMT date in DATE_FORMAT_ISO (YYYY-MM-DD HH:MM:SS) format.
+     * @return  string the current GMT date in DATE_FORMAT_ISO (YYYY-MM-DD HH:MM:SS) format
      */
     public static function getCurrentDateGMT()
     {
@@ -349,9 +349,9 @@ class Date_Helper
     /**
      * Returns a list of weeks (May 2 - May 8, May 9 - May 15).
      *
-     * @param   int $weeks_past The number of weeks in the past to include.
-     * @param   int $weeks_future The number of weeks in the future to include.
-     * @return  array An array of weeks.
+     * @param   int $weeks_past the number of weeks in the past to include
+     * @param   int $weeks_future the number of weeks in the future to include
+     * @return  array an array of weeks
      */
     public static function getWeekOptions($weeks_past, $weeks_future)
     {
@@ -381,7 +381,7 @@ class Date_Helper
     /**
      * Returns the current week in the same format formatWeekOption users.
      *
-     * @return  string A string containing the current week.
+     * @return  string a string containing the current week
      */
     public static function getCurrentWeek()
     {
@@ -408,8 +408,8 @@ class Date_Helper
     /**
      * Formats a given week start and week end to a format useable by getWeekOptions().
      *
-     * @param   int $start The start date of the week.
-     * @return  array An array usable as an option in getWeekOptions.
+     * @param   int $start the start date of the week
+     * @return  array an array usable as an option in getWeekOptions
      */
     private static function formatWeekOption($start)
     {

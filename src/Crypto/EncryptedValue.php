@@ -23,7 +23,6 @@ use InvalidArgumentException;
  *
  * This class is final to prevent breaking security and overriding some methods
  *
- * @package Eventum
  */
 final class EncryptedValue
 {

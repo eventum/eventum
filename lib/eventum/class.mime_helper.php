@@ -36,8 +36,8 @@ class Mime_Helper
     /**
      * Method used to get charset from raw email.
      *
-     * @param   mixed   $input The full body of the message or decoded email.
-     * @return  string charset extracted from Content-Type header of email.
+     * @param   mixed   $input the full body of the message or decoded email
+     * @return  string charset extracted from Content-Type header of email
      * @deprecated method not used
      */
     public static function getCharacterSet($input)
@@ -350,7 +350,7 @@ class Mime_Helper
      * TODO: make it support any parameter not just email address
      *
      * @param   string $address The email address
-     * @return  bool If the address is quoted printable encoded.
+     * @return  bool if the address is quoted printable encoded
      */
     public static function isQuotedPrintable($address)
     {
@@ -364,8 +364,8 @@ class Mime_Helper
     /**
      * Determine if a string contains 8-bit characters.
      *
-     * @param string $string  The string to check.
-     * @return bool  True if it does, false if it doesn't.
+     * @param string $string  the string to check
+     * @return bool  true if it does, false if it doesn't
      */
     public static function is8bit($string)
     {
@@ -389,10 +389,10 @@ class Mime_Helper
     /**
      * Encode a string containing non-ASCII characters according to RFC 2047.
      *
-     * @param string $text     The text to encode.
-     * @param string $charset  (optional) The character set of the text.
-     * @return string  The text, encoded only if it contains non-ASCII
-     *                 characters.
+     * @param string $text     the text to encode
+     * @param string $charset  (optional) The character set of the text
+     * @return string  the text, encoded only if it contains non-ASCII
+     *                 characters
      */
     public static function encode($text, $charset = APP_CHARSET)
     {
@@ -426,10 +426,10 @@ class Mime_Helper
     /**
      * Internal recursive function to RFC 2047 encode a string.
      *
-     * @param string $text     The text to encode.
-     * @param string $charset  The character set of the text.
-     * @return string  The text, encoded only if it contains non-ASCII
-     *                 characters.
+     * @param string $text     the text to encode
+     * @param string $charset  the character set of the text
+     * @return string  the text, encoded only if it contains non-ASCII
+     *                 characters
      */
     private static function _encode($text, $charset)
     {
@@ -556,7 +556,7 @@ class Mime_Helper
     /**
      * Method used to check whether a given email message has any attachments.
      *
-     * @param   mixed   $message The full body of the message or parsed message structure.
+     * @param   mixed   $message the full body of the message or parsed message structure
      * @return  bool
      */
     public static function hasAttachments($message)
@@ -576,7 +576,7 @@ class Mime_Helper
      * Method used to parse and return the full list of attachments
      * associated with a message.
      *
-     * @param   mixed   $message The full body of the message or parsed message structure.
+     * @param   mixed   $message the full body of the message or parsed message structure
      * @return  array The list of attachments, if any
      */
     public static function getAttachments($message)
@@ -592,7 +592,7 @@ class Mime_Helper
      * Method used to parse and return the full list of attachment CIDs
      * associated with a message.
      *
-     * @param   mixed   $message The full body of the message or parsed message structure.
+     * @param   mixed   $message the full body of the message or parsed message structure
      * @return  array The list of attachment CIDs, if any
      */
     public static function getAttachmentCIDs($message)
@@ -682,7 +682,7 @@ class Mime_Helper
      * Method used to get the encoded content of a specific message
      * attachment.
      *
-     * @param   mixed   $message The full content of the message or parsed message structure.
+     * @param   mixed   $message the full content of the message or parsed message structure
      * @param   string $filename The filename to look for
      * @param   string $cid The content-id to look for, if any
      * @return  string The full encoded content of the attachment

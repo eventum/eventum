@@ -22,7 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
  * Gitlab SCM handler
  *
  * @link http://doc.gitlab.com/ce/web_hooks/web_hooks.html
- * @package Eventum\Scm\Adapter
  */
 class GitlabScm extends AbstractScmAdapter
 {

@@ -679,7 +679,7 @@ class Custom_Field
      *
      * @param   int $prj_id The project ID
      * @param   int $iss_id The issue ID
-     * @param   int $usr_id The ID of the user who is going to be viewing this list.
+     * @param   int $usr_id the ID of the user who is going to be viewing this list
      * @param   mixed   $form_type The name of the form this is for or if this is an array the ids of the fields to return
      * @param   bool    $for_edit True if the fld_min_role_edit permission should be checked
      * @return  array The list of custom fields
@@ -1139,7 +1139,7 @@ class Custom_Field
      * with a given custom field ID.
      *
      * @param   int $fld_id The custom field ID
-     * @param   array $ids An array of ids to return values for.
+     * @param   array $ids an array of ids to return values for
      * @param   int $issue_id The ID of the issue
      * @param   string $form_type
      * @param   string $order_by The field and order to sort by. If null it will use the field setting
@@ -1447,8 +1447,8 @@ class Custom_Field
     /**
      * Method to return the names of the fields which should be displayed on the list issues page.
      *
-     * @param   int $prj_id The ID of the project.
-     * @return  array An array of custom field names.
+     * @param   int $prj_id the ID of the project
+     * @return  array an array of custom field names
      */
     public static function getFieldsToBeListed($prj_id)
     {
@@ -1657,7 +1657,7 @@ class Custom_Field
      * Returns the 'pretty' name of the backend
      *
      * @param   string $backend The full backend file name
-     * @return  string The pretty name of the backend.
+     * @return  string the pretty name of the backend
      */
     public static function getBackendName($backend)
     {
@@ -1766,7 +1766,7 @@ class Custom_Field
      * @param   mixed   $value The value to format
      * @param   int $fld_id The ID of the field
      * @param   int $issue_id The ID of the issue
-     * @return  mixed   the formatted value.
+     * @return  mixed   the formatted value
      */
     public static function formatValue($value, $fld_id, $issue_id)
     {

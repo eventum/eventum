@@ -768,7 +768,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   int $issue_id The issue ID
      * @param   int $email_id The sequential id of the email to view
-     * @param   bool $display_full If the full email should be displayed.
+     * @param   bool $display_full if the full email should be displayed
      */
     public static function printEmail($client, $auth, $issue_id, $email_id, $display_full)
     {
@@ -869,7 +869,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   int $issue_id The issue ID
      * @param   int $note_id The sequential id of the note to view
-     * @return  array An array containing note details.
+     * @return  array an array containing note details
      */
     public function getNote($client, $auth, $issue_id, $note_id)
     {
@@ -885,8 +885,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   int $issue_id The issue ID
      * @param   int $note_id The sequential id of the note to view
-     * @param   string $target What this note should be converted too, a draft or an email.
-     * @param   bool $authorize_sender If the sender should be added to the authorized repliers list.
+     * @param   string $target what this note should be converted too, a draft or an email
+     * @param   bool $authorize_sender if the sender should be added to the authorized repliers list
      */
     public static function convertNote($client, $auth, $issue_id, $note_id, $target, $authorize_sender)
     {
@@ -914,7 +914,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * @param   int $week The week for the report. If start and end date are set, this is ignored.
      * @param   string $start_date The start date of the report. (optional)
      * @param   string $end_date The end_date of the report. (optional)
-     * @param   bool $separate_closed If closed issues should be separated from other issues.
+     * @param   bool $separate_closed if closed issues should be separated from other issues
      */
     public static function getWeeklyReport($client, $auth, $week, $start_date = '', $end_date = '', $separate_closed = false)
     {
@@ -928,7 +928,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   string $action If the user is clocking in or out.
+     * @param   string $action if the user is clocking in or out
      */
     public static function timeClock($client, $auth, $action)
     {
@@ -1016,7 +1016,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   int $issue_id The issue ID
      * @param   int $draft_id The sequential id of the draft to view
-     * @return  array An array containing draft details.
+     * @return  array an array containing draft details
      */
     public function getDraft($client, $auth, $issue_id, $draft_id)
     {
@@ -1032,7 +1032,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * @param   array $auth Array of authentication information (email, password)
      * @param   int $issue_id The issue ID
      * @param   int $draft_id The sequential id of the draft to send
-     * @return  array An array containing draft details.
+     * @return  array an array containing draft details
      */
     public static function sendDraft($client, $auth, $issue_id, $draft_id)
     {
@@ -1082,7 +1082,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
      * @param   int $issue_id The issue ID
-     * @param   bool $redeemed_only If this should only show items that have been redeemed.
+     * @param   bool $redeemed_only if this should only show items that have been redeemed
      * @return array|string
      */
     public function promptIncidentTypes($client, $auth, $issue_id, $redeemed_only = false)
@@ -1214,7 +1214,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   string $command The command used to run this script.
+     * @param   string $command the command used to run this script
      */
     public static function log($client, $auth, $command)
     {

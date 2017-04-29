@@ -630,10 +630,10 @@ class Time_Tracking
     /**
      * Returns summary information about all time spent by a user in a specified time frame.
      *
-     * @param string $usr_id The ID of the user this report is for.
+     * @param string $usr_id the ID of the user this report is for
      * @param int $prj_id The project id
-     * @param string $start The datetime of the beginning of the report.
-     * @param string $end The datetime of the end of this report.
+     * @param string $start the datetime of the beginning of the report
+     * @param string $end the datetime of the end of this report
      * @return array An array of data containing information about time tracking
      */
     public static function getSummaryByUser($usr_id, $prj_id, $start, $end)
@@ -679,7 +679,7 @@ class Time_Tracking
      * @param int $prj_id The project id
      * @param string $start The start date
      * @param string $end The end date
-     * @return array An array of issues touched by the user.
+     * @return array an array of issues touched by the user
      */
     public static function getTouchedIssuesByUser($usr_id, $prj_id, $start, $end)
     {
@@ -722,9 +722,9 @@ class Time_Tracking
      * at a specific time.
      *
      * @param   int $issue_id The issue ID
-     * @param   string $usr_id The ID of the user this report is for.
-     * @param   int $start The timestamp of the beginning of the report.
-     * @param   int $end The timestamp of the end of this report.
+     * @param   string $usr_id the ID of the user this report is for
+     * @param   int $start the timestamp of the beginning of the report
+     * @param   int $end the timestamp of the end of this report
      * @return  int The time spent
      * @deprecated method not used
      */
@@ -751,9 +751,9 @@ class Time_Tracking
      * Method used to add time spent on issue to a list of user issues.
      *
      * @param   array $res User issues
-     * @param   string $usr_id The ID of the user this report is for.
-     * @param   int $start The timestamp of the beginning of the report.
-     * @param   int $end The timestamp of the end of this report.
+     * @param   string $usr_id the ID of the user this report is for
+     * @param   int $start the timestamp of the beginning of the report
+     * @param   int $end the timestamp of the end of this report
      */
     public static function fillTimeSpentByIssueAndTime(&$res, $usr_id, $start, $end)
     {

@@ -149,11 +149,11 @@ class Mail_Helper
     /**
      * Wrapper around Mail_RFC822::parseAddressList to avoid calling it statically
      *
-     * @param string  $address         The address(es) to validate.
-     * @param string  $default_domain  Default domain/host etc.
-     * @param bool $nest_groups     Whether to return the structure with groups nested for easier viewing.
+     * @param string  $address         the address(es) to validate
+     * @param string  $default_domain  default domain/host etc
+     * @param bool $nest_groups     whether to return the structure with groups nested for easier viewing
      * @param bool $validate        Whether to validate atoms. Turn this off if you need to run addresses through before encoding the personal names, for instance.
-     * @return array A structured array of addresses.
+     * @return array a structured array of addresses
      */
     public static function parseAddressList($address, $default_domain = null, $nest_groups = null, $validate = null, $limit = null)
     {
@@ -537,7 +537,7 @@ class Mail_Helper
      * @param   string $subject The subject of the message
      * @param   int $issue_id The ID of the issue. If false, email will not be associated with issue.
      * @param   string $type The type of message this is
-     * @param   int $sender_usr_id The id of the user sending this email.
+     * @param   int $sender_usr_id the id of the user sending this email
      * @param   int $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      */
     public function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
@@ -626,7 +626,7 @@ class Mail_Helper
     /**
      * Method used to save a copy of the given email to a configurable address.
      *
-     * @param   array $email The email to save.
+     * @param   array $email the email to save
      * @return bool
      */
     public static function saveOutgoingEmailCopy(&$email)
@@ -932,7 +932,7 @@ class Mail_Helper
      *
      * @param   string $msg_id The ID of the parent message
      * @param   string $type If this is a note or an email
-     * @param   array $references The array the references will be stored in.
+     * @param   array $references the array the references will be stored in
      */
     private function _getReferences($msg_id, $type, &$references)
     {

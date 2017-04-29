@@ -301,7 +301,7 @@ class Misc
     /**
      * Accepts a value and cleans it to only contain numeric values
      *
-     * @param   mixed $input The original input.
+     * @param   mixed $input the original input
      * @return  mixed The input converted to an integer
      * @deprecated Using this is bad design, must use placeholders in query
      */
@@ -381,8 +381,8 @@ class Misc
      * the number of hours and minutes (02:30)
      *
      * @param   int $minutes The number of minutes to format
-     * @param   bool $omit_days If days should not be used, hours will just show up as greater than 24.
-     * @param   bool $omit_empty If true, values that are "00" will be omitted.
+     * @param   bool $omit_days if days should not be used, hours will just show up as greater than 24
+     * @param   bool $omit_empty if true, values that are "00" will be omitted
      * @return  string The formatted time
      */
     public static function getFormattedTime($minutes, $omit_days = false, $omit_empty = false)
@@ -598,7 +598,7 @@ class Misc
      * Changes a boolean value to either "Yes" or "No".
      *
      * @param   bool $value The boolean value
-     * @return  string Either 'Yes' or 'No'.
+     * @return  string either 'Yes' or 'No'
      */
     public static function getBooleanDisplayValue($value)
     {

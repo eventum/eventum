@@ -19,7 +19,6 @@ use Auth;
  * Class AppVersionProcessor
  * Inject eventum version into logger
  *
- * @package Eventum\Monolog
  */
 class AppInfoProcessor
 {

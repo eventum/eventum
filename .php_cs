@@ -73,8 +73,11 @@ $symfony_rules = [
     'no_whitespace_in_blank_line' => true,
     'object_operator_without_whitespace' => true,
     'phpdoc_align' => false,
+    'phpdoc_annotation_without_dot' => true,
     'phpdoc_no_empty_return' => true,
+    'phpdoc_no_package' => true,
     'phpdoc_scalar' => true,
+    'phpdoc_separation' => false,
     'phpdoc_summary' => false,
     'self_accessor' => true,
     'single_quote' => true,
@@ -107,6 +110,7 @@ $rules = $risky_rules + $symfony_rules + [
     'simplified_null_return' => false,
     'single_blank_line_before_namespace' => true,
     'strict_comparison' => false,
+
 ];
 
 return $config

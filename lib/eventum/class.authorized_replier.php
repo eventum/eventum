@@ -124,9 +124,9 @@ class Authorized_Replier
     /**
      * Adds the specified email address to the list of authorized users.
      *
-     * @param   int $issue_id The id of the issue.
-     * @param   string $email The email of the user.
-     * @param   bool $add_history If this should be logged.
+     * @param   int $issue_id the id of the issue
+     * @param   string $email the email of the user
+     * @param   bool $add_history if this should be logged
      * @return int
      */
     public static function manualInsert($issue_id, $email, $add_history = true)
@@ -183,9 +183,9 @@ class Authorized_Replier
     /**
      * Adds a real user to the authorized repliers list.
      *
-     * @param   int $issue_id The id of the issue.
-     * @param   int $usr_id The id of the user.
-     * @param   bool $add_history If this should be logged.
+     * @param   int $issue_id the id of the issue
+     * @param   int $usr_id the id of the user
+     * @param   bool $add_history if this should be logged
      */
     public static function addUser($issue_id, $usr_id, $add_history = true)
     {
@@ -223,9 +223,9 @@ class Authorized_Replier
     /**
      * Returns if the specified user is authorized to reply to this issue.
      *
-     * @param   int $issue_id The id of the issue.
-     * @param   string  $email The email address to check.
-     * @return  bool If the specified user is allowed to reply to the issue.
+     * @param   int $issue_id the id of the issue
+     * @param   string  $email the email address to check
+     * @return  bool if the specified user is allowed to reply to the issue
      */
     public static function isAuthorizedReplier($issue_id, $email)
     {
@@ -268,8 +268,8 @@ class Authorized_Replier
      * Returns if the specified usr_id is authorized to reply.
      *
      * @param   int $issue_id The id of the issue
-     * @param   int $usr_id The id of the user.
-     * @return  bool If the user is authorized to reply.
+     * @param   int $usr_id the id of the user
+     * @return  bool if the user is authorized to reply
      */
     public static function isUserAuthorizedReplier($issue_id, $usr_id)
     {
@@ -322,7 +322,7 @@ class Authorized_Replier
     /**
      * Returns the replier based on the given issue and email address combo.
      *
-     * @param   int $issue_id The id of the issue.
+     * @param   int $issue_id the id of the issue
      * @param   string $email The email address of the user
      * @return  int The id of the replier
      * @deprecated method not used

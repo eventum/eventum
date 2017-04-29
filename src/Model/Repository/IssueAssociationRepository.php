@@ -126,7 +126,7 @@ class IssueAssociationRepository extends BaseRepository
      *
      * @param int $usr_id User Id performing the operation
      * @param int $issue_id The issue ID
-     * @param int $associated_issue_id The associated issue ID to remove.
+     * @param int $associated_issue_id the associated issue ID to remove
      */
     public function removeAssociation($usr_id, $issue_id, $associated_issue_id)
     {

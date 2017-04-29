@@ -28,7 +28,6 @@ use Smarty;
  * Integration of PHP DebugBar
  *
  * @link http://phpdebugbar.com/
- * @package Eventum
  */
 class DebugBar
 {

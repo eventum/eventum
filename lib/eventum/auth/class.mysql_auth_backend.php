@@ -53,7 +53,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
      * Update the account password hash for a specific user.
      *
      * @param   int $usr_id The user ID
-     * @param   string $password The password.
+     * @param   string $password the password
      * @return  bool
      */
     public function updatePassword($usr_id, $password)

@@ -52,7 +52,7 @@ class Stats
      * Method used to get an associative array of the list of categories and the
      * total number of issues associated with each of them.
      *
-     * @param   bool $hide_closed If closed issues should be hidden.
+     * @param   bool $hide_closed if closed issues should be hidden
      * @return  array List of categories
      */
     public static function getAssocCategory($hide_closed = false)
@@ -89,7 +89,7 @@ class Stats
      * Method used to get an associative array of the list of releases and the
      * total number of issues associated with each of them.
      *
-     * @param   bool $hide_closed If closed issues should be hidden.
+     * @param   bool $hide_closed if closed issues should be hidden
      * @return  array List of releases
      */
     public static function getAssocRelease($hide_closed = true)
@@ -125,7 +125,7 @@ class Stats
      * Method used to get an associative array of the list of statuses and the
      * total number of issues associated with each of them.
      *
-     * @param   bool $hide_closed If closed issues should be hidden.
+     * @param   bool $hide_closed if closed issues should be hidden
      * @return  array List of statuses
      */
     public static function getAssocStatus($hide_closed = true)
@@ -161,7 +161,7 @@ class Stats
      * Method used to get the list of statuses and the total number of issues
      * associated with each of them.
      *
-     * @param   bool $hide_closed If closed issues should be hidden.
+     * @param   bool $hide_closed if closed issues should be hidden
      * @return  array List of statuses
      */
     public static function getStatus($hide_closed = false)
@@ -199,7 +199,7 @@ class Stats
      * Method used to get the list of categories and the total number of issues
      * associated with each of them.
      *
-     * @param   bool $hide_closed If closed issues should be hidden.
+     * @param   bool $hide_closed if closed issues should be hidden
      * @return  array List of categories
      */
     public static function getCategory($hide_closed = false)
@@ -240,7 +240,7 @@ class Stats
      * Method used to get the list of releases and the total number of issues
      * associated with each of them.
      *
-     * @param   bool $hide_closed If closed issues should be hidden.
+     * @param   bool $hide_closed if closed issues should be hidden
      * @return  array List of releases
      */
     public static function getRelease($hide_closed = false)
@@ -281,7 +281,7 @@ class Stats
      * Method used to get an associative array of the list of priorities and the
      * total number of issues associated with each of them.
      *
-     * @param   bool $hide_closed If closed issues should be hidden.
+     * @param   bool $hide_closed if closed issues should be hidden
      * @return  array List of priorities
      */
     public static function getAssocPriority($hide_closed = false)
@@ -317,7 +317,7 @@ class Stats
      * Method used to get the list of priorities and the total number of issues
      * associated with each of them.
      *
-     * @param   bool $hide_closed If closed issues should be hidden.
+     * @param   bool $hide_closed if closed issues should be hidden
      * @return  array List of statuses
      */
     public static function getPriority($hide_closed = false)
@@ -358,7 +358,7 @@ class Stats
      * Method used to get an associative array of the list of users and the
      * total number of issues associated with each of them.
      *
-     * @param   bool $hide_closed If closed issues should be hidden.
+     * @param   bool $hide_closed if closed issues should be hidden
      * @return  array List of users
      */
     public static function getAssocUser($hide_closed = false)
@@ -396,7 +396,7 @@ class Stats
      * Method used to get the list of users and the total number of issues
      * associated with each of them.
      *
-     * @param   bool $hide_closed If closed issues should be hidden.
+     * @param   bool $hide_closed if closed issues should be hidden
      * @return  array List of users
      */
     public static function getUser($hide_closed = false)

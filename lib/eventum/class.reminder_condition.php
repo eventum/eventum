@@ -311,7 +311,7 @@ class Reminder_Condition
      * Method used to see if a specific reminder field can be compared to other fields.
      *
      * @param   int $field_id The reminder field ID
-     * @return  bool If this field can be compared to other fields.
+     * @return  bool if this field can be compared to other fields
      */
     public static function canFieldBeCompared($field_id)
     {

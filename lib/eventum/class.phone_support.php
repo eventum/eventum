@@ -396,7 +396,7 @@ class Phone_Support
      * @param   string $usr_id The ID of the user
      * @param   int $start The timestamp of the start date
      * @param   int $end The timestamp of the end date
-     * @return  int The number of phone calls by the user.
+     * @return  int the number of phone calls by the user
      */
     public static function getCountByUser($usr_id, $start, $end)
     {

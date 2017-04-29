@@ -38,7 +38,7 @@ class CommitRepository extends BaseRepository
      * Associate commit to an existing issue,
      * additionally notifies workflow about new commit
      *
-     * @param int $issue_id The ID of the issue.
+     * @param int $issue_id the ID of the issue
      * @param Entity\Commit $commit
      */
     public function addCommit($issue_id, Entity\Commit $commit)

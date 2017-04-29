@@ -21,9 +21,9 @@ class Edit_Reporter
     /**
      * Modifies an Issue's Reporter.
      *
-     * @param   int $issue_id The id of the issue.
-     * @param   string $fullname The id of the user.
-     * @param   bool $add_history If this should be logged.
+     * @param   int $issue_id the id of the issue
+     * @param   string $fullname the id of the user
+     * @param   bool $add_history if this should be logged
      * @return int
      */
     public static function update($issue_id, $email, $add_history = true)

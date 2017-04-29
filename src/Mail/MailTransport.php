@@ -46,12 +46,12 @@ class MailTransport
      *              produced from those values would be 'Subject:
      *              test'.
      *
-     * @param string $body The full text of the message body, including any
-     *               MIME parts, etc.
+     * @param string $body the full text of the message body, including any
+     *               MIME parts, etc
      *
-     * @return mixed Returns true on success, or a PEAR_Error
+     * @return mixed returns true on success, or a PEAR_Error
      *               containing a descriptive error message on
-     *               failure.
+     *               failure
      */
     public function send($recipient, $headers, $body)
     {

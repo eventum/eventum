@@ -570,8 +570,8 @@ class Project
      * of all projects available in the system to a given user ID.
      *
      * @param   int $usr_id The user ID
-     * @param   bool $force_refresh If the cache should not be used.
-     * @param   bool $include_extra If extra data should be included.
+     * @param   bool $force_refresh if the cache should not be used
+     * @param   bool $include_extra if extra data should be included
      * @return  array The list of projects
      */
     public static function getAssocList($usr_id, $force_refresh = false, $include_extra = false)
@@ -1001,9 +1001,9 @@ class Project
     /**
      * Sets the minimum role needed to view a specific field on the issue creation form.
      *
-     * @param   int $prj_id The project ID.
-     * @param   array $settings An array of fields and role is required to view them.
-     * @return  int 1 if the update worked, -1 otherwise.
+     * @param   int $prj_id the project ID
+     * @param   array $settings an array of fields and role is required to view them
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function updateFieldDisplaySettings($prj_id, $settings)
     {
@@ -1045,7 +1045,7 @@ class Project
      * Returns display settings for a specific project.
      *
      * @param   int $prj_id The project ID
-     * @return  array An associative array of minimum role required to access a field.
+     * @return  array an associative array of minimum role required to access a field
      */
     public static function getFieldDisplaySettings($prj_id)
     {

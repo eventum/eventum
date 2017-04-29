@@ -20,7 +20,6 @@ use AuthCookie;
  *
  * @link http://www.opensearch.org/
  *
- * @package Eventum\Controller
  */
 class OpenSearchController extends BaseController
 {

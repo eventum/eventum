@@ -19,7 +19,6 @@ use Monolog\Handler\StreamHandler as BaseStreamHandler;
 /**
  * Class StreamHandler override Monolog StreamHandler to set file permissions only for new files
  *
- * @package Eventum\Monolog
  */
 class StreamHandler extends BaseStreamHandler
 {

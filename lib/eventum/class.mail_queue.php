@@ -124,7 +124,7 @@ class Mail_Queue
      *
      * @param   string $status The status of the messages that need to be sent
      * @param   int $limit The limit of emails that we should send at one time
-     * @param   bool $merge Whether or not to send one merged email for multiple entries with the same status and type.
+     * @param   bool $merge whether or not to send one merged email for multiple entries with the same status and type
      */
     public static function send($status, $limit = null, $merge = false)
     {
@@ -490,7 +490,7 @@ class Mail_Queue
      * Returns the mail queue entry based on ID.
      *
      * @acess   public
-     * @param   int $maq_id The id of the mail queue entry.
+     * @param   int $maq_id the id of the mail queue entry
      * @return  array An array of information
      */
     public static function getEntry($maq_id)

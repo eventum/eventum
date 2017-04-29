@@ -409,7 +409,7 @@ class Filter
      * filters associated with the current user and the current
      * 'active' project.
      *
-     * @param   bool $build_url If a URL for this filter should be constructed.
+     * @param   bool $build_url if a URL for this filter should be constructed
      * @return  array The full list of custom filters
      */
     public static function getListing($build_url = false)
@@ -739,7 +739,7 @@ class Filter
     /**
      * Returns an array of information about all the different filter fields.
      *
-     * @return  array an array of information.
+     * @return  array an array of information
      */
     public static function getFiltersInfo()
     {

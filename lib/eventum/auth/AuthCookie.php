@@ -27,7 +27,7 @@ class AuthCookie
     /**
      * Method used to set auth cookie in user's browser.
      *
-     * @param int|string $user User Id or User email.
+     * @param int|string $user user Id or User email
      * @param bool $permanent Set to false to make session cookie (Expires when browser is closed)
      */
     public static function setAuthCookie($user, $permanent = true)

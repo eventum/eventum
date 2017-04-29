@@ -133,8 +133,8 @@ class Group
     /**
      * Sets projects for the group.
      *
-     * @param   int $grp_id The id of the group.
-     * @param   array $projects An array of projects to associate with the group.
+     * @param   int $grp_id the id of the group
+     * @param   array $projects an array of projects to associate with the group
      * @return int
      */
     public static function setProjects($grp_id, $projects)
@@ -186,7 +186,7 @@ class Group
     /**
      * Returns details about a specific group
      *
-     * @param   int $grp_id The ID of the group.
+     * @param   int $grp_id the ID of the group
      * @return  array An array of group information
      */
     public static function getDetails($grp_id)
@@ -338,7 +338,7 @@ class Group
     /**
      * Returns an array of user ids who belong to the current group.
      *
-     * @param   int $grp_id The ID of the group.
+     * @param   int $grp_id the ID of the group
      * @return  array An array of usr ids
      */
     public static function getUsers($grp_id)
@@ -361,7 +361,7 @@ class Group
     /**
      * Returns an array of projects who belong to the current group.
      *
-     * @param   int $grp_id The ID of the group.
+     * @param   int $grp_id the ID of the group
      * @return  array An array of project ids
      */
     public static function getProjects($grp_id)
@@ -388,7 +388,7 @@ class Group
      * Returns a group ID based on group name
      *
      * @param   string $name Name of the group
-     * @return  int The ID of the group, or -1 if no group by that name could be found.
+     * @return  int the ID of the group, or -1 if no group by that name could be found
      */
     public static function getGroupByName($name)
     {

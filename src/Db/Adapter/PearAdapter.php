@@ -118,8 +118,8 @@ class PearAdapter implements AdapterInterface
      * @param mixed $params
      * @param int $fetchmode
      * @param bool $group
-     * @throws DatabaseException on failure.
-     * @return array  the associative array containing the query results.
+     * @throws DatabaseException on failure
+     * @return array  the associative array containing the query results
      * @deprecated use fetchAssoc() instead for cleaner interface
      */
     private function getAssoc(

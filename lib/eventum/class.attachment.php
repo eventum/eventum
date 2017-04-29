@@ -173,8 +173,8 @@ class Attachment
     /**
      * Method used to remove attachments from the database.
      *
-     * @param   int $iat_id attachment_id.
-     * @param   bool $add_history whether to add history entry.
+     * @param   int $iat_id attachment_id
+     * @param   bool $add_history whether to add history entry
      * @return  int Numeric code used to check for any errors
      */
     public static function remove($iat_id, $add_history = true)
@@ -366,7 +366,7 @@ class Attachment
      * @param int[] $iaf_ids attachment file id-s to attach
      * @param bool $internal_only Whether this attachment is supposed to be internal only or not
      * @param string $file_description File description text
-     * @param string $unknown_user The email of the user who originally sent this email, who doesn't have an account.
+     * @param string $unknown_user the email of the user who originally sent this email, who doesn't have an account
      * @param int $associated_note_id The note ID that these attachments should be associated with
      */
     public static function attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description, $unknown_user = null, $associated_note_id = null)
@@ -537,7 +537,7 @@ class Attachment
      * @param   int $usr_id The user ID
      * @param   string $description The description for this new attachment
      * @param   bool $internal_only Whether this attachment is supposed to be internal only or not
-     * @param   string $unknown_user The email of the user who originally sent this email, who doesn't have an account.
+     * @param   string $unknown_user the email of the user who originally sent this email, who doesn't have an account
      * @param   int $associated_note_id The note ID that these attachments should be associated with
      * @return  int The new attachment ID
      */

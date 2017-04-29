@@ -22,7 +22,7 @@ class Auth
     /**
      * Method used to get private key used for hashing session cookies.
      *
-     * @return  string  The private_key hash.
+     * @return  string  the private_key hash
      */
     public static function privateKey()
     {

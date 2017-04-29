@@ -587,7 +587,7 @@ class Notification
      * @param   int $issue_id The issue ID
      * @param   array $old The old issue details
      * @param   array $new The new issue details
-     * @param   array $updated_custom_fields An array of the custom fields that were changed.
+     * @param   array $updated_custom_fields an array of the custom fields that were changed
      */
     public static function notifyIssueUpdated($issue_id, $old, $new, $updated_custom_fields)
     {
@@ -1182,7 +1182,7 @@ class Notification
      * @param   string $sender The sender of the email message (and the recipient of this notification)
      * @param   string $date The arrival date of the email message
      * @param   string $subject The subject line of the email message
-     * @param bool|string $additional_recipient The user who should receive this email who is not the sender of the original email.
+     * @param bool|string $additional_recipient the user who should receive this email who is not the sender of the original email
      */
     public static function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject, $additional_recipient = false)
     {
@@ -1366,7 +1366,7 @@ class Notification
     /**
      * Method used to save the IRC notification message in the queue table.
      *
-     * @param   int $project_id The ID of the project.
+     * @param   int $project_id the ID of the project
      * @param   string  $notice The notification summary that should be displayed on IRC
      * @param   bool|int $issue_id The issue ID
      * @param   bool|int $usr_id The ID of the user to notify
@@ -1828,9 +1828,9 @@ class Notification
     /**
      * Returns if the specified user is notified in this issue.
      *
-     * @param   int $issue_id The id of the issue.
-     * @param   int $usr_id The user to check.
-     * @return  bool If the specified user is notified in the issue.
+     * @param   int $issue_id the id of the issue
+     * @param   int $usr_id the user to check
+     * @return  bool if the specified user is notified in the issue
      */
     public static function isUserNotified($issue_id, $usr_id)
     {

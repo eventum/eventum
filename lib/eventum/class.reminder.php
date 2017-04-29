@@ -859,7 +859,7 @@ class Reminder
     /**
      * Method used to generate a where clause from the given list of conditions.
      *
-     * @param   array $reminder An array of reminder info.
+     * @param   array $reminder an array of reminder info
      * @param   array $conditions The list of conditions
      * @return  string The where clause
      */

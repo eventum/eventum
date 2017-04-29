@@ -137,7 +137,7 @@ abstract class CRM
     /**
      * Returns information on the specified support level
      *
-     * @param   string $level_id The level to return info for.
+     * @param   string $level_id the level to return info for
      * @throws  SupportLevelNotFoundException
      * @return  Support_Level
      */
@@ -254,7 +254,7 @@ abstract class CRM
      * Returns a list of customer IDS belonging to the specified support level
      *
      * @param   string|array $levels The support Level ID or an array of support level ids
-     * @param   mixed $support_options An integer or array of integers indicating various options to get customers with.
+     * @param   mixed $support_options an integer or array of integers indicating various options to get customers with
      * @return  array
      */
     abstract public function getCustomerIDsBySupportLevel($levels, $support_options = false);
@@ -271,7 +271,7 @@ abstract class CRM
      * Returns the list of contract IDs for a given support contract level.
      *
      * @param   int $level_id The support level ID
-     * @param   mixed $support_options An integer or array of integers indicating various options to get customers with.
+     * @param   mixed $support_options an integer or array of integers indicating various options to get customers with
      * @return  array The list of contract IDs
      */
     abstract public function getContractIDsBySupportLevel($level_id, $support_options = false);
@@ -363,7 +363,7 @@ abstract class CRM
      *
      * @param string $backend_class
      * @param int $prj_id
-     * @internal param string $class_name The name of the class.
+     * @internal param string $class_name The name of the class
      * @return CRM
      */
     private static function getBackend($backend_class, $prj_id)
@@ -562,7 +562,7 @@ abstract class CRM
      * Returns any notes for for the specified customer.
      *
      * @param   int $customer_id The customer ID
-     * @return  array An array containg the note details.
+     * @return  array an array containg the note details
      */
     public static function getNoteDetailsByCustomer($customer_id)
     {
@@ -588,7 +588,7 @@ abstract class CRM
      * Returns any note details for for the specified id.
      *
      * @param $cno_id
-     * @return  array An array containg the note details.
+     * @return  array an array containg the note details
      */
     public static function getNoteDetailsByID($cno_id)
     {
@@ -612,7 +612,7 @@ abstract class CRM
     /**
      * Returns an array of notes for all customers.
      *
-     * @return  array An array of notes.
+     * @return  array an array of notes
      */
     public static function getNoteList()
     {
@@ -645,10 +645,10 @@ abstract class CRM
     /**
      * Updates a note.
      *
-     * @param   int $cno_id The id of this note.
+     * @param   int $cno_id the id of this note
      * @param   int $prj_id The project ID
-     * @param   int $customer_id The id of the customer.
-     * @param   string $note The text of this note.
+     * @param   int $customer_id the id of the customer
+     * @param   string $note the text of this note
      * @return int
      */
     public static function updateNote($cno_id, $prj_id, $customer_id, $note)
@@ -677,8 +677,8 @@ abstract class CRM
      * Adds a quick note for the specified customer.
      *
      * @param   int $prj_id The project ID
-     * @param   int $customer_id The id of the customer.
-     * @param   string  $note The note to add.
+     * @param   int $customer_id the id of the customer
+     * @param   string  $note the note to add
      * @return int
      */
     public static function insertNote($prj_id, $customer_id, $note)
@@ -709,7 +709,7 @@ abstract class CRM
     /**
      * Removes the selected notes from the database.
      *
-     * @param   array $ids An array of cno_id's to be deleted.
+     * @param   array $ids an array of cno_id's to be deleted
      * @return int
      */
     public static function removeNotes($ids)
@@ -740,7 +740,7 @@ abstract class CRM
     /**
      * Returns the number of days expired contracts are allowed to login.
      *
-     * @return  int The number of days.
+     * @return  int the number of days
      */
     abstract public function getExpirationOffset();
 

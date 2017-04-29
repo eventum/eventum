@@ -41,8 +41,8 @@ class History
      * Method used to log the changes made against a specific issue.
      *
      * @param int $iss_id The issue ID
-     * @param int $usr_id The ID of the user.
-     * @param int|string $htt_id The type ID of this history event.
+     * @param int $usr_id the ID of the user
+     * @param int|string $htt_id the type ID of this history event
      * @param string $summary The summary of the changes
      * @param array $context parameters used in summary
      * @param null $min_role The minimum role that can view this entry. If null will default to role from $htt_id
@@ -115,7 +115,7 @@ class History
      * Returns the id for the history type based on name.
      *
      * @param   string $name The name of the history type
-     * @return  int The id of this type.
+     * @return  int the id of this type
      */
     public static function getTypeID($name)
     {
@@ -154,7 +154,7 @@ class History
      * Returns the role for the history type based on id.
      *
      * @param   int $id The id of the history type
-     * @return  int The role of this type.
+     * @return  int the role of this type
      */
     public static function getTypeRole($id)
     {
@@ -188,7 +188,7 @@ class History
      * @param string $start The start date
      * @param string $end The end date
      * @param array $htt_exclude Additional History Types to ignore
-     * @return array An array of issues touched by the user.
+     * @return array an array of issues touched by the user
      */
     public static function getTouchedIssuesByUser($usr_id, $prj_id, $start, $end, $htt_exclude = [])
     {
@@ -245,12 +245,12 @@ class History
     /**
      * Returns the number of issues for the specified user that are currently set to the specified status(es).
      *
-     * @param int $usr_id The id of the user.
+     * @param int $usr_id the id of the user
      * @param int $prj_id The project id
      * @param string $start The start date
      * @param string $end The end date
-     * @param array $statuses An array of status abbreviations to return counts for.
-     * @return array An array containing the number of issues for the user set to the specified statuses.
+     * @param array $statuses an array of status abbreviations to return counts for
+     * @return array an array containing the number of issues for the user set to the specified statuses
      */
     public static function getTouchedIssueCountByStatus($usr_id, $prj_id, $start, $end, $statuses = null)
     {

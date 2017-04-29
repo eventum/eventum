@@ -412,7 +412,7 @@ class User
      * Method used to lookup the user ID of a given email address.
      *
      * @param   string $email The email address associated with the user account
-     * @param   bool $check_aliases If user aliases should be checked as well.
+     * @param   bool $check_aliases if user aliases should be checked as well
      * @return  int The user ID
      */
     public static function getUserIDByEmail($email, $check_aliases = false)
@@ -1464,7 +1464,7 @@ class User
     /**
      * Marks a user as clocked in.
      *
-     * @param   int $usr_id The id of the user to clock out.
+     * @param   int $usr_id the id of the user to clock out
      * @return int
      */
     public static function clockIn($usr_id)
@@ -1487,7 +1487,7 @@ class User
     /**
      * Marks a user as clocked out.
      *
-     * @param   int $usr_id The id of the user to clock out.
+     * @param   int $usr_id the id of the user to clock out
      * @return int
      */
     public static function clockOut($usr_id)
@@ -1510,7 +1510,7 @@ class User
     /**
      * Returns true if a user is clocked in.
      *
-     * @param   int $usr_id The id of the user to clock out.
+     * @param   int $usr_id the id of the user to clock out
      * @return  bool True if the user is logged in, false otherwise
      */
     public static function isClockedIn($usr_id)

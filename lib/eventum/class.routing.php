@@ -440,7 +440,7 @@ class Routing
     /**
      * Routes a draft to the correct issue.
      *
-     * @param string $full_message The complete draft.
+     * @param string $full_message the complete draft
      * @throws RoutingException in case of failure
      * @return bool true if mail was routed
      */

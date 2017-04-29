@@ -18,7 +18,6 @@ use Auth;
 /**
  * Class StatsChartController
  *
- * @package Eventum\Controller
  */
 class StatsChartController extends BaseController
 {

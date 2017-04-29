@@ -30,7 +30,7 @@ interface Auth_Backend_Interface
      * Method used to update the account password for a specific user.
      *
      * @param   int $usr_id The user ID
-     * @param   string $password The password.
+     * @param   string $password the password
      * @return  bool true if update worked, false otherwise
      */
     public function updatePassword($usr_id, $password);
@@ -40,7 +40,7 @@ interface Auth_Backend_Interface
      *
      * IMPORTANT: This method must not create local user!
      *
-     * @param string $login email address, an alias, the external login id or any other info the backend can handle.
+     * @param string $login email address, an alias, the external login id or any other info the backend can handle
      * @return bool
      * @since 3.0.8
      */

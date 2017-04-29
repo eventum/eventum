@@ -16,7 +16,6 @@ namespace Eventum\Controller\Report;
 /**
  * Class GraphController
  *
- * @package Eventum\Controller\Report
  */
 class GraphController extends ReportBaseController
 {

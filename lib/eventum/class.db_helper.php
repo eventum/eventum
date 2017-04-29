@@ -209,9 +209,9 @@ class DB_Helper
      * This thing is truly a work of art, the type of art that throws lemon juice in your eye and then laughs.
      * If $end_date_field is null, the current date is used instead.
      *
-     * @param   string $start_date_field The name of the field the first date is.
-     * @param   string $end_date_field The name of the field where the second date is.
-     * @return  string The SQL used to compare the 2 dates.
+     * @param   string $start_date_field the name of the field the first date is
+     * @param   string $end_date_field the name of the field where the second date is
+     * @return  string the SQL used to compare the 2 dates
      */
     public static function getNoWeekendDateDiffSQL($start_date_field, $end_date_field = null)
     {

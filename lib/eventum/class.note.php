@@ -197,9 +197,9 @@ class Note
     /**
      * Returns the nth note for the specific issue. Sequence starts at 1.
      *
-     * @param   int $issue_id The id of the issue.
-     * @param   int $sequence The sequential number of the note.
-     * @return  array An array of data containing details about the note.
+     * @param   int $issue_id the id of the issue
+     * @param   int $sequence the sequential number of the note
+     * @return  array an array of data containing details about the note
      */
     public static function getNoteBySequence($issue_id, $sequence)
     {
@@ -538,7 +538,7 @@ class Note
      *
      * @param int $note_id The id of the note
      * @param string $target What the note should be converted too (email, etc)
-     * @param bool $authorize_sender If $authorize_sender If the sender should be added to authorized senders list.
+     * @param bool $authorize_sender if $authorize_sender If the sender should be added to authorized senders list
      * @return int
      */
     public static function convertNote($note_id, $target, $authorize_sender = false)

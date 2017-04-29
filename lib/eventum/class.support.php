@@ -401,7 +401,7 @@ class Support
      * Method used to get new emails from the mailbox.
      *
      * @param  resource $mbox The mailbox
-     * @return array Array of new message numbers.
+     * @return array array of new message numbers
      */
     public static function getNewEmails($mbox)
     {
@@ -411,7 +411,7 @@ class Support
     /**
      * Bounce message to sender.
      *
-     * @param object $message parsed message structure.
+     * @param object $message parsed message structure
      * @param Exception $error
      */
     private function bounceMessage($message, $error)
@@ -721,12 +721,12 @@ class Support
      * Creates a new issue from an email if appropriate. Also returns if this message is related
      * to a previous message.
      *
-     * @param   array $info An array of info about the email account.
-     * @param   string $headers The headers of the email.
-     * @param   string $message_body The body of the message.
+     * @param   array $info an array of info about the email account
+     * @param   string $headers the headers of the email
+     * @param   string $message_body the body of the message
      * @param   string $date The date this message was sent
-     * @param   string $from The name and email address of the sender.
-     * @param   string $subject The subject of this message.
+     * @param   string $from the name and email address of the sender
+     * @param   string $subject the subject of this message
      * @param   array $to An array of to addresses
      * @param   array $cc An array of cc addresses
      * @return  array   An array of information about the message
@@ -1334,7 +1334,7 @@ class Support
      * to the given issue.
      *
      * @param   int $issue_id The issue ID
-     * @param   mixed $input The full body of the message or decoded email.
+     * @param   mixed $input the full body of the message or decoded email
      * @param   bool $internal_only Whether these files are supposed to be internal only or not
      * @param   int $associated_note_id The note ID that these attachments should be associated with
      */
@@ -1560,9 +1560,9 @@ class Support
     /**
      * Returns the nth note for a specific issue. The sequence starts at 1.
      *
-     * @param   int $issue_id The id of the issue.
-     * @param   int $sequence The sequential number of the email.
-     * @return  array An array of data containing details about the email.
+     * @param   int $issue_id the id of the issue
+     * @param   int $sequence the sequential number of the email
+     * @return  array an array of data containing details about the email
      */
     public static function getEmailBySequence($issue_id, $sequence)
     {
@@ -1929,8 +1929,8 @@ class Support
      * @param   string $subject The subject of this message
      * @param   string $body The message body
      * @param   string $message_id The message-id
-     * @param   int $sender_usr_id The ID of the user sending this message.
-     * @param   array $iaf_ids An array with attachment information.
+     * @param   int $sender_usr_id the ID of the user sending this message
+     * @param   array $iaf_ids an array with attachment information
      */
     public static function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $iaf_ids, $message_id, $sender_usr_id = false)
     {
@@ -2357,8 +2357,8 @@ class Support
      * @param   string $usr_id The ID of the user
      * @param   int $start The timestamp of the start date
      * @param   int $end The timestamp of the end date
-     * @param   bool $associated If this should return emails associated with issues or non associated emails.
-     * @return  int The number of emails sent by the user.
+     * @param   bool $associated if this should return emails associated with issues or non associated emails
+     * @return  int the number of emails sent by the user
      */
     public static function getSentEmailCountByUser($usr_id, $start, $end, $associated)
     {
@@ -2393,8 +2393,8 @@ class Support
     /**
      * Returns the projectID based on the email account
      *
-     * @param   int $ema_id The id of the email account.
-     * @return  int The ID of the of the project.
+     * @param   int $ema_id the id of the email account
+     * @return  int the ID of the of the project
      */
     public static function getProjectByEmailAccount($ema_id)
     {
@@ -2424,10 +2424,10 @@ class Support
     /**
      * Moves an email from one account to another.
      *
-     * @param   int $sup_id The ID of the message.
-     * @param   int $current_ema_id The ID of the account the message is currently in.
-     * @param   int $new_ema_id The ID of the account to move the message too.
-     * @return  int -1 if there was error moving the message, 1 otherwise.
+     * @param   int $sup_id the ID of the message
+     * @param   int $current_ema_id the ID of the account the message is currently in
+     * @param   int $new_ema_id the ID of the account to move the message too
+     * @return  int -1 if there was error moving the message, 1 otherwise
      */
     public static function moveEmail($sup_id, $current_ema_id, $new_ema_id)
     {
@@ -2502,7 +2502,7 @@ class Support
      *
      * @param   array $info An array of email account information
      * @param   resource $mbox The mailbox object
-     * @param   int $num The number of the message to delete.
+     * @param   int $num the number of the message to delete
      */
     public static function deleteMessage($info, $mbox, $num)
     {

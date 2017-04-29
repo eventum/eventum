@@ -22,7 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Standard SCM handler
  *
- * @package Eventum\Scm
  */
 class StdScm extends AbstractScmAdapter
 {

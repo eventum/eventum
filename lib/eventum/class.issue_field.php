@@ -37,7 +37,7 @@ class Issue_Field
      *
      * @param   int $issue_id The ID of the issue
      * @param   string  $location The name of the location to display fields
-     * @return  array An array of data.
+     * @return  array an array of data
      */
     public static function getDisplayData($issue_id, $location)
     {
@@ -66,7 +66,7 @@ class Issue_Field
      *
      * @param   int $issue_id The issue ID
      * @param   string $location The name of the location
-     * @return  array An array of field names.
+     * @return  array an array of field names
      */
     public static function getFieldsToDisplay($issue_id, $location)
     {

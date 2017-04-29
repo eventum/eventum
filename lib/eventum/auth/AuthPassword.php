@@ -23,7 +23,7 @@ class AuthPassword
      *
      * @param string $password The password to hash
      * @throws RuntimeException
-     * @return string The hashed password, throws on error.
+     * @return string the hashed password, throws on error
      */
     public static function hash($password)
     {
@@ -67,7 +67,7 @@ class AuthPassword
      * If the answer is true, after validating the password using password_verify, rehash it.
      *
      * @param string $hash The hash to test
-     * @return bool True if the password needs to be rehashed.
+     * @return bool true if the password needs to be rehashed
      */
     public static function needs_rehash($hash)
     {

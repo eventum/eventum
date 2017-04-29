@@ -276,7 +276,7 @@ class Email_Response
      * responses' bodies.
      *
      * @param   int $prj_id The project ID
-     * @return  array The list of canned email responses' bodies.
+     * @return  array the list of canned email responses' bodies
      */
     public static function getAssocListBodies($prj_id)
     {

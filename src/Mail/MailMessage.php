@@ -588,7 +588,7 @@ class MailMessage extends Message
     /**
      * Convenience method to remove address from $header AddressList.
      *
-     * @param string $header A header name, like 'To', or 'Cc'.
+     * @param string $header a header name, like 'To', or 'Cc'
      * @param string $address An email address to remove
      * @return bool
      */

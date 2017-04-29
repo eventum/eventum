@@ -117,7 +117,7 @@ abstract class Contract
     /**
      * Returns an array contact objects for this contract
      *
-     * @param   mixed $options An array of options that affect which contacts are returned.
+     * @param   mixed $options an array of options that affect which contacts are returned
      * @return  Contact[]
      */
     abstract public function getContacts($options = false);
@@ -133,7 +133,7 @@ abstract class Contract
      * Returns the value of the specified option, or false if the option is not set
      *
      * @param   string $option_id The ID of the option
-     * @return  mixed The value of the option or false.
+     * @return  mixed the value of the option or false
      */
     abstract public function getOption($option_id);
 
@@ -187,7 +187,7 @@ abstract class Contract
     /**
      * Returns the minimum response time for a contract in seconds.
      *
-     * @return  mixed The minimum response time or false.
+     * @return  mixed the minimum response time or false
      */
     abstract public function getMinimumResponseTime();
 
@@ -221,7 +221,7 @@ abstract class Contract
      * contract ID.
      *
      * @param   int $incident_type The type of incident
-     * @return  int The number of incidents remaining.
+     * @return  int the number of incidents remaining
      */
     abstract public function getIncidentsRemaining($incident_type);
 
@@ -280,8 +280,8 @@ abstract class Contract
      * Updates the incident counts
      *
      * @param   int $issue_id The issue ID
-     * @param   array $data An array of data containing which incident types to update.
-     * @return  int 1 if all updates were successful, -1 or -2 otherwise.
+     * @param   array $data an array of data containing which incident types to update
+     * @return  int 1 if all updates were successful, -1 or -2 otherwise
      */
     abstract public function updateRedeemedIncidents($issue_id, $data);
 

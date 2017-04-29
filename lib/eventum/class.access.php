@@ -18,7 +18,7 @@ class Access
     /**
      * Method to determine if user can access a particular issue
      *
-     * @param   int $issue_id The ID of the issue.
+     * @param   int $issue_id the ID of the issue
      * @param   int $usr_id The ID of the user
      * @param   bool $log If the check should be logged. Default true
      * @return  bool If the user can access the issue

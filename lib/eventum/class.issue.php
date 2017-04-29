@@ -290,7 +290,7 @@ class Issue
      * Method used to get the project associated to a given issue.
      *
      * @param   int $issue_id The issue ID
-     * @param   bool $force_refresh If the cache should not be used.
+     * @param   bool $force_refresh if the cache should not be used
      * @return  int The project ID
      */
     public static function getProjectID($issue_id, $force_refresh = false)
@@ -351,7 +351,7 @@ class Issue
      *
      * @param   int $issue_id The issue ID
      * @param   int $status_id The new status ID
-     * @param   bool $notify If a notification should be sent about this change.
+     * @param   bool $notify if a notification should be sent about this change
      * @return  int 1 if the update worked, -1 otherwise
      */
     public static function setStatus($issue_id, $status_id, $notify = false)
@@ -1769,7 +1769,7 @@ class Issue
      * Method used to delete a single user assignments for a specific issue.
      *
      * @param   int $issue_id The issue ID
-     * @param   int $usr_id The user to remove.
+     * @param   int $usr_id the user to remove
      * @param   bool $add_history Whether to add a history entry about this or not
      * @return int
      */
@@ -1808,8 +1808,8 @@ class Issue
      * @param   int $category The category ID
      * @param   int $priority The priority ID
      * @param   array $assignment The list of users to assign this issue to
-     * @param   string $date The date the email was originally sent.
-     * @param   string $msg_id The message ID of the email we are creating this issue from.
+     * @param   string $date the date the email was originally sent
+     * @param   string $msg_id the message ID of the email we are creating this issue from
      * @param   int $severity
      * @param   string $customer_id
      * @param   string $contact_id
@@ -2475,8 +2475,8 @@ class Issue
      * Method used to see if a user is assigned to an issue.
      *
      * @param   int $issue_id The issue ID
-     * @param   int $usr_id An integer containg the ID of the user.
-     * @return  bool true if the user(s) are assigned to the issue.
+     * @param   int $usr_id an integer containg the ID of the user
+     * @return  bool true if the user(s) are assigned to the issue
      */
     public static function isAssignedToUser($issue_id, $usr_id)
     {
@@ -2664,7 +2664,7 @@ class Issue
      * Method used to get the details for a specific issue.
      *
      * @param   int $issue_id The issue ID
-     * @param   bool $force_refresh If the cache should not be used.
+     * @param   bool $force_refresh if the cache should not be used
      * @return  array The details for the specified issue
      */
     public static function getDetails($issue_id, $force_refresh = false)
@@ -3121,7 +3121,7 @@ class Issue
      * Returns the status of a quarantine.
      *
      * @param   int $issue_id The issue ID
-     * @return  int Indicates what the current state of quarantine is.
+     * @return  int indicates what the current state of quarantine is
      */
     public static function getQuarantineInfo($issue_id)
     {
@@ -3293,7 +3293,7 @@ class Issue
     /**
      * Method to determine if user can access a particular issue
      *
-     * @param   int $issue_id The ID of the issue.
+     * @param   int $issue_id the ID of the issue
      * @param   int $usr_id The ID of the user
      * @return  bool If the user can access the issue
      */
@@ -3305,7 +3305,7 @@ class Issue
     /**
      * Returns true if the user can update the issue
      *
-     * @param   int $issue_id The ID of the issue.
+     * @param   int $issue_id the ID of the issue
      * @param   int $usr_id The ID of the user
      * @return  bool If the user can update the issue
      */
@@ -3401,7 +3401,7 @@ class Issue
      *
      * @param   int $issue_id
      * @param   array $assignees
-     * @return  int 1 if success, -1 if error, 0 if no change was needed.
+     * @return  int 1 if success, -1 if error, 0 if no change was needed
      */
     public static function setAssignees($issue_id, $assignees)
     {

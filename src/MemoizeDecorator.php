@@ -18,7 +18,6 @@ namespace Eventum;
  *
  * All class methods are memoized for same input arguments
  *
- * @package Eventum
  */
 class MemoizeDecorator
 {

@@ -167,7 +167,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
      * Method used to update the account password for a specific user.
      *
      * @param   int $usr_id The user ID
-     * @param   string $password The password.
+     * @param   string $password the password
      * @return  bool true if update worked, false otherwise
      */
     public function updatePassword($usr_id, $password)

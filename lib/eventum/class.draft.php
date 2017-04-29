@@ -268,9 +268,9 @@ class Draft
     /**
      * Returns a list of drafts associated with an issue.
      *
-     * @param   int $issue_id The ID of the issue.
+     * @param   int $issue_id the ID of the issue
      * @param   bool $show_all If all draft statuses should be shown
-     * @return  array An array of drafts.
+     * @return  array an array of drafts
      */
     public static function getList($issue_id, $show_all = false)
     {
@@ -354,9 +354,9 @@ class Draft
     /**
      * Returns the nth draft for the specific issue. Sequence starts at 1.
      *
-     * @param   int $issue_id The id of the issue.
-     * @param   int $sequence The sequential number of the draft.
-     * @return  array An array of data containing details about the draft.
+     * @param   int $issue_id the id of the issue
+     * @param   int $sequence the sequential number of the draft
+     * @return  array an array of data containing details about the draft
      */
     public static function getDraftBySequence($issue_id, $sequence)
     {
@@ -390,7 +390,7 @@ class Draft
     /**
      * Converts an draft to and email and sends it.
      *
-     * @param int $draft_id The id of the draft to send.
+     * @param int $draft_id the id of the draft to send
      * @return int
      */
     public static function send($draft_id)
@@ -419,7 +419,7 @@ class Draft
      * @param   string $usr_id The ID of the user
      * @param   int $start The timestamp of the start date
      * @param   int $end The timestanp of the end date
-     * @return  int The number of note by the user.
+     * @return  int the number of note by the user
      * @deprecated method not used
      */
     public static function getCountByUser($usr_id, $start, $end)
