@@ -24,6 +24,7 @@ use Eventum\Monolog\Logger;
 use Exception;
 use IntlCalendar;
 use Misc;
+use PDOException;
 use RuntimeException;
 use Setup;
 use Symfony\Component\Filesystem\Filesystem;
@@ -377,18 +378,17 @@ class SetupController extends BaseController
         try {
             return DB_Helper::getInstance(false);
         } catch (DatabaseException $e) {
+        } catch (PDOException $e) {
         }
 
         $err = $e->getMessage();
-        // PEAR driver has 'debuginfo' property
-        if (isset($e->context['debuginfo'])) {
-            $err .= ' ' . $e->context['debuginfo'];
-        }
 
+        // Given such PDO Exception:
+        // "SQLSTATE[HY000] [2002] No such file or directory"
         // indicate that mysql default socket may be wrong
-        if (strpos($err, 'No such file or directory') !== 0) {
-            $ini = 'mysqli.default_socket';
-            $err .= sprintf(" Please check that PHP ini parameter $ini='%s' is correct", ini_get($ini));
+        if (strpos($err, 'No such file or directory') !== false) {
+            $ini = 'pdo_mysql.default_socket';
+            $err .= sprintf(". Please check that PHP ini parameter $ini='%s' is correct", ini_get($ini));
         }
 
         throw new RuntimeException($err, $e->getCode());
