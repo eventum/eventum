@@ -47,7 +47,6 @@ class DB_Helper
 
             return $instance;
         } catch (DatabaseException $e) {
-        } catch (PDOException $e) {
         }
 
         // set dummy provider in as offline.php uses db methods

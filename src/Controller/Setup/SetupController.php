@@ -24,7 +24,6 @@ use Eventum\Monolog\Logger;
 use Exception;
 use IntlCalendar;
 use Misc;
-use PDOException;
 use RuntimeException;
 use Setup;
 use Symfony\Component\Filesystem\Filesystem;
@@ -378,7 +377,6 @@ class SetupController extends BaseController
         try {
             return DB_Helper::getInstance(false);
         } catch (DatabaseException $e) {
-        } catch (PDOException $e) {
         }
 
         $err = $e->getMessage();

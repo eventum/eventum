@@ -15,7 +15,9 @@ namespace Eventum\Db\Adapter;
 
 use DB_Helper;
 use Eventum;
+use Eventum\Db\DatabaseException;
 use PDO;
+use PDOException;
 use UnexpectedValueException;
 
 class PdoAdapter extends PdoAdapterBase implements AdapterInterface
@@ -40,7 +42,11 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET SQL_MODE = ''",
         ];
 
-        $pdo = new PDO($dsn, $config['username'], $config['password'], $options);
+        try {
+            $pdo = new PDO($dsn, $config['username'], $config['password'], $options);
+        } catch (PDOException $e) {
+            throw new DatabaseException($e->getMessage(), $e->getCode());
+        }
 
         if (Eventum\DebugBar::hasDebugBar()) {
             $pdo = Eventum\DebugBar::getTraceablePDO($pdo);
