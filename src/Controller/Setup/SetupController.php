@@ -548,9 +548,6 @@ class SetupController extends BaseController
         }
 
         $setup['database'] = [
-            // database driver
-            'driver' => 'mysql',
-
             // connection info
             'hostname' => $hostname,
             'database' => '', // NOTE: db name has to be written after the table has been created
@@ -558,9 +555,6 @@ class SetupController extends BaseController
             'password' => $post->get('db_password'),
             'port' => 3306,
             'socket' => $socket,
-
-            // table prefix
-            'table_prefix' => '',
         ];
 
         Setup::save($setup);
