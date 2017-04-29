@@ -44,21 +44,24 @@ class DB_Helper
 
         try {
             $instance = new $className($config);
-        } catch (DatabaseException $e) {
-            // set dummy provider in as offline.php uses db methods
-            $instance = new NullAdapter($config);
 
-            if (!$fallback) {
-                throw $e;
-            }
-            /** @global $error_type */
-            /** @noinspection PhpUnusedLocalVariableInspection */
-            $error_type = 'db';
-            require APP_PATH . '/htdocs/offline.php';
-            exit(2);
+            return $instance;
+        } catch (DatabaseException $e) {
+        } catch (PDOException $e) {
         }
 
-        return $instance;
+        // set dummy provider in as offline.php uses db methods
+        $instance = new NullAdapter($config);
+
+        if (!$fallback) {
+            throw $e;
+        }
+
+        /** @global $error_type */
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        $error_type = 'db';
+        require APP_PATH . '/htdocs/offline.php';
+        exit(2);
     }
 
     private static function getAdapterClass($config)
