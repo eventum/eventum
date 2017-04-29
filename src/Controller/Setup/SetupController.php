@@ -68,7 +68,8 @@ class SetupController extends BaseController
 
     protected function prepareTemplate()
     {
-        $relative_url = dirname($this->getRequest()->getBaseUrl()) . '/';
+        $request = $this->getRequest();
+        $relative_url = dirname($request->getBaseUrl()) . '/';
         $this->tpl->assign(
             [
                 'phpversion' => phpversion(),
@@ -77,7 +78,7 @@ class SetupController extends BaseController
                     'app_title' => APP_NAME,
                     'template_id' => 'setup',
                 ],
-                'ssl_mode' => $this->getSslMode(),
+                'is_secure' => $request->isSecure(),
                 'zones' => Date_Helper::getTimezoneList(),
                 'default_timezone' => $this->getTimezone(),
                 'default_weekday' => $this->getFirstWeekday(),
@@ -88,18 +89,6 @@ class SetupController extends BaseController
     protected function displayTemplate($tpl_name = null)
     {
         $this->tpl->displayTemplate(false);
-    }
-
-    private function getSslMode()
-    {
-        $https = $this->getRequest()->server->get('HTTPS');
-        if ($https == 'on') {
-            $ssl_mode = 'enabled';
-        } else {
-            $ssl_mode = 'disabled';
-        }
-
-        return $ssl_mode;
     }
 
     /**
