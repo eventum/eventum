@@ -68,11 +68,12 @@ class SetupController extends BaseController
 
     protected function prepareTemplate()
     {
+        $relative_url = dirname($this->getRequest()->getBaseUrl()) . '/';
         $this->tpl->assign(
             [
                 'phpversion' => phpversion(),
                 'core' => [
-                    'rel_url' => $this->getRelativeUrl(),
+                    'rel_url' => $relative_url,
                     'app_title' => APP_NAME,
                     'template_id' => 'setup',
                 ],
@@ -99,23 +100,6 @@ class SetupController extends BaseController
         }
 
         return $ssl_mode;
-    }
-
-    private function getRelativeUrl()
-    {
-        $php_self = $this->getRequest()->server->get('PHP_SELF');
-        $full_url = dirname($php_self);
-        $pieces = explode('/', $full_url);
-        $relative_url = [];
-        $relative_url[] = '';
-        foreach ($pieces as $piece) {
-            if (!empty($piece) && $piece != 'setup') {
-                $relative_url[] = $piece;
-            }
-        }
-        $relative_url[] = '';
-
-        return implode('/', $relative_url);
     }
 
     /**
