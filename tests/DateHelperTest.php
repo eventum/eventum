@@ -221,7 +221,7 @@ class DateHelperTest extends TestCase
     }
 
     /**
-     * @link https://github.com/eventum/eventum/issues/204
+     * @see https://github.com/eventum/eventum/issues/204
      */
     public function testBug_204()
     {

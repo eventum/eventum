@@ -27,7 +27,7 @@ use Smarty;
 /**
  * Integration of PHP DebugBar
  *
- * @link http://phpdebugbar.com/
+ * @see http://phpdebugbar.com/
  */
 class DebugBar
 {

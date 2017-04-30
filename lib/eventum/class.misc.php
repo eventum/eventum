@@ -657,7 +657,7 @@ class Misc
      *
      * Uses Medium Strength Generator
      *
-     * @link https://github.com/ircmaxell/RandomLib#factory-getlowstrengthgenerator
+     * @see https://github.com/ircmaxell/RandomLib#factory-getlowstrengthgenerator
      *
      * @param int $size
      * @return string
@@ -676,7 +676,7 @@ class Misc
      * It replaces {foo} with the value from $context['foo']
      *
      * @see \Monolog\Processor\PsrLogMessageProcessor()
-     * @link https://github.com/Seldaek/monolog/blob/master/src/Monolog/Processor/PsrLogMessageProcessor.php
+     * @see https://github.com/Seldaek/monolog/blob/master/src/Monolog/Processor/PsrLogMessageProcessor.php
      * @param string $message
      * @param  array $context
      * @return string

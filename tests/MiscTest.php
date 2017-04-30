@@ -132,7 +132,7 @@ class MiscTest extends TestCase
     /**
      * Return unicode char by its code
      *
-     * @link http://php.net/manual/en/function.chr.php#88611
+     * @see http://php.net/manual/en/function.chr.php#88611
      * @param int $u
      * @return string
      */

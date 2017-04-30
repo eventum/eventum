@@ -761,7 +761,7 @@ class MailMessageTest extends TestCase
     }
 
     /**
-     * @link https://github.com/eventum/eventum/issues/155
+     * @see https://github.com/eventum/eventum/issues/155
      */
     public function testMboxHeader()
     {

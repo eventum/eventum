@@ -18,7 +18,7 @@ use AuthCookie;
 /**
  * Render OpenSearch description document (OSDD)
  *
- * @link http://www.opensearch.org/
+ * @see http://www.opensearch.org/
  *
  */
 class OpenSearchController extends BaseController

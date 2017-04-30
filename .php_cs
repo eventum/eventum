@@ -75,6 +75,7 @@ $symfony_rules = [
     'phpdoc_align' => false,
     'phpdoc_annotation_without_dot' => true,
     'phpdoc_indent' => true,
+    'phpdoc_no_alias_tag' => ['type' => 'var', 'link' => 'see'],
     'phpdoc_no_empty_return' => true,
     'phpdoc_no_package' => true,
     'phpdoc_scalar' => true,

@@ -578,7 +578,7 @@ class Routing
      * Remove Mbox header from message if it is present
      *
      * @param string $message
-     * @link https://github.com/eventum/eventum/issues/155
+     * @see https://github.com/eventum/eventum/issues/155
      * @internal public for testing
      */
     public static function removeMboxHeader(&$message)
