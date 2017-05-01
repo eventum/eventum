@@ -11,8 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\AbstractMigration;
 use Phinx\Db\Adapter\MysqlAdapter;
-use Phinx\Migration\AbstractMigration;
 
 class InitDatabase extends AbstractMigration
 {
@@ -30,37 +30,8 @@ class InitDatabase extends AbstractMigration
 
     const PHINX_TYPE_BLOB = MysqlAdapter::PHINX_TYPE_BLOB;
 
-    /**
-     * MySQL Engine
-     * @var $engine
-     */
-    private $engine;
-
-    /**
-     * MySQL Charset
-     * @var $string
-     */
-    private $charset;
-
-    /**
-     * MySQL Collation
-     * @var $string
-     */
-    private $collation;
-
-    private function initOptions()
-    {
-        // extract options from phinx.php config
-        $options = $this->getAdapter()->getOptions();
-        $this->charset = $options['charset'];
-        $this->collation = $options['collation'];
-        $this->engine = $options['engine'];
-    }
-
     public function change()
     {
-        $this->initOptions();
-
         $this->table('api_token', ['id' => 'apt_id'])
             ->addColumn('apt_usr_id', 'integer', ['length' => 10])
             ->addColumn('apt_created', 'datetime')
@@ -903,17 +874,5 @@ class InitDatabase extends AbstractMigration
             ->addColumn('upp_receive_new_issue_email', 'boolean', ['default' => 0, 'null' => true])
             ->addColumn('upp_receive_copy_of_own_action', 'boolean', ['default' => 0, 'null' => true])
         ->create();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function table($tableName, $options = [])
-    {
-        $options['engine'] = $this->engine;
-        $options['charset'] = $this->charset;
-        $options['collation'] = $this->collation;
-
-        return parent::table($tableName, $options);
     }
 }

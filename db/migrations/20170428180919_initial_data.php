@@ -11,7 +11,7 @@
  * that were distributed with this source code.
  */
 
-use Phinx\Migration\AbstractMigration;
+use Eventum\Db\AbstractMigration;
 
 class InitialData extends AbstractMigration
 {
