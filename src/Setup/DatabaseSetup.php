@@ -27,6 +27,11 @@ class DatabaseSetup
     /** @var AdapterInterface */
     private $conn;
 
+    const ERR_DB_NOT_FOUND = 'db_not_found';
+    const ERR_DB_USER_NOT_FOUND = 'db_user_not_found';
+    const ERR_DB_CREATE_ACCESS_FAILURE = 'db_create_access';
+    const ERR_DB_DROP_ACCESS_FAILURE = 'db_drop_access';
+
     public function __construct()
     {
         $this->conn = $this->getDb();
@@ -44,7 +49,7 @@ class DatabaseSetup
         try {
             $this->conn->query("USE {{{$db_name}}}");
         } catch (DatabaseException $e) {
-            throw new RuntimeException($this->getErrorMessage('select_db', $e->getMessage()));
+            throw new RuntimeException($e->getMessage());
         }
 
         $table_list = $this->getTableList();
@@ -52,13 +57,23 @@ class DatabaseSetup
             try {
                 $this->conn->query('CREATE TABLE eventum_test (test CHAR(1))');
             } catch (DatabaseException $e) {
-                throw new RuntimeException($this->getErrorMessage('create_test', $e->getMessage()));
+                $message = $e->getMessage();
+                if (stristr($message, 'Access denied')) {
+                    throw new RuntimeException(self::ERR_DB_CREATE_ACCESS_FAILURE);
+                }
+
+                throw new RuntimeException($message);
             }
         }
         try {
             $this->conn->query('DROP TABLE eventum_test');
         } catch (DatabaseException $e) {
-            throw new RuntimeException($this->getErrorMessage('drop_test', $e->getMessage()));
+            $message = $e->getMessage();
+            if (stristr($message, 'Access denied')) {
+                throw new RuntimeException(self::ERR_DB_DROP_ACCESS_FAILURE);
+            }
+
+            throw new RuntimeException($message);
         }
     }
 
@@ -103,9 +118,7 @@ class DatabaseSetup
             if ($db_config['create_db']) {
                 $this->createDatabase($db_config['db_name']);
             } else {
-                throw new RuntimeException(
-                    'The provided database name could not be found. Review your information or specify that the database should be created in the form below.'
-                );
+                throw new RuntimeException(self::ERR_DB_NOT_FOUND);
             }
         }
 
@@ -116,9 +129,7 @@ class DatabaseSetup
             }
 
             if (!$this->userExists($db_config['user'])) {
-                throw new RuntimeException(
-                    'The provided MySQL username could not be found. Review your information or specify that the username should be created in the form below.'
-                );
+                throw new RuntimeException(self::ERR_DB_USER_NOT_FOUND);
             }
         }
 
@@ -187,28 +198,6 @@ class DatabaseSetup
         return $queries;
     }
 
-    private function getErrorMessage($type, $message)
-    {
-        if (!$message) {
-            return '';
-        }
-
-        if (stristr($message, 'Unknown MySQL Server Host')) {
-            return 'Could not connect to the MySQL database server with the provided information.';
-        }
-        if (stristr($message, 'Unknown database')) {
-            return 'The database name provided does not exist.';
-        }
-        if ($type == 'create_test' && (stristr($message, 'Access denied'))) {
-            return 'The provided MySQL username doesn\'t have the appropriate permissions to create tables. Please contact your local system administrator for further assistance.';
-        }
-        if ($type == 'drop_test' && (stristr($message, 'Access denied'))) {
-            return 'The provided MySQL username doesn\'t have the appropriate permissions to drop tables. Please contact your local system administrator for further assistance.';
-        }
-
-        return $message;
-    }
-
     /***
      * @param string $database
      * @return array|null
@@ -225,7 +214,7 @@ class DatabaseSetup
         try {
             $this->conn->query("CREATE DATABASE {{{$db_name}}}");
         } catch (DatabaseException $e) {
-            throw new RuntimeException($this->getErrorMessage('create_db', $e->getMessage()));
+            throw new RuntimeException($e->getMessage());
         }
     }
 
@@ -236,7 +225,7 @@ class DatabaseSetup
             try {
                 $this->conn->query($stmt);
             } catch (DatabaseException $e) {
-                throw new RuntimeException($this->getErrorMessage('drop_table', $e->getMessage()));
+                throw new RuntimeException($e->getMessage());
             }
         }
     }
@@ -277,7 +266,7 @@ class DatabaseSetup
         try {
             $this->conn->query($stmt, [$user, $password]);
         } catch (DatabaseException $e) {
-            throw new RuntimeException($this->getErrorMessage('create_user', $e->getMessage()));
+            throw new RuntimeException($e->getMessage());
         }
     }
 
