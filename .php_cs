@@ -80,6 +80,7 @@ $symfony_rules = [
     'phpdoc_no_package' => true,
     'phpdoc_scalar' => true,
     'phpdoc_separation' => false,
+    'phpdoc_single_line_var_spacing' => true,
     'phpdoc_summary' => false,
     'phpdoc_trim' => true,
     'self_accessor' => true,

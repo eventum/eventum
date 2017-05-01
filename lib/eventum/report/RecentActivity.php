@@ -19,7 +19,7 @@ class RecentActivity
     private $usr_id;
     /** @var string */
     private $start_date;
-    /** @var  string */
+    /** @var string */
     private $end_date;
     /** @var array */
     private $activity_types;

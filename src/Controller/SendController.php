@@ -55,7 +55,7 @@ class SendController extends BaseController
     /** @var int */
     private $ema_id;
 
-    /** @var  int */
+    /** @var int */
     private $note_id;
 
     /**

@@ -28,7 +28,7 @@ class ViewNoteController extends BaseController
     /** @var int */
     private $note_id;
 
-    /** @var  int */
+    /** @var int */
     private $usr_id;
 
     /** @var int */
