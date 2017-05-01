@@ -118,7 +118,6 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
      * Updates the existing issue to a different status when an email is
      * manually associated to an existing issue.
      *
-     * @access  public
      * @param   int $prj_id The projectID
      * @param   int $issue_id The issue ID
      */
