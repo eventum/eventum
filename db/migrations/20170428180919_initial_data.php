@@ -44,7 +44,7 @@ class InitialData extends AbstractMigration
      */
     private function columns_to_display()
     {
-        $ctd_prj_id = 1;
+        $ctd_prj_id = self::PROJECT_ID;
         $ctd_page = 'list_issues';
         $rank = 1;
         $columns = [
