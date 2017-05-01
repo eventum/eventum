@@ -18,9 +18,11 @@
  */
 
 // init minimal constants needed for some classes to work
-define('APP_PATH', __DIR__);
-define('APP_CONFIG_PATH', APP_PATH . '/config');
-define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
+if (!defined('APP_PATH')) {
+	define('APP_PATH', __DIR__);
+	define('APP_CONFIG_PATH', APP_PATH . '/config');
+	define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
+}
 
 $config = DB_Helper::getConfig();
 
