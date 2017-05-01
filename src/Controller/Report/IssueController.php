@@ -24,7 +24,7 @@ class IssueController extends ReportBaseController
     private $cat;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -34,7 +34,7 @@ class IssueController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -45,7 +45,7 @@ class IssueController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

@@ -59,7 +59,7 @@ class PopupController extends BaseController
     private $prj_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -74,7 +74,7 @@ class PopupController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -87,7 +87,7 @@ class PopupController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -200,7 +200,7 @@ class PopupController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

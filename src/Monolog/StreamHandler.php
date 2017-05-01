@@ -22,7 +22,7 @@ use Monolog\Handler\StreamHandler as BaseStreamHandler;
 class StreamHandler extends BaseStreamHandler
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function __construct($stream, $level = Monolog\Logger::DEBUG, $bubble = true, $filePermission = null, $useLocking = false)
     {

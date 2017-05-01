@@ -28,7 +28,7 @@ class NewsController extends BaseController
     private $prj_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -38,7 +38,7 @@ class NewsController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -50,7 +50,7 @@ class NewsController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -69,7 +69,7 @@ class NewsController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

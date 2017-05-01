@@ -19,7 +19,7 @@ use Routing;
 class ProcessMailCommand extends Command
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function execute()
     {

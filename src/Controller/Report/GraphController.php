@@ -22,7 +22,7 @@ class GraphController extends ReportBaseController
     private $graph;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -32,7 +32,7 @@ class GraphController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -107,7 +107,7 @@ class GraphController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

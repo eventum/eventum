@@ -60,7 +60,7 @@ class UpdateController extends BaseController
     private $cat;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -71,7 +71,7 @@ class UpdateController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -109,7 +109,7 @@ class UpdateController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -185,7 +185,7 @@ class UpdateController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

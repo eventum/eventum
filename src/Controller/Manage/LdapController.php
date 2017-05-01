@@ -31,7 +31,7 @@ class LdapController extends ManageBaseController
     private $cat;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -41,7 +41,7 @@ class LdapController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -99,7 +99,7 @@ class LdapController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

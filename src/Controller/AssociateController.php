@@ -48,7 +48,7 @@ class AssociateController extends BaseController
     private $items;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -61,7 +61,7 @@ class AssociateController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -74,7 +74,7 @@ class AssociateController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -176,7 +176,7 @@ class AssociateController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

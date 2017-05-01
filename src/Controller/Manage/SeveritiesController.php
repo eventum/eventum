@@ -29,7 +29,7 @@ class SeveritiesController extends ManageBaseController
     private $prj_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -40,7 +40,7 @@ class SeveritiesController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -107,7 +107,7 @@ class SeveritiesController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

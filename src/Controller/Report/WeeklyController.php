@@ -40,7 +40,7 @@ class WeeklyController extends ReportBaseController
     private $developer;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -64,7 +64,7 @@ class WeeklyController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -107,7 +107,7 @@ class WeeklyController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

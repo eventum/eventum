@@ -32,7 +32,7 @@ class CustomFieldOptionsController extends ManageBaseController
     private $fld_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -44,7 +44,7 @@ class CustomFieldOptionsController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -67,7 +67,7 @@ class CustomFieldOptionsController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

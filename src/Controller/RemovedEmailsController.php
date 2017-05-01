@@ -28,7 +28,7 @@ class RemovedEmailsController extends BaseController
     private $items;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -39,7 +39,7 @@ class RemovedEmailsController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -49,7 +49,7 @@ class RemovedEmailsController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -67,7 +67,7 @@ class RemovedEmailsController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

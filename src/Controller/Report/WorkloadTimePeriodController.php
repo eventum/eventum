@@ -26,7 +26,7 @@ class WorkloadTimePeriodController extends ReportBaseController
     private $type;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -36,14 +36,14 @@ class WorkloadTimePeriodController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

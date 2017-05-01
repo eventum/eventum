@@ -45,7 +45,7 @@ class CustomFieldsController extends ReportBaseController
     private $end;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -69,7 +69,7 @@ class CustomFieldsController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -113,7 +113,7 @@ class CustomFieldsController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

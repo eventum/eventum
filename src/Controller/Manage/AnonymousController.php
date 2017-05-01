@@ -30,7 +30,7 @@ class AnonymousController extends ManageBaseController
     private $prj_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -41,7 +41,7 @@ class AnonymousController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -62,7 +62,7 @@ class AnonymousController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

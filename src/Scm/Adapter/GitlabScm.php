@@ -28,7 +28,7 @@ class GitlabScm extends AbstractScmAdapter
     const GITLAB_HEADER = 'X-Gitlab-Event';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function can()
     {
@@ -41,7 +41,7 @@ class GitlabScm extends AbstractScmAdapter
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function process()
     {

@@ -45,7 +45,7 @@ class StalledIssuesController extends ReportBaseController
     private $developers;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -67,7 +67,7 @@ class StalledIssuesController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -88,7 +88,7 @@ class StalledIssuesController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

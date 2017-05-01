@@ -38,7 +38,7 @@ class IssueAutoCreationController extends ManageBaseController
     private $ema_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -49,7 +49,7 @@ class IssueAutoCreationController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -67,7 +67,7 @@ class IssueAutoCreationController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

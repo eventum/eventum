@@ -27,14 +27,14 @@ class RecentActivityController extends ReportBaseController
     protected $tpl_name = 'reports/recent_activity.tpl.html';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -48,7 +48,7 @@ class RecentActivityController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {
