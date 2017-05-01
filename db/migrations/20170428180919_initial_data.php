@@ -40,7 +40,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L942-L957
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L942-L957
      */
     private function columns_to_display()
     {
@@ -84,7 +84,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L73-L132
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L73-L132
      */
     private function history_type()
     {
@@ -172,7 +172,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L322
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L322
      */
     private function project()
     {
@@ -196,7 +196,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L339-L341
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L339-L341
      */
     private function project_category()
     {
@@ -219,7 +219,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/33_set_required_fields.php
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/33_set_required_fields.php
      */
     private function project_field_display()
     {
@@ -253,7 +253,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L884-L887
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L884-L887
      */
     private function project_phone_category()
     {
@@ -279,8 +279,8 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L296-L300
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/63_project_priority_icon.sql
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L296-L300
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/63_project_priority_icon.sql
      */
     private function project_priority()
     {
@@ -310,7 +310,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L352
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L352
      */
     private function project_release()
     {
@@ -328,7 +328,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/15_severity.sql
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/15_severity.sql
      */
     private function project_severity()
     {
@@ -357,7 +357,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L594-L599
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L594-L599
      */
     private function project_status()
     {
@@ -377,7 +377,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L362
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L362
      */
     private function project_user()
     {
@@ -394,7 +394,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L687-L690
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L687-L690
      */
     private function reminder_action_type()
     {
@@ -420,7 +420,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L713-L720
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L713-L720
      */
     private function reminder_field()
     {
@@ -499,7 +499,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L729-L736
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L729-L736
      */
     private function reminder_operator()
     {
@@ -529,8 +529,8 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L371-L377
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/09_resolution_rank.sql
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L371-L377
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/patches/09_resolution_rank.sql
      */
     private function resolution()
     {
@@ -559,7 +559,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L580-L585
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L580-L585
      */
     private function status()
     {
@@ -590,7 +590,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L451-L460
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L451-L460
      */
     private function time_tracking_category()
     {
@@ -623,7 +623,7 @@ class InitialData extends AbstractMigration
     }
 
     /**
-     * @link https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L481-L482
+     * @see https://github.com/eventum/eventum/blob/v3.1.10/upgrade/schema.sql#L481-L482
      */
     private function user()
     {
