@@ -123,9 +123,6 @@ class DatabaseSetup
             }
         }
 
-        // set sql mode (sad that we rely on old bad mysql defaults)
-        $this->conn->query("SET SQL_MODE = ''");
-
         $this->checkDatabaseAccess($db_config['db_name']);
 
         // if requested. drop tables first
