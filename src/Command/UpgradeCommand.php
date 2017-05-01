@@ -19,7 +19,7 @@ use Exception;
 class UpgradeCommand extends Command
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function execute()
     {

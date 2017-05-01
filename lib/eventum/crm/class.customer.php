@@ -88,7 +88,7 @@ abstract class Customer
     /**
      * Returns an array of contracts for this customer.
      *
-     * @param   mixed $options Options An array of options that determine which contracts should be returned.
+     * @param   mixed $options options An array of options that determine which contracts should be returned
      * @return  Contract[] An array of Contract objects
      */
     abstract public function getContracts($options = []);
@@ -161,7 +161,7 @@ abstract class Customer
     /**
      * Returns any notes for for the specified customer.
      *
-     * @return  array An array containing the note details.
+     * @return  array an array containing the note details
      */
     public function getNoteDetails()
     {

@@ -106,7 +106,7 @@ class Eventum_Bot
              *
              * @see Net_SmartIRC::setDebugLevel
              */
-            'debuglevel' => SMARTIRC_DEBUG_NOTICE
+            'debuglevel' => SMARTIRC_DEBUG_NOTICE,
         ];
 
         $config = require $config_file;
@@ -200,8 +200,8 @@ class Eventum_Bot
         }
 
         if (isset($config['logfile'])) {
-            $irc->setLogdestination(SMARTIRC_FILE);
-            $irc->setLogfile($config['logfile']);
+            $irc->setLogDestination(SMARTIRC_FILE);
+            $irc->setLogFile($config['logfile']);
         }
 
         // reconnect is poorly designed, do not use it
@@ -255,8 +255,8 @@ class Eventum_Bot
         }
 
         // methods that keep track of who is authenticated
-        $irc->registerActionhandler(SMARTIRC_TYPE_NICKCHANGE, '.*', $this, 'updateAuthenticatedUser');
-        $irc->registerActionhandler(
+        $irc->registerActionHandler(SMARTIRC_TYPE_NICKCHANGE, '.*', $this, 'updateAuthenticatedUser');
+        $irc->registerActionHandler(
             SMARTIRC_TYPE_KICK | SMARTIRC_TYPE_QUIT | SMARTIRC_TYPE_PART, '.*', $this, 'removeAuthenticatedUser'
         );
 
@@ -365,7 +365,7 @@ class Eventum_Bot
      * Helper method to get the list of channels that should be used in the
      * notifications
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of channels
      */
     public function getChannels($prj_id)

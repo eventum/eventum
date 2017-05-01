@@ -25,7 +25,7 @@ class Partner
      * @param   string $par_code The partner code
      * @return  Abstract_Partner_Backend
      */
-    private static function &getBackend($par_code)
+    private static function getBackend($par_code)
     {
         static $setup_backends;
 
@@ -104,7 +104,7 @@ class Partner
             $usr_id = Auth::getUserID();
             History::add($iss_id, $usr_id, 'partner_added', "Partner '{partner}' added to issue by {user}", [
                 'partner' => $backend->getName(),
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
@@ -130,7 +130,7 @@ class Partner
         $usr_id = Auth::getUserID();
         History::add($iss_id, $usr_id, 'partner_removed', "Partner '{partner}' removed from issue by {user}", [
             'partner' => $backend->getName(),
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         return true;
@@ -154,7 +154,7 @@ class Partner
         $return = [];
         foreach ($res as $partner) {
             $return[$partner] = [
-                'name'  =>  self::getName($partner),
+                'name' => self::getName($partner),
             ];
         }
 
@@ -189,8 +189,8 @@ class Partner
         $return = [];
         foreach ($partners as $par_code) {
             $return[$par_code] = [
-                'name'  =>  self::getName($par_code),
-                'message'   =>  self::getIssueMessage($par_code, $iss_id),
+                'name' => self::getName($par_code),
+                'message' => self::getIssueMessage($par_code, $iss_id),
             ];
         }
 
@@ -201,9 +201,9 @@ class Partner
     {
         if (in_array($par_code, self::getPartnerCodesByIssue($iss_id))) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -219,9 +219,9 @@ class Partner
         foreach ($backends as $par_code) {
             $backend = self::getBackend($par_code);
             $partners[] = [
-                'code'  =>  $par_code,
-                'name'  =>  $backend->getName(),
-                'projects'  =>  self::getProjectsForPartner($par_code),
+                'code' => $par_code,
+                'name' => $backend->getName(),
+                'projects' => self::getProjectsForPartner($par_code),
             ];
         }
 
@@ -241,9 +241,9 @@ class Partner
     public static function getDetails($par_code)
     {
         return [
-            'code'  =>  $par_code,
-            'name'  =>  self::getBackend($par_code)->getName(),
-            'projects'  =>  self::getProjectsForPartner($par_code),
+            'code' => $par_code,
+            'name' => self::getBackend($par_code)->getName(),
+            'projects' => self::getProjectsForPartner($par_code),
         ];
     }
 
@@ -307,7 +307,7 @@ class Partner
     public static function getBackendList()
     {
         $files = Misc::getFileList(APP_INC_PATH . '/partner');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/partner'));
+        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/partner'));
         $list = [];
         foreach ($files as $file) {
             // display a prettyfied backend name in the admin section
@@ -395,8 +395,8 @@ class Partner
     /**
      * If the partner can edit the issue.
      *
-     * @param integer   $issue_id
-     * @param integer   $usr_id
+     * @param int   $issue_id
+     * @param int   $usr_id
      * @return bool
      */
     public static function canUpdateIssue($issue_id, $usr_id)

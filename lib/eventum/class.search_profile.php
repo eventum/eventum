@@ -19,10 +19,10 @@ class Search_Profile
      * Method used to remove the search profile record for this user,
      * for the specified project and profile type.
      *
-     * @param   integer $usr_id The user ID
-     * @param   integer $prj_id The project ID
+     * @param   int $usr_id The user ID
+     * @param   int $prj_id The project ID
      * @param   string $type The type of the search profile ('issue' or 'email')
-     * @return  boolean
+     * @return  bool
      */
     public static function remove($usr_id, $prj_id, $type)
     {
@@ -45,8 +45,8 @@ class Search_Profile
      * Method used to retrieve a search profile record for this user,
      * for the specified project and profile type.
      *
-     * @param   integer $usr_id The user ID
-     * @param   integer $prj_id The project ID
+     * @param   int $usr_id The user ID
+     * @param   int $prj_id The project ID
      * @param   string $type The type of the search profile ('issue' or 'email')
      * @return  array The user's search profile
      */
@@ -85,10 +85,10 @@ class Search_Profile
      * Method used to check whether a search profile already exists
      * or not.
      *
-     * @param   integer $usr_id The user ID
-     * @param   integer $prj_id The project ID
+     * @param   int $usr_id The user ID
+     * @param   int $prj_id The project ID
      * @param   string $type The type of the search profile ('issue' or 'email')
-     * @return  boolean
+     * @return  bool
      */
     private static function _exists($usr_id, $prj_id, $type)
     {
@@ -117,30 +117,30 @@ class Search_Profile
      * Method used to save a search profile record for this user, for
      * the specified project, and profile type.
      *
-     * @param   integer $usr_id The user ID
-     * @param   integer $prj_id The project ID
+     * @param   int $usr_id The user ID
+     * @param   int $prj_id The project ID
      * @param   string $type The type of the search profile ('issue' or 'email')
      * @param   string $profile The search profile to be saved
-     * @return  boolean
+     * @return  bool
      */
     public static function save($usr_id, $prj_id, $type, $profile)
     {
         if (!self::_exists($usr_id, $prj_id, $type)) {
             return self::_insert($usr_id, $prj_id, $type, $profile);
-        } else {
-            return self::_update($usr_id, $prj_id, $type, $profile);
         }
+
+        return self::_update($usr_id, $prj_id, $type, $profile);
     }
 
     /**
      * Method used to create a new search profile record for this
      * user, for the specified project, and profile type.
      *
-     * @param   integer $usr_id The user ID
-     * @param   integer $prj_id The project ID
+     * @param   int $usr_id The user ID
+     * @param   int $prj_id The project ID
      * @param   string $type The type of the search profile ('issue' or 'email')
      * @param   string $profile The search profile to be saved
-     * @return  boolean
+     * @return  bool
      */
     private static function _insert($usr_id, $prj_id, $type, $profile)
     {
@@ -167,11 +167,11 @@ class Search_Profile
      * Method used to update an existing search profile record for
      * this user, for the specified project, and profile type.
      *
-     * @param   integer $usr_id The user ID
-     * @param   integer $prj_id The project ID
+     * @param   int $usr_id The user ID
+     * @param   int $prj_id The project ID
      * @param   string $type The type of the search profile ('issue' or 'email')
      * @param   string $profile The search profile to be saved
-     * @return  boolean
+     * @return  bool
      */
     private static function _update($usr_id, $prj_id, $type, $profile)
     {

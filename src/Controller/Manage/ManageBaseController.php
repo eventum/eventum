@@ -37,7 +37,7 @@ abstract class ManageBaseController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {

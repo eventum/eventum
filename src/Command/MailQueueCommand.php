@@ -23,7 +23,7 @@ class MailQueueCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function execute()
     {

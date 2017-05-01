@@ -60,7 +60,7 @@ class UpdateController extends BaseController
     private $cat;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -71,7 +71,7 @@ class UpdateController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -109,7 +109,7 @@ class UpdateController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -162,7 +162,6 @@ class UpdateController extends BaseController
         $has_duplicates = Issue::hasDuplicates($this->issue_id);
 
         /**
-         *
          *  FIXME: refactor this global $errors
          * it's filled by Issue::updateAssociatedIssuesRelations via Issue::update
          * https://github.com/eventum/eventum/blob/v3.0.6/lib/eventum/class.issue.php#L1474
@@ -186,7 +185,7 @@ class UpdateController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {
@@ -243,11 +242,11 @@ class UpdateController extends BaseController
         if (CRM::hasCustomerIntegration($prj_id) and !empty($details['iss_customer_id'])) {
             $columns[0][] = [
                 'title' => 'Customer',
-                'field' => 'customer_0'
+                'field' => 'customer_0',
             ];
             $columns[1][] = [
                 'title' => 'Customer Contract',
-                'field' => 'customer_1'
+                'field' => 'customer_1',
             ];
         }
 
@@ -269,7 +268,7 @@ class UpdateController extends BaseController
             $columns[0][] = [
                 'title' => ev_gettext('Severity'),
                 'data' => $details['sev_title'],
-                'field' => 'severity'
+                'field' => 'severity',
             ];
         }
 

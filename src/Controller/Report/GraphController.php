@@ -15,8 +15,6 @@ namespace Eventum\Controller\Report;
 
 /**
  * Class GraphController
- *
- * @package Eventum\Controller\Report
  */
 class GraphController extends ReportBaseController
 {
@@ -24,7 +22,7 @@ class GraphController extends ReportBaseController
     private $graph;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -34,7 +32,7 @@ class GraphController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -109,7 +107,7 @@ class GraphController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

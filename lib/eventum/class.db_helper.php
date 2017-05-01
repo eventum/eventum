@@ -21,13 +21,13 @@ use Eventum\Db\DatabaseException;
  */
 class DB_Helper
 {
-    const DEFAULT_ADAPTER = 'Pear';
+    const DEFAULT_ADAPTER = 'PdoAdapter';
 
     /**
      * @param bool $fallback
-     * @return AdapterInterface
      * @throws DatabaseException
      * @throws Exception
+     * @return AdapterInterface
      */
     public static function getInstance($fallback = true)
     {
@@ -44,35 +44,28 @@ class DB_Helper
 
         try {
             $instance = new $className($config);
-        } catch (DatabaseException $e) {
-            // set dummy provider in as offline.php uses db methods
-            $instance = new NullAdapter($config);
 
-            if (!$fallback) {
-                throw $e;
-            }
-            /** @global $error_type */
-            $error_type = 'db';
-            require APP_PATH . '/htdocs/offline.php';
-            exit(2);
+            return $instance;
+        } catch (DatabaseException $e) {
         }
 
-        return $instance;
+        // set dummy provider in as offline.php uses db methods
+        $instance = new NullAdapter($config);
+
+        if (!$fallback) {
+            throw $e;
+        }
+
+        /** @global $error_type */
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        $error_type = 'db';
+        require APP_PATH . '/htdocs/offline.php';
+        exit(2);
     }
 
     private static function getAdapterClass($config)
     {
-        $classname = isset($config['classname']) ? $config['classname'] : self::DEFAULT_ADAPTER;
-
-        // legacy class name started with 'Db'
-        if (substr($classname, 0, 2) == 'Db') {
-            $classname = substr($classname, 2);
-        }
-
-        // append Adapter to classname
-        if (substr($classname, -7) != 'Adapter') {
-            $classname .= 'Adapter';
-        }
+        $classname = isset($config['adapter']) ? $config['adapter'] : self::DEFAULT_ADAPTER;
 
         return 'Eventum\\Db\\Adapter\\' . $classname;
     }
@@ -109,9 +102,9 @@ class DB_Helper
             function ($matches) use ($db, $tablePrefix) {
                 if (isset($matches[3])) {
                     return $db->quoteIdentifier($matches[3]);
-                } else {
-                    return str_replace('%', $tablePrefix, $db->quoteIdentifier($matches[2]));
                 }
+
+                return str_replace('%', $tablePrefix, $db->quoteIdentifier($matches[2]));
             },
             $sql
         );
@@ -120,12 +113,9 @@ class DB_Helper
     }
 
     /**
-     * Method used to get the last inserted ID. This is a simple
-     * wrapper to the mysql_insert_id function, as a work around to
-     * the somewhat annoying implementation of PEAR::DB to create
-     * separate tables to host the ID sequences.
+     * Method used to get the last inserted ID.
      *
-     * @return  integer The last inserted ID
+     * @return  int The last inserted ID
      */
     public static function get_last_insert_id()
     {
@@ -208,9 +198,9 @@ class DB_Helper
      * This thing is truly a work of art, the type of art that throws lemon juice in your eye and then laughs.
      * If $end_date_field is null, the current date is used instead.
      *
-     * @param   string $start_date_field The name of the field the first date is.
-     * @param   string $end_date_field The name of the field where the second date is.
-     * @return  string The SQL used to compare the 2 dates.
+     * @param   string $start_date_field the name of the field the first date is
+     * @param   string $end_date_field the name of the field where the second date is
+     * @return  string the SQL used to compare the 2 dates
      */
     public static function getNoWeekendDateDiffSQL($start_date_field, $end_date_field = null)
     {

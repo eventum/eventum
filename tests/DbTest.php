@@ -11,8 +11,10 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use DB_Helper;
 use Eventum\Db\Adapter\AdapterInterface;
-use Eventum\Db\Adapter\PearAdapter;
 
 /**
  * Test DB layer to work as expected
@@ -53,19 +55,6 @@ class DbTest extends TestCase
     {
         $res = $this->db->query('update {{%user}} set usr_lang=? where 1=0', ['en_US']);
         $this->assertEquals(true, $res);
-    }
-
-    /** @group query */
-    public function testQuerySelect()
-    {
-        if (!$this->db instanceof PearAdapter) {
-            $this->markTestSkipped('Only possible with Pear Adapter');
-        }
-
-        // only Pear adapter returns resultset for SELECT statements
-        $res = $this->db->query('select usr_id from {{%user}} where usr_id=?', [2]);
-        $this->assertNotSame(true, $res);
-        print_r($res);
     }
 
     /** @group getAll */
@@ -116,29 +105,6 @@ class DbTest extends TestCase
             ],
         ];
         $this->assertEquals($exp, $res);
-    }
-
-    /** @group getAll */
-    public function testGetAllOrdered()
-    {
-        if (!$this->db instanceof PearAdapter) {
-            $this->markTestSkipped('Only possible with Pear Adapter');
-        }
-
-        $stmt
-            = "SELECT
-                    CONCAT('/', lfi_pattern, '/i'),
-                    lfi_replacement
-                FROM
-                    {{%link_filter}},
-                    {{%project_link_filter}}
-                WHERE
-                    lfi_id = plf_lfi_id
-                ORDER BY
-                    lfi_id";
-        $res1 = $this->db->getAll($stmt, [], AdapterInterface::DB_FETCHMODE_ORDERED);
-        $res2 = $this->db->getAll($stmt, [], AdapterInterface::DB_FETCHMODE_DEFAULT);
-        $this->assertSame($res1, $res2);
     }
 
     /** @group fetchAssoc */
@@ -200,11 +166,7 @@ class DbTest extends TestCase
     public function testFetchAssoc()
     {
         $stmt = 'SELECT sta_id, sta_title FROM {{%status}} ORDER BY sta_rank ASC';
-        if ($this->db instanceof PearAdapter) {
-            $res = $this->db->fetchAssoc($stmt);
-        } else {
-            $res = $this->db->getPair($stmt);
-        }
+        $res = $this->db->getPair($stmt);
         $exp = [
             1 => 'discovery',
             2 => 'requirements',

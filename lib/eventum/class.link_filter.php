@@ -22,8 +22,8 @@ class Link_Filter
     /**
      * Returns information about a specific link filter.
      *
-     * @param   integer $lfi_id The ID of the link filter to return info about.
-     * @return  array An array of information.
+     * @param   int $lfi_id the ID of the link filter to return info about
+     * @return  array an array of information
      */
     public static function getDetails($lfi_id)
     {
@@ -68,7 +68,7 @@ class Link_Filter
     /**
      * Lists the link filters currently in the system.
      *
-     * @return array An array of information.
+     * @return array an array of information
      */
     public static function getList()
     {
@@ -117,7 +117,7 @@ class Link_Filter
     /**
      * Inserts a new link filter into the database.
      *
-     * @return integer 1 if insert was successful, -1 otherwise
+     * @return int 1 if insert was successful, -1 otherwise
      */
     public static function insert()
     {
@@ -161,7 +161,7 @@ class Link_Filter
     /**
      * Removes link filters from the database
      *
-     * @return integer 1 if delete was successful, -1 otherwise.
+     * @return int 1 if delete was successful, -1 otherwise
      */
     public static function remove()
     {
@@ -194,7 +194,7 @@ class Link_Filter
     /**
      * Updates link filter information.
      *
-     * @return integer 1 if insert was successful, -1 otherwise
+     * @return int 1 if insert was successful, -1 otherwise
      */
     public static function update()
     {
@@ -251,10 +251,10 @@ class Link_Filter
     /**
      * Processes text through all link filters.
      *
-     * @param   integer $prj_id The ID of the project
+     * @param   int $prj_id The ID of the project
      * @param   string $text The text to process
      * @param   string $class The CSS class to use on the actual links
-     * @return  string The processed text.
+     * @return  string the processed text
      */
     public static function processText($prj_id, $text, $class = 'link')
     {
@@ -279,7 +279,7 @@ class Link_Filter
      * Callback function to be used from template class.
      *
      * @param   string $text The text to process
-     * @return  string the processed text.
+     * @return  string the processed text
      */
     public static function activateLinks($text)
     {
@@ -290,8 +290,8 @@ class Link_Filter
      * Callback function to be used from template class.
      *
      * @param   string $text The text to process
-     * @param   integer $issue_id The ID of the issue from where attachment list is taken
-     * @return  string the processed text.
+     * @param   int $issue_id The ID of the issue from where attachment list is taken
+     * @return  string the processed text
      */
     public static function activateAttachmentLinks($text, $issue_id)
     {
@@ -312,7 +312,7 @@ class Link_Filter
 
         foreach ($files as $file => $link) {
             // we use attachment prefix, so we don't accidentally match already processed urls
-            $text = preg_replace('/attachment:?\s*'.preg_quote($file, '/').'\b/', $link, $text);
+            $text = preg_replace('/attachment:?\s*' . preg_quote($file, '/') . '\b/', $link, $text);
         }
 
         return $text;
@@ -339,7 +339,7 @@ class Link_Filter
     /**
      * Returns an array of patterns and replacements.
      *
-     * @param   integer $prj_id The ID of the project
+     * @param   int $prj_id The ID of the project
      * @return  array An array of patterns and replacements
      */
     private static function getFiltersByProject($prj_id)

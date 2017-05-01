@@ -39,7 +39,7 @@ class ReminderConditionsController extends ManageBaseController
     private $field;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -52,7 +52,7 @@ class ReminderConditionsController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -162,7 +162,7 @@ class ReminderConditionsController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

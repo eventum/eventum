@@ -26,7 +26,7 @@ class Reminder
      * here will enable all sorts of helpful messages in the reminder
      * check script.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function isDebug()
     {
@@ -37,9 +37,9 @@ class Reminder
      * Method used to quickly change the ranking of a reminder entry
      * from the administration screen.
      *
-     * @param   integer $rem_id The reminder entry ID
+     * @param   int $rem_id The reminder entry ID
      * @param   string $rank_type Whether we should change the reminder ID down or up (options are 'asc' or 'desc')
-     * @return  boolean
+     * @return  bool
      */
     public static function changeRank($rem_id, $rank_type)
     {
@@ -111,7 +111,7 @@ class Reminder
      * Method used by the administration screen to list the available
      * issues in a project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of issues
      */
     public static function getIssueAssocListByProject($prj_id)
@@ -127,7 +127,7 @@ class Reminder
     /**
      * Method used to get the title of a specific reminder.
      *
-     * @param   integer $rem_id The reminder ID
+     * @param   int $rem_id The reminder ID
      * @return  string The title of the reminder
      */
     public static function getTitle($rem_id)
@@ -150,8 +150,8 @@ class Reminder
     /**
      * Method used to get the project associated to a given reminder.
      *
-     * @param   integer $rem_id The reminder ID
-     * @return  integer The project ID
+     * @param   int $rem_id The reminder ID
+     * @return  int The project ID
      */
     public static function getProjectID($rem_id)
     {
@@ -173,7 +173,7 @@ class Reminder
     /**
      * Method used to get the details for a specific reminder.
      *
-     * @param   integer $rem_id The reminder ID
+     * @param   int $rem_id The reminder ID
      * @return  array The details for the specified reminder
      */
     public static function getDetails($rem_id)
@@ -224,10 +224,10 @@ class Reminder
      * Method used to get a list of all priority IDs associated with the given
      * reminder.
      *
-     * @param   integer $rem_id The reminder ID
+     * @param   int $rem_id The reminder ID
      * @return  array The list of associated priority IDs
      */
-    public function getAssociatedPriorities($rem_id)
+    public static function getAssociatedPriorities($rem_id)
     {
         $stmt = 'SELECT
                     rep_pri_id
@@ -244,7 +244,7 @@ class Reminder
         return $res;
     }
 
-    public function getAssociatedProducts($rem_id)
+    public static function getAssociatedProducts($rem_id)
     {
         $stmt = 'SELECT
                     rpr_pro_id
@@ -265,10 +265,10 @@ class Reminder
      * Method used to get a list of all severity IDs associated with the given
      * reminder.
      *
-     * @param   integer $rem_id The reminder ID
+     * @param   int $rem_id The reminder ID
      * @return  array The list of associated severity IDs
      */
-    public function getAssociatedSeverities($rem_id)
+    public static function getAssociatedSeverities($rem_id)
     {
         $stmt = 'SELECT
                     rms_sev_id
@@ -289,11 +289,11 @@ class Reminder
      * Method used to associate a support level ID with a given
      * reminder entry ID.
      *
-     * @param   integer $rem_id The reminder ID
-     * @param   integer $support_level_id The support level ID
-     * @return  boolean
+     * @param   int $rem_id The reminder ID
+     * @param   int $support_level_id The support level ID
+     * @return  bool
      */
-    public function addSupportLevelAssociation($rem_id, $support_level_id)
+    public static function addSupportLevelAssociation($rem_id, $support_level_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_requirement}}
@@ -315,11 +315,11 @@ class Reminder
     /**
      * Method used to associate an issue with a given reminder.
      *
-     * @param   integer $rem_id The reminder ID
-     * @param   integer $issue_id The issue ID
-     * @return  boolean
+     * @param   int $rem_id The reminder ID
+     * @param   int $issue_id The issue ID
+     * @return  bool
      */
-    public function addIssueAssociation($rem_id, $issue_id)
+    public static function addIssueAssociation($rem_id, $issue_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_requirement}}
@@ -342,11 +342,11 @@ class Reminder
      * Method used to associate a customer ID with a given reminder
      * entry ID.
      *
-     * @param   integer $rem_id The reminder ID
-     * @param   integer $customer_id The customer ID
-     * @return  boolean
+     * @param   int $rem_id The reminder ID
+     * @param   int $customer_id The customer ID
+     * @return  bool
      */
-    public function addCustomerAssociation($rem_id, $customer_id)
+    public static function addCustomerAssociation($rem_id, $customer_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_requirement}}
@@ -368,10 +368,10 @@ class Reminder
     /**
      * Method used to associate a reminder with any issue.
      *
-     * @param   integer $rem_id The reminder ID
-     * @return  boolean
+     * @param   int $rem_id The reminder ID
+     * @return  bool
      */
-    public function associateAllIssues($rem_id)
+    public static function associateAllIssues($rem_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_requirement}}
@@ -393,11 +393,11 @@ class Reminder
     /**
      * Method used to associate a priority with a given reminder.
      *
-     * @param   integer $rem_id The reminder ID
-     * @param   integer $priority_id The priority ID
-     * @return  boolean
+     * @param   int $rem_id The reminder ID
+     * @param   int $priority_id The priority ID
+     * @return  bool
      */
-    public function addPriorityAssociation($rem_id, $priority_id)
+    public static function addPriorityAssociation($rem_id, $priority_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_priority}}
@@ -416,7 +416,7 @@ class Reminder
         return true;
     }
 
-    public function addProductAssociation($rem_id, $pro_id)
+    public static function addProductAssociation($rem_id, $pro_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_product}}
@@ -438,11 +438,11 @@ class Reminder
     /**
      * Method used to associate a severity with a given reminder.
      *
-     * @param   integer $rem_id The reminder ID
-     * @param   integer $priority_id The severity ID
-     * @return  boolean
+     * @param   int $rem_id The reminder ID
+     * @param   int $priority_id The severity ID
+     * @return  bool
      */
-    public function addSeverityAssociation($rem_id, $severity_id)
+    public static function addSeverityAssociation($rem_id, $severity_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_severity}}
@@ -465,9 +465,9 @@ class Reminder
      * Method used to remove all requirements and priority associations for a
      * given reminder.
      *
-     * @param   integer $rem_id The reminder ID
+     * @param   int $rem_id The reminder ID
      */
-    public function removeAllAssociations($rem_id)
+    public static function removeAllAssociations($rem_id)
     {
         if (!is_array($rem_id)) {
             $rem_id = [$rem_id];
@@ -502,7 +502,7 @@ class Reminder
     /**
      * Method used to create a new reminder.
      *
-     * @return  integer 1 if the insert worked, -1 or -2 otherwise
+     * @return  int 1 if the insert worked, -1 or -2 otherwise
      */
     public static function insert()
     {
@@ -569,7 +569,7 @@ class Reminder
     /**
      * Method used to update the details of a specific reminder.
      *
-     * @return  integer 1 if the update worked, -1 or -2 otherwise
+     * @return  int 1 if the update worked, -1 or -2 otherwise
      */
     public static function update()
     {
@@ -637,7 +637,7 @@ class Reminder
      * Method used to remove reminders by using the administrative
      * interface of the system.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function remove()
     {
@@ -673,10 +673,10 @@ class Reminder
      * Method used to get the list of requirements associated with a given
      * reminder.
      *
-     * @param   integer $rem_id The reminder ID
+     * @param   int $rem_id The reminder ID
      * @return  array The list of requirements
      */
-    public function getRequirements($rem_id)
+    public static function getRequirements($rem_id)
     {
         $stmt = 'SELECT
                     rer_customer_id,
@@ -713,7 +713,7 @@ class Reminder
         }
 
         return [
-            'type'   => $type,
+            'type' => $type,
             'values' => $values,
         ];
     }
@@ -803,7 +803,7 @@ class Reminder
     /**
      * Method used to get the list of issue IDs that match the given conditions.
      *
-     * @param   integer $rem_id The reminder ID
+     * @param   int $rem_id The reminder ID
      * @param   array $conditions The list of conditions
      * @return  array The list of issue IDs
      */
@@ -859,11 +859,11 @@ class Reminder
     /**
      * Method used to generate a where clause from the given list of conditions.
      *
-     * @param   array $reminder An array of reminder info.
+     * @param   array $reminder an array of reminder info
      * @param   array $conditions The list of conditions
      * @return  string The where clause
      */
-    public function getWhereClause($reminder, $conditions)
+    public static function getWhereClause($reminder, $conditions)
     {
         $stmt = '
                   WHERE
@@ -941,8 +941,8 @@ class Reminder
      * Method used to generate an SQL query to be used in debugging the reminder
      * conditions.
      *
-     * @param   integer $rem_id The reminder ID
-     * @param   integer $rma_id The reminder action ID
+     * @param   int $rem_id The reminder ID
+     * @param   int $rma_id The reminder action ID
      * @return  string The SQL query
      */
     public static function getSQLQuery($rem_id, $rma_id)
@@ -969,7 +969,7 @@ class Reminder
      * Method used to list the history of triggered reminder actions
      * for a given issue.
      *
-     * @param   integer $iss_id The issue ID
+     * @param   int $iss_id The issue ID
      * @return  array The list of triggered reminder actions
      */
     public static function getHistoryList($iss_id)

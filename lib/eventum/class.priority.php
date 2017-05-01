@@ -22,9 +22,9 @@ class Priority
      * Method used to quickly change the ranking of a reminder entry
      * from the administration screen.
      *
-     * @param   integer $pri_id The reminder entry ID
+     * @param   int $pri_id The reminder entry ID
      * @param   string $rank_type Whether we should change the reminder ID down or up (options are 'asc' or 'desc')
-     * @return  boolean
+     * @return  bool
      */
     public static function changeRank($prj_id, $pri_id, $rank_type)
     {
@@ -74,7 +74,7 @@ class Priority
      * Returns an associative array with the list of reminder IDs and
      * their respective ranking.
      *
-     * @param   integer $prj_id The ID of the project
+     * @param   int $prj_id The ID of the project
      * @return  array The list of reminders
      */
     private function _getRanking($prj_id)
@@ -100,7 +100,7 @@ class Priority
     /**
      * Method used to get the full details of a priority.
      *
-     * @param   integer $pri_id The priority ID
+     * @param   int $pri_id The priority ID
      * @return  array The information about the priority provided
      */
     public static function getDetails($pri_id)
@@ -125,9 +125,10 @@ class Priority
      * specific projects.
      *
      * @param   array $ids The project IDs to be removed
-     * @return  boolean Whether the removal worked or not
+     * @return  bool Whether the removal worked or not
+     * @deprecated method not used
      */
-    public function removeByProjects($ids)
+    public static function removeByProjects($ids)
     {
         $items = DB_Helper::buildList($ids);
         $stmt = "DELETE FROM
@@ -147,7 +148,7 @@ class Priority
      * Method used to remove user-selected priorities from the
      * database.
      *
-     * @return  boolean Whether the removal worked or not
+     * @return  bool Whether the removal worked or not
      */
     public static function remove()
     {
@@ -171,7 +172,7 @@ class Priority
      * Typically the user would modify the title of the priority in
      * the application and this method would be called.
      *
-     * @return  integer 1 if the update worked properly, any other value otherwise
+     * @return  int 1 if the update worked properly, any other value otherwise
      */
     public static function update()
     {
@@ -182,12 +183,13 @@ class Priority
                     {{%project_priority}}
                  SET
                     pri_title=?,
-                    pri_rank=?
+                    pri_rank=?,
+                    pri_icon=?
                  WHERE
                     pri_prj_id=? AND
                     pri_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, [$_POST['title'], $_POST['rank'], $_POST['prj_id'], $_POST['id']]);
+            DB_Helper::getInstance()->query($stmt, [$_POST['title'], $_POST['rank'], $_POST['icon'], $_POST['prj_id'], $_POST['id']]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -198,7 +200,7 @@ class Priority
     /**
      * Method used to add a new priority to the application.
      *
-     * @return  integer 1 if the update worked properly, any other value otherwise
+     * @return  int 1 if the update worked properly, any other value otherwise
      */
     public static function insert()
     {
@@ -210,12 +212,13 @@ class Priority
                  (
                     pri_prj_id,
                     pri_title,
-                    pri_rank
+                    pri_rank,
+                    pri_icon
                  ) VALUES (
-                    ?, ?, ?
+                    ?, ?, ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, [$_POST['prj_id'], $_POST['title'], $_POST['rank']]);
+            DB_Helper::getInstance()->query($stmt, [$_POST['prj_id'], $_POST['title'], $_POST['rank'], $_POST['icon']]);
         } catch (DatabaseException $e) {
             return -1;
         }
@@ -227,7 +230,7 @@ class Priority
      * Method used to get the full list of priorities associated with
      * a specific project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The full list of priorities
      */
     public static function getList($prj_id)
@@ -235,7 +238,8 @@ class Priority
         $stmt = 'SELECT
                     pri_id,
                     pri_title,
-                    pri_rank
+                    pri_rank,
+                    pri_icon
                  FROM
                     {{%project_priority}}
                  WHERE
@@ -254,7 +258,7 @@ class Priority
     /**
      * Method used to get the title for a priority ID.
      *
-     * @param   integer $pri_id The priority ID
+     * @param   int $pri_id The priority ID
      * @return  string The priority title
      */
     public static function getTitle($pri_id)
@@ -278,7 +282,7 @@ class Priority
      * Method used to get the list of priorities as an associative array in the
      * style of (id => title)
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of priorities
      */
     public static function getAssocList($prj_id)
@@ -313,9 +317,9 @@ class Priority
      * Method used to get the pri_id of a project by priority title.
      *
      * @api
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @param   string $pri_title The priority title
-     * @return  integer $pri_id The priority ID
+     * @return  int $pri_id The priority ID
      */
     public static function getPriorityID($prj_id, $pri_title)
     {

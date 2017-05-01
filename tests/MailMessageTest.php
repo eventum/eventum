@@ -11,7 +11,18 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Date_Helper;
 use Eventum\Mail\MailMessage;
+use Mail_Helper;
+use Mail_Queue;
+use Mime_Helper;
+use PHPUnit_Framework_Error_Notice;
+use Routing;
+use Setup;
+use Zend;
+use Zend\Mail\AddressList;
 
 class MailMessageTest extends TestCase
 {
@@ -473,7 +484,7 @@ class MailMessageTest extends TestCase
                 'X-Eventum-Type: elisabeth bathory',
                 'Precedence: bulk',
                 'Auto-Submitted: auto-generated',
-                ''
+                '',
             ]
         );
         $this->assertEquals($exp, $mail->getHeaders()->toString());
@@ -515,14 +526,14 @@ class MailMessageTest extends TestCase
         // send email (use PEAR's classes)
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
-        $setup = $mail->getSMTPSettings();
+        $from = Setup::get()->smtp->from;
         $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
-        $mail->send($setup['from'], $to, $subject);
+        $mail->send($from, $to, $subject);
 
         // the same but with ZF
         $mail = MailMessage::createNew();
         $mail->setSubject($subject);
-        $mail->setFrom($setup['from']);
+        $mail->setFrom($from);
         $mail->setTo($to);
         $mail->setContent($text_message);
         Mail_Queue::addMail($mail, $to);
@@ -643,7 +654,7 @@ class MailMessageTest extends TestCase
         $transport = new \Zend\Mail\Transport\Sendmail();
         $transport->setCallable(
             function ($to, $subject, $body, $headers, $params) {
-                error_log("to[$to] subject[$subject] body[$body] headers[$headers] params[$params]");
+                //error_log("to[$to] subject[$subject] body[$body] headers[$headers] params[$params]");
             }
         );
         $transport->send($mail);
@@ -674,10 +685,10 @@ class MailMessageTest extends TestCase
         $message = new Zend\Mail\Message();
         $message->setBody($body);
 
-        echo $message->toString();
+//        echo $message->toString();
 
         $mail = MailMessage::createFromMessage($message);
-        echo $mail->getRawContent();
+//        echo $mail->getRawContent();
 
         $mail = MailMessage::createNew();
         $mime = $mail->addMimePart($textContent, 'text/plain', 'UTF-8');
@@ -742,15 +753,15 @@ class MailMessageTest extends TestCase
 
         // the same handled better in encodeQuotedPrintable
         $v = Mime_Helper::encodeQuotedPrintable($value);
-        var_dump($v);
+//        var_dump($v);
 
         // this works too
         $v = \Zend\Mail\Header\HeaderWrap::mimeEncodeValue($value, 'UTF-8');
-        var_dump($v);
+//        var_dump($v);
     }
 
     /**
-     * @link https://github.com/eventum/eventum/issues/155
+     * @see https://github.com/eventum/eventum/issues/155
      */
     public function testMboxHeader()
     {
@@ -758,5 +769,38 @@ class MailMessageTest extends TestCase
         $this->assertNotEquals('MIME-Version', substr($full_message, 0, 12));
         Routing::removeMboxHeader($full_message);
         $this->assertEquals('MIME-Version', substr($full_message, 0, 12));
+    }
+
+    /**
+     * @see Mail_Queue::send for getMergedList handling
+     */
+    public function testRecipientConcat()
+    {
+        $recipients = [
+            '"Some Öne" <Some.One@example.org>',
+            'root@example.org',
+            'Root Mäe <root2@example.org>',
+        ];
+
+        $addresslist = new AddressList();
+        foreach ($recipients as $recipient) {
+            if (Mime_Helper::is8bit($recipient)) {
+                $recipient = Mime_Helper::encode($recipient);
+            }
+
+            $addresslist->addFromString($recipient);
+        }
+
+        $headers = "Message-ID: <eventum.md5.1bddof5dyu68w08.3117t0idh7ggk4@localhost>\n";
+        $headers .= "From: root@example.org\n";
+        $body = 'body';
+
+        $m = MailMessage::createFromHeaderBody($headers, $body);
+        $m->setTo($addresslist);
+
+        $exp = "\"Some =?utf-8?b?w5ZuZSI=?= <Some.One@example.org>,\r\n" .
+            " root@example.org,\r\n" .
+            ' Root =?utf-8?b?TcOkZQ==?= <root2@example.org>';
+        $this->assertEquals($exp, $m->to);
     }
 }

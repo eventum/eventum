@@ -25,8 +25,6 @@ use Setup;
  *
  * Provides methods to encrypt/decrypt a text using own private key.
  * The encrypted value is base64 encoded so it's safe to store to database.
- *
- * @package Eventum\Crypto
  */
 final class CryptoManager
 {
@@ -70,8 +68,8 @@ final class CryptoManager
      *
      * @param string $plaintext
      * @param string $key optional key to encrypt
-     * @return string
      * @throws CryptoException
+     * @return string
      */
     public static function encrypt($plaintext, $key = null)
     {
@@ -84,7 +82,7 @@ final class CryptoManager
         }
 
         try {
-            $ciphertext = Crypto::encrypt($plaintext, $key ?: self::getKey());
+            $ciphertext = Crypto::Encrypt($plaintext, $key ?: self::getKey());
         } catch (CryptoTestFailedException $e) {
             throw new CryptoException('Cannot safely perform encryption');
         } catch (CannotPerformOperationException $e) {
@@ -99,8 +97,8 @@ final class CryptoManager
      * $ciphertext is the ciphertext to decrypt.
      *
      * @param string $ciphertext
-     * @return string
      * @throws CryptoException
+     * @return string
      */
     public static function decrypt($ciphertext)
     {
@@ -109,7 +107,7 @@ final class CryptoManager
         }
 
         try {
-            $decrypted = Crypto::decrypt(base64_decode($ciphertext), self::getKey());
+            $decrypted = Crypto::Decrypt(base64_decode($ciphertext), self::getKey());
         } catch (InvalidCiphertextException $e) {
             // VERY IMPORTANT
             // Either:

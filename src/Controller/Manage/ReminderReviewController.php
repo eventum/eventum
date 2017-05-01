@@ -24,7 +24,7 @@ class ReminderReviewController extends ManageBaseController
     private $rma_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -35,7 +35,7 @@ class ReminderReviewController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -54,7 +54,7 @@ class ReminderReviewController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

@@ -50,7 +50,7 @@ class NewController extends BaseController
     private $cat;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -60,7 +60,7 @@ class NewController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -91,7 +91,7 @@ class NewController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -182,7 +182,7 @@ class NewController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {
@@ -201,7 +201,7 @@ class NewController extends BaseController
                 'field_display_settings' => Project::getFieldDisplaySettings($this->prj_id),
                 'groups' => Group::getAssocList($this->prj_id),
                 'products' => Product::getList(false),
-                'access_levels' =>  Access::getAccessLevels(),
+                'access_levels' => Access::getAccessLevels(),
             ]
         );
 
@@ -237,7 +237,7 @@ class NewController extends BaseController
     /**
      * Returns an array of variables to be set on the new issue page when cloning an issue.
      *
-     * @param integer $issue_id The ID of the issue to clone
+     * @param int $issue_id The ID of the issue to clone
      * @return array
      */
     private function getCloneIssueTemplateVariables($issue_id)

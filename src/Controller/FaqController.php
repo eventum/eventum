@@ -30,7 +30,7 @@ class FaqController extends BaseController
     private $prj_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -40,7 +40,7 @@ class FaqController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -52,7 +52,7 @@ class FaqController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -103,7 +103,7 @@ class FaqController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {
@@ -111,7 +111,7 @@ class FaqController extends BaseController
         $this->tpl->assign(
             [
                 'faqs' => FAQ::getListBySupportLevel($support_level_ids),
-                'faq' => $this->getFaqDetails($support_level_ids)
+                'faq' => $this->getFaqDetails($support_level_ids),
             ]
         );
     }

@@ -28,14 +28,14 @@ class ViewNoteController extends BaseController
     /** @var int */
     private $note_id;
 
-    /** @var  int */
+    /** @var int */
     private $usr_id;
 
     /** @var int */
     private $issue_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -45,7 +45,7 @@ class ViewNoteController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -69,14 +69,14 @@ class ViewNoteController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

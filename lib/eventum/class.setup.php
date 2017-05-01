@@ -85,7 +85,7 @@ class Setup
      * The $options are merged with existing config and then saved.
      *
      * @param array $options Options to modify (does not need to be full setup)
-     * @return integer 1 if the update worked, -1 or -2 otherwise
+     * @return int 1 if the update worked, -1 or -2 otherwise
      */
     public static function save($options = [])
     {

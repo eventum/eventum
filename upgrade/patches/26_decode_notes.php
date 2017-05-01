@@ -42,8 +42,8 @@ foreach ($res as $i => $row) {
     $log("--- issue #{$row['not_iss_id']} {$row['not_created_date']} GMT");
     $log("+++ issue #{$row['not_iss_id']} $now GMT");
     $log($diff);
-    $db->query('UPDATE {{%note}} '.
-        'SET not_note=? '.
+    $db->query('UPDATE {{%note}} ' .
+        'SET not_note=? ' .
         'WHERE not_id=?', [$note, $row['not_id']]
     );
 }

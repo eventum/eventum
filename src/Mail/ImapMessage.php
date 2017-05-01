@@ -52,7 +52,7 @@ class ImapMessage extends MailMessage
      * This is bridge while migrating to Zend Mail package supporting reading from imap extension functions.
      *
      * @param resource $mbox
-     * @param integer $num
+     * @param int $num
      * @param array $info connection information about connection
      * @return ImapMessage
      */

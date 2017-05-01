@@ -95,21 +95,23 @@ class MailMessage extends Message
     /**
      * Create Mail object from headers array and body string
      *
-     * @param array $headers
+     * @param string|array $headers
      * @param string $content
      * @return MailMessage
      */
     public static function createFromHeaderBody($headers, $content)
     {
-        foreach ($headers as $k => $v) {
-            // Zend\Mail does not like empty headers, "Cc:" for example
-            if ($v === '') {
-                unset($headers[$k]);
-            }
+        if (is_array($headers)) {
+            foreach ($headers as $k => $v) {
+                // Zend\Mail does not like empty headers, "Cc:" for example
+                if ($v === '') {
+                    unset($headers[$k]);
+                }
 
-            // also it doesn't like 8bit headers
-            if (Mime_Helper::is8bit($v)) {
-                $headers[$k] = Mime_Helper::encode($v);
+                // also it doesn't like 8bit headers
+                if (Mime_Helper::is8bit($v)) {
+                    $headers[$k] = Mime_Helper::encode($v);
+                }
             }
         }
 
@@ -158,7 +160,7 @@ class MailMessage extends Message
      * Return true if mail has attachments,
      * inline text messages are not accounted as attachments.
      *
-     * @return  boolean
+     * @return  bool
      */
     public function hasAttachments()
     {
@@ -517,7 +519,7 @@ class MailMessage extends Message
     /**
      * Set To: header
      *
-     * @param string $value
+     * @param string|AddressList $value
      */
     public function setTo($value)
     {
@@ -538,14 +540,18 @@ class MailMessage extends Message
      * Set AddressList type header a value
      *
      * @param string $name
-     * @param string $value
+     * @param string|AddressList $value
      */
     public function setAddressListHeader($name, $value)
     {
         /** @var AbstractAddressList $header */
         $header = $this->getHeader($name);
-        $addresslist = new AddressList();
-        $addresslist->addFromString($value);
+        if ($value instanceof AddressList) {
+            $addresslist = $value;
+        } else {
+            $addresslist = new AddressList();
+            $addresslist->addFromString($value);
+        }
         $header->setAddressList($addresslist);
     }
 
@@ -582,7 +588,7 @@ class MailMessage extends Message
     /**
      * Convenience method to remove address from $header AddressList.
      *
-     * @param string $header A header name, like 'To', or 'Cc'.
+     * @param string $header a header name, like 'To', or 'Cc'
      * @param string $address An email address to remove
      * @return bool
      */

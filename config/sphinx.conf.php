@@ -56,7 +56,7 @@ source eventum
 {
     type                = mysql
     # connect over unix socket
-    <?php echo $sql_sock_enabled ?>sql_sock            = <?php echo $sql_sock. "\n"; ?>
+    <?php echo $sql_sock_enabled; ?>sql_sock            = <?php echo $sql_sock . "\n"; ?>
 
     # connect over tcp
     sql_host            = <?php echo $sql_host . "\n"; ?>

@@ -17,16 +17,4 @@ use RuntimeException;
 
 class DatabaseException extends RuntimeException
 {
-    public $context;
-
-    public function setExceptionLocation($file, $line)
-    {
-        $this->file = $file;
-        $this->line = $line;
-    }
-
-    public function setContext($context)
-    {
-        $this->context = $context;
-    }
 }

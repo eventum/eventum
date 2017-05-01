@@ -126,11 +126,11 @@ composer_install() {
 	$quick && test -f ../composer.lock && cp ../composer.lock .
 
 	# first install with dev to get assets installed
-	$composer install --prefer-dist --ignore-platform-reqs
+	$composer install --prefer-dist
 
 	# and then without dev to get clean autoloader
 	mv htdocs/components htdocs/components.save
-	$composer install --prefer-dist --no-dev --ignore-platform-reqs
+	$composer install --prefer-dist --no-dev
 	mv htdocs/components.save/* htdocs/components
 	rmdir htdocs/components.save
 
@@ -305,7 +305,7 @@ prepare_source() {
 	chmod -R a+rX .
 	chmod -R a+rwX config var
 
-	# cleanup rest of the stuff, that was neccessary for release preparation process
+	# cleanup rest of the stuff, that was necessary for release preparation process
 	cleanup_postdist
 
 	phplint

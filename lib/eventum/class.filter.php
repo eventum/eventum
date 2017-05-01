@@ -22,8 +22,8 @@ class Filter
      * Method used to check whether the given custom filter is a
      * global one or not.
      *
-     * @param   integer $cst_id The custom filter ID
-     * @return  boolean
+     * @param   int $cst_id The custom filter ID
+     * @return  bool
      */
     public static function isGlobal($cst_id)
     {
@@ -51,9 +51,9 @@ class Filter
      * Method used to check whether the given user is the owner of the custom
      * filter ID.
      *
-     * @param   integer $cst_id The custom filter ID
-     * @param   integer $usr_id The user ID
-     * @return  boolean
+     * @param   int $cst_id The custom filter ID
+     * @param   int $usr_id The user ID
+     * @return  bool
      */
     public static function isOwner($cst_id, $usr_id)
     {
@@ -82,7 +82,7 @@ class Filter
      * Method used to save the changes made to an existing custom
      * filter, or to create a new custom filter.
      *
-     * @return  integer 1 if the update worked properly, any other value otherwise
+     * @return  int 1 if the update worked properly, any other value otherwise
      */
     public static function save()
     {
@@ -350,9 +350,9 @@ class Filter
      * filter title.
      *
      * @param   string $cst_title The custom filter title
-     * @return  integer The custom filter ID
+     * @return  int The custom filter ID
      */
-    public function getFilterID($cst_title)
+    public static function getFilterID($cst_title)
     {
         $stmt = 'SELECT
                     cst_id
@@ -409,7 +409,7 @@ class Filter
      * filters associated with the current user and the current
      * 'active' project.
      *
-     * @param   boolean $build_url If a URL for this filter should be constructed.
+     * @param   bool $build_url if a URL for this filter should be constructed
      * @return  array The full list of custom filters
      */
     public static function getListing($build_url = false)
@@ -479,15 +479,15 @@ class Filter
                     if ($value['filter_type'] == 'in_past') {
                         $url .= $filter['param'] . '[time_period]=' . $value['time_period'] . '&';
                     } else {
-                        $url .= $filter['param']  . '[Year]=' . $value['Year'] . '&';
-                        $url .= $filter['param']  . '[Month]=' . $value['Month'] . '&';
-                        $url .= $filter['param']  . '[Day]=' . $value['Day'] . '&';
+                        $url .= $filter['param'] . '[Year]=' . $value['Year'] . '&';
+                        $url .= $filter['param'] . '[Month]=' . $value['Month'] . '&';
+                        $url .= $filter['param'] . '[Day]=' . $value['Day'] . '&';
 
                         $end_date = $options[$field . '_end'];
                         if (!empty($end_date)) {
-                            $url .= $filter['param']  . '_end[Year]=' . $end_date['Year'] . '&';
-                            $url .= $filter['param']  . '_end[Month]=' . $end_date['Month'] . '&';
-                            $url .= $filter['param']  . '_end[Day]=' . $end_date['Day'] . '&';
+                            $url .= $filter['param'] . '_end[Year]=' . $end_date['Year'] . '&';
+                            $url .= $filter['param'] . '_end[Month]=' . $end_date['Month'] . '&';
+                            $url .= $filter['param'] . '_end[Day]=' . $end_date['Day'] . '&';
                         }
                     }
                 }
@@ -514,8 +514,8 @@ class Filter
      * Method used to get an associative array of the full details of
      * a specific custom filter.
      *
-     * @param   integer $cst_id The custom filter ID
-     * @param   boolean $check_perm Whether to check for the permissions or not
+     * @param   int $cst_id The custom filter ID
+     * @param   bool $check_perm Whether to check for the permissions or not
      * @return  array The custom filter details
      */
     public static function getDetails($cst_id, $check_perm = true)
@@ -553,7 +553,7 @@ class Filter
     /**
      * Method used to remove specific custom filters.
      *
-     * @return  integer 1 if the removals worked properly, any other value otherwise
+     * @return  int 1 if the removals worked properly, any other value otherwise
      */
     public static function remove()
     {
@@ -622,24 +622,23 @@ class Filter
                 } elseif ($filter['fld_type'] == 'integer') {
                     if ((!isset($options['custom_field'][$fld_id]['value'])) || (empty($options['custom_field'][$fld_id]['value']))) {
                         continue;
-                    } else {
-                        $filter_details = $options['custom_field'][$fld_id];
-                        switch ($filter_details['filter_type']) {
-                            case 'ge':
-                                $display = ev_gettext('%1$s or greater', $filter_details['value']);
-                                break;
-                            case 'le':
-                                $display = ev_gettext('%1$s or less', $filter_details['value']);
-                                break;
-                            case 'gt':
-                                $display = ev_gettext('Greater than %1$s', $filter_details['value']);
-                                break;
-                            case 'lt':
-                                $display = ev_gettext('Less than %1$s', $filter_details['value']);
-                                break;
-                            default:
-                                $display = $filter_details['value'];
-                        }
+                    }
+                    $filter_details = $options['custom_field'][$fld_id];
+                    switch ($filter_details['filter_type']) {
+                        case 'ge':
+                            $display = ev_gettext('%1$s or greater', $filter_details['value']);
+                            break;
+                        case 'le':
+                            $display = ev_gettext('%1$s or less', $filter_details['value']);
+                            break;
+                        case 'gt':
+                            $display = ev_gettext('Greater than %1$s', $filter_details['value']);
+                            break;
+                        case 'lt':
+                            $display = ev_gettext('Less than %1$s', $filter_details['value']);
+                            break;
+                        default:
+                            $display = $filter_details['value'];
                     }
                 } elseif (in_array($filter['fld_type'], ['multiple', 'combo'])) {
                     $display = implode(', ', Custom_Field::getOptions($fld_id, $options['custom_field'][$fld_id]));
@@ -728,8 +727,8 @@ class Filter
 
             if ($display != false) {
                 $return[$filter['title']] = [
-                    'value' =>  $display,
-                    'remove_link'   =>  'list.php?view=clearandfilter&' . self::buildUrl($filter_info, $options, $filter_key, true),
+                    'value' => $display,
+                    'remove_link' => 'list.php?view=clearandfilter&' . self::buildUrl($filter_info, $options, $filter_key, true),
                 ];
             }
         }
@@ -740,7 +739,7 @@ class Filter
     /**
      * Returns an array of information about all the different filter fields.
      *
-     * @return  array an array of information.
+     * @return  array an array of information
      */
     public static function getFiltersInfo()
     {
@@ -748,104 +747,104 @@ class Filter
         //      "title" => human readable title,
         //      "param" => name that appears in get, post or cookie
         $fields = [
-            'iss_pri_id'    =>  [
-                'title' =>  ev_gettext('Priority'),
-                'param' =>  'priority',
-                'quickfilter'   =>  true,
+            'iss_pri_id' => [
+                'title' => ev_gettext('Priority'),
+                'param' => 'priority',
+                'quickfilter' => true,
             ],
-            'iss_sev_id'    =>  [
-                'title' =>  ev_gettext('Severity'),
-                'param' =>  'severity',
-                'quickfilter'   =>  true,
+            'iss_sev_id' => [
+                'title' => ev_gettext('Severity'),
+                'param' => 'severity',
+                'quickfilter' => true,
             ],
-            'keywords'  =>  [
-                'title' =>  ev_gettext('Keyword(s)'),
-                'param' =>  'keywords',
-                'quickfilter'   =>  true,
+            'keywords' => [
+                'title' => ev_gettext('Keyword(s)'),
+                'param' => 'keywords',
+                'quickfilter' => true,
             ],
-            'users' =>  [
-                'title' =>  ev_gettext('Assigned'),
-                'param' =>  'users',
-                'quickfilter'   =>  true,
+            'users' => [
+                'title' => ev_gettext('Assigned'),
+                'param' => 'users',
+                'quickfilter' => true,
             ],
-            'iss_prc_id'    =>  [
-                'title' =>  ev_gettext('Category'),
-                'param' =>  'category',
-                'quickfilter'   =>  true,
+            'iss_prc_id' => [
+                'title' => ev_gettext('Category'),
+                'param' => 'category',
+                'quickfilter' => true,
             ],
-            'iss_sta_id'    =>  [
-                'title' =>  ev_gettext('Status'),
-                'param' =>  'status',
-                'quickfilter'   =>  true,
+            'iss_sta_id' => [
+                'title' => ev_gettext('Status'),
+                'param' => 'status',
+                'quickfilter' => true,
             ],
-            'iss_pre_id'    =>  [
-                'title' =>  ev_gettext('Release'),
-                'param' =>  'release',
+            'iss_pre_id' => [
+                'title' => ev_gettext('Release'),
+                'param' => 'release',
             ],
-            'created_date'  =>  [
-                'title' =>  ev_gettext('Created Date'),
-                'param' =>  'created_date',
-                'is_date'   =>  true,
+            'created_date' => [
+                'title' => ev_gettext('Created Date'),
+                'param' => 'created_date',
+                'is_date' => true,
             ],
-            'updated_date'  =>  [
-                'title' =>  ev_gettext('Updated Date'),
-                'param' =>  'updated_date',
-                'is_date'   =>  true,
+            'updated_date' => [
+                'title' => ev_gettext('Updated Date'),
+                'param' => 'updated_date',
+                'is_date' => true,
             ],
-            'last_response_date'  =>  [
-                'title' =>  ev_gettext('Last Response Date'),
-                'param' =>  'last_response_date',
-                'is_date'   =>  true,
+            'last_response_date' => [
+                'title' => ev_gettext('Last Response Date'),
+                'param' => 'last_response_date',
+                'is_date' => true,
             ],
-            'first_response_date'  =>  [
-                'title' =>  ev_gettext('First Response Date'),
-                'param' =>  'first_response_date',
-                'is_date'   =>  true,
+            'first_response_date' => [
+                'title' => ev_gettext('First Response Date'),
+                'param' => 'first_response_date',
+                'is_date' => true,
             ],
-            'closed_date'  =>  [
-                'title' =>  ev_gettext('Closed Date'),
-                'param' =>  'closed_date',
-                'is_date'   =>  true,
+            'closed_date' => [
+                'title' => ev_gettext('Closed Date'),
+                'param' => 'closed_date',
+                'is_date' => true,
             ],
-            'rows'  =>  [
-                'title' =>  ev_gettext('Rows Per Page'),
-                'param' =>  'rows',
+            'rows' => [
+                'title' => ev_gettext('Rows Per Page'),
+                'param' => 'rows',
             ],
-            'sort_by'   =>  [
-                'title' =>  ev_gettext('Sort By'),
-                'param' =>  'sort_by',
+            'sort_by' => [
+                'title' => ev_gettext('Sort By'),
+                'param' => 'sort_by',
             ],
-            'sort_order'    =>  [
-                'title' =>  ev_gettext('Sort Order'),
-                'param' =>  'sort_order',
+            'sort_order' => [
+                'title' => ev_gettext('Sort Order'),
+                'param' => 'sort_order',
             ],
-            'hide_closed'   =>  [
-                'title' =>  ev_gettext('Hide Closed Issues'),
-                'param' =>  'hide_closed',
+            'hide_closed' => [
+                'title' => ev_gettext('Hide Closed Issues'),
+                'param' => 'hide_closed',
             ],
-            'show_authorized'   =>  [
-                'title' =>  ev_gettext('Authorized to Send Emails'),
-                'param' =>  'show_authorized_issues',
+            'show_authorized' => [
+                'title' => ev_gettext('Authorized to Send Emails'),
+                'param' => 'show_authorized_issues',
             ],
-            'show_notification_list'    =>  [
-                'title' =>  ev_gettext('In Notification List'),
-                'param' =>  'show_notification_list_issues',
+            'show_notification_list' => [
+                'title' => ev_gettext('In Notification List'),
+                'param' => 'show_notification_list_issues',
             ],
-            'search_type'   =>  [
-                'title' =>  ev_gettext('Search Type'),
-                'param' =>  'search_type',
+            'search_type' => [
+                'title' => ev_gettext('Search Type'),
+                'param' => 'search_type',
             ],
-            'reporter'  =>  [
-                'title' =>  ev_gettext('Reporter'),
-                'param' =>  'reporter',
+            'reporter' => [
+                'title' => ev_gettext('Reporter'),
+                'param' => 'reporter',
             ],
-            'customer_id' =>  [
-                'title' =>  ev_gettext('Customer'),
-                'param' =>  'customer_id',
+            'customer_id' => [
+                'title' => ev_gettext('Customer'),
+                'param' => 'customer_id',
             ],
-            'pro_id'   =>  [
-                'title' =>  ev_gettext('Product'),
-                'param' =>  'product',
+            'pro_id' => [
+                'title' => ev_gettext('Product'),
+                'param' => 'product',
             ],
         ];
 
@@ -855,10 +854,10 @@ class Filter
             foreach ($custom_fields as $fld_id) {
                 $field = Custom_Field::getDetails($fld_id);
                 $fields['custom_field_' . $fld_id] = [
-                    'title' =>  $field['fld_title'],
-                    'is_custom' =>  1,
-                    'fld_id'    =>  $fld_id,
-                    'fld_type'  =>  $field['fld_type'],
+                    'title' => $field['fld_title'],
+                    'is_custom' => 1,
+                    'fld_id' => $fld_id,
+                    'fld_type' => $field['fld_type'],
                 ];
             }
         }

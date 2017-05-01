@@ -29,103 +29,103 @@ class Help
         // we need this in function as function calls are not allowed in static properties
         self::$topics = [
             'main' => [
-                'title'  => ev_gettext('Help Topics'),
+                'title' => ev_gettext('Help Topics'),
                 'parent' => '',
             ],
             'report' => [
-                'title'  => ev_gettext('Reporting Issues'),
+                'title' => ev_gettext('Reporting Issues'),
                 'parent' => 'main',
             ],
             'report_category' => [
-                'title'  => ev_gettext('Category Field'),
+                'title' => ev_gettext('Category Field'),
                 'parent' => 'report',
             ],
             'report_priority' => [
-                'title'  => ev_gettext('Priority Field'),
+                'title' => ev_gettext('Priority Field'),
                 'parent' => 'report',
             ],
             'report_assignment' => [
-                'title'  => ev_gettext('Assignment Field'),
+                'title' => ev_gettext('Assignment Field'),
                 'parent' => 'report',
             ],
             'report_release' => [
-                'title'  => ev_gettext('Scheduled Release Field'),
+                'title' => ev_gettext('Scheduled Release Field'),
                 'parent' => 'report',
             ],
             'report_summary' => [
-                'title'  => ev_gettext('Summary Field'),
+                'title' => ev_gettext('Summary Field'),
                 'parent' => 'report',
             ],
             'report_description' => [
-                'title'  => ev_gettext('Description Field'),
+                'title' => ev_gettext('Description Field'),
                 'parent' => 'report',
             ],
             'report_estimated_dev_time' => [
-                'title'  => ev_gettext('Estimated Development Time Field'),
+                'title' => ev_gettext('Estimated Development Time Field'),
                 'parent' => 'report',
             ],
             'scm_integration' => [
-                'title'  => ev_gettext('SCM Integration'),
+                'title' => ev_gettext('SCM Integration'),
                 'parent' => 'main',
             ],
             'scm_integration_usage' => [
-                'title'  => ev_gettext('Usage Examples'),
+                'title' => ev_gettext('Usage Examples'),
                 'parent' => 'scm_integration',
             ],
             'scm_integration_installation' => [
-                'title'  => ev_gettext('Installation Instructions'),
+                'title' => ev_gettext('Installation Instructions'),
                 'parent' => 'scm_integration',
             ],
             'list' => [
-                'title'  => ev_gettext('Listing / Searching for Issues'),
+                'title' => ev_gettext('Listing / Searching for Issues'),
                 'parent' => 'main',
             ],
             'adv_search' => [
-                'title'  => ev_gettext('Advanced Search / Creating Custom Queries'),
+                'title' => ev_gettext('Advanced Search / Creating Custom Queries'),
                 'parent' => 'main',
             ],
             'support_emails' => [
-                'title'  => ev_gettext('Associate Emails'),
+                'title' => ev_gettext('Associate Emails'),
                 'parent' => 'main',
             ],
             'preferences' => [
-                'title'  => ev_gettext('Account Preferences'),
+                'title' => ev_gettext('Account Preferences'),
                 'parent' => 'main',
             ],
             'notifications' => [
-                'title'  => ev_gettext('Email Notifications'),
+                'title' => ev_gettext('Email Notifications'),
                 'parent' => 'main',
             ],
             'view' => [
-                'title'  => ev_gettext('Viewing Issues'),
+                'title' => ev_gettext('Viewing Issues'),
                 'parent' => 'main',
             ],
             'email_blocking' => [
-                'title'  => ev_gettext('Email Blocking'),
+                'title' => ev_gettext('Email Blocking'),
                 'parent' => 'main',
             ],
             'link_filters' => [
-                'title'  => ev_gettext('Link Filters'),
+                'title' => ev_gettext('Link Filters'),
                 'parent' => 'main',
             ],
             'field_display' => [
-                'title'  => ev_gettext('Edit Fields to Display'),
+                'title' => ev_gettext('Edit Fields to Display'),
                 'parent' => 'main',
             ],
             'column_display' => [
-                'title'  => ev_gettext('Edit Columns to Display'),
+                'title' => ev_gettext('Edit Columns to Display'),
                 'parent' => 'main',
             ],
             'customize_listing' => [
-                'title'  => ev_gettext('Customize Issue Listing Screen'),
+                'title' => ev_gettext('Customize Issue Listing Screen'),
                 'parent' => 'main',
             ],
             'segregate_reporter' => [
-                'title'  => ev_gettext('Segregate Reporters'),
+                'title' => ev_gettext('Segregate Reporters'),
                 'parent' => 'main',
             ],
             'permission_levels' => [
-                'title'  => ev_gettext('User Permission Levels'),
+                'title' => ev_gettext('User Permission Levels'),
                 'parent' => 'main',
             ],
         ];
@@ -140,7 +140,7 @@ class Help
      * otherwise.
      *
      * @param   string $topic The topic title to check for
-     * @return  boolean Whether the topic exists or not
+     * @return  bool Whether the topic exists or not
      */
     public static function topicExists($topic)
     {
@@ -148,9 +148,9 @@ class Help
 
         if (isset($topics[$topic])) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -167,12 +167,12 @@ class Help
         $child = @$topics[$topic];
         if (empty($child['parent'])) {
             return false;
-        } else {
-            return [
+        }
+
+        return [
                 'topic' => $child['parent'],
                 'title' => $topics[$child['parent']]['title'],
             ];
-        }
     }
 
     /**
@@ -197,9 +197,9 @@ class Help
         }
         if (count($links) == 0) {
             return '';
-        } else {
-            return $links;
         }
+
+        return $links;
     }
 
     /**

@@ -113,31 +113,31 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
             }
 
             return $usr_id;
-        } else {
-            // create new local user
-            $setup = self::loadSetup();
-            if ($setup['create_users'] == false) {
-                throw new AuthException('User does not exist and will not be created.');
-            }
-            $data['role'] = $setup['default_role'];
+        }
 
-            $emails = [$remote['mail']];
-            if (count($emails) < 1) {
-                throw new AuthException('E-mail is required');
-            }
-            $data['email'] = array_shift($emails);
+        // create new local user
+        $setup = self::loadSetup();
+        if ($setup['create_users'] == false) {
+            throw new AuthException('User does not exist and will not be created.');
+        }
+        $data['role'] = $setup['default_role'];
 
-            if (!empty($data['customer_id']) && !empty($data['contact_id'])) {
-                foreach ($data['role'] as $prj_id => $role) {
-                    if ($role > 0) {
-                        $data['role'][$prj_id] = User::ROLE_CUSTOMER;
-                    }
+        $emails = [$remote['mail']];
+        if (count($emails) < 1) {
+            throw new AuthException('E-mail is required');
+        }
+        $data['email'] = array_shift($emails);
+
+        if (!empty($data['customer_id']) && !empty($data['contact_id'])) {
+            foreach ($data['role'] as $prj_id => $role) {
+                if ($role > 0) {
+                    $data['role'][$prj_id] = User::ROLE_CUSTOMER;
                 }
             }
-            $usr_id = User::insert($data);
-            if ($usr_id > 0 && $emails) {
-                $this->updateAliases($usr_id, $emails);
-            }
+        }
+        $usr_id = User::insert($data);
+        if ($usr_id > 0 && $emails) {
+            $this->updateAliases($usr_id, $emails);
         }
 
         return $usr_id;
@@ -156,7 +156,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
      *
      * @param   string $login The login or email to check for
      * @param   string $password The password of the user to check for
-     * @return  boolean
+     * @return  bool
      */
     public function verifyPassword($login, $password)
     {
@@ -166,9 +166,9 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
     /**
      * Method used to update the account password for a specific user.
      *
-     * @param   integer $usr_id The user ID
-     * @param   string $password The password.
-     * @return  boolean true if update worked, false otherwise
+     * @param   int $usr_id The user ID
+     * @param   string $password the password
+     * @return  bool true if update worked, false otherwise
      */
     public function updatePassword($usr_id, $password)
     {
@@ -232,8 +232,8 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
     /**
      * Increment the failed logins attempts for this user
      *
-     * @param   integer $usr_id The ID of the user
-     * @return  boolean
+     * @param   int $usr_id The ID of the user
+     * @return  bool
      */
     public function incrementFailedLogins($usr_id)
     {
@@ -243,8 +243,8 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
     /**
      * Reset the failed logins attempts for this user
      *
-     * @param   integer $usr_id The ID of the user
-     * @return  boolean
+     * @param   int $usr_id The ID of the user
+     * @return  bool
      */
     public function resetFailedLogins($usr_id)
     {
@@ -254,8 +254,8 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
     /**
      * Returns the true if the account is currently locked because of Back-Off locking
      *
-     * @param   integer $usr_id The ID of the user
-     * @return  boolean
+     * @param   int $usr_id The ID of the user
+     * @return  bool
      */
     public function isUserBackOffLocked($usr_id)
     {
@@ -326,7 +326,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
         $defaults = [
             'host' => 'localhost',
             'port' => 443,
-            'context'   =>  '/cas',
+            'context' => '/cas',
             'customer_id_attribute' => '',
             'contact_id_attribute' => '',
             'create_users' => null,
@@ -346,7 +346,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
     /**
      * Returns true if the user should automatically be redirected to the external login URL, false otherwise
      *
-     * @return  boolean
+     * @return  bool
      */
     public function autoRedirectToExternalLogin()
     {

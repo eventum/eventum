@@ -23,10 +23,10 @@ class Reminder_Action
      * Method used to quickly change the ranking of a reminder action
      * from the administration screen.
      *
-     * @param   integer $rem_id The reminder ID
-     * @param   integer $rma_id The reminder action ID
+     * @param   int $rem_id The reminder ID
+     * @param   int $rma_id The reminder action ID
      * @param   string $rank_type Whether we should change the entry down or up (options are 'asc' or 'desc')
-     * @return  boolean
+     * @return  bool
      */
     public static function changeRank($rem_id, $rma_id, $rank_type)
     {
@@ -74,7 +74,7 @@ class Reminder_Action
      * Returns an associative array with the list of reminder action
      * IDs and their respective ranking.
      *
-     * @param   integer $rem_id The reminder ID
+     * @param   int $rem_id The reminder ID
      * @return  array The list of reminder actions
      */
     private function _getRanking($rem_id)
@@ -100,7 +100,7 @@ class Reminder_Action
     /**
      * Method used to get the title of a specific reminder action.
      *
-     * @param   integer $rma_id The reminder action ID
+     * @param   int $rma_id The reminder action ID
      * @return  string The title of the reminder action
      */
     public static function getTitle($rma_id)
@@ -123,7 +123,7 @@ class Reminder_Action
     /**
      * Method used to get the details for a specific reminder action.
      *
-     * @param   integer $rma_id The reminder action ID
+     * @param   int $rma_id The reminder action ID
      * @return  array The details for the specified reminder action
      */
     public static function getDetails($rma_id)
@@ -151,7 +151,7 @@ class Reminder_Action
     /**
      * Method used to create a new reminder action.
      *
-     * @return  integer 1 if the insert worked, -1 or -2 otherwise
+     * @return  int 1 if the insert worked, -1 or -2 otherwise
      */
     public static function insert()
     {
@@ -199,10 +199,10 @@ class Reminder_Action
      * Returns the list of users associated with a given reminder
      * action ID
      *
-     * @param   integer $rma_id The reminder action ID
+     * @param   int $rma_id The reminder action ID
      * @return  array The list of associated users
      */
-    public function getUserList($rma_id)
+    public static function getUserList($rma_id)
     {
         $stmt = 'SELECT
                     ral_usr_id,
@@ -233,11 +233,10 @@ class Reminder_Action
      * Method used to associate a list of users with a given reminder
      * action ID
      *
-     * @param   integer $rma_id The reminder action ID
+     * @param   int $rma_id The reminder action ID
      * @param   array $user_list The list of users
-     * @return  void
      */
-    public function associateUserList($rma_id, $user_list)
+    public static function associateUserList($rma_id, $user_list)
     {
         foreach ($user_list as $user) {
             if (!Validation::isEmail($user)) {
@@ -263,7 +262,7 @@ class Reminder_Action
     /**
      * Method used to update the details of a specific reminder action.
      *
-     * @return  integer 1 if the update worked, -1 or -2 otherwise
+     * @return  int 1 if the update worked, -1 or -2 otherwise
      */
     public static function update()
     {
@@ -309,10 +308,10 @@ class Reminder_Action
      * Checks whether the given reminder action type is one where a
      * list of users is used or not.
      *
-     * @param   integer $rmt_id The reminder action type ID
-     * @return  boolean
+     * @param   int $rmt_id The reminder action type ID
+     * @return  bool
      */
-    public function isUserList($rmt_id)
+    public static function isUserList($rmt_id)
     {
         $stmt = 'SELECT
                     rmt_type
@@ -341,10 +340,9 @@ class Reminder_Action
     /**
      * Removes the full user list for a given reminder action ID.
      *
-     * @param   integer $rma_id The reminder action ID
-     * @return  void
+     * @param   int $rma_id The reminder action ID
      */
-    public function clearActionUserList($rma_id)
+    public static function clearActionUserList($rma_id)
     {
         if (!is_array($rma_id)) {
             $rma_id = [$rma_id];
@@ -362,7 +360,7 @@ class Reminder_Action
      * Method used to remove reminder actions by using the administrative
      * interface of the system.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function remove($action_ids)
     {
@@ -416,7 +414,7 @@ class Reminder_Action
      * Method used to get the list of reminder actions to be displayed in the
      * administration section.
      *
-     * @param   integer $rem_id The reminder ID
+     * @param   int $rem_id The reminder ID
      * @return  array The list of reminder actions
      */
     public static function getAdminList($rem_id)
@@ -460,7 +458,7 @@ class Reminder_Action
      * Method used to get the list of reminder actions associated with a given
      * reminder ID.
      *
-     * @param   integer $reminder_id The reminder ID
+     * @param   int $reminder_id The reminder ID
      * @return  array The list of reminder actions
      */
     public static function getList($reminder_id)
@@ -489,10 +487,10 @@ class Reminder_Action
     /**
      * Method used to get the title of a reminder action type.
      *
-     * @param   integer $rmt_id The reminder action type
+     * @param   int $rmt_id The reminder action type
      * @return  string The action type title
      */
-    public function getActionType($rmt_id)
+    public static function getActionType($rmt_id)
     {
         $stmt = 'SELECT
                     rmt_type
@@ -513,11 +511,11 @@ class Reminder_Action
      * Method used to save a history entry about the execution of the current
      * reminder.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $rma_id The reminder action ID
-     * @return  boolean
+     * @param   int $issue_id The issue ID
+     * @param   int $rma_id The reminder action ID
+     * @return  bool
      */
-    public function saveHistory($issue_id, $rma_id)
+    public static function saveHistory($issue_id, $rma_id)
     {
         $stmt = 'INSERT INTO
                     {{%reminder_history}}
@@ -540,10 +538,10 @@ class Reminder_Action
     /**
      * Method used to perform a specific action to an issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   array $reminder The reminder details
      * @param   array $action The action details
-     * @return  boolean
+     * @return  bool
      */
     public static function perform($issue_id, $reminder, $action)
     {
@@ -714,10 +712,10 @@ class Reminder_Action
             $tpl = new Template_Helper();
             $tpl->setTemplate('reminders/' . $type . '_alert.tpl.text');
             $tpl->assign([
-                'data'                     => $data,
-                'reminder'                 => $reminder,
-                'action'                   => $action,
-                'conditions'               => $conditions,
+                'data' => $data,
+                'reminder' => $reminder,
+                'action' => $action,
+                'conditions' => $conditions,
                 'has_customer_integration' => CRM::hasCustomerIntegration(Issue::getProjectID($issue_id)),
             ]);
             $text_message = $tpl->getTemplateContents();
@@ -725,11 +723,9 @@ class Reminder_Action
                 // send email (use PEAR's classes)
                 $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
-                $setup = Mail_Helper::getSMTPSettings();
-
                 // TRANSLATORS: %1 - issue_id, %2 - rma_title
                 $subject = ev_gettext('[#%1$s] Reminder: %2$s', $issue_id, $action['rma_title']);
-                $mail->send($setup['from'], $address, $subject, 0, $issue_id, 'reminder');
+                $mail->send(null, $address, $subject, 0, $issue_id, 'reminder');
             }
         }
         // - eventum saves the day once again
@@ -741,11 +737,10 @@ class Reminder_Action
      * a reminder action was triggered, but no action was really
      * taken because no recipients could be found.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $type Which reminder are we trying to send, email or sms
      * @param   array $reminder The reminder details
      * @param   array $action The action details
-     * @return  void
      */
     private function _recordNoRecipientError($issue_id, $type, $reminder, $action, $data, $conditions)
     {
@@ -754,11 +749,11 @@ class Reminder_Action
             $tpl = new Template_Helper();
             $tpl->setTemplate('reminders/alert_no_recipients.tpl.text');
             $tpl->assign([
-                'type'                     => $type,
-                'data'                     => $data,
-                'reminder'                 => $reminder,
-                'action'                   => $action,
-                'conditions'               => $conditions,
+                'type' => $type,
+                'data' => $data,
+                'reminder' => $reminder,
+                'action' => $action,
+                'conditions' => $conditions,
                 'has_customer_integration' => CRM::hasCustomerIntegration(Issue::getProjectID($issue_id)),
             ]);
             $text_message = $tpl->getTemplateContents();
@@ -766,10 +761,9 @@ class Reminder_Action
                 // send email (use PEAR's classes)
                 $mail = new Mail_Helper();
                 $mail->setTextBody($text_message);
-                $setup = Mail_Helper::getSMTPSettings();
                 // TRANSLATORS: %1 = issue_id, %2 - rma_title
                 $subject = ev_gettext('[#%1$s] Reminder Not Triggered: [#%2$s]', $issue_id, $action['rma_title']);
-                $mail->send($setup['from'], $address, $subject, 0, $issue_id);
+                $mail->send(null, $address, $subject, 0, $issue_id);
             }
         }
     }
@@ -779,7 +773,7 @@ class Reminder_Action
      * were last triggered for the given reminder action ID.
      *
      * @param   array $issues The list of issue IDs
-     * @param   integer $rma_id The reminder action ID
+     * @param   int $rma_id The reminder action ID
      * @return  array The list of issue IDs
      */
     public static function getRepeatActions($issues, $rma_id)
@@ -819,11 +813,11 @@ class Reminder_Action
      * Records the last triggered reminder action for a given
      * issue ID.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $rma_id The reminder action ID
-     * @return  boolean
+     * @param   int $issue_id The issue ID
+     * @param   int $rma_id The reminder action ID
+     * @return  bool
      */
-    public function recordLastTriggered($issue_id, $rma_id)
+    public static function recordLastTriggered($issue_id, $rma_id)
     {
         $stmt = 'SELECT
                     COUNT(*)
@@ -865,8 +859,8 @@ class Reminder_Action
     /**
      * Clears the last triggered reminder for a given issue ID.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  boolean
+     * @param   int $issue_id The issue ID
+     * @return  bool
      */
     public static function clearLastTriggered($issue_id)
     {

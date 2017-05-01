@@ -12,14 +12,14 @@
  */
 
 // if gettext disabled (cli app) then return early
-if (defined('APP_NO_GETTEXT')) {
+if (defined('APP_NO_GETTEXT') || !defined('APP_PATH')) {
     return;
 }
 
-// if there is no gettext support built into PHP, or we are running in language compatability mode include PHP-gettext
+// if there is no gettext support built into PHP, or we are running in language compatibility mode include PHP-gettext
 if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_MODE == 'php')) {
     /** @noinspection PhpIncludeInspection */
-    require_once APP_PHP_GETTEXT_PATH. '/gettext.inc';
+    require_once APP_PHP_GETTEXT_PATH . '/gettext.inc';
 
     function ev_gettext($string)
     {
@@ -31,9 +31,9 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
             $string = _gettext($string);
 
             return vsprintf($string, $arg);
-        } else {
-            return _gettext($string);
         }
+
+        return _gettext($string);
     }
     function ev_ngettext($string, $plural, $number)
     {
@@ -51,9 +51,9 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
             $string = gettext($string);
 
             return vsprintf($string, $arg);
-        } else {
-            return gettext($string);
         }
+
+        return gettext($string);
     }
 
     function ev_ngettext($string, $plural, $number)

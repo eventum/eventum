@@ -19,11 +19,11 @@ class Round_Robin
      * Returns the blackout dates according to the user's timezone.
      *
      * @param   DateTime $date The DateTime object associated with the user's timezone
-     * @param   integer $start The blackout start hour
-     * @param   integer $end The blackout end hour
+     * @param   int $start The blackout start hour
+     * @param   int $end The blackout end hour
      * @return  array The blackout dates
      */
-    public function getBlackoutDates($date, $start, $end)
+    public static function getBlackoutDates($date, $start, $end)
     {
         $start = substr($start, 0, 2);
         $end = substr($end, 0, 2);
@@ -87,8 +87,8 @@ class Round_Robin
     /**
      * Retrieves the next assignee in the given project's round robin queue.
      *
-     * @param   integer $prj_id The project ID
-     * @return  integer The assignee's user ID
+     * @param   int $prj_id The project ID
+     * @return  int The assignee's user ID
      */
     public static function getNextAssignee($prj_id)
     {
@@ -96,78 +96,79 @@ class Round_Robin
         list($blackout_start, $blackout_end, $users) = self::getUsersByProject($prj_id);
         if (count($users) == 0) {
             return 0;
-        } else {
-            $user_ids = array_keys($users);
-            $next_usr_id = 0;
-            foreach ($users as $usr_id => $details) {
-                if ($details['is_next']) {
-                    $next_usr_id = $usr_id;
+        }
+        $user_ids = array_keys($users);
+        $next_usr_id = 0;
+        foreach ($users as $usr_id => $details) {
+            if ($details['is_next']) {
+                $next_usr_id = $usr_id;
+                break;
+            }
+        }
+
+        // if no user is currently set as the 'next' assignee,
+        // then just get the first one in the list
+        if (empty($next_usr_id)) {
+            $next_usr_id = $user_ids[0];
+        }
+        // counter to keep the number of times we found an invalid user
+        $ignored_users = 0;
+        // check the blackout hours
+        do {
+            $timezone = $users[$next_usr_id]['timezone'];
+            $user = Date_Helper::getDateTime(false, $timezone);
+            list($today, $tomorrow) = self::getBlackoutDates($user, $blackout_start, $blackout_end);
+            $first = Date_Helper::getDateTime($today . ' ' . $blackout_start, $timezone);
+            $second = Date_Helper::getDateTime($tomorrow . ' ' . $blackout_end, $timezone);
+
+            if ($first < $user && $user < $second) {
+                $ignored_users++;
+                $current_index = array_search($next_usr_id, $user_ids);
+                // if we reached the end of the list of users and none of them
+                // was a valid one, then just select the first one
+                // however, we want to complete at least one full iteration over the list of users
+                // that is, if we didn't start checking the users in the beginning of the list,
+                // then do another run over the users just in case
+                if (($ignored_users >= count($user_ids)) && ($current_index == (count($user_ids) - 1))) {
+                    $assignee = $user_ids[0];
                     break;
                 }
-            }
-            // if no user is currently set as the 'next' assignee,
-            // then just get the first one in the list
-            if (empty($next_usr_id)) {
-                $next_usr_id = $user_ids[0];
-            }
-            // counter to keep the number of times we found an invalid user
-            $ignored_users = 0;
-            // check the blackout hours
-            do {
-                $timezone = $users[$next_usr_id]['timezone'];
-                $user = Date_Helper::getDateTime(false, $timezone);
-                list($today, $tomorrow) = self::getBlackoutDates($user, $blackout_start, $blackout_end);
-                $first = Date_Helper::getDateTime($today . ' ' . $blackout_start, $timezone);
-                $second = Date_Helper::getDateTime($tomorrow . ' ' . $blackout_end, $timezone);
-
-                if ($first < $user && $user < $second) {
-                    $ignored_users++;
-                    $current_index = array_search($next_usr_id, $user_ids);
-                    // if we reached the end of the list of users and none of them
-                    // was a valid one, then just select the first one
-                    // however, we want to complete at least one full iteration over the list of users
-                    // that is, if we didn't start checking the users in the beginning of the list,
-                    // then do another run over the users just in case
-                    if (($ignored_users >= count($user_ids)) && ($current_index == (count($user_ids) - 1))) {
-                        $assignee = $user_ids[0];
-                        break;
-                    }
-                    // if we reached the end of the list, and we still didn't find an user,
-                    // then go back to the beginning of the list one last time
-                    if ($current_index == (count($user_ids) - 1)) {
-                        $current_index = 0;
-                        $next_usr_id = $user_ids[++$current_index];
-                        continue;
-                    }
+                // if we reached the end of the list, and we still didn't find an user,
+                // then go back to the beginning of the list one last time
+                if ($current_index == (count($user_ids) - 1)) {
+                    $current_index = 0;
                     $next_usr_id = $user_ids[++$current_index];
-                    $found = 0;
-                } else {
-                    $assignee = $next_usr_id;
-                    $found = 1;
+                    continue;
                 }
-            } while (!$found);
-            // mark the next user in the list as the 'next' assignment
-            $assignee_index = array_search($assignee, $user_ids);
-            if ($assignee_index == (count($user_ids) - 1)) {
-                $next_assignee = $user_ids[0];
+                $next_usr_id = $user_ids[++$current_index];
+                $found = 0;
             } else {
-                $next_assignee = $user_ids[++$assignee_index];
+                $assignee = $next_usr_id;
+                $found = 1;
             }
-            self::markNextAssignee($prj_id, $next_assignee);
+        } while (!$found);
 
-            return $assignee;
+        // mark the next user in the list as the 'next' assignment
+        $assignee_index = array_search($assignee, $user_ids);
+        if ($assignee_index == (count($user_ids) - 1)) {
+            $next_assignee = $user_ids[0];
+        } else {
+            $next_assignee = $user_ids[++$assignee_index];
         }
+        self::markNextAssignee($prj_id, $next_assignee);
+
+        return $assignee;
     }
 
     /**
      * Marks the next user in the round robin list as the next assignee in the
      * round robin queue.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $usr_id The assignee's user ID
-     * @return  boolean
+     * @param   int $prj_id The project ID
+     * @param   int $usr_id The assignee's user ID
+     * @return  bool
      */
-    public function markNextAssignee($prj_id, $usr_id)
+    public static function markNextAssignee($prj_id, $usr_id)
     {
         $prr_id = self::getID($prj_id);
         $stmt = 'UPDATE
@@ -201,10 +202,10 @@ class Round_Robin
     /**
      * Returns the round robin entry ID associated with a given project.
      *
-     * @param   integer $prj_id The project ID
-     * @return  integer The round robin entry ID
+     * @param   int $prj_id The project ID
+     * @return  int The round robin entry ID
      */
-    public function getID($prj_id)
+    public static function getID($prj_id)
     {
         $stmt = 'SELECT
                     prr_id
@@ -225,10 +226,10 @@ class Round_Robin
      * Retrieves the list of users, round robin blackout hours and their
      * respective preferences with regards to timezones.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of users
      */
-    public function getUsersByProject($prj_id)
+    public static function getUsersByProject($prj_id)
     {
         $stmt = 'SELECT
                     usr_id,
@@ -260,7 +261,7 @@ class Round_Robin
             $prefs = Prefs::get($row['usr_id']);
             $t[$row['usr_id']] = [
                 'timezone' => $prefs['timezone'],
-                'is_next'  => $row['rru_next'],
+                'is_next' => $row['rru_next'],
             ];
         }
 
@@ -274,7 +275,7 @@ class Round_Robin
     /**
      * Creates a new round robin entry.
      *
-     * @return  integer 1 if the creation worked, -1 otherwise
+     * @return  int 1 if the creation worked, -1 otherwise
      */
     public static function insert()
     {
@@ -307,11 +308,11 @@ class Round_Robin
     /**
      * Associates a round robin entry with a user ID.
      *
-     * @param   integer $prr_id The round robin entry ID
-     * @param   integer $usr_id The user ID
-     * @return  boolean
+     * @param   int $prr_id The round robin entry ID
+     * @param   int $usr_id The user ID
+     * @return  bool
      */
-    public function addUserAssociation($prr_id, $usr_id)
+    public static function addUserAssociation($prr_id, $usr_id)
     {
         $stmt = 'INSERT INTO
                     {{%round_robin_user}}
@@ -367,10 +368,10 @@ class Round_Robin
      * Returns an associative array in the form of user id => name of the users
      * associated to a given round robin entry ID.
      *
-     * @param   integer $prr_id The round robin entry ID
+     * @param   int $prr_id The round robin entry ID
      * @return  array The list of users
      */
-    public function getAssociatedUsers($prr_id)
+    public static function getAssociatedUsers($prr_id)
     {
         $stmt = 'SELECT
                     usr_id,
@@ -395,7 +396,7 @@ class Round_Robin
     /**
      * Method used to get the details of a round robin entry.
      *
-     * @param   integer $prr_id The round robin entry ID
+     * @param   int $prr_id The round robin entry ID
      * @return  array The round robin entry details
      */
     public static function getDetails($prr_id)
@@ -421,7 +422,7 @@ class Round_Robin
     /**
      * Method used to update a round robin entry in the system.
      *
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function update()
     {
@@ -454,10 +455,10 @@ class Round_Robin
      * Method used to remove the user associations for a given round robin
      * entry ID.
      *
-     * @param   integer $prr_id The round robin ID
-     * @return  boolean
+     * @param   int $prr_id The round robin ID
+     * @return  bool
      */
-    public function removeUserAssociations($prr_id)
+    public static function removeUserAssociations($prr_id)
     {
         if (!is_array($prr_id)) {
             $prr_id = [$prr_id];
@@ -479,7 +480,7 @@ class Round_Robin
     /**
      * Method used to remove a round robin entry from the system.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function remove()
     {

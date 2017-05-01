@@ -22,15 +22,15 @@ class Authorized_Replier
      * Method used to get the full list of users (the full names) authorized to
      * reply to emails in a given issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The list of users
      */
     public static function getAuthorizedRepliers($issue_id)
     {
         // split into users and others (those with email address but no real user accounts)
         $repliers = [
-            'users' =>  [],
-            'other' =>  [],
+            'users' => [],
+            'other' => [],
         ];
 
         $stmt = "SELECT
@@ -79,7 +79,7 @@ class Authorized_Replier
     /**
      * Removes the specified authorized replier
      *
-     * @param   integer[] $iur_ids The ids of the authorized repliers
+     * @param   int[] $iur_ids The ids of the authorized repliers
      * @return int
      */
     public static function removeRepliers($iur_ids)
@@ -114,7 +114,7 @@ class Authorized_Replier
             $usr_id = Auth::getUserID();
             History::add($issue_id, $usr_id, 'replier_removed', 'Authorized replier {replier} removed by {user}', [
                 'replier' => $replier,
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
 
             return 1;
@@ -124,9 +124,9 @@ class Authorized_Replier
     /**
      * Adds the specified email address to the list of authorized users.
      *
-     * @param   integer $issue_id The id of the issue.
-     * @param   string $email The email of the user.
-     * @param   boolean $add_history If this should be logged.
+     * @param   int $issue_id the id of the issue
+     * @param   string $email the email of the user
+     * @param   bool $add_history if this should be logged
      * @return int
      */
     public static function manualInsert($issue_id, $email, $add_history = true)
@@ -173,7 +173,7 @@ class Authorized_Replier
             $usr_id = Auth::getUserID();
             History::add($issue_id, $usr_id, 'replier_other_added', '{email} added to the authorized repliers list by {user}', [
                 'email' => $email,
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
@@ -183,9 +183,9 @@ class Authorized_Replier
     /**
      * Adds a real user to the authorized repliers list.
      *
-     * @param   integer $issue_id The id of the issue.
-     * @param   integer $usr_id The id of the user.
-     * @param   boolean $add_history If this should be logged.
+     * @param   int $issue_id the id of the issue
+     * @param   int $usr_id the id of the user
+     * @param   bool $add_history if this should be logged
      */
     public static function addUser($issue_id, $usr_id, $add_history = true)
     {
@@ -213,7 +213,7 @@ class Authorized_Replier
             $current_usr_id = Auth::getUserID();
             History::add($issue_id, $current_usr_id, 'replier_added', '{other_user} added to the authorized repliers list by {user}', [
                 'other_user' => User::getFullName($usr_id),
-                'user' => User::getFullName($current_usr_id)
+                'user' => User::getFullName($current_usr_id),
             ]);
         }
 
@@ -223,9 +223,9 @@ class Authorized_Replier
     /**
      * Returns if the specified user is authorized to reply to this issue.
      *
-     * @param   integer $issue_id The id of the issue.
-     * @param   string  $email The email address to check.
-     * @return  boolean If the specified user is allowed to reply to the issue.
+     * @param   int $issue_id the id of the issue
+     * @param   string  $email the email address to check
+     * @return  bool if the specified user is allowed to reply to the issue
      */
     public static function isAuthorizedReplier($issue_id, $email)
     {
@@ -259,17 +259,17 @@ class Authorized_Replier
 
         if ($res > 0) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Returns if the specified usr_id is authorized to reply.
      *
-     * @param   integer $issue_id The id of the issue
-     * @param   integer $usr_id The id of the user.
-     * @return  boolean If the user is authorized to reply.
+     * @param   int $issue_id The id of the issue
+     * @param   int $usr_id the id of the user
+     * @return  bool if the user is authorized to reply
      */
     public static function isUserAuthorizedReplier($issue_id, $usr_id)
     {
@@ -288,18 +288,18 @@ class Authorized_Replier
 
         if ($res > 0) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Returns the replier based on the iur_id
      *
-     * @param   integer $iur_id The id of the authorized replier
+     * @param   int $iur_id The id of the authorized replier
      * @return  string The name/email of the replier
      */
-    public function getReplier($iur_id)
+    public static function getReplier($iur_id)
     {
         $stmt = "SELECT
                     if (iur_usr_id = '" . APP_SYSTEM_USER_ID . "', iur_email, usr_full_name) replier
@@ -322,11 +322,12 @@ class Authorized_Replier
     /**
      * Returns the replier based on the given issue and email address combo.
      *
-     * @param   integer $issue_id The id of the issue.
+     * @param   int $issue_id the id of the issue
      * @param   string $email The email address of the user
-     * @return  integer The id of the replier
+     * @return  int The id of the replier
+     * @deprecated method not used
      */
-    public function getReplierIDByEmail($issue_id, $email)
+    public static function getReplierIDByEmail($issue_id, $email)
     {
         $stmt = 'SELECT
                     iur_id
@@ -352,10 +353,10 @@ class Authorized_Replier
     /**
      * Method used to remotely add an authorized replier to a given issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $usr_id The user ID of the person performing the change
-     * @param   boolean $replier The user ID of the authorized replier
-     * @return  integer The status ID
+     * @param   int $issue_id The issue ID
+     * @param   int $usr_id The user ID of the person performing the change
+     * @param   bool $replier The user ID of the authorized replier
+     * @return  int The status ID
      */
     public static function remoteAddAuthorizedReplier($issue_id, $usr_id, $replier)
     {

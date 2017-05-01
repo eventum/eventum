@@ -11,6 +11,11 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Eventum\Mail\Helper\AddressHeader;
+use Mail_Helper;
+
 /**
  * Test class for Mail_Helper.
  */
@@ -59,6 +64,62 @@ class MailHelperTest extends TestCase
         // <eventum.md5.54hebbwge.myyt4c@eventum.example.org>
         $exp = '<eventum\.md5\.[0-9a-z]{8,64}\.[0-9a-z]{8,64}@' . APP_HOSTNAME . '>';
         $this->assertRegExp($exp, $msgid, 'Missing msg-id header');
+    }
+
+    /**
+     * test that @see Support::addExtraRecipientsToNotificationList adds cc addresses that are not 7bit
+     * but @see Mail_Helper::getEmailAddresses results errors
+     * because @see Mail_Helper::fixAddressQuoting encodes just wrong.
+     * test the alternative implementation using Zend Mail
+     *
+     * @dataProvider validGetEmailAddressesData
+     */
+    public function testGetEmailAddresses($input, $exp)
+    {
+        $res = AddressHeader::fromString($input)->getEmails();
+        $this->assertEquals($exp, $res);
+    }
+
+    public function validGetEmailAddressesData()
+    {
+        return [
+            [
+                // decoded input
+                '"Erika Mkaitė" <erika@example.net>, Rööt (Šuperuser) <root@example.org>',
+                [
+                    'erika@example.net',
+                    'root@example.org',
+                ],
+            ],
+            [
+                // test that QP encoded input also works
+                'Erika =?utf-8?b?TWthaXTElyI=?= <erika@example.net>, =?utf-8?b?UsO2w7Z0IA==?= =?utf-8?b?KMWgdXBlcnVzZXIp?= <root@example.org>',
+                [
+                    'erika@example.net',
+                    'root@example.org',
+                ],
+            ],
+            // the @$array['foo'] results NULL
+            [null, []],
+
+            // test comments
+            // https://github.com/zendframework/zend-mail/pull/12
+            [
+                'ted@example.com (Ted Bloggs)',
+                ['ted@example.com'],
+            ],
+            [
+                // https://github.com/zendframework/zend-mail/pull/13
+                'undisclosed-recipients:;',
+                [],
+            ],
+            [
+                // https://github.com/zendframework/zend-mail/pull/13
+                // https://github.com/eventum/eventum/issues/91
+                'destinatarios-no-revelados:;',
+                [],
+            ],
+        ];
     }
 
     /**
@@ -204,7 +265,7 @@ class MailHelperTest extends TestCase
                         // this is how it currently is parsed
                         'sender_name' => '"My Group: \"Richard"',
                         // this is how it should be parsed if fixAddressQuoting didn't break it
-//                        'sender_name' => '"Richard"',
+                        //'sender_name' => '"Richard"',
                         'email' => 'richard@localhost',
                         'username' => 'richard',
                         'host' => 'localhost',

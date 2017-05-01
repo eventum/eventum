@@ -11,6 +11,11 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Date_Helper;
+use Prefs;
+
 /**
  * DateHelper tests involving user (using database)
  */

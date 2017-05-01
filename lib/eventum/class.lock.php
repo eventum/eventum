@@ -22,7 +22,7 @@ class Lock
      *
      * @param   string $name The name of this lock file
      * @param   bool $check If we should check if the process exists in addition to check for a lock file
-     * @return  boolean
+     * @return  bool
      */
     public static function acquire($name, $check = false)
     {
@@ -54,7 +54,7 @@ class Lock
      * script to run.
      *
      * @param   string $name The name of this lock file
-     * @return  boolean
+     * @return  bool
      */
     public static function release($name)
     {
@@ -101,7 +101,7 @@ class Lock
      * Returns the process ID of the script, if any.
      *
      * @param   string $name The name of this lock file
-     * @return  integer The process ID of the script
+     * @return  int The process ID of the script
      */
     public static function getProcessID($name, $check = false)
     {

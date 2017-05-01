@@ -23,9 +23,9 @@ class Notification
      * Method used to check whether a given email address is subsbribed to
      * email notifications for a given issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $email The email address
-     * @return  boolean
+     * @return  bool
      */
     public static function isSubscribedToEmails($issue_id, $email)
     {
@@ -38,16 +38,16 @@ class Notification
         $subscribed_emails = Misc::lowercase($subscribed_emails);
         if (in_array($email, $subscribed_emails)) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Method used to get the list of email addresses currently
      * subscribed to a notification type for a given issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param bool|string $type The notification type
      * @return  array The list of email addresses
      */
@@ -93,7 +93,7 @@ class Notification
      * Method used to get the list of names and email addresses currently
      * subscribed to a notification type for a given issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param bool|string $type The notification type
      * @return  array The list of email addresses
      */
@@ -148,7 +148,7 @@ class Notification
      * Method used to build a properly encoded email address that will be
      * used by the email/note routing system.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $sender The email address of the sender
      * @param   string $type Whether this is a note or email routing message
      * @return  string The properly encoded email address
@@ -162,12 +162,12 @@ class Notification
             $routing = 'note_routing';
         }
         $project_id = Issue::getProjectID($issue_id);
+        $project_info = Project::getOutgoingSenderAddress($project_id);
         // if sender is empty, get project email address
         if (empty($sender)) {
-            $project_info = Project::getOutgoingSenderAddress($project_id);
             $info = [
-                'sender_name'   =>  $project_info['name'],
-                'email'         =>  $project_info['email'],
+                'sender_name' => $project_info['name'],
+                'email' => $project_info['email'],
             ];
 
             // if no project name, use eventum wide sender name
@@ -178,11 +178,15 @@ class Notification
         } else {
             $info = Mail_Helper::getAddressInfo($sender);
         }
-        // allow flags even without routing enabled
-        if (!empty($setup[$routing]['recipient_type_flag'])) {
+        // use per project flag first
+        $flag = '';
+        $flag_location = '';
+        if (!empty($project_info['flag'])) {
+            $flag = '[' . $project_info['flag'] . '] ';
+            $flag_location = $project_info['flag_location'];
+        } elseif ($setup[$routing]['recipient_type_flag']) {
             $flag = '[' . $setup[$routing]['recipient_type_flag'] . '] ';
-        } else {
-            $flag = '';
+            $flag_location = $setup[$routing]['flag_location'];
         }
         // MARIADB-CSTM: Ugly hack to set sender flag just for Support
         if (Issue::getProjectID($issue_id) == 1) {
@@ -212,13 +216,13 @@ class Notification
         }
         // also check where we need to append/prepend a special string to the sender name
         if (substr($info['sender_name'], strlen($info['sender_name']) - 1) == '"') {
-            if ($setup[$routing]['flag_location'] == 'before') {
+            if ($flag_location == 'before') {
                 $info['sender_name'] = '"' . $flag . substr($info['sender_name'], 1);
             } else {
                 $info['sender_name'] = substr($info['sender_name'], 0, strlen($info['sender_name']) - 1) . ' ' . trim($flag) . '"';
             }
         } else {
-            if ($setup[$routing]['flag_location'] == 'before') {
+            if ($flag_location == 'before') {
                 $info['sender_name'] = '"' . $flag . $info['sender_name'] . '"';
             } else {
                 $info['sender_name'] = '"' . $info['sender_name'] . ' ' . trim($flag) . '"';
@@ -234,24 +238,24 @@ class Notification
      * mailer daemon responsible for dealing with bounces.
      *
      * @param   string $email The email address to check against
-     * @return  boolean
+     * @return  bool
      */
     public static function isBounceMessage($email)
     {
         if (strtolower(substr($email, 0, 14)) == 'mailer-daemon@') {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Method used to check whether the given sender email address is
      * the same as the issue routing email address.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $sender The address of the sender
-     * @return  boolean
+     * @return  bool
      */
     public static function isIssueRoutingSender($issue_id, $sender)
     {
@@ -260,22 +264,21 @@ class Notification
         $sender_email = strtolower(Mail_Helper::getEmailAddress($sender));
         if ($check_email == $sender_email) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Method used to forward the new email to the list of subscribers.
      *
-     * @param   integer $user_id The user ID of the person performing this action
-     * @param   integer $issue_id The issue ID
+     * @param   int $user_id The user ID of the person performing this action
+     * @param   int $issue_id The issue ID
      * @param   array $message An array containing the email
-     * @param   boolean $internal_only Whether the email should only be redirected to internal users or not
-     * @param   boolean $assignee_only Whether the email should only be sent to the assignee
-     * @param   boolean $type The type of email this is
-     * @param   integer $sup_id the ID of this email
-     * @return  void
+     * @param   bool $internal_only Whether the email should only be redirected to internal users or not
+     * @param   bool $assignee_only Whether the email should only be sent to the assignee
+     * @param   bool $type The type of email this is
+     * @param   int $sup_id the ID of this email
      */
     public static function notifyNewEmail($usr_id, $issue_id, $message, $internal_only = false, $assignee_only = false, $type = '', $sup_id = false)
     {
@@ -407,11 +410,11 @@ class Notification
     /**
      * Method used to get the details of a given note and issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $note_id The note ID
+     * @param   int $issue_id The issue ID
+     * @param   int $note_id The note ID
      * @return  array The details of the note / issue
      */
-    public function getNote($issue_id, $note_id)
+    public static function getNote($issue_id, $note_id)
     {
         $stmt = 'SELECT
                     not_usr_id,
@@ -458,11 +461,12 @@ class Notification
      * Method used to get the details of a given issue and its
      * associated emails.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   array $sup_ids The list of associated emails
      * @return  array The issue / emails details
+     * @deprecated method not used
      */
-    public function getEmails($issue_id, $sup_ids)
+    public static function getEmails($issue_id, $sup_ids)
     {
         $items = DB_Helper::buildList($sup_ids);
         $stmt = "SELECT
@@ -493,11 +497,11 @@ class Notification
     /**
      * Method used to get the details of a given issue and attachment.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $attachment_id The attachment ID
+     * @param   int $issue_id The issue ID
+     * @param   int $attachment_id The attachment ID
      * @return  array The issue / attachment details
      */
-    public function getAttachment($issue_id, $attachment_id)
+    public static function getAttachment($issue_id, $attachment_id)
     {
         $stmt = 'SELECT
                     iat_id,
@@ -529,7 +533,7 @@ class Notification
      * Method used to get the list of users / emails that are
      * subscribed for notifications of changes for a given issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $type The notification type
      * @return  array The list of users / emails
      */
@@ -584,10 +588,10 @@ class Notification
      * Method used to send a diff-style notification email to the issue
      * subscribers about updates to its attributes.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   array $old The old issue details
      * @param   array $new The new issue details
-     * @param   array $updated_custom_fields An array of the custom fields that were changed.
+     * @param   array $updated_custom_fields an array of the custom fields that were changed
      */
     public static function notifyIssueUpdated($issue_id, $old, $new, $updated_custom_fields)
     {
@@ -717,7 +721,7 @@ class Notification
      * Method used to send a diff-style notification email to the issue
      * subscribers about status changes
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   int $old_status The old issue status
      * @param   int $new_status The new issue status
      * @return bool
@@ -763,7 +767,7 @@ class Notification
     /**
      * Method used to send email notifications for a given issue.
      *
-     * @param integer $issue_id The issue ID
+     * @param int $issue_id The issue ID
      * @param string $type The notification type
      * @param int $entry_id The entries id that was changed
      * @param bool $internal_only Whether the notification should only be sent to internal users or not
@@ -778,7 +782,7 @@ class Notification
             foreach ($extra_recipients as $user) {
                 $extra[] = [
                     'sub_usr_id' => $user,
-                    'sub_email'  => '',
+                    'sub_email' => '',
                 ];
             }
         }
@@ -870,7 +874,7 @@ class Notification
             case 'notes':
                 $data = self::getNote($issue_id, $entry_id);
                 $headers = [
-                    'Message-ID'    =>  $data['note']['not_message_id'],
+                    'Message-ID' => $data['note']['not_message_id'],
                 ];
                 if (@$data['note']['reference_msg_id'] != false) {
                     $headers['In-Reply-To'] = $data['note']['reference_msg_id'];
@@ -896,7 +900,7 @@ class Notification
     /**
      * Method used to get list of addresses that were email sent to.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array   list of addresse
      */
     public static function getLastNotifiedAddresses($issue_id = null)
@@ -921,16 +925,15 @@ class Notification
     /**
      * Method used to format and send the email notifications.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   array $emails The list of emails
      * @param   string $type The notification type
      * @param   array $data The issue details
      * @param   string $subject The subject of the email
-     * @param   integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
+     * @param   int $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @param   array $headers Any extra headers that need to be added to this email (Default false)
-     * @return  void
      */
-    public function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $type_id = false, $headers = false)
+    public static function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $type_id = false, $headers = false)
     {
         global $_EVENTUM_LAST_NOTIFIED_LIST;
 
@@ -940,8 +943,8 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/' . $type . '.tpl.text');
         $tpl->assign([
-            'app_title'    => Misc::getToolCaption(),
-            'data'         => $data,
+            'app_title' => Misc::getToolCaption(),
+            'data' => $data,
             'current_user' => User::getFullName(Auth::getUserID()),
         ]);
 
@@ -1048,10 +1051,9 @@ class Notification
      * Method used to send an email notification to users that want
      * to be alerted when new issues are created in the system.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $issue_id The issue ID
+     * @param   int $prj_id The project ID
+     * @param   int $issue_id The issue ID
      * @param   array   $exclude_list The list of users NOT to notify. This can either be usr_ids or email addresses
-     * @return  void
      */
     public static function notifyNewIssue($prj_id, $issue_id, $exclude_list = [])
     {
@@ -1179,13 +1181,12 @@ class Notification
      * Method used to send an email notification to the sender of an
      * email message that was automatically converted into an issue.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $issue_id The issue ID
+     * @param   int $prj_id The project ID
+     * @param   int $issue_id The issue ID
      * @param   string $sender The sender of the email message (and the recipient of this notification)
      * @param   string $date The arrival date of the email message
      * @param   string $subject The subject line of the email message
-     * @param bool|string $additional_recipient The user who should receive this email who is not the sender of the original email.
-     * @return  void
+     * @param bool|string $additional_recipient the user who should receive this email who is not the sender of the original email
      */
     public static function notifyAutoCreatedIssue($prj_id, $issue_id, $sender, $date, $subject, $additional_recipient = false)
     {
@@ -1216,11 +1217,11 @@ class Notification
             $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
             $tpl->assign([
-                'app_title'   => Misc::getToolCaption(),
-                'data'        => $data,
+                'app_title' => Misc::getToolCaption(),
+                'data' => $data,
                 'sender_name' => Mail_Helper::getName($sender),
-                'recipient_name'    => Mail_Helper::getName($recipient),
-                'is_message_sender' =>  $is_message_sender,
+                'recipient_name' => Mail_Helper::getName($recipient),
+                'is_message_sender' => $is_message_sender,
             ]);
 
             // figure out if sender has a real account or not
@@ -1232,10 +1233,10 @@ class Notification
             }
 
             $tpl->assign([
-                'sender_can_access' =>  $can_access,
+                'sender_can_access' => $can_access,
                 'email' => [
-                    'date'    => $date,
-                    'from'    => Mime_Helper::decodeQuotedPrintable($sender),
+                    'date' => $date,
+                    'from' => Mime_Helper::decodeQuotedPrintable($sender),
                     'subject' => $subject,
                 ],
             ]);
@@ -1253,7 +1254,7 @@ class Notification
             $mail = new Mail_Helper();
             $mail->setTextBody($text_message);
             $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-            $setup = Mail_Helper::getSMTPSettings();
+            $setup = Setup::get()->smtp->toArray();
             $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
             $recipient = Mime_Helper::decodeQuotedPrintable($recipient);
             // TRANSLATORS: %1: $issue_id, %2 = iss_summary
@@ -1269,8 +1270,8 @@ class Notification
      * set of email messages that were manually converted into an
      * issue.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $issue_id The issue ID
+     * @param   int $prj_id The project ID
+     * @param   int $issue_id The issue ID
      * @param   array $sup_ids The email IDs
      * @param bool|int $customer_id The customer ID
      * @return  array The list of recipient emails
@@ -1307,16 +1308,16 @@ class Notification
             $tpl = new Template_Helper();
             $tpl->setTemplate('notifications/new_auto_created_issue.tpl.text');
             $tpl->assign([
-                'data'        => $data,
+                'data' => $data,
                 'sender_name' => Mail_Helper::getName($recipient),
-                'app_title'   => Misc::getToolCaption(),
-                'recipient_name'    => Mail_Helper::getName($recipient),
+                'app_title' => Misc::getToolCaption(),
+                'recipient_name' => Mail_Helper::getName($recipient),
             ]);
             $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($sup_id), $sup_id);
             $tpl->assign([
                 'email' => [
-                    'date'    => $email_details['sup_date'],
-                    'from'    => $email_details['sup_from'],
+                    'date' => $email_details['sup_date'],
+                    'from' => $email_details['sup_from'],
                     'subject' => $email_details['sup_subject'],
                 ],
             ]);
@@ -1335,7 +1336,7 @@ class Notification
             // send email (use PEAR's classes)
             $mail = new Mail_Helper();
             $mail->setTextBody($text_message);
-            $setup = Mail_Helper::getSMTPSettings();
+            $setup = Setup::get()->smtp->toArray();
             $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
             $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
 
@@ -1351,7 +1352,7 @@ class Notification
      * saved into an internal note.
      *
      * @api
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $from The sender of the blocked email message
      */
     public static function notifyIRCBlockedMessage($issue_id, $from)
@@ -1369,10 +1370,10 @@ class Notification
     /**
      * Method used to save the IRC notification message in the queue table.
      *
-     * @param   integer $project_id The ID of the project.
+     * @param   int $project_id the ID of the project
      * @param   string  $notice The notification summary that should be displayed on IRC
-     * @param   bool|integer $issue_id The issue ID
-     * @param   bool|integer $usr_id The ID of the user to notify
+     * @param   bool|int $issue_id The issue ID
+     * @param   bool|int $usr_id The ID of the user to notify
      * @param   bool|string $category The category of this notification
      * @param   bool|string $type The type of notification (new_issue, etc)
      * @return  bool
@@ -1407,7 +1408,7 @@ class Notification
             $params['ino_target_usr_id'] = $usr_id;
         }
 
-        $stmt = 'INSERT INTO {{%irc_notice}} SET '. DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO {{%irc_notice}} SET ' . DB_Helper::buildSet($params);
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -1421,8 +1422,7 @@ class Notification
      * Method used to send an email notification when the account
      * details of an user is changed.
      *
-     * @param   integer $usr_id The user ID
-     * @return  void
+     * @param   int $usr_id The user ID
      */
     public static function notifyUserAccount($usr_id)
     {
@@ -1432,8 +1432,8 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/updated_account.tpl.text');
         $tpl->assign([
-            'app_title'    => Misc::getToolCaption(),
-            'user'         => $info,
+            'app_title' => Misc::getToolCaption(),
+            'user' => $info,
         ]);
 
         // TRANSLATORS: %s - APP_SHORT_NAME
@@ -1446,9 +1446,8 @@ class Notification
      * Method used to send an email notification when the account
      * password of an user is changed.
      *
-     * @param   integer $usr_id The user ID
+     * @param   int $usr_id The user ID
      * @param   string $password The user' password
-     * @return  void
      */
     public static function notifyUserPassword($usr_id, $password)
     {
@@ -1459,8 +1458,8 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/updated_password.tpl.text');
         $tpl->assign([
-            'app_title'    => Misc::getToolCaption(),
-            'user'         => $info,
+            'app_title' => Misc::getToolCaption(),
+            'user' => $info,
         ]);
 
         // TRANSLATORS: %s - APP_SHORT_NAME
@@ -1473,9 +1472,8 @@ class Notification
      * Method used to send an email notification when a new user
      * account is created.
      *
-     * @param   integer $usr_id The user ID
+     * @param   int $usr_id The user ID
      * @param   string $password The user' password
-     * @return  void
      */
     public static function notifyNewUser($usr_id, $password)
     {
@@ -1486,8 +1484,8 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/new_user.tpl.text');
         $tpl->assign([
-            'app_title'    => Misc::getToolCaption(),
-            'user'         => $info,
+            'app_title' => Misc::getToolCaption(),
+            'user' => $info,
         ]);
 
         // TRANSLATORS: %s - APP_SHORT_NAME
@@ -1499,11 +1497,12 @@ class Notification
     /**
      * Send an email to all issue assignees
      *
-     * @param   integer $issue_id The ID of the issue
+     * @param   int $issue_id The ID of the issue
      * @param   string $type The type of notification to send
      * @param   array $data Any extra data to pass to the template
+     * @deprecated method not used
      */
-    public function notifyAssignees($issue_id, $type, $data, $title = '')
+    public static function notifyAssignees($issue_id, $type, $data, $title = '')
     {
         $prj_id = Issue::getProjectID($issue_id);
         $assignees = Issue::getAssignedUserIDs($issue_id);
@@ -1517,9 +1516,9 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/' . $type . '.tpl.text');
         $tpl->assign([
-            'app_title'    => Misc::getToolCaption(),
-            'issue'        => $issue,
-            'data'         => $data,
+            'app_title' => Misc::getToolCaption(),
+            'issue' => $issue,
+            'data' => $data,
         ]);
 
         foreach ($assignees as $usr_id) {
@@ -1550,7 +1549,7 @@ class Notification
      * assigned to an user.
      *
      * @param   array $users The list of users
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      */
     public static function notifyNewAssignment($users, $issue_id)
     {
@@ -1577,8 +1576,8 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/assigned.tpl.text');
         $tpl->assign([
-            'app_title'    => Misc::getToolCaption(),
-            'issue'        => $issue,
+            'app_title' => Misc::getToolCaption(),
+            'issue' => $issue,
             'current_user' => User::getFullName(Auth::getUserID()),
         ]);
 
@@ -1601,10 +1600,10 @@ class Notification
     /**
      * Method used to send the account details of an user.
      *
-     * @param   integer $usr_id The user ID
-     * @return  void
+     * @param   int $usr_id The user ID
+     * @deprecated method not used?
      */
-    public function notifyAccountDetails($usr_id)
+    public static function notifyAccountDetails($usr_id)
     {
         $info = User::getDetails($usr_id);
         $info['projects'] = Project::getAssocList($usr_id, true, true);
@@ -1612,8 +1611,8 @@ class Notification
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/account_details.tpl.text');
         $tpl->assign([
-            'app_title'    => Misc::getToolCaption(),
-            'user'         => $info,
+            'app_title' => Misc::getToolCaption(),
+            'user' => $info,
         ]);
 
         // TRANSLATORS: %s = APP_SHORT_NAME
@@ -1625,17 +1624,17 @@ class Notification
     /**
      * Method used to get the list of subscribers for a given issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $type The type of subscription
-     * @param   integer $min_role Only show subscribers with this role or above
+     * @param   int $issue_id The issue ID
+     * @param   int $type The type of subscription
+     * @param   int $min_role Only show subscribers with this role or above
      * @return  array An array containing 2 elements. Each a list of subscribers, separated by commas
      */
     public static function getSubscribers($issue_id, $type = null, $min_role = null)
     {
         $subscribers = [
-            'staff'     => [],
+            'staff' => [],
             'customers' => [],
-            'all'       => [],
+            'all' => [],
         ];
         $prj_id = Issue::getProjectID($issue_id);
         $stmt = 'SELECT
@@ -1744,7 +1743,7 @@ class Notification
      * Method used to get the details of a given email notification
      * subscription.
      *
-     * @param   integer $sub_id The subscription ID
+     * @param   int $sub_id The subscription ID
      * @return  array The details of the subscription
      */
     public static function getDetails($sub_id)
@@ -1773,10 +1772,10 @@ class Notification
      * Method used to get the subscribed actions for a given
      * subscription ID.
      *
-     * @param   integer $sub_id The subscription ID
+     * @param   int $sub_id The subscription ID
      * @return  array The subscribed actions
      */
-    public function getSubscribedActions($sub_id)
+    public static function getSubscribedActions($sub_id)
     {
         $stmt = 'SELECT
                     sbt_type,
@@ -1797,7 +1796,7 @@ class Notification
     /**
      * Method used to get the list of subscribers for a given issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The list of subscribers
      */
     public static function getSubscriberListing($issue_id)
@@ -1833,9 +1832,9 @@ class Notification
     /**
      * Returns if the specified user is notified in this issue.
      *
-     * @param   integer $issue_id The id of the issue.
-     * @param   integer $usr_id The user to check.
-     * @return  boolean If the specified user is notified in the issue.
+     * @param   int $issue_id the id of the issue
+     * @param   int $usr_id the user to check
+     * @return  bool if the specified user is notified in the issue
      */
     public static function isUserNotified($issue_id, $usr_id)
     {
@@ -1860,7 +1859,7 @@ class Notification
      * subscription IDs
      *
      * @param   array $items The list of subscription IDs
-     * @return  boolean
+     * @return  bool
      */
     public static function remove($items)
     {
@@ -1950,7 +1949,7 @@ class Notification
         $current_usr_id = Auth::getUserID();
         History::add($issue_id, $current_usr_id, 'notification_removed', 'Notification list entry ({email}) removed by {user}', [
             'email' => $email,
-            'user' => User::getFullName($current_usr_id)
+            'user' => User::getFullName($current_usr_id),
         ]);
 
         Issue::markAsUpdated($issue_id);
@@ -1962,10 +1961,10 @@ class Notification
      * Returns the email address associated with a notification list
      * subscription, user based or otherwise.
      *
-     * @param   integer $sub_id The subscription ID
+     * @param   int $sub_id The subscription ID
      * @return  string The email address
      */
-    public function getSubscriber($sub_id)
+    public static function getSubscriber($sub_id)
     {
         $stmt = 'SELECT
                     sub_usr_id,
@@ -1982,9 +1981,9 @@ class Notification
 
         if (empty($res['sub_usr_id'])) {
             return $res['sub_email'];
-        } else {
-            return User::getFromHeader($res['sub_usr_id']);
         }
+
+        return User::getFromHeader($res['sub_usr_id']);
     }
 
     /**
@@ -2040,7 +2039,7 @@ class Notification
      * Method used to get the full list of default notification
      * actions.
      *
-     * @param   integer $issue_id The ID of the issue the user is being subscribed too
+     * @param   int $issue_id The ID of the issue the user is being subscribed too
      * @param   string  $email The email address of the user to be subscribed
      * @param   string  $source The source of this call, "add_unknown_user", "self_assign", "remote_assign", "anon_issue", "issue_update", "issue_from_email", "new_issue", "note", "add_extra_recipients"
      * @return  array The list of default notification actions
@@ -2075,12 +2074,12 @@ class Notification
     /**
      * Method used to subscribe an user to a set of actions in an issue.
      *
-     * @param   integer $usr_id The user ID of the person performing this action
-     * @param   integer $issue_id The issue ID
-     * @param   integer $subscriber_usr_id The user ID of the subscriber
+     * @param   int $usr_id The user ID of the person performing this action
+     * @param   int $issue_id The issue ID
+     * @param   int $subscriber_usr_id The user ID of the subscriber
      * @param   array $actions The list of actions to subscribe this user to
-     * @param   boolean $add_history Whether to add a history entry about this change or not
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   bool $add_history Whether to add a history entry about this change or not
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function subscribeUser($usr_id, $issue_id, $subscriber_usr_id, $actions, $add_history = true)
     {
@@ -2146,11 +2145,11 @@ class Notification
      * Method used to add a new subscriber manually, by using the
      * email notification interface.
      *
-     * @param   integer $usr_id The user ID of the person performing this change
-     * @param   integer $issue_id The issue ID
+     * @param   int $usr_id The user ID of the person performing this change
+     * @param   int $issue_id The issue ID
      * @param   string $email The email address to subscribe
      * @param   array $actions The actions to subcribe to
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function subscribeEmail($usr_id, $issue_id, $email, $actions)
     {
@@ -2221,7 +2220,7 @@ class Notification
         // FIXME: XSS possible as $email is not escaped for html?
         History::add($issue_id, $usr_id, 'notification_added', "Notification list entry ('{subscriber}') added by {user}", [
             'subscriber' => $email,
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         return 1;
@@ -2231,11 +2230,10 @@ class Notification
      * Method used to add the subscription type to the given
      * subscription.
      *
-     * @param   integer $sub_id The subscription ID
+     * @param   int $sub_id The subscription ID
      * @param   string $type The subscription type
-     * @return  void
      */
-    public function addType($sub_id, $type)
+    public static function addType($sub_id, $type)
     {
         $stmt = 'INSERT INTO
                     {{%subscription_type}}
@@ -2252,9 +2250,9 @@ class Notification
      * Method used to update the details of a given subscription.
      *
      * @param   $issue_id
-     * @param   integer $sub_id The subscription ID
+     * @param   int $sub_id The subscription ID
      * @param   $email
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function update($issue_id, $sub_id, $email)
     {
@@ -2329,9 +2327,8 @@ class Notification
         // send email (use PEAR's classes)
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
-        $setup = Mail_Helper::getSMTPSettings();
-        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
-        $mail->send($setup['from'], $to, $subject);
+        $to = Mail_Helper::getFormattedName($info['usr_full_name'], $info['usr_email']);
+        $mail->send(null, $to, $subject);
 
         Language::restore();
     }

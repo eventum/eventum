@@ -20,8 +20,6 @@ use RecentActivity;
  * Class RecentActivityController
  *
  * This report shows a list of activity performed in recent history.
- *
- * @package Eventum\Controller\Report
  */
 class RecentActivityController extends ReportBaseController
 {
@@ -29,14 +27,14 @@ class RecentActivityController extends ReportBaseController
     protected $tpl_name = 'reports/recent_activity.tpl.html';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -50,7 +48,7 @@ class RecentActivityController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

@@ -80,17 +80,13 @@ class Template_Helper
     /**
      * Assigns variables to specific placeholders on the target template
      *
-     * @param  string $var_name Placeholder on the template
+     * @param  array|string $var_name Placeholder on the template
      * @param  string $value Value to be assigned to this placeholder
      * @return $this
      */
-    public function assign($var_name, $value = '')
+    public function assign($var_name, $value = null)
     {
-        if (!is_array($var_name)) {
-            $this->smarty->assign($var_name, $value);
-        } else {
-            $this->smarty->assign($var_name);
-        }
+        $this->smarty->assign($var_name, $value);
 
         return $this;
     }
@@ -175,8 +171,8 @@ class Template_Helper
             'app_setup' => Setup::get(),
             'roles' => User::getAssocRoleIDs(),
             'current_url' => $_SERVER['PHP_SELF'],
-            'template_id'    =>  str_replace(['/', '.tpl.html'], ['_'], $this->tpl_name),
-            'handle_clock_in'   =>  $setup['handle_clock_in'] == 'enabled',
+            'template_id' => str_replace(['/', '.tpl.html'], ['_'], $this->tpl_name),
+            'handle_clock_in' => $setup['handle_clock_in'] == 'enabled',
         ];
 
         // If VCS version is present "Eventum 2.3.3-148-g78b3368", link ref to github

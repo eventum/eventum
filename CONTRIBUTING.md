@@ -13,7 +13,7 @@ Before opening [new issue](https://github.com/eventum/eventum/issues/new), first
 
 ## Pull requests
 
-- Fork it.
+- [Fork it](https://github.com/eventum/eventum/fork).
 - Create your feature branch (`git checkout -b fixing-blah`), please avoid working directly on the `master` branch.
 - Check for unnecessary whitespace with `git diff --check` before committing.
 - Commit your changes (`git commit -am 'Fixed blah'`).

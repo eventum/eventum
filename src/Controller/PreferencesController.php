@@ -38,7 +38,7 @@ class PreferencesController extends BaseController
     private $lang;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -49,7 +49,7 @@ class PreferencesController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -65,7 +65,7 @@ class PreferencesController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -84,7 +84,7 @@ class PreferencesController extends BaseController
                 $res = User::updateEmail($this->usr_id);
                 break;
 
-            case 'update_password';
+            case 'update_password':
                 $res = $this->updatePasswordAction();
                 break;
 
@@ -176,7 +176,7 @@ class PreferencesController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

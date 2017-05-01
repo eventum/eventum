@@ -38,9 +38,9 @@ define('APP_DEFAULT_PAGER_SIZE', 5);
 define('APP_DEFAULT_REFRESH_RATE', 5); // in minutes
 
 // new users will use these for default preferences
-// if the user will recieve an email when an issue is assigned to him
+// if the user will receive an email when an issue is assigned to him
 define('APP_DEFAULT_ASSIGNED_EMAILS', true);
-// if the user will recieve an email when ANY issue is created
+// if the user will receive an email when ANY issue is created
 define('APP_DEFAULT_NEW_EMAILS', false);
 // locale used for localized messages
 define('APP_DEFAULT_LOCALE', 'en_US');

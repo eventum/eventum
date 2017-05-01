@@ -13,8 +13,6 @@
 
 /**
  * Smarty plugin
- * @package Smarty
- * @subpackage plugins
  */
 
 /**
@@ -39,8 +37,8 @@ function smarty_modifier_relative_datetime($timestamp)
 
     $timestamp = (int)strtotime($timestamp);
     $difference = time() - $timestamp;
-    $periods = ['sec', 'min', 'hour', 'day', 'week','month', 'year', 'decade'];
-    $lengths = ['60','60','24','7','4.35','12','10'];
+    $periods = ['sec', 'min', 'hour', 'day', 'week', 'month', 'year', 'decade'];
+    $lengths = ['60', '60', '24', '7', '4.35', '12', '10'];
     $total_lengths = count($lengths);
 
     if ($difference > 0) { // this was in the past
@@ -57,7 +55,7 @@ function smarty_modifier_relative_datetime($timestamp)
 
     $difference = round($difference);
     if ($difference != 1) {
-        $periods[$j].= 's';
+        $periods[$j] .= 's';
     }
 
     $text = "$difference $periods[$j] $ending";

@@ -11,6 +11,10 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use DB_Helper;
+
 class DbHelperTest extends TestCase
 {
     public function testBuildSet()
@@ -38,7 +42,7 @@ class DbHelperTest extends TestCase
     {
         // simple test
         $ids = [
-            1, 2, 'a', 'f'
+            1, 2, 'a', 'f',
         ];
         $res = DB_Helper::buildList($ids);
         $exp = '?, ?, ?, ?';

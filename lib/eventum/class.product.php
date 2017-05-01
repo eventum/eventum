@@ -201,7 +201,7 @@ class Product
         $changes = [];
         foreach ($products as $ipv_id => $pro_id) {
             if ($ipv_id == 0) {
-                $old[] = ['ipv_id' =>  0, 'pro_id' => '', 'product' => '', 'version' => ''];
+                $old[] = ['ipv_id' => 0, 'pro_id' => '', 'product' => '', 'version' => ''];
                 self::addIssueProductVersion($issue_id, $pro_id, $versions[$ipv_id]);
             } else {
                 self::updateProductAndVersion($ipv_id, $pro_id, $versions[$ipv_id]);

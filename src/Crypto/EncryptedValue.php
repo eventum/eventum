@@ -22,8 +22,6 @@ use InvalidArgumentException;
  * providing transparent decryption of the value
  *
  * This class is final to prevent breaking security and overriding some methods
- *
- * @package Eventum
  */
 final class EncryptedValue
 {

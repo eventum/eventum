@@ -11,6 +11,10 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use PHPUnit_Framework_TestCase;
+
 class TestCase extends PHPUnit_Framework_TestCase
 {
     public static function skipTravis($message = 'Disabled in Travis')

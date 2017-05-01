@@ -184,6 +184,27 @@ $().ready(function() {
       </tr>
       <tr>
         <th width="120">
+          {t}Email Sender Flag{/t}
+        </th>
+        <td>
+            <input type="text" name="sender_flag" value="{$info.prj_sender_flag|default:''|escape:"html"}"> <br />
+            <span>{t}This will be included in the From address of all emails sent by Eventum for this project and will override any flag set system wide.{/t}</span>
+            <div>
+            <label>
+                <input type="radio" name="flag_location" value="before"
+                    {if $info.prj_sender_flag_location|default:'' == 'before'}checked{/if}>
+                {t}Before Sender Name{/t}
+            </label>
+            <label>
+                <input type="radio" name="flag_location" value="after"
+                    {if $info.prj_sender_flag_location|default:'' != 'before'}checked{/if}>
+                {t}After Sender Name{/t}
+            </label>
+            </div>
+        </td>
+      </tr>
+      <tr>
+        <th width="120">
           {t}Project mail aliases{/t}
         </th>
         <td width="80%">

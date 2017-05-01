@@ -24,18 +24,22 @@ class Project
      * Method used to get the outgoing email sender address associated with
      * a given project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The outgoing sender information
      */
     public static function getOutgoingSenderAddress($prj_id)
     {
         $default = [
-            'name'  => '',
+            'name' => '',
             'email' => '',
+            'flag' => '',
+            'flag_location' => '',
         ];
         $stmt = 'SELECT
                     prj_outgoing_sender_name,
-                    prj_outgoing_sender_email
+                    prj_outgoing_sender_email,
+                    prj_sender_flag,
+                    prj_sender_flag_location
                  FROM
                     {{%project}}
                  WHERE
@@ -48,8 +52,10 @@ class Project
 
         if (!empty($res)) {
             return [
-                'name'  => $res['prj_outgoing_sender_name'],
+                'name' => $res['prj_outgoing_sender_name'],
                 'email' => $res['prj_outgoing_sender_email'],
+                'flag' => $res['prj_sender_flag'],
+                'flag_location' => $res['prj_sender_flag_location'],
             ];
         }
 
@@ -60,8 +66,8 @@ class Project
      * Method used to get the initial status that should be set to a new issue
      * created and associated with a given project.
      *
-     * @param   integer $prj_id The project ID
-     * @return  integer The status ID
+     * @param   int $prj_id The project ID
+     * @return  int The status ID
      */
     public static function getInitialStatus($prj_id)
     {
@@ -84,7 +90,7 @@ class Project
      * Method used to get the options related to the anonymous posting
      * of new issues.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The anonymous posting options
      */
     public static function getAnonymousPostOptions($prj_id)
@@ -107,8 +113,8 @@ class Project
     /**
      * Method used to update the anonymous posting related options.
      *
-     * @param   integer $prj_id The project ID
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $prj_id The project ID
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function updateAnonymousPost($prj_id)
     {
@@ -158,8 +164,8 @@ class Project
     /**
      * Method used to check whether a project exists or not.
      *
-     * @param   integer $prj_id The project ID
-     * @return  boolean
+     * @param   int $prj_id The project ID
+     * @return  bool
      */
     public static function exists($prj_id)
     {
@@ -186,7 +192,7 @@ class Project
      * Method used to get the project ID of the given project title.
      *
      * @param   string $prj_title The project title
-     * @return  integer The project ID
+     * @return  int The project ID
      */
     public static function getID($prj_title)
     {
@@ -208,7 +214,7 @@ class Project
     /**
      * Method used to get the title of a given project ID.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  string The project title
      */
     public static function getName($prj_id)
@@ -239,8 +245,8 @@ class Project
     /**
      * Method used to get if reporters should be segregated for a project ID
      *
-     * @param   integer $prj_id The project ID
-     * @return  boolean If reporters should be segregated
+     * @param   int $prj_id The project ID
+     * @return  bool If reporters should be segregated
      */
     public static function getSegregateReporters($prj_id)
     {
@@ -277,7 +283,7 @@ class Project
     /**
      * Method used to get the details for a given project ID.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The project details
      */
     public static function getDetails($prj_id)
@@ -309,7 +315,7 @@ class Project
      *
      * @param   array $ids The project IDs
      * @param   array $users_to_not_remove Users that should not be removed
-     * @return  boolean
+     * @return  bool
      */
     public static function removeUserByProjects($ids, $users_to_not_remove = null)
     {
@@ -335,7 +341,7 @@ class Project
     /**
      * Method used to update the details of the project information.
      *
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function update()
     {
@@ -352,6 +358,8 @@ class Project
                     prj_initial_sta_id=?,
                     prj_outgoing_sender_name=?,
                     prj_outgoing_sender_email=?,
+                    prj_sender_flag=?,
+                    prj_sender_flag_location=?,
                     prj_mail_aliases=?,
                     prj_remote_invocation=?,
                     prj_segregate_reporter=?,
@@ -367,6 +375,8 @@ class Project
                 $_POST['initial_status'],
                 $_POST['outgoing_sender_name'],
                 $_POST['outgoing_sender_email'],
+                $_POST['sender_flag'],
+                $_POST['flag_location'],
                 $_POST['mail_aliases'],
                 $_POST['remote_invocation'],
                 $_POST['segregate_reporter'],
@@ -403,10 +413,10 @@ class Project
      * Method used to associate an user to a project. If the user association already exists
      * no change will be made.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $usr_id The user ID
-     * @param   integer $role The role of the user
-     * @return  boolean
+     * @param   int $prj_id The project ID
+     * @param   int $usr_id The user ID
+     * @param   int $role The role of the user
+     * @return  bool
      */
     public static function associateUser($prj_id, $usr_id, $role)
     {
@@ -441,26 +451,25 @@ class Project
             }
 
             return true;
-        } else {
-            $stmt = 'UPDATE {{%project_user}}
+        }
+        $stmt = 'UPDATE {{%project_user}}
                         SET pru_role = ?
                     WHERE
                         pru_prj_id = ? AND
                         pru_usr_id = ?';
-            try {
-                DB_Helper::getInstance()->query($stmt, [$role, $prj_id, $usr_id]);
-            } catch (DatabaseException $e) {
-                return false;
-            }
-
-            return true;
+        try {
+            DB_Helper::getInstance()->query($stmt, [$role, $prj_id, $usr_id]);
+        } catch (DatabaseException $e) {
+            return false;
         }
+
+        return true;
     }
 
     /**
      * Method used to add a new project to the system.
      *
-     * @return  integer 1 if the update worked, -1 or -2 otherwise
+     * @return  int 1 if the update worked, -1 or -2 otherwise
      */
     public static function insert()
     {
@@ -477,12 +486,14 @@ class Project
                     prj_initial_sta_id,
                     prj_outgoing_sender_name,
                     prj_outgoing_sender_email,
+                    prj_sender_flag,
+                    prj_sender_flag_location,
                     prj_mail_aliases,
                     prj_remote_invocation,
                     prj_customer_backend,
                     prj_workflow_backend
                  ) VALUES (
-                     ?, ?, ?, ?, ?,
+                     ?, ?, ?, ?, ?, ?, ?,
                      ?, ?, ?, ?, ?, ?
                  )';
         try {
@@ -494,6 +505,8 @@ class Project
                 $_POST['initial_status'],
                 $_POST['outgoing_sender_name'],
                 $_POST['outgoing_sender_email'],
+                $_POST['sender_flag'],
+                $_POST['flag_location'],
                 $_POST['mail_aliases'],
                 $_POST['remote_invocation'],
                 $_POST['customer_backend'],
@@ -556,9 +569,9 @@ class Project
      * Method used to get an associative array of project ID and title
      * of all projects available in the system to a given user ID.
      *
-     * @param   integer $usr_id The user ID
-     * @param   boolean $force_refresh If the cache should not be used.
-     * @param   boolean $include_extra If extra data should be included.
+     * @param   int $usr_id The user ID
+     * @param   bool $force_refresh if the cache should not be used
+     * @param   bool $include_extra if extra data should be included
      * @return  array The list of projects
      */
     public static function getAssocList($usr_id, $force_refresh = false, $include_extra = false)
@@ -618,9 +631,9 @@ class Project
     /**
      * Method used to get the list of users associated with a given project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @param   string $status The desired user status
-     * @param   integer $role The role ID of the user
+     * @param   int $role The role ID of the user
      * @return  array The list of users
      */
     public static function getUserAssocList($prj_id, $status = null, $role = null)
@@ -659,7 +672,7 @@ class Project
      * Method used to get a list of user IDs associated with a given
      * project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of user IDs
      */
     public static function getUserColList($prj_id)
@@ -687,7 +700,7 @@ class Project
      * Method used to get an associative array of project ID and title
      * of all projects that exist in the system.
      *
-     * @param   boolean $include_no_customer_association Whether to include in the results projects with customer integration or not
+     * @param   bool $include_no_customer_association Whether to include in the results projects with customer integration or not
      * @return  array List of projects
      */
     public static function getAll($include_no_customer_association = true)
@@ -716,8 +729,8 @@ class Project
      * Method used to get a list of emails that are associated with a given
      * project and issue.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $issue_id The issue ID
+     * @param   int $prj_id The project ID
+     * @param   int $issue_id The issue ID
      * @return  array List of emails
      */
     public static function getAddressBookEmails($prj_id, $issue_id)
@@ -735,8 +748,8 @@ class Project
      * Method used to get a list of names and emails that are
      * associated with a given project and issue.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $issue_id The issue ID
+     * @param   int $prj_id The project ID
+     * @param   int $issue_id The issue ID
      * @return  array List of names and emails
      */
     public static function getAddressBook($prj_id, $issue_id = null)
@@ -766,7 +779,7 @@ class Project
      * Method used to get an associative array of names and emails
      * that are associated with a given project and issue.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @param   bool|int $issue_id The issue ID
      * @return  array List of names and emails
      */
@@ -864,8 +877,8 @@ class Project
      * Method used to get the list of projects assigned to a given user that
      * allow remote invocation of issues.
      *
-     * @param   integer $usr_id The user ID
-     * @param   boolean $only_customer_projects Whether to only include projects with customer integration or not
+     * @param   int $usr_id The user ID
+     * @param   bool $only_customer_projects Whether to only include projects with customer integration or not
      * @return  array The list of projects
      */
     public static function getRemoteAssocListByUser($usr_id, $only_customer_projects = false)
@@ -910,7 +923,7 @@ class Project
     /**
      * Method used to get the list of users associated with a given project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @param   string $status The desired user status
      * @return  array The list of users
      */
@@ -956,7 +969,7 @@ class Project
     /**
      * Method used to get the list of users associated with a given project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @param   string $status The desired user status
      * @return  array The list of users
      */
@@ -988,9 +1001,9 @@ class Project
     /**
      * Sets the minimum role needed to view a specific field on the issue creation form.
      *
-     * @param   integer $prj_id The project ID.
-     * @param   array $settings An array of fields and role is required to view them.
-     * @return  integer 1 if the update worked, -1 otherwise.
+     * @param   int $prj_id the project ID
+     * @param   array $settings an array of fields and role is required to view them
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function updateFieldDisplaySettings($prj_id, $settings)
     {
@@ -1019,7 +1032,7 @@ class Project
                      )';
             try {
                 DB_Helper::getInstance()->query($stmt, [$prj_id, $field, $details['min_role'],
-                    (isset($details['required']) ? $details['required'] : 0)]);
+                    (isset($details['required']) ? $details['required'] : 0), ]);
             } catch (DatabaseException $e) {
                 return -1;
             }
@@ -1031,8 +1044,8 @@ class Project
     /**
      * Returns display settings for a specific project.
      *
-     * @param   integer $prj_id The project ID
-     * @return  array An associative array of minimum role required to access a field.
+     * @param   int $prj_id The project ID
+     * @return  array an associative array of minimum role required to access a field
      */
     public static function getFieldDisplaySettings($prj_id)
     {
@@ -1054,8 +1067,8 @@ class Project
         foreach ($fields as $field_name => $field_info) {
             if (!isset($res[$field_name])) {
                 $res[$field_name] = [
-                    'required'  =>  $field_info['required'],
-                    'min_role'  =>  0,
+                    'required' => $field_info['required'],
+                    'min_role' => 0,
                 ];
             }
         }
@@ -1071,53 +1084,53 @@ class Project
     public static function getDisplayFields()
     {
         return [
-            'category'  =>  [
-                'title' =>  ev_gettext('Category'),
-                'required'  =>  1,
+            'category' => [
+                'title' => ev_gettext('Category'),
+                'required' => 1,
             ],
-            'priority'  =>    [
-                'title' =>  ev_gettext('Priority'),
-                'required'  =>  1,
+            'priority' => [
+                'title' => ev_gettext('Priority'),
+                'required' => 1,
             ],
-            'severity'  =>    [
-                'title' =>  ev_gettext('Severity'),
-                'required'  =>  1,
+            'severity' => [
+                'title' => ev_gettext('Severity'),
+                'required' => 1,
             ],
-            'assignment'    =>    [
-                'title' =>  ev_gettext('Assignment'),
-                'required'  =>  0,
+            'assignment' => [
+                'title' => ev_gettext('Assignment'),
+                'required' => 0,
             ],
-            'release'   =>    [
-                'title' =>  ev_gettext('Scheduled Release'),
-                'required'  =>  0,
+            'release' => [
+                'title' => ev_gettext('Scheduled Release'),
+                'required' => 0,
             ],
-            'estimated_dev_time'    =>    [
-                'title' =>  ev_gettext('Estimated Dev. Time'),
-                'required'  =>  0,
+            'estimated_dev_time' => [
+                'title' => ev_gettext('Estimated Dev. Time'),
+                'required' => 0,
             ],
-            'expected_res_date'     =>    [
-                'title' =>  ev_gettext('Expected Resolution Date'),
-                'required'  =>  0,
+            'expected_res_date' => [
+                'title' => ev_gettext('Expected Resolution Date'),
+                'required' => 0,
             ],
-            'group'     =>    [
-                'title' =>  ev_gettext('Group'),
-                'required'  =>  0,
+            'group' => [
+                'title' => ev_gettext('Group'),
+                'required' => 0,
             ],
-            'file'  =>    [
-                'title' =>  ev_gettext('File'),
-                'required'  =>  0,
+            'file' => [
+                'title' => ev_gettext('File'),
+                'required' => 0,
             ],
-            'product'   =>    [
-                'title' =>  ev_gettext('Product'),
-                'required'  =>  0,
+            'product' => [
+                'title' => ev_gettext('Product'),
+                'required' => 0,
             ],
-            'associated_issues'   =>    [
-                'title' =>  ev_gettext('Associated Issues'),
-                'required'  =>  0,
+            'associated_issues' => [
+                'title' => ev_gettext('Associated Issues'),
+                'required' => 0,
             ],
-            'access_level'   =>    [
-                'title' =>  ev_gettext('Access Level'),
-                'required'  =>  0,
+            'access_level' => [
+                'title' => ev_gettext('Access Level'),
+                'required' => 0,
             ],
         ];
     }
@@ -1133,8 +1146,8 @@ class Project
         $settings = [];
         foreach ($fields as $field_name => $field_info) {
             $settings[$field_name] = [
-                'required'  =>  $field_info['required'],
-                'min_role'  =>  0,
+                'required' => $field_info['required'],
+                'min_role' => 0,
             ];
         }
         self::updateFieldDisplaySettings($prj_id, $settings);

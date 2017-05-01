@@ -22,7 +22,7 @@ class Resolution
     /**
      * Method used to get the title of a specific resolution.
      *
-     * @param   integer $res_id The resolution ID
+     * @param   int $res_id The resolution ID
      * @return  string The title of the resolution
      */
     public static function getTitle($res_id)
@@ -69,7 +69,7 @@ class Resolution
      * Method used to remove resolutions by using the administrative
      * interface of the system.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function remove()
     {
@@ -105,7 +105,7 @@ class Resolution
      * Method used to update the resolution by using the administrative
      * interface of the system.
      *
-     * @return  integer 1 if the update worked, -1 or -2 otherwise
+     * @return  int 1 if the update worked, -1 or -2 otherwise
      */
     public static function update()
     {
@@ -131,7 +131,7 @@ class Resolution
     /**
      * Method used to get the details of a specific resolution.
      *
-     * @param   integer $res_id The resolution ID
+     * @param   int $res_id The resolution ID
      * @return  array The details of the resolution
      */
     public static function getDetails($res_id)
@@ -205,7 +205,7 @@ class Resolution
      * Method used to add a new resolution by using the administrative
      * interface of the system.
      *
-     * @return  integer 1 if the update worked, -1 or -2 otherwise
+     * @return  int 1 if the update worked, -1 or -2 otherwise
      */
     public static function insert()
     {

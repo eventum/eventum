@@ -41,7 +41,7 @@ class TimeTrackingController extends BaseController
     private $cat;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -58,7 +58,7 @@ class TimeTrackingController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -85,7 +85,7 @@ class TimeTrackingController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -129,7 +129,7 @@ class TimeTrackingController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {
@@ -143,10 +143,10 @@ class TimeTrackingController extends BaseController
 
         if ($this->time_tracking_details) {
             $this->tpl->assign([
-                'details'   =>  $this->time_tracking_details,
-                'start_date'    =>  Date_Helper::getDateTime($this->time_tracking_details['ttr_created_date']),
-                'end_date'    =>  Date_Helper::getDateTime($this->time_tracking_details['ttr_created_date'])->sub(
-                        new DateInterval('PT' . $this->time_tracking_details['ttr_time_spent'] . 'M'))
+                'details' => $this->time_tracking_details,
+                'start_date' => Date_Helper::getDateTime($this->time_tracking_details['ttr_created_date']),
+                'end_date' => Date_Helper::getDateTime($this->time_tracking_details['ttr_created_date'])->sub(
+                        new DateInterval('PT' . $this->time_tracking_details['ttr_time_spent'] . 'M')),
             ]);
         }
     }

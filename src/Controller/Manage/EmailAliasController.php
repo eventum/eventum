@@ -31,7 +31,7 @@ class EmailAliasController extends ManageBaseController
     private $usr_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -42,7 +42,7 @@ class EmailAliasController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -81,7 +81,7 @@ class EmailAliasController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

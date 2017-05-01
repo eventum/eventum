@@ -19,7 +19,7 @@ class RecentActivity
     private $usr_id;
     /** @var string */
     private $start_date;
-    /** @var  string */
+    /** @var string */
     private $end_date;
     /** @var array */
     private $activity_types;
@@ -372,7 +372,7 @@ class RecentActivity
             return $_REQUEST[$key];
         }
 
-        if (is_array($valid_values)  && in_array($_REQUEST[$key], $valid_values)) {
+        if (is_array($valid_values) && in_array($_REQUEST[$key], $valid_values)) {
             return $_REQUEST[$key];
         }
 

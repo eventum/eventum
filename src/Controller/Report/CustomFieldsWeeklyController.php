@@ -44,7 +44,7 @@ class CustomFieldsWeeklyController extends ReportBaseController
     private $custom_options;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -66,14 +66,14 @@ class CustomFieldsWeeklyController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

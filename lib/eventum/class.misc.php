@@ -110,9 +110,9 @@ class Misc
             }
 
             return $mixed;
-        } else {
-            return $callback($mixed);
         }
+
+        return $callback($mixed);
     }
 
     /**
@@ -179,7 +179,7 @@ class Misc
     {
         $setup = Setup::get();
 
-        return !empty($setup['tool_caption']) ? $setup['tool_caption'] : APP_NAME;
+        return $setup['tool_caption'] ?: APP_NAME;
     }
 
     /**
@@ -189,7 +189,7 @@ class Misc
      * @param   array $in_array The array to run the function against
      * @param   string $in_func The function to run
      * @param   array $in_args The array of arguments to pass to the function
-     * @param   integer $in_index Internal parameter to specify which index of the array we are currently mapping
+     * @param   int $in_index Internal parameter to specify which index of the array we are currently mapping
      * @return  array The mapped array
      */
     public static function array_map_deep(&$in_array, $in_func, $in_args = [], $in_index = 1)
@@ -219,7 +219,7 @@ class Misc
      * Method used to format a filesize in bytes to the appropriate string,
      * showing 'Kb' and 'Mb'.
      *
-     * @param   integer $bytes The filesize to format
+     * @param   int $bytes The filesize to format
      * @return  string The formatted filesize
      */
     public static function formatFileSize($bytes)
@@ -232,11 +232,10 @@ class Misc
             $kbytes = $bytes / 1024;
 
             return sprintf('%.1f', round($kbytes, 1)) . ' KiB';
-        } else {
-            $mbytes = ($bytes / 1024) / 1024;
-
-            return sprintf('%.1f', round($mbytes, 1)) . ' MiB';
         }
+        $mbytes = ($bytes / 1024) / 1024;
+
+        return sprintf('%.1f', round($mbytes, 1)) . ' MiB';
     }
 
     /**
@@ -246,7 +245,7 @@ class Misc
      * (for Gigabytes; available since PHP 5.1.0).
      *
      * @param   string $val The size to format
-     * @return  integer size in bytes
+     * @return  int size in bytes
      */
     public static function return_bytes($val)
     {
@@ -326,7 +325,7 @@ class Misc
     /**
      * Accepts a value and cleans it to only contain numeric values
      *
-     * @param   mixed $input The original input.
+     * @param   mixed $input the original input
      * @return  mixed The input converted to an integer
      * @deprecated Using this is bad design, must use placeholders in query
      */
@@ -405,9 +404,9 @@ class Misc
      * Method used to format the given number of minutes in a string showing
      * the number of hours and minutes (02:30)
      *
-     * @param   integer $minutes The number of minutes to format
-     * @param   boolean $omit_days If days should not be used, hours will just show up as greater then 24.
-     * @param   boolean $omit_empty If true, values that are "00" will be omitted.
+     * @param   int $minutes The number of minutes to format
+     * @param   bool $omit_days if days should not be used, hours will just show up as greater than 24
+     * @param   bool $omit_empty if true, values that are "00" will be omitted
      * @return  string The formatted time
      */
     public static function getFormattedTime($minutes, $omit_days = false, $omit_empty = false)
@@ -462,7 +461,7 @@ class Misc
      * @param   string $str The string to be indented
      * @return  string The indented string
      */
-    public function indent($str)
+    public static function indent($str)
     {
         return '> ' . $str;
     }
@@ -506,7 +505,7 @@ class Misc
      * web server user or not.
      *
      * @param   string $file The full path to the directory
-     * @return  boolean
+     * @return  bool
      */
     public static function isWritableDirectory($file)
     {
@@ -622,16 +621,16 @@ class Misc
     /**
      * Changes a boolean value to either "Yes" or "No".
      *
-     * @param   boolean $value The boolean value
-     * @return  string Either 'Yes' or 'No'.
+     * @param   bool $value The boolean value
+     * @return  string either 'Yes' or 'No'
      */
     public static function getBooleanDisplayValue($value)
     {
         if ($value == true) {
             return ev_gettext('Yes');
-        } else {
-            return ev_gettext('No');
         }
+
+        return ev_gettext('No');
     }
 
     public static function removeNewLines($str, $no_space = false)
@@ -682,7 +681,7 @@ class Misc
      *
      * Uses Medium Strength Generator
      *
-     * @link https://github.com/ircmaxell/RandomLib#factory-getlowstrengthgenerator
+     * @see https://github.com/ircmaxell/RandomLib#factory-getlowstrengthgenerator
      *
      * @param int $size
      * @return string
@@ -701,7 +700,7 @@ class Misc
      * It replaces {foo} with the value from $context['foo']
      *
      * @see \Monolog\Processor\PsrLogMessageProcessor()
-     * @link https://github.com/Seldaek/monolog/blob/master/src/Monolog/Processor/PsrLogMessageProcessor.php
+     * @see https://github.com/Seldaek/monolog/blob/master/src/Monolog/Processor/PsrLogMessageProcessor.php
      * @param string $message
      * @param  array $context
      * @return string

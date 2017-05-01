@@ -34,7 +34,7 @@ class LDAP_Wrapper extends LDAP_Auth_Backend
 
         if (Misc::isError($search)) {
             $entry = $search;
-            error_log($entry->getCode(). ': '. $entry->getMessage());
+            error_log($entry->getCode() . ': ' . $entry->getMessage());
 
             return null;
         }
@@ -53,9 +53,9 @@ class LDAP_Wrapper extends LDAP_Auth_Backend
     public function updateLocalUser($usr)
     {
         $data = [
-            'full_name' =>  $usr->full_name,
-            'email'     =>  $usr->email,
-            'external_id'   =>  $usr->uid,
+            'full_name' => $usr->full_name,
+            'email' => $usr->email,
+            'external_id' => $usr->uid,
         ];
 
         return User::update($usr->id, $data, false);

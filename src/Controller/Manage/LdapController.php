@@ -31,7 +31,7 @@ class LdapController extends ManageBaseController
     private $cat;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -41,7 +41,7 @@ class LdapController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -54,10 +54,22 @@ class LdapController extends ManageBaseController
     {
         $post = $this->getRequest()->request;
 
+        $setup = Setup::get()->ldap->toArray();
+
+        // special handling for binddn/bindpw:
+        // update bindpw only if submitted new value
+        // but as this makes impossible to clear its value
+        // clear bindpw if binddn is empty
+        $setup['binddn'] = $post->get('binddn');
+        if ($post->get('bindpw')) {
+            $setup['bindpw'] = $post->get('bindpw');
+        }
+        if ($setup['binddn'] == '') {
+            $setup['bindpw'] = '';
+        }
+
         $setup['host'] = $post->get('host');
         $setup['port'] = $post->get('port');
-        $setup['binddn'] = $post->get('binddn');
-        $setup['bindpw'] = $post->get('bindpw');
         $setup['basedn'] = $post->get('basedn');
         $setup['userdn'] = $post->get('userdn');
         $setup['user_filter'] = $post->get('user_filter');
@@ -74,12 +86,12 @@ class LdapController extends ManageBaseController
             -1 => ["ERROR: The system doesn't have the appropriate permissions " .
                         'to create the configuration file in the setup directory (' . APP_CONFIG_PATH . '). ".
                         "Please contact your local system administrator and ask for write privileges on the provided path.',
-                        MessagesHelper::MSG_HTML_BOX],
+                        MessagesHelper::MSG_HTML_BOX, ],
             -2 => ["ERROR: The system doesn't have the appropriate permissions " .
                         'to update the configuration file in the setup directory (' . APP_CONFIG_PATH . '/ldap.php). ".
                         "Please contact your local system administrator ".
                         "and ask for write privileges on the provided filename.',
-                   MessagesHelper::MSG_HTML_BOX],
+                   MessagesHelper::MSG_HTML_BOX, ],
         ];
         $this->messages->mapMessages($res, $map);
 
@@ -87,7 +99,7 @@ class LdapController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

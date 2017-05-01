@@ -46,6 +46,7 @@
 				<include name="**/ChangeLog*" />
 				<include name="**/LICENSE*" />
 				<include name="**/Makefile*" />
+				<include name="**/NEWS" />
 				<include name="**/README*" />
 				<include name="**/benchmark.php" />
 				<include name="**/composer.json" />
@@ -76,10 +77,6 @@
 			<!-- specific to packages -->
 			<fileset dir="${vendor}/smarty-gettext/smarty-gettext">
 				<include name="tsmarty2c.1" />
-			</fileset>
-
-			<fileset dir="${vendor}/smarty/smarty">
-				<include name="libs/Autoloader.php" />
 			</fileset>
 
 			<fileset dir="${vendor}/willdurand/email-reply-parser">
@@ -122,6 +119,11 @@
 				<exclude name="DB/mysql*.php" />
 			</fileset>
 
+			<fileset dir="${vendor}/pear/net_smartirc">
+				<exclude name="Net/SmartIRC.php" />
+				<exclude name="Net/SmartIRC/*.php" />
+			</fileset>
+
 			<!-- package not used -->
 			<fileset dir="${vendor}/pear/console_getopt">
 			</fileset>
@@ -147,6 +149,13 @@
 				<exclude name="mutex/Mutex.php" />
 				<exclude name="util/DoubleCheckedLocking.php" />
 				<exclude name="exception/*.php" />
+			</fileset>
+
+			<fileset dir="${vendor}/phpxmlrpc/phpxmlrpc">
+				<include name="debugger" />
+				<include name="extras" />
+				<include name="lib" />
+				<include name="pakefile.php" />
 			</fileset>
 		</delete>
 	</target>

@@ -24,7 +24,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
      *
      * @param   string $login The email address to check for
      * @param   string $password The password of the user to check for
-     * @return  boolean
+     * @return  bool
      */
     public function verifyPassword($login, $password)
     {
@@ -52,9 +52,9 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
     /**
      * Update the account password hash for a specific user.
      *
-     * @param   integer $usr_id The user ID
-     * @param   string $password The password.
-     * @return  boolean
+     * @param   int $usr_id The user ID
+     * @param   string $password the password
+     * @return  bool
      */
     public function updatePassword($usr_id, $password)
     {
@@ -89,8 +89,8 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
     /**
      * Increment the failed logins attempts for this user
      *
-     * @param   integer $usr_id The ID of the user
-     * @return  boolean
+     * @param   int $usr_id The ID of the user
+     * @return  bool
      */
     public function incrementFailedLogins($usr_id)
     {
@@ -113,8 +113,8 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
     /**
      * Reset the failed logins attempts for this user
      *
-     * @param   integer $usr_id The ID of the user
-     * @return  boolean
+     * @param   int $usr_id The ID of the user
+     * @return  bool
      */
     public function resetFailedLogins($usr_id)
     {
@@ -139,7 +139,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
      * Returns the true if the account is currently locked because of Back-Off locking
      *
      * @param   string $usr_id The email address to check for
-     * @return  boolean
+     * @return  bool
      */
     public function isUserBackOffLocked($usr_id)
     {
@@ -191,8 +191,6 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
     /**
      * Called on every page load and can be used to process external authentication checks before the rest of the
      * authentication process happens.
-     *
-     * @return null
      */
     public function checkAuthentication()
     {
@@ -212,7 +210,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
     /**
      * Returns true if the user should automatically be redirected to the external login URL, false otherwise
      *
-     * @return  boolean
+     * @return  bool
      */
     public function autoRedirectToExternalLogin()
     {

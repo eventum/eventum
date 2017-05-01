@@ -20,7 +20,7 @@ abstract class Abstract_Fulltext_Search
      * Returns the issue IDs matching the search query.
      *
      * @abstract
-     * @param   array   $options    The array of search options.
+     * @param   array   $options    the array of search options
      * @return  array   An array of issues IDs matching the given search options
      */
     abstract public function getIssueIDs($options);

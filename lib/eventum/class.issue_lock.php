@@ -57,7 +57,7 @@ class Issue_Lock
      * script to run.
      *
      * @param   int $issue_id Issue id
-     * @return  boolean
+     * @return  bool
      */
     public static function release($issue_id)
     {

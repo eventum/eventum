@@ -11,6 +11,10 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Setup;
+
 class ConfigTest extends TestCase
 {
     public function testConfig()
@@ -56,7 +60,7 @@ class ConfigTest extends TestCase
     }
 
     /**
-     * @see Mail_Helper::getSMTPSettings does this weird settype:
+     * @see Mail_Helper::getSMTPSettings did this weird settype:
      * settype($config['smtp']['auth'], 'boolean');
      * that does not work (Indirect modification error),
      * so test version that works

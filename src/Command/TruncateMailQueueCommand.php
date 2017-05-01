@@ -23,7 +23,7 @@ class TruncateMailQueueCommand extends Command
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function execute()
     {
