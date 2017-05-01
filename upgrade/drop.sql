@@ -84,3 +84,4 @@ DROP TABLE IF EXISTS {{%user_preference}};
 DROP TABLE IF EXISTS {{%user_project_preference}};
 DROP TABLE IF EXISTS {{%user}};
 DROP TABLE IF EXISTS {{%version}};
+DROP TABLE IF EXISTS {{%phinxlog}};

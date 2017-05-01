@@ -17,11 +17,8 @@ use Auth;
 use Date_Helper;
 use DB_Helper;
 use Eventum\Controller\BaseController;
-use Eventum\Db\Adapter\AdapterInterface;
-use Eventum\Db\DatabaseException;
-use Eventum\Db\Migrate;
 use Eventum\Monolog\Logger;
-use Exception;
+use Eventum\Setup\DatabaseSetup;
 use IntlCalendar;
 use Misc;
 use RuntimeException;
@@ -243,24 +240,6 @@ class SetupController extends BaseController
         return [$warnings, $errors];
     }
 
-    private function getErrorMessage($type, $message)
-    {
-        if (empty($message)) {
-            return '';
-        }
-        if (stristr($message, 'Unknown MySQL Server Host')) {
-            return 'Could not connect to the MySQL database server with the provided information.';
-        } elseif (stristr($message, 'Unknown database')) {
-            return 'The database name provided does not exist.';
-        } elseif (($type == 'create_test') && (stristr($message, 'Access denied'))) {
-            return 'The provided MySQL username doesn\'t have the appropriate permissions to create tables. Please contact your local system administrator for further assistance.';
-        } elseif (($type == 'drop_test') && (stristr($message, 'Access denied'))) {
-            return 'The provided MySQL username doesn\'t have the appropriate permissions to drop tables. Please contact your local system administrator for further assistance.';
-        }
-
-        return $message;
-    }
-
     private function getTimezone()
     {
         $ini = ini_get('date.timezone');
@@ -294,60 +273,9 @@ class SetupController extends BaseController
         return 1;
     }
 
-    /***
-     * @param AdapterInterface $conn
-     * @param string $database
-     * @return array|null
-     */
-    private function checkDatabaseExists($conn, $database)
-    {
-        $exists = $conn->getOne('SHOW DATABASES LIKE ?', [$database]);
-
-        return $exists;
-    }
-
-    /**
-     * @param AdapterInterface $conn
-     * @return array
-     */
-    private function getUserList($conn)
-    {
-        // avoid "1046 ** No database selected" error
-        $conn->query('USE mysql');
-        try {
-            $users = $conn->getColumn('SELECT DISTINCT User FROM user');
-        } catch (DatabaseException $e) {
-            // if the user cannot select from the mysql.user table, then return an empty list
-            return [];
-        }
-
-        return $users;
-    }
-
-    /**
-     * @param AdapterInterface $conn
-     * @return array
-     */
-    private function getTableList($conn)
-    {
-        $tables = $conn->getColumn('SHOW TABLES');
-
-        return $tables;
-    }
-
     private function e($s)
     {
         return var_export($s, 1);
-    }
-
-    private function get_queries($file)
-    {
-        $contents = file_get_contents($file);
-        $queries = explode(';', $contents);
-        $queries = Misc::trim($queries);
-        $queries = array_filter($queries);
-
-        return $queries;
     }
 
     private function initlogger()
@@ -365,153 +293,29 @@ class SetupController extends BaseController
         Logger::initialize();
     }
 
-    private function getDb()
-    {
-        $this->initlogger();
-        try {
-            return DB_Helper::getInstance(false);
-        } catch (DatabaseException $e) {
-        }
-
-        $err = $e->getMessage();
-
-        // Given such PDO Exception:
-        // "SQLSTATE[HY000] [2002] No such file or directory"
-        // indicate that mysql default socket may be wrong
-        if (strpos($err, 'No such file or directory') !== false) {
-            $ini = 'pdo_mysql.default_socket';
-            $err .= sprintf(". Please check that PHP ini parameter $ini='%s' is correct", ini_get($ini));
-        }
-
-        throw new RuntimeException($err, $e->getCode());
-    }
-
     /**
      * return error message as string, or true indicating success
      * requires setup to be written first.
      */
     private function setup_database()
     {
-        $conn = $this->getDb();
+        $this->initlogger();
         $post = $this->getRequest()->request;
 
-        $db_name = $post->get('db_name');
-        $eventum_user = $post->get('eventum_user');
-        $eventum_password = $post->get('eventum_password');
+        $db_config = [
+            'db_name' => $post->get('db_name'),
+            'user' => $post->get('eventum_user'),
+            'password' => $post->get('eventum_password'),
 
-        $db_exists = $this->checkDatabaseExists($conn, $db_name);
-        if (!$db_exists) {
-            if ($post->get('create_db') == 'yes') {
-                try {
-                    $conn->query("CREATE DATABASE {{{$db_name}}}");
-                } catch (DatabaseException $e) {
-                    throw new RuntimeException($this->getErrorMessage('create_db', $e->getMessage()));
-                }
-            } else {
-                throw new RuntimeException(
-                    'The provided database name could not be found. Review your information or specify that the database should be created in the form below.'
-                );
-            }
-        }
+            'drop_tables' => $post->get('drop_tables') == 'yes',
+            'create_db' => $post->get('create_db') == 'yes',
+            'alternate_user' => $post->get('alternate_user') == 'yes',
+            'create_user' => $post->get('create_user') == 'yes',
+        ];
 
-        // create the new user, if needed
-        if ($post->get('alternate_user') == 'yes') {
-            $user_list = $this->getUserList($conn);
-            if ($user_list) {
-                $user_exists = in_array($eventum_user, $user_list);
-
-                if ($post->get('create_user') == 'yes') {
-                    if (!$user_exists) {
-                        $stmt
-                            = "GRANT SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE, INDEX ON {{{$db_name}}}.* TO ?@'%' IDENTIFIED BY ?";
-                        try {
-                            $conn->query($stmt, [$eventum_user, $eventum_password]);
-                        } catch (DatabaseException $e) {
-                            throw new RuntimeException($this->getErrorMessage('create_user', $e->getMessage()));
-                        }
-                    }
-                } else {
-                    if (!$user_exists) {
-                        throw new RuntimeException(
-                            'The provided MySQL username could not be found. Review your information or specify that the username should be created in the form below.'
-                        );
-                    }
-                }
-            }
-        }
-
-        // check if we can use the database
-        try {
-            $conn->query("USE {{{$db_name}}}");
-        } catch (DatabaseException $e) {
-            throw new RuntimeException($this->getErrorMessage('select_db', $e->getMessage()));
-        }
-
-        // check the CREATE and DROP privileges by trying to create and drop a test table
-        $table_list = $this->getTableList($conn);
-        if (!in_array('eventum_test', $table_list)) {
-            try {
-                $conn->query('CREATE TABLE eventum_test (test CHAR(1))');
-            } catch (DatabaseException $e) {
-                throw new RuntimeException($this->getErrorMessage('create_test', $e->getMessage()));
-            }
-        }
-        try {
-            $conn->query('DROP TABLE eventum_test');
-        } catch (DatabaseException $e) {
-            throw new RuntimeException($this->getErrorMessage('drop_test', $e->getMessage()));
-        }
-
-        // if requested. drop tables first
-        if ($post->get('drop_tables') == 'yes') {
-            $queries = $this->get_queries(APP_PATH . '/upgrade/drop.sql');
-            foreach ($queries as $stmt) {
-                try {
-                    $conn->query($stmt);
-                } catch (DatabaseException $e) {
-                    throw new RuntimeException($this->getErrorMessage('drop_table', $e->getMessage()));
-                }
-            }
-        }
-
-        // setup database with upgrade script
-        $buffer = [];
-        try {
-            $dbmigrate = new Migrate(APP_PATH . '/upgrade');
-            $dbmigrate->setLogger(
-                function ($e) use (&$buffer) {
-                    $buffer[] = $e;
-                }
-            );
-            $dbmigrate->patch_database();
-            $e = false;
-        } catch (Exception $e) {
-        }
-
-        $this->tpl->assign('db_result', implode("\n", $buffer));
-
-        if ($e) {
-            $upgrade_script = APP_PATH . '/bin/upgrade.php';
-            $error = [
-                'Database setup failed on upgrade:',
-                "<tt>{$e->getMessage()}</tt>",
-                '',
-                "You may want run update script <tt>$upgrade_script</tt> manually",
-            ];
-            throw new RuntimeException(implode('<br/>', $error));
-        }
-
-        // write db name now that it has been created
-        $setup = [];
-        $setup['database'] = $db_name;
-
-        // substitute the appropriate values in config.php!!!
-        if ($post->get('alternate_user') == 'yes') {
-            $setup['username'] = $eventum_user;
-            $setup['password'] = $eventum_password;
-        }
-
-        Setup::save(['database' => $setup]);
+        $dbs = new DatabaseSetup();
+        $db_result = $dbs->run($db_config);
+        $this->tpl->assign('db_result', implode("\n", $db_result));
     }
 
     /**
