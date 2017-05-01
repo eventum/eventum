@@ -59,8 +59,6 @@ if (!file_exists(APP_SETUP_FILE)) {
     // create new config
     Setup::save([
         'database' => [
-            'driver' => 'mysqli',
-
             'hostname' => 'localhost',
             'database' => 'eventum',
             'username' => 'mysql',

@@ -21,7 +21,7 @@ use Eventum\Db\DatabaseException;
  */
 class DB_Helper
 {
-    const DEFAULT_ADAPTER = 'Pear';
+    const DEFAULT_ADAPTER = 'PdoAdapter';
 
     /**
      * @param bool $fallback
@@ -44,36 +44,28 @@ class DB_Helper
 
         try {
             $instance = new $className($config);
-        } catch (DatabaseException $e) {
-            // set dummy provider in as offline.php uses db methods
-            $instance = new NullAdapter($config);
 
-            if (!$fallback) {
-                throw $e;
-            }
-            /** @global $error_type */
-            /** @noinspection PhpUnusedLocalVariableInspection */
-            $error_type = 'db';
-            require APP_PATH . '/htdocs/offline.php';
-            exit(2);
+            return $instance;
+        } catch (DatabaseException $e) {
         }
 
-        return $instance;
+        // set dummy provider in as offline.php uses db methods
+        $instance = new NullAdapter($config);
+
+        if (!$fallback) {
+            throw $e;
+        }
+
+        /** @global $error_type */
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        $error_type = 'db';
+        require APP_PATH . '/htdocs/offline.php';
+        exit(2);
     }
 
     private static function getAdapterClass($config)
     {
-        $classname = isset($config['classname']) ? $config['classname'] : self::DEFAULT_ADAPTER;
-
-        // legacy class name started with 'Db'
-        if (substr($classname, 0, 2) == 'Db') {
-            $classname = substr($classname, 2);
-        }
-
-        // append Adapter to classname
-        if (substr($classname, -7) != 'Adapter') {
-            $classname .= 'Adapter';
-        }
+        $classname = isset($config['adapter']) ? $config['adapter'] : self::DEFAULT_ADAPTER;
 
         return 'Eventum\\Db\\Adapter\\' . $classname;
     }
@@ -121,10 +113,7 @@ class DB_Helper
     }
 
     /**
-     * Method used to get the last inserted ID. This is a simple
-     * wrapper to the mysql_insert_id function, as a work around to
-     * the somewhat annoying implementation of PEAR::DB to create
-     * separate tables to host the ID sequences.
+     * Method used to get the last inserted ID.
      *
      * @return  int The last inserted ID
      */

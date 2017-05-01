@@ -380,15 +380,13 @@ class SetupController extends BaseController
         }
 
         $err = $e->getMessage();
-        // PEAR driver has 'debuginfo' property
-        if (isset($e->context['debuginfo'])) {
-            $err .= ' ' . $e->context['debuginfo'];
-        }
 
+        // Given such PDO Exception:
+        // "SQLSTATE[HY000] [2002] No such file or directory"
         // indicate that mysql default socket may be wrong
-        if (strpos($err, 'No such file or directory') !== 0) {
-            $ini = 'mysqli.default_socket';
-            $err .= sprintf(" Please check that PHP ini parameter $ini='%s' is correct", ini_get($ini));
+        if (strpos($err, 'No such file or directory') !== false) {
+            $ini = 'pdo_mysql.default_socket';
+            $err .= sprintf(". Please check that PHP ini parameter $ini='%s' is correct", ini_get($ini));
         }
 
         throw new RuntimeException($err, $e->getCode());
@@ -548,12 +546,6 @@ class SetupController extends BaseController
         }
 
         $setup['database'] = [
-            // database driver
-            'driver' => 'mysql',
-
-            // use Pdo for new installations
-            'classname' => 'Pdo',
-
             // connection info
             'hostname' => $hostname,
             'database' => '', // NOTE: db name has to be written after the table has been created
@@ -561,9 +553,6 @@ class SetupController extends BaseController
             'password' => $post->get('db_password'),
             'port' => 3306,
             'socket' => $socket,
-
-            // table prefix
-            'table_prefix' => '',
         ];
 
         Setup::save($setup);
