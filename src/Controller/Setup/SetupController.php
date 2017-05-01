@@ -453,9 +453,6 @@ class SetupController extends BaseController
             throw new RuntimeException($this->getErrorMessage('select_db', $e->getMessage()));
         }
 
-        // set sql mode (sad that we rely on old bad mysql defaults)
-        $conn->query("SET SQL_MODE = ''");
-
         // check the CREATE and DROP privileges by trying to create and drop a test table
         $table_list = $this->getTableList($conn);
         if (!in_array('eventum_test', $table_list)) {
