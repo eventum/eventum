@@ -16,7 +16,7 @@ namespace Eventum\Setup;
 use DB_Helper;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
-use Misc;
+use Eventum\Db\Table;
 use Phinx\Console\PhinxApplication;
 use RuntimeException;
 use Setup;
@@ -178,16 +178,6 @@ class DatabaseSetup
         throw new RuntimeException($err, $e->getCode());
     }
 
-    private function get_queries($file)
-    {
-        $contents = file_get_contents($file);
-        $queries = explode(';', $contents);
-        $queries = Misc::trim($queries);
-        $queries = array_filter($queries);
-
-        return $queries;
-    }
-
     /***
      * @param string $database
      * @return array|null
@@ -210,8 +200,8 @@ class DatabaseSetup
 
     private function dropTables()
     {
-        $queries = $this->get_queries(APP_PATH . '/upgrade/drop.sql');
-        foreach ($queries as $stmt) {
+        foreach (Table::getTableList() as $table) {
+            $stmt = "DROP TABLE IF EXISTS `$table`";
             try {
                 $this->conn->query($stmt);
             } catch (DatabaseException $e) {

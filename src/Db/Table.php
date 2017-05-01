@@ -24,6 +24,7 @@ class Table
      */
     public static function getTableList()
     {
+        // keep this list sorted for better git diffs
         return [
             'api_token',
             'columns_to_display',
@@ -64,6 +65,7 @@ class Table
             'news',
             'note',
             'partner_project',
+            'phinxlog',
             'phone_support',
             'product',
             'project',
