@@ -35,8 +35,8 @@ return [
     ],
     'environments' => [
         'default_migration_table' => 'phinxlog',
-        'default_database' => $config['database'],
-        $config['database'] => [
+        'default_database' => 'production',
+        'production' => [
             'adapter' => 'mysql',
             'host' => $config['hostname'],
             'name' => $config['database'],
