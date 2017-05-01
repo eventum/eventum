@@ -321,9 +321,6 @@ class SetupController extends BaseController
             return [];
         }
 
-        // FIXME: why lowercase is necessary?
-        $users = Misc::lowercase($users);
-
         return $users;
     }
 
@@ -334,9 +331,6 @@ class SetupController extends BaseController
     private function getTableList($conn)
     {
         $tables = $conn->getColumn('SHOW TABLES');
-
-        // FIXME: why is lowercase necessary?
-        $tables = Misc::lowercase($tables);
 
         return $tables;
     }
@@ -424,7 +418,7 @@ class SetupController extends BaseController
         if ($post->get('alternate_user') == 'yes') {
             $user_list = $this->getUserList($conn);
             if ($user_list) {
-                $user_exists = in_array(strtolower($eventum_user), $user_list);
+                $user_exists = in_array($eventum_user, $user_list);
 
                 if ($post->get('create_user') == 'yes') {
                     if (!$user_exists) {
