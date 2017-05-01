@@ -315,7 +315,7 @@ class SetupController extends BaseController
 
         $dbs = new DatabaseSetup();
         $db_result = $dbs->run($db_config);
-        $this->tpl->assign('db_result', implode("\n", $db_result));
+        $this->tpl->assign('db_result', $db_result);
     }
 
     /**

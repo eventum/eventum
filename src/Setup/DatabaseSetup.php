@@ -16,11 +16,12 @@ namespace Eventum\Setup;
 use DB_Helper;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
-use Eventum\Db\Migrate;
-use Exception;
 use Misc;
+use Phinx\Console\PhinxApplication;
 use RuntimeException;
 use Setup;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 class DatabaseSetup
 {
@@ -78,37 +79,26 @@ class DatabaseSetup
     }
 
     /**
-     * init database with with upgrade tool
+     * Init database with with upgrade tool.
+     * IMPORtANT: this method changes current dir.
      *
      * @return array output from upgrade script
      */
     private function migrateDatabase()
     {
-        $buffer = [];
-        try {
-            $dbmigrate = new Migrate(APP_PATH . '/upgrade');
-            $dbmigrate->setLogger(
-                function ($e) use (&$buffer) {
-                    $buffer[] = $e;
-                }
-            );
-            $dbmigrate->patch_database();
-            $e = false;
-        } catch (Exception $e) {
-        }
+        // run phinx based updater
+        chdir(__DIR__ . '/../..');
 
-        if ($e) {
-            $upgrade_script = APP_PATH . '/bin/upgrade.php';
-            $error = [
-                'Database setup failed on upgrade:',
-                "<tt>{$e->getMessage()}</tt>",
-                '',
-                "You may want run update script <tt>$upgrade_script</tt> manually",
-            ];
-            throw new RuntimeException(implode('<br/>', $error));
-        }
+        // emulate running "migrate" command
+        global $argv;
+        $input = new ArgvInput([$argv[0], 'migrate']);
+        $output = new BufferedOutput();
 
-        return $buffer;
+        $app = new PhinxApplication();
+        $app->setAutoExit(false);
+        $app->run($input, $output);
+
+        return $output->fetch();
     }
 
     public function run($db_config)
