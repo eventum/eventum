@@ -20,7 +20,6 @@ use RecentActivity;
  * Class RecentActivityController
  *
  * This report shows a list of activity performed in recent history.
- *
  */
 class RecentActivityController extends ReportBaseController
 {

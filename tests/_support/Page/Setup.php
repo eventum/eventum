@@ -15,7 +15,6 @@ namespace Page;
 
 /**
  * Page for Setup (Installation) actions
- *
  */
 class Setup
 {

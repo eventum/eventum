@@ -262,7 +262,6 @@ class Support
 
     /**
      * Method used to clear the error stack as required by the IMAP PHP extension.
-     *
      */
     public static function clearErrors()
     {

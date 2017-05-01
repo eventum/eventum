@@ -17,7 +17,6 @@ use Auth;
 
 /**
  * Class StatsChartController
- *
  */
 class StatsChartController extends BaseController
 {

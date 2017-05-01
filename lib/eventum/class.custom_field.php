@@ -1565,7 +1565,6 @@ class Custom_Field
 
     /**
      * Changes the rank of a custom field
-     *
      */
     public static function changeRank()
     {

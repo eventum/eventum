@@ -18,7 +18,6 @@ use Monolog\Handler\StreamHandler as BaseStreamHandler;
 
 /**
  * Class StreamHandler override Monolog StreamHandler to set file permissions only for new files
- *
  */
 class StreamHandler extends BaseStreamHandler
 {

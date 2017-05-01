@@ -45,7 +45,6 @@ class Language
 
     /**
      * Method used to set application default locale.
-     *
      */
     public static function setup()
     {
@@ -132,7 +131,6 @@ class Language
     /**
      * Method used to set the appropriate preference of the language
      * for the application based on user preference.
-     *
      */
     public static function setPreference()
     {

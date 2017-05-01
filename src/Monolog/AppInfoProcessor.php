@@ -18,7 +18,6 @@ use Auth;
 /**
  * Class AppVersionProcessor
  * Inject eventum version into logger
- *
  */
 class AppInfoProcessor
 {

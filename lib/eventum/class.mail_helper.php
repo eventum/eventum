@@ -32,7 +32,6 @@ class Mail_Helper
     /**
      * Class constructor. It includes and initializes the required
      * PEAR::Mail related objects
-     *
      */
     public function __construct()
     {
@@ -850,7 +849,6 @@ class Mail_Helper
 
     /**
      * Checks to make sure In-Reply-To and References headers are correct.
-     *
      */
     public static function rewriteThreadingHeaders($issue_id, $full_email, $headers, $type = 'email')
     {

@@ -25,7 +25,6 @@ use Setup;
  *
  * Provides methods to encrypt/decrypt a text using own private key.
  * The encrypted value is base64 encoded so it's safe to store to database.
- *
  */
 final class CryptoManager
 {

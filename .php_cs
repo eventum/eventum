@@ -81,6 +81,7 @@ $symfony_rules = [
     'phpdoc_scalar' => true,
     'phpdoc_separation' => false,
     'phpdoc_summary' => false,
+    'phpdoc_trim' => true,
     'self_accessor' => true,
     'single_quote' => true,
     'standardize_not_equals' => true,

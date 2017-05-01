@@ -162,7 +162,6 @@ class UpdateController extends BaseController
         $has_duplicates = Issue::hasDuplicates($this->issue_id);
 
         /**
-         *
          *  FIXME: refactor this global $errors
          * it's filled by Issue::updateAssociatedIssuesRelations via Issue::update
          * https://github.com/eventum/eventum/blob/v3.0.6/lib/eventum/class.issue.php#L1474

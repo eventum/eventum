@@ -21,7 +21,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Standard SCM handler
- *
  */
 class StdScm extends AbstractScmAdapter
 {

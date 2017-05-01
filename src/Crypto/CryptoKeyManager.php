@@ -18,7 +18,6 @@ use RandomLib;
 
 /**
  * Class CryptoKeyManager dealing with key loading and generating
- *
  */
 final class CryptoKeyManager
 {

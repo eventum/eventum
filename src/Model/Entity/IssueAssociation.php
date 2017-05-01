@@ -15,7 +15,6 @@ namespace Eventum\Model\Entity;
 
 /**
  * IssueAssociation
- *
  */
 class IssueAssociation extends BaseModel
 {
