@@ -52,7 +52,7 @@ Old Value  | New Value | Description
 Upgrading from versions before 3.0
 ----------------------------------
 
-Upgrading directly to 3.1 from versions before 3.0 does not work, you have to upgrade to 3.0 series first.
+Upgrading directly to 3.1/3.2 from versions before 3.0 does not work, you have to upgrade to 3.0 series first.
 
 Upgrading from versions before 2.2
 ----------------------------------
