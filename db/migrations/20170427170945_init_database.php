@@ -253,11 +253,13 @@ class InitDatabase extends AbstractMigration
         $this->getPrimaryKey($table)->setIdentity(true);
         $table->create();
 
-        $this->table('history_type', ['id' => 'htt_id'])
+        $table = $this->table('history_type', ['id' => false, 'primary_key' => 'htt_id'])
+            ->addColumn('htt_id', 'integer', ['length' => 255, 'signed' => false])
             ->addColumn('htt_name', 'string', ['length' => 25])
             ->addColumn('htt_role', 'boolean', ['default' => 0, 'null' => true])
-            ->addIndex(['htt_name'], ['unique' => true])
-        ->create();
+            ->addIndex(['htt_name'], ['unique' => true]);
+        $this->getPrimaryKey($table)->setIdentity(true);
+        $table->create();
 
         $table = $this->table('irc_notice', ['id' => false, 'primary_key' => 'ino_id'])
             ->addColumn('ino_id', 'integer', ['length' => 11, 'signed' => false])
@@ -655,13 +657,15 @@ class InitDatabase extends AbstractMigration
         $this->getPrimaryKey($table)->setIdentity(true);
         $table->create();
 
-        $this->table('project_priority', ['id' => 'pri_id'])
+        $table = $this->table('project_priority', ['id' => false, 'primary_key' => 'pri_id'])
+            ->addColumn('pri_id', 'integer', ['length' => self::INT_SMALL, 'signed' => false])
             ->addColumn('pri_prj_id', 'integer', ['signed' => false])
             ->addColumn('pri_title', 'string', ['length' => 64, 'default' => ''])
             ->addColumn('pri_rank', 'boolean')
             ->addColumn('pri_icon', 'integer', ['length' => 255, 'default' => 0])
-            ->addIndex(['pri_title', 'pri_prj_id'], ['unique' => true])
-        ->create();
+            ->addIndex(['pri_title', 'pri_prj_id'], ['unique' => true]);
+        $this->getPrimaryKey($table)->setIdentity(true);
+        $table->create();
 
         $table = $this->table('project_release', ['id' => false, 'primary_key' => 'pre_id'])
             ->addColumn('pre_id', 'integer', ['length' => 10, 'signed' => false])
@@ -682,13 +686,15 @@ class InitDatabase extends AbstractMigration
         $this->getPrimaryKey($table)->setIdentity(true);
         $table->create();
 
-        $this->table('project_severity', ['id' => 'sev_id'])
+        $table = $this->table('project_severity', ['id' => false, 'primary_key' => 'sev_id'])
+            ->addColumn('sev_id', 'integer', ['length' => self::INT_SMALL, 'signed' => false])
             ->addColumn('sev_prj_id', 'integer', ['signed' => false])
             ->addColumn('sev_title', 'string', ['length' => 64, 'default' => ''])
             ->addColumn('sev_description', 'string', ['null' => true])
             ->addColumn('sev_rank', 'boolean')
-            ->addIndex(['sev_title', 'sev_prj_id'], ['unique' => true, 'name' => 'sev_title'])
-        ->create();
+            ->addIndex(['sev_title', 'sev_prj_id'], ['unique' => true, 'name' => 'sev_title']);
+        $this->getPrimaryKey($table)->setIdentity(true);
+        $table->create();
 
         $table = $this->table('project_status', ['id' => false, 'primary_key' => 'prs_id'])
             ->addColumn('prs_id', 'integer', ['length' => 10, 'signed' => false])
@@ -737,20 +743,24 @@ class InitDatabase extends AbstractMigration
             ->addColumn('ral_usr_id', 'integer', ['signed' => false])
         ->create();
 
-        $this->table('reminder_action_type', ['id' => 'rmt_id'])
+        $table = $this->table('reminder_action_type', ['id' => false, 'primary_key' => 'rmt_id'])
+            ->addColumn('rmt_id', 'integer', ['length' => 255, 'signed' => false])
             ->addColumn('rmt_type', 'string', ['length' => 32])
             ->addColumn('rmt_title', 'string', ['length' => 64])
             ->addIndex(['rmt_type'], ['unique' => true])
-            ->addIndex(['rmt_title'], ['unique' => true])
-        ->create();
+            ->addIndex(['rmt_title'], ['unique' => true]);
+        $this->getPrimaryKey($table)->setIdentity(true);
+        $table->create();
 
-        $this->table('reminder_field', ['id' => 'rmf_id'])
+        $table = $this->table('reminder_field', ['id' => false, 'primary_key' => 'rmf_id'])
+            ->addColumn('rmf_id', 'integer', ['length' => 255, 'signed' => false])
             ->addColumn('rmf_title', 'string', ['length' => 128])
             ->addColumn('rmf_sql_field', 'string', ['length' => 32])
             ->addColumn('rmf_sql_representation', 'string')
             ->addColumn('rmf_allow_column_compare', 'boolean', ['default' => 0, 'null' => true])
-            ->addIndex(['rmf_title'], ['unique' => true])
-        ->create();
+            ->addIndex(['rmf_title'], ['unique' => true]);
+        $this->getPrimaryKey($table)->setIdentity(true);
+        $table->create();
 
         $table = $this->table('reminder_history', ['id' => false, 'primary_key' => 'rmh_id'])
             ->addColumn('rmh_id', 'integer', ['length' => 11, 'signed' => false])
@@ -783,11 +793,13 @@ class InitDatabase extends AbstractMigration
         $this->getPrimaryKey($table)->setIdentity(true);
         $table->create();
 
-        $this->table('reminder_operator', ['id' => 'rmo_id'])
+        $table = $this->table('reminder_operator', ['id' => false, 'primary_key' => 'rmo_id'])
+            ->addColumn('rmo_id', 'integer', ['length' => 255, 'signed' => false])
             ->addColumn('rmo_title', 'string', ['length' => 32, 'null' => true])
             ->addColumn('rmo_sql_representation', 'string', ['length' => 32, 'null' => true])
-            ->addIndex(['rmo_title'], ['unique' => true])
-        ->create();
+            ->addIndex(['rmo_title'], ['unique' => true]);
+        $this->getPrimaryKey($table)->setIdentity(true);
+        $table->create();
 
         $table = $this->table('reminder_priority', ['id' => false, 'primary_key' => 'rep_id'])
             ->addColumn('rep_id', 'integer', ['length' => 11, 'signed' => false])
