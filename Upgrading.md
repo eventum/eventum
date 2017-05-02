@@ -48,6 +48,7 @@ Old Value  | New Value | Description
 `templates_c`  | `var/cache` | templates cache
 `locks`  | `var/lock` | various lock and pid files
 `logs`  | `var/log` | directory for logs
+* Since 3.2.0 MySQL extension was changed from mysql/mysqli to [PDO_MySQL](https://github.com/eventum/eventum/pull/252):
 
 Upgrading from versions before 3.0
 ----------------------------------
