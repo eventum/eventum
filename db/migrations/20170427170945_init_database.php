@@ -969,7 +969,6 @@ class InitDatabase extends AbstractMigration
         $this->getPrimaryKey($table)->setIdentity(true);
         $table->create();
 
-        // FIXME: upgrade/patches/02_usr_alias.sql has no engine=xxx, add patch
         $this->table('user_alias', ['id' => false])
             ->addColumn('ual_usr_id', 'integer', ['signed' => false])
             ->addColumn('ual_email', 'string', ['null' => true])
@@ -977,14 +976,12 @@ class InitDatabase extends AbstractMigration
             ->addIndex(['ual_usr_id', 'ual_email'])
         ->create();
 
-        // FIXME: upgrade/patches/45_multiple_groups.php has no ENGINE
         $this->table('user_group', ['id' => false, 'primary_key' => ['ugr_usr_id', 'ugr_grp_id']])
             ->addColumn('ugr_usr_id', 'integer', ['length' => 10, 'signed' => false])
             ->addColumn('ugr_grp_id', 'integer', ['length' => 10, 'signed' => false])
             ->addColumn('ugr_created', 'datetime')
         ->create();
 
-        // FIXME: upgrade/patches/07_user_preference.php:24:
         $this->table('user_preference', ['id' => false, 'primary_key' => ['upr_usr_id']])
             ->addColumn('upr_usr_id', 'integer', ['signed' => false])
             ->addColumn('upr_timezone', 'string', ['length' => 100])
