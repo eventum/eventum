@@ -42,7 +42,7 @@ class InitDatabase extends AbstractMigration
         ->create();
 
         $this->table('columns_to_display', ['id' => false, 'primary_key' => ['ctd_prj_id', 'ctd_page', 'ctd_field']])
-            ->addColumn('ctd_prj_id', 'integer')
+            ->addColumn('ctd_prj_id', 'integer', ['signed' => false])
             ->addColumn('ctd_page', 'string', ['length' => 20])
             ->addColumn('ctd_field', 'string', ['length' => 30])
             ->addColumn('ctd_min_role', 'boolean', ['default' => 0])
@@ -214,7 +214,7 @@ class InitDatabase extends AbstractMigration
         ->create();
 
         $this->table('faq_support_level', ['id' => false, 'primary_key' => ['fsl_faq_id', 'fsl_support_level_id']])
-            ->addColumn('fsl_faq_id', 'integer')
+            ->addColumn('fsl_faq_id', 'integer', ['signed' => false])
             ->addColumn('fsl_support_level_id', 'string', ['length' => 50])
         ->create();
 
@@ -379,7 +379,7 @@ class InitDatabase extends AbstractMigration
         ->create();
 
         $this->table('issue_partner', ['id' => false, 'primary_key' => ['ipa_iss_id', 'ipa_par_code']])
-            ->addColumn('ipa_iss_id', 'integer')
+            ->addColumn('ipa_iss_id', 'integer', ['signed' => false])
             ->addColumn('ipa_par_code', 'string', ['length' => 30])
             ->addColumn('ipa_created_date', 'datetime')
         ->create();
@@ -478,7 +478,7 @@ class InitDatabase extends AbstractMigration
         ->create();
 
         $this->table('partner_project', ['id' => false, 'primary_key' => ['pap_prj_id', 'pap_par_code']])
-            ->addColumn('pap_prj_id', 'integer')
+            ->addColumn('pap_prj_id', 'integer', ['signed' => false])
             ->addColumn('pap_par_code', 'string', ['length' => 30])
         ->create();
 
@@ -551,7 +551,7 @@ class InitDatabase extends AbstractMigration
         ->create();
 
         $this->table('project_field_display', ['id' => false, 'primary_key' => ['pfd_prj_id', 'pfd_field']])
-            ->addColumn('pfd_prj_id', 'integer')
+            ->addColumn('pfd_prj_id', 'integer', ['signed' => false])
             ->addColumn('pfd_field', 'string', ['length' => 20])
             ->addColumn('pfd_min_role', 'boolean', ['default' => 0])
             ->addColumn('pfd_required', 'boolean', ['default' => 0])
@@ -644,7 +644,7 @@ class InitDatabase extends AbstractMigration
         ->create();
 
         $this->table('reminder_action_list', ['id' => false])
-            ->addColumn('ral_rma_id', 'integer')
+            ->addColumn('ral_rma_id', 'integer', ['signed' => false])
             ->addColumn('ral_email', 'string')
             ->addColumn('ral_usr_id', 'integer', ['signed' => false])
         ->create();
@@ -793,7 +793,7 @@ class InitDatabase extends AbstractMigration
         ->create();
 
         $this->table('support_email_body', ['id' => false, 'primary_key' => ['seb_sup_id']])
-            ->addColumn('seb_sup_id', 'integer')
+            ->addColumn('seb_sup_id', 'integer', ['signed' => false])
             ->addColumn('seb_body', 'text', ['length' => self::INT_REGULAR])
             ->addColumn('seb_full_email', self::PHINX_TYPE_BLOB, ['length' => self::BLOB_LONG])
             ->addIndex(['seb_body'], ['type' => 'fulltext', 'name' => 'ft_support_email'])
@@ -839,7 +839,7 @@ class InitDatabase extends AbstractMigration
 
         // FIXME: upgrade/patches/02_usr_alias.sql has no engine=xxx, add patch
         $this->table('user_alias', ['id' => false])
-            ->addColumn('ual_usr_id', 'integer')
+            ->addColumn('ual_usr_id', 'integer', ['signed' => false])
             ->addColumn('ual_email', 'string', ['null' => true])
             ->addIndex(['ual_email'], ['unique' => true])
             ->addIndex(['ual_usr_id', 'ual_email'])
@@ -854,7 +854,7 @@ class InitDatabase extends AbstractMigration
 
         // FIXME: upgrade/patches/07_user_preference.php:24:
         $this->table('user_preference', ['id' => false, 'primary_key' => ['upr_usr_id']])
-            ->addColumn('upr_usr_id', 'integer')
+            ->addColumn('upr_usr_id', 'integer', ['signed' => false])
             ->addColumn('upr_timezone', 'string', ['length' => 100])
             ->addColumn('upr_week_firstday', 'boolean', ['default' => 0])
             ->addColumn('upr_list_refresh_rate', 'integer', ['length' => 5, 'default' => 5, 'null' => true])
