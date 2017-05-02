@@ -117,7 +117,6 @@ $rules = $risky_rules + $symfony_rules + [
     'simplified_null_return' => false,
     'single_blank_line_before_namespace' => true,
     'strict_comparison' => false,
-
 ];
 
 return $config
