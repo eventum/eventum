@@ -13,6 +13,8 @@
 
 namespace Eventum\Db;
 
+use LogicException;
+use Phinx\Db\Table;
 use Phinx\Migration\AbstractMigration as PhinxAbstractMigration;
 
 abstract class AbstractMigration extends PhinxAbstractMigration
@@ -68,5 +70,30 @@ abstract class AbstractMigration extends PhinxAbstractMigration
         $options['collation'] = $this->collation;
 
         return parent::table($tableName, $options);
+    }
+
+    /**
+     * Get Primary Key column from Pending Table Operations.
+     * Hack for AUTO_INCREMENT being lost when defining custom Primary Key column
+     *
+     * @see https://github.com/robmorgan/phinx/issues/28#issuecomment-298693426
+     * @param Table $table
+     * @return Table\Column
+     */
+    protected function getPrimaryKey(Table $table)
+    {
+        $options = $table->getOptions();
+        if (!isset($options['primary_key'])) {
+            throw new LogicException('primary_key column required');
+        }
+
+        $name = $options['primary_key'];
+        $columns = $table->getPendingColumns();
+        foreach ($columns as $column) {
+            if ($column->getName() == $name) {
+                return $column;
+            }
+        }
+        throw new LogicException('primary_key column not found');
     }
 }

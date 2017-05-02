@@ -32,14 +32,16 @@ class InitDatabase extends AbstractMigration
 
     public function change()
     {
-        $this->table('api_token', ['id' => 'apt_id'])
+        $table = $this->table('api_token', ['id' => false, 'primary_key' => 'apt_id'])
+            ->addColumn('apt_id', 'integer', ['length' => 10, 'signed' => false])
             ->addColumn('apt_usr_id', 'integer', ['length' => 10, 'signed' => false])
             ->addColumn('apt_created', 'datetime')
             ->addColumn('apt_status', 'string', ['length' => 10, 'default' => 'active'])
             ->addColumn('apt_token', 'string', ['length' => 32])
             ->addIndex(['apt_usr_id', 'apt_status'])
-            ->addIndex(['apt_token'])
-        ->create();
+            ->addIndex(['apt_token']);
+        $this->getPrimaryKey($table)->setIdentity(true);
+        $table->create();
 
         $this->table('columns_to_display', ['id' => false, 'primary_key' => ['ctd_prj_id', 'ctd_page', 'ctd_field']])
             ->addColumn('ctd_prj_id', 'integer', ['signed' => false])
