@@ -48,7 +48,7 @@ class InitDatabase extends AbstractMigration
             ->addColumn('ctd_page', 'string', ['length' => 20])
             ->addColumn('ctd_field', 'string', ['length' => 30])
             ->addColumn('ctd_min_role', 'boolean', ['default' => 0])
-            ->addColumn('ctd_rank', 'integer', ['length' => 255, 'default' => 0])
+            ->addColumn('ctd_rank', 'integer', ['length' => self::INT_TINY, 'default' => 0])
             ->addIndex(['ctd_prj_id', 'ctd_page'])
         ->create();
 
@@ -234,7 +234,7 @@ class InitDatabase extends AbstractMigration
             ->addColumn('faq_updated_date', 'datetime', ['null' => true])
             ->addColumn('faq_title', 'string')
             ->addColumn('faq_message', 'text', ['length' => self::INT_REGULAR])
-            ->addColumn('faq_rank', 'integer', ['length' => 255, 'signed' => false])
+            ->addColumn('faq_rank', 'integer', ['length' => self::INT_TINY, 'signed' => false])
             ->addIndex(['faq_title'], ['unique' => true]);
         $this->getPrimaryKey($table)->setIdentity(true);
         $table->create();
@@ -254,7 +254,7 @@ class InitDatabase extends AbstractMigration
         $table->create();
 
         $table = $this->table('history_type', ['id' => false, 'primary_key' => 'htt_id'])
-            ->addColumn('htt_id', 'integer', ['length' => 255, 'signed' => false])
+            ->addColumn('htt_id', 'integer', ['length' => self::INT_TINY, 'signed' => false])
             ->addColumn('htt_name', 'string', ['length' => 25])
             ->addColumn('htt_role', 'boolean', ['default' => 0, 'null' => true])
             ->addIndex(['htt_name'], ['unique' => true]);
@@ -309,7 +309,7 @@ class InitDatabase extends AbstractMigration
             ->addColumn('iss_last_public_action_type', 'string', ['length' => 20, 'null' => true])
             ->addColumn('iss_last_internal_action_date', 'datetime', ['null' => true])
             ->addColumn('iss_last_internal_action_type', 'string', ['length' => 20, 'null' => true])
-            ->addColumn('iss_percent_complete', 'integer', ['length' => 255, 'default' => 0, 'null' => true, 'signed' => false])
+            ->addColumn('iss_percent_complete', 'integer', ['length' => self::INT_TINY, 'default' => 0, 'null' => true, 'signed' => false])
             ->addColumn('iss_root_message_id', 'string', ['null' => true])
             ->addColumn('iss_access_level', 'string', ['length' => 150, 'default' => 'normal'])
             ->addIndex(['iss_prj_id'])
@@ -416,7 +416,7 @@ class InitDatabase extends AbstractMigration
             ->addColumn('his_id', 'integer', ['length' => 10, 'signed' => false])
             ->addColumn('his_iss_id', 'integer', ['length' => 10, 'default' => 0, 'signed' => false])
             ->addColumn('his_usr_id', 'integer', ['default' => 0, 'signed' => false])
-            ->addColumn('his_htt_id', 'integer', ['length' => 255, 'default' => 0])
+            ->addColumn('his_htt_id', 'integer', ['length' => self::INT_TINY, 'default' => 0])
             ->addColumn('his_is_hidden', 'boolean', ['default' => 0])
             ->addColumn('his_created_date', 'datetime', ['default' => '0000-00-00 00:00:00'])
             ->addColumn('his_summary', 'text')
@@ -475,7 +475,7 @@ class InitDatabase extends AbstractMigration
             ->addColumn('lfi_id', 'integer', ['length' => 11, 'signed' => false])
             ->addColumn('lfi_pattern', 'string')
             ->addColumn('lfi_replacement', 'string')
-            ->addColumn('lfi_usr_role', 'integer', ['length' => 255, 'default' => 0])
+            ->addColumn('lfi_usr_role', 'integer', ['length' => self::INT_TINY, 'default' => 0])
             ->addColumn('lfi_description', 'string', ['null' => true]);
         $this->getPrimaryKey($table)->setIdentity(true);
         $table->create();
@@ -662,7 +662,7 @@ class InitDatabase extends AbstractMigration
             ->addColumn('pri_prj_id', 'integer', ['signed' => false])
             ->addColumn('pri_title', 'string', ['length' => 64, 'default' => ''])
             ->addColumn('pri_rank', 'boolean')
-            ->addColumn('pri_icon', 'integer', ['length' => 255, 'default' => 0])
+            ->addColumn('pri_icon', 'integer', ['length' => self::INT_TINY, 'default' => 0])
             ->addIndex(['pri_title', 'pri_prj_id'], ['unique' => true]);
         $this->getPrimaryKey($table)->setIdentity(true);
         $table->create();
@@ -726,11 +726,11 @@ class InitDatabase extends AbstractMigration
         $table = $this->table('reminder_action', ['id' => false, 'primary_key' => 'rma_id'])
             ->addColumn('rma_id', 'integer', ['length' => 11, 'signed' => false])
             ->addColumn('rma_rem_id', 'integer', ['signed' => false])
-            ->addColumn('rma_rmt_id', 'integer', ['length' => 255, 'signed' => false])
+            ->addColumn('rma_rmt_id', 'integer', ['length' => self::INT_TINY, 'signed' => false])
             ->addColumn('rma_created_date', 'datetime')
             ->addColumn('rma_last_updated_date', 'datetime', ['null' => true])
             ->addColumn('rma_title', 'string', ['length' => 64])
-            ->addColumn('rma_rank', 'integer', ['length' => 255, 'signed' => false])
+            ->addColumn('rma_rank', 'integer', ['length' => self::INT_TINY, 'signed' => false])
             ->addColumn('rma_alert_irc', 'boolean', ['default' => 0, 'signed' => false])
             ->addColumn('rma_alert_group_leader', 'boolean', ['default' => 0, 'signed' => false])
             ->addColumn('rma_boilerplate', 'string', ['null' => true]);
@@ -744,7 +744,7 @@ class InitDatabase extends AbstractMigration
         ->create();
 
         $table = $this->table('reminder_action_type', ['id' => false, 'primary_key' => 'rmt_id'])
-            ->addColumn('rmt_id', 'integer', ['length' => 255, 'signed' => false])
+            ->addColumn('rmt_id', 'integer', ['length' => self::INT_TINY, 'signed' => false])
             ->addColumn('rmt_type', 'string', ['length' => 32])
             ->addColumn('rmt_title', 'string', ['length' => 64])
             ->addIndex(['rmt_type'], ['unique' => true])
@@ -753,7 +753,7 @@ class InitDatabase extends AbstractMigration
         $table->create();
 
         $table = $this->table('reminder_field', ['id' => false, 'primary_key' => 'rmf_id'])
-            ->addColumn('rmf_id', 'integer', ['length' => 255, 'signed' => false])
+            ->addColumn('rmf_id', 'integer', ['length' => self::INT_TINY, 'signed' => false])
             ->addColumn('rmf_title', 'string', ['length' => 128])
             ->addColumn('rmf_sql_field', 'string', ['length' => 32])
             ->addColumn('rmf_sql_representation', 'string')
@@ -784,17 +784,17 @@ class InitDatabase extends AbstractMigration
         $table = $this->table('reminder_level_condition', ['id' => false, 'primary_key' => 'rlc_id'])
             ->addColumn('rlc_id', 'integer', ['length' => 11, 'signed' => false])
             ->addColumn('rlc_rma_id', 'integer', ['signed' => false])
-            ->addColumn('rlc_rmf_id', 'integer', ['length' => 255, 'signed' => false])
+            ->addColumn('rlc_rmf_id', 'integer', ['length' => self::INT_TINY, 'signed' => false])
             ->addColumn('rlc_rmo_id', 'boolean', ['signed' => false])
             ->addColumn('rlc_created_date', 'datetime')
             ->addColumn('rlc_last_updated_date', 'datetime', ['null' => true])
             ->addColumn('rlc_value', 'string', ['length' => 64])
-            ->addColumn('rlc_comparison_rmf_id', 'integer', ['length' => 255, 'null' => true, 'signed' => false]);
+            ->addColumn('rlc_comparison_rmf_id', 'integer', ['length' => self::INT_TINY, 'null' => true, 'signed' => false]);
         $this->getPrimaryKey($table)->setIdentity(true);
         $table->create();
 
         $table = $this->table('reminder_operator', ['id' => false, 'primary_key' => 'rmo_id'])
-            ->addColumn('rmo_id', 'integer', ['length' => 255, 'signed' => false])
+            ->addColumn('rmo_id', 'integer', ['length' => self::INT_TINY, 'signed' => false])
             ->addColumn('rmo_title', 'string', ['length' => 32, 'null' => true])
             ->addColumn('rmo_sql_representation', 'string', ['length' => 32, 'null' => true])
             ->addIndex(['rmo_title'], ['unique' => true]);
