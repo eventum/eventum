@@ -131,11 +131,11 @@ class Mail_Queue
         if ($merge !== false) {
             // TODO: handle self::MAX_RETRIES, but that should be done per queue item
             foreach (self::_getMergedList($status, $limit) as $maq_ids) {
-                $emails = self::_getEntries($maq_ids);
+                $entries = self::_getEntries($maq_ids);
 
                 $addresslist = new AddressList();
-                foreach ($emails as $email) {
-                    $recipient = $email['recipient'];
+                foreach ($entries as $entry) {
+                    $recipient = $entry['recipient'];
                     if (Mime_Helper::is8bit($recipient)) {
                         $recipient = Mime_Helper::encode($recipient);
                     }
@@ -143,29 +143,29 @@ class Mail_Queue
                     $addresslist->addFromString($recipient);
                 }
 
-                $email = $emails[0];
-                $m = MailMessage::createFromHeaderBody($email['headers'], $email['body']);
+                $entry = $entries[0];
+                $m = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
                 $m->setTo($addresslist);
 
-                $e = self::_sendEmail($m->to, $m->getHeaders()->toString(), $email['body']);
+                $e = self::_sendEmail($m->to, $m->getHeaders()->toString(), $entry['body']);
 
                 if ($e instanceof Exception) {
                     $maq_id = implode(',', $maq_ids);
                     $details = $e->getMessage();
-                    echo "Mail_Queue: issue #{$email['maq_iss_id']}: Can't send merged mail $maq_id: $details\n";
+                    echo "Mail_Queue: issue #{$entry['maq_iss_id']}: Can't send merged mail $maq_id: $details\n";
 
-                    foreach ($emails as $email) {
-                        self::_saveStatusLog($email['id'], 'error', $details);
+                    foreach ($entries as $entry) {
+                        self::_saveStatusLog($entry['id'], 'error', $details);
                     }
 
                     continue;
                 }
 
-                foreach ($emails as $email) {
-                    self::_saveStatusLog($email['id'], 'sent', '');
+                foreach ($entries as $entry) {
+                    self::_saveStatusLog($entry['id'], 'sent', '');
 
-                    if ($email['save_copy']) {
-                        Mail_Helper::saveOutgoingEmailCopy($email);
+                    if ($entry['save_copy']) {
+                        Mail_Helper::saveOutgoingEmailCopy($entry);
                     }
                 }
             }
@@ -180,19 +180,19 @@ class Mail_Queue
                 continue;
             }
 
-            $email = self::_getEntry($maq_id);
-            $e = self::_sendEmail($email['recipient'], $email['headers'], $email['body']);
+            $entry = self::_getEntry($maq_id);
+            $e = self::_sendEmail($entry['recipient'], $entry['headers'], $entry['body']);
 
             if ($e instanceof Exception) {
                 $details = $e->getMessage();
-                echo "Mail_Queue: issue #{$email['maq_iss_id']}: Can't send mail $maq_id: $details\n";
-                self::_saveStatusLog($email['id'], 'error', $details);
+                echo "Mail_Queue: issue #{$entry['maq_iss_id']}: Can't send mail $maq_id: $details\n";
+                self::_saveStatusLog($entry['id'], 'error', $details);
                 continue;
             }
 
-            self::_saveStatusLog($email['id'], 'sent', '');
-            if ($email['save_copy']) {
-                Mail_Helper::saveOutgoingEmailCopy($email);
+            self::_saveStatusLog($entry['id'], 'sent', '');
+            if ($entry['save_copy']) {
+                Mail_Helper::saveOutgoingEmailCopy($entry);
             }
         }
     }
