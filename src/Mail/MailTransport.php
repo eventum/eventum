@@ -22,11 +22,6 @@ class MailTransport
     /** @var Transport\TransportInterface|Transport\Smtp|Transport\File */
     private $transport;
 
-    public function __construct()
-    {
-        $this->transport = Transport\Factory::create($this->getSpec());
-    }
-
     /**
      * Implements Mail::send() function using SMTP.
      *
@@ -52,28 +47,44 @@ class MailTransport
      */
     public function send($recipient, $headers, $body)
     {
-        if ($this->transport instanceof Transport\Smtp) {
+        $transport = $this->getTransport();
+
+        if ($transport instanceof Transport\Smtp) {
             $envelope = new Transport\Envelope();
             $envelope->setTo($recipient);
-            $this->transport->setEnvelope($envelope);
+            $transport->setEnvelope($envelope);
         }
 
         $message = MailMessage::createFromHeaderBody($headers, $body);
 
         try {
-            $this->transport->send($message->toMessage());
+            $transport->send($message->toMessage());
             $res = true;
         } catch (\Exception $e) {
             Logger::app()->error($e->getMessage());
             $res = $e;
         } finally {
             // avoid leaking recipient in case of transport reuse
-            if ($this->transport instanceof Transport\Smtp) {
-                $this->transport->setEnvelope(new Transport\Envelope());
+            if ($transport instanceof Transport\Smtp) {
+                $transport->setEnvelope(new Transport\Envelope());
             }
         }
 
         return $res;
+    }
+
+    /**
+     * Return Transport instance.
+     *
+     * @return Transport\File|Transport\Smtp|Transport\TransportInterface
+     */
+    public function getTransport()
+    {
+        if (!$this->transport) {
+            $this->transport = Transport\Factory::create($this->getSpec());
+        }
+
+        return $this->transport;
     }
 
     /**
