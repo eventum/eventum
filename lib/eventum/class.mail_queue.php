@@ -147,16 +147,11 @@ class Mail_Queue
                 $m = MailMessage::createFromHeaderBody($email['headers'], $email['body']);
                 $m->setTo($addresslist);
 
-                $result = self::_sendEmail($m->to, $m->getHeaders()->toString(), $email['body']);
+                $e = self::_sendEmail($m->to, $m->getHeaders()->toString(), $email['body']);
 
-                if (Misc::isError($e = $result)) {
-                    /** @var PEAR_Error $e */
+                if ($e instanceof Exception) {
                     $maq_id = implode(',', $maq_ids);
                     $details = $e->getMessage();
-                    $debugInfo = $e->getDebugInfo();
-                    if ($debugInfo) {
-                        $details .= '/' . $debugInfo;
-                    }
                     echo "Mail_Queue: issue #{$email['maq_iss_id']}: Can't send merged mail $maq_id: $details\n";
 
                     foreach ($emails as $email) {
@@ -186,15 +181,10 @@ class Mail_Queue
             }
 
             $email = self::_getEntry($maq_id);
-            $result = self::_sendEmail($email['recipient'], $email['headers'], $email['body']);
+            $e = self::_sendEmail($email['recipient'], $email['headers'], $email['body']);
 
-            if (Misc::isError($e = $result)) {
-                /** @var PEAR_Error $e */
+            if ($e instanceof Exception) {
                 $details = $e->getMessage();
-                $debugInfo = $e->getDebugInfo();
-                if ($debugInfo) {
-                    $details .= '/' . $debugInfo;
-                }
                 echo "Mail_Queue: issue #{$email['maq_iss_id']}: Can't send mail $maq_id: $details\n";
                 self::_saveStatusLog($email['id'], 'error', $details);
                 continue;
@@ -213,7 +203,7 @@ class Mail_Queue
      * @param   string $recipient The recipient of this message
      * @param   string $text_headers The full headers of this message
      * @param   string $body The full body of this message
-     * @return  true, or a PEAR_Error object
+     * @return  true or a Exception object
      */
     private function _sendEmail($recipient, $text_headers, &$body)
     {
