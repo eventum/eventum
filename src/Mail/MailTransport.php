@@ -19,7 +19,7 @@ use Zend\Mail\Transport;
 
 class MailTransport
 {
-    /** @var Transport\TransportInterface|Transport\Smtp|Transport\File */
+    /** @var Transport\TransportInterface|Transport\Smtp */
     private $transport;
 
     /**
@@ -49,11 +49,9 @@ class MailTransport
     {
         $transport = $this->getTransport();
 
-        if ($transport instanceof Transport\Smtp) {
-            $envelope = new Transport\Envelope();
-            $envelope->setTo($recipient);
-            $transport->setEnvelope($envelope);
-        }
+        $envelope = new Transport\Envelope();
+        $envelope->setTo($recipient);
+        $transport->setEnvelope($envelope);
 
         $message = MailMessage::createFromHeaderBody($headers, $body);
 
@@ -65,9 +63,7 @@ class MailTransport
             $res = $e;
         } finally {
             // avoid leaking recipient in case of transport reuse
-            if ($transport instanceof Transport\Smtp) {
-                $transport->setEnvelope(new Transport\Envelope());
-            }
+            $transport->setEnvelope(new Transport\Envelope());
         }
 
         return $res;
@@ -76,7 +72,7 @@ class MailTransport
     /**
      * Return Transport instance.
      *
-     * @return Transport\File|Transport\Smtp|Transport\TransportInterface
+     * @return Transport\Smtp|Transport\TransportInterface
      */
     public function getTransport()
     {
