@@ -14,15 +14,20 @@
 namespace Eventum\Test;
 
 use Eventum\Mail\MailTransport;
+use Setup;
 
 class MailTransportTest extends TestCase
 {
-    public static function setUpBeforeClass()
+    public function setUp()
     {
-        Logger::initialize();
+        $config = Setup::get();
+        $config['smtp'] = [
+            'auth' => false,
+            'type' => 'file',
+        ];
     }
 
-    public function testSimpleMail()
+    public function testSingleRecipient()
     {
         $transport = new MailTransport();
         $recipient = 'root@localhost';
