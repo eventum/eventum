@@ -62,7 +62,7 @@
 		"ext-pdo_mysql": "*",
 		"ext-session": "*",
 		"ext-spl": "*",
-		"fonts/liberation":"*",
+		"fonts/liberation": "*",
 		"ircmaxell/random-lib": "~1.1.0",
 		"malkusch/lock": "^0.4.0",
 		"monolog/monolog": "~1.17.2",
