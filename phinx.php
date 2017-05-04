@@ -59,6 +59,11 @@ return [
             // for MySQL >= 5.5.3
 //            'charset' => 'utf8mb4',
 //            'collation' => 'utf8mb4_unicode_ci',
+
+            // set SQL_MODE
+            // http://dev.mysql.com/doc/refman/5.7/en/sql-mode.html
+            // https://github.com/robmorgan/phinx/blob/v0.8.0/src/Phinx/Db/Adapter/MysqlAdapter.php#L104-L110
+            'mysql_attr_init_command' => "SET SQL_MODE = ''",
         ],
     ],
 ];
