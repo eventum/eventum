@@ -14,7 +14,7 @@
 namespace Eventum\Db;
 
 use LogicException;
-use Phinx\Db\Table;
+use Phinx;
 use Phinx\Migration\AbstractMigration as PhinxAbstractMigration;
 
 abstract class AbstractMigration extends PhinxAbstractMigration
@@ -77,10 +77,10 @@ abstract class AbstractMigration extends PhinxAbstractMigration
      * Hack for AUTO_INCREMENT being lost when defining custom Primary Key column
      *
      * @see https://github.com/robmorgan/phinx/issues/28#issuecomment-298693426
-     * @param Table $table
-     * @return Table\Column
+     * @param Phinx\Db\Table $table
+     * @return Phinx\Db\Table\Column
      */
-    protected function getPrimaryKey(Table $table)
+    protected function getPrimaryKey(Phinx\Db\Table $table)
     {
         $options = $table->getOptions();
         if (!isset($options['primary_key'])) {
