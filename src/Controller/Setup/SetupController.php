@@ -66,7 +66,7 @@ class SetupController extends BaseController
     protected function prepareTemplate()
     {
         $request = $this->getRequest();
-        $relative_url = dirname($request->getBaseUrl()) . '/';
+        $relative_url = rtrim(dirname($request->getBaseUrl()), '/') . '/';
         $this->tpl->assign(
             [
                 'phpversion' => phpversion(),
