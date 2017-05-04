@@ -64,6 +64,7 @@
 		"ext-spl": "*",
 		"fonts/liberation": "*",
 		"ircmaxell/random-lib": "~1.1.0",
+		"league/flysystem": "^1.0",
 		"malkusch/lock": "^0.4.0",
 		"monolog/monolog": "~1.17.2",
 		"pear-pear.php.net/mail_mimedecode": "*",
