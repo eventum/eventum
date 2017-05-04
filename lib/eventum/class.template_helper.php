@@ -46,7 +46,7 @@ class Template_Helper
         $smarty->registerPlugin('modifier', 'format_email', [Eventum\EmailHelper::class, 'formatEmail']);
 
         // Fixes problem with CRM API and dynamic includes.
-        // See https://code.google.com/p/smarty-php/source/browse/trunk/distribution/3.1.16_RELEASE_NOTES.txt?spec=svn4800&r=4800
+        // See https://github.com/smarty-php/smarty/blob/v3.1.16/3.1.16_RELEASE_NOTES.txt
         if (isset($smarty->inheritance_merge_compiled_includes)) {
             $smarty->inheritance_merge_compiled_includes = false;
         }
