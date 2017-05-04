@@ -37,14 +37,13 @@ class Template_Helper
 
         $smarty->addPluginsDir([APP_INC_PATH . '/smarty']);
 
-        $smarty->registerPlugin('modifier', 'activateLinks', ['Link_Filter', 'activateLinks']);
-        $smarty->registerPlugin('modifier', 'activateAttachmentLinks', ['Link_Filter', 'activateAttachmentLinks']);
-        $smarty->registerPlugin('modifier', 'formatCustomValue', ['Custom_Field', 'formatValue']);
-        $smarty->registerPlugin('modifier', 'bool', ['Misc', 'getBooleanDisplayValue']);
-        $smarty->registerPlugin('modifier', 'format_date', ['Date_Helper', 'getFormattedDate']);
-        $smarty->registerPlugin('modifier', 'timeago', ['Date_Helper', 'formatTimeAgo']);
-        /** @see Eventum\EmailHelper::formatEmail */
-        $smarty->registerPlugin('modifier', 'format_email', ['\\Eventum\\EmailHelper', 'formatEmail']);
+        $smarty->registerPlugin('modifier', 'activateLinks', [Link_Filter::class, 'activateLinks']);
+        $smarty->registerPlugin('modifier', 'activateAttachmentLinks', [Link_Filter::class, 'activateAttachmentLinks']);
+        $smarty->registerPlugin('modifier', 'formatCustomValue', [Custom_Field::class, 'formatValue']);
+        $smarty->registerPlugin('modifier', 'bool', [Misc::class, 'getBooleanDisplayValue']);
+        $smarty->registerPlugin('modifier', 'format_date', [Date_Helper::class, 'getFormattedDate']);
+        $smarty->registerPlugin('modifier', 'timeago', [Date_Helper::class, 'formatTimeAgo']);
+        $smarty->registerPlugin('modifier', 'format_email', [Eventum\EmailHelper::class, 'formatEmail']);
 
         // Fixes problem with CRM API and dynamic includes.
         // See https://code.google.com/p/smarty-php/source/browse/trunk/distribution/3.1.16_RELEASE_NOTES.txt?spec=svn4800&r=4800
