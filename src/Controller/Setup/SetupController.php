@@ -69,10 +69,11 @@ class SetupController extends BaseController
         $relative_url = rtrim(dirname($request->getBaseUrl()), '/') . '/';
         $this->tpl->assign(
             [
-                'phpversion' => phpversion(),
                 'core' => [
                     'rel_url' => $relative_url,
                     'app_title' => APP_NAME,
+                    'app_version' => APP_VERSION,
+                    'php_version' => phpversion(),
                     'template_id' => 'setup',
                 ],
                 'is_secure' => $request->isSecure(),
