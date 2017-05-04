@@ -118,9 +118,9 @@ function disableAuthFields(bool)
                 {t}The provided database name could not be found. Review your information or specify that the database should be created in the form below.{/t}
               {elseif $result == 'db_user_not_found'}
                 {t}The provided MySQL username could not be found. Review your information or specify that the username should be created in the form below.{/t}
-                {elseif $result = 'db_create_access'}
+                {elseif $result == 'db_create_access'}
                 {t}The provided MySQL username doesn't have the appropriate permissions to create tables. Please contact your local system administrator for further assistance.{/t}
-              {elseif $result = 'db_drop_access'}
+              {elseif $result == 'db_drop_access'}
                 {t}The provided MySQL username doesn't have the appropriate permissions to drop tables. Please contact your local system administrator for further assistance.{/t}
               {else}
                 {$result}
