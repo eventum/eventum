@@ -82,7 +82,7 @@ class DatabaseSetup
      * Init database with with upgrade tool.
      * IMPORtANT: this method changes current dir.
      *
-     * @return array output from upgrade script
+     * @return string output from upgrade script
      */
     private function migrateDatabase()
     {
@@ -101,6 +101,10 @@ class DatabaseSetup
         return $output->fetch();
     }
 
+    /**
+     * @param array $db_config
+     * @return string
+     */
     public function run($db_config)
     {
         $db_exists = $this->checkDatabaseExists($db_config['db_name']);
