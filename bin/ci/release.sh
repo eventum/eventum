@@ -98,9 +98,9 @@ po_checkout() {
 	make -C $dir/localization touch-po
 }
 
-# setup $version and update APP_VERSION in init.php
+# setup $version and update APP_VERSION in globals.php
 update_version() {
-	version=$(awk -F"'" '/APP_VERSION/{print $4}' init.php)
+	version=$(awk -F"'" '/APP_VERSION/{print $4}' globals.php)
 
 	version=$(git describe --tags)
 	# trim 'v' prefix
@@ -111,7 +111,7 @@ update_version() {
 			idefine('APP_VERSION', '$version');
 		    d
 
-		}" init.php
+		}" globals.php
 }
 
 # clean trailing spaces/tabs

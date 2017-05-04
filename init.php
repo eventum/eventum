@@ -26,11 +26,7 @@ ini_set('memory_limit', '512M');
 // prevent session from messing up the browser cache
 ini_set('session.cache_limiter', 'nocache');
 
-define('APP_URL', 'https://github.com/eventum/eventum');
-define('APP_VERSION', '3.2.0-dev');
-
-// define base path
-define('APP_PATH', __DIR__);
+require_once __DIR__ . '/globals.php';
 
 $define = function ($name, $value) {
     if (defined($name)) {
@@ -38,8 +34,6 @@ $define = function ($name, $value) {
     }
     define($name, $value);
 };
-
-$define('APP_CONFIG_PATH', APP_PATH . '/config');
 
 // include local site config. may override any default
 require_once APP_CONFIG_PATH . '/config.php';
