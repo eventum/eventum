@@ -122,6 +122,8 @@ function disableAuthFields(bool)
                 {t}The provided MySQL username doesn't have the appropriate permissions to create tables. Please contact your local system administrator for further assistance.{/t}
               {elseif $result == 'db_drop_access'}
                 {t}The provided MySQL username doesn't have the appropriate permissions to drop tables. Please contact your local system administrator for further assistance.{/t}
+              {elseif $result == 'db_phinx_failure'}
+                {t}There was error initializing database.{/t}
               {else}
                 {$result}
               {/if}

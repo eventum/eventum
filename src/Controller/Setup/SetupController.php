@@ -19,6 +19,7 @@ use DB_Helper;
 use Eventum\Controller\BaseController;
 use Eventum\Monolog\Logger;
 use Eventum\Setup\DatabaseSetup;
+use Eventum\Setup\SetupException;
 use IntlCalendar;
 use Misc;
 use RuntimeException;
@@ -315,7 +316,12 @@ class SetupController extends BaseController
         ];
 
         $dbs = new DatabaseSetup();
-        $db_result = $dbs->run($db_config);
+        try {
+            $db_result = $dbs->run($db_config);
+        } catch (SetupException $e) {
+            $this->tpl->assign('db_result', $e->getMessage());
+            throw new RuntimeException($e->getType());
+        }
         $this->tpl->assign('db_result', $db_result);
     }
 

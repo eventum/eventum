@@ -32,6 +32,7 @@ class DatabaseSetup
     const ERR_DB_USER_NOT_FOUND = 'db_user_not_found';
     const ERR_DB_CREATE_ACCESS_FAILURE = 'db_create_access';
     const ERR_DB_DROP_ACCESS_FAILURE = 'db_drop_access';
+    const ERR_DB_PHINX_FAILURE = 'db_phinx_failure';
 
     public function __construct()
     {
@@ -96,9 +97,13 @@ class DatabaseSetup
 
         $app = new PhinxApplication();
         $app->setAutoExit(false);
-        $app->run($input, $output);
+        $rc = $app->run($input, $output);
+        $res = $output->fetch();
+        if ($rc != 0) {
+            throw new SetupException(self::ERR_DB_PHINX_FAILURE, $res);
+        }
 
-        return $output->fetch();
+        return $res;
     }
 
     /**
