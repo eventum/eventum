@@ -655,6 +655,7 @@ class InitialData extends AbstractMigration
                 'usr_password' => $usr_password,
                 'usr_full_name' => $usr_full_name,
                 'usr_email' => $usr_email,
+                'usr_external_id' => '',
             ];
             $table->insert($row);
         }
