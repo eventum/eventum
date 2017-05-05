@@ -955,7 +955,7 @@ class InitDatabase extends AbstractMigration
             ->addColumn('usr_status', 'string', ['length' => 8, 'default' => 'active'])
             ->addColumn('usr_password', 'string', ['default' => ''])
             ->addColumn('usr_full_name', 'string', ['default' => ''])
-            ->addColumn('usr_email', 'string', ['default' => ''])
+            ->addColumn('usr_email', 'string', ['default' => '', 'encoding' => 'latin1'])
             ->addColumn('usr_sms_email', 'string', ['null' => true])
             ->addColumn('usr_clocked_in', 'boolean', ['default' => 0, 'null' => true])
             ->addColumn('usr_lang', 'string', ['length' => 5, 'null' => true])
@@ -970,7 +970,7 @@ class InitDatabase extends AbstractMigration
 
         $this->table('user_alias', ['id' => false])
             ->addColumn('ual_usr_id', 'integer', ['signed' => false])
-            ->addColumn('ual_email', 'string', ['null' => true])
+            ->addColumn('ual_email', 'string', ['null' => true, 'encoding' => 'latin1'])
             ->addIndex(['ual_email'], ['unique' => true])
             ->addIndex(['ual_usr_id', 'ual_email'])
         ->create();
