@@ -123,42 +123,15 @@ class Mail_Helper
      *
      * @param   string $address The email address value
      * @return  string The address information
-     * @deprecated stay away from this method, it corrupts data!
+     * @deprecated use AddressHeader directly
      */
     public static function fixAddressQuoting($address)
     {
-        // split multiple addresses if needed
-        $addresses = self::splitAddresses($address);
-
-        $return = [];
-        foreach ($addresses as $address) {
-            // check if we have a <
-            if ((strstr($address, '<')) && (!Mime_Helper::isQuotedPrintable($address))) {
-                $address = stripslashes(trim($address));
-                // is the address in the format 'name' <address> ?
-                if ((strstr($address, "'")) || (strstr($address, '.'))) {
-                    $bracket_pos = strrpos($address, '<');
-                    if ($bracket_pos != 0) {
-                        $bracket_pos = $bracket_pos - 1;
-                    }
-                    $first_part = substr($address, 0, $bracket_pos);
-                    if (!empty($first_part)) {
-                        $first_part = '"' . str_replace('"', '\"', preg_replace('/(^")|("$)/', '', $first_part)) . '"';
-                    }
-                    $second_part = substr($address, strrpos($address, '<'));
-                    $address = $first_part . ' ' . $second_part;
-                    // if the address was already in the format "'name'" <address>, then this code
-                    // will end up adding even more double quotes, so let's remove any excess
-                    $return[] = str_replace('""', '"', $address);
-                } else {
-                    $return[] = $address;
-                }
-            } else {
-                $return[] = $address;
-            }
+        if (!$address instanceof Address) {
+            $address = AddressHeader::fromString($address);
         }
 
-        return implode(',', $return);
+        return $address->toString();
     }
 
     /**
@@ -936,22 +909,6 @@ class Mail_Helper
         }
 
         return self::generateMessageID($headers, $body);
-    }
-
-    public static function splitAddresses($addresses)
-    {
-        $mail = new Mail_RFC822($addresses);
-
-        $mail->parseAddressList();
-
-        $return = [];
-        if (is_array($mail->addresses)) {
-            foreach ($mail->addresses as $address) {
-                $return[] = $address['address'];
-            }
-        }
-
-        return $return;
     }
 
     /**

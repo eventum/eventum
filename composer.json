@@ -73,7 +73,6 @@
 		"pear-pear.php.net/net_url": "*",
 		"pear-pear.php.net/text_diff": "*",
 		"pear/auth_sasl": "*",
-		"pear/mail": "~1.3.0",
 		"pear/mail_mime": "*",
 		"pear/net_smartirc": "~1.1.0",
 		"pear/net_smtp": "1.6.*",
