@@ -181,8 +181,8 @@ class InitDatabase extends AbstractMigration
             ->addColumn('ema_id', 'integer', ['length' => 10, 'signed' => false])
             ->addColumn('ema_prj_id', 'integer', ['length' => 10, 'default' => 0, 'signed' => false])
             ->addColumn('ema_type', 'string', ['length' => 32, 'default' => ''])
-            ->addColumn('ema_folder', 'string', ['null' => true])
-            ->addColumn('ema_hostname', 'string', ['default' => ''])
+            ->addColumn('ema_folder', 'string', ['null' => true, 'encoding' => 'latin1'])
+            ->addColumn('ema_hostname', 'string', ['default' => '', 'encoding' => 'latin1'])
             ->addColumn('ema_port', 'string', ['length' => 5, 'default' => ''])
             ->addColumn('ema_username', 'string', ['length' => 64, 'default' => ''])
             ->addColumn('ema_password', 'string', ['default' => ''])
@@ -191,8 +191,7 @@ class InitDatabase extends AbstractMigration
             ->addColumn('ema_issue_auto_creation', 'string', ['length' => 8, 'default' => 'disabled'])
             ->addColumn('ema_issue_auto_creation_options', 'text', ['null' => true])
             ->addColumn('ema_use_routing', 'boolean', ['default' => 0, 'null' => true])
-// TODO https://github.com/robmorgan/phinx/issues/1080
-//            ->addIndex(['ema_username', 'ema_hostname', 'ema_folder'], ['unique' => true, 'limit' => 100])
+            ->addIndex(['ema_username', 'ema_hostname', 'ema_folder'], ['unique' => true])
             ->addIndex(['ema_prj_id']);
         $this->getPrimaryKey($table)->setIdentity(true);
         $table->create();
