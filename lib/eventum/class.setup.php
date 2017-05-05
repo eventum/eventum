@@ -233,7 +233,7 @@ class Setup
     /**
      * Method used to get the system-wide defaults.
      *
-     * @return  string array of the default preferences
+     * @return array of the default preferences
      */
     private static function getDefaults()
     {
