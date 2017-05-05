@@ -135,43 +135,6 @@ class Mail_Helper
     }
 
     /**
-     * Method used to break down the email address information and
-     * return it for easy manipulation.
-     *
-     * Expands "Groups" into single addresses.
-     *
-     * @param   string $address The email address value
-     * @param   bool $multiple If multiple addresses should be returned
-     * @return  array The address information
-     * @deprecated use AddressHeader directly
-     */
-    public static function getAddressInfo($address, $multiple = false)
-    {
-        $header = AddressHeader::fromString($address);
-
-        $addresses = [];
-        foreach ($header->getAddressList() as $address) {
-            $email = $address->getEmail();
-            $sender_name = $address->getName();
-
-            list($username, $hostname) = explode('@', $email);
-            $item = [
-                'email' => $email,
-                'sender_name' => $sender_name ? sprintf('"%s"', $sender_name) : '',
-                'username' => $username,
-                'host' => $hostname,
-            ];
-            $addresses[] = $item;
-        }
-
-        if (!$multiple) {
-            return $addresses[0];
-        }
-
-        return $addresses;
-    }
-
-    /**
      * Parses a one or more email addresses (could be QP encoded)
      * and returns them encoded in utf-8.
      *

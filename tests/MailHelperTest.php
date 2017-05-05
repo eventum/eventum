@@ -15,7 +15,6 @@ namespace Eventum\Test;
 
 use Eventum\Mail\Helper\AddressHeader;
 use Mail_Helper;
-use Misc;
 
 /**
  * Test class for Mail_Helper.
@@ -199,11 +198,10 @@ class MailHelperTest extends TestCase
      */
     public function testGetAddressInfo($input, $sender_name, $email)
     {
-        $res = Mail_Helper::getAddressInfo($input);
-        $this->assertFalse(Misc::isError($res));
+        $address = AddressHeader::fromString($input)->getAddress();
 
-        $this->assertEquals($sender_name, $res['sender_name']);
-        $this->assertEquals($email, $res['email']);
+        $this->assertEquals($sender_name, $address->getName());
+        $this->assertEquals($email, $address->getEmail());
     }
 
     public function testGetAddressInfoData()
@@ -211,12 +209,12 @@ class MailHelperTest extends TestCase
         return [
             0 => [
                 'Test User <test@example.com>',
-                '"Test User"',
+                'Test User',
                 'test@example.com',
             ],
             1 => [
                 '"Test User" <test@example.com>',
-                '"Test User"',
+                'Test User',
                 'test@example.com',
             ],
             2 => [
@@ -231,7 +229,7 @@ class MailHelperTest extends TestCase
             ],
             4 => [
                 '"Test User <test@example.com>" <test@example.com>',
-                '"Test User <test@example.com>"',
+                'Test User <test@example.com>',
                 'test@example.com',
             ],
         ];
@@ -242,12 +240,11 @@ class MailHelperTest extends TestCase
      */
     public function testGetAddressInfoMultiple($input, $exp)
     {
-        $res = Mail_Helper::getAddressInfo($input, true);
-        if (Misc::isError($e = $res)) {
-            /** @var $e \PEAR_Error */
-            echo $e->getMessage();
-        }
-        $this->assertFalse(Misc::isError($res), 'No Error returned');
+        $res = AddressHeader::fromString($input)->toString();
+
+        // spaces are irrelevant
+        $res = preg_replace("/\s+/", ' ', $res);
+
         $this->assertEquals($exp, $res);
     }
 
@@ -258,58 +255,25 @@ class MailHelperTest extends TestCase
             // see https://github.com/eventum/eventum/issues/91
             'addressgroup-es' => [
                 'destinatarios-no-revelados: ;',
-                [],
+                '',
             ],
             // hostgroup things
             // https://github.com/zendframework/zend-mail/pull/13
             'group-empty' => [
                 'undisclosed-recipients:;',
-                [],
+                '',
             ],
             'group-value' => [
                 // pear gives:
                 // Validation failed for: enemies: john@example.net
                 'friends: john@example.com; enemies: john@example.net, bart@example.net;',
-                [
-                    [
-                        'email' => 'john@example.com',
-                        'sender_name' => '',
-                        'username' => 'john',
-                        'host' => 'example.com',
-                    ],
-                    [
-                        'email' => 'john@example.net',
-                        'sender_name' => '',
-                        'username' => 'john',
-                        'host' => 'example.net',
-                    ],
-                    [
-                        'email' => 'bart@example.net',
-                        'sender_name' => '',
-                        'username' => 'bart',
-                        'host' => 'example.net',
-                    ],
-
-                ],
+                'john@example.com, john@example.net, bart@example.net',
             ],
             // example taken from RFC822.php class source
             // modified because not all of that parsed (and is relevant?)
             'with comment' => [
                 'My Group: "Richard" <richard@localhost>, ted@example.com (Ted Bloggs);',
-                [
-                    [
-                        'sender_name' => '"Richard"',
-                        'email' => 'richard@localhost',
-                        'username' => 'richard',
-                        'host' => 'localhost',
-                    ],
-                    [
-                        'sender_name' => '',
-                        'email' => 'ted@example.com',
-                        'username' => 'ted',
-                        'host' => 'example.com',
-                    ],
-                ],
+                'Richard <richard@localhost>, ted@example.com',
             ],
         ];
     }

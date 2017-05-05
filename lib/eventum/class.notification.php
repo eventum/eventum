@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Mail\Helper\AddressHeader;
 
 /**
  * Class to handle all of the business logic related to sending email
@@ -153,6 +154,7 @@ class Notification
      * @param   string $sender The email address of the sender
      * @param   string $type Whether this is a note or email routing message
      * @return  string The properly encoded email address
+     * @deprecated kill this monstrocity!
      */
     public static function getFixedFromHeader($issue_id, $sender, $type)
     {
@@ -173,11 +175,11 @@ class Notification
 
             // if no project name, use eventum wide sender name
             if (empty($info['sender_name'])) {
-                $setup_sender_info = Mail_Helper::getAddressInfo($setup['smtp']['from']);
+                $setup_sender_info = self::getAddressInfo($setup['smtp']['from']);
                 $info['sender_name'] = $setup_sender_info['sender_name'];
             }
         } else {
-            $info = Mail_Helper::getAddressInfo($sender);
+            $info = self::getAddressInfo($sender);
         }
         // use per project flag first
         $flag = '';
@@ -228,6 +230,43 @@ class Notification
         $from = Mail_Helper::getFormattedName($info['sender_name'], $from_email);
 
         return Mime_Helper::encodeAddress(trim($from));
+    }
+
+    /**
+     * Method used to break down the email address information and
+     * return it for easy manipulation.
+     *
+     * Expands "Groups" into single addresses.
+     *
+     * @param   string $address The email address value
+     * @param   bool $multiple If multiple addresses should be returned
+     * @return  array The address information
+     * @deprecated used by getFixedFromHeader, kill them both
+     */
+    private static function getAddressInfo($address, $multiple = false)
+    {
+        $header = AddressHeader::fromString($address);
+
+        $addresses = [];
+        foreach ($header->getAddressList() as $address) {
+            $email = $address->getEmail();
+            $sender_name = $address->getName();
+
+            list($username, $hostname) = explode('@', $email);
+            $item = [
+                'email' => $email,
+                'sender_name' => $sender_name ? sprintf('"%s"', $sender_name) : '',
+                'username' => $username,
+                'host' => $hostname,
+            ];
+            $addresses[] = $item;
+        }
+
+        if (!$multiple) {
+            return $addresses[0];
+        }
+
+        return $addresses;
     }
 
     /**
