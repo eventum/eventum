@@ -13,7 +13,10 @@
 
 namespace Eventum\Mail\Helper;
 
+use InvalidArgumentException;
 use Mime_Helper;
+use Zend\Mail\Address;
+use Zend\Mail\AddressList;
 use Zend\Mail\Header\AbstractAddressList;
 use Zend\Mail\Header\To;
 
@@ -60,10 +63,27 @@ class AddressHeader
     }
 
     /**
-     * @return \Zend\Mail\AddressList
+     * @return AddressList
      */
     public function getAddressList()
     {
         return $this->header->getAddressList();
+    }
+
+    /**
+     * Get Address object of the AddressList.
+     * The input may contain only one address.
+     *
+     * @return Address
+     */
+    public function getAddress()
+    {
+        $addressList = $this->getAddressList();
+        $count = $addressList->count();
+        if ($count !== 1) {
+            throw new InvalidArgumentException("Expected 1 address, got $count");
+        }
+
+        return $addressList->current();
     }
 }

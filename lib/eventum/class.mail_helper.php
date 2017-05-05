@@ -14,6 +14,7 @@
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\MailTransport;
 use Eventum\Monolog\Logger;
+use Zend\Mail\Address;
 
 /**
  * Class to handle the business logic related to sending email to
@@ -239,20 +240,18 @@ class Mail_Helper
 
     /**
      * Method used to get the email address portion of a given
-     * recipient information.
+     * recipient information. Normalizes the address by lowercasing it.
      *
-     * @param   string $address The email address value
-     * @return  string The email address
+     * @param Address|string $address The email address value
+     * @return string The email address
      */
     public static function getEmailAddress($address)
     {
-        $address = Mime_Helper::encodeAddress($address);
-        $info = self::getAddressInfo($address);
-        if (Misc::isError($info)) {
-            return $info;
+        if (!$address instanceof Address) {
+            $address = AddressHeader::fromString($address)->getAddress();
         }
 
-        return $info['email'];
+        return strtolower($address->getEmail());
     }
 
     /**
