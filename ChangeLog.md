@@ -8,6 +8,7 @@ This version switches to use [PDO MySQL] driver, ensure you have the extension e
 - Enable filtering by Severity (@balsdorf)
 - drop PEAR DB support, only PDO is supported (@glensc, #252)
 - use Zend\Mail\Transport for Mail delivery (@glensc, #237)
+- use ctrl/cmd enter to submit forms (@glensc, #255)
 
 [3.2.0]: https://github.com/eventum/eventum/compare/v3.1.10...master
 [PDO MySQL]: http://php.net/manual/en/ref.pdo-mysql.php
