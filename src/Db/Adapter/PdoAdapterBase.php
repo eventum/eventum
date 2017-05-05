@@ -46,6 +46,11 @@ abstract class PdoAdapterBase
             $dsn .= ";port={$config['port']}";
         }
 
+        if (isset($config['socket'])) {
+            // use socket connection
+            $dsn .= ';unix_socket=' . $config['socket'];
+        }
+
         return $dsn;
     }
 
