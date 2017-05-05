@@ -34,6 +34,8 @@ checkout_vendor() {
 		# otherwise create the branch
 		git checkout -b $branch
 		git add -A .
+		# remove composer.lock if it's new branch in vendor/.git
+		git rm -f composer.lock
 		git commit -am "created branch $branch"
 	fi
 	# restore copy of lock
@@ -65,7 +67,7 @@ update_composer() {
 	test "$branch" = "HEAD" && return
 
 	# rm lock, so if there's no lock from vendor dir we do "composer update"
-	rm composer.lock
+	test -f composer.lock && rm composer.lock
 
 	checkout_vendor
 	composer "${@:-install}"
