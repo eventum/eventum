@@ -76,6 +76,7 @@ $symfony_rules = [
     'phpdoc_annotation_without_dot' => true,
     'phpdoc_indent' => true,
     'phpdoc_inline_tag' => true,
+    'phpdoc_no_access' => false, // RemoteApi relies on these tags
     'phpdoc_no_alias_tag' => ['type' => 'var', 'link' => 'see'],
     'phpdoc_no_empty_return' => true,
     'phpdoc_no_package' => true,
@@ -83,6 +84,7 @@ $symfony_rules = [
     'phpdoc_separation' => false,
     'phpdoc_single_line_var_spacing' => true,
     'phpdoc_summary' => false,
+    'phpdoc_to_comment' => false,
     'phpdoc_trim' => true,
     'self_accessor' => true,
     'single_quote' => true,
@@ -115,7 +117,6 @@ $rules = $risky_rules + $symfony_rules + [
     'simplified_null_return' => false,
     'single_blank_line_before_namespace' => true,
     'strict_comparison' => false,
-
 ];
 
 return $config

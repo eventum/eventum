@@ -13,9 +13,10 @@
 #
 # Author: Elan Ruusamäe <glen@pld-linux.org>
 # Date: 2016-02-18
+# URL: https://gist.github.com/glensc/94020d11ae803cc0fc21
 
 # enable for debug log
-#exec 2>.post-checkout.log; set -x
+#exec 2>>.post-checkout.log; set -x; env | grep GIT | sort; echo ""; date
 
 old_ref=$1
 new_ref=$2
@@ -33,6 +34,8 @@ checkout_vendor() {
 		# otherwise create the branch
 		git checkout -b $branch
 		git add -A .
+		# remove composer.lock if it's new branch in vendor/.git
+		git rm -f composer.lock
 		git commit -am "created branch $branch"
 	fi
 	# restore copy of lock
@@ -64,7 +67,7 @@ update_composer() {
 	test "$branch" = "HEAD" && return
 
 	# rm lock, so if there's no lock from vendor dir we do "composer update"
-	rm composer.lock
+	test -f composer.lock && rm composer.lock
 
 	checkout_vendor
 	composer "${@:-install}"
@@ -85,7 +88,7 @@ check_composer_json() {
 	update_composer
 }
 
-# if ran directly, assume user wants to update force vendor/ dir
+# if ran directly, assume user wants to force update vendor/ dir
 if [ -z "$GIT_DIR" ]; then
 	rm -f composer.lock vendor/composer.lock
 	update_composer "$@"

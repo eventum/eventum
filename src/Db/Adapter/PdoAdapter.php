@@ -45,7 +45,7 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         try {
             $pdo = new PDO($dsn, $config['username'], $config['password'], $options);
         } catch (PDOException $e) {
-            throw new DatabaseException($e->getMessage(), $e->getCode());
+            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
         }
 
         if (Eventum\DebugBar::hasDebugBar()) {

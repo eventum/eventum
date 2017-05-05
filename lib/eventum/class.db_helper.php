@@ -14,6 +14,7 @@
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\Adapter\NullAdapter;
 use Eventum\Db\DatabaseException;
+use Eventum\Monolog\Logger;
 
 /**
  * Class to manage all tasks related to the DB abstraction module. This is only
@@ -47,6 +48,7 @@ class DB_Helper
 
             return $instance;
         } catch (DatabaseException $e) {
+            Logger::db()->error($e->getMessage(), ['exception' => $e]);
         }
 
         // set dummy provider in as offline.php uses db methods
