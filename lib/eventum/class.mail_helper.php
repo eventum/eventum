@@ -118,27 +118,6 @@ class Mail_Helper
     }
 
     /**
-     * Method used to parse a string and return all email addresses contained
-     * within it.
-     *
-     * @param   string $str
-     /**
-     * Wrapper around Mail_RFC822::parseAddressList to avoid calling it statically
-     *
-     * @param string  $address         the address(es) to validate
-     * @param string  $default_domain  default domain/host etc
-     * @param bool $nest_groups     whether to return the structure with groups nested for easier viewing
-     * @param bool $validate        Whether to validate atoms. Turn this off if you need to run addresses through before encoding the personal names, for instance.
-     * @return array a structured array of addresses
-     */
-    public static function parseAddressList($address, $default_domain = null, $nest_groups = null, $validate = null, $limit = null)
-    {
-        $obj = new Mail_RFC822($address, $default_domain, $nest_groups, $validate, $limit);
-
-        return $obj->parseAddressList();
-    }
-
-    /**
      * Method used to build a properly quoted email address, in the form of
      * "Sender Name" <sender@example.com>.
      *
