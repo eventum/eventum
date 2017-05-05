@@ -88,6 +88,7 @@
 		"symfony/filesystem": "~2.7.0",
 		"symfony/http-foundation": "~2.7.0",
 		"theorchard/monolog-cascade": "^0.3.1",
+		"widernet/cmd-ctrl-enter": "~0.2.0",
 		"willdurand/email-reply-parser": "dev-set-sig-regex",
 		"zendframework/zend-config": "2.4.*",
 		"zendframework/zend-mail": "dev-develop-2.4",
