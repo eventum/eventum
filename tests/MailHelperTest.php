@@ -325,6 +325,8 @@ class MailHelperTest extends TestCase
     public function testFormatEmailAddresses($input, $exp)
     {
         $res = Mail_Helper::formatEmailAddresses($input);
+        // spaces are irrelevant
+        $res = preg_replace("/\s+/", ' ', $res);
         $this->assertEquals($exp, $res);
     }
 
@@ -337,11 +339,11 @@ class MailHelperTest extends TestCase
             ],
             [
                 'Test Name <test@example.com>,blah@example.com',
-                '"Test Name" <test@example.com>, blah@example.com',
+                'Test Name <test@example.com>, blah@example.com',
             ],
             [
                 '"Bob O\'Reilly" <bob@example.com>,blah@example.com',
-                '"Bob O\'Reilly" <bob@example.com>, blah@example.com',
+                'Bob O\'Reilly <bob@example.com>, blah@example.com',
             ],
             ['', ''],
         ];

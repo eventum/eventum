@@ -15,6 +15,7 @@ use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\MailTransport;
 use Eventum\Monolog\Logger;
 use Zend\Mail\Address;
+use Zend\Mail\Header\HeaderInterface;
 
 /**
  * Class to handle the business logic related to sending email to
@@ -219,23 +220,24 @@ class Mail_Helper
     }
 
     /**
-     * Parses a one or more email addresses and returns them separated by a comma and a space (", ").
+     * Parses a one or more email addresses (could be QP encoded)
+     * and returns them encoded in utf-8.
      *
-     * @param $input
+     * Method should be used when displaying header values to user.
+     *
+     * @param Address|string $address The email address value
      * @return string
      */
-    public static function formatEmailAddresses($input)
+    public static function formatEmailAddresses($address)
     {
-        if (empty($input)) {
+        if (!$address) {
             return '';
         }
-        $addresses = self::getAddressInfo($input, true);
-        $returns = [];
-        foreach ($addresses as $address) {
-            $returns[] = self::getFormattedName($address['sender_name'], $address['email']);
+        if (!$address instanceof Address) {
+            $address = AddressHeader::fromString($address);
         }
 
-        return implode(', ', $returns);
+        return $address->toString(HeaderInterface::FORMAT_RAW);
     }
 
     /**
@@ -985,8 +987,9 @@ class Mail_Helper
 
     /**
      * Removes newlines and tabs from subject
-     * @param string $subject The subject to clean
-     * @return string
+     *
+     * @param $subject string The subject to clean
+     * @return mixed string
      */
     public static function cleanSubject($subject)
     {

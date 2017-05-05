@@ -18,6 +18,7 @@ use Mime_Helper;
 use Zend\Mail\Address;
 use Zend\Mail\AddressList;
 use Zend\Mail\Header\AbstractAddressList;
+use Zend\Mail\Header\HeaderInterface;
 use Zend\Mail\Header\To;
 
 /**
@@ -68,6 +69,16 @@ class AddressHeader
     public function getAddressList()
     {
         return $this->header->getAddressList();
+    }
+
+    /**
+     * @param bool $format Whether to Mime-Encode header or not
+     *
+     * @return string
+     */
+    public function toString($format = HeaderInterface::FORMAT_ENCODED)
+    {
+        return $this->header->getFieldValue($format);
     }
 
     /**
