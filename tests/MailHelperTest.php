@@ -15,6 +15,7 @@ namespace Eventum\Test;
 
 use Eventum\Mail\Helper\AddressHeader;
 use Mail_Helper;
+use Misc;
 
 /**
  * Test class for Mail_Helper.
@@ -202,6 +203,8 @@ class MailHelperTest extends TestCase
     public function testGetAddressInfo($input, $sender_name, $email)
     {
         $res = Mail_Helper::getAddressInfo($input);
+        $this->assertFalse(Misc::isError($res));
+
         $this->assertEquals($sender_name, $res['sender_name']);
         $this->assertEquals($email, $res['email']);
     }
@@ -243,6 +246,11 @@ class MailHelperTest extends TestCase
     public function testGetAddressInfoMultiple($input, $exp)
     {
         $res = Mail_Helper::getAddressInfo($input, true);
+        if (Misc::isError($e = $res)) {
+            /** @var $e \PEAR_Error */
+            echo $e->getMessage();
+        }
+        $this->assertFalse(Misc::isError($res), 'No Error returned');
         $this->assertEquals($exp, $res);
     }
 
@@ -251,21 +259,49 @@ class MailHelperTest extends TestCase
         return [
             // test for "addressgroup" with empty list
             // see https://github.com/eventum/eventum/issues/91
-            1 => [
-                'destinatarios-no-revelados: ',
+            'addressgroup-es' => [
+                'destinatarios-no-revelados: ;',
                 [],
             ],
-            // example taken from RFC822.php class source
-            // this doesn't parse correctly, because fixAddressQuoting() breaks it
-            // but at least document what it does
-            2 => [
-                'My Group: "Richard" <richard@localhost> (A comment), ted@example.com (Ted Bloggs), Barney;',
+            // hostgroup things
+            // https://github.com/zendframework/zend-mail/pull/13
+            'group-empty' => [
+                'undisclosed-recipients:;',
+                [],
+            ],
+            'group-value' => [
+                // pear gives:
+                // Validation failed for: enemies: john@example.net
+                'friends: john@example.com; enemies: john@example.net, bart@example.net;',
                 [
                     [
-                        // this is how it currently is parsed
-                        'sender_name' => '"My Group: \"Richard"',
-                        // this is how it should be parsed if fixAddressQuoting didn't break it
-                        //'sender_name' => '"Richard"',
+                        'email' => 'john@example.com',
+                        'sender_name' => '',
+                        'username' => 'john',
+                        'host' => 'example.com',
+                    ],
+                    [
+                        'email' => 'john@example.net',
+                        'sender_name' => '',
+                        'username' => 'john',
+                        'host' => 'example.net',
+                    ],
+                    [
+                        'email' => 'bart@example.net',
+                        'sender_name' => '',
+                        'username' => 'bart',
+                        'host' => 'example.net',
+                    ],
+
+                ],
+            ],
+            // example taken from RFC822.php class source
+            // modified because not all of that parsed (and is relevant?)
+            'with comment' => [
+                'My Group: "Richard" <richard@localhost>, ted@example.com (Ted Bloggs);',
+                [
+                    [
+                        'sender_name' => '"Richard"',
                         'email' => 'richard@localhost',
                         'username' => 'richard',
                         'host' => 'localhost',
@@ -275,12 +311,6 @@ class MailHelperTest extends TestCase
                         'email' => 'ted@example.com',
                         'username' => 'ted',
                         'host' => 'example.com',
-                    ],
-                    [
-                        'sender_name' => '',
-                        'email' => 'Barney@localhost',
-                        'username' => 'Barney',
-                        'host' => 'localhost',
                     ],
                 ],
             ],

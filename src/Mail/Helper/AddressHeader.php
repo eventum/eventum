@@ -44,6 +44,11 @@ class AddressHeader
         return new static(To::fromString('To:' . $addresses));
     }
 
+    /**
+     * Collect email addresses from addresslist
+     *
+     * @return array
+     */
     public function getEmails()
     {
         $res = [];
@@ -52,5 +57,13 @@ class AddressHeader
         }
 
         return $res;
+    }
+
+    /**
+     * @return \Zend\Mail\AddressList
+     */
+    public function getAddressList()
+    {
+        return $this->header->getAddressList();
     }
 }

@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\MailTransport;
 use Eventum\Monolog\Logger;
 
@@ -188,51 +189,32 @@ class Mail_Helper
      * @param   string $address The email address value
      * @param   bool $multiple If multiple addresses should be returned
      * @return  array The address information
+     * @deprecated use AddressHeader directly
      */
     public static function getAddressInfo($address, $multiple = false)
     {
-        $address = self::fixAddressQuoting($address);
-        $addresslist = self::parseAddressList($address, null, null, false);
-        if (Misc::isError($addresslist)) {
-            return $addresslist;
-        }
+        $header = AddressHeader::fromString($address);
 
-        if (!$multiple) {
-            $addresslist = [$addresslist[0]];
-        }
+        $addresses = [];
+        foreach ($header->getAddressList() as $address) {
+            $email = $address->getEmail();
+            $sender_name = $address->getName();
 
-        $returns = [];
-        foreach ($addresslist as $row) {
-            // handle "group" type addresses
-            if (isset($row->groupname)) {
-                foreach ($row->addresses as $address) {
-                    $returns[] = [
-                        'sender_name' => $address->personal,
-                        'email' => $address->mailbox . '@' . $address->host,
-                        'username' => $address->mailbox,
-                        'host' => $address->host,
-                    ];
-                }
-                continue;
-            }
-
-            $returns[] = [
-                'sender_name' => $row->personal,
-                'email' => $row->mailbox . '@' . $row->host,
-                'username' => $row->mailbox,
-                'host' => $row->host,
+            list($username, $hostname) = explode('@', $email);
+            $item = [
+                'email' => $email,
+                'sender_name' => $sender_name ? sprintf('"%s"', $sender_name) : '',
+                'username' => $username,
+                'host' => $hostname,
             ];
-        }
-
-        if (!$returns) {
-            return $returns;
+            $addresses[] = $item;
         }
 
         if (!$multiple) {
-            return $returns[0];
+            return $addresses[0];
         }
 
-        return $returns;
+        return $addresses;
     }
 
     /**
