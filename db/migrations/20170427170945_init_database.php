@@ -231,7 +231,7 @@ class InitDatabase extends AbstractMigration
             ->addColumn('faq_usr_id', 'integer', ['signed' => false])
             ->addColumn('faq_created_date', 'datetime')
             ->addColumn('faq_updated_date', 'datetime', ['null' => true])
-            ->addColumn('faq_title', 'string')
+            ->addColumn('faq_title', 'string', ['encoding' => 'utf8'])
             ->addColumn('faq_message', 'text', ['length' => self::INT_REGULAR])
             ->addColumn('faq_rank', 'integer', ['length' => self::INT_TINY, 'signed' => false])
             ->addIndex(['faq_title'], ['unique' => true]);
@@ -514,7 +514,7 @@ class InitDatabase extends AbstractMigration
             ->addColumn('nws_id', 'integer', ['length' => 11, 'signed' => false])
             ->addColumn('nws_usr_id', 'integer', ['signed' => false])
             ->addColumn('nws_created_date', 'datetime')
-            ->addColumn('nws_title', 'string')
+            ->addColumn('nws_title', 'string', ['encoding' => 'utf8'])
             ->addColumn('nws_message', 'text')
             ->addColumn('nws_status', 'string', ['length' => 8, 'default' => 'active'])
             ->addIndex(['nws_title'], ['unique' => true]);
