@@ -257,34 +257,24 @@ class Mail_Helper
     }
 
     /**
-     * Method used to get the name portion of a given recipient information.
+     * Method used to get the display name of a given recipient information.
      *
-     * @param   string $address The email address value
+     * Method should be used when displaying header values to user.
+     *
+     * @param Address|string $address The email address(es) value
      * @param   bool $multiple If multiple addresses should be returned
-     * @return  mixed The name or an array of names if multiple is true
+     * @throws \Zend\Mail\Header\Exception\InvalidArgumentException
+     * @return string[]|string The name or an array of names if multiple is true
      */
     public static function getName($address, $multiple = false)
     {
-        $info = self::getAddressInfo($address, true);
-        if (Misc::isError($info)) {
-            return $info;
-        }
-        $returns = [];
-        foreach ($info as $row) {
-            if (!empty($row['sender_name'])) {
-                if ((substr($row['sender_name'], 0, 1) == '"') && (substr($row['sender_name'], -1) == '"')) {
-                    $row['sender_name'] = substr($row['sender_name'], 1, -1);
-                }
-                $returns[] = Mime_Helper::decodeQuotedPrintable($row['sender_name']);
-            } else {
-                $returns[] = $row['email'];
-            }
-        }
-        if ($multiple) {
-            return $returns;
+        if (!$address instanceof Address) {
+            $address = AddressHeader::fromString($address);
         }
 
-        return $returns[0];
+        $names = $address->getNames();
+
+        return $multiple ? $names : $names[0];
     }
 
     /**

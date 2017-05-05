@@ -34,6 +34,11 @@ class AddressHeader
         $this->header = $addresses;
     }
 
+    /**
+     * @param string $addresses
+     * @throws \Zend\Mail\Header\Exception\InvalidArgumentException
+     * @return static
+     */
     public static function fromString($addresses)
     {
         // avoid exceptions if NULL or empty string passed as input
@@ -49,15 +54,32 @@ class AddressHeader
     }
 
     /**
-     * Collect email addresses from addresslist
+     * Collect email addresses from AddressList
      *
-     * @return array
+     * @return string[]
      */
     public function getEmails()
     {
         $res = [];
         foreach ($this->header->getAddressList() as $address) {
             $res[] = $address->getEmail();
+        }
+
+        return $res;
+    }
+
+    /**
+     * Collect display names from AddressList.
+     * If display name is missing email is used.
+     *
+     * @return string[]
+     */
+    public function getNames()
+    {
+        $res = [];
+        foreach ($this->header->getAddressList() as $address) {
+            $name = $address->getName();
+            $res[] = $name ? $name : $address->getEmail();
         }
 
         return $res;

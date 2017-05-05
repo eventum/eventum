@@ -1246,10 +1246,11 @@ class Support
             if ((empty($row['sup_to'])) && (!empty($row['sup_iss_id']))) {
                 $row['sup_to'] = 'Notification List';
             } else {
-                $to = Mail_Helper::getName($row['sup_to']);
-                // Ignore unformattable headers
-                if (!Misc::isError($to)) {
-                    $row['sup_to'] = $to;
+                try {
+                    $row['sup_to'] = Mail_Helper::getName($row['sup_to']);
+                } catch (\Zend\Mail\Header\Exception\InvalidArgumentException $e) {
+                    // Ignore unformattable headers
+                    Logger::app()->error($e->getMessage(), ['exception' => $e]);
                 }
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
