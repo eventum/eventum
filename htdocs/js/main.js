@@ -89,8 +89,13 @@ $(document).ready(function() {
         $(selector).chosen(config[selector]);
     }
 
-    // autosize
-    autosize($('textarea'));
+    var $textarea = $('textarea');
+
+    // https://github.com/jackmoore/autosize
+    autosize($textarea);
+
+    // https://github.com/widernet/cmd-ctrl-enter
+    $textarea.cmdCtrlEnter();
 
     // jquery timeago
     var $timeago = $('time.timeago');
