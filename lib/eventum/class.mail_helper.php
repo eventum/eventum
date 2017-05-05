@@ -118,34 +118,8 @@ class Mail_Helper
      * Method used to parse a string and return all email addresses contained
      * within it.
      *
-     * @param   string $str The string containing email addresses
-     * @return  array The list of email addresses
-     * @deprecated use AddressHeader helper instead
-     */
-    public static function getEmailAddresses($str)
-    {
-        $str = self::fixAddressQuoting($str);
-        $str = Mime_Helper::encode($str);
-        $structs = self::parseAddressList($str);
-        if (Misc::isError($structs)) {
-            /** @var PEAR_Error $e */
-            $e = $structs;
-            Logger::app()->error($e->getMessage(), ['addresses' => $str]);
-
-            return [];
-        }
-
-        $addresses = [];
-        foreach ($structs as $structure) {
-            if ((!empty($structure->mailbox)) && (!empty($structure->host))) {
-                $addresses[] = $structure->mailbox . '@' . $structure->host;
-            }
-        }
-
-        return $addresses;
-    }
-
-    /**
+     * @param   string $str
+     /**
      * Wrapper around Mail_RFC822::parseAddressList to avoid calling it statically
      *
      * @param string  $address         the address(es) to validate
