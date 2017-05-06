@@ -168,7 +168,7 @@ class Access
         return false;
     }
 
-    public static function canViewInternalNotes($issue_id, $usr_id, $not_id = null)
+    public static function canViewInternalNotes($issue_id, $usr_id)
     {
         if (!self::canAccessIssue($issue_id, $usr_id, false)) {
             return false;
