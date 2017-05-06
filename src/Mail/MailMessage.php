@@ -351,7 +351,7 @@ class MailMessage extends Message
             ->setCharset($charset);
 
         // parts start from 1 somewhy,
-        // and no easy wait to know how many parts there are
+        // and no easy way to know how many parts there are
         if (isset($this->parts[1])) {
             $this->parts[] = $part;
         } else {
