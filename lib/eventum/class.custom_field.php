@@ -1841,6 +1841,6 @@ class Custom_Field
             APP_LOCAL_PATH . '/custom_field',
         ];
 
-        return new ExtensionLoader($dirs, '%_Custom_Field_Backend');
+        return new ExtensionLoader($dirs, '%s_Custom_Field_Backend');
     }
 }
