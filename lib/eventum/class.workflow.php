@@ -67,7 +67,7 @@ class Workflow
      * given project ID, instantiates it and returns the class.
      *
      * @param   int $prj_id The project ID
-     * @return  Abstract_Workflow_Backend
+     * @return bool|Abstract_Workflow_Backend
      */
     public static function _getBackend($prj_id)
     {
@@ -92,7 +92,7 @@ class Workflow
      * Checks whether the given project ID is setup to use workflow integration
      * or not.
      *
-     * @param   int integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  bool
      */
     public static function hasWorkflowIntegration($prj_id)
