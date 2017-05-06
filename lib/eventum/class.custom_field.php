@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Extension\ExtensionLoader;
 
 /**
  * Class to handle the business logic related to the administration
@@ -1627,18 +1628,14 @@ class Custom_Field
      */
     public static function getBackendList()
     {
-        $list = [];
-        $files = Misc::getFileList(APP_INC_PATH . '/custom_field');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/custom_field'));
-        foreach ($files as $file) {
-            // make sure we only list the backends
-            if (preg_match('/^class\.(.*)\.php$/', $file)) {
-                // display a prettyfied backend name in the admin section
-                $list[$file] = self::getBackendName($file);
-            }
-        }
+        $dirs = [
+            APP_INC_PATH . '/custom_field',
+            APP_LOCAL_PATH . '/custom_field',
+        ];
 
-        return $list;
+        $extensionLoader = new ExtensionLoader();
+
+        return $extensionLoader->getFileList($dirs);
     }
 
     /**

@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Extension\ExtensionLoader;
 
 /**
  * Handles the interactions between Eventum and partner backends.
@@ -306,20 +307,23 @@ class Partner
      */
     public static function getBackendList()
     {
-        $files = Misc::getFileList(APP_INC_PATH . '/partner');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/partner'));
-        $list = [];
-        foreach ($files as $file) {
-            // display a prettyfied backend name in the admin section
+        $dirs = [
+            APP_INC_PATH . '/partner',
+            APP_LOCAL_PATH . '/partner',
+        ];
+
+        $extensionLoader = new ExtensionLoader();
+        $files = $extensionLoader->getFileList($dirs);
+
+        foreach ($files as $file => $classname) {
             if (preg_match('/^class\.(.*)\.php$/', $file, $matches)) {
                 if (substr($matches[1], 0, 8) == 'abstract') {
-                    continue;
+                    unset($files[$file]);
                 }
-                $list[$file] = $matches[1];
             }
         }
 
-        return $list;
+        return $files;
     }
 
     public static function getName($par_code)

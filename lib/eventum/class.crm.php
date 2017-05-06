@@ -13,6 +13,7 @@
 
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
+use Eventum\Extension\ExtensionLoader;
 
 define('CRM_EXCLUDE_EXPIRED', 'exclude_expired');
 
@@ -298,11 +299,17 @@ abstract class CRM
      */
     public static function getBackendList()
     {
-        $files = Misc::getFileList(APP_INC_PATH . 'crm/');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/crm'));
+        $dirs = [
+            APP_INC_PATH . '/crm',
+            APP_LOCAL_PATH . '/crm',
+        ];
+
+        $extensionLoader = new ExtensionLoader();
+        $files = $extensionLoader->getFileList($dirs);
+
         $list = [];
-        foreach ($files as $file) {
-            $list['class.' . $file . '.php'] = $file;
+        foreach ($files as $file => $classname) {
+            $list['class.' . $file . '.php'] = $classname;
         }
 
         return $list;

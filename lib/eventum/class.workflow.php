@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Extension\ExtensionLoader;
 use Eventum\Mail\MailMessage;
 use Eventum\Model\Entity;
 
@@ -24,21 +25,17 @@ class Workflow
      */
     public static function getBackendList()
     {
-        $files = Misc::getFileList(APP_INC_PATH . '/workflow');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/workflow'));
-        $list = [];
-        foreach ($files as $file) {
-            // display a prettyfied backend name in the admin section
-            if (preg_match('/^class\.(.*)\.php$/', $file, $matches)) {
-                if ($matches[1] == 'abstract_workflow_backend') {
-                    continue;
-                }
-                $name = ucwords(str_replace('_', ' ', $matches[1]));
-                $list[$file] = $name;
-            }
-        }
+        $dirs = [
+            APP_INC_PATH . '/workflow',
+            APP_LOCAL_PATH . '/workflow',
+        ];
 
-        return $list;
+        $extensionLoader = new ExtensionLoader();
+        $files = $extensionLoader->getFileList($dirs);
+
+        unset($files['class.abstract_workflow_backend.php']);
+
+        return $files;
     }
 
     /**
