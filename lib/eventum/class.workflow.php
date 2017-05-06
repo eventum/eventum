@@ -27,8 +27,6 @@ class Workflow
     {
         $files = static::getExtensionLoader()->getFileList();
 
-        unset($files['class.abstract_workflow_backend.php']);
-
         return $files;
     }
 
