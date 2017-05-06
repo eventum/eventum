@@ -1290,17 +1290,6 @@ class Custom_Field
             return -1;
         }
 
-        // if the current custom field is a combo box, get all of the current options
-        if (in_array($_POST['field_type'], self::$option_types)) {
-            $stmt = 'SELECT
-                        cfo_id
-                     FROM
-                        {{%custom_field_option}}
-                     WHERE
-                        cfo_fld_id=?';
-            $current_options = DB_Helper::getInstance()->getColumn($stmt, [$_POST['id']]);
-        }
-
         if ($old_details['fld_type'] != $_POST['field_type']) {
             // gotta remove all custom field options if the field is being changed from a combo box to a text field
             if ((!in_array($old_details['fld_type'], ['text', 'textarea'])) &&
