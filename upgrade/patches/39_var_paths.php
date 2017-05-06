@@ -41,6 +41,7 @@ if (!$files) {
 $count = count($files);
 $log("Migrating $count files from $old_dir to $new_dir");
 foreach ($files as $file) {
+    $file = basename($file);
     $old_file = "$old_dir/$file";
     $new_file = "$new_dir/$file";
     $res = copy($old_file, $new_file);

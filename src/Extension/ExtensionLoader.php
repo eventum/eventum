@@ -30,12 +30,14 @@ class ExtensionLoader
         }
 
         foreach ($files as $file) {
+            $fileName = basename($file);
+
             // make sure we only list the backends
-            if (!preg_match('/^class\.(.*)\.php$/', $file)) {
+            if (!preg_match('/^class\.(.+)\.php$/', $file)) {
                 continue;
             }
 
-            $list[$file] = $this->getClassname($file);
+            $list[$fileName] = $this->getDisplayName($fileName);
         }
 
         return $list;
@@ -44,13 +46,11 @@ class ExtensionLoader
     /**
      * Returns the 'pretty' name of the backend
      *
-     * @param string $backend The full backend file name
-     * @return string the pretty name of the backend
+     * @param string $fileName
+     * @return string
      */
-    private function getClassname($backend)
+    private function getDisplayName($fileName)
     {
-        preg_match('/^class\.(.*)\.php$/', $backend, $matches);
-
-        return ucwords(str_replace('_', ' ', $matches[1]));
+        return ucwords(str_replace('_', ' ', $fileName));
     }
 }
