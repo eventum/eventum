@@ -144,10 +144,10 @@ class Date_Helper
      *
      * NOTE: $timezone param is deprecated as input is always GMT and result is also always GMT
      *
-     * @param   string $timezone The needed timezone
-     * @return  string $ts The current GMT date
+     * @param int|DateTime|string $ts
+     * @return string $ts The current GMT date
      */
-    public static function getRFC822Date($ts, $timezone = null)
+    public static function getRFC822Date($ts)
     {
         $date = self::getDateTime($ts, 'GMT');
 
