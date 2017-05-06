@@ -1633,9 +1633,9 @@ class Custom_Field
             APP_LOCAL_PATH . '/custom_field',
         ];
 
-        $extensionLoader = new ExtensionLoader();
+        $extensionLoader = new ExtensionLoader($dirs, '%_Custom_Field_Backend');
 
-        return $extensionLoader->getFileList($dirs);
+        return $extensionLoader->getFileList();
     }
 
     /**

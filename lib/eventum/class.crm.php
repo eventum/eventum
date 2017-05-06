@@ -304,8 +304,8 @@ abstract class CRM
             APP_LOCAL_PATH . '/crm',
         ];
 
-        $extensionLoader = new ExtensionLoader();
-        $files = $extensionLoader->getFileList($dirs);
+        $extensionLoader = new ExtensionLoader($dirs);
+        $files = $extensionLoader->getFileList();
 
         $list = [];
         foreach ($files as $file => $classname) {

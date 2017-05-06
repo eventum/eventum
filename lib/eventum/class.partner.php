@@ -312,18 +312,9 @@ class Partner
             APP_LOCAL_PATH . '/partner',
         ];
 
-        $extensionLoader = new ExtensionLoader();
-        $files = $extensionLoader->getFileList($dirs);
+        $extensionLoader = new ExtensionLoader($dirs, '%s_Partner_Backend');
 
-        foreach ($files as $file => $classname) {
-            if (preg_match('/^class\.(.*)\.php$/', $file, $matches)) {
-                if (substr($matches[1], 0, 8) == 'abstract') {
-                    unset($files[$file]);
-                }
-            }
-        }
-
-        return $files;
+        return $extensionLoader->getFileList();
     }
 
     public static function getName($par_code)

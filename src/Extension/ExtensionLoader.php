@@ -14,33 +14,101 @@
 namespace Eventum\Extension;
 
 use Misc;
+use ReflectionClass;
 
 class ExtensionLoader
 {
+    /** @var array */
+    private $paths;
+
+    /** @var string */
+    private $classFormat;
+
+    /**
+     * ExtensionLoader constructor.
+     *
+     * @param array|string $paths
+     * @param string $classFormat format for creating class from filename
+     */
+    public function __construct($paths, $classFormat = null)
+    {
+        $this->paths = is_string($paths) ? [$paths] : $paths;
+        $this->classFormat = $classFormat;
+    }
+
     /**
      * Get Filename -> Classname of extensions found
      *
      * @return array
      */
-    public function getFileList($paths)
+    public function getFileList()
     {
         $list = $files = [];
-        foreach ($paths as $path) {
+        foreach ($this->paths as $path) {
             $files = array_merge($files, Misc::getFileList($path));
         }
 
         foreach ($files as $file) {
             $fileName = basename($file);
+            $className = $this->getClassName($fileName);
 
-            // make sure we only list the backends
-            if (!preg_match('/^class\.(.+)\.php$/', $file)) {
+            if (!$this->isExtension($file, $className)) {
                 continue;
             }
 
-            $list[$fileName] = $this->getDisplayName($fileName);
+            $list[$fileName] = $this->getDisplayName($className);
         }
 
         return $list;
+    }
+
+    /**
+     * Determines whether $className is an extension.
+     * That is it is an class that can be instantiated.
+     *
+     * @param string $filename
+     * @param string $className
+     * @return bool
+     */
+    private function isExtension($filename, $className)
+    {
+        // skip if filename pattern gave no result
+        if (!$className) {
+            return false;
+        }
+
+        // TODO: move abstract classes elsewhere
+        if (substr(strtolower($className), 0, 9) == 'abstract_') {
+            return false;
+        }
+
+        // autoload, or load manually
+        if (!class_exists($className)) {
+            require_once $filename;
+
+            if (!class_exists($className)) {
+                // still not found. skip it
+                return false;
+            }
+        }
+        $rc = new ReflectionClass($className);
+
+        return $rc->isInstantiable();
+    }
+
+    /**
+     * Get class name from file name.
+     *
+     * @param string $fileName
+     * @return string
+     */
+    private function getClassName($fileName)
+    {
+        if (!preg_match('/^class\.(.*)\.php$/', $fileName, $matches)) {
+            return null;
+        }
+
+        return sprintf($this->classFormat, $matches[1]);
     }
 
     /**

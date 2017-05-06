@@ -30,8 +30,8 @@ class Workflow
             APP_LOCAL_PATH . '/workflow',
         ];
 
-        $extensionLoader = new ExtensionLoader();
-        $files = $extensionLoader->getFileList($dirs);
+        $extensionLoader = new ExtensionLoader($dirs, '%s_Workflow_Backend');
+        $files = $extensionLoader->getFileList();
 
         unset($files['class.abstract_workflow_backend.php']);
 
