@@ -82,6 +82,8 @@ class Workflow
             }
 
             $instance = static::getExtensionLoader()->createInstance($filename);
+            $instance->prj_id = $prj_id;
+
             $setup_backends[$prj_id] = $instance;
         }
 

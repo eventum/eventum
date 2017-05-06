@@ -20,6 +20,14 @@ use Eventum\Model\Entity;
 class Abstract_Workflow_Backend
 {
     /**
+     * Project Id this Workflow was created for.
+     * The value is set by Eventum Core.
+     *
+     * @var int
+     */
+    public $prj_id;
+
+    /**
      * Interface for using config values within Workflow class.
      *
      * To read an option:
@@ -667,6 +675,7 @@ class Abstract_Workflow_Backend
 
     /**
      * Downgrade config: remove all EncryptedValue elements
+     *
      * @see \Eventum\Crypto\CryptoUpgradeManager::downgradeConfig
      *
      * @since 3.1.0
