@@ -13,6 +13,7 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Extension\ExtensionLoader;
+use Eventum\Monolog\Logger;
 
 /**
  * Class to handle the business logic related to the administration
@@ -1628,14 +1629,7 @@ class Custom_Field
      */
     public static function getBackendList()
     {
-        $dirs = [
-            APP_INC_PATH . '/custom_field',
-            APP_LOCAL_PATH . '/custom_field',
-        ];
-
-        $extensionLoader = new ExtensionLoader($dirs, '%_Custom_Field_Backend');
-
-        return $extensionLoader->getFileList();
+        return static::getExtensionLoader()->getFileList();
     }
 
     /**
@@ -1679,29 +1673,15 @@ class Custom_Field
             return false;
         }
 
-        if (!empty($res)) {
-            if (file_exists(APP_LOCAL_PATH . "/custom_field/$res")) {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_LOCAL_PATH . "/custom_field/$res";
-            } elseif (file_exists(APP_INC_PATH . "/custom_field/$res")) {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_INC_PATH . "/custom_field/$res";
-            } else {
-                $returns[$fld_id] = false;
-
-                return $returns[$fld_id];
+        if ($res) {
+            try {
+                $instance = static::getExtensionLoader()->createInstance($res);
+            } catch (InvalidArgumentException $e) {
+                Logger::app()->error("Could not load backend $res", ['exception' => $e]);
+                $instance = false;
             }
 
-            $file_name_chunks = explode('.', $res);
-            $class_name = $file_name_chunks[1] . '_Custom_Field_Backend';
-
-            if (!class_exists($class_name)) {
-                $returns[$fld_id] = false;
-
-                return $returns[$fld_id];
-            }
-
-            $returns[$fld_id] = new $class_name();
+            $returns[$fld_id] = $instance;
         } else {
             $returns[$fld_id] = false;
         }
@@ -1849,5 +1829,18 @@ class Custom_Field
         }
 
         return true;
+    }
+
+    /**
+     * @return ExtensionLoader
+     */
+    private static function getExtensionLoader()
+    {
+        $dirs = [
+            APP_INC_PATH . '/custom_field',
+            APP_LOCAL_PATH . '/custom_field',
+        ];
+
+        return new ExtensionLoader($dirs, '%_Custom_Field_Backend');
     }
 }

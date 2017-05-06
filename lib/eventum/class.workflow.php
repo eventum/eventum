@@ -25,13 +25,7 @@ class Workflow
      */
     public static function getBackendList()
     {
-        $dirs = [
-            APP_INC_PATH . '/workflow',
-            APP_LOCAL_PATH . '/workflow',
-        ];
-
-        $extensionLoader = new ExtensionLoader($dirs, '%s_Workflow_Backend');
-        $files = $extensionLoader->getFileList();
+        $files = static::getExtensionLoader()->getFileList();
 
         unset($files['class.abstract_workflow_backend.php']);
 
@@ -82,22 +76,13 @@ class Workflow
         static $setup_backends;
 
         if (empty($setup_backends[$prj_id])) {
-            $backend_class = self::_getBackendNameByProject($prj_id);
-            if (empty($backend_class)) {
+            $filename = self::_getBackendNameByProject($prj_id);
+            if (!$filename) {
                 return false;
             }
-            $file_name_chunks = explode('.', $backend_class);
-            $class_name = $file_name_chunks[1] . '_Workflow_Backend';
 
-            if (file_exists(APP_LOCAL_PATH . "/workflow/$backend_class")) {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_LOCAL_PATH . "/workflow/$backend_class";
-            } else {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_INC_PATH . "/workflow/$backend_class";
-            }
-
-            $setup_backends[$prj_id] = new $class_name();
+            $instance = static::getExtensionLoader()->createInstance($filename);
+            $setup_backends[$prj_id] = $instance;
         }
 
         return $setup_backends[$prj_id];
@@ -974,5 +959,18 @@ class Workflow
         $backend = self::_getBackend($prj_id);
 
         return $backend->getMovedIssueMapping($prj_id, $issue_id, $mapping, $old_prj_id);
+    }
+
+    /**
+     * @return ExtensionLoader
+     */
+    private static function getExtensionLoader()
+    {
+        $dirs = [
+            APP_INC_PATH . '/workflow',
+            APP_LOCAL_PATH . '/workflow',
+        ];
+
+        return new ExtensionLoader($dirs, '%s_Workflow_Backend');
     }
 }

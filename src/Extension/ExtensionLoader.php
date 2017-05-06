@@ -13,6 +13,7 @@
 
 namespace Eventum\Extension;
 
+use InvalidArgumentException;
 use Misc;
 use ReflectionClass;
 
@@ -34,6 +35,27 @@ class ExtensionLoader
     {
         $this->paths = is_string($paths) ? [$paths] : $paths;
         $this->classFormat = $classFormat;
+    }
+
+    /**
+     * Create instance of named backend
+     *
+     * @param string $backend
+     * @return object
+     */
+    public function createInstance($backend)
+    {
+        $filename = $this->getClassFilename($backend);
+        if (!file_exists($filename)) {
+            throw new InvalidArgumentException("Filename: $filename does not exist");
+        }
+
+        /** @noinspection PhpIncludeInspection */
+        require_once $filename;
+
+        $classname = $this->getClassName($backend);
+
+        return new $classname();
     }
 
     /**
@@ -120,5 +142,26 @@ class ExtensionLoader
     private function getDisplayName($fileName)
     {
         return ucwords(str_replace('_', ' ', $fileName));
+    }
+
+    /**
+     * Find class filename from set of directories
+     *
+     * @param string $filename
+     * @return null|string
+     */
+    private function getClassFilename($filename)
+    {
+        foreach ($this->paths as $path) {
+            $class_filename = "$path/$filename";
+
+            if (!file_exists($class_filename)) {
+                continue;
+            }
+
+            return $class_filename;
+        }
+
+        return null;
     }
 }
