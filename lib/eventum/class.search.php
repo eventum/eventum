@@ -297,10 +297,10 @@ class Search
                 if ($field['fld_type'] == 'multiple') {
                     $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
-                        $stmt .= ",\n{{%issue_custom_field}} as cf" . $fld_id . '_' . $cfo_id . "\n";
+                        $stmt .= ",\n{{%issue_custom_field}} as `cf" . $fld_id . '_' . $cfo_id . "`\n";
                     }
                 } else {
-                    $stmt .= ",\n{{%issue_custom_field}} as cf" . $fld_id . "\n";
+                    $stmt .= ",\n{{%issue_custom_field}} as `cf" . $fld_id . "`\n";
                 }
             }
         }
@@ -691,17 +691,17 @@ class Search
                     $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
                         $cfo_id = Misc::escapeString($cfo_id);
-                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . '.icf_iss_id = iss_id';
-                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_fld_id = $fld_id";
-                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . '.' . $fld_db_name . " = '$cfo_id'";
+                        $stmt .= " AND\n `cf" . $fld_id . '_' . $cfo_id . '`.icf_iss_id = iss_id';
+                        $stmt .= " AND\n `cf" . $fld_id . '_' . $cfo_id . "`.icf_fld_id = $fld_id";
+                        $stmt .= " AND\n `cf" . $fld_id . '_' . $cfo_id . '`.' . $fld_db_name . " = '$cfo_id'";
                     }
                 } elseif ($field['fld_type'] == 'date') {
                     if ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day']))) {
                         continue;
                     }
                     $search_value = $search_value['Year'] . '-' . $search_value['Month'] . '-' . $search_value['Day'];
-                    $stmt .= " AND\n (iss_id = cf" . $fld_id . '.icf_iss_id AND
-                        cf' . $fld_id . '.' . $fld_db_name . " = '" . Misc::escapeString($search_value) . "')";
+                    $stmt .= " AND\n (iss_id = `cf" . $fld_id . '``.icf_iss_id AND
+                        `cf' . $fld_id . '`.' . $fld_db_name . " = '" . Misc::escapeString($search_value) . "')";
                 } elseif ($field['fld_type'] == 'integer') {
                     $value = $search_value['value'];
                     switch ($search_value['filter_type']) {
