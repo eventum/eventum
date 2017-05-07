@@ -121,24 +121,24 @@ class EmailsController extends BaseController
         ];
         $items = [
             'links' => [],
-            'images' => [],
+            'order' => [],
         ];
 
         $sort_order_option = strtolower(DB_Helper::orderBy($options['sort_order']));
-        $sort_order_image = "images/{$sort_order_option}.gif";
 
         foreach ($fields as $field) {
             $sort_order = 'asc';
             if ($options['sort_by'] == $field) {
-                $items['images'][$field] = $sort_order_image;
                 if ($sort_order_option == 'asc') {
                     $sort_order = 'desc';
                 } else {
                     $sort_order = 'asc';
                 }
+                $items['order'][$field] = $sort_order_option;
             }
             $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=' . $sort_order;
         }
+
         return $items;
     }
 }
