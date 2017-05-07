@@ -272,6 +272,7 @@ body#list td.custom_field {
 
 body#offline #error-header,
 body#confirm #error-header,
+body#setup #error-header,
 body#associate #error-header
 {
     font-weight: bold; font-size: 160%; color: red;
