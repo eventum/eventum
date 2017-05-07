@@ -43,6 +43,20 @@ class DoctrineTest extends PHPUnit_Framework_TestCase
         }
     }
 
+    public function test3()
+    {
+        $em = $this->getEntityManager();
+        $repo = $em->getRepository(\Eventum\Model\Entity\Commit::class);
+        $qb = $repo->createQueryBuilder('commit');
+
+        $qb->setMaxResults(10);
+
+        $query = $qb->getQuery();
+        $items = $query->getArrayResult();
+
+        print_r($items);
+    }
+
     private function getEntityManager()
     {
         return Doctrine::getEntityManager();
