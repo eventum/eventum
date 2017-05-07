@@ -99,11 +99,6 @@ class ExtensionLoader
             return false;
         }
 
-        // TODO: move abstract classes elsewhere
-        if (substr(strtolower($className), 0, 9) == 'abstract_') {
-            return false;
-        }
-
         // autoload, or load manually
         if (!class_exists($className)) {
             require_once $filename;
