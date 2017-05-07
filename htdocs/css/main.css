@@ -509,6 +509,7 @@ div.html_box {
     overflow: scroll;
 }
 
+.reply_note,
 .reply_email_note {
     color: darkred;
 }
