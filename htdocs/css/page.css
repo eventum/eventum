@@ -270,13 +270,14 @@ body#list td.custom_field {
 
 /* End List Issue page */
 
-body#offline #error-header {
+body#offline #error-header,
+body#associate #error-header
+{
     font-weight: bold; font-size: 160%; color: red;
 }
-
-/*
- * Emails page
- */
+    /*
+     * Emails page
+     */
 body#emails  table#email_filters {
     width: 80%;
     margin: 0 auto;
