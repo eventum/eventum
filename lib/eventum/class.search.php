@@ -156,69 +156,6 @@ class Search
     }
 
     /**
-     * Method used to get the current sorting options used in the grid layout
-     * of the issue listing page.
-     *
-     * @param   array $options The current search parameters
-     * @return  array The sorting options
-     */
-    public static function getSortingInfo($options)
-    {
-        $custom_fields = Custom_Field::getFieldsToBeListed(Auth::getCurrentProject());
-
-        // default order for last action date, priority should be descending
-        // for textual fields, like summary, ascending is reasonable
-        $fields = [
-            'pri_rank' => 'desc',
-            'sev_rank' => 'asc',
-            'iss_id' => 'desc',
-            'iss_customer_id' => 'desc',
-            'prc_title' => 'asc',
-            'sta_rank' => 'asc',
-            'iss_created_date' => 'desc',
-            'iss_summary' => 'asc',
-            'last_action_date' => 'desc',
-            'usr_full_name' => 'asc',
-            'iss_expected_resolution_date' => 'desc',
-            'pre_title' => 'asc',
-            'assigned' => 'asc',
-            'grp_name' => 'asc',
-            'iss_percent_complete' => 'asc',
-        ];
-
-        foreach ($custom_fields as $fld_id => $fld_name) {
-            $fields['custom_field_' . $fld_id] = 'desc';
-        }
-
-        $sortfields = array_combine(array_keys($fields), array_keys($fields));
-        $sortfields['pre_title'] = 'pre_scheduled_date';
-        $sortfields['assigned'] = 'isu_usr_id';
-
-        $items = [
-            'links' => [],
-            'images' => [],
-        ];
-        $current_sort_by = $options['sort_by'];
-        $current_sort_order = $options['sort_order'];
-        foreach ($sortfields as $field => $sortfield) {
-            $sort_order = $fields[$field];
-            if ($current_sort_by == $sortfield) {
-                $items['images'][$field] = 'images/' . strtolower($current_sort_order) . '.gif';
-                if (strtolower($current_sort_order) == 'asc') {
-                    $sort_order = 'desc';
-                } else {
-                    $sort_order = 'asc';
-                }
-            }
-            $options['sort_by'] = $sortfield;
-            $options['sort_order'] = $sort_order;
-            $items['links'][$field] = $_SERVER['PHP_SELF'] . '?' . Filter::buildUrl(Filter::getFiltersInfo(), $options, false, true);
-        }
-
-        return $items;
-    }
-
-    /**
      * Method used to get the list of issues to be displayed in the grid layout.
      *
      * @param   int $prj_id The current project ID
