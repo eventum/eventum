@@ -1,5 +1,9 @@
 {extends "manage/manage.tpl.html"}
 
+{function name="rank_icon" direction="down" href=""}
+  {include file="include/rank_icon.tpl.html" direction=$direction href=$href}
+{/function}
+
 {block "manage_content"}
   <script type="text/javascript">
   <!--
@@ -174,8 +178,9 @@
         <tr class="{cycle values="odd,even"}">
           <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].faq_id}"></td>
           <td align="center" nowrap>
-            <a href="{$core.current_url}?cat=change_rank&id={$list[i].faq_id}&rank=desc"><img src="{$core.rel_url}images/desc.gif" border="0"></a> {$list[i].faq_rank}
-            <a href="{$core.current_url}?cat=change_rank&id={$list[i].faq_id}&rank=asc"><img src="{$core.rel_url}images/asc.gif" border="0"></a>
+            {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].faq_id}&rank=desc" direction="down"}
+            {$list[i].faq_rank}
+            {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].faq_id}&rank=asc" direction="up"}
           </td>
           <td width="50%">
             &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].faq_id}" title="{t}update this entry{/t}">{$list[i].faq_title|escape:"html"}</a>
