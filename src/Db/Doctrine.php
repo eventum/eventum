@@ -33,7 +33,7 @@ class Doctrine
             APP_PATH . '/src/Doctrine',
             APP_PATH . '/src/Model/Entity',
         ];
-        
+
         // database configuration parameters
         $config = DB_Helper::getConfig();
         $conn = [
@@ -44,6 +44,7 @@ class Doctrine
             'host' => $config['hostname'],
             'port' => $config['port'],
             'unix_socket' => isset($config['socket']) ? $config['socket'] : null,
+            'charset' => 'utf8',
         ];
 
         $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, $proxyDir);
