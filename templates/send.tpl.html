@@ -190,9 +190,15 @@ $().ready(function() {
 <input type="hidden" name="draft_id" value="{$draft_id|default:''}">
 {/if}
 {if $draft_status|default:'' == 'sent'}
-    <br /><center class="banner_red"><img src="images/icons/error.gif"> {t}Warning: This draft has already been sent. You cannot resend it.{/t}</center>
+    <div class="banner_red">
+      <i class="fa fa-warning" aria-hidden="true"></i>
+      {t}Warning: This draft has already been sent. You cannot resend it.{/t}
+    </div>
 {elseif $draft_status|default:'' == 'edited'}
-    <br /><center class="banner_red"><img src="images/icons/error.gif"> {t}Warning: This draft has already been edited. You cannot send or edit it.{/t}</center>
+  <div class="banner_red">
+    <i class="fa fa-warning" aria-hidden="true"></i>
+    {t}Warning: This draft has already been edited. You cannot send or edit it.{/t}
+  </div>
 {/if}
   <table class="bordered">
     <tr class="title">
