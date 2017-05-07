@@ -597,3 +597,8 @@ span.toggle-trimmed-email a:active {
     padding: 1em;
     cursor: move;
 }
+
+/* http://stackoverflow.com/a/22118667 */
+.fa-sm {
+    font-size: 0.63em;
+}
