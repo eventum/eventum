@@ -36,7 +36,7 @@ class Date_Helper
      * used.
      *
      * @param int|DateTime|string $ts
-     * @param string $timezone
+     * @param string|null  $timezone
      * @return DateTime
      */
     public static function getDateTime($ts = 'now', $timezone = null)
@@ -255,7 +255,7 @@ class Date_Helper
         if ($convert) {
             $timezone = self::getPreferredTimezone();
         } else {
-            $timezone = false;
+            $timezone = null;
         }
 
         $date = self::getDateTime($ts, $timezone);
