@@ -59,25 +59,6 @@ class Pager
     }
 
     /**
-     * Returns the query string to be used on the paginated links
-     *
-     * @return  string The query string
-     */
-    private function _buildQueryString()
-    {
-        $query_str = '';
-        // gotta check manually here
-        $params = $_GET;
-        while (list($key, $value) = each($params)) {
-            if ($key != 'pagerRow') {
-                $query_str .= '&' . $key . '=' . urlencode($value);
-            }
-        }
-
-        return $query_str;
-    }
-
-    /**
      * Returns a portion of an array of links, as returned by the Pager::getLinks()
      * function. This is especially useful for preventing a huge list of links
      * on the paginated list.
