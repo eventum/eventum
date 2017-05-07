@@ -222,10 +222,11 @@
             </td>
             <td width="45%">
                 {capture assign="default_subject"}<{t}Empty Subject Header{/t}>{/capture}
-                &nbsp;<a href="javascript:void(null);" title="{t}view email details{/t}" onClick="viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});">{$list[i].sup_subject|default:$default_subject|escape:"html"}</a>
+                &nbsp;<a href="javascript:void(null);" title="{t}view email details{/t}"
+                   onClick="viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});">{$list[i].sup_subject|default:$default_subject|escape:"html"}</a>
                 {if $list[i].sup_has_attachment}
-                <a href="javascript:void(null);" title="{t}view email details{/t}" onClick="viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});"><img src="{$core.rel_url}images/attachment.gif" border="0"></a
-                        {/if}
+                  <i class="fa fa-paperclip" aria-hidden="true"></i>
+                {/if}
             </td>
         </tr>
         {sectionelse}
