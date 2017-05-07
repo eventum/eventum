@@ -37,7 +37,7 @@ install:
 
 script:
   - bin/ci/check_patches.sh
-  - echo phpunit -v --debug
+  - phpunit -v --debug
   - bin/ci/dist.sh
 
 before_deploy:
