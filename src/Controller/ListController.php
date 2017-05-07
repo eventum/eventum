@@ -289,20 +289,19 @@ class ListController extends BaseController
 
         $items = [
             'links' => [],
-            'images' => [],
+            'order' => [],
         ];
         $current_sort_by = $options['sort_by'];
         $current_sort_order = $options['sort_order'];
         foreach ($sortfields as $field => $sortfield) {
             $sort_order = $fields[$field];
             if ($current_sort_by == $sortfield) {
-                $items['images'][$field] = 'images/' . strtolower($current_sort_order) . '.gif';
                 if (strtolower($current_sort_order) == 'asc') {
                     $sort_order = 'desc';
                 } else {
                     $sort_order = 'asc';
                 }
-                $items['sort'][$field] = $sort_order ;
+                $items['order'][$field] = strtolower($current_sort_order);
             }
             $options['sort_by'] = $sortfield;
             $options['sort_order'] = $sort_order;
