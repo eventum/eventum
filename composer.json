@@ -54,6 +54,8 @@
 	"prefer-stable": true,
 	"require": {
 		"defuse/php-encryption": "~1.2.1",
+		"doctrine/dbal": "^2.5",
+		"doctrine/orm": "^2.5",
 		"ext-filter": "*",
 		"ext-iconv": "*",
 		"ext-json": "*",
