@@ -139,7 +139,7 @@
                 <td>
                     <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewEmail({$emails[i].sup_ema_id}, {$emails[i].sup_id});">{$emails[i].sup_subject|default:"<Empty Subject Header>"|escape:"html"}</a>
                     {if $emails[i].sup_has_attachment}
-                    <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewEmail({$emails[i].sup_ema_id}, {$emails[i].sup_id});"><img src="{$core.rel_url}images/attachment.gif" border="0"></a>
+                      <i class="fa fa-paperclip" aria-hidden="true"></i>
                     {/if}
                 </td>
             </tr>
