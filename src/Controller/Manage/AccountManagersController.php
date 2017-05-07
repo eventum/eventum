@@ -82,6 +82,9 @@ class AccountManagersController extends ManageBaseController
         }
     }
 
+    /**
+     * @param int $res
+     */
     private function mapMessages($res)
     {
         $map = [

@@ -111,6 +111,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         return $search;
     }
 
+    /**
+     * @param string $password
+     */
     private function validatePassword($uid, $password)
     {
         $errors = [];
@@ -229,7 +232,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      * returns NULL if local user not found.
      *
      * @param string $uid external_id
-     * @return bool
+     * @return null|bool
      */
     public function accountActive($uid)
     {
@@ -392,7 +395,8 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     }
 
     /**
-     * @return true if all aliases were added
+     * @param int $usr_id
+     * @return bool returns true if all aliases were added
      */
     private function updateAliases($usr_id, $aliases)
     {
@@ -409,6 +413,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         return $updated === count($aliases);
     }
 
+    /**
+     * @param string $login
+     */
     public function getUserIDByLogin($login)
     {
         $usr_id = User::getUserIDByEmail($login, true);
@@ -439,6 +446,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         return $usr_id > 0;
     }
 
+    /**
+     * @param int $usr_id
+     */
     private function isLDAPuser($usr_id)
     {
         $local_user_info = User::getDetails($usr_id);

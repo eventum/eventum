@@ -506,6 +506,14 @@ class Mail_Queue
         return $res;
     }
 
+    /**
+     * @param int $type_id
+     */
+    /**
+     * @param string[]|string $types
+     * @param int $type_id
+     * @return array|bool
+     */
     public static function getMessageRecipients($types, $type_id)
     {
         if (!is_array($types)) {

@@ -159,6 +159,7 @@ class SelectProjectController extends BaseController
 
     /**
      * check if url is directly linking to an issue, and if it is, don't prompt for project
+     * @param string $url
      */
     private function getProjectFromUrl($url)
     {
@@ -177,6 +178,9 @@ class SelectProjectController extends BaseController
         return null;
     }
 
+    /**
+     * @param int $prj_id
+     */
     private function checkCustomerAuthentication($prj_id)
     {
         $crm = CRM::getInstance($prj_id);

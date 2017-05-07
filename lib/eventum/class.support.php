@@ -1860,6 +1860,7 @@ class Support
      * @param   string $from The sender of this message
      * @param   string $to The primary recipient of this message
      * @param   string $cc The extra recipients of this message
+     * @param string $subject
      * @param   string $body The message body
      * @param   string $in_reply_to The message-id that we are replying to
      * @param   array $iaf_ids Array with attachment file id-s

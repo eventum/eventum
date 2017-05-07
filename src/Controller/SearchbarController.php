@@ -69,6 +69,9 @@ class SearchbarController extends BaseController
         $this->redirect('list.php', $params);
     }
 
+    /**
+     * @param int $cst_id
+     */
     private function getFilterById($cst_id)
     {
         $filters = Filter::getListing(true);

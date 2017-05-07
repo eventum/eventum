@@ -323,6 +323,10 @@ class RecentActivity
         $sql .= " ORDER BY $date_field {$this->sort_order}";
     }
 
+    /**
+     * @param string $date_field
+     * @param string $issue_field
+     */
     private function processResult(&$data, $date_field, $issue_field)
     {
         $timezone = Date_Helper::getPreferredTimezone($this->usr_id);

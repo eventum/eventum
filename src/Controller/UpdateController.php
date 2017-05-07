@@ -236,6 +236,10 @@ class UpdateController extends BaseController
         );
     }
 
+    /**
+     * @param int $prj_id
+     * @param int $role_id
+     */
     private function getColumnsForDisplay($details, $prj_id, $role_id, $categories, $priorities, $severities)
     {
         $columns = [0 => [], 1 => []];

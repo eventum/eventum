@@ -25,7 +25,7 @@ class MailTransport
     /**
      * Implements Mail::send() function using SMTP.
      *
-     * @param mixed $recipients Either a comma-seperated list of recipients
+     * @param mixed $recipient Either a comma-seperated list of recipients
      *              (RFC822 compliant), or an array of recipients,
      *              each RFC822 valid. This may contain recipients not
      *              specified in the headers, for Bcc:, resending

@@ -210,6 +210,8 @@ abstract class CRM
      * Returns the list of customer IDs that are associated with the given
      * keyword value (wildcards welcome). This can search name, emails, etc
      *
+     * FIXME: Search::buildWhereClause uses "true" for $options
+     *
      * @param   string $keyword The string to search by value
      * @param array $options
      * @return  array The list of customer IDs
@@ -253,8 +255,10 @@ abstract class CRM
     /**
      * Returns a list of customer IDS belonging to the specified support level
      *
+     * FIXME: Reminder::buildWhereClauses uses string[] for $support_options but that is not documented
+     *
      * @param   string|array $levels The support Level ID or an array of support level ids
-     * @param   mixed $support_options an integer or array of integers indicating various options to get customers with
+     * @param   int|int[] $support_options an integer or array of integers indicating various options to get customers with
      * @return  array
      */
     abstract public function getCustomerIDsBySupportLevel($levels, $support_options = false);

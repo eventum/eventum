@@ -416,7 +416,7 @@ class Workflow
      * @param   int $subscriber_usr_id the ID of the user to subscribe if this is a real user (false otherwise)
      * @param   string $email the email address  to subscribe (if this is not a real user)
      * @param   array $types the action types
-     * @return  mixed an array of information or true to continue unchanged or false to prevent the user from being added
+     * @return  array|bool|null an array of information or true to continue unchanged or false to prevent the user from being added
      */
     public static function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$types)
     {

@@ -25,7 +25,7 @@ class CustomFieldsWeeklyController extends ReportBaseController
     /** @var string */
     private $week;
 
-    /** @var string */
+    /** @var array */
     private $custom_field;
 
     /** @var string */
@@ -40,7 +40,7 @@ class CustomFieldsWeeklyController extends ReportBaseController
     /** @var bool */
     private $per_user;
 
-    /** @var string */
+    /** @var array */
     private $custom_options;
 
     /**

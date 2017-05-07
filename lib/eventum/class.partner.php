@@ -63,6 +63,9 @@ class Partner
         return $backends;
     }
 
+    /**
+     * @param int $iss_id
+     */
     public static function selectPartnersForIssue($iss_id, $partners)
     {
         if (!is_array($partners)) {
@@ -136,6 +139,9 @@ class Partner
         return true;
     }
 
+    /**
+     * @param int $prj_id
+     */
     public static function getPartnersByProject($prj_id)
     {
         $sql = 'SELECT
@@ -197,6 +203,9 @@ class Partner
         return $return;
     }
 
+    /**
+     * @param int $iss_id
+     */
     public static function isPartnerEnabledForIssue($par_code, $iss_id)
     {
         if (in_array($par_code, self::getPartnerCodesByIssue($iss_id))) {
@@ -336,6 +345,9 @@ class Partner
         return $backend->getIssueMessage($iss_id);
     }
 
+    /**
+     * @param int $iss_id
+     */
     public static function handleNewEmail($iss_id, $sup_id)
     {
         foreach (self::getBackendsByIssue($iss_id) as $backend) {
@@ -343,6 +355,10 @@ class Partner
         }
     }
 
+    /**
+     * @param int $iss_id
+     * @param int $not_id
+     */
     public static function handleNewNote($iss_id, $not_id)
     {
         foreach (self::getBackendsByIssue($iss_id) as $backend) {
@@ -350,6 +366,10 @@ class Partner
         }
     }
 
+    /**
+     * @param int $iss_id
+     * @param int $usr_id
+     */
     public static function handleIssueChange($iss_id, $usr_id, $old_details, $changes)
     {
         foreach (self::getBackendsByIssue($iss_id) as $backend) {
@@ -361,7 +381,7 @@ class Partner
      * @static
      * @param $usr_id
      * @param string $feature create_issue, associate_emails, reports, export
-     * @return bool
+     * @return bool|null
      */
     public static function canUserAccessFeature($usr_id, $feature)
     {
@@ -378,7 +398,7 @@ class Partner
     /**
      * @param $usr_id
      * @param string $section partners, drafts, files, time, notes, phone, history, notification_list, authorized_repliers
-     * @return bool
+     * @return bool|null
      */
     public static function canUserAccessIssueSection($usr_id, $section)
     {
@@ -397,7 +417,7 @@ class Partner
      *
      * @param int   $issue_id
      * @param int   $usr_id
-     * @return bool
+     * @return bool|null
      */
     public static function canUpdateIssue($issue_id, $usr_id)
     {

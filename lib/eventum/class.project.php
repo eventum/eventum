@@ -780,7 +780,7 @@ class Project
      * that are associated with a given project and issue.
      *
      * @param   int $prj_id The project ID
-     * @param   bool|int $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array List of names and emails
      */
     public static function getAddressBookAssocList($prj_id, $issue_id = null)
@@ -970,7 +970,6 @@ class Project
      * Method used to get the list of users associated with a given project.
      *
      * @param   int $prj_id The project ID
-     * @param   string $status The desired user status
      * @return  array The list of users
      */
     public static function getReporters($prj_id)

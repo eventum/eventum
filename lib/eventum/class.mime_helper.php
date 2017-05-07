@@ -681,7 +681,7 @@ class Mime_Helper
      * Method used to get the encoded content of a specific message
      * attachment.
      *
-     * @param   mixed   $message the full content of the message or parsed message structure
+     * @param   string|object   $message the full content of the message or parsed message structure
      * @param   string $filename The filename to look for
      * @param   string $cid The content-id to look for, if any
      * @return  string The full encoded content of the attachment
@@ -827,7 +827,7 @@ class Mime_Helper
      * Returns the internal list of content types that we do not support as
      * valid attachment types.
      *
-     * @return array The list of content types
+     * @return string[] The list of content types
      */
     private static function _getInvalidContentTypes()
     {
@@ -842,7 +842,7 @@ class Mime_Helper
      * Returns the internal list of attachment dispositions that we do not
      * support as valid attachment types.
      *
-     * @return array The list of valid dispositions
+     * @return string[] The list of valid dispositions
      */
     private static function _getValidDispositions()
     {

@@ -409,7 +409,7 @@ class Date_Helper
      * Formats a given week start and week end to a format useable by getWeekOptions().
      *
      * @param   int $start the start date of the week
-     * @return  array an array usable as an option in getWeekOptions
+     * @return  string[] an array usable as an option in getWeekOptions
      */
     private static function formatWeekOption($start)
     {

@@ -29,6 +29,9 @@ class Custom_Field
         'cfo_rank ASC' => 'Manual',
     ];
 
+    /**
+     * @param int $fld_id
+     */
     public static function updateOptions($fld_id, $options, $new_options)
     {
         $old_options = self::getOptions($fld_id);

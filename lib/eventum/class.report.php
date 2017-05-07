@@ -287,7 +287,7 @@ class Report
     /**
      * Returns the data used by the weekly report.
      *
-     * @param string $usr_id the ID of the user this report is for
+     * @param int $usr_id the ID of the user this report is for
      * @param int $prj_id The project id
      * @param string|DateTime $start the start date of this report
      * @param string|DateTime $end the end date of this report

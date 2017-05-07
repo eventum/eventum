@@ -321,7 +321,7 @@ class Misc
     /**
      * Method used to strip HTML from a string or array
      *
-     * @param   string $str The original string or array
+     * @param   string $input The original string or array
      * @return  string The escaped (or not) string
      */
     public static function stripHTML($input)
@@ -609,6 +609,9 @@ class Misc
         return ev_gettext('No');
     }
 
+    /**
+     * @return string
+     */
     public static function removeNewLines($str, $no_space = false)
     {
         if ($no_space) {

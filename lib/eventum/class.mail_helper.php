@@ -915,7 +915,7 @@ class Mail_Helper
      * @param   int $issue_id The ID of the issue
      * @param   string $msg_id The ID of the message
      * @param   string $type If this is a note or an email
-     * @return  array An array of message IDs
+     * @return  string[] An array of message IDs
      */
     public static function getReferences($issue_id, $msg_id, $type)
     {
@@ -948,6 +948,9 @@ class Mail_Helper
         }
     }
 
+    /**
+     * @param int $issue_id
+     */
     public static function getBaseThreadingHeaders($issue_id)
     {
         $root_msg_id = Issue::getRootMessageID($issue_id);
@@ -1027,8 +1030,8 @@ class Mail_Helper
 
     /**
      * Removes newlines and tabs from subject
-     * @param $subject string The subject to clean
-     * @return mixed string
+     * @param string $subject The subject to clean
+     * @return string
      */
     public static function cleanSubject($subject)
     {

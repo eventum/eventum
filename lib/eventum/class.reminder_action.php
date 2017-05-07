@@ -359,8 +359,6 @@ class Reminder_Action
     /**
      * Method used to remove reminder actions by using the administrative
      * interface of the system.
-     *
-     * @return  bool
      */
     public static function remove($action_ids)
     {

@@ -22,6 +22,7 @@ class Priority
      * Method used to quickly change the ranking of a reminder entry
      * from the administration screen.
      *
+     * @param int $prj_id
      * @param   int $pri_id The reminder entry ID
      * @param   string $rank_type Whether we should change the reminder ID down or up (options are 'asc' or 'desc')
      * @return  bool

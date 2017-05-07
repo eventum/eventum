@@ -168,8 +168,7 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
      * @param   int $issue_id the ID of the issue
      * @param   int $subscriber_usr_id the ID of the user to subscribe if this is a real user (false otherwise)
      * @param   string $email the email address to subscribe to subscribe (if this is not a real user)
-     * @param   array $types the action types
-     * @return  mixed an array of information or true to continue unchanged or false to prevent the user from being added
+     * @return  array|bool an array of information or true to continue unchanged or false to prevent the user from being added
      */
     public function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$actions)
     {

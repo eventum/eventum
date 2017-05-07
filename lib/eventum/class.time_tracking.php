@@ -246,6 +246,7 @@ class Time_Tracking
      * Method used to get the full list of time tracking categories as an
      * associative array in the style of (id => title)
      *
+     * @param int $prj_id
      * @return  array The list of categories
      */
     public static function getAssocCategories($prj_id)
@@ -259,13 +260,8 @@ class Time_Tracking
                     ttc_prj_id=?
                  ORDER BY
                     ttc_title ASC';
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt, [$prj_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getPair($stmt, [$prj_id]);
     }
 
     /**
@@ -356,11 +352,8 @@ class Time_Tracking
                     ttr_iss_id=?
                  ORDER BY
                     ttr_created_date ASC';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return 0;
-        }
+
+        $res = DB_Helper::getInstance()->getAll($stmt, [$issue_id]);
 
         $total_time_spent = 0;
         $total_time_by_user = [];
@@ -630,7 +623,7 @@ class Time_Tracking
     /**
      * Returns summary information about all time spent by a user in a specified time frame.
      *
-     * @param string $usr_id the ID of the user this report is for
+     * @param int $usr_id the ID of the user this report is for
      * @param int $prj_id The project id
      * @param string $start the datetime of the beginning of the report
      * @param string $end the datetime of the end of this report

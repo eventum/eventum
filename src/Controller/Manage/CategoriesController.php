@@ -63,6 +63,9 @@ class CategoriesController extends ManageBaseController
         }
     }
 
+    /**
+     * @param int $res
+     */
     private function updateResult($res)
     {
         $this->tpl->assign('result', $res);

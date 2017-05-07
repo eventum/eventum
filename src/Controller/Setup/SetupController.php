@@ -95,6 +95,8 @@ class SetupController extends BaseController
      * Checks for $file for write permission.
      *
      * IMPORTANT: if the file does not exist, an empty file is created.
+     * @param string $file
+     * @param string $desc
      */
     private function checkPermissions($file, $desc, $is_directory = false)
     {
@@ -144,6 +146,10 @@ class SetupController extends BaseController
         return '';
     }
 
+    /**
+     * @param bool $is_directory
+     * @param bool $exists
+     */
     private function getPermissionError($file, $desc, $is_directory, $exists)
     {
         if ($is_directory) {
@@ -243,6 +249,12 @@ class SetupController extends BaseController
         return [$warnings, $errors];
     }
 
+    /**
+     * @param string $type
+     * @param string $message
+     *
+     * @return string|null
+     */
     private function getErrorMessage($type, $message)
     {
         if (empty($message)) {
@@ -346,6 +358,9 @@ class SetupController extends BaseController
         return var_export($s, 1);
     }
 
+    /**
+     * @param string $file
+     */
     private function get_queries($file)
     {
         $contents = file_get_contents($file);

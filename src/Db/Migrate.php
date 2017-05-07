@@ -43,6 +43,9 @@ class Migrate
     /** @var Closure */
     private $logger;
 
+    /**
+     * @param string $schema_dir
+     */
     public function __construct($schema_dir)
     {
         $this->db = DB_Helper::getInstance();
@@ -54,6 +57,9 @@ class Migrate
         };
     }
 
+    /**
+     * @param Closure $e
+     */
     public function setLogger($e)
     {
         if (!is_callable($e)) {

@@ -154,6 +154,7 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
 
     /**
      * Common method for API
+     * @param string $query
      */
     private function fetchAll($query, $params, $fetchmode)
     {

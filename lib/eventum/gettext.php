@@ -76,6 +76,10 @@ if (!function_exists('gettext') || (defined('APP_GETTEXT_MODE') && APP_GETTEXT_M
     {
         return gettext($msgid);
     }
+
+    /**
+     * @param int $category
+     */
     function _setlocale($category, $locale)
     {
         return setlocale($category, $locale);

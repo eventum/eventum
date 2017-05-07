@@ -49,6 +49,9 @@ class AbstractBotCommands
         $this->irc->message($type, $target, $response, $priority);
     }
 
+    /**
+     * @param Net_SmartIRC_data $data
+     */
     protected function isAuthenticated($data)
     {
         if (!$this->bot->isAuthenticated($data)) {

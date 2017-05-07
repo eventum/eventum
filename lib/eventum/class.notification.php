@@ -268,12 +268,12 @@ class Notification
     /**
      * Method used to forward the new email to the list of subscribers.
      *
-     * @param   int $user_id The user ID of the person performing this action
+     * @param   int $usr_id The user ID of the person performing this action
      * @param   int $issue_id The issue ID
      * @param   array $message An array containing the email
      * @param   bool $internal_only Whether the email should only be redirected to internal users or not
      * @param   bool $assignee_only Whether the email should only be sent to the assignee
-     * @param   bool $type The type of email this is
+     * @param   string|bool $type The type of email this is
      * @param   int $sup_id the ID of this email
      */
     public static function notifyNewEmail($usr_id, $issue_id, $message, $internal_only = false, $assignee_only = false, $type = '', $sup_id = false)
@@ -720,7 +720,6 @@ class Notification
      * @param   int $issue_id The issue ID
      * @param   int $old_status The old issue status
      * @param   int $new_status The new issue status
-     * @return bool
      */
     public static function notifyStatusChange($issue_id, $old_status, $new_status)
     {
@@ -731,7 +730,7 @@ class Notification
         }
 
         if (count($diffs) < 1) {
-            return false;
+            return;
         }
 
         $prj_id = Issue::getProjectID($issue_id);
@@ -757,6 +756,7 @@ class Notification
         $data = Issue::getDetails($issue_id);
         $data['diffs'] = implode("\n", $diffs);
         $data['updated_by'] = User::getFullName(Auth::getUserID());
+
         self::notifySubscribers($issue_id, $emails, 'updated', $data, ev_gettext('Status Change'), false);
     }
 
@@ -768,7 +768,6 @@ class Notification
      * @param int $entry_id The entries id that was changed
      * @param bool $internal_only Whether the notification should only be sent to internal users or not
      * @param array $extra_recipients
-     * @return bool
      */
     public static function notify($issue_id, $type, $entry_id = null, $internal_only = false, $extra_recipients = null)
     {
@@ -850,7 +849,7 @@ class Notification
         }
 
         if (!$emails) {
-            return null;
+            return;
         }
 
         $headers = false;
@@ -866,7 +865,7 @@ class Notification
                 break;
             case 'updated':
                 // this should not be used anymore
-                return false;
+                return;
             case 'notes':
                 $data = self::getNote($issue_id, $entry_id);
                 $headers = [
@@ -882,7 +881,7 @@ class Notification
                 break;
             case 'emails':
                 // this should not be used anymore
-                return false;
+                return;
             case 'files':
                 $data = self::getAttachment($issue_id, $entry_id);
                 $subject = ev_gettext('File Attached');
@@ -926,6 +925,7 @@ class Notification
      * @param   string $type The notification type
      * @param   array $data The issue details
      * @param   string $subject The subject of the email
+     * @param bool $internal_only
      * @param   int $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @param   array $headers Any extra headers that need to be added to this email (Default false)
      */
@@ -1368,19 +1368,17 @@ class Notification
      *
      * @param   int $project_id the ID of the project
      * @param   string  $notice The notification summary that should be displayed on IRC
-     * @param   bool|int $issue_id The issue ID
-     * @param   bool|int $usr_id The ID of the user to notify
+     * @param   int $issue_id The issue ID
+     * @param   bool $usr_id The ID of the user to notify
      * @param   bool|string $category The category of this notification
      * @param   bool|string $type The type of notification (new_issue, etc)
-     * @return  bool
      */
-    public static function notifyIRC($project_id, $notice, $issue_id = false, $usr_id = false, $category = false,
-                                     $type = false)
+    public static function notifyIRC($project_id, $notice, $issue_id = null, $usr_id = null, $category = false, $type = false)
     {
         // don't save any irc notification if this feature is disabled
         $setup = Setup::get();
         if ($setup['irc_notification'] != 'enabled') {
-            return false;
+            return;
         }
 
         $notice = Workflow::formatIRCMessage($project_id, $notice, $issue_id, $usr_id, $category, $type);
@@ -1405,13 +1403,7 @@ class Notification
         }
 
         $stmt = 'INSERT INTO {{%irc_notice}} SET ' . DB_Helper::buildSet($params);
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
+        DB_Helper::getInstance()->query($stmt, $params);
     }
 
     /**
@@ -1830,7 +1822,7 @@ class Notification
      *
      * @param   int $issue_id the id of the issue
      * @param   int $usr_id the user to check
-     * @return  bool if the specified user is notified in the issue
+     * @return  null|bool if the specified user is notified in the issue
      */
     public static function isUserNotified($issue_id, $usr_id)
     {
@@ -1841,11 +1833,7 @@ class Notification
                  WHERE
                     sub_iss_id=? AND
                     sub_usr_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id, $usr_id]);
-        } catch (DatabaseException $e) {
-            return null;
-        }
+        $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id, $usr_id]);
 
         return $res > 0;
     }
@@ -2019,7 +2007,7 @@ class Notification
     /**
      * Method used to get the full list of possible notification actions.
      *
-     * @return  array All of the possible notification actions
+     * @return  string[] All of the possible notification actions
      */
     public static function getAllActions()
     {
@@ -2245,7 +2233,7 @@ class Notification
     /**
      * Method used to update the details of a given subscription.
      *
-     * @param   $issue_id
+     * @param   int $issue_id
      * @param   int $sub_id The subscription ID
      * @param   $email
      * @return  int 1 if the update worked, -1 otherwise

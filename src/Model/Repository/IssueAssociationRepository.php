@@ -225,6 +225,9 @@ class IssueAssociationRepository extends BaseRepository
         );
     }
 
+    /**
+     * @param int $issue_id
+     */
     private function getIssueRemovedError($issue_id)
     {
         return ev_gettext(

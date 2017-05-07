@@ -1671,6 +1671,10 @@ class Issue
         return 1;
     }
 
+    /**
+     * @param int $issue_id
+     * @param int $new_prj_id
+     */
     private static function getMovedIssueMapping($issue_id, $new_prj_id)
     {
         $mapping = [];
@@ -1737,7 +1741,7 @@ class Issue
     /**
      * Method used to delete all user assignments for a specific issue.
      *
-     * @param   int|array $issue_id The issue ID
+     * @param   int|int[] $issue_id The issue ID(s)
      * @param   int $usr_id The user ID of the person performing the change
      * @return int
      */
@@ -2290,7 +2294,7 @@ class Issue
      * Returns the list of action date fields appropriate for the
      * current user ID.
      *
-     * @return  array The list of action date fields
+     * @return  string The list of action date fields
      */
     public static function getLastActionFields()
     {
@@ -3342,7 +3346,7 @@ class Issue
      * Returns the message ID that should be used as the parent ID for all messages
      *
      * @param   int $issue_id The ID of the issue
-     * @return bool
+     * @return string
      */
     public static function getRootMessageID($issue_id)
     {
@@ -3352,13 +3356,8 @@ class Issue
                     {{%issue}}
                 WHERE
                     iss_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($sql, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return false;
-        }
 
-        return $res;
+        return DB_Helper::getInstance()->getOne($sql, [$issue_id]);
     }
 
     /**

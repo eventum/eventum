@@ -549,7 +549,7 @@ class Status
      * Method used to get the list of available closed-context statuses as an
      * associative array in the style of (abbreviation => title)
      *
-     * @param   array|int $prj_id List of project IDs
+     * @param   int[]|int $prj_id List of project IDs
      * @return  array The list of closed-context statuses
      */
     public static function getClosedAbbreviationAssocList($prj_id)
@@ -583,7 +583,7 @@ class Status
      * Method used to get the list of available statuses as an associative array
      * in the style of (abbreviation => title)
      *
-     * @param   array|int $prj_id List of project IDs
+     * @param   int[]|int $prj_id List of project IDs
      * @param   bool $show_closed Whether to also return closed-context statuses or not
      * @return  array The list of statuses
      */

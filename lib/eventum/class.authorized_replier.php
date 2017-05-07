@@ -280,17 +280,9 @@ class Authorized_Replier
                  WHERE
                     iur_iss_id = ? AND
                     iur_usr_id = ?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id, $usr_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+        $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id, $usr_id]);
 
-        if ($res > 0) {
-            return true;
-        }
-
-        return false;
+        return $res > 0;
     }
 
     /**
