@@ -22,7 +22,7 @@
           <tr class="{cycle values='odd,even'}">
             <td>
               {foreach from=$attachment.files item=file}
-              <a title="{t}download file{/t} ({$file.iaf_filename|escape:"html"} - {$file.iaf_filesize})" href="download.php?cat=attachment&id={$file.iaf_id}"><img width="17" height="17" src="{$core.rel_url}images/file.gif" border="0"></a>
+              <i class="fa fa-file-o" aria-hidden="true"></i>
               <a title="{t}download file{/t} ({$file.iaf_filename|escape:"html"} - {$file.iaf_filesize})" href="download.php?cat=attachment&id={$file.iaf_id}">{$file.iaf_filename|escape:"html"}</a> ({$file.iaf_filesize})
               <a class="link" title="{t}view{/t} ({$file.iaf_filename|escape:"html"}" href="download.php?cat=attachment&id={$file.iaf_id}&force_inline=1">{t}view{/t}</a>
               {if $core.user.usr_id == $attachment.iat_usr_id OR $core.current_role >= $core.roles.manager}
