@@ -89,7 +89,7 @@ function replyAsEmail(el)
             <td>
               <a title="{t}view note details{/t}" href="view_note.php?id={$notes[i].not_id}" onClick="return viewNote(this)">{$notes[i].not_title|default:"<Empty Title>"|escape:"html"}</a>
               {if $notes[i].not_has_attachment}
-              <a title="{t}view note details{/t}" href="view_note.php?id={$notes[i].not_id}" onClick="return viewNote(this)"><img src="{$core.rel_url}images/attachment.gif" border="0"></a>
+                <i class="fa fa-paperclip" aria-hidden="true"></i>
               {/if}
               {if $notes[i].has_blocked_message} (<a href="convert_note.php?id={$notes[i].not_id}" onClick="return convertNote(this)">{t}convert note{/t}</a>){/if}
             </td>
