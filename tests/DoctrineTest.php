@@ -11,8 +11,8 @@
  * that were distributed with this source code.
  */
 
-// bootstrap.php
 use Eventum\Db\Doctrine;
+use Eventum\Model\Entity;
 
 class DoctrineTest extends PHPUnit_Framework_TestCase
 {
@@ -55,6 +55,40 @@ class DoctrineTest extends PHPUnit_Framework_TestCase
         $items = $query->getArrayResult();
 
         print_r($items);
+    }
+
+    public function test4()
+    {
+        $em = $this->getEntityManager();
+        $repo = $em->getRepository(\Eventum\Model\Entity\Commit::class);
+
+        $issue_id = 1;
+        $changeset = uniqid('z1');
+        $ci = Entity\Commit::create()
+            ->setScmName('cvs')
+            ->setAuthorName('Au Thor')
+            ->setCommitDate(Date_Helper::getDateTime())
+            ->setChangeset($changeset)
+            ->setMessage('Mes-Sage');
+        $em->persist($ci);
+        $em->flush();
+
+        $cf = Entity\CommitFile::create()
+            ->setCommitId($ci->getId())
+            ->setFilename('file');
+        $em->persist($cf);
+        $em->flush();
+
+        $isc = Entity\IssueCommit::create()
+            ->setCommitId($ci->getId())
+            ->setIssueId($issue_id);
+        $em->persist($isc);
+        $em->flush();
+
+        printf(
+            "ci: %d\ncf: %d\nisc: %d\n",
+            $ci->getId(), $cf->getId(), $isc->getId()
+        );
     }
 
     private function getEntityManager()
