@@ -509,6 +509,10 @@ div.html_box {
     overflow: scroll;
 }
 
+.reply-note {
+    color: darkred;
+}
+
 /* Table widths */
 table.narrow {
     width: 500px;
