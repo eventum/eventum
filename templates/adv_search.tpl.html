@@ -368,8 +368,16 @@
         </tr>
         {section name="i" loop=$custom}
         <tr>
-          <td width="2">
+          <td>
             <input type="checkbox" name="item[]" value="{$custom[i].cst_id}" {if $core.current_role < $core.roles.manager and $custom[i].cst_is_global}disabled{/if}>
+          </td>
+          <td>
+            {*
+            NOTE: if you don't see RSS icon, then likely adblock hide it
+            *}
+            <a title="{t}RSS feed for this custom search{/t}" href="rss.php?custom_id={$custom[i].cst_id}">
+              <i class="fa fa-rss" aria-hidden="true"></i>
+            </a>
           </td>
           <td width="100%">
             <span>
@@ -380,9 +388,6 @@
             {/if}
             </span>
             {if $custom[i].cst_is_global}<span><i>({t}global filter{/t})</i></span>{/if}
-          </td>
-          <td>
-            <a title="{t}RSS feed for this custom search{/t}" href="rss.php?custom_id={$custom[i].cst_id}"><img src="images/icons/rss.gif" border="0"></a>
           </td>
         </tr>
         {if $smarty.section.i.last && $smarty.section.i.total > 0}
