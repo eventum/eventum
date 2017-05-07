@@ -532,7 +532,7 @@ Validation.selectField = function(field)
 Validation.showErrorIcon = function(field, show)
 {
     var icon = $('#error_icon_' + Eventum.escapeSelector(field.attr('name')));
-    if (icon.length == 0) {
+    if (!icon.length) {
         return false;
     }
     if (show) {
