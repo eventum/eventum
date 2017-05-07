@@ -73,7 +73,9 @@
             class="{$field_name}">
             {if $field_name == 'iss_summary'}
               {sort_link field="iss_summary" link="{t}Summary{/t}" title="{t}sort by summary{/t}"}
-              <span id="export_csv" class="right">{t}Export Data{/t}: <input alt="{t}generate excel-friendly report{/t}" type="image" src="{$core.rel_url}images/excel.jpg" value="{t}Export to Excel{/t}"></span>
+              <span id="export_csv" class="right">{t}Export Data:{/t}
+                <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+              </span>
             {elseif $sorting.links[$field_name]|default:'' != ''}
               {sort_link field=$field_name link=$column.title title="{t 1=$column.title}sort by %1{/t}"}
             {else}

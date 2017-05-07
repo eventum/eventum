@@ -256,6 +256,10 @@ body#list #bulk_update {
     margin: 1em auto;
 }
 
+body#list #export_csv {
+	cursor: pointer;
+}
+
 body#list #bulk_update table {
     width: 100%;
 }
