@@ -93,5 +93,10 @@ class ConfirmController extends BaseController
      */
     protected function prepareTemplate()
     {
+        $this->tpl->assign(
+            [
+                'cat' => $this->cat,
+            ]
+        );
     }
 }
