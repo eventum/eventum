@@ -13,6 +13,7 @@
 
 namespace Eventum\Db;
 
+use DB_Helper;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
 
@@ -31,19 +32,21 @@ class Doctrine
         $paths = [
             APP_PATH . '/src/Doctrine',
             APP_PATH . '/src/Model/Entity',
-            ];
-        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, $proxyDir);
-        // or if you prefer yaml or XML
-        //$config = Setup::createXMLMetadataConfiguration(array(__DIR__."/config/xml"), $isDevMode);
-        //$config = Setup::createYAMLMetadataConfiguration(array(__DIR__."/config/yaml"), $isDevMode);
-
+        ];
+        
         // database configuration parameters
+        $config = DB_Helper::getConfig();
         $conn = [
             'driver' => 'pdo_mysql',
-            'user' => 'mysql',
-            'password' => '',
-            'dbname' => 'eventum',
+            'user' => $config['username'],
+            'password' => $config['password'],
+            'dbname' => $config['database'],
+            'host' => $config['hostname'],
+            'port' => $config['port'],
+            'unix_socket' => isset($config['socket']) ? $config['socket'] : null,
         ];
+
+        $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode, $proxyDir);
 
         // obtaining the entity manager
         $entityManager = EntityManager::create($conn, $config);
