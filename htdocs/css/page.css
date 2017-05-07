@@ -271,6 +271,7 @@ body#list td.custom_field {
 /* End List Issue page */
 
 body#offline #error-header,
+body#confirm #error-header,
 body#associate #error-header
 {
     font-weight: bold; font-size: 160%; color: red;

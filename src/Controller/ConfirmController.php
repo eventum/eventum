@@ -49,6 +49,7 @@ class ConfirmController extends BaseController
         if (!in_array($this->cat, ['newuser', 'password'])) {
             return false;
         }
+
         return true;
     }
 
