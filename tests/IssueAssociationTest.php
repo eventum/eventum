@@ -19,6 +19,11 @@ use InvalidArgumentException;
 
 class IssueAssociation extends TestCase
 {
+    public static function setUpBeforeClass()
+    {
+        self::assertDatabase();
+    }
+
     public function setUp()
     {
         $db = DB_Helper::getInstance();
