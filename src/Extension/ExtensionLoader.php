@@ -25,16 +25,21 @@ class ExtensionLoader
     /** @var string */
     private $classFormat;
 
+    /** @var string */
+    private $parent_class;
+
     /**
      * ExtensionLoader constructor.
      *
      * @param array|string $paths
      * @param string $classFormat format for creating class from filename
+     * @param string $parent_class Only include classes that are a subclass of this
      */
-    public function __construct($paths, $classFormat = null)
+    public function __construct($paths, $classFormat = null, $parent_class = null)
     {
         $this->paths = is_string($paths) ? [$paths] : $paths;
         $this->classFormat = $classFormat;
+        $this->parent_class = $parent_class;
     }
 
     /**
@@ -75,6 +80,10 @@ class ExtensionLoader
             $className = $this->getClassName($fileName);
 
             if (!$this->isExtension($file, $className)) {
+                continue;
+            }
+
+            if ($this->parent_class && !is_subclass_of($className, $this->parent_class)) {
                 continue;
             }
 

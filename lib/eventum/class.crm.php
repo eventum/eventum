@@ -299,14 +299,7 @@ abstract class CRM
      */
     public static function getBackendList()
     {
-        $files = static::getExtensionLoader()->getFileList();
-
-        $list = [];
-        foreach ($files as $file => $classname) {
-            $list['class.' . $file . '.php'] = $classname;
-        }
-
-        return $list;
+        return static::getExtensionLoader()->getFileList();
     }
 
     /**
@@ -773,6 +766,6 @@ abstract class CRM
             APP_LOCAL_PATH . '/crm',
         ];
 
-        return new ExtensionLoader($dirs);
+        return new ExtensionLoader($dirs, '%s', 'CRM');
     }
 }
