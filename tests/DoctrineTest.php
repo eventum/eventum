@@ -91,6 +91,13 @@ class DoctrineTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function test5() {
+        $em = $this->getEntityManager();
+        $project = $em->getRepository(\Eventum\Model\Entity\Project::class);
+
+
+    }
+
     private function getEntityManager()
     {
         return Doctrine::getEntityManager();
