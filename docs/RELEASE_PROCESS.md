@@ -16,19 +16,11 @@ $ make snapshot
 # Test before release
 
 - Create and download snapshot tarball
-- Make sure `upgrade/drop.sql` lists all created tables
-```
-$ sed -e 's,{{%\([^}]*\)}},`\1`,' upgrade/drop.sql
-```
+- Make sure [src/Db/Table.php](src/Db/Table.php) lists all created tables in install process (even ones no longer used)
 - install twice to same database, second time select drop tables, install must not fail
-```
-$ mysql -s -e 'show tables;' e | sed -e 's/^/DROP TABLE IF EXISTS {{%/; s/$/}};/' | LC_ALL=C sort > upgrade/drop.sql
-```
-- also update `src/Db/Table.php` with list of tables
 if it fails the error is something like `DB Error: already exists`
 - Test the new release directory with a quick installation
   * see if a new issue can be created correctly and etc
-  * see that tables created are also in upgrade/drop.sql
 - update translation keywords to launchpad
 this should be done day before release so launchpad cron would update .po files.
 
@@ -51,7 +43,7 @@ git commit -am 'updated wiki submodule'
 
 - Create git tag
 ```
-$ git tag -s v3.1.10 -m 'release v3.1.10'
+$ git tag -s v3.2.0 -m 'release v3.2.0'
 
 ```
 - wait for Travis-CI to build release tarball, download and test it again
@@ -60,13 +52,13 @@ $ git tag -s v3.1.10 -m 'release v3.1.10'
 - upload tarball and signature to the release
 - to create a digital signature, use the following command:
 ```
-% gpg --armor --sign --detach-sig eventum-3.1.10.tar.gz
+% gpg --armor --sign --detach-sig eventum-3.2.0.tar.gz
 ```
 - create tag also in wiki submodule
 ```
 cd docs/wiki
-git tag v3.1.10
-git push origin v3.1.10
+git tag v3.2.0
+git push origin v3.2.0
 ```
 
 After release

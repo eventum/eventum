@@ -3,6 +3,8 @@
 ## [3.2.0] - 2017-??-??
 
 This version switches to use [PDO MySQL] driver, ensure you have the extension enabled.
+Even it will likely work, it's recommended that you update to latest 3.1 first before upgrading to 3.2.0.
+Consult [Upgrade] wiki page how to upgrade from previous versions.
 
 - replace buggy `Mail_Helper::getEmailAddresses` with Zend\Mail based implementation (@glensc, #238)
 - Enable filtering by Severity (@balsdorf)
@@ -11,6 +13,7 @@ This version switches to use [PDO MySQL] driver, ensure you have the extension e
 
 [3.2.0]: https://github.com/eventum/eventum/compare/v3.1.10...master
 [PDO MySQL]: http://php.net/manual/en/ref.pdo-mysql.php
+[Upgrade]: https://github.com/eventum/eventum/wiki/Upgrading
 
 ## [3.1.10] - 2017-04-21
 

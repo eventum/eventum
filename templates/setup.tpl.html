@@ -113,7 +113,21 @@ function disableAuthFields(bool)
         <tr>
           <td colspan="2">
             <br />
-            <b>{t}Details{/t}: {$result}</b>
+            <b>{t}Details{/t}:
+              {if $result == 'db_not_found'}
+                {t}The provided database name could not be found. Review your information or specify that the database should be created in the form below.{/t}
+              {elseif $result == 'db_user_not_found'}
+                {t}The provided MySQL username could not be found. Review your information or specify that the username should be created in the form below.{/t}
+                {elseif $result == 'db_create_access'}
+                {t}The provided MySQL username doesn't have the appropriate permissions to create tables. Please contact your local system administrator for further assistance.{/t}
+              {elseif $result == 'db_drop_access'}
+                {t}The provided MySQL username doesn't have the appropriate permissions to drop tables. Please contact your local system administrator for further assistance.{/t}
+              {elseif $result == 'db_phinx_failure'}
+                {t}There was error initializing database.{/t}
+              {else}
+                {$result}
+              {/if}
+            </b>
             <br /><br />
           </td>
         </tr>
@@ -196,6 +210,13 @@ function disableAuthFields(bool)
         <tr>
           <td colspan="2" align="center">
             <h1>{t}Eventum Installation{/t}</h1>
+            <hr size="1" noshade color="#000000">
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <li>{t 1=$core.app_version}Eventum Version: %1{/t}
+            <li>{t 1=$core.php_version}PHP Version: %1{/t}
             <hr size="1" noshade color="#000000">
           </td>
         </tr>
