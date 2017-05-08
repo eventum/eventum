@@ -43,6 +43,21 @@ class ExtensionManager
     }
 
     /**
+     * Return class names of Workflow implementations configured in system.
+     *
+     * @return array
+     */
+    public function getWorkflowClasses()
+    {
+        $res = [];
+        foreach ($this->extensions as $extension) {
+            $res = array_merge($res, $extension->getAvailableWorkflows());
+        }
+
+        return $res;
+    }
+
+    /**
      * Create all extensions, initialize them
      *
      * @return ExtensionInterface[]
