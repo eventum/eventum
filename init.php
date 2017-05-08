@@ -136,3 +136,4 @@ $define('APP_EVENTUM_IRC_CATEGORY_DEFAULT', 'default');
 $define('APP_EVENTUM_IRC_CATEGORY_REMINDER', APP_EVENTUM_IRC_CATEGORY_DEFAULT);
 
 Eventum\DebugBar::initialize();
+Eventum\Extension\ExtensionManager::getManager();
