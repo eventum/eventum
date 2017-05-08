@@ -85,11 +85,19 @@ class ExtensionManager
      */
     protected function loadExtension($classname, $filename)
     {
-        /** @noinspection PhpIncludeInspection */
-        require_once $filename;
-
+        // class may already be loaded
+        // can ignore the filename requirement
         if (!class_exists($classname)) {
-            throw new InvalidArgumentException("Could not load $classname from $filename");
+            if (!file_exists($filename)) {
+                throw new InvalidArgumentException("File does not exist: $filename");
+            }
+
+            /** @noinspection PhpIncludeInspection */
+            require_once $filename;
+
+            if (!class_exists($classname)) {
+                throw new InvalidArgumentException("Could not load $classname from $filename");
+            }
         }
 
         return new $classname();
