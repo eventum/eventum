@@ -13,32 +13,15 @@
 
 namespace Eventum\Extension;
 
-/**
- * Class AbstractExtension
- *
- * Class doc comment will be used to describe purpose or add documentation.
- *
- * $d = new \ReflectionClass('foo');
- * $d->getDocComment();
- */
-abstract class AbstractExtension implements ExtensionInterface
+interface ExtensionInterface
 {
-    /**
-     * Path to the Eventum Core installation.
-     *
-     * @var string
-     */
-    protected $baseDir;
-
     /**
      * Method invoked so the extension can setup class loader.
      *
      * @param \Composer\Autoload\ClassLoader $loader
      * @since 3.2.0
      */
-    public function registerAutoloader($loader)
-    {
-    }
+    public function registerAutoloader($loader);
 
     /**
      * Return Workflow Class names your extension provides.
@@ -46,10 +29,7 @@ abstract class AbstractExtension implements ExtensionInterface
      * @return string[]
      * @since 3.2.0
      */
-    public function getAvailableWorkflows()
-    {
-        return [];
-    }
+    public function getAvailableWorkflows();
 
     /**
      * Return Custom Field Class names your extension provides.
@@ -57,10 +37,7 @@ abstract class AbstractExtension implements ExtensionInterface
      * @return string[]
      * @since 3.2.0
      */
-    public function getAvailableCustomFields()
-    {
-        return [];
-    }
+    public function getAvailableCustomFields();
 
     /**
      * Return Partner Class names your extension provides.
@@ -68,10 +45,7 @@ abstract class AbstractExtension implements ExtensionInterface
      * @return string[]
      * @since 3.2.0
      */
-    public function getAvailablePartners()
-    {
-        return [];
-    }
+    public function getAvailablePartners();
 
     /**
      * Return CRM Class names your extension provides.
@@ -79,8 +53,5 @@ abstract class AbstractExtension implements ExtensionInterface
      * @return string[]
      * @since 3.2.0
      */
-    public function getAvailableCRMs()
-    {
-        return [];
-    }
+    public function getAvailableCRMs();
 }
