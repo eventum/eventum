@@ -38,7 +38,7 @@
 		"test": "phpunit"
 	},
 	"autoload": {
-		"classmap": [ "lib/eventum", "src/Doctrine" ],
+		"classmap": [ "lib/eventum" ],
 		"psr-4": {
 			"Eventum\\": "src/"
 		},
