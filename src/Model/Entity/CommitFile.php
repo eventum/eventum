@@ -14,47 +14,63 @@
 namespace Eventum\Model\Entity;
 
 /**
- * CommitFile
+ * @Entity @Table(name="commit_file")
  */
 class CommitFile extends BaseModel
 {
     /**
      * @var int
+     *
+     * @Id @Column(type="integer") @GeneratedValue
      */
     protected $cof_id;
 
     /**
      * @var int
+     *
+     * @Column(type="integer", nullable=false)
      */
     protected $cof_com_id;
 
     /**
      * @var string
+     *
+     * @Column(type="string", length=255, nullable=false)
      */
     protected $cof_filename;
 
     /**
      * @var bool
+     *
+     * @Column(type="boolean", nullable=false)
      */
     protected $cof_added = false;
 
     /**
      * @var bool
+     *
+     * @Column(type="boolean", nullable=false)
      */
     protected $cof_modified = false;
 
     /**
      * @var bool
+     *
+     * @Column(type="boolean", nullable=false)
      */
     protected $cof_removed = false;
 
     /**
      * @var string
+     *
+     * @Column(type="string", length=40, nullable=true)
      */
     protected $cof_old_version;
 
     /**
      * @var string
+     *
+     * @Column(name="cof_new_version", type="string", length=40, nullable=true)
      */
     protected $cof_new_version;
 

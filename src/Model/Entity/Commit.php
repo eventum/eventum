@@ -14,57 +14,73 @@
 namespace Eventum\Model\Entity;
 
 /**
- * Commit
- */
+ * @Entity @Table(name="commit")
+ **/
 class Commit extends BaseModel
 {
-    /**
-     * @var int
-     */
+    /** @Id @Column(type="integer") @GeneratedValue */
     protected $com_id;
 
     /**
      * @var string
+     *
+     * @Column(type="string", length=255, nullable=false)
      */
     protected $com_scm_name;
 
     /**
      * @var string
+     *
+     * @Column(type="string", length=255, nullable=true)
      */
     protected $com_project_name;
 
     /**
      * @var string
+     *
+     * @Column(type="string", length=40, nullable=false)
      */
     protected $com_changeset;
 
     /**
      * @var string
+     *
+     * @Column(type="string", length=255, nullable=true)
      */
     protected $com_branch;
 
     /**
      * @var int
+     *
+     * @Column(type="integer", nullable=true)
      */
     protected $com_usr_id;
 
     /**
      * @var string
+     *
+     * @Column(type="string", length=255, nullable=true)
      */
     protected $com_author_email;
 
     /**
      * @var string
+     *
+     * @Column(type="string", length=255, nullable=true)
      */
     protected $com_author_name;
 
     /**
      * @var \DateTime
+     *
+     * @Column(type="datetime", nullable=false)
      */
     protected $com_commit_date;
 
     /**
      * @var string
+     *
+     * @Column(type="text", length=16777215, nullable=true)
      */
     protected $com_message;
 

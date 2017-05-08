@@ -14,22 +14,28 @@
 namespace Eventum\Model\Entity;
 
 /**
- * IssueCommit
+ * @Entity @Table(name="issue_commit")
  */
 class IssueCommit extends BaseModel
 {
     /**
      * @var int
+     *
+     * @Id @Column(type="integer") @GeneratedValue
      */
     protected $isc_id;
 
     /**
      * @var int
+     *
+     * @Column(type="integer", nullable=false)
      */
     protected $isc_iss_id;
 
     /**
      * @var int
+     *
+     * @Column(type="integer", nullable=false)
      */
     protected $isc_com_id;
 
