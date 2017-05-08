@@ -102,7 +102,7 @@ class ExtensionManager
      */
     protected function getExtensionFiles()
     {
-        return Setup::get()['extensions'];
+        return Setup::get()['extensions'] ?: [];
     }
 
     /**
