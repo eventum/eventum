@@ -196,7 +196,7 @@ class IssueAssociationRepository extends BaseRepository
     private function filterExistingIssues($issues, $issue_id)
     {
         // make issues list unique by flipping the array
-        // otherwise removing $issue_id from the list (using array_search) would removes only first occurrence
+        // otherwise removing $issue_id from the list (using array_search) would remove only first occurrence
         $issues = array_flip(array_filter(Misc::trim($issues)));
         unset($issues[$issue_id]);
 
@@ -218,6 +218,10 @@ class IssueAssociationRepository extends BaseRepository
         return [$res, $errors];
     }
 
+    /**
+     * @param int $issue_id
+     * @return string
+     */
     private function getInvalidIssueError($input)
     {
         return ev_gettext(
@@ -227,6 +231,7 @@ class IssueAssociationRepository extends BaseRepository
 
     /**
      * @param int $issue_id
+     * @return string
      */
     private function getIssueRemovedError($issue_id)
     {
