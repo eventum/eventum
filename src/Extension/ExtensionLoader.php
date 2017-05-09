@@ -50,7 +50,7 @@ class ExtensionLoader
      */
     public function createInstance($backend)
     {
-        $filename = $this->getClassFilename($backend);
+        $filename = $this->findClassFilename($backend);
         if (!file_exists($filename)) {
             throw new InvalidArgumentException("Filename: $filename does not exist");
         }
@@ -154,7 +154,7 @@ class ExtensionLoader
      * @param string $filename
      * @return null|string
      */
-    private function getClassFilename($filename)
+    private function findClassFilename($filename)
     {
         foreach ($this->paths as $path) {
             $class_filename = "$path/$filename";
