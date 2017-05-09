@@ -58,6 +58,11 @@ class DB_Helper
             throw $e;
         }
 
+        // exit is evil, especially when unit testing
+        if (defined('PHPUNIT_EVENTUM_TESTSUITE')) {
+            throw $e;
+        }
+
         /** @global $error_type */
         /** @noinspection PhpUnusedLocalVariableInspection */
         $error_type = 'db';
