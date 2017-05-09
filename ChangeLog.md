@@ -7,11 +7,12 @@ Even it will likely work, it's recommended that you update to latest 3.1 first b
 Consult [Upgrade] wiki page how to upgrade from previous versions.
 
 - replace buggy `Mail_Helper::getEmailAddresses` with Zend\Mail based implementation (@glensc, #238)
-- Enable filtering by Severity (@balsdorf)
+- enable filtering by Severity (@balsdorf, f387fd6)
 - drop PEAR DB support, only PDO is supported (@glensc, #252)
 - use Zend\Mail\Transport for Mail delivery (@glensc, #237)
 - use phinx for database migrations (@glensc, #235)
-- Notify notification list when changing assignment (@balsdorf)
+- notify notification list when changing assignment (@balsdorf, 1527b68)
+- unify backend class loading (@glensc, #257)
 
 [3.2.0]: https://github.com/eventum/eventum/compare/v3.1.10...master
 [PDO MySQL]: http://php.net/manual/en/ref.pdo-mysql.php
