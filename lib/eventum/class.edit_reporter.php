@@ -28,7 +28,7 @@ class Edit_Reporter
      */
     public static function update($issue_id, $email, $add_history = true)
     {
-        $email = strtolower(Mail_Helper::getEmailAddress($email));
+        $email = Mail_Helper::getEmailAddress($email);
         $usr_id = User::getUserIDByEmail($email, true);
 
         // If no valid user found reset to system account

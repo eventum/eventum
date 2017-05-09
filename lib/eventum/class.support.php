@@ -1205,10 +1205,11 @@ class Support
             if ((empty($row['sup_to'])) && (!empty($row['sup_iss_id']))) {
                 $row['sup_to'] = 'Notification List';
             } else {
-                $to = Mail_Helper::getName($row['sup_to']);
-                // Ignore unformattable headers
-                if (!Misc::isError($to)) {
-                    $row['sup_to'] = $to;
+                try {
+                    $row['sup_to'] = Mail_Helper::getName($row['sup_to']);
+                } catch (\Zend\Mail\Header\Exception\InvalidArgumentException $e) {
+                    // Ignore unformattable headers
+                    Logger::app()->error($e->getMessage(), ['exception' => $e]);
                 }
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
@@ -1303,7 +1304,7 @@ class Support
         }
 
         // figure out who should be the 'owner' of this attachment
-        $sender_email = strtolower(Mail_Helper::getEmailAddress($input->headers['from']));
+        $sender_email = Mail_Helper::getEmailAddress($input->headers['from']);
         $usr_id = User::getUserIDByEmail($sender_email);
         $prj_id = Issue::getProjectID($issue_id);
         $unknown_user = false;
@@ -2485,7 +2486,7 @@ class Support
 
         $issue_id = $email['issue_id'];
         $prj_id = Issue::getProjectID($issue_id);
-        $sender_email = strtolower(Mail_Helper::getEmailAddress($email['from']));
+        $sender_email = Mail_Helper::getEmailAddress($email['from']);
         list($text_headers, $body) = Mime_Helper::splitHeaderBody($email['full_email']);
         if ((Mail_Helper::isVacationAutoResponder($email['headers'])) ||
                 (Notification::isBounceMessage($sender_email)) ||

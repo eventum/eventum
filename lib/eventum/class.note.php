@@ -549,7 +549,7 @@ class Note
         $unknown_user = self::getUnknownUser($note_id);
         $structure = Mime_Helper::decode($blocked_message, true, true);
         $body = $structure->body;
-        $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
+        $sender_email = Mail_Helper::getEmailAddress($structure->headers['from']);
 
         $current_usr_id = Auth::getUserID();
         if ($target == 'email') {

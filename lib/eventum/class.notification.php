@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Mail\Helper\AddressHeader;
 
 /**
  * Class to handle all of the business logic related to sending email
@@ -29,8 +30,9 @@ class Notification
      */
     public static function isSubscribedToEmails($issue_id, $email)
     {
-        $email = strtolower(Mail_Helper::getEmailAddress($email));
+        $email = Mail_Helper::getEmailAddress($email);
         if ($email == '@') {
+            // XXX: never happens with ZF, try catch above call?
             // broken address, don't send the email...
             return true;
         }
@@ -152,6 +154,7 @@ class Notification
      * @param   string $sender The email address of the sender
      * @param   string $type Whether this is a note or email routing message
      * @return  string The properly encoded email address
+     * @deprecated kill this monstrocity!
      */
     public static function getFixedFromHeader($issue_id, $sender, $type)
     {
@@ -172,11 +175,11 @@ class Notification
 
             // if no project name, use eventum wide sender name
             if (empty($info['sender_name'])) {
-                $setup_sender_info = Mail_Helper::getAddressInfo($setup['smtp']['from']);
+                $setup_sender_info = self::getAddressInfo($setup['smtp']['from']);
                 $info['sender_name'] = $setup_sender_info['sender_name'];
             }
         } else {
-            $info = Mail_Helper::getAddressInfo($sender);
+            $info = self::getAddressInfo($sender);
         }
         // use per project flag first
         $flag = '';
@@ -230,6 +233,43 @@ class Notification
     }
 
     /**
+     * Method used to break down the email address information and
+     * return it for easy manipulation.
+     *
+     * Expands "Groups" into single addresses.
+     *
+     * @param   string $address The email address value
+     * @param   bool $multiple If multiple addresses should be returned
+     * @return  array The address information
+     * @deprecated used by getFixedFromHeader, kill them both
+     */
+    private static function getAddressInfo($address, $multiple = false)
+    {
+        $header = AddressHeader::fromString($address);
+
+        $addresses = [];
+        foreach ($header->getAddressList() as $address) {
+            $email = $address->getEmail();
+            $sender_name = $address->getName();
+
+            list($username, $hostname) = explode('@', $email);
+            $item = [
+                'email' => $email,
+                'sender_name' => $sender_name ? sprintf('"%s"', $sender_name) : '',
+                'username' => $username,
+                'host' => $hostname,
+            ];
+            $addresses[] = $item;
+        }
+
+        if (!$multiple) {
+            return $addresses[0];
+        }
+
+        return $addresses;
+    }
+
+    /**
      * Method used to check whether the current sender of the email is the
      * mailer daemon responsible for dealing with bounces.
      *
@@ -256,8 +296,8 @@ class Notification
     public static function isIssueRoutingSender($issue_id, $sender)
     {
         $check = self::getFixedFromHeader($issue_id, $sender, 'issue');
-        $check_email = strtolower(Mail_Helper::getEmailAddress($check));
-        $sender_email = strtolower(Mail_Helper::getEmailAddress($sender));
+        $check_email = Mail_Helper::getEmailAddress($check);
+        $sender_email = Mail_Helper::getEmailAddress($sender);
         if ($check_email == $sender_email) {
             return true;
         }
@@ -282,7 +322,7 @@ class Notification
 
         $full_message = $message['full_email'];
         $sender = $message['from'];
-        $sender_email = strtolower(Mail_Helper::getEmailAddress($sender));
+        $sender_email = Mail_Helper::getEmailAddress($sender);
 
         // get ID of whoever is sending this.
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
@@ -336,7 +376,7 @@ class Notification
                 }
                 if (($prefs['receive_copy_of_own_action'][$prj_id] == 0) &&
                         ((!empty($user['sub_usr_id'])) && ($sender_usr_id == $user['sub_usr_id']) ||
-                        (strtolower(Mail_Helper::getEmailAddress($email)) == $sender_email))) {
+                        (Mail_Helper::getEmailAddress($email) == $sender_email))) {
                     continue;
                 }
             }
@@ -2260,7 +2300,7 @@ class Notification
      */
     public static function update($issue_id, $sub_id, $email)
     {
-        $usr_id = User::getUserIDByEmail(strtolower(Mail_Helper::getEmailAddress($email)), true);
+        $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($email), true);
         if (!empty($usr_id)) {
             $email = '';
         } else {
