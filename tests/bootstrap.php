@@ -18,6 +18,7 @@ use Eventum\Monolog\Logger;
 define('APP_PATH', realpath(__DIR__ . '/..'));
 define('APP_CONFIG_PATH', __DIR__);
 define('APP_SETUP_FILE', APP_CONFIG_PATH . '/_setup.php');
+// FIXME: HHVM: Warning: Constants may only evaluate to scalar values
 define('APP_ERROR_LOG', STDERR);
 define('APP_INC_PATH', APP_PATH . '/lib/eventum');
 define('APP_SYSTEM_USER_ID', 1);
