@@ -511,6 +511,8 @@ class MailMessageTest extends TestCase
      */
     public function testSendSimpleMail()
     {
+        $this->assertDatabase();
+
         $text_message = 'text message';
         $info = [
             'usr_full_name' => 'Some User',
