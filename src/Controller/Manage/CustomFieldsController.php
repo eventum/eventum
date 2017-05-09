@@ -17,6 +17,7 @@ use Auth;
 use CRM;
 use Custom_Field;
 use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Extension\ExtensionManager;
 use Project;
 use User;
 
@@ -116,9 +117,21 @@ class CustomFieldsController extends ManageBaseController
                 'project_list' => Project::getAll(),
                 'list' => Custom_Field::getList(),
                 'user_roles' => $user_roles,
-                'backend_list' => Custom_Field::getBackendList(),
+                'backend_list' => $this->getBackends(),
                 'order_by_list' => Custom_Field::$order_by_choices,
             ]
         );
+    }
+
+    private function getBackends()
+    {
+        // load legacy classes
+        $backends = Custom_Field::getBackendList();
+
+        // load classes from extension manager
+        $manager = ExtensionManager::getManager();
+        $backends = array_merge($backends, $manager->getCustomFieldClasses());
+
+        return $backends;
     }
 }

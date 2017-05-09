@@ -43,15 +43,36 @@ class ExtensionManager
     }
 
     /**
-     * Return class names of Workflow implementations configured in system.
+     * Return class names of Workflow implementations.
      *
      * @return array
      */
     public function getWorkflowClasses()
     {
+        return $this->collectClasses('getAvailableWorkflows');
+    }
+
+    /**
+     * Return class names of Custom Field implementations.
+     *
+     * @return array
+     */
+    public function getCustomFieldClasses()
+    {
+        return $this->collectClasses('getAvailableCustomFields');
+    }
+
+    /**
+     * Helper to get merged class list from all extensions.
+     *
+     * @param string $methodName
+     * @return array
+     */
+    protected function collectClasses($methodName)
+    {
         $classes = [];
         foreach ($this->extensions as $extension) {
-            $classes = array_merge($classes, $extension->getAvailableWorkflows());
+            $classes = array_merge($classes, $extension->$methodName());
         }
 
         $extensions = [];

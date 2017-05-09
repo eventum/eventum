@@ -1625,14 +1625,14 @@ class Custom_Field
     }
 
     /**
-     * Returns the list of available custom field backends by listing the class
-     * files in the backend directory.
+     * Returns the list of available custom field backends
+     * by listing the class files in the backend directory.
      *
-     * @return  array Associative array of filename => name
+     * @return  array
      */
     public static function getBackendList()
     {
-        return static::getExtensionLoader()->getFileList();
+        return static::getExtensionLoader()->getExtensions();
     }
 
     /**

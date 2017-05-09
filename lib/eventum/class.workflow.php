@@ -21,7 +21,7 @@ class Workflow
     /**
      * Returns a list of backends available
      *
-     * @return  array An array of workflow backends
+     * @return array
      */
     public static function getBackendList()
     {
