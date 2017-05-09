@@ -95,9 +95,13 @@ class Workflow
             if (file_exists(APP_LOCAL_PATH . "/workflow/$backend_class")) {
                 /** @noinspection PhpIncludeInspection */
                 require_once APP_LOCAL_PATH . "/workflow/$backend_class";
-            } else {
+            } elseif (file_exists(APP_INC_PATH . "/workflow/$backend_class")) {
                 /** @noinspection PhpIncludeInspection */
                 require_once APP_INC_PATH . "/workflow/$backend_class";
+            } else {
+                $errors[] = ev_gettext('Workflow is enabled, but backend class "%1$s" is not found.', $backend_class);
+                Misc::displayRequirementErrors($errors);
+                exit;
             }
 
             $setup_backends[$prj_id] = new $class_name();
