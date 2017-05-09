@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<project name="eventum" basedir="." default="">
+<project name="eventum" basedir="." default="phplint">
 	<property name="name" value="${phing.project.name}" />
 	<property name="basedir" value="." />
 	<property name="vendor" value="${basedir}/vendor" />
@@ -48,11 +48,15 @@
 				<include name="**/Makefile*" />
 				<include name="**/NEWS" />
 				<include name="**/README*" />
+				<include name="**/appveyor.yml" />
 				<include name="**/benchmark.php" />
+				<include name="**/box.json" />
 				<include name="**/composer.json" />
 				<include name="**/composer.lock" />
 				<include name="**/example.php" />
 				<include name="**/package.xml" />
+				<include name="**/pakefile.php" />
+				<include name="**/phpstan.neon" />
 				<include name="**/phpunit.xml*" />
 				<include name="**/travis.ini" />
 				<!-- traits are not used -->
@@ -155,15 +159,11 @@
 				<include name="debugger" />
 				<include name="extras" />
 				<include name="lib" />
-				<include name="pakefile.php" />
 			</fileset>
 
 			<fileset dir="${vendor}/robmorgan/phinx">
-				<include name="appveyor.yml" />
 				<include name="bin/*" />
-				<include name="box.json" />
 				<include name="phinx.yml" />
-				<include name="phpstan.neon" />
 				<include name="src/Phinx/Db/Adapter/PostgresAdapter.php" />
 				<include name="src/Phinx/Db/Adapter/SQLiteAdapter.php" />
 				<include name="src/Phinx/Db/Adapter/SqlServerAdapter.php" />
