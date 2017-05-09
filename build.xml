@@ -162,11 +162,13 @@
 			</fileset>
 
 			<fileset dir="${vendor}/robmorgan/phinx">
+				<include name="app/*"/>
 				<include name="bin/*"/>
 				<include name="phinx.yml"/>
 				<include name="src/Phinx/Db/Adapter/PostgresAdapter.php"/>
 				<include name="src/Phinx/Db/Adapter/SQLiteAdapter.php"/>
 				<include name="src/Phinx/Db/Adapter/SqlServerAdapter.php"/>
+				<include name="src/Phinx/Wrapper/TextWrapper.php"/>
 				<include name="src/composer_autoloader.php"/>
 			</fileset>
 
