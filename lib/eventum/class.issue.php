@@ -1606,7 +1606,6 @@ class Issue
         }
 
         if ($assignments_changed) {
-            // XXX: we may want to also send the email notification for those "new" assignees
             Workflow::handleAssignmentChange(self::getProjectID($issue_id), $issue_id, $usr_id, self::getDetails($issue_id), @$_POST['assignments'], false);
         }
 

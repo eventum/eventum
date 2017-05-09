@@ -11,6 +11,7 @@ Consult [Upgrade] wiki page how to upgrade from previous versions.
 - drop PEAR DB support, only PDO is supported (@glensc, #252)
 - use Zend\Mail\Transport for Mail delivery (@glensc, #237)
 - use phinx for database migrations (@glensc, #235)
+- Notify notification list when changing assignment (@balsdorf)
 
 [3.2.0]: https://github.com/eventum/eventum/compare/v3.1.10...master
 [PDO MySQL]: http://php.net/manual/en/ref.pdo-mysql.php
