@@ -46,6 +46,10 @@ class ConfirmController extends BaseController
      */
     protected function canAccess()
     {
+        if (!in_array($this->cat, ['newuser', 'password'])) {
+            return false;
+        }
+
         return true;
     }
 
@@ -89,5 +93,10 @@ class ConfirmController extends BaseController
      */
     protected function prepareTemplate()
     {
+        $this->tpl->assign(
+            [
+                'cat' => $this->cat,
+            ]
+        );
     }
 }

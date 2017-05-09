@@ -113,6 +113,7 @@
 		"drmonty/garlicjs": "~1.2.4",
 		"enyo/dropzone": "~4.0.1",
 		"eventum/rpc": "~4.0.0",
+		"fortawesome/font-awesome": "^4.7",
 		"jackmoore/autosize": "*",
 		"jasig/phpcas": "~1.3.3",
 		"jquery-form/form": "^4.2",

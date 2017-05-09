@@ -546,7 +546,6 @@ class Misc
      */
     public static function displayRequirementErrors($errors, $title = 'Configuration Error')
     {
-        $rel_path = APP_RELATIVE_URL;
         $messages = implode("\n<br>\n", $errors);
         echo '<html>
 <head>
@@ -571,11 +570,10 @@ class Misc
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td><img src="', $rel_path, 'images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
-          <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">Configuration Error:</span></td>
+          <td class="default"><span style="font-weight: bold; font-size: 160%; color: red;">Configuration Error:</span></td>
         </tr>
         <tr>
-          <td colspan="2" class="default">
+          <td class="default">
             <br />
             <b>The following problems were found:</b>
             <br /><br />

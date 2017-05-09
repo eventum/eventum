@@ -1,6 +1,20 @@
 {extends "base_full.tpl.html"}
 {block page_classes}list_issues{/block}
 
+{function name="sort_link" field="" link="" title=""}
+  <a title="{$title}" href="{$sorting.links.$field}" class="white_link">{$link|escape:"html"}</a>
+  {if $sorting.order.$field|default:''}
+    {if $sorting.order.$field == "desc"}
+      {assign var="icon" value="fa-arrow-down"}
+    {else}
+      {assign var="icon" value="fa-arrow-up"}
+    {/if}
+    <a title="{$title}" href="{$sorting.links.$field}">
+      <i class="fa {$icon}" aria-hidden="true"></i>
+    </a>
+  {/if}
+{/function}
+
 {block "content"}
 {if $core.current_role != $core.roles.customer}
 {include file="quick_filter_form.tpl.html"}
@@ -51,20 +65,19 @@
             {foreach from=$list_info.custom_fields key=fld_id item=fld_title}
               {assign var="fld_name_id" value="custom_field_`$fld_id`"}
                 <th align="{$column.align|default:'center'}" nowrap class="cstm_{$fld_id}">
-                  <a title="{t}sort by{/t} {$fld_title|escape:"html"}" href="{$sorting.links[$fld_name_id]}">{$fld_title|escape:"html"}</a>
-                  {if $sorting.images[$fld_name_id]|default:'' != ""}<a title="{t}sort by{/t} {$fld_title|escape:"html"}" href="{$sorting.links[$fld_name_id]}"><img border="0" src="{$sorting.images[$fld_name_id]}"></a>{/if}
+                  {sort_link field=$fld_name_id link=$fld_title title="{t 1=$fld_title}sort by %1{/t}"}
                 </th>
               {/foreach}
           {else}
           <th align="{$column.align|default:'center'}" nowrap {if $column.width != ''}width="{$column.width}"{/if}
             class="{$field_name}">
             {if $field_name == 'iss_summary'}
-              <a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}">{t}Summary{/t}</a>
-              {if $sorting.images.iss_summary|default:'' != ""}<a title="{t}sort by summary{/t}" href="{$sorting.links.iss_summary}"><img border="0" src="{$sorting.images.iss_summary}"></a>{/if}
-              <span id="export_csv" class="right">{t}Export Data{/t}: <input alt="{t}generate excel-friendly report{/t}" type="image" src="{$core.rel_url}images/excel.jpg" value="{t}Export to Excel{/t}"></span>
+              {sort_link field="iss_summary" link="{t}Summary{/t}" title="{t}sort by summary{/t}"}
+              <span id="export_csv" class="right">{t}Export Data:{/t}
+                <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+              </span>
             {elseif $sorting.links[$field_name]|default:'' != ''}
-              <a title="{t}sort by{/t} {$column.title}" href="{$sorting.links[$field_name]}">{$column.title}</a>
-              {if $sorting.images[$field_name]|default:'' != ""}<a title="{t}sort by{/t} {$column.title}" href="{$sorting.links[$field_name]}"><img border="0" src="{$sorting.images[$field_name]}"></a>{/if}
+              {sort_link field=$field_name link=$column.title title="{t 1=$column.title}sort by %1{/t}"}
             {else}
               {$column.title|default:''}
             {/if}

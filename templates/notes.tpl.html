@@ -53,6 +53,14 @@ function replyAsEmail(el)
 //-->
 </script>
 
+{function name="reply_button" class="" title="" href="" onclick=""}
+  {strip}
+    <a title="{$title}" href="{$href}" onClick="{$onclick}">
+      <i class="fa fa-reply {$class}" aria-hidden="true"></i>
+    </a>
+  {/strip}
+{/function}
+
 <form name="add_note_form" target="_notes" method="post">
 <div class="issue_section bordered internal" id="internal_notes">
     <div class="title">
@@ -78,8 +86,8 @@ function replyAsEmail(el)
             <td nowrap>{include file="expandable_cell/buttons.tpl.html" ec_id="note" list_id=$notes[i].not_id}</td>
             <td align="center">{$smarty.section.i.iteration}</td>
             <td align="center" nowrap>
-              <a title="{t}reply as email{/t}" href="send.php?cat=reply_to_note&note_id={$notes[i].not_id}&issue_id={$smarty.get.id|intval}" onClick="return replyAsEmail(this);"><img src="{$core.rel_url}images/icons/reply.gif" border="0"></a>
-              <a title="{t}reply as note{/t}" href="post_note.php?cat=reply&id={$notes[i].not_id}&issue_id={$smarty.get.id|intval}" onClick="return replyNote(this);"><img src="{$core.rel_url}images/icons/reply-internal.gif" border="0"></a>
+              {reply_button title="{t}reply as email{/t}" class="reply_as_email" href="send.php?cat=reply_to_note&note_id={$notes[i].not_id}&issue_id={$smarty.get.id|intval}" onclick="return replyAsEmail(this);"}
+              {reply_button title="{t}reply as note{/t}" class="reply_note" href="post_note.php?cat=reply&id={$notes[i].not_id}&issue_id={$smarty.get.id|intval}" onclick="return replyNote(this);"}
             </td>
             <td>{$notes[i].not_created_date|timeago}</td>
             <td>
@@ -89,7 +97,7 @@ function replyAsEmail(el)
             <td>
               <a title="{t}view note details{/t}" href="view_note.php?id={$notes[i].not_id}" onClick="return viewNote(this)">{$notes[i].not_title|default:"<Empty Title>"|escape:"html"}</a>
               {if $notes[i].not_has_attachment}
-              <a title="{t}view note details{/t}" href="view_note.php?id={$notes[i].not_id}" onClick="return viewNote(this)"><img src="{$core.rel_url}images/attachment.gif" border="0"></a>
+                <i class="fa fa-paperclip" aria-hidden="true"></i>
               {/if}
               {if $notes[i].has_blocked_message} (<a href="convert_note.php?id={$notes[i].not_id}" onClick="return convertNote(this)">{t}convert note{/t}</a>){/if}
             </td>

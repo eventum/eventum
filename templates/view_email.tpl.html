@@ -204,7 +204,7 @@ setTimeout('Eventum.close_and_refresh()', 2000);
           </th>
           <td >
             {section name="i" loop=$email.attachments}
-            <a title="{t}download file{/t}" href="get_attachment.php?sup_id={$email.sup_id}&filename={$email.attachments[i].filename|escape:"url"}{if $email.attachments[i].cid}&cid={$email.attachments[i].cid|escape:"html"}{/if}"><img src="{$core.rel_url}images/attachment.gif" border="0"></a>
+            <i class="fa fa-paperclip" aria-hidden="true"></i>
             <a title="{t}download file{/t}" href="get_attachment.php?sup_id={$email.sup_id}&filename={$email.attachments[i].filename|escape:"url"}{if $email.attachments[i].cid}&cid={$email.attachments[i].cid|escape:"html"}{/if}">{$email.attachments[i].filename}</a><br />
             {/section}
           </td>

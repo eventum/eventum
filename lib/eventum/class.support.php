@@ -1126,47 +1126,6 @@ class Support
     }
 
     /**
-     * Method used to get the current sorting options used in the grid
-     * layout of the emails listing page.
-     *
-     * @param   array $options The current search parameters
-     * @return  array The sorting options
-     */
-    public static function getSortingInfo($options)
-    {
-        $fields = [
-            'sup_from',
-            'sup_customer_id',
-            'sup_date',
-            'sup_to',
-            'sup_iss_id',
-            'sup_subject',
-        ];
-        $items = [
-            'links' => [],
-            'images' => [],
-        ];
-
-        $sort_order_option = strtolower(DB_Helper::orderBy($options['sort_order']));
-        $sort_order_image = "images/{$sort_order_option}.gif";
-
-        foreach ($fields as $field) {
-            $sort_order = 'asc';
-            if ($options['sort_by'] == $field) {
-                $items['images'][$field] = $sort_order_image;
-                if ($sort_order_option == 'asc') {
-                    $sort_order = 'desc';
-                } else {
-                    $sort_order = 'asc';
-                }
-            }
-            $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=' . $sort_order;
-        }
-
-        return $items;
-    }
-
-    /**
      * Method used to get the list of emails to be displayed in the
      * grid layout.
      *
