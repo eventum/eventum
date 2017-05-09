@@ -25,9 +25,7 @@ class Workflow
      */
     public static function getBackendList()
     {
-        $files = static::getExtensionLoader()->getFileList();
-
-        return $files;
+        return static::getExtensionLoader()->getExtensions();
     }
 
     /**
@@ -74,15 +72,15 @@ class Workflow
         static $setup_backends;
 
         if (empty($setup_backends[$prj_id])) {
-            $filename = self::_getBackendNameByProject($prj_id);
-            if (!$filename) {
+            $backendName = self::_getBackendNameByProject($prj_id);
+            if (!$backendName) {
                 return false;
             }
 
-            $instance = static::getExtensionLoader()->createInstance($filename);
-            $instance->prj_id = $prj_id;
+            $backend = static::getExtensionLoader()->createInstance($backendName);
+            $backend->prj_id = $prj_id;
 
-            $setup_backends[$prj_id] = $instance;
+            $setup_backends[$prj_id] = $backend;
         }
 
         return $setup_backends[$prj_id];

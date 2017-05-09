@@ -49,12 +49,17 @@ class ExtensionManager
      */
     public function getWorkflowClasses()
     {
-        $res = [];
+        $classes = [];
         foreach ($this->extensions as $extension) {
-            $res = array_merge($res, $extension->getAvailableWorkflows());
+            $classes = array_merge($classes, $extension->getAvailableWorkflows());
         }
 
-        return $res;
+        $extensions = [];
+        foreach ($classes as $classname) {
+            $extensions[$classname] = $classname;
+        }
+
+        return $extensions;
     }
 
     /**

@@ -50,6 +50,12 @@ class ExtensionLoader
      */
     public function createInstance($backend)
     {
+        // see if classname is provided
+        if (class_exists($backend)) {
+            return new $backend();
+        }
+
+        // legacy mode where filename is provided
         $filename = $this->findClassFilename($backend);
         if (!file_exists($filename)) {
             throw new InvalidArgumentException("Filename: $filename does not exist");
@@ -61,6 +67,23 @@ class ExtensionLoader
         $classname = $this->getClassName($backend);
 
         return new $classname();
+    }
+
+    /**
+     * Return list of extensions found
+     *
+     * @return array
+     */
+    public function getExtensions()
+    {
+        $extensions = [];
+        foreach ($this->getFileList() as $filename => $description) {
+            $backend = $this->createInstance($filename);
+            $rc = new ReflectionClass($backend);
+            $extensions[$rc->getName()] = $rc->getName();
+        }
+
+        return $extensions;
     }
 
     /**

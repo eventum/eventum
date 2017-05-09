@@ -16,6 +16,7 @@ namespace Eventum\Controller\Manage;
 use Auth;
 use CRM;
 use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Extension\ExtensionManager;
 use Project;
 use Status;
 use User;
@@ -97,8 +98,20 @@ class ProjectsController extends ManageBaseController
                 'user_options' => User::getActiveAssocList(),
                 'status_options' => Status::getAssocList(),
                 'customer_backends' => CRM::getBackendList(),
-                'workflow_backends' => Workflow::getBackendList(),
+                'workflow_backends' => $this->getWorkflowBackends(),
             ]
         );
+    }
+
+    private function getWorkflowBackends()
+    {
+        // load legacy classes
+        $backends = Workflow::getBackendList();
+
+        // load classes from extension manager
+        $manager = ExtensionManager::getManager();
+        $backends = array_merge($backends, $manager->getWorkflowClasses());
+
+        return $backends;
     }
 }
