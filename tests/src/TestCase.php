@@ -13,8 +13,17 @@
 
 namespace Eventum\Test;
 
-use PHPUnit_Framework_TestCase;
+/*
+ * PHPUnit_Framework_TestCase is dropped in phpunit 6.0.0
+ * https://github.com/sebastianbergmann/phpunit/wiki/Release-Announcement-for-PHPUnit-6.0.0
+ *
+ * Load PHPUnit_Framework_TestCase wrapper if using older PHPUnit.
+ */
 
-class TestCase extends PHPUnit_Framework_TestCase
+if (!class_exists('\PHPUnit\Framework\TestCase')) {
+    require_once __DIR__ . '/phpunit-compat.php';
+}
+
+class TestCase extends \PHPUnit\Framework\TestCase
 {
 }
