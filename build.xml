@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="eventum" basedir="." default="phplint">
-	<property name="name" value="${phing.project.name}" />
-	<property name="basedir" value="." />
-	<property name="vendor" value="${basedir}/vendor" />
+	<property name="name" value="${phing.project.name}"/>
+	<property name="basedir" value="."/>
+	<property name="vendor" value="${basedir}/vendor"/>
 
 	<!-- phplint -->
 	<target name="phplint" description="Run PHP Lint.">
 		<echo msg="Checking syntax with PHP lint."/>
 		<phplint haltonfailure="true" cachefile="${basedir}/.phplint.cache">
 			<fileset dir="${basedir}">
-				<include name="**/*.php" />
+				<include name="**/*.php"/>
 				<!--
 					skip autoload_static.php from phplint
 					it requires php 5.6 and is loaded conditionally by autoload_real.php
 				 -->
-				<exclude name="vendor/composer/autoload_static.php" />
-				<exclude name=".idea/**" />
-				<exclude name="releases/**" />
-				<exclude name="var/**" />
+				<exclude name="vendor/composer/autoload_static.php"/>
+				<exclude name=".idea/**"/>
+				<exclude name="releases/**"/>
+				<exclude name="var/**"/>
 			</fileset>
 		</phplint>
 	</target>
@@ -30,102 +30,102 @@
 		<delete verbose="true">
 			<!-- generic files -->
 			<fileset dir="${vendor}" defaultexcludes="false">
-				<include name="**/*.md" />
-				<include name="**/*.mdown" />
-				<include name="**/*.plex" />
-				<include name="**/*.sh" />
-				<include name="**/*.txt" />
-				<include name="**/*.y" />
-				<include name="**/.coveralls.yml" />
-				<include name="**/.gitattributes" />
-				<include name="**/.gitignore" />
-				<include name="**/.php_cs" />
-				<include name="**/.travis.yml" />
-				<include name="**/AUTHORS" />
-				<include name="**/COPYING*" />
-				<include name="**/ChangeLog*" />
-				<include name="**/LICENSE*" />
-				<include name="**/Makefile*" />
-				<include name="**/NEWS" />
-				<include name="**/README*" />
-				<include name="**/appveyor.yml" />
-				<include name="**/benchmark.php" />
-				<include name="**/box.json" />
-				<include name="**/composer.json" />
-				<include name="**/composer.lock" />
-				<include name="**/example.php" />
-				<include name="**/package.xml" />
-				<include name="**/pakefile.php" />
-				<include name="**/phpstan.neon" />
-				<include name="**/phpunit.xml*" />
-				<include name="**/travis.ini" />
+				<include name="**/*.md"/>
+				<include name="**/*.mdown"/>
+				<include name="**/*.plex"/>
+				<include name="**/*.sh"/>
+				<include name="**/*.txt"/>
+				<include name="**/*.y"/>
+				<include name="**/.coveralls.yml"/>
+				<include name="**/.gitattributes"/>
+				<include name="**/.gitignore"/>
+				<include name="**/.php_cs"/>
+				<include name="**/.travis.yml"/>
+				<include name="**/AUTHORS"/>
+				<include name="**/COPYING*"/>
+				<include name="**/ChangeLog*"/>
+				<include name="**/LICENSE*"/>
+				<include name="**/Makefile*"/>
+				<include name="**/NEWS"/>
+				<include name="**/README*"/>
+				<include name="**/appveyor.yml"/>
+				<include name="**/benchmark.php"/>
+				<include name="**/box.json"/>
+				<include name="**/composer.json"/>
+				<include name="**/composer.lock"/>
+				<include name="**/example.php"/>
+				<include name="**/package.xml"/>
+				<include name="**/pakefile.php"/>
+				<include name="**/phpstan.neon"/>
+				<include name="**/phpunit.xml*"/>
+				<include name="**/travis.ini"/>
 				<!-- traits are not used -->
-				<include name="**/*Trait.php" />
+				<include name="**/*Trait.php"/>
 			</fileset>
 
 			<!-- whole dirs -->
 			<fileset dir="${vendor}">
-				<include name="**/Test/**" />
-				<include name="**/Tests/**" />
-				<include name="**/doc/**" />
-				<include name="**/docs/**" />
-				<include name="**/test/**" />
-				<include name="**/tests/**" />
-				<include name="**/examples/**" />
-				<include name="**/contrib/**" />
-				<include name="**/demo/**" />
-				<include name="**/data/**" />
-				<include name="bin/*" />
+				<include name="**/Test/**"/>
+				<include name="**/Tests/**"/>
+				<include name="**/doc/**"/>
+				<include name="**/docs/**"/>
+				<include name="**/test/**"/>
+				<include name="**/tests/**"/>
+				<include name="**/examples/**"/>
+				<include name="**/contrib/**"/>
+				<include name="**/demo/**"/>
+				<include name="**/data/**"/>
+				<include name="bin/*"/>
 			</fileset>
 
 			<!-- specific to packages -->
 			<fileset dir="${vendor}/smarty-gettext/smarty-gettext">
-				<include name="tsmarty2c.1" />
+				<include name="tsmarty2c.1"/>
 			</fileset>
 
 			<fileset dir="${vendor}/willdurand/email-reply-parser">
-				<include name="src/autoload.php" />
+				<include name="src/autoload.php"/>
 			</fileset>
 
 			<fileset dir="${vendor}/zendframework/zend-stdlib/src">
-				<include name="compatibility/autoload.php" />
+				<include name="compatibility/autoload.php"/>
 			</fileset>
 
 			<fileset dir="${vendor}/zendframework/zend-config/src">
-				<exclude name="Config.php" />
-				<exclude name="Exception/**" />
+				<exclude name="Config.php"/>
+				<exclude name="Exception/**"/>
 			</fileset>
 
 			<fileset dir="${vendor}/zendframework/zend-mail/src">
 				<!-- not used yet -->
-				<include name="Protocol/**" />
-				<include name="Transport/**" />
+				<include name="Protocol/**"/>
+				<include name="Transport/**"/>
 			</fileset>
 
 			<fileset dir="${vendor}/zendframework/zend-validator/src">
-				<include name="Barcode*/**" />
-				<include name="Db/**" />
-				<include name="File/**" />
-				<include name="Sitemap/**" />
+				<include name="Barcode*/**"/>
+				<include name="Db/**"/>
+				<include name="File/**"/>
+				<include name="Sitemap/**"/>
 			</fileset>
 
 			<fileset dir="${vendor}/pear-pear.php.net/XML_RPC">
-				<include name="XML/RPC/Dump.php" />
+				<include name="XML/RPC/Dump.php"/>
 			</fileset>
 
 			<fileset dir="${vendor}/pear/pear-core-minimal/src">
-				<include name="OS/Guess.php" />
+				<include name="OS/Guess.php"/>
 			</fileset>
 
 			<fileset dir="${vendor}/pear/db">
-				<exclude name="DB.php" />
-				<exclude name="DB/common.php" />
-				<exclude name="DB/mysql*.php" />
+				<exclude name="DB.php"/>
+				<exclude name="DB/common.php"/>
+				<exclude name="DB/mysql*.php"/>
 			</fileset>
 
 			<fileset dir="${vendor}/pear/net_smartirc">
-				<exclude name="Net/SmartIRC.php" />
-				<exclude name="Net/SmartIRC/*.php" />
+				<exclude name="Net/SmartIRC.php"/>
+				<exclude name="Net/SmartIRC/*.php"/>
 			</fileset>
 
 			<!-- package not used -->
@@ -133,46 +133,46 @@
 			</fileset>
 
 			<fileset dir="${vendor}/monolog/monolog/src">
-				<include name="Monolog/Handler/TestHandler.php" />
+				<include name="Monolog/Handler/TestHandler.php"/>
 			</fileset>
 
 			<fileset dir="${vendor}/fonts/liberation">
 				<!-- we need just LiberationSans-Regular.ttf -->
-				<exclude name="LiberationSans-Regular.ttf" />
+				<exclude name="LiberationSans-Regular.ttf"/>
 			</fileset>
 
 			<fileset dir="${vendor}/phplot/phplot">
 				<!-- need just phplot.php and maybe rgb.inc.php -->
-				<exclude name="phplot.php" />
-				<exclude name="rgb.inc.php" />
+				<exclude name="phplot.php"/>
+				<exclude name="rgb.inc.php"/>
 			</fileset>
 
 			<fileset dir="${vendor}/malkusch/lock/classes">
-				<exclude name="mutex/FlockMutex.php" />
-				<exclude name="mutex/LockMutex.php" />
-				<exclude name="mutex/Mutex.php" />
-				<exclude name="util/DoubleCheckedLocking.php" />
-				<exclude name="exception/*.php" />
+				<exclude name="mutex/FlockMutex.php"/>
+				<exclude name="mutex/LockMutex.php"/>
+				<exclude name="mutex/Mutex.php"/>
+				<exclude name="util/DoubleCheckedLocking.php"/>
+				<exclude name="exception/*.php"/>
 			</fileset>
 
 			<fileset dir="${vendor}/phpxmlrpc/phpxmlrpc">
-				<include name="debugger" />
-				<include name="extras" />
-				<include name="lib" />
+				<include name="debugger"/>
+				<include name="extras"/>
+				<include name="lib"/>
 			</fileset>
 
 			<fileset dir="${vendor}/robmorgan/phinx">
-				<include name="bin/*" />
-				<include name="phinx.yml" />
-				<include name="src/Phinx/Db/Adapter/PostgresAdapter.php" />
-				<include name="src/Phinx/Db/Adapter/SQLiteAdapter.php" />
-				<include name="src/Phinx/Db/Adapter/SqlServerAdapter.php" />
-				<include name="src/composer_autoloader.php" />
+				<include name="bin/*"/>
+				<include name="phinx.yml"/>
+				<include name="src/Phinx/Db/Adapter/PostgresAdapter.php"/>
+				<include name="src/Phinx/Db/Adapter/SQLiteAdapter.php"/>
+				<include name="src/Phinx/Db/Adapter/SqlServerAdapter.php"/>
+				<include name="src/composer_autoloader.php"/>
 			</fileset>
 
 			<fileset dir="${vendor}/symfony/debug">
 				<!-- source for pecl extension -->
-				<include name="Resources/ext" />
+				<include name="Resources/ext"/>
 			</fileset>
 		</delete>
 	</target>
