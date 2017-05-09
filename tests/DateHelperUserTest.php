@@ -20,6 +20,7 @@ use Prefs;
  * DateHelper tests involving user (using database)
  *
  * @group date
+ * @group db
  */
 class DateHelperUserTest extends TestCase
 {
@@ -31,7 +32,6 @@ class DateHelperUserTest extends TestCase
 
     public static function setUpBeforeClass()
     {
-        self::assertDatabase();
         self::setTimezone(APP_ADMIN_USER_ID, self::USER_TIMEZONE);
         self::setTimezone(APP_SYSTEM_USER_ID, self::ADMIN_TIMEZONE);
     }

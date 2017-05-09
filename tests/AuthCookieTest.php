@@ -29,11 +29,6 @@ class AuthCookieTest extends TestCase
         Auth::generatePrivateKey();
     }
 
-    public function setUp()
-    {
-        $this->skipCi('Missing Travis/Jenkins setup');
-    }
-
     public function testAuthCookie()
     {
         $usr_id = APP_ADMIN_USER_ID;

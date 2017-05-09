@@ -30,8 +30,6 @@ class DbTest extends TestCase
 
     public function setUp()
     {
-        $this->assertDatabase();
-
         $this->db = DB_Helper::getInstance(false);
     }
 

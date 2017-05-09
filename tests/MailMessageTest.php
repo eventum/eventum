@@ -511,11 +511,10 @@ class MailMessageTest extends TestCase
 
     /**
      * @see Notification::notifyAccountDetails
+     * @group db
      */
     public function testSendSimpleMail()
     {
-        $this->assertDatabase();
-
         $text_message = 'text message';
         $info = [
             'usr_full_name' => 'Some User',
@@ -546,11 +545,10 @@ class MailMessageTest extends TestCase
 
     /**
      * Test mail sending with Mail_Helper
+     * @group db
      */
     public function testMailSendMH()
     {
-        $this->skipCi('Uses database');
-
         $text_message = 'tere';
         $issue_id = 1;
         $from = 'Eventum <support@example.org>';
@@ -569,11 +567,11 @@ class MailMessageTest extends TestCase
 
     /**
      * Test mail sending with ZendFramework Mail (MailMessage)
+     *
+     * @group db
      */
     public function testMailSendZF()
     {
-        $this->skipCi('Uses database');
-
         $text_message = 'tere';
         $issue_id = 1;
         $from = 'Eventum <support@example.org>';
