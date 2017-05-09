@@ -548,3 +548,8 @@ option.select_icon_priority {
     margin-top: .5em;
     font-style: italic;
 }
+
+/* Font Awesome override */
+.fa {
+    font-size: 1.1em;
+}
