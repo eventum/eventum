@@ -157,6 +157,23 @@
 				<include name="lib" />
 				<include name="pakefile.php" />
 			</fileset>
+
+			<fileset dir="${vendor}/robmorgan/phinx">
+				<include name="appveyor.yml" />
+				<include name="bin/*" />
+				<include name="box.json" />
+				<include name="phinx.yml" />
+				<include name="phpstan.neon" />
+				<include name="src/Phinx/Db/Adapter/PostgresAdapter.php" />
+				<include name="src/Phinx/Db/Adapter/SQLiteAdapter.php" />
+				<include name="src/Phinx/Db/Adapter/SqlServerAdapter.php" />
+				<include name="src/composer_autoloader.php" />
+			</fileset>
+
+			<fileset dir="${vendor}/symfony/debug">
+				<!-- source for pecl extension -->
+				<include name="Resources/ext" />
+			</fileset>
 		</delete>
 	</target>
 
