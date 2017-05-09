@@ -392,7 +392,7 @@ class Search
         foreach ($res as &$row) {
             $issue_id = $row['iss_id'];
             $row['time_spent'] = Misc::getFormattedTime($row['time_spent']);
-            $row['iss_expected_resolution_date'] = Date_Helper::getSimpleDate($row['iss_expected_resolution_date'], false);
+            $row['expected_resolution_date'] = Date_Helper::getSimpleDate($row['iss_expected_resolution_date'], false);
             $row['excerpts'] = isset($excerpts[$issue_id]) ? $excerpts[$issue_id] : '';
 
             $row['access_level_name'] = Access::getAccessLevelName($row['iss_access_level']);
