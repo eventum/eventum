@@ -296,14 +296,13 @@ abstract class CRM
     }
 
     /**
-     * Returns the list of available customer backends by listing the class
-     * files in the backend directory.
+     * Returns the list of available customer backends.
      *
-     * @return  array Associative array of filename => name
+     * @return array
      */
     public static function getBackendList()
     {
-        return static::getExtensionLoader()->getFileList();
+        return static::getExtensionLoader()->getExtensions();
     }
 
     /**

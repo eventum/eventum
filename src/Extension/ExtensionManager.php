@@ -63,6 +63,16 @@ class ExtensionManager
     }
 
     /**
+     * Return class names of CRM implementations.
+     *
+     * @return array
+     */
+    public function getCustomerClasses()
+    {
+        return $this->collectClasses('getAvailableCRMs');
+    }
+
+    /**
      * Helper to get merged class list from all extensions.
      *
      * @param string $methodName

@@ -97,7 +97,7 @@ class ProjectsController extends ManageBaseController
                 'list' => Project::getList(),
                 'user_options' => User::getActiveAssocList(),
                 'status_options' => Status::getAssocList(),
-                'customer_backends' => CRM::getBackendList(),
+                'customer_backends' => $this->getCustomerBackends(),
                 'workflow_backends' => $this->getWorkflowBackends(),
             ]
         );
@@ -111,6 +111,18 @@ class ProjectsController extends ManageBaseController
         // load classes from extension manager
         $manager = ExtensionManager::getManager();
         $backends = array_merge($backends, $manager->getWorkflowClasses());
+
+        return $backends;
+    }
+
+    private function getCustomerBackends()
+    {
+        // load legacy classes
+        $backends = CRM::getBackendList();
+
+        // load classes from extension manager
+        $manager = ExtensionManager::getManager();
+        $backends = array_merge($backends, $manager->getCustomerClasses());
 
         return $backends;
     }
