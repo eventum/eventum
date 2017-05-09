@@ -33,6 +33,10 @@ return [
     'paths' => [
         'migrations' => 'db/migrations',
     ],
+
+    // http://docs.phinx.org/en/latest/configuration.html#custom-migration-base
+    'migration_base_class' => 'Eventum\Db\AbstractMigration',
+
     'environments' => [
         'default_migration_table' => 'phinxlog',
         'default_database' => 'production',
