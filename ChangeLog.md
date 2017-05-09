@@ -14,6 +14,7 @@ Consult [Upgrade] wiki page how to upgrade from previous versions.
 - notify notification list when changing assignment (@balsdorf, 1527b68)
 - unify backend class loading (@glensc, #257)
 - use font awesome (@glensc, #253)
+- use ctrl/cmd enter to submit forms (@glensc, #255)
 
 [3.2.0]: https://github.com/eventum/eventum/compare/v3.1.10...master
 [PDO MySQL]: http://php.net/manual/en/ref.pdo-mysql.php
