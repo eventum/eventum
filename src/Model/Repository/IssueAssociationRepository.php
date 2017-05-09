@@ -222,10 +222,10 @@ class IssueAssociationRepository extends BaseRepository
      * @param int $issue_id
      * @return string
      */
-    private function getInvalidIssueError($input)
+    private function getInvalidIssueError($issue_id)
     {
         return ev_gettext(
-            '"%s" was not valid Issue Id and was removed.', $input
+            '"%s" was not valid Issue Id and was removed.', $issue_id
         );
     }
 
