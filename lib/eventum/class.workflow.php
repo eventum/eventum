@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Extension\ExtensionLoader;
 use Eventum\Mail\MailMessage;
 use Eventum\Model\Entity;
 
@@ -24,21 +25,9 @@ class Workflow
      */
     public static function getBackendList()
     {
-        $files = Misc::getFileList(APP_INC_PATH . '/workflow');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/workflow'));
-        $list = [];
-        foreach ($files as $file) {
-            // display a prettyfied backend name in the admin section
-            if (preg_match('/^class\.(.*)\.php$/', $file, $matches)) {
-                if ($matches[1] == 'abstract_workflow_backend') {
-                    continue;
-                }
-                $name = ucwords(str_replace('_', ' ', $matches[1]));
-                $list[$file] = $name;
-            }
-        }
+        $files = static::getExtensionLoader()->getFileList();
 
-        return $list;
+        return $files;
     }
 
     /**
@@ -78,29 +67,22 @@ class Workflow
      * given project ID, instantiates it and returns the class.
      *
      * @param   int $prj_id The project ID
-     * @return  Abstract_Workflow_Backend
+     * @return bool|Abstract_Workflow_Backend
      */
     public static function _getBackend($prj_id)
     {
         static $setup_backends;
 
         if (empty($setup_backends[$prj_id])) {
-            $backend_class = self::_getBackendNameByProject($prj_id);
-            if (empty($backend_class)) {
+            $filename = self::_getBackendNameByProject($prj_id);
+            if (!$filename) {
                 return false;
             }
-            $file_name_chunks = explode('.', $backend_class);
-            $class_name = $file_name_chunks[1] . '_Workflow_Backend';
 
-            if (file_exists(APP_LOCAL_PATH . "/workflow/$backend_class")) {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_LOCAL_PATH . "/workflow/$backend_class";
-            } else {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_INC_PATH . "/workflow/$backend_class";
-            }
+            $instance = static::getExtensionLoader()->createInstance($filename);
+            $instance->prj_id = $prj_id;
 
-            $setup_backends[$prj_id] = new $class_name();
+            $setup_backends[$prj_id] = $instance;
         }
 
         return $setup_backends[$prj_id];
@@ -110,7 +92,7 @@ class Workflow
      * Checks whether the given project ID is setup to use workflow integration
      * or not.
      *
-     * @param   int integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  bool
      */
     public static function hasWorkflowIntegration($prj_id)
@@ -977,5 +959,18 @@ class Workflow
         $backend = self::_getBackend($prj_id);
 
         return $backend->getMovedIssueMapping($prj_id, $issue_id, $mapping, $old_prj_id);
+    }
+
+    /**
+     * @return ExtensionLoader
+     */
+    private static function getExtensionLoader()
+    {
+        $dirs = [
+            APP_INC_PATH . '/workflow',
+            APP_LOCAL_PATH . '/workflow',
+        ];
+
+        return new ExtensionLoader($dirs, '%s_Workflow_Backend');
     }
 }

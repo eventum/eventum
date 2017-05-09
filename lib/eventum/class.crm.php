@@ -13,6 +13,7 @@
 
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
+use Eventum\Extension\ExtensionLoader;
 
 define('CRM_EXCLUDE_EXPIRED', 'exclude_expired');
 
@@ -302,14 +303,7 @@ abstract class CRM
      */
     public static function getBackendList()
     {
-        $files = Misc::getFileList(APP_INC_PATH . 'crm/');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/crm'));
-        $list = [];
-        foreach ($files as $file) {
-            $list['class.' . $file . '.php'] = $file;
-        }
-
-        return $list;
+        return static::getExtensionLoader()->getFileList();
     }
 
     /**
@@ -350,7 +344,7 @@ abstract class CRM
      * given project ID, instantiates it and returns the class.
      *
      * @param   int $prj_id The project ID
-     * @return  bool
+     * @return bool|CRM
      */
     private static function getBackendByProject($prj_id)
     {
@@ -372,17 +366,8 @@ abstract class CRM
      */
     private static function getBackend($backend_class, $prj_id)
     {
-        $file_name_chunks = explode('.', $backend_class);
-        $class_name = $file_name_chunks[1];
-
-        if (file_exists(APP_LOCAL_PATH . "/crm/$class_name/$backend_class")) {
-            require_once APP_LOCAL_PATH . '/crm/' . $class_name . "/$backend_class";
-        } else {
-            require_once APP_INC_PATH . '/crm/backends/' . $class_name . "/$backend_class";
-        }
-
         /** @var CRM $backend */
-        $backend = new $class_name();
+        $backend = static::getExtensionLoader()->createInstance($backend_class);
         $backend->setup($prj_id);
         $backend->prj_id = $prj_id;
 
@@ -773,5 +758,18 @@ abstract class CRM
         } catch (CRMException $e) {
             return null;
         }
+    }
+
+    /**
+     * @return ExtensionLoader
+     */
+    private static function getExtensionLoader()
+    {
+        $dirs = [
+            APP_INC_PATH . '/crm',
+            APP_LOCAL_PATH . '/crm',
+        ];
+
+        return new ExtensionLoader($dirs, '%s', 'CRM');
     }
 }

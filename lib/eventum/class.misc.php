@@ -356,8 +356,8 @@ class Misc
     }
 
     /**
-     * Method used to get the full list of files contained in a specific
-     * directory.
+     * Method used to get the list of files contained in a specific
+     * directory with their absolute paths.
      *
      * @param   string $directory The path to list the files from
      * @return  array The list of files
@@ -370,7 +370,7 @@ class Misc
             if (($item == '.') || ($item == '..') || ($item == 'CVS') || ($item == 'SCCS')) {
                 continue;
             }
-            $files[] = $item;
+            $files[] = "$directory/$item";
         }
 
         return $files;

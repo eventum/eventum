@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Extension\ExtensionLoader;
 
 /**
  * Handles the interactions between Eventum and partner backends.
@@ -31,17 +32,9 @@ class Partner
 
         if (empty($setup_backends[$par_code])) {
             $file_name = 'class.' . $par_code . '.php';
-            $class_name = $par_code . '_Partner_Backend';
 
-            if (file_exists(APP_LOCAL_PATH . "/partner/$file_name")) {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_LOCAL_PATH . "/partner/$file_name";
-            } else {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_INC_PATH . "/partner/$file_name";
-            }
-
-            $setup_backends[$par_code] = new $class_name();
+            $instance = static::getExtensionLoader()->createInstance($file_name);
+            $setup_backends[$par_code] = $instance;
         }
 
         return $setup_backends[$par_code];
@@ -311,24 +304,11 @@ class Partner
     /**
      * Returns a list of backends available
      *
-     * @return  array An array of workflow backends
+     * @return  array An array of partner backends
      */
     public static function getBackendList()
     {
-        $files = Misc::getFileList(APP_INC_PATH . '/partner');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/partner'));
-        $list = [];
-        foreach ($files as $file) {
-            // display a prettyfied backend name in the admin section
-            if (preg_match('/^class\.(.*)\.php$/', $file, $matches)) {
-                if (substr($matches[1], 0, 8) == 'abstract') {
-                    continue;
-                }
-                $list[$file] = $matches[1];
-            }
-        }
-
-        return $list;
+        return static::getExtensionLoader()->getFileList();
     }
 
     public static function getName($par_code)
@@ -429,5 +409,18 @@ class Partner
         }
 
         return null;
+    }
+
+    /**
+     * @return ExtensionLoader
+     */
+    private static function getExtensionLoader()
+    {
+        $dirs = [
+            APP_INC_PATH . '/partner',
+            APP_LOCAL_PATH . '/partner',
+        ];
+
+        return new ExtensionLoader($dirs, '%s_Partner_Backend');
     }
 }
