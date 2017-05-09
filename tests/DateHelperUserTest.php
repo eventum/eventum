@@ -18,6 +18,8 @@ use Prefs;
 
 /**
  * DateHelper tests involving user (using database)
+ *
+ * @group date
  */
 class DateHelperUserTest extends TestCase
 {

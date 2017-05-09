@@ -15,6 +15,9 @@ namespace Eventum\Test;
 
 use LDAP_Auth_Backend;
 
+/**
+ * @group ldap
+ */
 class AuthLdapTest extends TestCase
 {
     /** @var LDAP_Auth_Backend */

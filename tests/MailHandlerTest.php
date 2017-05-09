@@ -24,6 +24,9 @@ namespace Eventum\Test {
     use Eventum\Monolog\Logger;
     use Setup;
 
+    /**
+     * @group mail
+     */
     class MailHandlerTest extends TestCase
     {
         public function testMailHandler()

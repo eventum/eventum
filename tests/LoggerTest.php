@@ -21,6 +21,9 @@ use Monolog;
 use Monolog\Handler\StreamHandler;
 use PEAR_Error;
 
+/**
+ * @group logger
+ */
 class LoggerTest extends TestCase
 {
     public function testLogger()

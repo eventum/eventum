@@ -42,6 +42,8 @@ use User;
  * Class Eventum\RPC\RemoteApi
  *
  * All public non-static methods are exposed for XMLRPC
+ *
+ * @group api
  */
 class RemoteApi
 {

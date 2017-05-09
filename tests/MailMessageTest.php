@@ -24,6 +24,9 @@ use Setup;
 use Zend;
 use Zend\Mail\AddressList;
 
+/**
+ * @group mail
+ */
 class MailMessageTest extends TestCase
 {
     public function testMissingMessageId()
