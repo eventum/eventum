@@ -24,6 +24,9 @@ use Setup;
 use Zend;
 use Zend\Mail\AddressList;
 
+/**
+ * @group mail
+ */
 class MailMessageTest extends TestCase
 {
     public function testMissingMessageId()
@@ -508,6 +511,7 @@ class MailMessageTest extends TestCase
 
     /**
      * @see Notification::notifyAccountDetails
+     * @group db
      */
     public function testSendSimpleMail()
     {
@@ -541,11 +545,10 @@ class MailMessageTest extends TestCase
 
     /**
      * Test mail sending with Mail_Helper
+     * @group db
      */
     public function testMailSendMH()
     {
-        $this->skipCi('Uses database');
-
         $text_message = 'tere';
         $issue_id = 1;
         $from = 'Eventum <support@example.org>';
@@ -564,11 +567,11 @@ class MailMessageTest extends TestCase
 
     /**
      * Test mail sending with ZendFramework Mail (MailMessage)
+     *
+     * @group db
      */
     public function testMailSendZF()
     {
-        $this->skipCi('Uses database');
-
         $text_message = 'tere';
         $issue_id = 1;
         $from = 'Eventum <support@example.org>';

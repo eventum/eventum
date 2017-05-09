@@ -37,7 +37,8 @@ install:
 
 script:
   - bin/ci/check_patches.sh
-  - echo phpunit -v --debug
+  - phpunit --version
+  - phpunit --verbose --exclude-group ldap,imap,logger,mail,api,locale,date,db,crypto
   - bin/ci/dist.sh
 
 before_deploy:

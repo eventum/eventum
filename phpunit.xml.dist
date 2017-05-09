@@ -21,6 +21,8 @@
 	</testsuites>
 
 	<php>
+		<const name="PHPUNIT_EVENTUM_TESTSUITE" value="true"/>
+
 		<!--
 		<ini name="error_reporting" value="E_ALL"/>
 			disable strict, PEAR classes not compatible.

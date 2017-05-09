@@ -21,6 +21,9 @@ use Monolog;
 use Monolog\Handler\StreamHandler;
 use PEAR_Error;
 
+/**
+ * @group logger
+ */
 class LoggerTest extends TestCase
 {
     public function testLogger()
@@ -48,9 +51,11 @@ class LoggerTest extends TestCase
         $logger->debug('ldap debug');
     }
 
+    /**
+     * @group db
+     */
     public function testDbError()
     {
-        $this->assertDatabase();
         try {
             DB_Helper::getInstance()->query('here -->?<-- be dragons?', ['param1', 'param2']);
         } catch (DatabaseException $e) {

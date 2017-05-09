@@ -16,6 +16,9 @@ namespace Eventum\Test;
 use Mime_Helper;
 use Misc;
 
+/**
+ * @group mail
+ */
 class MailParseTest extends TestCase
 {
     /**

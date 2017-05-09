@@ -15,6 +15,9 @@ namespace Eventum\Test;
 
 use LDAP_Auth_Backend;
 
+/**
+ * @group ldap
+ */
 class AuthLdapTest extends TestCase
 {
     /** @var LDAP_Auth_Backend */
@@ -22,8 +25,6 @@ class AuthLdapTest extends TestCase
 
     public static function setupBeforeClass()
     {
-        self::skipCi('Skip LDAP test on Travis/Jenkins');
-
         self::$ldap = new LDAP_Auth_Backend();
     }
 

@@ -19,6 +19,9 @@ use Support;
 use Zend;
 use Zend\Mail;
 
+/**
+ * @group imap
+ */
 class MailStorageTest extends TestCase
 {
     /** @var array */

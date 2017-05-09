@@ -15,13 +15,11 @@ namespace Eventum\Test;
 
 use Link_Filter;
 
+/**
+ * @group db
+ */
 class LinkFilterTest extends TestCase
 {
-    public function setUp()
-    {
-        $this->skipCi('No DB tests in Travis/Jenkins');
-    }
-
     /**
      * @dataProvider testIssueLinking_data
      * @see          Link_Filter::proccessText

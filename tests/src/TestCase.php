@@ -13,36 +13,17 @@
 
 namespace Eventum\Test;
 
-use PHPUnit_Framework_TestCase;
+/*
+ * PHPUnit_Framework_TestCase is dropped in phpunit 6.0.0
+ * https://github.com/sebastianbergmann/phpunit/wiki/Release-Announcement-for-PHPUnit-6.0.0
+ *
+ * Load PHPUnit_Framework_TestCase wrapper if using older PHPUnit.
+ */
 
-class TestCase extends PHPUnit_Framework_TestCase
+if (!class_exists('\PHPUnit\Framework\TestCase')) {
+    require_once __DIR__ . '/phpunit-compat.php';
+}
+
+class TestCase extends \PHPUnit\Framework\TestCase
 {
-    public static function skipTravis($message = 'Disabled in Travis')
-    {
-        if (getenv('TRAVIS')) {
-            self::markTestSkipped($message);
-        }
-    }
-
-    public static function skipJenkins($message = 'Disabled Jenkins')
-    {
-        if (getenv('JENKINS_HOME')) {
-            self::markTestSkipped($message);
-        }
-    }
-
-    public static function skipCi($message = 'Disabled in Travis/Jenkins')
-    {
-        if (getenv('TRAVIS') || getenv('JENKINS_HOME')) {
-            self::markTestSkipped($message);
-        }
-    }
-
-    /**
-     * skip test if database is not available
-     */
-    public static function assertDatabase()
-    {
-        self::skipTravis();
-    }
 }

@@ -18,6 +18,8 @@ use Eventum\Db\Adapter\AdapterInterface;
 
 /**
  * Test DB layer to work as expected
+ *
+ * @group db
  */
 class DbTest extends TestCase
 {
@@ -28,8 +30,6 @@ class DbTest extends TestCase
 
     public function setUp()
     {
-        $this->assertDatabase();
-
         $this->db = DB_Helper::getInstance(false);
     }
 

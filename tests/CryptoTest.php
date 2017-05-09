@@ -19,6 +19,9 @@ use Eventum\Crypto\EncryptedValue;
 use Exception;
 use InvalidArgumentException;
 
+/**
+ * @group crypto
+ */
 class CryptoTest extends TestCase
 {
     public function testCanEncrypt()

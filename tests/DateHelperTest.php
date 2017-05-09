@@ -20,6 +20,8 @@ use Exception;
 /**
  * DateHelper tests that do not use database.
  * Put user specific tests (that requires database) to DateHelperUserTests class
+ *
+ * @group date
  */
 class DateHelperTest extends TestCase
 {
