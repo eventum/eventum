@@ -16,6 +16,9 @@ namespace Eventum\Test;
 use Auth;
 use AuthCookie;
 
+/**
+ * @group db
+ */
 class AuthCookieTest extends TestCase
 {
     public static function setupBeforeClass()

@@ -17,6 +17,9 @@ use DB_Helper;
 use Eventum\Model\Repository\IssueAssociationRepository;
 use InvalidArgumentException;
 
+/**
+ * @group db
+ */
 class IssueAssociation extends TestCase
 {
     public static function setUpBeforeClass()

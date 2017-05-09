@@ -18,6 +18,8 @@ use Eventum\Db\Adapter\AdapterInterface;
 
 /**
  * Test DB layer to work as expected
+ *
+ * @group db
  */
 class DbTest extends TestCase
 {
