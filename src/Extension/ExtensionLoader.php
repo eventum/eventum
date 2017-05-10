@@ -80,7 +80,7 @@ class ExtensionLoader
         foreach ($this->getFileList() as $filename => $description) {
             $backend = $this->createInstance($filename);
             $rc = new ReflectionClass($backend);
-            $extensions[$rc->getName()] = $rc->getName();
+            $extensions[$rc->getName()] = $backend;
         }
 
         return $extensions;

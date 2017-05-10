@@ -43,42 +43,53 @@ class ExtensionManager
     }
 
     /**
-     * Return class names of Workflow implementations.
+     * Return instances of Workflow implementations.
      *
      * @return array
      */
     public function getWorkflowClasses()
     {
-        return $this->collectClasses('getAvailableWorkflows');
+        return $this->createInstances('getAvailableWorkflows');
     }
 
     /**
-     * Return class names of Custom Field implementations.
+     * Return instances of Custom Field implementations.
      *
      * @return array
      */
     public function getCustomFieldClasses()
     {
-        return $this->collectClasses('getAvailableCustomFields');
+        return $this->createInstances('getAvailableCustomFields');
     }
 
     /**
-     * Return class names of CRM implementations.
+     * Return instances of CRM implementations.
      *
      * @return array
      */
     public function getCustomerClasses()
     {
-        return $this->collectClasses('getAvailableCRMs');
+        return $this->createInstances('getAvailableCRMs');
     }
 
     /**
-     * Helper to get merged class list from all extensions.
+     * Return instances of Partner implementations.
      *
-     * @param string $methodName
      * @return array
      */
-    protected function collectClasses($methodName)
+    public function getPartnerClasses()
+    {
+        return $this->createInstances('getAvailablePartners');
+    }
+
+    /**
+     * Helper to get merged class list from all extensions
+     * and create instances of them.
+     *
+     * @param string $methodName method name to call on each Extension to obtain class names
+     * @return object[]
+     */
+    protected function createInstances($methodName)
     {
         $classes = [];
         foreach ($this->extensions as $extension) {
@@ -87,10 +98,25 @@ class ExtensionManager
 
         $extensions = [];
         foreach ($classes as $classname) {
-            $extensions[$classname] = $classname;
+            $extensions[$classname] = $this->createInstance($classname);
         }
 
         return $extensions;
+    }
+
+    /**
+     * Create new instance of named class
+     *
+     * @param string $classname
+     * @return object
+     */
+    protected function createInstance($classname)
+    {
+        if (!class_exists($classname)) {
+            throw new InvalidArgumentException("Class '$classname' does not exist");
+        }
+
+        return new $classname();
     }
 
     /**

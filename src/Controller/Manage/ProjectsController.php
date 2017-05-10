@@ -112,7 +112,7 @@ class ProjectsController extends ManageBaseController
         $manager = ExtensionManager::getManager();
         $backends = array_merge($backends, $manager->getWorkflowClasses());
 
-        return $backends;
+        return $this->filterValues($backends);
     }
 
     private function getCustomerBackends()
@@ -124,6 +124,20 @@ class ProjectsController extends ManageBaseController
         $manager = ExtensionManager::getManager();
         $backends = array_merge($backends, $manager->getCustomerClasses());
 
-        return $backends;
+        return $this->filterValues($backends);
+    }
+
+    /**
+     * Create array with key,value from $values $key,
+     * i.e discarding values.
+     */
+    private function filterValues($values)
+    {
+        $res = [];
+        foreach ($values as $key => $value) {
+            $res[$key] = $key;
+        }
+
+        return $res;
     }
 }

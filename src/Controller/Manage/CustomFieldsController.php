@@ -132,6 +132,20 @@ class CustomFieldsController extends ManageBaseController
         $manager = ExtensionManager::getManager();
         $backends = array_merge($backends, $manager->getCustomFieldClasses());
 
-        return $backends;
+        return $this->filterValues($backends);
+    }
+
+    /**
+     * Create array with key,value from $values $key,
+     * i.e discarding values.
+     */
+    private function filterValues($values)
+    {
+        $res = [];
+        foreach ($values as $key => $value) {
+            $res[$key] = $key;
+        }
+
+        return $res;
     }
 }
