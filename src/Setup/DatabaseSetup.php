@@ -40,7 +40,6 @@ class DatabaseSetup
     }
 
     /**
-     *
      * Check the CREATE and DROP privileges by trying to create and drop a test table.
      *
      * @param string $db_name

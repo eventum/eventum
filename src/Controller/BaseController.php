@@ -30,6 +30,10 @@ use Template_Helper;
  */
 abstract class BaseController
 {
+    /** @var Template_Helper */
+    protected $tpl;
+
+    /** @var string */
     protected $tpl_name;
 
     /** @var bool */

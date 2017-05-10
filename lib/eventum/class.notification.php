@@ -803,21 +803,21 @@ class Notification
     /**
      * Convenience method for notifying the assignment has changed.
      *
-     * @param integer $issue_id
+     * @param int $issue_id
      * @param array $old_assignees array of old assignee user ids
      * @param array $new_assignees array of new assignee user ids
      */
     public static function notifyAssignmentChange($issue_id, $old_assignees, $new_assignees)
     {
         $old = [
-            'assigned_users'=> $old_assignees,
-            'assignments'   => join(', ', User::getFullName($old_assignees)),
+            'assigned_users' => $old_assignees,
+            'assignments' => implode(', ', User::getFullName($old_assignees)),
         ];
         $new = [
             'assignments' => $new_assignees,
             'keep_assignments' => 'no',
         ];
-        Notification::notifyIssueUpdated($issue_id, $old, $new, []);
+        self::notifyIssueUpdated($issue_id, $old, $new, []);
     }
 
     /**
