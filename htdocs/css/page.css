@@ -550,6 +550,6 @@ option.select_icon_priority {
 }
 
 /* Font Awesome override */
-.fa {
+.expandable_buttons .fa {
     font-size: 1.1em;
 }
