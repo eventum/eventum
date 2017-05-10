@@ -13,6 +13,7 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Extension\ExtensionLoader;
+use Eventum\Extension\ExtensionManager;
 
 /**
  * Handles the interactions between Eventum and partner backends.
@@ -20,8 +21,8 @@ use Eventum\Extension\ExtensionLoader;
 class Partner
 {
     /**
-     * Includes the appropriate partner backend class associated with the
-     * given project ID, instantiates it and returns the class.
+     * Return the appropriate partner backend class associated with the
+     * given $par_code.
      *
      * @param   string $par_code The partner code
      * @return  Abstract_Partner_Backend
@@ -30,10 +31,8 @@ class Partner
     {
         static $setup_backends;
 
-        if (empty($setup_backends[$par_code])) {
-            $file_name = 'class.' . $par_code . '.php';
-
-            $instance = static::getExtensionLoader()->createInstance($file_name);
+        if (!isset($setup_backends[$par_code])) {
+            $instance = static::getExtensionLoader()->createInstance($par_code);
             $setup_backends[$par_code] = $instance;
         }
 
@@ -209,17 +208,14 @@ class Partner
     }
 
     /**
-     * @static
-     * Scans the directories for partner backends.
+     * Return list of available Partner backends.
      *
-     * @return  array
+     * @return array
      */
     public static function getList()
     {
-        $backends = self::getBackendList();
         $partners = [];
-        foreach ($backends as $par_code) {
-            $backend = self::getBackend($par_code);
+        foreach (self::getBackends() as $par_code => $backend) {
             $partners[] = [
                 'code' => $par_code,
                 'name' => $backend->getName(),
@@ -232,12 +228,12 @@ class Partner
 
     public static function getAssocList()
     {
-        $returns = [];
-        foreach (self::getList() as $partner) {
-            $returns[$partner['code']] = $partner['name'];
+        $partners = [];
+        foreach (self::getBackends() as $par_code => $backend) {
+            $partners[$par_code] = $backend->getName();
         }
 
-        return $returns;
+        return $partners;
     }
 
     public static function getDetails($par_code)
@@ -304,11 +300,18 @@ class Partner
     /**
      * Returns a list of backends available
      *
-     * @return  array An array of partner backends
+     * @return Abstract_Partner_Backend[]
      */
-    public static function getBackendList()
+    public static function getBackends()
     {
-        return static::getExtensionLoader()->getFileList();
+        // load legacy classes
+        $backends = static::getExtensionLoader()->getExtensions();
+
+        // load classes from extension manager
+        $manager = ExtensionManager::getManager();
+        $backends = array_merge($backends, $manager->getPartnerClasses());
+
+        return $backends;
     }
 
     public static function getName($par_code)
