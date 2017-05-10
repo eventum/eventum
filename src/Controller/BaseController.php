@@ -39,6 +39,13 @@ abstract class BaseController
     /** @var bool */
     protected $is_popup = false;
 
+    /**
+     * Minimum role required to access the page
+     *
+     * @var int
+     */
+    protected $min_role;
+
     /** @var array */
     private $helpers;
 
@@ -89,6 +96,7 @@ abstract class BaseController
 
     /**
      * display template
+     *
      * @param string $tpl_name
      */
     protected function displayTemplate($tpl_name = null)
