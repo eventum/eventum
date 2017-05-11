@@ -12,6 +12,7 @@
  */
 
 use Eventum\Mail\Helper\AddressHeader;
+use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
 use Eventum\Monolog\Logger;
 use Zend\Mail\Address;
@@ -698,7 +699,7 @@ class Mail_Helper
     {
         list($text_headers, $body) = Mime_Helper::splitHeaderBody($full_email);
 
-        $msg_id = self::getMessageID($text_headers, $body);
+        $msg_id = MailMessage::createFromString($full_email)->messageId;
 
         // check if the In-Reply-To header exists and if so, does it relate to a message stored in Eventum
         // if it does not, set new In-Reply-To header
@@ -833,10 +834,14 @@ class Mail_Helper
      * Returns the Message-ID from an email. If no message ID is found (Outlook 2003 doesn't
      * generate them in some cases) a "fake" message-id will be calculated.
      *
+     * Deprecated, so use either of:
+     * - MailMessage::createFromString($full_email)->messageId;
+     * - MailMessage::createFromHeaderBody($text_headers, $body)->messageId;
+     *
      * @param string $headers The message headers
      * @param string $body The message body
      * @return string
-     * @deprecated use MailMessage::create()->messageId
+     * @deprecated use MailMessage class
      */
     public static function getMessageID($headers, $body)
     {

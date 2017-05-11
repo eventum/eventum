@@ -14,6 +14,7 @@
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\Helper\AddressHeader;
+use Eventum\Mail\MailMessage;
 use Eventum\Monolog\Logger;
 
 /**
@@ -479,7 +480,7 @@ class Support
             // XXX do some error reporting?
             return;
         }
-        $message_id = Mail_Helper::getMessageID($headers, $body);
+        $message_id = MailMessage::createFromHeaderBody($headers, $body)->messageId;
         $message = $headers . $body;
         // we don't need $body anymore -- free memory
         unset($body);
@@ -748,7 +749,7 @@ class Support
         // try to manually parse that value from the full headers
         $references = Mail_Helper::getAllReferences($headers);
 
-        $message_id = Mail_Helper::getMessageID($headers, $message_body);
+        $message_id = MailMessage::createFromHeaderBody($headers, $message_body)->messageId;
         $workflow = Workflow::getIssueIDForNewEmail($info['ema_prj_id'], $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
         if (is_array($workflow)) {
             if (isset($workflow['customer_id'])) {
@@ -2495,7 +2496,7 @@ class Support
                 'send_notification' => $notify,
                 'is_blocked' => true,
                 'full_message' => $email['full_email'],
-                'message_id' => Mail_Helper::getMessageID($text_headers, $body),
+                'message_id' => MailMessage::createFromHeaderBody($text_headers, $body)->messageId,
             ];
 
             $body = Mail_Helper::getCannedBlockedMsgExplanation() . $email['body'];

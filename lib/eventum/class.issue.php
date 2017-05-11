@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Mail\MailMessage;
 use Eventum\Model\Repository\IssueAssociationRepository;
 
 /**
@@ -1207,8 +1208,6 @@ class Issue
             $full_email = Support::buildFullHeaders($issue_id, $message_id, $from,
                 '', '', ev_gettext('Issue closed comments'), $reason, '');
 
-            $structure = Mime_Helper::decode($full_email, true, false);
-
             $email = [
                 'ema_id' => Email_Account::getEmailAccount(self::getProjectID($issue_id)),
                 'issue_id' => $issue_id,
@@ -1219,7 +1218,7 @@ class Issue
                 'has_attachment' => 0,
                 'body' => $reason,
                 'full_email' => $full_email,
-                'headers' => $structure->headers,
+                'headers' => MailMessage::createFromString($full_email)->getHeadersArray(),
             ];
             $sup_id = null;
             Support::insertEmail($email, $structure, $sup_id, true);
