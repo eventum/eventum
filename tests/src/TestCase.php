@@ -26,4 +26,15 @@ if (!class_exists('\PHPUnit\Framework\TestCase')) {
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
+    /**
+     * @param string $filename
+     * @return string
+     */
+    protected function readfile($filename)
+    {
+        $content = file_get_contents($filename);
+        $this->assertNotEmpty($content);
+
+        return $content;
+    }
 }
