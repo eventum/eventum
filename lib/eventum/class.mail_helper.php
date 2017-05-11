@@ -836,6 +836,7 @@ class Mail_Helper
      * @param string $headers The message headers
      * @param string $body The message body
      * @return string
+     * @deprecated use MailMessage::create()->messageId
      */
     public static function getMessageID($headers, $body)
     {
