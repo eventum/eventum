@@ -93,9 +93,6 @@
 		"zendframework/zend-mail": "dev-develop-2.4",
 		"zendframework/zend-servicemanager": "2.4.*"
 	},
-	"conflict": {
-		"pear/pear-core-minimal": ">=1.10"
-	},
 	"replace": {
 		"symfony/polyfill-mbstring": "1.1.1",
 		"symfony/polyfill-php55": "1.1.1",
