@@ -61,9 +61,6 @@ class MimeHelperTest extends TestCase
 
     /**
      * Method used to properly quote the sender of a given email address.
-     *
-     * @param   string $address The full email address
-     * @return  string The properly quoted email address
      */
     public function testQuoteSender()
     {
@@ -79,9 +76,6 @@ class MimeHelperTest extends TestCase
 
     /**
      * Method used to remove any unnecessary quoting from an email address.
-     *
-     * @param   string $address The full email address
-     * @return  string The email address without quotes
      */
     public function testRemoveQuotes()
     {
