@@ -712,7 +712,9 @@ class Mail_Helper
     }
 
     /**
-     * Checks to make sure In-Reply-To and References headers are correct.
+     * Make sure that In-Reply-To and References headers are set and reference a message in this issue.
+     * If not, set to be the root message ID of the issue. This is to ensure messages are threaded by
+     * issue in mail clients.
      */
     public static function rewriteThreadingHeaders($issue_id, $full_email, $headers, $type = 'email')
     {
