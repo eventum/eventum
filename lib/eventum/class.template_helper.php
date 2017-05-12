@@ -80,8 +80,8 @@ class Template_Helper
     /**
      * Assigns variables to specific placeholders on the target template
      *
-     * @param  array|string $var_name Placeholder on the template
-     * @param  string $value Value to be assigned to this placeholder
+     * @param  string|string[] $var_name Placeholder on the template
+     * @param  string|array $value Value to be assigned to this placeholder
      * @return $this
      */
     public function assign($var_name, $value = null)
