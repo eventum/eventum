@@ -29,6 +29,13 @@ class TestExtension1 extends AbstractExtension implements ExtensionInterface
 
 class TestExtension2 extends AbstractExtension implements ExtensionInterface
 {
+    public function registerAutoloader($loader)
+    {
+        $baseDir = __DIR__ . '/../docs/examples/workflow';
+        $classMap = ['Example_Workflow_Backend' => $baseDir . '/class.example.php'];
+        $loader->addClassMap($classMap);
+    }
+
     public function getAvailableWorkflows()
     {
         return [
