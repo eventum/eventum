@@ -11,7 +11,7 @@ Session.vim
 [._]s[a-w][a-z]
 .netrwhist
 /.idea
-/.php_cs.cache
+/.php_cs*cache
 /.phplint.cache
 /.project
 /.settings

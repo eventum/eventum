@@ -44,6 +44,19 @@ $finder = $config->getFinder()
         return $key;
     });
 
+// use separate cache file per git branch
+// switching branches makes cache annoyingly stale
+$getCacheFile = function () {
+    $cacheFile = '.php_cs.cache';
+    $branch = trim(shell_exec('git rev-parse --abbrev-ref HEAD'));
+    if ($branch != 'HEAD') {
+        $cacheFile = ".php_cs-$branch.cache";
+    }
+    error_log("Using: $cacheFile as cache");
+
+    return $cacheFile;
+};
+
 $risky_rules = [
     'ereg_to_preg' => true,
     'no_alias_functions' => true,
@@ -121,4 +134,5 @@ $rules = $risky_rules + $symfony_rules + [
 
 return $config
     ->setRiskyAllowed(true)
+    ->setCacheFile($getCacheFile())
     ->setRules($rules);
