@@ -56,6 +56,14 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         $this->tablePrefix = $config['table_prefix'];
     }
 
+    /**
+     * @return PDO
+     */
+    public function getPdo()
+    {
+        return $this->db;
+    }
+
     public function getAll($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
         $this->convertFetchMode($fetchmode);

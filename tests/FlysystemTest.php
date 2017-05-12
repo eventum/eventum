@@ -13,8 +13,11 @@
 
 namespace Eventum\Test;
 
+use DB_Helper;
 use League\Flysystem\Adapter\Local;
+use League\Flysystem\Config;
 use League\Flysystem\Filesystem;
+use Phlib\Flysystem\Pdo\PdoAdapter;
 
 class FlysystemTest extends TestCase
 {
@@ -33,5 +36,35 @@ class FlysystemTest extends TestCase
 
         $res = $filesystem->read($path);
         $this->assertEquals($res, $contents);
+    }
+
+    public function testPhlibFlysystemPdo()
+    {
+        /** @var PdoAdapter $db */
+        $db = DB_Helper::getInstance();
+        $pdo = $db->getPdo();
+
+        $config = new Config([
+            'table_prefix' => 'flysystem',
+            'enable_compression' => false,
+            'chunk_size' => 1048576,
+            'temp_dir' => '/var/tmp',
+            'disable_mysql_buffering' => true,
+        ]);
+
+        $adapter = new PdoAdapter($pdo);
+        $filesystem = new Filesystem($adapter);
+
+        $path = __FUNCTION__ . '.txt';
+        $contents = 'bite my shiny metal ass';
+
+        $res = $filesystem->put($path, $contents);
+        $this->assertTrue($res);
+
+        $res = $filesystem->has($path);
+        $this->assertTrue($res);
+
+        $res = $filesystem->read($path);
+        $this->assertEquals($contents, $res);
     }
 }
