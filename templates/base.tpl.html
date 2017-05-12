@@ -32,7 +32,10 @@
   <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/jquery-chosen/chosen.css">
   <link rel="stylesheet" type="text/css" media="screen" href="{$core.rel_url}components/dropzone/dist/basic.css">
   {* allow pages to inject to <head> block *}
-  {block "stylesheets"}{/block}
+  {block "stylesheets"}
+  {/block}
+  {* local directory can add overrides *}
+  {$userstyle}
 
   <script type="text/javascript" src="{$core.rel_url}components/jquery/jquery.js"></script>
   <script type="text/javascript" src="{$core.rel_url}components/jquery-blockui/jquery.blockUI.js"></script>
@@ -62,8 +65,11 @@
   <script type="text/javascript" src="{$core.rel_url}js/page.js"></script>
 
   {* allow pages to inject to <head> block *}
-  {block "javascripts"}{/block}
+  {block "javascripts"}
+  {/block}
   {$debugbar_head|default:''}
+  {* local directory can add overrides *}
+  {$userscript}
 
   {* local directory can add overrides *}
   {include file="extra_header.tpl.html"}
