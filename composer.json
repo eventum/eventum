@@ -77,6 +77,7 @@
 		"pear/net_smartirc": "~1.1.0",
 		"pear/net_smtp": "1.6.*",
 		"pear/net_socket": "*",
+		"pear/pear-core-minimal": "^1.10",
 		"php": "^5.5.0 || ^7.0",
 		"php-gettext/php-gettext": "1.0.*",
 		"phplot/phplot": "~6.1.0",
