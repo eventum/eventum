@@ -24,13 +24,6 @@ namespace Eventum\Extension;
 abstract class AbstractExtension implements ExtensionInterface
 {
     /**
-     * Path to the Eventum Core installation.
-     *
-     * @var string
-     */
-    protected $baseDir;
-
-    /**
      * Method invoked so the extension can setup class loader.
      *
      * @param \Composer\Autoload\ClassLoader $loader
