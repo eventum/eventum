@@ -22,7 +22,7 @@ class FlysystemPdo extends AbstractMigration
 {
     public function change()
     {
-        $table = $this->table('flysystem_path', ['id' => false, 'primary_key' => 'path_id']);
+        $table = $this->table('attachment_path', ['id' => false, 'primary_key' => 'path_id']);
         $table
             ->addColumn('path_id', 'integer', ['limit' => self::INT_MEDIUM, 'signed' => false])
             ->addColumn('type', 'enum', ['values' => ['dir', 'file']])
@@ -35,7 +35,7 @@ class FlysystemPdo extends AbstractMigration
         $this->getPrimaryKey($table)->setIdentity(true);
         $table->create();
 
-        $table = $this->table('flysystem_chunk', ['id' => false, 'primary_key' => ['path_id', 'chunk_no']]);
+        $table = $this->table('attachment_chunk', ['id' => false, 'primary_key' => ['path_id', 'chunk_no']]);
         $table
             ->addColumn('path_id', 'integer', ['limit' => self::INT_MEDIUM, 'signed' => false])
             ->addColumn('chunk_no', 'integer', ['limit' => self::INT_SMALL, 'signed' => false])

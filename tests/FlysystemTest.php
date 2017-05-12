@@ -45,14 +45,14 @@ class FlysystemTest extends TestCase
         $pdo = $db->getPdo();
 
         $config = new Config([
-            'table_prefix' => 'flysystem',
+            'table_prefix' => 'attachment',
             'enable_compression' => false,
             'chunk_size' => 1048576,
             'temp_dir' => '/var/tmp',
             'disable_mysql_buffering' => true,
         ]);
 
-        $adapter = new PdoAdapter($pdo);
+        $adapter = new PdoAdapter($pdo, $config);
         $filesystem = new Filesystem($adapter);
 
         $path = __FUNCTION__ . '.txt';
