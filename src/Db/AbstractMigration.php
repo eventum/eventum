@@ -32,6 +32,12 @@ abstract class AbstractMigration extends PhinxAbstractMigration
     const INT_REGULAR = MysqlAdapter::INT_REGULAR;
     const INT_BIG = MysqlAdapter::INT_BIG;
 
+    const TEXT_TINY = MysqlAdapter::TEXT_TINY;
+    const TEXT_SMALL = MysqlAdapter::TEXT_SMALL;
+    const TEXT_REGULAR = MysqlAdapter::TEXT_REGULAR;
+    const TEXT_MEDIUM = MysqlAdapter::TEXT_MEDIUM;
+    const TEXT_LONG = MysqlAdapter::TEXT_LONG;
+
     const PHINX_TYPE_BLOB = MysqlAdapter::PHINX_TYPE_BLOB;
 
     /**
