@@ -12,24 +12,9 @@
  */
 
 use Eventum\Db\AbstractMigration;
-use Phinx\Db\Adapter\MysqlAdapter;
 
 class InitDatabase extends AbstractMigration
 {
-    // According to https://dev.mysql.com/doc/refman/5.0/en/blob.html BLOB sizes are the same as TEXT
-    const BLOB_TINY = MysqlAdapter::BLOB_TINY;
-    const BLOB_REGULAR = MysqlAdapter::BLOB_REGULAR;
-    const BLOB_MEDIUM = MysqlAdapter::BLOB_MEDIUM;
-    const BLOB_LONG = MysqlAdapter::BLOB_LONG;
-
-    const INT_TINY = MysqlAdapter::INT_TINY;
-    const INT_SMALL = MysqlAdapter::INT_SMALL;
-    const INT_MEDIUM = MysqlAdapter::INT_MEDIUM;
-    const INT_REGULAR = MysqlAdapter::INT_REGULAR;
-    const INT_BIG = MysqlAdapter::INT_BIG;
-
-    const PHINX_TYPE_BLOB = MysqlAdapter::PHINX_TYPE_BLOB;
-
     public function change()
     {
         $table = $this->table('api_token', ['id' => false, 'primary_key' => 'apt_id'])
