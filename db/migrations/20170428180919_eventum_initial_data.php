@@ -13,7 +13,7 @@
 
 use Eventum\Db\AbstractMigration;
 
-class InitialData extends AbstractMigration
+class EventumInitialData extends AbstractMigration
 {
     const PROJECT_ID = 1;
 

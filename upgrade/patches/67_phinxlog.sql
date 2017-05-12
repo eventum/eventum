@@ -11,5 +11,5 @@ CREATE TABLE `phinxlog` (
 
 SET @now := current_timestamp(), @bp := 0;
 
-INSERT INTO `phinxlog` SET version=20170427170945, migration_name='InitDatabase', start_time=@now, end_time=@now, breakpoint=@bp;
-INSERT INTO `phinxlog` SET version=20170428180919, migration_name='InitialData',  start_time=@now, end_time=@now, breakpoint=@bp;
+INSERT INTO `phinxlog` SET version=20170427170945, migration_name='EventumInitDatabase', start_time=@now, end_time=@now, breakpoint=@bp;
+INSERT INTO `phinxlog` SET version=20170428180919, migration_name='EventumInitialData',  start_time=@now, end_time=@now, breakpoint=@bp;

@@ -13,7 +13,7 @@
 
 use Eventum\Db\AbstractMigration;
 
-class InitDatabase extends AbstractMigration
+class EventumInitDatabase extends AbstractMigration
 {
     public function change()
     {
