@@ -54,8 +54,6 @@ $define('APP_COOKIE', 'eventum');
 $define('APP_VAR_PATH', APP_PATH . '/var');
 
 // define other paths
-$define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
-$define('APP_INC_PATH', APP_PATH . '/lib/eventum');
 $define('APP_TPL_PATH', APP_PATH . '/templates');
 $define('APP_TPL_COMPILE_PATH', APP_VAR_PATH . '/cache');
 $define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');

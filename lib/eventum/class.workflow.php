@@ -66,6 +66,7 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      * @return bool|Abstract_Workflow_Backend
+     * @deprecated will be removed in 3.3.0
      */
     public static function _getBackend($prj_id)
     {

@@ -24,10 +24,12 @@ class Partner
      * Return the appropriate partner backend class associated with the
      * given $par_code.
      *
+     * @internal
      * @param   string $par_code The partner code
      * @return  Abstract_Partner_Backend
+     * @deprecated will be removed in 3.3.0
      */
-    private static function getBackend($par_code)
+    public static function getBackend($par_code)
     {
         static $setup_backends;
 

@@ -17,3 +17,5 @@ define('APP_VERSION', '3.2.0-dev');
 // base path
 define('APP_PATH', __DIR__);
 define('APP_CONFIG_PATH', APP_PATH . '/config');
+define('APP_INC_PATH', APP_PATH . '/lib/eventum');
+define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
