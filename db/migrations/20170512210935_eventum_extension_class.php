@@ -11,27 +11,27 @@
  * that were distributed with this source code.
  */
 
-use Phinx\Migration\AbstractMigration;
+use Eventum\Db\AbstractMigration;
 
 class EventumExtensionClass extends AbstractMigration
 {
     /**
-     * change() doesn't support MODIFY statement
-     * there's no down() because we just increase width here
+     * changeColumn() doesn't support down(),
+     * and we don't implement it ourselves,
+     * because it's just width increase change.
      */
     public function up()
     {
-        $notNullable = 'VARCHAR(255) CHARACTER SET ASCII NOT NULL';
-        $nullable = 'VARCHAR(255) CHARACTER SET ASCII DEFAULT NULL';
-
-        $this->modifyColumn('partner_project', 'pap_par_code', $notNullable);
-        $this->modifyColumn('custom_field', 'fld_backend', $nullable);
-        $this->modifyColumn('project', 'prj_customer_backend', $nullable);
-        $this->modifyColumn('project', 'prj_workflow_backend', $nullable);
+        $this->modifyColumn('partner_project', 'pap_par_code');
+        $this->modifyColumn('custom_field', 'fld_backend', ['null' => true]);
+        $this->modifyColumn('project', 'prj_customer_backend', ['null' => true]);
+        $this->modifyColumn('project', 'prj_workflow_backend', ['null' => true]);
     }
 
-    private function modifyColumn($table, $column, $definition)
+    private function modifyColumn($table, $column, $options = [])
     {
-        return $this->execute("ALTER TABLE `{$table}` MODIFY `{$column}` {$definition}");
+        $options += ['limit' => self::TEXT_TINY, 'encoding' => 'ascii'];
+        $this->table($table)
+            ->changeColumn($column, 'string', $options);
     }
 }
