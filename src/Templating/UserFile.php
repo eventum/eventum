@@ -31,6 +31,9 @@ class UserFile
     /** @var Smarty */
     private $tpl;
 
+    /** @var string */
+    private $userdir;
+
     /**
      * @param Smarty $tpl
      * @param string $userdir
