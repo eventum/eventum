@@ -25,7 +25,7 @@ class PartnersController extends BaseController
     protected $tpl_name = 'select_partners.tpl.html';
 
     /** @var int */
-    protected $min_role = User::ROLE_USER;
+    protected $min_role = User::ROLE_DEVELOPER;
 
     /** @var bool */
     protected $is_popup = true;
