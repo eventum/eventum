@@ -88,7 +88,18 @@ class BuiltinLegacyLoaderExtension extends AbstractExtension
         $files = $loader->getFileList();
         foreach ($files as $filename => $description) {
             $classname = $loader->getClassName($filename);
-            $map[$classname] = $loader->findClassFilename($filename);
+            $filename = $loader->findClassFilename($filename);
+
+            // add alternative capitalization
+            // some places use it inconsistently
+            // can't use reflection here to figure out correct name
+            $classname = ucwords(str_replace('_', ' ', $classname));
+            $classname = str_replace(' ', '_', $classname);
+
+            $map[$classname] = $filename;
+
+            // use the alternative capitalization
+            // as it's deterministic regardless of actual name
             $classnames[] = $classname;
         }
 

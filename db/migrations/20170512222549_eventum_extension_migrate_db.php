@@ -84,7 +84,11 @@ class EventumExtensionMigrateDb extends AbstractMigration
             // lookup filename to class name
             $backend = $callback($value);
             $rc = new ReflectionClass($backend);
-            $class = $rc->getName();
+            $classname = $rc->getName();
+
+            // use deterministic class name
+            $classname = ucwords(str_replace('_', ' ', $classname));
+            $classname = str_replace(' ', '_', $classname);
 
             // there's no placeholders support,
             // method to escape values not exported
@@ -93,7 +97,7 @@ class EventumExtensionMigrateDb extends AbstractMigration
             //
             // last known PR implementing params for execute:
             // https://github.com/robmorgan/phinx/pull/850
-            $stmt = "UPDATE {$table} SET {$column} = '{$class}' WHERE {$column} = '{$value}'";
+            $stmt = "UPDATE {$table} SET {$column} = '{$classname}' WHERE {$column} = '{$value}'";
             $this->execute($stmt);
         }
     }
