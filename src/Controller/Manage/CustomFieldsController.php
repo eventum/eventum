@@ -125,12 +125,9 @@ class CustomFieldsController extends ManageBaseController
 
     private function getBackends()
     {
-        // load legacy classes
-        $backends = Custom_Field::getBackendList();
-
         // load classes from extension manager
         $manager = ExtensionManager::getManager();
-        $backends = array_merge($backends, $manager->getCustomFieldClasses());
+        $backends = $manager->getCustomFieldClasses();
 
         return $this->filterValues($backends);
     }

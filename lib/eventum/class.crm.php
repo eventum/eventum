@@ -296,16 +296,6 @@ abstract class CRM
     }
 
     /**
-     * Returns the list of available customer backends.
-     *
-     * @return array
-     */
-    public static function getBackendList()
-    {
-        return static::getExtensionLoader()->getExtensions();
-    }
-
-    /**
      * Returns the customer backend class file associated with the given
      * project ID.
      *

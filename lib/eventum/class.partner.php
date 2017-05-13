@@ -13,7 +13,6 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Extension\ExtensionLoader;
-use Eventum\Extension\ExtensionManager;
 
 /**
  * Handles the interactions between Eventum and partner backends.
@@ -209,35 +208,6 @@ class Partner
         return false;
     }
 
-    /**
-     * Return list of available Partner backends.
-     *
-     * @return array
-     */
-    public static function getList()
-    {
-        $partners = [];
-        foreach (self::getBackends() as $par_code => $backend) {
-            $partners[] = [
-                'code' => $par_code,
-                'name' => $backend->getName(),
-                'projects' => self::getProjectsForPartner($par_code),
-            ];
-        }
-
-        return $partners;
-    }
-
-    public static function getAssocList()
-    {
-        $partners = [];
-        foreach (self::getBackends() as $par_code => $backend) {
-            $partners[$par_code] = $backend->getName();
-        }
-
-        return $partners;
-    }
-
     public static function getDetails($par_code)
     {
         return [
@@ -297,23 +267,6 @@ class Partner
         }
 
         return $res;
-    }
-
-    /**
-     * Returns a list of backends available
-     *
-     * @return Abstract_Partner_Backend[]
-     */
-    public static function getBackends()
-    {
-        // load legacy classes
-        $backends = static::getExtensionLoader()->getExtensions();
-
-        // load classes from extension manager
-        $manager = ExtensionManager::getManager();
-        $backends = array_merge($backends, $manager->getPartnerClasses());
-
-        return $backends;
     }
 
     public static function getName($par_code)

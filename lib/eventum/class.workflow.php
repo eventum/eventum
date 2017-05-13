@@ -19,16 +19,6 @@ use Eventum\Model\Entity;
 class Workflow
 {
     /**
-     * Returns a list of backends available
-     *
-     * @return array
-     */
-    public static function getBackendList()
-    {
-        return static::getExtensionLoader()->getExtensions();
-    }
-
-    /**
      * Returns the name of the workflow backend for the specified project.
      *
      * @param   int $prj_id the id of the project to lookup

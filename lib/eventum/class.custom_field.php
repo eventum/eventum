@@ -1625,17 +1625,6 @@ class Custom_Field
     }
 
     /**
-     * Returns the list of available custom field backends
-     * by listing the class files in the backend directory.
-     *
-     * @return  array
-     */
-    public static function getBackendList()
-    {
-        return static::getExtensionLoader()->getExtensions();
-    }
-
-    /**
      * Returns the 'pretty' name of the backend
      *
      * @param   string $backend The full backend file name

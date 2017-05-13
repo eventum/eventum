@@ -14,13 +14,11 @@
 namespace Eventum\Controller\Manage;
 
 use Auth;
-use CRM;
 use Eventum\Controller\Helper\MessagesHelper;
 use Eventum\Extension\ExtensionManager;
 use Project;
 use Status;
 use User;
-use Workflow;
 
 class ProjectsController extends ManageBaseController
 {
@@ -105,24 +103,18 @@ class ProjectsController extends ManageBaseController
 
     private function getWorkflowBackends()
     {
-        // load legacy classes
-        $backends = Workflow::getBackendList();
-
         // load classes from extension manager
         $manager = ExtensionManager::getManager();
-        $backends = array_merge($backends, $manager->getWorkflowClasses());
+        $backends = $manager->getWorkflowClasses();
 
         return $this->filterValues($backends);
     }
 
     private function getCustomerBackends()
     {
-        // load legacy classes
-        $backends = CRM::getBackendList();
-
         // load classes from extension manager
         $manager = ExtensionManager::getManager();
-        $backends = array_merge($backends, $manager->getCustomerClasses());
+        $backends = $manager->getCustomerClasses();
 
         return $this->filterValues($backends);
     }

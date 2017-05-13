@@ -75,11 +75,14 @@ class ExtensionManager
     /**
      * Return instances of Partner implementations.
      *
-     * @return array
+     * @return \Abstract_Partner_Backend[]
      */
     public function getPartnerClasses()
     {
-        return $this->createInstances('getAvailablePartners');
+        /** @var \Abstract_Partner_Backend[] $backends */
+        $backends = $this->createInstances('getAvailablePartners');
+
+        return $backends;
     }
 
     /**
