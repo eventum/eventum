@@ -1640,10 +1640,13 @@ class Custom_Field
      *
      * @param   string $backend The full backend file name
      * @return  string the pretty name of the backend
+     * @deprecated drop, use ExtensionManager
      */
     public static function getBackendName($backend)
     {
-        preg_match('/^class\.(.*)\.php$/', $backend, $matches);
+        if (!preg_match('/^class\.(.*)\.php$/', $backend, $matches)) {
+            return $backend;
+        }
 
         return ucwords(str_replace('_', ' ', $matches[1]));
     }
