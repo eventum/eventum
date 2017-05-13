@@ -165,7 +165,8 @@ class Mail_Queue
                     self::_saveStatusLog($entry['id'], 'sent', '');
 
                     if ($entry['save_copy']) {
-                        Mail_Helper::saveOutgoingEmailCopy($entry);
+                        $mail = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
+                        Mail_Helper::saveOutgoingEmailCopy($entry['maq_iss_id'], $entry['maq_type'], $mail);
                     }
                 }
             }
@@ -183,7 +184,8 @@ class Mail_Queue
             $entry = self::_getEntry($maq_id);
 
             $mail = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
-            $e = self::_sendEmail($entry['recipient'], $mail);
+            // clone because method removes headers, but we want to save copy below
+            $e = self::_sendEmail($entry['recipient'], clone $mail);
 
             if ($e instanceof Exception) {
                 $details = $e->getMessage();
@@ -194,7 +196,7 @@ class Mail_Queue
 
             self::_saveStatusLog($entry['id'], 'sent', '');
             if ($entry['save_copy']) {
-                Mail_Helper::saveOutgoingEmailCopy($entry);
+                Mail_Helper::saveOutgoingEmailCopy($entry['maq_iss_id'], $entry['maq_type'], $mail);
             }
         }
     }
@@ -220,22 +222,6 @@ class Mail_Queue
         $recipient = Mime_Helper::encodeAddress($recipient);
 
         return $transport->send($recipient, $mail);
-    }
-
-    /**
-     * Parses the full email message and returns an array of the headers
-     * contained in it.
-     *
-     * @param   string $text_headers The full headers of this message
-     * @param   string $body The full body of this message
-     * @return  array The list of headers
-     */
-    private function _getHeaders($text_headers, &$body)
-    {
-        $message = $text_headers . "\n\n" . $body;
-        $structure = Mime_Helper::decode($message, false, false);
-
-        return $structure->headers;
     }
 
     /**

@@ -466,69 +466,37 @@ class Mail_Helper
     /**
      * Method used to save a copy of the given email to a configurable address.
      *
-     * @param   array $email the email to save
-     * @return bool
+     * @param int $issue_id
+     * @param string $maq_type
+     * @param MailMessage $mail the email to save
      */
-    public static function saveOutgoingEmailCopy(&$email)
+    public static function saveOutgoingEmailCopy($issue_id, $maq_type, $mail)
     {
         // check early: do we really want to save every outgoing email?
         $setup = Setup::get();
         $save_outgoing_email = $setup['smtp']['save_outgoing_email'] == 'yes';
         if (!$save_outgoing_email || !$setup['smtp']['save_address']) {
-            return false;
+            return;
         }
 
-        static $subjects = [];
+        $headers = $mail->getHeaders();
 
-        $hdrs = &$email['headers'];
-        $body = &$email['body'];
-        $issue_id = $email['maq_iss_id'];
-
-        // ok, now parse the headers text and build the assoc array
-        $full_email = $hdrs . "\n\n" . $body;
-        $structure = Mime_Helper::decode($full_email, false, false);
-        $_headers = &$structure->headers;
-        $header_names = Mime_Helper::getHeaderNames($hdrs);
-        $headers = [];
-        foreach ($_headers as $lowercase_name => $value) {
-            // need to remove the quotes to avoid a parsing problem
-            // on senders that have extended characters in the first
-            // or last words in their sender name
-            if ($lowercase_name == 'from') {
-                $value = Mime_Helper::removeQuotes($value);
-            }
-            $value = Mime_Helper::encode($value);
-            // add the quotes back
-            if ($lowercase_name == 'from') {
-                $value = Mime_Helper::quoteSender($value);
-            }
-            $headers[$header_names[$lowercase_name]] = $value;
-        }
         // remove any Reply-To:/Return-Path: values from outgoing messages
-        unset($headers['Reply-To']);
-        unset($headers['Return-Path']);
+        $headers->removeHeader('Reply-To');
+        $headers->removeHeader('Return-Path');
 
-        // prevent duplicate emails from being sent out...
-        $subject = @$headers['Subject'];
-        if (@in_array($subject, $subjects)) {
-            return false;
-        }
+        $recipient = $setup['smtp']['save_address'];
 
         // replace the To: header with the requested address
-        $address = $setup['smtp']['save_address'];
-        $headers['To'] = $address;
+        $mail->setTo($recipient);
 
         // add specialized headers if they are not already added
-        if (empty($headers['X-Eventum-Type'])) {
-            $headers += self::getSpecializedHeaders($issue_id, $email['maq_type']);
+        if (!$headers->has('X-Eventum-Type')) {
+            $headers->addHeaders(self::getSpecializedHeaders($issue_id, $maq_type));
         }
 
-        $mail = new MailTransport();
-        $mail->send($address, $headers, $body);
-
-        $subjects[] = $subject;
-
-        return true;
+        $transport = new MailTransport();
+        $transport->send($recipient, $mail);
     }
 
     /**
