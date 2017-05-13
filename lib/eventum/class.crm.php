@@ -362,14 +362,13 @@ abstract class CRM
     /**
      * Returns the backend for the specified class name
      *
-     * @internal
      * @param string $backend_class
      * @param int $prj_id
      * @internal param string $class_name The name of the class
      * @return CRM
      * @deprecated will be removed in 3.3.0
      */
-    public static function getBackend($backend_class, $prj_id)
+    private static function getBackend($backend_class, $prj_id)
     {
         $backend = self::_getBackend($backend_class);
         $backend->setup($prj_id);
