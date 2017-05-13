@@ -70,7 +70,9 @@ class ExtensionLoader
     }
 
     /**
-     * Get Classname -> Filename of extensions found
+     * Get Classname -> Filename of extensions found.
+     *
+     * NOTE: this method does require_once to each of the files.
      *
      * @return array
      */
@@ -110,26 +112,26 @@ class ExtensionLoader
      * That is it is an class that can be instantiated.
      *
      * @param string $filename
-     * @param string $className
+     * @param string $classname
      * @return bool
      */
-    private function isExtension($filename, $className)
+    private function isExtension($filename, $classname)
     {
         // skip if filename pattern gave no result
-        if (!$className) {
+        if (!$classname) {
             return false;
         }
 
         // autoload, or load manually
-        if (!class_exists($className)) {
+        if (!class_exists($classname)) {
             require_once $filename;
 
-            if (!class_exists($className)) {
+            if (!class_exists($classname)) {
                 // still not found. skip it
                 return false;
             }
         }
-        $rc = new ReflectionClass($className);
+        $rc = new ReflectionClass($classname);
 
         return $rc->isInstantiable();
     }
@@ -137,13 +139,13 @@ class ExtensionLoader
     /**
      * Get class name from file name.
      *
-     * @param string $fileName
+     * @param string $filename
      * @return string
      * @internal
      */
-    public function getClassName($fileName)
+    public function getClassName($filename)
     {
-        if (!preg_match('/^class\.(.*)\.php$/', $fileName, $matches)) {
+        if (!preg_match('/^class\.(.*)\.php$/', $filename, $matches)) {
             return null;
         }
 
