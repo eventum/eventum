@@ -1643,7 +1643,7 @@ class Custom_Field
 
         if ($res) {
             try {
-                $instance = self::_getBackend($res);
+                $instance = static::getExtensionLoader()->createInstance($res);
             } catch (InvalidArgumentException $e) {
                 Logger::app()->error("Could not load backend $res", ['exception' => $e]);
                 $instance = false;
@@ -1655,17 +1655,6 @@ class Custom_Field
         }
 
         return $returns[$fld_id];
-    }
-
-    /**
-     * @internal
-     * @param string $backend
-     * @return object
-     * @deprecated will be removed in 3.3.0
-     */
-    public static function _getBackend($backend)
-    {
-        return static::getExtensionLoader()->createInstance($backend);
     }
 
     /**

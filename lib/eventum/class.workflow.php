@@ -68,24 +68,13 @@ class Workflow
                 return false;
             }
 
-            $backend = self::getBackend($backendName);
+            $backend = static::getExtensionLoader()->createInstance($backendName);
             $backend->prj_id = $prj_id;
 
             $setup_backends[$prj_id] = $backend;
         }
 
         return $setup_backends[$prj_id];
-    }
-
-    /**
-     * @internal
-     * @param string $backend
-     * @return object
-     * @deprecated will be removed in 3.3.0
-     */
-    public static function getBackend($backend)
-    {
-        return static::getExtensionLoader()->createInstance($backend);
     }
 
     /**

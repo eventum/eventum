@@ -342,35 +342,8 @@ abstract class CRM
             return false;
         }
 
-        return self::getBackend($backend_class, $prj_id);
-    }
-
-    /**
-     * @internal
-     * @param string $backend_class
-     * @return CRM
-     * @deprecated will be removed in 3.3.0
-     */
-    public static function _getBackend($backend_class)
-    {
-        /** @var CRM $crm */
-        $crm = static::getExtensionLoader()->createInstance($backend_class);
-
-        return $crm;
-    }
-
-    /**
-     * Returns the backend for the specified class name
-     *
-     * @param string $backend_class
-     * @param int $prj_id
-     * @internal param string $class_name The name of the class
-     * @return CRM
-     * @deprecated will be removed in 3.3.0
-     */
-    private static function getBackend($backend_class, $prj_id)
-    {
-        $backend = self::_getBackend($backend_class);
+        /** @var CRM $backend */
+        $backend = static::getExtensionLoader()->createInstance($backend_class);
         $backend->setup($prj_id);
         $backend->prj_id = $prj_id;
 
