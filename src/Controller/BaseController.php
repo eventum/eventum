@@ -123,7 +123,7 @@ abstract class BaseController
      *
      * @return bool
      */
-    protected function canRoleAccess()
+    final protected function canRoleAccess()
     {
         if ($this->min_role === null) {
             // not restricted
