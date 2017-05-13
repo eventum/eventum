@@ -27,30 +27,60 @@ use Workflow;
  */
 class BuiltinLegacyLoaderExtension extends AbstractExtension
 {
+    /** @var array */
+    private $partners = [];
+    /** @var array */
+    private $workflows = [];
+    /** @var array */
+    private $custom_fields = [];
+    /** @var array */
+    private $customers = [];
+
     public function registerAutoloader($loader)
     {
         $classmap = [];
 
         $el = Partner::getExtensionLoader();
-        $classmap += $this->createMap($el);
+        $classmap += $this->createAutoloadMap($el, $this->partners);
 
         $el = Workflow::getExtensionLoader();
-        $classmap += $this->createMap($el);
+        $classmap += $this->createAutoloadMap($el, $this->workflows);
 
         $el = Custom_Field::getExtensionLoader();
-        $classmap += $this->createMap($el);
+        $classmap += $this->createAutoloadMap($el, $this->custom_fields);
 
         $el = CRM::getExtensionLoader();
-        $classmap += $this->createMap($el);
+        $classmap += $this->createAutoloadMap($el, $this->customers);
 
         $loader->addClassMap($classmap);
     }
 
+    public function getAvailableCustomFields()
+    {
+        return $this->custom_fields;
+    }
+
+    public function getAvailablePartners()
+    {
+        return $this->partners;
+    }
+
+    public function getAvailableWorkflows()
+    {
+        return $this->workflows;
+    }
+
+    public function getAvailableCRMs()
+    {
+        return $this->customers;
+    }
+
     /**
      * @param ExtensionLoader $loader
+     * @param array $classnames array where to append found class names
      * @return array
      */
-    private function createMap($loader)
+    private function createAutoloadMap($loader, &$classnames)
     {
         $map = [];
 
@@ -59,6 +89,7 @@ class BuiltinLegacyLoaderExtension extends AbstractExtension
         foreach ($files as $filename => $description) {
             $classname = $loader->getClassName($filename);
             $map[$classname] = $loader->findClassFilename($filename);
+            $classnames[] = $classname;
         }
 
         return $map;
