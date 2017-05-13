@@ -51,7 +51,6 @@
                   {if $core.current_role > $core.roles.developer}[ <span class="js_link" id="toggle_bulk_update"> {t}bulk update tool{/t}</span> ]{/if}
                 </span>
                 {/if}
-              </tr>
           </th>
         </tr>
         <tr>
@@ -140,7 +139,11 @@
             {elseif $field_name == 'iss_percent_complete'}
               <div class="iss_percent_complete ui-progressbar" data-percent="{$list[i].iss_percent_complete}"><div class="progress-label">&nbsp;{$list[i].iss_percent_complete|escape:"html"} %</div></div>
             {elseif $field_name == 'iss_expected_resolution_date'}
-              <div class="inline_date_pick" id="expected_resolution_date|{$list[i].iss_id}">{$list[i].iss_expected_resolution_date|escape:"html"}&nbsp;</div>
+
+              {if $list[i].iss_expected_resolution_date != 0}
+                <div class="inline_date_pick" id="expected_resolution_date|{$list[i].iss_id}">{$list[i].iss_expected_resolution_date|escape:"html"}&nbsp</div>
+              {/if}
+
             {elseif $field_name == 'iss_summary'}
               <a href="view.php?id={$list[i].iss_id}" title="{t}view issue details{/t}">{$list[i].iss_summary|escape:"html"}</a>
               {if $list[i].redeemed|default:0}
