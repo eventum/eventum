@@ -73,7 +73,7 @@ class EventumExtensionMigrateDb extends AbstractMigration
         $table = $this->getAdapter()->quoteColumnName($table);
         $column = $this->getAdapter()->quoteTableName($field);
 
-        $st = $this->query("SELECT {$column} FROM {$table}");
+        $st = $this->query("SELECT DISTINCT {$column} FROM {$table}");
         foreach ($st as $row) {
             $value = $row[$field];
             // nothing to convert for empty values
