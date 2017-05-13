@@ -101,7 +101,13 @@ abstract class BaseController
      */
     protected function displayTemplate($tpl_name = null)
     {
-        $this->tpl->assign('messages', $this->messages->getMessages());
+        $this->tpl->assign(
+            [
+                'messages' => $this->messages->getMessages(),
+                'is_popup' => $this->is_popup,
+            ]
+        );
+
         // set new template, if needed
         if ($tpl_name) {
             $this->tpl->setTemplate($tpl_name);
