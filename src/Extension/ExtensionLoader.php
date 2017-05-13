@@ -70,30 +70,36 @@ class ExtensionLoader
     }
 
     /**
-     * Get Filename -> Classname of extensions found
+     * Get Classname -> Filename of extensions found
      *
      * @return array
      */
-    public function getFileList()
+    public function getClassList()
     {
         $list = $files = [];
         foreach ($this->paths as $path) {
             $files = array_merge($files, Misc::getFileList($path));
         }
 
-        foreach ($files as $file) {
-            $fileName = basename($file);
-            $className = $this->getClassName($fileName);
+        foreach ($files as $filename) {
+            $basename = basename($filename);
+            $classname = $this->getClassName($basename);
 
-            if (!$this->isExtension($file, $className)) {
+            if (!$this->isExtension($filename, $classname)) {
                 continue;
             }
 
-            if ($this->parent_class && !is_subclass_of($className, $this->parent_class)) {
+            if ($this->parent_class && !is_subclass_of($classname, $this->parent_class)) {
                 continue;
             }
 
-            $list[$fileName] = $this->getDisplayName($className);
+            // add alternative capitalization
+            // some places use it inconsistently
+            // can't use reflection here to figure out correct name
+            $classname = ucwords(str_replace('_', ' ', $classname));
+            $classname = str_replace(' ', '_', $classname);
+
+            $list[$classname] = $filename;
         }
 
         return $list;
@@ -142,17 +148,6 @@ class ExtensionLoader
         }
 
         return sprintf($this->classFormat, $matches[1]);
-    }
-
-    /**
-     * Returns the 'pretty' name of the backend
-     *
-     * @param string $fileName
-     * @return string
-     */
-    private function getDisplayName($fileName)
-    {
-        return ucwords(str_replace('_', ' ', $fileName));
     }
 
     /**
