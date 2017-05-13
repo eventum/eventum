@@ -67,7 +67,7 @@ abstract class BaseController
     {
         // NOTE: canAccess needs $issue_id for the template
         if (!$this->canAccess()) {
-            $this->displayTemplate('permission_denied.tpl.html');
+            $this->error(ev_gettext('Sorry, you are not allowed to access this page.'));
             exit;
         }
 
