@@ -13,10 +13,8 @@
 
 namespace Eventum\Extension;
 
-use AppendIterator;
 use CRM;
 use Custom_Field;
-use DirectoryIterator;
 use Partner;
 use Workflow;
 
@@ -56,24 +54,11 @@ class BuiltinLegacyLoaderExtension extends AbstractExtension
     {
         $map = [];
 
-        $di = new AppendIterator();
-        foreach ($loader->getPaths() as $path) {
-            if (!is_dir($path)) {
-                continue;
-            }
-            $di->append(new DirectoryIterator($path));
-        }
-
-        // iterate over dirs, and accept only items that ExtensionLoader provided
+        // iterate over list and fill with absolute path
         $files = $loader->getFileList();
-        foreach ($di as $fi) {
-            $filename = $fi->getFilename();
-            if (!isset($files[$filename])) {
-                continue;
-            }
-
+        foreach ($files as $filename => $description) {
             $classname = $loader->getClassName($filename);
-            $map[$classname] = $fi->getPathname();
+            $map[$classname] = $loader->findClassFilename($filename);
         }
 
         return $map;

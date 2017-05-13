@@ -177,8 +177,9 @@ class ExtensionLoader
      *
      * @param string $filename
      * @return null|string
+     * @internal
      */
-    private function findClassFilename($filename)
+    public function findClassFilename($filename)
     {
         foreach ($this->paths as $path) {
             $class_filename = "$path/$filename";
@@ -191,14 +192,5 @@ class ExtensionLoader
         }
 
         return null;
-    }
-
-    /**
-     * @return array
-     * @internal
-     */
-    public function getPaths()
-    {
-        return $this->paths;
     }
 }
