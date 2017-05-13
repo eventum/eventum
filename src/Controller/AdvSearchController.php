@@ -37,9 +37,6 @@ class AdvSearchController extends BaseController
     protected $prj_id;
 
     /** @var int */
-    private $role_id;
-
-    /** @var int */
     private $custom_id;
 
     /**

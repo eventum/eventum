@@ -55,9 +55,6 @@ class ViewController extends BaseController
     private $prj_id;
 
     /** @var int */
-    private $role_id;
-
-    /** @var int */
     private $issue_id;
 
     /** @var array */

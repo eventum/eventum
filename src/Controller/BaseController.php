@@ -46,6 +46,9 @@ abstract class BaseController
      */
     protected $min_role;
 
+    /** @var int */
+    protected $role_id;
+
     /** @var array */
     private $helpers;
 
@@ -66,7 +69,7 @@ abstract class BaseController
     public function run()
     {
         // NOTE: canAccess needs $issue_id for the template
-        if (!$this->canAccess()) {
+        if (!$this->canRoleAccess() || !$this->canAccess()) {
             $this->error(ev_gettext('Sorry, you are not allowed to access this page.'));
             exit;
         }
@@ -113,6 +116,29 @@ abstract class BaseController
             $this->tpl->setTemplate($tpl_name);
         }
         $this->tpl->displayTemplate();
+    }
+
+    /**
+     * If page is restricted, check for minimum role.
+     *
+     * @return bool
+     */
+    protected function canRoleAccess()
+    {
+        if ($this->min_role === null) {
+            // not restricted
+            return true;
+        }
+
+        if ($this->is_popup) {
+            Auth::checkAuthentication(null, true);
+        } else {
+            Auth::checkAuthentication();
+        }
+
+        $this->role_id = Auth::getCurrentRole();
+
+        return $this->role_id >= $this->min_role;
     }
 
     /**
