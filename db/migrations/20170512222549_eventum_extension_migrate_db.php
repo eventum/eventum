@@ -13,6 +13,7 @@
 
 use Eventum\Db\AbstractMigration;
 use Eventum\Extension\BuiltinLegacyLoaderExtension;
+use Eventum\Extension\ExtensionLoader;
 
 class EventumExtensionMigrateDb extends AbstractMigration
 {
@@ -38,37 +39,34 @@ class EventumExtensionMigrateDb extends AbstractMigration
 
     private function migratePartners()
     {
-        $callback = function ($code) {
-            return Partner::getBackend($code);
-        };
-        $this->migrate('partner_project', 'pap_par_code', $callback);
+        $el = Partner::getExtensionLoader();
+        $this->migrate('partner_project', 'pap_par_code', $el);
     }
 
     private function migrateCustomFields()
     {
-        $callback = function ($code) {
-            return Custom_Field::_getBackend($code);
-        };
-        $this->migrate('custom_field', 'fld_backend', $callback);
+        $el = Custom_Field::getExtensionLoader();
+        $this->migrate('custom_field', 'fld_backend', $el);
     }
 
     private function migrateWorkflows()
     {
-        $callback = function ($code) {
-            return Workflow::getBackend($code);
-        };
-        $this->migrate('project', 'prj_workflow_backend', $callback);
+        $el = Workflow::getExtensionLoader();
+        $this->migrate('project', 'prj_workflow_backend', $el);
     }
 
     private function migrateCustomers()
     {
-        $callback = function ($code) {
-            return CRM::_getBackend($code);
-        };
-        $this->migrate('project', 'prj_customer_backend', $callback);
+        $el = CRM::getExtensionLoader();
+        $this->migrate('project', 'prj_customer_backend', $el);
     }
 
-    private function migrate($table, $field, $callback)
+    /**
+     * @param string $table
+     * @param string $field
+     * @param ExtensionLoader $el
+     */
+    private function migrate($table, $field, $el)
     {
         $table = $this->getAdapter()->quoteColumnName($table);
         $column = $this->getAdapter()->quoteTableName($field);
@@ -81,10 +79,7 @@ class EventumExtensionMigrateDb extends AbstractMigration
                 continue;
             }
 
-            // lookup filename to class name
-            $backend = $callback($value);
-            $rc = new ReflectionClass($backend);
-            $classname = $rc->getName();
+            $classname = $el->getClassName($value);
 
             // use deterministic class name
             $classname = ucwords(str_replace('_', ' ', $classname));
