@@ -144,10 +144,10 @@ class Mail_Queue
                 }
 
                 $entry = $entries[0];
-                $m = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
-                $m->setTo($addresslist);
+                $mail = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
+                $mail->setTo($addresslist);
 
-                $e = self::_sendEmail($m->to, $m->getHeaders()->toString(), $entry['body']);
+                $e = self::_sendEmail($mail->to, $mail);
 
                 if ($e instanceof Exception) {
                     $maq_id = implode(',', $maq_ids);
@@ -181,11 +181,13 @@ class Mail_Queue
             }
 
             $entry = self::_getEntry($maq_id);
-            $e = self::_sendEmail($entry['recipient'], $entry['headers'], $entry['body']);
+
+            $mail = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
+            $e = self::_sendEmail($entry['recipient'], $mail);
 
             if ($e instanceof Exception) {
                 $details = $e->getMessage();
-                echo "Mail_Queue: issue #{$entry['maq_iss_id']}: Can't send mail $maq_id: $details\n";
+                echo "Mail_Queue: issue #{$entry['maq_iss_id']}: Can't send mail $maq_id (retry $errors): $details\n";
                 self::_saveStatusLog($entry['id'], 'error', $details);
                 continue;
             }
@@ -200,47 +202,24 @@ class Mail_Queue
     /**
      * Connects to the SMTP server and sends the queued message.
      *
-     * @param   string $recipient The recipient of this message
-     * @param   string $text_headers The full headers of this message
-     * @param   string $body The full body of this message
-     * @return  true or a Exception object
+     * @param string $recipient The recipient of this message
+     * @param MailMessage $mail
+     * @return true or a Exception object
      */
-    private function _sendEmail($recipient, $text_headers, &$body)
+    private function _sendEmail($recipient, $mail)
     {
-        $header_names = Mime_Helper::getHeaderNames($text_headers);
-        $_headers = self::_getHeaders($text_headers, $body);
-        $headers = [];
-        foreach ($_headers as $lowercase_name => $value) {
-            // need to remove the quotes to avoid a parsing problem
-            // on senders that have extended characters in the first
-            // or last words in their sender name
-            if ($lowercase_name == 'from') {
-                $value = Mime_Helper::removeQuotes($value);
-            }
-            $value = Mime_Helper::encode($value);
-            // add the quotes back
-            if ($lowercase_name == 'from') {
-                $value = Mime_Helper::quoteSender($value);
-            }
-            $headers[$header_names[$lowercase_name]] = $value;
-        }
+        $headers = $mail->getHeaders();
 
         // remove any Reply-To:/Return-Path: values from outgoing messages
-        unset($headers['Reply-To']);
-        unset($headers['Return-Path']);
-
-        // mutt sucks, so let's remove the broken Mime-Version header and add the proper one
-        if (in_array('Mime-Version', array_keys($headers))) {
-            unset($headers['Mime-Version']);
-            $headers['MIME-Version'] = '1.0';
-        }
+        $headers->removeHeader('Reply-To');
+        $headers->removeHeader('Return-Path');
 
         $transport = new MailTransport();
 
         // TODO: mail::send wants just bare addresses, do that ourselves
         $recipient = Mime_Helper::encodeAddress($recipient);
 
-        return $transport->send($recipient, $headers, $body);
+        return $transport->send($recipient, $mail);
     }
 
     /**
