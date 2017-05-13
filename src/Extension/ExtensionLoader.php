@@ -70,23 +70,6 @@ class ExtensionLoader
     }
 
     /**
-     * Return list of extensions found
-     *
-     * @return array
-     */
-    public function getExtensions()
-    {
-        $extensions = [];
-        foreach ($this->getFileList() as $filename => $description) {
-            $backend = $this->createInstance($filename);
-            $rc = new ReflectionClass($backend);
-            $extensions[$rc->getName()] = $backend;
-        }
-
-        return $extensions;
-    }
-
-    /**
      * Get Filename -> Classname of extensions found
      *
      * @return array
