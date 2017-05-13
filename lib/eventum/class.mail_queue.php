@@ -184,8 +184,7 @@ class Mail_Queue
             $entry = self::_getEntry($maq_id);
 
             $mail = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
-            // clone because method removes headers, but we want to save copy below
-            $e = self::_sendEmail($entry['recipient'], clone $mail);
+            $e = self::_sendEmail($entry['recipient'], $mail);
 
             if ($e instanceof Exception) {
                 $details = $e->getMessage();
