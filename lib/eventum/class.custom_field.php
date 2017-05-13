@@ -1047,22 +1047,11 @@ class Custom_Field
                     {{%custom_field}}
                  ORDER BY
                     fld_rank ASC';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+
+        $res = DB_Helper::getInstance()->getAll($stmt);
 
         foreach ($res as &$row) {
             $row['projects'] = @implode(', ', array_values(self::getAssociatedProjects($row['fld_id'])));
-            if (in_array($row['fld_type'], self::$option_types)) {
-                if (!empty($row['fld_backend'])) {
-                    $row['field_options'] = implode(', ', array_values(self::getOptions($row['fld_id'])));
-                }
-            }
-            if (!empty($row['fld_backend'])) {
-                $row['field_options'] = 'Backend: ' . self::getBackendName($row['fld_backend']);
-            }
             $row['min_role_name'] = User::getRole($row['fld_min_role']);
             $row['min_role_edit_name'] = User::getRole($row['fld_min_role_edit']);
             $row['has_options'] = in_array($row['fld_type'], self::$option_types);
@@ -1622,22 +1611,6 @@ class Custom_Field
         }
 
         return 1;
-    }
-
-    /**
-     * Returns the 'pretty' name of the backend
-     *
-     * @param   string $backend The full backend file name
-     * @return  string the pretty name of the backend
-     * @deprecated drop, use ExtensionManager
-     */
-    public static function getBackendName($backend)
-    {
-        if (!preg_match('/^class\.(.*)\.php$/', $backend, $matches)) {
-            return $backend;
-        }
-
-        return ucwords(str_replace('_', ' ', $matches[1]));
     }
 
     /**
