@@ -14,6 +14,7 @@
 namespace Eventum\Test\Mail;
 
 use Eventum\Mail\Helper\AddressHeader;
+use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
 use Mail_Helper;
 use Zend\Mail\Header\HeaderInterface;
@@ -25,38 +26,38 @@ class MailHelperTest extends TestCase
 {
     public function testGetMessageID()
     {
-        $headers = '';
+        $headers = 'x-foo: 1';
         $body = 'body';
-        $msgid = Mail_Helper::getMessageID($headers, $body);
+        $msgid = MailMessage::createFromHeaderBody($headers, $body)->messageId;
         $exp = '<eventum\.md5\.[0-9a-z]+\.[0-9a-z]+@' . APP_HOSTNAME . '>';
         $this->assertRegExp($exp, $msgid, 'Missing msg-id header');
 
         $exp = '<msgid>';
         $headers = 'Message-ID: <msgid>';
         $body = 'body';
-        $msgid = Mail_Helper::getMessageID($headers, $body);
+        $msgid = MailMessage::createFromHeaderBody($headers, $body)->messageId;
         $this->assertEquals($exp, $msgid, 'normal msg-id header');
 
         $headers = 'message-id: <msgid>';
         $body = 'body';
-        $msgid = Mail_Helper::getMessageID($headers, $body);
+        $msgid = MailMessage::createFromHeaderBody($headers, $body)->messageId;
         $this->assertEquals($exp, $msgid, 'normal msg-id header (lowercase)');
 
         // try header continuation \n\t
         $headers = "Message-ID:\n\t<msgid>";
         $body = 'body';
-        $msgid = Mail_Helper::getMessageID($headers, $body);
+        $msgid = MailMessage::createFromHeaderBody($headers, $body)->messageId;
         $this->assertEquals($exp, $msgid, 'msg-id header with newline');
 
         // try header continuation \n<space>
         $headers = "Message-ID:\n <msgid>";
         $body = 'body';
-        $msgid = Mail_Helper::getMessageID($headers, $body);
+        $msgid = MailMessage::createFromHeaderBody($headers, $body)->messageId;
         $this->assertEquals($exp, $msgid, 'msg-id header with newline');
 
         $headers = "X-Some-header:y\r\nMessage-ID:\n\t<msgid>\nX-Other_header: x";
         $body = 'body';
-        $msgid = Mail_Helper::getMessageID($headers, $body);
+        $msgid = MailMessage::createFromHeaderBody($headers, $body)->messageId;
         $this->assertEquals($exp, $msgid, 'msg-id header with newline, following next header');
     }
 

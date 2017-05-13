@@ -14,7 +14,6 @@
 namespace Eventum\Mail;
 
 use Eventum\Monolog\Logger;
-use InvalidArgumentException;
 use Setup;
 use Zend\Mail\Transport;
 

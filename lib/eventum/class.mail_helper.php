@@ -799,36 +799,6 @@ class Mail_Helper
     }
 
     /**
-     * Returns the Message-ID from an email. If no message ID is found (Outlook 2003 doesn't
-     * generate them in some cases) a "fake" message-id will be calculated.
-     *
-     * Deprecated, so use either of:
-     * - MailMessage::createFromString($full_email)->messageId;
-     * - MailMessage::createFromHeaderBody($text_headers, $body)->messageId;
-     *
-     * @param string $headers The message headers
-     * @param string $body The message body
-     * @return string
-     * @deprecated use MailMessage class
-     */
-    public static function getMessageID($headers, $body)
-    {
-        $full_email = $headers . "\n\n";
-        $structure = Mime_Helper::decode($full_email);
-
-        $has_message_id = isset($structure->headers['message-id']);
-        // handle cases when there is duplicate message-id header
-        // (presented as Array by PEAR Mail_mimeDecode class)
-        if ($has_message_id && is_string($structure->headers['message-id'])) {
-            return $structure->headers['message-id'];
-        } elseif ($has_message_id && is_array($structure->headers['message-id'])) {
-            return current($structure->headers['message-id']);
-        }
-
-        return self::generateMessageID($headers, $body);
-    }
-
-    /**
      * Removes newlines and tabs from subject
      *
      * @param $subject string The subject to clean

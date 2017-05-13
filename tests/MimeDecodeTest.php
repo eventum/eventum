@@ -14,7 +14,6 @@
 namespace Eventum\Test;
 
 use Eventum\Mail\MailMessage;
-use Mail_Helper;
 use Mime_Helper;
 
 /**
@@ -53,21 +52,6 @@ class MimeDecodeTest extends TestCase
         unset($ph['content-type'], $zh['content-type']);
 
         $this->assertEquals($zh, $ph);
-    }
-
-    public function testGetMessageID()
-    {
-        // message-id present
-        $mail = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
-        $p = Mail_Helper::getMessageID($mail->getHeaders()->toString(), $mail->getContent());
-        $z = $mail->MessageId;
-        $this->assertEquals($z, $p);
-
-        // message-id not present
-        $mail = MailMessage::createFromString("Subject: nah\r\n\r\nbee");
-        $p = Mail_Helper::getMessageID($mail->getHeaders()->toString(), $mail->getContent());
-        $z = $mail->MessageId;
-        $this->assertEquals($z, $p);
     }
 
     /**
