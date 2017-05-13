@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\AbstractMigration;
+use Eventum\Extension\BuiltinLegacyLoaderExtension;
 
 class EventumExtensionMigrateDb extends AbstractMigration
 {
@@ -21,6 +22,18 @@ class EventumExtensionMigrateDb extends AbstractMigration
         $this->migrateCustomFields();
         $this->migrateWorkflows();
         $this->migrateCustomers();
+        $this->setupLegacyLoader();
+    }
+
+    /**
+     * Setup BuiltinLegacyLoaderExtension being loaded by default
+     */
+    private function setupLegacyLoader()
+    {
+        $setup = Setup::get();
+        $rf = new ReflectionClass(BuiltinLegacyLoaderExtension::class);
+        $setup['extensions'][$rf->getName()] = $rf->getFileName();
+        Setup::save();
     }
 
     private function migratePartners()
@@ -34,7 +47,7 @@ class EventumExtensionMigrateDb extends AbstractMigration
     private function migrateCustomFields()
     {
         $callback = function ($code) {
-            return Workflow::_getBackend($code);
+            return Custom_Field::_getBackend($code);
         };
         $this->migrate('custom_field', 'fld_backend', $callback);
     }
@@ -42,7 +55,7 @@ class EventumExtensionMigrateDb extends AbstractMigration
     private function migrateWorkflows()
     {
         $callback = function ($code) {
-            return Workflow::_getBackend($code);
+            return Workflow::getBackend($code);
         };
         $this->migrate('project', 'prj_workflow_backend', $callback);
     }

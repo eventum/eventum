@@ -50,16 +50,6 @@ require_once APP_CONFIG_PATH . '/config.php';
 $define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 $define('APP_COOKIE', 'eventum');
 
-// /var path for writable data
-$define('APP_VAR_PATH', APP_PATH . '/var');
-
-// define other paths
-$define('APP_TPL_PATH', APP_PATH . '/templates');
-$define('APP_TPL_COMPILE_PATH', APP_VAR_PATH . '/cache');
-$define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
-$define('APP_LOG_PATH', APP_VAR_PATH . '/log');
-$define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
-
 // define the user_id of system user
 $define('APP_SYSTEM_USER_ID', 1);
 
