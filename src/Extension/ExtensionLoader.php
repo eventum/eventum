@@ -58,7 +58,7 @@ class ExtensionLoader
         // legacy mode where filename is provided
         $filename = $this->findClassFilename($backend);
         if (!file_exists($filename)) {
-            throw new InvalidArgumentException("Filename: $filename does not exist");
+            throw new InvalidArgumentException("Filename: '$filename' does not exist for '$backend");
         }
 
         /** @noinspection PhpIncludeInspection */
@@ -150,8 +150,9 @@ class ExtensionLoader
      *
      * @param string $fileName
      * @return string
+     * @internal
      */
-    private function getClassName($fileName)
+    public function getClassName($fileName)
     {
         if (!preg_match('/^class\.(.*)\.php$/', $fileName, $matches)) {
             return null;
@@ -190,5 +191,14 @@ class ExtensionLoader
         }
 
         return null;
+    }
+
+    /**
+     * @return array
+     * @internal
+     */
+    public function getPaths()
+    {
+        return $this->paths;
     }
 }

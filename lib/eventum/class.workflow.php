@@ -962,8 +962,9 @@ class Workflow
 
     /**
      * @return ExtensionLoader
+     * @internal
      */
-    private static function getExtensionLoader()
+    public static function getExtensionLoader()
     {
         $dirs = [
             APP_INC_PATH . '/workflow',
