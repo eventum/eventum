@@ -36,7 +36,6 @@ install:
   - composer install --no-interaction --prefer-dist
 
 script:
-  - bin/ci/check_patches.sh
   - phpunit --version
   - phpunit --verbose --exclude-group ldap,imap,logger,mail,api,locale,date,db,crypto
   - bin/ci/dist.sh
