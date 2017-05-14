@@ -374,7 +374,7 @@ class Mime_Helper
      * @param   string $input Headers to parse
      * @return  array Contains parsed headers
      */
-    public static function getHeaderNames($input)
+    public static function getHeaderNames($input, $lowercase = true)
     {
         if ($input === '') {
             return [];
@@ -387,7 +387,7 @@ class Mime_Helper
         $headers = explode("\r\n", trim($input));
         foreach ($headers as $value) {
             $hdr_name = substr($value, 0, strpos($value, ':'));
-            $return[strtolower($hdr_name)] = $hdr_name;
+            $return[$lowercase ? strtolower($hdr_name) : $hdr_name] = $hdr_name;
         }
 
         return $return;

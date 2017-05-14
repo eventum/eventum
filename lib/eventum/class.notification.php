@@ -394,13 +394,14 @@ class Notification
         $from = self::getFixedFromHeader($issue_id, $sender, 'issue');
 
         list($_headers, $body) = Mime_Helper::splitBodyHeader($full_message);
-        $header_names = Mime_Helper::getHeaderNames($_headers);
+        $header_names = Mime_Helper::getHeaderNames($_headers, false);
 
         $current_headers = Mail_Helper::stripHeaders($message['headers']);
         $headers = [];
         // build the headers array required by the smtp library
+
         foreach ($current_headers as $header_name => $value) {
-            if ($header_name == 'from') {
+            if (strtolower($header_name) == 'from') {
                 $headers['From'] = $from;
             } else {
                 if (is_array($value)) {
