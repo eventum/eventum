@@ -1,0 +1,120 @@
+Received: (qmail 6449 invoked from network); 31 Dec 2005 01:34:20 +0200
+Received: from bay12-f18.bay12.hotmail.com (HELO hotmail.com) (64.4.35.18)
+  by gw.example.org with SMTP; 31 Dec 2005 01:34:20 +0200
+Received: from mail pickup service by hotmail.com with Microsoft SMTPSVC;
+	 Fri, 30 Dec 2005 15:34:14 -0800
+Message-ID: <BAY12-F18AB00813DB5D907E835EDC5280@phx.gbl>
+Received: from 212.7.9.36 by by12fd.bay12.hotmail.msn.com with HTTP;
+	Fri, 30 Dec 2005 23:34:13 GMT
+X-Originating-IP: [212.7.9.36]
+X-Originating-Email: [user@hotmail.com]
+X-Sender: user@hotmail.com
+From: "User Name" <user@hotmail.com>
+To: issue-4394@eventum.example.org
+Bcc:
+Subject: FW: Delivery Status Notification (Delay)
+Date: Sat, 31 Dec 2005 01:34:13 +0200
+Mime-Version: 1.0
+Content-Type: multipart/mixed; boundary="----=_NextPart_000_7952_48f1_3f21"
+X-OriginalArrivalTime: 30 Dec 2005 23:34:14.0167 (UTC) FILETIME=[8B1C1A70:01C60D99]
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_7952_48f1_3f21
+Content-Type: text/plain; format=flowed
+
+i cannot send in any other formats.
+
+i cannot get any cursed header in www.hotmail.com.
+maybe if i define in a mail client hotmail account and check headers out
+there.
+
+
+>From: postmaster@mail.hotmail.com
+>To: user@hotmail.com
+>Subject: Delivery Status Notification (Delay)
+>Date: Fri, 30 Dec 2005 15:09:46 -0800
+>
+>This is an automatically generated Delivery Status Notification.
+>
+>THIS IS A WARNING MESSAGE ONLY.
+>
+>YOU DO NOT NEED TO RESEND YOUR MESSAGE.
+>
+>Delivery to the following recipients has been delayed.
+>
+>        user@example.org
+>
+>
+>
+
+_________________________________________________________________
+Express yourself instantly with MSN Messenger! Download today it's FREE!
+http://messenger.msn.click-url.com/go/onm00200471ave/direct/01/
+
+------=_NextPart_000_7952_48f1_3f21
+Content-Type: message/delivery-status; name="attach3";
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="attach3";
+
+UmVwb3J0aW5nLU1UQTogZG5zO2hvdG1haWwuY29tDQpSZWNlaXZlZC1Gcm9t
+LU1UQTogZG5zO21haWwuaG90bWFpbC5jb20NCkFycml2YWwtRGF0ZTogRnJp
+LCAzMCBEZWMgMjAwNSAwMToyMTo0NSAtMDgwMA0KDQpGaW5hbC1SZWNpcGll
+bnQ6IHJmYzgyMjtrcmlzdG8ua2xhdXNzb25AZGVsZmkuZWUNCkFjdGlvbjog
+ZGVsYXllZA0KU3RhdHVzOiA0LjAuMA0KRGlhZ25vc3RpYy1Db2RlOiBzbXRw
+OzQ1MSBTcGFtIFJlY2VpdmVkIFNlZTogaHR0cDovL3d3dy5zb3Jicy5uZXQv
+bG9va3VwLnNodG1sPzY0LjQuMzUuMTcNCldpbGwtUmV0cnktVW50aWw6IFN1
+biwgMSBKYW4gMjAwNiAwMToyMjoxNyAtMDgwMA0K
+
+
+------=_NextPart_000_7952_48f1_3f21
+Content-Type: message/rfc822
+Content-Transfer-Encoding: 8bit
+
+Received: from mail pickup service by hotmail.com with Microsoft SMTPSVC;
+	 Fri, 30 Dec 2005 01:21:45 -0800
+Message-ID: <BAY12-F17159018EF29C41AA8ABEBC5280@phx.gbl>
+Received: from 194.106.96.6 by by12fd.bay12.hotmail.msn.com with HTTP;
+	Fri, 30 Dec 2005 09:21:45 GMT
+X-Originating-IP: [194.106.96.6]
+X-Originating-Email: [user@hotmail.com]
+X-Sender: user@hotmail.com
+From: "User Name" <user@hotmail.com>
+To: user@example.org
+Bcc:
+Subject: test
+Date: Fri, 30 Dec 2005 11:21:45 +0200
+Mime-Version: 1.0
+Content-Type: text/plain; format=flowed
+X-OriginalArrivalTime: 30 Dec 2005 09:21:45.0767 (UTC) FILETIME=[7449A370:01C60D22]
+
+Received: from mail pickup service by hotmail.com with Microsoft SMTPSVC;
+	 Fri, 30 Dec 2005 01:21:45 -0800
+Message-ID: <BAY12-F17159018EF29C41AA8ABEBC5280@phx.gbl>
+Received: from 194.106.96.6 by by12fd.bay12.hotmail.msn.com with HTTP;
+	Fri, 30 Dec 2005 09:21:45 GMT
+X-Originating-IP: [194.106.96.6]
+X-Originating-Email: [user@hotmail.com]
+X-Sender: user@hotmail.com
+From: "User Name" <user@hotmail.com>
+To: user@example.org
+Bcc:
+Subject: test
+Date: Fri, 30 Dec 2005 11:21:45 +0200
+Mime-Version: 1.0
+Content-Type: text/plain; format=flowed
+X-OriginalArrivalTime: 30 Dec 2005 09:21:45.0767 (UTC) FILETIME=[7449A370:01C60D22]
+
+test
+1
+2
+3
+
+_________________________________________________________________
+Express yourself instantly with MSN Messenger! Download today it's FREE!
+http://messenger.msn.click-url.com/go/onm00200471ave/direct/01/
+
+
+
+
+------=_NextPart_000_7952_48f1_3f21--

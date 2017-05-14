@@ -206,14 +206,19 @@ class MailMessage extends Message
             return false;
         }
 
-        $has_attachments = false;
+        $has_attachments = 0;
 
         // check what really the attachments are
         foreach ($this as $part) {
+            $is_attachment = 0;
+            $disposition = $filename = null;
+
             $ctype = $part->getHeaderField('Content-Type');
-            $disposition = $part->getHeaderField('Content-Disposition');
-            $filename = $part->getHeaderField('Content-Disposition', 'filename');
-            $is_attachment = $disposition == 'attachment' || $filename;
+            if ($part->getHeaders()->has('Content-Disposition')) {
+                $disposition = $part->getHeaderField('Content-Disposition');
+                $filename = $part->getHeaderField('Content-Disposition', 'filename');
+                $is_attachment = $disposition == 'attachment' || $filename;
+            }
 
             if (in_array($ctype, ['text/plain', 'text/html', 'text/enriched'])) {
                 $has_attachments |= $is_attachment;

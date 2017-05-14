@@ -186,6 +186,18 @@ class MailMessageTest extends TestCase
         $this->assertFalse($message->hasAttachments());
     }
 
+    /**
+     * Ensure email with text/plain attachment does not throw InvalidArgumentException
+     *
+     * Uncaught Exception Zend\Mail\Storage\Exception\InvalidArgumentException:
+     * "Header with Name Content-Disposition or content-disposition not found"
+     */
+    public function testHasAttachmentPlain()
+    {
+        $message = MailMessage::createFromFile(__DIR__ . '/data/attachment-bug.txt');
+        $this->assertTrue($message->hasAttachments());
+    }
+
     public function testGetAttachments()
     {
         $raw = $this->readDataFile('bug684922.txt');
@@ -546,6 +558,7 @@ class MailMessageTest extends TestCase
 
     /**
      * Test mail sending with Mail_Helper
+     *
      * @group db
      */
     public function testMailSendMH()
