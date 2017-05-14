@@ -31,4 +31,12 @@ abstract class ManageBaseController extends BaseController
             ]
         );
     }
+
+    protected function canAccess()
+    {
+        // if manage controller does not implement this
+        // then give access permission.
+        // probably canRoleAccess satisfied access restriction.
+        return true;
+    }
 }
