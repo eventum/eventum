@@ -10,7 +10,17 @@ quick=${QUICK-false}
 
 find_prog() {
 	set +x
-	local c prog=$1
+	local c version prog=$1
+
+	case "$prog" in
+	phing)
+		version="-version"
+		;;
+	*)
+		version="--version"
+		;;
+	esac
+
 	names="./$prog.phar $prog.phar $prog"
 	prog=
 	for c in $names; do
@@ -19,7 +29,7 @@ find_prog() {
 		break
 	done
 
-	${prog:-false} --version >&2
+	${prog:-false} $version >&2
 
 	echo ${prog:-false}
 }
@@ -193,10 +203,12 @@ clean_vendor() {
 	cd ..
 
 	# auto-fix pear packages
+	# 1) pear-pear.php.net/Mail_mimeDecode/Mail/mimeDecode.php (no_php4_constructor)
+	# 2) pear-pear.php.net/Math_Stats/Math/Stats.php (no_php4_constructor)
+	# 3) pear-pear.php.net/Net_POP3/Net/POP3.php (no_php4_constructor)
+	# 4) pear-pear.php.net/Net_URL/Net/URL.php (no_php4_constructor)
 	$quick || make pear-fix php-cs-fixer=$phpcsfixer
 	$quick || pear_require_strip
-	# run twice, to fix all occurrences
-	$quick || make pear-fix php-cs-fixer=$phpcsfixer
 
 	# component related sources, not needed runtime
 	rm htdocs/components/*/*-built.js
