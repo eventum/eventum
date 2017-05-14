@@ -10,7 +10,17 @@ quick=${QUICK-false}
 
 find_prog() {
 	set +x
-	local c prog=$1
+	local c version prog=$1
+
+	case "$prog" in
+	phing)
+		version="-version"
+		;;
+	*)
+		version="--version"
+		;;
+	esac
+
 	names="./$prog.phar $prog.phar $prog"
 	prog=
 	for c in $names; do
@@ -19,7 +29,7 @@ find_prog() {
 		break
 	done
 
-	${prog:-false} --version >&2
+	${prog:-false} $version >&2
 
 	echo ${prog:-false}
 }
