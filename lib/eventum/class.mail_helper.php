@@ -356,7 +356,7 @@ class Mail_Helper
             'bcc',
             'return-path',
             'received',
-            'Disposition-Notification-To',
+            'disposition-notification-to',
         ];
         $ignore_pattern = '/^resent.*/';
         foreach ($headers as $name => $value) {
