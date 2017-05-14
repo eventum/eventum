@@ -14,7 +14,9 @@
 namespace Eventum\Test;
 
 use Eventum\Mail\MailMessage;
+use Mail_Helper;
 use Mime_Helper;
+use Setup;
 
 /**
  * Tests Mime_Decode so it could be dropped
@@ -31,6 +33,29 @@ class MimeDecodeTest extends TestCase
         $res = Mime_Helper::decode($message, false, true);
 
         $this->assertMimeHelperResult($res);
+    }
+
+    public function testAddWarningMessage()
+    {
+        $this->markTestSkipped('requires MailMessage port');
+        $setup = Setup::get();
+        $setup['email_routing']['status'] = 'enabled';
+        $setup['email_routing']['warning']['status'] = 'enabled';
+
+        $issue_id = 1;
+        $recipient = 'admin@example.com';
+        $body = 'here be dragons';
+
+        // add the warning message to the current message' body, if needed
+        $m = MailMessage::createFromHeaderBody([], $body);
+        Mail_Helper::addWarningMessage($issue_id, $recipient, $m);
+        $fixed_body = $m->getContent();
+        $this->assertContains($body, $fixed_body);
+
+        $m = MailMessage::createFromFile(__DIR__ . '/data/attachment-bug.txt');
+        Mail_Helper::addWarningMessage($issue_id, $recipient, $m);
+        $fixed_body = $m->getContent();
+        $this->assertContains('Your reply will be sent to the notification list', $fixed_body);
     }
 
     /**
