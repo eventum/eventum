@@ -88,10 +88,10 @@ codecept.phar:
 	$(call fetch_tool,http://codeception.com/codecept.phar)
 
 pear-fix: composer.lock
-	-$(php-cs-fixer) fix vendor/pear-pear.php.net --fixers=php4_constructor --verbose
+	$(php-cs-fixer) fix vendor/pear-pear.php.net --rules=no_php4_constructor --allow-risky=yes --verbose --show-progress=estimating
 
 phpcs-fix: php-cs-fixer.phar
-	-$(php-cs-fixer) fix --verbose
+	$(php-cs-fixer) fix --verbose
 
 phpcompatinfo: phpcompatinfo.phar
 	$(phpcompatinfo) analyser:run --alias current
