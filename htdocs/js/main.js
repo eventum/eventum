@@ -486,8 +486,8 @@ Eventum.changeClockStatus = function()
 
 Eventum.openHelp = function(e)
 {
-    var target = $(e.target);
-    var topic = target.parent().attr('data-topic');
+    var $target = $(e.target);
+    var topic = $target.closest('a.help').attr('data-topic');
     var width = 500;
     var height = 450;
     var w_offset = 30;
