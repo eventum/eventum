@@ -170,6 +170,8 @@ class Template_Helper
             'app_version' => APP_VERSION,
             'app_setup' => Setup::get(),
             'roles' => User::getAssocRoleIDs(),
+            // @deprecated: do not use 'current_url'
+            // @see https://github.com/eventum/eventum/pull/265
             'current_url' => $_SERVER['PHP_SELF'],
             'template_id' => str_replace(['/', '.tpl.html'], ['_'], $this->tpl_name),
             'handle_clock_in' => $setup['handle_clock_in'] == 'enabled',

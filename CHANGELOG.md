@@ -4,6 +4,8 @@
 
 Upgrading to 3.2.x versions requires that you upgrade to 3.2.0 version first.
 
+- cleanup templates for `core.current_url` (@glensc, #265)
+
 [3.2.2]: https://github.com/eventum/eventum/compare/v3.2.1...master
 
 ## [3.2.1] - 2017-06-09
@@ -40,7 +42,7 @@ This version adds replacement for backend classes with adding Extension support,
 - use font awesome (@glensc, #253)
 - use ctrl/cmd enter to submit forms (@glensc, #255)
 - quote custom field names (@glensc, #258)
-- drop Mail_rfc822 PEAR Mail requirement (@glensc, #256)
+- drop `Mail_rfc822` PEAR Mail requirement (@glensc, #256)
 - add userfile.js, userscript.css support (@glensc, #264)
 - fix expected resolution date being rendered as -1 (@glensc, #260)
 - fix user roles being overridden when updating a project (@balsdorf, 7ae6d2563, #152)
