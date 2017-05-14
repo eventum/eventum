@@ -147,6 +147,12 @@ class Routing
 
         $structure = Mime_Helper::decode($full_message, true, true);
 
+        if (Mime_Helper::hasAttachments($full_message)) {
+            $has_attachments = 1;
+        } else {
+            $has_attachments = 0;
+        }
+
         // find which issue ID this email refers to
         if (isset($structure->headers['to'])) {
             $issue_id = self::getMatchingIssueIDs($structure->headers['to'], 'email');
@@ -194,12 +200,6 @@ class Routing
         $prj_id = Issue::getProjectID($issue_id);
         AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
         AuthCookie::setProjectCookie($prj_id);
-
-        if (Mime_Helper::hasAttachments($structure)) {
-            $has_attachments = 1;
-        } else {
-            $has_attachments = 0;
-        }
 
         // remove certain CC addresses
         if ((!empty($structure->headers['cc'])) && ($setup['smtp']['save_outgoing_email'] == 'yes')) {

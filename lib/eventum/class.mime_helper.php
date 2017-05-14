@@ -21,6 +21,7 @@
  * See the enclosed file COPYING for license information (LGPL). If you
  * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
  */
+use Eventum\Mail\MailMessage;
 use Eventum\Monolog\Logger;
 
 /**
@@ -437,20 +438,15 @@ class Mime_Helper
     /**
      * Method used to check whether a given email message has any attachments.
      *
-     * @param   mixed   $message the full body of the message or parsed message structure
+     * @param string $message the full body of the message
      * @return  bool
+     * @deprecated use MailMessage directly
      */
     public static function hasAttachments($message)
     {
-        if (!is_object($message)) {
-            $message = self::decode($message, true);
-        }
-        $attachments = self::_getAttachmentDetails($message, true);
-        if (count($attachments) > 0) {
-            return true;
-        }
+        $mail = MailMessage::createFromString($message);
 
-        return false;
+        return $mail->hasAttachments();
     }
 
     /**

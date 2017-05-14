@@ -553,7 +553,7 @@ class Note
 
         $current_usr_id = Auth::getUserID();
         if ($target == 'email') {
-            if (Mime_Helper::hasAttachments($structure)) {
+            if (Mime_Helper::hasAttachments($blocked_message)) {
                 $has_attachments = 1;
             } else {
                 $has_attachments = 0;
