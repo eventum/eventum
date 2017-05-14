@@ -26,6 +26,7 @@ Session.vim
 /php-cs-fixer.phar
 /phpab.phar
 /phpcompatinfo.phar
+/phpmd.phar
 /phpunit.phar
 /cli/*.phar
 /cli/build/
