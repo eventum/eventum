@@ -108,7 +108,7 @@
 		"components/jquery-datatables": "~1.10.4",
 		"components/jqueryui": "1.11.*",
 		"drmonty/garlicjs": "~1.2.4",
-		"enyo/dropzone": "~4.0.1",
+		"enyo/dropzone": "~4.3.0",
 		"eventum/rpc": "~4.0.0",
 		"fortawesome/font-awesome": "^4.7",
 		"jackmoore/autosize": "*",
