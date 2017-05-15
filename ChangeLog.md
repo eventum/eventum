@@ -19,6 +19,7 @@ Consult [Upgrade] wiki page how to upgrade from previous versions.
 - drop Mail_rfc822 PEAR Mail requirement (@glensc, #256)
 - add userfile.js, userscript.css support (@glensc, #264)
 - fix expected resolution date being rendered as -1 (@glensc, #260)
+- fix user roles being overridden when updating a project (@balsdorf)
 
 [3.2.0]: https://github.com/eventum/eventum/compare/v3.1.10...master
 [PDO MySQL]: http://php.net/manual/en/ref.pdo-mysql.php
