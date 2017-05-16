@@ -92,7 +92,11 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
-        $stmt->execute($params);
+        try {
+            $stmt->execute($params);
+        } catch (PDOException $e) {
+            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
+        }
 
         $res = $stmt->fetchColumn();
 
@@ -109,7 +113,11 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
-        $stmt->execute($params);
+        try {
+            $stmt->execute($params);
+        } catch (PDOException $e) {
+            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
+        }
 
         $this->convertFetchMode($fetchmode);
 
@@ -142,7 +150,11 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
-        $stmt->execute($params);
+        try {
+            $stmt->execute($params);
+        } catch (PDOException $e) {
+            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
+        }
 
         return true;
     }
@@ -154,14 +166,22 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
 
     /**
      * Common method for API
+     *
      * @param string $query
+     * @param array $params
+     * @param int $fetchmode
+     * @return array
      */
     private function fetchAll($query, $params, $fetchmode)
     {
         $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
-        $stmt->execute($params);
+        try {
+            $stmt->execute($params);
+        } catch (PDOException $e) {
+            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
+        }
 
         return $stmt->fetchAll($fetchmode);
     }
