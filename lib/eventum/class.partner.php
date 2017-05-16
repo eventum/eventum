@@ -20,20 +20,20 @@ use Eventum\Extension\ExtensionLoader;
 class Partner
 {
     /**
-     * Includes the appropriate partner backend class associated with the
-     * given project ID, instantiates it and returns the class.
+     * Return the appropriate partner backend class associated with the
+     * given $par_code.
      *
+     * @internal
      * @param   string $par_code The partner code
      * @return  Abstract_Partner_Backend
+     * @deprecated will be removed in 3.3.0
      */
-    private static function getBackend($par_code)
+    public static function getBackend($par_code)
     {
         static $setup_backends;
 
-        if (empty($setup_backends[$par_code])) {
-            $file_name = 'class.' . $par_code . '.php';
-
-            $instance = static::getExtensionLoader()->createInstance($file_name);
+        if (!isset($setup_backends[$par_code])) {
+            $instance = static::getExtensionLoader()->createInstance($par_code);
             $setup_backends[$par_code] = $instance;
         }
 
@@ -208,38 +208,6 @@ class Partner
         return false;
     }
 
-    /**
-     * @static
-     * Scans the directories for partner backends.
-     *
-     * @return  array
-     */
-    public static function getList()
-    {
-        $backends = self::getBackendList();
-        $partners = [];
-        foreach ($backends as $par_code) {
-            $backend = self::getBackend($par_code);
-            $partners[] = [
-                'code' => $par_code,
-                'name' => $backend->getName(),
-                'projects' => self::getProjectsForPartner($par_code),
-            ];
-        }
-
-        return $partners;
-    }
-
-    public static function getAssocList()
-    {
-        $returns = [];
-        foreach (self::getList() as $partner) {
-            $returns[$partner['code']] = $partner['name'];
-        }
-
-        return $returns;
-    }
-
     public static function getDetails($par_code)
     {
         return [
@@ -299,16 +267,6 @@ class Partner
         }
 
         return $res;
-    }
-
-    /**
-     * Returns a list of backends available
-     *
-     * @return  array An array of partner backends
-     */
-    public static function getBackendList()
-    {
-        return static::getExtensionLoader()->getFileList();
     }
 
     public static function getName($par_code)
@@ -413,8 +371,9 @@ class Partner
 
     /**
      * @return ExtensionLoader
+     * @internal
      */
-    private static function getExtensionLoader()
+    public static function getExtensionLoader()
     {
         $dirs = [
             APP_INC_PATH . '/partner',

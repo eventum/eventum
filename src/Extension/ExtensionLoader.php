@@ -50,9 +50,15 @@ class ExtensionLoader
      */
     public function createInstance($backend)
     {
-        $filename = $this->getClassFilename($backend);
+        // see if classname is provided
+        if (class_exists($backend)) {
+            return new $backend();
+        }
+
+        // legacy mode where filename is provided
+        $filename = $this->findClassFilename($backend);
         if (!file_exists($filename)) {
-            throw new InvalidArgumentException("Filename: $filename does not exist");
+            throw new InvalidArgumentException("Filename: '$filename' does not exist for '$backend'");
         }
 
         /** @noinspection PhpIncludeInspection */
@@ -64,30 +70,38 @@ class ExtensionLoader
     }
 
     /**
-     * Get Filename -> Classname of extensions found
+     * Get Classname -> Filename of extensions found.
+     *
+     * NOTE: this method does require_once to each of the files.
      *
      * @return array
      */
-    public function getFileList()
+    public function getClassList()
     {
         $list = $files = [];
         foreach ($this->paths as $path) {
             $files = array_merge($files, Misc::getFileList($path));
         }
 
-        foreach ($files as $file) {
-            $fileName = basename($file);
-            $className = $this->getClassName($fileName);
+        foreach ($files as $filename) {
+            $basename = basename($filename);
+            $classname = $this->getClassName($basename);
 
-            if (!$this->isExtension($file, $className)) {
+            if (!$this->isExtension($filename, $classname)) {
                 continue;
             }
 
-            if ($this->parent_class && !is_subclass_of($className, $this->parent_class)) {
+            if ($this->parent_class && !is_subclass_of($classname, $this->parent_class)) {
                 continue;
             }
 
-            $list[$fileName] = $this->getDisplayName($className);
+            // add alternative capitalization
+            // some places use it inconsistently
+            // can't use reflection here to figure out correct name
+            $classname = ucwords(str_replace('_', ' ', $classname));
+            $classname = str_replace(' ', '_', $classname);
+
+            $list[$classname] = $filename;
         }
 
         return $list;
@@ -98,26 +112,26 @@ class ExtensionLoader
      * That is it is an class that can be instantiated.
      *
      * @param string $filename
-     * @param string $className
+     * @param string $classname
      * @return bool
      */
-    private function isExtension($filename, $className)
+    private function isExtension($filename, $classname)
     {
         // skip if filename pattern gave no result
-        if (!$className) {
+        if (!$classname) {
             return false;
         }
 
         // autoload, or load manually
-        if (!class_exists($className)) {
+        if (!class_exists($classname)) {
             require_once $filename;
 
-            if (!class_exists($className)) {
+            if (!class_exists($classname)) {
                 // still not found. skip it
                 return false;
             }
         }
-        $rc = new ReflectionClass($className);
+        $rc = new ReflectionClass($classname);
 
         return $rc->isInstantiable();
     }
@@ -125,12 +139,13 @@ class ExtensionLoader
     /**
      * Get class name from file name.
      *
-     * @param string $fileName
+     * @param string $filename
      * @return string
+     * @internal
      */
-    private function getClassName($fileName)
+    public function getClassName($filename)
     {
-        if (!preg_match('/^class\.(.*)\.php$/', $fileName, $matches)) {
+        if (!preg_match('/^class\.(.*)\.php$/', $filename, $matches)) {
             return null;
         }
 
@@ -138,23 +153,13 @@ class ExtensionLoader
     }
 
     /**
-     * Returns the 'pretty' name of the backend
-     *
-     * @param string $fileName
-     * @return string
-     */
-    private function getDisplayName($fileName)
-    {
-        return ucwords(str_replace('_', ' ', $fileName));
-    }
-
-    /**
      * Find class filename from set of directories
      *
      * @param string $filename
      * @return null|string
+     * @internal
      */
-    private function getClassFilename($filename)
+    public function findClassFilename($filename)
     {
         foreach ($this->paths as $path) {
             $class_filename = "$path/$filename";

@@ -17,6 +17,7 @@ use Auth;
 use CRM;
 use Custom_Field;
 use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Extension\ExtensionManager;
 use Project;
 use User;
 
@@ -116,9 +117,32 @@ class CustomFieldsController extends ManageBaseController
                 'project_list' => Project::getAll(),
                 'list' => Custom_Field::getList(),
                 'user_roles' => $user_roles,
-                'backend_list' => Custom_Field::getBackendList(),
+                'backend_list' => $this->getBackends(),
                 'order_by_list' => Custom_Field::$order_by_choices,
             ]
         );
+    }
+
+    private function getBackends()
+    {
+        // load classes from extension manager
+        $manager = ExtensionManager::getManager();
+        $backends = $manager->getCustomFieldClasses();
+
+        return $this->filterValues($backends);
+    }
+
+    /**
+     * Create array with key,value from $values $key,
+     * i.e discarding values.
+     */
+    private function filterValues($values)
+    {
+        $res = [];
+        foreach ($values as $key => $value) {
+            $res[$key] = $key;
+        }
+
+        return $res;
     }
 }

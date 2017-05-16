@@ -19,18 +19,6 @@ use Eventum\Model\Entity;
 class Workflow
 {
     /**
-     * Returns a list of backends available
-     *
-     * @return  array An array of workflow backends
-     */
-    public static function getBackendList()
-    {
-        $files = static::getExtensionLoader()->getFileList();
-
-        return $files;
-    }
-
-    /**
      * Returns the name of the workflow backend for the specified project.
      *
      * @param   int $prj_id the id of the project to lookup
@@ -68,21 +56,22 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      * @return bool|Abstract_Workflow_Backend
+     * @deprecated will be removed in 3.3.0
      */
     public static function _getBackend($prj_id)
     {
         static $setup_backends;
 
         if (empty($setup_backends[$prj_id])) {
-            $filename = self::_getBackendNameByProject($prj_id);
-            if (!$filename) {
+            $backendName = self::_getBackendNameByProject($prj_id);
+            if (!$backendName) {
                 return false;
             }
 
-            $instance = static::getExtensionLoader()->createInstance($filename);
-            $instance->prj_id = $prj_id;
+            $backend = static::getExtensionLoader()->createInstance($backendName);
+            $backend->prj_id = $prj_id;
 
-            $setup_backends[$prj_id] = $instance;
+            $setup_backends[$prj_id] = $backend;
         }
 
         return $setup_backends[$prj_id];
@@ -963,8 +952,9 @@ class Workflow
 
     /**
      * @return ExtensionLoader
+     * @internal
      */
-    private static function getExtensionLoader()
+    public static function getExtensionLoader()
     {
         $dirs = [
             APP_INC_PATH . '/workflow',

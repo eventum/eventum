@@ -18,16 +18,25 @@
  */
 
 // init minimal constants needed for some classes to work
-if (!defined('APP_PATH')) {
-    define('APP_PATH', __DIR__);
-    define('APP_CONFIG_PATH', APP_PATH . '/config');
-    define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
+require_once __DIR__ . '/globals.php';
+if (file_exists(APP_CONFIG_PATH . '/config.php')) {
+    require_once APP_CONFIG_PATH . '/config.php';
 }
+$define = function ($name, $value) {
+    if (defined($name)) {
+        return;
+    }
+    define($name, $value);
+};
+$define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 
-$config = DB_Helper::getConfig();
+// workflow may use this in constructor
+Eventum\Monolog\Logger::initialize();
 
 // TODO: use "connection" => $pdo_instance once PEAR DB support is dropped
 // http://docs.phinx.org/en/latest/commands.html#configuration-file-parameter
+
+$config = DB_Helper::getConfig();
 
 return [
     'paths' => [

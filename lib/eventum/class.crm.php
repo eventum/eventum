@@ -296,17 +296,6 @@ abstract class CRM
     }
 
     /**
-     * Returns the list of available customer backends by listing the class
-     * files in the backend directory.
-     *
-     * @return  array Associative array of filename => name
-     */
-    public static function getBackendList()
-    {
-        return static::getExtensionLoader()->getFileList();
-    }
-
-    /**
      * Returns the customer backend class file associated with the given
      * project ID.
      *
@@ -353,19 +342,6 @@ abstract class CRM
             return false;
         }
 
-        return self::getBackend($backend_class, $prj_id);
-    }
-
-    /**
-     * Returns the backend for the specified class name
-     *
-     * @param string $backend_class
-     * @param int $prj_id
-     * @internal param string $class_name The name of the class
-     * @return CRM
-     */
-    private static function getBackend($backend_class, $prj_id)
-    {
         /** @var CRM $backend */
         $backend = static::getExtensionLoader()->createInstance($backend_class);
         $backend->setup($prj_id);
@@ -762,8 +738,9 @@ abstract class CRM
 
     /**
      * @return ExtensionLoader
+     * @internal
      */
-    private static function getExtensionLoader()
+    public static function getExtensionLoader()
     {
         $dirs = [
             APP_INC_PATH . '/crm',
