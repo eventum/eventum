@@ -41,6 +41,8 @@ class EventumExtensionMigrateDb extends AbstractMigration
     {
         $el = Partner::getExtensionLoader();
         $this->migrate('partner_project', 'pap_par_code', $el);
+        $this->migrate('user', 'usr_par_code', $el);
+        $this->migrate('issue_partner', 'ipa_par_code', $el);
     }
 
     private function migrateCustomFields()

@@ -26,6 +26,8 @@ class EventumExtensionClass extends AbstractMigration
         $this->modifyColumn('custom_field', 'fld_backend', ['null' => true]);
         $this->modifyColumn('project', 'prj_customer_backend', ['null' => true]);
         $this->modifyColumn('project', 'prj_workflow_backend', ['null' => true]);
+        $this->modifyColumn('user', 'usr_par_code', ['null' => true]);
+        $this->modifyColumn('issue_partner', 'ipa_par_code');
     }
 
     private function modifyColumn($table, $column, $options = [])
