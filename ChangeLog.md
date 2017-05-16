@@ -6,6 +6,8 @@ This version switches to use [PDO MySQL] driver, ensure you have the extension e
 Even it will likely work, it's recommended that you update to latest 3.1 first before upgrading to 3.2.0.
 Consult [Upgrade] wiki page how to upgrade from previous versions.
 
+This version adds replacement for backend classes with adding Extension support, see #259.
+
 - replace buggy `Mail_Helper::getEmailAddresses` with Zend\Mail based implementation (@glensc, #238)
 - enable filtering by Severity (@balsdorf, f387fd6)
 - drop PEAR DB support, only PDO is supported (@glensc, #252)
@@ -20,6 +22,7 @@ Consult [Upgrade] wiki page how to upgrade from previous versions.
 - add userfile.js, userscript.css support (@glensc, #264)
 - fix expected resolution date being rendered as -1 (@glensc, #260)
 - fix user roles being overridden when updating a project (@balsdorf, 7ae6d2563, #152)
+- add extension support for workflows/customfields/partners/crm (@glensc, #259)
 
 [3.2.0]: https://github.com/eventum/eventum/compare/v3.1.10...master
 [PDO MySQL]: http://php.net/manual/en/ref.pdo-mysql.php
