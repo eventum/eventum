@@ -269,6 +269,8 @@ class Setup
 
             'email_reminder' => [],
 
+            'extensions' => [],
+
             'handle_clock_in' => 'enabled',
 
             // default expiry: 5 minutes
