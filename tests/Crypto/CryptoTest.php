@@ -11,11 +11,12 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Crypto;
 
 use Eventum;
 use Eventum\Crypto\CryptoManager;
 use Eventum\Crypto\EncryptedValue;
+use Eventum\Test\TestCase;
 use Exception;
 use InvalidArgumentException;
 

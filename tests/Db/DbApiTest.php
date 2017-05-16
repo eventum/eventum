@@ -11,11 +11,15 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Db;
 
 use DB_Helper;
 use Eventum\Db\Adapter\NullAdapter;
+use Eventum\Test\TestCase;
 
+/**
+ * @group db
+ */
 class DbApiTest extends TestCase
 {
     public function testNullApi()

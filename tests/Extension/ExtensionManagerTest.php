@@ -11,11 +11,12 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Extension;
 
 use Eventum\Extension\AbstractExtension;
 use Eventum\Extension\ExtensionInterface;
 use Eventum\Extension\ExtensionManager;
+use Eventum\Test\TestCase;
 
 class TestExtension1 extends AbstractExtension implements ExtensionInterface
 {
@@ -31,7 +32,7 @@ class TestExtension2 extends AbstractExtension implements ExtensionInterface
 {
     public function registerAutoloader($loader)
     {
-        $baseDir = __DIR__ . '/../docs/examples/workflow';
+        $baseDir = __DIR__ . '/../../docs/examples/workflow';
         $classMap = ['Example_Workflow_Backend' => $baseDir . '/class.example.php'];
         $loader->addClassMap($classMap);
     }
@@ -44,13 +45,18 @@ class TestExtension2 extends AbstractExtension implements ExtensionInterface
     }
 }
 
+/**
+ * Class ExtensionManagerTest
+ *
+ * @group extension
+ */
 class ExtensionManagerTest extends TestCase
 {
     public function testWorkflowList()
     {
         $config = [
-            __NAMESPACE__ . '\\TestExtension1' => __FILE__,
-            __NAMESPACE__ . '\\TestExtension2' => __FILE__,
+            TestExtension1::class => __FILE__,
+            TestExtension2::class => __FILE__,
         ];
 
         $manager = $this->getExtensionManager($config);

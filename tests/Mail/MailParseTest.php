@@ -11,8 +11,9 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Mail;
 
+use Eventum\Test\TestCase;
 use Mime_Helper;
 
 /**
@@ -25,7 +26,7 @@ class MailParseTest extends TestCase
      */
     public function testParseHtmlEntities()
     {
-        $file = __DIR__ . '/data/encoding.txt';
+        $file = __DIR__ . '/../data/encoding.txt';
         $full_message = file_get_contents($file);
         $this->assertNotEmpty($full_message);
 
@@ -37,7 +38,7 @@ class MailParseTest extends TestCase
 
     public function testBug684922()
     {
-        $file = __DIR__ . '/data/bug684922.txt';
+        $file = __DIR__ . '/../data/bug684922.txt';
         $message = file_get_contents($file);
         $this->assertNotEmpty($message);
 

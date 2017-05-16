@@ -11,13 +11,19 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Mail;
 
 use Eventum\Mail\MailTransport;
+use Eventum\Test\TestCase;
 use stdClass;
 use Zend\Mail\Protocol;
 use Zend\Mail\Transport;
 
+/**
+ * Class MailTransportTest
+ *
+ * @group mail
+ */
 class MailTransportTest extends TestCase
 {
     public function testSingleRecipient()

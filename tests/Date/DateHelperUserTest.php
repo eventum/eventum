@@ -11,9 +11,10 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Date;
 
 use Date_Helper;
+use Eventum\Test\TestCase;
 use Prefs;
 
 /**

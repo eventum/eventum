@@ -11,9 +11,10 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Db;
 
 use DB_Helper;
+use Eventum\Test\TestCase;
 
 class DbHelperTest extends TestCase
 {

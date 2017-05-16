@@ -11,15 +11,17 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Mail;
 
 use Eventum\Mail\MailStorage;
+use Eventum\Test\TestCase;
 use Setup;
 use Support;
 use Zend;
 use Zend\Mail;
 
 /**
+ * @group mail
  * @group imap
  */
 class MailStorageTest extends TestCase

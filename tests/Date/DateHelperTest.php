@@ -11,10 +11,11 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Date;
 
 use Date_Helper;
 use DateTime;
+use Eventum\Test\TestCase;
 use Exception;
 
 /**
@@ -200,7 +201,7 @@ class DateHelperTest extends TestCase
 
     public function testGetTimezoneList()
     {
-        $pear_timezones = require __DIR__ . '/data/timezones.php';
+        $pear_timezones = require __DIR__ . '/../data/timezones.php';
         $timezones = Date_Helper::getTimezoneList();
 
         $diff = array_diff($pear_timezones, $timezones);

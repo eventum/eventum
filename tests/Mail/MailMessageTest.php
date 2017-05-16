@@ -11,10 +11,11 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Mail;
 
 use Date_Helper;
 use Eventum\Mail\MailMessage;
+use Eventum\Test\TestCase;
 use Mail_Helper;
 use Mail_Queue;
 use Mime_Helper;
@@ -51,7 +52,7 @@ class MailMessageTest extends TestCase
 
     public function testDuplicateMessageId()
     {
-        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-msgid.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-msgid.txt');
         $message_id = $message->messageId;
         $exp = '<81421718b55935a2f5105705f8baf571@lookout.example.org>';
         $this->assertEquals($exp, $message_id);
@@ -84,7 +85,7 @@ class MailMessageTest extends TestCase
 
     public function testDateHeader()
     {
-        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-msgid.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-msgid.txt');
         $date = Date_Helper::convertDateGMT($message->date);
         $exp = '2012-12-16 20:21:05';
         $this->assertEquals($exp, $date);
@@ -99,7 +100,7 @@ class MailMessageTest extends TestCase
          * [fromaddress] => Gemius Monitoring 24/7 <monitoring@gemius.com>
          */
 
-        $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/bug684922.txt');
         $from = $message->from;
         $this->assertEquals('Some Guy <abcd@origin.com>', $from);
 
@@ -114,7 +115,7 @@ class MailMessageTest extends TestCase
 
     public function testGetToCc()
     {
-        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-from.txt');
 
         $recipients = [];
         foreach ($message->getTo() as $address) {
@@ -145,13 +146,13 @@ class MailMessageTest extends TestCase
 
     public function testMultipleToHeaders()
     {
-        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-from.txt');
 
         $to = $message->getTo();
         $this->assertInstanceOf('Zend\Mail\AddressList', $to);
         $this->assertEquals('issue-73358@eventum.example.org', $message->to);
 
-        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-msgid.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-msgid.txt');
         $to = $message->getTo();
         $this->assertInstanceOf('Zend\Mail\AddressList', $to);
         $this->assertEquals("support@example.org,\r\n support-2@example.org", $message->to);
@@ -159,7 +160,7 @@ class MailMessageTest extends TestCase
 
     public function testIsBounceMessage()
     {
-        $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/bug684922.txt');
         $this->assertFalse($message->isBounceMessage());
     }
 
@@ -173,7 +174,7 @@ class MailMessageTest extends TestCase
         $this->assertEquals(0, $has_attachments);
         $this->assertFalse($message->hasAttachments());
 
-        $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/bug684922.txt');
         $multipart = $message->isMultipart();
         $this->assertTrue($multipart);
         $has_attachments = $message->countParts();
@@ -181,13 +182,13 @@ class MailMessageTest extends TestCase
         $this->assertTrue($message->hasAttachments());
 
         // this one does not have "Attachments" even it is multipart
-        $message = MailMessage::createFromFile(__DIR__ . '/data/multipart-text-html.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/multipart-text-html.txt');
         $this->assertFalse($message->hasAttachments());
     }
 
     public function testGetAttachments()
     {
-        $raw = file_get_contents(__DIR__ . '/data/bug684922.txt');
+        $raw = file_get_contents(__DIR__ . '/../data/bug684922.txt');
 
         // old code
         $mail = Mime_Helper::decode($raw, true, true);
@@ -225,11 +226,11 @@ class MailMessageTest extends TestCase
 
     public function testReferenceMessageId()
     {
-        $message = MailMessage::createFromFile(__DIR__ . '/data/in-reply-to.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/in-reply-to.txt');
         $reference_id = $message->getReferenceMessageId();
         $this->assertEquals('<CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>', $reference_id);
 
-        $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/bug684922.txt');
         $reference_id = $message->getReferenceMessageId();
         $this->assertEquals('<4d36173add8b60.67944236@origin.com>', $reference_id);
     }
@@ -239,7 +240,7 @@ class MailMessageTest extends TestCase
      */
     public function testReferences()
     {
-        $mail = MailMessage::createFromFile(__DIR__ . '/data/in-reply-to.txt');
+        $mail = MailMessage::createFromFile(__DIR__ . '/../data/in-reply-to.txt');
 
         $ref1 = Mail_Helper::getAllReferences($mail->getHeaders()->toString());
         $ref2 = $mail->getAllReferences();
@@ -252,7 +253,7 @@ class MailMessageTest extends TestCase
      */
     public function testRewriteThreadingHeaders()
     {
-        $mail = MailMessage::createFromFile(__DIR__ . '/data/in-reply-to.txt');
+        $mail = MailMessage::createFromFile(__DIR__ . '/../data/in-reply-to.txt');
         $msg_id = $mail->getReferenceMessageId();
         $exp = '<CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>';
         $this->assertEquals($exp, $msg_id);
@@ -274,14 +275,14 @@ class MailMessageTest extends TestCase
      */
     public function testInReplyTo()
     {
-        $mail = MailMessage::createFromFile(__DIR__ . '/data/multipart-text-html.txt');
+        $mail = MailMessage::createFromFile(__DIR__ . '/../data/multipart-text-html.txt');
         $mail->setInReplyTo('fu!');
         $mail->getRawContent();
     }
 
     public function testGetAddresses()
     {
-        $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/bug684922.txt');
         $addresses = $message->getAddresses();
         $exp = [
             'our@email.com',
@@ -291,7 +292,7 @@ class MailMessageTest extends TestCase
 
     public function testGetRawContent()
     {
-        $raw = file_get_contents(__DIR__ . '/data/in-reply-to.txt');
+        $raw = file_get_contents(__DIR__ . '/../data/in-reply-to.txt');
         $message = MailMessage::createFromString($raw);
 
         // test that getting back raw content works
@@ -306,7 +307,7 @@ class MailMessageTest extends TestCase
     public function testRemoveHeader()
     {
         // test if header exists
-        $message = MailMessage::createFromFile(__DIR__ . '/data/in-reply-to.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/in-reply-to.txt');
         $headers = $message->getHeaders();
 
         $this->assertTrue($headers->has('In-Reply-To'));
@@ -318,7 +319,7 @@ class MailMessageTest extends TestCase
         $this->assertFalse($headers->has('In-Reply-To'));
 
         // test if header already does not exist
-        $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/bug684922.txt');
         $headers = $message->getHeaders();
 
         $this->assertFalse($headers->has('In-Reply-To'));
@@ -328,7 +329,7 @@ class MailMessageTest extends TestCase
 
     public function testDuplicateFrom()
     {
-        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-from.txt');
 
         $from = $message->from;
         $this->assertEquals('IT <help@localhost>', $from);
@@ -352,7 +353,7 @@ class MailMessageTest extends TestCase
 
     public function testModifyBody()
     {
-        $message = MailMessage::createFromFile(__DIR__ . '/data/bug684922.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/bug684922.txt');
 
         $content = Mail_Helper::stripWarningMessage($message->getContent());
         $message->setContent($content);
@@ -360,7 +361,7 @@ class MailMessageTest extends TestCase
 
     public function testRemoveCc()
     {
-        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-from.txt');
 
         $cc = implode(',', $message->getAddresses('Cc'));
         $this->assertEquals('abcd@origin.com,our@email.com', $cc);
@@ -373,7 +374,7 @@ class MailMessageTest extends TestCase
 
     public function testReplaceSubject()
     {
-        $message = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+        $message = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-from.txt');
 
         $subject = $message->subject;
         $this->assertEquals('Re: Re: Re[2]: meh', $subject);
@@ -389,16 +390,16 @@ class MailMessageTest extends TestCase
      */
     public function testIsVacationAutoResponder()
     {
-        $mail = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+        $mail = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-from.txt');
         $this->assertFalse($mail->isVacationAutoResponder());
 
-        $mail = MailMessage::createFromFile(__DIR__ . '/data/cron.txt');
+        $mail = MailMessage::createFromFile(__DIR__ . '/../data/cron.txt');
         $this->assertTrue($mail->isVacationAutoResponder());
     }
 
     public function testStripHeaders()
     {
-        $mail = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+        $mail = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-from.txt');
         $before = array_keys($mail->getHeaders()->toArray());
 
         $mail->stripHeaders();
@@ -419,7 +420,7 @@ class MailMessageTest extends TestCase
 
     public function testSetTo()
     {
-        $mail = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+        $mail = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-from.txt');
 
         $to = 'root@example.org';
         $mail->setTo($to);
@@ -434,7 +435,7 @@ class MailMessageTest extends TestCase
     {
         $this->markTestSkipped('cloning does not work');
 
-        $mail = MailMessage::createFromFile(__DIR__ . '/data/duplicate-from.txt');
+        $mail = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-from.txt');
         $clone = clone $mail;
 
         $to = 'root@example.org';
@@ -498,7 +499,7 @@ class MailMessageTest extends TestCase
      */
     public function testGetMailBody()
     {
-        $filename = __DIR__ . '/data/multipart-text-html.txt';
+        $filename = __DIR__ . '/../data/multipart-text-html.txt';
         $message = file_get_contents($filename);
 
         $structure = Mime_Helper::decode($message, true, true);
@@ -768,7 +769,7 @@ class MailMessageTest extends TestCase
      */
     public function testMboxHeader()
     {
-        $full_message = file_get_contents(__DIR__ . '/data/from_nocolon.txt');
+        $full_message = file_get_contents(__DIR__ . '/../data/from_nocolon.txt');
         $this->assertNotEquals('MIME-Version', substr($full_message, 0, 12));
         Routing::removeMboxHeader($full_message);
         $this->assertEquals('MIME-Version', substr($full_message, 0, 12));

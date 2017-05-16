@@ -11,12 +11,13 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Mail;
 
+use Eventum\Test\TestCase;
 use Mime_Helper;
 
 /**
- * Test class for Mime_Helper.
+ * @group mail
  */
 class MimeHelperTest extends TestCase
 {
@@ -91,7 +92,7 @@ class MimeHelperTest extends TestCase
 
     public function testBug901653()
     {
-        $message = $this->readfile(__DIR__ . '/data/LP901653.txt');
+        $message = $this->readfile(__DIR__ . '/../data/LP901653.txt');
         $structure = Mime_Helper::decode($message, true, true);
         $this->assertNotNull($structure);
     }

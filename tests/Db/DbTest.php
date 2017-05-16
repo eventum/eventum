@@ -11,10 +11,11 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Db;
 
 use DB_Helper;
 use Eventum\Db\Adapter\AdapterInterface;
+use Eventum\Test\TestCase;
 
 /**
  * Test DB layer to work as expected

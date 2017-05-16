@@ -46,7 +46,7 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Eventum\\Test\\": "tests/"
+			"Eventum\\Test\\": [ "tests/", "tests/src/" ]
 		},
 		"classmap": [ "tests/src" ]
 	},

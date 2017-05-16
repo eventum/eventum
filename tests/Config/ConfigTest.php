@@ -11,8 +11,9 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Config;
 
+use Eventum\Test\TestCase;
 use Setup;
 
 class ConfigTest extends TestCase

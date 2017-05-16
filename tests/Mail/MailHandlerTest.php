@@ -19,9 +19,10 @@ namespace Monolog\Handler {
     }
 }
 
-namespace Eventum\Test {
+namespace Eventum\Test\Mail {
 
     use Eventum\Monolog\Logger;
+    use Eventum\Test\TestCase;
     use Setup;
 
     /**
