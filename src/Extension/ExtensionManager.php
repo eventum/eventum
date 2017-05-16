@@ -15,6 +15,7 @@ namespace Eventum\Extension;
 
 use InvalidArgumentException;
 use Setup;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Zend\Config\Config;
 
 class ExtensionManager
@@ -86,10 +87,23 @@ class ExtensionManager
     }
 
     /**
-     * Helper to get merged class list from all extensions
-     * and create instances of them.
+     * Get classes implementing EventSubscriberInterface.
      *
-     * @param string $methodName method name to call on each Extension to obtain class names
+     * @see http://symfony.com/doc/current/components/event_dispatcher.html#using-event-subscribers
+     * @return EventSubscriberInterface[]
+     */
+    public function getSubscribers()
+    {
+        /** @var EventSubscriberInterface[] $subscribers */
+        $subscribers = $this->createInstances(__FUNCTION__);
+
+        return $subscribers;
+    }
+
+    /**
+     * Create instances of classes returned from each extension $methodName.
+     *
+     * @param string $methodName
      * @return object[]
      */
     protected function createInstances($methodName)
@@ -99,12 +113,12 @@ class ExtensionManager
             $classes = array_merge($classes, $extension->$methodName());
         }
 
-        $extensions = [];
+        $instances = [];
         foreach ($classes as $classname) {
-            $extensions[$classname] = $this->createInstance($classname);
+            $instances[$classname] = $this->createInstance($classname);
         }
 
-        return $extensions;
+        return $instances;
     }
 
     /**
@@ -123,7 +137,7 @@ class ExtensionManager
     }
 
     /**
-     * Create all extensions, initialize them
+     * Create all extensions, initialize autoloader on them.
      *
      * @return ExtensionInterface[]
      */

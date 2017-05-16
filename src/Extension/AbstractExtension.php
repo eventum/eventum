@@ -34,6 +34,19 @@ abstract class AbstractExtension implements ExtensionInterface
     }
 
     /**
+     * Get classes implementing EventSubscriberInterface.
+     *
+     * @see http://symfony.com/doc/current/components/event_dispatcher.html#using-event-subscribers
+     * @see \Symfony\Component\EventDispatcher\EventSubscriberInterface
+     * @return string[]
+     * @since 3.2.0
+     */
+    public function getSubscribers()
+    {
+        return [];
+    }
+
+    /**
      * Return Workflow Class names your extension provides.
      *
      * @return string[]
