@@ -28,6 +28,7 @@ use Zend\Mail\Transport;
  */
 class MailTransportTest extends TestCase
 {
+
     /**
      * Converting MailMessage to Mail\Message in Transport\SMTP
      * caused ASCII encoding on headers
@@ -45,6 +46,16 @@ class MailTransportTest extends TestCase
 
         $headers = clone $message->getHeaders();
         $headers->removeHeader('Bcc');
+
+        // should not be QP encoded with UTF-8
+        $res = $headers->get('Message-Id')->toString();
+        $this->assertEquals('Message-ID: <eventum.md5.5as5i4vw4.2uxbmbcboc8wk@eventum.example.org>', $res);
+
+        // should be QP encoded with UTF-8
+        $res = $headers->get('To')->toString();
+        $this->assertEquals('To: =?UTF-8?Q?Elan=20Ruusam=C3=A4e?= <glen@example.org>', $res);
+
+        // toString should not throw
         $res = $headers->toString();
         $this->assertNotEmpty($res);
     }
