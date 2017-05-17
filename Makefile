@@ -123,6 +123,7 @@ install-eventum:
 	cp -a bin $(DESTDIR)$(datadir)
 	cp -a src $(DESTDIR)$(datadir)
 	cp -a res $(DESTDIR)$(datadir)
+	cp -a db $(DESTDIR)$(datadir)
 	cp -a *.php $(DESTDIR)$(datadir)
 
 	install -d $(DESTDIR)$(logdir)
