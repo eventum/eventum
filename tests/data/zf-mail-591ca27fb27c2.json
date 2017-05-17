@@ -1,0 +1,16 @@
+[
+	"=?UTF-8?Q?Elan_Ruusam=C3=A4e?= <glen@example.org>",
+	{
+		"MIME-Version": "1.0",
+		"Content-Type": "text\/plain; charset=\"UTF-8\"",
+		"Content-Transfer-Encoding": "8bit",
+		"Message-ID": "<eventum.md5.5as5i4vw4.2uxbmbcboc8wk@eventum.example.org>",
+		"From": "\"[Eventum] Eventum\" <issue-93171@eventum.example.org>",
+		"To": "Elan =?utf-8?b?UnV1c2Ftw6Rl?= <glen@example.org>",
+		"Subject": "[#93171] New Issue: close eventum SMTP port?",
+		"Precedence": "bulk",
+		"Auto-Submitted": "auto-generated",
+		"Date": "Wed, 17 May 2017 21:56:28 +0300"
+	},
+	"This is an automated message sent at your request\n"
+]
