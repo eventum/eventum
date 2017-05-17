@@ -174,7 +174,6 @@ class MailMessage extends Message
          *
          * Solution:
          *   Create wrapper for Mail\Message to set Headers without re-encoding them.
-         *
          */
 
         $message = new ZendMailMessage();

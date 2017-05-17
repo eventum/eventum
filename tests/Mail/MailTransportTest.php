@@ -28,7 +28,6 @@ use Zend\Mail\Transport;
  */
 class MailTransportTest extends TestCase
 {
-
     /**
      * Converting MailMessage to Mail\Message in Transport\SMTP
      * caused ASCII encoding on headers
