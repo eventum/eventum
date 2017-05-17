@@ -97,6 +97,7 @@ class MailTransport
     {
         $id = uniqid('zf-mail-');
         $traceFile = APP_LOG_PATH . "/$id.json";
+
         return $traceFile;
     }
 

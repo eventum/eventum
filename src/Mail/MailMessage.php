@@ -154,6 +154,7 @@ class MailMessage extends Message
     public function toMessage()
     {
         $message = new Mail\Message();
+        $message->setEncoding('UTF-8');
         $message->setHeaders($this->getHeaders());
         $message->setBody($this->getContent());
 

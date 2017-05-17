@@ -13,9 +13,11 @@
 
 namespace Eventum\Test\Mail;
 
+use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
 use Eventum\Test\TestCase;
 use stdClass;
+use Zend\Mail\Headers;
 use Zend\Mail\Protocol;
 use Zend\Mail\Transport;
 
@@ -26,6 +28,27 @@ use Zend\Mail\Transport;
  */
 class MailTransportTest extends TestCase
 {
+    /**
+     * Converting MailMessage to Mail\Message in Transport\SMTP
+     * caused ASCII encoding on headers
+     * which failed the toString call later.
+     */
+    public function testMessageObject()
+    {
+        list($recipient, $headers, $body) = $this->loadMailTrace('zf-mail-591ca27fb27c2.json');
+
+        $message = MailMessage::createFromHeaderBody((array)$headers, $body)->toMessage();
+
+        // this logic is from Smtp::send
+        // $headers = $this->prepareHeaders($message);
+        /** @see \Zend\Mail\Transport\Smtp::send() */
+
+        $headers = clone $message->getHeaders();
+        $headers->removeHeader('Bcc');
+        $res = $headers->toString();
+        $this->assertNotEmpty($res);
+    }
+
     public function testSingleRecipient()
     {
         $recipient = 'root@localhost';
@@ -153,5 +176,23 @@ class MailTransportTest extends TestCase
             );
 
         return $stub;
+    }
+
+    /**
+     * Load saved Mail\Transport trace file
+     *
+     * @param string $traceFile
+     * @return array
+     */
+    private function loadMailTrace($traceFile)
+    {
+        $path = __DIR__ . '/../data/' . $traceFile;
+        $this->assertFileExists($path);
+        $contents = file_get_contents($path);
+        $this->assertJson($contents);
+        $data = json_decode($contents);
+        $this->assertNotEmpty($data);
+
+        return $data;
     }
 }
