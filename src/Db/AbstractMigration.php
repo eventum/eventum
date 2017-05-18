@@ -112,6 +112,23 @@ abstract class AbstractMigration extends PhinxAbstractMigration
     }
 
     /**
+     * Quote field value.
+     * As long as execute() does not take params, we need to quote values.
+     *
+     * @see https://github.com/robmorgan/phinx/pull/850
+     * @param string $value
+     * @return string
+     */
+    protected function quoteValue($value)
+    {
+        /** @var MysqlAdapter $adapter */
+        $adapter = $this->getAdapter();
+        $connection = $adapter->getConnection();
+
+        return $connection->quote($value);
+    }
+
+    /**
      * Get Primary Key column from Pending Table Operations.
      * Hack for AUTO_INCREMENT being lost when defining custom Primary Key column
      *
