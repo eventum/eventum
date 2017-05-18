@@ -64,6 +64,11 @@ abstract class AbstractMigration extends PhinxAbstractMigration
     /** @var bool */
     private $initialized;
 
+    /**
+     * This would be in init() but it's too early to use adapter.
+     *
+     * @see https://github.com/robmorgan/phinx/issues/1095
+     */
     private function initOptions()
     {
         // extract options from phinx.php config
