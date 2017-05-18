@@ -141,6 +141,7 @@ class Mail_Helper
      * Method should be used when displaying header values to user.
      *
      * @param Address|string $address The email address value
+     * @throws \Zend\Mail\Header\Exception\InvalidArgumentException
      * @return string
      */
     public static function formatEmailAddresses($address)
@@ -149,7 +150,13 @@ class Mail_Helper
             return '';
         }
         if (!$address instanceof Address) {
-            $address = AddressHeader::fromString($address);
+            try {
+                $address = AddressHeader::fromString($address);
+            } catch (\Zend\Mail\Header\Exception\InvalidArgumentException $e) {
+                Logger::app()->error($e->getMessage(), ['address' => $address, 'exception' => $e]);
+
+                return AddressHeader::INVALID_ADDRESS;
+            }
         }
 
         return $address->toString(HeaderInterface::FORMAT_RAW);

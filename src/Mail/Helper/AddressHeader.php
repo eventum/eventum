@@ -26,6 +26,9 @@ use Zend\Mail\Header\To;
  */
 class AddressHeader
 {
+    // if address can not be parsed, this value is returned instead
+    const INVALID_ADDRESS = 'INVALID ADDRESS:;';
+
     /** @var To */
     private $header;
 
