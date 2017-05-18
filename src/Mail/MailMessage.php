@@ -289,7 +289,7 @@ class MailMessage extends Message
     /**
      * Returns the text message body.
      *
-     * @return string The message body
+     * @return string|null The message body
      * @see Mime_Helper::getMessageBody()
      */
     public function getMessageBody()
@@ -540,7 +540,10 @@ class MailMessage extends Message
     {
         // NOTE: Subject header is always present,
         // so it's safe to call this without checking for header presence
-        return $this->getHeader('Subject');
+        /** @var Subject $subject */
+        $subject = $this->getHeader('Subject');
+
+        return $subject;
     }
 
     /**
