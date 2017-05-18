@@ -70,8 +70,8 @@ class EventumExtensionMigrateDb extends AbstractMigration
      */
     private function migrate($table, $field, $el)
     {
-        $table = $this->getAdapter()->quoteColumnName($table);
-        $column = $this->getAdapter()->quoteTableName($field);
+        $table = $this->quoteColumnName($table);
+        $column = $this->quoteTableName($field);
 
         $st = $this->query("SELECT DISTINCT {$column} FROM {$table}");
         foreach ($st as $row) {

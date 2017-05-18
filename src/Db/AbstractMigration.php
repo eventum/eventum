@@ -94,6 +94,24 @@ abstract class AbstractMigration extends PhinxAbstractMigration
     }
 
     /**
+     * @param string $columnName
+     * @return string
+     */
+    protected function quoteColumnName($columnName)
+    {
+        return $this->getAdapter()->quoteColumnName($columnName);
+    }
+
+    /**
+     * @param string $tableName
+     * @return string
+     */
+    protected function quoteTableName($tableName)
+    {
+        return $this->getAdapter()->quoteTableName($tableName);
+    }
+
+    /**
      * Get Primary Key column from Pending Table Operations.
      * Hack for AUTO_INCREMENT being lost when defining custom Primary Key column
      *
