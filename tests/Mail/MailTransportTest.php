@@ -196,9 +196,7 @@ class MailTransportTest extends TestCase
      */
     private function loadMailTrace($traceFile)
     {
-        $path = __DIR__ . '/../data/' . $traceFile;
-        $this->assertFileExists($path);
-        $contents = file_get_contents($path);
+        $contents = $this->readDataFile($traceFile);
         $this->assertJson($contents);
         $data = json_decode($contents);
         $this->assertNotEmpty($data);

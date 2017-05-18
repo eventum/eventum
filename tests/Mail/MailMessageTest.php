@@ -188,7 +188,7 @@ class MailMessageTest extends TestCase
 
     public function testGetAttachments()
     {
-        $raw = file_get_contents(__DIR__ . '/../data/bug684922.txt');
+        $raw = $this->readDataFile('bug684922.txt');
 
         // old code
         $mail = Mime_Helper::decode($raw, true, true);
@@ -292,7 +292,7 @@ class MailMessageTest extends TestCase
 
     public function testGetRawContent()
     {
-        $raw = file_get_contents(__DIR__ . '/../data/in-reply-to.txt');
+        $raw = $this->readDataFile('in-reply-to.txt');
         $message = MailMessage::createFromString($raw);
 
         // test that getting back raw content works
@@ -500,7 +500,7 @@ class MailMessageTest extends TestCase
     public function testGetMailBody()
     {
         $filename = __DIR__ . '/../data/multipart-text-html.txt';
-        $message = file_get_contents($filename);
+        $message = $this->readFile($filename);
 
         $structure = Mime_Helper::decode($message, true, true);
         $body1 = $structure->body;
@@ -769,7 +769,7 @@ class MailMessageTest extends TestCase
      */
     public function testMboxHeader()
     {
-        $full_message = file_get_contents(__DIR__ . '/../data/from_nocolon.txt');
+        $full_message = $this->readDataFile('from_nocolon.txt');
         $this->assertNotEquals('MIME-Version', substr($full_message, 0, 12));
         Routing::removeMboxHeader($full_message);
         $this->assertEquals('MIME-Version', substr($full_message, 0, 12));

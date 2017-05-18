@@ -52,11 +52,25 @@ class TestCase extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Read file from tests/data directory.
+     *
      * @param string $filename
      * @return string
      */
-    protected function readfile($filename)
+    protected function readDataFile($filename)
     {
+        $file = __DIR__ . '/../data/' . $filename;
+
+        return $this->readFile($file);
+    }
+
+    /**
+     * @param string $filename
+     * @return string
+     */
+    protected function readFile($filename)
+    {
+        $this->assertFileExists($filename);
         $content = file_get_contents($filename);
         $this->assertNotEmpty($content);
 

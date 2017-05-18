@@ -92,7 +92,7 @@ class MimeHelperTest extends TestCase
 
     public function testBug901653()
     {
-        $message = $this->readfile(__DIR__ . '/../data/LP901653.txt');
+        $message = $this->readDataFile('LP901653.txt');
         $structure = Mime_Helper::decode($message, true, true);
         $this->assertNotNull($structure);
     }
