@@ -77,6 +77,8 @@ class SetupController extends BaseController
                     'php_version' => phpversion(),
                     'template_id' => 'setup',
                 ],
+                'userstyle' => '',
+                'userscript' => '',
                 'is_secure' => $request->isSecure(),
                 'zones' => Date_Helper::getTimezoneList(),
                 'default_timezone' => $this->getTimezone(),
