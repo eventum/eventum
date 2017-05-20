@@ -1,6 +1,8 @@
 # Eventum Issue Tracking System
 
-## [3.2.0] - 2017-??-??
+## [3.2.0] - 2017-05-20
+
+This is pre-release, use with care!
 
 This version switches to use [PDO MySQL] driver, ensure you have the extension enabled.
 Even it will likely work, it's recommended that you update to latest 3.1 first before upgrading to 3.2.0.
@@ -23,8 +25,9 @@ This version adds replacement for backend classes with adding Extension support,
 - fix expected resolution date being rendered as -1 (@glensc, #260)
 - fix user roles being overridden when updating a project (@balsdorf, 7ae6d2563, #152)
 - add extension support for workflows/customfields/partners/crm (@glensc, #259)
+- with this release, reached 🕒 8000th commit!
 
-[3.2.0]: https://github.com/eventum/eventum/compare/v3.1.10...master
+[3.2.0]: https://github.com/eventum/eventum/compare/v3.1.10...v3.2.0
 [PDO MySQL]: http://php.net/manual/en/ref.pdo-mysql.php
 [Upgrade]: https://github.com/eventum/eventum/wiki/Upgrading
 
