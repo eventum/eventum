@@ -84,11 +84,7 @@ class Misc
      */
     public static function countBytes($data)
     {
-        if (function_exists('mb_strlen')) {
-            return mb_strlen($data, '8bit');
-        }
-
-        return strlen($data);
+        return mb_strlen($data, '8bit');
     }
 
     /**
