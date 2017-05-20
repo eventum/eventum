@@ -29,7 +29,7 @@ interface ExtensionInterface
      * @see http://symfony.com/doc/current/components/event_dispatcher.html#using-event-subscribers
      * @see \Symfony\Component\EventDispatcher\EventSubscriberInterface
      * @return string[]
-     * @since 3.2.0
+     * @since 3.2.1
      */
     public function getSubscribers();
 
@@ -42,7 +42,7 @@ interface ExtensionInterface
     public function getAvailableWorkflows();
 
     /**
-     * Return Custom Field Class names your extension provides.
+     * Return Custom Field Class names the extension provides.
      *
      * @return string[]
      * @since 3.2.0
@@ -50,7 +50,7 @@ interface ExtensionInterface
     public function getAvailableCustomFields();
 
     /**
-     * Return Partner Class names your extension provides.
+     * Return Partner Class names the extension provides.
      *
      * @return string[]
      * @since 3.2.0
@@ -58,7 +58,7 @@ interface ExtensionInterface
     public function getAvailablePartners();
 
     /**
-     * Return CRM Class names your extension provides.
+     * Return CRM Class names the extension provides.
      *
      * @return string[]
      * @since 3.2.0
