@@ -2,6 +2,8 @@
 
 ## [3.2.1] - 2017-??-??
 
+- add `$min_role` to base controller (@glensc, #261)
+
 [3.2.1]: https://github.com/eventum/eventum/compare/v3.2.0...master
 
 ## [3.2.0] - 2017-05-20
