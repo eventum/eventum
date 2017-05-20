@@ -12,7 +12,7 @@ You will need:
     - imap - IMAP Extension (c-client imap library)
     - json
     - mbstring
-    - mysqli - MySQL Extension
+    - pdo_mysql - MySQL Extension
     - pcre - PCRE Extension
     - session (builtin) - Session handling enabled
     - spl (builtin)
