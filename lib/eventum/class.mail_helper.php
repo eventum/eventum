@@ -152,7 +152,7 @@ class Mail_Helper
         if (!$address instanceof Address) {
             try {
                 $address = AddressHeader::fromString($address);
-            } catch (\Zend\Mail\Header\Exception\InvalidArgumentException $e) {
+            } catch (\Zend\Mail\Exception\InvalidArgumentException $e) {
                 Logger::app()->error($e->getMessage(), ['address' => $address, 'exception' => $e]);
 
                 return AddressHeader::INVALID_ADDRESS;
