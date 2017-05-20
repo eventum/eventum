@@ -2,7 +2,10 @@
 
 ## [3.2.1] - 2017-??-??
 
+This release makes `iconv` and `mbstring` extensions required.
+
 - add `$min_role` to base controller (@glensc, #261)
+- require `iconv` and `mbstring` extensions (@glensc, #269)
 
 [3.2.1]: https://github.com/eventum/eventum/compare/v3.2.0...master
 

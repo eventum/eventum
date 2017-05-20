@@ -296,6 +296,8 @@ class Mime_Helper
     /**
      * Decode a quoted printable encoded string.
      *
+     * Formerly known as 'fixEncoding' method in Eventum
+     *
      * @author Elan Ruusamäe <glen@delfi.ee>
      * @see    Zend_Mime_Decode::decodeQuotedPrintable
      * @param  string $string encoded string
@@ -303,45 +305,15 @@ class Mime_Helper
      */
     public static function decodeQuotedPrintable($string)
     {
-        if (function_exists('iconv_mime_decode')) {
-            // skip if not encoded, iconv_mime_decode otherwise removes unknown chars.
-            // ideally this should not be needed, but we have places where we call this function twice.
-            // TODO: log and remove duplicate calls (to same data) to decodeQuotedPrintable
-            // TODO: use self::isQuotedPrintable if it is improved
-            if (!preg_match("/=\?(?P<charset>.*?)\?(?P<scheme>[QB])\?(?P<string>.*?)\?=/i", $string)) {
-                return $string;
-            }
-
-            return iconv_mime_decode($string, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, APP_CHARSET);
+        // skip if not encoded, iconv_mime_decode otherwise removes unknown chars.
+        // ideally this should not be needed, but we have places where we call this function twice.
+        // TODO: log and remove duplicate calls (to same data) to decodeQuotedPrintable
+        // TODO: use self::isQuotedPrintable if it is improved
+        if (!preg_match("/=\?(?P<charset>.*?)\?(?P<scheme>[QB])\?(?P<string>.*?)\?=/i", $string)) {
+            return $string;
         }
 
-        // this part does not function properly if iconv extension is missing
-        // +=?UTF-8?B?UHLDvGZ1bmcgUHLDvGZ1bmc=?=
-        preg_match_all("/(?P<before>.*?)=\?(?P<charset>.*?)\?(?P<scheme>[QB])\?(?P<string>.*?)\?=(?P<after>.*?)/i", $string, $matches, PREG_SET_ORDER);
-        $string = '';
-        foreach ($matches as $m) {
-            $string .= $m['before'];
-            switch (strtolower($m['scheme'])) {
-            case 'q':
-                $s = quoted_printable_decode($m['string']);
-                $s = str_replace('_', ' ', $s);
-                break;
-            case 'b':
-                $s = base64_decode($m['string']);
-                break;
-            default:
-                // unknown, leave undecoded
-                $s = $m['string'];
-            }
-            if (function_exists('iconv')) {
-                $string .= iconv($m['charset'], APP_CHARSET, $s);
-            } else {
-                $string .= $s;
-            }
-            $string .= $m['after'];
-        }
-
-        return $string;
+        return iconv_mime_decode($string, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, APP_CHARSET);
     }
 
     /**
