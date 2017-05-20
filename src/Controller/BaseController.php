@@ -39,6 +39,16 @@ abstract class BaseController
     /** @var bool */
     protected $is_popup = false;
 
+    /**
+     * Minimum role required to access the page
+     *
+     * @var int
+     */
+    protected $min_role;
+
+    /** @var int */
+    protected $role_id;
+
     /** @var array */
     private $helpers;
 
@@ -59,8 +69,8 @@ abstract class BaseController
     public function run()
     {
         // NOTE: canAccess needs $issue_id for the template
-        if (!$this->canAccess()) {
-            $this->displayTemplate('permission_denied.tpl.html');
+        if (!$this->canRoleAccess() || !$this->canAccess()) {
+            $this->error(ev_gettext('Sorry, you are not allowed to access this page.'));
             exit;
         }
 
@@ -89,16 +99,46 @@ abstract class BaseController
 
     /**
      * display template
+     *
      * @param string $tpl_name
      */
     protected function displayTemplate($tpl_name = null)
     {
-        $this->tpl->assign('messages', $this->messages->getMessages());
+        $this->tpl->assign(
+            [
+                'messages' => $this->messages->getMessages(),
+                'is_popup' => $this->is_popup,
+            ]
+        );
+
         // set new template, if needed
         if ($tpl_name) {
             $this->tpl->setTemplate($tpl_name);
         }
         $this->tpl->displayTemplate();
+    }
+
+    /**
+     * If page is restricted, check for minimum role.
+     *
+     * @return bool
+     */
+    final protected function canRoleAccess()
+    {
+        if ($this->min_role === null) {
+            // not restricted
+            return true;
+        }
+
+        if ($this->is_popup) {
+            Auth::checkAuthentication(null, true);
+        } else {
+            Auth::checkAuthentication();
+        }
+
+        $this->role_id = Auth::getCurrentRole();
+
+        return $this->role_id >= $this->min_role;
     }
 
     /**

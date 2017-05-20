@@ -50,9 +50,6 @@ class UpdateController extends BaseController
     /** @var int */
     private $prj_id;
 
-    /** @var int */
-    private $role_id;
-
     /** @var array */
     private $details;
 

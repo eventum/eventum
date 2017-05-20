@@ -39,9 +39,6 @@ class CloseController extends BaseController
     /** @var int */
     private $prj_id;
 
-    /** @var int */
-    private $role_id;
-
     /** @var string */
     private $cat;
 
