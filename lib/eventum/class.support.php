@@ -1203,7 +1203,7 @@ class Support
         foreach ($res as &$row) {
             $row['sup_from'] = implode(', ', Mail_Helper::getName($row['sup_from'], true));
             if ((empty($row['sup_to'])) && (!empty($row['sup_iss_id']))) {
-                $row['sup_to'] = 'Notification List';
+                $row['sup_to'] = ev_gettext('Notification List');
             } else {
                 try {
                     $row['sup_to'] = Mail_Helper::getName($row['sup_to']);
