@@ -2,8 +2,6 @@
 
 ## [3.2.1] - 2017-??-??
 
-This release makes `iconv` and `mbstring` extensions required.
-
 - add `$min_role` to base controller (@glensc, #261)
 - require `iconv` and `mbstring` extensions (@glensc, #269)
 
