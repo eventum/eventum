@@ -65,9 +65,6 @@ Upgrading from versions before 2.2
 
 Upgrading from these versions not supported, you have to go back and upgrade to 2.2 version first.
 
-If you find any problems while upgrading, please email us in the mailing lists
-described in the [README.md](https://github.com/eventum/eventum) file.
-
 Since version 2.2 the database is assumed to be in UTF-8 encoding, it includes [scripts](https://github.com/eventum/eventum/tree/v2.4.0-pre1/upgrade/v2.1.1_to_v2.2) to convert.
 
 The charset convert scripts exists up to 2.4.0 version and are removed in 3.x series.
