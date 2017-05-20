@@ -27,7 +27,7 @@ this should be done day before release so launchpad cron would update .po files.
 Release process
 ---------------
 
-- Update `ChangeLog.md` file with the correct version number and release date
+- Update `CHANGELOG.md` file with the correct version number and release date
 
 Do not forget to update changeset link to point to tag not master
 
@@ -79,4 +79,4 @@ $ git push launchpad
 - close old milestone
 - verify that you did not forget to update wiki submodule
 - update release number in globals.php to indicate next dev version (`APP_VERSION`)
-- start new version entry in ChangeLog.md
+- start new version entry in CHANGELOG.md

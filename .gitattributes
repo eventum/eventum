@@ -20,4 +20,4 @@
 /phpunit.xml.dist export-ignore
 /tests export-ignore
 
-/ChangeLog.md merge=union
+/CHANGELOG.md merge=union

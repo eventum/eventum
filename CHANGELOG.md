@@ -1,5 +1,9 @@
 # Eventum Issue Tracking System
 
+## [3.2.1] - 2017-??-??
+
+[3.2.1]: https://github.com/eventum/eventum/compare/v3.2.0...master
+
 ## [3.2.0] - 2017-05-20
 
 This is pre-release, use with care!
