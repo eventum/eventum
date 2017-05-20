@@ -50,6 +50,11 @@ Old Value  | New Value | Description
 `logs`  | `var/log` | directory for logs
 * Since 3.2.0 MySQL extension was changed from mysql/mysqli to [PDO_MySQL](https://github.com/eventum/eventum/pull/252):
 
+Upgrading from versions before 3.2
+----------------------------------
+
+You need to upgrade to 3.2.0 first before you can upgrade to 3.2.x versions. [#270](https://github.com/eventum/eventum/pull/270)
+
 Upgrading from versions before 3.0
 ----------------------------------
 
