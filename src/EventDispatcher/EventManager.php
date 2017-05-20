@@ -46,9 +46,11 @@ class EventManager
      *
      * @param string $eventName
      * @param Event $event
+     * @return Event
+     * @see EventDispatcherInterface::dispatch()
      */
     public static function dispatch($eventName, Event $event = null)
     {
-        self::getEventDispatcher()->dispatch($eventName, $event);
+        return self::getEventDispatcher()->dispatch($eventName, $event);
     }
 }
