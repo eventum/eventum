@@ -146,6 +146,7 @@ class Email_Account
      * account.
      *
      * @param   int $ema_id The support email account ID
+     * @param bool $include_password
      * @return  array The account details
      */
     public static function getDetails($ema_id, $include_password = false)
@@ -157,7 +158,7 @@ class Email_Account
                  WHERE
                     ema_id=?';
 
-        // IMPORTANT: do not print out $emai_id without sanitizing, it may contain XSS
+        // IMPORTANT: do not print out $ema_id without sanitizing, it may contain XSS
         try {
             $res = DB_Helper::getInstance()->getRow($stmt, [$ema_id]);
         } catch (DatabaseException $e) {
