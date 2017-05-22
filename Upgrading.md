@@ -20,8 +20,9 @@ When upgrading to a new version of Eventum, please follow these instructions:
 2.  Extract your new Eventum copy over your existing folder structure
 3.  Run the upgrade scripts described in below
 
-Upgrading from version 3.0 and from versions upwards
+Upgrading to latest version
 ----------------------------------------------------
+**PLEASE NOTE: If you are upgrading from a version older than 3.2.0 please read the version specific notes at the bottom of this page.**
 
 * Rename your current Eventum dir to `eventum.old`
 * Extract Eventum release tarball and rename it to `eventum` directory.
