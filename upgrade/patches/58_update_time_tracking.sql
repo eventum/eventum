@@ -1,1 +1,0 @@
-INSERT INTO {{%history_type}} (htt_name, htt_role) VALUES ('time_update', '4');
