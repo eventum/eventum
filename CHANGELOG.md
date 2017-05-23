@@ -5,6 +5,7 @@
 - add `$min_role` to base controller (@glensc, #261)
 - require `iconv` and `mbstring` extensions (@glensc, #269)
 - add Event/EventDispatcher to Eventum (@glensc, #272)
+- drop old db migrate system (@glensc, #270)
 
 [3.2.1]: https://github.com/eventum/eventum/compare/v3.2.0...master
 
