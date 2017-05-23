@@ -23,12 +23,12 @@ final class WorkflowEvents
      *
      * @since 3.2.1
      */
-    const CRYPTO_UPGRADE = 'crypto.upgrade_config';
+    const CONFIG_CRYPTO_UPGRADE = 'workflow.config.crypto_upgrade';
 
     /**
      * Downgrade config: remove all EncryptedValue elements.
      *
      * @since 3.2.1
      */
-    const CRYPTO_DOWNGRADE = 'crypto.downgrade_config';
+    const CONFIG_CRYPTO_DOWNGRADE = 'workflow.config.crypto_downgrade';
 }

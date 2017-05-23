@@ -28,8 +28,8 @@ class CryptoSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            WorkflowEvents::CRYPTO_UPGRADE => 'upgradeConfig',
-            WorkflowEvents::CRYPTO_DOWNGRADE => 'downgradeConfig',
+            WorkflowEvents::CONFIG_CRYPTO_UPGRADE => 'upgradeConfig',
+            WorkflowEvents::CONFIG_CRYPTO_DOWNGRADE => 'downgradeConfig',
         ];
     }
 
