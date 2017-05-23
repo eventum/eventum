@@ -86,6 +86,7 @@
 		"smarty-gettext/smarty-gettext": "~1.0",
 		"smarty/smarty": "~3.1.12",
 		"sphinx/php-sphinxapi": "2.0.*",
+		"symfony/event-dispatcher": "~2.7.0",
 		"symfony/filesystem": "~2.7.0",
 		"symfony/http-foundation": "~2.7.0",
 		"theorchard/monolog-cascade": "^0.3.1",

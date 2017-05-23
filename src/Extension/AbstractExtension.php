@@ -24,20 +24,25 @@ namespace Eventum\Extension;
 abstract class AbstractExtension implements ExtensionInterface
 {
     /**
-     * Method invoked so the extension can setup class loader.
-     *
-     * @param \Composer\Autoload\ClassLoader $loader
-     * @since 3.2.0
+     * {@inheritdoc}
+     * @see ExtensionInterface::registerAutoloader()
      */
     public function registerAutoloader($loader)
     {
     }
 
     /**
-     * Return Workflow Class names your extension provides.
-     *
-     * @return string[]
-     * @since 3.2.0
+     * {@inheritdoc}
+     * @see ExtensionInterface::getSubscribers()
+     */
+    public function getSubscribers()
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritdoc}
+     * @see ExtensionInterface::getAvailableWorkflows()
      */
     public function getAvailableWorkflows()
     {
@@ -45,10 +50,8 @@ abstract class AbstractExtension implements ExtensionInterface
     }
 
     /**
-     * Return Custom Field Class names your extension provides.
-     *
-     * @return string[]
-     * @since 3.2.0
+     * {@inheritdoc}
+     * @see ExtensionInterface::getAvailableCustomFields()
      */
     public function getAvailableCustomFields()
     {
@@ -56,10 +59,8 @@ abstract class AbstractExtension implements ExtensionInterface
     }
 
     /**
-     * Return Partner Class names your extension provides.
-     *
-     * @return string[]
-     * @since 3.2.0
+     * {@inheritdoc}
+     * @see ExtensionInterface::getAvailablePartners()
      */
     public function getAvailablePartners()
     {
@@ -67,10 +68,8 @@ abstract class AbstractExtension implements ExtensionInterface
     }
 
     /**
-     * Return CRM Class names your extension provides.
-     *
-     * @return string[]
-     * @since 3.2.0
+     * {@inheritdoc}
+     * @see ExtensionInterface::getAvailableCRMs()
      */
     public function getAvailableCRMs()
     {

@@ -13,6 +13,8 @@
 
 namespace Eventum\Extension;
 
+use Eventum\Event\CryptoSubscriber;
+
 /**
  * Example Eventum Extension.
  *
@@ -30,7 +32,6 @@ class ExampleExtension extends AbstractExtension
      * Method invoked so the extension can setup class loader.
      *
      * @param \Composer\Autoload\ClassLoader $loader
-     * @since 3.2.0
      */
     public function registerAutoloader($loader)
     {
@@ -62,7 +63,6 @@ class ExampleExtension extends AbstractExtension
      * Return list of workflow classes.
      *
      * @return string[]
-     * @since 3.2.0
      */
     public function getAvailableWorkflows()
     {
@@ -104,6 +104,20 @@ class ExampleExtension extends AbstractExtension
     {
         return [
             'Example\\CRM',
+        ];
+    }
+
+    /**
+     * Get classes implementing EventSubscriberInterface.
+     *
+     * @see http://symfony.com/doc/current/components/event_dispatcher.html#using-event-subscribers
+     * @see \Symfony\Component\EventDispatcher\EventSubscriberInterface
+     * @return string[]
+     */
+    public function getSubscribers()
+    {
+        return [
+            CryptoSubscriber::class,
         ];
     }
 }
