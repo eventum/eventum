@@ -12,7 +12,7 @@
                 {t}Manage Partners{/t}
             </th>
         </tr>
-        {if $smarty.get.cat|default:'' == 'edit'}
+        {if $smarty.get.cat|default:'' == 'edit' && isset($info)}
         <tr>
             <th width="120">
                 {t}Code{/t}

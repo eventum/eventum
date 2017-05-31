@@ -185,7 +185,7 @@ class Routing
         Mime_Helper::parse_output($structure, $parts);
 
         // get the sender's email address
-        $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
+        $sender_email = Mail_Helper::getEmailAddress($structure->headers['from']);
 
         // strip out the warning message sent to staff users
         if (($setup['email_routing']['status'] == 'enabled') &&
@@ -498,7 +498,7 @@ class Routing
 
         $prj_id = Issue::getProjectID($issue_id);
         // check if the sender is allowed in this issue' project and if it is an internal user
-        $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
+        $sender_email = Mail_Helper::getEmailAddress($structure->headers['from']);
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (!empty($sender_usr_id)) {
             $sender_role = User::getRoleByUser($sender_usr_id, $prj_id);

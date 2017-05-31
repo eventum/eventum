@@ -25,6 +25,12 @@ class PartnersController extends BaseController
     protected $tpl_name = 'select_partners.tpl.html';
 
     /** @var int */
+    protected $min_role = User::ROLE_DEVELOPER;
+
+    /** @var bool */
+    protected $is_popup = true;
+
+    /** @var int */
     private $issue_id;
 
     /** @var string */
@@ -52,12 +58,6 @@ class PartnersController extends BaseController
      */
     protected function canAccess()
     {
-        Auth::checkAuthentication(null, true);
-
-        if (Auth::getCurrentRole() <= User::ROLE_USER) {
-            return false;
-        }
-
         $this->usr_id = Auth::getUserID();
 
         if (Access::canViewIssuePartners($this->issue_id, $this->usr_id)) {

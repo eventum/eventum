@@ -36,7 +36,7 @@ class WeeklyController extends ReportBaseController
     /** @var string */
     private $report_type;
 
-    /** @var string */
+    /** @var int */
     private $developer;
 
     /**
@@ -70,6 +70,10 @@ class WeeklyController extends ReportBaseController
     {
     }
 
+    /**
+     * @param int $usr_id
+     * @return array
+     */
     private function getDeveloperReport($usr_id)
     {
         $request = $this->getRequest();

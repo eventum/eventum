@@ -1,11 +1,18 @@
 #!/usr/bin/php
 <?php
-/**
- * Tool for helping Eventum upgrades.
+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
  *
- * See our Wiki for documentation:
- * https://github.com/eventum/eventum/wiki/Upgrading
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
  */
+
+use Symfony\Component\Console\Input\ArgvInput;
 
 define('INSTALL_PATH', __DIR__ . '/..');
 define('CONFIG_PATH', INSTALL_PATH . '/config');
@@ -22,5 +29,11 @@ if (!file_exists($setup_path) || !filesize($setup_path) || !is_readable($setup_p
 
 require_once INSTALL_PATH . '/init.php';
 
-$app = new Eventum\Command\UpgradeCommand();
-$app->run();
+// run phinx based updater
+chdir(__DIR__ . '/..');
+
+// emulate running "migrate" command
+$input = new ArgvInput([$argv[0], 'migrate']);
+
+$app = new Phinx\Console\PhinxApplication();
+$app->run($input);

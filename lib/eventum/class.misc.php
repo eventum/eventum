@@ -84,11 +84,7 @@ class Misc
      */
     public static function countBytes($data)
     {
-        if (function_exists('mb_strlen')) {
-            return mb_strlen($data, '8bit');
-        }
-
-        return strlen($data);
+        return mb_strlen($data, '8bit');
     }
 
     /**
@@ -345,7 +341,7 @@ class Misc
     /**
      * Method used to strip HTML from a string or array
      *
-     * @param   string $str The original string or array
+     * @param   string $input The original string or array
      * @return  string The escaped (or not) string
      */
     public static function stripHTML($input)
@@ -380,8 +376,8 @@ class Misc
     }
 
     /**
-     * Method used to get the full list of files contained in a specific
-     * directory.
+     * Method used to get the list of files contained in a specific
+     * directory with their absolute paths.
      *
      * @param   string $directory The path to list the files from
      * @return  array The list of files
@@ -394,7 +390,7 @@ class Misc
             if (($item == '.') || ($item == '..') || ($item == 'CVS') || ($item == 'SCCS')) {
                 continue;
             }
-            $files[] = $item;
+            $files[] = "$directory/$item";
         }
 
         return $files;
@@ -570,7 +566,6 @@ class Misc
      */
     public static function displayRequirementErrors($errors, $title = 'Configuration Error')
     {
-        $rel_path = APP_RELATIVE_URL;
         $messages = implode("\n<br>\n", $errors);
         echo '<html>
 <head>
@@ -595,11 +590,10 @@ class Misc
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td><img src="', $rel_path, 'images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
-          <td width="100%" class="default"><span style="font-weight: bold; font-size: 160%; color: red;">Configuration Error:</span></td>
+          <td class="default"><span style="font-weight: bold; font-size: 160%; color: red;">Configuration Error:</span></td>
         </tr>
         <tr>
-          <td colspan="2" class="default">
+          <td class="default">
             <br />
             <b>The following problems were found:</b>
             <br /><br />
@@ -633,6 +627,9 @@ class Misc
         return ev_gettext('No');
     }
 
+    /**
+     * @return string
+     */
     public static function removeNewLines($str, $no_space = false)
     {
         if ($no_space) {

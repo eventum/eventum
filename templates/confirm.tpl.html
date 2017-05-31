@@ -12,18 +12,25 @@
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         {if $confirm_result != 1}
         <tr>
-          <td><img src="{$core.rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
           <td width="100%">
-            <span style="font-weight: bold; font-size: 160%; color: red;">{if $smarty.get.cat == 'password'}{t}Password Confirmation{/t}{else}{t}Account Creation{/t}{/if} {t}Error{/t}:</span>
+          <span id="error-header">
+            <i class="fa fa-warning" aria-hidden="true"></i>
+              {if $cat == 'password'}
+                {t}Password Confirmation{/t}
+              {else}
+                {t}Account Creation{/t}
+              {/if}
+              {t}Error{/t}:
+            </span>
           </td>
         </tr>
         {else}
         <tr>
-          <td colspan="2" width="100%"><span style="font-weight: bold; font-size: 160%; color: blue;">{t}Password Confirmation Success{/t}!</span></td>
+          <td width="100%"><span style="font-weight: bold; font-size: 160%; color: blue;">{t}Password Confirmation Success{/t}!</span></td>
         </tr>
         {/if}
         <tr>
-          <td colspan="2">
+          <td>
             <br />
             <b>
             {if $confirm_result == -1}

@@ -11,8 +11,11 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\MailTransport;
 use Eventum\Monolog\Logger;
+use Zend\Mail\Address;
+use Zend\Mail\Header\HeaderInterface;
 
 /**
  * Class to handle the business logic related to sending email to
@@ -115,220 +118,85 @@ class Mail_Helper
     }
 
     /**
-     * Method used to parse a string and return all email addresses contained
-     * within it.
-     *
-     * @param   string $str The string containing email addresses
-     * @return  array The list of email addresses
-     * @deprecated use AddressHeader helper instead
-     */
-    public static function getEmailAddresses($str)
-    {
-        $str = self::fixAddressQuoting($str);
-        $str = Mime_Helper::encode($str);
-        $structs = self::parseAddressList($str);
-        if (Misc::isError($structs)) {
-            /** @var PEAR_Error $e */
-            $e = $structs;
-            Logger::app()->error($e->getMessage(), ['addresses' => $str]);
-
-            return [];
-        }
-
-        $addresses = [];
-        foreach ($structs as $structure) {
-            if ((!empty($structure->mailbox)) && (!empty($structure->host))) {
-                $addresses[] = $structure->mailbox . '@' . $structure->host;
-            }
-        }
-
-        return $addresses;
-    }
-
-    /**
-     * Wrapper around Mail_RFC822::parseAddressList to avoid calling it statically
-     *
-     * @param string  $address         the address(es) to validate
-     * @param string  $default_domain  default domain/host etc
-     * @param bool $nest_groups     whether to return the structure with groups nested for easier viewing
-     * @param bool $validate        Whether to validate atoms. Turn this off if you need to run addresses through before encoding the personal names, for instance.
-     * @return array a structured array of addresses
-     */
-    public static function parseAddressList($address, $default_domain = null, $nest_groups = null, $validate = null, $limit = null)
-    {
-        $obj = new Mail_RFC822($address, $default_domain, $nest_groups, $validate, $limit);
-
-        return $obj->parseAddressList();
-    }
-
-    /**
      * Method used to build a properly quoted email address, in the form of
      * "Sender Name" <sender@example.com>.
      *
      * @param   string $address The email address value
      * @return  string The address information
-     * @deprecated stay away from this method, it corrupts data!
+     * @deprecated use AddressHeader directly
      */
     public static function fixAddressQuoting($address)
     {
-        // split multiple addresses if needed
-        $addresses = self::splitAddresses($address);
-
-        $return = [];
-        foreach ($addresses as $address) {
-            // check if we have a <
-            if ((strstr($address, '<')) && (!Mime_Helper::isQuotedPrintable($address))) {
-                $address = stripslashes(trim($address));
-                // is the address in the format 'name' <address> ?
-                if ((strstr($address, "'")) || (strstr($address, '.'))) {
-                    $bracket_pos = strrpos($address, '<');
-                    if ($bracket_pos != 0) {
-                        $bracket_pos = $bracket_pos - 1;
-                    }
-                    $first_part = substr($address, 0, $bracket_pos);
-                    if (!empty($first_part)) {
-                        $first_part = '"' . str_replace('"', '\"', preg_replace('/(^")|("$)/', '', $first_part)) . '"';
-                    }
-                    $second_part = substr($address, strrpos($address, '<'));
-                    $address = $first_part . ' ' . $second_part;
-                    // if the address was already in the format "'name'" <address>, then this code
-                    // will end up adding even more double quotes, so let's remove any excess
-                    $return[] = str_replace('""', '"', $address);
-                } else {
-                    $return[] = $address;
-                }
-            } else {
-                $return[] = $address;
-            }
+        if (!$address instanceof Address) {
+            $address = AddressHeader::fromString($address);
         }
 
-        return implode(',', $return);
+        return $address->toString();
     }
 
     /**
-     * Method used to break down the email address information and
-     * return it for easy manipulation.
+     * Parses a one or more email addresses (could be QP encoded)
+     * and returns them encoded in utf-8.
      *
-     * Expands "Groups" into single addresses.
+     * Method should be used when displaying header values to user.
      *
-     * @param   string $address The email address value
-     * @param   bool $multiple If multiple addresses should be returned
-     * @return  array The address information
-     */
-    public static function getAddressInfo($address, $multiple = false)
-    {
-        $address = self::fixAddressQuoting($address);
-        $addresslist = self::parseAddressList($address, null, null, false);
-        if (Misc::isError($addresslist)) {
-            return $addresslist;
-        }
-
-        if (!$multiple) {
-            $addresslist = [$addresslist[0]];
-        }
-
-        $returns = [];
-        foreach ($addresslist as $row) {
-            // handle "group" type addresses
-            if (isset($row->groupname)) {
-                foreach ($row->addresses as $address) {
-                    $returns[] = [
-                        'sender_name' => $address->personal,
-                        'email' => $address->mailbox . '@' . $address->host,
-                        'username' => $address->mailbox,
-                        'host' => $address->host,
-                    ];
-                }
-                continue;
-            }
-
-            $returns[] = [
-                'sender_name' => $row->personal,
-                'email' => $row->mailbox . '@' . $row->host,
-                'username' => $row->mailbox,
-                'host' => $row->host,
-            ];
-        }
-
-        if (!$returns) {
-            return $returns;
-        }
-
-        if (!$multiple) {
-            return $returns[0];
-        }
-
-        return $returns;
-    }
-
-    /**
-     * Parses a one or more email addresses and returns them separated by a comma and a space (", ").
-     *
-     * @param $input
+     * @param Address|string $address The email address value
+     * @throws \Zend\Mail\Header\Exception\InvalidArgumentException
      * @return string
      */
-    public static function formatEmailAddresses($input)
+    public static function formatEmailAddresses($address)
     {
-        if (empty($input)) {
+        if (!$address) {
             return '';
         }
-        $addresses = self::getAddressInfo($input, true);
-        $returns = [];
-        foreach ($addresses as $address) {
-            $returns[] = self::getFormattedName($address['sender_name'], $address['email']);
+        if (!$address instanceof Address) {
+            try {
+                $address = AddressHeader::fromString($address);
+            } catch (\Zend\Mail\Exception\InvalidArgumentException $e) {
+                Logger::app()->error($e->getMessage(), ['address' => $address, 'exception' => $e]);
+
+                return AddressHeader::INVALID_ADDRESS;
+            }
         }
 
-        return implode(', ', $returns);
+        return $address->toString(HeaderInterface::FORMAT_RAW);
     }
 
     /**
      * Method used to get the email address portion of a given
-     * recipient information.
+     * recipient information. Normalizes the address by lowercasing it.
      *
-     * @param   string $address The email address value
-     * @return  string The email address
+     * @param Address|string $address The email address value
+     * @return string The email address
      */
     public static function getEmailAddress($address)
     {
-        // MARIADB-CSTM: Don't encode address before splitting.
-//        $address = Mime_Helper::encodeAddress($address);
-        $info = self::getAddressInfo($address);
-        if (Misc::isError($info)) {
-            return $info;
+        if (!$address instanceof Address) {
+            $address = AddressHeader::fromString($address)->getAddress();
         }
 
-        return $info['email'];
+        return strtolower($address->getEmail());
     }
 
     /**
-     * Method used to get the name portion of a given recipient information.
+     * Method used to get the display name of a given recipient information.
      *
-     * @param   string $address The email address value
+     * Method should be used when displaying header values to user.
+     *
+     * @param Address|string $address The email address(es) value
      * @param   bool $multiple If multiple addresses should be returned
-     * @return  mixed The name or an array of names if multiple is true
+     * @throws \Zend\Mail\Header\Exception\InvalidArgumentException
+     * @return string[]|string The name or an array of names if multiple is true
      */
     public static function getName($address, $multiple = false)
     {
-        $info = self::getAddressInfo($address, true);
-        if (Misc::isError($info)) {
-            return $info;
-        }
-        $returns = [];
-        foreach ($info as $row) {
-            if (!empty($row['sender_name'])) {
-                if ((substr($row['sender_name'], 0, 1) == '"') && (substr($row['sender_name'], -1) == '"')) {
-                    $row['sender_name'] = substr($row['sender_name'], 1, -1);
-                }
-                $returns[] = Mime_Helper::decodeQuotedPrintable($row['sender_name']);
-            } else {
-                $returns[] = $row['email'];
-            }
-        }
-        if ($multiple) {
-            return $returns;
+        if (!$address instanceof Address) {
+            $address = AddressHeader::fromString($address);
         }
 
-        return $returns[0];
+        $names = $address->getNames();
+
+        return $multiple ? $names : $names[0];
     }
 
     /**
@@ -851,7 +719,9 @@ class Mail_Helper
     }
 
     /**
-     * Checks to make sure In-Reply-To and References headers are correct.
+     * Make sure that In-Reply-To and References headers are set and reference a message in this issue.
+     * If not, set to be the root message ID of the issue. This is to ensure messages are threaded by
+     * issue in mail clients.
      */
     public static function rewriteThreadingHeaders($issue_id, $full_email, $headers, $type = 'email')
     {
@@ -916,7 +786,7 @@ class Mail_Helper
      * @param   int $issue_id The ID of the issue
      * @param   string $msg_id The ID of the message
      * @param   string $type If this is a note or an email
-     * @return  array An array of message IDs
+     * @return  string[] An array of message IDs
      */
     public static function getReferences($issue_id, $msg_id, $type)
     {
@@ -949,6 +819,9 @@ class Mail_Helper
         }
     }
 
+    /**
+     * @param int $issue_id
+     */
     public static function getBaseThreadingHeaders($issue_id)
     {
         $root_msg_id = Issue::getRootMessageID($issue_id);
@@ -1010,24 +883,9 @@ class Mail_Helper
         return self::generateMessageID($headers, $body);
     }
 
-    public static function splitAddresses($addresses)
-    {
-        $mail = new Mail_RFC822($addresses);
-
-        $mail->parseAddressList();
-
-        $return = [];
-        if (is_array($mail->addresses)) {
-            foreach ($mail->addresses as $address) {
-                $return[] = $address['address'];
-            }
-        }
-
-        return $return;
-    }
-
     /**
      * Removes newlines and tabs from subject
+     *
      * @param $subject string The subject to clean
      * @return mixed string
      */

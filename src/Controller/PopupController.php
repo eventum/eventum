@@ -138,12 +138,13 @@ class PopupController extends BaseController
                 break;
 
             case 'unassign':
-                $res = Issue::deleteUserAssociation($this->issue_id, $this->usr_id);
                 $details = Issue::getDetails($this->issue_id);
+                $res = Issue::deleteUserAssociation($this->issue_id, $this->usr_id);
                 $assigned_usr_ids = Issue::getAssignedUserIDs($this->issue_id);
                 Workflow::handleAssignmentChange(
                     $this->prj_id, $this->issue_id, $this->usr_id, $details, $assigned_usr_ids
                 );
+                Notification::notifyAssignmentChange($this->issue_id, $details['assigned_users'], $assigned_usr_ids);
                 $this->tpl->assign('unassign_result', $res);
                 break;
 

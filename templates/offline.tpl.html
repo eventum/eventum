@@ -11,11 +11,15 @@
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td><img src="{$core.rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
-          <td width="100%"><span style="font-weight: bold; font-size: 160%; color: red;">{t}Database Error{/t}:</span></td>
+          <td width="100%">
+            <span id="error-header">
+              <i class="fa fa-warning" aria-hidden="true"></i>
+              {t}Database Error{/t}:
+            </span>
+          </td>
         </tr>
         <tr>
-          <td colspan="2">
+          <td>
             <br />
             <b>
             {if $error_type == 'db'}

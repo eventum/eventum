@@ -22,13 +22,13 @@ class Edit_Reporter
      * Modifies an Issue's Reporter.
      *
      * @param   int $issue_id the id of the issue
-     * @param   string $fullname the id of the user
+     * @param string $email
      * @param   bool $add_history if this should be logged
      * @return int
      */
     public static function update($issue_id, $email, $add_history = true)
     {
-        $email = strtolower(Mail_Helper::getEmailAddress($email));
+        $email = Mail_Helper::getEmailAddress($email);
         $usr_id = User::getUserIDByEmail($email, true);
 
         // If no valid user found reset to system account

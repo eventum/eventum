@@ -1412,11 +1412,7 @@ class User
                     {{%user}}
                  WHERE
                     usr_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getRow($stmt, [$usr_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+        $res = DB_Helper::getInstance()->getRow($stmt, [$usr_id]);
 
         $returns[$usr_id] = $res;
 
@@ -1565,6 +1561,10 @@ class User
         return $returns[$usr_id];
     }
 
+    /**
+     * @param int $usr_id
+     * @param string $language
+     */
     public static function setLang($usr_id, $language)
     {
         $sql = 'UPDATE
@@ -1582,6 +1582,9 @@ class User
         return true;
     }
 
+    /**
+     * @param int $usr_id
+     */
     public static function getAliases($usr_id)
     {
         $sql = 'SELECT
@@ -1629,6 +1632,9 @@ class User
         return true;
     }
 
+    /**
+     * @param int $usr_id
+     */
     public static function removeAlias($usr_id, $email)
     {
         $sql = 'DELETE FROM
@@ -1679,6 +1685,9 @@ class User
         return !empty($res);
     }
 
+    /**
+     * @param int $usr_id
+     */
     public static function getPartnerID($usr_id)
     {
         $sql = 'SELECT
@@ -1696,6 +1705,9 @@ class User
         return $res;
     }
 
+    /**
+     * @param int $usr_id
+     */
     public static function getExternalID($usr_id)
     {
         $sql = 'SELECT

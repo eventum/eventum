@@ -143,6 +143,9 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
         return $usr_id;
     }
 
+    /**
+     * @param int $usr_id
+     */
     private function updateAliases($usr_id, $aliases)
     {
         foreach ($aliases as $alias) {
@@ -188,7 +191,7 @@ class CAS_Auth_Backend implements Auth_Backend_Interface
      * By default, CAS cannot check for a user account without logging them in. If you need to be able to do that you
      * should extend this class and add custom functionality.
      *
-     * @param $login
+     * @param string $login
      * @return  int|null The user id or null
      */
     public function getUserIDByLogin($login)

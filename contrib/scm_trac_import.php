@@ -130,6 +130,8 @@ class TracScm extends SCM
 {
     /**
      * call insertCheckin to avoid touching issues history timestamps or invoking workflows that could reopen the issues
+     * @param string $issue_id
+     * @param string $commit_time
      */
     public static function importCheckin($issue_id, $commit_time, $scm_name, $file, $username, $commit_msg)
     {

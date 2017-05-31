@@ -209,6 +209,7 @@ class Severity
     /**
      * Method used to add a new severity to the application.
      *
+     * @param int $prj_id
      * @return  int 1 if the update worked properly, any other value otherwise
      */
     public static function insert($prj_id, $title, $description, $rank)
@@ -324,7 +325,6 @@ class Severity
      * Method used to get the sev_id of a project by severity title.
      *
      * @param   int $prj_id The project ID
-     * @param   int $sev_id The severity ID
      * @param   string $sev_title The severity title
      * @return  int $sev_id The severity ID
      */

@@ -48,9 +48,6 @@ class Language
      */
     public static function setup()
     {
-        // please add the following line to config.inc.php, changing to whatever language you prefer
-        // define('APP_DEFAULT_LOCALE', 'en_US');
-
         self::set(APP_DEFAULT_LOCALE);
         self::initEncoding();
     }

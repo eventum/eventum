@@ -168,7 +168,7 @@ class Access
         return false;
     }
 
-    public static function canViewInternalNotes($issue_id, $usr_id, $not_id = null)
+    public static function canViewInternalNotes($issue_id, $usr_id)
     {
         if (!self::canAccessIssue($issue_id, $usr_id, false)) {
             return false;
@@ -375,6 +375,10 @@ class Access
         return false;
     }
 
+    /**
+     * @param int $issue_id
+     * @param int $usr_id
+     */
     public static function getIssueAccessArray($issue_id, $usr_id)
     {
         return [
@@ -538,6 +542,9 @@ class Access
         return $levels;
     }
 
+    /**
+     * @return string
+     */
     public static function getAccessLevelName($level)
     {
         $access_levels = self::getAccessLevels();
@@ -563,6 +570,9 @@ class Access
         }
     }
 
+    /**
+     * @param int $issue_id
+     */
     public static function addUserToIssue($issue_id, $usr_id)
     {
         $sql = 'INSERT INTO
@@ -584,6 +594,9 @@ class Access
         return 1;
     }
 
+    /**
+     * @param int $issue_id
+     */
     public static function removeUserFromIssue($issue_id, $usr_id)
     {
         $sql = 'DELETE FROM
@@ -604,6 +617,10 @@ class Access
         return 1;
     }
 
+    /**
+     * @param int $issue_id
+     * @param int $usr_id
+     */
     public static function isOnAccessList($issue_id, $usr_id)
     {
         if (in_array($usr_id, self::getAccessList($issue_id))) {
@@ -613,6 +630,9 @@ class Access
         return false;
     }
 
+    /**
+     * @param int $prj_id
+     */
     public static function getListingSQL($prj_id)
     {
         $sql = '';
@@ -639,6 +659,10 @@ class Access
         return $sql;
     }
 
+    /**
+     * @param int $issue_id
+     * @param int $usr_id
+     */
     public static function log($return, $issue_id, $usr_id, $item = null, $item_id = null)
     {
         if (Setup::get()->get('audit_trail') != 'enabled') {

@@ -14,6 +14,7 @@
 namespace Eventum\Controller\Manage;
 
 use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Extension\ExtensionManager;
 use Partner;
 use Project;
 
@@ -79,9 +80,29 @@ class PartnersController extends ManageBaseController
         $this->tpl->assign(
             [
                 'type' => 'partners',
-                'list' => Partner::getList(),
+                'list' => $this->getPartnersList(),
                 'project_list' => Project::getAll(),
             ]
         );
+    }
+
+    /**
+     * Return list of available Partner backends.
+     *
+     * @return array
+     */
+    private function getPartnersList()
+    {
+        $partners = [];
+        $backends = ExtensionManager::getManager()->getPartnerClasses();
+        foreach ($backends as $par_code => $backend) {
+            $partners[] = [
+                'code' => $par_code,
+                'name' => $backend->getName(),
+                'projects' => Partner::getProjectsForPartner($par_code),
+            ];
+        }
+
+        return $partners;
     }
 }

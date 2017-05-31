@@ -1,7 +1,10 @@
 {extends "manage/manage.tpl.html"}
 
-{block "manage_content"}
+{function name="rank_icon" direction="down" href=""}
+  {include file="include/rank_icon.tpl.html" direction=$direction href=$href}
+{/function}
 
+{block "manage_content"}
 
 <script type="text/javascript">
     <!--
@@ -143,8 +146,9 @@
         <tr class="{cycle values='odd,even'}">
             <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].pri_id}"></td>
             <td align="center" nowrap>
-                <a href="{$core.current_url}?cat=change_rank&id={$list[i].pri_id}&prj_id={$project.prj_id}&rank=desc"><img src="{$core.rel_url}images/desc.gif" border="0"></a> {$list[i].pri_rank}
-                <a href="{$core.current_url}?cat=change_rank&id={$list[i].pri_id}&prj_id={$project.prj_id}&rank=asc"><img src="{$core.rel_url}images/asc.gif" border="0"></a>
+              {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].pri_id}&prj_id={$project.prj_id}&rank=desc" direction="down"}
+              {$list[i].pri_rank}
+              {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].pri_id}&prj_id={$project.prj_id}&rank=asc" direction="up"}
             </td>
             <td align="center" nowrap>
                 {if $list[i].pri_icon > 0}<span class="priority_icon priority-icon-{$list[i].pri_icon}" title="{$list[i].pri_icon}"></span>{/if}

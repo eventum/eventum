@@ -23,7 +23,7 @@
 use Eventum\Db\Adapter\AdapterInterface;
 
 if (!isset($argv[2])) {
-    throw new InvalidArgumentException('Invalid usage');
+    throw new InvalidArgumentException(sprintf('Usage: %s source_usr_id target_usr_id', $argv[0]));
 }
 
 list($source_usr_id, $target_usr_id) = array_slice($argv, 1, 2);

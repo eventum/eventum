@@ -119,7 +119,7 @@ $().ready(function() {
             </tr>
             <tr>
                 <th width="190" nowrap>{t}Summary{/t}</th>
-                <td><input type="text" name="summary" size="45" value="{$details.ttr_summary|default:''}">{include file="error_icon.tpl.html" field="summary"}</td>
+                <td><input type="text" name="summary" size="45" value="{$details.ttr_summary|default:''|escape}">{include file="error_icon.tpl.html" field="summary"}</td>
             </tr>
             <tr>
                 <th nowrap>{t}Category{/t}</th>
@@ -134,7 +134,7 @@ $().ready(function() {
             <tr>
                 <th nowrap>{t}Time Spent{/t}</th>
                 <td><input type="text" size="5" name="time_spent" onChange="Eventum.calcDateDiff(this.form, 0)"
-                         value="{$details.ttr_time_spent|default:''}"> <span>({t}in minutes{/t})</span>{include file="error_icon.tpl.html" field="time_spent"}</td>
+                         value="{$details.ttr_time_spent|default:''|escape}"> <span>({t}in minutes{/t})</span>{include file="error_icon.tpl.html" field="time_spent"}</td>
             </tr>
             <tr>
             <th nowrap>{t}Work started{/t}:</th>
@@ -143,7 +143,9 @@ $().ready(function() {
                         time=$start_date|default:''}&nbsp;
                     {html_select_time minute_interval=5 field_array='date' prefix='' all_extra=' onChange="Eventum.calcDateDiff(this.form, 1, this.name)"' display_seconds=false
                         time=$start_date|default:''}
-                    <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#add_time_form'), 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');Eventum.calcDateDiff($('form#add_time_form'), 11)"><img src="images/icons/refresh.gif" border="0"></a>
+                    <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#add_time_form'), 'date[Year]', 'date[Month]', 'date[Day]', 'date[Hour]', 'date[Minute]');Eventum.calcDateDiff($('form#add_time_form'), 11)">
+                      <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </a>
                 </td>
             </tr>
             <tr>
@@ -153,7 +155,9 @@ $().ready(function() {
                         time=$start_date|default:''}&nbsp;
                     {html_select_time minute_interval=5 field_array='date2' prefix='' all_extra=' class="default" onChange="Eventum.calcDateDiff(this.form, 2, this.name)"' display_seconds=false
                         time=$end_date|default:''}
-                    <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#add_time_form'), 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]'); Eventum.calcDateDiff($('form#add_time_form'), 12)"><img src="images/icons/refresh.gif" border="0"></a>
+                    <a href="javascript:void(null);" onClick="Eventum.updateTimeFields($('form#add_time_form'), 'date2[Year]', 'date2[Month]', 'date2[Day]', 'date2[Hour]', 'date2[Minute]'); Eventum.calcDateDiff($('form#add_time_form'), 12)">
+                      <i class="fa fa-refresh" aria-hidden="true"></i>
+                    </a>
                 </td>
             </tr>
             <tr class="buttons">

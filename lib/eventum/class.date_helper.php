@@ -36,7 +36,7 @@ class Date_Helper
      * used.
      *
      * @param int|DateTime|string $ts
-     * @param string $timezone
+     * @param string|null  $timezone
      * @return DateTime
      */
     public static function getDateTime($ts = 'now', $timezone = null)
@@ -144,10 +144,10 @@ class Date_Helper
      *
      * NOTE: $timezone param is deprecated as input is always GMT and result is also always GMT
      *
-     * @param   string $timezone The needed timezone
-     * @return  string $ts The current GMT date
+     * @param int|DateTime|string $ts
+     * @return string $ts The current GMT date
      */
-    public static function getRFC822Date($ts, $timezone = null)
+    public static function getRFC822Date($ts)
     {
         $date = self::getDateTime($ts, 'GMT');
 
@@ -255,7 +255,7 @@ class Date_Helper
         if ($convert) {
             $timezone = self::getPreferredTimezone();
         } else {
-            $timezone = false;
+            $timezone = null;
         }
 
         $date = self::getDateTime($ts, $timezone);
@@ -409,7 +409,7 @@ class Date_Helper
      * Formats a given week start and week end to a format useable by getWeekOptions().
      *
      * @param   int $start the start date of the week
-     * @return  array an array usable as an option in getWeekOptions
+     * @return  string[] an array usable as an option in getWeekOptions
      */
     private static function formatWeekOption($start)
     {

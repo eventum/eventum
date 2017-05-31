@@ -452,16 +452,6 @@ class Project
 
             return true;
         }
-        $stmt = 'UPDATE {{%project_user}}
-                        SET pru_role = ?
-                    WHERE
-                        pru_prj_id = ? AND
-                        pru_usr_id = ?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [$role, $prj_id, $usr_id]);
-        } catch (DatabaseException $e) {
-            return false;
-        }
 
         return true;
     }
@@ -780,7 +770,7 @@ class Project
      * that are associated with a given project and issue.
      *
      * @param   int $prj_id The project ID
-     * @param   bool|int $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array List of names and emails
      */
     public static function getAddressBookAssocList($prj_id, $issue_id = null)
@@ -970,7 +960,6 @@ class Project
      * Method used to get the list of users associated with a given project.
      *
      * @param   int $prj_id The project ID
-     * @param   string $status The desired user status
      * @return  array The list of users
      */
     public static function getReporters($prj_id)

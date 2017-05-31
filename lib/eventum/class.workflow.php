@@ -12,35 +12,14 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Event\WorkflowEvents;
+use Eventum\EventDispatcher\EventManager;
+use Eventum\Extension\ExtensionLoader;
 use Eventum\Mail\MailMessage;
 use Eventum\Model\Entity;
 
 class Workflow
 {
-    /**
-     * Returns a list of backends available
-     *
-     * @return  array An array of workflow backends
-     */
-    public static function getBackendList()
-    {
-        $files = Misc::getFileList(APP_INC_PATH . '/workflow');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/workflow'));
-        $list = [];
-        foreach ($files as $file) {
-            // display a prettyfied backend name in the admin section
-            if (preg_match('/^class\.(.*)\.php$/', $file, $matches)) {
-                if ($matches[1] == 'abstract_workflow_backend') {
-                    continue;
-                }
-                $name = ucwords(str_replace('_', ' ', $matches[1]));
-                $list[$file] = $name;
-            }
-        }
-
-        return $list;
-    }
-
     /**
      * Returns the name of the workflow backend for the specified project.
      *
@@ -78,29 +57,23 @@ class Workflow
      * given project ID, instantiates it and returns the class.
      *
      * @param   int $prj_id The project ID
-     * @return  Abstract_Workflow_Backend
+     * @return bool|Abstract_Workflow_Backend
+     * @deprecated will be removed in 3.3.0
      */
     public static function _getBackend($prj_id)
     {
         static $setup_backends;
 
         if (empty($setup_backends[$prj_id])) {
-            $backend_class = self::_getBackendNameByProject($prj_id);
-            if (empty($backend_class)) {
+            $backendName = self::_getBackendNameByProject($prj_id);
+            if (!$backendName) {
                 return false;
             }
-            $file_name_chunks = explode('.', $backend_class);
-            $class_name = $file_name_chunks[1] . '_Workflow_Backend';
 
-            if (file_exists(APP_LOCAL_PATH . "/workflow/$backend_class")) {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_LOCAL_PATH . "/workflow/$backend_class";
-            } else {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_INC_PATH . "/workflow/$backend_class";
-            }
+            $backend = static::getExtensionLoader()->createInstance($backendName);
+            $backend->prj_id = $prj_id;
 
-            $setup_backends[$prj_id] = new $class_name();
+            $setup_backends[$prj_id] = $backend;
         }
 
         return $setup_backends[$prj_id];
@@ -110,7 +83,7 @@ class Workflow
      * Checks whether the given project ID is setup to use workflow integration
      * or not.
      *
-     * @param   int integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  bool
      */
     public static function hasWorkflowIntegration($prj_id)
@@ -416,7 +389,7 @@ class Workflow
      * @param   int $subscriber_usr_id the ID of the user to subscribe if this is a real user (false otherwise)
      * @param   string $email the email address  to subscribe (if this is not a real user)
      * @param   array $types the action types
-     * @return  mixed an array of information or true to continue unchanged or false to prevent the user from being added
+     * @return  array|bool|null an array of information or true to continue unchanged or false to prevent the user from being added
      */
     public static function handleSubscription($prj_id, $issue_id, &$subscriber_usr_id, &$email, &$types)
     {
@@ -903,10 +876,13 @@ class Workflow
      * Upgrade config so that values contain EncryptedValue where some secrecy is wanted
      * NOTE: this isn't really project specific, therefore it uses hardcoded project id to obtain workflow class
      *
-     * @since 3.1.0
+     * @since 3.1.0 workflow method added
+     * @since 3.2.1 dispatches WorkflowEvents::CRYPTO_DOWNGRADE event
      */
     public static function cryptoUpgradeConfig($prj_id = 1)
     {
+        EventManager::dispatch(WorkflowEvents::CONFIG_CRYPTO_UPGRADE);
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
@@ -917,10 +893,13 @@ class Workflow
      * Downgrade config: remove all EncryptedValue elements.
      * NOTE: this isn't really project specific, therefore it uses hardcoded project id to obtain workflow class
      *
-     * @since 3.1.0
+     * @since 3.1.0 workflow method added
+     * @since 3.2.1 dispatches WorkflowEvents::CRYPTO_DOWNGRADE event
      */
     public static function cryptoDowngradeConfig($prj_id = 1)
     {
+        EventManager::dispatch(WorkflowEvents::CONFIG_CRYPTO_DOWNGRADE);
+
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
@@ -977,5 +956,19 @@ class Workflow
         $backend = self::_getBackend($prj_id);
 
         return $backend->getMovedIssueMapping($prj_id, $issue_id, $mapping, $old_prj_id);
+    }
+
+    /**
+     * @return ExtensionLoader
+     * @internal
+     */
+    public static function getExtensionLoader()
+    {
+        $dirs = [
+            APP_INC_PATH . '/workflow',
+            APP_LOCAL_PATH . '/workflow',
+        ];
+
+        return new ExtensionLoader($dirs, '%s_Workflow_Backend');
     }
 }

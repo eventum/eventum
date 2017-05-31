@@ -256,6 +256,10 @@ body#list #bulk_update {
     margin: 1em auto;
 }
 
+body#list #export_csv {
+	cursor: pointer;
+}
+
 body#list #bulk_update table {
     width: 100%;
 }
@@ -266,9 +270,16 @@ body#list td.custom_field {
 
 /* End List Issue page */
 
-/*
- * Emails page
- */
+body#offline #error-header,
+body#confirm #error-header,
+body#setup #error-header,
+body#associate #error-header
+{
+    font-weight: bold; font-size: 160%; color: red;
+}
+    /*
+     * Emails page
+     */
 body#emails  table#email_filters {
     width: 80%;
     margin: 0 auto;
@@ -536,4 +547,9 @@ option.select_icon_priority {
     margin-left: 1em;
     margin-top: .5em;
     font-style: italic;
+}
+
+/* Font Awesome override */
+.expandable_buttons .fa {
+    font-size: 1.1em;
 }

@@ -28,19 +28,6 @@
         var emailWin = window.open('view_email.php?ema_id=' + account_id + '&id=' + email_id, '_email' + email_id, features);
         emailWin.focus();
     }
-    function reply(account_id, email_id)
-    {
-
-        var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var emailWin = window.open('send.php?issue_id={$smarty.get.id|intval}&ema_id=' + account_id + '&id=' + email_id, '_emailReply' + email_id, features);
-        emailWin.focus();
-    }
-    function replyAsNote(account_id, email_id)
-    {
-        var features = 'width=740,height=740,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
-        var emailWin = window.open('post_note.php?cat=email_reply&issue_id={$smarty.get.id}&ema_id=' + account_id + '&id=' + email_id, '_noteReply' + email_id, features);
-        emailWin.focus();
-    }
     function sendEmail(account_id, issue_id)
     {
         var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
@@ -55,6 +42,14 @@
 {else}
 {assign var="email_col_count" value="7"}
 {/if}
+
+{function name="reply_button" class="" title="" data=""}
+  {strip}
+    <a title="{$title}" href="javascript:void()">
+      <i class="fa fa-reply {$class}" {$data} aria-hidden="true"></i>
+    </a>
+  {/strip}
+{/function}
 
 <div class="issue_section bordered" id="support_emails">
     <form onSubmit="return removeEmails(this);" target="_removeEmails" action="popup.php" method="post">
@@ -92,7 +87,7 @@
                 </td>
                 <td align="center">0</td>
                 <td align="center">
-                    <a title="{t}reply to this email{/t}" href="javascript:void(null);" class="reply_issue"><img src="{$core.rel_url}images/icons/reply.gif" border="0"></a>
+                  {reply_button class="reply_issue" title="{t}reply to this email{/t}"}
                 </td>
                 <td>{$issue.reporter}</td>
                 <td>
@@ -118,10 +113,13 @@
                 </td>
                 <td align="center">{$smarty.section.i.iteration}</td>
                 <td align="center" nowrap>
-                    <a title="{t}reply to this email{/t}" href="javascript:void(null);" onClick="reply({$emails[i].sup_ema_id}, {$emails[i].sup_id});"><img src="{$core.rel_url}images/icons/reply.gif" border="0"></a>
-                    {if $core.current_role >= $core.roles.standard_user}
-                        <a title="{t}reply as note{/t}" href="javascript:void(null);" onClick="replyAsNote({$emails[i].sup_ema_id}, {$emails[i].sup_id});"><img src="{$core.rel_url}images/icons/reply-internal.gif" border="0"></a>
-                    {/if}
+                  {reply_button class="reply_email" title="{t}reply to this email{/t}"
+                    data="data-sup_id={$emails[i].sup_id}"}
+
+                  {if $core.current_role >= $core.roles.standard_user}
+                    {reply_button class="reply_email_note" title="{t}reply as note{/t}"
+                      data="data-sup_id={$emails[i].sup_id}"}
+                  {/if}
                 </td>
                 <td>{$emails[i].sup_from|escape:"html"}</td>
                 <td>
@@ -139,7 +137,7 @@
                 <td>
                     <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewEmail({$emails[i].sup_ema_id}, {$emails[i].sup_id});">{$emails[i].sup_subject|default:"<Empty Subject Header>"|escape:"html"}</a>
                     {if $emails[i].sup_has_attachment}
-                    <a title="{t}view email details{/t}" href="javascript:void(null);" onClick="viewEmail({$emails[i].sup_ema_id}, {$emails[i].sup_id});"><img src="{$core.rel_url}images/attachment.gif" border="0"></a>
+                      <i class="fa fa-paperclip" aria-hidden="true"></i>
                     {/if}
                 </td>
             </tr>

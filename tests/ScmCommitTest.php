@@ -22,6 +22,9 @@ use Eventum\Scm\Adapter\GitlabScm;
 use Setup;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @group db
+ */
 class ScmCommitTest extends TestCase
 {
     private $changeset;

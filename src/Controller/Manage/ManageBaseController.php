@@ -13,7 +13,6 @@
 
 namespace Eventum\Controller\Manage;
 
-use Auth;
 use Eventum\Controller\BaseController;
 use User;
 
@@ -21,9 +20,6 @@ abstract class ManageBaseController extends BaseController
 {
     /** @var int */
     protected $min_role = User::ROLE_MANAGER;
-
-    /** @var int */
-    protected $role_id;
 
     public function __construct()
     {
@@ -36,25 +32,11 @@ abstract class ManageBaseController extends BaseController
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function canAccess()
     {
-        if ($this->is_popup) {
-            Auth::checkAuthentication(null, true);
-        } else {
-            Auth::checkAuthentication();
-        }
-
-        $this->role_id = Auth::getCurrentRole();
-        if ($this->role_id < $this->min_role) {
-            if ($this->is_popup) {
-                return false;
-            }
-            $this->error(ev_gettext('Sorry, you are not allowed to access this page.'));
-        }
-
+        // if manage controller does not implement this
+        // then give access permission.
+        // probably canRoleAccess satisfied access restriction.
         return true;
     }
 }

@@ -45,6 +45,9 @@ class HelpController extends BaseController
     {
     }
 
+    /**
+     * @return string
+     */
     private function getTopic()
     {
         $get = $this->getRequest()->query;

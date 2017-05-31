@@ -170,6 +170,7 @@ class Auth
 
     /**
      * Performs standard checks when a user logins
+     * @param string $login
      */
     public static function login($login)
     {
@@ -542,21 +543,33 @@ class Auth
         return self::getAuthBackend()->getUserIDByLogin($login);
     }
 
+    /**
+     * @param int $usr_id
+     */
     public static function canUserUpdateName($usr_id)
     {
         return self::getAuthBackend()->canUserUpdateName($usr_id);
     }
 
+    /**
+     * @param int $usr_id
+     */
     public static function canUserUpdateEmail($usr_id)
     {
         return self::getAuthBackend()->canUserUpdateEmail($usr_id);
     }
 
+    /**
+     * @param int $usr_id
+     */
     public static function canUserUpdatePassword($usr_id)
     {
         return self::getAuthBackend()->canUserUpdatePassword($usr_id);
     }
 
+    /**
+     * @return string
+     */
     public static function getExternalLoginURL()
     {
         $backend_login_url = self::getAuthBackend()->getExternalLoginURL();

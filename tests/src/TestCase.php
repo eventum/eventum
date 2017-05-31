@@ -13,36 +13,67 @@
 
 namespace Eventum\Test;
 
-use PHPUnit_Framework_TestCase;
+/*
+ * PHPUnit_Framework_TestCase is dropped in phpunit 6.0.0
+ * https://github.com/sebastianbergmann/phpunit/wiki/Release-Announcement-for-PHPUnit-6.0.0
+ *
+ * Load PHPUnit_Framework_TestCase wrapper if using older PHPUnit.
+ */
 
-class TestCase extends PHPUnit_Framework_TestCase
+use Eventum\Extension\ExtensionManager;
+
+if (!class_exists('\PHPUnit\Framework\TestCase')) {
+    require_once __DIR__ . '/phpunit-compat.php';
+}
+
+class TestCase extends \PHPUnit\Framework\TestCase
 {
-    public static function skipTravis($message = 'Disabled in Travis')
+    /**
+     * Create ExtensionManager with given config
+     *
+     * @return ExtensionManager
+     */
+    protected function getExtensionManager($config)
     {
-        if (getenv('TRAVIS')) {
-            self::markTestSkipped($message);
-        }
-    }
+        /** @var ExtensionManager $stub */
+        $stub = $this->getMockBuilder(ExtensionManager::class)
+            ->disableOriginalConstructor()
+            ->setMethods(['getExtensionFiles'])
+            ->getMock();
 
-    public static function skipJenkins($message = 'Disabled Jenkins')
-    {
-        if (getenv('JENKINS_HOME')) {
-            self::markTestSkipped($message);
-        }
-    }
+        $stub->method('getExtensionFiles')
+            ->willReturn($config);
 
-    public static function skipCi($message = 'Disabled in Travis/Jenkins')
-    {
-        if (getenv('TRAVIS') || getenv('JENKINS_HOME')) {
-            self::markTestSkipped($message);
-        }
+        // as ->getMock() calls original constructor before method mocks is setup
+        // we disabled original constructor and call it out now.
+        $stub->__construct();
+
+        return $stub;
     }
 
     /**
-     * skip test if database is not available
+     * Read file from tests/data directory.
+     *
+     * @param string $filename
+     * @return string
      */
-    public static function assertDatabase()
+    protected function readDataFile($filename)
     {
-        self::skipTravis();
+        $file = __DIR__ . '/../data/' . $filename;
+
+        return $this->readFile($file);
+    }
+
+    /**
+     * @param string $filename
+     * @return string
+     */
+    protected function readFile($filename)
+    {
+        $this->assertFileExists($filename);
+        $content = file_get_contents($filename);
+        $this->assertNotEmpty($content);
+
+        return $content;
     }
 }

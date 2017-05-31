@@ -292,6 +292,9 @@ class Eventum_Bot
         }
     }
 
+    /**
+     * @param Net_SmartIRC_data $data
+     */
     public function addUser($data, $email)
     {
         $this->auth[$data->nick] = $email;
@@ -311,6 +314,11 @@ class Eventum_Bot
         return in_array($data->nick, array_keys($this->auth));
     }
 
+    /**
+     * @param string $nickname
+     *
+     * @return string
+     */
     public function getEmailByNickname($nickname)
     {
         if (in_array($nickname, array_keys($this->auth))) {

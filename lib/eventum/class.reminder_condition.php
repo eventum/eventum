@@ -117,7 +117,7 @@ class Reminder_Condition
      * Method used to remove reminder conditions by using the administrative
      * interface of the system.
      *
-     * @return  bool
+     * @return  bool|null
      */
     public static function remove()
     {

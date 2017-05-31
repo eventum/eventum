@@ -438,8 +438,8 @@ class Reminder
     /**
      * Method used to associate a severity with a given reminder.
      *
-     * @param   int $rem_id The reminder ID
-     * @param   int $priority_id The severity ID
+     * @param   int $rem_id The severity ID
+     * @param $severity_id
      * @return  bool
      */
     public static function addSeverityAssociation($rem_id, $severity_id)
@@ -803,7 +803,7 @@ class Reminder
     /**
      * Method used to get the list of issue IDs that match the given conditions.
      *
-     * @param   int $rem_id The reminder ID
+     * @param   array $reminder The reminder data
      * @param   array $conditions The list of conditions
      * @return  array The list of issue IDs
      */

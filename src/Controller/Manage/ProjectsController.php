@@ -14,12 +14,11 @@
 namespace Eventum\Controller\Manage;
 
 use Auth;
-use CRM;
 use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Extension\ExtensionManager;
 use Project;
 use Status;
 use User;
-use Workflow;
 
 class ProjectsController extends ManageBaseController
 {
@@ -96,9 +95,41 @@ class ProjectsController extends ManageBaseController
                 'list' => Project::getList(),
                 'user_options' => User::getActiveAssocList(),
                 'status_options' => Status::getAssocList(),
-                'customer_backends' => CRM::getBackendList(),
-                'workflow_backends' => Workflow::getBackendList(),
+                'customer_backends' => $this->getCustomerBackends(),
+                'workflow_backends' => $this->getWorkflowBackends(),
             ]
         );
+    }
+
+    private function getWorkflowBackends()
+    {
+        // load classes from extension manager
+        $manager = ExtensionManager::getManager();
+        $backends = $manager->getWorkflowClasses();
+
+        return $this->filterValues($backends);
+    }
+
+    private function getCustomerBackends()
+    {
+        // load classes from extension manager
+        $manager = ExtensionManager::getManager();
+        $backends = $manager->getCustomerClasses();
+
+        return $this->filterValues($backends);
+    }
+
+    /**
+     * Create array with key,value from $values $key,
+     * i.e discarding values.
+     */
+    private function filterValues($values)
+    {
+        $res = [];
+        foreach ($values as $key => $value) {
+            $res[$key] = $key;
+        }
+
+        return $res;
     }
 }

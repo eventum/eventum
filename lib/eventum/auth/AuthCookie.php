@@ -147,7 +147,8 @@ class AuthCookie
     /**
      * Get cookie string used for user authentication
      *
-     * @param bool|true $permanent
+     * @param string $email
+     * @param bool $permanent
      * @return string
      */
     private static function generateAuthCookie($email, $permanent = true)

@@ -82,7 +82,8 @@ Dropzone.options.{$form} = {
     this.on("sending", function(file, xhr, formData) {
       // Will send the filesize along with the file as POST data.
       formData.append("filesize", file.size);
-      $(file.previewElement).find('.dz-status').html('Uploading<img src="images/ajax-loader.gif" />');
+      $(file.previewElement).find('.dz-status')
+        .html('Uploading... <i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i>');
     });
 
     this.on("removedfile", function(file) {

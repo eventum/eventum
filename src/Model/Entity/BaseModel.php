@@ -54,6 +54,9 @@ abstract class BaseModel
         return $id;
     }
 
+    /**
+     * @param int $limit
+     */
     protected function findAllByConditions($where, $limit = null, $order = null, $conditionJoin = ' AND ')
     {
         $tableName = $this->getTableName();
@@ -95,6 +98,9 @@ abstract class BaseModel
         return $res;
     }
 
+    /**
+     * @param string $query
+     */
     protected function deleteByQuery($query, $params)
     {
         $tableName = $this->getTableName();

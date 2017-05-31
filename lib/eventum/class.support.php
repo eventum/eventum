@@ -1126,47 +1126,6 @@ class Support
     }
 
     /**
-     * Method used to get the current sorting options used in the grid
-     * layout of the emails listing page.
-     *
-     * @param   array $options The current search parameters
-     * @return  array The sorting options
-     */
-    public static function getSortingInfo($options)
-    {
-        $fields = [
-            'sup_from',
-            'sup_customer_id',
-            'sup_date',
-            'sup_to',
-            'sup_iss_id',
-            'sup_subject',
-        ];
-        $items = [
-            'links' => [],
-            'images' => [],
-        ];
-
-        $sort_order_option = strtolower(DB_Helper::orderBy($options['sort_order']));
-        $sort_order_image = "images/{$sort_order_option}.gif";
-
-        foreach ($fields as $field) {
-            $sort_order = 'asc';
-            if ($options['sort_by'] == $field) {
-                $items['images'][$field] = $sort_order_image;
-                if ($sort_order_option == 'asc') {
-                    $sort_order = 'desc';
-                } else {
-                    $sort_order = 'asc';
-                }
-            }
-            $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=' . $sort_order;
-        }
-
-        return $items;
-    }
-
-    /**
      * Method used to get the list of emails to be displayed in the
      * grid layout.
      *
@@ -1246,10 +1205,11 @@ class Support
             if ((empty($row['sup_to'])) && (!empty($row['sup_iss_id']))) {
                 $row['sup_to'] = 'Notification List';
             } else {
-                $to = Mail_Helper::getName($row['sup_to']);
-                // Ignore unformattable headers
-                if (!Misc::isError($to)) {
-                    $row['sup_to'] = $to;
+                try {
+                    $row['sup_to'] = Mail_Helper::getName($row['sup_to']);
+                } catch (\Zend\Mail\Header\Exception\InvalidArgumentException $e) {
+                    // Ignore unformattable headers
+                    Logger::app()->error($e->getMessage(), ['exception' => $e]);
                 }
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
@@ -1344,7 +1304,7 @@ class Support
         }
 
         // figure out who should be the 'owner' of this attachment
-        $sender_email = strtolower(Mail_Helper::getEmailAddress($input->headers['from']));
+        $sender_email = Mail_Helper::getEmailAddress($input->headers['from']);
         $usr_id = User::getUserIDByEmail($sender_email);
         $prj_id = Issue::getProjectID($issue_id);
         $unknown_user = false;
@@ -1860,6 +1820,7 @@ class Support
      * @param   string $from The sender of this message
      * @param   string $to The primary recipient of this message
      * @param   string $cc The extra recipients of this message
+     * @param string $subject
      * @param   string $body The message body
      * @param   string $in_reply_to The message-id that we are replying to
      * @param   array $iaf_ids Array with attachment file id-s
@@ -2525,7 +2486,7 @@ class Support
 
         $issue_id = $email['issue_id'];
         $prj_id = Issue::getProjectID($issue_id);
-        $sender_email = strtolower(Mail_Helper::getEmailAddress($email['from']));
+        $sender_email = Mail_Helper::getEmailAddress($email['from']);
         list($text_headers, $body) = Mime_Helper::splitHeaderBody($email['full_email']);
         if ((Mail_Helper::isVacationAutoResponder($email['headers'])) ||
                 (Notification::isBounceMessage($sender_email)) ||

@@ -11,9 +11,12 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Mail\MailMessage;
+namespace Eventum\Test;
 
-class ForwardedRoutingTest extends PHPUnit_Framework_TestCase
+use Eventum\Mail\MailMessage;
+use Mail_Helper;
+
+class ForwardedRoutingTest extends TestCase
 {
     /**
      * Test that message forwarded by Thunderbird gets new issue

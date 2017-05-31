@@ -15,8 +15,8 @@ namespace Eventum\Controller\Manage;
 
 use Auth;
 use Eventum\Controller\Helper\MessagesHelper;
+use Eventum\Extension\ExtensionManager;
 use Group;
-use Partner;
 use Project;
 use User;
 
@@ -214,8 +214,19 @@ class UsersController extends ManageBaseController
                 'project_list' => $project_list,
                 'project_roles' => $this->getProjectRoles($project_list, $this->user_details),
                 'group_list' => Group::getAssocListAllProjects(),
-                'partners' => Partner::getAssocList(),
+                'partners' => $this->getPartnersList(),
             ]
         );
+    }
+
+    private function getPartnersList()
+    {
+        $partners = [];
+        $backends = ExtensionManager::getManager()->getPartnerClasses();
+        foreach ($backends as $par_code => $backend) {
+            $partners[$par_code] = $backend->getName();
+        }
+
+        return $partners;
     }
 }

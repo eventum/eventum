@@ -10,7 +10,17 @@ quick=${QUICK-false}
 
 find_prog() {
 	set +x
-	local c prog=$1
+	local c version prog=$1
+
+	case "$prog" in
+	phing)
+		version="-version"
+		;;
+	*)
+		version="--version"
+		;;
+	esac
+
 	names="./$prog.phar $prog.phar $prog"
 	prog=
 	for c in $names; do
@@ -19,7 +29,7 @@ find_prog() {
 		break
 	done
 
-	${prog:-false} --version >&2
+	${prog:-false} $version >&2
 
 	echo ${prog:-false}
 }
@@ -98,9 +108,9 @@ po_checkout() {
 	make -C $dir/localization touch-po
 }
 
-# setup $version and update APP_VERSION in init.php
+# setup $version and update APP_VERSION in globals.php
 update_version() {
-	version=$(awk -F"'" '/APP_VERSION/{print $4}' init.php)
+	version=$(awk -F"'" '/APP_VERSION/{print $4}' globals.php)
 
 	version=$(git describe --tags)
 	# trim 'v' prefix
@@ -111,7 +121,7 @@ update_version() {
 			idefine('APP_VERSION', '$version');
 		    d
 
-		}" init.php
+		}" globals.php
 }
 
 # clean trailing spaces/tabs
@@ -193,10 +203,12 @@ clean_vendor() {
 	cd ..
 
 	# auto-fix pear packages
+	# 1) pear-pear.php.net/Mail_mimeDecode/Mail/mimeDecode.php (no_php4_constructor)
+	# 2) pear-pear.php.net/Math_Stats/Math/Stats.php (no_php4_constructor)
+	# 3) pear-pear.php.net/Net_POP3/Net/POP3.php (no_php4_constructor)
+	# 4) pear-pear.php.net/Net_URL/Net/URL.php (no_php4_constructor)
 	$quick || make pear-fix php-cs-fixer=$phpcsfixer
 	$quick || pear_require_strip
-	# run twice, to fix all occurrences
-	$quick || make pear-fix php-cs-fixer=$phpcsfixer
 
 	# component related sources, not needed runtime
 	rm htdocs/components/*/*-built.js
@@ -209,7 +221,6 @@ clean_vendor() {
 	mv .base htdocs/components/jquery-ui/themes/base
 	rm -r htdocs/components/jquery-ui/ui/minified
 	rm -r htdocs/components/jquery-ui/ui/i18n
-	rm htdocs/components/dropzone/index.js
 	rm htdocs/components/garlicjs/js/garlic-standalone.min.js
 
 	# not ready yet

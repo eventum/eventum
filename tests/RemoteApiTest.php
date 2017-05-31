@@ -18,6 +18,9 @@ use Eventum_RPC;
 use Exception;
 use Setup;
 
+/**
+ * @group api
+ */
 class RemoteApiTest extends TestCase
 {
     const DEBUG = 0;

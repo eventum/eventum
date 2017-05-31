@@ -15,27 +15,13 @@
 // XXX: dynamically check the email blob and skips the email if it is bigger than 16MB on PHP4 versions
 
 ini_set('memory_limit', '64M');
-
 ini_set('display_errors', 1);
 error_reporting(E_ALL & ~E_STRICT);
 set_time_limit(0);
-define('APP_NAME', 'Eventum');
+
+require_once __DIR__ . '/../../globals.php';
+
 define('APP_CHARSET', 'UTF-8');
-define('APP_DEFAULT_LOCALE', 'en_US');
-define('APP_PATH', realpath(__DIR__ . '/../..'));
-define('APP_VAR_PATH', APP_PATH . '/var');
-define('APP_INC_PATH', APP_PATH . '/lib/eventum');
-define('APP_CONFIG_PATH', APP_PATH . '/config');
-define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
-define('APP_TPL_PATH', APP_PATH . '/templates');
-define('APP_TPL_COMPILE_PATH', APP_VAR_PATH . '/cache');
-define('APP_LOG_PATH', APP_VAR_PATH . '/log');
-define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
-define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
-define('APP_LOCAL_PATH', APP_CONFIG_PATH);
-define('APP_RELATIVE_URL', '../');
-define('APP_SITE_NAME', 'Eventum');
-define('APP_COOKIE', 'eventum');
 
 header('Content-Type: text/html; charset=' . APP_CHARSET);
 
@@ -50,6 +36,13 @@ require_once APP_PATH . '/autoload.php';
 
 // set default timezone to utc to avoid default timezone not set warnings
 date_default_timezone_set(@date_default_timezone_get());
+
+define('APP_NAME', 'Eventum');
+define('APP_DEFAULT_LOCALE', 'en_US');
+define('APP_LOCAL_PATH', APP_CONFIG_PATH);
+define('APP_RELATIVE_URL', '../');
+define('APP_SITE_NAME', 'Eventum');
+define('APP_COOKIE', 'eventum');
 
 $controller = new Eventum\Controller\Setup\SetupController();
 $controller->run();

@@ -89,8 +89,13 @@ $(document).ready(function() {
         $(selector).chosen(config[selector]);
     }
 
-    // autosize
-    autosize($('textarea'));
+    var $textarea = $('textarea');
+
+    // https://github.com/jackmoore/autosize
+    autosize($textarea);
+
+    // https://github.com/widernet/cmd-ctrl-enter
+    $textarea.cmdCtrlEnter();
 
     // jquery timeago
     var $timeago = $('time.timeago');
@@ -481,8 +486,8 @@ Eventum.changeClockStatus = function()
 
 Eventum.openHelp = function(e)
 {
-    var target = $(e.target);
-    var topic = target.parent().attr('data-topic');
+    var $target = $(e.target);
+    var topic = $target.closest('a.help').attr('data-topic');
     var width = 500;
     var height = 450;
     var w_offset = 30;
@@ -532,7 +537,7 @@ Validation.selectField = function(field)
 Validation.showErrorIcon = function(field, show)
 {
     var icon = $('#error_icon_' + Eventum.escapeSelector(field.attr('name')));
-    if (icon.length == 0) {
+    if (!icon.length) {
         return false;
     }
     if (show) {

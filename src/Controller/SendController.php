@@ -363,6 +363,7 @@ class SendController extends BaseController
 
     /**
      * Enter the time tracking entry about this new email
+     * @param string $default_summary
      */
     private function addTimeTracking($default_summary)
     {

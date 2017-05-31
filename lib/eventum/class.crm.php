@@ -13,6 +13,7 @@
 
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
+use Eventum\Extension\ExtensionLoader;
 
 define('CRM_EXCLUDE_EXPIRED', 'exclude_expired');
 
@@ -210,6 +211,8 @@ abstract class CRM
      * Returns the list of customer IDs that are associated with the given
      * keyword value (wildcards welcome). This can search name, emails, etc
      *
+     * FIXME: Search::buildWhereClause uses "true" for $options
+     *
      * @param   string $keyword The string to search by value
      * @param array $options
      * @return  array The list of customer IDs
@@ -253,8 +256,10 @@ abstract class CRM
     /**
      * Returns a list of customer IDS belonging to the specified support level
      *
+     * FIXME: Reminder::buildWhereClauses uses string[] for $support_options but that is not documented
+     *
      * @param   string|array $levels The support Level ID or an array of support level ids
-     * @param   mixed $support_options an integer or array of integers indicating various options to get customers with
+     * @param   int|int[] $support_options an integer or array of integers indicating various options to get customers with
      * @return  array
      */
     abstract public function getCustomerIDsBySupportLevel($levels, $support_options = false);
@@ -288,24 +293,6 @@ abstract class CRM
         $backend = self::getBackendNameByProject($prj_id);
 
         return !empty($backend);
-    }
-
-    /**
-     * Returns the list of available customer backends by listing the class
-     * files in the backend directory.
-     *
-     * @return  array Associative array of filename => name
-     */
-    public static function getBackendList()
-    {
-        $files = Misc::getFileList(APP_INC_PATH . 'crm/');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/crm'));
-        $list = [];
-        foreach ($files as $file) {
-            $list['class.' . $file . '.php'] = $file;
-        }
-
-        return $list;
     }
 
     /**
@@ -346,7 +333,7 @@ abstract class CRM
      * given project ID, instantiates it and returns the class.
      *
      * @param   int $prj_id The project ID
-     * @return  bool
+     * @return bool|CRM
      */
     private static function getBackendByProject($prj_id)
     {
@@ -355,30 +342,8 @@ abstract class CRM
             return false;
         }
 
-        return self::getBackend($backend_class, $prj_id);
-    }
-
-    /**
-     * Returns the backend for the specified class name
-     *
-     * @param string $backend_class
-     * @param int $prj_id
-     * @internal param string $class_name The name of the class
-     * @return CRM
-     */
-    private static function getBackend($backend_class, $prj_id)
-    {
-        $file_name_chunks = explode('.', $backend_class);
-        $class_name = $file_name_chunks[1];
-
-        if (file_exists(APP_LOCAL_PATH . "/crm/$class_name/$backend_class")) {
-            require_once APP_LOCAL_PATH . '/crm/' . $class_name . "/$backend_class";
-        } else {
-            require_once APP_INC_PATH . '/crm/backends/' . $class_name . "/$backend_class";
-        }
-
         /** @var CRM $backend */
-        $backend = new $class_name();
+        $backend = static::getExtensionLoader()->createInstance($backend_class);
         $backend->setup($prj_id);
         $backend->prj_id = $prj_id;
 
@@ -769,5 +734,19 @@ abstract class CRM
         } catch (CRMException $e) {
             return null;
         }
+    }
+
+    /**
+     * @return ExtensionLoader
+     * @internal
+     */
+    public static function getExtensionLoader()
+    {
+        $dirs = [
+            APP_INC_PATH . '/crm',
+            APP_LOCAL_PATH . '/crm',
+        ];
+
+        return new ExtensionLoader($dirs, '%s', 'CRM');
     }
 }

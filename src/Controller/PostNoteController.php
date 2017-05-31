@@ -117,6 +117,9 @@ class PostNoteController extends BaseController
         }
     }
 
+    /**
+     * @param int $note_id
+     */
     private function replyAction($note_id)
     {
         $note = Note::getDetails($note_id);
@@ -131,6 +134,10 @@ class PostNoteController extends BaseController
         $this->reply_subject = $note['not_title'];
     }
 
+    /**
+     * @param int $sup_id
+     * @param int $ema_id
+     */
     private function replyEmailAction($sup_id, $ema_id)
     {
         $email = Support::getEmailDetails($ema_id, $sup_id);

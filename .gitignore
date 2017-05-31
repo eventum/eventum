@@ -11,7 +11,7 @@ Session.vim
 [._]s[a-w][a-z]
 .netrwhist
 /.idea
-/.php_cs.cache
+/.php_cs*.cache
 /.phplint.cache
 /.project
 /.settings
@@ -26,6 +26,7 @@ Session.vim
 /php-cs-fixer.phar
 /phpab.phar
 /phpcompatinfo.phar
+/phpmd.phar
 /phpunit.phar
 /cli/*.phar
 /cli/build/

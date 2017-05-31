@@ -21,7 +21,7 @@ class Round_Robin
      * @param   DateTime $date The DateTime object associated with the user's timezone
      * @param   int $start The blackout start hour
      * @param   int $end The blackout end hour
-     * @return  array The blackout dates
+     * @return  string[] The blackout dates
      */
     public static function getBlackoutDates($date, $start, $end)
     {

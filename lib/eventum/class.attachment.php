@@ -29,6 +29,7 @@ class Attachment
     /**
      * Returns true if specified mime type should be displayed
      * directly in the browser window.
+     * @param string $mimetype
      */
     private static function displayInline($mimetype)
     {

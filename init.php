@@ -26,11 +26,7 @@ ini_set('memory_limit', '512M');
 // prevent session from messing up the browser cache
 ini_set('session.cache_limiter', 'nocache');
 
-define('APP_URL', 'https://github.com/eventum/eventum');
-define('APP_VERSION', '3.2.0-dev');
-
-// define base path
-define('APP_PATH', __DIR__);
+require_once __DIR__ . '/globals.php';
 
 $define = function ($name, $value) {
     if (defined($name)) {
@@ -38,8 +34,6 @@ $define = function ($name, $value) {
     }
     define($name, $value);
 };
-
-$define('APP_CONFIG_PATH', APP_PATH . '/config');
 
 // include local site config. may override any default
 require_once APP_CONFIG_PATH . '/config.php';
@@ -55,18 +49,6 @@ require_once APP_CONFIG_PATH . '/config.php';
  */
 $define('APP_LOCAL_PATH', APP_CONFIG_PATH);
 $define('APP_COOKIE', 'eventum');
-
-// /var path for writable data
-$define('APP_VAR_PATH', APP_PATH . '/var');
-
-// define other paths
-$define('APP_SETUP_FILE', APP_CONFIG_PATH . '/setup.php');
-$define('APP_INC_PATH', APP_PATH . '/lib/eventum');
-$define('APP_TPL_PATH', APP_PATH . '/templates');
-$define('APP_TPL_COMPILE_PATH', APP_VAR_PATH . '/cache');
-$define('APP_LOCKS_PATH', APP_VAR_PATH . '/lock');
-$define('APP_LOG_PATH', APP_VAR_PATH . '/log');
-$define('APP_ERROR_LOG', APP_LOG_PATH . '/errors.log');
 
 // define the user_id of system user
 $define('APP_SYSTEM_USER_ID', 1);
@@ -142,3 +124,4 @@ $define('APP_EVENTUM_IRC_CATEGORY_DEFAULT', 'default');
 $define('APP_EVENTUM_IRC_CATEGORY_REMINDER', APP_EVENTUM_IRC_CATEGORY_DEFAULT);
 
 Eventum\DebugBar::initialize();
+Eventum\Extension\ExtensionManager::getManager();

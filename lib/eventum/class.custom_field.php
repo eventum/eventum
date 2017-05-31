@@ -12,6 +12,8 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Extension\ExtensionLoader;
+use Eventum\Monolog\Logger;
 
 /**
  * Class to handle the business logic related to the administration
@@ -29,6 +31,9 @@ class Custom_Field
         'cfo_rank ASC' => 'Manual',
     ];
 
+    /**
+     * @param int $fld_id
+     */
     public static function updateOptions($fld_id, $options, $new_options)
     {
         $old_options = self::getOptions($fld_id);
@@ -1042,22 +1047,11 @@ class Custom_Field
                     {{%custom_field}}
                  ORDER BY
                     fld_rank ASC';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+
+        $res = DB_Helper::getInstance()->getAll($stmt);
 
         foreach ($res as &$row) {
             $row['projects'] = @implode(', ', array_values(self::getAssociatedProjects($row['fld_id'])));
-            if (in_array($row['fld_type'], self::$option_types)) {
-                if (!empty($row['fld_backend'])) {
-                    $row['field_options'] = implode(', ', array_values(self::getOptions($row['fld_id'])));
-                }
-            }
-            if (!empty($row['fld_backend'])) {
-                $row['field_options'] = 'Backend: ' . self::getBackendName($row['fld_backend']);
-            }
             $row['min_role_name'] = User::getRole($row['fld_min_role']);
             $row['min_role_edit_name'] = User::getRole($row['fld_min_role_edit']);
             $row['has_options'] = in_array($row['fld_type'], self::$option_types);
@@ -1288,17 +1282,6 @@ class Custom_Field
             ]);
         } catch (DatabaseException $e) {
             return -1;
-        }
-
-        // if the current custom field is a combo box, get all of the current options
-        if (in_array($_POST['field_type'], self::$option_types)) {
-            $stmt = 'SELECT
-                        cfo_id
-                     FROM
-                        {{%custom_field_option}}
-                     WHERE
-                        cfo_fld_id=?';
-            $current_options = DB_Helper::getInstance()->getColumn($stmt, [$_POST['id']]);
         }
 
         if ($old_details['fld_type'] != $_POST['field_type']) {
@@ -1631,41 +1614,6 @@ class Custom_Field
     }
 
     /**
-     * Returns the list of available custom field backends by listing the class
-     * files in the backend directory.
-     *
-     * @return  array Associative array of filename => name
-     */
-    public static function getBackendList()
-    {
-        $list = [];
-        $files = Misc::getFileList(APP_INC_PATH . '/custom_field');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH . '/custom_field'));
-        foreach ($files as $file) {
-            // make sure we only list the backends
-            if (preg_match('/^class\.(.*)\.php$/', $file)) {
-                // display a prettyfied backend name in the admin section
-                $list[$file] = self::getBackendName($file);
-            }
-        }
-
-        return $list;
-    }
-
-    /**
-     * Returns the 'pretty' name of the backend
-     *
-     * @param   string $backend The full backend file name
-     * @return  string the pretty name of the backend
-     */
-    public static function getBackendName($backend)
-    {
-        preg_match('/^class\.(.*)\.php$/', $backend, $matches);
-
-        return ucwords(str_replace('_', ' ', $matches[1]));
-    }
-
-    /**
      * Returns an instance of custom field backend class if it exists for the
      * specified field.
      *
@@ -1693,29 +1641,15 @@ class Custom_Field
             return false;
         }
 
-        if (!empty($res)) {
-            if (file_exists(APP_LOCAL_PATH . "/custom_field/$res")) {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_LOCAL_PATH . "/custom_field/$res";
-            } elseif (file_exists(APP_INC_PATH . "/custom_field/$res")) {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_INC_PATH . "/custom_field/$res";
-            } else {
-                $returns[$fld_id] = false;
-
-                return $returns[$fld_id];
+        if ($res) {
+            try {
+                $instance = static::getExtensionLoader()->createInstance($res);
+            } catch (InvalidArgumentException $e) {
+                Logger::app()->error("Could not load backend $res", ['exception' => $e]);
+                $instance = false;
             }
 
-            $file_name_chunks = explode('.', $res);
-            $class_name = $file_name_chunks[1] . '_Custom_Field_Backend';
-
-            if (!class_exists($class_name)) {
-                $returns[$fld_id] = false;
-
-                return $returns[$fld_id];
-            }
-
-            $returns[$fld_id] = new $class_name();
+            $returns[$fld_id] = $instance;
         } else {
             $returns[$fld_id] = false;
         }
@@ -1863,5 +1797,19 @@ class Custom_Field
         }
 
         return true;
+    }
+
+    /**
+     * @return ExtensionLoader
+     * @internal
+     */
+    public static function getExtensionLoader()
+    {
+        $dirs = [
+            APP_INC_PATH . '/custom_field',
+            APP_LOCAL_PATH . '/custom_field',
+        ];
+
+        return new ExtensionLoader($dirs, '%s_Custom_Field_Backend');
     }
 }

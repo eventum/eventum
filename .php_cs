@@ -121,4 +121,5 @@ $rules = $risky_rules + $symfony_rules + [
 
 return $config
     ->setRiskyAllowed(true)
+    ->setCacheFile('vendor/php_cs.cache')
     ->setRules($rules);

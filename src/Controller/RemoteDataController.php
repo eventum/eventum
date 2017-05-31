@@ -124,6 +124,9 @@ class RemoteDataController extends BaseController
         exit;
     }
 
+    /**
+     * @param string $issue_id
+     */
     private function getIssueDescription($issue_id)
     {
         if (!Issue::canAccess($issue_id, $this->usr_id)) {

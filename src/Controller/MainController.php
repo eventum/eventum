@@ -28,9 +28,6 @@ class MainController extends BaseController
     protected $tpl_name = 'main.tpl.html';
 
     /** @var int */
-    private $role_id;
-
-    /** @var int */
     private $usr_id;
 
     /** @var int */

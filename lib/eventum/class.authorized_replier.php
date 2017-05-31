@@ -139,7 +139,7 @@ class Authorized_Replier
             return -1;
         }
 
-        $email = strtolower(Mail_Helper::getEmailAddress($email));
+        $email = Mail_Helper::getEmailAddress($email);
 
         $workflow = Workflow::handleAuthorizedReplierAdded(Issue::getProjectID($issue_id), $issue_id, $email);
         if ($workflow === false) {
@@ -231,7 +231,7 @@ class Authorized_Replier
     {
         // XXX: Add caching
 
-        $email = strtolower(Mail_Helper::getEmailAddress($email));
+        $email = Mail_Helper::getEmailAddress($email);
         // first check if this is an actual user or just an email address
         $usr_id = User::getUserIDByEmail($email, true);
         if (!empty($usr_id)) {
@@ -280,17 +280,9 @@ class Authorized_Replier
                  WHERE
                     iur_iss_id = ? AND
                     iur_usr_id = ?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id, $usr_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+        $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id, $usr_id]);
 
-        if ($res > 0) {
-            return true;
-        }
-
-        return false;
+        return $res > 0;
     }
 
     /**

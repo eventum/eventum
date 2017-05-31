@@ -156,69 +156,6 @@ class Search
     }
 
     /**
-     * Method used to get the current sorting options used in the grid layout
-     * of the issue listing page.
-     *
-     * @param   array $options The current search parameters
-     * @return  array The sorting options
-     */
-    public static function getSortingInfo($options)
-    {
-        $custom_fields = Custom_Field::getFieldsToBeListed(Auth::getCurrentProject());
-
-        // default order for last action date, priority should be descending
-        // for textual fields, like summary, ascending is reasonable
-        $fields = [
-            'pri_rank' => 'desc',
-            'sev_rank' => 'asc',
-            'iss_id' => 'desc',
-            'iss_customer_id' => 'desc',
-            'prc_title' => 'asc',
-            'sta_rank' => 'asc',
-            'iss_created_date' => 'desc',
-            'iss_summary' => 'asc',
-            'last_action_date' => 'desc',
-            'usr_full_name' => 'asc',
-            'iss_expected_resolution_date' => 'desc',
-            'pre_title' => 'asc',
-            'assigned' => 'asc',
-            'grp_name' => 'asc',
-            'iss_percent_complete' => 'asc',
-        ];
-
-        foreach ($custom_fields as $fld_id => $fld_name) {
-            $fields['custom_field_' . $fld_id] = 'desc';
-        }
-
-        $sortfields = array_combine(array_keys($fields), array_keys($fields));
-        $sortfields['pre_title'] = 'pre_scheduled_date';
-        $sortfields['assigned'] = 'isu_usr_id';
-
-        $items = [
-            'links' => [],
-            'images' => [],
-        ];
-        $current_sort_by = $options['sort_by'];
-        $current_sort_order = $options['sort_order'];
-        foreach ($sortfields as $field => $sortfield) {
-            $sort_order = $fields[$field];
-            if ($current_sort_by == $sortfield) {
-                $items['images'][$field] = 'images/' . strtolower($current_sort_order) . '.gif';
-                if (strtolower($current_sort_order) == 'asc') {
-                    $sort_order = 'desc';
-                } else {
-                    $sort_order = 'asc';
-                }
-            }
-            $options['sort_by'] = $sortfield;
-            $options['sort_order'] = $sort_order;
-            $items['links'][$field] = $_SERVER['PHP_SELF'] . '?' . Filter::buildUrl(Filter::getFiltersInfo(), $options, false, true);
-        }
-
-        return $items;
-    }
-
-    /**
      * Method used to get the list of issues to be displayed in the grid layout.
      *
      * @param   int $prj_id The current project ID
@@ -297,10 +234,10 @@ class Search
                 if ($field['fld_type'] == 'multiple') {
                     $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
-                        $stmt .= ",\n{{%issue_custom_field}} as cf" . $fld_id . '_' . $cfo_id . "\n";
+                        $stmt .= ",\n{{%issue_custom_field}} as `cf" . $fld_id . '_' . $cfo_id . "`\n";
                     }
                 } else {
-                    $stmt .= ",\n{{%issue_custom_field}} as cf" . $fld_id . "\n";
+                    $stmt .= ",\n{{%issue_custom_field}} as `cf" . $fld_id . "`\n";
                 }
             }
         }
@@ -455,7 +392,7 @@ class Search
         foreach ($res as &$row) {
             $issue_id = $row['iss_id'];
             $row['time_spent'] = Misc::getFormattedTime($row['time_spent']);
-            $row['iss_expected_resolution_date'] = Date_Helper::getSimpleDate($row['iss_expected_resolution_date'], false);
+            $row['expected_resolution_date'] = Date_Helper::getSimpleDate($row['iss_expected_resolution_date'], false);
             $row['excerpts'] = isset($excerpts[$issue_id]) ? $excerpts[$issue_id] : '';
 
             $row['access_level_name'] = Access::getAccessLevelName($row['iss_access_level']);
@@ -691,17 +628,17 @@ class Search
                     $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
                         $cfo_id = Misc::escapeString($cfo_id);
-                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . '.icf_iss_id = iss_id';
-                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_fld_id = $fld_id";
-                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . '.' . $fld_db_name . " = '$cfo_id'";
+                        $stmt .= " AND\n `cf" . $fld_id . '_' . $cfo_id . '`.icf_iss_id = iss_id';
+                        $stmt .= " AND\n `cf" . $fld_id . '_' . $cfo_id . "`.icf_fld_id = $fld_id";
+                        $stmt .= " AND\n `cf" . $fld_id . '_' . $cfo_id . '`.' . $fld_db_name . " = '$cfo_id'";
                     }
                 } elseif ($field['fld_type'] == 'date') {
                     if ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day']))) {
                         continue;
                     }
                     $search_value = $search_value['Year'] . '-' . $search_value['Month'] . '-' . $search_value['Day'];
-                    $stmt .= " AND\n (iss_id = cf" . $fld_id . '.icf_iss_id AND
-                        cf' . $fld_id . '.' . $fld_db_name . " = '" . Misc::escapeString($search_value) . "')";
+                    $stmt .= " AND\n (iss_id = `cf" . $fld_id . '``.icf_iss_id AND
+                        `cf' . $fld_id . '`.' . $fld_db_name . " = '" . Misc::escapeString($search_value) . "')";
                 } elseif ($field['fld_type'] == 'integer') {
                     $value = $search_value['value'];
                     switch ($search_value['filter_type']) {
