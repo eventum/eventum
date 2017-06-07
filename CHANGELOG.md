@@ -1,16 +1,18 @@
 # Eventum Issue Tracking System
 
-## [3.2.1] - 2017-??-??
+## [3.2.1] - 2017-06-09
+
+Upgrading to 3.2.x versions requires that you upgrade to 3.2.0 version first.
 
 - add `$min_role` to base controller (@glensc, #261)
 - require `iconv` and `mbstring` extensions (@glensc, #269)
 - add Event/EventDispatcher to Eventum (@glensc, #272)
 - drop old db migrate system (@glensc, #270)
-- Escape time tracking summary when editing (@balsdorf, #273)
+- escape time tracking summary when editing (@balsdorf, #273)
 - include zend-mail transport and protocol classes (@glensc, #274)
-- Improved confusing reminder admin by redirecting after submit (@balsdorf)
+- improved confusing reminder admin by redirecting after submit (@balsdorf, ff26fcd8)
 
-[3.2.1]: https://github.com/eventum/eventum/compare/v3.2.0...master
+[3.2.1]: https://github.com/eventum/eventum/compare/v3.2.0...v3.2.1
 
 ## [3.2.0] - 2017-05-20
 
