@@ -78,6 +78,9 @@ class ReminderConditionsController extends ManageBaseController
             -2 => [ev_gettext('Please enter the title for this new condition.'), MessagesHelper::MSG_ERROR],
         ];
         $this->messages->mapMessages($res, $map);
+        $rem_id = $this->getRequest()->request->getInt('rem_id');
+        $rma_id = $this->getRequest()->request->getInt('rma_id');
+        $this->redirect("reminder_conditions.php?rem_id={$rem_id}&rma_id={$rma_id}");
     }
 
     private function updateAction()
@@ -89,6 +92,9 @@ class ReminderConditionsController extends ManageBaseController
             -2 => [ev_gettext('Please enter the title for this condition.'), MessagesHelper::MSG_ERROR],
         ];
         $this->messages->mapMessages($res, $map);
+        $rem_id = $this->getRequest()->request->getInt('rem_id');
+        $rma_id = $this->getRequest()->request->getInt('rma_id');
+        $this->redirect("reminder_conditions.php?rem_id={$rem_id}&rma_id={$rma_id}");
     }
 
     private function deleteAction()
