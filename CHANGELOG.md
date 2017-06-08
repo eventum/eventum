@@ -7,6 +7,8 @@
 - add Event/EventDispatcher to Eventum (@glensc, #272)
 - drop old db migrate system (@glensc, #270)
 - Escape time tracking summary when editing (@balsdorf, #273)
+- include zend-mail transport and protocol classes (@glensc, #274)
+- Improved confusing reminder admin by redirecting after submit (@balsdorf)
 
 [3.2.1]: https://github.com/eventum/eventum/compare/v3.2.0...master
 

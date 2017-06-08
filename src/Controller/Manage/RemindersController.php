@@ -77,6 +77,8 @@ class RemindersController extends ManageBaseController
             -2 => [ev_gettext('Please enter the title for this new reminder.'), MessagesHelper::MSG_ERROR],
         ];
         $this->messages->mapMessages($res, $map);
+        $prj_id = $this->getRequest()->request->getInt('project');
+        $this->redirect("reminders.php?prj_id={$prj_id}");
     }
 
     private function updateAction()
@@ -88,6 +90,8 @@ class RemindersController extends ManageBaseController
             -2 => [ev_gettext('Please enter the title for this reminder.'), MessagesHelper::MSG_ERROR],
         ];
         $this->messages->mapMessages($res, $map);
+        $prj_id = $this->getRequest()->request->getInt('project');
+        $this->redirect("reminders.php?prj_id={$prj_id}");
     }
 
     private function deleteAction()
