@@ -111,7 +111,7 @@
             <tr class="{cycle values='odd,even'}">
               <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].ere_id}"></td>
               <td width="60%">
-                &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].ere_id}" title="{t}update this entry{/t}">{$list[i].ere_title}</a>
+                &nbsp;<a href="{$core.rel_url}manage/email_responses.php?cat=edit&id={$list[i].ere_id}" title="{t}update this entry{/t}">{$list[i].ere_title}</a>
               </td>
               <td width="40%">
                 &nbsp;{$list[i].projects|escape:"html"}

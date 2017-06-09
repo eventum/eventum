@@ -146,15 +146,15 @@
         <tr class="{cycle values='odd,even'}">
             <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].pri_id}"></td>
             <td align="center" nowrap>
-              {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].pri_id}&prj_id={$project.prj_id}&rank=desc" direction="down"}
+              {rank_icon href="{$core.rel_url}manage/priorities.php?cat=change_rank&id={$list[i].pri_id}&prj_id={$project.prj_id}&rank=desc" direction="down"}
               {$list[i].pri_rank}
-              {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].pri_id}&prj_id={$project.prj_id}&rank=asc" direction="up"}
+              {rank_icon href="{$core.rel_url}manage/priorities.php?cat=change_rank&id={$list[i].pri_id}&prj_id={$project.prj_id}&rank=asc" direction="up"}
             </td>
             <td align="center" nowrap>
                 {if $list[i].pri_icon > 0}<span class="priority_icon priority-icon-{$list[i].pri_icon}" title="{$list[i].pri_icon}"></span>{/if}
             </td>
             <td width="100%">
-                &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].pri_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].pri_title}</a>
+                &nbsp;<a href="{$core.rel_url}manage/priorities.php?cat=edit&id={$list[i].pri_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].pri_title}</a>
             </td>
         </tr>
         {sectionelse}

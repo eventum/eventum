@@ -131,7 +131,7 @@
                 <input type="checkbox" name="items[]" value="{$list[i].pro_id}" {if $smarty.section.i.total == 0}disabled{/if}>
             </td>
             <td width="20%">
-                &nbsp;<a class="link" href="{$core.current_url}?cat=edit&id={$list[i].pro_id}" title="{t}update this entry{/t}">{$list[i].pro_title|escape}</a>
+                &nbsp;<a class="link" href="{$core.rel_url}manage/products.php?cat=edit&id={$list[i].pro_id}" title="{t}update this entry{/t}">{$list[i].pro_title|escape}</a>
             </td>
             <td width="20%">
                 &nbsp;{$list[i].pro_version_howto|escape}

@@ -3,7 +3,7 @@
 {block "manage_content"}
   <script type="text/javascript">
   <!--
-  var url = '{$core.current_url}';
+  var url = '{$core.rel_url}manage/reminder_conditions.php';
   var rem_id = '{$rem_id}';
   var rma_id = '{$rma_id}';
   var cat = '{$smarty.request.cat|default:''}';
@@ -188,7 +188,7 @@
                 {section name="i" loop=$list}
                 <tr class="{cycle values='odd,even'}">
                   <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].rlc_id}"></td>
-                  <td width="33%">&nbsp;<a href="{$core.current_url}?cat=edit&rem_id={$rem_id}&rma_id={$rma_id}&id={$list[i].rlc_id}" title="{t}update this entry{/t}">{$list[i].rmf_title|escape:"html"}</a></td>
+                  <td width="33%">&nbsp;<a href="{$core.rel_url}manage/reminder_conditions.php?cat=edit&rem_id={$rem_id}&rma_id={$rma_id}&id={$list[i].rlc_id}" title="{t}update this entry{/t}">{$list[i].rmf_title|escape:"html"}</a></td>
                   <td width="33%">&nbsp;{$list[i].rmo_title|escape:"html"}</td>
                   <td width="33%">&nbsp;{$list[i].rlc_value|escape:"html"}</td>
                 </tr>

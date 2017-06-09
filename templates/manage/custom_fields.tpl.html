@@ -405,12 +405,12 @@
                 <input type="checkbox" name="items[]" value="{$list[i].fld_id}" {if $smarty.section.i.total == 0}disabled{/if}>
               </td>
               <td nowrap>
-                {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].fld_id}&direction=1" direction="down"}
+                {rank_icon href="{$core.rel_url}manage/custom_fields.php?cat=change_rank&id={$list[i].fld_id}&direction=1" direction="down"}
                 {$list[i].fld_rank}
-                {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].fld_id}&direction=-1" direction="up"}
+                {rank_icon href="{$core.rel_url}manage/custom_fields.php?cat=change_rank&id={$list[i].fld_id}&direction=-1" direction="up"}
               </td>
               <td width="15%">
-                &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].fld_id}" title="{t}update this entry{/t}">{$list[i].fld_title}</a>
+                &nbsp;<a href="{$core.rel_url}manage/custom_fields.php?cat=edit&id={$list[i].fld_id}" title="{t}update this entry{/t}">{$list[i].fld_title}</a>
               </td>
               <td width="20%">
                 &nbsp;{$list[i].projects}
