@@ -6,7 +6,6 @@
     <a href="{$core.rel_url}">{t}Back to Login Form{/t}</a>
 </div>
 
-
 {if $no_projects|default:''}
 <div class="note_box">
     {t}Sorry, but there are no projects currently setup as allowing anonymous posting.{/t}
@@ -16,7 +15,7 @@
 <div class="note_box">
     {t escape=no 1=$new_issue_id}Thank you, the new issue was created successfully. For your records, the new issue ID is <font color="red">%1</font>{/t}
     <br /><br />
-    {t 1=$core.current_url escape=no}You may <a href="%1">submit another issue</a> if you so wish.{/t}
+    {t 1="{$core.rel_url}new.php" escape=no}You may <a href="%1">submit another issue</a> if you so wish.{/t}
 </div>
 {else}
 {if $smarty.get.post_form|default:'' != 'yes'}
