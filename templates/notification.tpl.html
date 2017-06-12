@@ -119,7 +119,7 @@
           <tr class="{cycle values='odd,even'}">
             <td width="4" nowrap><input type="checkbox" name="items[]" value="{$list[i].sub_id}"></td>
             <td width="60%">
-              <a href="{$core.current_url}?cat=edit&iss_id={$list[i].sub_iss_id}&id={$list[i].sub_id}" title="{t}update this entry{/t}">{$list[i].sub_email|escape:"html"}</a>
+              <a href="{$core.rel_url}notification.php?cat=edit&iss_id={$list[i].sub_iss_id}&id={$list[i].sub_id}" title="{t}update this entry{/t}">{$list[i].sub_email|escape:"html"}</a>
             </td>
             <td width="40%">
               {$list[i].actions}

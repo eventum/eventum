@@ -257,6 +257,8 @@ class ListController extends BaseController
      */
     private function getSortingInfo($options)
     {
+        $uri = $this->getRequest()->getBaseUrl();
+
         $custom_fields = Custom_Field::getFieldsToBeListed(Auth::getCurrentProject());
 
         // default order for last action date, priority should be descending
@@ -305,7 +307,7 @@ class ListController extends BaseController
             }
             $options['sort_by'] = $sortfield;
             $options['sort_order'] = $sort_order;
-            $items['links'][$field] = $_SERVER['PHP_SELF'] . '?' . Filter::buildUrl(Filter::getFiltersInfo(), $options, false, true);
+            $items['links'][$field] = $uri . '?' . Filter::buildUrl(Filter::getFiltersInfo(), $options, false, true);
         }
 
         return $items;

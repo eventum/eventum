@@ -144,7 +144,7 @@ function checkDelete()
                     <input type="checkbox" name="items[]" value="{$list[i].lfi_id}" {if $smarty.section.i.total == 0}disabled{/if}>
                 </td>
                 <td width="20%">
-                    &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].lfi_id}" title="{t}update this entry{/t}">{$list[i].lfi_pattern|escape:"html"}</a>
+                    &nbsp;<a href="{$core.rel_url}manage/link_filters.php?cat=edit&id={$list[i].lfi_id}" title="{t}update this entry{/t}">{$list[i].lfi_pattern|escape:"html"}</a>
                 </td>
                 <td width="20%">
                     &nbsp;{$list[i].lfi_replacement|escape:"html"}

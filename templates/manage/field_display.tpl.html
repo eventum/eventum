@@ -7,7 +7,7 @@
     <a href="{$core.rel_url}manage/projects.php">{t}Manage Projects{/t}</a>
     </span>
 {else}
-<form name="display_form" method="post" action="{$core.current_url}?prj_id={$prj_id}">
+<form name="display_form" method="post" action="{$core.rel_url}manage/field_display.php?prj_id={$prj_id}">
     <table class="bordered grid">
         <tr class="title">
             <th colspan="2">

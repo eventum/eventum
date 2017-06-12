@@ -119,12 +119,12 @@
         <tr class="{cycle values='odd,even'}">
             <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].sev_id}"></td>
             <td align="center" nowrap>
-              {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].sev_id}&prj_id={$project.prj_id}&rank=desc" direction="down"}
+              {rank_icon href="{$core.rel_url}manage/severities.php?cat=change_rank&id={$list[i].sev_id}&prj_id={$project.prj_id}&rank=desc" direction="down"}
               {$list[i].sev_rank}
-              {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].sev_id}&prj_id={$project.prj_id}&rank=asc" direction="up"}
+              {rank_icon href="{$core.rel_url}manage/severities.php?cat=change_rank&id={$list[i].sev_id}&prj_id={$project.prj_id}&rank=asc" direction="up"}
             </td>
             <td width="200" nowrap>
-                &nbsp;<a class="link" href="{$core.current_url}?cat=edit&id={$list[i].sev_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].sev_title}</a>
+                &nbsp;<a class="link" href="{$core.rel_url}manage/severities.php?cat=edit&id={$list[i].sev_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].sev_title}</a>
             </td>
             <td width="100%">
                 &nbsp;{$list[i].sev_description}

@@ -111,6 +111,8 @@ class EmailsController extends BaseController
      */
     private function getSortingInfo($options)
     {
+        $uri = $this->getRequest()->getBaseUrl();
+
         $fields = [
             'sup_from',
             'sup_customer_id',
@@ -136,7 +138,7 @@ class EmailsController extends BaseController
                 }
                 $items['order'][$field] = $sort_order_option;
             }
-            $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=' . $sort_order;
+            $items['links'][$field] = $uri . '?sort_by=' . $field . '&sort_order=' . $sort_order;
         }
 
         return $items;
