@@ -111,7 +111,7 @@ header('Content-Type: text/html; charset=' . APP_CHARSET);
 // display maintenance message if requested.
 if (APP_MAINTENANCE) {
     $is_manage = (strpos($_SERVER['PHP_SELF'], '/manage/') !== false);
-    if (APP_MAINTENANCE && !$is_manage) {
+    if (!$is_manage) {
         $tpl = new Template_Helper();
         $tpl->setTemplate('maintenance.tpl.html');
         $tpl->displayTemplate();
