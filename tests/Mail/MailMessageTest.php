@@ -202,38 +202,16 @@ class MailMessageTest extends TestCase
     {
         $raw = $this->readDataFile('bug684922.txt');
 
-        // old code
-        $mail = Mime_Helper::decode($raw, true, true);
-        $att1 = Mime_Helper::getAttachments($mail);
-        // it returned in reverse order. wtf. but ok
-        $att1 = array_reverse($att1);
-
-        $this->assertEquals(2, count($att1));
-        $att = $att1[0];
-        /**
-         * [filename] => smiley-money-mouth1.gif
-         * [cid] => <smiley-money-mouth2.gif>
-         * [filetype] => image/gif
-         * [blob] =>
-         */
-        $this->assertArrayHasKey('filename', $att);
-        $this->assertArrayHasKey('cid', $att);
-        $this->assertArrayHasKey('filetype', $att);
-        $this->assertArrayHasKey('blob', $att);
-
-        // new code
         $mail = MailMessage::createFromString($raw);
         $this->assertTrue($mail->hasAttachments());
         $att2 = $mail->getAttachments();
 
-        $this->assertEquals(2, count($att2));
+        $this->assertCount(2, $att2);
         $att = $att2[0];
         $this->assertArrayHasKey('filename', $att);
         $this->assertArrayHasKey('cid', $att);
         $this->assertArrayHasKey('filetype', $att);
         $this->assertArrayHasKey('blob', $att);
-
-        $this->assertSame($att1, $att2);
     }
 
     public function testReferenceMessageId()

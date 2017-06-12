@@ -264,7 +264,7 @@ class Routing
 
         $res = Support::insertEmail($t, $mail, $sup_id);
         if ($res != -1) {
-            Support::extractAttachments($issue_id, $structure);
+            Support::extractAttachments($issue_id, $mail);
 
             // notifications about new emails are always external
             $internal_only = false;
@@ -345,6 +345,7 @@ class Routing
             throw RoutingException::noEmailDomainConfigured();
         }
         $structure = Mime_Helper::decode($full_message, true, true);
+        $mail = MailMessage::createFromString($full_message);
 
         // find which issue ID this email refers to
         if (isset($structure->headers['to'])) {
@@ -427,7 +428,7 @@ class Routing
 
         // add the full email to the note if there are any attachments
         // this is needed because the front end code will display attachment links
-        if (Mime_Helper::hasAttachments($structure)) {
+        if ($mail->hasAttachments()) {
             $_POST['full_message'] = $full_message;
         }
 
@@ -435,7 +436,7 @@ class Routing
         $res = Note::insertFromPost($usr_id, $issue_id, $unknown_user, false);
         // need to handle attachments coming from notes as well
         if ($res != -1) {
-            Support::extractAttachments($issue_id, $structure, true, $res);
+            Support::extractAttachments($issue_id, $mail, true, $res);
         }
 
         // FIXME! $res == -2 is not handled

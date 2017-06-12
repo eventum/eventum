@@ -450,22 +450,6 @@ class Mime_Helper
     }
 
     /**
-     * Method used to parse and return the full list of attachments
-     * associated with a message.
-     *
-     * @param   mixed   $message the full body of the message or parsed message structure
-     * @return  array The list of attachments, if any
-     */
-    public static function getAttachments($message)
-    {
-        if (!is_object($message)) {
-            $message = self::decode($message, true);
-        }
-
-        return self::_getAttachmentDetails($message, true);
-    }
-
-    /**
      * Method used to parse and return the full list of attachment CIDs
      * associated with a message.
      *

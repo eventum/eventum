@@ -35,6 +35,16 @@ class MimeDecodeTest extends TestCase
         $this->assertMimeHelperResult($res);
     }
 
+    public function testFieldValues()
+    {
+        $message = $this->readDataFile('bug684922.txt');
+        $input = Mime_Helper::decode($message, false, true);
+        $mail = MailMessage::createFromString($message);
+
+        $this->assertEquals('"Some Guy" <abcd@origin.com>', $input->headers['from']);
+        $this->assertEquals('Some Guy <abcd@origin.com>', $mail->from);
+    }
+
     public function testAddWarningMessage()
     {
         $this->markTestSkipped('requires MailMessage port');

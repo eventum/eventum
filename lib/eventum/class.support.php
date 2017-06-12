@@ -480,7 +480,8 @@ class Support
             // XXX do some error reporting?
             return;
         }
-        $message_id = MailMessage::createFromHeaderBody($headers, $body)->messageId;
+        $mail = MailMessage::createFromHeaderBody($headers, $body);
+        $message_id = $mail->messageId;
         $message = $headers . $body;
         // we don't need $body anymore -- free memory
         unset($body);
@@ -491,8 +492,9 @@ class Support
         }
 
         $structure = Mime_Helper::decode($message, true, true);
+
         $message_body = $structure->body;
-        if (Mime_Helper::hasAttachments($message)) {
+        if ($mail->hasAttachments()) {
             $has_attachments = 1;
         } else {
             $has_attachments = 0;
@@ -634,7 +636,7 @@ class Support
 
                         // need to handle attachments coming from notes as well
                         if ($res != -1) {
-                            self::extractAttachments($t['issue_id'], $structure, true, $res);
+                            self::extractAttachments($t['issue_id'], $mail, true, $res);
                         }
                     }
                 }
@@ -654,7 +656,7 @@ class Support
                 if ($res != -1) {
                     // only extract the attachments from the email if we are associating the email to an issue
                     if (!empty($t['issue_id'])) {
-                        self::extractAttachments($t['issue_id'], $structure);
+                        self::extractAttachments($t['issue_id'], $mail);
 
                         // notifications about new emails are always external
                         $internal_only = false;
@@ -1289,18 +1291,14 @@ class Support
      * to the given issue.
      *
      * @param   int $issue_id The issue ID
-     * @param   mixed $input the full body of the message or decoded email
+     * @param   MailMessage $mail The Mail object
      * @param   bool $internal_only Whether these files are supposed to be internal only or not
      * @param   int $associated_note_id The note ID that these attachments should be associated with
      */
-    public static function extractAttachments($issue_id, $input, $internal_only = false, $associated_note_id = null)
+    public static function extractAttachments($issue_id, $mail, $internal_only = false, $associated_note_id = null)
     {
-        if (!is_object($input)) {
-            $input = Mime_Helper::decode($input, true, true);
-        }
-
         // figure out who should be the 'owner' of this attachment
-        $sender_email = Mail_Helper::getEmailAddress($input->headers['from']);
+        $sender_email = Mail_Helper::getEmailAddress($mail->from);
         $usr_id = User::getUserIDByEmail($sender_email);
         $prj_id = Issue::getProjectID($issue_id);
         $unknown_user = false;
@@ -1319,13 +1317,11 @@ class Support
                 // if we couldn't find a real customer by that email, set the usr_id to be the system user id,
                 // and store the actual email address in the unknown_user field.
                 $usr_id = APP_SYSTEM_USER_ID;
-                $unknown_user = $input->headers['from'];
+                $unknown_user = $mail->from;
             }
         }
 
-        // now for the real thing
-        $attachments = Mime_Helper::getAttachments($input);
-        if (count($attachments) > 0) {
+        if ($mail->hasAttachments()) {
             if (empty($associated_note_id)) {
                 $history_log = ev_gettext('Attachment originated from an email');
             } else {
@@ -1333,7 +1329,7 @@ class Support
             }
 
             $iaf_ids = [];
-            foreach ($attachments as &$attachment) {
+            foreach ($mail->getAttachments() as $attachment) {
                 $attach = Workflow::shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment);
                 if (!$attach) {
                     continue;
@@ -1380,9 +1376,10 @@ class Support
             return -1;
         }
 
-        foreach ($items as &$item) {
+        foreach ($items as $item) {
             $full_email = self::getFullEmail($item);
-            self::extractAttachments($issue_id, $full_email);
+            $mail = MailMessage::createFromString($full_email);
+            self::extractAttachments($issue_id, $mail);
         }
 
         Issue::markAsUpdated($issue_id, 'email');
@@ -2490,6 +2487,7 @@ class Support
                 $notify = true;
             }
 
+            $mail = MailMessage::createFromHeaderBody($text_headers, $body);
             $options = [
                 'unknown_user' => $email['headers']['from'],
                 'log' => false,
@@ -2497,7 +2495,7 @@ class Support
                 'send_notification' => $notify,
                 'is_blocked' => true,
                 'full_message' => $email['full_email'],
-                'message_id' => MailMessage::createFromHeaderBody($text_headers, $body)->messageId,
+                'message_id' => $mail->messageId,
             ];
 
             $body = Mail_Helper::getCannedBlockedMsgExplanation() . $email['body'];
@@ -2505,7 +2503,7 @@ class Support
 
             // associate the email attachments as internal-only files on this issue
             if ($res != -1) {
-                self::extractAttachments($issue_id, $email['full_email'], true, $res);
+                self::extractAttachments($issue_id, $mail, true, $res);
             }
 
             $email_details = [];
