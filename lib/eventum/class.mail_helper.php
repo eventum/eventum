@@ -15,7 +15,6 @@ use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\MailTransport;
 use Eventum\Monolog\Logger;
 use Zend\Mail\Address;
-use Zend\Mail\Header\HeaderInterface;
 
 /**
  * Class to handle the business logic related to sending email to
@@ -132,34 +131,6 @@ class Mail_Helper
         }
 
         return $address->toString();
-    }
-
-    /**
-     * Parses a one or more email addresses (could be QP encoded)
-     * and returns them encoded in utf-8.
-     *
-     * Method should be used when displaying header values to user.
-     *
-     * @param Address|string $address The email address value
-     * @throws \Zend\Mail\Header\Exception\InvalidArgumentException
-     * @return string
-     */
-    public static function formatEmailAddresses($address)
-    {
-        if (!$address) {
-            return '';
-        }
-        if (!$address instanceof Address) {
-            try {
-                $address = AddressHeader::fromString($address);
-            } catch (\Zend\Mail\Exception\InvalidArgumentException $e) {
-                Logger::app()->error($e->getMessage(), ['address' => $address, 'exception' => $e]);
-
-                return AddressHeader::INVALID_ADDRESS;
-            }
-        }
-
-        return $address->toString(HeaderInterface::FORMAT_RAW);
     }
 
     /**

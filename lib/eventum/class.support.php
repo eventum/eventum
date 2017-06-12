@@ -1203,14 +1203,7 @@ class Support
         foreach ($res as &$row) {
             $row['sup_from'] = implode(', ', Mail_Helper::getName($row['sup_from'], true));
             if ((empty($row['sup_to'])) && (!empty($row['sup_iss_id']))) {
-                $row['sup_to'] = 'Notification List';
-            } else {
-                try {
-                    $row['sup_to'] = Mail_Helper::getName($row['sup_to']);
-                } catch (\Zend\Mail\Header\Exception\InvalidArgumentException $e) {
-                    // Ignore unformattable headers
-                    Logger::app()->error($e->getMessage(), ['exception' => $e]);
-                }
+                $row['sup_to'] = ev_gettext('Notification List');
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
                 // FIXME: $company_titles maybe used uninitialied
@@ -1506,8 +1499,6 @@ class Support
         $res['timestamp'] = Date_Helper::getUnixTimestamp($res['sup_date'], 'GMT');
         // TRANSLATORS: %1 = email subject
         $res['reply_subject'] = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $res['sup_subject']), true);
-        $res['sup_to'] = Mail_Helper::formatEmailAddresses($res['sup_to']);
-        $res['sup_cc'] = Mail_Helper::formatEmailAddresses($res['sup_cc']);
 
         if (!empty($res['sup_iss_id'])) {
             $res['reply_subject'] = Mail_Helper::formatSubject($res['sup_iss_id'], $res['reply_subject']);
@@ -1663,11 +1654,6 @@ class Support
 
         if (count($res) == 0) {
             return [];
-        }
-
-        foreach ($res as &$row) {
-            $row['sup_to'] = Mail_Helper::formatEmailAddresses($row['sup_to']);
-            $row['sup_cc'] = Mail_Helper::formatEmailAddresses($row['sup_cc']);
         }
 
         return $res;

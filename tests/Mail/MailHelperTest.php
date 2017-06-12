@@ -16,6 +16,7 @@ namespace Eventum\Test\Mail;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Test\TestCase;
 use Mail_Helper;
+use Zend\Mail\Header\HeaderInterface;
 
 /**
  * Test class for Mail_Helper.
@@ -286,7 +287,7 @@ class MailHelperTest extends TestCase
      */
     public function testFormatEmailAddresses($input, $exp)
     {
-        $res = Mail_Helper::formatEmailAddresses($input);
+        $res = AddressHeader::fromString($input)->toString(HeaderInterface::FORMAT_RAW);
         // spaces are irrelevant
         $res = preg_replace("/\s+/", ' ', $res);
         $this->assertEquals($exp, $res);
