@@ -1221,7 +1221,8 @@ class Issue
                 'headers' => MailMessage::createFromString($full_email)->getHeadersArray(),
             ];
             $sup_id = null;
-            Support::insertEmail($email, $structure, $sup_id, true);
+            $mail = MailMessage::createFromString($full_email);
+            Support::insertEmail($email, $mail, $sup_id, true);
             $ids = $sup_id;
         } else {
             // add note with the reason to close the issue

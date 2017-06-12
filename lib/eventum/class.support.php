@@ -414,7 +414,7 @@ class Support
      * @param object $message parsed message structure
      * @param Exception $error
      */
-    private function bounceMessage($message, $error)
+    private static function bounceMessage($message, $error)
     {
         // open text template
         $tpl = new Template_Helper();
@@ -649,7 +649,8 @@ class Support
                 // make variable available for workflow to be able to detect whether this email created new issue
                 $t['should_create_issue'] = $should_create_array['should_create_issue'];
 
-                $res = self::insertEmail($t, $structure, $sup_id);
+                $mail = MailMessage::createFromString($t['full_email']);
+                $res = self::insertEmail($t, $mail, $sup_id);
                 if ($res != -1) {
                     // only extract the attachments from the email if we are associating the email to an issue
                     if (!empty($t['issue_id'])) {
@@ -961,12 +962,12 @@ class Support
      * Method used to add a new support email to the system.
      *
      * @param   array $row The support email details
-     * @param   object $structure The email structure object
+     * @param   MailMessage $mail The Mail object
      * @param   int $sup_id The support ID to be passed out
      * @param   bool $closing If this email comes from closing the issue
      * @return  int 1 if the insert worked, -1 otherwise
      */
-    public static function insertEmail($row, &$structure, &$sup_id, $closing = false)
+    public static function insertEmail($row, $mail, &$sup_id, $closing = false)
     {
         // get usr_id from FROM header
         $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($row['from']));
@@ -1047,7 +1048,7 @@ class Support
 
         // FIXME: $row['ema_id'] is empty when mail is sent via convert note!
         if ($prj_id !== false) {
-            Workflow::handleNewEmail($prj_id, @$row['issue_id'], $structure, $row, $closing);
+            Workflow::handleNewEmail($prj_id, @$row['issue_id'], $mail, $row, $closing);
         }
 
         return 1;
@@ -2141,7 +2142,8 @@ class Support
         $structure = Mime_Helper::decode($full_email, true, false);
         $email['headers'] = $structure->headers;
 
-        self::insertEmail($email, $structure, $sup_id);
+        $mail = MailMessage::createFromString($full_email);
+        self::insertEmail($email, $mail, $sup_id);
 
         if ($issue_id) {
             // need to send a notification
@@ -2388,17 +2390,12 @@ class Support
 
         $info = Email_Account::getDetails($new_ema_id);
         $full_email = self::getFullEmail($sup_id);
-        $structure = Mime_Helper::decode($full_email, true, true);
-        $headers = '';
-        foreach ($structure->headers as $key => $value) {
-            if (is_array($value)) {
-                continue;
-            }
-            $headers .= "$key: $value\n";
-        }
+        $mail = MailMessage::createFromString($full_email);
+        $headers = $mail->getHeaders()->toString();
 
         // handle auto creating issues (if needed)
-        $should_create_array = self::createIssueFromEmail($info, $headers, $email['seb_body'], $email['timestamp'],
+        $should_create_array = self::createIssueFromEmail(
+            $info, $headers, $email['seb_body'], $email['timestamp'],
             $email['sup_from'], $email['sup_subject'], $email['sup_to'], $email['sup_cc']);
         $issue_id = $should_create_array['issue_id'];
         $customer_id = $should_create_array['customer_id'];
@@ -2441,7 +2438,9 @@ class Support
             'full_email' => $email['seb_full_email'],
             'has_attachment' => $email['sup_has_attachment'],
         ];
-        Workflow::handleNewEmail(self::getProjectByEmailAccount($new_ema_id), $issue_id, $structure, $row);
+
+        $prj_id = self::getProjectByEmailAccount($new_ema_id);
+        Workflow::handleNewEmail($prj_id, $issue_id, $mail, $row);
 
         return 1;
     }

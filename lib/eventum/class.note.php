@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Mail\MailMessage;
 
 /**
  * Class to handle the business logic related to adding, updating or
@@ -548,12 +549,13 @@ class Note
         $blocked_message = self::getBlockedMessage($note_id);
         $unknown_user = self::getUnknownUser($note_id);
         $structure = Mime_Helper::decode($blocked_message, true, true);
+        $mail = MailMessage::createFromString($blocked_message);
         $body = $structure->body;
         $sender_email = Mail_Helper::getEmailAddress($structure->headers['from']);
 
         $current_usr_id = Auth::getUserID();
         if ($target == 'email') {
-            if (Mime_Helper::hasAttachments($blocked_message)) {
+            if ($mail->hasAttachments()) {
                 $has_attachments = 1;
             } else {
                 $has_attachments = 0;
@@ -598,7 +600,7 @@ class Note
                 $update_type = 'customer action';
             }
 
-            $res = Support::insertEmail($t, $structure, $sup_id);
+            $res = Support::insertEmail($t, $mail, $sup_id);
             if ($res != -1) {
                 Support::extractAttachments($issue_id, $structure);
                 // notifications about new emails are always external

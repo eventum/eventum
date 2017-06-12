@@ -270,11 +270,11 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      * @param   int $issue_id the ID of the issue
-     * @param   object $message An object containing the new email
+     * @param   MailMessage $mail The Mail object
      * @param   array $row the array of data that was inserted into the database
      * @param   bool $closing if we are closing the issue
      */
-    public static function handleNewEmail($prj_id, $issue_id, $message, $row, $closing = false)
+    public static function handleNewEmail($prj_id, $issue_id, $mail, $row, $closing = false)
     {
         Partner::handleNewEmail($issue_id, $row['sup_id']);
 
@@ -283,7 +283,9 @@ class Workflow
         }
 
         $backend = self::_getBackend($prj_id);
-        $backend->handleNewEmail($prj_id, $issue_id, $message, $row, $closing);
+
+        $structure = Mime_Helper::decode($mail->getRawContent(), true, true);
+        $backend->handleNewEmail($prj_id, $issue_id, $structure, $row, $closing);
     }
 
     /**
