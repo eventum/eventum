@@ -64,7 +64,8 @@ class ViewHeadersController extends BaseController
         if ($this->cat == 'note') {
             $headers = Note::getBlockedMessage($this->id);
         } else {
-            $headers = Support::getFullEmail($this->id);
+            $mail = Support::getSupportEmail($this->id);
+            $headers = $mail->getRawContent();
         }
         $this->tpl->assign('headers', $headers);
     }

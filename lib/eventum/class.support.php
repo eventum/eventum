@@ -1352,12 +1352,12 @@ class Support
      *
      * @param   int $usr_id The user ID of the person performing this change
      * @param   int $issue_id The issue ID
-     * @param   array $items The list of email IDs to associate
+     * @param   array $sup_ids The list of email IDs to associate
      * @return  int 1 if it worked, -1 otherwise
      */
-    public static function associateEmail($usr_id, $issue_id, $items)
+    public static function associateEmail($usr_id, $issue_id, $sup_ids)
     {
-        $list = DB_Helper::buildList($items);
+        $list = DB_Helper::buildList($sup_ids);
         $stmt = "UPDATE
                     {{%support_email}}
                  SET
@@ -1365,14 +1365,13 @@ class Support
                  WHERE
                     sup_id IN ($list)";
         try {
-            DB_Helper::getInstance()->query($stmt, $items);
+            DB_Helper::getInstance()->query($stmt, $sup_ids);
         } catch (DatabaseException $e) {
             return -1;
         }
 
-        foreach ($items as $item) {
-            $full_email = self::getFullEmail($item);
-            $mail = MailMessage::createFromString($full_email);
+        foreach ($sup_ids as $sup_id) {
+            $mail = self::getSupportEmail($sup_id);
             self::extractAttachments($issue_id, $mail);
         }
 
@@ -1384,11 +1383,11 @@ class Support
                     {{%support_email}}
                  WHERE
                     sup_id IN ($list)";
-        $res = DB_Helper::getInstance()->getColumn($stmt, $items);
+        $res = DB_Helper::getInstance()->getColumn($stmt, $sup_ids);
 
-        foreach ($res as $row) {
+        foreach ($res as $subject) {
             History::add($issue_id, $usr_id, 'email_associated', "Email (subject: '{subject}') associated by {user}", [
-                'subject' => $row,
+                'subject' => $subject,
                 'user' => User::getFullName($usr_id),
             ]);
         }
@@ -1572,13 +1571,12 @@ class Support
     }
 
     /**
-     * Method used to get the full email message for a given support
-     * email ID.
+     * Get mail message for a given support email ID.
      *
-     * @param   int $sup_id The support email ID
-     * @return  string The full email message
+     * @param int $sup_id The support email ID
+     * @return MailMessage
      */
-    public static function getFullEmail($sup_id)
+    public static function getSupportEmail($sup_id)
     {
         $stmt = 'SELECT
                     seb_full_email
@@ -1586,13 +1584,9 @@ class Support
                     {{%support_email_body}}
                  WHERE
                     seb_sup_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$sup_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+        $full_email = DB_Helper::getInstance()->getOne($stmt, [$sup_id]);
 
-        return $res;
+        return MailMessage::createFromString($full_email);
     }
 
     /**
@@ -2382,8 +2376,7 @@ class Support
         }
 
         $info = Email_Account::getDetails($new_ema_id);
-        $full_email = self::getFullEmail($sup_id);
-        $mail = MailMessage::createFromString($full_email);
+        $mail = self::getSupportEmail($sup_id);
         $headers = $mail->getHeaders()->toString();
 
         // handle auto creating issues (if needed)

@@ -56,7 +56,7 @@ class Attachment
      * @param   string $mimetype The mimetype of this file
      * @param   bool $force_inline If the file should be forced to render in the browser
      */
-    public static function outputDownload(&$data, $filename, $filesize, $mimetype, $force_inline = false)
+    public static function outputDownload($data, $filename, $filesize, $mimetype, $force_inline = false)
     {
         if ($force_inline == true) {
             header('Content-Type: text/plain');

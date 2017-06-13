@@ -59,7 +59,8 @@ class GetAttachmentController extends BaseController
         if ($this->cat == 'blocked_email') {
             $email = Note::getBlockedMessage($get->getInt('note_id'));
         } else {
-            $email = Support::getFullEmail($get->getInt('sup_id'));
+            $mail = Support::getSupportEmail($get->getInt('sup_id'));
+            $email = $mail->getRawContent();
         }
 
         if ($this->raw) {
