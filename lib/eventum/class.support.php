@@ -2141,10 +2141,7 @@ class Support
         }
 
         $email_options['has_attachment'] = $iaf_ids ? 1 : 0;
-
-        $full_email = $mail->getRawContent();
-        $structure = Mime_Helper::decode($full_email, true, false);
-        $email_options['headers'] = $structure->headers;
+        $email_options['headers'] = $mail->getHeadersArray();
 
         self::insertEmail($email_options, $mail, $sup_id);
 

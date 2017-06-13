@@ -12,7 +12,6 @@
  */
 
 use Eventum\Db\DatabaseException;
-use Eventum\Mail\MailMessage;
 use Eventum\Model\Repository\IssueAssociationRepository;
 
 /**
