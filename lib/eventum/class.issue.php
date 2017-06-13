@@ -1289,7 +1289,7 @@ class Issue
 
         if ($send_notification_to == 'all') {
             $from = User::getFromHeader($usr_id);
-            $message_id = User::getFromHeader($usr_id);
+            $message_id = Mail_Helper::generateMessageID();
             $full_email = Support::buildFullHeaders($issue_id, $message_id, $from,
                 '', '', ev_gettext('Issue closed comments'), $reason, '');
 
