@@ -683,18 +683,8 @@ class Support
                         }
 
                         // try to get usr_id of sender, if not, use system account
-                        $addr = Mail_Helper::getEmailAddress($structure->headers['from']);
-                        if (Misc::isError($addr)) {
-                            // XXX should we log or is this expected?
-                            Logger::app()->error($addr->getMessage(), ['debug' => $res->getDebugInfo(), 'address' => $structure->headers['from']]);
-
-                            $usr_id = APP_SYSTEM_USER_ID;
-                        } else {
-                            $usr_id = User::getUserIDByEmail($addr);
-                            if (!$usr_id) {
-                                $usr_id = APP_SYSTEM_USER_ID;
-                            }
-                        }
+                        $addr = $mail->getSender();
+                        $usr_id = User::getUserIDByEmail($addr) ?: APP_SYSTEM_USER_ID;
 
                         // mark this issue as updated if only if this email wasn't used to open it
                         if (!$should_create_issue) {
@@ -710,7 +700,7 @@ class Support
                         }
                         // log routed email
                         History::add($t['issue_id'], $usr_id, 'email_routed', 'Email routed from {from}', [
-                            'from' => $structure->headers['from'],
+                            'from' => $mail->getSender(),
                         ]);
                     }
                 }
@@ -1468,7 +1458,7 @@ class Support
             $t['sup_id'] = $row['sup_id'];
             Notification::notifyNewEmail($usr_id, $issue_id, $mail, $t);
             if ($authorize) {
-                $sender_email = Mail_Helper::getEmailAddress(@$structure->headers['from']);
+                $sender_email = $mail->getSender();
                 Authorized_Replier::manualInsert($issue_id, $sender_email, false);
             }
         }
