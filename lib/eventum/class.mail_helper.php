@@ -745,7 +745,7 @@ class Mail_Helper
      * @param   string $type If this is a note or an email
      * @param   array $references the array the references will be stored in
      */
-    private function _getReferences($msg_id, $type, &$references)
+    private static function _getReferences($msg_id, $type, &$references)
     {
         $references[] = $msg_id;
         if ($type == 'note') {
