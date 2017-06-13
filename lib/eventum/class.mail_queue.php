@@ -27,7 +27,7 @@ class Mail_Queue
     /**
      * Adds an email to the outgoing mail queue.
      *
-     * @param array|MailMessage $mail The Mail object
+     * @param MailMessage $mail The Mail object
      * @param string $recipient The recipient, can be E-Mail header form ("User <email@example.org>")
      * @param array $options Optional options:
      * - integer $save_email_copy Whether to send a copy of this email to a configurable address or not (eventum_sent@)
@@ -39,12 +39,6 @@ class Mail_Queue
      */
     public static function addMail($mail, $recipient, array $options = [])
     {
-        /** @var MailMessage $mail */
-        if (!$mail instanceof MailMessage) {
-            /** @var array $mail */
-            $mail = MailMessage::createFromHeaderBody($mail['headers'], $mail['body']);
-        }
-
         $save_email_copy = isset($options['save_email_copy']) ? $options['save_email_copy'] : 0;
         $issue_id = isset($options['issue_id']) ? $options['issue_id'] : false;
         $type = isset($options['type']) ? $options['type'] : '';

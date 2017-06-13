@@ -13,6 +13,7 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\Helper\AddressHeader;
+use Eventum\Mail\MailMessage;
 
 /**
  * Class to handle all of the business logic related to sending email
@@ -435,11 +436,7 @@ class Notification
             $fixed_body = Mail_Helper::addWarningMessage($issue_id, $to, $body, $headers);
             $headers['To'] = Mime_Helper::encodeAddress($to);
 
-            $mail = [
-                'headers' => $headers,
-                'body' => $fixed_body,
-            ];
-
+            $mail = MailMessage::createFromHeaderBody($headers, $fixed_body);
             Mail_Queue::addMail($mail, $to, $options);
         }
     }

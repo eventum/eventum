@@ -404,10 +404,7 @@ class Mail_Helper
         $this->setHeaders($headers);
         $hdrs = $this->mime->headers($this->headers);
 
-        $mail = [
-            'headers' => $hdrs,
-            'body' => $body,
-        ];
+        $mail = MailMessage::createFromHeaderBody($hdrs, $body);
         $options = [
             'save_email_copy' => $save_email_copy,
             'issue_id' => $issue_id,
