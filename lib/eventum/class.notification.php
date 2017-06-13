@@ -191,10 +191,6 @@ class Notification
             $flag = '[' . $setup[$routing]['recipient_type_flag'] . '] ';
             $flag_location = $setup[$routing]['flag_location'];
         }
-        // MARIADB-CSTM: Ugly hack to set sender flag just for Support
-        if (Issue::getProjectID($issue_id) == 1) {
-            $flag = "[MariaDB Support] ";
-        }
         if ($setup[$routing]['status'] != 'enabled') {
             // let's use the custom outgoing sender address
             $project_info = Project::getOutgoingSenderAddress($project_id);
