@@ -265,15 +265,14 @@ class Routing
             Support::extractAttachments($issue_id, $mail);
 
             // notifications about new emails are always external
-            $internal_only = false;
-            $assignee_only = false;
             // special case when emails are bounced back, so we don't want a notification to customers about those
-            if (Notification::isBounceMessage($sender_email)) {
-                // broadcast this email only to the assignees for this issue
-                $internal_only = true;
-                $assignee_only = true;
-            }
-            Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $email_options, $internal_only, $assignee_only, '', $sup_id);
+            // broadcast this email only to the assignees for this issue
+            $is_bounce = Notification::isBounceMessage($sender_email);
+            $email_options['internal_only'] = $is_bounce;
+            $email_options['assignee_only'] = $is_bounce;
+            $email_options['sup_id'] = $sup_id;
+            Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $mail, $email_options);
+
             // try to get usr_id of sender, if not, use system account
             $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($structure->headers['from']));
             if (!$usr_id) {
