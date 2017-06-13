@@ -654,18 +654,20 @@ class Mail_Helper
      * Make sure that In-Reply-To and References headers are set and reference a message in this issue.
      * If not, set to be the root message ID of the issue. This is to ensure messages are threaded by
      * issue in mail clients.
+     *
+     * @param MailMessage $mail
+     * @param int $issue_id
+     * @param string $type
      */
-    public static function rewriteThreadingHeaders($issue_id, $full_email, $headers, $type = 'email')
+    public static function rewriteThreadingHeaders(MailMessage $mail, $issue_id, $type = 'email')
     {
-        list($text_headers, $body) = Mime_Helper::splitHeaderBody($full_email);
-
-        $msg_id = MailMessage::createFromString($full_email)->messageId;
-
-        // check if the In-Reply-To header exists and if so, does it relate to a message stored in Eventum
+        // check if the In-Reply-To header exists and if so,
+        // does it relate to a message stored in Eventum
         // if it does not, set new In-Reply-To header
-        $reference_msg_id = self::getReferenceMessageID($text_headers);
-        $reference_issue_id = false;
-        if (!empty($reference_msg_id)) {
+
+        $reference_msg_id = $mail->getReferenceMessageId();
+        $reference_issue_id = null;
+        if ($reference_msg_id) {
             // check if referenced msg id is associated with this issue
             if ($type == 'note') {
                 $reference_issue_id = Note::getIssueByMessageID($reference_msg_id);
@@ -674,41 +676,13 @@ class Mail_Helper
             }
         }
 
-        if ((empty($reference_msg_id)) || ($reference_issue_id != $issue_id)) {
+        if (!$reference_msg_id || $reference_issue_id != $issue_id) {
             $reference_msg_id = Issue::getRootMessageID($issue_id);
         }
         $references = self::getReferences($issue_id, $reference_msg_id, $type);
 
-        // now the fun part, re-writing the email headers
-        if (empty($headers['message-id'])) {
-            // add Message-ID since it doesn't exist (curses on Outlook 2003)
-            $text_headers .= "\r\nMessage-ID: $msg_id";
-            $headers['message-id'] = $msg_id;
-        }
-
-        /**
-         * Make sure that In-Reply-To and References headers are set and reference a message in this issue.
-         * If not, set to be the root message ID of the issue. This is to ensure messages are threaded by
-         * issue in mail clients.
-         */
-        if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers) > 0) {
-            // replace existing header
-            $text_headers = preg_replace('/^In-Reply-To: (.*)/mi', 'In-Reply-To: ' . $reference_msg_id, $text_headers, 1);
-        } else {
-            // add new header after message ID
-            $text_headers = preg_replace('/^Message-ID: (.*)$/mi', "Message-ID: $1\r\nIn-Reply-To: $reference_msg_id", $text_headers, 1);
-        }
-        $headers['in-reply-to'] = $reference_msg_id;
-        if (preg_match('/^References: (.*)/mi', $text_headers) > 0) {
-            // replace existing header
-            $text_headers = preg_replace('/^References: (.*)/mi', 'References: ' . self::fold(implode(' ', $references)), $text_headers, 1);
-        } else {
-            // add new header after In-Reply-To
-            $text_headers = preg_replace('/^In-Reply-To: (.*)$/mi', "In-Reply-To: $1\r\nReferences: " . self::fold(implode(' ', $references)), $text_headers, 1);
-        }
-        $headers['references'] = self::fold(implode(' ', $references));
-
-        return [$text_headers . "\r\n\r\n" . $body, $headers];
+        $mail->setInReplyTo($reference_msg_id);
+        $mail->setReferences($references);
     }
 
     /**

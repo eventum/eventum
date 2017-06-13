@@ -482,7 +482,7 @@ class Support
         }
         $mail = MailMessage::createFromHeaderBody($headers, $body);
         $message_id = $mail->messageId;
-        $message = $headers . $body;
+        $full_message = $headers . $body;
         // we don't need $body anymore -- free memory
         unset($body);
 
@@ -491,7 +491,7 @@ class Support
             return;
         }
 
-        $structure = Mime_Helper::decode($message, true, true);
+        $structure = Mime_Helper::decode($full_message, true, true);
 
         $message_body = $structure->body;
         if ($mail->hasAttachments()) {
@@ -501,7 +501,7 @@ class Support
         }
 
         // pass in $email by reference so it can be modified
-        $workflow = Workflow::preEmailDownload($info['ema_prj_id'], $info, $mbox, $num, $message, $email, $structure);
+        $workflow = Workflow::preEmailDownload($info['ema_prj_id'], $info, $mbox, $num, $full_message, $email, $structure);
         if ($workflow === -1) {
             return;
         }
@@ -509,7 +509,7 @@ class Support
         // route emails if necessary
         if ($info['ema_use_routing'] == 1) {
             try {
-                $routed = Routing::route($message);
+                $routed = Routing::route($full_message);
             } catch (RoutingException $e) {
                 // "if leave copy of emails on IMAP server" is "off",
                 // then we can bounce on the message
@@ -554,7 +554,7 @@ class Support
             'cc' => @$structure->headers['cc'],
             'subject' => @$structure->headers['subject'],
             'body' => @$message_body,
-            'full_email' => @$message,
+            'full_email' => $full_message,
             'has_attachment' => $has_attachments,
             // the following items are not inserted, but useful in some methods
             'headers' => @$structure->headers,
@@ -645,13 +645,12 @@ class Support
             // check if we need to block this email
             if (($should_create_issue == true) || (!self::blockEmailIfNeeded($t))) {
                 if (!empty($t['issue_id'])) {
-                    list($t['full_email'], $t['headers']) = Mail_Helper::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], 'email');
+                    Mail_Helper::rewriteThreadingHeaders($mail, $t['issue_id']);
                 }
 
                 // make variable available for workflow to be able to detect whether this email created new issue
                 $t['should_create_issue'] = $should_create_array['should_create_issue'];
 
-                $mail = MailMessage::createFromString($t['full_email']);
                 $res = self::insertEmail($t, $mail, $sup_id);
                 if ($res != -1) {
                     // only extract the attachments from the email if we are associating the email to an issue
@@ -1034,7 +1033,8 @@ class Support
                     ?, ?, ?
                  )';
         try {
-            DB_Helper::getInstance()->query($stmt, [$sup_id, $row['body'], $row['full_email']]);
+            $params = [$sup_id, $row['body'], $mail->getRawContent()];
+            DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
             return -1;
         }

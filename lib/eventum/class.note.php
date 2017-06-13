@@ -555,13 +555,8 @@ class Note
 
         $current_usr_id = Auth::getUserID();
         if ($target == 'email') {
-            if ($mail->hasAttachments()) {
-                $has_attachments = 1;
-            } else {
-                $has_attachments = 0;
-            }
-            list($blocked_message, $headers) = Mail_Helper::rewriteThreadingHeaders($issue_id, $blocked_message, @$structure->headers);
-            $t = [
+            Mail_Helper::rewriteThreadingHeaders($mail, $issue_id);
+            $email_options = [
                 'issue_id' => $issue_id,
                 'ema_id' => $email_account_id,
                 'message_id' => @$structure->headers['message-id'],
@@ -571,9 +566,8 @@ class Note
                 'cc' => @$structure->headers['cc'],
                 'subject' => @$structure->headers['subject'],
                 'body' => @$body,
-                'full_email' => @$blocked_message,
-                'has_attachment' => $has_attachments,
-                'headers' => $headers,
+                'full_email' => @$blocked_message, // for Notification::notifyNewEmail
+                'headers' => $mail->getHeadersArray(), // for Notification::notifyNewEmail
             ];
 
             // need to check for a possible customer association
@@ -587,20 +581,20 @@ class Note
                         $contact = $crm->getContactByEmail($sender_email);
                         $issue_contract = $crm->getContract(Issue::getContractID($issue_id));
                         if ($contact->canAccessContract($issue_contract)) {
-                            $t['customer_id'] = $issue_contract->getCustomerID();
+                            $email_options['customer_id'] = $issue_contract->getCustomerID();
                         }
                     } catch (CRMException $e) {
                     }
                 }
             }
-            if (empty($t['customer_id'])) {
+            if (empty($email_options['customer_id'])) {
                 $update_type = 'staff response';
-                $t['customer_id'] = null;
+                $email_options['customer_id'] = null;
             } else {
                 $update_type = 'customer action';
             }
 
-            $res = Support::insertEmail($t, $mail, $sup_id);
+            $res = Support::insertEmail($email_options, $mail, $sup_id);
             if ($res != -1) {
                 Support::extractAttachments($issue_id, $mail);
                 // notifications about new emails are always external
@@ -609,7 +603,7 @@ class Note
                 if (Notification::isBounceMessage($sender_email)) {
                     $internal_only = true;
                 }
-                Notification::notifyNewEmail($current_usr_id, $issue_id, $t, $internal_only, false, '', $sup_id);
+                Notification::notifyNewEmail($current_usr_id, $issue_id, $email_options, $internal_only, false, '', $sup_id);
                 Issue::markAsUpdated($issue_id, $update_type);
                 self::remove($note_id, false);
                 History::add($issue_id, $current_usr_id, 'note_converted_email', 'Note converted to e-mail (from: {from}) by {user}', [

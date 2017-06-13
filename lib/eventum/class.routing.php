@@ -216,7 +216,7 @@ class Routing
         // Remove excess Re's
         $structure->headers['subject'] = Mail_Helper::removeExcessRe(@$structure->headers['subject'], true);
 
-        $t = [
+        $email_options = [
             'issue_id' => $issue_id,
             'ema_id' => $email_account_id,
             'message_id' => @$structure->headers['message-id'],
@@ -226,7 +226,7 @@ class Routing
             'cc' => @$structure->headers['cc'],
             'subject' => @$structure->headers['subject'],
             'body' => @$body,
-            'full_email' => @$full_message,
+            'full_email' => $full_message, // used by Support::blockEmailIfNeeded, Workflow::handleBlockedEmail
             'has_attachment' => $has_attachments,
             'headers' => @$structure->headers,
         ];
@@ -238,31 +238,29 @@ class Routing
                     $contact = $crm->getContactByEmail($sender_email);
                     $issue_contract = $crm->getContract(Issue::getContractID($issue_id));
                     if ($contact->canAccessContract($issue_contract)) {
-                        $t['customer_id'] = $issue_contract->getCustomerID();
+                        $email_options['customer_id'] = $issue_contract->getCustomerID();
                     }
                 } catch (CRMException $e) {
                 }
             }
         }
-        if (empty($t['customer_id'])) {
-            $t['customer_id'] = null;
+        if (empty($email_options['customer_id'])) {
+            $email_options['customer_id'] = null;
         }
 
-        if (Support::blockEmailIfNeeded($t)) {
+        if (Support::blockEmailIfNeeded($email_options)) {
             return true;
         }
-
-        // re-write Threading headers if needed
-        list($t['full_email'], $t['headers']) = Mail_Helper::rewriteThreadingHeaders($t['issue_id'], $t['full_email'], $t['headers'], 'email');
 
         // this method is weird.
         // it modifies $structure in one place, modifies $full_email in other place
         // and then inserts with $structure
         // the $mail for Support::insertEmail is used for workflow
         // probably doesn't matter much which version to use
-        $mail = MailMessage::createFromString($t['full_email']);
+        $mail = MailMessage::createFromString($full_message);
+        Mail_Helper::rewriteThreadingHeaders($mail, $issue_id);
 
-        $res = Support::insertEmail($t, $mail, $sup_id);
+        $res = Support::insertEmail($email_options, $mail, $sup_id);
         if ($res != -1) {
             Support::extractAttachments($issue_id, $mail);
 
@@ -275,14 +273,14 @@ class Routing
                 $internal_only = true;
                 $assignee_only = true;
             }
-            Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $t, $internal_only, $assignee_only, '', $sup_id);
+            Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $email_options, $internal_only, $assignee_only, '', $sup_id);
             // try to get usr_id of sender, if not, use system account
             $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($structure->headers['from']));
             if (!$usr_id) {
                 $usr_id = APP_SYSTEM_USER_ID;
             }
             // mark this issue as updated
-            if ((!empty($t['customer_id'])) && ($t['customer_id'] != null)) {
+            if ((!empty($email_options['customer_id'])) && ($email_options['customer_id'] != null)) {
                 Issue::markAsUpdated($issue_id, 'customer action');
             } else {
                 if ((!empty($usr_id)) && ($usr_id != APP_SYSTEM_USER_ID) &&
