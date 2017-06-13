@@ -487,19 +487,31 @@ div.html_box {
 }
 
 .error_icon {
-    width: 14;
-    height: 14;
     display: none;
+    color: darkred;
 }
 
 .error_field {
     background: #FF9999;
 }
 
+.banner_red {
+    text-align: center;
+    font-weight: bold;
+    color: red;
+    border: 2px solid red;
+    padding: 4px;
+}
+
 .fixed_width {
     font-family: Mono, Monaco, Courier New, Courier;
     white-space: pre;
     overflow: scroll;
+}
+
+.reply_note,
+.reply_email_note {
+    color: darkred;
 }
 
 /* Table widths */
@@ -583,4 +595,22 @@ span.toggle-trimmed-email a:hover {
 span.toggle-trimmed-email a:active {
     color: #fff;
     background-color: #4078c0;
+}
+
+.ui-sortable {
+    margin: 0;
+    padding: 0;
+}
+
+.ui-sortable-handle {
+    border: 1px dashed #000000;
+    list-style: none;
+    margin: 1em;
+    padding: 1em;
+    cursor: move;
+}
+
+/* http://stackoverflow.com/a/22118667 */
+.fa-sm {
+    font-size: 0.63em;
 }

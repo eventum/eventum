@@ -13,6 +13,7 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\Exception\RoutingException;
+use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Monolog\Logger;
 
 /**
@@ -28,7 +29,7 @@ class Support
      * server.
      *
      * @param   array $sup_ids The list of support emails
-     * @return  integer 1 if the removal worked, -1 otherwise
+     * @return  int 1 if the removal worked, -1 otherwise
      */
     public static function expungeEmails($sup_ids)
     {
@@ -84,8 +85,8 @@ class Support
     /**
      * Removes the given support email from the database table.
      *
-     * @param   integer $sup_id The support email ID
-     * @return  boolean
+     * @param   int $sup_id The support email ID
+     * @return  bool
      */
     public static function removeEmail($sup_id)
     {
@@ -116,7 +117,7 @@ class Support
      * Method used to get the next and previous messages in order to build
      * side links when viewing a particular email.
      *
-     * @param   integer $sup_id The email ID
+     * @param   int $sup_id The email ID
      * @return  array Information on the next and previous messages
      */
     public static function getListingSides($sup_id)
@@ -158,7 +159,7 @@ class Support
         }
 
         return [
-            'next'     => [
+            'next' => [
                 'sup_id' => @$next,
                 'ema_id' => @$res[$next],
             ],
@@ -173,8 +174,8 @@ class Support
      * Method used to get the next and previous messages in order to build
      * side links when viewing a particular email associated with an issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $sup_id The email ID
+     * @param   int $issue_id The issue ID
+     * @param   int $sup_id The email ID
      * @return  array Information on the next and previous messages
      */
     public static function getIssueSides($issue_id, $sup_id)
@@ -204,7 +205,7 @@ class Support
         }
 
         return [
-            'next'     => [
+            'next' => [
                 'sup_id' => @$next,
                 'ema_id' => @$res[$next],
             ],
@@ -235,7 +236,7 @@ class Support
     /**
      * Method used to get the sender of a given set of emails.
      *
-     * @param   integer[] $sup_ids The email IDs
+     * @param   int[] $sup_ids The email IDs
      * @return  array The 'From:' headers for those emails
      */
     public static function getSender($sup_ids)
@@ -261,8 +262,6 @@ class Support
 
     /**
      * Method used to clear the error stack as required by the IMAP PHP extension.
-     *
-     * @return  void
      */
     public static function clearErrors()
     {
@@ -273,7 +272,7 @@ class Support
      * Method used to restore the specified support emails from
      * 'removed' to 'active'.
      *
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function restoreEmails()
     {
@@ -329,7 +328,7 @@ class Support
      * a specified list of support email accounts.
      *
      * @param   array $ids The list of support email accounts
-     * @return  boolean
+     * @return  bool
      */
     public static function removeEmailByAccounts($ids)
     {
@@ -390,7 +389,7 @@ class Support
      * mailbox.
      *
      * @param   resource $mbox The mailbox
-     * @return  integer The number of emails
+     * @return  int The number of emails
      */
     public static function getTotalEmails($mbox)
     {
@@ -401,7 +400,7 @@ class Support
      * Method used to get new emails from the mailbox.
      *
      * @param  resource $mbox The mailbox
-     * @return array Array of new message numbers.
+     * @return array array of new message numbers
      */
     public static function getNewEmails($mbox)
     {
@@ -411,7 +410,7 @@ class Support
     /**
      * Bounce message to sender.
      *
-     * @param object $message parsed message structure.
+     * @param object $message parsed message structure
      * @param Exception $error
      */
     private function bounceMessage($message, $error)
@@ -420,13 +419,13 @@ class Support
         $tpl = new Template_Helper();
         $tpl->setTemplate('notifications/bounced_email.tpl.text');
         $tpl->assign([
-            'error_code'        => $error->getCode(),
-            'error_message'     => $error->getMessage(),
-            'date'              => $message->date,
-            'subject'           => Mime_Helper::decodeQuotedPrintable($message->subject),
-            'from'              => Mime_Helper::decodeQuotedPrintable($message->fromaddress),
-            'to'                => Mime_Helper::decodeQuotedPrintable($message->toaddress),
-            'cc'                => Mime_Helper::decodeQuotedPrintable(@$message->ccaddress),
+            'error_code' => $error->getCode(),
+            'error_message' => $error->getMessage(),
+            'date' => $message->date,
+            'subject' => Mime_Helper::decodeQuotedPrintable($message->subject),
+            'from' => Mime_Helper::decodeQuotedPrintable($message->fromaddress),
+            'to' => Mime_Helper::decodeQuotedPrintable($message->toaddress),
+            'cc' => Mime_Helper::decodeQuotedPrintable(@$message->ccaddress),
         ]);
 
         $sender_email = Mail_Helper::getEmailAddress($message->fromaddress);
@@ -441,10 +440,9 @@ class Support
         // send email (use PEAR's classes)
         $mail = new Mail_Helper();
         $mail->setTextBody($text_message);
-        $setup = Mail_Helper::getSMTPSettings();
         // TRANSLATORS: %s: APP_SHORT_NAME
         $subject = ev_gettext('%s: Postmaster notify: see transcript for details', APP_SHORT_NAME);
-        $mail->send($setup['from'], $sender_email, $subject);
+        $mail->send(null, $sender_email, $subject);
 
         if ($usr_id) {
             Language::restore();
@@ -459,8 +457,7 @@ class Support
      *
      * @param   resource $mbox The mailbox
      * @param   array $info The support email account information
-     * @param   integer $num The index of the message
-     * @return  void
+     * @param   int $num The index of the message
      */
     public static function getEmailInfo($mbox, $info, $num)
     {
@@ -546,18 +543,18 @@ class Support
         }
 
         $t = [
-            'ema_id'         => $info['ema_id'],
-            'message_id'     => $message_id,
-            'date'           => Date_Helper::convertDateGMTByTS($email->udate),
-            'from'           => $sender_email,
-            'to'             => @$structure->headers['to'],
-            'cc'             => @$structure->headers['cc'],
-            'subject'        => @$structure->headers['subject'],
-            'body'           => @$message_body,
-            'full_email'     => @$message,
+            'ema_id' => $info['ema_id'],
+            'message_id' => $message_id,
+            'date' => Date_Helper::convertDateGMTByTS($email->udate),
+            'from' => $sender_email,
+            'to' => @$structure->headers['to'],
+            'cc' => @$structure->headers['cc'],
+            'subject' => @$structure->headers['subject'],
+            'body' => @$message_body,
+            'full_email' => @$message,
             'has_attachment' => $has_attachments,
             // the following items are not inserted, but useful in some methods
-            'headers'        => @$structure->headers,
+            'headers' => @$structure->headers,
         ];
 
         $subject = Mime_Helper::decodeQuotedPrintable(@$structure->headers['subject']);
@@ -606,14 +603,16 @@ class Support
                         $users = array_flip($users);
 
                         $addresses = [];
-                        $to_addresses = Mail_Helper::getEmailAddresses(@$structure->headers['to']);
-                        if (count($to_addresses)) {
+
+                        $to_addresses = AddressHeader::fromString(@$structure->headers['to'])->getEmails();
+                        if ($to_addresses) {
                             $addresses = $to_addresses;
                         }
-                        $cc_addresses = Mail_Helper::getEmailAddresses(@$structure->headers['cc']);
-                        if (count($cc_addresses)) {
+                        $cc_addresses = AddressHeader::fromString(@$structure->headers['cc'])->getEmails();
+                        if ($cc_addresses) {
                             $addresses = array_merge($addresses, $cc_addresses);
                         }
+
                         $cc_users = [];
                         foreach ($addresses as $email) {
                             if (in_array(strtolower($email), $user_emails)) {
@@ -623,12 +622,12 @@ class Support
 
                         // XXX FIXME, this is not nice thing to do
                         $_POST = [
-                            'title'                => Mail_Helper::removeExcessRe($t['subject']),
-                            'note'                 => $t['body'],
-                            'note_cc'              => $cc_users,
+                            'title' => Mail_Helper::removeExcessRe($t['subject']),
+                            'note' => $t['body'],
+                            'note_cc' => $cc_users,
                             'add_extra_recipients' => 'yes',
-                            'message_id'           => $t['message_id'],
-                            'parent_id'            => $should_create_array['parent_id'],
+                            'message_id' => $t['message_id'],
+                            'parent_id' => $should_create_array['parent_id'],
                         ];
                         $res = Note::insertFromPost($usr_id, $t['issue_id']);
 
@@ -721,17 +720,17 @@ class Support
      * Creates a new issue from an email if appropriate. Also returns if this message is related
      * to a previous message.
      *
-     * @param   array   $info An array of info about the email account.
-     * @param   string  $headers The headers of the email.
-     * @param   string  $message_body The body of the message.
-     * @param   string  $date The date this message was sent
-     * @param   string  $from The name and email address of the sender.
-     * @param   string  $subject The subject of this message.
-     * @param   array   $to An array of to addresses
-     * @param   array   $cc An array of cc addresses
+     * @param   array $info an array of info about the email account
+     * @param   string $headers the headers of the email
+     * @param   string $message_body the body of the message
+     * @param   string $date The date this message was sent
+     * @param   string $from the name and email address of the sender
+     * @param   string $subject the subject of this message
+     * @param   array $to An array of to addresses
+     * @param   array $cc An array of cc addresses
      * @return  array   An array of information about the message
      */
-    public function createIssueFromEmail($info, $headers, $message_body, $date, $from, $subject, $to, $cc)
+    public static function createIssueFromEmail($info, $headers, $message_body, $date, $from, $subject, $to, $cc)
     {
         $should_create_issue = false;
         $issue_id = '';
@@ -748,7 +747,7 @@ class Support
         $references = Mail_Helper::getAllReferences($headers);
 
         $message_id = Mail_Helper::getMessageID($headers, $message_body);
-        $workflow = Workflow::getIssueIDforNewEmail($info['ema_prj_id'], $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
+        $workflow = Workflow::getIssueIDForNewEmail($info['ema_prj_id'], $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
         if (is_array($workflow)) {
             if (isset($workflow['customer_id'])) {
                 $customer_id = $workflow['customer_id'];
@@ -813,11 +812,10 @@ class Support
                                 $should_create_issue = false;
                             }
                             break;
-                        } else {
-                            //  no matching note, email or issue:
-                            //    => create new issue and associate current email with it
-                            $should_create_issue = true;
                         }
+                        //  no matching note, email or issue:
+                        //    => create new issue and associate current email with it
+                        $should_create_issue = true;
                     }
                 } else {
                     // - if this email is not a reply:
@@ -836,7 +834,7 @@ class Support
         if (($should_create_issue) && ($info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes') &&
                 (CRM::hasCustomerIntegration($info['ema_prj_id'])) && !$customer_id) {
             try {
-                $crm = CRM::getInstance($info['ema_prj_id']);
+                CRM::getInstance($info['ema_prj_id']);
                 $should_create_issue = true;
             } catch (CRMException $e) {
                 $should_create_issue = false;
@@ -882,13 +880,13 @@ class Support
         }
 
         return [
-            'should_create_issue'   =>  $should_create_issue,
-            'associate_email'   =>  $associate_email,
-            'issue_id'  =>  $issue_id,
-            'customer_id'   =>  $customer_id,
-            'contact_id'   =>  $contact_id,
-            'type'      =>  $type,
-            'parent_id' =>  $parent_id,
+            'should_create_issue' => $should_create_issue,
+            'associate_email' => $associate_email,
+            'issue_id' => $issue_id,
+            'customer_id' => $customer_id,
+            'contact_id' => $contact_id,
+            'type' => $type,
+            'parent_id' => $parent_id,
         ];
     }
 
@@ -908,10 +906,11 @@ class Support
      * Builds a list of all distinct message-ids available in the provided
      * email account.
      *
-     * @param   integer $ema_id The support email account ID
+     * @param   int $ema_id The support email account ID
      * @return  array The list of message-ids
+     * @deprecated method not used
      */
-    public function getMessageIDs($ema_id)
+    public static function getMessageIDs($ema_id)
     {
         $stmt = 'SELECT
                     DISTINCT sup_message_id
@@ -932,9 +931,9 @@ class Support
      * Checks if a message already is downloaded.
      *
      * @param   string $message_id The Message-ID header
-     * @return  boolean
+     * @return  bool
      */
-    public function exists($message_id)
+    public static function exists($message_id)
     {
         $sql = 'SELECT
                     count(*)
@@ -960,9 +959,9 @@ class Support
      *
      * @param   array $row The support email details
      * @param   object $structure The email structure object
-     * @param   integer $sup_id The support ID to be passed out
-     * @param   boolean $closing If this email comes from closing the issue
-     * @return  integer 1 if the insert worked, -1 otherwise
+     * @param   int $sup_id The support ID to be passed out
+     * @param   bool $closing If this email comes from closing the issue
+     * @return  int 1 if the insert worked, -1 otherwise
      */
     public static function insertEmail($row, &$structure, &$sup_id, $closing = false)
     {
@@ -1066,9 +1065,9 @@ class Support
             return $_POST[$name];
         } elseif (($profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'email')) && (isset($profile[$name]))) {
             return $profile[$name];
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     /**
@@ -1084,17 +1083,17 @@ class Support
         $sort_order = self::getParam('sort_order');
         $rows = self::getParam('rows');
         $cookie = [
-            'rows'             => $rows ? $rows : APP_DEFAULT_PAGER_SIZE,
-            'pagerRow'         => self::getParam('pagerRow'),
-            'hide_associated'  => self::getParam('hide_associated'),
-            'sort_by'          => $sort_by ? $sort_by : 'sup_date',
-            'sort_order'       => $sort_order ? $sort_order : 'DESC',
+            'rows' => $rows ? $rows : APP_DEFAULT_PAGER_SIZE,
+            'pagerRow' => self::getParam('pagerRow'),
+            'hide_associated' => self::getParam('hide_associated'),
+            'sort_by' => $sort_by ? $sort_by : 'sup_date',
+            'sort_order' => $sort_order ? $sort_order : 'DESC',
             // quick filter form options
-            'keywords'         => self::getParam('keywords'),
-            'sender'           => self::getParam('sender'),
-            'to'               => self::getParam('to'),
-            'ema_id'           => self::getParam('ema_id'),
-            'filter'           => self::getParam('filter'),
+            'keywords' => self::getParam('keywords'),
+            'sender' => self::getParam('sender'),
+            'to' => self::getParam('to'),
+            'ema_id' => self::getParam('ema_id'),
+            'filter' => self::getParam('filter'),
         ];
         // now do some magic to properly format the date fields
         $date_fields = [
@@ -1108,17 +1107,17 @@ class Support
             $end_field_name = $field_name . '_end';
             $end_field = self::getParam($end_field_name);
             @$cookie[$field_name] = [
-                'Year'        => $field['Year'],
-                'Month'       => $field['Month'],
-                'Day'         => $field['Day'],
-                'start'       => $field['Year'] . '-' . $field['Month'] . '-' . $field['Day'],
+                'Year' => $field['Year'],
+                'Month' => $field['Month'],
+                'Day' => $field['Day'],
+                'start' => $field['Year'] . '-' . $field['Month'] . '-' . $field['Day'],
                 'filter_type' => $field['filter_type'],
-                'end'         => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day'],
+                'end' => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day'],
             ];
             @$cookie[$end_field_name] = [
-                'Year'        => $end_field['Year'],
-                'Month'       => $end_field['Month'],
-                'Day'         => $end_field['Day'],
+                'Year' => $end_field['Year'],
+                'Month' => $end_field['Month'],
+                'Day' => $end_field['Day'],
             ];
         }
         Search_Profile::save(Auth::getUserID(), Auth::getCurrentProject(), 'email', $cookie);
@@ -1127,53 +1126,12 @@ class Support
     }
 
     /**
-     * Method used to get the current sorting options used in the grid
-     * layout of the emails listing page.
-     *
-     * @param   array $options The current search parameters
-     * @return  array The sorting options
-     */
-    public static function getSortingInfo($options)
-    {
-        $fields = [
-            'sup_from',
-            'sup_customer_id',
-            'sup_date',
-            'sup_to',
-            'sup_iss_id',
-            'sup_subject',
-        ];
-        $items = [
-            'links'  => [],
-            'images' => [],
-        ];
-
-        $sort_order_option = strtolower(DB_Helper::orderBy($options['sort_order']));
-        $sort_order_image = "images/{$sort_order_option}.gif";
-
-        foreach ($fields as $field) {
-            $sort_order = 'asc';
-            if ($options['sort_by'] == $field) {
-                $items['images'][$field] = $sort_order_image;
-                if ($sort_order_option == 'asc') {
-                    $sort_order = 'desc';
-                } else {
-                    $sort_order = 'asc';
-                }
-            }
-            $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=' . $sort_order;
-        }
-
-        return $items;
-    }
-
-    /**
      * Method used to get the list of emails to be displayed in the
      * grid layout.
      *
      * @param   array $options The search parameters
-     * @param   integer $current_row The current page number
-     * @param   integer $max The maximum number of rows per page
+     * @param   int $current_row The current page number
+     * @param   int $max The maximum number of rows per page
      * @return  array The list of issues to be displayed
      */
     public static function getEmailListing($options, $current_row = 0, $max = 5)
@@ -1247,10 +1205,11 @@ class Support
             if ((empty($row['sup_to'])) && (!empty($row['sup_iss_id']))) {
                 $row['sup_to'] = 'Notification List';
             } else {
-                $to = Mail_Helper::getName($row['sup_to']);
-                // Ignore unformattable headers
-                if (!Misc::isError($to)) {
-                    $row['sup_to'] = $to;
+                try {
+                    $row['sup_to'] = Mail_Helper::getName($row['sup_to']);
+                } catch (\Zend\Mail\Header\Exception\InvalidArgumentException $e) {
+                    // Ignore unformattable headers
+                    Logger::app()->error($e->getMessage(), ['exception' => $e]);
                 }
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
@@ -1265,14 +1224,14 @@ class Support
         return [
             'list' => $res,
             'info' => [
-                'current_page'  => $current_row,
-                'start_offset'  => $start,
-                'end_offset'    => $start + count($res),
-                'total_rows'    => $total_rows,
-                'total_pages'   => $total_pages,
+                'current_page' => $current_row,
+                'start_offset' => $start,
+                'end_offset' => $start + count($res),
+                'total_rows' => $total_rows,
+                'total_pages' => $total_pages,
                 'previous_page' => ($current_row == 0) ? '-1' : ($current_row - 1),
-                'next_page'     => ($current_row == $last_page) ? '-1' : ($current_row + 1),
-                'last_page'     => $last_page,
+                'next_page' => ($current_row == $last_page) ? '-1' : ($current_row + 1),
+                'last_page' => $last_page,
             ],
         ];
     }
@@ -1333,11 +1292,10 @@ class Support
      * Method used to extract and associate attachments in an email
      * to the given issue.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   mixed   $input The full body of the message or decoded email.
-     * @param   boolean $internal_only Whether these files are supposed to be internal only or not
-     * @param   integer $associated_note_id The note ID that these attachments should be associated with
-     * @return  void
+     * @param   int $issue_id The issue ID
+     * @param   mixed $input the full body of the message or decoded email
+     * @param   bool $internal_only Whether these files are supposed to be internal only or not
+     * @param   int $associated_note_id The note ID that these attachments should be associated with
      */
     public static function extractAttachments($issue_id, $input, $internal_only = false, $associated_note_id = null)
     {
@@ -1346,7 +1304,7 @@ class Support
         }
 
         // figure out who should be the 'owner' of this attachment
-        $sender_email = strtolower(Mail_Helper::getEmailAddress($input->headers['from']));
+        $sender_email = Mail_Helper::getEmailAddress($input->headers['from']);
         $usr_id = User::getUserIDByEmail($sender_email);
         $prj_id = Issue::getProjectID($issue_id);
         $unknown_user = false;
@@ -1406,10 +1364,10 @@ class Support
      * Method used to silently associate a support email with an
      * existing issue.
      *
-     * @param   integer $usr_id The user ID of the person performing this change
-     * @param   integer $issue_id The issue ID
+     * @param   int $usr_id The user ID of the person performing this change
+     * @param   int $issue_id The issue ID
      * @param   array $items The list of email IDs to associate
-     * @return  integer 1 if it worked, -1 otherwise
+     * @return  int 1 if it worked, -1 otherwise
      */
     public static function associateEmail($usr_id, $issue_id, $items)
     {
@@ -1444,7 +1402,7 @@ class Support
         foreach ($res as $row) {
             History::add($issue_id, $usr_id, 'email_associated', "Email (subject: '{subject}') associated by {user}", [
                 'subject' => $row,
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
@@ -1455,11 +1413,11 @@ class Support
      * Method used to associate a support email with an existing
      * issue.
      *
-     * @param   integer $usr_id The user ID of the person performing this change
-     * @param   integer $issue_id The issue ID
+     * @param   int $usr_id The user ID of the person performing this change
+     * @param   int $issue_id The issue ID
      * @param   array $items The list of email IDs to associate
-     * @param   boolean $authorize If the senders should be added the authorized repliers list
-     * @return  integer 1 if it worked, -1 otherwise
+     * @param   bool $authorize If the senders should be added the authorized repliers list
+     * @return  int 1 if it worked, -1 otherwise
      */
     public static function associate($usr_id, $issue_id, $items, $authorize = false)
     {
@@ -1489,17 +1447,17 @@ class Support
                 $has_attachments = 0;
             }
             $t = [
-                'issue_id'       => $issue_id,
-                'message_id'     => @$structure->headers['message-id'],
-                'from'           => @$structure->headers['from'],
-                'to'             => @$structure->headers['to'],
-                'cc'             => @$structure->headers['cc'],
-                'subject'        => @$structure->headers['subject'],
-                'body'           => Mime_Helper::getMessageBody($structure),
-                'full_email'     => $row['seb_full_email'],
+                'issue_id' => $issue_id,
+                'message_id' => @$structure->headers['message-id'],
+                'from' => @$structure->headers['from'],
+                'to' => @$structure->headers['to'],
+                'cc' => @$structure->headers['cc'],
+                'subject' => @$structure->headers['subject'],
+                'body' => Mime_Helper::getMessageBody($structure),
+                'full_email' => $row['seb_full_email'],
                 'has_attachment' => $has_attachments,
                 // the following items are not inserted, but useful in some methods
-                'headers'        => @$structure->headers,
+                'headers' => @$structure->headers,
             ];
 
             $prj_id = Issue::getProjectID($t['issue_id']);
@@ -1521,8 +1479,8 @@ class Support
      *
      * FIXME: $ema_id is unused
      *
-     * @param   integer $ema_id The support email account ID
-     * @param   integer $sup_id The support email ID
+     * @param   int $ema_id The support email account ID
+     * @param   int $sup_id The support email ID
      * @return  array The email entry details
      */
     public static function getEmailDetails($ema_id, $sup_id)
@@ -1561,9 +1519,9 @@ class Support
     /**
      * Returns the nth note for a specific issue. The sequence starts at 1.
      *
-     * @param   integer $issue_id The id of the issue.
-     * @param   integer $sequence The sequential number of the email.
-     * @return  array An array of data containing details about the email.
+     * @param   int $issue_id the id of the issue
+     * @param   int $sequence the sequential number of the email
+     * @return  array an array of data containing details about the email
      */
     public static function getEmailBySequence($issue_id, $sequence)
     {
@@ -1627,7 +1585,7 @@ class Support
      * Method used to get the full email message for a given support
      * email ID.
      *
-     * @param   integer $sup_id The support email ID
+     * @param   int $sup_id The support email ID
      * @return  string The full email message
      */
     public static function getFullEmail($sup_id)
@@ -1651,7 +1609,7 @@ class Support
      * Method used to get the email message for a given support
      * email ID.
      *
-     * @param   integer $sup_id The support email ID
+     * @param   int $sup_id The support email ID
      * @return  string The email message
      */
     public static function getEmail($sup_id)
@@ -1675,7 +1633,7 @@ class Support
      * Method used to get all of the support email entries associated
      * with a given issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The list of support emails
      */
     public static function getEmailsByIssue($issue_id)
@@ -1719,7 +1677,7 @@ class Support
      * Method used to update all of the selected support emails as
      * 'removed' ones.
      *
-     * @return  integer 1 if it worked, -1 otherwise
+     * @return  int 1 if it worked, -1 otherwise
      */
     public static function removeEmails()
     {
@@ -1744,7 +1702,7 @@ class Support
      * Method used to remove the association of all support emails
      * for a given issue.
      *
-     * @return  integer 1 if it worked, -1 otherwise
+     * @return  int 1 if it worked, -1 otherwise
      */
     public static function removeAssociation()
     {
@@ -1796,9 +1754,9 @@ class Support
      * Checks whether the given email address is allowed to send emails in the
      * issue ID.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $sender_email The email address
-     * @return  boolean
+     * @return  bool
      */
     public static function isAllowedToEmail($issue_id, $sender_email)
     {
@@ -1857,11 +1815,12 @@ class Support
     /**
      * Method used to build the headers of a web-based message.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $message_id The message-id
      * @param   string $from The sender of this message
      * @param   string $to The primary recipient of this message
      * @param   string $cc The extra recipients of this message
+     * @param string $subject
      * @param   string $body The message body
      * @param   string $in_reply_to The message-id that we are replying to
      * @param   array $iaf_ids Array with attachment file id-s
@@ -1923,18 +1882,17 @@ class Support
      * recipient. This will not re-write the sender's email address
      * to issue-xxxx@ or whatever.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $from The sender of this message
      * @param   string $to The primary recipient of this message
      * @param   string $cc The extra recipients of this message
      * @param   string $subject The subject of this message
      * @param   string $body The message body
      * @param   string $message_id The message-id
-     * @param   integer $sender_usr_id The ID of the user sending this message.
-     * @param   array $iaf_ids An array with attachment information.
-     * @return  void
+     * @param   int $sender_usr_id the ID of the user sending this message
+     * @param   array $iaf_ids an array with attachment information
      */
-    public function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $iaf_ids, $message_id, $sender_usr_id = false)
+    public static function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $iaf_ids, $message_id, $sender_usr_id = false)
     {
         $prj_id = Issue::getProjectID($issue_id);
         $subject = Mail_Helper::formatSubject($issue_id, $subject);
@@ -1981,16 +1939,15 @@ class Support
      * @param   string $cc The Cc list
      * @return  array The list of email addresses
      */
-    public function getRecipientsCC($cc)
+    public static function getRecipientsCC($cc)
     {
         $cc = trim($cc);
         if (empty($cc)) {
             return [];
-        } else {
-            $cc = str_replace(',', ';', $cc);
-
-            return explode(';', $cc);
         }
+        $cc = str_replace(',', ';', $cc);
+
+        return explode(';', $cc);
     }
 
     /**
@@ -2156,17 +2113,17 @@ class Support
 
         $email = [
             // FIXME: use actual null, not string 'null'
-            'customer_id'    => 'NULL',
-            'issue_id'       => $issue_id,
-            'ema_id'         => $ema_id,
-            'message_id'     => $message_id,
-            'date'           => Date_Helper::getCurrentDateGMT(),
-            'from'           => $from,
-            'to'             => $to,
-            'cc'             => $cc,
-            'subject'        => $subject,
-            'body'           => $body,
-            'full_email'     => $full_email,
+            'customer_id' => 'NULL',
+            'issue_id' => $issue_id,
+            'ema_id' => $ema_id,
+            'message_id' => $message_id,
+            'date' => Date_Helper::getCurrentDateGMT(),
+            'from' => $from,
+            'to' => $to,
+            'cc' => $cc,
+            'subject' => $subject,
+            'body' => $body,
+            'full_email' => $full_email,
         ];
 
         // associate this new email with a customer, if appropriate
@@ -2212,7 +2169,7 @@ class Support
             }
 
             History::add($issue_id, $current_usr_id, 'email_sent', 'Outgoing email sent by {user}', [
-                'user' => User::getFullName($current_usr_id)
+                'user' => User::getFullName($current_usr_id),
             ]);
         }
 
@@ -2223,10 +2180,10 @@ class Support
      * Method used to get the message-id associated with a given support
      * email entry.
      *
-     * @param   integer $sup_id The support email ID
-     * @return  integer The email ID
+     * @param   int $sup_id The support email ID
+     * @return  int The email ID
      */
-    public function getMessageIDByID($sup_id)
+    public static function getMessageIDByID($sup_id)
     {
         $stmt = 'SELECT
                     sup_message_id
@@ -2248,9 +2205,9 @@ class Support
      * email message-id.
      *
      * @param   string $message_id The message ID
-     * @return  integer The email ID
+     * @return  int The email ID
      */
-    public function getIDByMessageID($message_id)
+    public static function getIDByMessageID($message_id)
     {
         if (!$message_id) {
             return false;
@@ -2279,7 +2236,7 @@ class Support
      * email message-id.
      *
      * @param   string $message_id The message ID
-     * @return  integer The issue ID
+     * @return  int The issue ID
      */
     public static function getIssueByMessageID($message_id)
     {
@@ -2305,8 +2262,8 @@ class Support
      * Method used to get the issue ID associated with a given support
      * email entry.
      *
-     * @param   integer $sup_id The support email ID
-     * @return  integer The issue ID
+     * @param   int $sup_id The support email ID
+     * @return  int The issue ID
      */
     public static function getIssueFromEmail($sup_id)
     {
@@ -2358,10 +2315,10 @@ class Support
      * Returns the number of emails sent by a user in a time range.
      *
      * @param   string $usr_id The ID of the user
-     * @param   integer $start The timestamp of the start date
-     * @param   integer $end The timestamp of the end date
-     * @param   boolean $associated If this should return emails associated with issues or non associated emails.
-     * @return  integer The number of emails sent by the user.
+     * @param   int $start The timestamp of the start date
+     * @param   int $end The timestamp of the end date
+     * @param   bool $associated if this should return emails associated with issues or non associated emails
+     * @return  int the number of emails sent by the user
      */
     public static function getSentEmailCountByUser($usr_id, $start, $end, $associated)
     {
@@ -2396,10 +2353,10 @@ class Support
     /**
      * Returns the projectID based on the email account
      *
-     * @param   integer $ema_id The id of the email account.
-     * @return  integer The ID of the of the project.
+     * @param   int $ema_id the id of the email account
+     * @return  int the ID of the of the project
      */
-    public function getProjectByEmailAccount($ema_id)
+    public static function getProjectByEmailAccount($ema_id)
     {
         static $returns;
 
@@ -2427,10 +2384,10 @@ class Support
     /**
      * Moves an email from one account to another.
      *
-     * @param   integer $sup_id The ID of the message.
-     * @param   integer $current_ema_id The ID of the account the message is currently in.
-     * @param   integer $new_ema_id The ID of the account to move the message too.
-     * @return  integer -1 if there was error moving the message, 1 otherwise.
+     * @param   int $sup_id the ID of the message
+     * @param   int $current_ema_id the ID of the account the message is currently in
+     * @param   int $new_ema_id the ID of the account to move the message too
+     * @return  int -1 if there was error moving the message, 1 otherwise
      */
     public static function moveEmail($sup_id, $current_ema_id, $new_ema_id)
     {
@@ -2480,18 +2437,18 @@ class Support
         }
 
         $row = [
-            'sup_id'         => $email['sup_id'],
-            'customer_id'    => $customer_id,
-            'issue_id'       => $issue_id,
-            'ema_id'         => $new_ema_id,
-            'message_id'     => $email['sup_message_id'],
-            'date'           => $email['timestamp'],
-            'from'           => $email['sup_from'],
-            'to'             => $email['sup_to'],
-            'cc'             => $email['sup_cc'],
-            'subject'        => $email['sup_subject'],
-            'body'           => $email['seb_body'],
-            'full_email'     => $email['seb_full_email'],
+            'sup_id' => $email['sup_id'],
+            'customer_id' => $customer_id,
+            'issue_id' => $issue_id,
+            'ema_id' => $new_ema_id,
+            'message_id' => $email['sup_message_id'],
+            'date' => $email['timestamp'],
+            'from' => $email['sup_from'],
+            'to' => $email['sup_to'],
+            'cc' => $email['sup_cc'],
+            'subject' => $email['sup_subject'],
+            'body' => $email['seb_body'],
+            'full_email' => $email['seb_full_email'],
             'has_attachment' => $email['sup_has_attachment'],
         ];
         Workflow::handleNewEmail(self::getProjectByEmailAccount($new_ema_id), $issue_id, $structure, $row);
@@ -2505,9 +2462,9 @@ class Support
      *
      * @param   array $info An array of email account information
      * @param   resource $mbox The mailbox object
-     * @param   integer $num The number of the message to delete.
+     * @param   int $num the number of the message to delete
      */
-    public function deleteMessage($info, $mbox, $num)
+    public static function deleteMessage($info, $mbox, $num)
     {
         // need to delete the message from the server?
         if (!$info['ema_leave_copy']) {
@@ -2529,7 +2486,7 @@ class Support
 
         $issue_id = $email['issue_id'];
         $prj_id = Issue::getProjectID($issue_id);
-        $sender_email = strtolower(Mail_Helper::getEmailAddress($email['from']));
+        $sender_email = Mail_Helper::getEmailAddress($email['from']);
         list($text_headers, $body) = Mime_Helper::splitHeaderBody($email['full_email']);
         if ((Mail_Helper::isVacationAutoResponder($email['headers'])) ||
                 (Notification::isBounceMessage($sender_email)) ||
@@ -2551,7 +2508,7 @@ class Support
                 'send_notification' => $notify,
                 'is_blocked' => true,
                 'full_message' => $email['full_email'],
-                'message_id'  => Mail_Helper::getMessageID($text_headers, $body),
+                'message_id' => Mail_Helper::getMessageID($text_headers, $body),
             ];
 
             $body = Mail_Helper::getCannedBlockedMsgExplanation() . $email['body'];
@@ -2597,7 +2554,7 @@ class Support
         return false;
     }
 
-    public function addExtraRecipientsToNotificationList($prj_id, $email, $is_auto_created = false)
+    public static function addExtraRecipientsToNotificationList($prj_id, $email, $is_auto_created = false)
     {
         if ((empty($email['to'])) && (!empty($email['sup_to']))) {
             $email['to'] = $email['sup_to'];
@@ -2611,14 +2568,16 @@ class Support
         array_push($addresses_not_too_add, $project_details['prj_outgoing_sender_email']);
 
         $addresses = [];
-        $to_addresses = Mail_Helper::getEmailAddresses(@$email['to']);
-        if (count($to_addresses)) {
+
+        $to_addresses = AddressHeader::fromString(@$email['to'])->getEmails();
+        if ($to_addresses) {
             $addresses = $to_addresses;
         }
-        $cc_addresses = Mail_Helper::getEmailAddresses(@$email['cc']);
-        if (count($cc_addresses)) {
+        $cc_addresses = AddressHeader::fromString($email['cc'])->getEmails();
+        if ($cc_addresses) {
             $addresses = array_merge($addresses, $cc_addresses);
         }
+
         $subscribers = Notification::getSubscribedEmails($email['issue_id']);
         foreach ($addresses as $address) {
             $address = strtolower($address);
@@ -2634,8 +2593,8 @@ class Support
     /**
      * Returns the sequential number of the specified email ID.
      *
-     * @param   integer $sup_id The email ID
-     * @return  integer The sequence number of the email
+     * @param   int $sup_id The email ID
+     * @return  int The sequence number of the email
      */
     public static function getSequenceByID($sup_id)
     {

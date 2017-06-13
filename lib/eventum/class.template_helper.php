@@ -12,6 +12,7 @@
  */
 
 use Eventum\DebugBar;
+use Eventum\Templating;
 
 /**
  * Class used to abstract the backend template system used by the site. This
@@ -37,17 +38,16 @@ class Template_Helper
 
         $smarty->addPluginsDir([APP_INC_PATH . '/smarty']);
 
-        $smarty->registerPlugin('modifier', 'activateLinks', ['Link_Filter', 'activateLinks']);
-        $smarty->registerPlugin('modifier', 'activateAttachmentLinks', ['Link_Filter', 'activateAttachmentLinks']);
-        $smarty->registerPlugin('modifier', 'formatCustomValue', ['Custom_Field', 'formatValue']);
-        $smarty->registerPlugin('modifier', 'bool', ['Misc', 'getBooleanDisplayValue']);
-        $smarty->registerPlugin('modifier', 'format_date', ['Date_Helper', 'getFormattedDate']);
-        $smarty->registerPlugin('modifier', 'timeago', ['Date_Helper', 'formatTimeAgo']);
-        /** @see Eventum\EmailHelper::formatEmail */
-        $smarty->registerPlugin('modifier', 'format_email', ['\\Eventum\\EmailHelper', 'formatEmail']);
+        $smarty->registerPlugin('modifier', 'activateLinks', [Link_Filter::class, 'activateLinks']);
+        $smarty->registerPlugin('modifier', 'activateAttachmentLinks', [Link_Filter::class, 'activateAttachmentLinks']);
+        $smarty->registerPlugin('modifier', 'formatCustomValue', [Custom_Field::class, 'formatValue']);
+        $smarty->registerPlugin('modifier', 'bool', [Misc::class, 'getBooleanDisplayValue']);
+        $smarty->registerPlugin('modifier', 'format_date', [Date_Helper::class, 'getFormattedDate']);
+        $smarty->registerPlugin('modifier', 'timeago', [Date_Helper::class, 'formatTimeAgo']);
+        $smarty->registerPlugin('modifier', 'format_email', [Eventum\EmailHelper::class, 'formatEmail']);
 
         // Fixes problem with CRM API and dynamic includes.
-        // See https://code.google.com/p/smarty-php/source/browse/trunk/distribution/3.1.16_RELEASE_NOTES.txt?spec=svn4800&r=4800
+        // See https://github.com/smarty-php/smarty/blob/v3.1.16/3.1.16_RELEASE_NOTES.txt
         if (isset($smarty->inheritance_merge_compiled_includes)) {
             $smarty->inheritance_merge_compiled_includes = false;
         }
@@ -80,17 +80,13 @@ class Template_Helper
     /**
      * Assigns variables to specific placeholders on the target template
      *
-     * @param  string $var_name Placeholder on the template
-     * @param  string $value Value to be assigned to this placeholder
+     * @param  string|string[] $var_name Placeholder on the template
+     * @param  string|array $value Value to be assigned to this placeholder
      * @return $this
      */
-    public function assign($var_name, $value = '')
+    public function assign($var_name, $value = null)
     {
-        if (!is_array($var_name)) {
-            $this->smarty->assign($var_name, $value);
-        } else {
-            $this->smarty->assign($var_name);
-        }
+        $this->smarty->assign($var_name, $value);
 
         return $this;
     }
@@ -175,8 +171,8 @@ class Template_Helper
             'app_setup' => Setup::get(),
             'roles' => User::getAssocRoleIDs(),
             'current_url' => $_SERVER['PHP_SELF'],
-            'template_id'    =>  str_replace(['/', '.tpl.html'], ['_'], $this->tpl_name),
-            'handle_clock_in'   =>  $setup['handle_clock_in'] == 'enabled',
+            'template_id' => str_replace(['/', '.tpl.html'], ['_'], $this->tpl_name),
+            'handle_clock_in' => $setup['handle_clock_in'] == 'enabled',
         ];
 
         // If VCS version is present "Eventum 2.3.3-148-g78b3368", link ref to github
@@ -240,6 +236,9 @@ class Template_Helper
                 ];
         }
         $this->assign('core', $core);
+
+        $userfile = new Templating\UserFile($this->smarty, APP_LOCAL_PATH);
+        $userfile();
 
         if (isset($role_id) && $role_id >= User::ROLE_ADMINISTRATOR) {
             DebugBar::register($this->smarty);

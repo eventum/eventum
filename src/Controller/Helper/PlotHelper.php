@@ -133,9 +133,9 @@ class PlotHelper
      * Generates a graph for the selected custom field.
      *
      * @param string $type
-     * @param int $custom_field The id of the custom field.
-     * @param array $custom_options An array of option ids.
-     * @param string $group_by How the data should be grouped.
+     * @param int $custom_field the id of the custom field
+     * @param array $custom_options an array of option ids
+     * @param string $group_by how the data should be grouped
      * @param string $start
      * @param string $end
      * @param string $interval

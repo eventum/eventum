@@ -1,6 +1,17 @@
 #!/usr/bin/php
 <?php
 
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 require_once __DIR__ . '/../init.php';
 
 /**
@@ -65,10 +76,10 @@ function getRevInfo($repository_id, $revision_id)
         $base_rev = (int) ltrim($change['base_rev'], '0');
         $rev = (int) ltrim($change['rev'], '0');
         $file = [
-            'file'        => $filename,
+            'file' => $filename,
             'old_version' => $base_rev >= 0 ? $base_rev : null,
             'new_version' => $rev,
-            'module'      => $module,
+            'module' => $module,
         ];
         $files[] = $file;
     }
@@ -119,6 +130,8 @@ class TracScm extends SCM
 {
     /**
      * call insertCheckin to avoid touching issues history timestamps or invoking workflows that could reopen the issues
+     * @param string $issue_id
+     * @param string $commit_time
      */
     public static function importCheckin($issue_id, $commit_time, $scm_name, $file, $username, $commit_msg)
     {

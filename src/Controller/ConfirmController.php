@@ -30,7 +30,7 @@ class ConfirmController extends BaseController
     private $hash;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -42,15 +42,19 @@ class ConfirmController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
+        if (!in_array($this->cat, ['newuser', 'password'])) {
+            return false;
+        }
+
         return true;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -85,9 +89,14 @@ class ConfirmController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {
+        $this->tpl->assign(
+            [
+                'cat' => $this->cat,
+            ]
+        );
     }
 }

@@ -25,9 +25,9 @@ class Display_Column
      * This method will remove columns that should not be displayed, due to
      * lack of customer integration or insufficient role.
      *
-     * @param   integer $prj_id The ID of the project.
-     * @param   string $page The page to return columns for.
-     * @return  array An array of columns that should be displayed.
+     * @param   int $prj_id the ID of the project
+     * @param   string $page the page to return columns for
+     * @return  array an array of columns that should be displayed
      */
     public static function getColumnsToDisplay($prj_id, $page)
     {
@@ -90,9 +90,9 @@ class Display_Column
      * Returns the columns that have been selected to be displayed on the specified page. This list
      * contains all selected columns, even if they won't actually be displayed.
      *
-     * @param   integer $prj_id The ID of the project.
-     * @param   string $page The page to return columns for.
-     * @return  array An array of columns that should be displayed.
+     * @param   int $prj_id the ID of the project
+     * @param   string $page the page to return columns for
+     * @return  array an array of columns that should be displayed
      */
     public static function getSelectedColumns($prj_id, $page)
     {
@@ -133,7 +133,7 @@ class Display_Column
     /**
      * Returns the info of the column
      *
-     * @param   string $page The name of the page.
+     * @param   string $page the name of the page
      * @param   string $column The name of the column
      * @return  string Info on the column
      */
@@ -153,70 +153,70 @@ class Display_Column
     public static function getAllColumns($page)
     {
         $columns = [
-            'list_issues'   =>  [
-                'pri_rank'    =>  [
-                    'title' =>  ev_gettext('Priority'),
+            'list_issues' => [
+                'pri_rank' => [
+                    'title' => ev_gettext('Priority'),
                 ],
-                'sev_rank'    =>  [
-                    'title' =>  ev_gettext('Severity'),
+                'sev_rank' => [
+                    'title' => ev_gettext('Severity'),
                 ],
-                'iss_id'    =>  [
-                    'title' =>  ev_gettext('Issue ID'),
+                'iss_id' => [
+                    'title' => ev_gettext('Issue ID'),
                 ],
-                'usr_full_name' =>  [
-                    'title' =>  ev_gettext('Reporter'),
+                'usr_full_name' => [
+                    'title' => ev_gettext('Reporter'),
                 ],
-                'iss_created_date'    =>  [
-                    'title' =>  ev_gettext('Created Date'),
+                'iss_created_date' => [
+                    'title' => ev_gettext('Created Date'),
                 ],
-                'grp_name'    =>  [
-                    'title' =>  ev_gettext('Group'),
+                'grp_name' => [
+                    'title' => ev_gettext('Group'),
                 ],
-                'assigned'  =>  [
-                    'title' =>  ev_gettext('Assigned'),
+                'assigned' => [
+                    'title' => ev_gettext('Assigned'),
                 ],
-                'time_spent'    =>  [
-                    'title' =>  ev_gettext('Time Spent'),
+                'time_spent' => [
+                    'title' => ev_gettext('Time Spent'),
                 ],
-                'iss_percent_complete'    =>  [
-                    'title' =>  ev_gettext('% Complete'),
-                    'default_role'  =>  9,
+                'iss_percent_complete' => [
+                    'title' => ev_gettext('% Complete'),
+                    'default_role' => 9,
                 ],
-                'iss_dev_time'    =>  [
-                    'title' =>  ev_gettext('Est Dev Time'),
-                    'default_role'  =>  9,
+                'iss_dev_time' => [
+                    'title' => ev_gettext('Est Dev Time'),
+                    'default_role' => 9,
                 ],
-                'prc_title'     =>  [
-                    'title' =>  ev_gettext('Category'),
+                'prc_title' => [
+                    'title' => ev_gettext('Category'),
                 ],
-                'pre_title' =>  [
-                    'title' =>  ev_gettext('Release'),
+                'pre_title' => [
+                    'title' => ev_gettext('Release'),
                 ],
-                'iss_customer_id'   =>  [
-                    'title' =>  ev_gettext('Customer'),
+                'iss_customer_id' => [
+                    'title' => ev_gettext('Customer'),
                 ],
-                'support_level' =>  [
-                    'title' =>  ev_gettext('Support Level'),
+                'support_level' => [
+                    'title' => ev_gettext('Support Level'),
                 ],
-                'sta_rank'    =>  [
-                    'title' =>  ev_gettext('Status'),
+                'sta_rank' => [
+                    'title' => ev_gettext('Status'),
                 ],
-                'sta_change_date'   =>  [
-                    'title' =>  ev_gettext('Status Change Date'),
+                'sta_change_date' => [
+                    'title' => ev_gettext('Status Change Date'),
                 ],
-                'last_action_date'  =>  [
-                    'title' =>  ev_gettext('Last Action Date'),
+                'last_action_date' => [
+                    'title' => ev_gettext('Last Action Date'),
                 ],
-                'custom_fields' =>  [
-                    'title' =>  ev_gettext('Custom Fields'),
+                'custom_fields' => [
+                    'title' => ev_gettext('Custom Fields'),
                 ],
-                'iss_summary'   =>  [
-                    'title' =>  ev_gettext('Summary'),
-                    'align' =>  'left',
-                    'width' =>  '30%',
+                'iss_summary' => [
+                    'title' => ev_gettext('Summary'),
+                    'align' => 'left',
+                    'width' => '30%',
                 ],
-                'iss_expected_resolution_date'  =>  [
-                    'title' =>  ev_gettext('Expected Resolution Date'),
+                'iss_expected_resolution_date' => [
+                    'title' => ev_gettext('Expected Resolution Date'),
                 ],
             ],
         ];
@@ -227,7 +227,7 @@ class Display_Column
     /**
      * Saves settings on which columns should be displayed.
      *
-     * @return  integer 1 if settings were saved successfully, -1 if there was an error.
+     * @return  int 1 if settings were saved successfully, -1 if there was an error
      */
     public static function save()
     {
@@ -274,7 +274,7 @@ class Display_Column
     /**
      * Adds records in database for new project.
      *
-     * @param   integer $prj_id The ID of the project.
+     * @param   int $prj_id the ID of the project
      * @return int
      */
     public static function setupNewProject($prj_id)

@@ -1,5 +1,9 @@
 {extends "manage/manage.tpl.html"}
 
+{function name="rank_icon" direction="down" href=""}
+  {include file="include/rank_icon.tpl.html" direction=$direction href=$href}
+{/function}
+
 {block "manage_content"}
 
   <script type="text/javascript">
@@ -306,47 +310,32 @@
                   {t}Field Options{/t}
                 </th>
                 <td>
-                  <table>
-                    <tr>
-                      <td valign="top">
-                        <span>{t}Set available options{/t}</span><br />
-                        <input type="text" name="new_value" size="26" class="custom_option"><input name="add_button" type="button" value="{t}Add{/t}" class="custom_option">{if $smarty.get.cat|default:'' == 'edit'}<input name="update_button" type="button" value="{t}Update Value{/t}" disabled>{/if}<br />
-                      </td>
-                      <td rowspan="3">
-                        &nbsp;&nbsp;&nbsp;&nbsp;<strong>{t}AND / OR{/t}</strong>&nbsp;&nbsp;&nbsp;&nbsp;
-                      </td>
-                      <td valign="top">
-                        <span>{t}Choose Custom Field Backend{/t}</span><br />
-                        <select name="custom_field_backend">
-                          <option value="" label="{t}Please select a backend{/t}">{t}Please select a backend{/t}</option>
-                          {html_options options=$backend_list selected=$info.fld_backend|default:''}
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <table border="0" cellspacing="0" cellpadding="0">
-                          <tr>
-                            <td>
-                              <select name="field_options[]" multiple size="3">
-                              {if $info.field_options|default:'' == ""}
-                                <option value="-1">{t}enter a new option above{/t}</option>
-                              {else}
-                                {html_options options=$info.field_options|default:''}
-                              {/if}
-                              </select>
-                            </td>
-                            <td valign="top">
-                              {if $smarty.get.cat|default:'' == 'edit'}
-                              <input type="button" name="edit_button" value="{t}Edit Option{/t}" class="custom_option"><br />
-                              {/if}
-                              <input type="button" name="remove_button" value="{t}Remove{/t}" class="custom_option">
-                            </td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
+                  {if $info|default:''}
+                    <a href="custom_field_options.php?fld_id={$info.fld_id}">Edit Options ({$info.field_options|@count})</a>
+                  {else}
+                    <em>You must save the new custom field before editing options.</em>
+                  {/if}
+                </td>
+              </tr>
+              <tr>
+                <th width="120">
+                  {t}Order Options By{/t}
+                </th>
+                <td>
+                  <select name="order_by">
+                    {html_options options=$order_by_list selected=$info.fld_order_by|default:'cfo_id ASC'}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <th>
+                  {t}Custom Field Backend{/t}
+                </th>
+                <td valign="top">
+                  <select name="custom_field_backend">
+                    <option value="" label="{t}Please select a backend{/t}">{t}Please select a backend{/t}</option>
+                    {html_options options=$backend_list selected=$info.fld_backend|default:''}
+                  </select>
                 </td>
               </tr>
               <tr>
@@ -416,8 +405,9 @@
                 <input type="checkbox" name="items[]" value="{$list[i].fld_id}" {if $smarty.section.i.total == 0}disabled{/if}>
               </td>
               <td nowrap>
-                &nbsp;<a href="{$core.current_url}?cat=change_rank&id={$list[i].fld_id}&direction=1" title="{t}move field down{/t}"><img src="{$core.rel_url}images/desc.gif" border="0"></a> {$list[i].fld_rank}
-                <a href="{$core.current_url}?cat=change_rank&id={$list[i].fld_id}&direction=-1" title="{t}move field up{/t}"><img src="{$core.rel_url}images/asc.gif" border="0"></a>
+                {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].fld_id}&direction=1" direction="down"}
+                {$list[i].fld_rank}
+                {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].fld_id}&direction=-1" direction="up"}
               </td>
               <td width="15%">
                 &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].fld_id}" title="{t}update this entry{/t}">{$list[i].fld_title}</a>
@@ -435,7 +425,9 @@
                 <nobr>&nbsp;{if $list[i].fld_type == 'combo'}{t}Combo Box{/t}{elseif $list[i].fld_type == 'multiple'}{t}Multiple Combo Box{/t}{elseif $list[i].fld_type == 'textarea'}{t}Textarea{/t}{elseif $list[i].fld_type == 'date'}{t}Date{/t}{elseif $list[i].fld_type == 'integer'}{t}Integer{/t}{elseif $list[i].fld_type == 'checkbox'}Checkbox{else}{t}Text Input{/t}{/if}</nobr>
               </td>
               <td width="50%">
-                &nbsp;{$list[i].field_options|default:''}
+                 {if $list[i].has_options}
+                  &nbsp;<a href="custom_field_options.php?fld_id={$list[i].fld_id}">Edit Options ({$list[i].field_options|@count})</a>
+                 {/if}
               </td>
             </tr>
             {sectionelse}

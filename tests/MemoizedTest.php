@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
 use Eventum\MemoizeDecorator;
 
 class MemoizeTest extends TestCase

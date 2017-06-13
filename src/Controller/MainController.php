@@ -28,23 +28,20 @@ class MainController extends BaseController
     protected $tpl_name = 'main.tpl.html';
 
     /** @var int */
-    private $role_id;
-
-    /** @var int */
     private $usr_id;
 
     /** @var int */
     private $prj_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -63,7 +60,7 @@ class MainController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -112,7 +109,7 @@ class MainController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

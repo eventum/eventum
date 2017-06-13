@@ -21,15 +21,14 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Gitlab SCM handler
  *
- * @link http://doc.gitlab.com/ce/web_hooks/web_hooks.html
- * @package Eventum\Scm\Adapter
+ * @see http://doc.gitlab.com/ce/web_hooks/web_hooks.html
  */
 class GitlabScm extends AbstractScmAdapter
 {
     const GITLAB_HEADER = 'X-Gitlab-Event';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function can()
     {
@@ -42,7 +41,7 @@ class GitlabScm extends AbstractScmAdapter
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function process()
     {

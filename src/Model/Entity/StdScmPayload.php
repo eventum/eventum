@@ -108,7 +108,7 @@ class StdScmPayload implements ScmPayloadInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPayload()
     {

@@ -30,7 +30,7 @@ class ReminderActionsController extends ManageBaseController
     private $rem_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -41,7 +41,7 @@ class ReminderActionsController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -69,6 +69,8 @@ class ReminderActionsController extends ManageBaseController
             -2 => [ev_gettext('Please enter the title for this new action.'), MessagesHelper::MSG_ERROR],
         ];
         $this->messages->mapMessages($res, $map);
+        $rem_id = $this->getRequest()->request->getInt('rem_id');
+        $this->redirect("reminder_actions.php?rem_id={$rem_id}");
     }
 
     private function updateAction()
@@ -80,6 +82,8 @@ class ReminderActionsController extends ManageBaseController
             -2 => [ev_gettext('Please enter the title for this action.'), MessagesHelper::MSG_ERROR],
         ];
         $this->messages->mapMessages($res, $map);
+        $rem_id = $this->getRequest()->request->getInt('rem_id');
+        $this->redirect("reminder_actions.php?rem_id={$rem_id}");
     }
 
     private function deleteAction()
@@ -104,7 +108,7 @@ class ReminderActionsController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

@@ -36,7 +36,7 @@ class Date_Helper
      * used.
      *
      * @param int|DateTime|string $ts
-     * @param string $timezone
+     * @param string|null  $timezone
      * @return DateTime
      */
     public static function getDateTime($ts = 'now', $timezone = null)
@@ -57,7 +57,7 @@ class Date_Helper
             $timezone = self::getPreferredTimezone();
         }
         try {
-            $dateTime->setTimeZone(new DateTimeZone($timezone));
+            $dateTime->setTimezone(new DateTimeZone($timezone));
         } catch (Exception $e) {
             // Yes, the exception name is just "Exception":
             // "Exception : DateTimeZone::__construct(): Unknown or bad timezone (Eastern Standard Time)"
@@ -70,8 +70,8 @@ class Date_Helper
     /**
      * Returns whether the given hour is AM or not.
      *
-     * @param   integer $hour The hour number
-     * @return  boolean
+     * @param   int $hour The hour number
+     * @return  bool
      */
     public static function isAM($hour)
     {
@@ -81,8 +81,8 @@ class Date_Helper
     /**
      * Returns whether the given hour is PM or not.
      *
-     * @param   integer $hour The hour number
-     * @return  boolean
+     * @param   int $hour The hour number
+     * @return  bool
      */
     public static function isPM($hour)
     {
@@ -92,7 +92,7 @@ class Date_Helper
     /**
      * Returns the current UNIX timestamp in the GMT timezone.
      *
-     * @return  integer The current UNIX timestamp in GMT
+     * @return  int The current UNIX timestamp in GMT
      * @deprecated just use time() function
      */
     public static function getCurrentUnixTimestampGMT()
@@ -106,8 +106,8 @@ class Date_Helper
      *
      * NOTE: "h" and "d" (hours and days) are not localized
      *
-     * @param integer|string|DateTime $now The current timestamp
-     * @param integer|string|DateTime $date The old timestamp
+     * @param int|string|DateTime $now The current timestamp
+     * @param int|string|DateTime $date The old timestamp
      * @return string The formatted difference in time
      */
     public static function getFormattedDateDiff($now, $date)
@@ -126,9 +126,9 @@ class Date_Helper
      * Method used to get the user's current time (timezone included) as
      * a UNIX timestamp.
      *
-     * @param   integer|string $timestamp The current UNIX timestamp
+     * @param   int|string $timestamp The current UNIX timestamp
      * @param   string $timezone The needed timezone
-     * @return  integer The UNIX timestamp representing the user's current time
+     * @return  int The UNIX timestamp representing the user's current time
      * @deprecated do not use when input is timestamp, the same input will be returned and calling this function is pointless then
      */
     public static function getUnixTimestamp($timestamp, $timezone = null)
@@ -144,10 +144,10 @@ class Date_Helper
      *
      * NOTE: $timezone param is deprecated as input is always GMT and result is also always GMT
      *
-     * @return  string $ts The current GMT date
-     * @param   string $timezone The needed timezone
+     * @param int|DateTime|string $ts
+     * @return string $ts The current GMT date
      */
-    public static function getRFC822Date($ts, $timezone = null)
+    public static function getRFC822Date($ts)
     {
         $date = self::getDateTime($ts, 'GMT');
 
@@ -159,10 +159,10 @@ class Date_Helper
      * iso8601 compliant format. If no timezone is specified it will
      * use the users preferred timezone.
      *
-     * @return  string $ts The current GMT date
      * @param   int|DateTime|string $ts
      * @param   string $timezone
      * @param   bool $omit_offset
+     * @return  string $ts The current GMT date
      */
     public static function getISO8601date($ts, $timezone = null, $omit_offset = false)
     {
@@ -180,7 +180,7 @@ class Date_Helper
     /**
      * Method used to get the current date in the GMT timezone.
      *
-     * @return  string The current GMT date in DATE_FORMAT_ISO (YYYY-MM-DD HH:MM:SS) format.
+     * @return  string the current GMT date in DATE_FORMAT_ISO (YYYY-MM-DD HH:MM:SS) format
      */
     public static function getCurrentDateGMT()
     {
@@ -205,7 +205,7 @@ class Date_Helper
      * Method used to get the proper timezone short name for the current date
      * and time on the given user's timezone. This respects the DST setting.
      *
-     * @param   integer $usr_id The user ID
+     * @param   int $usr_id The user ID
      * @return  string The timezone short name
      */
     public static function getTimezoneShortNameByUser($usr_id)
@@ -240,7 +240,7 @@ class Date_Helper
      * This method is locale sensitive, returns localized timestamp
      *
      * @param   string $ts The date timestamp to be formatted
-     * @param   boolean $convert If the timestamp should be converted to the preferred timezone
+     * @param   bool $convert If the timestamp should be converted to the preferred timezone
      * @return  string
      */
     public static function getSimpleDate($ts, $convert = true)
@@ -255,7 +255,7 @@ class Date_Helper
         if ($convert) {
             $timezone = self::getPreferredTimezone();
         } else {
-            $timezone = false;
+            $timezone = null;
         }
 
         $date = self::getDateTime($ts, $timezone);
@@ -266,7 +266,7 @@ class Date_Helper
     /**
      * Method used to get the timezone preferred by the user.
      *
-     * @param integer $usr_id The user ID
+     * @param int $usr_id The user ID
      * @return string The timezone preferred by the user
      */
     public static function getPreferredTimezone($usr_id = null)
@@ -298,7 +298,7 @@ class Date_Helper
     /**
      * Method used to get the default start of week day.
      *
-     * @return  integer 0 - Sunday, 1 - Monday
+     * @return  int 0 - Sunday, 1 - Monday
      */
     public static function getDefaultWeekday()
     {
@@ -337,7 +337,7 @@ class Date_Helper
     /**
      * Method used to convert a unix timestamp date to a GMT date.
      *
-     * @param   integer $timestamp The user based date
+     * @param   int $timestamp The user based date
      * @return  string The date in the GMT timezone
      * @deprecated convertDateGMT can do exactly the same
      */
@@ -349,9 +349,9 @@ class Date_Helper
     /**
      * Returns a list of weeks (May 2 - May 8, May 9 - May 15).
      *
-     * @param   integer $weeks_past The number of weeks in the past to include.
-     * @param   integer $weeks_future The number of weeks in the future to include.
-     * @return  array An array of weeks.
+     * @param   int $weeks_past the number of weeks in the past to include
+     * @param   int $weeks_future the number of weeks in the future to include
+     * @return  array an array of weeks
      */
     public static function getWeekOptions($weeks_past, $weeks_future)
     {
@@ -381,7 +381,7 @@ class Date_Helper
     /**
      * Returns the current week in the same format formatWeekOption users.
      *
-     * @return  string A string containing the current week.
+     * @return  string a string containing the current week
      */
     public static function getCurrentWeek()
     {
@@ -408,8 +408,8 @@ class Date_Helper
     /**
      * Formats a given week start and week end to a format useable by getWeekOptions().
      *
-     * @param   integer $start The start date of the week.
-     * @return  array An array usable as an option in getWeekOptions.
+     * @param   int $start the start date of the week
+     * @return  string[] an array usable as an option in getWeekOptions
      */
     private static function formatWeekOption($start)
     {

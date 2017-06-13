@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# install tools neccessary for CI
+# install tools necessary for CI
 #
 
 cachedir=$(pwd)/cache

@@ -21,28 +21,28 @@ class Dynamic_Ajax_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Bac
         // should pull from a dynamic data source but will hard code for now
         $data = [
             [
-                'keys'  => [1],
-                'options'   =>  [
-                    '1' =>  'Apple',
-                    '2' =>  'Fire Engine',
-                    '3' =>  'Fire',
-                ]
+                'keys' => [1],
+                'options' => [
+                    '1' => 'Apple',
+                    '2' => 'Fire Engine',
+                    '3' => 'Fire',
+                ],
             ],
             [
-                'keys'  => [2],
-                'options'   =>  [
-                    '4' =>  'water',
-                    '5' =>  'sky',
-                ]
+                'keys' => [2],
+                'options' => [
+                    '4' => 'water',
+                    '5' => 'sky',
+                ],
             ],
             [
-                'keys'  =>  [3],
-                'options'   =>  [
-                    '6' =>  'bannana',
-                    '7' =>  'gold',
-                    '8' =>  'yellow things',
-                    '9' =>  'more yellow things',
-                ]
+                'keys' => [3],
+                'options' => [
+                    '6' => 'bannana',
+                    '7' => 'gold',
+                    '8' => 'yellow things',
+                    '9' => 'more yellow things',
+                ],
             ],
         ];
 

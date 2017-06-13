@@ -178,6 +178,7 @@ class YiiAdapter extends PdoAdapterBase implements AdapterInterface
      *
      * To avoid PDO error "Invalid parameter number: Columns/Parameters are 1-based"
      * Shift params to be 1-based.
+     * @param int $fetchmode
      */
     private function convertParams(&$params, &$fetchmode = null)
     {

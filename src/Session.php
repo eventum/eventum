@@ -26,8 +26,8 @@ class Session
     /**
      * Sets the passed variable in the session using the specified name.
      *
-     * @param   string $name Name to store variable under.
-     * @param   mixed $var Variable to store in session.
+     * @param   string $name name to store variable under
+     * @param   mixed $var variable to store in session
      */
     public static function set($name, $var)
     {
@@ -37,9 +37,9 @@ class Session
     /**
      * Returns the session variable specified by $name
      *
-     * @param   string $name The name of variable to be returned.
+     * @param   string $name the name of variable to be returned
      * @param   mixed $default What should be returned if the named variabe is not set
-     * @return  mixed The session variable.
+     * @return  mixed the session variable
      */
     public static function get($name, $default = null)
     {
@@ -49,7 +49,7 @@ class Session
     /**
      * Initialize the session with $usr_id
      *
-     * @param   integer $usr_id The ID of the user
+     * @param   int $usr_id The ID of the user
      */
     public static function init($usr_id)
     {

@@ -52,7 +52,7 @@ class PostNoteController extends BaseController
     private $reply_subject;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -64,7 +64,7 @@ class PostNoteController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -86,7 +86,7 @@ class PostNoteController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -117,6 +117,9 @@ class PostNoteController extends BaseController
         }
     }
 
+    /**
+     * @param int $note_id
+     */
     private function replyAction($note_id)
     {
         $note = Note::getDetails($note_id);
@@ -131,6 +134,10 @@ class PostNoteController extends BaseController
         $this->reply_subject = $note['not_title'];
     }
 
+    /**
+     * @param int $sup_id
+     * @param int $ema_id
+     */
     private function replyEmailAction($sup_id, $ema_id)
     {
         $email = Support::getEmailDetails($ema_id, $sup_id);
@@ -138,8 +145,8 @@ class PostNoteController extends BaseController
         $note = [];
         $note['not_body'] = $header . Misc::formatReply($email['message']);
         $this->tpl->assign([
-            'note'           => $note,
-            'sup_id'         => $sup_id,
+            'note' => $note,
+            'sup_id' => $sup_id,
         ]);
         $this->reply_subject = $email['sup_subject'];
     }
@@ -150,7 +157,7 @@ class PostNoteController extends BaseController
         $note = [];
         $note['not_body'] = $header . Misc::formatReply($this->issue_details['iss_original_description']);
         $this->tpl->assign([
-            'note'           => $note
+            'note' => $note,
         ]);
         $this->reply_subject = $this->issue_details['iss_summary'];
     }
@@ -219,7 +226,7 @@ class PostNoteController extends BaseController
             $this->issue_id, $this->usr_id, 'status_changed',
             "Status changed to '{status}' by {user} when sending a note", [
                 'status' => $status_title,
-                'user' => User::getFullName($this->usr_id)
+                'user' => User::getFullName($this->usr_id),
             ]
         );
     }
@@ -241,7 +248,7 @@ class PostNoteController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

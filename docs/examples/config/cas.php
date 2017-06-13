@@ -12,13 +12,13 @@
  */
 
 return [
-    'host'  =>  'localhost',
-    'port'  =>  443,
-    'context' =>  '/cas',
+    'host' => 'localhost',
+    'port' => 443,
+    'context' => '/cas',
     'customer_id_attribute' => '',
     'contact_id_attribute' => '',
     'create_users' => true,
     'default_role' => [
-        1 =>    4,
+        1 => 4,
     ],
 ];

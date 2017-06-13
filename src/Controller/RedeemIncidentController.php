@@ -41,7 +41,7 @@ class RedeemIncidentController extends BaseController
     private $submit;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -52,7 +52,7 @@ class RedeemIncidentController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -73,7 +73,7 @@ class RedeemIncidentController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -116,7 +116,7 @@ class RedeemIncidentController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Extension\ExtensionLoader;
 
 /**
  * Handles the interactions between Eventum and partner backends.
@@ -19,29 +20,21 @@ use Eventum\Db\DatabaseException;
 class Partner
 {
     /**
-     * Includes the appropriate partner backend class associated with the
-     * given project ID, instantiates it and returns the class.
+     * Return the appropriate partner backend class associated with the
+     * given $par_code.
      *
+     * @internal
      * @param   string $par_code The partner code
      * @return  Abstract_Partner_Backend
+     * @deprecated will be removed in 3.3.0
      */
-    private static function &getBackend($par_code)
+    public static function getBackend($par_code)
     {
         static $setup_backends;
 
-        if (empty($setup_backends[$par_code])) {
-            $file_name = 'class.' . $par_code . '.php';
-            $class_name = $par_code . '_Partner_Backend';
-
-            if (file_exists(APP_LOCAL_PATH . "/partner/$file_name")) {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_LOCAL_PATH . "/partner/$file_name";
-            } else {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_INC_PATH . "/partner/$file_name";
-            }
-
-            $setup_backends[$par_code] = new $class_name();
+        if (!isset($setup_backends[$par_code])) {
+            $instance = static::getExtensionLoader()->createInstance($par_code);
+            $setup_backends[$par_code] = $instance;
         }
 
         return $setup_backends[$par_code];
@@ -63,6 +56,9 @@ class Partner
         return $backends;
     }
 
+    /**
+     * @param int $iss_id
+     */
     public static function selectPartnersForIssue($iss_id, $partners)
     {
         if (!is_array($partners)) {
@@ -104,7 +100,7 @@ class Partner
             $usr_id = Auth::getUserID();
             History::add($iss_id, $usr_id, 'partner_added', "Partner '{partner}' added to issue by {user}", [
                 'partner' => $backend->getName(),
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
@@ -130,12 +126,15 @@ class Partner
         $usr_id = Auth::getUserID();
         History::add($iss_id, $usr_id, 'partner_removed', "Partner '{partner}' removed from issue by {user}", [
             'partner' => $backend->getName(),
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         return true;
     }
 
+    /**
+     * @param int $prj_id
+     */
     public static function getPartnersByProject($prj_id)
     {
         $sql = 'SELECT
@@ -154,7 +153,7 @@ class Partner
         $return = [];
         foreach ($res as $partner) {
             $return[$partner] = [
-                'name'  =>  self::getName($partner),
+                'name' => self::getName($partner),
             ];
         }
 
@@ -189,61 +188,32 @@ class Partner
         $return = [];
         foreach ($partners as $par_code) {
             $return[$par_code] = [
-                'name'  =>  self::getName($par_code),
-                'message'   =>  self::getIssueMessage($par_code, $iss_id),
+                'name' => self::getName($par_code),
+                'message' => self::getIssueMessage($par_code, $iss_id),
             ];
         }
 
         return $return;
     }
 
+    /**
+     * @param int $iss_id
+     */
     public static function isPartnerEnabledForIssue($par_code, $iss_id)
     {
         if (in_array($par_code, self::getPartnerCodesByIssue($iss_id))) {
             return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * @static
-     * Scans the directories for partner backends.
-     *
-     * @return  array
-     */
-    public static function getList()
-    {
-        $backends = self::getBackendList();
-        $partners = [];
-        foreach ($backends as $par_code) {
-            $backend = self::getBackend($par_code);
-            $partners[] = [
-                'code'  =>  $par_code,
-                'name'  =>  $backend->getName(),
-                'projects'  =>  self::getProjectsForPartner($par_code),
-            ];
         }
 
-        return $partners;
-    }
-
-    public static function getAssocList()
-    {
-        $returns = [];
-        foreach (self::getList() as $partner) {
-            $returns[$partner['code']] = $partner['name'];
-        }
-
-        return $returns;
+        return false;
     }
 
     public static function getDetails($par_code)
     {
         return [
-            'code'  =>  $par_code,
-            'name'  =>  self::getBackend($par_code)->getName(),
-            'projects'  =>  self::getProjectsForPartner($par_code),
+            'code' => $par_code,
+            'name' => self::getBackend($par_code)->getName(),
+            'projects' => self::getProjectsForPartner($par_code),
         ];
     }
 
@@ -299,29 +269,6 @@ class Partner
         return $res;
     }
 
-    /**
-     * Returns a list of backends available
-     *
-     * @return  array An array of workflow backends
-     */
-    public static function getBackendList()
-    {
-        $files = Misc::getFileList(APP_INC_PATH . '/partner');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/partner'));
-        $list = [];
-        foreach ($files as $file) {
-            // display a prettyfied backend name in the admin section
-            if (preg_match('/^class\.(.*)\.php$/', $file, $matches)) {
-                if (substr($matches[1], 0, 8) == 'abstract') {
-                    continue;
-                }
-                $list[$file] = $matches[1];
-            }
-        }
-
-        return $list;
-    }
-
     public static function getName($par_code)
     {
         $backend = self::getBackend($par_code);
@@ -336,6 +283,9 @@ class Partner
         return $backend->getIssueMessage($iss_id);
     }
 
+    /**
+     * @param int $iss_id
+     */
     public static function handleNewEmail($iss_id, $sup_id)
     {
         foreach (self::getBackendsByIssue($iss_id) as $backend) {
@@ -343,6 +293,10 @@ class Partner
         }
     }
 
+    /**
+     * @param int $iss_id
+     * @param int $not_id
+     */
     public static function handleNewNote($iss_id, $not_id)
     {
         foreach (self::getBackendsByIssue($iss_id) as $backend) {
@@ -350,6 +304,10 @@ class Partner
         }
     }
 
+    /**
+     * @param int $iss_id
+     * @param int $usr_id
+     */
     public static function handleIssueChange($iss_id, $usr_id, $old_details, $changes)
     {
         foreach (self::getBackendsByIssue($iss_id) as $backend) {
@@ -361,7 +319,7 @@ class Partner
      * @static
      * @param $usr_id
      * @param string $feature create_issue, associate_emails, reports, export
-     * @return bool
+     * @return bool|null
      */
     public static function canUserAccessFeature($usr_id, $feature)
     {
@@ -378,7 +336,7 @@ class Partner
     /**
      * @param $usr_id
      * @param string $section partners, drafts, files, time, notes, phone, history, notification_list, authorized_repliers
-     * @return bool
+     * @return bool|null
      */
     public static function canUserAccessIssueSection($usr_id, $section)
     {
@@ -395,9 +353,9 @@ class Partner
     /**
      * If the partner can edit the issue.
      *
-     * @param integer   $issue_id
-     * @param integer   $usr_id
-     * @return bool
+     * @param int   $issue_id
+     * @param int   $usr_id
+     * @return bool|null
      */
     public static function canUpdateIssue($issue_id, $usr_id)
     {
@@ -409,5 +367,19 @@ class Partner
         }
 
         return null;
+    }
+
+    /**
+     * @return ExtensionLoader
+     * @internal
+     */
+    public static function getExtensionLoader()
+    {
+        $dirs = [
+            APP_INC_PATH . '/partner',
+            APP_LOCAL_PATH . '/partner',
+        ];
+
+        return new ExtensionLoader($dirs, '%s_Partner_Backend');
     }
 }

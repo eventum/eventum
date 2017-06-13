@@ -116,7 +116,7 @@ class IssueAssociationRepository extends BaseRepository
         History::add(
             $issue_id, $usr_id, 'issue_associated', 'Issue associated to Issue #{associated_id} by {user}', [
                 'associated_id' => $associated_issue_id,
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]
         );
     }
@@ -126,7 +126,7 @@ class IssueAssociationRepository extends BaseRepository
      *
      * @param int $usr_id User Id performing the operation
      * @param int $issue_id The issue ID
-     * @param int $associated_issue_id The associated issue ID to remove.
+     * @param int $associated_issue_id the associated issue ID to remove
      */
     public function removeAssociation($usr_id, $issue_id, $associated_issue_id)
     {
@@ -148,7 +148,7 @@ class IssueAssociationRepository extends BaseRepository
             list($issue_id, $associated_issue_id) = $pair;
             $params = [
                 'issue_id' => $associated_issue_id,
-                'user' => $full_name
+                'user' => $full_name,
             ];
             History::add(
                 $issue_id, $usr_id, 'issue_unassociated',
@@ -196,7 +196,7 @@ class IssueAssociationRepository extends BaseRepository
     private function filterExistingIssues($issues, $issue_id)
     {
         // make issues list unique by flipping the array
-        // otherwise removing $issue_id from the list (using array_search) would removes only first occurrence
+        // otherwise removing $issue_id from the list (using array_search) would remove only first occurrence
         $issues = array_flip(array_filter(Misc::trim($issues)));
         unset($issues[$issue_id]);
 
@@ -218,13 +218,21 @@ class IssueAssociationRepository extends BaseRepository
         return [$res, $errors];
     }
 
-    private function getInvalidIssueError($input)
+    /**
+     * @param int $issue_id
+     * @return string
+     */
+    private function getInvalidIssueError($issue_id)
     {
         return ev_gettext(
-            '"%s" was not valid Issue Id and was removed.', $input
+            '"%s" was not valid Issue Id and was removed.', $issue_id
         );
     }
 
+    /**
+     * @param int $issue_id
+     * @return string
+     */
     private function getIssueRemovedError($issue_id)
     {
         return ev_gettext(

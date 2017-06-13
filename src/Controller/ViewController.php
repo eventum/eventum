@@ -55,16 +55,13 @@ class ViewController extends BaseController
     private $prj_id;
 
     /** @var int */
-    private $role_id;
-
-    /** @var int */
     private $issue_id;
 
     /** @var array */
     private $details;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -74,7 +71,7 @@ class ViewController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -114,7 +111,7 @@ class ViewController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -151,7 +148,7 @@ class ViewController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {
@@ -183,7 +180,7 @@ class ViewController extends BaseController
                 'partners' => Partner::getPartnersByIssue($this->issue_id),
                 'issue_access' => Access::getIssueAccessArray($this->issue_id, $this->usr_id),
                 'is_user_notified' => Notification::isUserNotified($this->issue_id, $this->usr_id),
-                'access_level_name' =>  Access::getAccessLevelName($this->details['iss_access_level']),
+                'access_level_name' => Access::getAccessLevelName($this->details['iss_access_level']),
             ]
         );
 
@@ -243,11 +240,11 @@ class ViewController extends BaseController
         if (CRM::hasCustomerIntegration($this->prj_id) and !empty($details['iss_customer_id'])) {
             $columns[0][] = [
                 'title' => 'Customer',
-                'field' => 'customer_0'
+                'field' => 'customer_0',
             ];
             $columns[1][] = [
                 'title' => 'Customer Contract',
-                'field' => 'customer_1'
+                'field' => 'customer_1',
             ];
         }
 
@@ -270,7 +267,7 @@ class ViewController extends BaseController
             $columns[0][] = [
                 'title' => ev_gettext('Severity'),
                 'data' => $details['sev_title'],
-                'field' => 'severity'
+                'field' => 'severity',
             ];
         }
 
@@ -282,7 +279,8 @@ class ViewController extends BaseController
             }
             $columns[0][] = [
                 'title' => ev_gettext('Priority'),
-                'data' => $details['pri_title'],
+                'pri_title' => $details['pri_title'],
+                'pri_icon' => $details['pri_icon'],
                 'title_bgcolor' => $bgcolor,
                 'field' => 'priority',
             ];

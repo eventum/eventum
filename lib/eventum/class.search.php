@@ -50,9 +50,9 @@ class Search
         $profile = Search_Profile::getProfile(Auth::getUserID(), Auth::getCurrentProject(), 'issue');
         if (isset($profile[$name])) {
             return $profile[$name];
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     /**
@@ -82,33 +82,33 @@ class Search
             $custom_field = unserialize(urldecode($custom_field));
         }
         $cookie = [
-            'rows'           => Misc::escapeString($rows ? $rows : APP_DEFAULT_PAGER_SIZE),
-            'pagerRow'       => Misc::escapeInteger(self::getParam('pagerRow', $request_only)),
-            'hide_closed'    => $hide_closed,
-            'sort_by'        => Misc::stripHTML($sort_by ? $sort_by : 'pri_rank'),
-            'sort_order'     => Misc::stripHTML($sort_order ? $sort_order : 'ASC'),
-            'customer_id'    => Misc::escapeString(self::getParam('customer_id')),
-            'nosave'         => self::getParam('nosave', $request_only),
+            'rows' => Misc::escapeString($rows ? $rows : APP_DEFAULT_PAGER_SIZE),
+            'pagerRow' => Misc::escapeInteger(self::getParam('pagerRow', $request_only)),
+            'hide_closed' => $hide_closed,
+            'sort_by' => Misc::stripHTML($sort_by ? $sort_by : 'pri_rank'),
+            'sort_order' => Misc::stripHTML($sort_order ? $sort_order : 'ASC'),
+            'customer_id' => Misc::escapeString(self::getParam('customer_id')),
+            'nosave' => self::getParam('nosave', $request_only),
             // quick filter form
-            'keywords'       => self::getParam('keywords', $request_only),
-            'match_mode'     => self::getParam('match_mode', $request_only),
-            'hide_excerpts'  => self::getParam('hide_excerpts', $request_only),
-            'search_type'    => Misc::stripHTML($search_type),
-            'users'          => Misc::escapeString(self::getParam('users', $request_only)),
-            'status'         => Misc::escapeInteger(self::getParam('status', $request_only)),
-            'priority'       => Misc::escapeInteger(self::getParam('priority', $request_only)),
-            'severity'       => Misc::escapeInteger(self::getParam('severity', $request_only)),
-            'category'       => Misc::escapeInteger(self::getParam('category', $request_only)),
+            'keywords' => self::getParam('keywords', $request_only),
+            'match_mode' => self::getParam('match_mode', $request_only),
+            'hide_excerpts' => self::getParam('hide_excerpts', $request_only),
+            'search_type' => Misc::stripHTML($search_type),
+            'users' => Misc::escapeString(self::getParam('users', $request_only)),
+            'status' => Misc::escapeInteger(self::getParam('status', $request_only)),
+            'priority' => Misc::escapeInteger(self::getParam('priority', $request_only)),
+            'severity' => Misc::escapeInteger(self::getParam('severity', $request_only)),
+            'category' => Misc::escapeInteger(self::getParam('category', $request_only)),
             'customer_email' => Misc::stripHTML(self::getParam('customer_email', $request_only)),
             // advanced search form
-            'show_authorized_issues'        => Misc::escapeString(self::getParam('show_authorized_issues', $request_only)),
+            'show_authorized_issues' => Misc::escapeString(self::getParam('show_authorized_issues', $request_only)),
             'show_notification_list_issues' => Misc::escapeString(self::getParam('show_notification_list_issues', $request_only)),
-            'reporter'       => Misc::escapeInteger(self::getParam('reporter', $request_only)),
-            'product'        => Misc::escapeInteger(self::getParam('product', $request_only)),
+            'reporter' => Misc::escapeInteger(self::getParam('reporter', $request_only)),
+            'product' => Misc::escapeInteger(self::getParam('product', $request_only)),
             // other fields
-            'release'        => Misc::escapeInteger(self::getParam('release', $request_only)),
+            'release' => Misc::escapeInteger(self::getParam('release', $request_only)),
             // custom fields
-            'custom_field'   => Misc::stripHTML($custom_field),
+            'custom_field' => Misc::stripHTML($custom_field),
         ];
         // now do some magic to properly format the date fields
         $date_fields = [
@@ -125,25 +125,25 @@ class Search
             }
             if (@$field['filter_type'] == 'in_past') {
                 @$cookie[$field_name] = [
-                    'filter_type'   =>  'in_past',
-                    'time_period'   =>  $field['time_period'],
+                    'filter_type' => 'in_past',
+                    'time_period' => $field['time_period'],
                 ];
             } else {
                 $end_field_name = $field_name . '_end';
                 $end_field = Misc::stripHTML(self::getParam($end_field_name, $request_only));
                 @$cookie[$field_name] = [
-                    'past_hour'   => $field['past_hour'],
-                    'Year'        => $field['Year'],
-                    'Month'       => $field['Month'],
-                    'Day'         => $field['Day'],
-                    'start'       => $field['Year'] . '-' . $field['Month'] . '-' . $field['Day'],
+                    'past_hour' => $field['past_hour'],
+                    'Year' => $field['Year'],
+                    'Month' => $field['Month'],
+                    'Day' => $field['Day'],
+                    'start' => $field['Year'] . '-' . $field['Month'] . '-' . $field['Day'],
                     'filter_type' => $field['filter_type'],
-                    'end'         => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day'],
+                    'end' => $end_field['Year'] . '-' . $end_field['Month'] . '-' . $end_field['Day'],
                 ];
                 @$cookie[$end_field_name] = [
-                    'Year'        => $end_field['Year'],
-                    'Month'       => $end_field['Month'],
-                    'Day'         => $end_field['Day'],
+                    'Year' => $end_field['Year'],
+                    'Month' => $end_field['Month'],
+                    'Day' => $end_field['Day'],
                 ];
             }
         }
@@ -156,74 +156,12 @@ class Search
     }
 
     /**
-     * Method used to get the current sorting options used in the grid layout
-     * of the issue listing page.
-     *
-     * @param   array $options The current search parameters
-     * @return  array The sorting options
-     */
-    public static function getSortingInfo($options)
-    {
-        $custom_fields = Custom_Field::getFieldsToBeListed(Auth::getCurrentProject());
-
-        // default order for last action date, priority should be descending
-        // for textual fields, like summary, ascending is reasonable
-        $fields = [
-            'pri_rank' => 'desc',
-            'sev_rank' => 'asc',
-            'iss_id' => 'desc',
-            'iss_customer_id' => 'desc',
-            'prc_title' => 'asc',
-            'sta_rank' => 'asc',
-            'iss_created_date' => 'desc',
-            'iss_summary' => 'asc',
-            'last_action_date' => 'desc',
-            'usr_full_name' => 'asc',
-            'iss_expected_resolution_date' => 'desc',
-            'pre_title' => 'asc',
-            'assigned' => 'asc',
-            'grp_name'  =>  'asc',
-        ];
-
-        foreach ($custom_fields as $fld_id => $fld_name) {
-            $fields['custom_field_' . $fld_id] = 'desc';
-        }
-
-        $sortfields = array_combine(array_keys($fields), array_keys($fields));
-        $sortfields['pre_title'] = 'pre_scheduled_date';
-        $sortfields['assigned'] = 'isu_usr_id';
-
-        $items = [
-            'links'  => [],
-            'images' => [],
-        ];
-        $current_sort_by = $options['sort_by'];
-        $current_sort_order = $options['sort_order'];
-        foreach ($sortfields as $field => $sortfield) {
-            $sort_order = $fields[$field];
-            if ($current_sort_by == $sortfield) {
-                $items['images'][$field] = 'images/' . strtolower($current_sort_order) . '.gif';
-                if (strtolower($current_sort_order) == 'asc') {
-                    $sort_order = 'desc';
-                } else {
-                    $sort_order = 'asc';
-                }
-            }
-            $options['sort_by'] = $sortfield;
-            $options['sort_order'] = $sort_order;
-            $items['links'][$field] = $_SERVER['PHP_SELF'] . '?' . Filter::buildUrl(Filter::getFiltersInfo(), $options, false, true);
-        }
-
-        return $items;
-    }
-
-    /**
      * Method used to get the list of issues to be displayed in the grid layout.
      *
-     * @param   integer $prj_id The current project ID
+     * @param   int $prj_id The current project ID
      * @param   array $options The search parameters
-     * @param   integer $current_row The current page number
-     * @param   integer $max The maximum number of rows per page. 'ALL' for unlimited.
+     * @param   int $current_row The current page number
+     * @param   int $max The maximum number of rows per page. 'ALL' for unlimited.
      * @return  array The list of issues to be displayed
      */
     public static function getListing($prj_id, $options, $current_row = 0, $max = 5)
@@ -255,6 +193,7 @@ class Search
                     iss_usr_id,
                     iss_summary,
                     pri_title,
+                    pri_icon,
                     prc_title,
                     sta_title,
                     sta_color status_color,
@@ -295,10 +234,10 @@ class Search
                 if ($field['fld_type'] == 'multiple') {
                     $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
-                        $stmt .= ",\n{{%issue_custom_field}} as cf" . $fld_id . '_' . $cfo_id . "\n";
+                        $stmt .= ",\n{{%issue_custom_field}} as `cf" . $fld_id . '_' . $cfo_id . "`\n";
                     }
                 } else {
-                    $stmt .= ",\n{{%issue_custom_field}} as cf" . $fld_id . "\n";
+                    $stmt .= ",\n{{%issue_custom_field}} as `cf" . $fld_id . "`\n";
                 }
             }
         }
@@ -433,8 +372,6 @@ class Search
             Auth::redirect("list.php?pagerRow=0&rows=$max");
         }
 
-        $groups = Group::getAssocList($prj_id);
-        $categories = Category::getAssocList($prj_id);
         $column_headings = [];
         $columns_to_display = Display_Column::getColumnsToDisplay($prj_id, 'list_issues');
         foreach ($columns_to_display as $col_key => $column) {
@@ -455,7 +392,7 @@ class Search
         foreach ($res as &$row) {
             $issue_id = $row['iss_id'];
             $row['time_spent'] = Misc::getFormattedTime($row['time_spent']);
-            $row['iss_expected_resolution_date'] = Date_Helper::getSimpleDate($row['iss_expected_resolution_date'], false);
+            $row['expected_resolution_date'] = Date_Helper::getSimpleDate($row['iss_expected_resolution_date'], false);
             $row['excerpts'] = isset($excerpts[$issue_id]) ? $excerpts[$issue_id] : '';
 
             $row['access_level_name'] = Access::getAccessLevelName($row['iss_access_level']);
@@ -509,14 +446,14 @@ class Search
         return [
             'list' => $res,
             'info' => [
-                'current_page'  => $current_row,
-                'start_offset'  => $start,
-                'end_offset'    => $start + count($res),
-                'total_rows'    => $total_rows,
-                'total_pages'   => $total_pages,
+                'current_page' => $current_row,
+                'start_offset' => $start,
+                'end_offset' => $start + count($res),
+                'total_rows' => $total_rows,
+                'total_pages' => $total_pages,
                 'previous_page' => ($current_row == 0) ? '-1' : ($current_row - 1),
-                'next_page'     => ($current_row == $last_page) ? '-1' : ($current_row + 1),
-                'last_page'     => $last_page,
+                'next_page' => ($current_row == $last_page) ? '-1' : ($current_row + 1),
+                'last_page' => $last_page,
                 'custom_fields' => $custom_fields,
             ],
             'csv' => @implode("\n", $csv),
@@ -540,7 +477,7 @@ class Search
         if ($role_id == User::ROLE_CUSTOMER) {
             $crm = CRM::getInstance($prj_id);
             $contact = $crm->getContact($usr_details['usr_customer_contact_id']);
-            $stmt .= " AND iss_customer_contract_id IN('" . implode("','", $contact->getContractIDS()) . "')";
+            $stmt .= " AND iss_customer_contract_id IN('" . implode("','", $contact->getContractIDs()) . "')";
             $stmt .= " AND iss_customer_id ='" . Auth::getCurrentCustomerID() . "'";
         } elseif (($role_id == User::ROLE_REPORTER) && (Project::getSegregateReporters($prj_id))) {
             $stmt .= " AND (
@@ -691,17 +628,17 @@ class Search
                     $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
                         $cfo_id = Misc::escapeString($cfo_id);
-                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . '.icf_iss_id = iss_id';
-                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . ".icf_fld_id = $fld_id";
-                        $stmt .= " AND\n cf" . $fld_id . '_' . $cfo_id . '.' . $fld_db_name . " = '$cfo_id'";
+                        $stmt .= " AND\n `cf" . $fld_id . '_' . $cfo_id . '`.icf_iss_id = iss_id';
+                        $stmt .= " AND\n `cf" . $fld_id . '_' . $cfo_id . "`.icf_fld_id = $fld_id";
+                        $stmt .= " AND\n `cf" . $fld_id . '_' . $cfo_id . '`.' . $fld_db_name . " = '$cfo_id'";
                     }
                 } elseif ($field['fld_type'] == 'date') {
                     if ((empty($search_value['Year'])) || (empty($search_value['Month'])) || (empty($search_value['Day']))) {
                         continue;
                     }
                     $search_value = $search_value['Year'] . '-' . $search_value['Month'] . '-' . $search_value['Day'];
-                    $stmt .= " AND\n (iss_id = cf" . $fld_id . '.icf_iss_id AND
-                        cf' . $fld_id . '.' . $fld_db_name . " = '" . Misc::escapeString($search_value) . "')";
+                    $stmt .= " AND\n (iss_id = `cf" . $fld_id . '``.icf_iss_id AND
+                        `cf' . $fld_id . '`.' . $fld_db_name . " = '" . Misc::escapeString($search_value) . "')";
                 } elseif ($field['fld_type'] == 'integer') {
                     $value = $search_value['value'];
                     switch ($search_value['filter_type']) {
@@ -788,7 +725,6 @@ class Search
         }
 
         // check if excerpts for this full text search is already cached
-        $fulltext_string = Session::get('fulltext_string');
         $excerpts = Session::get('fulltext_excerpts');
         if (empty($excerpts)) {
             $excerpts = self::getFullTextSearchInstance()->getExcerpts();

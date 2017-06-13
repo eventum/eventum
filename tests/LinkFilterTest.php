@@ -11,13 +11,15 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Link_Filter;
+
+/**
+ * @group db
+ */
 class LinkFilterTest extends TestCase
 {
-    public function setUp()
-    {
-        $this->skipCi('No DB tests in Travis/Jenkins');
-    }
-
     /**
      * @dataProvider testIssueLinking_data
      * @see          Link_Filter::proccessText
@@ -44,19 +46,19 @@ class LinkFilterTest extends TestCase
         return [
             0 => [
                 'issue #1',
-                ';<a title="issue 1.*" class="" href="view\.php\?id=1">issue #1</a>;'
+                ';<a title="issue 1.*" class="" href="view\.php\?id=1">issue #1</a>;',
             ],
             1 => [
                 'Issue: 1',
-                ';<a title="issue 1.*" class="" href="view\.php\?id=1">Issue: 1</a>;'
+                ';<a title="issue 1.*" class="" href="view\.php\?id=1">Issue: 1</a>;',
             ],
             2 => [
                 'issue 1',
-                ';<a title="issue 1.*" class="" href="view\.php\?id=1">issue 1</a>;'
+                ';<a title="issue 1.*" class="" href="view\.php\?id=1">issue 1</a>;',
             ],
             3 => [
                 'test issue 1 test',
-                ';test <a title="issue 1.*" class="" href="view\.php\?id=1">issue 1</a> test;'
+                ';test <a title="issue 1.*" class="" href="view\.php\?id=1">issue 1</a> test;',
             ],
         ];
     }

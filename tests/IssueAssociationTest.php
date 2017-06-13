@@ -11,16 +11,17 @@
  * that were distributed with this source code.
  */
 
-use Eventum\Model\Repository\IssueAssociationRepository;
-use Eventum\Monolog\Logger;
+namespace Eventum\Test;
 
+use DB_Helper;
+use Eventum\Model\Repository\IssueAssociationRepository;
+use InvalidArgumentException;
+
+/**
+ * @group db
+ */
 class IssueAssociation extends TestCase
 {
-    public static function setUpBeforeClass()
-    {
-        Logger::initialize();
-    }
-
     public function setUp()
     {
         $db = DB_Helper::getInstance();
@@ -85,8 +86,10 @@ class IssueAssociation extends TestCase
 
         $associated_issues = [$issue_id, '13', '14', 15, $issue_id, 13, 'lol', -1, null, '', false];
         $res = $repo->updateAssociations($usr_id, $issue_id, $associated_issues);
-        // no "issue does not exist errors" expected
-        $this->assertEmpty($res);
+
+        $this->assertNotEmpty($res);
+        $this->assertEquals('"lol" was not valid Issue Id and was removed.', $res[0]);
+        $this->assertEquals('"-1" was not valid Issue Id and was removed.', $res[1]);
 
         $res = $repo->getAssociatedIssues($issue_id);
         $exp = [13, 14, 15];

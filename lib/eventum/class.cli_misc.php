@@ -38,12 +38,12 @@ class CLI_Misc
         if (empty($input)) {
             if ($default_value === false) {
                 die("ERROR: Required parameter was not provided!\n");
-            } else {
-                return $default_value;
             }
-        } else {
-            return $input;
+
+            return $default_value;
         }
+
+        return $input;
     }
 
     /**
@@ -51,7 +51,7 @@ class CLI_Misc
      *
      * @return  string The standard input value
      */
-    public function getInputLine()
+    public static function getInputLine()
     {
         return fgets(STDIN);
     }

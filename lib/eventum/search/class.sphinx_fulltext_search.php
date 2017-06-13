@@ -29,7 +29,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         $this->match_mode = '';
 
         // generate unique placeholder
-        $this->excerpt_placeholder = 'excerpt' . rand(). 'placeholder';
+        $this->excerpt_placeholder = 'excerpt' . rand() . 'placeholder';
     }
 
     public function getIssueIDs($options)
@@ -88,9 +88,9 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                 $index_name = $this->getIndexNameByID($index_id);
 
                 $this->matches[$issue_id][] = [
-                    'weight'    =>  $weight,
-                    'index'     =>  $index_name,
-                    'match_id'  =>  $match_id,
+                    'weight' => $weight,
+                    'index' => $index_name,
+                    'match_id' => $match_id,
                 ];
 
                 $issue_ids[] = $issue_id;
@@ -107,18 +107,18 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
         }
 
         $excerpt_options = [
-            'query_mode'    => $this->match_mode,
-            'before_match'  => $this->excerpt_placeholder . '-before',
-            'after_match'   => $this->excerpt_placeholder . '-after',
-            'allow_empty'   => true,
+            'query_mode' => $this->match_mode,
+            'before_match' => $this->excerpt_placeholder . '-before',
+            'after_match' => $this->excerpt_placeholder . '-after',
+            'allow_empty' => true,
         ];
         $excerpts = [];
         foreach ($this->matches as $issue_id => $matches) {
             $excerpt = [
-                'issue' =>  [],
-                'email' =>  [],
-                'phone' =>  [],
-                'note'  =>  [],
+                'issue' => [],
+                'email' => [],
+                'phone' => [],
+                'note' => [],
             ];
             foreach ($matches as $match) {
                 if ($match['index'] == 'issue') {
@@ -188,11 +188,11 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
     public function getMatchModes()
     {
         return [
-            SPH_MATCH_ALL   =>  'All Words',
-            SPH_MATCH_ANY   =>  'Any Word',
-            SPH_MATCH_PHRASE    =>  'Phrase',
-            SPH_MATCH_BOOLEAN   =>  'Boolean',
-            SPH_MATCH_EXTENDED2 =>  'Extended',
+            SPH_MATCH_ALL => 'All Words',
+            SPH_MATCH_ANY => 'Any Word',
+            SPH_MATCH_PHRASE => 'Phrase',
+            SPH_MATCH_BOOLEAN => 'Boolean',
+            SPH_MATCH_EXTENDED2 => 'Extended',
         ];
     }
 

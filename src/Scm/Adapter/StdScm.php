@@ -21,13 +21,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Standard SCM handler
- *
- * @package Eventum\Scm
  */
 class StdScm extends AbstractScmAdapter
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function can()
     {
@@ -41,7 +39,7 @@ class StdScm extends AbstractScmAdapter
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function process()
     {

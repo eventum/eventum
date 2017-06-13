@@ -22,7 +22,7 @@ class Report
     /**
      * Method used to get all open issues and group them by user.
      *
-     * @param integer $prj_id The project ID
+     * @param int $prj_id The project ID
      * @param array $users
      * @param array $status
      * @param string $before_date
@@ -124,15 +124,14 @@ class Report
             $updated_date_ts = Date_Helper::getUnixTimestamp($row['iss_updated_date'], Date_Helper::getDefaultTimezone());
             $last_response_ts = Date_Helper::getUnixTimestamp($row['iss_last_response_date'], Date_Helper::getDefaultTimezone());
             $issues[$row['usr_full_name']][$row['iss_id']] = [
-                'iss_summary'         => $row['iss_summary'],
-                'sta_title'           => $row['sta_title'],
-                'iss_created_date'    => $row['iss_created_date'],
+                'iss_summary' => $row['iss_summary'],
+                'sta_title' => $row['sta_title'],
+                'iss_created_date' => $row['iss_created_date'],
                 'iss_last_response_date' => $row['iss_last_response_date'],
-                'time_spent'          => Misc::getFormattedTime($row['time_spent']),
-                'status_color'        => $row['sta_color'],
-                'last_update'         => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
+                'time_spent' => Misc::getFormattedTime($row['time_spent']),
+                'status_color' => $row['sta_color'],
+                'last_update' => Date_Helper::getFormattedDateDiff($ts, $updated_date_ts),
                 'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
-                'iss_last_response_date' => $row['iss_last_response_date'],
             ];
         }
 
@@ -142,8 +141,8 @@ class Report
     /**
      * Method used to get all open issues and group them by assignee or reporter.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $cutoff_days The number of days to use as a cutoff period
+     * @param   int $prj_id The project ID
+     * @param   int $cutoff_days The number of days to use as a cutoff period
      * @param bool $group_by_reporter
      * @return  array The list of issues
      */
@@ -218,12 +217,12 @@ class Report
                 Date_Helper::getDefaultTimezone()
             );
             $issues[$name][$row['iss_id']] = [
-                'iss_summary'         => $row['iss_summary'],
-                'sta_title'           => $row['sta_title'],
-                'iss_created_date'    => $row['iss_created_date'],
-                'time_spent'          => Misc::getFormattedTime($row['time_spent']),
-                'status_color'        => $row['sta_color'],
-                'last_update'         => Date_Helper::getFormattedDateDiff($ts, $update_date_ts),
+                'iss_summary' => $row['iss_summary'],
+                'sta_title' => $row['sta_title'],
+                'iss_created_date' => $row['iss_created_date'],
+                'time_spent' => Misc::getFormattedTime($row['time_spent']),
+                'status_color' => $row['sta_color'],
+                'last_update' => Date_Helper::getFormattedDateDiff($ts, $update_date_ts),
                 'last_email_response' => Date_Helper::getFormattedDateDiff($ts, $last_response_ts),
             ];
         }
@@ -235,7 +234,7 @@ class Report
      * Method used to get the list of issues in a project, and group
      * them by the assignee.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of issues
      */
     public static function getIssuesByUser($prj_id)
@@ -274,11 +273,11 @@ class Report
         $issues = [];
         foreach ($res as $row) {
             $issues[$row['usr_full_name']][$row['iss_id']] = [
-                'iss_summary'      => $row['iss_summary'],
-                'sta_title'        => $row['sta_title'],
+                'iss_summary' => $row['iss_summary'],
+                'sta_title' => $row['sta_title'],
                 'iss_created_date' => $row['iss_created_date'],
-                'time_spent'       => Misc::getFormattedTime($row['time_spent']),
-                'status_color'     => $row['sta_color'],
+                'time_spent' => Misc::getFormattedTime($row['time_spent']),
+                'status_color' => $row['sta_color'],
             ];
         }
 
@@ -288,17 +287,17 @@ class Report
     /**
      * Returns the data used by the weekly report.
      *
-     * @param string $usr_id The ID of the user this report is for.
+     * @param int $usr_id the ID of the user this report is for
      * @param int $prj_id The project id
-     * @param string|DateTime $start The start date of this report.
-     * @param string|DateTime $end The end date of this report.
+     * @param string|DateTime $start the start date of this report
+     * @param string|DateTime $end the end date of this report
      * @param array $options extra options for report:
      * - $separate_closed If closed issues should be separated from other issues.
      * - $ignore_statuses If issue status changes should be ignored in report.
      * - $separate_not_assigned_to_user Separate Issues Not Assigned to User
      * - $show_per_issue Add time spent on issue to issues
      * - $separate_no_time Separate No time spent issues
-     * @return array An array of data containing all the elements of the weekly report.
+     * @return array an array of data containing all the elements of the weekly report
      */
     public static function getWeeklyReport($usr_id, $prj_id, $start, $end, $options = [])
     {
@@ -348,8 +347,8 @@ class Report
         }
 
         $email_count = [
-            'associated'    =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, true),
-            'other'         =>  Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, false),
+            'associated' => Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, true),
+            'other' => Support::getSentEmailCountByUser($usr_id, $start_ts, $end_ts, false),
         ];
 
         $htt_exclude = [];
@@ -362,10 +361,10 @@ class Report
         $issue_list += Time_Tracking::getTouchedIssuesByUser($usr_id, $prj_id, $start_ts, $end_ts);
 
         $issues = [
-            'no_time'   => [],
-            'not_mine'  => [],
-            'closed'    => [],
-            'other'     => [],
+            'no_time' => [],
+            'not_mine' => [],
+            'closed' => [],
+            'other' => [],
         ];
 
         // organize issues into categories
@@ -399,17 +398,17 @@ class Report
         }
 
         return [
-            'start'     => $start_ts,
-            'end'       => $end_ts,
-            'user'      => User::getDetails($usr_id),
-            'issues'    => $issues,
+            'start' => $start_ts,
+            'end' => $end_ts,
+            'user' => User::getDetails($usr_id),
+            'issues' => $issues,
             'status_counts' => History::getTouchedIssueCountByStatus($usr_id, $prj_id, $start_ts, $end_ts),
-            'new_assigned_count'    =>  $newly_assigned,
+            'new_assigned_count' => $newly_assigned,
             'time_tracking' => $time_tracking,
-            'email_count'   => $email_count,
-            'phone_count'   => Phone_Support::getCountByUser($usr_id, $start_ts, $end_ts),
-            'note_count'    => Note::getCountByUser($usr_id, $start_ts, $end_ts),
-            'total_time'    => Misc::getFormattedTime($total_time, false),
+            'email_count' => $email_count,
+            'phone_count' => Phone_Support::getCountByUser($usr_id, $start_ts, $end_ts),
+            'note_count' => Note::getCountByUser($usr_id, $start_ts, $end_ts),
+            'total_time' => Misc::getFormattedTime($total_time, false),
         ];
     }
 
@@ -417,8 +416,8 @@ class Report
      * Returns data used by the workload by time period report.
      *
      * @param   string $timezone Timezone to display time in in addition to GMT
-     * @param   boolean $graph If the data should be formatted for use in a graph. Default false
-     * @return  array An array of data.
+     * @param   bool $graph If the data should be formatted for use in a graph. Default false
+     * @return  array an array of data
      */
     public static function getWorkloadByTimePeriod($timezone, $graph = false)
     {
@@ -449,8 +448,8 @@ class Report
 
         // get total number of developer and customer events
         $event_count = [
-            'developer' =>  0,
-            'customer'  =>  0,
+            'developer' => 0,
+            'customer' => 0,
         ];
         foreach ($res as $row) {
             $event_count['developer'] += $row['dev_events'];
@@ -463,7 +462,7 @@ class Report
             $dt = Date_Helper::getDateTime(mktime($i, 0, 0), 'GMT');
             $gmt_time = $dt->format('H:i');
             // convert to the users time zone
-            $dt->setTimeZone(new DateTimeZone($timezone));
+            $dt->setTimezone(new DateTimeZone($timezone));
             $hour = $dt->format('H');
             $user_time = $dt->format('H:i');
 
@@ -507,8 +506,8 @@ class Report
      * Returns data on when support emails are sent/received.
      *
      * @param   string $timezone Timezone to display time in in addition to GMT
-     * @param   boolean $graph If the data should be formatted for use in a graph. Default false
-     * @return  array An array of data.
+     * @param   bool $graph If the data should be formatted for use in a graph. Default false
+     * @return  array an array of data
      */
     public static function getEmailWorkloadByTimePeriod($timezone, $graph = false)
     {
@@ -569,7 +568,7 @@ class Report
             // convert to the users time zone
             $dt = Date_Helper::getDateTime(mktime($i, 0, 0), 'GMT');
             $gmt_time = $dt->format('H:i');
-            $dt->setTimeZone(new DateTimeZone($timezone));
+            $dt->setTimezone(new DateTimeZone($timezone));
             $hour = $dt->format('H');
             $user_time = $dt->format('H:i');
 
@@ -627,15 +626,15 @@ class Report
     /**
      * Returns data for the custom fields report, based on the field and options passed in.
      *
-     * @param   integer $fld_id The id of the custom field.
-     * @param   array $cfo_ids An array of option ids.
-     * @param   string $group_by How the data should be grouped.
+     * @param   int $fld_id the id of the custom field
+     * @param   array $cfo_ids an array of option ids
+     * @param   string $group_by how the data should be grouped
      * @param   string $start_date
      * @param   string $end_date
-     * @param   boolean $list If the values should be listed out instead of just counted.
-     * @param   string $interval The interval values should be grouped over time, empty (none) by default.
-     * @param   integer $assignee The assignee the issue should belong to.
-     * @return  array An array of data.
+     * @param   bool $list if the values should be listed out instead of just counted
+     * @param   string $interval the interval values should be grouped over time, empty (none) by default
+     * @param   int $assignee the assignee the issue should belong to
+     * @return  array an array of data
      */
     public static function getCustomFieldReport($fld_id, $cfo_ids, $group_by = 'issue', $start_date = null, $end_date = null, $list = false, $interval = null, $assignee = null)
     {
@@ -752,9 +751,9 @@ class Report
                                 return -1;
                             } elseif ($a['customer_title'] > $b['customer_title']) {
                                 return 1;
-                            } else {
-                                return 0;
                             }
+
+                            return 0;
                         }
                     );
                 }
@@ -851,12 +850,12 @@ class Report
     /**
      * Returns data for the custom fields weekly report, based on the field and options passed in.
      *
-     * @param   integer $fld_id The id of the custom field.
-     * @param   array $cfo_ids An array of option ids.
+     * @param   int $fld_id the id of the custom field
+     * @param   array $cfo_ids an array of option ids
      * @param   string $start_date
      * @param   string $end_date
-     * @param   boolean $per_user Show time spent per user
-     * @return  array An array of data.
+     * @param   bool $per_user Show time spent per user
+     * @return  array an array of data
      */
     public static function getCustomFieldWeeklyReport($fld_id, $cfo_ids, $start_date, $end_date, $per_user = false)
     {
@@ -943,12 +942,12 @@ class Report
     /**
      * Returns workload information for the specified date range and interval.
      *
-     * @param   string $interval The interval to use in this report.
+     * @param   string $interval the interval to use in this report
      * @param   string $type If this report is aggregate or individual
-     * @param   string $start The start date of this report.
-     * @param   string $end The end date of this report.
-     * @param   integer $category_id The category to restrict this report to
-     * @return  array An array containing workload data.
+     * @param   string $start the start date of this report
+     * @param   string $end the end date of this report
+     * @param   int $category_id The category to restrict this report to
+     * @return  array an array containing workload data
      */
     public static function getWorkloadByDateRange($interval, $type, $start, $end, $category_id)
     {
@@ -1019,10 +1018,10 @@ class Report
         $data['issues']['points'] = $res;
 
         $data['issues']['stats'] = [
-            'total' =>  0,
-            'avg'   =>  0,
-            'median'    =>  0,
-            'max'   =>  0,
+            'total' => 0,
+            'avg' => 0,
+            'median' => 0,
+            'max' => 0,
         ];
 
         if ($res) {
@@ -1030,10 +1029,10 @@ class Report
             $stats->setData($res);
 
             $data['issues']['stats'] = [
-                'total' =>  $stats->sum(),
-                'avg'   =>  $stats->mean(),
-                'median'    =>  $stats->median(),
-                'max'   =>  $stats->max(),
+                'total' => $stats->sum(),
+                'avg' => $stats->mean(),
+                'median' => $stats->median(),
+                'max' => $stats->max(),
             ];
         }
 
@@ -1084,17 +1083,17 @@ class Report
             $stats->setData($res);
 
             $data['emails']['stats'] = [
-                'total' =>  $stats->sum(),
-                'avg'   =>  $stats->mean(),
-                'median'    =>  $stats->median(),
-                'max'   =>  $stats->max(),
+                'total' => $stats->sum(),
+                'avg' => $stats->mean(),
+                'median' => $stats->median(),
+                'max' => $stats->max(),
             ];
         } else {
             $data['emails']['stats'] = [
-                'total' =>  0,
-                'avg'   =>  0,
-                'median'    =>  0,
-                'max'   =>  0,
+                'total' => 0,
+                'avg' => 0,
+                'median' => 0,
+                'max' => 0,
             ];
         }
 

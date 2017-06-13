@@ -22,10 +22,10 @@ class Severity
      * Method used to quickly change the ranking of a severity entry
      * from the administration screen.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $sev_id The severityID
+     * @param   int $prj_id The project ID
+     * @param   int $sev_id The severityID
      * @param   string $rank_type Whether we should change the reminder ID down or up (options are 'asc' or 'desc')
-     * @return  boolean
+     * @return  bool
      */
     public static function changeRank($prj_id, $sev_id, $rank_type)
     {
@@ -83,7 +83,7 @@ class Severity
      * Returns an associative array with the list of severity IDs and
      * their respective ranking.
      *
-     * @param   integer $prj_id The ID of the project
+     * @param   int $prj_id The ID of the project
      * @return  array The list of severities
      */
     private static function _getRanking($prj_id)
@@ -109,7 +109,7 @@ class Severity
     /**
      * Method used to get the full details of a severity.
      *
-     * @param   integer $sev_id The severity ID
+     * @param   int $sev_id The severity ID
      * @return  array The information about the severity provided
      */
     public static function getDetails($sev_id)
@@ -134,7 +134,7 @@ class Severity
      * specific projects.
      *
      * @param   array $prj_ids The project IDs to be removed
-     * @return  boolean Whether the removal worked or not
+     * @return  bool Whether the removal worked or not
      */
     public static function removeByProjects($prj_ids)
     {
@@ -157,7 +157,7 @@ class Severity
      * database.
      *
      * @param   array   $sev_ids Severity ids to remove
-     * @return  boolean Whether the removal worked or not
+     * @return  bool Whether the removal worked or not
      */
     public static function remove($sev_ids)
     {
@@ -182,7 +182,7 @@ class Severity
     /**
      * Method used to update a single severity
      *
-     * @return  integer 1 if the update worked properly, any other value otherwise
+     * @return  int 1 if the update worked properly, any other value otherwise
      */
     public static function update($sev_id, $title, $description, $rank)
     {
@@ -209,7 +209,8 @@ class Severity
     /**
      * Method used to add a new severity to the application.
      *
-     * @return  integer 1 if the update worked properly, any other value otherwise
+     * @param int $prj_id
+     * @return  int 1 if the update worked properly, any other value otherwise
      */
     public static function insert($prj_id, $title, $description, $rank)
     {
@@ -236,7 +237,7 @@ class Severity
      * Method used to get the full list of severities associated with
      * a specific project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The full list of severities
      */
     public static function getList($prj_id)
@@ -265,7 +266,7 @@ class Severity
     /**
      * Method used to get the title for a severity ID.
      *
-     * @param   integer $sev_id The severity ID
+     * @param   int $sev_id The severity ID
      * @return  string The severity title
      */
     public static function getTitle($sev_id)
@@ -289,7 +290,7 @@ class Severity
      * Method used to get the list of severities as an associative array in the
      * style of (id => title)
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of severities
      */
     public static function getAssocList($prj_id)
@@ -323,10 +324,9 @@ class Severity
     /**
      * Method used to get the sev_id of a project by severity title.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $sev_id The severity ID
+     * @param   int $prj_id The project ID
      * @param   string $sev_title The severity title
-     * @return  integer $sev_id The severity ID
+     * @return  int $sev_id The severity ID
      */
     public static function getID($prj_id, $sev_title)
     {

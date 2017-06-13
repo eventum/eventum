@@ -24,7 +24,7 @@ $().ready(function() {
 
 <form id="login_form" method="post" action="login.php" class="validate" data-validation-function="validateForm">
 <input type="hidden" name="cat" value="login">
-<input type="hidden" name="url" value="{$smarty.request.url|default     :''}">
+<input type="hidden" name="url" value="{$smarty.request.url|default:''|escape:'htmlall'}">
 
 <div id="logo"></div>
 <h1>{$core.app_title} - {t}Login{/t}</h1>

@@ -1,6 +1,20 @@
 {extends "base_full.tpl.html"}
 {block "title"}{t}Associate Emails{/t}{/block}
 
+{function name="sort_link" field="" link="" title=""}
+  <a title="{$title}" href="{$sorting.links.$field}" class="white_link">{$link}</a>
+  {if $sorting.order.$field|default:''}
+    {if $sorting.order.$field == "desc"}
+      {assign var="icon" value="fa-arrow-down"}
+    {else}
+      {assign var="icon" value="fa-arrow-up"}
+    {/if}
+    <a title="{$title}" href="{$sorting.links.$field}" class="white_link">
+      <i class="fa {$icon}" aria-hidden="true"></i>
+    </a>
+  {/if}
+{/function}
+
 {block "content"}
 
 {if $core.app_setup.support_email != 'enabled'}
@@ -168,30 +182,24 @@
         <tr>
             <th width="1%">{if $list}<input type="button" value="{t}All{/t}" class="select_all" >{/if}</th>
             <th align="center">
-                <a title="{t}sort by sender{/t}" href="{$sorting.links.sup_from}" class="white_link">{t}Sender{/t}</a>
-                {if $sorting.images.sup_from|default:'' != ""}<a title="{t}sort by sender{/t}" href="{$sorting.links.sup_from}" class="white_link"><img border="0" src="{$sorting.images.sup_from}"></a>{/if}
+              {sort_link field="sup_from" link="{t}Sender{/t}" title="{t}sort by sender{/t}"}
             </th>
             {if $core.has_crm}
             <th align="center" nowrap>
-                <a title="{t}sort by customer{/t}" href="{$sorting.links.sup_customer_id}" class="white_link">{t}Customer{/t}</a>
-                {if $sorting.images.sup_customer_id|default:'' != ""}<a title="{t}sort by customer{/t}" href="{$sorting.links.sup_customer_id}" class="white_link"><img border="0" src="{$sorting.images.sup_customer_id}"></a>{/if}
+              {sort_link field="sup_customer_id" link="{t}Customer{/t}" title="{t}sort by customer{/t}"}
             </th>
             {/if}
             <th align="center">
-                <a title="{t}sort by date{/t}" href="{$sorting.links.sup_date}" class="white_link">{t}Date{/t}</a>
-                {if $sorting.images.sup_date|default:'' != ""}<a title="{t}sort by date{/t}" href="{$sorting.links.sup_date}" class="white_link"><img border="0" src="{$sorting.images.sup_date}"></a>{/if}
+              {sort_link field="sup_date" link="{t}Date{/t}" title="{t}sort by date{/t}"}
             </th>
             <th align="center">
-                <a title="{t}sort by recipient{/t}" href="{$sorting.links.sup_to}" class="white_link">{t}To{/t}</a>
-                {if $sorting.images.sup_to|default:'' != ""}<a title="{t}sort by recipient{/t}" href="{$sorting.links.sup_to}" class="white_link"><img border="0" src="{$sorting.images.sup_to}"></a>{/if}
+              {sort_link field="sup_to" link="{t}To{/t}" title="{t}sort by recipient{/t}"}
             </th>
             <th align="center" nowrap>
-                <a title="{t}sort by status{/t}" href="{$sorting.links.sup_iss_id}" class="white_link">{t}Status{/t}</a>
-                {if $sorting.images.sup_iss_id|default:'' != ""}<a title="{t}sort by status{/t}" href="{$sorting.links.sup_iss_id}" class="white_link"><img border="0" src="{$sorting.images.sup_iss_id}"></a>{/if}
+              {sort_link field="sup_iss_id" link="{t}Status{/t}" title="{t}sort by status{/t}"}
             </th>
             <th width="45%">
-                &nbsp;<a title="{t}sort by subject{/t}" href="{$sorting.links.sup_subject}" class="white_link">{t}Subject{/t}</a>
-                {if $sorting.images.sup_subject|default:'' != ""}<a title="{t}sort by subject{/t}" href="{$sorting.links.sup_subject}" class="white_link"><img border="0" src="{$sorting.images.sup_subject}"></a>{/if}
+              {sort_link field="sup_subject" link="{t}Subject{/t}" title="{t}sort by subject{/t}"}
             </th>
         </tr>
 
@@ -214,10 +222,11 @@
             </td>
             <td width="45%">
                 {capture assign="default_subject"}<{t}Empty Subject Header{/t}>{/capture}
-                &nbsp;<a href="javascript:void(null);" title="{t}view email details{/t}" onClick="viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});">{$list[i].sup_subject|default:$default_subject|escape:"html"}</a>
+                &nbsp;<a href="javascript:void(null);" title="{t}view email details{/t}"
+                   onClick="viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});">{$list[i].sup_subject|default:$default_subject|escape:"html"}</a>
                 {if $list[i].sup_has_attachment}
-                <a href="javascript:void(null);" title="{t}view email details{/t}" onClick="viewEmail({$list[i].sup_ema_id}, {$list[i].sup_id});"><img src="{$core.rel_url}images/attachment.gif" border="0"></a
-                        {/if}
+                  <i class="fa fa-paperclip" aria-hidden="true"></i>
+                {/if}
             </td>
         </tr>
         {sectionelse}

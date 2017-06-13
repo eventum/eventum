@@ -152,9 +152,9 @@ function _get_week_view($params)
                 if (($current_week == 1 && $i >= $first_day) ||
                         ($current_week > 1 && $current_day <= $total_days)) {
                     $week_html .= sprintf('<td valign="top" %s>', $cell_class);
-                    $week_html .= '<div style="position:relative; left: 0; top: 0; z-index:1;">' . ($current_day-$clear_days) . '</div>';
-                    if ((isset($values)) && (!empty($values[$current_day-$clear_days]))) {
-                        $week_html .= $values[$current_day-$clear_days];
+                    $week_html .= '<div style="position:relative; left: 0; top: 0; z-index:1;">' . ($current_day - $clear_days) . '</div>';
+                    if ((isset($values)) && (!empty($values[$current_day - $clear_days]))) {
+                        $week_html .= $values[$current_day - $clear_days];
                     } else {
                         $week_html .= '&nbsp;';
                     }

@@ -29,7 +29,7 @@ class PostController extends BaseController
     private $post_form;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -40,7 +40,7 @@ class PostController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -48,7 +48,7 @@ class PostController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -99,6 +99,7 @@ class PostController extends BaseController
 
     /**
      * only list those projects that are allowing anonymous reporting of new issues
+     * @param int $prj_id
      */
     private function setupProjects($prj_id = null)
     {
@@ -124,7 +125,7 @@ class PostController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

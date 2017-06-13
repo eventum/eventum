@@ -27,11 +27,25 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     /** @var string */
     protected $basedn;
     /** @var string */
-    protected $user_dn_string;
-    /** @var string */
     protected $customer_id_attribute;
     /** @var string */
     protected $contact_id_attribute;
+    /** @var bool */
+    protected $create_users;
+
+    /**
+     * Use %UID% to specify where the UID should be substituted.
+     *
+     * @var string
+     */
+    protected $user_dn_string;
+
+    /**
+     * Optional filter when binding the user
+     *
+     * @var string
+     */
+    protected $user_filter_string;
 
     /**
      * configures LDAP
@@ -47,6 +61,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $this->user_filter_string = $setup['user_filter'];
         $this->customer_id_attribute = $setup['customer_id_attribute'];
         $this->contact_id_attribute = $setup['contact_id_attribute'];
+        $this->create_users = (bool)$setup['create_users'];
     }
 
     /**
@@ -78,19 +93,16 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     }
 
     /**
-     * Get all users from LDAP server
+     * Get all users from LDAP server.
+     *
+     * NOTE: not used for auth backend, but used by contrib/ldap_udate_users.php script
      *
      * @return Net_LDAP2_Search|Net_LDAP2_Error Net_LDAP2_Search object or Net_LDAP2_Error object
      */
-    public function getUserListing()
+    public function getUserListing($dn = null)
     {
         $filter = Net_LDAP2_Filter::create('uid', 'equals', '*', false);
-        if (!empty($this->user_filter_string)) {
-            $user_filter = Net_LDAP2_Filter::parse($this->user_filter_string);
-            $filter = Net_LDAP2_Filter::combine('and', [$filter, $user_filter]);
-        }
-
-        $search = $this->connect()->search($this->basedn, $filter);
+        $search = $this->connect()->search($dn ?: $this->basedn, $filter);
 
         if (Misc::isError($search)) {
             throw new AuthException($search->getMessage(), $search->getCode());
@@ -99,6 +111,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         return $search;
     }
 
+    /**
+     * @param string $password
+     */
     private function validatePassword($uid, $password)
     {
         $errors = [];
@@ -191,6 +206,13 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         return null;
     }
 
+    /**
+     * Disable account by external id.
+     *
+     * @param string $uid
+     * @throws AuthException if the account was not active
+     * @return bool
+     */
     public function disableAccount($uid)
     {
         $usr_id = User::getUserIDByExternalID($uid);
@@ -198,7 +220,31 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
             return false;
         }
 
+        if ($this->accountActive($uid) !== true) {
+            throw new AuthException("User[usr_id=$usr_id; external_id=$uid] status is not active");
+        }
+
         return User::changeStatus($usr_id, User::USER_STATUS_INACTIVE);
+    }
+
+    /**
+     * Return true if external uid is locally active user,
+     * returns NULL if local user not found.
+     *
+     * @param string $uid external_id
+     * @return null|bool
+     */
+    public function accountActive($uid)
+    {
+        $usr_id = User::getUserIDByExternalID($uid);
+        if ($usr_id <= 0) {
+            return null;
+        }
+
+        $details = User::getDetails($usr_id);
+        $status = $details['usr_status'];
+
+        return $status === User::USER_STATUS_ACTIVE;
     }
 
     /**
@@ -318,6 +364,10 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
      */
     private function createUser($remote)
     {
+        if (!$this->create_users) {
+            throw new AuthException('User does not exist and will not be created.');
+        }
+
         $emails = $remote['emails'];
         if (!$emails) {
             throw new AuthException('E-mail is required');
@@ -345,7 +395,8 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     }
 
     /**
-     * @return true if all aliases were added
+     * @param int $usr_id
+     * @return bool returns true if all aliases were added
      */
     private function updateAliases($usr_id, $aliases)
     {
@@ -362,6 +413,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         return $updated === count($aliases);
     }
 
+    /**
+     * @param string $login
+     */
     public function getUserIDByLogin($login)
     {
         $usr_id = User::getUserIDByEmail($login, true);
@@ -392,14 +446,17 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         return $usr_id > 0;
     }
 
+    /**
+     * @param int $usr_id
+     */
     private function isLDAPuser($usr_id)
     {
         $local_user_info = User::getDetails($usr_id);
         if (empty($local_user_info['usr_external_id'])) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     public function verifyPassword($login, $password)
@@ -421,9 +478,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $external_id = User::getExternalID($usr_id);
         if (empty($external_id)) {
             return Auth::getFallBackAuthBackend()->canUserUpdateName($usr_id);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function canUserUpdateEmail($usr_id)
@@ -431,9 +488,9 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $external_id = User::getExternalID($usr_id);
         if (empty($external_id)) {
             return Auth::getFallBackAuthBackend()->canUserUpdateEmail($usr_id);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function canUserUpdatePassword($usr_id)
@@ -441,15 +498,15 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
         $external_id = User::getExternalID($usr_id);
         if (empty($external_id)) {
             return Auth::getFallBackAuthBackend()->canUserUpdatePassword($usr_id);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Method used to get the system-wide defaults.
      *
-     * @return  string array of the default parameters
+     * @return array of the default parameters
      */
     public static function getDefaults()
     {
@@ -472,17 +529,17 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     /**
      * Method used to update the account password for a specific user.
      *
-     * @param   integer $usr_id The user ID
-     * @param   string $password The password.
-     * @return  boolean true if update worked, false otherwise
+     * @param   int $usr_id The user ID
+     * @param   string $password the password
+     * @return  bool true if update worked, false otherwise
      */
     public function updatePassword($usr_id, $password)
     {
         if (!$this->isLDAPuser($usr_id)) {
             return Auth::getFallBackAuthBackend()->updatePassword($usr_id, $password);
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public function incrementFailedLogins($usr_id)
@@ -514,8 +571,6 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     /**
      * Called on every page load and can be used to process external authentication checks before the rest of the
      * authentication process happens.
-     *
-     * @return null
      */
     public function checkAuthentication()
     {
@@ -535,7 +590,7 @@ class LDAP_Auth_Backend implements Auth_Backend_Interface
     /**
      * Returns true if the user should automatically be redirected to the external login URL, false otherwise
      *
-     * @return  boolean
+     * @return  bool
      */
     public function autoRedirectToExternalLogin()
     {

@@ -33,7 +33,7 @@ class AccountManagersController extends ManageBaseController
     private $id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -45,7 +45,7 @@ class AccountManagersController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -82,6 +82,9 @@ class AccountManagersController extends ManageBaseController
         }
     }
 
+    /**
+     * @param int $res
+     */
     private function mapMessages($res)
     {
         $map = [
@@ -92,7 +95,7 @@ class AccountManagersController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

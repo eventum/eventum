@@ -78,7 +78,7 @@ function migrate_git_repos()
  * If your language has a routine that performs this function (even if it does not have a changeable separator character), then mention it as part of the task.
  *
  * @param array $dirList
- * @link https://www.rosettacode.org/wiki/Find_common_directory_path#PHP
+ * @see https://www.rosettacode.org/wiki/Find_common_directory_path#PHP
  * @return string
  */
 function find_common_path($dirList)

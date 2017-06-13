@@ -59,91 +59,6 @@ class Pager
     }
 
     /**
-     * Returns the query string to be used on the paginated links
-     *
-     * @return  string The query string
-     */
-    private function _buildQueryString()
-    {
-        $query_str = '';
-        // gotta check manually here
-        $params = $_GET;
-        while (list($key, $value) = each($params)) {
-            if ($key != 'pagerRow') {
-                $query_str .= '&' . $key . '=' . urlencode($value);
-            }
-        }
-
-        return $query_str;
-    }
-
-    /**
-     * Returns an array with the paginated links, one in each item.
-     *
-     * @param   int $row Current page number (starts from zero)
-     * @param   int $total_rows Total number of rows, as returned by Pager::getTotalRows()
-     * @param   int $per_page Maximum number of rows per page
-     * @param   string $show_links An option to show 'Next'/'Previous' links, page numbering links or both ('sides', 'pages' or 'all')
-     * @param   string $show_blank An option to show 'Next'/'Previous' strings even if there are no appropriate next or previous pages
-     * @param   array $link_str The strings to be used instead of the default 'Next >>' and '<< Previous'
-     * @return  array The list of paginated links
-     * @see     getTotalRows()
-     */
-    public function getLinks($row, $total_rows, $per_page, $show_links = 'all', $show_blank = 'off', $link_str = -1)
-    {
-        // check for emptyness
-        if ((empty($total_rows)) || (empty($per_page))) {
-            return [];
-        }
-        if ($link_str == -1) {
-            $link_str = [
-                'previous' => '&lt;&lt; ' . ev_gettext('Previous'),
-                'next'     => ev_gettext('Next') . ' &gt;&gt;',
-            ];
-        }
-        $extra_vars = self::_buildQueryString();
-        $file = $_SERVER['SCRIPT_NAME'];
-        $number_of_pages = ceil($total_rows / $per_page);
-        $subscript = 0;
-        for ($current = 0; $current < $number_of_pages; $current++) {
-            // if we need to show all links, or the 'side' links,
-            // let's add the 'Previous' link as the first item of the array
-            if ((($show_links == 'all') || ($show_links == 'sides')) && ($current == 0)) {
-                if ($row != 0) {
-                    $array[0] = '<A HREF="' . $file . '?pagerRow=' . ($row - 1) . $extra_vars . '">' . $link_str['previous'] . '</A>';
-                } elseif (($row == 0) && ($show_blank == 'on')) {
-                    $array[0] = $link_str['previous'];
-                }
-            }
-
-            // check to show page numbering links or not
-            if (($show_links == 'all') || ($show_links == 'pages')) {
-                if ($row == $current) {
-                    // if we only have one page worth of rows, we should show the '1' page number
-                    if (($current == ($number_of_pages - 1)) && ($number_of_pages == 1) && ($show_blank == 'off')) {
-                        $array[0] = '<b>' . ($current > 0 ? ($current + 1) : 1) . '</b>';
-                    } else {
-                        $array[++$subscript] = '<b>' . ($current > 0 ? ($current + 1) : 1) . '</b>';
-                    }
-                } else {
-                    $array[++$subscript] = '<A HREF="' . $file . '?pagerRow=' . $current . $extra_vars . '">' . ($current + 1) . '</A>';
-                }
-            }
-
-            // only add the 'Next' link to the array if we are on the last iteration of this loop
-            if ((($show_links == 'all') || ($show_links == 'sides')) && ($current == ($number_of_pages - 1))) {
-                if ($row != ($number_of_pages - 1)) {
-                    $array[++$subscript] = '<A HREF="' . $file . '?pagerRow=' . ($row + 1) . $extra_vars . '">' . $link_str['next'] . '</A>';
-                } elseif (($row == ($number_of_pages - 1)) && ($show_blank == 'on')) {
-                    $array[++$subscript] = $link_str['next'];
-                }
-            }
-        }
-
-        return $array;
-    }
-
-    /**
      * Returns a portion of an array of links, as returned by the Pager::getLinks()
      * function. This is especially useful for preventing a huge list of links
      * on the paginated list.
@@ -153,8 +68,9 @@ class Pager
      * @param   int $target_size The maximum number of paginated links
      * @return  array The list of paginated links
      * @see     getLinks()
+     * @deprecated method not used?
      */
-    public function getPortion($array, $current, $target_size = 20)
+    public static function getPortion($array, $current, $target_size = 20)
     {
         $size = count($array);
         if (($size <= 2) || ($size < $target_size)) {
@@ -175,8 +91,8 @@ class Pager
         // extra check to make sure
         if (count($temp) == 0) {
             return '';
-        } else {
-            return $temp;
         }
+
+        return $temp;
     }
 }

@@ -96,7 +96,7 @@ class GitlabScmPayload implements ScmPayloadInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function getPayload()
     {

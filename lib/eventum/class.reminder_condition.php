@@ -22,7 +22,7 @@ class Reminder_Condition
     /**
      * Method used to get the details for a specific reminder condition.
      *
-     * @param   integer $rlc_id The reminder condition ID
+     * @param   int $rlc_id The reminder condition ID
      * @return  array The details for the specified reminder condition
      */
     public static function getDetails($rlc_id)
@@ -45,7 +45,7 @@ class Reminder_Condition
     /**
      * Method used to create a new reminder condition.
      *
-     * @return  integer 1 if the insert worked, -1 or -2 otherwise
+     * @return  int 1 if the insert worked, -1 or -2 otherwise
      */
     public static function insert()
     {
@@ -81,7 +81,7 @@ class Reminder_Condition
     /**
      * Method used to update the details of a specific reminder condition.
      *
-     * @return  integer 1 if the update worked, -1 or -2 otherwise
+     * @return  int 1 if the update worked, -1 or -2 otherwise
      */
     public static function update()
     {
@@ -117,7 +117,7 @@ class Reminder_Condition
      * Method used to remove reminder conditions by using the administrative
      * interface of the system.
      *
-     * @return  boolean
+     * @return  bool|null
      */
     public static function remove()
     {
@@ -133,7 +133,7 @@ class Reminder_Condition
      * Method used to get the list of reminder conditions associated with a given
      * reminder action ID.
      *
-     * @param   integer $action_id The reminder action ID
+     * @param   int $action_id The reminder action ID
      * @return  array The list of reminder conditions
      */
     public static function getList($action_id)
@@ -165,7 +165,7 @@ class Reminder_Condition
      * Method used to get the list of reminder conditions to be displayed in the
      * administration section.
      *
-     * @param   integer $rma_id The reminder action ID
+     * @param   int $rma_id The reminder action ID
      * @return  array The list of reminder conditions
      */
     public static function getAdminList($rma_id)
@@ -212,7 +212,7 @@ class Reminder_Condition
     /**
      * Method used to get the title of a specific reminder field.
      *
-     * @param   integer $field_id The reminder field ID
+     * @param   int $field_id The reminder field ID
      * @return  string The title of the reminder field
      */
     public static function getFieldTitle($field_id)
@@ -235,7 +235,7 @@ class Reminder_Condition
     /**
      * Method used to get the sql_field of a specific reminder field.
      *
-     * @param   integer $field_id The reminder field ID
+     * @param   int $field_id The reminder field ID
      * @return  string The sql_field of the reminder field
      */
     public static function getSQLField($field_id)
@@ -259,7 +259,7 @@ class Reminder_Condition
      * Method used to get the list of reminder fields to be displayed in the
      * administration section.
      *
-     * @param   boolean $comparable_only If true, only fields that can be compared to other fields will be returned
+     * @param   bool $comparable_only If true, only fields that can be compared to other fields will be returned
      * @return  array The list of reminder fields
      */
     public static function getFieldAdminList($comparable_only = false)
@@ -310,8 +310,8 @@ class Reminder_Condition
     /**
      * Method used to see if a specific reminder field can be compared to other fields.
      *
-     * @param   integer $field_id The reminder field ID
-     * @return  boolean If this field can be compared to other fields.
+     * @param   int $field_id The reminder field ID
+     * @return  bool if this field can be compared to other fields
      */
     public static function canFieldBeCompared($field_id)
     {

@@ -22,14 +22,14 @@ class HelpController extends BaseController
     protected $tpl_name = 'help/index.tpl.html';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -39,12 +39,15 @@ class HelpController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
     }
 
+    /**
+     * @return string
+     */
     private function getTopic()
     {
         $get = $this->getRequest()->query;
@@ -58,7 +61,7 @@ class HelpController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

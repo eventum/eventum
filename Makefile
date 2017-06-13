@@ -18,7 +18,8 @@ PHPUNIT_VERSION := 4.8.11
 PHPAB_VERSION := 1.20.3
 PHING_VERSION := 2.15.0
 PHPCB_VERSION := 1.1.1
-PHPCS_FIXER_VERSION := 1.11.8
+PHPCS_FIXER_VERSION := 2.3.1
+PHPMD_VERSION := 2.6.0
 
 define find_tool
 $(shell PATH=$$PATH:. which $1.phar 2>/dev/null || which $1 2>/dev/null || echo false)
@@ -78,6 +79,9 @@ phpab.phar:
 phpcb.phar:
 	$(call fetch_tool,https://github.com/mayflower/PHP_CodeBrowser/releases/download/$(PHPCB_VERSION)/phpcb-$(PHPCB_VERSION).phar)
 
+phpmd.phar:
+	$(call fetch_tool,https://static.phpmd.org/php/$(PHPMD_VERSION)/phpmd.phar)
+
 phing.phar:
 	$(call fetch_tool,https://www.phing.info/get/phing-$(PHING_VERSION).phar)
 
@@ -88,10 +92,10 @@ codecept.phar:
 	$(call fetch_tool,http://codeception.com/codecept.phar)
 
 pear-fix: composer.lock
-	-$(php-cs-fixer) fix vendor/pear-pear.php.net --fixers=php4_constructor --verbose
+	$(php-cs-fixer) fix vendor/pear-pear.php.net --rules=no_php4_constructor --allow-risky=yes  --using-cache=no --verbose --show-progress=estimating
 
 phpcs-fix: php-cs-fixer.phar
-	-$(php-cs-fixer) fix --verbose
+	$(php-cs-fixer) fix --verbose
 
 phpcompatinfo: phpcompatinfo.phar
 	$(phpcompatinfo) analyser:run --alias current
@@ -119,6 +123,7 @@ install-eventum:
 	cp -a bin $(DESTDIR)$(datadir)
 	cp -a src $(DESTDIR)$(datadir)
 	cp -a res $(DESTDIR)$(datadir)
+	cp -a db $(DESTDIR)$(datadir)
 	cp -a *.php $(DESTDIR)$(datadir)
 
 	install -d $(DESTDIR)$(logdir)

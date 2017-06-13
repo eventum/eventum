@@ -27,8 +27,8 @@ class AuthCookie
     /**
      * Method used to set auth cookie in user's browser.
      *
-     * @param int|string $user User Id or User email.
-     * @param boolean $permanent Set to false to make session cookie (Expires when browser is closed)
+     * @param int|string $user user Id or User email
+     * @param bool $permanent Set to false to make session cookie (Expires when browser is closed)
      */
     public static function setAuthCookie($user, $permanent = true)
     {
@@ -72,7 +72,7 @@ class AuthCookie
      * Method to check if the user has a valid auth cookie.
      * The cookie contents is validated for hash matching and user id from database.
      *
-     * @return boolean
+     * @return bool
      */
     public static function hasAuthCookie()
     {
@@ -147,7 +147,8 @@ class AuthCookie
     /**
      * Get cookie string used for user authentication
      *
-     * @param bool|true $permanent
+     * @param string $email
+     * @param bool $permanent
      * @return string
      */
     private static function generateAuthCookie($email, $permanent = true)

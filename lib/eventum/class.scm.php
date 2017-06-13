@@ -23,7 +23,7 @@ class SCM
      * Method used to remove a specific list of checkins
      *
      * @param   int[] $items list to remove
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function remove($items)
     {
@@ -51,7 +51,7 @@ class SCM
         Issue::markAsUpdated($issue_id);
         $usr_id = Auth::getUserID();
         History::add($issue_id, $usr_id, 'scm_checkin_removed', 'SCM Checkins removed by {user}', [
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         return 1;

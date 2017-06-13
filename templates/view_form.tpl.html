@@ -80,6 +80,8 @@
                             (<a href="#customer_details">{t}Complete Details{/t}</a>)
                         {elseif $row.field == 'percentage_complete'}
                             <div class="ui-progressbar iss_percent_complete" data-percent="{$row.percent}"><div class="progress-label">&nbsp;{$row.percent} %</div></div>
+                        {elseif $row.field == 'priority'}
+                            {if $row.pri_icon > 0}<span class="priority_icon priority-icon-{$row.pri_icon}"></span> {/if}{$row.pri_title|escape:"html"}
                         {/if}
                     </td>
                 </tr>

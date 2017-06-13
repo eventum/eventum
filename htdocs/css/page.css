@@ -256,6 +256,10 @@ body#list #bulk_update {
     margin: 1em auto;
 }
 
+body#list #export_csv {
+	cursor: pointer;
+}
+
 body#list #bulk_update table {
     width: 100%;
 }
@@ -266,9 +270,16 @@ body#list td.custom_field {
 
 /* End List Issue page */
 
-/*
- * Emails page
- */
+body#offline #error-header,
+body#confirm #error-header,
+body#setup #error-header,
+body#associate #error-header
+{
+    font-weight: bold; font-size: 160%; color: red;
+}
+    /*
+     * Emails page
+     */
 body#emails  table#email_filters {
     width: 80%;
     margin: 0 auto;
@@ -459,10 +470,86 @@ div.phpdebugbar {
     background: #89A989;
 }
 
+/* Icon of priority (list, view, manage/priorities) */
+.priority_icon {
+    background-repeat:no-repeat;
+    background-position: left center;
+    padding-left: 16px;
+    margin: 0 3px 0 0px;
+}
+.priority-icon-1 {background-image: url("../images/priority/1.png");}
+.priority-icon-2 {background-image: url("../images/priority/2.png");}
+.priority-icon-3 {background-image: url("../images/priority/3.png");}
+.priority-icon-4 {background-image: url("../images/priority/4.png");}
+.priority-icon-5 {background-image: url("../images/priority/5.png");}
+.priority-icon-6 {background-image: url("../images/priority/6.png");}
+.priority-icon-7 {background-image: url("../images/priority/7.png");}
+.priority-icon-8 {background-image: url("../images/priority/8.png");}
+.priority-icon-9 {background-image: url("../images/priority/9.png");}
+.priority-icon-10 {background-image: url("../images/priority/10.png");}
+.priority-icon-11 {background-image: url("../images/priority/11.png");}
+.priority-icon-12 {background-image: url("../images/priority/12.png");}
+.priority-icon-13 {background-image: url("../images/priority/13.png");}
+.priority-icon-14 {background-image: url("../images/priority/14.png");}
+.priority-icon-15 {background-image: url("../images/priority/15.png");}
+.priority-icon-16 {background-image: url("../images/priority/16.png");}
+.priority-icon-17 {background-image: url("../images/priority/17.png");}
+.priority-icon-18 {background-image: url("../images/priority/18.png");}
+.priority-icon-19 {background-image: url("../images/priority/19.png");}
+.priority-icon-20 {background-image: url("../images/priority/20.png");}
+.priority-icon-21 {background-image: url("../images/priority/21.png");}
+
+/* Select icon of priority – jQueryUI Selectmenu */
+#select_menu_priority_icon {
+    width: 82px;
+}
+option.select_icon_priority {
+    background-repeat: no-repeat !important;
+    padding-left: 20px;
+}
+.select_icon_priority .ui-icon {
+    background-position: left top;
+}
+
 /* Disable white background image */
 .issue_view .ui-progressbar.ui-widget-content,
 #list .ui-progressbar.ui-widget-content
 {
     background: transparent;
     border: 1px solid #c0c0c0;
+}
+
+/* manage custom field options */
+.custom_field_options #add_option {
+    margin-left: 1em;
+    cursor: pointer;
+}
+
+.custom_field_options .new_options {
+    margin: 0;
+    padding: 0;
+}
+
+.custom_field_options .new_options li {
+    border: 1px solid #000000;
+    list-style: none;
+    margin: 1em;
+    padding: 1em;
+    cursor: move;
+}
+
+.custom_field_options .delete {
+    float: right;
+    cursor: pointer;
+}
+
+.custom_field_options .instructions {
+    margin-left: 1em;
+    margin-top: .5em;
+    font-style: italic;
+}
+
+/* Font Awesome override */
+.expandable_buttons .fa {
+    font-size: 1.1em;
 }

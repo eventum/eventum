@@ -279,6 +279,8 @@ issue_view.ready = function(page_id)
     $('.clear_duplicate').click(issue_view.clearDuplicateStatus);
     $('.reply_issue').click(issue_view.replyIssue);
     $('.reply_issue_note').click(issue_view.replyIssueNote);
+    $('.reply_email').click(issue_view.reply);
+    $('.reply_email_note').click(issue_view.replyAsNote);
     $('.edit_incident_redemption').click(issue_view.editIncidentRedemption);
     $('a.edit_time_entry').click(issue_view.editTimeEntry);
     $('a.delete_time_entry').click(issue_view.deleteTimeEntry);
@@ -471,6 +473,30 @@ issue_view.replyIssueNote = function()
     var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
     var popupWin = window.open('post_note.php?cat=issue_reply' + '&issue_id=' + issue_view.get_issue_id(), '_replyIssueNote' + issue_view.get_issue_id(), features);
     popupWin.focus();
+};
+
+issue_view.replyAsNote = function ()
+{
+    var $this = $(this);
+    var email_id = $this.data('sup_id');
+    var iss_id = issue_view.get_issue_id();
+    var account_id = issue_view.get_ema_id();
+
+    var features = 'width=740,height=740,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var emailWin = window.open('post_note.php?cat=email_reply&issue_id=' + iss_id + '&ema_id=' + account_id + '&id=' + email_id, '_noteReply' + email_id, features);
+    emailWin.focus();
+};
+
+issue_view.reply = function()
+{
+    var $this = $(this);
+    var email_id = $this.data('sup_id');
+    var iss_id = issue_view.get_issue_id();
+    var account_id = issue_view.get_ema_id();
+
+    var features = 'width=740,height=580,top=30,left=30,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no';
+    var emailWin = window.open('send.php?issue_id=' + iss_id + '&ema_id=' + account_id + '&id=' + email_id, '_emailReply' + email_id, features);
+    emailWin.focus();
 };
 
 issue_view.clearDuplicateStatus = function()
@@ -1112,3 +1138,44 @@ preferences.confirmRegenerateToken = function()
     }
     return false;
 };
+
+
+function custom_field_options()
+{
+}
+
+custom_field_options.ready = function()
+{
+    $('#sortable').sortable();
+
+    custom_field_options.bind_actions();
+
+    $('#add_option').click(custom_field_options.add_option);
+    custom_field_options.add_option();
+};
+
+custom_field_options.bind_actions = function()
+{
+    $('.ui-sortable-handle .delete').off('click.delete').on('click.delete', function(e) {
+        $(e.target).parent().fadeOut(function() {
+            $(this).remove();
+        });
+    });
+
+    $('#custom_field_options input').off('keydown.blockenter').on('keydown.blockenter', function(e) {
+        if(e.keyCode == 13) {
+            if ($(this).prop('name') == 'new_options[]' && $(this).val() != '') {
+                custom_field_options.add_option();
+                $("input[name='new_options[]']:last").focus()
+            }
+            e.preventDefault();
+            return false;
+        }
+    })
+}
+
+custom_field_options.add_option = function() {
+    var template = $('#new_option_template').first();
+    template.clone().prop('id', '').insertAfter('.new_options li:last').show()
+    custom_field_options.bind_actions();
+}

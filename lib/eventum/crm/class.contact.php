@@ -99,7 +99,7 @@ abstract class Contact
     /**
      * Returns an array of contracts the specified contact can access
      *
-     * @param   array|boolean $options An array of options that determine which contracts should be returned. For Legacy purposes, if this
+     * @param   array|bool $options An array of options that determine which contracts should be returned. For Legacy purposes, if this
      *                              is boolean then it will be used to indicate if only active contracts should be returned.
      * @return  Contract[] An array of support contracts this contact is allowed to access
      */
@@ -108,16 +108,16 @@ abstract class Contact
     /**
      * Returns an array of contracts ids the contact can access
      *
-     * @param   array|boolean $options An array of options that determine which contracts should be returned. For Legacy purposes, if this
+     * @param   array|bool $options An array of options that determine which contracts should be returned. For Legacy purposes, if this
      *                              is boolean then it will be used to indicate if only active contracts should be returned.
-     * @return  integer[] An array of support contract ids this contact is allowed to access
+     * @return  int[] An array of support contract ids this contact is allowed to access
      */
     abstract public function getContractIDs($options = false);
 
     /**
      * Returns the customer ids that this contact can access
      *
-     * @return integer[]
+     * @return int[]
      */
     abstract public function getCustomerIDs();
 
@@ -133,8 +133,8 @@ abstract class Contact
      * takes a support level type. If the type is passed, true will only be a returned
      * if an active contract of the specified type exists.
      *
-     * @param   array|boolean $support_level_type
-     * @return  boolean
+     * @param   array|bool $support_level_type
+     * @return  bool
      */
     abstract public function hasActiveContract($support_level_type = false);
 
@@ -149,9 +149,8 @@ abstract class Contact
      * Method used to notify the customer contact that an existing issue
      * associated with him was just marked as closed.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $reason
-     * @return  void
      */
     abstract public function notifyIssueClosed($issue_id, $reason);
 
@@ -167,7 +166,7 @@ abstract class Contact
      * Returns true if the contact can access the specified contract, false otherwise
      *
      * @param   Contract $contract
-     * @return  boolean
+     * @return  bool
      */
     abstract public function canAccessContract($contract);
 
@@ -208,7 +207,7 @@ abstract class Contact
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isActive()
     {
@@ -219,8 +218,7 @@ abstract class Contact
      * Method used to notify the customer contact that a new issue was just
      * created and associated with his Eventum user.
      *
-     * @param   integer $issue_id The issue ID
-     * @return  void
+     * @param   int $issue_id The issue ID
      */
     abstract public function notifyNewIssue($issue_id);
 }
@@ -230,7 +228,7 @@ class ContactNotFoundException extends CRMException
     public function __construct($contact_id, $message = null, Exception $previous = null)
     {
         if ($message !== null) {
-            $message = "Contact '" . $contact_id. "' not found";
+            $message = "Contact '" . $contact_id . "' not found";
         }
         parent::__construct($message, 0, $previous);
     }

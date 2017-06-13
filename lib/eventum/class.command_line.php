@@ -22,7 +22,7 @@ class Command_Line
      * selected one.
      *
      * @param   RemoteApi $client The connection resource
-     * @return  integer The selected resolution id
+     * @return  int The selected resolution id
      */
     public function promptResolutionSelection($client)
     {
@@ -58,7 +58,7 @@ class Command_Line
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  string The selected status title
      */
     public function promptStatusSelection($client, $auth, $prj_id)
@@ -99,7 +99,7 @@ class Command_Line
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      */
     public static function closeIssue($client, $auth, $issue_id)
     {
@@ -236,7 +236,7 @@ class Command_Line
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      */
     public static function printFileList($client, $auth, $issue_id)
     {
@@ -262,8 +262,8 @@ class Command_Line
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
-     * @param   integer $file_number The attachment file number
+     * @param   int $issue_id The issue ID
+     * @param   int $file_number The attachment file number
      */
     public static function getFile($client, $auth, $issue_id, $file_number)
     {
@@ -315,7 +315,7 @@ class Command_Line
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      */
     public function checkIssueAssignment($client, $auth, $issue_id)
     {
@@ -338,7 +338,7 @@ class Command_Line
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return array The issue details, if the user is allowed to work on it
      */
     public function checkIssuePermissions($client, $auth, $issue_id)
@@ -367,7 +367,7 @@ class Command_Line
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $developer The email address of the assignee
      */
     public static function assignIssue($client, $auth, $issue_id, $developer)
@@ -392,7 +392,7 @@ class Command_Line
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      */
     public static function takeIssue($client, $auth, $issue_id)
     {
@@ -411,7 +411,7 @@ class Command_Line
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $new_replier The email address of the assignee
      */
     public static function addAuthorizedReplier($client, $auth, $issue_id, $new_replier)
@@ -435,7 +435,7 @@ class Command_Line
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $new_status The new status title
      */
     public static function setIssueStatus(&$client, $auth, $issue_id, $new_status)
@@ -478,7 +478,7 @@ class Command_Line
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $time_spent The time spent in minutes
      */
     public static function addTimeEntry($client, $auth, $issue_id, $time_spent)
@@ -515,7 +515,7 @@ class Command_Line
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      */
     public static function printIssueDetails($client, $auth, $issue_id, $full = false)
     {
@@ -561,7 +561,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   array $details
      */
     public static function printIssueCustomFields($client, $auth, $issue_id, $details = null)
@@ -574,7 +574,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         if (!empty($details['custom_fields'])) {
             foreach ($details['custom_fields'] as $custom_field) {
                 $msg .= str_pad($custom_field['fld_title'], 15, ' ', STR_PAD_LEFT) . ': ' .
-              $custom_field['value'] ."\n";
+              $custom_field['value'] . "\n";
             }
         }
 
@@ -633,7 +633,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   boolean $only_customer_projects Whether to only include projects with customer integration or not
+     * @param   bool $only_customer_projects Whether to only include projects with customer integration or not
      * @return  array The list of projects
      */
     public function getUserAssignedProjects($client, $auth, $only_customer_projects = false)
@@ -648,8 +648,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   boolean $only_customer_projects Whether to only include projects with customer integration or not
-     * @return  integer The project ID
+     * @param   bool $only_customer_projects Whether to only include projects with customer integration or not
+     * @return  int The project ID
      */
     public function promptProjectSelection($client, $auth, $only_customer_projects = false)
     {
@@ -722,7 +722,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      */
     public static function listEmails(&$client, $auth, $issue_id)
     {
@@ -766,9 +766,9 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
-     * @param   integer $email_id The sequential id of the email to view
-     * @param   boolean $display_full If the full email should be displayed.
+     * @param   int $issue_id The issue ID
+     * @param   int $email_id The sequential id of the email to view
+     * @param   bool $display_full if the full email should be displayed
      */
     public static function printEmail($client, $auth, $issue_id, $email_id, $display_full)
     {
@@ -799,7 +799,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      */
     public static function listNotes($client, $auth, $issue_id)
     {
@@ -846,8 +846,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
-     * @param   integer $note_id The sequential id of the note to view
+     * @param   int $issue_id The issue ID
+     * @param   int $note_id The sequential id of the note to view
      */
     public static function printNote($client, $auth, $issue_id, $note_id)
     {
@@ -867,9 +867,9 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
-     * @param   integer $note_id The sequential id of the note to view
-     * @return  array An array containing note details.
+     * @param   int $issue_id The issue ID
+     * @param   int $note_id The sequential id of the note to view
+     * @return  array an array containing note details
      */
     public function getNote($client, $auth, $issue_id, $note_id)
     {
@@ -883,10 +883,10 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection source
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
-     * @param   integer $note_id The sequential id of the note to view
-     * @param   string $target What this note should be converted too, a draft or an email.
-     * @param   boolean $authorize_sender If the sender should be added to the authorized repliers list.
+     * @param   int $issue_id The issue ID
+     * @param   int $note_id The sequential id of the note to view
+     * @param   string $target what this note should be converted too, a draft or an email
+     * @param   bool $authorize_sender if the sender should be added to the authorized repliers list
      */
     public static function convertNote($client, $auth, $issue_id, $note_id, $target, $authorize_sender)
     {
@@ -911,10 +911,10 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $week The week for the report. If start and end date are set, this is ignored.
+     * @param   int $week The week for the report. If start and end date are set, this is ignored.
      * @param   string $start_date The start date of the report. (optional)
      * @param   string $end_date The end_date of the report. (optional)
-     * @param   boolean $separate_closed If closed issues should be separated from other issues.
+     * @param   bool $separate_closed if closed issues should be separated from other issues
      */
     public static function getWeeklyReport($client, $auth, $week, $start_date = '', $end_date = '', $separate_closed = false)
     {
@@ -928,7 +928,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   string $action If the user is clocking in or out.
+     * @param   string $action if the user is clocking in or out
      */
     public static function timeClock($client, $auth, $action)
     {
@@ -941,7 +941,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      */
     public static function listDrafts($client, $auth, $issue_id)
     {
@@ -989,8 +989,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
-     * @param   integer $draft_id The sequential id of the draft to view
+     * @param   int $issue_id The issue ID
+     * @param   int $draft_id The sequential id of the draft to view
      */
     public static function printDraft($client, $auth, $issue_id, $draft_id)
     {
@@ -1014,9 +1014,9 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
-     * @param   integer $draft_id The sequential id of the draft to view
-     * @return  array An array containing draft details.
+     * @param   int $issue_id The issue ID
+     * @param   int $draft_id The sequential id of the draft to view
+     * @return  array an array containing draft details
      */
     public function getDraft($client, $auth, $issue_id, $draft_id)
     {
@@ -1030,9 +1030,9 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
-     * @param   integer $draft_id The sequential id of the draft to send
-     * @return  array An array containing draft details.
+     * @param   int $issue_id The issue ID
+     * @param   int $draft_id The sequential id of the draft to send
+     * @return  array an array containing draft details
      */
     public static function sendDraft($client, $auth, $issue_id, $draft_id)
     {
@@ -1045,7 +1045,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      */
     public static function redeemIssue($client, $auth, $issue_id)
     {
@@ -1063,7 +1063,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      */
     public static function unredeemIssue($client, $auth, $issue_id)
     {
@@ -1081,8 +1081,8 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
-     * @param   boolean $redeemed_only If this should only show items that have been redeemed.
+     * @param   int $issue_id The issue ID
+     * @param   bool $redeemed_only if this should only show items that have been redeemed
      * @return array|string
      */
     public function promptIncidentTypes($client, $auth, $issue_id, $redeemed_only = false)
@@ -1097,7 +1097,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             }
         }
 
-        $prompt = 'Please enter a comma seperated list of incident types to ';
+        $prompt = 'Please enter a comma separated list of incident types to ';
         if ($redeemed_only) {
             $prompt .= 'un';
         }
@@ -1108,7 +1108,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
         $requested_types = CLI_Misc::prompt($prompt, false);
         $requested_types = explode(',', $requested_types);
         if (count($requested_types) < 1) {
-            self::quit('Please enter a comma seperated list of issue types');
+            self::quit('Please enter a comma separated list of issue types');
         }
 
         $type_keys = array_keys($types);
@@ -1154,7 +1154,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $args The arguments passed to this script
      */
     public static function promptConfirmation($client, $auth, $issue_id, $args)
@@ -1214,7 +1214,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      *
      * @param   RemoteApi $client The connection resource
      * @param   array $auth Array of authentication information (email, password)
-     * @param   string $command The command used to run this script.
+     * @param   string $command the command used to run this script
      */
     public static function log($client, $auth, $command)
     {
@@ -1229,7 +1229,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
      * Method used to check whether the current execution needs to have a
      * confirmation message shown before performing the requested action or not.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function isSafeExecution()
     {
@@ -1238,9 +1238,9 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
             array_pop($argv);
 
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -1252,115 +1252,115 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
     {
         $usage = [];
         $usage[] = [
-            'command'   =>  '<ticket_number> [--full]',
-            'help'      =>  'View general details of an existing issue. --full displays also custom fields.',
+            'command' => '<ticket_number> [--full]',
+            'help' => 'View general details of an existing issue. --full displays also custom fields.',
         ];
         $usage[] = [
-            'command'   =>  ['<ticket_number> custom-fields', '<ticket_number> cf'],
-            'help'      =>  'List custom fields associated with the given issue.',
+            'command' => ['<ticket_number> custom-fields', '<ticket_number> cf'],
+            'help' => 'List custom fields associated with the given issue.',
         ];
         $usage[] = [
-            'command'   =>  '<ticket_number> assign <developer_email> [--safe]',
-            'help'      =>  'Assign an issue to another developer.',
+            'command' => '<ticket_number> assign <developer_email> [--safe]',
+            'help' => 'Assign an issue to another developer.',
         ];
         $usage[] = [
-            'command'   =>  '<ticket_number> take [--safe]',
-            'help'      =>  "Assign an issue to yourself and change status to 'Assigned'.",
+            'command' => '<ticket_number> take [--safe]',
+            'help' => "Assign an issue to yourself and change status to 'Assigned'.",
         ];
         $usage[] = [
-            'command'   =>  ['<ticket_number> add-replier <user_email> [--safe]','<ticket_number> ar <user_email> [--safe]'],
-            'help'      =>  'Adds the specified user to the list of authorized repliers.',
+            'command' => ['<ticket_number> add-replier <user_email> [--safe]', '<ticket_number> ar <user_email> [--safe]'],
+            'help' => 'Adds the specified user to the list of authorized repliers.',
         ];
         $usage[] = [
-            'command'   =>  '<ticket_number> set-status <status> [--safe]',
-            'help'      =>  "Sets the status of an issue to the desired value. If you are not sure
+            'command' => '<ticket_number> set-status <status> [--safe]',
+            'help' => "Sets the status of an issue to the desired value. If you are not sure
      about the available statuses, use command 'list-status' described below.",
         ];
         $usage[] = [
-            'command'   =>  '<ticket_number> add-time <time_worked> [--safe]',
-            'help'      =>  'Records time worked to the time tracking tool of the given issue.',
+            'command' => '<ticket_number> add-time <time_worked> [--safe]',
+            'help' => 'Records time worked to the time tracking tool of the given issue.',
         ];
         $usage[] = [
-            'command'   =>  '<ticket_number> close [--safe]',
-            'help'      =>  'Marks an issue as closed.',
+            'command' => '<ticket_number> close [--safe]',
+            'help' => 'Marks an issue as closed.',
         ];
         $usage[] = [
-            'command'   =>  ['<ticket_number> list-files', '<ticket_number> lf'],
-            'help'      =>  'List available attachments associated with the given issue.',
+            'command' => ['<ticket_number> list-files', '<ticket_number> lf'],
+            'help' => 'List available attachments associated with the given issue.',
         ];
         $usage[] = [
-            'command'   =>  ['<ticket_number> get-file <file_number>', '<ticket_number> gf <file_number>'],
-            'help'      =>  'Download a specific file from the given issue.',
+            'command' => ['<ticket_number> get-file <file_number>', '<ticket_number> gf <file_number>'],
+            'help' => 'Download a specific file from the given issue.',
         ];
         $usage[] = [
-            'command'   =>  ['<ticket_number> list-emails','<ticket_number> le'],
-            'help'      =>  'Lists emails from the given issue.',
+            'command' => ['<ticket_number> list-emails', '<ticket_number> le'],
+            'help' => 'Lists emails from the given issue.',
         ];
         $usage[] = [
-            'command'   =>  ['<ticket_number> get-email <email_number> [--full]','<ticket_number> ge <email_number> [--full]'],
-            'help'      =>  'Displays a specific email for the issue. If the optional --full parameter
+            'command' => ['<ticket_number> get-email <email_number> [--full]', '<ticket_number> ge <email_number> [--full]'],
+            'help' => 'Displays a specific email for the issue. If the optional --full parameter
      is specified, the full email including headers and attachments will be
      displayed.',
         ];
         $usage[] = [
-            'command'   =>  ['<ticket_number> list-notes','<ticket_number> ln'],
-            'help'      =>  'Lists notes from the given issue.',
+            'command' => ['<ticket_number> list-notes', '<ticket_number> ln'],
+            'help' => 'Lists notes from the given issue.',
         ];
         $usage[] = [
-            'command'   =>  ['<ticket_number> get-note <note_number> [--full]','<ticket_number> gn <note_number>'],
-            'help'      =>  'Displays a specific note for the issue.',
+            'command' => ['<ticket_number> get-note <note_number> [--full]', '<ticket_number> gn <note_number>'],
+            'help' => 'Displays a specific note for the issue.',
         ];
         $usage[] = [
-            'command'   =>  ['<ticket_number> convert-note <note_number> draft|email [authorize] [--safe]','<ticket_number> cn <note_number> draft|email [authorize] [--safe]'],
-            'help'      =>  "Converts the specified note to a draft or an email.
+            'command' => ['<ticket_number> convert-note <note_number> draft|email [authorize] [--safe]', '<ticket_number> cn <note_number> draft|email [authorize] [--safe]'],
+            'help' => "Converts the specified note to a draft or an email.
     Use optional argument 'authorize' to add sender to authorized repliers list.",
         ];
         $usage[] = [
-            'command'   =>  ['<ticket_number> list-drafts','<ticket_number> ld'],
-            'help'      =>  'Lists drafts from the given issue.',
+            'command' => ['<ticket_number> list-drafts', '<ticket_number> ld'],
+            'help' => 'Lists drafts from the given issue.',
         ];
         $usage[] = [
-            'command'   =>  ['<ticket_number> get-draft <draft_number>','<ticket_number> gd <draft_number>'],
-            'help'      =>  'Displays a specific draft for the issue.',
+            'command' => ['<ticket_number> get-draft <draft_number>', '<ticket_number> gd <draft_number>'],
+            'help' => 'Displays a specific draft for the issue.',
         ];
         $usage[] = [
-            'command'   =>  ['<ticket_number> send-draft <draft_number>','<ticket_number> sd <draft_number>'],
-            'help'      =>  'Converts a draft to an email and sends it out.',
+            'command' => ['<ticket_number> send-draft <draft_number>', '<ticket_number> sd <draft_number>'],
+            'help' => 'Converts a draft to an email and sends it out.',
         ];
         $usage[] = [
-            'command'   =>  ['<ticket_number> redeem'],
-            'help'      =>  'Marks an issue as redeemed incident.',
+            'command' => ['<ticket_number> redeem'],
+            'help' => 'Marks an issue as redeemed incident.',
         ];
         $usage[] = [
-            'command'   =>  ['<ticket_number> unredeem'],
-            'help'      =>  'Un-marks an issue as redeemed incident.',
+            'command' => ['<ticket_number> unredeem'],
+            'help' => 'Un-marks an issue as redeemed incident.',
         ];
         $usage[] = [
-            'command'   =>  'developers',
-            'help'      =>  "List all available developers' email addresses.",
+            'command' => 'developers',
+            'help' => "List all available developers' email addresses.",
         ];
         $usage[] = [
-            'command'   =>  'open-issues [<status>] [my]',
-            'help'      =>  "List all issues that are not set to a status with a 'closed' context. Use
+            'command' => 'open-issues [<status>] [my]',
+            'help' => "List all issues that are not set to a status with a 'closed' context. Use
      optional argument 'my' if you just wish to see issues assigned to you.",
         ];
         $usage[] = [
-            'command'   =>  'list-status',
-            'help'      =>  'List all available statuses in the system.',
+            'command' => 'list-status',
+            'help' => 'List all available statuses in the system.',
         ];
         $usage[] = [
-            'command'   =>  'customer email|support|customer <value>',
-            'help'      =>  "Looks up a customer's record information.",
+            'command' => 'customer email|support|customer <value>',
+            'help' => "Looks up a customer's record information.",
         ];
         $usage[] = [
-            'command'   =>  ['weekly-report ([<week>] [--separate-closed])|([<start>] [<end>] [--separate-closed])', 'wr ([<week>])|([<start>] [<end>] [--separate-closed])'],
-            'help'      =>  "Fetches the weekly report. Week is specified as an integer with 0 representing
+            'command' => ['weekly-report ([<week>] [--separate-closed])|([<start>] [<end>] [--separate-closed])', 'wr ([<week>])|([<start>] [<end>] [--separate-closed])'],
+            'help' => "Fetches the weekly report. Week is specified as an integer with 0 representing
      the current week, -1 the previous week and so on. If the week is omitted it defaults
      to the current week. Alternately, a date range can be set. Dates should be in the format 'YYYY-MM-DD'.",
         ];
         $usage[] = [
-            'command'   =>  'clock [in|out]',
-            'help'      =>  'Clocks you in or out of the system. When clocked out, no reminders will be sent to your account.
+            'command' => 'clock [in|out]',
+            'help' => 'Clocks you in or out of the system. When clocked out, no reminders will be sent to your account.
      If the in|out parameter is left off, your current status is displayed.',
         ];
         $script = basename($script);

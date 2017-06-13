@@ -1,5 +1,17 @@
 #!/usr/bin/php
 <?php
+
+/*
+ * This file is part of the Eventum (Issue Tracking System) package.
+ *
+ * @copyright (c) Eventum Team
+ * @license GNU General Public License, version 2 or later (GPL-2+)
+ *
+ * For the full copyright and license information,
+ * please see the COPYING and AUTHORS files
+ * that were distributed with this source code.
+ */
+
 /**
  * A script that changes user id to another one in whole database
  *
@@ -11,7 +23,7 @@
 use Eventum\Db\Adapter\AdapterInterface;
 
 if (!isset($argv[2])) {
-    throw new InvalidArgumentException('Invalid usage');
+    throw new InvalidArgumentException(sprintf('Usage: %s source_usr_id target_usr_id', $argv[0]));
 }
 
 list($source_usr_id, $target_usr_id) = array_slice($argv, 1, 2);

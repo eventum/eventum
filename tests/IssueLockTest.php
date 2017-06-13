@@ -11,6 +11,11 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Issue_Lock;
+use Setup;
+
 class IssueLockTest extends TestCase
 {
     /**

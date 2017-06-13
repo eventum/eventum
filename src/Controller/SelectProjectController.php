@@ -49,7 +49,7 @@ class SelectProjectController extends BaseController
     private $projects;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -63,7 +63,7 @@ class SelectProjectController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -82,7 +82,7 @@ class SelectProjectController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -159,6 +159,7 @@ class SelectProjectController extends BaseController
 
     /**
      * check if url is directly linking to an issue, and if it is, don't prompt for project
+     * @param string $url
      */
     private function getProjectFromUrl($url)
     {
@@ -177,6 +178,9 @@ class SelectProjectController extends BaseController
         return null;
     }
 
+    /**
+     * @param int $prj_id
+     */
     private function checkCustomerAuthentication($prj_id)
     {
         $crm = CRM::getInstance($prj_id);
@@ -192,7 +196,7 @@ class SelectProjectController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

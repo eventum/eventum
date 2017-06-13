@@ -26,7 +26,7 @@ abstract class ReportBaseController extends BaseController
     protected $prj_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {

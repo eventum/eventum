@@ -18,8 +18,6 @@ use RandomLib;
 
 /**
  * Class CryptoKeyManager dealing with key loading and generating
- *
- * @package Eventum\Crypto
  */
 final class CryptoKeyManager
 {

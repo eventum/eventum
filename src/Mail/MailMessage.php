@@ -95,21 +95,23 @@ class MailMessage extends Message
     /**
      * Create Mail object from headers array and body string
      *
-     * @param array $headers
+     * @param string|array $headers
      * @param string $content
      * @return MailMessage
      */
     public static function createFromHeaderBody($headers, $content)
     {
-        foreach ($headers as $k => $v) {
-            // Zend\Mail does not like empty headers, "Cc:" for example
-            if ($v === '') {
-                unset($headers[$k]);
-            }
+        if (is_array($headers)) {
+            foreach ($headers as $k => $v) {
+                // Zend\Mail does not like empty headers, "Cc:" for example
+                if ($v === '') {
+                    unset($headers[$k]);
+                }
 
-            // also it doesn't like 8bit headers
-            if (Mime_Helper::is8bit($v)) {
-                $headers[$k] = Mime_Helper::encode($v);
+                // also it doesn't like 8bit headers
+                if (Mime_Helper::is8bit($v)) {
+                    $headers[$k] = Mime_Helper::encode($v);
+                }
             }
         }
 
@@ -145,6 +147,43 @@ class MailMessage extends Message
     }
 
     /**
+     * Convert to Mail\Message
+     *
+     * @return Mail\Message
+     */
+    public function toMessage()
+    {
+        /**
+         * Round 1:
+         *
+         * Converting MailMessage to Mail\Message in Transport\SMTP
+         * caused ASCII encoding on headers, which failed the toString call later.
+         *
+         * A fix:
+         *  $message->setEncoding('UTF-8');
+         *
+         * Round 2.
+         * however that caused all headers be UTF-8 encoded, so Message-Id header become like:
+         *  Message-ID: =?UTF-8?Q?<eventum.md5.5as5i4vw4.2uxbmbcboc8wk@eventum.example.org>?=
+         *
+         * Solution:
+         *   Serialize to text and back in.
+         *
+         * Round 3.
+         * Serialize loaded in everything back in ASCII, back to square one.
+         *
+         * Solution:
+         *   Create wrapper for Mail\Message to set Headers without re-encoding them.
+         */
+
+        $message = new ZendMailMessage();
+        $message->forceHeaders($this->getHeaders());
+        $message->setBody($this->getContent());
+
+        return $message;
+    }
+
+    /**
      * Assemble email into raw format including headers.
      *
      * @return string
@@ -158,7 +197,7 @@ class MailMessage extends Message
      * Return true if mail has attachments,
      * inline text messages are not accounted as attachments.
      *
-     * @return  boolean
+     * @return  bool
      */
     public function hasAttachments()
     {
@@ -250,7 +289,7 @@ class MailMessage extends Message
     /**
      * Returns the text message body.
      *
-     * @return string The message body
+     * @return string|null The message body
      * @see Mime_Helper::getMessageBody()
      */
     public function getMessageBody()
@@ -335,7 +374,7 @@ class MailMessage extends Message
             ->setCharset($charset);
 
         // parts start from 1 somewhy,
-        // and no easy wait to know how many parts there are
+        // and no easy way to know how many parts there are
         if (isset($this->parts[1])) {
             $this->parts[] = $part;
         } else {
@@ -474,7 +513,7 @@ class MailMessage extends Message
      * Access the address list of the To header
      *
      * @return AddressList
-     * @see Zend\Mail\Message::getTo
+     * @see \Zend\Mail\Message::getTo
      */
     public function getTo()
     {
@@ -485,7 +524,7 @@ class MailMessage extends Message
      * Retrieve list of CC recipients
      *
      * @return AddressList
-     * @see Zend\Mail\Message::getCc
+     * @see \Zend\Mail\Message::getCc
      */
     public function getCc()
     {
@@ -501,7 +540,10 @@ class MailMessage extends Message
     {
         // NOTE: Subject header is always present,
         // so it's safe to call this without checking for header presence
-        return $this->getHeader('Subject');
+        /** @var Subject $subject */
+        $subject = $this->getHeader('Subject');
+
+        return $subject;
     }
 
     /**
@@ -517,7 +559,7 @@ class MailMessage extends Message
     /**
      * Set To: header
      *
-     * @param string $value
+     * @param string|AddressList $value
      */
     public function setTo($value)
     {
@@ -538,14 +580,18 @@ class MailMessage extends Message
      * Set AddressList type header a value
      *
      * @param string $name
-     * @param string $value
+     * @param string|AddressList $value
      */
     public function setAddressListHeader($name, $value)
     {
         /** @var AbstractAddressList $header */
         $header = $this->getHeader($name);
-        $addresslist = new AddressList();
-        $addresslist->addFromString($value);
+        if ($value instanceof AddressList) {
+            $addresslist = $value;
+        } else {
+            $addresslist = new AddressList();
+            $addresslist->addFromString($value);
+        }
         $header->setAddressList($addresslist);
     }
 
@@ -582,7 +628,7 @@ class MailMessage extends Message
     /**
      * Convenience method to remove address from $header AddressList.
      *
-     * @param string $header A header name, like 'To', or 'Cc'.
+     * @param string $header a header name, like 'To', or 'Cc'
      * @param string $address An email address to remove
      * @return bool
      */
@@ -769,7 +815,7 @@ class MailMessage extends Message
      * @param string $headerName
      * @param string $headerClass Header Class name, defaults to GenericHeader
      * @return HeaderInterface|\ArrayIterator header instance or collection of headers
-     * @see Zend\Mail\Message::getHeaderByName
+     * @see \Zend\Mail\Message::getHeaderByName
      */
     public function getHeaderByName($headerName, $headerClass = 'GenericHeader')
     {
@@ -832,7 +878,7 @@ class MailMessage extends Message
      * @param  string $headerClass
      * @throws DomainException
      * @return AddressList
-     * @see Zend\Mail\Message::getAddressListFromHeader
+     * @see \Zend\Mail\Message::getAddressListFromHeader
      */
     protected function getAddressListFromHeader($headerName, $headerClass)
     {

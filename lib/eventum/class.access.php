@@ -11,15 +11,17 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Db\DatabaseException;
+
 class Access
 {
     /**
      * Method to determine if user can access a particular issue
      *
-     * @param   integer $issue_id The ID of the issue.
-     * @param   integer $usr_id The ID of the user
-     * @param   boolean $log If the check should be logged. Default true
-     * @return  boolean If the user can access the issue
+     * @param   int $issue_id the ID of the issue
+     * @param   int $usr_id The ID of the user
+     * @param   bool $log If the check should be logged. Default true
+     * @return  bool If the user can access the issue
      */
     public static function canAccessIssue($issue_id, $usr_id, $log = true)
     {
@@ -166,7 +168,7 @@ class Access
         return false;
     }
 
-    public static function canViewInternalNotes($issue_id, $usr_id, $not_id = null)
+    public static function canViewInternalNotes($issue_id, $usr_id)
     {
         if (!self::canAccessIssue($issue_id, $usr_id, false)) {
             return false;
@@ -373,26 +375,30 @@ class Access
         return false;
     }
 
+    /**
+     * @param int $issue_id
+     * @param int $usr_id
+     */
     public static function getIssueAccessArray($issue_id, $usr_id)
     {
         return [
-            'files'     =>  self::canViewAttachedFiles($issue_id, $usr_id),
-            'drafts'    =>  self::canViewDrafts($issue_id, $usr_id),
-            'notes'     =>  self::canViewInternalNotes($issue_id, $usr_id),
-            'partners'  =>  self::canViewIssuePartners($issue_id, $usr_id),
-            'phone'     =>  self::canViewPhoneCalls($issue_id, $usr_id),
-            'time'      =>  self::canViewTimeTracking($issue_id, $usr_id),
+            'files' => self::canViewAttachedFiles($issue_id, $usr_id),
+            'drafts' => self::canViewDrafts($issue_id, $usr_id),
+            'notes' => self::canViewInternalNotes($issue_id, $usr_id),
+            'partners' => self::canViewIssuePartners($issue_id, $usr_id),
+            'phone' => self::canViewPhoneCalls($issue_id, $usr_id),
+            'time' => self::canViewTimeTracking($issue_id, $usr_id),
             'checkins' => self::canViewCheckins($issue_id, $usr_id),
-            'history'   =>  self::canViewHistory($issue_id, $usr_id),
-            'notification_list' =>  self::canViewNotificationList($issue_id, $usr_id),
-            'authorized_repliers'   =>  self::canViewAuthorizedRepliers($issue_id, $usr_id),
-            'change_reporter'   =>  self::canChangeReporter($issue_id, $usr_id),
-            'change_status' =>  self::canChangeStatus($issue_id, $usr_id),
-            'convert_note'  =>  self::canConvertNote($issue_id, $usr_id),
-            'update'    =>  self::canUpdateIssue($issue_id, $usr_id),
-            'clone_issue'   =>  self::canCloneIssue($issue_id, $usr_id),
-            'change_access' =>  self::canChangeAccessLevel($issue_id, $usr_id),
-            'change_assignee' =>  self::canChangeAssignee($issue_id, $usr_id),
+            'history' => self::canViewHistory($issue_id, $usr_id),
+            'notification_list' => self::canViewNotificationList($issue_id, $usr_id),
+            'authorized_repliers' => self::canViewAuthorizedRepliers($issue_id, $usr_id),
+            'change_reporter' => self::canChangeReporter($issue_id, $usr_id),
+            'change_status' => self::canChangeStatus($issue_id, $usr_id),
+            'convert_note' => self::canConvertNote($issue_id, $usr_id),
+            'update' => self::canUpdateIssue($issue_id, $usr_id),
+            'clone_issue' => self::canCloneIssue($issue_id, $usr_id),
+            'change_access' => self::canChangeAccessLevel($issue_id, $usr_id),
+            'change_assignee' => self::canChangeAssignee($issue_id, $usr_id),
         ];
     }
 
@@ -496,16 +502,15 @@ class Access
     public static function getFeatureAccessArray($usr_id)
     {
         return [
-            'create_issue'  =>  self::canCreateIssue($usr_id),
-            'associate_emails'  =>  self::canAccessAssociateEmails($usr_id),
-            'reports'       =>  self::canAccessReports($usr_id),
-            'export'        =>  self::canExportData($usr_id),
+            'create_issue' => self::canCreateIssue($usr_id),
+            'associate_emails' => self::canAccessAssociateEmails($usr_id),
+            'reports' => self::canAccessReports($usr_id),
+            'export' => self::canExportData($usr_id),
         ];
     }
 
     public static function canExportData($usr_id)
     {
-        $prj_id = Auth::getCurrentProject();
         if (User::isPartner($usr_id)) {
             $partner = Partner::canUserAccessFeature($usr_id, 'reports');
             if (is_bool($partner)) {
@@ -521,8 +526,8 @@ class Access
         $prj_id = Auth::getCurrentProject();
 
         $levels = [
-            'normal'    =>  'Normal',
-            'assignees_only'    =>  'Assignees Only',
+            'normal' => 'Normal',
+            'assignees_only' => 'Assignees Only',
         ];
 
         foreach (Group::getAssocList($prj_id) as $grp_id => $group) {
@@ -537,14 +542,17 @@ class Access
         return $levels;
     }
 
+    /**
+     * @return string
+     */
     public static function getAccessLevelName($level)
     {
         $access_levels = self::getAccessLevels();
         if (isset($access_levels[$level])) {
             return $access_levels[$level];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     public static function getAccessList($issue_id)
@@ -562,6 +570,9 @@ class Access
         }
     }
 
+    /**
+     * @param int $issue_id
+     */
     public static function addUserToIssue($issue_id, $usr_id)
     {
         $sql = 'INSERT INTO
@@ -571,10 +582,10 @@ class Access
                     ial_usr_id = ?,
                     ial_created = ?';
         try {
-            $res = DB_Helper::getInstance()->query($sql, [$issue_id, $usr_id, Date_Helper::getCurrentDateGMT()]);
+            DB_Helper::getInstance()->query($sql, [$issue_id, $usr_id, Date_Helper::getCurrentDateGMT()]);
             History::add($issue_id, Auth::getUserID(), 'access_list_added', 'Access list entry ({target_user}) added by {user}', [
                 'target_user' => User::getFullName($usr_id),
-                'user' => User::getFullName(Auth::getUserID())
+                'user' => User::getFullName(Auth::getUserID()),
             ]);
         } catch (DatabaseException $e) {
             return -1;
@@ -583,6 +594,9 @@ class Access
         return 1;
     }
 
+    /**
+     * @param int $issue_id
+     */
     public static function removeUserFromIssue($issue_id, $usr_id)
     {
         $sql = 'DELETE FROM
@@ -591,10 +605,10 @@ class Access
                     ial_iss_id = ? AND
                     ial_usr_id = ?';
         try {
-            $res = DB_Helper::getInstance()->query($sql, [$issue_id, $usr_id]);
+            DB_Helper::getInstance()->query($sql, [$issue_id, $usr_id]);
             History::add($issue_id, Auth::getUserID(), 'access_list_removed', 'Access list entry ({target_user}) removed by {user}', [
                 'target_user' => User::getFullName($usr_id),
-                'user' => User::getFullName(Auth::getUserID())
+                'user' => User::getFullName(Auth::getUserID()),
             ]);
         } catch (DatabaseException $e) {
             return -1;
@@ -603,15 +617,22 @@ class Access
         return 1;
     }
 
+    /**
+     * @param int $issue_id
+     * @param int $usr_id
+     */
     public static function isOnAccessList($issue_id, $usr_id)
     {
         if (in_array($usr_id, self::getAccessList($issue_id))) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
+    /**
+     * @param int $prj_id
+     */
     public static function getListingSQL($prj_id)
     {
         $sql = '';
@@ -638,6 +659,10 @@ class Access
         return $sql;
     }
 
+    /**
+     * @param int $issue_id
+     * @param int $usr_id
+     */
     public static function log($return, $issue_id, $usr_id, $item = null, $item_id = null)
     {
         if (Setup::get()->get('audit_trail') != 'enabled') {
@@ -666,10 +691,10 @@ class Access
             (int) !$return,
             $item,
             $item_id,
-            isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null
+            isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null,
         ];
         try {
-            $res = DB_Helper::getInstance()->query($sql, $params);
+            DB_Helper::getInstance()->query($sql, $params);
         } catch (DatabaseException $e) {
             // do nothing besides log it
         }

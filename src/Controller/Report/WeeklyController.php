@@ -36,11 +36,11 @@ class WeeklyController extends ReportBaseController
     /** @var string */
     private $report_type;
 
-    /** @var string */
+    /** @var int */
     private $developer;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -64,12 +64,16 @@ class WeeklyController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
     }
 
+    /**
+     * @param int $usr_id
+     * @return array
+     */
     private function getDeveloperReport($usr_id)
     {
         $request = $this->getRequest();
@@ -107,7 +111,7 @@ class WeeklyController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

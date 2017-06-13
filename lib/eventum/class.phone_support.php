@@ -22,7 +22,7 @@ class Phone_Support
     /**
      * Method used to add a new category to the application.
      *
-     * @return  integer 1 if the update worked properly, any other value otherwise
+     * @return  int 1 if the update worked properly, any other value otherwise
      */
     public static function insertCategory()
     {
@@ -51,7 +51,7 @@ class Phone_Support
      * Typically the user would modify the title of the category in
      * the application and this method would be called.
      *
-     * @return  integer 1 if the update worked properly, any other value otherwise
+     * @return  int 1 if the update worked properly, any other value otherwise
      */
     public static function updateCategory()
     {
@@ -78,7 +78,7 @@ class Phone_Support
      * Method used to remove user-selected categories from the
      * database.
      *
-     * @return  boolean Whether the removal worked or not
+     * @return  bool Whether the removal worked or not
      */
     public static function removeCategory()
     {
@@ -101,7 +101,7 @@ class Phone_Support
     /**
      * Method used to get the full details of a category.
      *
-     * @param   integer $phc_id The category ID
+     * @param   int $phc_id The category ID
      * @return  array The information about the category provided
      */
     public static function getCategoryDetails($phc_id)
@@ -125,7 +125,7 @@ class Phone_Support
      * Method used to get the full list of categories associated with
      * a specific project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The full list of categories
      */
     public static function getCategoryList($prj_id)
@@ -152,7 +152,7 @@ class Phone_Support
      * Method used to get an associative array of the list of
      * categories associated with a specific project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The associative array of categories
      */
     public static function getCategoryAssocList($prj_id)
@@ -178,7 +178,7 @@ class Phone_Support
     /**
      * Method used to get the details of a given phone support entry.
      *
-     * @param   integer $phs_id The phone support entry ID
+     * @param   int $phs_id The phone support entry ID
      * @return  array The phone support entry details
      */
     public static function getDetails($phs_id)
@@ -202,7 +202,7 @@ class Phone_Support
      * Method used to get the full listing of phone support entries
      * associated with a specific issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array The list of notes
      */
     public static function getListing($issue_id)
@@ -243,7 +243,7 @@ class Phone_Support
      * Method used to add a phone support entry using the user
      * interface form available in the application.
      *
-     * @return  integer 1 if the insert worked, -1 or -2 otherwise
+     * @return  int 1 if the insert worked, -1 or -2 otherwise
      */
     public static function insert()
     {
@@ -344,8 +344,8 @@ class Phone_Support
      * Method used to remove a specific phone support entry from the
      * application.
      *
-     * @param   integer $phone_id The phone support entry ID
-     * @return  integer 1 if the removal worked, -1 or -2 otherwise
+     * @param   int $phone_id The phone support entry ID
+     * @return  int 1 if the removal worked, -1 or -2 otherwise
      */
     public static function remove($phone_id)
     {
@@ -375,7 +375,7 @@ class Phone_Support
         Issue::markAsUpdated($details['phs_iss_id']);
         $usr_id = Auth::getUserID();
         History::add($details['phs_iss_id'], $usr_id, 'phone_entry_removed', 'Phone Support entry removed by {user}', [
-            'user' => User::getFullName($usr_id)
+            'user' => User::getFullName($usr_id),
         ]);
 
         if (!empty($details['phs_ttr_id'])) {
@@ -394,9 +394,9 @@ class Phone_Support
      * Returns the number of calls by a user in a time range.
      *
      * @param   string $usr_id The ID of the user
-     * @param   integer $start The timestamp of the start date
-     * @param   integer $end The timestamp of the end date
-     * @return  integer The number of phone calls by the user.
+     * @param   int $start The timestamp of the start date
+     * @param   int $end The timestamp of the end date
+     * @return  int the number of phone calls by the user
      */
     public static function getCountByUser($usr_id, $start, $end)
     {

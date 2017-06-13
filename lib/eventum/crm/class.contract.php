@@ -117,7 +117,7 @@ abstract class Contract
     /**
      * Returns an array contact objects for this contract
      *
-     * @param   mixed $options An array of options that affect which contacts are returned.
+     * @param   mixed $options an array of options that affect which contacts are returned
      * @return  Contact[]
      */
     abstract public function getContacts($options = false);
@@ -133,7 +133,7 @@ abstract class Contract
      * Returns the value of the specified option, or false if the option is not set
      *
      * @param   string $option_id The ID of the option
-     * @return  mixed The value of the option or false.
+     * @return  mixed the value of the option or false
      */
     abstract public function getOption($option_id);
 
@@ -141,21 +141,21 @@ abstract class Contract
      * Returns if the contract has access to a given feature.
      *
      * @param   string  $feature The identifier for the feature
-     * @return  boolean
+     * @return  bool
      */
     abstract public function hasFeature($feature);
 
     /**
      * Returns true if this contract is expired, false otherwise.
      *
-     * @return  boolean
+     * @return  bool
      */
     abstract public function isExpired();
 
     /**
      * Returns true if this contract is active, false otherwise.
      *
-     * @return  boolean
+     * @return  bool
      */
     abstract public function isActive();
 
@@ -165,7 +165,7 @@ abstract class Contract
      * affect the response time such as Severity.
      *
      * @param bool|int $issue_id An array of issue details used to provide specified response time for (optional)
-     * @return  integer The response time in seconds
+     * @return  int The response time in seconds
      */
     abstract public function getMaximumFirstResponseTime($issue_id = false);
 
@@ -180,14 +180,14 @@ abstract class Contract
      * Returns true if the contract is of $type
      *
      * @param   mixed $type The type or array of types to look for
-     * @return  boolean
+     * @return  bool
      */
     abstract public function isOfType($type);
 
     /**
      * Returns the minimum response time for a contract in seconds.
      *
-     * @return  mixed The minimum response time or false.
+     * @return  mixed the minimum response time or false
      */
     abstract public function getMinimumResponseTime();
 
@@ -202,8 +202,8 @@ abstract class Contract
      * Returns the total of incidents already redeemed in the given
      * contract ID.
      *
-     * @param   integer $incident_type The type of incident
-     * @return  integer The total of incidents already redeemed
+     * @param   int $incident_type The type of incident
+     * @return  int The total of incidents already redeemed
      */
     abstract public function getIncidentUsage($incident_type);
 
@@ -211,8 +211,8 @@ abstract class Contract
      * Returns the total number of allowed incidents for the given support
      * contract ID.
      *
-     * @param   integer $incident_type The type of incident
-     * @return  integer The total number of incidents
+     * @param   int $incident_type The type of incident
+     * @return  int The total number of incidents
      */
     abstract public function getTotalIncidents($incident_type);
 
@@ -220,15 +220,15 @@ abstract class Contract
      * Returns the number of incidents remaining for the given support
      * contract ID.
      *
-     * @param   integer $incident_type The type of incident
-     * @return  integer The number of incidents remaining.
+     * @param   int $incident_type The type of incident
+     * @return  int the number of incidents remaining
      */
     abstract public function getIncidentsRemaining($incident_type);
 
     /**
      * Checks if the contract has per incident options
      *
-     * @return  boolean
+     * @return  bool
      */
     abstract public function hasPerIncident();
 
@@ -236,25 +236,25 @@ abstract class Contract
      * Checks whether the contract has any incidents available to be redeemed.
      *
      * @param bool|int $incident_type The type of incident
-     * @return  boolean
+     * @return  bool
      */
     abstract public function hasIncidentsLeft($incident_type = false);
 
     /**
      * Redeems an incident of the specified type for the specified issue.
      *
-     * @param   integer $issue_id The issue
-     * @param   integer $incident_type The type of incident
-     * @return  integer 1 if the insert worked, -1 or -2 otherwise
+     * @param   int $issue_id The issue
+     * @param   int $incident_type The type of incident
+     * @return  int 1 if the insert worked, -1 or -2 otherwise
      */
     abstract public function redeemIncident($issue_id, $incident_type);
 
     /**
      * un redeems an incident of the specified type for the specified issue.
      *
-     * @param   integer $issue_id The issue
-     * @param   integer $incident_type The type of incident
-     * @return  integer 1 if the insert worked, -1 or -2 otherwise
+     * @param   int $issue_id The issue
+     * @param   int $incident_type The type of incident
+     * @return  int 1 if the insert worked, -1 or -2 otherwise
      */
     abstract public function unRedeemIncident($issue_id, $incident_type);
 
@@ -262,16 +262,16 @@ abstract class Contract
      * Checks whether the given issue ID was marked as a redeemed incident or
      * not.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $incident_type The type of incident
-     * @return  boolean
+     * @param   int $issue_id The issue ID
+     * @param   int $incident_type The type of incident
+     * @return  bool
      */
     abstract public function isRedeemedIncident($issue_id, $incident_type);
 
     /**
      * Returns an array of the currently redeemed incident types for the issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array An array containing the redeemed incident types
      */
     abstract public function getRedeemedIncidentDetails($issue_id);
@@ -279,9 +279,9 @@ abstract class Contract
     /**
      * Updates the incident counts
      *
-     * @param   integer $issue_id The issue ID
-     * @param   array $data An array of data containing which incident types to update.
-     * @return  integer 1 if all updates were successful, -1 or -2 otherwise.
+     * @param   int $issue_id The issue ID
+     * @param   array $data an array of data containing which incident types to update
+     * @return  int 1 if all updates were successful, -1 or -2 otherwise
      */
     abstract public function updateRedeemedIncidents($issue_id, $data);
 
@@ -304,7 +304,7 @@ abstract class Contract
      * contacts of this contract.
      *
      * @param array|bool $options Any search options to apply
-     * @param   boolean $no_email_in_title If the email address should be left out of the value portion of the result
+     * @param   bool $no_email_in_title If the email address should be left out of the value portion of the result
      * @return  array The list of email addresses
      */
     abstract public function getContactEmailAssocList($options = false, $no_email_in_title = false);
@@ -343,7 +343,7 @@ abstract class Contract
      *
      * @return Customer
      */
-    public function &getCustomer()
+    public function getCustomer()
     {
         return $this->customer;
     }
@@ -375,9 +375,6 @@ abstract class Contract
 
     public function __toString()
     {
-        // FIXME: $options unused
-        $options = $this->getOptions(true);
-
         return "Contract\nID: " . $this->contract_id . '
             Start: ' . $this->start_date . '
             End: ' . $this->end_date . "\n";
@@ -388,6 +385,6 @@ class ContractNotFoundException extends CRMException
 {
     public function __construct($contract_id, Exception $previous = null)
     {
-        parent::__construct("Contract '" . $contract_id. "' not found", 0, $previous);
+        parent::__construct("Contract '" . $contract_id . "' not found", 0, $previous);
     }
 }

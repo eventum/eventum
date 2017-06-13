@@ -21,14 +21,14 @@ class EstimatedDevTimeController extends ReportBaseController
     protected $tpl_name = 'reports/estimated_dev_time.tpl.html';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -72,7 +72,7 @@ class EstimatedDevTimeController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

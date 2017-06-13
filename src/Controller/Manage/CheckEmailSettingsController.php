@@ -21,14 +21,14 @@ class CheckEmailSettingsController extends ManageBaseController
     protected $tpl_name = 'get_emails_ajax.tpl.html';
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -80,7 +80,7 @@ class CheckEmailSettingsController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

@@ -11,6 +11,14 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Language;
+use RuntimeException;
+
+/**
+ * @group locale
+ */
 class LocaleTest extends TestCase
 {
     public static function setUpBeforeClass()

@@ -16,6 +16,7 @@ namespace Eventum\Controller;
 use Access;
 use Auth;
 use AuthCookie;
+use DB_Helper;
 use Email_Account;
 use Issue;
 use Prefs;
@@ -33,7 +34,7 @@ class EmailsController extends BaseController
     private $prj_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -43,7 +44,7 @@ class EmailsController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -67,14 +68,14 @@ class EmailsController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {
@@ -88,7 +89,7 @@ class EmailsController extends BaseController
         $this->tpl->assign(
             [
                 'options' => $options,
-                'sorting' => Support::getSortingInfo($options),
+                'sorting' => $this->getSortingInfo($options),
 
                 'list' => $list['list'],
                 'list_info' => $list['info'],
@@ -99,5 +100,45 @@ class EmailsController extends BaseController
                 'refresh_page' => 'emails.php',
             ]
         );
+    }
+
+    /**
+     * Method used to get the current sorting options used in the grid
+     * layout of the emails listing page.
+     *
+     * @param   array $options The current search parameters
+     * @return  array The sorting options
+     */
+    private function getSortingInfo($options)
+    {
+        $fields = [
+            'sup_from',
+            'sup_customer_id',
+            'sup_date',
+            'sup_to',
+            'sup_iss_id',
+            'sup_subject',
+        ];
+        $items = [
+            'links' => [],
+            'order' => [],
+        ];
+
+        $sort_order_option = strtolower(DB_Helper::orderBy($options['sort_order']));
+
+        foreach ($fields as $field) {
+            $sort_order = 'asc';
+            if ($options['sort_by'] == $field) {
+                if ($sort_order_option == 'asc') {
+                    $sort_order = 'desc';
+                } else {
+                    $sort_order = 'asc';
+                }
+                $items['order'][$field] = $sort_order_option;
+            }
+            $items['links'][$field] = $_SERVER['PHP_SELF'] . '?sort_by=' . $field . '&sort_order=' . $sort_order;
+        }
+
+        return $items;
     }
 }

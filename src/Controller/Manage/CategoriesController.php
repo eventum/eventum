@@ -32,7 +32,7 @@ class CategoriesController extends ManageBaseController
     private $id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -44,7 +44,7 @@ class CategoriesController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -63,6 +63,9 @@ class CategoriesController extends ManageBaseController
         }
     }
 
+    /**
+     * @param int $res
+     */
     private function updateResult($res)
     {
         $this->tpl->assign('result', $res);
@@ -75,7 +78,7 @@ class CategoriesController extends ManageBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

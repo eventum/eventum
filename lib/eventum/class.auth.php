@@ -22,7 +22,7 @@ class Auth
     /**
      * Method used to get private key used for hashing session cookies.
      *
-     * @return  string  The private_key hash.
+     * @return  string  the private_key hash
      */
     public static function privateKey()
     {
@@ -78,8 +78,7 @@ class Auth
      * to another page if needed.
      *
      * @param   string $failed_url The URL to redirect to if the user is not authenticated
-     * @param   boolean $is_popup Flag to tell the function if the current page is a popup window or not
-     * @return  void
+     * @param   bool $is_popup Flag to tell the function if the current page is a popup window or not
      */
     public static function checkAuthentication($failed_url = null, $is_popup = false)
     {
@@ -171,6 +170,7 @@ class Auth
 
     /**
      * Performs standard checks when a user logins
+     * @param string $login
      */
     public static function login($login)
     {
@@ -217,38 +217,38 @@ class Auth
      * or not.
      *
      * @param   string $email The email address to be checked
-     * @return  boolean
+     * @return  bool
      */
     public static function isPendingUser($email)
     {
         $status = User::getStatusByEmail($email);
         if ($status != 'pending') {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
      * Method to check whether an user is active or not.
      *
      * @param   string $email The email address to be checked
-     * @return  boolean
+     * @return  bool
      */
     public static function isActiveUser($email)
     {
         $status = User::getStatusByEmail($email);
         if ($status != 'active') {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
      * Method to check if the current user is an anonymous user.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function isAnonUser()
     {
@@ -259,8 +259,7 @@ class Auth
      * Method used to redirect people to another URL.
      *
      * @param   string $url The URL the user should be redirected to
-     * @param   boolean $is_popup Whether the current window is a popup or not
-     * @return  void
+     * @param   bool $is_popup Whether the current window is a popup or not
      */
     public static function redirect($url, $is_popup = false)
     {
@@ -293,7 +292,6 @@ class Auth
      * Method used to remove a cookie from the user's browser.
      *
      * @param   string $cookie_name The name of the cookie that needs to be deleted
-     * @return  void
      */
     public static function removeCookie($cookie_name)
     {
@@ -304,7 +302,7 @@ class Auth
      * Checks whether an user exists or not in the database.
      *
      * @param string $login The email address to check for
-     * @return boolean
+     * @return bool
      */
     public static function userExists($login)
     {
@@ -321,7 +319,7 @@ class Auth
      *
      * @param   string $email The email address to check for
      * @param   string $password The password of the user to check for
-     * @return  boolean
+     * @return  bool
      */
     public static function isCorrectPassword($email, $password)
     {
@@ -332,7 +330,7 @@ class Auth
      * Returns the true if the account is currently locked becouse of Back-Off lock
      *
      * @param   string $usr_id The user id to check for
-     * @return  boolean
+     * @return  bool
      */
     public static function isUserBackOffLocked($usr_id)
     {
@@ -342,7 +340,7 @@ class Auth
     /**
      * Gets the current user ID.
      *
-     * @return  integer The ID of the user
+     * @return  int The ID of the user
      */
     public static function getUserID()
     {
@@ -372,7 +370,7 @@ class Auth
     /**
      * Gets the current selected project from the project cookie.
      *
-     * @return  integer The project ID
+     * @return  int The project ID
      */
     public static function getCurrentProject($redirect = true)
     {
@@ -411,7 +409,7 @@ class Auth
     /**
      * Gets the current role in the current project.
      *
-     * @return  integer The current role ID
+     * @return  int The current role ID
      */
     public static function getCurrentRole()
     {
@@ -419,9 +417,9 @@ class Auth
         $usr_id = self::getUserID();
         if ((!empty($prj_id)) && (!empty($usr_id))) {
             return User::getRoleByUser($usr_id, $prj_id);
-        } else {
-            return 1;
         }
+
+        return 1;
     }
 
     /**
@@ -545,29 +543,41 @@ class Auth
         return self::getAuthBackend()->getUserIDByLogin($login);
     }
 
+    /**
+     * @param int $usr_id
+     */
     public static function canUserUpdateName($usr_id)
     {
         return self::getAuthBackend()->canUserUpdateName($usr_id);
     }
 
+    /**
+     * @param int $usr_id
+     */
     public static function canUserUpdateEmail($usr_id)
     {
         return self::getAuthBackend()->canUserUpdateEmail($usr_id);
     }
 
+    /**
+     * @param int $usr_id
+     */
     public static function canUserUpdatePassword($usr_id)
     {
         return self::getAuthBackend()->canUserUpdatePassword($usr_id);
     }
 
+    /**
+     * @return string
+     */
     public static function getExternalLoginURL()
     {
         $backend_login_url = self::getAuthBackend()->getExternalLoginURL();
         if (!$backend_login_url) {
             return null;
-        } else {
-            return $backend_login_url;
         }
+
+        return $backend_login_url;
     }
 
     public static function autoRedirectToExternalLogin()

@@ -12,16 +12,15 @@
  */
 
 /**
-* The MIME:: class provides methods for dealing with MIME standards.
-*
-* $Horde: horde/lib/MIME.php,v 1.121 2003/11/06 15:26:17 chuck Exp $
-*
-* Copyright 1999-2003 Chuck Hagenbuch <chuck@horde.org>
-*
-* See the enclosed file COPYING for license information (LGPL). If you
-* did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
-*
-*/
+ * The MIME:: class provides methods for dealing with MIME standards.
+ *
+ * $Horde: horde/lib/MIME.php,v 1.121 2003/11/06 15:26:17 chuck Exp $
+ *
+ * Copyright 1999-2003 Chuck Hagenbuch <chuck@horde.org>
+ *
+ * See the enclosed file COPYING for license information (LGPL). If you
+ * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
+ */
 use Eventum\Monolog\Logger;
 
 /**
@@ -36,10 +35,11 @@ class Mime_Helper
     /**
      * Method used to get charset from raw email.
      *
-     * @param   mixed   $input The full body of the message or decoded email.
-     * @return  string charset extracted from Content-Type header of email.
+     * @param   mixed   $input the full body of the message or decoded email
+     * @return  string charset extracted from Content-Type header of email
+     * @deprecated method not used
      */
-    public function getCharacterSet($input)
+    public static function getCharacterSet($input)
     {
         if (!is_object($input)) {
             $structure = self::decode($input, false, false);
@@ -124,13 +124,12 @@ class Mime_Helper
         if (strstr($address, '<')) {
             if (substr($address, 0, 1) == '<') {
                 return substr($address, 1, -1);
-            } else {
-                $address = stripslashes($address);
-                $first_part = substr($address, 0, strrpos($address, '<') - 1);
-                $first_part = '"' . str_replace('"', '\"', ($first_part)) . '"';
-                $second_part = substr($address, strrpos($address, '<'));
-                $address = $first_part . ' ' . $second_part;
             }
+            $address = stripslashes($address);
+            $first_part = substr($address, 0, strrpos($address, '<') - 1);
+            $first_part = '"' . str_replace('"', '\"', ($first_part)) . '"';
+            $second_part = substr($address, strrpos($address, '<'));
+            $address = $first_part . ' ' . $second_part;
         }
 
         return $address;
@@ -147,12 +146,11 @@ class Mime_Helper
         if (strstr($address, '<')) {
             if (substr($address, 0, 1) == '<') {
                 return substr($address, 1, -1);
-            } else {
-                $address = stripslashes($address);
-                $first_part = substr($address, 0, strrpos($address, '<') - 1);
-                $second_part = substr($address, strrpos($address, '<'));
-                $address = $first_part;
             }
+            $address = stripslashes($address);
+            $first_part = substr($address, 0, strrpos($address, '<') - 1);
+            $second_part = substr($address, strrpos($address, '<'));
+            $address = $first_part;
         }
         if (preg_match('/^".*"/', $address)) {
             $address = preg_replace('/^"(.*)"/', '\\1', $address);
@@ -176,19 +174,23 @@ class Mime_Helper
         if (self::is8bit($address)) {
             // split into name and address section
             preg_match('/(.*)<(.*)>/', $address, $matches);
+
+            $qq = preg_replace_callback(
+                '/([\x80-\xFF]|[\x21-\x2F]|[\xFC]|\[|\])/',
+                function ($m) {
+                    return '=' . strtoupper(dechex(ord(stripslashes($m[1]))));
+                },
+                $matches[1]
+            );
             $address = '=?' . APP_CHARSET . '?Q?' .
                 str_replace(' ', '_', trim(
-                    // @ because of /e:
-                    // preg_replace(): The /e modifier is deprecated, use preg_replace_callback instead
-                    // This feature was DEPRECATED in PHP 5.5.0, and REMOVED as of PHP 7.0.0.
-                    // http://www.php.net/manual/en/reference.pcre.pattern.modifiers.php
-                    @preg_replace('/([\x80-\xFF]|[\x21-\x2F]|[\xFC]|\[|\])/e', '"=" . strtoupper(dechex(ord(stripslashes("\1"))))', $matches[1])
+                    $qq
                 )) . '?= <' . $matches[2] . '>';
 
             return $address;
-        } else {
-            return self::quoteSender($address);
         }
+
+        return self::quoteSender($address);
     }
 
     /**
@@ -204,95 +206,39 @@ class Mime_Helper
     {
         if (preg_match("/=\?.+\?Q\?(.+)\?= <(.+)>/i", $address, $matches)) {
             return str_replace('_', ' ', quoted_printable_decode($matches[1])) . ' <' . $matches[2] . '>';
-        } else {
-            return self::removeQuotes($address);
         }
+
+        return self::removeQuotes($address);
     }
 
     /**
      * Encode into a quoted printable encoded string.
      *
-     * @author Elan Ruusamäe <glen@delfi.ee>
-     * @see    Zend_Mime::_encodeQuotedPrintable
      * @param   string $string The string in APP_CHARSET encoding
      * @return  string encoded string
      */
     public static function encodeQuotedPrintable($string)
     {
-        if (function_exists('iconv_mime_encode')) {
-            // avoid any wrapping by specifying line length long enough
-            // "test" -> 4
-            // ": =?ISO-8859-1?B?dGVzdA==?=" -> 27
-            // 3 +2 +10      +3 +7     + 3
-            $line_length = strlen($string) * 4 + strlen(APP_CHARSET) + 11;
+        // avoid any wrapping by specifying line length long enough
+        // "test" -> 4
+        // ": =?ISO-8859-1?B?dGVzdA==?=" -> 27
+        // 3 +2 +10      +3 +7     + 3
+        $line_length = strlen($string) * 4 + strlen(APP_CHARSET) + 11;
 
-            $params = [
-                'input-charset' => APP_CHARSET,
-                'output-charset' => APP_CHARSET,
-                'line-length' => $line_length,
-            ];
-            $string = iconv_mime_encode('', $string, $params);
-
-            return substr($string, 2);
-        }
-
-        // lookup-Tables for QuotedPrintable
-        $qpKeys = [
-            "\x00","\x01","\x02","\x03","\x04","\x05","\x06","\x07",
-            "\x08","\x09","\x0A","\x0B","\x0C","\x0D","\x0E","\x0F",
-            "\x10","\x11","\x12","\x13","\x14","\x15","\x16","\x17",
-            "\x18","\x19","\x1A","\x1B","\x1C","\x1D","\x1E","\x1F",
-            "\x7F","\x80","\x81","\x82","\x83","\x84","\x85","\x86",
-            "\x87","\x88","\x89","\x8A","\x8B","\x8C","\x8D","\x8E",
-            "\x8F","\x90","\x91","\x92","\x93","\x94","\x95","\x96",
-            "\x97","\x98","\x99","\x9A","\x9B","\x9C","\x9D","\x9E",
-            "\x9F","\xA0","\xA1","\xA2","\xA3","\xA4","\xA5","\xA6",
-            "\xA7","\xA8","\xA9","\xAA","\xAB","\xAC","\xAD","\xAE",
-            "\xAF","\xB0","\xB1","\xB2","\xB3","\xB4","\xB5","\xB6",
-            "\xB7","\xB8","\xB9","\xBA","\xBB","\xBC","\xBD","\xBE",
-            "\xBF","\xC0","\xC1","\xC2","\xC3","\xC4","\xC5","\xC6",
-            "\xC7","\xC8","\xC9","\xCA","\xCB","\xCC","\xCD","\xCE",
-            "\xCF","\xD0","\xD1","\xD2","\xD3","\xD4","\xD5","\xD6",
-            "\xD7","\xD8","\xD9","\xDA","\xDB","\xDC","\xDD","\xDE",
-            "\xDF","\xE0","\xE1","\xE2","\xE3","\xE4","\xE5","\xE6",
-            "\xE7","\xE8","\xE9","\xEA","\xEB","\xEC","\xED","\xEE",
-            "\xEF","\xF0","\xF1","\xF2","\xF3","\xF4","\xF5","\xF6",
-            "\xF7","\xF8","\xF9","\xFA","\xFB","\xFC","\xFD","\xFE",
-            "\xFF",
+        $params = [
+            'input-charset' => APP_CHARSET,
+            'output-charset' => APP_CHARSET,
+            'line-length' => $line_length,
         ];
+        $string = iconv_mime_encode('', $string, $params);
 
-        $qpReplaceValues = [
-            '=00','=01','=02','=03','=04','=05','=06','=07',
-            '=08','=09','=0A','=0B','=0C','=0D','=0E','=0F',
-            '=10','=11','=12','=13','=14','=15','=16','=17',
-            '=18','=19','=1A','=1B','=1C','=1D','=1E','=1F',
-            '=7F','=80','=81','=82','=83','=84','=85','=86',
-            '=87','=88','=89','=8A','=8B','=8C','=8D','=8E',
-            '=8F','=90','=91','=92','=93','=94','=95','=96',
-            '=97','=98','=99','=9A','=9B','=9C','=9D','=9E',
-            '=9F','=A0','=A1','=A2','=A3','=A4','=A5','=A6',
-            '=A7','=A8','=A9','=AA','=AB','=AC','=AD','=AE',
-            '=AF','=B0','=B1','=B2','=B3','=B4','=B5','=B6',
-            '=B7','=B8','=B9','=BA','=BB','=BC','=BD','=BE',
-            '=BF','=C0','=C1','=C2','=C3','=C4','=C5','=C6',
-            '=C7','=C8','=C9','=CA','=CB','=CC','=CD','=CE',
-            '=CF','=D0','=D1','=D2','=D3','=D4','=D5','=D6',
-            '=D7','=D8','=D9','=DA','=DB','=DC','=DD','=DE',
-            '=DF','=E0','=E1','=E2','=E3','=E4','=E5','=E6',
-            '=E7','=E8','=E9','=EA','=EB','=EC','=ED','=EE',
-            '=EF','=F0','=F1','=F2','=F3','=F4','=F5','=F6',
-            '=F7','=F8','=F9','=FA','=FB','=FC','=FD','=FE',
-            '=FF',
-        ];
-
-        $string = str_replace('=', '=3D', $string);
-        $string = str_replace($qpKeys, $qpReplaceValues, $string);
-
-        return rtrim($string);
+        return substr($string, 2);
     }
 
     /**
      * Decode a quoted printable encoded string.
+     *
+     * Formerly known as 'fixEncoding' method in Eventum
      *
      * @author Elan Ruusamäe <glen@delfi.ee>
      * @see    Zend_Mime_Decode::decodeQuotedPrintable
@@ -301,45 +247,15 @@ class Mime_Helper
      */
     public static function decodeQuotedPrintable($string)
     {
-        if (function_exists('iconv_mime_decode')) {
-            // skip if not encoded, iconv_mime_decode otherwise removes unknown chars.
-            // ideally this should not be needed, but we have places where we call this function twice.
-            // TODO: log and remove duplicate calls (to same data) to decodeQuotedPrintable
-            // TODO: use self::isQuotedPrintable if it is improved
-            if (!preg_match("/=\?(?P<charset>.*?)\?(?P<scheme>[QB])\?(?P<string>.*?)\?=/i", $string)) {
-                return $string;
-            }
-
-            return iconv_mime_decode($string, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, APP_CHARSET);
+        // skip if not encoded, iconv_mime_decode otherwise removes unknown chars.
+        // ideally this should not be needed, but we have places where we call this function twice.
+        // TODO: log and remove duplicate calls (to same data) to decodeQuotedPrintable
+        // TODO: use self::isQuotedPrintable if it is improved
+        if (!preg_match("/=\?(?P<charset>.*?)\?(?P<scheme>[QB])\?(?P<string>.*?)\?=/i", $string)) {
+            return $string;
         }
 
-        // this part does not function properly if iconv extension is missing
-        // +=?UTF-8?B?UHLDvGZ1bmcgUHLDvGZ1bmc=?=
-        preg_match_all("/(?P<before>.*?)=\?(?P<charset>.*?)\?(?P<scheme>[QB])\?(?P<string>.*?)\?=(?P<after>.*?)/i", $string, $matches, PREG_SET_ORDER);
-        $string = '';
-        foreach ($matches as $m) {
-            $string .= $m['before'];
-            switch (strtolower($m['scheme'])) {
-            case 'q':
-                $s = quoted_printable_decode($m['string']);
-                $s = str_replace('_', ' ', $s);
-                break;
-            case 'b':
-                $s = base64_decode($m['string']);
-                break;
-            default:
-                // unknown, leave undecoded
-                $s = $m['string'];
-            }
-            if (function_exists('iconv')) {
-                $string .= iconv($m['charset'], APP_CHARSET, $s);
-            } else {
-                $string .= $s;
-            }
-            $string .= $m['after'];
-        }
-
-        return $string;
+        return iconv_mime_decode($string, ICONV_MIME_DECODE_CONTINUE_ON_ERROR, APP_CHARSET);
     }
 
     /**
@@ -347,30 +263,30 @@ class Mime_Helper
      * TODO: make it support any parameter not just email address
      *
      * @param   string $address The email address
-     * @return  boolean If the address is quoted printable encoded.
+     * @return  bool if the address is quoted printable encoded
      */
     public static function isQuotedPrintable($address)
     {
         if (preg_match("/=\?.+\?Q\?.+\?= <.+>/i", $address)) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Determine if a string contains 8-bit characters.
      *
-     * @param string $string  The string to check.
-     * @return boolean  True if it does, false if it doesn't.
+     * @param string $string  the string to check
+     * @return bool  true if it does, false if it doesn't
      */
     public static function is8bit($string)
     {
         if (is_string($string) && preg_match('/[\x80-\xff]+/', $string)) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     public static function encodeHeaders($headers)
@@ -386,10 +302,10 @@ class Mime_Helper
     /**
      * Encode a string containing non-ASCII characters according to RFC 2047.
      *
-     * @param string $text     The text to encode.
-     * @param string $charset  (optional) The character set of the text.
-     * @return string  The text, encoded only if it contains non-ASCII
-     *                 characters.
+     * @param string $text     the text to encode
+     * @param string $charset  (optional) The character set of the text
+     * @return string  the text, encoded only if it contains non-ASCII
+     *                 characters
      */
     public static function encode($text, $charset = APP_CHARSET)
     {
@@ -423,10 +339,10 @@ class Mime_Helper
     /**
      * Internal recursive function to RFC 2047 encode a string.
      *
-     * @param string $text     The text to encode.
-     * @param string $charset  The character set of the text.
-     * @return string  The text, encoded only if it contains non-ASCII
-     *                 characters.
+     * @param string $text     the text to encode
+     * @param string $charset  the character set of the text
+     * @return string  the text, encoded only if it contains non-ASCII
+     *                 characters
      */
     private static function _encode($text, $charset)
     {
@@ -439,9 +355,9 @@ class Mime_Helper
             $pos = intval((68 - $char_len) / 2);
 
             return self::_encode(substr($text, 0, $pos), $charset) . ' ' . self::_encode(substr($text, $pos), $charset);
-        } else {
-            return '=?' . $charset . '?b?' . trim(base64_encode($text)) . '?=';
         }
+
+        return '=?' . $charset . '?b?' . trim(base64_encode($text)) . '?=';
     }
 
     /**
@@ -451,11 +367,14 @@ class Mime_Helper
      * @param   string $charset The charset of the string
      * @return  string The encoded string
      */
-    public function encodeValue($hdr_value, $charset = 'iso-8859-1')
+    public static function encodeValue($hdr_value, $charset = APP_CHARSET)
     {
         preg_match_all('/(\w*[\x80-\xFF]+\w*)/', $hdr_value, $matches);
+        $cb = function ($m) {
+            return '=' . strtoupper(dechex(ord($m[1])));
+        };
         foreach ($matches[1] as $value) {
-            $replacement = preg_replace('/([\x80-\xFF])/e', '"=" . strtoupper(dechex(ord("\1")))', $value);
+            $replacement = preg_replace_callback('/([\x80-\xFF])/', $cb, $value);
             $hdr_value = str_replace($value, '=?' . $charset . '?Q?' . $replacement . '?=', $hdr_value);
         }
 
@@ -542,16 +461,16 @@ class Mime_Helper
             }
 
             return self::getAttachmentName($list, $filename);
-        } else {
-            return $filename;
         }
+
+        return $filename;
     }
 
     /**
      * Method used to check whether a given email message has any attachments.
      *
-     * @param   mixed   $message The full body of the message or parsed message structure.
-     * @return  boolean
+     * @param   mixed   $message the full body of the message or parsed message structure
+     * @return  bool
      */
     public static function hasAttachments($message)
     {
@@ -561,16 +480,16 @@ class Mime_Helper
         $attachments = self::_getAttachmentDetails($message, true);
         if (count($attachments) > 0) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Method used to parse and return the full list of attachments
      * associated with a message.
      *
-     * @param   mixed   $message The full body of the message or parsed message structure.
+     * @param   mixed   $message the full body of the message or parsed message structure
      * @return  array The list of attachments, if any
      */
     public static function getAttachments($message)
@@ -586,7 +505,7 @@ class Mime_Helper
      * Method used to parse and return the full list of attachment CIDs
      * associated with a message.
      *
-     * @param   mixed   $message The full body of the message or parsed message structure.
+     * @param   mixed   $message the full body of the message or parsed message structure
      * @return  array The list of attachment CIDs, if any
      */
     public static function getAttachmentCIDs($message)
@@ -658,7 +577,7 @@ class Mime_Helper
         if ($found) {
             $t = [
                 'filename' => $mime_part_filename,
-                'cid'      => @$mime_part->headers['content-id'],
+                'cid' => @$mime_part->headers['content-id'],
                 'filetype' => $content_type,
             ];
             // only include the body of the attachment when
@@ -676,7 +595,7 @@ class Mime_Helper
      * Method used to get the encoded content of a specific message
      * attachment.
      *
-     * @param   mixed   $message The full content of the message or parsed message structure.
+     * @param   string|object   $message the full content of the message or parsed message structure
      * @param   string $filename The filename to look for
      * @param   string $cid The content-id to look for, if any
      * @return  string The full encoded content of the attachment
@@ -692,16 +611,16 @@ class Mime_Helper
                 $details[0]['filetype'],
                 $details[0]['blob'],
             ];
-        } else {
-            return [];
         }
+
+        return [];
     }
 
     /**
      * Method used to decode the content of a MIME encoded message.
      *
      * @param   string $message The full body of the message
-     * @param   boolean $include_bodies Whether to include the bodies in the return value or not
+     * @param   bool $include_bodies Whether to include the bodies in the return value or not
      * @return  mixed The decoded content of the message
      */
     public static function decode(&$message, $include_bodies = false, $decode_bodies = true)
@@ -717,10 +636,10 @@ class Mime_Helper
         }
 
         $params = [
-            'crlf'           => "\r\n",
+            'crlf' => "\r\n",
             'include_bodies' => $include_bodies,
             'decode_headers' => false,
-            'decode_bodies'  => $decode_bodies,
+            'decode_bodies' => $decode_bodies,
         ];
         $decode = new Mail_mimeDecode($message);
         $email = $decode->decode($params);
@@ -748,11 +667,10 @@ class Mime_Helper
     {
         if ($source_charset == false || $source_charset == APP_CHARSET) {
             return $string;
-        } else {
-            $res = iconv($source_charset, APP_CHARSET, $string);
-
-            return $res === false ? $string : $res;
         }
+        $res = iconv($source_charset, APP_CHARSET, $string);
+
+        return $res === false ? $string : $res;
     }
 
     /**
@@ -761,7 +679,6 @@ class Mime_Helper
      *
      * @param   object $obj The decoded object structure of the MIME message
      * @param   array $parts The parsed parts of the MIME message
-     * @return  void
      */
     public static function parse_output($obj, &$parts)
     {
@@ -773,7 +690,7 @@ class Mime_Helper
             return;
         }
 
-        $ctype = @strtolower($obj->ctype_primary.'/'.$obj->ctype_secondary);
+        $ctype = @strtolower($obj->ctype_primary . '/' . $obj->ctype_secondary);
         switch ($ctype) {
             case 'text/plain':
                 if (((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) || (!empty($obj->d_parameters['filename']))) {
@@ -824,7 +741,7 @@ class Mime_Helper
      * Returns the internal list of content types that we do not support as
      * valid attachment types.
      *
-     * @return array The list of content types
+     * @return string[] The list of content types
      */
     private static function _getInvalidContentTypes()
     {
@@ -839,7 +756,7 @@ class Mime_Helper
      * Returns the internal list of attachment dispositions that we do not
      * support as valid attachment types.
      *
-     * @return array The list of valid dispositions
+     * @return string[] The list of valid dispositions
      */
     private static function _getValidDispositions()
     {
@@ -853,7 +770,7 @@ class Mime_Helper
      * Splits the full email into headers and body
      *
      * @param   string $message The full email message
-     * @param   boolean $unfold If headers should be unfolded
+     * @param   bool $unfold If headers should be unfolded
      * @return  array An array containing the headers and body
      */
     public static function splitHeaderBody($message, $unfold = true)

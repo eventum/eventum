@@ -25,28 +25,28 @@ class Dynamic_Example_Custom_Field_Backend extends Dynamic_Custom_Field_Backend
         // should pull from a dynamic data source but will hard code for now
         $data = [
             [
-                'keys'  => [Custom_Field::getOptionKey($fld_id, 'red')],
-                'options'   =>  [
-                    '1' =>  'Apple',
-                    '2' =>  'Fire Engine',
-                    '3' =>  'Fire',
-                ]
+                'keys' => [Custom_Field::getOptionKey($fld_id, 'red')],
+                'options' => [
+                    '1' => 'Apple',
+                    '2' => 'Fire Engine',
+                    '3' => 'Fire',
+                ],
             ],
             [
-                'keys'  => [Custom_Field::getOptionKey($fld_id, 'blue')],
-                'options'   =>  [
-                    '4' =>  'water',
-                    '5' =>  'sky',
-                ]
+                'keys' => [Custom_Field::getOptionKey($fld_id, 'blue')],
+                'options' => [
+                    '4' => 'water',
+                    '5' => 'sky',
+                ],
             ],
             [
-                'keys'  =>  [Custom_Field::getOptionKey($fld_id, 'yellow')],
-                'options'   =>  [
-                    '6' =>  'bannana',
-                    '7' =>  'gold',
-                    '8' =>  'yellow things',
-                    '9' =>  'more yellow things',
-                ]
+                'keys' => [Custom_Field::getOptionKey($fld_id, 'yellow')],
+                'options' => [
+                    '6' => 'bannana',
+                    '7' => 'gold',
+                    '8' => 'yellow things',
+                    '9' => 'more yellow things',
+                ],
             ],
         ];
 

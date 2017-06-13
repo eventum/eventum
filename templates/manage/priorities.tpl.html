@@ -1,7 +1,10 @@
 {extends "manage/manage.tpl.html"}
 
-{block "manage_content"}
+{function name="rank_icon" direction="down" href=""}
+  {include file="include/rank_icon.tpl.html" direction=$direction href=$href}
+{/function}
 
+{block "manage_content"}
 
 <script type="text/javascript">
     <!--
@@ -38,6 +41,29 @@
         $('#priority_form').submit(validateForm);
     });
     //-->
+
+	// Selectmenu – select icon of priority
+	$(function() {
+		$.widget( "custom.iconselectmenu", $.ui.selectmenu, {
+			_renderItem: function( $ul, item ) {
+				var $li = $( "<li>", { text: item.label } );
+				if ( item.disabled ) {
+					$li.addClass( "ui-state-disabled" );
+				}
+				$( "<span>", {
+					style: item.element.attr( "data-style" ),
+					"class": "ui-icon " + item.element.attr( "data-class" )
+				})
+					.appendTo( $li );
+				return $li.appendTo( $ul );
+			}
+		});
+
+		$( "#select_menu_priority_icon" )
+			.iconselectmenu()
+			.iconselectmenu( "menuWidget")
+				.addClass( "ui-menu-icons select_icon_priority" );
+	});
 </script>
 
 <form id="priority_form" method="post">
@@ -75,6 +101,19 @@
                 {include file="error_icon.tpl.html" field="rank"}
             </td>
         </tr>
+        <tr>
+            <th width="120">
+                {t}Icon{/t}:
+            </th>
+            <td>
+              <select name="icon" id="select_menu_priority_icon">
+                <option data-class="select_icon_priority" value="0" {if isset($info.pri_icon) && $info.pri_icon == 0}selected{/if}>none</option>
+                  {section name=i start=1 loop=22 step=1}
+                  <option data-class="select_icon_priority" data-style="background-image:url({$core.rel_url}images/priority/{$smarty.section.i.index}.png);" value="{$smarty.section.i.index}" {if isset($info.pri_icon) && $info.pri_icon == $smarty.section.i.index}selected{/if}>{$smarty.section.i.index}</option>
+                  {/section}
+              </select>
+            </td>
+        </tr>
         <tr class="buttons">
             <td colspan="2">
                 {if $smarty.get.cat|default:'' == 'edit'}
@@ -100,14 +139,19 @@
         <tr>
             <th width="4" nowrap><input type="button" value="{t}All{/t}" class="select_all"></th>
             <th align="center">&nbsp;{t}Rank{/t}&nbsp;</th>
+            <th align="center">&nbsp;{t}Icon{/t}&nbsp;</th>
             <th width="100%">&nbsp;{t}Title{/t}</th>
         </tr>
         {section name="i" loop=$list}
         <tr class="{cycle values='odd,even'}">
             <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].pri_id}"></td>
             <td align="center" nowrap>
-                <a href="{$core.current_url}?cat=change_rank&id={$list[i].pri_id}&prj_id={$project.prj_id}&rank=desc"><img src="{$core.rel_url}images/desc.gif" border="0"></a> {$list[i].pri_rank}
-                <a href="{$core.current_url}?cat=change_rank&id={$list[i].pri_id}&prj_id={$project.prj_id}&rank=asc"><img src="{$core.rel_url}images/asc.gif" border="0"></a>
+              {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].pri_id}&prj_id={$project.prj_id}&rank=desc" direction="down"}
+              {$list[i].pri_rank}
+              {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].pri_id}&prj_id={$project.prj_id}&rank=asc" direction="up"}
+            </td>
+            <td align="center" nowrap>
+                {if $list[i].pri_icon > 0}<span class="priority_icon priority-icon-{$list[i].pri_icon}" title="{$list[i].pri_icon}"></span>{/if}
             </td>
             <td width="100%">
                 &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].pri_id}&prj_id={$project.prj_id}" title="{t}update this entry{/t}">{$list[i].pri_title}</a>
@@ -115,7 +159,7 @@
         </tr>
         {sectionelse}
         <tr>
-            <td colspan="3" align="center">
+            <td colspan="4" align="center">
                 {t}No priorities could be found.{/t}
             </td>
         </tr>
@@ -124,7 +168,7 @@
             <td width="4" align="center">
                 <input type="button" value="{t}All{/t}" class="select_all">
             </td>
-            <td colspan="2">
+            <td colspan="3">
                 <input type="submit" value="{t}Delete{/t}">
             </td>
         </tr>

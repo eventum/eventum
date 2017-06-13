@@ -15,8 +15,6 @@ use Eventum\Db\DatabaseException;
 
 class APIAuthToken
 {
-    private static $default_alg = 'HS256';
-
     public static function generate($usr_id)
     {
         $factory = new RandomLib\Factory();
@@ -45,6 +43,8 @@ class APIAuthToken
         } catch (DatabaseException $e) {
             return -1;
         }
+
+        return $res;
     }
 
     public static function isTokenValidForEmail($token, $email)
@@ -113,9 +113,9 @@ class APIAuthToken
                 self::generate($usr_id);
 
                 return self::getTokensForUser($usr_id, false);
-            } else {
-                return [];
             }
+
+            return [];
         }
 
         return $res;
@@ -135,7 +135,7 @@ class APIAuthToken
             return -1;
         }
 
-        $res = self::generate($usr_id);
+        self::generate($usr_id);
 
         return 1;
     }

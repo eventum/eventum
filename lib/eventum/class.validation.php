@@ -23,23 +23,23 @@ class Validation
      * whitespace characters, such as spaces, tabs or newlines.
      *
      * @param   string $str The string to check against
-     * @return  boolean
+     * @return  bool
      */
     public static function isWhitespace($str)
     {
         $str = trim($str);
         if (strlen($str) == 0) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * Method used to check whether an email address is a valid one.
      *
      * @param   string $str The email address to check against
-     * @return  boolean
+     * @return  bool
      */
     public static function isEmail($str)
     {
@@ -93,9 +93,10 @@ class Validation
      * characters.
      *
      * @param   string $str The string to check against
-     * @return  boolean
+     * @return  bool
+     * @deprecated method not used
      */
-    public function hasValidChars($str)
+    public static function hasValidChars($str)
     {
         $valid_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
                                 'j', 'l', 'k', 'm', 'n', 'o', 'p', 'q', 'r',

@@ -23,25 +23,25 @@ class Prefs
     /**
      * Method used to get the system-wide default preferences.
      *
-     * @param   array $projects An array of projects this user will have access too.
+     * @param   array $projects an array of projects this user will have access too
      * @return  array of the default preferences
      */
     public static function getDefaults($projects = null)
     {
         $setup = Setup::get();
         $prefs = [
-            'receive_assigned_email'  => [],
+            'receive_assigned_email' => [],
             'receive_new_issue_email' => [],
-            'timezone'                => Date_Helper::getDefaultTimezone(),
-            'week_firstday'           => Date_Helper::getDefaultWeekday(),
-            'list_refresh_rate'       => APP_DEFAULT_REFRESH_RATE,
-            'email_refresh_rate'      => APP_DEFAULT_REFRESH_RATE,
-            'email_signature'         => '',
-            'auto_append_email_sig'   => 'no',
-            'auto_append_note_sig'    => 'no',
-            'close_popup_windows'     => 1,
-            'relative_date'           => (int) ($setup['relative_date'] == 'enabled'),
-            'collapsed_emails'        => 1,
+            'timezone' => Date_Helper::getDefaultTimezone(),
+            'week_firstday' => Date_Helper::getDefaultWeekday(),
+            'list_refresh_rate' => APP_DEFAULT_REFRESH_RATE,
+            'email_refresh_rate' => APP_DEFAULT_REFRESH_RATE,
+            'email_signature' => '',
+            'auto_append_email_sig' => 'no',
+            'auto_append_note_sig' => 'no',
+            'close_popup_windows' => 1,
+            'relative_date' => (int) ($setup['relative_date'] == 'enabled'),
+            'collapsed_emails' => 1,
         ];
 
         if (is_array($projects)) {
@@ -58,7 +58,7 @@ class Prefs
     /**
      * Method used to get the preferences set by a specific user.
      *
-     * @param integer $usr_id The user ID
+     * @param int $usr_id The user ID
      * @param bool $force Set to true to force database refresh
      * @return array The preferences
      */
@@ -136,9 +136,9 @@ class Prefs
     /**
      * Method used to set the preferences for a specific user.
      *
-     * @param   integer $usr_id The user ID
+     * @param   int $usr_id The user ID
      * @param   array   $preferences An array of preferences
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function set($usr_id, $preferences)
     {

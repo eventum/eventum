@@ -21,7 +21,7 @@ class SearchbarController extends BaseController
     private $custom_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -31,7 +31,7 @@ class SearchbarController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -39,7 +39,7 @@ class SearchbarController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -69,6 +69,9 @@ class SearchbarController extends BaseController
         $this->redirect('list.php', $params);
     }
 
+    /**
+     * @param int $cst_id
+     */
     private function getFilterById($cst_id)
     {
         $filters = Filter::getListing(true);
@@ -84,7 +87,7 @@ class SearchbarController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

@@ -50,7 +50,7 @@ class RemoteDataController extends BaseController
     private $ec_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -63,7 +63,7 @@ class RemoteDataController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -76,7 +76,7 @@ class RemoteDataController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -124,6 +124,9 @@ class RemoteDataController extends BaseController
         exit;
     }
 
+    /**
+     * @param string $issue_id
+     */
     private function getIssueDescription($issue_id)
     {
         if (!Issue::canAccess($issue_id, $this->usr_id)) {
@@ -137,7 +140,7 @@ class RemoteDataController extends BaseController
     /**
      * Selects the email from the table and returns the contents.
      *
-     * @param   string $id The sup_ema_id and sup_id seperated by a -.
+     * @param   string $id the sup_ema_id and sup_id separated by a -
      * @return  string A string containing the body of the email,
      */
     private function getEmail($id)
@@ -159,8 +162,8 @@ class RemoteDataController extends BaseController
     /**
      * Selects a note from the table and returns the contents.
      *
-     * @param   string $id The ID of this note.
-     * @return  string A string containing the note.
+     * @param   string $id the ID of this note
+     * @return  string a string containing the note
      */
     private function getNote($id)
     {
@@ -179,8 +182,8 @@ class RemoteDataController extends BaseController
     /**
      * Selects a draft from the table and returns the contents.
      *
-     * @param   string $id The ID of this draft.
-     * @return  string A string containing the note.
+     * @param   string $id the ID of this draft
+     * @return  string a string containing the note
      */
     private function getDraft($id)
     {
@@ -199,8 +202,8 @@ class RemoteDataController extends BaseController
     /**
      * Selects a phone support entry from the table and returns the contents.
      *
-     * @param   string $id The phone support entry ID.
-     * @return  string A string containing the description.
+     * @param   string $id the phone support entry ID
+     * @return  string a string containing the description
      */
     private function getPhoneSupport($id)
     {
@@ -218,8 +221,8 @@ class RemoteDataController extends BaseController
     /**
      * Selects a mail queue entry from the table and returns the contents.
      *
-     * @param   string $id The mail queue entry ID.
-     * @return  string A string containing the body.
+     * @param   string $id the mail queue entry ID
+     * @return  string a string containing the body
      */
     private function getMailQueue($id)
     {
@@ -245,7 +248,7 @@ class RemoteDataController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

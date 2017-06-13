@@ -38,14 +38,14 @@ class StalledIssuesController extends ReportBaseController
     /** @var string */
     private $sort_order;
 
-    /** @var string */
+    /** @var string[] */
     private $status;
 
-    /** @var string */
+    /** @var string[] */
     private $developers;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -67,7 +67,7 @@ class StalledIssuesController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -88,7 +88,7 @@ class StalledIssuesController extends ReportBaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {

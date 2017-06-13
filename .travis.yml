@@ -1,23 +1,44 @@
 language: php
 sudo: required
+dist: trusty
 
 # disable the default submodule logic
 git:
   submodules: false
 
-matrix:
-  fast_finish: true
+jobs:
   include:
     - php: "5.5"
-      env: RELEASE=yes
     - php: "5.6"
     - php: "7.0"
-    - php: "hhvm"
+    - php: "7.1"
     - php: "nightly"
-  allow_failures:
-    - php: hhvm
-    - php: nightly
-    - php: 7.0
+
+    # TODO: would be nice to have two separate stages, one for build, and other for actually publishing
+    - stage: GitHub Release
+      php: "5.6"
+      script:
+        - bin/ci/dist.sh
+
+      # https://docs.travis-ci.com/user/deployment/releases
+      # https://docs.travis-ci.com/user/build-stages/deploy-github-releases/
+      before_deploy:
+        - bin/ci/changelog.sh
+
+      deploy:
+        provider: releases
+        # Create token in https://github.com/settings/tokens and set as env var:
+        # $ travis env set -p GITHUB_API_TOKEN ...
+        # or via https://travis-ci.org/eventum/eventum/settings
+        api_key: $GITHUB_API_TOKEN
+        file_glob: true
+        file:
+          - eventum-*.tar.gz
+        skip_cleanup: true
+        overwrite: true
+        on:
+          repo: eventum/eventum
+          tags: true
 
 cache:
   apt: true
@@ -27,39 +48,14 @@ cache:
     - vendor
 
 before_install:
-  - mkdir -p ~/.phpenv/versions/$(phpenv version-name)/etc
-  - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - if ! phpenv config-rm xdebug.ini; then :; fi
+  - bin/ci/configure.sh
 
 install:
-  # disable secure-http because sourceforge redirects to http:// urls
-  - composer config secure-http false
   - composer install --no-interaction --prefer-dist
 
 script:
-  - bin/ci/check_patches.sh
-  - echo phpunit -v --debug
-  - bin/ci/dist.sh
-
-before_deploy:
-  - bin/ci/changelog.sh
-
-# https://docs.travis-ci.com/user/deployment/releases
-deploy:
-  provider: releases
-  # Create token in https://github.com/settings/tokens and set as env var:
-  # $ travis env set -p GITHUB_API_TOKEN ...
-  # or via https://travis-ci.org/eventum/eventum/settings
-  api_key: $GITHUB_API_TOKEN
-  file_glob: true
-  file:
-    - eventum-*.tar.gz
-  skip_cleanup: true
-  overwrite: true
-  on:
-    repo: eventum/eventum
-    php: '5.5'
-    tags: true
+  - phpunit --version
+  - phpunit --verbose --exclude-group ldap,imap,logger,mail,api,locale,date,db,crypto
 
 notifications:
   irc:

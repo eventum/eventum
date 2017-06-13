@@ -32,17 +32,17 @@ class History
             return 'no value set -> ' . $new_value;
         } elseif (empty($new_value)) {
             return $old_value . ' -> no value set';
-        } else {
-            return $old_value . ' -> ' . $new_value;
         }
+
+        return $old_value . ' -> ' . $new_value;
     }
 
     /**
      * Method used to log the changes made against a specific issue.
      *
-     * @param integer $iss_id The issue ID
-     * @param integer $usr_id The ID of the user.
-     * @param integer|string $htt_id The type ID of this history event.
+     * @param int $iss_id The issue ID
+     * @param int $usr_id the ID of the user
+     * @param int|string $htt_id the type ID of this history event
      * @param string $summary The summary of the changes
      * @param array $context parameters used in summary
      * @param null $min_role The minimum role that can view this entry. If null will default to role from $htt_id
@@ -64,10 +64,10 @@ class History
             'his_summary' => $summary,
             'his_context' => json_encode($context),
             'his_htt_id' => $htt_id,
-            'his_min_role'  =>  $min_role,
+            'his_min_role' => $min_role,
         ];
 
-        $stmt = 'INSERT INTO {{%issue_history}} SET '. DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO {{%issue_history}} SET ' . DB_Helper::buildSet($params);
 
         try {
             DB_Helper::getInstance()->query($stmt, $params);
@@ -78,7 +78,7 @@ class History
     /**
      * Method used to get the list of changes made against a specific issue.
      *
-     * @param   integer $iss_id The issue ID
+     * @param   int $iss_id The issue ID
      * @param   string $order_by The order to sort the history
      * @return  array The list of changes
      */
@@ -115,7 +115,7 @@ class History
      * Returns the id for the history type based on name.
      *
      * @param   string $name The name of the history type
-     * @return  integer The id of this type.
+     * @return  int the id of this type
      */
     public static function getTypeID($name)
     {
@@ -153,8 +153,8 @@ class History
     /**
      * Returns the role for the history type based on id.
      *
-     * @param   integer $id The id of the history type
-     * @return  integer The role of this type.
+     * @param   int $id The id of the history type
+     * @return  int the role of this type
      */
     public static function getTypeRole($id)
     {
@@ -183,12 +183,12 @@ class History
     /**
      * Returns a list of issues touched by the specified user in the specified time frame in specified project.
      *
-     * @param integer $usr_id The id of the user
+     * @param int $usr_id The id of the user
      * @param int $prj_id The project id
      * @param string $start The start date
      * @param string $end The end date
      * @param array $htt_exclude Additional History Types to ignore
-     * @return array An array of issues touched by the user.
+     * @return array an array of issues touched by the user
      */
     public static function getTouchedIssuesByUser($usr_id, $prj_id, $start, $end, $htt_exclude = [])
     {
@@ -245,12 +245,12 @@ class History
     /**
      * Returns the number of issues for the specified user that are currently set to the specified status(es).
      *
-     * @param integer $usr_id The id of the user.
+     * @param int $usr_id the id of the user
      * @param int $prj_id The project id
      * @param string $start The start date
      * @param string $end The end date
-     * @param array $statuses An array of status abbreviations to return counts for.
-     * @return array An array containing the number of issues for the user set to the specified statuses.
+     * @param array $statuses an array of status abbreviations to return counts for
+     * @return array an array containing the number of issues for the user set to the specified statuses
      */
     public static function getTouchedIssueCountByStatus($usr_id, $prj_id, $start, $end, $statuses = null)
     {
@@ -292,8 +292,8 @@ class History
     /**
      * Returns the last person to close the issue
      *
-     * @param   integer $issue_id The ID of the issue
-     * @return  integer usr_id
+     * @param   int $issue_id The ID of the issue
+     * @return  int usr_id
      */
     public static function getIssueCloser($issue_id)
     {

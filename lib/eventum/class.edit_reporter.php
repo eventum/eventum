@@ -21,14 +21,14 @@ class Edit_Reporter
     /**
      * Modifies an Issue's Reporter.
      *
-     * @param   integer $issue_id The id of the issue.
-     * @param   string $fullname The id of the user.
-     * @param   boolean $add_history If this should be logged.
+     * @param   int $issue_id the id of the issue
+     * @param string $email
+     * @param   bool $add_history if this should be logged
      * @return int
      */
     public static function update($issue_id, $email, $add_history = true)
     {
-        $email = strtolower(Mail_Helper::getEmailAddress($email));
+        $email = Mail_Helper::getEmailAddress($email);
         $usr_id = User::getUserIDByEmail($email, true);
 
         // If no valid user found reset to system account
@@ -54,7 +54,7 @@ class Edit_Reporter
             $current_usr_id = Auth::getUserID();
             History::add($issue_id, $current_usr_id, 'issue_updated', 'Reporter was changed to {email} by {user}', [
                 'email' => $email,
-                'user' => User::getFullName($current_usr_id)
+                'user' => User::getFullName($current_usr_id),
             ]);
         }
 

@@ -12,6 +12,8 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Extension\ExtensionLoader;
+use Eventum\Monolog\Logger;
 
 /**
  * Class to handle the business logic related to the administration
@@ -21,14 +23,47 @@ class Custom_Field
 {
     public static $option_types = ['combo', 'multiple', 'checkbox'];
 
+    public static $order_by_choices = [
+        'cfo_id ASC' => 'Insert',
+        'cfo_id DESC' => 'Reverse insert',
+        'cfo_value ASC' => 'Alphabetical',
+        'cfo_value DESC' => 'Reverse alphabetical',
+        'cfo_rank ASC' => 'Manual',
+    ];
+
+    /**
+     * @param int $fld_id
+     */
+    public static function updateOptions($fld_id, $options, $new_options)
+    {
+        $old_options = self::getOptions($fld_id);
+
+        $rank = 1;
+        foreach ($options as $cfo_id => $cfo_value) {
+            self::updateOption($cfo_id, $cfo_value, $rank++);
+            unset($old_options[$cfo_id]);
+        }
+
+        // delete any options leftover
+        if (count($old_options) > 0) {
+            self::removeOptions($fld_id, array_keys($old_options));
+        }
+
+        if (count($new_options) > 0) {
+            self::addOptions($fld_id, $new_options, $rank);
+        }
+
+        return 1;
+    }
+
     /**
      * Method used to remove a group of custom field options.
      *
      * @param   array $fld_id The list of custom field IDs
      * @param   array $fld_id The list of custom field option IDs
-     * @return  boolean
+     * @return  bool
      */
-    public function removeOptions($fld_id, $cfo_id)
+    public static function removeOptions($fld_id, $cfo_id)
     {
         if (!is_array($fld_id)) {
             $fld_id = [$fld_id];
@@ -62,27 +97,33 @@ class Custom_Field
     /**
      * Method used to add possible options into a given custom field.
      *
-     * @param   integer $fld_id The custom field ID
+     * @param   int $fld_id The custom field ID
      * @param   array $options The list of options that need to be added
-     * @return  integer 1 if the insert worked, -1 otherwise
+     * @param   int $start_rank The rank for the first new option to be inserted with
+     * @return  int 1 if the insert worked, -1 otherwise
      */
-    public function addOptions($fld_id, $options)
+    public static function addOptions($fld_id, $options, $start_rank)
     {
         if (!is_array($options)) {
             $options = [$options];
         }
 
         foreach ($options as $option) {
+            if (empty($option)) {
+                continue;
+            }
             $stmt = 'INSERT INTO
                         {{%custom_field_option}}
                      (
                         cfo_fld_id,
-                        cfo_value
+                        cfo_value,
+                        cfo_rank
                      ) VALUES (
                         ?,
-                        ' . DB_Helper::buildList($option) . '
+                        ?,
+                        ?
                      )';
-            $params = array_merge([$fld_id, $option]);
+            $params = [$fld_id, $option, $start_rank++];
             try {
                 DB_Helper::getInstance()->query($stmt, $params);
             } catch (DatabaseException $e) {
@@ -96,20 +137,22 @@ class Custom_Field
     /**
      * Method used to update an existing custom field option value.
      *
-     * @param   integer $cfo_id The custom field option ID
+     * @param   int $cfo_id The custom field option ID
      * @param   string $cfo_value The custom field option value
-     * @return  boolean
+     * @param   int $rank The rank of the custom field option
+     * @return  bool
      */
-    public function updateOption($cfo_id, $cfo_value)
+    public static function updateOption($cfo_id, $cfo_value, $rank = null)
     {
         $stmt = 'UPDATE
                     {{%custom_field_option}}
                  SET
-                    cfo_value=?
+                    cfo_value=?,
+                    cfo_rank=?
                  WHERE
                     cfo_id=?';
         try {
-            DB_Helper::getInstance()->query($stmt, [$cfo_value, $cfo_id]);
+            DB_Helper::getInstance()->query($stmt, [$cfo_value, $rank, $cfo_id]);
         } catch (DatabaseException $e) {
             return false;
         }
@@ -184,12 +227,12 @@ class Custom_Field
                 }
 
                 $updated_fields[$fld_id] = [
-                    'title' =>  $field_titles[$fld_id],
-                    'type'  =>  $field_types[$fld_id],
-                    'min_role'  =>  $min_role,
-                    'changes'   =>  '',
-                    'old_display'   =>  '',
-                    'new_display'   =>  '',
+                    'title' => $field_titles[$fld_id],
+                    'type' => $field_types[$fld_id],
+                    'min_role' => $min_role,
+                    'changes' => '',
+                    'old_display' => '',
+                    'new_display' => '',
                 ];
                 if (!in_array($field_types[$fld_id], self::$option_types)) {
                     // check if this is a date field
@@ -316,7 +359,7 @@ class Custom_Field
                 foreach ($changes as $min_role => $role_changes) {
                     History::add($issue_id, $usr_id, 'custom_field_updated', 'Custom field updated ({changes}) by {user}', [
                         'changes' => implode('; ', $role_changes),
-                        'user' => $usr_full_name
+                        'user' => $usr_full_name,
                     ], $min_role);
                 }
             }
@@ -386,10 +429,10 @@ class Custom_Field
      * Method used to associate a custom field value to a given
      * issue ID.
      *
-     * @param   integer $iss_id The issue ID
-     * @param   integer $fld_id The custom field ID
+     * @param   int $iss_id The issue ID
+     * @param   int $fld_id The custom field ID
      * @param   string  $value The custom field value
-     * @return  boolean Whether the association worked or not
+     * @return  bool Whether the association worked or not
      */
     public static function associateIssue($iss_id, $fld_id, $value)
     {
@@ -432,7 +475,7 @@ class Custom_Field
      * Method used to get the list of custom fields associated with
      * a given project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @param   string $form_type The type of the form
      * @param   string $fld_type The type of field (optional)
      * @param   bool    $for_edit True if the fld_min_role_edit permission should be checked
@@ -530,11 +573,11 @@ class Custom_Field
     /**
      * Method used to get the custom field option value.
      *
-     * @param   integer $fld_id The custom field ID
-     * @param   integer $value The custom field option ID
+     * @param   int $fld_id The custom field ID
+     * @param   int $value The custom field option ID
      * @return  string The custom field option value
      */
-    public function getOptionValue($fld_id, $value)
+    public static function getOptionValue($fld_id, $value)
     {
         static $returns;
 
@@ -585,8 +628,8 @@ class Custom_Field
     /**
      * Method used to get the custom field key based on the value.
      *
-     * @param   integer $fld_id The custom field ID
-     * @param   integer $value The custom field option ID
+     * @param   int $fld_id The custom field ID
+     * @param   int $value The custom field option ID
      * @return  string The custom field option value
      */
     public static function getOptionKey($fld_id, $value)
@@ -639,9 +682,9 @@ class Custom_Field
      * values associated with a given issue ID. If usr_id is false method
      * defaults to current user.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $iss_id The issue ID
-     * @param   integer $usr_id The ID of the user who is going to be viewing this list.
+     * @param   int $prj_id The project ID
+     * @param   int $iss_id The issue ID
+     * @param   int $usr_id the ID of the user who is going to be viewing this list
      * @param   mixed   $form_type The name of the form this is for or if this is an array the ids of the fields to return
      * @param   bool    $for_edit True if the fld_min_role_edit permission should be checked
      * @return  array The list of custom fields
@@ -697,7 +740,7 @@ class Custom_Field
 
         if ($form_type != false) {
             if (is_array($form_type)) {
-                $stmt .= ' AND fld_id IN(' . DB_Helper::buildList($form_type). ')';
+                $stmt .= ' AND fld_id IN(' . DB_Helper::buildList($form_type) . ')';
                 $params = array_merge($params, $form_type);
             } else {
                 $fld_name = 'fld_' . Misc::escapeString($form_type);
@@ -792,8 +835,8 @@ class Custom_Field
     /**
      * Returns an array of fields and values for a specific issue
      *
-     * @param   integer $prj_id The ID of the project
-     * @param   integer $iss_id The ID of the issue to return values for
+     * @param   int $prj_id The ID of the project
+     * @param   int $iss_id The ID of the issue to return values for
      * @return  array An array containging fld_id => value
      */
     public static function getValuesByIssue($prj_id, $iss_id)
@@ -821,7 +864,7 @@ class Custom_Field
     /**
      * Method used to remove a given list of custom fields.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function remove()
     {
@@ -873,7 +916,7 @@ class Custom_Field
     /**
      * Method used to add a new custom field to the system.
      *
-     * @return  integer 1 if the insert worked, -1 otherwise
+     * @return  int 1 if the insert worked, -1 otherwise
      */
     public static function insert()
     {
@@ -956,12 +999,6 @@ class Custom_Field
         }
 
         $new_id = DB_Helper::get_last_insert_id();
-        if (in_array($_POST['field_type'], self::$option_types)) {
-            foreach ($_POST['field_options'] as $option_value) {
-                $params = self::parseParameters($option_value);
-                self::addOptions($new_id, $params['value']);
-            }
-        }
         // add the project associations!
         foreach ($_POST['projects'] as $prj_id) {
             self::associateProject($prj_id, $new_id);
@@ -973,11 +1010,11 @@ class Custom_Field
     /**
      * Method used to associate a custom field to a project.
      *
-     * @param   integer $prj_id The project ID
-     * @param   integer $fld_id The custom field ID
-     * @return  boolean
+     * @param   int $prj_id The project ID
+     * @param   int $fld_id The custom field ID
+     * @return  bool
      */
-    public function associateProject($prj_id, $fld_id)
+    public static function associateProject($prj_id, $fld_id)
     {
         $stmt = 'INSERT INTO
                     {{%project_custom_field}}
@@ -1010,24 +1047,15 @@ class Custom_Field
                     {{%custom_field}}
                  ORDER BY
                     fld_rank ASC';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+
+        $res = DB_Helper::getInstance()->getAll($stmt);
 
         foreach ($res as &$row) {
             $row['projects'] = @implode(', ', array_values(self::getAssociatedProjects($row['fld_id'])));
-            if (in_array($row['fld_type'], self::$option_types)) {
-                if (!empty($row['fld_backend'])) {
-                    $row['field_options'] = implode(', ', array_values(self::getOptions($row['fld_id'])));
-                }
-            }
-            if (!empty($row['fld_backend'])) {
-                $row['field_options'] = 'Backend: ' . self::getBackendName($row['fld_backend']);
-            }
             $row['min_role_name'] = User::getRole($row['fld_min_role']);
             $row['min_role_edit_name'] = User::getRole($row['fld_min_role_edit']);
+            $row['has_options'] = in_array($row['fld_type'], self::$option_types);
+            $row['field_options'] = self::getOptions($row['fld_id']);
         }
 
         return $res;
@@ -1037,10 +1065,10 @@ class Custom_Field
      * Method used to get the list of associated projects with a given
      * custom field ID.
      *
-     * @param   integer $fld_id The project ID
+     * @param   int $fld_id The project ID
      * @return  array The list of associated projects
      */
-    public function getAssociatedProjects($fld_id)
+    public static function getAssociatedProjects($fld_id)
     {
         $stmt = 'SELECT
                     prj_id,
@@ -1065,8 +1093,8 @@ class Custom_Field
     /**
      * Method used to get the details of a specific custom field.
      *
-     * @param   integer $fld_id The custom field ID
-     * @param   boolean $force_refresh If the details must be loaded again from the database
+     * @param   int $fld_id The custom field ID
+     * @param   bool $force_refresh If the details must be loaded again from the database
      * @return  array The custom field details
      */
     public static function getDetails($fld_id, $force_refresh = false)
@@ -1088,13 +1116,13 @@ class Custom_Field
         } catch (DatabaseException $e) {
             return '';
         }
+        if (empty($res)) {
+            return null;
+        }
 
         $res['projects'] = @array_keys(self::getAssociatedProjects($fld_id));
+        $res['field_options'] = self::getOptions($fld_id, null, null, null, $res['fld_order_by']);
 
-        $options = self::getOptions($fld_id);
-        foreach ($options as $cfo_id => $cfo_value) {
-            $res['field_options']['existing:' . $cfo_id . ':' . $cfo_value] = $cfo_value;
-        }
         $returns[$fld_id] = $res;
 
         return $res;
@@ -1104,12 +1132,14 @@ class Custom_Field
      * Method used to get the list of custom field options associated
      * with a given custom field ID.
      *
-     * @param   integer $fld_id The custom field ID
-     * @param   array $ids An array of ids to return values for.
-     * @param   integer $issue_id The ID of the issue
-     * @return  array The list of custom field options
+     * @param   int $fld_id The custom field ID
+     * @param   array $ids an array of ids to return values for
+     * @param   int $issue_id The ID of the issue
+     * @param   string $form_type
+     * @param   string $order_by The field and order to sort by. If null it will use the field setting
+     * @return array The list of custom field options
      */
-    public static function getOptions($fld_id, $ids = null, $issue_id = null, $form_type = null)
+    public static function getOptions($fld_id, $ids = null, $issue_id = null, $form_type = null, $order_by = null)
     {
         static $returns;
 
@@ -1133,6 +1163,11 @@ class Custom_Field
             return $list;
         }
 
+        if (is_null($order_by)) {
+            $fld_details = self::getDetails($fld_id);
+            $order_by = $fld_details['fld_order_by'];
+        }
+
         $stmt = 'SELECT
                     cfo_id,
                     cfo_value
@@ -1148,50 +1183,22 @@ class Custom_Field
         }
         $stmt .= '
                  ORDER BY
-                    cfo_id ASC';
+                    ' . $order_by;
         try {
             $res = DB_Helper::getInstance()->getPair($stmt, $params);
         } catch (DatabaseException $e) {
             return '';
         }
 
-        asort($res);
         $returns[$return_key] = $res;
 
         return $res;
     }
 
     /**
-     * Method used to parse the special format used in the combo boxes
-     * in the administration section of the system, in order to be
-     * used as a way to flag the system for whether the custom field
-     * option is a new one or one that should be updated.
-     *
-     * @param   string $value The custom field option format string
-     * @return  array Parameters used by the update/insert methods
-     */
-    private function parseParameters($value)
-    {
-        if (substr($value, 0, 4) == 'new:') {
-            return [
-                'type'  => 'new',
-                'value' => substr($value, 4),
-            ];
-        }
-
-        $value = substr($value, strlen('existing:'));
-
-        return [
-            'type'  => 'existing',
-            'id'    => substr($value, 0, strpos($value, ':')),
-            'value' => substr($value, strpos($value, ':') + 1),
-        ];
-    }
-
-    /**
      * Method used to update the details for a specific custom field.
      *
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function update()
     {
@@ -1228,6 +1235,9 @@ class Custom_Field
         if (!isset($_POST['rank'])) {
             $_POST['rank'] = (self::getMaxRank() + 1);
         }
+        if (!isset($_POST['order_by'])) {
+            $_POST['order_by'] = 'cfo_id ASC';
+        }
         $old_details = self::getDetails($_POST['id']);
         $stmt = 'UPDATE
                     {{%custom_field}}
@@ -1246,7 +1256,8 @@ class Custom_Field
                     fld_min_role=?,
                     fld_min_role_edit=?,
                     fld_rank = ?,
-                    fld_backend = ?
+                    fld_backend = ?,
+                    fld_order_by = ?
                  WHERE
                     fld_id=?';
         try {
@@ -1266,21 +1277,11 @@ class Custom_Field
                 $_POST['min_role_edit'],
                 $_POST['rank'],
                 @$_POST['custom_field_backend'],
+                $_POST['order_by'],
                 $_POST['id'],
             ]);
         } catch (DatabaseException $e) {
             return -1;
-        }
-
-        // if the current custom field is a combo box, get all of the current options
-        if (in_array($_POST['field_type'], self::$option_types)) {
-            $stmt = 'SELECT
-                        cfo_id
-                     FROM
-                        {{%custom_field_option}}
-                     WHERE
-                        cfo_fld_id=?';
-            $current_options = DB_Helper::getInstance()->getColumn($stmt, [$_POST['id']]);
         }
 
         if ($old_details['fld_type'] != $_POST['field_type']) {
@@ -1294,34 +1295,10 @@ class Custom_Field
                 self::updateValuesForNewType($_POST['id']);
             }
         }
-        // update the custom field options, if any
-        if (in_array($_POST['field_type'], self::$option_types)) {
-            $updated_options = [];
-            foreach ($_POST['field_options'] as $option_value) {
-                $params = self::parseParameters($option_value);
-                if ($params['type'] == 'new') {
-                    self::addOptions($_POST['id'], $params['value']);
-                } else {
-                    $updated_options[] = $params['id'];
-                    // check if the user is trying to update the value of this option
-                    if ($params['value'] != self::getOptionValue($_POST['id'], $params['id'])) {
-                        self::updateOption($params['id'], $params['value']);
-                    }
-                }
-            }
-        }
-        // get the diff between the current options and the ones posted by the form
-        // and then remove the options not found in the form submissions
-        if (in_array($_POST['field_type'], self::$option_types)) {
-            $diff_ids = @array_diff($current_options, $updated_options);
-            if (@count($diff_ids) > 0) {
-                self::removeOptions($_POST['id'], array_values($diff_ids));
-            }
-        }
+
         // now we need to check for any changes in the project association of this custom field
         // and update the mapping table accordingly
         $old_proj_ids = @array_keys(self::getAssociatedProjects($_POST['id']));
-        // COMPAT: this next line requires PHP > 4.0.4
         $diff_ids = array_diff($old_proj_ids, $_POST['projects']);
         if (count($diff_ids) > 0) {
             foreach ($diff_ids as $removed_prj_id) {
@@ -1351,7 +1328,7 @@ class Custom_Field
      * Method used to get the list of custom fields associated with a
      * given project.
      *
-     * @param   integer $prj_id The project ID
+     * @param   int $prj_id The project ID
      * @return  array The list of custom fields
      */
     public static function getFieldsByProject($prj_id)
@@ -1375,12 +1352,12 @@ class Custom_Field
      * Method used to remove the issue associations related to a given
      * custom field ID.
      *
-     * @param   integer[] $fld_id The custom field ID
-     * @param   integer $issue_id The issue ID (not required)
-     * @param   integer $prj_id The project ID (not required)
-     * @return  boolean
+     * @param   int[] $fld_id The custom field ID
+     * @param   int $issue_id The issue ID (not required)
+     * @param   int $prj_id The project ID (not required)
+     * @return  bool
      */
-    public function removeIssueAssociation($fld_id, $issue_id = null, $prj_id = null)
+    public static function removeIssueAssociation($fld_id, $issue_id = null, $prj_id = null)
     {
         if (!is_array($fld_id)) {
             $fld_id = [$fld_id];
@@ -1428,9 +1405,9 @@ class Custom_Field
      * a given list of custom field IDs.
      *
      * @param   array $ids The list of custom field IDs
-     * @return  boolean
+     * @return  bool
      */
-    public function removeOptionsByFields($ids)
+    public static function removeOptionsByFields($ids)
     {
         $items = DB_Helper::buildList($ids);
         $stmt = "SELECT
@@ -1453,8 +1430,8 @@ class Custom_Field
     /**
      * Method to return the names of the fields which should be displayed on the list issues page.
      *
-     * @param   integer $prj_id The ID of the project.
-     * @return  array An array of custom field names.
+     * @param   int $prj_id the ID of the project
+     * @return  array an array of custom field names
      */
     public static function getFieldsToBeListed($prj_id)
     {
@@ -1484,7 +1461,7 @@ class Custom_Field
      * Returns the fld_id of the field with the specified title
      *
      * @param   string $title The title of the field
-     * @return  integer The fld_id
+     * @return  int The fld_id
      */
     public static function getIDByTitle($title)
     {
@@ -1510,9 +1487,9 @@ class Custom_Field
     /**
      * Returns the value for the specified field
      *
-     * @param   integer $iss_id The ID of the issue
-     * @param   integer $fld_id The ID of the field
-     * @param   boolean $raw If the raw value should be displayed
+     * @param   int $iss_id The ID of the issue
+     * @param   int $fld_id The ID of the field
+     * @param   bool $raw If the raw value should be displayed
      * @return mixed an array or string containing the value
      */
     public static function getDisplayValue($iss_id, $fld_id, $raw = false)
@@ -1557,9 +1534,9 @@ class Custom_Field
     /**
      * Returns the current maximum rank of any custom fields.
      *
-     * @return  integer The highest rank
+     * @return  int The highest rank
      */
-    public function getMaxRank()
+    public static function getMaxRank()
     {
         $sql = 'SELECT
                     max(fld_rank)
@@ -1571,7 +1548,6 @@ class Custom_Field
 
     /**
      * Changes the rank of a custom field
-     *
      */
     public static function changeRank()
     {
@@ -1616,11 +1592,11 @@ class Custom_Field
     /**
      * Sets the rank of a custom field
      *
-     * @param   integer $fld_id The ID of the field
-     * @param   integer $rank The new rank for this field
-     * @return  integer 1 if successful, -1 otherwise
+     * @param   int $fld_id The ID of the field
+     * @param   int $rank The new rank for this field
+     * @return  int 1 if successful, -1 otherwise
      */
-    public function setRank($fld_id, $rank)
+    public static function setRank($fld_id, $rank)
     {
         $sql = 'UPDATE
                     {{%custom_field}}
@@ -1638,48 +1614,13 @@ class Custom_Field
     }
 
     /**
-     * Returns the list of available custom field backends by listing the class
-     * files in the backend directory.
-     *
-     * @return  array Associative array of filename => name
-     */
-    public static function getBackendList()
-    {
-        $list = [];
-        $files = Misc::getFileList(APP_INC_PATH . '/custom_field');
-        $files = array_merge($files, Misc::getFileList(APP_LOCAL_PATH. '/custom_field'));
-        foreach ($files as $file) {
-            // make sure we only list the backends
-            if (preg_match('/^class\.(.*)\.php$/', $file)) {
-                // display a prettyfied backend name in the admin section
-                $list[$file] = self::getBackendName($file);
-            }
-        }
-
-        return $list;
-    }
-
-    /**
-     * Returns the 'pretty' name of the backend
-     *
-     * @param   string $backend The full backend file name
-     * @return  string The pretty name of the backend.
-     */
-    public function getBackendName($backend)
-    {
-        preg_match('/^class\.(.*)\.php$/', $backend, $matches);
-
-        return ucwords(str_replace('_', ' ', $matches[1]));
-    }
-
-    /**
      * Returns an instance of custom field backend class if it exists for the
      * specified field.
      *
-     * @param   integer $fld_id The ID of the field
+     * @param   int $fld_id The ID of the field
      * @return  mixed false if there is no backend or an instance of the backend class
      */
-    public static function &getBackend($fld_id)
+    public static function getBackend($fld_id)
     {
         static $returns;
 
@@ -1700,29 +1641,15 @@ class Custom_Field
             return false;
         }
 
-        if (!empty($res)) {
-            if (file_exists(APP_LOCAL_PATH . "/custom_field/$res")) {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_LOCAL_PATH . "/custom_field/$res";
-            } elseif (file_exists(APP_INC_PATH . "/custom_field/$res")) {
-                /** @noinspection PhpIncludeInspection */
-                require_once APP_INC_PATH . "/custom_field/$res";
-            } else {
-                $returns[$fld_id] = false;
-
-                return $returns[$fld_id];
+        if ($res) {
+            try {
+                $instance = static::getExtensionLoader()->createInstance($res);
+            } catch (InvalidArgumentException $e) {
+                Logger::app()->error("Could not load backend $res", ['exception' => $e]);
+                $instance = false;
             }
 
-            $file_name_chunks = explode('.', $res);
-            $class_name = $file_name_chunks[1] . '_Custom_Field_Backend';
-
-            if (!class_exists($class_name)) {
-                $returns[$fld_id] = false;
-
-                return $returns[$fld_id];
-            }
-
-            $returns[$fld_id] = new $class_name();
+            $returns[$fld_id] = $instance;
         } else {
             $returns[$fld_id] = false;
         }
@@ -1733,11 +1660,12 @@ class Custom_Field
     /**
      * Searches a specified custom field for a string and returns any issues that match
      *
-     * @param   integer $fld_id The ID of the custom field
+     * @param   int $fld_id The ID of the custom field
      * @param   string  $search The string to search for
      * @return  array An array of issue IDs
+     * @deprecated method not used
      */
-    public function getIssuesByString($fld_id, $search)
+    public static function getIssuesByString($fld_id, $search)
     {
         $sql = 'SELECT
                     icf_iss_id
@@ -1769,27 +1697,28 @@ class Custom_Field
      * Formats the return value
      *
      * @param   mixed   $value The value to format
-     * @param   integer $fld_id The ID of the field
-     * @param   integer $issue_id The ID of the issue
-     * @return  mixed   the formatted value.
+     * @param   int $fld_id The ID of the field
+     * @param   int $issue_id The ID of the issue
+     * @return  mixed   the formatted value
      */
     public static function formatValue($value, $fld_id, $issue_id)
     {
         $backend = self::getBackend($fld_id);
         if ((is_object($backend)) && (method_exists($backend, 'formatValue'))) {
             return $backend->formatValue($value, $fld_id, $issue_id);
-        } else {
-            return Link_Filter::processText(Auth::getCurrentProject(), Misc::htmlentities($value));
         }
+
+        return Link_Filter::processText(Auth::getCurrentProject(), Misc::htmlentities($value));
     }
 
     /**
      * This method inserts a blank value for all custom fields that do not already have a record.
      * It currently is not called by the main code, but is included to be called from workflow classes.
      *
-     * @param   integer $issue_id The Issue ID
+     * @param   int $issue_id The Issue ID
+     * @deprecated method not used
      */
-    public function populateAllFields($issue_id)
+    public static function populateAllFields($issue_id)
     {
         $prj_id = Issue::getProjectID($issue_id);
         $fields = self::getListByIssue($prj_id, $issue_id, APP_SYSTEM_USER_ID);
@@ -1831,7 +1760,7 @@ class Custom_Field
      * Analyzes the contents of the issue_custom_field and updates
      * contents based on the fld_type.
      *
-     * @param   integer $fld_id
+     * @param   int $fld_id
      * @return bool
      */
     public static function updateValuesForNewType($fld_id)
@@ -1868,5 +1797,19 @@ class Custom_Field
         }
 
         return true;
+    }
+
+    /**
+     * @return ExtensionLoader
+     * @internal
+     */
+    public static function getExtensionLoader()
+    {
+        $dirs = [
+            APP_INC_PATH . '/custom_field',
+            APP_LOCAL_PATH . '/custom_field',
+        ];
+
+        return new ExtensionLoader($dirs, '%s_Custom_Field_Backend');
     }
 }

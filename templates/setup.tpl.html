@@ -107,13 +107,31 @@ function disableAuthFields(bool)
     <td>
       <table bgcolor="#FFFFFF" width="100%" cellspacing="1" cellpadding="2" border="0">
         <tr>
-          <td><img src="{$core.rel_url}images/icons/error.gif" hspace="2" vspace="2" border="0" align="left"></td>
-          <td width="100%"><span style="font-weight: bold; font-size: 160%; color: red;">{t}An Error Was Found{/t}</span></td>
+          <td width="100%">
+            <span id="error-header">
+              <i class="fa fa-warning" aria-hidden="true"></i>
+              {t}An Error Was Found{/t}
+            </span>
+          </td>
         </tr>
         <tr>
-          <td colspan="2">
+          <td>
             <br />
-            <b>{t}Details{/t}: {$result}</b>
+            <b>{t}Details{/t}:
+              {if $result == 'db_not_found'}
+                {t}The provided database name could not be found. Review your information or specify that the database should be created in the form below.{/t}
+              {elseif $result == 'db_user_not_found'}
+                {t}The provided MySQL username could not be found. Review your information or specify that the username should be created in the form below.{/t}
+                {elseif $result == 'db_create_access'}
+                {t}The provided MySQL username doesn't have the appropriate permissions to create tables. Please contact your local system administrator for further assistance.{/t}
+              {elseif $result == 'db_drop_access'}
+                {t}The provided MySQL username doesn't have the appropriate permissions to drop tables. Please contact your local system administrator for further assistance.{/t}
+              {elseif $result == 'db_phinx_failure'}
+                {t}There was error initializing database.{/t}
+              {else}
+                {$result}
+              {/if}
+            </b>
             <br /><br />
           </td>
         </tr>
@@ -200,6 +218,13 @@ function disableAuthFields(bool)
           </td>
         </tr>
         <tr>
+          <td colspan="2">
+            <li>{t 1=$core.app_version}Eventum Version: %1{/t}
+            <li>{t 1=$core.php_version}PHP Version: %1{/t}
+            <hr size="1" noshade color="#000000">
+          </td>
+        </tr>
+        <tr>
           <td width="180" align="right">
             <b>{t}Server Hostname{/t}: *</b>
           </td>
@@ -208,7 +233,7 @@ function disableAuthFields(bool)
             <input type="text" name="hostname" value="{$smarty.post.hostname|default:$smarty.server.HTTP_HOST}" size="30" tabindex="{$tabindex}">
             {include file="error_icon.tpl.html" field="hostname"}
             <br/>
-            <label><input type="checkbox" name="is_ssl" value="yes" tabindex="{$tabindex}" {if $ssl_mode == 'enabled'}checked{/if}>{t}SSL Server{/t}</label>
+            <label><input type="checkbox" name="is_ssl" value="yes" tabindex="{$tabindex}" {if $is_secure}checked{/if}>{t}SSL Server{/t}</label>
           </td>
         </tr>
         <tr>

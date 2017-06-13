@@ -13,7 +13,9 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\MailMessage;
-use Eventum\Monolog\Logger;
+use Eventum\Mail\MailTransport;
+use Zend\Mail\AddressList;
+use Zend\Mail\Header\To;
 
 class Mail_Queue
 {
@@ -121,65 +123,54 @@ class Mail_Queue
      * emails just recently queued (status = 'pending').
      *
      * @param   string $status The status of the messages that need to be sent
-     * @param   integer $limit The limit of emails that we should send at one time
-     * @param   boolean $merge Whether or not to send one merged email for multiple entries with the same status and type.
+     * @param   int $limit The limit of emails that we should send at one time
+     * @param   bool $merge whether or not to send one merged email for multiple entries with the same status and type
      */
     public static function send($status, $limit = null, $merge = false)
     {
         if ($merge !== false) {
             // TODO: handle self::MAX_RETRIES, but that should be done per queue item
             foreach (self::_getMergedList($status, $limit) as $maq_ids) {
-                $emails = self::_getEntries($maq_ids);
-                $recipients = [];
+                $entries = self::_getEntries($maq_ids);
 
-                foreach ($emails as $email) {
-                    $recipients[] = $email['recipient'];
+                $addresslist = new AddressList();
+                foreach ($entries as $entry) {
+                    $recipient = $entry['recipient'];
+                    if (Mime_Helper::is8bit($recipient)) {
+                        $recipient = Mime_Helper::encode($recipient);
+                    }
+
+                    $addresslist->addFromString($recipient);
                 }
 
-                $email = $emails[0];
-                $recipients = implode(',', $recipients);
-                $message = $email['headers'] . "\r\n\r\n" . $email['body'];
-                $structure = Mime_Helper::decode($message, false, false);
-                $headers = $structure->headers;
+                $entry = $entries[0];
+                $m = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
+                $m->setTo($addresslist);
 
-                $headers['to'] = $recipients;
-                $headers = Mime_Helper::encodeHeaders($headers);
+                $e = self::_sendEmail($m->to, $m->getHeaders()->toString(), $entry['body']);
 
-                $res = Mail_Helper::prepareHeaders($headers);
-                if (Misc::isError($res)) {
-                    Logger::app()->error($res->getMessage(), ['debug' => $res->getDebugInfo()]);
-
-                    return;
-                }
-
-                list(, $text_headers) = $res;
-                $result = self::_sendEmail($recipients, $text_headers, $email['body']);
-
-                if (Misc::isError($e = $result)) {
-                    /** @var PEAR_Error $e */
+                if ($e instanceof Exception) {
                     $maq_id = implode(',', $maq_ids);
                     $details = $e->getMessage();
-                    $debugInfo = $e->getDebugInfo();
-                    if ($debugInfo) {
-                        $details .= '/' . $debugInfo;
-                    }
-                    echo "Mail_Queue: issue #{$email['maq_iss_id']}: Can't send merged mail $maq_id: $details\n";
+                    echo "Mail_Queue: issue #{$entry['maq_iss_id']}: Can't send merged mail $maq_id: $details\n";
 
-                    foreach ($emails as $email) {
-                        self::_saveStatusLog($email['id'], 'error', $details);
+                    foreach ($entries as $entry) {
+                        self::_saveStatusLog($entry['id'], 'error', $details);
                     }
 
                     continue;
                 }
 
-                foreach ($emails as $email) {
-                    self::_saveStatusLog($email['id'], 'sent', '');
+                foreach ($entries as $entry) {
+                    self::_saveStatusLog($entry['id'], 'sent', '');
 
-                    if ($email['save_copy']) {
-                        Mail_Helper::saveOutgoingEmailCopy($email);
+                    if ($entry['save_copy']) {
+                        Mail_Helper::saveOutgoingEmailCopy($entry);
                     }
                 }
             }
+            // FIXME: should not process the list again?
+            //return;
         }
 
         foreach (self::_getList($status, $limit) as $maq_id) {
@@ -189,24 +180,19 @@ class Mail_Queue
                 continue;
             }
 
-            $email = self::_getEntry($maq_id);
-            $result = self::_sendEmail($email['recipient'], $email['headers'], $email['body']);
+            $entry = self::_getEntry($maq_id);
+            $e = self::_sendEmail($entry['recipient'], $entry['headers'], $entry['body']);
 
-            if (Misc::isError($e = $result)) {
-                /** @var PEAR_Error $e */
+            if ($e instanceof Exception) {
                 $details = $e->getMessage();
-                $debugInfo = $e->getDebugInfo();
-                if ($debugInfo) {
-                    $details .= '/' . $debugInfo;
-                }
-                echo "Mail_Queue: issue #{$email['maq_iss_id']}: Can't send mail $maq_id: $details\n";
-                self::_saveStatusLog($email['id'], 'error', $details);
+                echo "Mail_Queue: issue #{$entry['maq_iss_id']}: Can't send mail $maq_id: $details\n";
+                self::_saveStatusLog($entry['id'], 'error', $details);
                 continue;
             }
 
-            self::_saveStatusLog($email['id'], 'sent', '');
-            if ($email['save_copy']) {
-                Mail_Helper::saveOutgoingEmailCopy($email);
+            self::_saveStatusLog($entry['id'], 'sent', '');
+            if ($entry['save_copy']) {
+                Mail_Helper::saveOutgoingEmailCopy($entry);
             }
         }
     }
@@ -217,7 +203,7 @@ class Mail_Queue
      * @param   string $recipient The recipient of this message
      * @param   string $text_headers The full headers of this message
      * @param   string $body The full body of this message
-     * @return  true, or a PEAR_Error object
+     * @return  true or a Exception object
      */
     private function _sendEmail($recipient, $text_headers, &$body)
     {
@@ -249,18 +235,12 @@ class Mail_Queue
             $headers['MIME-Version'] = '1.0';
         }
 
-        $mail = Mail::factory('smtp', Mail_Helper::getSMTPSettings());
+        $transport = new MailTransport();
+
         // TODO: mail::send wants just bare addresses, do that ourselves
         $recipient = Mime_Helper::encodeAddress($recipient);
-        $res = $mail->send($recipient, $headers, $body);
-        if (Misc::isError($res)) {
-            /** @var PEAR_Error $res */
-            Logger::app()->error($res->getMessage(), ['debug' => $res->getDebugInfo()]);
 
-            return $res;
-        }
-
-        return true;
+        return $transport->send($recipient, $headers, $body);
     }
 
     /**
@@ -283,7 +263,7 @@ class Mail_Queue
      * Retrieves the list of queued email messages ids, given a status.
      *
      * @param   string $status The status of the messages
-     * @param   integer $limit The limit on the number of messages that need to be returned
+     * @param   int $limit The limit on the number of messages that need to be returned
      * @return  array The list of queued email messages
      */
     private function _getList($status, $limit)
@@ -312,7 +292,7 @@ class Mail_Queue
      * Retrieves the list of queued email messages ids, given a status, merged together by type
      *
      * @param   string $status The status of the messages
-     * @param   integer $limit The limit on the number of messages that need to be returned
+     * @param   int $limit The limit on the number of messages that need to be returned
      * @return  array The list of queued email messages
      */
     private function _getMergedList($status, $limit = null)
@@ -351,7 +331,7 @@ class Mail_Queue
     /**
      * Retrieves queued email by maq_id.
      *
-     * @param   integer $maq_id ID of queue entry
+     * @param   int $maq_id ID of queue entry
      * @return  array The queued email message
      */
     private function _getEntry($maq_id)
@@ -426,10 +406,10 @@ class Mail_Queue
      * Saves a log entry about the attempt, successful or otherwise, to send the
      * queued email message. Also updates maq_status of $maq_id to $status.
      *
-     * @param   integer $maq_id The queued email message ID
+     * @param   int $maq_id The queued email message ID
      * @param   string $status The status of the attempt ('sent' or 'error')
      * @param   string $server_message The full message from the SMTP server, in case of an error
-     * @return  boolean
+     * @return  bool
      */
     private function _saveStatusLog($maq_id, $status, $server_message)
     {
@@ -470,7 +450,7 @@ class Mail_Queue
     /**
      * Returns the mail queue for a specific issue.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @return  array An array of emails from the queue
      */
     public static function getListByIssueID($issue_id)
@@ -500,7 +480,7 @@ class Mail_Queue
      * Returns the mail queue entry based on ID.
      *
      * @acess   public
-     * @param   integer $maq_id The id of the mail queue entry.
+     * @param   int $maq_id the id of the mail queue entry
      * @return  array An array of information
      */
     public static function getEntry($maq_id)
@@ -526,6 +506,14 @@ class Mail_Queue
         return $res;
     }
 
+    /**
+     * @param int $type_id
+     */
+    /**
+     * @param string[]|string $types
+     * @param int $type_id
+     * @return array|bool
+     */
     public static function getMessageRecipients($types, $type_id)
     {
         if (!is_array($types)) {
@@ -559,7 +547,7 @@ class Mail_Queue
     /**
      * Truncates the maq_body field of any emails older then one month.
      *
-     * @return boolean
+     * @return bool
      */
     public static function truncate()
     {

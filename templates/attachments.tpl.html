@@ -18,42 +18,42 @@
             <th>{t}Date{/t}</th>
             <th>{t}Description{/t}</th>
           </tr>
-          {section name="i" loop=$files}
+          {foreach from=$files item=attachment}
           <tr class="{cycle values='odd,even'}">
             <td>
-              {section name="y" loop=$files[i].files}
-              <a title="{t}download file{/t} ({$files[i].files[y].iaf_filename|escape:"html"} - {$files[i].files[y].iaf_filesize})" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}"><img width="17" height="17" src="{$core.rel_url}images/file.gif" border="0"></a>
-              <a title="{t}download file{/t} ({$files[i].files[y].iaf_filename|escape:"html"} - {$files[i].files[y].iaf_filesize})" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}">{$files[i].files[y].iaf_filename|escape:"html"}</a> ({$files[i].files[y].iaf_filesize})
-              <a class="link" title="{t}view{/t} ({$files[i].files[y].iaf_filename|escape:"html"}" href="download.php?cat=attachment&id={$files[i].files[y].iaf_id}&force_inline=1">{t}view{/t}</a>
-              {if $core.user.usr_id == $files[i].iat_usr_id OR $core.current_role >= $core.roles.manager}
-              <span title="{t}delete file{/t}" data-iaf-id="{$files[i].files[y].iaf_id}" class="js_link delete_file">{t}delete{/t}</span>{/if}
+              {foreach from=$attachment.files item=file}
+              <i class="fa fa-file-o" aria-hidden="true"></i>
+              <a title="{t}download file{/t} ({$file.iaf_filename|escape:"html"} - {$file.iaf_filesize})" href="download.php?cat=attachment&id={$file.iaf_id}">{$file.iaf_filename|escape:"html"}</a> ({$file.iaf_filesize})
+              <a class="link" title="{t}view{/t} ({$file.iaf_filename|escape:"html"}" href="download.php?cat=attachment&id={$file.iaf_id}&force_inline=1">{t}view{/t}</a>
+              {if $core.user.usr_id == $attachment.iat_usr_id OR $core.current_role >= $core.roles.manager}
+              <span title="{t}delete file{/t}" data-iaf-id="{$file.iaf_id}" class="js_link delete_file">{t}delete{/t}</span>{/if}
               <br />
-              {/section}
+              {/foreach}
             </td>
             <td width="15%" nowrap>
-              {$files[i].usr_full_name|escape:"html"}
-              {if $core.user.usr_id == $files[i].iat_usr_id OR $core.current_role >= $core.roles.manager}
-                [ <span title="{t}delete attachment{/t}" class="js_link delete_attachment" data-iat-id="{$files[i].iat_id}">{t}delete{/t}</span> ]{/if}
+              {$attachment.usr_full_name|escape:"html"}
+              {if $core.user.usr_id == $attachment.iat_usr_id OR $core.current_role >= $core.roles.manager}
+                [ <span title="{t}delete attachment{/t}" class="js_link delete_attachment" data-iat-id="{$attachment.iat_id}">{t}delete{/t}</span> ]{/if}
             </td>
             {if $core.current_role > $core.roles.customer}
             <td width="5%" align="center">
-              {if $files[i].iat_status == 'internal'}
-                <span style="color: red;">{$files[i].iat_status|capitalize}</span>
+              {if $attachment.iat_status == 'internal'}
+                <span style="color: red;">{$attachment.iat_status|capitalize}</span>
               {else}
-                {$files[i].iat_status|capitalize}
+                {$attachment.iat_status|capitalize}
               {/if}
             </td>
             {/if}
-            <td width="15%" nowrap>{$files[i].iat_created_date|timeago}</td>
-            <td width="45%">{$files[i].iat_description}</td>
+            <td width="15%" nowrap>{$attachment.iat_created_date|timeago}</td>
+            <td width="45%">{$attachment.iat_description}</td>
           </tr>
-          {sectionelse}
+          {foreachelse}
           <tr class="no_results">
             <td colspan="{if $core.current_role > $core.roles.customer}5{else}4{/if}">
               {t}No attachments could be found.{/t}
             </td>
           </tr>
-          {/section}
+          {/foreach}
         </table>
     </div>
       {if $core.current_role > $core.roles.viewer}

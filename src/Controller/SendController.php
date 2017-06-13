@@ -55,7 +55,7 @@ class SendController extends BaseController
     /** @var int */
     private $ema_id;
 
-    /** @var  int */
+    /** @var int */
     private $note_id;
 
     /**
@@ -143,7 +143,7 @@ class SendController extends BaseController
                     // set if the current user is allowed to send emails on this issue or not
                     'can_send_email' => Support::isAllowedToEmail($this->issue_id, $sender_details['usr_email']),
                     'subscribers' => Notification::getSubscribers($this->issue_id, 'emails'),
-                    'should_auto_add_to_nl' =>  Workflow::shouldAutoAddToNotificationList($this->prj_id),
+                    'should_auto_add_to_nl' => Workflow::shouldAutoAddToNotificationList($this->prj_id),
                 ]
             );
         }
@@ -354,7 +354,7 @@ class SendController extends BaseController
         $extra_title = ev_gettext('Issue #%1$s: Reply', $this->issue_id);
         $this->tpl->assign(
             [
-                'note_id'   =>  $this->note_id,
+                'note_id' => $this->note_id,
                 'email' => $details,
                 'extra_title' => $extra_title,
             ]
@@ -363,6 +363,7 @@ class SendController extends BaseController
 
     /**
      * Enter the time tracking entry about this new email
+     * @param string $default_summary
      */
     private function addTimeTracking($default_summary)
     {

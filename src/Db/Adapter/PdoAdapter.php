@@ -15,7 +15,9 @@ namespace Eventum\Db\Adapter;
 
 use DB_Helper;
 use Eventum;
+use Eventum\Db\DatabaseException;
 use PDO;
+use PDOException;
 use UnexpectedValueException;
 
 class PdoAdapter extends PdoAdapterBase implements AdapterInterface
@@ -40,7 +42,11 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET SQL_MODE = ''",
         ];
 
-        $pdo = new PDO($dsn, $config['username'], $config['password'], $options);
+        try {
+            $pdo = new PDO($dsn, $config['username'], $config['password'], $options);
+        } catch (PDOException $e) {
+            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
+        }
 
         if (Eventum\DebugBar::hasDebugBar()) {
             $pdo = Eventum\DebugBar::getTraceablePDO($pdo);
@@ -86,7 +92,11 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
-        $stmt->execute($params);
+        try {
+            $stmt->execute($params);
+        } catch (PDOException $e) {
+            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
+        }
 
         $res = $stmt->fetchColumn();
 
@@ -103,7 +113,11 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
-        $stmt->execute($params);
+        try {
+            $stmt->execute($params);
+        } catch (PDOException $e) {
+            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
+        }
 
         $this->convertFetchMode($fetchmode);
 
@@ -136,7 +150,11 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
-        $stmt->execute($params);
+        try {
+            $stmt->execute($params);
+        } catch (PDOException $e) {
+            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
+        }
 
         return true;
     }
@@ -148,13 +166,22 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
 
     /**
      * Common method for API
+     *
+     * @param string $query
+     * @param array $params
+     * @param int $fetchmode
+     * @return array
      */
     private function fetchAll($query, $params, $fetchmode)
     {
         $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
-        $stmt->execute($params);
+        try {
+            $stmt->execute($params);
+        } catch (PDOException $e) {
+            throw new DatabaseException($e->getMessage(), $e->getCode(), $e);
+        }
 
         return $stmt->fetchAll($fetchmode);
     }

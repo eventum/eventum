@@ -18,13 +18,11 @@ use Monolog\Handler\StreamHandler as BaseStreamHandler;
 
 /**
  * Class StreamHandler override Monolog StreamHandler to set file permissions only for new files
- *
- * @package Eventum\Monolog
  */
 class StreamHandler extends BaseStreamHandler
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function __construct($stream, $level = Monolog\Logger::DEBUG, $bubble = true, $filePermission = null, $useLocking = false)
     {

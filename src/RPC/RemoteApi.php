@@ -43,6 +43,8 @@ use User;
  * Class Eventum\RPC\RemoteApi
  *
  * All public non-static methods are exposed for XMLRPC
+ *
+ * @group api
  */
 class RemoteApi
 {
@@ -97,7 +99,7 @@ class RemoteApi
 
     /**
      * @param int $prj_id
-     * @param boolean $show_all_issues
+     * @param bool $show_all_issues
      * @param string $status
      * @return array
      * @access protected
@@ -713,12 +715,12 @@ class RemoteApi
         if (count($assignees) > 0) {
             if (in_array($usr_id, $assignees)) {
                 return 'yes';
-            } else {
-                return 'no';
             }
-        } else {
-            return 'yes';
+
+            return 'no';
         }
+
+        return 'yes';
     }
 
     /**
@@ -807,7 +809,7 @@ class RemoteApi
     public function timeClock($action)
     {
         $usr_id = Auth::getUserID();
-        // TODO: is the email printing neccessary?
+        // TODO: is the email printing necessary?
         $email = User::getEmail($usr_id);
 
         if ($action == 'in') {
@@ -929,7 +931,7 @@ class RemoteApi
         foreach ($types as $type_id) {
             $res = $contract->redeemIncident($issue_id, $type_id);
             if ($res == -1) {
-                throw new RemoteApiException('An error occured trying to mark issue as redeemed.');
+                throw new RemoteApiException('An error occurred trying to mark issue as redeemed.');
             }
         }
 
@@ -976,7 +978,7 @@ class RemoteApi
         foreach ($types as $type_id) {
             $res = $contract->unRedeemIncident($issue_id, $type_id);
             if ($res == -1) {
-                throw new RemoteApiException('An error occured trying to mark issue as unredeemed.');
+                throw new RemoteApiException('An error occurred trying to mark issue as unredeemed.');
             }
         }
 

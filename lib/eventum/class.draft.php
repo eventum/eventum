@@ -36,15 +36,15 @@ class Draft
      * Method used to save the draft response in the database for
      * further use.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $to The primary recipient of the draft
      * @param   string $cc The secondary recipients of the draft
      * @param   string $subject The subject of the draft
      * @param   string $message The draft body
-     * @param   integer $parent_id The ID of the email that this draft is replying to, if any
+     * @param   int $parent_id The ID of the email that this draft is replying to, if any
      * @param   string $unknown_user The sender of the draft, if not a real user
-     * @param   boolean $add_history_entry Whether to add a history entry automatically or not
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   bool $add_history_entry Whether to add a history entry automatically or not
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id = null, $unknown_user = null, $add_history_entry = true)
     {
@@ -102,7 +102,7 @@ class Draft
         Issue::markAsUpdated($issue_id, 'draft saved');
         if ($add_history_entry) {
             History::add($issue_id, $usr_id, 'draft_added', 'Email message saved as a draft by {user}', [
-                'user' => User::getFullName($usr_id)
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
@@ -112,14 +112,14 @@ class Draft
     /**
      * Method used to update an existing draft response.
      *
-     * @param   integer $issue_id The issue ID
-     * @param   integer $emd_id The email draft ID
+     * @param   int $issue_id The issue ID
+     * @param   int $emd_id The email draft ID
      * @param   string $to The primary recipient of the draft
      * @param   string $cc The secondary recipients of the draft
      * @param   string $subject The subject of the draft
      * @param   string $message The draft body
-     * @param   integer $parent_id The ID of the email that this draft is replying to, if any
-     * @return  integer 1 if the update worked, -1 otherwise
+     * @param   int $parent_id The ID of the email that this draft is replying to, if any
+     * @return  int 1 if the update worked, -1 otherwise
      */
     public static function update($issue_id, $emd_id, $to, $cc, $subject, $message, $parent_id = null)
     {
@@ -145,7 +145,7 @@ class Draft
 
         Issue::markAsUpdated($issue_id, 'draft saved');
         History::add($issue_id, $usr_id, 'draft_updated', 'Email message draft updated by {user}', [
-            'user' => User::getFullName($usr_id)]
+            'user' => User::getFullName($usr_id), ]
         );
         self::saveEmail($issue_id, $to, $cc, $subject, $message, $parent_id, false, false);
 
@@ -155,8 +155,8 @@ class Draft
     /**
      * Method used to remove a draft response.
      *
-     * @param   integer $emd_id The email draft ID
-     * @return  boolean
+     * @param   int $emd_id The email draft ID
+     * @return  bool
      */
     public static function remove($emd_id)
     {
@@ -179,10 +179,11 @@ class Draft
      * Method used to remove the recipients associated with the given
      * email draft response.
      *
-     * @param   integer $emd_id The email draft ID
-     * @return  boolean
+     * @param   int $emd_id The email draft ID
+     * @return  bool
+     * @deprecated method not used
      */
-    public function removeRecipients($emd_id)
+    public static function removeRecipients($emd_id)
     {
         $stmt = 'DELETE FROM
                     {{%email_draft_recipient}}
@@ -201,10 +202,10 @@ class Draft
      * Method used to associate a recipient with a given email
      * draft response.
      *
-     * @param   integer $emd_id The email draft ID
+     * @param   int $emd_id The email draft ID
      * @param   string $email The recipient's email address
-     * @param   boolean $is_cc Whether this recipient is in the Cc list for the given draft
-     * @return  boolean
+     * @param   bool $is_cc Whether this recipient is in the Cc list for the given draft
+     * @return  bool
      */
     public static function addEmailRecipient($emd_id, $email, $is_cc)
     {
@@ -236,7 +237,7 @@ class Draft
     /**
      * Method used to get the details on a given email draft response.
      *
-     * @param   integer $emd_id The email draft ID
+     * @param   int $emd_id The email draft ID
      * @return  array The email draft details
      */
     public static function getDetails($emd_id)
@@ -267,9 +268,9 @@ class Draft
     /**
      * Returns a list of drafts associated with an issue.
      *
-     * @param   integer $issue_id The ID of the issue.
-     * @param   boolean $show_all If all draft statuses should be shown
-     * @return  array An array of drafts.
+     * @param   int $issue_id the ID of the issue
+     * @param   bool $show_all If all draft statuses should be shown
+     * @return  array an array of drafts
      */
     public static function getList($issue_id, $show_all = false)
     {
@@ -316,7 +317,7 @@ class Draft
      * Method used to get the list of email recipients for a
      * given draft response.
      *
-     * @param   integer $emd_id The email draft ID
+     * @param   int $emd_id The email draft ID
      * @return  array The list of email recipients
      */
     public static function getEmailRecipients($emd_id)
@@ -353,9 +354,9 @@ class Draft
     /**
      * Returns the nth draft for the specific issue. Sequence starts at 1.
      *
-     * @param   integer $issue_id The id of the issue.
-     * @param   integer $sequence The sequential number of the draft.
-     * @return  array An array of data containing details about the draft.
+     * @param   int $issue_id the id of the issue
+     * @param   int $sequence the sequential number of the draft
+     * @return  array an array of data containing details about the draft
      */
     public static function getDraftBySequence($issue_id, $sequence)
     {
@@ -389,7 +390,7 @@ class Draft
     /**
      * Converts an draft to and email and sends it.
      *
-     * @param integer $draft_id The id of the draft to send.
+     * @param int $draft_id the id of the draft to send
      * @return int
      */
     public static function send($draft_id)
@@ -416,11 +417,12 @@ class Draft
      * Returns the number of drafts by a user in a time range.
      *
      * @param   string $usr_id The ID of the user
-     * @param   integer $start The timestamp of the start date
-     * @param   integer $end The timestanp of the end date
-     * @return  integer The number of note by the user.
+     * @param   int $start The timestamp of the start date
+     * @param   int $end The timestanp of the end date
+     * @return  int the number of note by the user
+     * @deprecated method not used
      */
-    public function getCountByUser($usr_id, $start, $end)
+    public static function getCountByUser($usr_id, $start, $end)
     {
         $stmt = 'SELECT
                     COUNT(emd_id)

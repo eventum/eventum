@@ -11,6 +11,14 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Auth;
+use AuthCookie;
+
+/**
+ * @group db
+ */
 class AuthCookieTest extends TestCase
 {
     public static function setupBeforeClass()
@@ -19,11 +27,6 @@ class AuthCookieTest extends TestCase
             return;
         }
         Auth::generatePrivateKey();
-    }
-
-    public function setUp()
-    {
-        $this->skipCi('Missing Travis/Jenkins setup');
     }
 
     public function testAuthCookie()

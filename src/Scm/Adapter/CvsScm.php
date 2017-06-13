@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 class CvsScm extends AbstractScmAdapter
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function can()
     {
@@ -35,7 +35,7 @@ class CvsScm extends AbstractScmAdapter
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function process()
     {

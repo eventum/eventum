@@ -40,7 +40,7 @@ class AccessController extends BaseController
     private $prj_id;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -52,7 +52,7 @@ class AccessController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function canAccess()
     {
@@ -65,7 +65,7 @@ class AccessController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function defaultAction()
     {
@@ -110,7 +110,7 @@ class AccessController extends BaseController
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function prepareTemplate()
     {
@@ -118,9 +118,9 @@ class AccessController extends BaseController
             [
                 'issue_id' => $this->issue_id,
                 'levels' => Access::getAccessLevels(),
-                'level' =>  Issue::getAccessLevel($this->issue_id),
+                'level' => Issue::getAccessLevel($this->issue_id),
                 'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
-                'access_list'   =>  Access::getAccessList($this->issue_id),
+                'access_list' => Access::getAccessList($this->issue_id),
             ]
         );
     }

@@ -11,56 +11,87 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test;
+
+use Date_Helper;
+use DB_Helper;
 use Eventum\Model\Entity;
+use Eventum\Model\Repository\CommitRepository;
 use Eventum\Monolog\Logger;
 use Eventum\Scm\Adapter\GitlabScm;
+use Setup;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @group db
+ */
 class ScmCommitTest extends TestCase
 {
-    public static function setUpBeforeClass()
+    private $changeset;
+    private $commit_id;
+    private $issue_id = 1;
+
+    public function setUp()
     {
-        Logger::initialize();
+        $scm = [
+            'cvs' => [
+                'name' => 'cvs',
+                'checkout_url' => 'https://localhost/{MODULE}/{FILE}?rev={NEW_VERSION}&content-type=text/x-cvsweb-markup',
+                'diff_url' => 'https://localhost/{MODULE}/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&f=h',
+                'log_url' => 'https://localhost/{MODULE}/{FILE}?r1={VERSION}#rev{VERSION}',
+            ],
+            'gitlab' => [
+                'name' => 'gitlab',
+                'urls' => [
+                    'http://localhost:10080',
+                    'git@localhost',
+                ],
+                'only' => ['merge-tip'],
+                'except' => ['dev'],
+                'checkout_url' => 'http://localhost:10080/{PROJECT}/blob/{VERSION}/{FILE}',
+                'diff_url' => 'http://localhost:10080/{PROJECT}/commit/{VERSION}#{FILE}',
+                'log_url' => 'http://localhost:10080/{PROJECT}/commits/{VERSION}/{FILE}',
+            ],
+        ];
+        Setup::set(['scm' => $scm]);
+
+        DB_Helper::getInstance()->query('DELETE FROM {{%issue_commit}} WHERE isc_iss_id=?', [$this->issue_id]);
+        $this->createCommit();
     }
 
-    public function testCommit()
+    public function createCommit()
     {
+        $this->changeset = uniqid('z1');
         $ci = Entity\Commit::create()
-            ->setScmName('test1')
+            ->setScmName('cvs')
             ->setAuthorName('Au Thor')
             ->setCommitDate(Date_Helper::getDateTime())
-            ->setChangeset(uniqid('z1'))
+            ->setChangeset($this->changeset)
             ->setMessage('Mes-Sage');
-        $id = $ci->save();
-        echo "Created commit: $id\n";
+        $this->commit_id = $ci->save();
 
-        $id = Entity\CommitFile::create()
+        $this->commit_file_id = Entity\CommitFile::create()
             ->setCommitId($ci->getId())
-            ->setProjectName('test')
             ->setFilename('file')
             ->save();
-        echo "Created commit file: $id\n";
 
-        $id = Entity\IssueCommit::create()
+        $this->issue_commit_id = Entity\IssueCommit::create()
             ->setCommitId($ci->getId())
-            ->setIssueId(1)
+            ->setIssueId($this->issue_id)
             ->save();
-        echo "Created issue association: $id\n";
     }
 
     public function testGetCommit()
     {
-        $commit_id = 'xl8sgtuo1xRzLW1z';
-        $c = Entity\Commit::create()->findOneByChangeset($commit_id);
-        $this->assertEquals($commit_id, $c->getChangeset());
+        $c = Entity\Commit::create()->findOneByChangeset($this->changeset);
+        $this->assertEquals($this->changeset, $c->getChangeset());
     }
 
     public function testGetIssueCommits()
     {
-        $issue_id = 1;
-        $ic = Entity\IssueCommit::create()->findByIssueId($issue_id);
+        $ic = Entity\IssueCommit::create()->findByIssueId($this->issue_id);
         $this->assertNotNull($ic);
-        $this->assertEquals($issue_id, $ic[0]->getIssueId());
+        $this->assertEquals($this->issue_id, $ic[0]->getIssueId());
     }
 
     public function testFindCommitById()
@@ -73,18 +104,10 @@ class ScmCommitTest extends TestCase
 
     public function testIssueCommits()
     {
-        $setup = Setup::get();
-        $setup['scm']['cvs'] = [
-            'name' => 'cvs',
-            'checkout_url' => 'https://localhost/{MODULE}/{FILE}?rev={NEW_VERSION}&content-type=text/x-cvsweb-markup',
-            'diff_url' => 'https://localhost/{MODULE}/{FILE}?r1={OLD_VERSION}&r2={NEW_VERSION}&f=h',
-            'log_url' => 'https://localhost/{MODULE}/{FILE}?r1={VERSION}#rev{VERSION}',
-        ];
+        $r = new CommitRepository();
+        $res = $r->getIssueCommitsArray($this->issue_id);
 
-        $issue_id = 1;
-        $r = new \Eventum\Model\Repository\CommitRepository();
-        $res = $r->getIssueCommitsArray($issue_id);
-        print_r($res);
+        $this->assertEquals($this->changeset, $res[0]['com_changeset']);
     }
 
     /**
@@ -95,23 +118,8 @@ class ScmCommitTest extends TestCase
         $api_url = $this->getCommitUrl();
         $payload = file_get_contents(__DIR__ . '/data/gitlab-commit.json');
 
-        $request = Request::create($api_url, 'GET', [], [], [], [], $payload);
+        $request = Request::create($api_url, 'POST', [], [], [], [], $payload);
         $request->headers->set(GitlabScm::GITLAB_HEADER, 'Push Hook');
-
-        // configure
-        $setup = Setup::get();
-        $setup['scm']['gitlab'] = [
-            'name' => 'gitlab',
-            'urls' => [
-                'http://localhost:10080',
-                'git@localhost',
-            ],
-            'only' => [],
-            'except' => ['dev'],
-            'checkout_url' => 'http://localhost:10080/{PROJECT}/blob/{VERSION}/{FILE}',
-            'diff_url' => 'http://localhost:10080/{PROJECT}/commit/{VERSION}#{FILE}',
-            'log_url' => 'http://localhost:10080/{PROJECT}/commits/{VERSION}/{FILE}',
-        ];
 
         $logger = Logger::app();
         $handler = new GitlabScm($request, $logger);
@@ -143,6 +151,6 @@ class ScmCommitTest extends TestCase
 
     private function POST($url, $payload, $headers = '')
     {
-        system("curl -Ss $headers -X POST --data @{$payload} {$url}");
+        return shell_exec("curl -Ss $headers -X POST --data @{$payload} {$url}");
     }
 }

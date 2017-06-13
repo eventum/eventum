@@ -45,14 +45,9 @@ class Language
 
     /**
      * Method used to set application default locale.
-     *
-     * @return  void
      */
     public static function setup()
     {
-        // please add the following line to config.inc.php, changing to whatever language you prefer
-        // define('APP_DEFAULT_LOCALE', 'en_US');
-
         self::set(APP_DEFAULT_LOCALE);
         self::initEncoding();
     }
@@ -133,8 +128,6 @@ class Language
     /**
      * Method used to set the appropriate preference of the language
      * for the application based on user preference.
-     *
-     * @return  void
      */
     public static function setPreference()
     {
@@ -162,7 +155,7 @@ class Language
      * Sets active language for for the application.
      * Returns false if locale is invalid or cannot be used.
      *
-     * @return  boolean
+     * @return  bool
      */
     public static function set($locale)
     {

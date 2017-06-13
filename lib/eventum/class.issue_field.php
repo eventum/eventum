@@ -24,10 +24,10 @@ class Issue_Field
     public static function getAvailableFields()
     {
         return [
-            'assignee'  =>  'Assignee',
-            'priority'  =>  'Priority',
-            'severity'  =>  'Severity',
-            'custom'    =>  'Custom Fields',
+            'assignee' => 'Assignee',
+            'priority' => 'Priority',
+            'severity' => 'Severity',
+            'custom' => 'Custom Fields',
         ];
     }
 
@@ -35,9 +35,9 @@ class Issue_Field
      * Returns an array of titles, options and current values for the specified
      * display location and issue.
      *
-     * @param   integer $issue_id The ID of the issue
+     * @param   int $issue_id The ID of the issue
      * @param   string  $location The name of the location to display fields
-     * @return  array An array of data.
+     * @return  array an array of data
      */
     public static function getDisplayData($issue_id, $location)
     {
@@ -47,9 +47,9 @@ class Issue_Field
         $data = [];
         foreach ($fields as $field_name => $field_options) {
             $data[$field_name] = [
-                'title' =>  $available_fields[$field_name],
-                'options'   =>  self::getOptions($field_name, $issue_id),
-                'value'     =>  self::getValue($issue_id, $field_name),
+                'title' => $available_fields[$field_name],
+                'options' => self::getOptions($field_name, $issue_id),
+                'value' => self::getValue($issue_id, $field_name),
             ];
             if ($field_name == 'custom') {
                 $data[$field_name]['custom'] = Custom_Field::getListByIssue($prj_id, $issue_id, Auth::getUserID(), $field_options, true);
@@ -64,9 +64,9 @@ class Issue_Field
      * A field should be set to false to specifically hide it. If a field is
      * not set a location may choose to use its default.
      *
-     * @param   integer $issue_id The issue ID
+     * @param   int $issue_id The issue ID
      * @param   string $location The name of the location
-     * @return  array An array of field names.
+     * @return  array an array of field names
      */
     public static function getFieldsToDisplay($issue_id, $location)
     {
@@ -80,8 +80,8 @@ class Issue_Field
      * Returns the current value for the specified field / issue. This method just calls
      * the appropriate class / method
      *
-     * @param   integer $issue_id
-     * @param   integer $field_name
+     * @param   int $issue_id
+     * @param   int $field_name
      * @return  mixed
      */
     private static function getValue($issue_id, $field_name)
@@ -102,7 +102,7 @@ class Issue_Field
      * Sets the value for the specified field / issue. This method just calls the
      * appropriate class / method.
      *
-     * @param integer $issue_id
+     * @param int $issue_id
      * @param string $field_name
      * @param mixed $value
      * @return bool|int|null
@@ -125,7 +125,7 @@ class Issue_Field
      * Returns the options associated with a specific field
      *
      * @param   string $field_name The name of the field
-     * @param   integer $issue_id The ID of the issue
+     * @param   int $issue_id The ID of the issue
      * @return  array An array of options for the specified field
      */
     private static function getOptions($field_name, $issue_id)
@@ -155,7 +155,7 @@ class Issue_Field
     /**
      * Updates the issue fields for the specified location
      *
-     * @param   integer $issue_id
+     * @param   int $issue_id
      * @param   string $location The name of the location
      * @param   array $values an array of new values
      */

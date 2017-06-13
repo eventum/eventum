@@ -13,9 +13,10 @@
 #
 # Author: Elan Ruusamäe <glen@pld-linux.org>
 # Date: 2016-02-18
+# URL: https://gist.github.com/glensc/94020d11ae803cc0fc21
 
 # enable for debug log
-#exec 2>.post-checkout.log; set -x
+#exec 2>>.post-checkout.log; set -x; env | grep GIT | sort; echo ""; date
 
 old_ref=$1
 new_ref=$2
@@ -33,6 +34,8 @@ checkout_vendor() {
 		# otherwise create the branch
 		git checkout -b $branch
 		git add -A .
+		# remove composer.lock if it's new branch in vendor/.git
+		git rm -f composer.lock
 		git commit -am "created branch $branch"
 	fi
 	# restore copy of lock
@@ -64,7 +67,7 @@ update_composer() {
 	test "$branch" = "HEAD" && return
 
 	# rm lock, so if there's no lock from vendor dir we do "composer update"
-	rm composer.lock
+	test -f composer.lock && rm composer.lock
 
 	checkout_vendor
 	composer "${@:-install}"
@@ -85,7 +88,18 @@ check_composer_json() {
 	update_composer
 }
 
-# if ran directly, assume user wants to update force vendor/ dir
+sync_phpcs_cache() {
+	local old_branch=$(git name-rev --name-only $old_ref | tr / _)
+	local new_branch=$(git rev-parse --abbrev-ref HEAD | tr / _)
+
+	# skip if cache already exists
+	test -f .php_cs-$new_branch.cache && return 0
+	# skip if cache can't be copied
+	test ! -f .php_cs-$old_branch.cache && return 0
+	cp -p .php_cs-$old_branch.cache .php_cs-$new_branch.cache
+}
+
+# if ran directly, assume user wants to force update vendor/ dir
 if [ -z "$GIT_DIR" ]; then
 	rm -f composer.lock vendor/composer.lock
 	update_composer "$@"
@@ -96,4 +110,5 @@ fi
 [ "$flag" = "0" ] && exit 0
 
 check_composer_json
+sync_phpcs_cache
 exit 0
