@@ -37,7 +37,7 @@ class Mail_Queue
      * - integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @return bool true if entry was added to mail queue table
      */
-    public static function addMail($mail, $recipient, array $options = [])
+    public static function addMail(MailMessage $mail, $recipient, array $options = [])
     {
         $save_email_copy = isset($options['save_email_copy']) ? $options['save_email_copy'] : 0;
         $issue_id = isset($options['issue_id']) ? $options['issue_id'] : false;

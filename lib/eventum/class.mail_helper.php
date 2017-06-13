@@ -462,7 +462,7 @@ class Mail_Helper
      * @param string $maq_type
      * @param MailMessage $mail the email to save
      */
-    public static function saveOutgoingEmailCopy($issue_id, $maq_type, $mail)
+    public static function saveOutgoingEmailCopy($issue_id, $maq_type, MailMessage $mail)
     {
         // check early: do we really want to save every outgoing email?
         $setup = Setup::get();

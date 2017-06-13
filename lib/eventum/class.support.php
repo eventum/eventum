@@ -1295,7 +1295,7 @@ class Support
      * @param   bool $internal_only Whether these files are supposed to be internal only or not
      * @param   int $associated_note_id The note ID that these attachments should be associated with
      */
-    public static function extractAttachments($issue_id, $mail, $internal_only = false, $associated_note_id = null)
+    public static function extractAttachments($issue_id, MailMessage $mail, $internal_only = false, $associated_note_id = null)
     {
         // figure out who should be the 'owner' of this attachment
         $sender_email = Mail_Helper::getEmailAddress($mail->from);
