@@ -13,6 +13,7 @@
 
 use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\Helper\AddressHeader;
+use Eventum\Mail\MailDumper;
 use Eventum\Mail\MailMessage;
 
 /**
@@ -111,7 +112,7 @@ class Routing
         }
 
         // save the full message for logging purposes
-        Support::saveRoutedEmail($full_message);
+        MailDumper::dump($full_message, MailDumper::TYPE_EMAIL);
 
         // check if the email routing interface is even supposed to be enabled
         $setup = Setup::get();
@@ -309,7 +310,7 @@ class Routing
     protected static function route_notes($full_message)
     {
         // save the full message for logging purposes
-        Note::saveRoutedNote($full_message);
+        MailDumper::dump($full_message, MailDumper::TYPE_NOTE);
 
         // join the Content-Type line (for easier parsing?)
         if (preg_match('/^boundary=/m', $full_message)) {
@@ -454,7 +455,7 @@ class Routing
     protected static function route_drafts($full_message)
     {
         // save the full message for logging purposes
-        Draft::saveRoutedMessage($full_message);
+        MailDumper::dump($full_message, MailDumper::TYPE_DRAFT);
 
         if (preg_match('/^(boundary=).*/m', $full_message)) {
             $pattern = "/(Content-Type: multipart\/)(.+); ?\r?\n(boundary=)(.*)$/im";

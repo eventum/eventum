@@ -218,23 +218,6 @@ class Support
     }
 
     /**
-     * Method used to save the email note into a backup directory.
-     *
-     * @param   string $message The full body of the email
-     */
-    public static function saveRoutedEmail($message)
-    {
-        if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
-            return;
-        }
-        list($usec) = explode(' ', microtime());
-        $filename = date('Y-m-d_H-i-s_') . $usec . '.note.txt';
-        $file = APP_ROUTED_MAILS_SAVEDIR . '/routed_emails/' . $filename;
-        file_put_contents($file, $message);
-        chmod($file, 0644);
-    }
-
-    /**
      * Method used to get the sender of a given set of emails.
      *
      * @param   int[] $sup_ids The email IDs

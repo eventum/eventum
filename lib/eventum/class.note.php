@@ -248,23 +248,6 @@ class Note
     }
 
     /**
-     * Method used to save the routed note into a backup directory.
-     *
-     * @param   string $message The full body of the note
-     */
-    public static function saveRoutedNote($message)
-    {
-        if (!defined('APP_ROUTED_MAILS_SAVEDIR') || !APP_ROUTED_MAILS_SAVEDIR) {
-            return;
-        }
-        list($usec) = explode(' ', microtime());
-        $filename = date('Y-m-d_H-i-s_') . $usec . '.note.txt';
-        $file = APP_ROUTED_MAILS_SAVEDIR . '/routed_notes/' . $filename;
-        file_put_contents($file, $message);
-        chmod($file, 0644);
-    }
-
-    /**
      * Method used to add a note using the user interface form
      * available in the application.
      *
