@@ -11,9 +11,9 @@
                {t escape=no}ID{/t}: {$issue.iss_id}
           {t escape=no}Summary{/t}: {$issue.iss_summary}
           {t escape=no}Project{/t}: {$issue.prj_title}
-      {t escape=no}Reported By{/t}: {$issue.usr_full_name}
-{if $data.prc_title != ''}
-         {t escape=no}Category{/t}: {$data.prc_title}
+      {t escape=no}Reported By{/t}: {$issue.reporter}
+{if $issue.prc_title != ''}
+         {t escape=no}Category{/t}: {$issue.prc_title}
 {/if}
        {t escape=no}Assignment{/t}: {$issue.assignments}
          {t escape=no}Priority{/t}: {$issue.pri_title}

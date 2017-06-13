@@ -5,6 +5,7 @@
 Upgrading to 3.2.x versions requires that you upgrade to 3.2.0 version first.
 
 - cleanup templates for `core.current_url` (@glensc, #265)
+- fix undefined keys in `assigned.tpl.text` (@glensc)
 
 [3.2.2]: https://github.com/eventum/eventum/compare/v3.2.1...master
 
