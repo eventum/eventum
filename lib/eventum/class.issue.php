@@ -1205,16 +1205,15 @@ class Issue
         if ($send_notification_to == 'all') {
             $from = User::getFromHeader($usr_id);
             $message_id = Mail_Helper::generateMessageID();
-            $full_email = Support::buildFullHeaders($issue_id, $message_id, $from,
+            $mail = Support::buildMail($issue_id, $message_id, $from,
                 '', '', ev_gettext('Issue closed comments'), $reason, '');
 
-            $mail = MailMessage::createFromString($full_email);
             $email_options = [
                 'ema_id' => Email_Account::getEmailAccount($prj_id),
                 'issue_id' => $issue_id,
-                'message_id' => $message_id,
+                'message_id' => $mail->messageId,
                 'date' => Date_Helper::getCurrentDateGMT(),
-                'subject' => ev_gettext('Issue closed comments'),
+                'subject' => $mail->subject,
                 'from' => $from,
                 'body' => $reason,
             ];

@@ -1808,7 +1808,7 @@ class Support
     }
 
     /**
-     * Method used to build the headers of a web-based message.
+     * Method used to build mail from web-based message.
      *
      * @param   int $issue_id The issue ID
      * @param   string $message_id The message-id
@@ -1819,9 +1819,9 @@ class Support
      * @param   string $body The message body
      * @param   string $in_reply_to The message-id that we are replying to
      * @param   array $iaf_ids Array with attachment file id-s
-     * @return  string The full email
+     * @return MailMessage
      */
-    public static function buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $iaf_ids = null)
+    public static function buildMail($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $iaf_ids = null)
     {
         // hack needed to get the full headers of this web-based email
         $mail = new Mail_Helper();
@@ -1869,7 +1869,7 @@ class Support
             }
         }
 
-        return $mail->getFullHeaders($from, $to, $subject);
+        return MailMessage::createFromString($mail->getFullHeaders($from, $to, $subject));
     }
 
     /**
@@ -2000,8 +2000,7 @@ class Support
             Attachment::attachFiles($issue_id, $attach_usr_id, $iaf_ids, false, 'Attachment originated from outgoing email');
         }
 
-        // hack needed to get the full headers of this web-based email
-        $full_email = self::buildFullHeaders($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $iaf_ids);
+        $mail = self::buildMail($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $iaf_ids);
 
         // email blocking should only be done if this is an email about an associated issue
         if ($issue_id) {
@@ -2011,7 +2010,7 @@ class Support
                 // add the message body as a note
                 $note = Mail_Helper::getCannedBlockedMsgExplanation() . $body;
                 $note_options = [
-                    'full_message' => $full_email,
+                    'full_message' => $mail->getRawContent(),
                     'is_blocked' => true,
                 ];
                 Note::insertNote($usr_id, $issue_id, $subject, $note, $note_options);
@@ -2118,7 +2117,7 @@ class Support
             'cc' => $cc,
             'subject' => $subject,
             'body' => $body,
-            'full_email' => $full_email,
+            'full_email' => $mail->getRawContent(),
         ];
 
         // associate this new email with a customer, if appropriate
@@ -2143,10 +2142,10 @@ class Support
 
         $email_options['has_attachment'] = $iaf_ids ? 1 : 0;
 
+        $full_email = $mail->getRawContent();
         $structure = Mime_Helper::decode($full_email, true, false);
         $email_options['headers'] = $structure->headers;
 
-        $mail = MailMessage::createFromString($full_email);
         self::insertEmail($email_options, $mail, $sup_id);
 
         if ($issue_id) {
