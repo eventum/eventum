@@ -285,6 +285,9 @@ class Workflow
         $backend = self::_getBackend($prj_id);
 
         $structure = Mime_Helper::decode($mail->getRawContent(), true, true);
+
+        $row['headers'] = $mail->getHeadersArray();
+        $row['has_attachment'] = $mail->hasAttachments();
         $backend->handleNewEmail($prj_id, $issue_id, $structure, $row, $closing);
     }
 

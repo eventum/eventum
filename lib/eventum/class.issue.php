@@ -1209,20 +1209,18 @@ class Issue
                 '', '', ev_gettext('Issue closed comments'), $reason, '');
 
             $mail = MailMessage::createFromString($full_email);
-            $email = [
+            $email_options = [
                 'ema_id' => Email_Account::getEmailAccount($prj_id),
                 'issue_id' => $issue_id,
                 'message_id' => $message_id,
                 'date' => Date_Helper::getCurrentDateGMT(),
                 'subject' => ev_gettext('Issue closed comments'),
                 'from' => $from,
-                'has_attachment' => 0,
                 'body' => $reason,
                 'full_email' => $full_email,
-                'headers' => $mail->getHeadersArray(),
             ];
             $sup_id = null;
-            Support::insertEmail($email, $mail, $sup_id, true);
+            Support::insertEmail($email_options, $mail, $sup_id, true);
             $ids = $sup_id;
         } else {
             // add note with the reason to close the issue
