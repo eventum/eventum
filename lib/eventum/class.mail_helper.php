@@ -14,7 +14,6 @@
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
-use Eventum\Monolog\Logger;
 use Zend\Mail\Address;
 
 /**
@@ -417,11 +416,7 @@ class Mail_Helper
             'type_id' => $type_id,
         ];
 
-        $res = Mail_Queue::addMail($mail, $to, $options);
-        if (Misc::isError($res)) {
-            /** @var PEAR_Error $res */
-            Logger::app()->error($res->getMessage(), ['debug' => $res->getDebugInfo()]);
-        }
+        Mail_Queue::addMail($mail, $to, $options);
     }
 
     /**

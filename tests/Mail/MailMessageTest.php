@@ -578,7 +578,7 @@ class MailMessageTest extends TestCase
         $mail->setTo($recipient);
 
         // add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
-        $res = Mail_Queue::addMail($mail, $recipient);
+        Mail_Queue::addMail($mail, $recipient);
     }
 
     public function testMailFromHeaderBody()
