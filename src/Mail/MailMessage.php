@@ -607,7 +607,7 @@ class MailMessage extends Message
      *
      * @param array|\Traversable $headerlist
      */
-    public function setHeaders(array $headerlist)
+    public function addHeaders(array $headerlist)
     {
         // NOTE: could use addHeaders() but that blows if value is not mime encoded. wtf
         //$this->headers->addHeaders($headerlist);

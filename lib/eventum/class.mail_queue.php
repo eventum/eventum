@@ -80,7 +80,7 @@ class Mail_Queue
             $headers['Date'] = date('D, j M Y H:i:s O');
         }
 
-        $mail->setHeaders($headers);
+        $mail->addHeaders($headers);
 
         $params = [
             'maq_save_copy' => $save_email_copy,

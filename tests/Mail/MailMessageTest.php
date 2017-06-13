@@ -459,7 +459,7 @@ class MailMessageTest extends TestCase
             'precedence' => 'bulk', // the 'classic' way, works with e.g. the unix 'vacation' tool
             'Auto-submitted' => 'auto-generated', // the RFC 3834 way
         ];
-        $mail->setHeaders($headers);
+        $mail->addHeaders($headers);
 
         $exp = implode(
             "\r\n", [
@@ -631,7 +631,7 @@ class MailMessageTest extends TestCase
         $headers = Mail_Helper::getBaseThreadingHeaders($issue_id);
         // do not overwrite message-id
         unset($headers['Message-ID']);
-        $mail->setHeaders($headers);
+        $mail->addHeaders($headers);
         $options = [
             'save_email_copy' => true,
             'issue_id' => $issue_id,
@@ -660,7 +660,7 @@ class MailMessageTest extends TestCase
         $mail = MailMessage::createNew();
         $headers = [];
         $headers['Message-ID'] = Mail_Helper::generateMessageID();
-        $mail->setHeaders($headers);
+        $mail->addHeaders($headers);
     }
 
     /**
