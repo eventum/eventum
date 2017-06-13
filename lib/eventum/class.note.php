@@ -552,8 +552,8 @@ class Note
         $mail = MailMessage::createFromString($blocked_message);
         $body = $structure->body;
         $sender_email = Mail_Helper::getEmailAddress($structure->headers['from']);
+        $usr_id = Auth::getUserID();
 
-        $current_usr_id = Auth::getUserID();
         if ($target == 'email') {
             Mail_Helper::rewriteThreadingHeaders($mail, $issue_id);
             $email_options = [
@@ -601,12 +601,12 @@ class Note
                 // special case when emails are bounced back, so we don't want to notify the customer about those
                 $email_options['internal_only'] = Notification::isBounceMessage($sender_email);
                 $email_options['sup_id'] = $sup_id;
-                Notification::notifyNewEmail($current_usr_id, $issue_id, $mail, $email_options);
+                Notification::notifyNewEmail($usr_id, $issue_id, $mail, $email_options);
                 Issue::markAsUpdated($issue_id, $update_type);
                 self::remove($note_id, false);
-                History::add($issue_id, $current_usr_id, 'note_converted_email', 'Note converted to e-mail (from: {from}) by {user}', [
+                History::add($issue_id, $usr_id, 'note_converted_email', 'Note converted to e-mail (from: {from}) by {user}', [
                     'from' => @$structure->headers['from'],
-                    'user' => User::getFullName($current_usr_id),
+                    'user' => User::getFullName($usr_id),
                 ]);
                 // now add sender as an authorized replier
                 if ($authorize_sender) {
@@ -628,10 +628,9 @@ class Note
         // remove the note, if the draft was created successfully
         if ($res) {
             self::remove($note_id, false);
-            $usr_id = $current_usr_id;
             History::add($issue_id, $usr_id, 'note_converted_draft', 'Note converted to draft (from: {from}) by {user}', [
                 'from' => @$structure->headers['from'],
-                'user' => User::getFullName($current_usr_id),
+                'user' => User::getFullName($usr_id),
             ]);
         }
 
