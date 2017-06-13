@@ -415,9 +415,11 @@ class Notification
             'type_id' => $sup_id,
         ];
 
+        $headers = $mail->getHeadersArray();
+        $body = $mail->getContent();
         foreach ($emails as $to) {
             // add the warning message about replies being blocked or not
-            $fixed_body = Mail_Helper::addWarningMessage($issue_id, $to, $mail->getContent(), $mail->getHeadersArray());
+            $fixed_body = Mail_Helper::addWarningMessage($issue_id, $to, $body, $headers);
             $headers['To'] = Mime_Helper::encodeAddress($to);
 
             $mail = MailMessage::createFromHeaderBody($headers, $fixed_body);
