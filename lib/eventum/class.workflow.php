@@ -580,19 +580,28 @@ class Workflow
      * @param   array $info an array containing the information on the email account
      * @param   resource $mbox The imap connection resource
      * @param   int $num The sequential email number
-     * @param   string $message The complete email message
      * @param   object $email An object containing the decoded email
-     * @param   object $structure An object containing the decoded email
+     * @param   MailMessage $mail An object containing the decoded email
      * @return  mixed null by default, -1 if the rest of the email script should not be processed
      */
-    public static function preEmailDownload($prj_id, $info, $mbox, $num, &$message, $email, $structure)
+    public static function preEmailDownload($prj_id, $info, $mbox, $num, $email, &$mail)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
         }
         $backend = self::_getBackend($prj_id);
 
-        return $backend->preEmailDownload($prj_id, $info, $mbox, $num, $message, $email, $structure);
+        $full_message = $mail->getRawContent();
+        $structure = Mime_Helper::decode($full_message, true, true);
+
+        $res = $backend->preEmailDownload($prj_id, $info, $mbox, $num, $full_message, $email, $structure);
+
+        // if $full_message was modified by workflow call, load it back
+        if ($full_message != $mail->getRawContent()) {
+            $mail = MailMessage::createFromString($full_message);
+        }
+
+        return $res;
     }
 
     /**

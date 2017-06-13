@@ -474,9 +474,8 @@ class Support
             return;
         }
 
-        $structure = Mime_Helper::decode($full_message, true, true);
+        $message_body = $mail->getMessageBody();
 
-        $message_body = $structure->body;
         if ($mail->hasAttachments()) {
             $has_attachments = 1;
         } else {
@@ -484,7 +483,7 @@ class Support
         }
 
         // pass in $email by reference so it can be modified
-        $workflow = Workflow::preEmailDownload($info['ema_prj_id'], $info, $mbox, $num, $full_message, $email, $structure);
+        $workflow = Workflow::preEmailDownload($info['ema_prj_id'], $info, $mbox, $num, $email, $mail);
         if ($workflow === -1) {
             return;
         }
@@ -533,17 +532,17 @@ class Support
             'message_id' => $message_id,
             'date' => Date_Helper::convertDateGMTByTS($email->udate),
             'from' => $sender_email,
-            'to' => @$structure->headers['to'],
-            'cc' => @$structure->headers['cc'],
-            'subject' => @$structure->headers['subject'],
-            'body' => @$message_body,
+            'to' => $mail->to,
+            'cc' => $mail->cc,
+            'subject' => $mail->subject,
+            'body' => $message_body,
             'full_email' => $full_message,
             'has_attachment' => $has_attachments,
             // the following items are not inserted, but useful in some methods
-            'headers' => @$structure->headers,
+            'headers' => $mail->getHeadersArray(),
         ];
 
-        $subject = Mime_Helper::decodeQuotedPrintable(@$structure->headers['subject']);
+        $subject = Mime_Helper::decodeQuotedPrintable($mail->subject);
         $should_create_array = self::createIssueFromEmail($info, $headers, $message_body, $t['date'], $sender_email, $subject, $t['to'], $t['cc']);
         $should_create_issue = $should_create_array['should_create_issue'];
 
@@ -590,11 +589,11 @@ class Support
 
                         $addresses = [];
 
-                        $to_addresses = AddressHeader::fromString(@$structure->headers['to'])->getEmails();
+                        $to_addresses = AddressHeader::fromString($mail->to)->getEmails();
                         if ($to_addresses) {
                             $addresses = $to_addresses;
                         }
-                        $cc_addresses = AddressHeader::fromString(@$structure->headers['cc'])->getEmails();
+                        $cc_addresses = AddressHeader::fromString($mail->cc)->getEmails();
                         if ($cc_addresses) {
                             $addresses = array_merge($addresses, $cc_addresses);
                         }
