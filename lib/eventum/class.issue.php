@@ -1210,7 +1210,7 @@ class Issue
 
             $mail = MailMessage::createFromString($full_email);
             $email = [
-                'ema_id' => Email_Account::getEmailAccount(self::getProjectID($issue_id)),
+                'ema_id' => Email_Account::getEmailAccount($prj_id),
                 'issue_id' => $issue_id,
                 'message_id' => $message_id,
                 'date' => Date_Helper::getCurrentDateGMT(),
