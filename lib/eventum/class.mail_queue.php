@@ -201,7 +201,7 @@ class Mail_Queue
      * @param MailMessage $mail
      * @return true or a Exception object
      */
-    private function _sendEmail($recipient, $mail)
+    private static function _sendEmail($recipient, MailMessage $mail)
     {
         $headers = $mail->getHeaders();
 
@@ -224,7 +224,7 @@ class Mail_Queue
      * @param   int $limit The limit on the number of messages that need to be returned
      * @return  array The list of queued email messages
      */
-    private function _getList($status, $limit)
+    private static function _getList($status, $limit)
     {
         $limit = (int) $limit;
         $sql = "SELECT
@@ -253,7 +253,7 @@ class Mail_Queue
      * @param   int $limit The limit on the number of messages that need to be returned
      * @return  array The list of queued email messages
      */
-    private function _getMergedList($status, $limit = null)
+    private static function _getMergedList($status, $limit = null)
     {
         $sql = 'SELECT
                     GROUP_CONCAT(maq_id) ids
@@ -292,7 +292,7 @@ class Mail_Queue
      * @param   int $maq_id ID of queue entry
      * @return  array The queued email message
      */
-    private function _getEntry($maq_id)
+    private static function _getEntry($maq_id)
     {
         $stmt = 'SELECT
                     maq_id id,
@@ -322,7 +322,7 @@ class Mail_Queue
      * @param   array $maq_ids IDs of queue entries
      * @return  array The queued email message
      */
-    private function _getEntries($maq_ids)
+    private static function _getEntries($maq_ids)
     {
         $stmt = 'SELECT
                     maq_id id,
@@ -352,7 +352,7 @@ class Mail_Queue
      * @param int $maq_id
      * @return int
      */
-    private function getQueueErrorCount($maq_id)
+    private static function getQueueErrorCount($maq_id)
     {
         $sql = 'select count(*) from {{%mail_queue_log}} where mql_maq_id=? and mql_status=?';
         $res = DB_Helper::getInstance()->getOne($sql, [$maq_id, 'error']);
@@ -369,7 +369,7 @@ class Mail_Queue
      * @param   string $server_message The full message from the SMTP server, in case of an error
      * @return  bool
      */
-    private function _saveStatusLog($maq_id, $status, $server_message)
+    private static function _saveStatusLog($maq_id, $status, $server_message)
     {
         $stmt = 'INSERT INTO
                     {{%mail_queue_log}}
