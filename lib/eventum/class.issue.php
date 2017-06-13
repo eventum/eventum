@@ -1208,6 +1208,7 @@ class Issue
             $full_email = Support::buildFullHeaders($issue_id, $message_id, $from,
                 '', '', ev_gettext('Issue closed comments'), $reason, '');
 
+            $mail = MailMessage::createFromString($full_email);
             $email = [
                 'ema_id' => Email_Account::getEmailAccount(self::getProjectID($issue_id)),
                 'issue_id' => $issue_id,
@@ -1218,10 +1219,9 @@ class Issue
                 'has_attachment' => 0,
                 'body' => $reason,
                 'full_email' => $full_email,
-                'headers' => MailMessage::createFromString($full_email)->getHeadersArray(),
+                'headers' => $mail->getHeadersArray(),
             ];
             $sup_id = null;
-            $mail = MailMessage::createFromString($full_email);
             Support::insertEmail($email, $mail, $sup_id, true);
             $ids = $sup_id;
         } else {

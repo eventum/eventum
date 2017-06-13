@@ -969,7 +969,7 @@ class Support
      * @param   bool $closing If this email comes from closing the issue
      * @return  int 1 if the insert worked, -1 otherwise
      */
-    public static function insertEmail($row, $mail, &$sup_id, $closing = false)
+    public static function insertEmail($row, MailMessage $mail, &$sup_id, $closing = false)
     {
         // get usr_id from FROM header
         $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($row['from']));

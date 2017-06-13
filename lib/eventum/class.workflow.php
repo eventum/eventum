@@ -274,7 +274,7 @@ class Workflow
      * @param   array $row the array of data that was inserted into the database
      * @param   bool $closing if we are closing the issue
      */
-    public static function handleNewEmail($prj_id, $issue_id, $mail, $row, $closing = false)
+    public static function handleNewEmail($prj_id, $issue_id, MailMessage $mail, $row, $closing = false)
     {
         Partner::handleNewEmail($issue_id, $row['sup_id']);
 
