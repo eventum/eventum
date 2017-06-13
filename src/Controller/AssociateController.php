@@ -16,7 +16,6 @@ namespace Eventum\Controller;
 use Auth;
 use CRM;
 use CRMException;
-use Email_Account;
 use Issue;
 use Mail_Helper;
 use Note;
@@ -103,7 +102,7 @@ class AssociateController extends BaseController
             $this->tpl->assign('associate_result', $res);
         } else {
             foreach ($this->items as $item) {
-                $email = Support::getEmailDetails(Email_Account::getAccountByEmail($item), $item);
+                $email = Support::getEmailDetails($item);
                 // add the message body as a note
                 $_POST['full_message'] = $email['seb_full_email'];
                 $_POST['title'] = $email['sup_subject'];

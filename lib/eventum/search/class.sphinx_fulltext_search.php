@@ -135,7 +135,7 @@ class Sphinx_Fulltext_Search extends Abstract_Fulltext_Search
                         $excerpt['issue']['description'] = self::cleanUpExcerpt($res[0]);
                     }
                 } elseif ($match['index'] == 'email') {
-                    $email = Support::getEmailDetails(null, $match['match_id']);
+                    $email = Support::getEmailDetails($match['match_id']);
                     $documents = [$email['sup_subject'] . "\n" . $email['message']];
                     $res = $this->sphinx->BuildExcerpts($documents, 'email_stemmed', $this->keywords, $excerpt_options);
                     $excerpt['email'][Support::getSequenceByID($match['match_id'])] = self::cleanUpExcerpt($res[0]);

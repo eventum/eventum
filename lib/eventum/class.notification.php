@@ -1354,7 +1354,7 @@ class Notification
                 'app_title' => Misc::getToolCaption(),
                 'recipient_name' => Mail_Helper::getName($recipient),
             ]);
-            $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($sup_id), $sup_id);
+            $email_details = Support::getEmailDetails($sup_id);
             $tpl->assign([
                 'email' => [
                     'date' => $email_details['sup_date'],

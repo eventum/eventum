@@ -22,7 +22,6 @@ use CRM;
 use CRMException;
 use Custom_Field;
 use Date_Helper;
-use Email_Account;
 use Group;
 use Issue;
 use Mail_Helper;
@@ -161,7 +160,7 @@ class NewController extends BaseController
         // if we are dealing with just one message, use the subject line as the
         // summary for the issue, and the body as the description
         if (count($item) == 1) {
-            $email_details = Support::getEmailDetails(Email_Account::getAccountByEmail($item[0]), $item[0]);
+            $email_details = Support::getEmailDetails($item[0]);
             $this->tpl->assign(
                 [
                     'issue_summary' => $email_details['sup_subject'],

@@ -1468,13 +1468,10 @@ class Support
     /**
      * Method used to get the support email entry details.
      *
-     * FIXME: $ema_id is unused
-     *
-     * @param   int $ema_id The support email account ID
      * @param   int $sup_id The support email ID
      * @return  array The email entry details
      */
-    public static function getEmailDetails($ema_id, $sup_id)
+    public static function getEmailDetails($sup_id)
     {
         // $ema_id is not needed anymore and will be re-factored away in the future
         $stmt = 'SELECT
@@ -1535,7 +1532,7 @@ class Support
             return [];
         }
 
-        return self::getEmailDetails($res['sup_ema_id'], $res['sup_id']);
+        return self::getEmailDetails($res['sup_id']);
     }
 
     /**
@@ -2370,7 +2367,7 @@ class Support
      */
     public static function moveEmail($sup_id, $current_ema_id, $new_ema_id)
     {
-        $email = self::getEmailDetails($current_ema_id, $sup_id);
+        $email = self::getEmailDetails($sup_id);
         if (!empty($email['sup_iss_id'])) {
             return -1;
         }
