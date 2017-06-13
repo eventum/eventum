@@ -154,7 +154,7 @@ class Notification
      * @param   int $issue_id The issue ID
      * @param   string $sender The email address of the sender
      * @param   string $type Whether this is a note or email routing message
-     * @return  string The properly encoded email address
+     * @return  string The properly encoded email address: =?UTF-8?Q?Elan_Ruusam=C3=A4e?= <default_project@example.com>
      * @deprecated kill this monstrocity!
      */
     public static function getFixedFromHeader($issue_id, $sender, $type)
@@ -394,6 +394,7 @@ class Notification
         //  - keep everything else in the message, except 'From:', 'Sender:', 'To:', 'Cc:'
         // make 'Joe Blow <joe@example.com>' become 'Joe Blow [CSC] <eventum_59@example.com>'
         $from = self::getFixedFromHeader($issue_id, $sender, 'issue');
+        $from = AddressHeader::fromString($from)->getAddressList();
         $mail->setFrom($from);
         $mail->stripHeaders();
         $mail->setSubject(Mail_Helper::formatSubject($issue_id, $mail->subject));
