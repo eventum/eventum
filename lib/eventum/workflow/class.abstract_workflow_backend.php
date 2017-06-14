@@ -485,7 +485,7 @@ class Abstract_Workflow_Backend
      *
      * @param   int $prj_id The ID of the project
      * @param   array $info an array of info about the email account
-     * @param   string $headers the headers of the email
+     * @param   array $headers the headers of the email
      * @param   string $message_body the body of the message
      * @param   string $date The date this message was sent
      * @param   string $from the name and email address of the sender

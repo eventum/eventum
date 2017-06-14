@@ -31,7 +31,7 @@ class MailStorageTest extends TestCase
 
     public function setUp()
     {
-        $setup = &Setup::load();
+        $setup = Setup::get();
 
         if (!isset($setup['imap_account'])) {
             $this->markTestSkipped("Define 'imap_account' array in setup.php for testing");
@@ -39,14 +39,14 @@ class MailStorageTest extends TestCase
 
         /*
          * It should be something like:
-          'imap_account' => array(
+          'imap_account' => [
              'ema_hostname' => 'localhost',
              'ema_port' => 143,
              'ema_type' => 'imap/notls',
              'ema_folder' => 'INBOX',
              'ema_username' => '',
              'ema_password' => '',
-           )
+           ]
         */
         $this->account = $setup['imap_account'];
     }
@@ -102,7 +102,7 @@ class MailStorageTest extends TestCase
         $mbox = Support::connectEmailServer($this->account);
         $message1 = $this->readImapMessage($mbox, 1);
 
-        /** @see Support::getEmailInfo */
+        /** @see Support::processMailMessage */
         $storage = new MailStorage($this->account);
         $message2 = $storage->getStorage()->getMessage(1);
 

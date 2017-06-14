@@ -249,7 +249,7 @@ class Routing
             $email_options['customer_id'] = null;
         }
 
-        if (Support::blockEmailIfNeeded($email_options)) {
+        if (Support::blockEmailIfNeeded__($email_options)) {
             return true;
         }
 

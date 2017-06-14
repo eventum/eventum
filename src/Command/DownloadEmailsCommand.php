@@ -14,6 +14,7 @@
 namespace Eventum\Command;
 
 use Email_Account;
+use Eventum\Mail\ImapMessage;
 use Support;
 
 class DownloadEmailsCommand extends Command
@@ -87,11 +88,12 @@ class DownloadEmailsCommand extends Command
 
         // if we only want new emails
         if ($account['ema_get_only_new']) {
-            $new_emails = Support::getNewEmails($mbox);
+            $emails = Support::getNewEmails($mbox);
 
-            if (is_array($new_emails)) {
-                foreach ($new_emails as $new_email) {
-                    Support::getEmailInfo($mbox, $account, $new_email);
+            if (is_array($emails)) {
+                foreach ($emails as $i) {
+                    $mail = ImapMessage::createFromImap($mbox, $i, $account);
+                    Support::processMailMessage($mail, $account);
                 }
             }
         } else {
@@ -99,7 +101,8 @@ class DownloadEmailsCommand extends Command
 
             if ($total_emails > 0) {
                 for ($i = 1; $i <= $total_emails; $i++) {
-                    Support::getEmailInfo($mbox, $account, $i);
+                    $mail = ImapMessage::createFromImap($mbox, $i, $account);
+                    Support::processMailMessage($mail, $account);
                 }
             }
         }

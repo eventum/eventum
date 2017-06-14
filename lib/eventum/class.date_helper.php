@@ -309,7 +309,7 @@ class Date_Helper
      * Method used to convert the user date (that is in a specific timezone) to
      * a GMT date.
      *
-     * @param string $ts The date in users timezone
+     * @param DateTime|string $ts The date in users timezone
      * @return string The date in the GMT timezone
      */
     public static function convertDateGMT($ts)

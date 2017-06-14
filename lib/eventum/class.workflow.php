@@ -15,6 +15,7 @@ use Eventum\Db\DatabaseException;
 use Eventum\Event\WorkflowEvents;
 use Eventum\EventDispatcher\EventManager;
 use Eventum\Extension\ExtensionLoader;
+use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
 use Eventum\Model\Entity;
 
@@ -577,31 +578,19 @@ class Workflow
      * rest of the email code will not be executed.
      *
      * @param   int $prj_id The project ID
-     * @param   array $info an array containing the information on the email account
-     * @param   resource $mbox The imap connection resource
-     * @param   int $num The sequential email number
-     * @param   object $email An object containing the decoded email
-     * @param   MailMessage $mail An object containing the decoded email
+     * @param   ImapMessage $mail The Mail Message object
      * @return  mixed null by default, -1 if the rest of the email script should not be processed
      */
-    public static function preEmailDownload($prj_id, $info, $mbox, $num, $email, &$mail)
+    public static function preEmailDownload($prj_id, $mail)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
         }
+        // TODO: if workflow modifies $structure, then that information is lost
         $backend = self::_getBackend($prj_id);
 
-        $full_message = $mail->getRawContent();
-        $structure = Mime_Helper::decode($full_message, true, true);
-
-        $res = $backend->preEmailDownload($prj_id, $info, $mbox, $num, $full_message, $email, $structure);
-
-        // if $full_message was modified by workflow call, load it back
-        if ($full_message != $mail->getRawContent()) {
-            $mail = MailMessage::createFromString($full_message);
-        }
-
-        return $res;
+        // NOTE: these no longer exist, just pass as null them
+        return $backend->preEmailDownload($prj_id, $mail);
     }
 
     /**
@@ -645,22 +634,24 @@ class Workflow
      * Can also return an array containing 'customer_id', 'contact_id' and 'contract_id', 'sev_id'
      *
      * @param   int $prj_id The ID of the project
-     * @param   array $info an array of info about the email account
-     * @param   string $headers the headers of the email
-     * @param   string $message_body the body of the message
-     * @param   string $date The date this message was sent
-     * @param   string $from the name and email address of the sender
-     * @param   string $subject the subject of this message
-     * @param   array $to An array of to addresses
-     * @param   array $cc An array of cc addresses
+     * @param   array   $info an array of info about the email account
+     * @param   ImapMessage $mail The Mail object
      * @return  string|array
      */
-    public static function getIssueIDForNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
+    public static function getIssueIDForNewEmail($prj_id, $info, ImapMessage $mail)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
         }
         $backend = self::_getBackend($prj_id);
+
+        $headers = $mail->getHeadersArray();
+        $message_body = $mail->getContent();
+        $date = Date_Helper::convertDateGMT($mail->getMailDate());
+        $from = $mail->getSender();
+        $subject = $mail->subject;
+        $to = implode(',', (array)$mail->getAddresses('To'));
+        $cc = implode(',', (array)$mail->getAddresses('Cc'));
 
         return $backend->getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc);
     }
