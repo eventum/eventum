@@ -683,7 +683,7 @@ class Support
                         }
                         // log routed email
                         History::add($t['issue_id'], $usr_id, 'email_routed', 'Email routed from {from}', [
-                            'from' => $mail->getSender(),
+                            'from' => $mail->from,
                         ]);
                     }
                 }
