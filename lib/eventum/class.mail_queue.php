@@ -42,7 +42,7 @@ class Mail_Queue
         $save_email_copy = isset($options['save_email_copy']) ? $options['save_email_copy'] : 0;
         $issue_id = isset($options['issue_id']) ? $options['issue_id'] : false;
         $type = isset($options['type']) ? $options['type'] : '';
-        $sender_usr_id = isset($options['sender_usr_id']) ? $options['sender_usr_id'] : false;
+        $sender_usr_id = isset($options['sender_usr_id']) ? $options['sender_usr_id'] : null;
         $type_id = isset($options['type_id']) ? $options['type_id'] : false;
 
         $prj_id = Auth::getCurrentProject(false);
