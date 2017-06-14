@@ -31,7 +31,7 @@ class MailStorage
     {
         $params = $this->convertParams($options);
 
-        /** @var Protocol\Imap|Protocol\Pop3  $class */
+        /** @var Protocol\Imap|Protocol\Pop3 $class */
         $class = $params['protocol_class'];
 
         $this->protocol = new $class($params['host'], $params['port'], $params['ssl']);
