@@ -339,36 +339,6 @@ class Mail_Helper
     }
 
     /**
-     * Strips out email headers that should not be sent over to the recipient
-     * of the routed email. The 'Received:' header was sometimes being used to
-     * validate the sender of the message, and because of that some emails were
-     * not being delivered correctly.
-     *
-     * @param   array $headers An array of headers for this email
-     * @return  array The headers of the email, without the stripped ones
-     */
-    public static function stripHeaders($headers)
-    {
-        $ignore_headers = [
-            'to',
-            'cc',
-            'bcc',
-            'return-path',
-            'received',
-            'disposition-notification-to',
-        ];
-        $ignore_pattern = '/^resent.*/';
-        foreach ($headers as $name => $value) {
-            $lower_name = strtolower($name);
-            if ((in_array($lower_name, $ignore_headers)) || (preg_match($ignore_pattern, $lower_name))) {
-                unset($headers[$name]);
-            }
-        }
-
-        return $headers;
-    }
-
-    /**
      * Build message and add it to mail queue.
      *
      * @param   string $from The originator of the message

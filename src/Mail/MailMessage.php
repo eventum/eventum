@@ -702,8 +702,6 @@ class MailMessage extends Message
      * not being delivered correctly.
      *
      * FIXME: think of better method name
-     *
-     * @see Mail_Helper::stripHeaders
      */
     public function stripHeaders()
     {
