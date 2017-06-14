@@ -225,17 +225,29 @@ class MailMessageTest extends TestCase
         $this->assertEquals('<4d36173add8b60.67944236@origin.com>', $reference_id);
     }
 
-    /**
-     * @covers Mail_Helper::getAllReferences()
-     */
     public function testReferences()
     {
         $mail = MailMessage::createFromFile(__DIR__ . '/../data/in-reply-to.txt');
 
-        $ref1 = Mail_Helper::getAllReferences($mail->getHeaders()->toString());
-        $ref2 = $mail->getAllReferences();
-
-        $this->assertSame(implode("\n", $ref1), implode("\n", $ref2));
+        $references = $mail->getAllReferences();
+        $exp = [
+            '<CAG5u9y_0RRMmCf_o28KmfmyCn5UN9PVM1=avWp4wWqbHGgojsA@4.example.org>',
+            '<CAAaem7eL8Tz0LBqncnX6O+SVBPBXZe+-YFmfdCPfuAFLfjk2YQ@4.example.org>',
+            '<55D2DF21.4090409@3.example.org>',
+            '<CAAaem7eobVjOPoZSUbG34AXkwVhoK19HpW+Bc-VgXRqmCc_3FA@4.example.org>',
+            '<55D44224.6050503@3.example.org>',
+            '<CAAaem7fhEfPyksxO45NKph7VQ=F-4r2KwP2P3hzQB0yT=Z-Okg@4.example.org>',
+            '<55DEC5DF.8030103@3.example.org>',
+            '<CAG5u9y8dtK1-9Dx3uvetcJOENiYM6yT7N0kmiT8kLyQYahnKeA@4.example.org>',
+            '<55DED903.9080304@3.example.org>',
+            '<55E59719.5010303@3.example.org>',
+            '<CAG5u9y9xfjVDL4nb=dGpZG2vpEuUgCTaNbxsVxh_Nd5MLRrJrQ@4.example.org>',
+            '<55E59AF9.7040903@3.example.org>',
+            '<CAG5u9y9384O3zSZcp4DZEkXt5Fjh3Ga+0wvQnKg5CUTpyeFbOw@4.example.org>',
+            '<CAG5u9y-V1Qfwfv0jQzpspQ=6ak55vD1=9y6B4kqkcj1sR5fXHQ@4.example.org>',
+            '<55E6A4E4.4060201@3.example.org>',
+        ];
+        $this->assertSame($exp, $references);
     }
 
     /**

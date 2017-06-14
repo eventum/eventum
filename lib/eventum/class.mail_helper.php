@@ -589,38 +589,6 @@ class Mail_Helper
     }
 
     /**
-     * Returns the message IDs of all emails this message references.
-     *
-     * @param   string $text_headers The full headers of the message
-     * @return  array An array of message-ids
-     */
-    public static function getAllReferences($text_headers)
-    {
-        $references = [];
-
-        // if X-Forwarded-Message-Id is present, assume this is forwarded email and this root email
-        if (preg_match('/^X-Forwarded-Message-Id: .*/mi', $text_headers)) {
-            return $references;
-        }
-
-        if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers, $matches)) {
-            $references[] = trim($matches[1]);
-        }
-        if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
-            $references = array_merge($references, explode(' ', self::unfold(trim($matches[1]))));
-            $references = Misc::trim($references);
-            $references = array_unique($references);
-        }
-        foreach ($references as $key => $reference) {
-            if (empty($reference)) {
-                unset($references[$key]);
-            }
-        }
-
-        return $references;
-    }
-
-    /**
      * Make sure that In-Reply-To and References headers are set and reference a message in this issue.
      * If not, set to be the root message ID of the issue. This is to ensure messages are threaded by
      * issue in mail clients.

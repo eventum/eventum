@@ -419,6 +419,11 @@ class MailMessage extends Message
     {
         $references = [];
 
+        // if X-Forwarded-Message-Id is present, assume this is forwarded email and this root email
+        if ($this->headers->has('X-Forwarded-Message-Id')) {
+            return $references;
+        }
+
         if ($this->headers->has('In-Reply-To')) {
             $references[] = $this->headers->get('In-Reply-To')->getFieldValue();
         }
