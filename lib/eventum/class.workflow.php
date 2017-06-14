@@ -581,16 +581,29 @@ class Workflow
      * @param   ImapMessage $mail The Mail Message object
      * @return  mixed null by default, -1 if the rest of the email script should not be processed
      */
-    public static function preEmailDownload($prj_id, $mail)
+    public static function preEmailDownload($prj_id, &$mail)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
         }
-        // TODO: if workflow modifies $structure, then that information is lost
         $backend = self::_getBackend($prj_id);
 
-        // NOTE: these no longer exist, just pass as null them
-        return $backend->preEmailDownload($prj_id, $mail);
+        $full_message = $mail->getRawContent();
+        $structure = Mime_Helper::decode($full_message, true, true);
+
+        $email = clone $mail->imapheaders;
+        $res = $backend->preEmailDownload($prj_id, $mail->info, $mail->mbox, $mail->num, $full_message, $email, $structure);
+
+        // if $full_message was modified by workflow call, load it back
+        if ($full_message != $mail->getRawContent()) {
+            $mail = ImapMessage::createFromString($full_message);
+        }
+        if ($email != $mail->imapheaders) {
+            // TODO
+            throw new BadMethodCallException('workflow modified $email, not ported');
+        }
+
+        return $res;
     }
 
     /**

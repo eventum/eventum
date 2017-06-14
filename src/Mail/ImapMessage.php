@@ -40,6 +40,13 @@ class ImapMessage extends MailMessage
     public $mbox;
 
     /**
+     * headerinfo result
+     *
+     * @var \stdClass
+     */
+    public $imapheaders;
+
+    /**
      * Server parameters for IMAP connection
      *
      * @var array
@@ -91,6 +98,7 @@ class ImapMessage extends MailMessage
         $message->mbox = $mbox;
         $message->num = $num;
         $message->info = $info;
+        $message->imapheaders = $imapheaders;
 
         return $message;
     }
