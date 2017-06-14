@@ -581,7 +581,7 @@ class Note
                 Support::extractAttachments($issue_id, $mail);
                 // notifications about new emails are always external
                 // special case when emails are bounced back, so we don't want to notify the customer about those
-                $email_options['internal_only'] = Notification::isBounceMessage($sender_email);
+                $email_options['internal_only'] = $mail->isBounceMessage();
                 $email_options['sup_id'] = $sup_id;
                 Notification::notifyNewEmail($usr_id, $issue_id, $mail, $email_options);
                 Issue::markAsUpdated($issue_id, $update_type);

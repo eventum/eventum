@@ -336,7 +336,7 @@ class Notification
         $subscribed_emails = self::getSubscribedEmails($issue_id, 'emails');
         $subscribed_emails = Misc::lowercase($subscribed_emails);
         if ((!self::isIssueRoutingSender($issue_id, $sender)) &&
-                (!self::isBounceMessage($sender_email)) &&
+                (!$mail->isBounceMessage()) &&
                 (!in_array($sender_email, $subscribed_emails)) &&
                 (Workflow::shouldAutoAddToNotificationList($prj_id))) {
             $actions = ['emails'];

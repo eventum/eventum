@@ -268,7 +268,7 @@ class Routing
             // notifications about new emails are always external
             // special case when emails are bounced back, so we don't want a notification to customers about those
             // broadcast this email only to the assignees for this issue
-            $is_bounce = Notification::isBounceMessage($sender_email);
+            $is_bounce = $mail->isBounceMessage();
             $email_options['internal_only'] = $is_bounce;
             $email_options['assignee_only'] = $is_bounce;
             $email_options['sup_id'] = $sup_id;

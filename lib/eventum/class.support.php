@@ -644,7 +644,7 @@ class Support
                         $internal_only = false;
                         $assignee_only = false;
                         // special case when emails are bounced back, so we don't want a notification to customers about those
-                        if (Notification::isBounceMessage($sender_email)) {
+                        if ($mail->isBounceMessage()) {
                             // broadcast this email only to the assignees for this issue
                             $internal_only = true;
                             $assignee_only = true;
@@ -812,7 +812,7 @@ class Support
         }
 
         // only create a new issue if this email is coming from a known customer
-        if (($should_create_issue) && ($info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes') &&
+        if ($should_create_issue && ($info['ema_issue_auto_creation_options']['only_known_customers'] == 'yes') &&
                 (CRM::hasCustomerIntegration($info['ema_prj_id'])) && !$customer_id) {
             try {
                 CRM::getInstance($info['ema_prj_id']);
@@ -822,7 +822,7 @@ class Support
             }
         }
         // check whether we need to create a new issue or not
-        if (($info['ema_issue_auto_creation'] == 'enabled') && ($should_create_issue) && (!Notification::isBounceMessage($sender_email))) {
+        if ($info['ema_issue_auto_creation'] == 'enabled' && $should_create_issue && (!Notification::isBounceMessage($sender_email))) {
             $options = Email_Account::getIssueAutoCreationOptions($info['ema_id']);
             AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
             AuthCookie::setProjectCookie($info['ema_prj_id']);
