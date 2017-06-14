@@ -33,13 +33,13 @@ class MailStorageTest extends TestCase
     {
         $setup = Setup::get();
 
-        if (!isset($setup['imap_account'])) {
-            $this->markTestSkipped("Define 'imap_account' array in setup.php for testing");
+        if (!isset($setup['tests.imap-account'])) {
+            $this->markTestSkipped("Define 'tests.imap-account' array in setup.php for testing");
         }
 
         /*
          * It should be something like:
-          'imap_account' => [
+          'tests.imap-account' => [
              'ema_hostname' => 'localhost',
              'ema_port' => 143,
              'ema_type' => 'imap/notls',
@@ -48,7 +48,7 @@ class MailStorageTest extends TestCase
              'ema_password' => '',
            ]
         */
-        $this->account = $setup['imap_account'];
+        $this->account = $setup['tests.imap-account'];
     }
 
     public function testNewMails()
@@ -56,17 +56,17 @@ class MailStorageTest extends TestCase
         $mbox = new MailStorage($this->account);
         $flags = [
             Mail\Storage::FLAG_UNSEEN,
-            //            'UNDELETED',
-            //            'UNANSWERED',
         ];
-        var_dump($mbox->countMessages($flags));
+        $count = $mbox->countMessages($flags);
+        $this->assertEquals(0, $count);
     }
 
-    public function testGetEmailInfo()
+    public function testProcessMessages()
     {
         $mbox = new MailStorage($this->account);
-        $flags = [];
-        var_dump($mbox->countMessages($flags));
+
+        $maxMessage = $mbox->countMessages();
+        $this->assertGreaterThan(0, $maxMessage);
 
         // not sure how to iterate messages over flags
         // as no way to set flags other than countMessages
