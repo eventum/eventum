@@ -11,9 +11,10 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Test;
+namespace Eventum\Test\Mail;
 
 use Eventum\Mail\MailMessage;
+use Eventum\Test\TestCase;
 use Mail_Helper;
 
 class ForwardedRoutingTest extends TestCase
