@@ -150,10 +150,10 @@ class Note
     }
 
     /**
-     * Returns the blocked email message body associated with the given note ID.
+     * Returns the blocked email message associated with the given note ID.
      *
      * @param   int $note_id The note ID
-     * @return  string The blocked email message body
+     * @return MailMessage
      */
     public static function getBlockedMessage($note_id)
     {
@@ -163,13 +163,10 @@ class Note
                     {{%note}}
                  WHERE
                     not_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$note_id]);
-        } catch (DatabaseException $e) {
-            throw new RuntimeException("Can't find note");
-        }
 
-        return $res;
+        $blocked_message = DB_Helper::getInstance()->getOne($stmt, [$note_id]);
+
+        return MailMessage::createFromString($blocked_message);
     }
 
     /**
@@ -529,9 +526,8 @@ class Note
     {
         $issue_id = self::getIssueID($note_id);
         $email_account_id = Email_Account::getEmailAccount();
-        $blocked_message = self::getBlockedMessage($note_id);
+        $mail = self::getBlockedMessage($note_id);
         $unknown_user = self::getUnknownUser($note_id);
-        $mail = MailMessage::createFromString($blocked_message);
         $sender_email = $mail->getSender();
         $usr_id = Auth::getUserID();
 

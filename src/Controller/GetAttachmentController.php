@@ -57,11 +57,11 @@ class GetAttachmentController extends BaseController
         $get = $this->getRequest()->query;
 
         if ($this->cat == 'blocked_email') {
-            $email = Note::getBlockedMessage($get->getInt('note_id'));
+            $mail = Note::getBlockedMessage($get->getInt('note_id'));
         } else {
             $mail = Support::getSupportEmail($get->getInt('sup_id'));
-            $email = $mail->getRawContent();
         }
+        $email = $mail->getRawContent();
 
         if ($this->raw) {
             Attachment::outputDownload($email, 'message.eml', Misc::countBytes($email), 'message/rfc822');

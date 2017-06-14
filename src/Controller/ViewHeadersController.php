@@ -62,11 +62,10 @@ class ViewHeadersController extends BaseController
     protected function prepareTemplate()
     {
         if ($this->cat == 'note') {
-            $headers = Note::getBlockedMessage($this->id);
+            $mail = Note::getBlockedMessage($this->id);
         } else {
             $mail = Support::getSupportEmail($this->id);
-            $headers = $mail->getRawContent();
         }
-        $this->tpl->assign('headers', $headers);
+        $this->tpl->assign('headers', $mail->getRawContent());
     }
 }
