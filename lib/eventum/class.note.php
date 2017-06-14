@@ -531,10 +531,8 @@ class Note
         $email_account_id = Email_Account::getEmailAccount();
         $blocked_message = self::getBlockedMessage($note_id);
         $unknown_user = self::getUnknownUser($note_id);
-        $structure = Mime_Helper::decode($blocked_message, true, true);
         $mail = MailMessage::createFromString($blocked_message);
-        $body = $structure->body;
-        $sender_email = Mail_Helper::getEmailAddress($structure->headers['from']);
+        $sender_email = $mail->getSender();
         $usr_id = Auth::getUserID();
 
         if ($target == 'email') {
@@ -542,19 +540,20 @@ class Note
             $email_options = [
                 'issue_id' => $issue_id,
                 'ema_id' => $email_account_id,
-                'message_id' => @$structure->headers['message-id'],
+                'message_id' => $mail->messageId,
                 'date' => Date_Helper::getCurrentDateGMT(),
-                'from' => @$structure->headers['from'],
-                'to' => @$structure->headers['to'],
-                'cc' => @$structure->headers['cc'],
-                'subject' => @$structure->headers['subject'],
-                'body' => @$body,
-                'full_email' => @$blocked_message, // for Notification::notifyNewEmail
+                'from' => $mail->from,
+                'to' => $mail->to,
+                'cc' => $mail->cc,
+                'subject' => $mail->subject,
+                'body' => $mail->getMessageBody(),
+                'full_email' => $mail->getRawContent(), // for Notification::notifyNewEmail
                 'headers' => $mail->getHeadersArray(), // for Notification::notifyNewEmail
             ];
 
             // need to check for a possible customer association
-            if (!empty($structure->headers['from'])) {
+            if ($mail->from) {
+                // FIXME: how can 'from' be missing?
                 $details = Email_Account::getDetails($email_account_id);
                 // check from the associated project if we need to lookup any customers by this email address
                 if (CRM::hasCustomerIntegration($details['ema_prj_id'])) {
@@ -588,12 +587,12 @@ class Note
                 Issue::markAsUpdated($issue_id, $update_type);
                 self::remove($note_id, false);
                 History::add($issue_id, $usr_id, 'note_converted_email', 'Note converted to e-mail (from: {from}) by {user}', [
-                    'from' => @$structure->headers['from'],
+                    'from' => $mail->from,
                     'user' => User::getFullName($usr_id),
                 ]);
                 // now add sender as an authorized replier
                 if ($authorize_sender) {
-                    Authorized_Replier::manualInsert($issue_id, @$structure->headers['from']);
+                    Authorized_Replier::manualInsert($issue_id, $mail->from);
                 }
             }
 
@@ -602,17 +601,17 @@ class Note
 
         // save message as a draft
         $res = Draft::saveEmail($issue_id,
-            $structure->headers['to'],
-            $structure->headers['cc'],
-            $structure->headers['subject'],
-            $body,
+            $mail->to,
+            $mail->cc,
+            $mail->subject,
+            $mail->getMessageBody(),
             false, $unknown_user);
 
         // remove the note, if the draft was created successfully
         if ($res) {
             self::remove($note_id, false);
             History::add($issue_id, $usr_id, 'note_converted_draft', 'Note converted to draft (from: {from}) by {user}', [
-                'from' => @$structure->headers['from'],
+                'from' => $mail->from,
                 'user' => User::getFullName($usr_id),
             ]);
         }
