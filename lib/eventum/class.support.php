@@ -542,8 +542,7 @@ class Support
             'headers' => $mail->getHeadersArray(),
         ];
 
-        $subject = Mime_Helper::decodeQuotedPrintable($mail->subject);
-        $should_create_array = self::createIssueFromEmail($info, $headers, $message_body, $t['date'], $sender_email, $subject, $t['to'], $t['cc']);
+        $should_create_array = self::createIssueFromEmail($info, $headers, $message_body, $t['date'], $sender_email, $mail->subject, $t['to'], $t['cc']);
         $should_create_issue = $should_create_array['should_create_issue'];
 
         if (!empty($should_create_array['issue_id'])) {

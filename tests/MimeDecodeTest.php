@@ -43,6 +43,9 @@ class MimeDecodeTest extends TestCase
 
         $this->assertEquals('"Some Guy" <abcd@origin.com>', $input->headers['from']);
         $this->assertEquals('Some Guy <abcd@origin.com>', $mail->from);
+
+        $this->assertEquals('PD: My: Gołblahblah', $input->headers['subject']);
+        $this->assertEquals('PD: My: Gołblahblah', $mail->subject);
     }
 
     public function testAddWarningMessage()
