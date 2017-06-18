@@ -127,7 +127,7 @@ class MailHelperTest extends TestCase
      * @param string $subject
      * @param string $exp expected result
      * @param bool $remove_issue_id
-     * @dataProvider testRemoveExcessReIssueIdData
+     * @dataProvider RemoveExcessReIssueIdTestData
      */
     public function testRemoveExcessReIssueId($description, $subject, $exp, $remove_issue_id)
     {
@@ -135,7 +135,7 @@ class MailHelperTest extends TestCase
         $this->assertEquals($exp, $res, $description);
     }
 
-    public function testRemoveExcessReIssueIdData()
+    public function RemoveExcessReIssueIdTestData()
     {
         return [
             [
@@ -197,7 +197,7 @@ class MailHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider testGetAddressInfoData
+     * @dataProvider GetAddressInfoTestData
      */
     public function testGetAddressInfo($input, $sender_name, $email)
     {
@@ -207,7 +207,7 @@ class MailHelperTest extends TestCase
         $this->assertEquals($email, $address->getEmail());
     }
 
-    public function testGetAddressInfoData()
+    public function GetAddressInfoTestData()
     {
         return [
             0 => [
@@ -239,7 +239,7 @@ class MailHelperTest extends TestCase
     }
 
     /**
-     * @dataProvider testGetAddressInfoMultipleData
+     * @dataProvider GetAddressInfoMultipleTestData
      */
     public function testGetAddressInfoMultiple($input, $exp)
     {
@@ -251,7 +251,7 @@ class MailHelperTest extends TestCase
         $this->assertEquals($exp, $res);
     }
 
-    public function testGetAddressInfoMultipleData()
+    public function GetAddressInfoMultipleTestData()
     {
         return [
             // test for "addressgroup" with empty list
@@ -284,7 +284,7 @@ class MailHelperTest extends TestCase
     /**
      * @param string $input
      * @param string $exp expected result
-     * @dataProvider testFormatEmailAddressesData
+     * @dataProvider FormatEmailAddressesTestData
      */
     public function testFormatEmailAddresses($input, $exp)
     {
@@ -294,7 +294,7 @@ class MailHelperTest extends TestCase
         $this->assertEquals($exp, $res);
     }
 
-    public function testFormatEmailAddressesData()
+    public function FormatEmailAddressesTestData()
     {
         return [
             [
