@@ -22,15 +22,15 @@ class MailDumper
     /**
      * Method used to save the routed mail into a backup directory.
      *
-     * @param string $mail
+     * @param MailMessage $mail
      */
-    public static function dump($mail, $type)
+    public static function dump(MailMessage $mail, $type)
     {
         $filename = static::getFilename($type);
         if (!$filename) {
             return;
         }
-        file_put_contents($filename, $mail);
+        file_put_contents($filename, $mail->getRawContent());
         chmod($filename, 0644);
     }
 

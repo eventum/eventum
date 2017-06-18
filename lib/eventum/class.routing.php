@@ -36,18 +36,7 @@ class Routing
             throw RoutingException::noMessageBodyError();
         }
 
-        $structure = Mime_Helper::decode($full_message, false, true);
-
-        // we create addresses array so it can be reused
-        $addresses = [];
-        if (isset($structure->headers['to'])) {
-            $addresses[] = $structure->headers['to'];
-        }
-        if (isset($structure->headers['cc'])) {
-            $addresses[] = $structure->headers['cc'];
-        }
-        // free memory
-        unset($structure);
+        $mail = MailMessage::createFromString($full_message);
 
         $setup = Setup::get();
 
@@ -59,7 +48,7 @@ class Routing
         ];
 
         $types = ['email', 'note', 'draft'];
-        foreach ($addresses as $address) {
+        foreach ($mail->getAddresses() as $address) {
             // NOTE: $address is not individual recipients,
             // but rather raw To or Cc header containing multiple addresses
 
@@ -75,13 +64,13 @@ class Routing
 
                 switch ($type) {
                     case 'email':
-                        $return = self::route_emails($full_message);
+                        $return = self::route_emails($mail);
                         break;
                     case 'note':
-                        $return = self::route_notes($full_message);
+                        $return = self::route_notes($mail);
                         break;
                     case 'draft':
-                        $return = self::route_drafts($full_message);
+                        $return = self::route_drafts($mail);
                         break;
                     default:
                         throw new LogicException("Bad type: $type");
@@ -100,19 +89,14 @@ class Routing
     /**
      * Routes an email to the correct issue.
      *
-     * @param string $full_message The full email message, including headers
+     * @param MailMessage $mail The Mail object
      * @throws RoutingException in case of failure
      * @return bool true if mail was routed
      */
-    protected static function route_emails($full_message)
+    protected static function route_emails(MailMessage $mail)
     {
-        // need some validation here
-        if (empty($full_message)) {
-            throw RoutingException::noMessageBodyError();
-        }
-
         // save the full message for logging purposes
-        MailDumper::dump($full_message, MailDumper::TYPE_EMAIL);
+        MailDumper::dump($mail, MailDumper::TYPE_EMAIL);
 
         // check if the email routing interface is even supposed to be enabled
         $setup = Setup::get();
@@ -133,70 +117,43 @@ class Routing
         }
         unset($sys_account);
 
-        // join the Content-Type line (for easier parsing?)
-        if (preg_match('/^boundary=/m', $full_message)) {
-            $pattern = "#(Content-Type: multipart/.+); ?\r?\n(boundary=.*)$#im";
-            $replacement = '$1; $2';
-            $full_message = preg_replace($pattern, $replacement, $full_message);
-        }
+        $headers = $mail->getHeaders();
 
         // remove the reply-to: header
-        if (preg_match('/^reply-to:.*/im', $full_message)) {
-            $full_message = preg_replace("/^(reply-to:).*\n/im", '', $full_message, 1);
-        }
-
-        AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
-
-        $structure = Mime_Helper::decode($full_message, true, true);
-
-        if (Mime_Helper::hasAttachments($full_message)) {
-            $has_attachments = 1;
-        } else {
-            $has_attachments = 0;
-        }
+        $headers->removeHeader('Reply-To');
 
         // find which issue ID this email refers to
-        if (isset($structure->headers['to'])) {
-            $issue_id = self::getMatchingIssueIDs($structure->headers['to'], 'email');
+        $issue_id = null;
+        if ($headers->has('To')) {
+            $issue_id = self::getMatchingIssueIDs($mail->getAddresses('To'), 'email');
         }
         // we need to try the Cc header as well
-        if (empty($issue_id) and isset($structure->headers['cc'])) {
-            $issue_id = self::getMatchingIssueIDs($structure->headers['cc'], 'email');
+        if (!$issue_id && $headers->has('Cc')) {
+            $issue_id = self::getMatchingIssueIDs($mail->getAddresses('Cc'), 'email');
         }
 
-        if (empty($issue_id)) {
+        if (!$issue_id) {
             throw RoutingException::noRecipientError();
         }
 
         $issue_prj_id = Issue::getProjectID($issue_id);
-        if (empty($issue_prj_id)) {
+        if (!$issue_prj_id) {
             throw RoutingException::noRecipientError();
         }
 
         $email_account_id = Email_Account::getEmailAccount($issue_prj_id);
-        if (empty($email_account_id)) {
+        if (!$email_account_id) {
             throw RoutingException::noEmaiAccountConfigured();
         }
 
-        $body = $structure->body;
-
-        // hack for clients that set more then one from header
-        if (is_array($structure->headers['from'])) {
-            $structure->headers['from'] = $structure->headers['from'][0];
-        }
-
-        // associate the email to the issue
-        $parts = [];
-        Mime_Helper::parse_output($structure, $parts);
-
-        // get the sender's email address
-        $sender_email = Mail_Helper::getEmailAddress($structure->headers['from']);
+        $sender_email = $mail->getSender();
 
         // strip out the warning message sent to staff users
         if (($setup['email_routing']['status'] == 'enabled') &&
                 ($setup['email_routing']['warning']['status'] == 'enabled')) {
-            $full_message = Mail_Helper::stripWarningMessage($full_message);
-            $body = Mail_Helper::stripWarningMessage($body);
+            $content = Mail_Helper::stripWarningMessage($mail->getContent());
+            // FIXME XXX: this probably will blow up. think of better way
+            $mail->setContent($content);
         }
 
         $prj_id = Issue::getProjectID($issue_id);
@@ -204,37 +161,33 @@ class Routing
         AuthCookie::setProjectCookie($prj_id);
 
         // remove certain CC addresses
-        if ((!empty($structure->headers['cc'])) && ($setup['smtp']['save_outgoing_email'] == 'yes')) {
-            $ccs = explode(',', @$structure->headers['cc']);
-            foreach ($ccs as $i => $address) {
-                if (Mail_Helper::getEmailAddress($address) == $setup['smtp']['save_address']) {
-                    unset($ccs[$i]);
-                }
-            }
-            $structure->headers['cc'] = implode(', ', $ccs);
+        if ($headers->has('Cc') && $setup['smtp']['save_outgoing_email'] == 'yes') {
+            $mail->removeFromAddressList('Cc', $setup['smtp']['save_address']);
         }
 
         // Remove excess Re's
-        $structure->headers['subject'] = Mail_Helper::removeExcessRe(@$structure->headers['subject'], true);
+        // Note: the method will still keep one 'Re'
+        $mail->setSubject(Mail_Helper::removeExcessRe($mail->subject));
 
         $email_options = [
             'issue_id' => $issue_id,
             'ema_id' => $email_account_id,
-            'message_id' => @$structure->headers['message-id'],
+            'message_id' => $mail->messageId,
             'date' => Date_Helper::getCurrentDateGMT(),
-            'from' => @$structure->headers['from'],
-            'to' => @$structure->headers['to'],
-            'cc' => @$structure->headers['cc'],
-            'subject' => @$structure->headers['subject'],
-            'body' => @$body,
-            'full_email' => $full_message, // used by Support::blockEmailIfNeeded, Workflow::handleBlockedEmail
-            'has_attachment' => $has_attachments,
-            'headers' => @$structure->headers,
+            'from' => $mail->from,
+            'to' => $mail->to,
+            'cc' => $mail->cc,
+            'subject' => $mail->subject,
+            'body' => $mail->getContent(), // FIXME: needed
+            'full_email' => $mail->getRawContent(),  // used by Support::blockEmailIfNeeded, Workflow::handleBlockedEmail
+            'has_attachment' => (int)$mail->hasAttachments(), // FIXME: does this need to be int?
+            'headers' => $mail->getHeadersArray(), // FIXME: needed?
         ];
+
         // automatically associate this incoming email with a customer
         if (CRM::hasCustomerIntegration($prj_id)) {
             $crm = CRM::getInstance($prj_id);
-            if (!empty($structure->headers['from'])) {
+            if ($sender_email) {
                 try {
                     $contact = $crm->getContactByEmail($sender_email);
                     $issue_contract = $crm->getContract(Issue::getContractID($issue_id));
@@ -249,16 +202,10 @@ class Routing
             $email_options['customer_id'] = null;
         }
 
-        if (Support::blockEmailIfNeeded__($email_options)) {
+        if (Support::blockEmailIfNeeded($mail, $email_options)) {
             return true;
         }
 
-        // this method is weird.
-        // it modifies $structure in one place, modifies $full_email in other place
-        // and then inserts with $structure
-        // the $mail for Support::insertEmail is used for workflow
-        // probably doesn't matter much which version to use
-        $mail = MailMessage::createFromString($full_message);
         Mail_Helper::rewriteThreadingHeaders($mail, $issue_id);
 
         $res = Support::insertEmail($email_options, $mail, $sup_id);
@@ -275,7 +222,7 @@ class Routing
             Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $mail, $email_options);
 
             // try to get usr_id of sender, if not, use system account
-            $usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($structure->headers['from']));
+            $usr_id = User::getUserIDByEmail($mail->getSender());
             if (!$usr_id) {
                 $usr_id = APP_SYSTEM_USER_ID;
             }
@@ -293,7 +240,7 @@ class Routing
 
             // log routed email
             History::add($issue_id, $usr_id, 'email_routed', 'Email routed from {from}', [
-                'from' => $structure->headers['from'],
+                'from' => $mail->from,
             ]);
         }
 
@@ -303,33 +250,19 @@ class Routing
     /**
      * Routes a note to the correct issue
      *
-     * @param string $full_message The full note
+     * @param MailMessage $mail The Mail object
      * @throws RoutingException in case of failure
      * @return bool true if mail was routed
      */
-    protected static function route_notes($full_message)
+    protected static function route_notes(MailMessage $mail)
     {
         // save the full message for logging purposes
-        MailDumper::dump($full_message, MailDumper::TYPE_NOTE);
+        MailDumper::dump($mail, MailDumper::TYPE_NOTE);
 
-        // join the Content-Type line (for easier parsing?)
-        if (preg_match('/^boundary=/m', $full_message)) {
-            $pattern = "#(Content-Type: multipart/.+); ?\r?\n(boundary=.*)$#im";
-            $replacement = '$1; $2';
-            $full_message = preg_replace($pattern, $replacement, $full_message);
-        }
-
-        list($headers) = Mime_Helper::splitHeaderBody($full_message);
-
-        // need some validation here
-        if (empty($full_message)) {
-            throw RoutingException::noMessageBodyError();
-        }
+        $headers = $mail->getHeaders();
 
         // remove the reply-to: header
-        if (preg_match('/^reply-to:.*/im', $full_message)) {
-            $full_message = preg_replace("/^(reply-to:).*\n/im", '', $full_message, 1);
-        }
+        $headers->removeHeader('Reply-To');
 
         // check if the email routing interface is even supposed to be enabled
         $setup = Setup::get();
@@ -342,20 +275,18 @@ class Routing
         if (!$setup['note_routing']['address_host']) {
             throw RoutingException::noEmailDomainConfigured();
         }
-        $structure = Mime_Helper::decode($full_message, true, true);
-        $mail = MailMessage::createFromString($full_message);
 
         // find which issue ID this email refers to
-        if (isset($structure->headers['to'])) {
-            $issue_id = self::getMatchingIssueIDs($structure->headers['to'], 'note');
+        $issue_id = null;
+        if ($headers->has('To')) {
+            $issue_id = self::getMatchingIssueIDs($mail->getAddresses('To'), 'note');
         }
-        // validation is always a good idea
-        if (empty($issue_id) and isset($structure->headers['cc'])) {
-            // we need to try the Cc header as well
-            $issue_id = self::getMatchingIssueIDs($structure->headers['cc'], 'note');
+        // we need to try the Cc header as well
+        if (!$issue_id && $headers->has('Cc')) {
+            $issue_id = self::getMatchingIssueIDs($mail->getAddresses('Cc'), 'note');
         }
 
-        if (empty($issue_id)) {
+        if (!$issue_id) {
             throw RoutingException::noRecipientError();
         }
 
@@ -368,7 +299,7 @@ class Routing
         }
 
         // check if the sender is allowed in this issue' project and if it is an internal user
-        $sender_email = strtolower(Mail_Helper::getEmailAddress($structure->headers['from']));
+        $sender_email = $mail->getSender();
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         $usr_role_id = User::getRoleByUser($sender_usr_id, $prj_id);
         // XXX: move this ugly block to Access::can* method
@@ -380,7 +311,7 @@ class Routing
 
         if (empty($sender_usr_id)) {
             $sender_usr_id = APP_SYSTEM_USER_ID;
-            $unknown_user = $structure->headers['from'];
+            $unknown_user = $mail->from;
         } else {
             $unknown_user = false;
         }
@@ -390,11 +321,11 @@ class Routing
         // parse the Cc: list, if any, and add these internal users to the issue notification list
         $addresses = [];
 
-        $to_addresses = AddressHeader::fromString(@$structure->headers['to'])->getEmails();
+        $to_addresses = AddressHeader::fromString($mail->to)->getEmails();
         if ($to_addresses) {
             $addresses = $to_addresses;
         }
-        $cc_addresses = AddressHeader::fromString(@$structure->headers['cc'])->getEmails();
+        $cc_addresses = AddressHeader::fromString($mail->cc)->getEmails();
         if ($cc_addresses) {
             $addresses = array_merge($addresses, $cc_addresses);
         }
@@ -406,8 +337,7 @@ class Routing
             }
         }
 
-        $body = $structure->body;
-        $reference_msg_id = Mail_Helper::getReferenceMessageID($headers);
+        $reference_msg_id = $mail->getReferenceMessageID();
         if (!empty($reference_msg_id)) {
             $parent_id = Note::getIDByMessageID($reference_msg_id);
         } else {
@@ -416,18 +346,18 @@ class Routing
 
         // insert the new note and send notification about it
         $_POST = [
-            'title' => @$structure->headers['subject'],
-            'note' => $body,
+            'title' => $mail->subject,
+            'note' => $mail->getMessageBody(),
             'note_cc' => $cc_users,
             'add_extra_recipients' => 'yes',
-            'message_id' => @$structure->headers['message-id'],
+            'message_id' => $mail->messageId,
             'parent_id' => $parent_id,
         ];
 
         // add the full email to the note if there are any attachments
         // this is needed because the front end code will display attachment links
         if ($mail->hasAttachments()) {
-            $_POST['full_message'] = $full_message;
+            $_POST['full_message'] = $mail->getRawContent();
         }
 
         $usr_id = Auth::getUserID();
@@ -439,7 +369,7 @@ class Routing
 
         // FIXME! $res == -2 is not handled
         History::add($issue_id, $usr_id, 'note_routed', 'Note routed from {user}', [
-            'user' => $structure->headers['from'],
+            'user' => $mail->from,
         ]);
 
         return true;
@@ -448,30 +378,19 @@ class Routing
     /**
      * Routes a draft to the correct issue.
      *
-     * @param string $full_message the complete draft
+     * @param MailMessage $mail The Mail object
      * @throws RoutingException in case of failure
      * @return bool true if mail was routed
      */
-    protected static function route_drafts($full_message)
+    protected static function route_drafts($mail)
     {
         // save the full message for logging purposes
-        MailDumper::dump($full_message, MailDumper::TYPE_DRAFT);
+        MailDumper::dump($mail, MailDumper::TYPE_DRAFT);
 
-        if (preg_match('/^(boundary=).*/m', $full_message)) {
-            $pattern = "/(Content-Type: multipart\/)(.+); ?\r?\n(boundary=)(.*)$/im";
-            $replacement = '$1$2; $3$4';
-            $full_message = preg_replace($pattern, $replacement, $full_message);
-        }
-
-        // need some validation here
-        if (empty($full_message)) {
-            throw RoutingException::noMessageBodyError();
-        }
+        $headers = $mail->getHeaders();
 
         // remove the reply-to: header
-        if (preg_match('/^(reply-to:).*/im', $full_message)) {
-            $full_message = preg_replace("/^(reply-to:).*\n/im", '', $full_message, 1);
-        }
+        $headers->removeHeader('Reply-To');
 
         // check if the draft interface is even supposed to be enabled
         $setup = Setup::get();
@@ -485,25 +404,24 @@ class Routing
             throw RoutingException::noEmailDomainConfigured();
         }
 
-        $structure = Mime_Helper::decode($full_message, true, false);
-
         // find which issue ID this email refers to
-        if (isset($structure->headers['to'])) {
-            $issue_id = self::getMatchingIssueIDs($structure->headers['to'], 'draft');
+        $issue_id = null;
+        if ($headers->has('To')) {
+            $issue_id = self::getMatchingIssueIDs($mail->getAddresses('To'), 'draft');
         }
-        // validation is always a good idea
-        if (empty($issue_id) and isset($structure->headers['cc'])) {
-            // we need to try the Cc header as well
-            $issue_id = self::getMatchingIssueIDs($structure->headers['cc'], 'draft');
+        // we need to try the Cc header as well
+        if (!$issue_id && $headers->has('Cc')) {
+            $issue_id = self::getMatchingIssueIDs($mail->getAddresses('Cc'), 'draft');
         }
 
-        if (empty($issue_id)) {
+        if (!$issue_id) {
             throw RoutingException::noRecipientError();
         }
 
         $prj_id = Issue::getProjectID($issue_id);
         // check if the sender is allowed in this issue' project and if it is an internal user
-        $sender_email = Mail_Helper::getEmailAddress($structure->headers['from']);
+        $sender_email = $mail->getSender();
+
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         if (!empty($sender_usr_id)) {
             $sender_role = User::getRoleByUser($sender_usr_id, $prj_id);
@@ -515,12 +433,10 @@ class Routing
         AuthCookie::setAuthCookie(User::getUserIDByEmail($sender_email));
         AuthCookie::setProjectCookie($prj_id);
 
-        $body = $structure->body;
-
-        Draft::saveEmail($issue_id, @$structure->headers['to'], @$structure->headers['cc'], @$structure->headers['subject'], $body, false, false, false);
+        Draft::saveEmail($issue_id, $mail->to, $mail->cc, $mail->subject, $mail->getMessageBody(), false, false, false);
         // XXX: need to handle attachments coming from drafts as well?
         $usr_id = Auth::getUserID();
-        History::add($issue_id, $usr_id, 'draft_routed', 'Draft routed from {from}', ['from' => $structure->headers['from']]);
+        History::add($issue_id, $usr_id, 'draft_routed', 'Draft routed from {from}', ['from' => $mail->from]);
 
         return true;
     }
@@ -528,7 +444,7 @@ class Routing
     /**
      * Check for $addresses for matches
      *
-     * @param   mixed   $addresses to check
+     * @param   string[]|string   $addresses to check
      * @param   string  $type Type of address match to find (email, note, draft)
      * @return  int|bool $issue_id in case of match otherwise false
      */
