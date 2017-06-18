@@ -42,6 +42,7 @@ use Zend\Mime;
  * @property-read string $from a From header value
  * @property-read string $to a To header value
  * @property-read string $cc a Cc header value
+ * @property-read string $date a Date header value
  * @property-read string $subject a Subject header value
  */
 class MailMessage extends Message

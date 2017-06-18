@@ -648,10 +648,10 @@ class Workflow
      *
      * @param   int $prj_id The ID of the project
      * @param   array   $info an array of info about the email account
-     * @param   ImapMessage $mail The Mail object
+     * @param   MailMessage $mail The Mail object
      * @return  string|array
      */
-    public static function getIssueIDForNewEmail($prj_id, $info, ImapMessage $mail)
+    public static function getIssueIDForNewEmail($prj_id, $info, MailMessage $mail)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
@@ -660,7 +660,8 @@ class Workflow
 
         $headers = $mail->getHeadersArray();
         $message_body = $mail->getContent();
-        $date = Date_Helper::convertDateGMT($mail->getMailDate());
+        // the $date used to be Received Date, but for simplicity just use Date header
+        $date = Date_Helper::convertDateGMT($mail->date);
         $from = $mail->getSender();
         $subject = $mail->subject;
         $to = implode(',', (array)$mail->getAddresses('To'));

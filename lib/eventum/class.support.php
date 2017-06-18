@@ -675,10 +675,10 @@ class Support
      * Also returns if this message is related to a previous message.
      *
      * @param   array $info an array of info about the email account
-     * @param   ImapMessage $mail The Mail object
+     * @param   MailMessage $mail The Mail object
      * @return  array   An array of information about the message
      */
-    public static function createIssueFromEmail($info, ImapMessage $mail)
+    public static function createIssueFromEmail($info, MailMessage $mail)
     {
         $should_create_issue = false;
         $issue_id = null;
@@ -689,10 +689,9 @@ class Support
         $contact_id = false;
         $contract_id = false;
         $severity = false;
-
         $references = $mail->getAllReferences();
 
-        $workflow = Workflow::getIssueIDforNewEmail($mail->getEmailAccountId(), $info, $mail);
+        $workflow = Workflow::getIssueIDforNewEmail($info['ema_prj_id'], $info, $mail);
         if (is_array($workflow)) {
             if (isset($workflow['customer_id'])) {
                 $customer_id = $workflow['customer_id'];
@@ -2331,12 +2330,9 @@ class Support
 
         $info = Email_Account::getDetails($new_ema_id);
         $mail = self::getSupportEmail($sup_id);
-        $headers = $mail->getHeaders()->toString();
 
         // handle auto creating issues (if needed)
-        $should_create_array = self::createIssueFromEmail__(
-            $info, $headers, $email['seb_body'], $email['timestamp'],
-            $email['sup_from'], $email['sup_subject'], $email['sup_to'], $email['sup_cc']);
+        $should_create_array = self::createIssueFromEmail($info, $mail);
         $issue_id = $should_create_array['issue_id'];
         $customer_id = $should_create_array['customer_id'];
 
