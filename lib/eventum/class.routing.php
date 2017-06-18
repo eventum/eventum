@@ -482,14 +482,7 @@ class Routing
             $mail_domain = '(?:' . $mail_domain . '|' . $host_aliases . ')';
         }
 
-        // if there are multiple CC or To headers Mail_Mime creates array.
-        // handle both cases (strings and arrays).
-        if (!is_array($addresses)) {
-            $addresses = [$addresses];
-        }
-
-        // everything safely escaped and checked, try matching address
-        foreach ($addresses as $address) {
+        foreach ((array)$addresses as $address) {
             if (preg_match("/$prefix(\d+)@$mail_domain/i", $address, $matches)) {
                 return (int) $matches[1];
             }
