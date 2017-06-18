@@ -77,7 +77,7 @@ class MimeDecodeTest extends TestCase
      */
     public function testHeaders()
     {
-        $message = $this->readfile(__DIR__ . '/data/LP901653.txt');
+        $message = $this->readDataFile('LP901653.txt');
         $res = Mime_Helper::decode($message, false, true);
         $this->assertMimeHelperResult($res);
 
