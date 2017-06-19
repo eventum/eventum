@@ -368,48 +368,6 @@ class Mime_Helper
     }
 
     /**
-     * Method used to get an unique attachment name for a given
-     * filename. This is specially useful for the emails that Microsoft
-     * Outlook sends out with several attachments with the same name
-     * when you embed several inline screenshots in the message
-     *
-     * @param   array $list The nested array of mime parts
-     * @param   string $filename The filename to search for
-     * @return  string The unique attachment name
-     */
-    public static function getAttachmentName(&$list, $filename)
-    {
-        if (@in_array($filename, array_values($list))) {
-            // check if the filename even has an extension...
-            if (!strstr($filename, '.')) {
-                $first_part = $filename;
-            } else {
-                $first_part = substr($filename, 0, strrpos($filename, '.'));
-            }
-            // check if this is already named Outlook-2.bmp (or similar)
-            if (strstr($first_part, '-')) {
-                // if so, gotta get the number and increment it
-                $numeric_portion = substr($first_part, strrpos($first_part, '-') + 1);
-                if (preg_match('/^[0-9]+$/', $numeric_portion)) {
-                    $numeric_portion = intval($numeric_portion) + 1;
-                }
-                $first_part = substr($first_part, 0, strrpos($first_part, '-'));
-            } else {
-                $numeric_portion = 1;
-            }
-            if (!strstr($filename, '.')) {
-                $filename = $first_part . '-' . $numeric_portion;
-            } else {
-                $filename = $first_part . '-' . $numeric_portion . substr($filename, strrpos($filename, '.'));
-            }
-
-            return self::getAttachmentName($list, $filename);
-        }
-
-        return $filename;
-    }
-
-    /**
      * Method used to check whether a given email message has any attachments.
      *
      * @param string $message the full body of the message
