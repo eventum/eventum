@@ -1358,13 +1358,13 @@ class Support
      *
      * @param   int $usr_id The user ID of the person performing this change
      * @param   int $issue_id The issue ID
-     * @param   array $items The list of email IDs to associate
+     * @param   array $sup_ids The list of email IDs to associate
      * @param   bool $authorize If the senders should be added the authorized repliers list
      * @return  int 1 if it worked, -1 otherwise
      */
-    public static function associate($usr_id, $issue_id, $items, $authorize = false)
+    public static function associate($usr_id, $issue_id, $sup_ids, $authorize = false)
     {
-        $res = self::associateEmail($usr_id, $issue_id, $items);
+        $res = self::associateEmail($usr_id, $issue_id, $sup_ids);
         if ($res != 1) {
             return -1;
         }
@@ -1377,40 +1377,31 @@ class Support
                     {{%support_email_body}}
                  WHERE
                     sup_id=seb_sup_id AND
-                    sup_id IN (' . DB_Helper::buildList($items) . ')';
+                    sup_id IN (' . DB_Helper::buildList($sup_ids) . ')';
 
-        $res = DB_Helper::getInstance()->getAll($stmt, $items);
+        $res = DB_Helper::getInstance()->getAll($stmt, $sup_ids);
 
+        $prj_id = Issue::getProjectID($issue_id);
         foreach ($res as $row) {
-            // since downloading email should make the emails 'public',
-            // send 'false' below as the 'internal_only' flag
-            if (Mime_Helper::hasAttachments($row['seb_full_email'])) {
-                $has_attachments = 1;
-            } else {
-                $has_attachments = 0;
-            }
-
-            $structure = Mime_Helper::decode($row['seb_full_email'], true, false);
+            $mail = MailMessage::createFromString($row['seb_full_email']);
             $t = [
                 'issue_id' => $issue_id,
-                'message_id' => @$structure->headers['message-id'],
-                'from' => @$structure->headers['from'],
-                'to' => @$structure->headers['to'],
-                'cc' => @$structure->headers['cc'],
-                'subject' => @$structure->headers['subject'],
-                'body' => Mime_Helper::getMessageBody($structure),
+                'message_id' => $mail->messageId,
+                'from' => $mail->from,
+                'to' => $mail->to,
+                'cc' => $mail->cc,
+                'subject' => $mail->subject,
+                'body' => $mail->getMessageBody(),
                 'full_email' => $row['seb_full_email'],
-                'has_attachment' => $has_attachments,
+                'has_attachment' => $mail->hasAttachments(),
                 // the following items are not inserted, but useful in some methods
-                'headers' => @$structure->headers,
+                'headers' => $mail->getHeadersArray(),
             ];
 
-            $prj_id = Issue::getProjectID($t['issue_id']);
             if (Workflow::shouldAutoAddToNotificationList($prj_id)) {
                 self::addExtraRecipientsToNotificationList($prj_id, $t, false);
             }
 
-            $mail = MailMessage::createFromString($row['seb_full_email']);
             $t['sup_id'] = $row['sup_id'];
             Notification::notifyNewEmail($usr_id, $issue_id, $mail, $t);
             if ($authorize) {
