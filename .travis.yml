@@ -7,6 +7,9 @@ git:
   submodules: false
 
 jobs:
+  allow_failures:
+    - php: "7.1"
+    - php: "nightly"
   include:
     - php: "5.5"
     - php: "5.6"
