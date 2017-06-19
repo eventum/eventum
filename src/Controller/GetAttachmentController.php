@@ -15,7 +15,8 @@ namespace Eventum\Controller;
 
 use Attachment;
 use Auth;
-use Mime_Helper;
+use Eventum\Mail\MailMessage;
+use InvalidArgumentException;
 use Misc;
 use Note;
 use Support;
@@ -61,20 +62,44 @@ class GetAttachmentController extends BaseController
         } else {
             $mail = Support::getSupportEmail($get->getInt('sup_id'));
         }
-        $email = $mail->getRawContent();
 
         if ($this->raw) {
+            $email = $mail->getRawContent();
             Attachment::outputDownload($email, 'message.eml', Misc::countBytes($email), 'message/rfc822');
+
+            return;
         }
 
         $cid = $get->get('cid');
         $filename = $get->get('filename');
-        if ($cid) {
-            list($mimetype, $data) = Mime_Helper::getAttachment($email, $filename, $cid);
-        } else {
-            list($mimetype, $data) = Mime_Helper::getAttachment($email, $filename);
+        $attachment = $this->getAttachment($mail, $filename, $cid);
+        $bytes = Misc::countBytes($attachment['blob']);
+        Attachment::outputDownload($attachment['blob'], $filename, $bytes, $attachment['filetype']);
+    }
+
+    /**
+     * Method used to get the encoded content of a specific message
+     * attachment.
+     *
+     * @param MailMessage $mail The Mail object
+     * @param string $filename The filename to look for
+     * @param string $cid The content-id to look for, if any
+     * @return array
+     */
+    private function getAttachment(MailMessage $mail, $filename, $cid = null)
+    {
+        $attachments = $mail->getAttachments();
+        foreach ($attachments as $attachment) {
+            if ($cid && $attachment['cid'] == $cid) {
+                return $attachment;
+            }
+
+            if ($attachment['filename'] == $filename) {
+                return $attachment;
+            }
         }
-        Attachment::outputDownload($data, $filename, Misc::countBytes($data), $mimetype);
+
+        throw new InvalidArgumentException('Attachment not found');
     }
 
     /**

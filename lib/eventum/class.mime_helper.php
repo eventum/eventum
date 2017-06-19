@@ -514,31 +514,6 @@ class Mime_Helper
     }
 
     /**
-     * Method used to get the encoded content of a specific message
-     * attachment.
-     *
-     * @param   string|object   $message the full content of the message or parsed message structure
-     * @param   string $filename The filename to look for
-     * @param   string $cid The content-id to look for, if any
-     * @return  array The full encoded content of the attachment
-     */
-    public static function getAttachment($message, $filename, $cid = null)
-    {
-        if (!is_object($message)) {
-            $message = self::decode($message, true);
-        }
-        $details = self::_getAttachmentDetails($message, true, $filename, $cid);
-        if (count($details) == 1) {
-            return [
-                $details[0]['filetype'],
-                $details[0]['blob'],
-            ];
-        }
-
-        return [];
-    }
-
-    /**
      * Method used to decode the content of a MIME encoded message.
      *
      * @param   string $message The full body of the message
