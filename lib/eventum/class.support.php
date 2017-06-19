@@ -1431,14 +1431,14 @@ class Support
                  WHERE
                     sup_id=seb_sup_id AND
                     sup_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getRow($stmt, [$sup_id]);
-        } catch (DatabaseException $e) {
-            return '';
+
+        $res = DB_Helper::getInstance()->getRow($stmt, [$sup_id]);
+        if (!$res) {
+            throw new InvalidArgumentException("Could not fetch email: $sup_id");
         }
 
         $res['message'] = $res['seb_body'];
-        $res['attachments'] = Mime_Helper::getAttachmentCIDs($res['seb_full_email']);
+        $res['attachments'] = MailMessage::createFromString($res['seb_full_email'])->getAttachments();
         $res['timestamp'] = Date_Helper::getUnixTimestamp($res['sup_date'], 'GMT');
         // TRANSLATORS: %1 = email subject
         $res['reply_subject'] = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $res['sup_subject']), true);

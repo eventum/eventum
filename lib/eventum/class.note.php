@@ -77,33 +77,26 @@ class Note
                  WHERE
                     not_usr_id=usr_id AND
                     not_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getRow($stmt, [$note_id]);
-        } catch (DatabaseException $e) {
-            return '';
+
+        $res = DB_Helper::getInstance()->getRow($stmt, [$note_id]);
+        if (!$res) {
+            throw new InvalidArgumentException("Could not fetch note: $note_id");
         }
 
-        if (count($res) > 0) {
-            $res['timestamp'] = Date_Helper::getUnixTimestamp($res['not_created_date'], 'GMT');
+        $res['timestamp'] = Date_Helper::getUnixTimestamp($res['not_created_date'], 'GMT');
+        $res['has_blocked_message'] = $res['not_is_blocked'] == 1;
 
-            if ($res['not_is_blocked'] == 1) {
-                $res['has_blocked_message'] = true;
-            } else {
-                $res['has_blocked_message'] = false;
-            }
-            if (!empty($res['not_unknown_user'])) {
-                $res['not_from'] = $res['not_unknown_user'];
-            } else {
-                $res['not_from'] = User::getFullName($res['not_usr_id']);
-            }
-            if ($res['not_has_attachment']) {
-                $res['attachments'] = Mime_Helper::getAttachmentCIDs($res['not_full_message']);
-            }
-
-            return $res;
+        if (!empty($res['not_unknown_user'])) {
+            $res['not_from'] = $res['not_unknown_user'];
+        } else {
+            $res['not_from'] = User::getFullName($res['not_usr_id']);
+        }
+        if ($res['not_has_attachment']) {
+            $mail = MailMessage::createFromString($res['not_full_message']);
+            $res['attachments'] = $mail->getAttachments();
         }
 
-        return '';
+        return $res;
     }
 
     /**
