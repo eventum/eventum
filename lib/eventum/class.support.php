@@ -980,12 +980,8 @@ class Support
                  ) VALUES (
                     ?, ?, ?
                  )';
-        try {
-            $params = [$sup_id, $mail->getMessageBody(), $mail->getRawContent()];
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+        $params = [$sup_id, $mail->getMessageBody(), $mail->getRawContent()];
+        DB_Helper::getInstance()->query($stmt, $params);
 
         if ($issue_id) {
             $prj_id = Issue::getProjectID($issue_id);

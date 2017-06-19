@@ -126,7 +126,7 @@ class Mime_Helper
      * Method used to properly encode an email address.
      *
      * @param   string $address The full email address
-     * @return  string The properly encoded email address
+     * @return  string The properly encoded email address: =?UTF-8?Q?Elan_Ruusam=C3=A4e?= <glen@example.com>
      */
     public static function encodeAddress($address)
     {
@@ -239,7 +239,7 @@ class Mime_Helper
      * @param string $text     the text to encode
      * @param string $charset  (optional) The character set of the text
      * @return string  the text, encoded only if it contains non-ASCII
-     *                 characters
+     *                 characters. Example: =?utf-8?b?WmXDpMOkbmQ=?=
      */
     public static function encode($text, $charset = APP_CHARSET)
     {
