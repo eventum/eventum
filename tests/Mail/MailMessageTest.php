@@ -194,7 +194,8 @@ class MailMessageTest extends TestCase
      */
     public function testHasAttachmentPlain()
     {
-        $message = MailMessage::createFromFile(__DIR__ . '/data/attachment-bug.txt');
+        $content = $this->readDataFile('attachment-bug.txt');
+        $message = MailMessage::createFromString($content);
         $this->assertTrue($message->hasAttachments());
     }
 
