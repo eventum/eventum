@@ -14,17 +14,16 @@
 namespace Eventum\Mail;
 
 use DomainException;
+use Eventum\Mail\Helper\DecodePart;
 use Eventum\Mail\Helper\MimePart;
 use Eventum\Mail\Helper\SanitizeHeaders;
 use InvalidArgumentException;
-use LogicException;
 use Mime_Helper;
 use Zend\Mail;
 use Zend\Mail\Address;
 use Zend\Mail\AddressList;
 use Zend\Mail\Header\AbstractAddressList;
 use Zend\Mail\Header\Cc;
-use Zend\Mail\Header\ContentTransferEncoding;
 use Zend\Mail\Header\ContentType;
 use Zend\Mail\Header\From;
 use Zend\Mail\Header\GenericHeader;
@@ -259,32 +258,11 @@ class MailMessage extends Message
                 ?: $attachment->getHeaderField('Content-Disposition', 'filename')
                     ?: ev_gettext('Untitled.%s', end(explode('/', $ct->getType())));
 
-            // get body.
-            // have to decode ourselves or use something like Mime\Message::createFromMessage
-            $body = $attachment->getContent();
-            /** @var ContentTransferEncoding $cte */
-            $cte = $headers->get('Content-Transfer-Encoding');
-            switch ($cte->getTransferEncoding()) {
-                case 'quoted-printable':
-                    $body = quoted_printable_decode($body);
-                    break;
-                case 'base64':
-                    $body = base64_decode($body);
-                    break;
-                case '7bit':
-                case '8bit':
-                case 'binary':
-                    // these need no transformation
-                    break;
-                default:
-                    throw new LogicException("Unsupported Content-Transfer-Encoding: '{$cte->getTransferEncoding()}'");
-            }
-
             $attachments[] = [
                 'filename' => $filename,
                 'cid' => $headers->get('Content-Id')->getFieldValue(),
                 'filetype' => $ct->getType(),
-                'blob' => $body,
+                'blob' => (new DecodePart($attachment))->decode(),
             ];
         }
 
@@ -368,7 +346,8 @@ class MailMessage extends Message
             return $str;
         }
 
-        return null;
+        // fallback to read just main part
+        return (new DecodePart($this))->decode();
     }
 
     public function addMimePart($content, $type = Mime\Mime::TYPE_TEXT, $charset = APP_CHARSET)
