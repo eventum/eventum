@@ -21,7 +21,6 @@
  * See the enclosed file COPYING for license information (LGPL). If you
  * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
  */
-use Eventum\Mail\MailMessage;
 use Eventum\Monolog\Logger;
 
 /**
@@ -348,37 +347,6 @@ class Mime_Helper
         }
 
         return $hdr_value;
-    }
-
-    /**
-     * Given a string containing a header and body
-     * section, this function will split them (at the first
-     * blank line) and return them.
-     *
-     * @param   string $input Input to split apart
-     * @return  array Contains header and body section
-     */
-    public static function splitBodyHeader($input)
-    {
-        if (preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $input, $match)) {
-            return [$match[1], $match[2]];
-        }
-
-        return null;
-    }
-
-    /**
-     * Method used to check whether a given email message has any attachments.
-     *
-     * @param string $message the full body of the message
-     * @return  bool
-     * @deprecated use MailMessage directly
-     */
-    public static function hasAttachments($message)
-    {
-        $mail = MailMessage::createFromString($message);
-
-        return $mail->hasAttachments();
     }
 
     /**
