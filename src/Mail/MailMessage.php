@@ -732,7 +732,9 @@ class MailMessage extends Message
             $message = new Mail\Message();
             $message->setBody($content);
 
-            // this is copied from Zend\Mail\Message::setBody
+            /**
+             * this is copied from @see \Zend\Mail\Message::setBody
+             */
 
             // Get headers, and set Mime-Version header
             $headers = $this->getHeaders();
