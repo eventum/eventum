@@ -368,32 +368,6 @@ class Mime_Helper
     }
 
     /**
-     * Parse headers given in $input and return
-     * as assoc array.
-     *
-     * @param   string $input Headers to parse
-     * @return  array Contains parsed headers
-     */
-    public static function getHeaderNames($input, $lowercase = true)
-    {
-        if ($input === '') {
-            return [];
-        }
-
-        $return = [];
-        // Unfold the input
-        $input = preg_replace("/\r?\n/", "\r\n", $input);
-        $input = preg_replace("/\r\n(\t| )+/", ' ', $input);
-        $headers = explode("\r\n", trim($input));
-        foreach ($headers as $value) {
-            $hdr_name = substr($value, 0, strpos($value, ':'));
-            $return[$lowercase ? strtolower($hdr_name) : $hdr_name] = $hdr_name;
-        }
-
-        return $return;
-    }
-
-    /**
      * Method used to get an unique attachment name for a given
      * filename. This is specially useful for the emails that Microsoft
      * Outlook sends out with several attachments with the same name
