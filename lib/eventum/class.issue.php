@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Mail\MailMessage;
 use Eventum\Model\Repository\IssueAssociationRepository;
 
 /**
@@ -1723,24 +1724,26 @@ class Issue
      * Creates an issue with the given email information.
      *
      * @param   int $prj_id The project ID
+     * @param   MailMessage $mail The Mail object
+     * @param   string $date the date the email was originally sent
      * @param   int $usr_id The user responsible for this action
-     * @param   string $sender The original sender of this email
-     * @param   string $summary The issue summary
-     * @param   string $description The issue description
      * @param   int $category The category ID
      * @param   int $priority The priority ID
      * @param   array $assignment The list of users to assign this issue to
-     * @param   string $date the date the email was originally sent
-     * @param   string $msg_id the message ID of the email we are creating this issue from
      * @param   int $severity
      * @param   string $customer_id
      * @param   string $contact_id
      * @param   string $contract_id
      * @return int
      */
-    public static function createFromEmail($prj_id, $usr_id, $sender, $summary, $description, $category, $priority, $assignment,
-                             $date, $msg_id, $severity, $customer_id, $contact_id, $contract_id)
+    public static function createFromEmail(MailMessage $mail, $date, $prj_id, $usr_id, $category, $priority, $assignment,
+                             $severity, $customer_id, $contact_id, $contract_id)
     {
+        $sender = $mail->from;
+        $summary = $mail->subject;
+        $description = $mail->getMessageBody();
+        $msg_id = $mail->messageId;
+
         $exclude_list = [];
         $managers = [];
 

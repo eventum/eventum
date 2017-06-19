@@ -791,8 +791,10 @@ class Support
             $options = Email_Account::getIssueAutoCreationOptions($info['ema_id']);
             AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);
             AuthCookie::setProjectCookie($prj_id);
+            $date = Date_Helper::getRFC822Date($mail->date);
+
             $issue_id = Issue::createFromEmail(
-                $mail, APP_SYSTEM_USER_ID,
+                $prj_id, $mail, $date, APP_SYSTEM_USER_ID,
                 @$options['category'], @$options['priority'], @$options['users'],
                 $severity, $customer_id, $contact_id, $contract_id
             );
