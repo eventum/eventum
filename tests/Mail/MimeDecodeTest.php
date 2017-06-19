@@ -18,6 +18,7 @@ use Eventum\Test\TestCase;
 use Mail_Helper;
 use Mime_Helper;
 use Setup;
+use Support;
 
 /**
  * Tests Mime_Decode so it could be dropped
@@ -91,6 +92,28 @@ class MimeDecodeTest extends TestCase
         unset($ph['content-type'], $zh['content-type']);
 
         $this->assertEquals($zh, $ph);
+    }
+
+    /**
+     * Mime_Helper::decode()->body extracts main message body if no parts present
+     */
+    public function testBuildMail()
+    {
+        $issue_id = 1;
+        $message_id = 2;
+        $from = 'root@localhost';
+        $to = '';
+        $cc = '';
+        $subject = 'söme messidž';
+        $body = 'bödi tekst';
+        $in_reply_to = '';
+        $iaf_ids = [];
+
+        $mail = Support::buildMail($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $iaf_ids);
+        $structure = Mime_Helper::decode($mail->getRawContent(), true, true);
+
+        $this->assertEquals($body, $structure->body);
+        $this->assertEquals($body, $mail->getMessageBody());
     }
 
     /**
