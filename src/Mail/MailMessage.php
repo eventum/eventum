@@ -23,15 +23,19 @@ use Zend\Mail;
 use Zend\Mail\Address;
 use Zend\Mail\AddressList;
 use Zend\Mail\Header\AbstractAddressList;
+use Zend\Mail\Header\Cc;
 use Zend\Mail\Header\ContentTransferEncoding;
 use Zend\Mail\Header\ContentType;
+use Zend\Mail\Header\From;
 use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Header\HeaderInterface;
 use Zend\Mail\Header\MessageId;
+use Zend\Mail\Header\MimeVersion;
 use Zend\Mail\Header\MultipleHeadersInterface;
 use Zend\Mail\Header\Subject;
+use Zend\Mail\Header\To;
 use Zend\Mail\Headers;
-use Zend\Mail\Storage as ZendMailStorage;
+use Zend\Mail\Storage;
 use Zend\Mail\Storage\Message;
 use Zend\Mime;
 
@@ -47,11 +51,6 @@ use Zend\Mime;
  */
 class MailMessage extends Message
 {
-    /**
-     * Namespace for Header classes
-     */
-    const HEADER_NS = '\\Zend\\Mail\\Header\\';
-
     /**
      * Public constructor
      *
@@ -511,7 +510,7 @@ class MailMessage extends Message
      */
     public function getFrom()
     {
-        $addresslist = $this->getAddressListFromHeader('from', '\Zend\Mail\Header\From');
+        $addresslist = $this->getAddressListFromHeader('from', From::class);
 
         // obtain first address from addresses list
         $addresses = current($addresslist);
@@ -528,7 +527,7 @@ class MailMessage extends Message
      */
     public function getTo()
     {
-        return $this->getAddressListFromHeader('to', '\Zend\Mail\Header\To');
+        return $this->getAddressListFromHeader('to', To::class);
     }
 
     /**
@@ -539,7 +538,7 @@ class MailMessage extends Message
      */
     public function getCc()
     {
-        return $this->getAddressListFromHeader('cc', '\Zend\Mail\Header\Cc');
+        return $this->getAddressListFromHeader('cc', Cc::class);
     }
 
     /**
@@ -663,9 +662,9 @@ class MailMessage extends Message
      */
     public function isSeen()
     {
-        return $this->hasFlag(ZendMailStorage::FLAG_SEEN)
-        || $this->hasFlag(ZendMailStorage::FLAG_DELETED)
-        || $this->hasFlag(ZendMailStorage::FLAG_ANSWERED);
+        return $this->hasFlag(Storage::FLAG_SEEN)
+        || $this->hasFlag(Storage::FLAG_DELETED)
+        || $this->hasFlag(Storage::FLAG_ANSWERED);
     }
 
     /**
@@ -720,7 +719,7 @@ class MailMessage extends Message
             'bcc',
             'return-path',
             'received',
-            'Disposition-Notification-To',
+            'disposition-notification-to',
         ];
         foreach ($ignore_headers as $name) {
             if ($headers->has($name)) {
@@ -758,13 +757,13 @@ class MailMessage extends Message
 
             // Get headers, and set Mime-Version header
             $headers = $this->getHeaders();
-            $this->getHeaderByName('mime-version', self::HEADER_NS . 'MimeVersion');
+            $this->getHeaderByName('mime-version', MimeVersion::class);
 
             // Multipart content headers
             if ($content->isMultiPart()) {
                 $mime = $content->getMime();
                 /** @var ContentType $header */
-                $header = $this->getHeaderByName('content-type', self::HEADER_NS . 'ContentType');
+                $header = $this->getHeaderByName('content-type', ContentType::class);
                 $header->setType('multipart/mixed');
                 $header->addParameter('boundary', $mime->boundary());
             } else {
@@ -826,13 +825,8 @@ class MailMessage extends Message
      * @return HeaderInterface|\ArrayIterator header instance or collection of headers
      * @see \Zend\Mail\Message::getHeaderByName
      */
-    public function getHeaderByName($headerName, $headerClass = 'GenericHeader')
+    public function getHeaderByName($headerName, $headerClass = GenericHeader::class)
     {
-        // add namespace if called without namespace
-        if ($headerClass[0] != '\\') {
-            $headerClass = self::HEADER_NS . $headerClass;
-        }
-
         $headers = $this->headers;
         if ($headers->has($headerName)) {
             $header = $headers->get($headerName);
