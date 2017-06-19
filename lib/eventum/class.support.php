@@ -1825,7 +1825,7 @@ class Support
      * @param   int $sender_usr_id the ID of the user sending this message
      * @param   array $iaf_ids an array with attachment information
      */
-    public static function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $iaf_ids, $message_id, $sender_usr_id = false)
+    public static function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $iaf_ids, $message_id, $sender_usr_id = null)
     {
         $prj_id = Issue::getProjectID($issue_id);
         $subject = Mail_Helper::formatSubject($issue_id, $subject);
