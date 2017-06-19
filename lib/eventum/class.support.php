@@ -942,7 +942,7 @@ class Support
             'sup_iss_id' => $issue_id,
             'sup_customer_id' => $row['customer_id'],
             'sup_message_id' => $mail->messageId,
-            'sup_date' => Date_Helper::convertDateGMT($mail->getMailDate()),
+            'sup_date' => $row['date'],
             'sup_from' => $mail->getSender(),
             'sup_to' => $mail->to,
             'sup_cc' => $mail->cc,
