@@ -664,6 +664,7 @@ class Workflow
         $date = Date_Helper::convertDateGMT($mail->date);
         $from = $mail->getSender();
         $subject = $mail->subject;
+        /** @see MailStorageTest::testImapHeaderStructure */
         $to = implode(',', (array)$mail->getAddresses('To'));
         $cc = implode(',', (array)$mail->getAddresses('Cc'));
 

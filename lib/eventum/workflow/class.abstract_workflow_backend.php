@@ -490,8 +490,8 @@ class Abstract_Workflow_Backend
      * @param   string $date The date this message was sent
      * @param   string $from the name and email address of the sender
      * @param   string $subject the subject of this message
-     * @param   array $to An array of to addresses
-     * @param   array $cc An array of cc addresses
+     * @param   string $to to addresses
+     * @param   string $cc cc addresses
      * @return int
      */
     public function getIssueIDforNewEmail($prj_id, $info, $headers, $message_body, $date, $from, $subject, $to, $cc)
