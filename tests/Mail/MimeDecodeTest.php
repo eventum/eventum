@@ -99,7 +99,7 @@ class MimeDecodeTest extends TestCase
      */
     public function testBuildMail()
     {
-        $issue_id = 1;
+        $issue_id = null;
         $message_id = 2;
         $from = 'root@localhost';
         $to = '';
