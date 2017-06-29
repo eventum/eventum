@@ -66,11 +66,7 @@ This cron example will run the script every minute:
 
     * * * * * <PATH-TO-EVENTUM>/bin/process_mail_queue.php
 
-There is a lock file that prevents the system from running multiple instances of the mail queue process. It is not common, but the lock file has been know to occasionally get stuck.
-
-You may want to periodically process the mail queue with the `--fix-lock` switch. Running it daily is more that sufficient enough to overcome any lock file issues.
-
-    0 3 * * * <PATH-TO-EVENTUM>/bin/process_mail_queue.php --fix-lock
+There is a lock file that prevents the system from running multiple instances of the mail queue process.
 
 If you would like to keep the size of your mail queue table down you can
 truncate (remove the body of) messages that are older then 1 month by running
@@ -171,7 +167,7 @@ different exit codes.
 
 ### IRC Notification Bot (irc/eventum-irc-bot)
 
-The IRC notification bot is a nice feature for remote teams that want to handle issues and want to have a quick and easy way to get simple notifications. 
+The IRC notification bot is a nice feature for remote teams that want to handle issues and want to have a quick and easy way to get simple notifications.
 
 See [IRC Bot page](System-Advanced%3A-Using-the-IRC-bot) for details.
 

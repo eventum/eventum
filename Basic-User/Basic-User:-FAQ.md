@@ -80,46 +80,6 @@ The value should be one of the items you see in `Preferences` dropdown.
 
 Try to increase the *memory_limit* option in your php.ini file from 8MB (default) to 16MB or maybe 32MB.
 
-### Problem: Case Update emails are not getting sent
-
-There might be a problem with the cron script. Check if a mail has been sent to the root user by the script. You should see something like this:
-
-```
-From root@YOUR-SERVER.com  Thu Jul 12 04:50:01 2007
-Return-Path: <root@YOUR-SERVER.com>
-X-Original-To: root
-Delivered-To: root@YOUR-SERVER.com
-Received: by YOUR-SERVER.com (Postfix, from userid 0)
-       id DDE17326AF8; Thu, 12 Jul 2007 04:50:01 -0700 (PDT)
-From: root@YOUR-SERVER.com (Cron Daemon)
-To: root@YOUR-SERVER.com
-Subject: Cron <root@YOUR-SERVER> cd /var/www/html/eventum/misc; /usr/bin/php -f process_mail_queue.php
-Content-Type: text/plain; charset=UTF-8
-Auto-Submitted: auto-generated
-X-Cron-Env: <SHELL=/bin/sh>
-X-Cron-Env: <HOME=/root>
-X-Cron-Env: <PATH=/usr/bin:/bin>
-X-Cron-Env: <LOGNAME=root>
-X-Cron-Env: <USER=root>
-Message-Id: <20070712115001.DDE17326AF8@YOUR-SERVER.com>
-Date: Thu, 12 Jul 2007 04:50:01 -0700 (PDT)
-Status: O
-ERROR: There is already a process (pid=329) of this script running. If this is not accurate, 
-you may fix it by running this script with '--fix-lock' as the only parameter.
-```
-
-This means that the *process_mail_queue* script got screwed and you need to fix it. Try this:
-
-`cd /var/www/html/eventum/misc; /usr/bin/php -f process_mail_queue.php --fix-lock`
-
-Now restart the cron daemon for good measure:
-
-`service crond restart`
-
-Of course, to do all this you need to be a root user or at least have *sudo* access. Your email issue should now be fixed!
-
-You may also want to determine how often the script is being called. If you are running it every minute, you end up starting this issue by attempting to run two instances.
-
 ### Problem: download_emails script not working
 
 A common problem reported by users is emails not being downloaded. Solution: There are many things that could cause this problem.
