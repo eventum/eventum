@@ -645,7 +645,7 @@ class Access
                                 SUBSTR(iss_access_level, 1, 6) = 'group_' AND ugr_grp_id = SUBSTR(iss_access_level, 7)
                             ) OR
                             (
-                                isu_usr_id IS NOT NULL
+                                isu_usr_id " . Auth::getUserID() . "
                             )";
 
             $workflow = Workflow::getAdditionalAccessSQL($prj_id, Auth::getUserID());
