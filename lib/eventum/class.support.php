@@ -690,14 +690,18 @@ class Support
                             }
                         }
 
-                        // mark this issue as updated
-                        if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER))) {
-                            Issue::markAsUpdated($t['issue_id'], 'customer action');
-                        } else {
-                            if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER)) {
-                                Issue::markAsUpdated($t['issue_id'], 'staff response');
-                            } else {
-                                Issue::markAsUpdated($t['issue_id'], 'user response');
+                        // mark this issue as updated if only if this email wasn't used to open it
+                        if (!$should_create_issue) {
+                            if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER))) {
+                                Issue::markAsUpdated($t['issue_id'], 'customer action');
+                            }
+                            else {
+                                if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER)) {
+                                    Issue::markAsUpdated($t['issue_id'], 'staff response');
+                                }
+                                else {
+                                    Issue::markAsUpdated($t['issue_id'], 'user response');
+                                }
                             }
                         }
                         // log routed email
