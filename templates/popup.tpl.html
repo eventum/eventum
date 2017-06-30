@@ -58,7 +58,7 @@
 {/if}
 
 {if $remove_file_result|default:'' == -1}
-  {t}An error occurred while trying to run your query{/t}
+  {t}An error occurred while trying to delete this file{/t}
 {elseif $remove_file_result|default:'' == -2}
   {t}You do not have the permission to remove this file.{/t}
 {elseif $remove_file_result|default:'' == 1}

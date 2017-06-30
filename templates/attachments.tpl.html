@@ -13,7 +13,7 @@
             <th>{t}Files{/t}</th>
             <th>{t}Owner{/t}</th>
             {if $core.current_role > $core.roles.customer}
-            <th>{t}Status{/t}</th>
+            <th>{t}Minimum Role{/t}</th>
             {/if}
             <th>{t}Date{/t}</th>
             <th>{t}Description{/t}</th>
@@ -37,10 +37,10 @@
             </td>
             {if $core.current_role > $core.roles.customer}
             <td width="5%" align="center">
-              {if $attachment.iat_status == 'internal'}
-                <span style="color: red;">{$attachment.iat_status|capitalize}</span>
+              {if $attachment.iat_min_role >= $core.roles.standard_user}
+                <span style="color: red;">{$attachment.min_role_name}</span>
               {else}
-                {$attachment.iat_status|capitalize}
+                {$attachment.min_role_name}
               {/if}
             </td>
             {/if}

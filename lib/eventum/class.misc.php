@@ -710,4 +710,68 @@ class Misc
 
         return $message;
     }
+
+    /**
+     * Method used to output the headers and the binary data for
+     * an attachment file.
+     *
+     * This method never returns to caller.
+     *
+     * @param   $data
+     * @param   $filename
+     * @param   $filetype
+     * @param   $filesize
+     * @param   bool $force_inline If the file should be forced to render in the browser
+     */
+    public static function outputDownload($data, $filename, $filesize, $filetype, $force_inline = false)
+    {
+        if ($force_inline == true) {
+            header('Content-Type: text/plain');
+
+            if (stristr($filetype, 'gzip')) {
+                header('Content-Encoding: gzip');
+            }
+            header('Content-Disposition: inline; filename="' . urlencode($filename) . '"');
+            header('Content-Length: ' . $filesize);
+            echo $data;
+            exit;
+        }
+
+        if (empty($mimetype)) {
+            $mimetype = 'application/octet-stream';
+        }
+        if (empty($filename)) {
+            $filename = ev_gettext('Untitled');
+        }
+        $filename = rawurlencode($filename);
+        $disposition = self::getAttachmentDisposition($filetype);
+        header('Content-Type: ' . $mimetype);
+        header("Content-Disposition: {$disposition}; filename=\"{$filename}\"; filename*=" . APP_CHARSET . "''{$filename}");
+        header("Content-Length: {$filesize}");
+        echo $data;
+        exit;
+    }
+
+    /**
+     * Returns how the download should be displayed.
+     *
+     * @param $filetype
+     * @return string inline|attachment
+     */
+    public static function getAttachmentDisposition($filetype)
+    {
+        $parts = explode('/', $filetype, 2);
+        if (count($parts) < 2) {
+            return 'attachment';
+        }
+
+        list($type) = $parts;
+
+        // display inline images and text documents
+        if (in_array($type, ['image', 'text'])) {
+            return 'inline';
+        } else {
+            return 'attachment';
+        }
+    }
 }

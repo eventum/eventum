@@ -14,7 +14,6 @@
 namespace Eventum\Controller;
 
 use Access;
-use Attachment;
 use Auth;
 use AuthCookie;
 use Authorized_Replier;
@@ -24,6 +23,7 @@ use Custom_Field;
 use Date_Helper;
 use Draft;
 use Email_Account;
+use Eventum\Attachment\AttachmentManager;
 use Eventum\Model\Repository\CommitRepository;
 use Group;
 use Issue;
@@ -167,12 +167,12 @@ class ViewController extends BaseController
                 'previous_issue' => $sides['previous'],
                 'subscribers' => Notification::getSubscribers($this->issue_id),
                 'custom_fields' => Custom_Field::getListByIssue($this->prj_id, $this->issue_id),
-                'files' => Attachment::getList($this->issue_id),
+                'files' => AttachmentManager::getList($this->issue_id),
                 'emails' => Support::getEmailsByIssue($this->issue_id),
                 'zones' => Date_Helper::getTimezoneList(),
                 'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
                 'ema_id' => Email_Account::getEmailAccount(),
-                'max_attachment_size' => Attachment::getMaxAttachmentSize(),
+                'max_attachment_size' => AttachmentManager::getMaxAttachmentSize(),
                 'quarantine' => Issue::getQuarantineInfo($this->issue_id),
                 'grid' => $this->getColumnsForDisplay(),
                 'can_update' => Issue::canUpdate($this->issue_id, $this->usr_id),

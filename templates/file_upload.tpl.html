@@ -63,14 +63,12 @@ function validateUpload(f)
       {if $core.current_role > $core.roles.customer}
       <tr>
         <th width="120" nowrap class="internal">
-          {t}Status{/t}
+          {t}Minimum Role{/t}
         </th>
         <td>
-          <input type="radio" name="status" value="public" id="public" checked>
-          <label for="public">{t}Public{/t} ({t}visible to all{/t})</label>
-          <br>
-          <input type="radio" name="status" value="internal" id="internal">
-          <label for="internal">{t}Private{/t} ({t}standard user and above only{/t})</label>
+          <select name="minimum_role">
+              {html_options options=$roles}
+          </select>
         </td>
       </tr>
       {else}

@@ -14,11 +14,11 @@
 namespace Eventum\Controller;
 
 use Access;
-use Attachment;
 use Auth;
 use Draft;
 use Email_Account;
 use Email_Response;
+use Eventum\Attachment\AttachmentManager;
 use History;
 use Issue;
 use Mail_Helper;
@@ -158,8 +158,8 @@ class SendController extends BaseController
                 'canned_responses' => Email_Response::getAssocList($this->prj_id),
                 'js_canned_responses' => Email_Response::getAssocListBodies($this->prj_id),
                 'issue_access' => Access::getIssueAccessArray($this->issue_id, $this->usr_id),
-                'max_attachment_size' => Attachment::getMaxAttachmentSize(),
-                'max_attachment_bytes' => Attachment::getMaxAttachmentSize(true),
+                'max_attachment_size' => AttachmentManager::getMaxAttachmentSize(),
+                'max_attachment_bytes' => AttachmentManager::getMaxAttachmentSize(true),
                 'time_categories' => Time_Tracking::getAssocCategories($this->prj_id),
                 'email_category_id' => Time_Tracking::getCategoryId($this->prj_id, 'Email Discussion'),
             ]
