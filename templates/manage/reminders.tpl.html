@@ -7,7 +7,7 @@
 {block "manage_content"}
   <script type="text/javascript">
   <!--
-  var url = '{$core.current_url}';
+  var url = '{$core.rel_url}manage/reminders.php';
   var rem_id = {$smarty.get.id|intval|default:''};
 
   function populateIssueComboBox()
@@ -339,12 +339,12 @@
           <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].rem_id}"></td>
           <td align="center">{$list[i].rem_id}</td>
           <td align="center">
-            {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].rem_id}&rank=desc" direction="down"}
+            {rank_icon href="{$core.rel_url}manage/reminders.php?cat=change_rank&id={$list[i].rem_id}&rank=desc" direction="down"}
             {$list[i].rem_rank}
-            {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].rem_id}&rank=asc" direction="up"}
+            {rank_icon href="{$core.rel_url}manage/reminders.php?cat=change_rank&id={$list[i].rem_id}&rank=asc" direction="up"}
           </td>
           <td>
-            &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].rem_id}" title="{t}update this entry{/t}">{$list[i].rem_title|escape:"html"}</a>
+            &nbsp;<a href="{$core.rel_url}manage/reminders.php?cat=edit&id={$list[i].rem_id}" title="{t}update this entry{/t}">{$list[i].rem_title|escape:"html"}</a>
           </td>
           <td width="25%">
             &nbsp;{$list[i].prj_title|escape:"html"}

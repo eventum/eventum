@@ -225,12 +225,12 @@
                     <tr class="{cycle values='odd,even'}">
                       <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].rma_id}"></td>
                       <td align="center" nowrap>
-                        {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].rma_id}&rem_id={$rem_id}&rank=desc" direction="down"}
+                        {rank_icon href="{$core.rel_url}manage/reminder_actions.php?cat=change_rank&id={$list[i].rma_id}&rem_id={$rem_id}&rank=desc" direction="down"}
                         {$list[i].rma_rank}
-                        {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].rma_id}&rem_id={$rem_id}&rank=asc" direction="up"}
+                        {rank_icon href="{$core.rel_url}manage/reminder_actions.php?cat=change_rank&id={$list[i].rma_id}&rem_id={$rem_id}&rank=asc" direction="up"}
                       </td>
                       <td width="20%">
-                        &nbsp;<a href="{$core.current_url}?cat=edit&rem_id={$rem_id}&id={$list[i].rma_id}" title="{t}update this entry{/t}">{$list[i].rma_title|escape:"html"}</a>
+                        &nbsp;<a href="{$core.rel_url}manage/reminder_actions.php?cat=edit&rem_id={$rem_id}&id={$list[i].rma_id}" title="{t}update this entry{/t}">{$list[i].rma_title|escape:"html"}</a>
                       </td>
                       <td width="50%">
                         &nbsp;{$list[i].rmt_title}
@@ -238,7 +238,7 @@
                         {if $list[i].rma_alert_group_leader} [Alert Group Leader]{/if}
                       </td>
                       <td>
-                        &nbsp;<a href="reminder_conditions.php?rem_id={$list[i].rma_rem_id}&rma_id={$list[i].rma_id}">{$list[i].total_conditions} Condition{if $list[i].total_conditions != 1}s{/if}</a><br />
+                        &nbsp;<a href="{$core.rel_url}manage/reminder_conditions.php?rem_id={$list[i].rma_rem_id}&rma_id={$list[i].rma_id}">{$list[i].total_conditions} Condition{if $list[i].total_conditions != 1}s{/if}</a><br />
                         {if $list[i].status|default:'' != ''}&nbsp;Status: {$list[i].status}{/if}
                       </td>
                     </tr>

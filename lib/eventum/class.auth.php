@@ -151,8 +151,14 @@ class Auth
 
             // auto switch project
             if (isset($_GET['switch_prj_id'])) {
-                AuthCookie::setProjectCookie($_GET['switch_prj_id']);
-                self::redirect($_SERVER['PHP_SELF'] . '?' . str_replace('switch_prj_id=' . $_GET['switch_prj_id'], '', $_SERVER['QUERY_STRING']));
+                $prj_id = $_GET['switch_prj_id'];
+                AuthCookie::setProjectCookie($prj_id);
+                $url = $_SERVER['PHP_SELF'] . '?' .
+                    str_replace(
+                        "switch_prj_id={$prj_id}", '',
+                        $_SERVER['QUERY_STRING']
+                    );
+                self::redirect($url);
             }
 
             // if the current session is still valid, then renew the expiration

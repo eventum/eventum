@@ -119,7 +119,6 @@ install-eventum:
 	cp -a lib/eventum $(DESTDIR)$(datadir)/lib
 	cp -a htdocs $(DESTDIR)$(datadir)
 	cp -a templates $(DESTDIR)$(datadir)
-	cp -a upgrade $(DESTDIR)$(datadir)
 	cp -a bin $(DESTDIR)$(datadir)
 	cp -a src $(DESTDIR)$(datadir)
 	cp -a res $(DESTDIR)$(datadir)

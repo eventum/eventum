@@ -3,7 +3,7 @@
 {block "manage_content"}
 <script type="text/javascript">
   <!--
-  var url = '{$core.current_url}';
+  var url = '{$core.rel_url}manage/customize_listing.php';
   var psd_id = {$smarty.get.id|intval|default:''};
 
   function retrieveStatuses(f)
@@ -133,7 +133,7 @@
       <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].psd_id}"></td>
       <td width="20%">{$list[i].prj_title}</td>
       <td width="20%">
-        &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].psd_id}" title="{t}update this entry{/t}">{$list[i].sta_title|escape:"html"}</a>
+        &nbsp;<a href="{$core.rel_url}manage/customize_listing.php?cat=edit&id={$list[i].psd_id}" title="{t}update this entry{/t}">{$list[i].sta_title|escape:"html"}</a>
       </td>
       <td width="30%">{$list[i].psd_label|escape:"html"}</td>
       <td width="30%">{$list[i].date_field}</td>

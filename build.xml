@@ -170,6 +170,10 @@
 				<!-- source for pecl extension -->
 				<include name="Resources/ext"/>
 			</fileset>
+
+			<fileset dir="${vendor}/symfony/event-dispatcher">
+				<include name="Debug/**"/>
+			</fileset>
 		</delete>
 	</target>
 

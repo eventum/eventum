@@ -270,7 +270,7 @@ $().ready(function() {
         {section name="i" loop=$list}
         <tr class="{cycle values='odd,even'}">
           <td width="30%" >
-            &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].prj_id}" title="{t}update this entry{/t}">{$list[i].prj_title}</a>
+            &nbsp;<a href="{$core.rel_url}manage/projects.php?cat=edit&id={$list[i].prj_id}" title="{t}update this entry{/t}">{$list[i].prj_title}</a>
           </td>
           <td width="20%" >&nbsp;{$list[i].usr_full_name|escape:html}</td>
           <td >&nbsp;{$list[i].prj_status|capitalize}</td>

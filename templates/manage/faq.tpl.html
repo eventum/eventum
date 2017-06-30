@@ -7,7 +7,7 @@
 {block "manage_content"}
   <script type="text/javascript">
   <!--
-  var url = '{$core.current_url}';
+  var url = '{$core.rel_url}manage/faq.php';
   var id = {$smarty.get.id|intval|default:''};
 
   function populateComboBox()
@@ -178,12 +178,12 @@
         <tr class="{cycle values="odd,even"}">
           <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].faq_id}"></td>
           <td align="center" nowrap>
-            {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].faq_id}&rank=desc" direction="down"}
+            {rank_icon href="{$core.rel_url}manage/faq.php?cat=change_rank&id={$list[i].faq_id}&rank=desc" direction="down"}
             {$list[i].faq_rank}
-            {rank_icon href="{$core.current_url}?cat=change_rank&id={$list[i].faq_id}&rank=asc" direction="up"}
+            {rank_icon href="{$core.rel_url}manage/faq.php?cat=change_rank&id={$list[i].faq_id}&rank=asc" direction="up"}
           </td>
           <td width="50%">
-            &nbsp;<a href="{$core.current_url}?cat=edit&id={$list[i].faq_id}" title="{t}update this entry{/t}">{$list[i].faq_title|escape:"html"}</a>
+            &nbsp;<a href="{$core.rel_url}manage/faq.php?cat=edit&id={$list[i].faq_id}" title="{t}update this entry{/t}">{$list[i].faq_title|escape:"html"}</a>
           </td>
           {if $backend_uses_support_levels|default:''}
           <td width="50%">
