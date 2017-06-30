@@ -1206,8 +1206,7 @@ class Support
                 $row['sup_to'] = ev_gettext('Notification List');
             }
             if (CRM::hasCustomerIntegration($prj_id)) {
-                // FIXME: $company_titles maybe used uninitialied
-                $row['customer_title'] = $company_titles[$row['sup_customer_id']];
+                $row['customer_title'] = isset($company_titles[$row['sup_customer_id']]) ? $company_titles[$row['sup_customer_id']] : '';
             }
         }
 
