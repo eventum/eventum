@@ -278,6 +278,11 @@ class Setup
 
             'relative_date' => 'enabled',
             'audit_trail' => 'disabled',
+
+            'attachments' => [
+                'default_adapter' => 'pdo',
+                'adapters'  =>  [],
+            ],
         ];
 
         return $defaults;
