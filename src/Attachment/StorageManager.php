@@ -15,6 +15,7 @@ namespace Eventum\Attachment;
 
 use DB_Helper;
 use Eventum\Attachment\Exceptions\AttachmentException;
+use League\Flysystem\Config;
 use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
 use Phlib\Flysystem\Pdo\PdoAdapter;
@@ -48,7 +49,7 @@ class StorageManager
         $this->default_adapter = $setup['default_adapter'];
 
         $mount_config = [
-            'pdo' => new Filesystem(new PdoAdapter(DB_Helper::getInstance()->getPdo())),
+            'pdo' => $this->getPdoAdapter(),
             'legacy' => new Filesystem(new EventumLegacyAdapter()),
         ];
         foreach ($setup['adapters'] as $adapter_name => $adapter_config) {
@@ -56,6 +57,17 @@ class StorageManager
         }
 
         $this->mount_manager = new MountManager($mount_config);
+    }
+
+    /**
+     * Create the PDO Adapter
+     */
+    private function getPdoAdapter()
+    {
+        $config = new Config([
+            'table_prefix'            => 'attachment',
+        ]);
+        return new Filesystem(new PdoAdapter(DB_Helper::getInstance()->getPdo(), $config));
     }
 
     /**
