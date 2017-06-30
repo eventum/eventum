@@ -220,31 +220,7 @@ class Attachment
      */
     public function outputDownload($force_inline = false)
     {
-        $data = $this->getFile()->read();
-        if ($force_inline == true) {
-            header('Content-Type: text/plain');
-
-            if (stristr($this->filetype, 'gzip')) {
-                header('Content-Encoding: gzip');
-            }
-            header('Content-Disposition: inline; filename="' . urlencode($this->filename) . '"');
-            header('Content-Length: ' . $this->filesize);
-            echo $data;
-            exit;
-        }
-
-        if (empty($mimetype)) {
-            $mimetype = 'application/octet-stream';
-        }
-        if (empty($filename)) {
-            $filename = ev_gettext('Untitled');
-        }
-        $filename = rawurlencode($filename);
-        header('Content-Type: ' . $mimetype);
-        header("Content-Disposition: {$this->getDisposition()}; filename=\"{$filename}\"; filename*=" . APP_CHARSET . "''{$this->filename}");
-        header("Content-Length: {$this->filesize}");
-        echo $data;
-        exit;
+        Misc::outputDownload($this->getFile()->read(), $this->filename, $this->filesize, $this->filetype, $force_inline);
     }
 
     /**
