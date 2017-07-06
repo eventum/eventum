@@ -208,7 +208,7 @@ class Routing
 
         Mail_Helper::rewriteThreadingHeaders($mail, $issue_id);
 
-        $res = Support::insertEmail($email_options, $mail, $sup_id);
+        $res = Support::insertEmail($mail, $email_options, $sup_id);
         if ($res != -1) {
             Support::extractAttachments($issue_id, $mail);
 

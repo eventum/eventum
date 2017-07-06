@@ -607,7 +607,7 @@ class Support
                 // make variable available for workflow to be able to detect whether this email created new issue
                 $t['should_create_issue'] = $should_create_array['should_create_issue'];
 
-                $res = self::insertEmail($t, $mail, $sup_id);
+                $res = self::insertEmail($mail, $t, $sup_id);
                 if ($res != -1) {
                     // only extract the attachments from the email if we are associating the email to an issue
                     if (!empty($t['issue_id'])) {
@@ -908,6 +908,7 @@ class Support
     /**
      * Method used to add a new support email to the system.
      *
+     * @param   MailMessage $mail The Mail object
      * @param   array $email_options The support email details:
      * - int customer_id
      * - int issue_id
@@ -915,12 +916,11 @@ class Support
      * - int date
      * - bool has_attachment used if defined, otherwise calls $mail->hasAttachments()
      * - string cc (overwrites $mail->cc) !!!
-     * @param   MailMessage $mail The Mail object
      * @param   int $sup_id The support ID to be passed out
      * @param   bool $closing If this email comes from closing the issue
      * @return  int 1 if the insert worked, -1 otherwise
      */
-    public static function insertEmail($email_options, MailMessage $mail, &$sup_id, $closing = false)
+    public static function insertEmail(MailMessage $mail, $email_options, &$sup_id, $closing = false)
     {
         // get usr_id from FROM header
         $usr_id = User::getUserIDByEmail($mail);
@@ -2069,7 +2069,7 @@ class Support
         $email_options['has_attachment'] = $iaf_ids ? 1 : 0;
         $email_options['headers'] = $mail->getHeadersArray();
 
-        self::insertEmail($email_options, $mail, $sup_id);
+        self::insertEmail($mail, $email_options, $sup_id);
 
         if ($issue_id) {
             $email_options['internal_only'] = $internal_only;

@@ -566,7 +566,7 @@ class Note
                 $update_type = 'customer action';
             }
 
-            $res = Support::insertEmail($email_options, $mail, $sup_id);
+            $res = Support::insertEmail($mail, $email_options, $sup_id);
             if ($res != -1) {
                 Support::extractAttachments($issue_id, $mail);
                 // notifications about new emails are always external
