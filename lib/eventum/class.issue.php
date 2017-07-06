@@ -1723,26 +1723,36 @@ class Issue
     /**
      * Creates an issue with the given email information.
      *
-     * @param   int $prj_id The project ID
-     * @param   MailMessage $mail The Mail object
-     * @param   string $date the date the email was originally sent
-     * @param   int $usr_id The user responsible for this action
-     * @param   int $category The category ID
-     * @param   int $priority The priority ID
-     * @param   array $assignment The list of users to assign this issue to
-     * @param   int $severity
-     * @param   string $customer_id
-     * @param   string $contact_id
-     * @param   string $contract_id
+     * @param MailMessage $mail The Mail object
+     * @param array $options
+     * - int $prj_id The project ID
+     * - int $usr_id The user responsible for this action
+     * - int $category The category ID
+     * - int $priority The priority ID
+     * - array $assignment The list of users to assign this issue to
+     * - int $severity
+     * - string $customer_id
+     * - string $contact_id
+     * - string $contract_id
      * @return int
      */
-    public static function createFromEmail(MailMessage $mail, $date, $prj_id, $usr_id, $category, $priority, $assignment,
-                             $severity, $customer_id, $contact_id, $contract_id)
+    public static function createFromEmail(MailMessage $mail, $options)
     {
+        $category = isset($options['category']) ? $options['category'] : null;
+        $priority = isset($options['priority']) ? $options['priority'] : null;
+        $assignment = isset($options['users']) ? $options['users'] : null;
+        $prj_id = $options['prj_id'];
+        $usr_id = $options['usr_id'];
+        $severity = $options['severity'];
+        $customer_id = $options['customer_id'];
+        $contact_id = $options['contact_id'];
+        $contract_id = $options['contract_id'];
+
         $sender = $mail->from;
         $summary = $mail->subject;
         $description = $mail->getMessageBody();
         $msg_id = $mail->messageId;
+        $date = Date_Helper::getRFC822Date($mail->date);
 
         $exclude_list = [];
         $managers = [];
@@ -1867,7 +1877,7 @@ class Issue
             $has_TAM = true;
         }
         // now add the user/issue association
-        if (@count($assignment) > 0) {
+        if ($assignment) {
             foreach ($assignment as $ass_usr_id) {
                 Notification::subscribeUser($reporter, $issue_id, $ass_usr_id, $actions);
                 self::addUserAssociation(APP_SYSTEM_USER_ID, $issue_id, $ass_usr_id);
