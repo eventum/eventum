@@ -1968,10 +1968,7 @@ class Support
         // only send a direct email if the user doesn't want to add the Cc'ed people to the notification list
         if ($add_unknown && $issue_id) {
             // add the recipients to the notification list of the associated issue
-            $recipients = [$mail->to];
-            $recipients = array_merge($recipients, self::getRecipientsCC($mail->cc));
-
-            foreach ($recipients as $address) {
+            foreach ($mail->getAddresses() as $address) {
                 if ($address && !Notification::isIssueRoutingSender($issue_id, $address)) {
                     $actions = Notification::getDefaultActions($issue_id, $address, 'add_unknown_user');
                     Notification::subscribeEmail($usr_id, $issue_id, Mail_Helper::getEmailAddress($address), $actions);
@@ -1989,27 +1986,23 @@ class Support
                 // send direct emails only to the unknown addresses, and leave the rest to be
                 // catched by the notification list
                 $fixed_from = Notification::getFixedFromHeader($issue_id, $mail->from, 'issue');
-                // build the list of unknown recipients
-                if ($mail->to) {
-                    $recipients = [$mail->to];
-                    $recipients = array_merge($recipients, self::getRecipientsCC($mail->cc));
-                } else {
-                    $recipients = self::getRecipientsCC($mail->cc);
-                }
-                $unknowns = [];
 
-                foreach ($recipients as $address) {
+                // build the list of unknown recipients
+                $unknowns = [];
+                foreach ($mail->getAddresses() as $address) {
                     if (!Notification::isSubscribedToEmails($issue_id, $address)) {
                         $unknowns[] = $address;
                     }
                 }
 
                 if ($unknowns) {
-                    $to2 = array_shift($unknowns);
-                    $cc2 = implode('; ', $unknowns);
+                    // NOTE: email "name" field may have gotten lost when using $mail->getAddresses()
+                    // if that's relevant use AddressList functionality to preserve "name" field
+                    $to = array_shift($unknowns);
+                    $cc = implode('; ', $unknowns);
                     // send direct emails
                     self::sendDirectEmail(
-                        $issue_id, $fixed_from, $to2, $cc2,
+                        $issue_id, $fixed_from, $to, $cc,
                         $mail->subject, $mail->getContent(), $iaf_ids, $mail->messageId, $sender_usr_id);
                 }
             } else {
@@ -2024,7 +2017,7 @@ class Support
                 }
                 // send direct emails
                 self::sendDirectEmail(
-                    $issue_id, $mail->from, $mail->to, $mail->cc,
+                    $issue_id, $from, $mail->to, $mail->cc,
                     $mail->subject, $mail->getContent(), $iaf_ids, $mail->messageId);
             }
         }
