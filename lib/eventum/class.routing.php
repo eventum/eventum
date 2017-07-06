@@ -209,40 +209,38 @@ class Routing
         Mail_Helper::rewriteThreadingHeaders($mail, $issue_id);
 
         $sup_id = Support::insertEmail($mail, $email_options);
-        if ($sup_id) {
-            Support::extractAttachments($issue_id, $mail);
+        Support::extractAttachments($issue_id, $mail);
 
-            // notifications about new emails are always external
-            // special case when emails are bounced back, so we don't want a notification to customers about those
-            // broadcast this email only to the assignees for this issue
-            $is_bounce = $mail->isBounceMessage();
-            $email_options['internal_only'] = $is_bounce;
-            $email_options['assignee_only'] = $is_bounce;
-            $email_options['sup_id'] = $sup_id;
-            Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $mail, $email_options);
+        // notifications about new emails are always external
+        // special case when emails are bounced back, so we don't want a notification to customers about those
+        // broadcast this email only to the assignees for this issue
+        $is_bounce = $mail->isBounceMessage();
+        $email_options['internal_only'] = $is_bounce;
+        $email_options['assignee_only'] = $is_bounce;
+        $email_options['sup_id'] = $sup_id;
+        Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $mail, $email_options);
 
-            // try to get usr_id of sender, if not, use system account
-            $usr_id = User::getUserIDByEmail($mail->getSender());
-            if (!$usr_id) {
-                $usr_id = APP_SYSTEM_USER_ID;
-            }
-            // mark this issue as updated
-            if ((!empty($email_options['customer_id'])) && ($email_options['customer_id'] != null)) {
-                Issue::markAsUpdated($issue_id, 'customer action');
-            } else {
-                if ((!empty($usr_id)) && ($usr_id != APP_SYSTEM_USER_ID) &&
-                        (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER)) {
-                    Issue::markAsUpdated($issue_id, 'staff response');
-                } else {
-                    Issue::markAsUpdated($issue_id, 'user response');
-                }
-            }
-
-            // log routed email
-            History::add($issue_id, $usr_id, 'email_routed', 'Email routed from {from}', [
-                'from' => $mail->from,
-            ]);
+        // try to get usr_id of sender, if not, use system account
+        $usr_id = User::getUserIDByEmail($mail->getSender());
+        if (!$usr_id) {
+            $usr_id = APP_SYSTEM_USER_ID;
         }
+        // mark this issue as updated
+        if ((!empty($email_options['customer_id'])) && ($email_options['customer_id'] != null)) {
+            Issue::markAsUpdated($issue_id, 'customer action');
+        } else {
+            if ((!empty($usr_id)) && ($usr_id != APP_SYSTEM_USER_ID) &&
+                    (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER)) {
+                Issue::markAsUpdated($issue_id, 'staff response');
+            } else {
+                Issue::markAsUpdated($issue_id, 'user response');
+            }
+        }
+
+        // log routed email
+        History::add($issue_id, $usr_id, 'email_routed', 'Email routed from {from}', [
+            'from' => $mail->from,
+        ]);
 
         return true;
     }

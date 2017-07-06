@@ -608,58 +608,56 @@ class Support
                 $t['should_create_issue'] = $should_create_array['should_create_issue'];
 
                 $sup_id = self::insertEmail($mail, $t);
-                $res = $sup_id ? 1 : -1;
-                if ($sup_id) {
-                    // only extract the attachments from the email if we are associating the email to an issue
-                    if (!empty($t['issue_id'])) {
-                        self::extractAttachments($t['issue_id'], $mail);
+                $res = 1;
+                // only extract the attachments from the email if we are associating the email to an issue
+                if (!empty($t['issue_id'])) {
+                    self::extractAttachments($t['issue_id'], $mail);
 
-                        // notifications about new emails are always external
-                        $internal_only = false;
-                        $assignee_only = false;
-                        // special case when emails are bounced back, so we don't want a notification to customers about those
-                        if ($mail->isBounceMessage()) {
-                            // broadcast this email only to the assignees for this issue
-                            $internal_only = true;
-                            $assignee_only = true;
-                        } elseif ($should_create_issue == true) {
-                            // if a new issue was created, only send a copy of the email to the assignee (if any), don't resend to the original TO/CC list
-                            $assignee_only = true;
-                            $internal_only = true;
-                        }
+                    // notifications about new emails are always external
+                    $internal_only = false;
+                    $assignee_only = false;
+                    // special case when emails are bounced back, so we don't want a notification to customers about those
+                    if ($mail->isBounceMessage()) {
+                        // broadcast this email only to the assignees for this issue
+                        $internal_only = true;
+                        $assignee_only = true;
+                    } elseif ($should_create_issue == true) {
+                        // if a new issue was created, only send a copy of the email to the assignee (if any), don't resend to the original TO/CC list
+                        $assignee_only = true;
+                        $internal_only = true;
+                    }
 
-                        if (Workflow::shouldAutoAddToNotificationList($info['ema_prj_id'])) {
-                            self::addExtraRecipientsToNotificationList($info['ema_prj_id'], $t, $should_create_issue);
-                        }
+                    if (Workflow::shouldAutoAddToNotificationList($info['ema_prj_id'])) {
+                        self::addExtraRecipientsToNotificationList($info['ema_prj_id'], $t, $should_create_issue);
+                    }
 
-                        if (self::isAllowedToEmail($t['issue_id'], $sender_email)) {
-                            $t['internal_only'] = $internal_only;
-                            $t['assignee_only'] = $assignee_only;
-                            $t['sup_id'] = $sup_id;
-                            Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $mail, $t);
-                        }
+                    if (self::isAllowedToEmail($t['issue_id'], $sender_email)) {
+                        $t['internal_only'] = $internal_only;
+                        $t['assignee_only'] = $assignee_only;
+                        $t['sup_id'] = $sup_id;
+                        Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $mail, $t);
+                    }
 
-                        // try to get usr_id of sender, if not, use system account
-                        $addr = $mail->getSender();
-                        $usr_id = User::getUserIDByEmail($addr) ?: APP_SYSTEM_USER_ID;
+                    // try to get usr_id of sender, if not, use system account
+                    $addr = $mail->getSender();
+                    $usr_id = User::getUserIDByEmail($addr) ?: APP_SYSTEM_USER_ID;
 
-                        // mark this issue as updated if only if this email wasn't used to open it
-                        if (!$should_create_issue) {
-                            if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER))) {
-                                Issue::markAsUpdated($t['issue_id'], 'customer action');
+                    // mark this issue as updated if only if this email wasn't used to open it
+                    if (!$should_create_issue) {
+                        if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER))) {
+                            Issue::markAsUpdated($t['issue_id'], 'customer action');
+                        } else {
+                            if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER)) {
+                                Issue::markAsUpdated($t['issue_id'], 'staff response');
                             } else {
-                                if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER)) {
-                                    Issue::markAsUpdated($t['issue_id'], 'staff response');
-                                } else {
-                                    Issue::markAsUpdated($t['issue_id'], 'user response');
-                                }
+                                Issue::markAsUpdated($t['issue_id'], 'user response');
                             }
                         }
-                        // log routed email
-                        History::add($t['issue_id'], $usr_id, 'email_routed', 'Email routed from {from}', [
-                            'from' => $mail->from,
-                        ]);
                     }
+                    // log routed email
+                    History::add($t['issue_id'], $usr_id, 'email_routed', 'Email routed from {from}', [
+                        'from' => $mail->from,
+                    ]);
                 }
             } else {
                 $res = 1;
