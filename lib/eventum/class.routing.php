@@ -208,8 +208,8 @@ class Routing
 
         Mail_Helper::rewriteThreadingHeaders($mail, $issue_id);
 
-        $res = Support::insertEmail($mail, $email_options, $sup_id);
-        if ($res != -1) {
+        $sup_id = Support::insertEmail($mail, $email_options);
+        if ($sup_id) {
             Support::extractAttachments($issue_id, $mail);
 
             // notifications about new emails are always external

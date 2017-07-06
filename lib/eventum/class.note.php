@@ -566,8 +566,8 @@ class Note
                 $update_type = 'customer action';
             }
 
-            $res = Support::insertEmail($mail, $email_options, $sup_id);
-            if ($res != -1) {
+            $sup_id = Support::insertEmail($mail, $email_options);
+            if ($sup_id) {
                 Support::extractAttachments($issue_id, $mail);
                 // notifications about new emails are always external
                 // special case when emails are bounced back, so we don't want to notify the customer about those
@@ -586,7 +586,7 @@ class Note
                 }
             }
 
-            return $res;
+            return $sup_id ? 1 : -1;
         }
 
         // save message as a draft

@@ -1218,8 +1218,7 @@ class Issue
                 'from' => $mail->from,
                 'body' => $mail->getContent(),
             ];
-            $sup_id = null;
-            Support::insertEmail($mail, $email_options, $sup_id);
+            $sup_id = Support::insertEmail($mail, $email_options);
             $ids = $sup_id;
         } else {
             // add note with the reason to close the issue

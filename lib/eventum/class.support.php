@@ -607,8 +607,9 @@ class Support
                 // make variable available for workflow to be able to detect whether this email created new issue
                 $t['should_create_issue'] = $should_create_array['should_create_issue'];
 
-                $res = self::insertEmail($mail, $t, $sup_id);
-                if ($res != -1) {
+                $sup_id = self::insertEmail($mail, $t);
+                $res = $sup_id ? 1 : -1;
+                if ($sup_id) {
                     // only extract the attachments from the email if we are associating the email to an issue
                     if (!empty($t['issue_id'])) {
                         self::extractAttachments($t['issue_id'], $mail);
@@ -917,10 +918,9 @@ class Support
      * - bool $closing If this email comes from closing the issue
      * - bool has_attachment used if defined, otherwise calls $mail->hasAttachments()
      * - string cc (overwrites $mail->cc) !!!
-     * @param   int $sup_id The support ID to be passed out
-     * @return  int 1 if the insert worked, -1 otherwise
+     * @return  int The support ID inserted to database
      */
-    public static function insertEmail(MailMessage $mail, $email_options, &$sup_id)
+    public static function insertEmail(MailMessage $mail, $email_options)
     {
         $closing = isset($email_options['closing']) ? $email_options['closing'] : false;
 
@@ -975,11 +975,7 @@ class Support
         }
 
         $stmt = 'INSERT INTO {{%support_email}} SET ' . DB_Helper::buildSet($params);
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+        DB_Helper::getInstance()->query($stmt, $params);
 
         $sup_id = DB_Helper::get_last_insert_id();
 
@@ -1010,7 +1006,7 @@ class Support
             Workflow::handleNewEmail($prj_id, $issue_id, $mail, $email_options, $closing);
         }
 
-        return 1;
+        return $sup_id;
     }
 
     /**
@@ -2071,7 +2067,7 @@ class Support
         $email_options['has_attachment'] = $iaf_ids ? 1 : 0;
         $email_options['headers'] = $mail->getHeadersArray();
 
-        self::insertEmail($mail, $email_options, $sup_id);
+        $sup_id = self::insertEmail($mail, $email_options);
 
         if ($issue_id) {
             $email_options['internal_only'] = $internal_only;
