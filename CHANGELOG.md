@@ -9,6 +9,7 @@ Upgrading to 3.2.x versions requires that you upgrade to 3.2.0 version first.
 - fix bug with unassigned restricted issues not showing on list issues page (@bryan)
 - stop emails that open an issue from prematurely marking an issue as updated (@bryan)
 - fix infinite redirect loop on anonymous post page (@bryan)
+- add history entry when issue is moved between projects (@balsdorf)
 
 [3.2.2]: https://github.com/eventum/eventum/compare/v3.2.1...master
 
