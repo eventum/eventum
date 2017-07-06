@@ -27,4 +27,12 @@ class EventumMoveIssueHistory extends AbstractMigration
         ];
         $table->insert($row)->saveData();
     }
+
+    /**
+     * Removes history type for moving project between issues
+     */
+    public function down()
+    {
+        $this->execute("DELETE FROM history_type WHERE htt_name='issue_moved'");
+    }
 }
