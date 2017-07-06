@@ -84,9 +84,9 @@ final class CryptoManager
         try {
             $ciphertext = Crypto::Encrypt($plaintext, $key ?: self::getKey());
         } catch (CryptoTestFailedException $e) {
-            throw new CryptoException('Cannot safely perform encryption');
+            throw new CryptoException('Cannot safely perform encryption: Crypto test failed');
         } catch (CannotPerformOperationException $e) {
-            throw new CryptoException('Cannot safely perform encryption');
+            throw new CryptoException('Cannot safely perform encryption: Cannot perform operation: ' . $e->getMessage());
         }
 
         return rtrim(base64_encode($ciphertext), '=');
@@ -117,9 +117,9 @@ final class CryptoManager
             // Assume the worst.
             throw new CryptoException('The ciphertext has been tampered with');
         } catch (CryptoTestFailedException $e) {
-            throw new CryptoException('Cannot safely perform encryption');
+            throw new CryptoException('Cannot safely perform encryption: Crypto test failed');
         } catch (CannotPerformOperationException $e) {
-            throw new CryptoException('Cannot safely perform encryption');
+            throw new CryptoException('Cannot safely perform encryption: Cannot perform operation: ' . $e->getMessage());
         }
 
         return $decrypted;
