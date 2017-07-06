@@ -13,6 +13,7 @@
 
 namespace Eventum\Mail;
 
+use DateTime;
 use DomainException;
 use Eventum\Mail\Helper\DecodePart;
 use Eventum\Mail\Helper\MimePart;
@@ -518,6 +519,16 @@ class MailMessage extends Message
     public function getCc()
     {
         return $this->getAddressListFromHeader('cc', Cc::class);
+    }
+
+    /**
+     * Get Date as DateTime object
+     *
+     * @return DateTime
+     */
+    public function getDate()
+    {
+        return new DateTime($this->date);
     }
 
     /**

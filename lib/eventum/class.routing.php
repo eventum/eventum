@@ -172,8 +172,9 @@ class Routing
         $email_options = [
             'issue_id' => $issue_id,
             'ema_id' => $email_account_id,
+            'date' => Date_Helper::convertDateGMT($mail->getDate()),
             'message_id' => $mail->messageId,
-            'date' => Date_Helper::getCurrentDateGMT(),
+            // these below are likely unused by Support::insertEmail
             'from' => $mail->from,
             'to' => $mail->to,
             'cc' => $mail->cc,

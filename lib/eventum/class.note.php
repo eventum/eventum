@@ -529,8 +529,9 @@ class Note
             $email_options = [
                 'issue_id' => $issue_id,
                 'ema_id' => $email_account_id,
+                'date' => Date_Helper::convertDateGMT($mail->getDate()),
+                // these below are likely unused by Support::insertEmail
                 'message_id' => $mail->messageId,
-                'date' => Date_Helper::getCurrentDateGMT(),
                 'from' => $mail->from,
                 'to' => $mail->to,
                 'cc' => $mail->cc,

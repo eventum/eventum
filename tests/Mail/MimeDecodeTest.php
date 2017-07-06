@@ -13,6 +13,7 @@
 
 namespace Eventum\Test\Mail;
 
+use Date_Helper;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
 use Mail_Helper;
@@ -48,6 +49,28 @@ class MimeDecodeTest extends TestCase
 
         $this->assertEquals('PD: My: Gołblahblah', $input->headers['subject']);
         $this->assertEquals('PD: My: Gołblahblah', $mail->subject);
+    }
+
+    public function testSupportbuildMail()
+    {
+        $issue_id = 1;
+        $message_id = 2;
+        $from = 'rööts <me@localhost>';
+        $reason = 'reason';
+        $subject = 'Issue closed comments';
+        $mail = Support::buildMail(
+            $issue_id, $message_id, $from,
+            '', '', $subject, $reason, ''
+        );
+
+        $this->assertEquals($reason, $mail->getContent());
+        $this->assertEquals($reason, $mail->getMessageBody());
+        $this->assertEquals($from, $mail->from);
+
+        // date header is in rfc822 format: 'Thu, 06 Jul 2017 16:43:46 GMT'
+        // for sql insert we need iso8601 format: '2017-07-06 16:43:46'
+        $date = Date_Helper::convertDateGMT($mail->getDate());
+        $this->assertEquals(Date_Helper::getCurrentDateGMT(), $date);
     }
 
     public function testAddWarningMessage()

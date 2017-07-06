@@ -504,8 +504,9 @@ class Support
 
         $t = [
             'ema_id' => $mail->getEmailAccountId(),
-            'message_id' => $message_id,
             'date' => Date_Helper::convertDateGMT($mail->getMailDate()),
+            // these below are likely unused by Support::insertEmail
+            'message_id' => $mail->messageId,
             'from' => $mail->from,
             'to' => $mail->to,
             'cc' => $mail->cc,
@@ -908,24 +909,29 @@ class Support
     /**
      * Method used to add a new support email to the system.
      *
-     * @param   array $row The support email details
+     * @param   array $email_options The support email details:
+     * - int customer_id
+     * - int issue_id
+     * - int ema_id
+     * - int date
+     * - string cc (overwrites $mail->cc) !!!
      * @param   MailMessage $mail The Mail object
      * @param   int $sup_id The support ID to be passed out
      * @param   bool $closing If this email comes from closing the issue
      * @return  int 1 if the insert worked, -1 otherwise
      */
-    public static function insertEmail($row, MailMessage $mail, &$sup_id, $closing = false)
+    public static function insertEmail($email_options, MailMessage $mail, &$sup_id, $closing = false)
     {
         // get usr_id from FROM header
         $usr_id = User::getUserIDByEmail($mail);
 
-        if (!empty($usr_id) && empty($row['customer_id'])) {
-            $row['customer_id'] = User::getCustomerID($usr_id);
+        if (!empty($usr_id) && empty($email_options['customer_id'])) {
+            $email_options['customer_id'] = User::getCustomerID($usr_id);
         }
-        if (empty($row['customer_id'])) {
-            $row['customer_id'] = null;
+        if (empty($email_options['customer_id'])) {
+            $email_options['customer_id'] = null;
         }
-        $issue_id = isset($row['issue_id']) ? $row['issue_id'] : null;
+        $issue_id = isset($email_options['issue_id']) ? $email_options['issue_id'] : null;
 
         // try to get the parent ID
         $reference_message_id = $mail->getReferenceMessageID();
@@ -938,11 +944,13 @@ class Support
             }
         }
         $params = [
-            'sup_ema_id' => $row['ema_id'],
+            'sup_ema_id' => $email_options['ema_id'],
             'sup_iss_id' => $issue_id,
-            'sup_customer_id' => $row['customer_id'],
+            'sup_customer_id' => $email_options['customer_id'],
             'sup_message_id' => $mail->messageId,
-            'sup_date' => $row['date'],
+            // note: don't be tempted to use $mail->getDate()
+            // because $mail could be imapmessage where we require $mail->getMailDate()
+            'sup_date' => $email_options['date'],
             'sup_from' => $mail->getSender(),
             'sup_to' => $mail->to,
             'sup_cc' => $mail->cc,
@@ -958,8 +966,8 @@ class Support
             $params['sup_usr_id'] = $usr_id;
         }
 
-        if (isset($row['cc'])) {
-            $params['sup_cc'] = $row['cc'];
+        if (isset($email_options['cc'])) {
+            $params['sup_cc'] = $email_options['cc'];
         }
 
         $stmt = 'INSERT INTO {{%support_email}} SET ' . DB_Helper::buildSet($params);
@@ -985,17 +993,17 @@ class Support
 
         if ($issue_id) {
             $prj_id = Issue::getProjectID($issue_id);
-        } elseif (!empty($row['ema_id'])) {
-            $prj_id = Email_Account::getProjectID($row['ema_id']);
+        } elseif (!empty($email_options['ema_id'])) {
+            $prj_id = Email_Account::getProjectID($email_options['ema_id']);
         } else {
             $prj_id = false;
         }
 
         // FIXME: $row['ema_id'] is empty when mail is sent via convert note!
         if ($prj_id !== false) {
-            $row['sup_id'] = $sup_id;
+            $email_options['sup_id'] = $sup_id;
 
-            Workflow::handleNewEmail($prj_id, $issue_id, $mail, $row, $closing);
+            Workflow::handleNewEmail($prj_id, $issue_id, $mail, $email_options, $closing);
         }
 
         return 1;
@@ -2035,8 +2043,9 @@ class Support
             'customer_id' => 'NULL',
             'issue_id' => $issue_id,
             'ema_id' => $ema_id,
-            'message_id' => $message_id,
-            'date' => Date_Helper::getCurrentDateGMT(),
+            'date' => Date_Helper::convertDateGMT($mail->getDate()),
+            // these below are likely unused by Support::insertEmail
+            'message_id' => $mail->messageId,
             'from' => $from,
             'to' => $to,
             'cc' => $cc,

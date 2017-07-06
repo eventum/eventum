@@ -1211,11 +1211,12 @@ class Issue
             $email_options = [
                 'ema_id' => Email_Account::getEmailAccount($prj_id),
                 'issue_id' => $issue_id,
+                'date' => Date_Helper::convertDateGMT($mail->getDate()),
+                // these below are likely unused by Support::insertEmail
                 'message_id' => $mail->messageId,
-                'date' => Date_Helper::getCurrentDateGMT(),
                 'subject' => $mail->subject,
-                'from' => $from,
-                'body' => $reason,
+                'from' => $mail->from,
+                'body' => $mail->getContent(),
             ];
             $sup_id = null;
             Support::insertEmail($email_options, $mail, $sup_id, true);
