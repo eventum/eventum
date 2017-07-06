@@ -57,14 +57,19 @@ class MimeDecodeTest extends TestCase
         $from = 'rööts <me@localhost>';
         $reason = 'reason';
         $subject = 'Issue closed comments';
+        $cc = '';
+        $to = '';
         $mail = Support::buildMail(
             $issue_id, $from,
-            '', '', $subject, $reason, ''
+            $to, $cc, $subject, $reason, ''
         );
 
         $this->assertEquals($reason, $mail->getContent());
         $this->assertEquals($reason, $mail->getMessageBody());
         $this->assertEquals($from, $mail->from);
+        $this->assertEquals('', $mail->to);
+        $this->assertEquals('', $mail->cc);
+        $this->assertEquals($subject, $mail->subject);
 
         // date header is in rfc822 format: 'Thu, 06 Jul 2017 16:43:46 GMT'
         // for sql insert we need iso8601 format: '2017-07-06 16:43:46'

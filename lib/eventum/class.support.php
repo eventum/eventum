@@ -1914,14 +1914,9 @@ class Support
         $usr_id = Auth::getUserID();
         $prj_id = Issue::getProjectID($issue_id);
 
-        // if we are replying to an existing email, set the In-Reply-To: header accordingly
-        $in_reply_to = $parent_sup_id ? self::getMessageIDByID($parent_sup_id) : false;
-
         // get ID of whoever is sending this.
         $sender_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($from)) ?: false;
 
-        // remove extra 'Re: ' from subject
-        $subject = Mail_Helper::removeExcessRe($subject, true);
         $internal_only = false;
 
         // process any files being uploaded
@@ -1932,6 +1927,9 @@ class Support
             Attachment::attachFiles($issue_id, $attach_usr_id, $iaf_ids, false, 'Attachment originated from outgoing email');
         }
 
+        // if we are replying to an existing email, set the In-Reply-To: header accordingly
+        $in_reply_to = $parent_sup_id ? self::getMessageIDByID($parent_sup_id) : false;
+        $subject = Mail_Helper::removeExcessRe($subject, true);
         $mail = self::buildMail($issue_id, $from, $to, $cc, $subject, $body, $in_reply_to, $iaf_ids);
 
         // email blocking should only be done if this is an email about an associated issue
@@ -1940,18 +1938,18 @@ class Support
             // check whether the current user is allowed to send this email to customers or not
             if (!self::isAllowedToEmail($issue_id, $user_info['usr_email'])) {
                 // add the message body as a note
-                $note = Mail_Helper::getCannedBlockedMsgExplanation() . $body;
+                $note = Mail_Helper::getCannedBlockedMsgExplanation() . $mail->getContent();
                 $note_options = [
                     'full_message' => $mail->getRawContent(),
                     'is_blocked' => true,
                 ];
-                Note::insertNote($usr_id, $issue_id, $subject, $note, $note_options);
+                Note::insertNote($usr_id, $issue_id, $mail->subject, $note, $note_options);
 
                 $email_details = [
-                    'from' => $from,
-                    'to' => $to,
-                    'cc' => $cc,
-                    'subject' => $subject,
+                    'from' => $mail->from,
+                    'to' => $mail->to,
+                    'cc' => $mail->cc,
+                    'subject' => $mail->subject,
                     // we pass as reference, as that may save some memory
                     'body' => &$body,
                     // @deprecated, pass 'message' as well for legacy workflow methods
@@ -1959,7 +1957,7 @@ class Support
                     'message' => &$body,
                     // @deprecated
                     // see https://github.com/eventum/eventum/commit/6ef1eafd0226b6d642b730f3cc9449ff791b0ab8#commitcomment-11655696
-                    'title' => $subject,
+                    'title' => $mail->subject,
                 ];
                 Workflow::handleBlockedEmail($prj_id, $issue_id, $email_details, 'web');
 
@@ -1970,8 +1968,8 @@ class Support
         // only send a direct email if the user doesn't want to add the Cc'ed people to the notification list
         if ($add_unknown && $issue_id) {
             // add the recipients to the notification list of the associated issue
-            $recipients = [$to];
-            $recipients = array_merge($recipients, self::getRecipientsCC($cc));
+            $recipients = [$mail->to];
+            $recipients = array_merge($recipients, self::getRecipientsCC($mail->cc));
 
             foreach ($recipients as $address) {
                 if ($address && !Notification::isIssueRoutingSender($issue_id, $address)) {
@@ -1990,13 +1988,13 @@ class Support
             if ($issue_id) {
                 // send direct emails only to the unknown addresses, and leave the rest to be
                 // catched by the notification list
-                $fixed_from = Notification::getFixedFromHeader($issue_id, $from, 'issue');
+                $fixed_from = Notification::getFixedFromHeader($issue_id, $mail->from, 'issue');
                 // build the list of unknown recipients
-                if ($to) {
-                    $recipients = [$to];
-                    $recipients = array_merge($recipients, self::getRecipientsCC($cc));
+                if ($mail->to) {
+                    $recipients = [$mail->to];
+                    $recipients = array_merge($recipients, self::getRecipientsCC($mail->cc));
                 } else {
-                    $recipients = self::getRecipientsCC($cc);
+                    $recipients = self::getRecipientsCC($mail->cc);
                 }
                 $unknowns = [];
 
@@ -2012,7 +2010,7 @@ class Support
                     // send direct emails
                     self::sendDirectEmail(
                         $issue_id, $fixed_from, $to2, $cc2,
-                        $subject, $body, $iaf_ids, $mail->messageId, $sender_usr_id);
+                        $mail->subject, $mail->getContent(), $iaf_ids, $mail->messageId, $sender_usr_id);
                 }
             } else {
                 // send direct emails to all recipients, since we don't have an associated issue
@@ -2026,13 +2024,13 @@ class Support
                 }
                 // send direct emails
                 self::sendDirectEmail(
-                    $issue_id, $from, $to, $cc,
-                    $subject, $body, $iaf_ids, $mail->messageId);
+                    $issue_id, $mail->from, $mail->to, $mail->cc,
+                    $mail->subject, $mail->getContent(), $iaf_ids, $mail->messageId);
             }
         }
 
         if ($add_cc_to_ar) {
-            foreach (self::getRecipientsCC($cc) as $recipient) {
+            foreach (self::getRecipientsCC($mail->cc) as $recipient) {
                 Authorized_Replier::manualInsert($issue_id, $recipient);
             }
         }
@@ -2045,11 +2043,11 @@ class Support
             'date' => Date_Helper::convertDateGMT($mail->getDate()),
             // these below are likely unused by Support::insertEmail
             'message_id' => $mail->messageId,
-            'from' => $from,
-            'to' => $to,
-            'cc' => $cc,
-            'subject' => $subject,
-            'body' => $body,
+            'from' => $mail->from,
+            'to' => $mail->to,
+            'cc' => $mail->cc,
+            'subject' => $mail->subject,
+            'body' => $mail->getContent(),
             'full_email' => $mail->getRawContent(),
         ];
 
