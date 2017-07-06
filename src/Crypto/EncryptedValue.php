@@ -79,7 +79,14 @@ final class EncryptedValue
 
     public function __toString()
     {
-        return $this->getValue();
+        try {
+            $value = $this->getValue();
+        } catch (\Exception $e) {
+            error_log($e->getMessage());
+            throw $e;
+        }
+
+        return $value;
     }
 
     /**

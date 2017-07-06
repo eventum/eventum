@@ -6,8 +6,11 @@ Upgrading to 3.2.x versions requires that you upgrade to 3.2.0 version first.
 
 - cleanup templates for `core.current_url` (@glensc, #265)
 - fix undefined keys in `assigned.tpl.text` (@glensc)
-- fix bug with unassigned restricted issues not showing on list issues page (@bryan)
-- stop emails that open an issue from prematurely marking an issue as updated (@bryan)
+- fix bug with unassigned restricted issues not showing on list issues page (@balsdorf)
+- stop emails that open an issue from prematurely marking an issue as updated (@balsdorf)
+- fix infinite redirect loop on anonymous post page (@balsdorf)
+- add history entry when issue is moved between projects (@balsdorf)
+- generate proper message-id in `Issue::close()` (@glensc, 8a046ea)
 
 [3.2.2]: https://github.com/eventum/eventum/compare/v3.2.1...master
 

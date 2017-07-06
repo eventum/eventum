@@ -1289,7 +1289,7 @@ class Issue
 
         if ($send_notification_to == 'all') {
             $from = User::getFromHeader($usr_id);
-            $message_id = User::getFromHeader($usr_id);
+            $message_id = Mail_Helper::generateMessageID();
             $full_email = Support::buildFullHeaders($issue_id, $message_id, $from,
                 '', '', ev_gettext('Issue closed comments'), $reason, '');
 
@@ -1661,6 +1661,12 @@ class Issue
 
         // clear project cache
         self::getProjectID($issue_id, true);
+
+        History::add($issue_id, Auth::getUserID(), 'issue_moved', 'Issue moved from {old_project} to {new_project} by {user}', [
+                'old_project' => Project::getName($current_prj_id),
+                'new_project' => Project::getName($new_prj_id),
+                'user' => User::getFullName(Auth::getUserID()),
+        ]);
 
         Workflow::handleIssueMovedFromProject($current_prj_id, $issue_id, $new_prj_id);
         Workflow::handleIssueMovedToProject($new_prj_id, $issue_id, $current_prj_id);
