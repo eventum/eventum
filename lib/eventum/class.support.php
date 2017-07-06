@@ -599,7 +599,7 @@ class Support
             }
         } else {
             // check if we need to block this email
-            if ($should_create_issue == true || !self::blockEmailIfNeeded($mail, $t)) {
+            if ($should_create_issue == true || !self::blockEmailIfNeeded($mail, $t['issue_id'])) {
                 if ($t['issue_id']) {
                     Mail_Helper::rewriteThreadingHeaders($mail, $t['issue_id'], 'email');
                 }
@@ -2372,16 +2372,15 @@ class Support
      * Check if this email needs to be blocked and if so, block it.
      *
      * @param MailMessage $mail The Mail object
-     * @param array $params
+     * @param int $issue_id
      * @return bool
      */
-    public static function blockEmailIfNeeded(MailMessage $mail, $params)
+    public static function blockEmailIfNeeded(MailMessage $mail, $issue_id)
     {
-        if (empty($params['issue_id'])) {
+        if (!$issue_id) {
             return false;
         }
 
-        $issue_id = $params['issue_id'];
         $prj_id = Issue::getProjectID($issue_id);
         $sender_email = $mail->getSender();
 

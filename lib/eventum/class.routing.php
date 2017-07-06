@@ -202,7 +202,7 @@ class Routing
             $email_options['customer_id'] = null;
         }
 
-        if (Support::blockEmailIfNeeded($mail, $email_options)) {
+        if (Support::blockEmailIfNeeded($mail, $email_options['issue_id'])) {
             return true;
         }
 
