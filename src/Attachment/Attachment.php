@@ -235,28 +235,6 @@ class Attachment
     }
 
     /**
-     * Returns how the download should be displayed.
-     *
-     * @return  string inline|attachment
-     */
-    private function getDisposition()
-    {
-        $parts = explode('/', $this->filetype, 2);
-        if (count($parts) < 2) {
-            return 'attachment';
-        }
-
-        list($type) = $parts;
-
-        // display inline images and text documents
-        if (in_array($type, ['image', 'text'])) {
-            return 'inline';
-        }
-
-        return 'attachment';
-    }
-
-    /**
      * Deletes the attachment from the database and storage backend. Also marks the issue as updated and saves a
      * history entry.
      *
