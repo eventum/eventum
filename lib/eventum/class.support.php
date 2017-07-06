@@ -914,14 +914,16 @@ class Support
      * - int issue_id
      * - int ema_id
      * - int date
+     * - bool $closing If this email comes from closing the issue
      * - bool has_attachment used if defined, otherwise calls $mail->hasAttachments()
      * - string cc (overwrites $mail->cc) !!!
      * @param   int $sup_id The support ID to be passed out
-     * @param   bool $closing If this email comes from closing the issue
      * @return  int 1 if the insert worked, -1 otherwise
      */
-    public static function insertEmail(MailMessage $mail, $email_options, &$sup_id, $closing = false)
+    public static function insertEmail(MailMessage $mail, $email_options, &$sup_id)
     {
+        $closing = isset($email_options['closing']) ? $email_options['closing'] : false;
+
         // get usr_id from FROM header
         $usr_id = User::getUserIDByEmail($mail);
 
