@@ -1810,18 +1810,27 @@ class Support
      * recipient. This will not re-write the sender's email address
      * to issue-xxxx@ or whatever.
      *
-     * @param   int $issue_id The issue ID
-     * @param   string $from The sender of this message
-     * @param   string $to The primary recipient of this message
-     * @param   string $cc The extra recipients of this message
-     * @param   string $subject The subject of this message
-     * @param   string $body The message body
-     * @param   string $message_id The message-id
-     * @param   int $sender_usr_id the ID of the user sending this message
-     * @param   array $iaf_ids an array with attachment information
+     * @param MailMessage $mail The Mail object
+     * @param array $options
+     * - int $issue_id The issue ID
+     * - string $from The sender of this message
+     * - string $to The primary recipient of this message
+     * - string $cc The extra recipients of this message
+     * - int $sender_usr_id the ID of the user sending this message
+     * - array $iaf_ids an array with attachment information
      */
-    public static function sendDirectEmail($issue_id, $from, $to, $cc, $subject, $body, $iaf_ids, $message_id, $sender_usr_id = null)
+    public static function sendDirectEmail(MailMessage $mail, $options = [])
     {
+        $issue_id = $options['issue_id'];
+        $iaf_ids = $options['iaf_ids'];
+        $from = $options['from'];
+        $to = isset($options['to']) ? $options['to'] : $mail->to;
+        $cc = isset($options['cc']) ? $options['cc'] : $mail->cc;
+        $sender_usr_id = isset($options['sender_usr_id']) ? $options['sender_usr_id'] : null;
+        $subject = $mail->subject;
+        $message_id = $mail->messageId;
+        $body = $mail->getContent();
+
         $prj_id = Issue::getProjectID($issue_id);
         $subject = Mail_Helper::formatSubject($issue_id, $subject);
         $recipients = self::getRecipientsCC($cc);
@@ -1829,7 +1838,7 @@ class Support
         // send the emails now, one at a time
         foreach ($recipients as $recipient) {
             $mail = new Mail_Helper();
-            if (!empty($issue_id)) {
+            if ($issue_id) {
                 // add the warning message to the current message' body, if needed
                 $fixed_body = Mail_Helper::addWarningMessage($issue_id, $recipient, $body, []);
                 $mail->setHeaders([
@@ -2001,9 +2010,15 @@ class Support
                     $to = array_shift($unknowns);
                     $cc = implode('; ', $unknowns);
                     // send direct emails
-                    self::sendDirectEmail(
-                        $issue_id, $fixed_from, $to, $cc,
-                        $mail->subject, $mail->getContent(), $iaf_ids, $mail->messageId, $sender_usr_id);
+                    $options = [
+                        'issue_id' => $issue_id,
+                        'from' => $fixed_from,
+                        'to' => $to,
+                        'cc' => $cc,
+                        'iaf_ids' => $iaf_ids,
+                        'sender_usr_id' => $sender_usr_id,
+                    ];
+                    self::sendDirectEmail($mail, $options);
                 }
             } else {
                 // send direct emails to all recipients, since we don't have an associated issue
@@ -2016,9 +2031,12 @@ class Support
                     $from = User::getFromHeader($usr_id);
                 }
                 // send direct emails
-                self::sendDirectEmail(
-                    $issue_id, $from, $mail->to, $mail->cc,
-                    $mail->subject, $mail->getContent(), $iaf_ids, $mail->messageId);
+                $options = [
+                    'issue_id' => $issue_id,
+                    'from' => $from,
+                    'iaf_ids' => $iaf_ids,
+                ];
+                self::sendDirectEmail($mail, $options);
             }
         }
 
