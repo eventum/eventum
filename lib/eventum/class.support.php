@@ -1744,7 +1744,6 @@ class Support
      * Method used to build mail from web-based message.
      *
      * @param   int $issue_id The issue ID
-     * @param   string $message_id The message-id
      * @param   string $from The sender of this message
      * @param   string $to The primary recipient of this message
      * @param   string $cc The extra recipients of this message
@@ -1754,8 +1753,9 @@ class Support
      * @param   array $iaf_ids Array with attachment file id-s
      * @return MailMessage
      */
-    public static function buildMail($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $iaf_ids = null)
+    public static function buildMail($issue_id, $from, $to, $cc, $subject, $body, $in_reply_to, $iaf_ids = null)
     {
+        $message_id = Mail_Helper::generateMessageID();
         // hack needed to get the full headers of this web-based email
         $mail = new Mail_Helper();
         $mail->setTextBody($body);
@@ -1923,7 +1923,6 @@ class Support
         // remove extra 'Re: ' from subject
         $subject = Mail_Helper::removeExcessRe($subject, true);
         $internal_only = false;
-        $message_id = Mail_Helper::generateMessageID();
 
         // process any files being uploaded
         // from ajax upload, attachment file ids
@@ -1933,7 +1932,7 @@ class Support
             Attachment::attachFiles($issue_id, $attach_usr_id, $iaf_ids, false, 'Attachment originated from outgoing email');
         }
 
-        $mail = self::buildMail($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $iaf_ids);
+        $mail = self::buildMail($issue_id, $from, $to, $cc, $subject, $body, $in_reply_to, $iaf_ids);
 
         // email blocking should only be done if this is an email about an associated issue
         if ($issue_id) {
@@ -2013,7 +2012,7 @@ class Support
                     // send direct emails
                     self::sendDirectEmail(
                         $issue_id, $fixed_from, $to2, $cc2,
-                        $subject, $body, $iaf_ids, $message_id, $sender_usr_id);
+                        $subject, $body, $iaf_ids, $mail->messageId, $sender_usr_id);
                 }
             } else {
                 // send direct emails to all recipients, since we don't have an associated issue
@@ -2028,7 +2027,7 @@ class Support
                 // send direct emails
                 self::sendDirectEmail(
                     $issue_id, $from, $to, $cc,
-                    $subject, $body, $iaf_ids, $message_id);
+                    $subject, $body, $iaf_ids, $mail->messageId);
             }
         }
 

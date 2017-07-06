@@ -1204,8 +1204,7 @@ class Issue
 
         if ($send_notification_to == 'all') {
             $from = User::getFromHeader($usr_id);
-            $message_id = Mail_Helper::generateMessageID();
-            $mail = Support::buildMail($issue_id, $message_id, $from,
+            $mail = Support::buildMail($issue_id, $from,
                 '', '', ev_gettext('Issue closed comments'), $reason, '');
 
             $email_options = [

@@ -51,15 +51,14 @@ class MimeDecodeTest extends TestCase
         $this->assertEquals('PD: My: Gołblahblah', $mail->subject);
     }
 
-    public function testSupportbuildMail()
+    public function testSupportBuildMail()
     {
         $issue_id = 1;
-        $message_id = 2;
         $from = 'rööts <me@localhost>';
         $reason = 'reason';
         $subject = 'Issue closed comments';
         $mail = Support::buildMail(
-            $issue_id, $message_id, $from,
+            $issue_id, $from,
             '', '', $subject, $reason, ''
         );
 
@@ -123,7 +122,6 @@ class MimeDecodeTest extends TestCase
     public function testBuildMail()
     {
         $issue_id = null;
-        $message_id = 2;
         $from = 'root@localhost';
         $to = '';
         $cc = '';
@@ -132,7 +130,7 @@ class MimeDecodeTest extends TestCase
         $in_reply_to = '';
         $iaf_ids = [];
 
-        $mail = Support::buildMail($issue_id, $message_id, $from, $to, $cc, $subject, $body, $in_reply_to, $iaf_ids);
+        $mail = Support::buildMail($issue_id, $from, $to, $cc, $subject, $body, $in_reply_to, $iaf_ids);
         $structure = Mime_Helper::decode($mail->getRawContent(), true, true);
 
         $this->assertEquals($body, $structure->body);
