@@ -32,11 +32,7 @@ class Email_Account
                     {{%email_account}}
                  WHERE
                     ema_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$ema_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+        $res = DB_Helper::getInstance()->getOne($stmt, [$ema_id]);
 
         if (!is_string($res)) {
             $res = (string)$res;
