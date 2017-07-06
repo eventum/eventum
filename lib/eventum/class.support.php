@@ -513,7 +513,6 @@ class Support
             'subject' => $mail->subject,
             'body' => $mail->getMessageBody(),
             'full_email' => $mail->getRawContent(),
-            'has_attachment' => $mail->hasAttachments(),
             // the following items are not inserted, but useful in some methods
             'headers' => $mail->getHeadersArray(),
         ];
@@ -914,6 +913,7 @@ class Support
      * - int issue_id
      * - int ema_id
      * - int date
+     * - bool has_attachment used if defined, otherwise calls $mail->hasAttachments()
      * - string cc (overwrites $mail->cc) !!!
      * @param   MailMessage $mail The Mail object
      * @param   int $sup_id The support ID to be passed out
@@ -943,6 +943,8 @@ class Support
                 $parent_id = null;
             }
         }
+
+        $has_attachments = isset($email_options['has_attachment']) ? (int)$email_options['has_attachment'] : $mail->hasAttachments();
         $params = [
             'sup_ema_id' => $email_options['ema_id'],
             'sup_iss_id' => $issue_id,
@@ -955,7 +957,7 @@ class Support
             'sup_to' => $mail->to,
             'sup_cc' => $mail->cc,
             'sup_subject' => $mail->subject,
-            'sup_has_attachment' => $mail->hasAttachments(),
+            'sup_has_attachment' => $has_attachments,
         ];
 
         if ($parent_id) {

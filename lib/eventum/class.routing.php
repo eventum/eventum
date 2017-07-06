@@ -181,7 +181,6 @@ class Routing
             'subject' => $mail->subject,
             'body' => $mail->getContent(), // FIXME: needed
             'full_email' => $mail->getRawContent(),  // used by Support::blockEmailIfNeeded, Workflow::handleBlockedEmail
-            'has_attachment' => (int)$mail->hasAttachments(), // FIXME: does this need to be int?
             'headers' => $mail->getHeadersArray(), // FIXME: needed?
         ];
 
