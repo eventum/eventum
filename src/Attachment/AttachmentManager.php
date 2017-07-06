@@ -136,6 +136,7 @@ class AttachmentManager
             if ($attachment->group_id) {
                 // stop the attachment from being re-associated with an issue if the user hits reload and delete the empty attachmentgroup
                 $attachment_group->delete(false);
+
                 return;
             }
             $attachment->setGroup($attachment_group);
@@ -145,7 +146,7 @@ class AttachmentManager
             $attachment->save();
 
             History::add($issue_id, $usr_id, 'attachment_added', 'Attachment "{filename}" uploaded by {user}', [
-                'user'     => User::getFullName($usr_id),
+                'user' => User::getFullName($usr_id),
                 'filename' => $attachment->filename,
             ]);
         }
@@ -173,7 +174,7 @@ class AttachmentManager
      */
     public static function getAttachment($iaf_id)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     iaf_id,
                     iaf_filename,
                     iaf_filetype,
@@ -184,7 +185,7 @@ class AttachmentManager
                 FROM
                     {{%issue_attachment_file}}
                 WHERE
-                    iaf_id=?";
+                    iaf_id=?';
         $res = DB_Helper::getInstance()->getRow($sql, [$iaf_id]);
         if (empty($res)) {
             throw new AttachmentNotFoundException();
@@ -194,6 +195,7 @@ class AttachmentManager
         $attachment->filesize = $res['iaf_filesize'];
         $attachment->flysystem_path = $res['iaf_flysystem_path'];
         $attachment->group_id = $res['iaf_iat_id'];
+
         return $attachment;
     }
 
@@ -228,7 +230,7 @@ class AttachmentManager
         }
 
         if (count($iaf_ids)) {
-            $sql = "DELETE FROM {{%issue_attachment_file}} WHERE iaf_id IN(?)";
+            $sql = 'DELETE FROM {{%issue_attachment_file}} WHERE iaf_id IN(?)';
             DB_Helper::getInstance()->query($sql, [DB_Helper::buildList($iaf_ids)]);
         }
     }
@@ -330,7 +332,7 @@ class AttachmentManager
     /**
      * Removes an individual file from an issue.
      *
-     * @param integer $iaf_id
+     * @param int $iaf_id
      * @return bool
      */
     public static function removeAttachment($iaf_id)
@@ -348,9 +350,9 @@ class AttachmentManager
             // check if this is the only file in the group
             if (count(self::getAttachmentList($group->id)) == 1) {
                 return self::removeAttachmentGroup($group->id);
-            } else {
-                return $attachment->delete();
             }
+
+            return $attachment->delete();
         } catch (AttachmentNotFoundException $e) {
             return -1;
         }
@@ -359,7 +361,7 @@ class AttachmentManager
     /**
      * Removes an AttachmentGroup and all related files from an issue.
      *
-     * @param integer $iat_id
+     * @param int $iat_id
      * @return bool
      */
     public static function removeAttachmentGroup($iat_id)
@@ -385,7 +387,7 @@ class AttachmentManager
     /**
      * Returns the AttachmentGroup for the given id
      *
-     * @param integer $iat_id
+     * @param int $iat_id
      * @return AttachmentGroup
      */
     public static function getGroup($iat_id)
@@ -413,6 +415,7 @@ class AttachmentManager
         $group->unknown_user = $res['iat_unknown_user'];
         $group->associated_note_id = $res['iat_not_id'];
         $group->created_date = $res['iat_created_date'];
+
         return $group;
     }
 

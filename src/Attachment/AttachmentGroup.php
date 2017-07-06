@@ -24,25 +24,23 @@ use User;
 /**
  * Represents a group of attachments. This group is then associated with an issue. Groups should not exist without
  * files. Group data is stored in the `issue_attachment` table.
- *
- * @package Eventum\Attachment
  */
 class AttachmentGroup
 {
     /**
-     * @var integer
+     * @var int
      */
     public $id;
 
     /**
-     * @var integer
+     * @var int
      */
     public $issue_id;
 
     /**
      * The user who uploaded these files
      *
-     * @var integer
+     * @var int
      */
     public $user_id;
 
@@ -55,7 +53,7 @@ class AttachmentGroup
      * The minimum role that can access this attachment group.
      *
      * @see \User
-     * @var integer
+     * @var int
      */
     public $minimum_role;
 
@@ -74,7 +72,7 @@ class AttachmentGroup
     /**
      * The note ID that these attachments should be associated with
      *
-     * @var integer
+     * @var int
      */
     public $associated_note_id;
 
@@ -100,11 +98,11 @@ class AttachmentGroup
     public function save()
     {
         $params = [
-            'iat_iss_id'       => $this->issue_id,
-            'iat_usr_id'       => $this->user_id,
+            'iat_iss_id' => $this->issue_id,
+            'iat_usr_id' => $this->user_id,
             'iat_created_date' => Date_Helper::getCurrentDateGMT(),
-            'iat_description'  => $this->description,
-            'iat_min_role'     => $this->minimum_role,
+            'iat_description' => $this->description,
+            'iat_min_role' => $this->minimum_role,
         ];
 
         if ($this->unknown_user) {
@@ -135,9 +133,9 @@ class AttachmentGroup
             User::getRoleByUser($usr_id, Issue::getProjectID($this->issue_id) >= $this->minimum_role)
         ) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -155,6 +153,7 @@ class AttachmentGroup
             $attachment->group_id = $file['iaf_iat_id'];
             $attachments[] = $attachment;
         }
+
         return $attachments;
     }
 
@@ -169,10 +168,10 @@ class AttachmentGroup
     {
         $usr_id = Auth::getUserID();
         try {
-            $sql = "DELETE FROM
+            $sql = 'DELETE FROM
                         {{%issue_attachment}}
                     WHERE
-                        iat_id=?";
+                        iat_id=?';
             DB_Helper::getInstance()->query($sql, [$this->id]);
         } catch (DatabaseException $e) {
             return -1;
@@ -183,6 +182,7 @@ class AttachmentGroup
                 'user' => User::getFullName($usr_id),
             ]);
         }
+
         return 1;
     }
 }

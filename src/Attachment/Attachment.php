@@ -26,13 +26,11 @@ use User;
 /**
  * Represents an individual attachment to an issue. Attachments should be associated with an AttachmentGroup but are
  * not when they are first uploaded. Attachment meta data is stored in the `issue_attachment_file` table.
- *
- * @package Eventum\Attachment
  */
 class Attachment
 {
     /**
-     * @var integer
+     * @var int
      */
     public $id;
 
@@ -47,7 +45,7 @@ class Attachment
     public $filetype;
 
     /**
-     * @var integer
+     * @var int
      */
     public $filesize;
     /**
@@ -59,7 +57,7 @@ class Attachment
     /**
      * The ID of the AttachmentGroup
      *
-     * @var integer|null
+     * @var int|null
      */
     public $group_id;
     /**
@@ -103,6 +101,7 @@ class Attachment
             $attachment = new self($filename, $filetype);
             $attachment->blob = $blob;
             $attachment->save();
+
             return $attachment;
         } catch (DatabaseException $e) {
             throw new AttachmentException($e->getMessage(), $e->getCode(), $e);
@@ -124,12 +123,12 @@ class Attachment
             if ($this->group) {
                 $params['iaf_iat_id'] = $this->group->id;
             }
-            $sql = "UPDATE
+            $sql = 'UPDATE
                         {{%issue_attachment_file}}
                     SET
-                        " . DB_Helper::buildSet($params) . "
+                        ' . DB_Helper::buildSet($params) . '
                     WHERE
-                        iaf_id = ?";
+                        iaf_id = ?';
             $params[] = $this->id;
             DB_Helper::getInstance()->query($sql, $params);
         } else {
@@ -174,6 +173,7 @@ class Attachment
         if ($this->getGroup()) {
             $params[] = $this->group->issue_id;
         }
+
         return AttachmentManager::generatePath(...$params);
     }
 
@@ -189,6 +189,7 @@ class Attachment
             // try to load group based on iat_id
             $this->group = AttachmentManager::getGroup($this->group_id);
         }
+
         return $this->group;
     }
 
@@ -250,26 +251,26 @@ class Attachment
         // display inline images and text documents
         if (in_array($type, ['image', 'text'])) {
             return 'inline';
-        } else {
-            return 'attachment';
         }
+
+        return 'attachment';
     }
 
     /**
      * Deletes the attachment from the database and storage backend. Also marks the issue as updated and saves a
      * history entry.
      *
-     * @return int 1 for success, -1 otherwise.
+     * @return int 1 for success, -1 otherwise
      */
     public function delete()
     {
         $usr_id = Auth::getUserID();
         $group = $this->getGroup();
         try {
-            $sql = "DELETE FROM
+            $sql = 'DELETE FROM
                         {{%issue_attachment_file}}
                     WHERE
-                        iaf_id=?";
+                        iaf_id=?';
             DB_Helper::getInstance()->query($sql, [$this->id]);
             $sm = StorageManager::get();
             $sm->deleteFile($this->flysystem_path);
@@ -278,9 +279,10 @@ class Attachment
         }
         Issue::markAsUpdated($usr_id);
         History::add($group->issue_id, $usr_id, 'attachment_removed', 'Attachment "{filename}" removed by {user}', [
-            'user'     => User::getFullName($usr_id),
+            'user' => User::getFullName($usr_id),
             'filename' => $this->filename,
         ]);
+
         return 1;
     }
 
@@ -290,9 +292,9 @@ class Attachment
     public function getDetails()
     {
         return [
-            'name'     => $this->filename,
-            'type'     => $this->filetype,
-            'size'     => $this->filesize,
+            'name' => $this->filename,
+            'type' => $this->filetype,
+            'size' => $this->filesize,
             'contents' => $this->getFileContents(),
         ];
     }
@@ -307,6 +309,7 @@ class Attachment
         if (empty($this->blob)) {
             $this->blob = StorageManager::get()->getFile($this->flysystem_path)->read();
         }
+
         return $this->blob;
     }
 }

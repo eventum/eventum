@@ -281,7 +281,7 @@ class Setup
 
             'attachments' => [
                 'default_adapter' => 'pdo',
-                'adapters'  =>  [],
+                'adapters' => [],
             ],
         ];
 

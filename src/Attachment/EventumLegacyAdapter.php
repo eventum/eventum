@@ -26,7 +26,7 @@ class EventumLegacyAdapter implements AdapterInterface
      */
     private function getAttachment($path)
     {
-        $sql = "SELECT
+        $sql = 'SELECT
                     iaf_id,
                     iaf_file,
                     iaf_filename,
@@ -38,8 +38,9 @@ class EventumLegacyAdapter implements AdapterInterface
                 FROM
                     {{%issue_attachment_file}}
                 WHERE
-                    iaf_id=?";
+                    iaf_id=?';
         $res = DB_Helper::getInstance()->getRow($sql, [$path]);
+
         return $res;
     }
 
@@ -54,9 +55,9 @@ class EventumLegacyAdapter implements AdapterInterface
     {
         if ($this->getAttachment($path)) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -66,7 +67,8 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return array|false
      */
-    public function read($path) {
+    public function read($path)
+    {
         return [
             'type' => 'file',
             'path' => $path,
@@ -81,16 +83,17 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return array|false
      */
-    public function getMetadata($path) {
+    public function getMetadata($path)
+    {
         $attachment = $this->getAttachment($path);
 
         $data = [
-            'type'  => 'file',
-            'path'  => $path,
-            'size'  =>  $attachment['iaf_filesize'],
-            'mimetype'  =>  $attachment['iaf_filetype'],
-            'timestamp' =>  $attachment['iaf_created_date'], // TODO: Change to timestamp?
-            'visibility'    =>  self::VISIBILITY_PRIVATE, // Not actually used
+            'type' => 'file',
+            'path' => $path,
+            'size' => $attachment['iaf_filesize'],
+            'mimetype' => $attachment['iaf_filetype'],
+            'timestamp' => $attachment['iaf_created_date'], // TODO: Change to timestamp?
+            'visibility' => self::VISIBILITY_PRIVATE, // Not actually used
         ];
 
         return $data;
@@ -103,7 +106,8 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return array|false
      */
-    public function getSize($path) {
+    public function getSize($path)
+    {
         return $this->getMetadata($path);
     }
 
@@ -114,7 +118,8 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return array|false
      */
-    public function getMimetype($path) {
+    public function getMimetype($path)
+    {
         return $this->getMetadata($path);
     }
 
@@ -125,7 +130,8 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return array|false
      */
-    public function getTimestamp($path) {
+    public function getTimestamp($path)
+    {
         return $this->getMetadata($path);
     }
 
@@ -136,10 +142,10 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return array|false
      */
-    public function getVisibility($path) {
+    public function getVisibility($path)
+    {
         return $this->getMetadata($path);
     }
-
 
     /**
      * Write a new file.
@@ -152,7 +158,7 @@ class EventumLegacyAdapter implements AdapterInterface
      */
     public function write($path, $contents, Config $config)
     {
-        throw new NotSupportedException("Writing is not supported for legacy adapter");
+        throw new NotSupportedException('Writing is not supported for legacy adapter');
     }
 
     /**
@@ -164,8 +170,9 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return array|false false on failure file meta data on success
      */
-    public function writeStream($path, $resource, Config $config) {
-        throw new NotSupportedException("Writing is not supported for legacy adapter");
+    public function writeStream($path, $resource, Config $config)
+    {
+        throw new NotSupportedException('Writing is not supported for legacy adapter');
     }
 
     /**
@@ -177,8 +184,9 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return array|false false on failure file meta data on success
      */
-    public function update($path, $contents, Config $config) {
-        throw new NotSupportedException("Writing is not supported for legacy adapter");
+    public function update($path, $contents, Config $config)
+    {
+        throw new NotSupportedException('Writing is not supported for legacy adapter');
     }
 
     /**
@@ -190,8 +198,9 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return array|false false on failure file meta data on success
      */
-    public function updateStream($path, $resource, Config $config) {
-        throw new NotSupportedException("Writing is not supported for legacy adapter");
+    public function updateStream($path, $resource, Config $config)
+    {
+        throw new NotSupportedException('Writing is not supported for legacy adapter');
     }
 
     /**
@@ -202,8 +211,9 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return bool
      */
-    public function rename($path, $newpath) {
-        throw new NotSupportedException("Rename is not supported for legacy adapter");
+    public function rename($path, $newpath)
+    {
+        throw new NotSupportedException('Rename is not supported for legacy adapter');
     }
 
     /**
@@ -214,8 +224,9 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return bool
      */
-    public function copy($path, $newpath) {
-        throw new NotSupportedException("Copying is not supported for legacy adapter");
+    public function copy($path, $newpath)
+    {
+        throw new NotSupportedException('Copying is not supported for legacy adapter');
     }
 
     /**
@@ -225,7 +236,8 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return bool
      */
-    public function delete($path) {
+    public function delete($path)
+    {
         // nothing to do here. File is deleted as part of meta data deletion
         return true;
     }
@@ -237,7 +249,8 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return bool
      */
-    public function deleteDir($dirname) {
+    public function deleteDir($dirname)
+    {
         // nothing to do here.
         return true;
     }
@@ -250,8 +263,9 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return array|false
      */
-    public function createDir($dirname, Config $config) {
-        throw new NotSupportedException("Writing is not supported for legacy adapter");
+    public function createDir($dirname, Config $config)
+    {
+        throw new NotSupportedException('Writing is not supported for legacy adapter');
     }
 
     /**
@@ -262,8 +276,9 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return array|false file meta data
      */
-    public function setVisibility($path, $visibility) {
-        throw new NotSupportedException("Changing visibility is not supported for legacy adapter");
+    public function setVisibility($path, $visibility)
+    {
+        throw new NotSupportedException('Changing visibility is not supported for legacy adapter');
     }
 
     /**
@@ -273,8 +288,9 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return array|false
      */
-    public function readStream($path) {
-        throw new NotSupportedException("Streaming is not supported for legacy adapter");
+    public function readStream($path)
+    {
+        throw new NotSupportedException('Streaming is not supported for legacy adapter');
     }
 
     /**
@@ -285,7 +301,8 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @return array
      */
-    public function listContents($directory = '', $recursive = FALSE) {
-        throw new NotSupportedException("Listing Contents is not supported for legacy adapter");
+    public function listContents($directory = '', $recursive = false)
+    {
+        throw new NotSupportedException('Listing Contents is not supported for legacy adapter');
     }
 }

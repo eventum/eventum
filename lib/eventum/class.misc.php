@@ -770,8 +770,8 @@ class Misc
         // display inline images and text documents
         if (in_array($type, ['image', 'text'])) {
             return 'inline';
-        } else {
-            return 'attachment';
         }
+
+        return 'attachment';
     }
 }

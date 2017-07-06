@@ -96,7 +96,7 @@ class FileUploadController extends BaseController
                 'issue_id' => $this->issue_id,
                 'max_attachment_size' => AttachmentManager::getMaxAttachmentSize(),
                 'max_attachment_bytes' => AttachmentManager::getMaxAttachmentSize(true),
-                'roles' =>  User::getRoles()
+                'roles' => User::getRoles(),
             ]
         );
     }

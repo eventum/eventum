@@ -13,8 +13,6 @@
 
 namespace Eventum\Attachment\Exceptions;
 
-use Eventum\Attachment\Exceptions\AttachmentException;
-
 class AttachmentGroupNotFoundException extends AttachmentException
 {
 }

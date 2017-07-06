@@ -23,8 +23,6 @@ use Setup;
 
 /**
  * Configures and manages the Flysystem storage setup.
- *
- * @package Eventum\Attachment
  */
 class StorageManager
 {
@@ -65,8 +63,9 @@ class StorageManager
     private function getPdoAdapter()
     {
         $config = new Config([
-            'table_prefix'            => 'attachment',
+            'table_prefix' => 'attachment',
         ]);
+
         return new Filesystem(new PdoAdapter(DB_Helper::getInstance()->getPdo(), $config));
     }
 
@@ -79,7 +78,7 @@ class StorageManager
     {
         static $manager;
         if (!$manager) {
-            $manager = new StorageManager();
+            $manager = new self();
         }
 
         return $manager;
@@ -107,9 +106,8 @@ class StorageManager
     {
         if ($this->mount_manager->write($path, $contents)) {
             return $path;
-        } else {
-            throw new AttachmentException("Unable to write file");
         }
+        throw new AttachmentException('Unable to write file');
     }
 
     /**
@@ -122,7 +120,8 @@ class StorageManager
     public function renameFile($old_path, $new_path)
     {
         // remove adapter from new path
-        $new_path = explode("://", $new_path, 2)[1];
+        $new_path = explode('://', $new_path, 2)[1];
+
         return $this->mount_manager->rename($old_path, $new_path);
     }
 
