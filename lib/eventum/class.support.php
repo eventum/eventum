@@ -694,12 +694,10 @@ class Support
                         if (!$should_create_issue) {
                             if ((!empty($t['customer_id'])) && ($t['customer_id'] != 'NULL') && ((empty($usr_id)) || (User::getRoleByUser($usr_id, $prj_id) == User::ROLE_CUSTOMER))) {
                                 Issue::markAsUpdated($t['issue_id'], 'customer action');
-                            }
-                            else {
+                            } else {
                                 if ((!empty($usr_id)) && (User::getRoleByUser($usr_id, $prj_id) > User::ROLE_CUSTOMER)) {
                                     Issue::markAsUpdated($t['issue_id'], 'staff response');
-                                }
-                                else {
+                                } else {
                                     Issue::markAsUpdated($t['issue_id'], 'user response');
                                 }
                             }
