@@ -517,7 +517,8 @@ class Support
             'headers' => $mail->getHeadersArray(),
         ];
 
-        $should_create_array = self::createIssueFromEmail($info, $mail);
+        $info['date'] = $t['date'];
+        $should_create_array = self::createIssueFromEmail($mail, $info);
         $should_create_issue = $should_create_array['should_create_issue'];
 
         if (!empty($should_create_array['issue_id'])) {
@@ -673,11 +674,16 @@ class Support
      * Creates a new issue from an email if appropriate.
      * Also returns if this message is related to a previous message.
      *
-     * @param   array $info an array of info about the email account
      * @param   MailMessage $mail The Mail object
+     * @param   array $info an array of info about the email account
+     * - int $ema_prj_id
+     * - int $ema_id
+     * - string $ema_issue_auto_creation
+     * - array $ema_issue_auto_creation_options
+     * - string $date email date (if set, overrides $mail->date)
      * @return  array   An array of information about the message
      */
-    public static function createIssueFromEmail($info, MailMessage $mail)
+    public static function createIssueFromEmail(MailMessage $mail, $info)
     {
         $should_create_issue = false;
         $issue_id = null;
@@ -799,6 +805,9 @@ class Support
                 'contact_id' => $contact_id,
                 'contract_id' => $contract_id,
             ];
+            if (isset($info['date'])) {
+                $options['date'] = $info['date'];
+            }
             $issue_id = Issue::createFromEmail($mail, $options);
 
             // add sender to authorized repliers list if they are not a real user
@@ -2338,7 +2347,7 @@ class Support
         $mail = self::getSupportEmail($sup_id);
 
         // handle auto creating issues (if needed)
-        $should_create_array = self::createIssueFromEmail($info, $mail);
+        $should_create_array = self::createIssueFromEmail($mail, $info);
         $issue_id = $should_create_array['issue_id'];
         $customer_id = $should_create_array['customer_id'];
 
