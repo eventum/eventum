@@ -13,10 +13,11 @@
 
 use Eventum\Db\AbstractMigration;
 
-class EventumAttachmentsMigrateMinRole extends AbstractMigration
+class EventumAttachmentsMigrate extends AbstractMigration
 {
     public function up()
     {
         $this->execute("UPDATE issue_attachment SET iat_min_role = IF(iat_status = 'public', 1, 4)");
+        $this->execute("UPDATE issue_attachment_file SET iaf_flysystem_path = CONCAT('legacy://', iaf_id)");
     }
 }
