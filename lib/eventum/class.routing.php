@@ -218,7 +218,8 @@ class Routing
         $email_options['internal_only'] = $is_bounce;
         $email_options['assignee_only'] = $is_bounce;
         $email_options['sup_id'] = $sup_id;
-        Notification::notifyNewEmail(Auth::getUserID(), $issue_id, $mail, $email_options);
+        $email_options['usr_id'] = Auth::getUserID();
+        Notification::notifyNewEmail($mail, $email_options);
 
         // try to get usr_id of sender, if not, use system account
         $usr_id = User::getUserIDByEmail($mail->getSender());

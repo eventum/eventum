@@ -573,7 +573,9 @@ class Note
                 // special case when emails are bounced back, so we don't want to notify the customer about those
                 $email_options['internal_only'] = $mail->isBounceMessage();
                 $email_options['sup_id'] = $sup_id;
-                Notification::notifyNewEmail($usr_id, $issue_id, $mail, $email_options);
+                $email_options['usr_id'] = $usr_id;
+                $email_options['issue_id'] = $issue_id;
+                Notification::notifyNewEmail($mail, $email_options);
                 Issue::markAsUpdated($issue_id, $update_type);
                 self::remove($note_id, false);
                 History::add($issue_id, $usr_id, 'note_converted_email', 'Note converted to e-mail (from: {from}) by {user}', [

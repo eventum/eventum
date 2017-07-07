@@ -636,7 +636,8 @@ class Support
                         $t['internal_only'] = $internal_only;
                         $t['assignee_only'] = $assignee_only;
                         $t['sup_id'] = $sup_id;
-                        Notification::notifyNewEmail(Auth::getUserID(), $t['issue_id'], $mail, $t);
+                        $t['usr_id'] = Auth::getUserID();
+                        Notification::notifyNewEmail($mail, $t);
                     }
 
                     // try to get usr_id of sender, if not, use system account
@@ -1417,7 +1418,8 @@ class Support
             }
 
             $t['sup_id'] = $row['sup_id'];
-            Notification::notifyNewEmail($usr_id, $issue_id, $mail, $t);
+            $t['usr_id'] = $usr_id;
+            Notification::notifyNewEmail($mail, $t);
             if ($authorize) {
                 $sender_email = $mail->getSender();
                 Authorized_Replier::manualInsert($issue_id, $sender_email, false);
@@ -2101,7 +2103,8 @@ class Support
             $email_options['internal_only'] = $internal_only;
             $email_options['type'] = $type;
             $email_options['sup_id'] = $sup_id;
-            Notification::notifyNewEmail($usr_id, $issue_id, $mail, $email_options);
+            $email_options['usr_id'] = $usr_id;
+            Notification::notifyNewEmail($mail, $email_options);
 
             // mark this issue as updated
             $has_customer = $email_options['customer_id'] && $email_options['customer_id'] != 'NULL';

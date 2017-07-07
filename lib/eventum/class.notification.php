@@ -309,21 +309,23 @@ class Notification
     /**
      * Method used to forward the new email to the list of subscribers.
      *
-     * @param int $usr_id The user ID of the person performing this action
-     * @param int $issue_id The issue ID
      * @param MailMessage $mail The Mail object
      * @param array $options
+     * - int $usr_id The user ID of the person performing this action
+     * - int $issue_id The issue ID
      * - bool $internal_only Whether the email should only be redirected to internal users or not
      * - bool $assignee_only Whether the email should only be sent to the assignee
      * - string|bool $type The type of email this is
      * - int $sup_id the ID of this email
      */
-    public static function notifyNewEmail($usr_id, $issue_id, MailMessage $mail, array $options = [])
+    public static function notifyNewEmail(MailMessage $mail, array $options = [])
     {
         $internal_only = isset($options['internal_only']) ? $options['internal_only'] : false;
         $assignee_only = isset($options['assignee_only']) ? $options['assignee_only'] : false;
         $type = isset($options['type']) ? $options['type'] : '';
         $sup_id = isset($options['sup_id']) ? $options['sup_id'] : false;
+        $usr_id = $options['usr_id'];
+        $issue_id = $options['issue_id'];
         $prj_id = Issue::getProjectID($issue_id);
 
         $sender = $mail->from;
