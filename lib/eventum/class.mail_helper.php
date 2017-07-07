@@ -428,11 +428,11 @@ class Mail_Helper
     /**
      * Method used to save a copy of the given email to a configurable address.
      *
+     * @param MailMessage $mail the email to save
      * @param int $issue_id
      * @param string $maq_type
-     * @param MailMessage $mail the email to save
      */
-    public static function saveOutgoingEmailCopy($issue_id, $maq_type, MailMessage $mail)
+    public static function saveOutgoingEmailCopy(MailMessage $mail, $issue_id, $maq_type)
     {
         // check early: do we really want to save every outgoing email?
         $setup = Setup::get();

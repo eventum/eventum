@@ -160,7 +160,7 @@ class Mail_Queue
 
                     if ($entry['save_copy']) {
                         $mail = MailMessage::createFromHeaderBody($entry['headers'], $entry['body']);
-                        Mail_Helper::saveOutgoingEmailCopy($entry['maq_iss_id'], $entry['maq_type'], $mail);
+                        Mail_Helper::saveOutgoingEmailCopy($mail, $entry['maq_iss_id'], $entry['maq_type']);
                     }
                 }
             }
@@ -189,7 +189,7 @@ class Mail_Queue
 
             self::_saveStatusLog($entry['id'], 'sent', '');
             if ($entry['save_copy']) {
-                Mail_Helper::saveOutgoingEmailCopy($entry['maq_iss_id'], $entry['maq_type'], $mail);
+                Mail_Helper::saveOutgoingEmailCopy($mail, $entry['maq_iss_id'], $entry['maq_type']);
             }
         }
     }
