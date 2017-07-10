@@ -54,7 +54,7 @@ while (true) {
 
     if (empty($res)) {
         echo "No more attachments to migrate\n";
-        exit;
+        break;
     }
 
     foreach ($res as $row) {
