@@ -18,6 +18,7 @@ use Date_Helper;
 use DB_Helper;
 use Eventum\Attachment\Exceptions\AttachmentException;
 use Eventum\Db\DatabaseException;
+use Exception;
 use History;
 use Issue;
 use Misc;
@@ -221,7 +222,14 @@ class Attachment
      */
     public function outputDownload($force_inline = false)
     {
-        Misc::outputDownload($this->getFile()->read(), $this->filename, $this->filesize, $this->filetype, $force_inline);
+        try {
+            Misc::outputDownload($this->getFile()->read(), $this->filename, $this->filesize, $this->filetype, $force_inline);
+        } catch (Exception $e) {
+            // this is very broad, but it is better to display something besides a blank screen
+            header('HTTP/1.1 500 Internal Server Error');
+            echo 'Error serving download, please contact your system administrator.';
+            exit;
+        }
     }
 
     /**
