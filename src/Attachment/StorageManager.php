@@ -15,6 +15,7 @@ namespace Eventum\Attachment;
 
 use DB_Helper;
 use Eventum\Attachment\Exceptions\AttachmentException;
+use League\Flysystem\Adapter\Local;
 use League\Flysystem\Config;
 use League\Flysystem\Filesystem;
 use League\Flysystem\MountManager;
@@ -49,6 +50,7 @@ class StorageManager
         $mount_config = [
             'pdo' => $this->getPdoAdapter(),
             'legacy' => new Filesystem(new EventumLegacyAdapter()),
+            'local' => new Filesystem(new Local(APP_PATH . '/var/storage/')),
         ];
         foreach ($setup['adapters'] as $adapter_name => $adapter_config) {
             $mount_config[$adapter_name] = new Filesystem(new $adapter_config['class'](...$adapter_config['options']));
@@ -144,5 +146,10 @@ class StorageManager
     public function getDefaultAdapter()
     {
         return $this->default_adapter;
+    }
+
+    public function moveFile($old_path, $new_path)
+    {
+        return $this->mount_manager->move($old_path, $new_path);
     }
 }

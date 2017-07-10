@@ -77,6 +77,26 @@ class EventumLegacyAdapter implements AdapterInterface
     }
 
     /**
+     * Read a file as a stream.
+     *
+     * @param string $path
+     *
+     * @return array|false
+     */
+    public function readStream($path)
+    {
+        $data = $this->read($path);
+
+        $data['stream'] = fopen('php://temp', 'r+');
+        fwrite($data['stream'], $data['contents']);
+        rewind($data['stream']);
+
+        unset($data['contents']);
+
+        return $data;
+    }
+
+    /**
      * Get all the meta data of a file or directory.
      *
      * @param string $path
@@ -238,7 +258,14 @@ class EventumLegacyAdapter implements AdapterInterface
      */
     public function delete($path)
     {
-        // nothing to do here. File is deleted as part of meta data deletion
+        $sql = 'UPDATE
+                    {{%issue_attachment_file}}
+                SET
+                    iaf_file = NULL
+                WHERE
+                    iaf_id=?';
+        DB_Helper::getInstance()->query($sql, [$path]);
+
         return true;
     }
 
@@ -279,18 +306,6 @@ class EventumLegacyAdapter implements AdapterInterface
     public function setVisibility($path, $visibility)
     {
         throw new NotSupportedException('Changing visibility is not supported for legacy adapter');
-    }
-
-    /**
-     * Read a file as a stream.
-     *
-     * @param string $path
-     *
-     * @return array|false
-     */
-    public function readStream($path)
-    {
-        throw new NotSupportedException('Streaming is not supported for legacy adapter');
     }
 
     /**
