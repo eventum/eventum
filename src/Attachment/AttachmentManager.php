@@ -161,7 +161,7 @@ class AttachmentManager
             Issue::recordLastCustomerAction($issue_id);
         }
 
-        Workflow::handleAttachment($prj_id, $issue_id, $usr_id);// TODO: Update workflow with new attachment object
+        Workflow::handleAttachment($prj_id, $issue_id, $usr_id, $attachment_group);
         $internal_only = ($minimum_role >= User::ROLE_USER); // TODO: Make Notification::notify() handle minimum roles
         Notification::notify($issue_id, 'files', $attachment_group->id, $internal_only);
 
