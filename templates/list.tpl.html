@@ -124,6 +124,8 @@
               {$list[i].sta_title|escape:"html"}
             {elseif $field_name == 'iss_created_date'}
               {$list[i].iss_created_date|timeago}
+            {elseif $field_name == 'iss_status_change_date'}
+              {$list[i].iss_status_change_date|timeago}
             {elseif $field_name == 'iss_dev_time'}
               {$list[i].iss_dev_time|escape:"html"}
             {elseif $field_name == 'sta_change_date'}

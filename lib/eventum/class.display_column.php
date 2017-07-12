@@ -218,6 +218,9 @@ class Display_Column
                 'iss_expected_resolution_date' => [
                     'title' => ev_gettext('Expected Resolution Date'),
                 ],
+                'iss_status_change_date' => [
+                    'title' => ev_gettext('Last Status Change Date'),
+                ],
             ],
         ];
 

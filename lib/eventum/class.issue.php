@@ -375,11 +375,12 @@ class Issue
                     iss_sta_id=?,
                     iss_updated_date=?,
                     iss_last_public_action_date=?,
-                    iss_last_public_action_type='update'
+                    iss_last_public_action_type='update',
+                    iss_status_change_date=?
                  WHERE
                     iss_id=?";
 
-        $params = [$status_id, Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $issue_id];
+        $params = [$status_id, Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $issue_id];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -1434,6 +1435,10 @@ class Issue
             'iss_summary' => $_POST['summary'],
             'iss_description' => $_POST['description'],
         ];
+
+        if (isset($_POST['status']) && $current['iss_sta_id'] != $_POST['status']) {
+            $params['iss_status_change_date'] = Date_Helper::getCurrentDateGMT();
+        }
 
         if (isset($_POST['release'])) {
             $params['iss_pre_id'] = $_POST['release'];
