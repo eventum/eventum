@@ -1453,8 +1453,10 @@ class Support
             throw new InvalidArgumentException("Could not fetch email: $sup_id");
         }
 
+        $mail = MailMessage::createFromString($res['seb_full_email']);
+
         $res['message'] = $res['seb_body'];
-        $res['attachments'] = MailMessage::createFromString($res['seb_full_email'])->getAttachments();
+        $res['attachments'] = $res['sup_has_attachment'] ? $mail->getAttachments() : [];
         $res['timestamp'] = Date_Helper::getUnixTimestamp($res['sup_date'], 'GMT');
         // TRANSLATORS: %1 = email subject
         $res['reply_subject'] = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $res['sup_subject']), true);
