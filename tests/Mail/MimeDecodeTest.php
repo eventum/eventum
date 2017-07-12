@@ -53,7 +53,7 @@ class MimeDecodeTest extends TestCase
 
     public function testSupportBuildMail()
     {
-        $issue_id = 1;
+        $issue_id = null;
         $from = 'rööts <me@localhost>';
         $reason = 'reason';
         $subject = 'Issue closed comments';
