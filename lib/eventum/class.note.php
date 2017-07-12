@@ -93,7 +93,7 @@ class Note
         }
         if ($res['not_has_attachment']) {
             $mail = MailMessage::createFromString($res['not_full_message']);
-            $res['attachments'] = $mail->getAttachments();
+            $res['attachments'] = $mail->getAttachment()->getAttachments();
         }
 
         return $res;

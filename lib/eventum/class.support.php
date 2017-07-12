@@ -957,7 +957,7 @@ class Support
             }
         }
 
-        $has_attachments = isset($email_options['has_attachment']) ? (int)$email_options['has_attachment'] : $mail->hasAttachments();
+        $has_attachments = isset($email_options['has_attachment']) ? (int)$email_options['has_attachment'] : $mail->getAttachment()->hasAttachments();
         $params = [
             'sup_ema_id' => $email_options['ema_id'],
             'sup_iss_id' => $issue_id,
@@ -1287,7 +1287,7 @@ class Support
         }
 
         // now for the real thing
-        if ($mail->hasAttachments()) {
+        if ($mail->getAttachment()->hasAttachments()) {
             if (empty($associated_note_id)) {
                 $history_log = ev_gettext('Attachment originated from an email');
             } else {
@@ -1295,7 +1295,7 @@ class Support
             }
 
             $iaf_ids = [];
-            foreach ($mail->getAttachments() as $attachment) {
+            foreach ($mail->getAttachment()->getAttachments() as $attachment) {
                 $attach = Workflow::shouldAttachFile($prj_id, $issue_id, $usr_id, $attachment);
                 if (!$attach) {
                     continue;
@@ -1408,7 +1408,7 @@ class Support
                 'subject' => $mail->subject,
                 'body' => $mail->getMessageBody(),
                 'full_email' => $row['seb_full_email'],
-                'has_attachment' => $mail->hasAttachments(),
+                'has_attachment' => $mail->getAttachment()->hasAttachments(),
                 // the following items are not inserted, but useful in some methods
                 'headers' => $mail->getHeadersArray(),
             ];
@@ -1456,7 +1456,7 @@ class Support
         $mail = MailMessage::createFromString($res['seb_full_email']);
 
         $res['message'] = $res['seb_body'];
-        $res['attachments'] = $res['sup_has_attachment'] ? $mail->getAttachments() : [];
+        $res['attachments'] = $res['sup_has_attachment'] ? $mail->getAttachment()->getAttachments() : [];
         $res['timestamp'] = Date_Helper::getUnixTimestamp($res['sup_date'], 'GMT');
         // TRANSLATORS: %1 = email subject
         $res['reply_subject'] = Mail_Helper::removeExcessRe(ev_gettext('Re: %1$s', $res['sup_subject']), true);

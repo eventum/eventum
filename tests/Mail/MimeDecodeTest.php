@@ -86,8 +86,9 @@ class MimeDecodeTest extends TestCase
     {
         $content = $this->readDataFile('attachment-bug.txt');
         $mail = MailMessage::createFromString($content);
-        $this->assertTrue($mail->hasAttachments());
-        $attachments = $mail->getAttachments();
+        $attachment = $mail->getAttachment();
+        $this->assertTrue($attachment->hasAttachments());
+        $attachments = $attachment->getAttachments();
         $this->assertContains('i cannot get any cursed header', $attachments[0]['blob']);
         $content = $mail->getMessageBody();
         $this->assertContains('i cannot get any cursed header', $content);

@@ -172,18 +172,18 @@ class MailMessageTest extends TestCase
         $multipart = $message->isMultipart();
         $this->assertFalse($multipart);
         $this->assertEquals(0, $has_attachments);
-        $this->assertFalse($message->hasAttachments());
+        $this->assertFalse($message->getAttachment()->hasAttachments());
 
         $message = MailMessage::createFromFile(__DIR__ . '/../data/bug684922.txt');
         $multipart = $message->isMultipart();
         $this->assertTrue($multipart);
         $has_attachments = $message->countParts();
         $this->assertEquals(2, $has_attachments);
-        $this->assertTrue($message->hasAttachments());
+        $this->assertTrue($message->getAttachment()->hasAttachments());
 
         // this one does not have "Attachments" even it is multipart
         $message = MailMessage::createFromFile(__DIR__ . '/../data/multipart-text-html.txt');
-        $this->assertFalse($message->hasAttachments());
+        $this->assertFalse($message->getAttachment()->hasAttachments());
     }
 
     /**
@@ -196,7 +196,7 @@ class MailMessageTest extends TestCase
     {
         $content = $this->readDataFile('attachment-bug.txt');
         $message = MailMessage::createFromString($content);
-        $this->assertTrue($message->hasAttachments());
+        $this->assertTrue($message->getAttachment()->hasAttachments());
     }
 
     public function testGetAttachments()
@@ -204,8 +204,9 @@ class MailMessageTest extends TestCase
         $raw = $this->readDataFile('bug684922.txt');
 
         $mail = MailMessage::createFromString($raw);
-        $this->assertTrue($mail->hasAttachments());
-        $att2 = $mail->getAttachments();
+        $attachment = $mail->getAttachment();
+        $this->assertTrue($attachment->hasAttachments());
+        $att2 = $attachment->getAttachments();
 
         $this->assertCount(2, $att2);
         $att = $att2[0];
@@ -821,8 +822,8 @@ class MailMessageTest extends TestCase
         $this->markTestIncomplete();
         $content = $this->readDataFile('102232.txt');
         $mail = MailMessage::createFromString($content);
-        $this->assertTrue($mail->hasAttachments());
-        $attachments = $mail->getAttachments();
+        $this->assertTrue($mail->getAttachment()->hasAttachments());
+        $attachments = $mail->getAttachment()->getAttachments();
         $this->assertCount(3, $attachments);
     }
 }

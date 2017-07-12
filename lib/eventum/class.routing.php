@@ -355,7 +355,7 @@ class Routing
 
         // add the full email to the note if there are any attachments
         // this is needed because the front end code will display attachment links
-        if ($mail->hasAttachments()) {
+        if ($mail->getAttachment()->hasAttachments()) {
             $_POST['full_message'] = $mail->getRawContent();
         }
 

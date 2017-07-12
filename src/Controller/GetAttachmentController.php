@@ -88,7 +88,7 @@ class GetAttachmentController extends BaseController
      */
     private function getAttachment(MailMessage $mail, $filename, $cid = null)
     {
-        $attachments = $mail->getAttachments();
+        $attachments = $mail->getAttachment()->getAttachments();
         foreach ($attachments as $attachment) {
             if ($cid && $attachment['cid'] == $cid) {
                 return $attachment;
