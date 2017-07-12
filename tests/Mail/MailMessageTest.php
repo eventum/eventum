@@ -17,6 +17,7 @@ use Date_Helper;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
 use Mail_Helper;
+use Mail_mimeDecode;
 use Mail_Queue;
 use Mime_Helper;
 use PHPUnit_Framework_Error_Notice;
@@ -820,6 +821,16 @@ class MailMessageTest extends TestCase
     public function testMultipartRelatedAttachments()
     {
         $content = $this->readDataFile('102232.txt');
+
+        $decode = new Mail_mimeDecode($content);
+        $params = [
+            'crlf' => "\r\n",
+            'include_bodies' => true,
+            'decode_headers' => false,
+            'decode_bodies' => true,
+        ];
+        $email = $decode->decode($params);
+
         $mail = MailMessage::createFromString($content);
         $attachment = $mail->getAttachment();
 
