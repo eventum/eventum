@@ -289,9 +289,11 @@ class MailMessage extends Message
     {
         $parts = [];
         foreach ($this as $part) {
+            $headers = $part->getHeaders();
             $ctype = $part->getHeaderField('Content-Type');
-            $disposition = $part->getHeaderField('Content-Disposition');
-            $filename = $part->getHeaderField('Content-Disposition', 'filename');
+            $hasDisposition = $headers->has('Content-Disposition');
+            $disposition = $hasDisposition ? $part->getHeaderField('Content-Disposition') : null;
+            $filename = $hasDisposition ? $part->getHeaderField('Content-Disposition', 'filename') : null;
             $is_attachment = $disposition == 'attachment' || $filename;
 
             $charset = $part->getHeaderField('Content-Type', 'charset');

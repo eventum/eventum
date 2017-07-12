@@ -89,6 +89,8 @@ class MimeDecodeTest extends TestCase
         $this->assertTrue($mail->hasAttachments());
         $attachments = $mail->getAttachments();
         $this->assertContains('i cannot get any cursed header', $attachments[0]['blob']);
+        $content = $mail->getMessageBody();
+        $this->assertContains('i cannot get any cursed header', $content);
     }
 
     public function testAddWarningMessage()
