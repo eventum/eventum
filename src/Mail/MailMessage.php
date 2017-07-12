@@ -255,13 +255,22 @@ class MailMessage extends Message
             // 2. try Content-Disposition: filename parameter
             // 3. as last resort use Untitled with extension from mime-type subpart
             /** @var ContentType $ct */
-            $filename = $ct->getParameter('name')
-                ?: $attachment->getHeaderField('Content-Disposition', 'filename')
-                    ?: ev_gettext('Untitled.%s', end(explode('/', $ct->getType())));
+            $filename = $ct->getParameter('name');
+            if (!$filename) {
+                try {
+                    $filename = $attachment->getHeaderField('Content-Disposition', 'filename');
+                } catch (Mail\Exception\InvalidArgumentException $e) {
+                }
+            }
+            if (!$filename) {
+                $filename = ev_gettext('Untitled.%s', end(explode('/', $ct->getType())));
+            }
+
+            $cid = $headers->has('Content-Id') ? $headers->get('Content-Id')->getFieldValue() : null;
 
             $attachments[] = [
                 'filename' => $filename,
-                'cid' => $headers->get('Content-Id')->getFieldValue(),
+                'cid' => $cid,
                 'filetype' => $ct->getType(),
                 'blob' => (new DecodePart($attachment))->decode(),
             ];

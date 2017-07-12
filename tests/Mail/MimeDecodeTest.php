@@ -77,6 +77,20 @@ class MimeDecodeTest extends TestCase
         $this->assertEquals(Date_Helper::getCurrentDateGMT(), $date);
     }
 
+    /**
+     * Test that $mail->getAttachments can be called if no attachments present
+     *
+     * @see Support::getEmailDetails()
+     */
+    public function testGetAttachments()
+    {
+        $content = $this->readDataFile('attachment-bug.txt');
+        $mail = MailMessage::createFromString($content);
+        $this->assertTrue($mail->hasAttachments());
+        $attachments = $mail->getAttachments();
+        $this->assertContains('i cannot get any cursed header', $attachments[0]['blob']);
+    }
+
     public function testAddWarningMessage()
     {
         $this->markTestSkipped('requires MailMessage port');

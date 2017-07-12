@@ -36,9 +36,12 @@ class DecodePart
     public function decode()
     {
         $body = $this->part->getContent();
-        /** @var ContentTransferEncoding $transferEncoding */
-        $transferEncoding = $this->part->getHeaders()->get('Content-Transfer-Encoding');
-        switch ($transferEncoding->getTransferEncoding()) {
+        /** @var ContentTransferEncoding $header */
+        $header = $this->part->getHeaders()->get('Content-Transfer-Encoding');
+        // assume 8bit if no header
+        $transferEncoding = $header ? $header->getTransferEncoding() : '8bit';
+
+        switch ($transferEncoding) {
             case 'quoted-printable':
                 $body = quoted_printable_decode($body);
                 break;
@@ -51,7 +54,7 @@ class DecodePart
                 // these need no transformation
                 break;
             default:
-                throw new LogicException("Unsupported Content-Transfer-Encoding: '{$transferEncoding->getTransferEncoding()}'");
+                throw new LogicException("Unsupported Content-Transfer-Encoding: '{$transferEncoding}'");
         }
 
         return $body;
