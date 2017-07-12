@@ -1567,11 +1567,8 @@ class Support
                     {{%support_email_body}}
                  WHERE
                     seb_sup_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$sup_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+
+        $res = DB_Helper::getInstance()->getOne($stmt, [$sup_id]);
 
         return $res;
     }
