@@ -811,4 +811,18 @@ class MailMessageTest extends TestCase
             ' Root =?utf-8?b?TcOkZQ==?= <root2@example.org>';
         $this->assertEquals($exp, $m->to);
     }
+
+    /**
+     * Multipart/related contains attachment.
+     * Current implementation sees 2 attachments, should see 3.
+     */
+    public function testMultipartRelatedAttachments()
+    {
+        $this->markTestIncomplete();
+        $content = $this->readDataFile('102232.txt');
+        $mail = MailMessage::createFromString($content);
+        $this->assertTrue($mail->hasAttachments());
+        $attachments = $mail->getAttachments();
+        $this->assertCount(3, $attachments);
+    }
 }

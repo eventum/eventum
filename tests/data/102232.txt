@@ -1,0 +1,59 @@
+Return-Path: <support-bounces@lists.example.com>
+From: Jane Doe <jane.doe@example.net>
+Content-Type: multipart/alternative; boundary="Apple-Mail=_B0D68802-5508-4815-82C5-78326FDF9F60"
+Subject: tags under articles
+Date: Wed, 12 Feb 2014 17:30:49 +0200
+Message-ID: <7E19B8B5-E88D-465C-8781-7465357AA534@example.net>
+In-Reply-To: <7E19B8B5-E88D-465C-8781-7465357AA534@example.net>
+References: <7E19B8B5-E88D-465C-8781-7465357AA534@example.net>
+To: Fo Support <support@lists.example.com>
+Mime-Version: 1.0 (Mac OS X Mail 6.2 \(1499\))
+X-Mailer: Apple Mail (2.1499)
+Cc: John Doe <john.doe@example.net>
+
+
+--Apple-Mail=_B0D68802-5508-4815-82C5-78326FDF9F60
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+Hi,
+
+articles.=20
+
+
+
+
+
+--Apple-Mail=_B0D68802-5508-4815-82C5-78326FDF9F60
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="Apple-Mail=_272A44E5-39A4-40A6-B21A-12239CBE1FAB"
+
+
+--Apple-Mail=_272A44E5-39A4-40A6-B21A-12239CBE1FAB
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dus-ascii"></head>
+<img id=3D"4c702123-3567-4a1e-876d-f7f269ae91d1" height=3D"210" =
+width=3D"1182" apple-width=3D"yes" apple-height=3D"yes" =
+src=3D"cid:871059C5-3B3D-4083-AB0F-9FB92786664C@example.lan"></div></body></=
+html>=
+
+--Apple-Mail=_272A44E5-39A4-40A6-B21A-12239CBE1FAB
+Content-Transfer-Encoding: base64
+Content-Disposition: inline;
+	filename=reis_3_estrvl.png.jpg
+Content-Type: image/jpg;
+	x-unix-mode=0644;
+	name="reis_3_estrvl.png.jpg"
+Content-Id: <871059C5-3B3D-4083-AB0F-9FB92786664C@example.lan>
+
+Zm9vCg==
+
+--Apple-Mail=_272A44E5-39A4-40A6-B21A-12239CBE1FAB--
+
+--Apple-Mail=_B0D68802-5508-4815-82C5-78326FDF9F60--
