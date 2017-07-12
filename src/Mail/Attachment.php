@@ -16,6 +16,8 @@ namespace Eventum\Mail;
 use Eventum\Mail\Helper\DecodePart;
 use Zend\Mail;
 use Zend\Mail\Header\ContentType;
+use Zend\Mail\Storage\Message;
+use Zend\Mime\Part;
 
 class Attachment
 {
@@ -43,6 +45,7 @@ class Attachment
         $has_attachments = 0;
 
         // check what really the attachments are
+        /** @var MailMessage $part */
         foreach ($this->message as $part) {
             $is_attachment = 0;
             $disposition = $filename = null;
@@ -56,6 +59,10 @@ class Attachment
 
             if (in_array($ctype, ['text/plain', 'text/html', 'text/enriched'])) {
                 $has_attachments |= $is_attachment;
+            } elseif ($ctype == 'multipart/related') {
+                // multipart/related may have subparts (inline html)
+                $attachment = new self($part);
+                $has_attachments |= $attachment->hasAttachments();
             } else {
                 // avoid treating forwarded messages as attachments
                 $is_attachment |= ($disposition == 'inline' && $ctype != 'message/rfc822');
@@ -79,9 +86,9 @@ class Attachment
     {
         $attachments = [];
 
-        /** @var MailMessage $attachment */
-        foreach ($this->message as $attachment) {
-            $headers = $attachment->getHeaders();
+        /** @var MailMessage $part */
+        foreach ($this->message as $part) {
+            $headers = $part->getHeaders();
 
             $ct = $headers->get('Content-Type');
             // attempt to extract filename
@@ -92,7 +99,7 @@ class Attachment
             $filename = $ct->getParameter('name');
             if (!$filename) {
                 try {
-                    $filename = $attachment->getHeaderField('Content-Disposition', 'filename');
+                    $filename = $part->getHeaderField('Content-Disposition', 'filename');
                 } catch (Mail\Exception\InvalidArgumentException $e) {
                 }
             }
@@ -106,8 +113,23 @@ class Attachment
                 'filename' => $filename,
                 'cid' => $cid,
                 'filetype' => $ct->getType(),
-                'blob' => (new DecodePart($attachment))->decode(),
+                'blob' => (new DecodePart($part))->decode(),
             ];
+
+            if ($ct->getType() == 'multipart/related') {
+                // get attachments from multipart/related
+                $attachment = new self($part);
+
+                // only include non text/html
+                // this will resemble previous eventum behavior
+                // whether that's correct is another topic
+                foreach ($attachment->getAttachments() as $att) {
+                    if ($att['filetype'] == 'text/html') {
+                        continue;
+                    }
+                    $attachments[] = $att;
+                }
+            }
         }
 
         return $attachments;

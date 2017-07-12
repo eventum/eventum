@@ -819,11 +819,12 @@ class MailMessageTest extends TestCase
      */
     public function testMultipartRelatedAttachments()
     {
-        $this->markTestIncomplete();
         $content = $this->readDataFile('102232.txt');
         $mail = MailMessage::createFromString($content);
-        $this->assertTrue($mail->getAttachment()->hasAttachments());
-        $attachments = $mail->getAttachment()->getAttachments();
+        $attachment = $mail->getAttachment();
+
+        $this->assertTrue($attachment->hasAttachments());
+        $attachments = $attachment->getAttachments();
         $this->assertCount(3, $attachments);
     }
 }
