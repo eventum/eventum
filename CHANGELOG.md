@@ -12,6 +12,7 @@ Upgrading to 3.2.x versions requires that you upgrade to 3.2.0 version first.
 - add history entry when issue is moved between projects (@balsdorf)
 - generate proper message-id in `Issue::close()` (@glensc, 8a046ea)
 - add example slack error logger (@glensc, e7600031f)
+- Fix bug auto switching project on update issues page (@balsdorf, 6ffecfc)
 
 [3.2.2]: https://github.com/eventum/eventum/compare/v3.2.1...master
 
