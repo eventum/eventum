@@ -90,7 +90,8 @@ class UpdateController extends BaseController
         $iss_prj_id = Issue::getProjectID($this->issue_id);
         if ($iss_prj_id && $iss_prj_id != $this->prj_id && in_array($iss_prj_id, $associated_projects)) {
             AuthCookie::setProjectCookie($iss_prj_id);
-            $this->messages->addInfoMessage(ev_gettext('Note: Project automatically switched to "%1$s" from "%2$s".', Auth::getCurrentProjectName(), Project::getName($iss_prj_id)));
+            $this->messages->addInfoMessage(ev_gettext('Note: Project automatically switched to "%1$s" from "%2$s".', Project::getName($this->prj_id), Project::getName($iss_prj_id)));
+            $this->prj_id = $iss_prj_id;
         }
 
         // in the case of a customer user, also need to check if that customer has access to this issue
