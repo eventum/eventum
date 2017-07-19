@@ -151,6 +151,11 @@ class StorageManager
         return $this->default_adapter;
     }
 
+    /**
+     * @param string $old_path
+     * @param string $new_path
+     * @return bool
+     */
     public function moveFile($old_path, $new_path)
     {
         return $this->mount_manager->move($old_path, $new_path);

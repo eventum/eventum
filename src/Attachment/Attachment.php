@@ -82,8 +82,8 @@ class Attachment
     /**
      * Attachment constructor.
      *
-     * @param $filename
-     * @param $filetype
+     * @param string $filename
+     * @param string $filetype MIME Type
      */
     public function __construct($filename, $filetype)
     {
@@ -94,9 +94,9 @@ class Attachment
     /**
      * Creates an attachment object and saves it to the issue_attachment_file table.
      *
-     * @param $filename
-     * @param $filetype
-     * @param $blob
+     * @param string $filename
+     * @param string $filetype MIME Type
+     * @param string $blob
      * @throws AttachmentException
      * @return \Eventum\Attachment\Attachment
      */
@@ -186,7 +186,7 @@ class Attachment
      * Returns the AttachmentGroup for this Attachment or null if there is no group. If the group has not been loaded
      * it will be loaded and cached.
      *
-     * @return null|AttachmentGroup
+     * @return AttachmentGroup
      */
     public function getGroup()
     {
@@ -208,7 +208,7 @@ class Attachment
 
     /**
      * @see AttachmentGroup::canAccess()
-     * @param $usr_id
+     * @param int $usr_id
      * @return bool
      */
     public function canAccess($usr_id)
@@ -277,7 +277,7 @@ class Attachment
     }
 
     /**
-     * Returns an array of this attachments details
+     * @return array Returns an array of this attachments details
      */
     public function getDetails()
     {
@@ -296,7 +296,7 @@ class Attachment
      */
     public function getFileContents()
     {
-        if (empty($this->blob)) {
+        if ($this->blob === null) {
             $this->blob = StorageManager::get()->getFile($this->flysystem_path)->read();
         }
 

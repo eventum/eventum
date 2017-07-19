@@ -124,7 +124,7 @@ class AttachmentGroup
      * Verifies that the user can access the related issue and has a role greater or equal to the minimum role of this
      * group.
      *
-     * @param $usr_id
+     * @param int $usr_id
      * @return bool
      */
     public function canAccess($usr_id)
@@ -177,6 +177,7 @@ class AttachmentGroup
         } catch (DatabaseException $e) {
             return -1;
         }
+
         if ($add_history) {
             Issue::markAsUpdated($usr_id);
             History::add($this->issue_id, $usr_id, 'attachment_removed', 'Attachment Group removed by {user}', [

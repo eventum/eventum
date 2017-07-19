@@ -140,6 +140,7 @@ class AttachmentManager
 
                 return;
             }
+
             $attachment->setGroup($attachment_group);
             $new_path = $attachment->calculateNewPath();
             $sm->renameFile($attachment->flysystem_path, $new_path);
@@ -170,7 +171,7 @@ class AttachmentManager
     }
 
     /**
-     * @param $iaf_id
+     * @param int $iaf_id
      * @return \Eventum\Attachment\Attachment
      */
     public static function getAttachment($iaf_id)
@@ -321,7 +322,13 @@ class AttachmentManager
         return $res;
     }
 
-    public static function generatePath($iaf_id, $filename, $issue_id = false)
+    /**
+     * @param int $iaf_id
+     * @param string $filename
+     * @param int $issue_id
+     * @return string
+     */
+    public static function generatePath($iaf_id, $filename, $issue_id = null)
     {
         $sm = StorageManager::get();
         if ($issue_id) {

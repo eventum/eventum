@@ -21,7 +21,7 @@ use League\Flysystem\NotSupportedException;
 class EventumLegacyAdapter implements AdapterInterface
 {
     /**
-     * @param $path
+     * @param string $path
      * @return \Eventum\Attachment\Attachment
      */
     private function getAttachment($path)
@@ -48,8 +48,7 @@ class EventumLegacyAdapter implements AdapterInterface
      * Check whether a file exists.
      *
      * @param string $path
-     *
-     * @return array|bool|null
+     * @return array|bool
      */
     public function has($path)
     {
@@ -64,8 +63,7 @@ class EventumLegacyAdapter implements AdapterInterface
      * Read a file.
      *
      * @param string $path
-     *
-     * @return array|false
+     * @return array
      */
     public function read($path)
     {
@@ -80,8 +78,7 @@ class EventumLegacyAdapter implements AdapterInterface
      * Read a file as a stream.
      *
      * @param string $path
-     *
-     * @return array|false
+     * @return array
      */
     public function readStream($path)
     {
@@ -100,8 +97,7 @@ class EventumLegacyAdapter implements AdapterInterface
      * Get all the meta data of a file or directory.
      *
      * @param string $path
-     *
-     * @return array|false
+     * @return array
      */
     public function getMetadata($path)
     {
@@ -123,8 +119,7 @@ class EventumLegacyAdapter implements AdapterInterface
      * Get all the meta data of a file or directory.
      *
      * @param string $path
-     *
-     * @return array|false
+     * @return array
      */
     public function getSize($path)
     {
@@ -135,8 +130,7 @@ class EventumLegacyAdapter implements AdapterInterface
      * Get the mimetype of a file.
      *
      * @param string $path
-     *
-     * @return array|false
+     * @return array
      */
     public function getMimetype($path)
     {
@@ -147,8 +141,7 @@ class EventumLegacyAdapter implements AdapterInterface
      * Get the timestamp of a file.
      *
      * @param string $path
-     *
-     * @return array|false
+     * @return array
      */
     public function getTimestamp($path)
     {
@@ -159,8 +152,7 @@ class EventumLegacyAdapter implements AdapterInterface
      * Get the visibility of a file.
      *
      * @param string $path
-     *
-     * @return array|false
+     * @return array
      */
     public function getVisibility($path)
     {
@@ -173,7 +165,6 @@ class EventumLegacyAdapter implements AdapterInterface
      * @param string $path
      * @param string $contents
      * @param Config $config Config object
-     *
      * @return array|false false on failure file meta data on success
      */
     public function write($path, $contents, Config $config)
@@ -187,7 +178,6 @@ class EventumLegacyAdapter implements AdapterInterface
      * @param string $path
      * @param resource $resource
      * @param Config $config Config object
-     *
      * @return array|false false on failure file meta data on success
      */
     public function writeStream($path, $resource, Config $config)
@@ -201,7 +191,6 @@ class EventumLegacyAdapter implements AdapterInterface
      * @param string $path
      * @param string $contents
      * @param Config $config Config object
-     *
      * @return array|false false on failure file meta data on success
      */
     public function update($path, $contents, Config $config)
@@ -215,7 +204,6 @@ class EventumLegacyAdapter implements AdapterInterface
      * @param string $path
      * @param resource $resource
      * @param Config $config Config object
-     *
      * @return array|false false on failure file meta data on success
      */
     public function updateStream($path, $resource, Config $config)
@@ -228,7 +216,6 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @param string $path
      * @param string $newpath
-     *
      * @return bool
      */
     public function rename($path, $newpath)
@@ -241,7 +228,6 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @param string $path
      * @param string $newpath
-     *
      * @return bool
      */
     public function copy($path, $newpath)
@@ -253,7 +239,6 @@ class EventumLegacyAdapter implements AdapterInterface
      * Delete a file.
      *
      * @param string $path
-     *
      * @return bool
      */
     public function delete($path)
@@ -274,7 +259,6 @@ class EventumLegacyAdapter implements AdapterInterface
      * Delete a directory.
      *
      * @param string $dirname
-     *
      * @return bool
      */
     public function deleteDir($dirname)
@@ -288,7 +272,6 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @param string $dirname directory name
      * @param Config $config
-     *
      * @return array|false
      */
     public function createDir($dirname, Config $config)
@@ -301,7 +284,6 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @param string $path
      * @param string $visibility
-     *
      * @return array|false file meta data
      */
     public function setVisibility($path, $visibility)
@@ -314,7 +296,6 @@ class EventumLegacyAdapter implements AdapterInterface
      *
      * @param string $directory
      * @param bool $recursive
-     *
      * @return array
      */
     public function listContents($directory = '', $recursive = false)
