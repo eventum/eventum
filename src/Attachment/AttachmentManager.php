@@ -108,12 +108,12 @@ class AttachmentManager
      * Attach uploaded files to an issue
      * It also notifies any subscribers of this new attachment.
      *
-     * @param int    $issue_id The issue ID
-     * @param int    $usr_id The user ID
-     * @param int[]  $iaf_ids attachment file id-s to attach
-     * @param int    $minimum_role The minimum role that can see this attachment group
+     * @param int $issue_id The issue ID
+     * @param int $usr_id The user ID
+     * @param int[] $iaf_ids attachment file id-s to attach
+     * @param int $minimum_role The minimum role that can see this attachment group
      * @param string $file_description File description text
-     * @param array  $extra An array containing one or more of the following options:
+     * @param array $extra An array containing one or more of the following options:
      *          'unknown_user': the email of the user who originally sent this email, who doesn't have an account
      *          'associated_note_id' The note ID that these attachments should be associated with
      */
@@ -122,6 +122,7 @@ class AttachmentManager
         if (!$iaf_ids) {
             throw new LogicException('No attachment ids');
         }
+
         $attachment_group = new AttachmentGroup($issue_id, $usr_id, $file_description, $minimum_role);
         if (isset($extra['unknown_user'])) {
             $attachment_group->unknown_user = $extra['unknown_user'];
@@ -190,6 +191,7 @@ class AttachmentManager
         if (empty($res)) {
             throw new AttachmentNotFoundException();
         }
+
         $attachment = new Attachment($res['iaf_filename'], $res['iaf_filetype']);
         $attachment->id = $iaf_id;
         $attachment->filesize = $res['iaf_filesize'];
@@ -409,8 +411,11 @@ class AttachmentManager
             throw new AttachmentGroupNotFoundException();
         }
 
-        $group = new AttachmentGroup($res['iat_iss_id'], $res['iat_usr_id'],
-            $res['iat_description'], $res['iat_min_role']);
+        $group = new AttachmentGroup(
+            $res['iat_iss_id'], $res['iat_usr_id'],
+            $res['iat_description'], $res['iat_min_role']
+        );
+
         $group->id = $iat_id;
         $group->unknown_user = $res['iat_unknown_user'];
         $group->associated_note_id = $res['iat_not_id'];

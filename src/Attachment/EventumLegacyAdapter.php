@@ -264,6 +264,7 @@ class EventumLegacyAdapter implements AdapterInterface
                     iaf_file = NULL
                 WHERE
                     iaf_id=?';
+
         DB_Helper::getInstance()->query($sql, [$path]);
 
         return true;

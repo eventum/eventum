@@ -13,7 +13,6 @@
 
 namespace Eventum\Controller;
 
-use Attachment;
 use Auth;
 use Authorized_Replier;
 use Eventum\Attachment\AttachmentManager;

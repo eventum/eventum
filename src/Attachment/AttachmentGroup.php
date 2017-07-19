@@ -79,10 +79,10 @@ class AttachmentGroup
     /**
      * AttachmentGroup constructor.
      *
-     * @param int    $issue_id
-     * @param int    $user_id
+     * @param int $issue_id
+     * @param int $user_id
      * @param string $description
-     * @param int    $minimum_role
+     * @param int $minimum_role
      */
     public function __construct($issue_id, $user_id, $description, $minimum_role)
     {
@@ -129,8 +129,8 @@ class AttachmentGroup
      */
     public function canAccess($usr_id)
     {
-        if (Issue::canAccess($this->issue_id, $usr_id) &&
-            User::getRoleByUser($usr_id, Issue::getProjectID($this->issue_id) >= $this->minimum_role)
+        if (Issue::canAccess($this->issue_id, $usr_id)
+            && User::getRoleByUser($usr_id, Issue::getProjectID($this->issue_id) >= $this->minimum_role)
         ) {
             return true;
         }
@@ -145,6 +145,7 @@ class AttachmentGroup
     {
         $files = AttachmentManager::getAttachmentList($this->id);
         $attachments = [];
+
         foreach ($files as $file) {
             $attachment = new Attachment($file['iaf_filename'], $file['iaf_filetype']);
             $attachment->id = $file['iaf_id'];

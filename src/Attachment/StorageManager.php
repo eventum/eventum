@@ -52,6 +52,7 @@ class StorageManager
             'legacy' => new Filesystem(new EventumLegacyAdapter()),
             'local' => new Filesystem(new Local(APP_PATH . '/var/storage/')),
         ];
+
         foreach ($setup['adapters'] as $adapter_name => $adapter_config) {
             $mount_config[$adapter_name] = new Filesystem(new $adapter_config['class'](...$adapter_config['options']));
         }
@@ -79,6 +80,7 @@ class StorageManager
     public static function get()
     {
         static $manager;
+
         if (!$manager) {
             $manager = new self();
         }
@@ -109,6 +111,7 @@ class StorageManager
         if ($this->mount_manager->write($path, $contents)) {
             return $path;
         }
+
         throw new AttachmentException('Unable to write file');
     }
 

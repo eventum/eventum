@@ -49,18 +49,21 @@ class Attachment
      * @var int
      */
     public $filesize;
+
     /**
      * The path where the attachment is stored.
      *
      * @var string
      */
     public $flysystem_path;
+
     /**
      * The ID of the AttachmentGroup
      *
      * @var int|null
      */
     public $group_id;
+
     /**
      * The actual content of the file. This is only set when an attachment is created
      * or if someone requests the contents be read.
@@ -68,6 +71,7 @@ class Attachment
      * @var string|null
      */
     private $blob;
+
     /**
      * The attachment group this Attachment belongs too. Loaded on demand.
      *

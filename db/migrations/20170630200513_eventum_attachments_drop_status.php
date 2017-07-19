@@ -20,6 +20,8 @@ class EventumAttachmentsDropStatus extends AbstractMigration
      */
     public function up()
     {
-        $this->table('issue_attachment')->removeColumn('iat_status')->update();
+        $this->table('issue_attachment')
+            ->removeColumn('iat_status')
+            ->update();
     }
 }

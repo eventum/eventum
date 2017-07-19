@@ -14,7 +14,6 @@
 namespace Eventum\Controller;
 
 use Access;
-use Attachment;
 use Auth;
 use Misc;
 
