@@ -148,7 +148,7 @@ class MimeDecodeTest extends TestCase
         $to = '';
         $cc = '';
         $subject = 'söme messidž';
-        $body = 'bödi tekst';
+        $body = "Hello, bödi tekst\n\nBye\n";
         $in_reply_to = '';
         $iaf_ids = [];
 
