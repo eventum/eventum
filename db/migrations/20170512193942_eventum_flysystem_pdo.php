@@ -18,7 +18,7 @@ use Eventum\Db\AbstractMigration;
  *
  * @see https://github.com/phlib/flysystem-pdo/blob/0.0.3/schema/mysql.sql
  */
-class FlysystemPdo extends AbstractMigration
+class EventumFlysystemPdo extends AbstractMigration
 {
     public function change()
     {
