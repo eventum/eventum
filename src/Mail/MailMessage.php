@@ -13,6 +13,7 @@
 
 namespace Eventum\Mail;
 
+use Date_Helper;
 use DateTime;
 use DomainException;
 use Eventum\Mail\Helper\DecodePart;
@@ -26,6 +27,7 @@ use Zend\Mail\AddressList;
 use Zend\Mail\Header\AbstractAddressList;
 use Zend\Mail\Header\Cc;
 use Zend\Mail\Header\ContentType;
+use Zend\Mail\Header\Date;
 use Zend\Mail\Header\From;
 use Zend\Mail\Header\GenericHeader;
 use Zend\Mail\Header\HeaderInterface;
@@ -512,33 +514,63 @@ class MailMessage extends Message
     }
 
     /**
-     * Set the message subject header value, return Subject object
+     * Set the message subject header value
      *
-     * @return Subject
+     * @param string $subject
+     * @return $this
      */
     public function setSubject($subject)
     {
-        return $this->getSubject()->setSubject($subject);
+        $this->getSubject()->setSubject($subject);
+
+        return $this;
     }
 
     /**
      * Set To: header
      *
      * @param string|AddressList $value
+     * @return $this
      */
     public function setTo($value)
     {
         $this->setAddressListHeader('To', $value);
+
+        return $this;
     }
 
     /**
      * Set From: header
      *
-     * @param string $value
+     * @param string|AddressList $value
+     * @return $this
      */
     public function setFrom($value)
     {
         $this->setAddressListHeader('From', $value);
+
+        return $this;
+    }
+
+    /**
+     * Set Date: header
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setDate($value = null)
+    {
+        $value = $value ?: Date_Helper::getRFC822Date(time());
+
+        // can not update 'Date' header, so remove it
+        if ($this->headers->has('Date')) {
+            $this->headers->removeHeader('Date');
+        }
+
+        $header = new Date($value);
+        $this->headers->addHeader($header);
+
+        return $this;
     }
 
     /**
@@ -697,6 +729,9 @@ class MailMessage extends Message
      *
      * IMPORTANT: it should not contain any multipart changes,
      * as then everything will blow up as it is not parsed again.
+     *
+     * @param string|Mime\Message $content
+     * @return $this
      */
     public function setContent($content)
     {
@@ -734,10 +769,12 @@ class MailMessage extends Message
             }
             $this->content = $message->getBodyText();
 
-            return;
+            return $this;
         }
 
         $this->content = $content;
+
+        return $this;
     }
 
     /**
