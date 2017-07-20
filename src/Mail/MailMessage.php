@@ -97,7 +97,22 @@ class MailMessage extends Message
      */
     public static function createFromString($raw)
     {
-        $message = new self(['root' => true, 'raw' => $raw]);
+        // do our own header-body splitting.
+        //
+        // \Zend\Mail\Storage\Message is unable to process mails that contain \n\n in text body
+        // because it has heuristic which headers separator to use
+        // and that gets out of control
+        // https://github.com/zendframework/zend-mail/pull/159
+
+        // use rfc compliant "\r\n" EOL
+        try {
+            Mime\Decode::splitMessage($raw, $headers, $content, "\r\n");
+        } catch (Mail\Exception\RuntimeException $e) {
+            // retry with heuristic
+            Mime\Decode::splitMessage($raw, $headers, $content);
+        }
+
+        $message = new self(['root' => true, 'headers' => $headers, 'content' => $content]);
 
         return $message;
     }
