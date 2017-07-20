@@ -2372,8 +2372,9 @@ class Notification
      * @param string $subject
      * @param int $issue_id
      * @param array $options
+     * @internal used by reminder_action, otherwise would be private
      */
-    private static function notifyByMail($text_message, $from, $to, $subject, $issue_id, $options)
+    public static function notifyByMail($text_message, $from, $to, $subject, $issue_id, $options = [])
     {
         $type = isset($options['type']) ? $options['type'] : '';
         $save_email_copy = isset($options['save_email_copy']) ? $options['save_email_copy'] : 0;

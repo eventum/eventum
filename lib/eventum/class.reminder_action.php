@@ -718,12 +718,13 @@ class Reminder_Action
             ]);
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {
-                // send email (use PEAR's classes)
-                $mail = new Mail_Helper();
-                $mail->setTextBody($text_message);
                 // TRANSLATORS: %1 - issue_id, %2 - rma_title
                 $subject = ev_gettext('[#%1$s] Reminder: %2$s', $issue_id, $action['rma_title']);
-                $mail->send(null, $address, $subject, 0, $issue_id, 'reminder');
+
+                $options = [
+                    'type' => 'reminder',
+                ];
+                Notification::notifyByMail($text_message, null, $address, $subject, $issue_id, $options);
             }
         }
         // - eventum saves the day once again
@@ -756,12 +757,9 @@ class Reminder_Action
             ]);
             $text_message = $tpl->getTemplateContents();
             foreach ($to as $address) {
-                // send email (use PEAR's classes)
-                $mail = new Mail_Helper();
-                $mail->setTextBody($text_message);
                 // TRANSLATORS: %1 = issue_id, %2 - rma_title
                 $subject = ev_gettext('[#%1$s] Reminder Not Triggered: [#%2$s]', $issue_id, $action['rma_title']);
-                $mail->send(null, $address, $subject, 0, $issue_id);
+                Notification::notifyByMail($text_message, null, $address, $subject, $issue_id);
             }
         }
     }
