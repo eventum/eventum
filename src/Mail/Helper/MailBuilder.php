@@ -50,16 +50,20 @@ class MailBuilder
      * Add inline text part to message
      *
      * @param string $text
+     * @return $this
      */
     public function addTextPart($text)
     {
         $this->mime->addPart(MimePart::createTextPart($text));
+
+        return $this;
     }
 
     /**
      * Add $attachment object as attachment to message
      *
      * @param array $attachment structure from Attachment::getAttachment
+     * @return $this
      */
     public function addAttachment($attachment)
     {
@@ -69,6 +73,8 @@ class MailBuilder
             $attachment['iaf_filename']
         );
         $this->mime->addPart($part);
+
+        return $this;
     }
 
     /**

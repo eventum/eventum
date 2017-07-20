@@ -14,6 +14,7 @@
 namespace Eventum\Test\Mail;
 
 use Date_Helper;
+use Eventum\Mail\Helper\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
 use Mail_Helper;
@@ -724,6 +725,16 @@ class MailMessageTest extends TestCase
         $mail->setFrom($from);
         $mail->setTo($to);
         $mail->setSubject($subject);
+
+        // use mail builder
+        $builder = new MailBuilder();
+        $builder
+            ->addTextPart($text_message)
+            ->getMessage()
+            ->setFrom($from)
+            ->setTo($to)
+            ->setSubject($subject);
+        $mail = $builder->toMailMessage();
 
         $options = [
             'save_email_copy' => true,
