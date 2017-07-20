@@ -14,7 +14,7 @@
 namespace Eventum\Test\Mail;
 
 use Date_Helper;
-use Eventum\Mail\Helper\MailBuilder;
+use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
 use Mail_Helper;

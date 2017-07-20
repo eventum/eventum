@@ -11,8 +11,9 @@
  * that were distributed with this source code.
  */
 
-namespace Eventum\Mail\Helper;
+namespace Eventum\Mail;
 
+use Eventum\Mail\Helper\MimePart;
 use Eventum\Mail\MailMessage;
 use Zend\Mail;
 use Zend\Mime;

@@ -14,8 +14,8 @@
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\Helper\AddressHeader;
-use Eventum\Mail\Helper\MailBuilder;
 use Eventum\Mail\ImapMessage;
+use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Monolog\Logger;
 use Zend\Mail\AddressList;

@@ -12,7 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
-use Eventum\Mail\Helper\MailBuilder;
+use Eventum\Mail\MailBuilder;
 use Eventum\Monolog\Logger;
 
 /**

@@ -13,8 +13,8 @@
 
 namespace Eventum\Test\Mail;
 
-use Eventum\Mail\Helper\MailBuilder;
 use Eventum\Mail\Helper\MimePart;
+use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
 use Zend\Mail\Header\MessageId;
