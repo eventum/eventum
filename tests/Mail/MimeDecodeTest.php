@@ -144,11 +144,11 @@ class MimeDecodeTest extends TestCase
     public function testBuildMail()
     {
         $issue_id = null;
-        $from = 'root@localhost';
+        $from = 'Elan Ruusamäe <root@localhost>';
         $to = '';
         $cc = '';
         $subject = 'söme messidž';
-        $body = "Hello, bödi tekst\n\nBye\n";
+        $body = "Hello, bödi tekst\n\nBye";
         $in_reply_to = '';
         $iaf_ids = [];
 
@@ -157,6 +157,14 @@ class MimeDecodeTest extends TestCase
 
         $this->assertEquals($body, $structure->body);
         $this->assertEquals($body, $mail->getMessageBody());
+    }
+
+    public function testBuildMailSave()
+    {
+        // this is mail saved by Support::buildMail
+        $content = $this->readDataFile('saved_mail.txt');
+        $mail = MailMessage::createFromString($content);
+        $this->assertNotEmpty($mail);
     }
 
     /**
