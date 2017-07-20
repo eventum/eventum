@@ -14,9 +14,11 @@
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\Helper\AddressHeader;
+use Eventum\Mail\Helper\MailBuilder;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
 use Eventum\Monolog\Logger;
+use Zend\Mail\AddressList;
 
 /**
  * Class to handle the business logic related to the email feature of
@@ -1766,54 +1768,43 @@ class Support
      */
     public static function buildMail($issue_id, $from, $to, $cc, $subject, $body, $in_reply_to, $iaf_ids = null)
     {
-        $message_id = Mail_Helper::generateMessageID();
-        // hack needed to get the full headers of this web-based email
-        $mail = new Mail_Helper();
-        $mail->setTextBody($body);
+        $builder = new MailBuilder();
+        $builder->addTextPart($body);
 
-        // FIXME: $body unused, but does mime->get() have side effects?
-        $body = $mail->mime->get(
-            [
-                'text_charset' => APP_CHARSET,
-                'head_charset' => APP_CHARSET,
-                'text_encoding' => APP_EMAIL_ENCODING,
-            ]
-        );
-
-        if (!empty($issue_id)) {
-            $mail->setHeaders(['Message-Id' => $message_id]);
-        } else {
-            $issue_id = 0;
-        }
-
-        // if there is no existing in-reply-to header, get the root message for the issue
-        if (($in_reply_to == false) && (!empty($issue_id))) {
-            $in_reply_to = Issue::getRootMessageID($issue_id);
-        }
-
-        if ($in_reply_to) {
-            $mail->setHeaders(['In-Reply-To' => $in_reply_to]);
+        $message = $builder->getMessage();
+        $message->setSubject($subject);
+        $message->setFrom($from);
+        if ($to) {
+            $message->setTo($to);
         }
 
         if ($iaf_ids) {
             foreach ($iaf_ids as $iaf_id) {
                 $attachment = Attachment::getDetails($iaf_id);
-                $mail->addAttachment($attachment['iaf_filename'], $attachment['iaf_file'], $attachment['iaf_filetype']);
+                $builder->addAttachment($attachment);
             }
         }
 
         $cc = trim($cc);
         if (!empty($cc)) {
+            // FIXME: kill this ';' to ',' tragedy
             $cc = str_replace(',', ';', $cc);
             $ccs = explode(';', $cc);
-            foreach ($ccs as $address) {
-                if (!empty($address)) {
-                    $mail->addCc($address);
-                }
-            }
+            $message->addCc($ccs);
         }
 
-        return MailMessage::createFromString($mail->getFullHeaders($from, $to, $subject));
+        $m = $builder->toMailMessage();
+
+        // if there is no existing in-reply-to header, get the root message for the issue
+        if (!$in_reply_to && $issue_id) {
+            $in_reply_to = Issue::getRootMessageID($issue_id);
+        }
+
+        if ($in_reply_to) {
+            $m->setInReplyTo($in_reply_to);
+        }
+
+        return $m;
     }
 
     /**
