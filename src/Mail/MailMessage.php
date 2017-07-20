@@ -53,6 +53,8 @@ use Zend\Mime;
  */
 class MailMessage extends Message
 {
+    const ENCODING = APP_CHARSET;
+
     /** @var Attachment */
     private $attachment;
 
@@ -80,6 +82,9 @@ class MailMessage extends Message
     public static function createNew()
     {
         $message = new self(['root' => true]);
+
+        // ensure encoding is set
+        $message->getHeaders()->setEncoding(self::ENCODING);
 
         return $message;
     }
