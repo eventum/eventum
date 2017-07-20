@@ -12,6 +12,7 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Mail\Helper\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
 use Zend\Mail\AddressList;
@@ -23,6 +24,34 @@ class Mail_Queue
      * Number of times to retry 'error' status mails before giving up.
      */
     const MAX_RETRIES = 20;
+
+    /**
+     * The method exists here to kill Mail_Helper::send() method.
+     *
+     * @see Mail_Helper::send()
+     * @param MailBuilder $builder
+     * @param string $to
+     * @param array $options
+     * @param array $options Optional options:
+     * - string $from From address, defaults to system user
+     * - integer $save_email_copy Whether to send a copy of this email to a configurable address or not (eventum_sent@)
+     * - integer $issue_id The ID of the issue. If false, email will not be associated with issue.
+     * - string $type The type of message this is.
+     * - integer $sender_usr_id The id of the user sending this email.
+     * - integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
+     */
+    public static function queue(MailBuilder $builder, $to, $options = [])
+    {
+        $message = $builder->getMessage();
+        $headers = $message->getHeaders();
+
+        if (!$headers->has('from')) {
+            $from = isset($options['from']) ? $options['from'] : Setup::get()->smtp->from;
+            $message->setFrom($from);
+        }
+
+        self::addMail($builder->toMailMessage(), $to, $options);
+    }
 
     /**
      * Adds an email to the outgoing mail queue.
