@@ -665,6 +665,7 @@ class Mail_Helper
 
     /**
      * @param int $issue_id
+     * @return array
      */
     public static function getBaseThreadingHeaders($issue_id)
     {

@@ -967,6 +967,8 @@ class Notification
     /**
      * Method used to format and send the email notifications.
      *
+     * NOTE: $internal_only is unused
+     *
      * @param   int $issue_id The issue ID
      * @param   array $emails The list of emails
      * @param   string $type The notification type
@@ -980,7 +982,7 @@ class Notification
     {
         global $_EVENTUM_LAST_NOTIFIED_LIST;
 
-        $issue_id = (int) $issue_id;
+        $issue_id = (int)$issue_id;
 
         // open text template
         $tpl = new Template_Helper();
@@ -1039,7 +1041,7 @@ class Notification
             if ($headers != false) {
                 $mail->setHeaders($headers);
             }
-            if (($headers == false) || (($headers != false) && ((empty($headers['Message-ID'])) && (empty($headers['In-Reply-To'])) && (empty($headers['References']))))) {
+            if ($headers == false || ($headers != false && (empty($headers['Message-ID']) && empty($headers['In-Reply-To']) && empty($headers['References'])))) {
                 $mail->setHeaders($threading_headers);
             }
 
@@ -1096,7 +1098,7 @@ class Notification
      *
      * @param   int $prj_id The project ID
      * @param   int $issue_id The issue ID
-     * @param   array   $exclude_list The list of users NOT to notify. This can either be usr_ids or email addresses
+     * @param   array $exclude_list The list of users NOT to notify. This can either be usr_ids or email addresses
      */
     public static function notifyNewIssue($prj_id, $issue_id, $exclude_list = [])
     {
@@ -1292,17 +1294,16 @@ class Notification
             }
 
             $text_message = $tpl->getTemplateContents();
-
-            // send email (use PEAR's classes)
-            $mail = new Mail_Helper();
-            $mail->setTextBody($text_message);
-            $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
             $setup = Setup::get()->smtp->toArray();
             $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
             $recipient = Mime_Helper::decodeQuotedPrintable($recipient);
             // TRANSLATORS: %1: $issue_id, %2 = iss_summary
             $subject = ev_gettext('[#%1$s] Issue Created: %2$s', $issue_id, $data['iss_summary']);
-            $mail->send($from, $recipient, $subject, 0, $issue_id, 'auto_created_issue');
+
+            $options = [
+                'type' => 'auto_created_issue',
+            ];
+            self::notifyByMail($text_message, $from, $recipient, $subject, $issue_id, $options);
 
             Language::restore();
         }
@@ -1376,14 +1377,13 @@ class Notification
             $subject = ev_gettext('[#%1$s] Issue Created: %2$s', $issue_id, $data['iss_summary']);
             $text_message = $tpl->getTemplateContents();
 
-            // send email (use PEAR's classes)
-            $mail = new Mail_Helper();
-            $mail->setTextBody($text_message);
             $setup = Setup::get()->smtp->toArray();
             $from = self::getFixedFromHeader($issue_id, $setup['from'], 'issue');
-            $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-
-            $mail->send($from, $recipient, $subject, 1, $issue_id, 'email_converted_to_issue');
+            $options = [
+                'save_email_copy' => 1,
+                'type' => 'email_converted_to_issue',
+            ];
+            self::notifyByMail($text_message, $from, $recipient, $subject, $issue_id, $options);
         }
         Language::restore();
 
@@ -1414,7 +1414,7 @@ class Notification
      * Method used to save the IRC notification message in the queue table.
      *
      * @param   int $project_id the ID of the project
-     * @param   string  $notice The notification summary that should be displayed on IRC
+     * @param   string $notice The notification summary that should be displayed on IRC
      * @param   int $issue_id The issue ID
      * @param   bool $usr_id The ID of the user to notify
      * @param   bool|string $category The category of this notification
@@ -1570,11 +1570,11 @@ class Notification
 
             $from = self::getFixedFromHeader($issue_id, '', 'issue');
 
-            // send email (use PEAR's classes)
-            $mail = new Mail_Helper();
-            $mail->setTextBody($text_message);
-            $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-            $mail->send($from, $usr_email, $subject, true, $issue_id, $type);
+            $options = [
+                'save_email_copy' => true,
+                'type' => $type,
+            ];
+            self::notifyByMail($text_message, $from, $usr_email, $subject, $issue_id, $options);
         }
         Language::restore();
     }
@@ -1623,11 +1623,11 @@ class Notification
             $subject = ev_gettext('[#%1$s] New Assignment: %2$s', $issue_id, $issue['iss_summary']);
             $from = self::getFixedFromHeader($issue_id, '', 'issue');
 
-            // send email (use PEAR's classes)
-            $mail = new Mail_Helper();
-            $mail->setTextBody($text_message);
-            $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-            $mail->send($from, $email, $subject, true, $issue_id, 'assignment');
+            $options = [
+                'type' => 'assignment',
+                'save_email_copy' => true,
+            ];
+            self::notifyByMail($text_message, $from, $email, $subject, $issue_id, $options);
         }
         Language::restore();
     }
@@ -2071,8 +2071,8 @@ class Notification
      * actions.
      *
      * @param   int $issue_id The ID of the issue the user is being subscribed too
-     * @param   string  $email The email address of the user to be subscribed
-     * @param   string  $source The source of this call, "add_unknown_user", "self_assign", "remote_assign", "anon_issue", "issue_update", "issue_from_email", "new_issue", "note", "add_extra_recipients"
+     * @param   string $email The email address of the user to be subscribed
+     * @param   string $source The source of this call, "add_unknown_user", "self_assign", "remote_assign", "anon_issue", "issue_update", "issue_from_email", "new_issue", "note", "add_extra_recipients"
      * @return  array The list of default notification actions
      */
     public static function getDefaultActions($issue_id = null, $email = null, $source = null)
@@ -2342,7 +2342,6 @@ class Notification
 
     /**
      * Send email to $usr_id
-     *     self::notifyUserByMail($usr_id, $subject, $text_message);
      *
      * @param int $usr_id
      * @param string $subject
@@ -2362,5 +2361,26 @@ class Notification
         $mail->send(null, $to, $subject);
 
         Language::restore();
+    }
+
+    /**
+     * Common notify method used by Notification class
+     *
+     * @param string $text_message
+     * @param string $from
+     * @param string $to
+     * @param string $subject
+     * @param int $issue_id
+     * @param array $options
+     */
+    private static function notifyByMail($text_message, $from, $to, $subject, $issue_id, $options)
+    {
+        $type = isset($options['type']) ? $options['type'] : '';
+        $save_email_copy = isset($options['save_email_copy']) ? $options['save_email_copy'] : 0;
+
+        $mail = new Mail_Helper();
+        $mail->setTextBody($text_message);
+        $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
+        $mail->send($from, $to, $subject, $save_email_copy, $issue_id, $type);
     }
 }
