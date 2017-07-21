@@ -2381,7 +2381,7 @@ class Notification
         $builder->addTextPart($text_message)
             ->getMessage()
             ->setSubject($subject)
-            ->setFrom($from)
+            ->setFrom($from ?: Setup::get()->smtp->from)
             ->setTo($to);
 
         $mail = $builder->toMailMessage();
