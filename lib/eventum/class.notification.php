@@ -427,7 +427,7 @@ class Notification
             $headers['To'] = Mime_Helper::encodeAddress($to);
 
             $mail = MailMessage::createFromHeaderBody($headers, $fixed_body);
-            Mail_Queue::addMail($mail, $to, $options);
+            Mail_Queue::queue($mail, $to, $options);
         }
     }
 

@@ -543,7 +543,7 @@ class MailMessageTest extends TestCase
         $mail->setFrom($from);
         $mail->setTo($to);
         $mail->setContent($text_message);
-        Mail_Queue::addMail($mail, $to);
+        Mail_Queue::queue($mail, $to);
     }
 
     /**
@@ -567,7 +567,7 @@ class MailMessageTest extends TestCase
         $mail->setTo($recipient);
 
         // add($recipient, $headers, $body, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = false, $type_id = false)
-        Mail_Queue::addMail($mail, $recipient);
+        Mail_Queue::queue($mail, $recipient);
     }
 
     public function testMailFromHeaderBody()
@@ -620,7 +620,7 @@ class MailMessageTest extends TestCase
             'issue_id' => $issue_id,
             'type' => $type,
         ];
-        Mail_Queue::addMail($mail, $to, $options);
+        Mail_Queue::queue($mail, $to, $options);
 
         $mail = new \Zend\Mail\Message();
         $mail->setBody('This is the text of the email.');
@@ -703,7 +703,7 @@ class MailMessageTest extends TestCase
             'issue_id' => $issue_id,
             'type' => $type,
         ];
-        Mail_Queue::addMail($mail, $to, $options);
+        Mail_Queue::queue($mail, $to, $options);
     }
 
     /**

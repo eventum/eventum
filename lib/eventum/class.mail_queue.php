@@ -26,10 +26,10 @@ class Mail_Queue
     const MAX_RETRIES = 20;
 
     /**
-     * Build Mail Message and add it to mail queue.
+     * Adds an email to the outgoing mail queue.
      *
      * @param MailBuilder|MailMessage $mail
-     * @param string $to The recipient of the message
+     * @param string $recipient The recipient, can be E-Mail header form ("User <email@example.org>")
      * @param array $options Optional options:
      * - string $from From address, defaults to system user
      * - integer $save_email_copy Whether to send a copy of this email to a configurable address or not (eventum_sent@)
@@ -37,9 +37,18 @@ class Mail_Queue
      * - string $type The type of message this is.
      * - integer $sender_usr_id The id of the user sending this email.
      * - integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
+     * @return bool true if entry was added to mail queue table
      */
-    public static function queue($mail, $to, $options = [])
+    public static function queue($mail, $recipient, array $options = [])
     {
+        $prj_id = Auth::getCurrentProject(false);
+
+        $save_email_copy = isset($options['save_email_copy']) ? $options['save_email_copy'] : 0;
+        $issue_id = isset($options['issue_id']) ? $options['issue_id'] : false;
+        $type = isset($options['type']) ? $options['type'] : '';
+        $type_id = isset($options['type_id']) ? $options['type_id'] : false;
+        $sender_usr_id = isset($options['sender_usr_id']) ? $options['sender_usr_id'] : null;
+
         if ($mail instanceof MailBuilder) {
             $mail = $mail->toMailMessage();
         }
@@ -50,34 +59,10 @@ class Mail_Queue
             $mail->setFrom($from);
         }
 
-        self::addMail($mail, $to, $options);
-    }
-
-    /**
-     * Adds an email to the outgoing mail queue.
-     *
-     * @param MailMessage $mail The Mail object
-     * @param string $recipient The recipient, can be E-Mail header form ("User <email@example.org>")
-     * @param array $options Optional options:
-     * - integer $save_email_copy Whether to send a copy of this email to a configurable address or not (eventum_sent@)
-     * - integer $issue_id The ID of the issue. If false, email will not be associated with issue.
-     * - string $type The type of message this is.
-     * - integer $sender_usr_id The id of the user sending this email.
-     * - integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
-     * @return bool true if entry was added to mail queue table
-     */
-    public static function addMail(MailMessage $mail, $recipient, array $options = [])
-    {
-        $save_email_copy = isset($options['save_email_copy']) ? $options['save_email_copy'] : 0;
-        $issue_id = isset($options['issue_id']) ? $options['issue_id'] : false;
-        $type = isset($options['type']) ? $options['type'] : '';
-        $type_id = isset($options['type_id']) ? $options['type_id'] : false;
-        $sender_usr_id = isset($options['sender_usr_id']) ? $options['sender_usr_id'] : null;
-
-        $prj_id = Auth::getCurrentProject(false);
         Workflow::modifyMailQueue($prj_id, $recipient, $mail, $issue_id, $type, $sender_usr_id, $type_id);
 
         // avoid sending emails out to users with inactive status
+        // TODO: use EventDispatcher to handle this
         $recipient_email = Mail_Helper::getEmailAddress($recipient);
         $usr_id = User::getUserIDByEmail($recipient_email);
         if ($usr_id) {
@@ -89,27 +74,28 @@ class Mail_Queue
         }
 
         $recipient = Mail_Helper::fixAddressQuoting($recipient);
-
         $reminder_addresses = Reminder::_getReminderAlertAddresses();
-        $headers = [];
 
-        $role_id = User::getRoleByUser($usr_id, Issue::getProjectID($issue_id));
-        $is_reminder_address = in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses);
-        if ($issue_id && ($usr_id && $role_id != User::ROLE_CUSTOMER) || $is_reminder_address) {
-            $headers += Mail_Helper::getSpecializedHeaders($issue_id, $type);
+        if ($issue_id) {
+            $role_id = User::getRoleByUser($usr_id, Issue::getProjectID($issue_id));
+            $is_reminder_address = in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses);
+            if (($usr_id && $role_id != User::ROLE_CUSTOMER) || $is_reminder_address) {
+                $mail->addHeaders(Mail_Helper::getSpecializedHeaders($issue_id, $type));
+            }
         }
 
         // try to prevent triggering absence auto responders
-        $headers['precedence'] = 'bulk'; // the 'classic' way, works with e.g. the unix 'vacation' tool
-        $headers['Auto-submitted'] = 'auto-generated'; // the RFC 3834 way
+        $mail->addHeaders([
+            // the 'classic' way, works with e.g. the unix 'vacation' tool
+            'precedence' => 'bulk',
+            // the RFC 3834 way
+            'Auto-submitted' => 'auto-generated',
+        ]);
 
         // if the Date: header is missing, add it.
-        // FIXME: do in class? or add setDate() method?
-        if (!$mail->getHeaders()->has('Date')) {
-            $headers['Date'] = date('D, j M Y H:i:s O');
+        if (!$headers->has('Date')) {
+            $mail->setDate();
         }
-
-        $mail->addHeaders($headers);
 
         $params = [
             'maq_save_copy' => $save_email_copy,
@@ -131,11 +117,7 @@ class Mail_Queue
         }
 
         $stmt = 'INSERT INTO {{%mail_queue}} SET ' . DB_Helper::buildSet($params);
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return false;
-        }
+        DB_Helper::getInstance()->query($stmt, $params);
 
         return true;
     }
