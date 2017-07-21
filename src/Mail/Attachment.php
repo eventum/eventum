@@ -121,16 +121,16 @@ class Attachment
 
             if ($ct->getType() == 'multipart/related') {
                 // get attachments from multipart/related
-                $attachment = new self($part);
+                $subpart = new self($part);
 
                 // only include non text/html
                 // this will resemble previous eventum behavior
                 // whether that's correct is another topic
-                foreach ($attachment->getAttachments() as $att) {
-                    if ($att['filetype'] == 'text/html') {
+                foreach ($subpart->getAttachments() as $attachment) {
+                    if ($attachment['filetype'] == 'text/html') {
                         continue;
                     }
-                    $attachments[] = $att;
+                    $attachments[] = $attachment;
                 }
             }
         }
