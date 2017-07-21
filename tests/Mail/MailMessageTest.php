@@ -357,14 +357,6 @@ class MailMessageTest extends TestCase
         $this->assertSame(null, $message->getFrom());
     }
 
-    public function testModifyBody()
-    {
-        $message = MailMessage::createFromFile(__DIR__ . '/../data/bug684922.txt');
-
-        $content = Mail_Helper::stripWarningMessage($message->getContent());
-        $message->setContent($content);
-    }
-
     public function testRemoveCc()
     {
         $message = MailMessage::createFromFile(__DIR__ . '/../data/duplicate-from.txt');
