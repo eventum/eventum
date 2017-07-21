@@ -1839,15 +1839,17 @@ class Support
         $subject = Mail_Helper::formatSubject($issue_id, $subject);
         $recipients = self::getRecipientsCC($cc);
         $recipients[] = $to;
-        // send the emails now, one at a time
+
+        // create emails for each recipient
         foreach ($recipients as $recipient) {
-            $mail = new Mail_Helper();
+            $add_headers = [];
+
             if ($issue_id) {
                 // add the warning message to the current message' body, if needed
                 $fixed_body = Mail_Helper::addWarningMessage($issue_id, $recipient, $body, []);
-                $mail->setHeaders([
+                $add_headers = [
                     'Message-Id' => $message_id,
-                ]);
+                ];
                 // skip users who don't have access to this issue (but allow non-users and users without access to this project) to get emails
                 $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($recipient), true);
                 if ((((!empty($recipient_usr_id)) && ((!Issue::canAccess($issue_id, $recipient_usr_id)) && (User::getRoleByUser($recipient_usr_id, $prj_id) != null)))) ||
@@ -1862,14 +1864,32 @@ class Support
             } else {
                 $type = 'other_email';
             }
-            if (!empty($iaf_ids) && is_array($iaf_ids)) {
-                foreach ($iaf_ids as $iaf_id) {
-                    $attachment = Attachment::getDetails($iaf_id);
-                    $mail->addAttachment($attachment['iaf_filename'], $attachment['iaf_file'], $attachment['iaf_filetype']);
-                }
+
+            $builder = new MailBuilder();
+            $builder
+                ->addTextPart($fixed_body)
+                ->getMessage()
+                ->setSubject($subject)
+                ->setTo($recipient)
+                ->setFrom($from);
+
+            foreach ($iaf_ids as $iaf_id) {
+                $builder->addAttachment(Attachment::getDetails($iaf_id));
             }
-            $mail->setTextBody($fixed_body);
-            $mail->send($from, $recipient, $subject, true, $issue_id, $type, $sender_usr_id);
+
+            $mail = $builder->toMailMessage();
+            if ($add_headers) {
+                $mail->addHeaders($add_headers);
+            }
+
+            $options = [
+                'save_email_copy' => true,
+                'issue_id' => $issue_id,
+                'type' => $type,
+                'sender_usr_id' => $sender_usr_id,
+            ];
+
+            Mail_Queue::queue($mail, $recipient, $options);
         }
     }
 
@@ -1919,7 +1939,7 @@ class Support
         }
 
         $parent_sup_id = isset($options['parent_sup_id']) ? $options['parent_sup_id'] : null;
-        $iaf_ids = isset($options['iaf_ids']) ? (array) $options['iaf_ids'] : null;
+        $iaf_ids = isset($options['iaf_ids']) ? (array) $options['iaf_ids'] : [];
         $add_unknown = isset($options['add_unknown']) ? (bool) $options['add_unknown'] : false;
         $add_cc_to_ar = isset($options['add_cc_to_ar']) ? (bool) $options['add_cc_to_ar'] : false;
         $ema_id = isset($options['ema_id']) ? (int) $options['ema_id'] : null;
