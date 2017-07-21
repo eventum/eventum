@@ -21,14 +21,6 @@ use Mime_Helper;
  */
 class MimeHelperTest extends TestCase
 {
-    public function testEncodeQuotedPrintable()
-    {
-        $string = '61.jpg';
-        $exp = '=?UTF-8?B?NjEuanBn?=';
-        $res = Mime_Helper::encodeQuotedPrintable($string);
-        $this->assertEquals($exp, $res, 'do not overflow');
-    }
-
     /**
      * @dataProvider dataDecodeQuotedPrintable
      */

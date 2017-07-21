@@ -736,10 +736,6 @@ class MailMessageTest extends TestCase
             error_log($e->getMessage());
         }
 
-        // the same handled better in encodeQuotedPrintable
-        $v = Mime_Helper::encodeQuotedPrintable($value);
-//        var_dump($v);
-
         // this works too
         $v = \Zend\Mail\Header\HeaderWrap::mimeEncodeValue($value, 'UTF-8');
 //        var_dump($v);

@@ -172,30 +172,6 @@ class Mime_Helper
     }
 
     /**
-     * Encode into a quoted printable encoded string.
-     *
-     * @param   string $string The string in APP_CHARSET encoding
-     * @return  string encoded string
-     */
-    public static function encodeQuotedPrintable($string)
-    {
-        // avoid any wrapping by specifying line length long enough
-        // "test" -> 4
-        // ": =?ISO-8859-1?B?dGVzdA==?=" -> 27
-        // 3 +2 +10      +3 +7     + 3
-        $line_length = strlen($string) * 4 + strlen(APP_CHARSET) + 11;
-
-        $params = [
-            'input-charset' => APP_CHARSET,
-            'output-charset' => APP_CHARSET,
-            'line-length' => $line_length,
-        ];
-        $string = iconv_mime_encode('', $string, $params);
-
-        return substr($string, 2);
-    }
-
-    /**
      * Decode a quoted printable encoded string.
      *
      * Formerly known as 'fixEncoding' method in Eventum
@@ -435,51 +411,6 @@ class Mime_Helper
                     @$parts['text'][] = $obj->body;
                 }
         }
-    }
-
-    /**
-     * Returns the internal list of content types that we do not support as
-     * valid attachment types.
-     *
-     * @return string[] The list of content types
-     */
-    private static function _getInvalidContentTypes()
-    {
-        return [
-            'message/rfc822',
-            'application/pgp-signature',
-            'application/ms-tnef',
-        ];
-    }
-
-    /**
-     * Returns the internal list of attachment dispositions that we do not
-     * support as valid attachment types.
-     *
-     * @return string[] The list of valid dispositions
-     */
-    private static function _getValidDispositions()
-    {
-        return [
-            'attachment',
-            'inline',
-        ];
-    }
-
-    /**
-     * Splits the full email into headers and body
-     *
-     * @param   string $message The full email message
-     * @param   bool $unfold If headers should be unfolded
-     * @return  array An array containing the headers and body
-     */
-    public static function splitHeaderBody($message, $unfold = true)
-    {
-        if (preg_match("/^(.*?)\r?\n\r?\n(.*)/s", $message, $match)) {
-            return [($unfold) ? Mail_Helper::unfold($match[1]) : $match[1], $match[2]];
-        }
-
-        return [];
     }
 
     /**

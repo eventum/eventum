@@ -74,27 +74,6 @@ class Mail_Helper
     }
 
     /**
-     * Checks whether the given headers are from a vacation
-     * auto-responder message or not.
-     *
-     * @param   array $headers The list of headers
-     * @return  bool
-     */
-    public static function isVacationAutoResponder($headers)
-    {
-        // loop through the headers and make sure they are all lowercase.
-        foreach ($headers as $key => $value) {
-            $headers[strtolower($key)] = $value;
-        }
-
-        if ((@$headers['x-vacationmessage'] == 'Yes') || ((isset($headers['auto-submitted'])) && (!empty($headers['auto-submitted'])))) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Method used to build a properly quoted email address, in the form of
      * "Sender Name" <sender@example.com>.
      *
@@ -386,27 +365,6 @@ class Mail_Helper
     }
 
     /**
-     * Returns the referenced message-id for a given reply.
-     *
-     * @param   string $text_headers The full headers of the reply
-     * @return  string The message-id of the original email
-     */
-    public static function getReferenceMessageID($text_headers)
-    {
-        if (preg_match('/^In-Reply-To: (.*)/mi', $text_headers, $matches)) {
-            return trim($matches[1]);
-        }
-        if (preg_match('/^References: (.+?)(\r?\n\r?\n|\r?\n\r?\S)/smi', $text_headers, $matches)) {
-            $references = explode(' ', self::unfold(trim($matches[1])));
-            $references = Misc::trim($references);
-            // return the first message-id in the list of references
-            return $references[0];
-        }
-
-        return '';
-    }
-
-    /**
      * Make sure that In-Reply-To and References headers are set and reference a message in this issue.
      * If not, set to be the root message ID of the issue. This is to ensure messages are threaded by
      * issue in mail clients.
@@ -494,20 +452,6 @@ class Mail_Helper
             'In-Reply-To' => $root_msg_id,
             'References' => $root_msg_id,
         ];
-    }
-
-    /**
-     * Unfolds message headers
-     *
-     * @param   string $input The headers to unfold
-     * @return  string The unfolded headers
-     */
-    public static function unfold($input)
-    {
-        $input = preg_replace("/\r?\n/", "\r\n", $input);
-        $input = preg_replace("/\r\n(\t| )+/", ' ', $input);
-
-        return $input;
     }
 
     /**
