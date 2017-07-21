@@ -26,12 +26,10 @@ class Mail_Queue
     const MAX_RETRIES = 20;
 
     /**
-     * The method exists here to kill Mail_Helper::send() method.
+     * Build Mail Message and add it to mail queue.
      *
-     * @see Mail_Helper::send()
      * @param MailBuilder|MailMessage $mail
-     * @param string $to
-     * @param array $options
+     * @param string $to The recipient of the message
      * @param array $options Optional options:
      * - string $from From address, defaults to system user
      * - integer $save_email_copy Whether to send a copy of this email to a configurable address or not (eventum_sent@)

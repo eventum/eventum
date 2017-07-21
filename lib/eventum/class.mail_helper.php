@@ -16,30 +16,8 @@ use Eventum\Mail\MailMessage;
 use Eventum\Mail\MailTransport;
 use Zend\Mail\Address;
 
-/**
- * Class to handle the business logic related to sending email to
- * outside recipients. This class utilizes the PEAR::Mail
- * infrastructure to deliver email in a compatible way across
- * different platforms.
- */
 class Mail_Helper
 {
-    // variable to keep the Mail_mime object
-    public $mime;
-    // variable to keep the headers to be used in the email
-    public $headers = '';
-    // text version of this message
-    public $text_body = '';
-
-    /**
-     * Class constructor. It includes and initializes the required
-     * PEAR::Mail related objects
-     */
-    public function __construct()
-    {
-        $this->mime = new Mail_mime("\r\n");
-    }
-
     /**
      * Correctly formats the subject line of outgoing emails/notes
      *
@@ -188,79 +166,6 @@ class Mail_Helper
     }
 
     /**
-     * Method used to set the text version of the body of the MIME
-     * multipart message that you wish to send.
-     *
-     * @param   string $text The text-based message
-     */
-    public function setTextBody($text)
-    {
-        $this->text_body = $text;
-        $this->mime->setTXTBody($text);
-    }
-
-    /**
-     * Method used to set the HTML version of the body of the MIME
-     * multipart message that you wish to send.
-     *
-     * @param   string $html The HTML-based message
-     */
-    public function setHTMLBody($html)
-    {
-        $this->mime->setHTMLBody($html);
-    }
-
-    /**
-     * Method used to add an embedded image to a MIME message.
-     *
-     * @param   string $filename The full path to the image
-     */
-    public function addHTMLImage($filename)
-    {
-        $this->mime->addHTMLImage($filename);
-    }
-
-    /**
-     * Method used to set extra headers that you may wish to use when
-     * sending the email.
-     *
-     * @param   mixed $header The header(s) to set
-     * @param   mixed $value The value of the header to be set
-     */
-    public function setHeaders($header, $value = false)
-    {
-        if (is_array($header)) {
-            foreach ($header as $key => $value) {
-                $this->headers[$key] = Mime_Helper::encode($value);
-            }
-        } else {
-            $this->headers[$header] = Mime_Helper::encode($value);
-        }
-    }
-
-    /**
-     * Method used to add an email address in the Cc list.
-     *
-     * @param   string $email The email address to be added
-     */
-    public function addCc($email)
-    {
-        $this->mime->addCc($email);
-    }
-
-    /**
-     * Method used to add an attachment to the message.
-     *
-     * @param   string $name The attachment name
-     * @param   string $data The attachment data
-     * @param   string $content_type The content type of the attachment
-     */
-    public function addAttachment($name, $data, $content_type)
-    {
-        $this->mime->addAttachment($data, $content_type, $name, false);
-    }
-
-    /**
      * Removes the warning message contained in a message, so that certain users
      * don't receive that extra information as it may not be relevant to them.
      *
@@ -336,93 +241,6 @@ class Mail_Helper
         }
 
         return $warning . "\n\n" . $body;
-    }
-
-    /**
-     * Build message and add it to mail queue.
-     *
-     * @param   string $from The originator of the message
-     * @param   string $to The recipient of the message
-     * @param   string $subject The subject of the message
-     * @param   int $issue_id The ID of the issue. If false, email will not be associated with issue.
-     * @param   string $type The type of message this is
-     * @param   int $sender_usr_id the id of the user sending this email
-     * @param   int $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
-     */
-    public function send($from, $to, $subject, $save_email_copy = 0, $issue_id = false, $type = '', $sender_usr_id = null, $type_id = false)
-    {
-        if ($from === null) {
-            $from = Setup::get()->smtp->from;
-        }
-        // encode the addresses
-        $from = Mime_Helper::encodeAddress($from);
-        $to = Mime_Helper::encodeAddress($to);
-        $subject = Mime_Helper::encode($subject);
-
-        $body = $this->mime->get([
-            'text_charset' => APP_CHARSET,
-            'html_charset' => APP_CHARSET,
-            'head_charset' => APP_CHARSET,
-            'text_encoding' => APP_EMAIL_ENCODING,
-        ]);
-        $headers = [
-            'From' => $from,
-            'To' => self::fixAddressQuoting($to),
-            'Subject' => $subject,
-        ];
-
-        $this->setHeaders($headers);
-        $hdrs = $this->mime->headers($this->headers);
-
-        $mail = MailMessage::createFromHeaderBody($hdrs, $body);
-        $options = [
-            'save_email_copy' => $save_email_copy,
-            'issue_id' => $issue_id,
-            'type' => $type,
-            'sender_usr_id' => $sender_usr_id,
-            'type_id' => $type_id,
-        ];
-
-        Mail_Queue::addMail($mail, $to, $options);
-    }
-
-    /**
-     * Returns the full headers for the email properly encoded.
-     *
-     * @param   string $from The sender of the email
-     * @param   string $to The recipient of the email
-     * @param   string $subject The subject of this email
-     * @return  string The full header version of the email
-     */
-    public function getFullHeaders($from, $to, $subject)
-    {
-        // encode the addresses
-        $from = Mime_Helper::encodeAddress($from);
-        $to = Mime_Helper::encodeAddress($to);
-        $subject = Mime_Helper::encode($subject);
-
-        $body = $this->mime->get([
-            'text_charset' => APP_CHARSET,
-            'html_charset' => APP_CHARSET,
-            'head_charset' => APP_CHARSET,
-            'text_encoding' => APP_EMAIL_ENCODING,
-        ]);
-        $this->setHeaders([
-            'From' => $from,
-            'To' => $to,
-            'Subject' => $subject,
-        ]);
-        $hdrs = $this->mime->headers($this->headers);
-        // RFC 822 formatted date
-        $header = 'Date: ' . Date_Helper::getRFC822Date(time()) . "\r\n";
-
-        // return the full dump of the email
-        foreach ($hdrs as $name => $value) {
-            $header .= "$name: $value\r\n";
-        }
-        $header .= "\r\n";
-
-        return $header . $body;
     }
 
     /**

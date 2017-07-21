@@ -534,12 +534,8 @@ class MailMessageTest extends TestCase
         ];
         Setup::set(['smtp' => $smtp]);
 
-        // send email (use PEAR's classes)
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
         $from = Setup::get()->smtp->from;
-        $to = $mail->getFormattedName($info['usr_full_name'], $info['usr_email']);
-        $mail->send($from, $to, $subject);
+        $to = Mail_Helper::getFormattedName($info['usr_full_name'], $info['usr_email']);
 
         // the same but with ZF
         $mail = MailMessage::createNew();
@@ -548,29 +544,6 @@ class MailMessageTest extends TestCase
         $mail->setTo($to);
         $mail->setContent($text_message);
         Mail_Queue::addMail($mail, $to);
-    }
-
-    /**
-     * Test mail sending with Mail_Helper
-     *
-     * @group db
-     */
-    public function testMailSendMH()
-    {
-        $text_message = 'tere';
-        $issue_id = 1;
-        $from = 'Eventum <support@example.org>';
-        $recipient = 'Eventum <support@example.org>';
-        $subject = '[#1] Issue Created';
-        $msg_id = '<eventum@eventum.example.org>';
-
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
-        $headers = [
-            'Message-ID' => $msg_id,
-        ];
-        $mail->setHeaders($headers);
-        $mail->send($from, $recipient, $subject, 0, $issue_id, 'auto_created_issue');
     }
 
     /**
@@ -631,12 +604,6 @@ class MailMessageTest extends TestCase
         $to = '"Admin User" <admin@example.com>';
         $subject = '[#3] Note: Re: pläh';
         $type = 'assignment';
-
-        // send email (use PEAR's classes)
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
-        $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-        $mail->send($from, $to, $subject, true, $issue_id, $type);
 
         // using zend\mail
         $mail = MailMessage::createNew();
@@ -713,11 +680,6 @@ class MailMessageTest extends TestCase
         $to = '"Admin User" <admin@example.com>';
         $subject = '[#3] Note: Re: pläh';
         $type = 'assignment';
-
-        // send email (use PEAR's classes)
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
-        $mail->send($from, $to, $subject);
 
         // use zend mime
         $mail = MailMessage::createNew();
