@@ -14,7 +14,6 @@
 namespace Eventum\Mail;
 
 use Eventum\Mail\Helper\MimePart;
-use Eventum\Mail\MailMessage;
 use Zend\Mail;
 use Zend\Mime;
 

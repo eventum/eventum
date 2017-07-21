@@ -29,7 +29,7 @@ class Mail_Queue
      * The method exists here to kill Mail_Helper::send() method.
      *
      * @see Mail_Helper::send()
-     * @param MailBuilder $builder
+     * @param MailBuilder|MailMessage $mail
      * @param string $to
      * @param array $options
      * @param array $options Optional options:
@@ -40,17 +40,19 @@ class Mail_Queue
      * - integer $sender_usr_id The id of the user sending this email.
      * - integer $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      */
-    public static function queue(MailBuilder $builder, $to, $options = [])
+    public static function queue($mail, $to, $options = [])
     {
-        $message = $builder->getMessage();
-        $headers = $message->getHeaders();
+        if ($mail instanceof MailBuilder) {
+            $mail = $mail->toMailMessage();
+        }
+        $headers = $mail->getHeaders();
 
         if (!$headers->has('from')) {
             $from = isset($options['from']) ? $options['from'] : Setup::get()->smtp->from;
-            $message->setFrom($from);
+            $mail->setFrom($from);
         }
 
-        self::addMail($builder->toMailMessage(), $to, $options);
+        self::addMail($mail, $to, $options);
     }
 
     /**

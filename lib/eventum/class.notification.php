@@ -13,6 +13,7 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\Helper\AddressHeader;
+use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 
 /**
@@ -2376,12 +2377,18 @@ class Notification
      */
     public static function notifyByMail($text_message, $from, $to, $subject, $issue_id, $options = [])
     {
-        $type = isset($options['type']) ? $options['type'] : '';
-        $save_email_copy = isset($options['save_email_copy']) ? $options['save_email_copy'] : 0;
+        $builder = new MailBuilder();
+        $builder->addTextPart($text_message)
+            ->getMessage()
+            ->setSubject($subject)
+            ->setFrom($from)
+            ->setTo($to);
 
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
-        $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-        $mail->send($from, $to, $subject, $save_email_copy, $issue_id, $type);
+        $mail = $builder->toMailMessage();
+        $mail->addHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
+
+        $options['issue_id'] = $issue_id;
+
+        Mail_Queue::queue($mail, $to, $options);
     }
 }
