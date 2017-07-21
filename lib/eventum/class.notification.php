@@ -979,7 +979,7 @@ class Notification
      * @param   int $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @param   array $headers Any extra headers that need to be added to this email (Default false)
      */
-    public static function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $type_id = false, $headers = false)
+    public static function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $type_id = null, $headers = [])
     {
         global $_EVENTUM_LAST_NOTIFIED_LIST;
 
@@ -997,9 +997,19 @@ class Notification
         // type of notification is sent out: email, note, blocked_email
         $notify_type = $type;
         $sender_usr_id = false;
-        $threading_headers = Mail_Helper::getBaseThreadingHeaders($issue_id);
+
+        $have_no_threading_headers = empty($headers['Message-ID']) && empty($headers['In-Reply-To']) && empty($headers['References']);
+        $add_headers = null;
+        if ($headers) {
+            $add_headers = $headers;
+        }
+        if (!$headers || $have_no_threading_headers) {
+            $add_headers = Mail_Helper::getBaseThreadingHeaders($issue_id);
+        }
+
         $emails = array_unique($emails);
         foreach ($emails as $email) {
+            $sender = null;
             $can_access = true;
             $email_address = Mail_Helper::getEmailAddress($email);
             $recipient_usr_id = User::getUserIDByEmail($email_address);
@@ -1034,16 +1044,6 @@ class Notification
                 Language::set(User::getLang($recipient_usr_id));
             } else {
                 Language::set(APP_DEFAULT_LOCALE);
-            }
-
-            // send email (use PEAR's classes)
-            $mail = new Mail_Helper();
-            $mail->setTextBody($tpl->getTemplateContents());
-            if ($headers != false) {
-                $mail->setHeaders($headers);
-            }
-            if ($headers == false || ($headers != false && (empty($headers['Message-ID']) && empty($headers['In-Reply-To']) && empty($headers['References'])))) {
-                $mail->setHeaders($threading_headers);
             }
 
             if ($type == 'notes') {
@@ -1084,7 +1084,28 @@ class Notification
             } else {
                 $from = self::getFixedFromHeader($issue_id, '', 'issue');
             }
-            $mail->send($from, $email, $full_subject, true, $issue_id, $notify_type, $sender_usr_id, $type_id);
+
+            $builder = new MailBuilder();
+            $builder->addTextPart($tpl->getTemplateContents());
+            $builder->getMessage()
+                ->setSubject($full_subject)
+                ->setTo($email)
+                ->setFrom($from);
+
+            $mail = $builder->toMailMessage();
+
+            if ($add_headers) {
+                $mail->addHeaders($add_headers);
+            }
+
+            $options = [
+                'save_email_copy' => true,
+                'issue_id' => $issue_id,
+                'type' => $notify_type,
+                'type_id' => $type_id,
+                'sender_usr_id' => $sender_usr_id,
+            ];
+            Mail_Queue::queue($mail, $email, $options);
 
             $_EVENTUM_LAST_NOTIFIED_LIST[$issue_id][] = $email;
         }
