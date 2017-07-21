@@ -35,8 +35,6 @@ class WarningMessageTest extends TestCase
 
     public function testMailBuilderText()
     {
-        $this->markTestSkipped('not yet');
-
         $issue_id = 1;
         $recipient = $from = 'root@localhost';
         $body = $subject = 'Hello. Bääm';

@@ -20,6 +20,7 @@ use Setup;
 use Support;
 use User;
 use Zend\Mail\Exception\InvalidArgumentException;
+use Zend\Mime;
 
 class WarningMessage
 {
@@ -94,7 +95,10 @@ class WarningMessage
         }
 
         if ($mail->getHeaders()->has('Content-Transfer-Encoding')) {
-            throw new InvalidArgumentException('Content-Transfer-Encoding not supported');
+            $cte = $mail->ContentTransferEncoding;
+            if ($cte != Mime\Mime::ENCODING_8BIT) {
+                throw new InvalidArgumentException("Content-Transfer-Encoding '{$cte}' not supported");
+            }
         }
 
         $content = $mail->getContent();
