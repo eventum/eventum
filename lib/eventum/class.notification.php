@@ -2355,11 +2355,15 @@ class Notification
         // change the current locale
         Language::set(User::getLang($usr_id));
 
-        // send email (use PEAR's classes)
-        $mail = new Mail_Helper();
-        $mail->setTextBody($text_message);
         $to = Mail_Helper::getFormattedName($info['usr_full_name'], $info['usr_email']);
-        $mail->send(null, $to, $subject);
+
+        $builder = new MailBuilder();
+        $builder->addTextPart($text_message)
+            ->getMessage()
+            ->setSubject($subject)
+            ->setTo($to);
+
+        Mail_Queue::queue($builder, $to);
 
         Language::restore();
     }
