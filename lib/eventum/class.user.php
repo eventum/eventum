@@ -778,8 +778,10 @@ class User
     /**
      * Method used to get the email address of the specified user.
      *
-     * @param   int|array $usr_id The user ID or user ids
-     * @return  string The user' full name
+     * TODO: fix api to be stable, always strings or always arrays in/out
+     *
+     * @param   int|int[] $usr_id The user ID or user ids
+     * @return  string|string[] The user' full name
      */
     public static function getEmail($usr_id)
     {
@@ -812,18 +814,11 @@ class User
                     {{%user}}
                  WHERE
                     usr_id IN ($itemlist)";
-        try {
-            if (!is_array($usr_id)) {
-                $res = DB_Helper::getInstance()->getOne($stmt, $items);
-            } else {
-                $res = DB_Helper::getInstance()->getColumn($stmt, $items);
-            }
-        } catch (DatabaseException $e) {
-            if (!is_array($usr_id)) {
-                return '';
-            }
 
-            return [];
+        if (!is_array($usr_id)) {
+            $res = DB_Helper::getInstance()->getOne($stmt, $items);
+        } else {
+            $res = DB_Helper::getInstance()->getColumn($stmt, $items);
         }
 
         $returns[$key] = $res;

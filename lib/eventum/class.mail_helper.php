@@ -251,7 +251,7 @@ class Mail_Helper
 
         // add specialized headers if they are not already added
         if (!$headers->has('X-Eventum-Type')) {
-            $headers->addHeaders(self::getSpecializedHeaders($issue_id, $maq_type));
+            self::addSpecializedHeaders($mail, $issue_id, $maq_type);
         }
 
         $transport = new MailTransport();
@@ -259,26 +259,27 @@ class Mail_Helper
     }
 
     /**
-     * Generates the specialized headers for an email.
+     * Adds specialized headers for an email.
      *
-     * @param   int $issue_id The issue ID
-     * @param   string $type The type of message this is
-     * @return  array An array of specialized headers
+     * @param MailMessage $mail
+     * @param int $issue_id The issue ID
+     * @param string $type The type of message this is
      */
-    public static function getSpecializedHeaders($issue_id, $type)
+    public static function addSpecializedHeaders(MailMessage $mail, $issue_id, $type)
     {
         $new_headers = [];
-
         $new_headers['X-Eventum-Type'] = $type;
 
         if (!$issue_id) {
-            return $new_headers;
+            // nothing else to do if no issue id
+            return;
         }
 
         $prj_id = Issue::getProjectID($issue_id);
         if (count(Group::getAssocList($prj_id)) > 0) {
             // group issue is currently assigned too
-            $new_headers['X-Eventum-Group-Issue'] = Group::getName(Issue::getGroupID($issue_id));
+            $groupName = Group::getName(Issue::getGroupID($issue_id));
+            $new_headers['X-Eventum-Group-Issue'] = $groupName;
         }
 
         if (CRM::hasCustomerIntegration($prj_id)) {
@@ -298,12 +299,10 @@ class Mail_Helper
             }
         }
 
-        // add assignee header
-        $new_headers['X-Eventum-Assignee'] = implode(',', User::getEmail(Issue::getAssignedUserIDs($issue_id)));
-
+        $assignees = User::getEmail(Issue::getAssignedUserIDs($issue_id));
+        $new_headers['X-Eventum-Assignee'] = implode(',', $assignees);
         $new_headers['X-Eventum-Category'] = Category::getTitle(Issue::getCategory($issue_id));
         $new_headers['X-Eventum-Project'] = Project::getName($prj_id);
-
         $new_headers['X-Eventum-Priority'] = Priority::getTitle(Issue::getPriority($issue_id));
 
         // handle custom fields
@@ -331,7 +330,7 @@ class Mail_Helper
             $new_headers['X-Eventum-CustomField-' . $cf_title] = $cf_value;
         }
 
-        return $new_headers;
+        $mail->addHeaders($new_headers);
     }
 
     /**

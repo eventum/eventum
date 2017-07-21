@@ -80,7 +80,7 @@ class Mail_Queue
             $role_id = User::getRoleByUser($usr_id, Issue::getProjectID($issue_id));
             $is_reminder_address = in_array(Mail_Helper::getEmailAddress($recipient), $reminder_addresses);
             if (($usr_id && $role_id != User::ROLE_CUSTOMER) || $is_reminder_address) {
-                $mail->addHeaders(Mail_Helper::getSpecializedHeaders($issue_id, $type));
+                Mail_Helper::addSpecializedHeaders($mail, $issue_id, $type);
             }
         }
 
