@@ -13,6 +13,7 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\Helper\AddressHeader;
+use Eventum\Mail\Helper\WarningMessage;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 
@@ -419,14 +420,15 @@ class Notification
             'type_id' => $sup_id,
         ];
 
-        $headers = $mail->getHeadersArray();
-        $body = $mail->getContent();
         foreach ($emails as $to) {
-            // add the warning message about replies being blocked or not
-            $fixed_body = Mail_Helper::addWarningMessage($issue_id, $to, $body, $headers);
-            $headers['To'] = Mime_Helper::encodeAddress($to);
+            $m = clone $mail;
+            $m->setTo($to);
 
-            $mail = MailMessage::createFromHeaderBody($headers, $fixed_body);
+            // add the warning message about replies being blocked or not
+            $recipient_email = Mail_Helper::getEmailAddress($to);
+            $wm = new WarningMessage($m);
+            $wm->add($issue_id, $recipient_email);
+
             Mail_Queue::queue($mail, $to, $options);
         }
     }

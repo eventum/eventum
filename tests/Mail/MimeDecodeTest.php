@@ -16,9 +16,7 @@ namespace Eventum\Test\Mail;
 use Date_Helper;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
-use Mail_Helper;
 use Mime_Helper;
-use Setup;
 use Support;
 
 /**
@@ -92,29 +90,6 @@ class MimeDecodeTest extends TestCase
         $this->assertContains('i cannot get any cursed header', $attachments[0]['blob']);
         $content = $mail->getMessageBody();
         $this->assertContains('i cannot get any cursed header', $content);
-    }
-
-    public function testAddWarningMessage()
-    {
-        $this->markTestSkipped('requires MailMessage port');
-        $setup = Setup::get();
-        $setup['email_routing']['status'] = 'enabled';
-        $setup['email_routing']['warning']['status'] = 'enabled';
-
-        $issue_id = 1;
-        $recipient = 'admin@example.com';
-        $body = 'here be dragons';
-
-        // add the warning message to the current message' body, if needed
-        $m = MailMessage::createFromHeaderBody([], $body);
-        Mail_Helper::addWarningMessage($issue_id, $recipient, $m);
-        $fixed_body = $m->getContent();
-        $this->assertContains($body, $fixed_body);
-
-        $m = MailMessage::createFromFile(__DIR__ . '/data/attachment-bug.txt');
-        Mail_Helper::addWarningMessage($issue_id, $recipient, $m);
-        $fixed_body = $m->getContent();
-        $this->assertContains('Your reply will be sent to the notification list', $fixed_body);
     }
 
     /**

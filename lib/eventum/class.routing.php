@@ -13,6 +13,7 @@
 
 use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\Helper\AddressHeader;
+use Eventum\Mail\Helper\WarningMessage;
 use Eventum\Mail\MailDumper;
 use Eventum\Mail\MailMessage;
 
@@ -149,12 +150,8 @@ class Routing
         $sender_email = $mail->getSender();
 
         // strip out the warning message sent to staff users
-        if (($setup['email_routing']['status'] == 'enabled') &&
-                ($setup['email_routing']['warning']['status'] == 'enabled')) {
-            $content = Mail_Helper::stripWarningMessage($mail->getContent());
-            // FIXME XXX: this probably will blow up. think of better way
-            $mail->setContent($content);
-        }
+        $wm = new WarningMessage($mail);
+        $wm->remove();
 
         $prj_id = Issue::getProjectID($issue_id);
         AuthCookie::setAuthCookie(APP_SYSTEM_USER_ID);

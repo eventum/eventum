@@ -14,6 +14,7 @@
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\Helper\AddressHeader;
+use Eventum\Mail\Helper\WarningMessage;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
@@ -1842,32 +1843,9 @@ class Support
 
         // create emails for each recipient
         foreach ($recipients as $recipient) {
-            $add_headers = [];
-
-            if ($issue_id) {
-                // add the warning message to the current message' body, if needed
-                $fixed_body = Mail_Helper::addWarningMessage($issue_id, $recipient, $body, []);
-                $add_headers = [
-                    'Message-Id' => $message_id,
-                ];
-                // skip users who don't have access to this issue (but allow non-users and users without access to this project) to get emails
-                $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($recipient), true);
-                if ((((!empty($recipient_usr_id)) && ((!Issue::canAccess($issue_id, $recipient_usr_id)) && (User::getRoleByUser($recipient_usr_id, $prj_id) != null)))) ||
-                        (empty($recipient_usr_id)) && (Issue::getAccessLevel($issue_id) != 'normal')) {
-                    continue;
-                }
-            } else {
-                $fixed_body = $body;
-            }
-            if (User::getRoleByUser(User::getUserIDByEmail(Mail_Helper::getEmailAddress($from)), Issue::getProjectID($issue_id)) == User::ROLE_CUSTOMER) {
-                $type = 'customer_email';
-            } else {
-                $type = 'other_email';
-            }
-
             $builder = new MailBuilder();
             $builder
-                ->addTextPart($fixed_body)
+                ->addTextPart($body)
                 ->getMessage()
                 ->setSubject($subject)
                 ->setTo($recipient)
@@ -1878,8 +1856,30 @@ class Support
             }
 
             $mail = $builder->toMailMessage();
-            if ($add_headers) {
+
+            if ($issue_id) {
+                // add the warning message to the current message' body, if needed
+                $wm = new WarningMessage($mail);
+                $recipient_email = Mail_Helper::getEmailAddress($recipient);
+                $wm->add($issue_id, $recipient_email);
+
+                $add_headers = [
+                    'Message-Id' => $message_id,
+                ];
                 $mail->addHeaders($add_headers);
+
+                // skip users who don't have access to this issue (but allow non-users and users without access to this project) to get emails
+                $recipient_usr_id = User::getUserIDByEmail(Mail_Helper::getEmailAddress($recipient), true);
+                if ((((!empty($recipient_usr_id)) && ((!Issue::canAccess($issue_id, $recipient_usr_id)) && (User::getRoleByUser($recipient_usr_id, $prj_id) != null)))) ||
+                        (empty($recipient_usr_id)) && (Issue::getAccessLevel($issue_id) != 'normal')) {
+                    continue;
+                }
+            }
+
+            if (User::getRoleByUser(User::getUserIDByEmail(Mail_Helper::getEmailAddress($from)), Issue::getProjectID($issue_id)) == User::ROLE_CUSTOMER) {
+                $type = 'customer_email';
+            } else {
+                $type = 'other_email';
             }
 
             $options = [
