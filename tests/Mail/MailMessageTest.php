@@ -515,14 +515,30 @@ class MailMessageTest extends TestCase
     public function testGetMailBody()
     {
         $filename = __DIR__ . '/../data/multipart-text-html.txt';
-        $message = $this->readFile($filename);
-
-        $structure = Mime_Helper::decode($message, true, true);
-        $body1 = $structure->body;
 
         $mail = MailMessage::createFromFile($filename);
         $body2 = $mail->getMessageBody();
-        $this->assertEquals($body1, $body2);
+        $this->assertEquals("Commit in MAIN\n", $body2);
+    }
+
+    /**
+     * test different access modes or X-Priority header.
+     */
+    public function testXPriority()
+    {
+        $content = $this->readDataFile('duplicate-msgid.txt');
+        $mail = MailMessage::createFromString($content);
+
+        $this->assertEquals('3', $mail->XPriority);
+        $this->assertEquals('3', $mail->xpriority);
+        $this->assertEquals('3', $mail->x_priority);
+        $this->assertEquals('3', $mail->{'x-priority'});
+        $this->assertEquals('3', $mail->{'X-Priority'});
+
+        // this is how optional headers are to be handled
+        $has_priority = $mail->getHeaders()->has('XX-Priority');
+        $priority = $has_priority ? $mail->xpriority : null;
+        $this->assertEquals(null, $priority);
     }
 
     /**

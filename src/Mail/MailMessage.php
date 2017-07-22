@@ -334,8 +334,12 @@ class MailMessage extends Message
             return $str;
         }
 
-        // fallback to read just main part
-        return (new DecodePart($this))->decode();
+        if (!$this->isMultipart()) {
+            // fallback to read just main part
+            return (new DecodePart($this))->decode();
+        }
+
+        return '';
     }
 
     public function addMimePart($content, $type = Mime\Mime::TYPE_TEXT, $charset = APP_CHARSET)

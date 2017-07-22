@@ -11,6 +11,8 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Mail\ImapMessage;
+use Eventum\Mail\MailMessage;
 use Eventum\Model\Entity;
 
 /**
@@ -268,15 +270,15 @@ class Abstract_Workflow_Backend
     }
 
     /**
-     * Called when a new message is received.
+     * Called when an email is received.
      *
-     * @param   int $prj_id The projectID
+     * @param   int $prj_id The project ID
      * @param   int $issue_id the ID of the issue
-     * @param   object $message An object containing the new email
+     * @param   MailMessage $mail The Mail object
      * @param   array $row the array of data that was inserted into the database
      * @param   bool $closing if we are closing the issue
      */
-    public function handleNewEmail($prj_id, $issue_id, $message, $row = null, $closing = false)
+    public static function handleNewEmail($prj_id, $issue_id, MailMessage $mail, $row, $closing = false)
     {
     }
 
@@ -441,15 +443,10 @@ class Abstract_Workflow_Backend
      * rest of the email code will not be executed.
      *
      * @param   int $prj_id The project ID
-     * @param   array $info an array containing the information on the email account
-     * @param   resource $mbox The imap connection resource
-     * @param   int $num The sequential email number
-     * @param   string $message The complete email message
-     * @param   object $email An object containing the decoded email
-     * @param   object $structure An object containing the decoded email
+     * @param   ImapMessage $mail The Imap Mail Message object
      * @return  mixed null by default, -1 if the rest of the email script should not be processed
      */
-    public function preEmailDownload($prj_id, $info, $mbox, $num, &$message, $email, $structure = null)
+    public function preEmailDownload($prj_id, ImapMessage $mail)
     {
         return null;
     }

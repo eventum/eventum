@@ -92,11 +92,6 @@ class MailStorageTest extends TestCase
         foreach ($emails as $i) {
             $mail = ImapMessage::createFromImap($mbox, $i, $this->account);
 
-            $structure = Mime_Helper::decode($mail->getRawContent(), true, true);
-            // string: name + email in decoded (utf-8) form
-            $cc = $structure->headers['to'];
-            var_dump($cc);
-
             // array of emails
             $cc = $mail->getAddresses('To');
             var_dump($cc);

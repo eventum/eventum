@@ -284,12 +284,7 @@ class Workflow
         }
 
         $backend = self::_getBackend($prj_id);
-
-        $structure = Mime_Helper::decode($mail->getRawContent(), true, true);
-
-        $row['headers'] = $mail->getHeadersArray();
-        $row['has_attachment'] = $mail->getAttachment()->hasAttachments();
-        $backend->handleNewEmail($prj_id, $issue_id, $structure, $row, $closing);
+        $backend->handleNewEmail($prj_id, $issue_id, $mail, $row, $closing);
     }
 
     /**
@@ -578,32 +573,17 @@ class Workflow
      * rest of the email code will not be executed.
      *
      * @param   int $prj_id The project ID
-     * @param   ImapMessage $mail The Mail Message object
+     * @param   ImapMessage $mail The Imap Mail Message object
      * @return  mixed null by default, -1 if the rest of the email script should not be processed
      */
-    public static function preEmailDownload($prj_id, &$mail)
+    public static function preEmailDownload($prj_id, ImapMessage $mail)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return null;
         }
+
         $backend = self::_getBackend($prj_id);
-
-        $full_message = $mail->getRawContent();
-        $structure = Mime_Helper::decode($full_message, true, true);
-
-        $email = clone $mail->imapheaders;
-        $res = $backend->preEmailDownload($prj_id, $mail->info, $mail->mbox, $mail->num, $full_message, $email, $structure);
-
-        // if $full_message was modified by workflow call, load it back
-        if ($full_message != $mail->getRawContent()) {
-            $mail = ImapMessage::createFromString($full_message);
-        }
-        if ($email != $mail->imapheaders) {
-            // TODO
-            throw new BadMethodCallException('workflow modified $email, not ported');
-        }
-
-        return $res;
+        return $backend->preEmailDownload($prj_id, $mail);
     }
 
     /**

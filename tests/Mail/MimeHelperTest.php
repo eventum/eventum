@@ -13,6 +13,7 @@
 
 namespace Eventum\Test\Mail;
 
+use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
 use Mime_Helper;
 
@@ -85,7 +86,7 @@ class MimeHelperTest extends TestCase
     public function testBug901653()
     {
         $message = $this->readDataFile('LP901653.txt');
-        $structure = Mime_Helper::decode($message, true, true);
-        $this->assertNotNull($structure);
+        $mail = MailMessage::createFromString($message);
+        $this->assertNotNull($mail);
     }
 }
