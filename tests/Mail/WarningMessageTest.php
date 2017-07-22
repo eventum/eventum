@@ -17,8 +17,6 @@ use Eventum\Mail\Helper\WarningMessage;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
-use Mail_Helper;
-use Setup;
 use Zend\Mail\Exception\InvalidArgumentException;
 
 class WarningMessageTest extends TestCase
@@ -77,25 +75,35 @@ class WarningMessageTest extends TestCase
         $this->assertEquals($raw1, $raw3);
     }
 
-    public function testAddWarningMessage()
+    public function testAddWarningMessagePlain()
     {
-        $this->markTestSkipped('requires MailMessage port');
-        $setup = Setup::get();
-        $setup['email_routing']['status'] = 'enabled';
-        $setup['email_routing']['warning']['status'] = 'enabled';
-
         $issue_id = 1;
         $recipient = 'admin@example.com';
         $body = 'here be dragons';
 
         // add the warning message to the current message' body, if needed
         $m = MailMessage::createFromHeaderBody([], $body);
-        Mail_Helper::addWarningMessage($issue_id, $recipient, $m);
+
+        $wm = $this->getWarningMessage($m);
+        $wm->add($issue_id, $recipient);
+
         $fixed_body = $m->getContent();
         $this->assertContains($body, $fixed_body);
+    }
 
-        $m = MailMessage::createFromFile(__DIR__ . '/data/attachment-bug.txt');
-        Mail_Helper::addWarningMessage($issue_id, $recipient, $m);
+    public function testAddWarningMessageMultipart()
+    {
+        $issue_id = 1;
+        $recipient = 'admin@example.com';
+
+        $this->markTestSkipped('multipart yet not supported');
+
+        $content = $this->readDataFile('attachment-bug.txt');
+        $m = MailMessage::createFromString($content);
+
+        $wm = $this->getWarningMessage($m);
+        $wm->add($issue_id, $recipient);
+
         $fixed_body = $m->getContent();
         $this->assertContains('Your reply will be sent to the notification list', $fixed_body);
     }
