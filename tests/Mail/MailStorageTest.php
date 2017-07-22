@@ -16,7 +16,6 @@ namespace Eventum\Test\Mail;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailStorage;
 use Eventum\Test\TestCase;
-use Mime_Helper;
 use Setup;
 use Support;
 use Zend;

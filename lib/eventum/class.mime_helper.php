@@ -11,68 +11,8 @@
  * that were distributed with this source code.
  */
 
-/**
- * The MIME:: class provides methods for dealing with MIME standards.
- *
- * $Horde: horde/lib/MIME.php,v 1.121 2003/11/06 15:26:17 chuck Exp $
- *
- * Copyright 1999-2003 Chuck Hagenbuch <chuck@horde.org>
- *
- * See the enclosed file COPYING for license information (LGPL). If you
- * did not receive this file, see http://www.fsf.org/copyleft/lgpl.html.
- */
-use Eventum\Monolog\Logger;
-
-/**
- * Class to handle the business logic related to the MIME email
- * processing. The is8bit(), endode() and _encode() functions come from
- * the excellent Horde package at http://www.horde.org. These functions are
- * licensed under the LGPL, and Horde's copyright notice is available
- * above.
- */
 class Mime_Helper
 {
-    /**
-     * Returns the appropriate message body for a given MIME-based decoded
-     * structure.
-     *
-     * @param   object $output The parsed message structure
-     * @return  string The message body
-     * @see     self::decode()
-     */
-    private static function getMessageBody(&$output)
-    {
-        $parts = [];
-        self::parse_output($output, $parts);
-        if (empty($parts)) {
-            Logger::app()->debug('parse_output failed. Corrupted MIME in email?', ['output' => $output]);
-            // we continue as if nothing happened until it's clear it's right check to do.
-        }
-
-        $str = '';
-        $is_html = false;
-        if (isset($parts['text'])) {
-            $str = implode("\n\n", $parts['text']);
-        } elseif (isset($parts['html'])) {
-            $is_html = true;
-            $str = implode("\n\n", $parts['html']);
-
-            // hack for inotes to prevent content from being displayed all on one line.
-            $str = str_replace('</DIV><DIV>', "\n", $str);
-            $str = str_replace(['<br>', '<br />', '<BR>', '<BR />'], "\n", $str);
-        }
-
-        // XXX: do we also need to do something here about base64 encoding?
-        if ($is_html) {
-            $str = strip_tags($str);
-
-            // convert html entities. this should be done after strip tags
-            $str = html_entity_decode($str, ENT_QUOTES, APP_CHARSET);
-        }
-
-        return $str;
-    }
-
     /**
      * Method used to properly quote the sender of a given email address.
      *
@@ -292,47 +232,6 @@ class Mime_Helper
     }
 
     /**
-     * Method used to decode the content of a MIME encoded message.
-     *
-     * @param   string $message The full body of the message
-     * @param   bool $include_bodies Whether to include the bodies in the return value or not
-     * @return  mixed The decoded content of the message
-     * @deprecated
-     */
-    public static function decode(&$message, $include_bodies = false, $decode_bodies = true)
-    {
-        // need to fix a pretty annoying bug where if the 'boundary' part of a
-        // content-type header is split into another line, the PEAR library would
-        // not work correctly. this fix will make the boundary part go to the
-        // same line as the content-type one
-        if (preg_match('/^(boundary=).*/m', $message)) {
-            $pattern = "/(Content-Type: multipart\/)(.+); ?\r?\n(boundary=)(.*)$/im";
-            $replacement = '$1$2; $3$4';
-            $message = preg_replace($pattern, $replacement, $message);
-        }
-
-        $params = [
-            'crlf' => "\r\n",
-            'include_bodies' => $include_bodies,
-            'decode_headers' => false,
-            'decode_bodies' => $decode_bodies,
-        ];
-        $decode = new Mail_mimeDecode($message);
-        $email = $decode->decode($params);
-
-        foreach ($email->headers as $name => $value) {
-            if (is_string($value)) {
-                $email->headers[$name] = iconv_mime_decode(trim($value), ICONV_MIME_DECODE_CONTINUE_ON_ERROR, APP_CHARSET);
-            }
-        }
-        if ($include_bodies) {
-            $email->body = self::getMessageBody($email);
-        }
-
-        return $email;
-    }
-
-    /**
      * Converts a string from a specified charset to the application charset
      *
      * @param   string $string
@@ -347,70 +246,6 @@ class Mime_Helper
         $res = iconv($source_charset, APP_CHARSET, $string);
 
         return $res === false ? $string : $res;
-    }
-
-    /**
-     * Method used to parse the decoded object structure of a MIME
-     * message into something more manageable.
-     *
-     * @param   object $obj The decoded object structure of the MIME message
-     * @param   array $parts The parsed parts of the MIME message
-     */
-    private static function parse_output($obj, &$parts)
-    {
-        if (!empty($obj->parts)) {
-            foreach ($obj->parts as &$part) {
-                self::parse_output($part, $parts);
-            }
-
-            return;
-        }
-
-        $ctype = @strtolower($obj->ctype_primary . '/' . $obj->ctype_secondary);
-        switch ($ctype) {
-            case 'text/plain':
-                if (((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) || (!empty($obj->d_parameters['filename']))) {
-                    @$parts['attachments'][] = $obj->body;
-                } else {
-                    $text = self::convertString($obj->body, @$obj->ctype_parameters['charset']);
-                    if (@$obj->ctype_parameters['format'] == 'flowed') {
-                        $text = self::decodeFlowedBodies($text, @$obj->ctype_parameters['delsp']);
-                    }
-                    @$parts['text'][] = $text;
-                }
-                break;
-
-            case 'text/html':
-                if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) {
-                    @$parts['attachments'][] = $obj->body;
-                } else {
-                    @$parts['html'][] = self::convertString($obj->body, @$obj->ctype_parameters['charset']);
-                }
-                break;
-
-            // special case for Apple Mail
-            case 'text/enriched':
-                if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'attachment')) {
-                    @$parts['attachments'][] = $obj->body;
-                } else {
-                    @$parts['html'][] = self::convertString($obj->body, @$obj->ctype_parameters['charset']);
-                }
-                break;
-
-            default:
-                // avoid treating forwarded messages as attachments
-                if ((!empty($obj->disposition)) && (strtolower($obj->disposition) == 'inline') &&
-                        ($ctype != 'message/rfc822')) {
-                    @$parts['attachments'][] = $obj->body;
-                } elseif (stristr($ctype, 'image')) {
-                    // handle inline images
-                    @$parts['attachments'][] = $obj->body;
-                } elseif (strtolower(@$obj->disposition) == 'attachment') {
-                    @$parts['attachments'][] = $obj->body;
-                } else {
-                    @$parts['text'][] = $obj->body;
-                }
-        }
     }
 
     /**

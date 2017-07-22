@@ -583,6 +583,7 @@ class Workflow
         }
 
         $backend = self::_getBackend($prj_id);
+
         return $backend->preEmailDownload($prj_id, $mail);
     }
 
