@@ -1079,14 +1079,15 @@ class Notification
                     $pos = strpos($extra_subject, "[#$issue_id] $subject: ");
                     $full_subject = substr($extra_subject, $pos);
                 } else {
-                    $full_subject = "[#$issue_id] $subject: $extra_subject";
+                    // TRANSLATORS: %1 - issue_id, %2: subject, %3: note title
+                    $full_subject = ev_gettext('[#%1$s] %2$s: %3$s', $issue_id, $subject, $extra_subject);
                 }
-            } elseif (($type == 'new_issue') && ($is_assigned)) {
+            } elseif ($type == 'new_issue' && $is_assigned) {
                 // TRANSLATORS: %1 - issue_id, %2: issue summary
                 $full_subject = ev_gettext('[#%1$s] New Issue Assigned: %2$s', $issue_id, $data['iss_summary']);
             } else {
-                $extra_subject = $data['iss_summary'];
-                $full_subject = "[#$issue_id] $subject: $extra_subject";
+                // TRANSLATORS: %1 - issue_id, %2: subject, %3: issue summary
+                $full_subject = ev_gettext('[#%1$s] %2$s: %3$s', $issue_id, $subject, $data['iss_summary']);
             }
 
             if ($notify_type == 'notes' && $sender) {
