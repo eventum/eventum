@@ -13,12 +13,10 @@
 
 namespace Eventum\Test\Mail;
 
-use Eventum\Mail\Helper\MimePart;
 use Eventum\Mail\MailBuilder;
 use Eventum\Mail\MailMessage;
 use Eventum\Test\TestCase;
 use Zend\Mail\Header\MessageId;
-use Zend\Mime;
 
 class MimeMessageTest extends TestCase
 {
@@ -54,57 +52,17 @@ class MimeMessageTest extends TestCase
 
     public function testMimeMessageText()
     {
-        $body = "Hello, bödi tekst\n\nBye\n";
+        $body = "Hello, bödi tekst\n\nBye";
 
-        $mime = new Mime\Message();
-        $mime->addPart(MimePart::createTextPart($body));
-        $this->mail->setContent($mime);
+        $builder = new MailBuilder();
+        $builder->addTextPart($body);
+        $mail = $builder->toMailMessage();
 
-        $exp = [];
-        $exp[] = 'Message-ID: <eventum.md5.5bh5b2b2k.1odx18yqps5xd@eventum.example.org>';
-        $exp[] = 'From: "Admin User " <note-3@eventum.example.org>';
-        $exp[] = 'Subject: =?UTF-8?Q?[#3]=20Note:=20Re:=20pl=C3=A4h?=';
-        $exp[] = 'To: "Admin User" <admin@example.com>';
-        $exp[] = 'Date: Wed, 19 Jul 2017 18:15:33 GMT';
-        $exp[] = 'MIME-Version: 1.0';
-        $exp[] = 'Content-Type: text/plain;';
-        $exp[] = ' charset="UTF-8"';
-        $exp[] = 'Content-Transfer-Encoding: 8bit';
-        $exp[] = '';
-        $exp[] = "Hello, bödi tekst\n\nBye";
-        $this->assertSame($exp, explode("\r\n", $this->mail->getRawContent()));
+        $this->assertEquals("text/plain;\r\n charset=\"UTF-8\"", $mail->contentType);
+        $this->assertEquals($body, $mail->getContent());
     }
 
     public function testMimeMessageAttachment()
-    {
-        $body = "Hello, bödi tekst\n\nBye\n";
-
-        $mime = new Mime\Message();
-
-        $part = MimePart::createTextPart($body);
-        $mime->addPart($part);
-
-        $part = MimePart::createAttachmentPart('testing123', 'text/plain', 'filename.txt');
-        $mime->addPart($part);
-
-        $this->mail->setContent($mime);
-
-        $exp = [];
-        $exp[] = 'Message-ID: <eventum.md5.5bh5b2b2k.1odx18yqps5xd@eventum.example.org>';
-        $exp[] = 'From: "Admin User " <note-3@eventum.example.org>';
-        $exp[] = 'Subject: =?UTF-8?Q?[#3]=20Note:=20Re:=20pl=C3=A4h?=';
-        $exp[] = 'To: "Admin User" <admin@example.com>';
-        $exp[] = 'Date: Wed, 19 Jul 2017 18:15:33 GMT';
-        $exp[] = 'MIME-Version: 1.0';
-        $exp[] = 'Content-Type: text/plain;';
-        $exp[] = ' charset="UTF-8"';
-        $exp[] = 'Content-Transfer-Encoding: 8bit';
-        $exp[] = '';
-        $exp[] = "Hello, bödi tekst\n\nBye";
-        $this->assertSame($exp, explode("\r\n", $this->mail->getRawContent()));
-    }
-
-    public function testMailBuilder()
     {
         $body = "Hello, bödi tekst\n\nBye\n";
 
@@ -135,6 +93,8 @@ class MimeMessageTest extends TestCase
         $builder->addAttachment($attachment);
 
         $mail = $builder->toMailMessage();
+
+        $this->assertStringStartsWith('multipart/mixed;', $mail->contentType);
 
         // it's reusable
         $m = MailMessage::createFromString($mail->getRawContent());
