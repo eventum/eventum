@@ -422,14 +422,16 @@ class Notification
 
         foreach ($emails as $to) {
             $m = clone $mail;
-            $m->setTo($to);
+            // stripHeaders removed To header, add it back
+            $m->getHeaderByName('To');
+            $m->setTo(Mime_Helper::encodeAddress($to));
 
             // add the warning message about replies being blocked or not
             $recipient_email = Mail_Helper::getEmailAddress($to);
             $wm = new WarningMessage($m);
             $wm->add($issue_id, $recipient_email);
 
-            Mail_Queue::queue($mail, $to, $options);
+            Mail_Queue::queue($m, $to, $options);
         }
     }
 
