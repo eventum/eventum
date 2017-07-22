@@ -671,32 +671,6 @@ class MailMessageTest extends TestCase
         $mail->addHeaders($headers);
     }
 
-    /**
-     * @see http://framework.zend.com/manual/current/en/modules/zend.mail.message.html
-     * @see http://framework.zend.com/manual/current/en/modules/zend.mail.attachments.html
-     */
-    public function testZendMime()
-    {
-        $textContent = 'textõ';
-        $text = new Zend\Mime\Part($textContent);
-        $text->type = 'text/plain';
-        $text->setCharset('UTF-8');
-
-        $body = new Zend\Mime\Message();
-        $body->addPart($text);
-
-        $message = new Zend\Mail\Message();
-        $message->setBody($body);
-
-//        echo $message->toString();
-
-        $mail = MailMessage::createFromMessage($message);
-//        echo $mail->getRawContent();
-
-        $mail = MailMessage::createNew();
-        $mime = $mail->addMimePart($textContent, 'text/plain', 'UTF-8');
-    }
-
     public function testZFPlainMail()
     {
         $text_message = 'zzzxx';
@@ -705,13 +679,6 @@ class MailMessageTest extends TestCase
         $to = '"Admin User" <admin@example.com>';
         $subject = '[#3] Note: Re: pläh';
         $type = 'assignment';
-
-        // use zend mime
-        $mail = MailMessage::createNew();
-        $mail->setTextPart($text_message);
-        $mail->setFrom($from);
-        $mail->setTo($to);
-        $mail->setSubject($subject);
 
         // use mail builder
         $builder = new MailBuilder();

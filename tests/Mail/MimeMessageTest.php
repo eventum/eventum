@@ -50,6 +50,10 @@ class MimeMessageTest extends TestCase
         $this->mail = $mail;
     }
 
+    /**
+     * @see http://framework.zend.com/manual/current/en/modules/zend.mail.message.html
+     * @see http://framework.zend.com/manual/current/en/modules/zend.mail.attachments.html
+     */
     public function testMimeMessageText()
     {
         $body = "Hello, bödi tekst\n\nBye";
