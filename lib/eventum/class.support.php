@@ -1788,11 +1788,8 @@ class Support
             }
         }
 
-        $cc = trim($cc);
-        if (!empty($cc)) {
-            // FIXME: kill this ';' to ',' tragedy
-            $cc = str_replace(',', ';', $cc);
-            $ccs = explode(';', $cc);
+        if ($cc) {
+            $ccs = AddressHeader::fromString($cc)->getAddressList();
             $message->addCc($ccs);
         }
 
@@ -1838,7 +1835,7 @@ class Support
 
         $prj_id = Issue::getProjectID($issue_id);
         $subject = Mail_Helper::formatSubject($issue_id, $subject);
-        $recipients = self::getRecipientsCC($cc);
+        $recipients = AddressHeader::fromString($cc)->getEmails();
         $recipients[] = $to;
 
         // create emails for each recipient
@@ -1894,26 +1891,6 @@ class Support
     }
 
     /**
-     * Method used to parse the Cc list in a string format and return
-     * an array of the email addresses contained within.
-     *
-     * @param   string $cc The Cc list
-     * @return  array The list of email addresses
-     */
-    public static function getRecipientsCC($cc)
-    {
-        $cc = trim($cc);
-        if (empty($cc)) {
-            return [];
-        }
-        $cc = str_replace(',', ';', $cc);
-
-        return explode(';', $cc);
-    }
-
-    /**
-     * TODO: merge use of $options and $email arrays to just $email
-     *
      * @param int $issue_id
      * @param string $type type of email
      * @param string $from
@@ -2032,13 +2009,13 @@ class Support
                     // NOTE: email "name" field may have gotten lost when using $mail->getAddresses()
                     // if that's relevant use AddressList functionality to preserve "name" field
                     $to = array_shift($unknowns);
-                    $cc = implode('; ', $unknowns);
+
                     // send direct emails
                     $options = [
                         'issue_id' => $issue_id,
                         'from' => $fixed_from,
                         'to' => $to,
-                        'cc' => $cc,
+                        'cc' => implode(', ', $unknowns),
                         'iaf_ids' => $iaf_ids,
                         'sender_usr_id' => $sender_usr_id,
                     ];
@@ -2065,7 +2042,7 @@ class Support
         }
 
         if ($add_cc_to_ar) {
-            foreach (self::getRecipientsCC($mail->cc) as $recipient) {
+            foreach ($mail->getAddresses('Cc') as $recipient) {
                 Authorized_Replier::manualInsert($issue_id, $recipient);
             }
         }
