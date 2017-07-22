@@ -492,6 +492,23 @@ class MailMessageTest extends TestCase
         $this->assertEquals($exp, $mail->getHeaders()->toString());
     }
 
+    public function testAddHeadersMultiValue()
+    {
+        $raw = "Message-ID: <33@JON>\n\n\nbody";
+        $mail = MailMessage::createFromString($raw);
+
+        // References is single value header, must join to string
+        // but do not worry about wordwrap
+        $references = ['a', 'b', str_repeat('de de', 40)];
+        $add_headers = [
+            'References' => implode(' ', $references),
+        ];
+
+        $mail->addHeaders($add_headers);
+        $raw = $mail->getRawContent();
+        $this->assertContains("dede\r\n dede", $raw, 'value has been wrapped');
+    }
+
     /**
      * @test $structure->body getting textual mail body from multipart message
      */

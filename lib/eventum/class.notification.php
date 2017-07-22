@@ -819,9 +819,9 @@ class Notification
      * @param string $type The notification type
      * @param int $entry_id The entries id that was changed
      * @param bool $internal_only Whether the notification should only be sent to internal users or not
-     * @param array $extra_recipients
+     * @param string[] $extra_recipients extra recipients to notify (usr_id list)
      */
-    public static function notify($issue_id, $type, $entry_id = null, $internal_only = false, $extra_recipients = null)
+    public static function notify($issue_id, $type, $entry_id, $internal_only, $extra_recipients = [])
     {
         $prj_id = Issue::getProjectID($issue_id);
         $extra = [];
@@ -835,7 +835,7 @@ class Notification
         }
         $emails = [];
         $users = self::getUsersByIssue($issue_id, $type);
-        if ($extra_recipients && (count($extra) > 0)) {
+        if ($extra_recipients && count($extra) > 0) {
             $users = array_merge($users, $extra);
         }
         $user_emails = Project::getUserEmailAssocList(Issue::getProjectID($issue_id), 'active', User::ROLE_CUSTOMER);
@@ -843,18 +843,18 @@ class Notification
 
         foreach ($users as $user) {
             if (empty($user['sub_usr_id'])) {
-                if (($internal_only == false) || (in_array(strtolower($user['sub_email']), array_values($user_emails)))) {
+                if ($internal_only == false || in_array(strtolower($user['sub_email']), array_values($user_emails))) {
                     $email = $user['sub_email'];
                 }
             } else {
                 $prefs = Prefs::get($user['sub_usr_id']);
-                if ((Auth::getUserID() == $user['sub_usr_id']) &&
+                if (Auth::getUserID() == $user['sub_usr_id'] &&
                         ((empty($prefs['receive_copy_of_own_action'][$prj_id])) ||
                             ($prefs['receive_copy_of_own_action'][$prj_id] == false))) {
                     continue;
                 }
                 // if we are only supposed to send email to internal users, check if the role is lower than standard user
-                if (($internal_only == true) && (User::getRoleByUser($user['sub_usr_id'], Issue::getProjectID($issue_id)) < User::ROLE_USER)) {
+                if ($internal_only == true && (User::getRoleByUser($user['sub_usr_id'], Issue::getProjectID($issue_id)) < User::ROLE_USER)) {
                     continue;
                 }
                 if ($type == 'notes' && User::isPartner($user['sub_usr_id']) &&
@@ -904,7 +904,9 @@ class Notification
             return;
         }
 
-        $headers = false;
+        $data = [];
+        $headers = [];
+        $subject = null;
         switch ($type) {
             case 'closed':
                 $data = Issue::getDetails($issue_id);
@@ -915,32 +917,36 @@ class Notification
                     $data['reason'] = Support::getEmail($entry_id);
                 }
                 break;
-            case 'updated':
-                // this should not be used anymore
-                return;
+
             case 'notes':
                 $data = self::getNote($issue_id, $entry_id);
                 $headers = [
                     'Message-ID' => $data['note']['not_message_id'],
                 ];
-                if (@$data['note']['reference_msg_id'] != false) {
-                    $headers['In-Reply-To'] = $data['note']['reference_msg_id'];
+                $reference_msg_id = @$data['note']['reference_msg_id'];
+                if ($reference_msg_id) {
+                    $headers['In-Reply-To'] = $reference_msg_id;
                 } else {
                     $headers['In-Reply-To'] = Issue::getRootMessageID($issue_id);
                 }
-                $headers['References'] = Mail_Helper::fold(implode(' ', Mail_Helper::getReferences($issue_id, @$data['note']['reference_msg_id'], 'note')));
+                $headers['References'] = implode(' ', Mail_Helper::getReferences($issue_id, $reference_msg_id, 'note'));
                 $subject = ev_gettext('Note');
                 break;
-            case 'emails':
-                // this should not be used anymore
-                return;
+
             case 'files':
                 $data = self::getAttachment($issue_id, $entry_id);
                 $subject = ev_gettext('File Attached');
                 break;
+
+            case 'updated':
+                // this should not be used anymore
+                return;
+
+            case 'emails':
+                // this should not be used anymore
+                return;
         }
 
-        // FIXME: $data and $subject might be used uninitialized
         self::notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $entry_id, $headers);
     }
 
@@ -983,7 +989,7 @@ class Notification
      * @param   int $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
      * @param   array $headers Any extra headers that need to be added to this email (Default false)
      */
-    public static function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $type_id = null, $headers = [])
+    private static function notifySubscribers($issue_id, $emails, $type, $data, $subject, $internal_only, $type_id = null, $headers = [])
     {
         global $_EVENTUM_LAST_NOTIFIED_LIST;
 
@@ -1003,11 +1009,11 @@ class Notification
         $sender_usr_id = false;
 
         $have_no_threading_headers = empty($headers['Message-ID']) && empty($headers['In-Reply-To']) && empty($headers['References']);
-        $add_headers = null;
+        $add_headers = [];
         if ($headers) {
             $add_headers = $headers;
         }
-        if (!$headers || $have_no_threading_headers) {
+        if (!$add_headers || $have_no_threading_headers) {
             $add_headers = Mail_Helper::getBaseThreadingHeaders($issue_id);
         }
 

@@ -378,17 +378,6 @@ class Mail_Helper
     }
 
     /**
-     * Folds message headers
-     *
-     * @param   string $input The headers to fold
-     * @return  string The folded headers
-     */
-    public static function fold($input)
-    {
-        return wordwrap($input, 70, "\r\n ");
-    }
-
-    /**
      * Removes newlines and tabs from subject
      *
      * @param $subject string The subject to clean

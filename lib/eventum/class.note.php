@@ -305,7 +305,7 @@ class Note
             'add_extra_recipients' => false,
 
             'message_id' => null,
-            'cc' => null,
+            'cc' => [],
             'full_message' => null,
             'parent_id' => null,
         ], $options);
