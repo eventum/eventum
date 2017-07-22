@@ -194,6 +194,8 @@ class Mail_Helper
 
         if (!$issue_id) {
             // nothing else to do if no issue id
+            $mail->addHeaders($new_headers);
+
             return;
         }
 
