@@ -481,13 +481,11 @@ class MailMessage extends Message
      */
     public function getFrom()
     {
-        $addresslist = $this->getAddressListFromHeader('from', From::class);
+        /** @var From $from */
+        $from = $this->getHeader('from');
 
-        // obtain first address from addresses list
-        $addresses = current($addresslist);
-        $address = current($addresses);
-
-        return $address ?: null;
+        // return null not false if header missing
+        return $from->getAddressList()->rewind() ?: null;
     }
 
     /**
