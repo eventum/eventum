@@ -13,6 +13,7 @@ Upgrading to 3.2.x versions requires that you upgrade to 3.2.0 version first.
 - generate proper message-id in `Issue::close()` (@glensc, 8a046ea)
 - add example slack error logger (@glensc, e7600031f)
 - Fix bug auto switching project on update issues page (@balsdorf, 6ffecfc)
+- Catch exception if invalid message is added to mail queue (@balsdorf, 0e55ae2)
 
 [3.2.2]: https://github.com/eventum/eventum/compare/v3.2.1...master
 
