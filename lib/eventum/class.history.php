@@ -12,9 +12,8 @@
  */
 
 use Eventum\Db\DatabaseException;
-use Eventum\Event\SystemEvents;
+use Eventum\Event;
 use Eventum\EventDispatcher\EventManager;
-use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Class to handle the business logic related to the history information for
@@ -73,9 +72,10 @@ class History
         $stmt = 'INSERT INTO {{%issue_history}} SET ' . DB_Helper::buildSet($params);
 
         DB_Helper::getInstance()->query($stmt, $params);
+        $params['his_id'] = DB_Helper::get_last_insert_id();
 
-        $event = new Event();
-        EventManager::dispatch(SystemEvents::HISTORY_ADD, $event);
+        $event = new Event\UnstructuredEvent($params);
+        EventManager::dispatch(Event\SystemEvents::HISTORY_ADD, $event);
     }
 
     /**
