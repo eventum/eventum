@@ -31,6 +31,9 @@ class MonitorCommand
     /** @var OutputInterface */
     private $output;
 
+    /** @var int */
+    private $errors = 0;
+
     public function execute(OutputInterface $output, $quiet)
     {
         $this->output = $output;
@@ -68,24 +71,23 @@ class MonitorCommand
             ],
         ];
 
-        $errors = 0;
         // load prefs
         $setup = Setup::get();
         $prefs = $setup['monitor'];
 
-        $errors += $this->checkDatabase();
-        $errors += $this->checkMailQueue();
-        $errors += $this->checkMailAssociation();
+        $this->checkDatabase();
+        $this->checkMailQueue();
+        $this->checkMailAssociation();
 
         if ($prefs['diskcheck']['status'] == 'enabled') {
-            $errors += $this->checkDiskspace($prefs['diskcheck']['partition']);
+            $this->checkDiskspace($prefs['diskcheck']['partition']);
         }
         if ($prefs['paths']['status'] == 'enabled') {
-            $errors += $this->checkRequiredFiles($required_files);
-            $errors += $this->checkRequiredDirs($required_directories);
+            $this->checkRequiredFiles($required_files);
+            $this->checkRequiredDirs($required_directories);
         }
 
-        if ($errors) {
+        if ($this->errors) {
             // propagate status code to shell
             return self::STATE_CRITICAL;
         }
@@ -99,8 +101,6 @@ class MonitorCommand
 
     /**
      * Checks on the status of the MySQL database.
-     *
-     * @return  int number of errors encountered
      */
     protected function checkDatabase()
     {
@@ -116,21 +116,15 @@ class MonitorCommand
 
         // check if all of the required tables are really there
         $table_list = DB_Helper::getInstance()->getColumn('SHOW TABLES');
-        $errors = 0;
         foreach ($required_tables as $table) {
             if (!in_array($table, $table_list)) {
-                $this->output->writeln(ev_gettext('ERROR: Could not find required table "%s"', $table));
-                $errors++;
+                $this->error(ev_gettext('ERROR: Could not find required table "%s"', $table));
             }
         }
-
-        return $errors;
     }
 
     /**
      * Checks the mail queue logs for any email that wasn't delivered.
-     *
-     * @return  int number of errors encountered
      */
     protected function checkMailQueue()
     {
@@ -148,24 +142,21 @@ class MonitorCommand
         try {
             $queue_ids = DB_Helper::getInstance()->getColumn($stmt);
         } catch (DatabaseException $e) {
-            $this->output->writeln(ev_gettext('ERROR: There was a DB error checking the mail queue status'));
+            $this->error(ev_gettext('ERROR: There was a DB error checking the mail queue status'));
 
-            return 1;
+            return;
         }
 
         $errors = count($queue_ids);
         if ($errors) {
-            $this->output->writeln(ev_gettext('ERROR: There is a total of %d queued emails with errors.', $errors));
+            $this->error(ev_gettext('ERROR: There is a total of %d queued emails with errors.', $errors));
         }
-
-        return $errors;
     }
 
     /**
      * Checks the associated emails page (emails.php) that there aren't any unassociated mails
      *
      * @see \Support::getEmailListing()
-     * @return  int number of mails not associated
      */
     protected function checkMailAssociation()
     {
@@ -188,20 +179,18 @@ class MonitorCommand
         try {
             $res = DB_Helper::getInstance()->getOne($stmt);
         } catch (DatabaseException $e) {
-            return 1;
+            $this->error(ev_gettext('ERROR: There was a DB error checking the mail association status'));
+
+            return;
         }
 
         if ($res > 0) {
-            $this->output->writeln(ev_gettext('ERROR: There is a total of %d emails not associated.', $res));
+            $this->error(ev_gettext('ERROR: There is a total of %d emails not associated.', $res));
         }
-
-        return $res;
     }
 
     /**
      * Checks the free disk space status on the server.
-     *
-     * @return  int number of errors encountered
      */
     protected function checkDiskspace($partition, $low_limit = 5, $high_limit = 15)
     {
@@ -209,17 +198,21 @@ class MonitorCommand
         $free_space = disk_free_space($partition);
         $free_percentage = ($free_space * 100) / $total_space;
         if ($free_percentage < $low_limit) {
-            $this->output->writeln(ev_gettext('ERROR: Almost no free disk space left (percentage left: %.2f%%)', $free_percentage));
+            $this->error(
+                ev_gettext('ERROR: Almost no free disk space left (percentage left: %.2f%%)', $free_percentage)
+            );
 
-            return 1;
+            return;
         }
         if ($free_percentage < $high_limit) {
-            $this->output->writeln(ev_gettext('ERROR: Free disk space left is getting very low (percentage left: %.2f%%)', $free_percentage));
+            $this->error(
+                ev_gettext(
+                    'ERROR: Free disk space left is getting very low (percentage left: %.2f%%)', $free_percentage
+                )
+            );
 
-            return 1;
+            return;
         }
-
-        return 0;
     }
 
     /**
@@ -227,16 +220,13 @@ class MonitorCommand
      * and directories.
      *
      * @param   array $required_files an array of files that should be checked on
-     * @return  int number of errors encountered
      */
     protected function checkRequiredFiles($required_files)
     {
-        $errors = 0;
         foreach ($required_files as $file_path => $options) {
             // check if file exists
             if (!file_exists($file_path)) {
-                $this->output->writeln(ev_gettext('ERROR: File could not be found (path: %s)', $file_path));
-                $errors++;
+                $this->error(ev_gettext('ERROR: File could not be found (path: %s)', $file_path));
                 continue;
             }
             // check the owner and group for these files
@@ -246,16 +236,14 @@ class MonitorCommand
                     'ERROR: File owner mismatch (path: %1$s; current owner: %2$s; correct owner: %3$s)', $file_path,
                     $owner, $options['owner']
                 );
-                $this->output->writeln($message);
-                $errors++;
+                $this->error($message);
             }
             if (!empty($options['check_group']) && $options['group'] != $group) {
                 $message = ev_gettext(
                     'ERROR: File group mismatch (path: %1$s; current group: %2$s; correct group: %3$s)', $file_path,
                     $group, $options['group']
                 );
-                $this->output->writeln($message);
-                $errors++;
+                $this->error($message);
             }
             // check permission bits
             $perm = self::getOctalPerms($file_path);
@@ -264,8 +252,7 @@ class MonitorCommand
                     'ERROR: File permission mismatch (path: %1$s; current perm: %2$s; correct perm: %3$s)', $file_path,
                     $perm, $options['permission']
                 );
-                $this->output->writeln($message);
-                $errors++;
+                $this->error($message);
             }
 
             // check filesize
@@ -273,42 +260,46 @@ class MonitorCommand
                 $message = ev_gettext(
                     'ERROR: File size mismatch (path: %1$s; current filesize: %2$s)', $file_path, filesize($file_path)
                 );
-                $this->output->writeln($message);
-                $errors++;
+                $this->error($message);
             }
         }
-
-        return $errors;
     }
 
     /**
      * Checks on the status of the required directories.
      *
      * @param   array $required_directories an array of files that should be checked on
-     * @return  int number of errors encountered
      */
     protected function checkRequiredDirs($required_directories)
     {
-        $errors = 0;
         foreach ($required_directories as $dir_path => $options) {
             // check if directory exists
             if (!file_exists($dir_path)) {
-                $this->output->writeln(ev_gettext('ERROR: Directory could not be found (path: %1$s)', $dir_path));
-                $errors++;
+                $this->error(ev_gettext('ERROR: Directory could not be found (path: %1$s)', $dir_path));
                 continue;
             }
             // check permission bits
             $perm = self::getOctalPerms($dir_path);
             if ((@$options['check_permission']) && ($options['permission'] != $perm)) {
-                $this->output->writeln(ev_gettext(
-                    'ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; correct perm: %3$s)',
-                    $dir_path, $perm, $options['permission']
-                ));
-                $errors++;
+                $this->error(
+                    ev_gettext(
+                        'ERROR: Directory permission mismatch (path: %1$s; current perm: %2$s; correct perm: %3$s)',
+                        $dir_path, $perm, $options['permission']
+                    )
+                );
             }
         }
+    }
 
-        return $errors;
+    /**
+     * Print out $message and increase error count.
+     *
+     * @param string $message
+     */
+    private function error($message)
+    {
+        $this->output->writeln("<error>$message</error>");
+        $this->errors++;
     }
 
     /**
