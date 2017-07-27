@@ -15,18 +15,19 @@ namespace Eventum\Command;
 
 use Monitor;
 use Setup;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class MonitorCommand extends Command
+class MonitorCommand
 {
-    protected function execute()
-    {
-        // Nagios compatible exit codes
-        define('STATE_OK', 0);
-        define('STATE_WARNING', 1);
-        define('STATE_CRITICAL', 2);
-        define('STATE_UNKNOWN', 3);
-        define('STATE_DEPENDENT', 4);
+    // Nagios compatible exit codes
+    const STATE_OK = 0;
+    const STATE_WARNING = 1;
+    const STATE_CRITICAL = 2;
+    const STATE_UNKNOWN = 3;
+    const STATE_DEPENDENT = 4;
 
+    public function execute($quiet, OutputInterface $output)
+    {
         // the owner, group and filesize settings should be changed to match the correct permissions on your server.
         $required_files = [
             APP_CONFIG_PATH . '/config.php' => [
@@ -60,9 +61,6 @@ class MonitorCommand extends Command
             ],
         ];
 
-        $opt = getopt('q');
-        $quiet = isset($opt['q']);
-
         $errors = 0;
         // load prefs
         $setup = Setup::get();
@@ -82,12 +80,13 @@ class MonitorCommand extends Command
 
         if ($errors) {
             // propagate status code to shell
-            exit(STATE_CRITICAL);
+            return self::STATE_CRITICAL;
         }
 
         if (!$quiet) {
-            echo ev_gettext('OK: No errors found'), "\n";
+            $output->writeln(ev_gettext('OK: No errors found'));
         }
-        exit(STATE_OK);
+
+        return self::STATE_OK;
     }
 }
