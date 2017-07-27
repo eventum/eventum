@@ -18,11 +18,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class TruncateMailQueueCommand
 {
-    public function execute(OutputInterface $output, $quiet)
+    public function execute(OutputInterface $output, $quiet, $interval = '1 month')
     {
-        Mail_Queue::truncate();
+        Mail_Queue::truncate($interval);
+
         if (!$quiet) {
-            $output->writeln('<info>Mail queue truncated</info>');
+            $message = ev_gettext('Mail queue truncated by %1$s.', $interval);
+            $output->writeln("<info>$message</info>");
         }
     }
 }

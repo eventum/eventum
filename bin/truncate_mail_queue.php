@@ -14,6 +14,6 @@
 require_once __DIR__ . '/../init.php';
 
 $app = new Silly\Application();
-$app->command('truncate [-q|--quiet]', [new Eventum\Command\TruncateMailQueueCommand(), 'execute']);
+$app->command('truncate [-q|--quiet] [--interval=]', [new Eventum\Command\TruncateMailQueueCommand(), 'execute']);
 $app->setDefaultCommand('truncate');
 $app->run();
