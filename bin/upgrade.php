@@ -12,8 +12,6 @@
  * that were distributed with this source code.
  */
 
-use Symfony\Component\Console\Input\ArgvInput;
-
 define('INSTALL_PATH', __DIR__ . '/..');
 define('CONFIG_PATH', INSTALL_PATH . '/config');
 
@@ -32,8 +30,6 @@ require_once INSTALL_PATH . '/init.php';
 // run phinx based updater
 chdir(__DIR__ . '/..');
 
-// emulate running "migrate" command
-$input = new ArgvInput([$argv[0], 'migrate']);
-
 $app = new Phinx\Console\PhinxApplication();
-$app->run($input);
+$app->setDefaultCommand('migrate');
+$app->run();
