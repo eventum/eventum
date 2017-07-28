@@ -13,6 +13,7 @@
 
 use Eventum\Db\DatabaseException;
 use Eventum\Model\Repository\IssueAssociationRepository;
+use Eventum\RPC\RemoteApiException;
 
 /**
  * Class designed to handle all business logic related to the issues in the
@@ -352,7 +353,7 @@ class Issue
      * @param   int $issue_id The issue ID
      * @param   int $status_id The new status ID
      * @param   bool $notify if a notification should be sent about this change
-     * @return  int 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -2 if no change is made, -1 on error
      */
     public static function setStatus($issue_id, $status_id, $notify = false)
     {
@@ -363,7 +364,7 @@ class Issue
 
         // check if the status is already set to the 'new' one
         if (self::getStatusID($issue_id) == $status_id) {
-            return -1;
+            return -2;
         }
 
         $old_status = self::getStatusID($issue_id);
@@ -415,9 +416,38 @@ class Issue
      */
     public static function setRemoteStatus($issue_id, $usr_id, $new_status)
     {
+        if (!self::canUpdate($issue_id, $usr_id)) {
+            throw new RemoteApiException("User has no access to update issue #$issue_id");
+        }
+
+        // check if the given status is a valid option
+        $prj_id = self::getProjectID($issue_id);
+        $statuses = Status::getAbbreviationAssocList($prj_id, false);
+
+        $titles = Misc::lowercase(array_values($statuses));
+        $abbreviations = Misc::lowercase(array_keys($statuses));
+        if ((!in_array(strtolower($new_status), $titles)) &&
+            (!in_array(strtolower($new_status), $abbreviations))) {
+            $message = "Status '$new_status' could not be matched against the list of available statuses";
+            throw new RemoteApiException($message);
+        }
+
+        // if the user is passing an abbreviation, use the real title instead
+        if (in_array(strtolower($new_status), $abbreviations)) {
+            $index = array_search(strtolower($new_status), $abbreviations);
+            $new_status = $titles[$index];
+        }
+
         $sta_id = Status::getStatusID($new_status);
+        if ($sta_id === null) {
+            // should not really happen as status fetched from above code
+            throw new RemoteApiException("Unable to find status named '$new_status'");
+        }
 
         $res = self::setStatus($issue_id, $sta_id);
+        if ($res == -2) {
+            throw new RemoteApiException("Issue status is already set to '$new_status'");
+        }
         if ($res == 1) {
             // record history entry
             History::add($issue_id, $usr_id, 'remote_status_change', "Status remotely changed to '{status}' by {user}", [

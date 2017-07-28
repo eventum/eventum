@@ -15,6 +15,7 @@ Upgrading to 3.2.x versions requires that you upgrade to 3.2.0 version first.
 - Fix bug auto switching project on update issues page (@balsdorf, 6ffecfc)
 - Catch exception if invalid message is added to mail queue (@balsdorf, 0e55ae2)
 - add real 'Status Change Date' column and rename old column to 'Status Action Date' (@balsdorf, #277)
+- rpc: setIssueStatus: validate parameters server side (@glensc, #280)
 
 [3.2.2]: https://github.com/eventum/eventum/compare/v3.2.1...master
 

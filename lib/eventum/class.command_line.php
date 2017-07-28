@@ -440,31 +440,6 @@ class Command_Line
      */
     public static function setIssueStatus(&$client, $auth, $issue_id, $new_status)
     {
-        $details = self::checkIssuePermissions($client, $auth, $issue_id);
-        self::checkIssueAssignment($client, $auth, $issue_id);
-
-        // check if the issue already is set to the new status
-        if ((strtolower($details['sta_title']) == strtolower($new_status)) ||
-                (strtolower($details['sta_abbreviation']) == strtolower($new_status))) {
-            self::quit("Issue #$issue_id is already set to status '" . $details['sta_title'] . "'");
-        }
-
-        // check if the given status is a valid option
-        $statuses = $client->getAbbreviationAssocList($auth[0], $auth[1], (int) $details['iss_prj_id'], false);
-
-        $titles = Misc::lowercase(array_values($statuses));
-        $abbreviations = Misc::lowercase(array_keys($statuses));
-        if ((!in_array(strtolower($new_status), $titles)) &&
-                (!in_array(strtolower($new_status), $abbreviations))) {
-            self::quit("Status '$new_status' could not be matched against the list of available statuses");
-        }
-
-        // if the user is passing an abbreviation, use the real title instead
-        if (in_array(strtolower($new_status), $abbreviations)) {
-            $index = array_search(strtolower($new_status), $abbreviations);
-            $new_status = $titles[$index];
-        }
-
         $result = $client->setIssueStatus($auth[0], $auth[1], $issue_id, $new_status);
         if ($result == 'OK') {
             echo "OK - Status successfully changed to '$new_status' on issue #$issue_id\n";

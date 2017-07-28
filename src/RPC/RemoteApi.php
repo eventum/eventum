@@ -281,6 +281,7 @@ class RemoteApi
      * @param string $new_status
      * @return string
      * @access protected
+     * @since 3.2.2 checks access via Issue::canUpdate
      */
     public function setIssueStatus($issue_id, $new_status)
     {
