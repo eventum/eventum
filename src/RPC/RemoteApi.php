@@ -289,6 +289,8 @@ class RemoteApi
      */
     public function setIssueStatus($issue_id, $new_status)
     {
+        $this->checkIssuePermissions($issue_id);
+
         $usr_id = Auth::getUserID();
 
         self::updateIssueStatus($issue_id, $usr_id, $new_status);
@@ -1194,5 +1196,27 @@ class RemoteApi
         }
 
         return $res;
+    }
+
+    /**
+     * @see \Command_Line::checkIssuePermissions()
+     * @param int $issue_id
+     */
+    private function checkIssuePermissions($issue_id) {
+        $projects = $this->getUserAssignedProjects(false);
+        $details = $this->getIssueDetails($issue_id);
+        $iss_prj_id = (int)$details['iss_prj_id'];
+
+        // check if the issue the user is trying to change is inside a project viewable to him
+        $found = 0;
+        foreach ($projects as $i => $project) {
+            if ($iss_prj_id == $project['id']) {
+                $found = 1;
+                break;
+            }
+        }
+        if (!$found) {
+            throw new RemoteApiException("The assigned project for issue #$issue_id doesn't match any in the list of projects assigned to you");
+        }
     }
 }
