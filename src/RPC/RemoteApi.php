@@ -285,16 +285,13 @@ class RemoteApi
      * @param string $new_status
      * @return string
      * @access protected
-     * @since 3.2.2 checks access via Issue::canUpdate
+     * @since 3.2.2 checks access via Access::canChangeStatus
      */
     public function setIssueStatus($issue_id, $new_status)
     {
         $usr_id = Auth::getUserID();
 
-        $res = self::updateIssueStatus($issue_id, $usr_id, $new_status);
-        if ($res == -1) {
-            throw new RemoteApiException("Could not set the status to issue #$issue_id");
-        }
+        self::updateIssueStatus($issue_id, $usr_id, $new_status);
 
         return 'OK';
     }
