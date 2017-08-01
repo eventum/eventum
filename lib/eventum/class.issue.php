@@ -662,69 +662,6 @@ class Issue
     }
 
     /**
-     * Method used to get all issues associated with a status that doesn't have
-     * the 'closed' context.
-     *
-     * @param   int $prj_id The project ID to list issues from
-     * @param   int $usr_id The user ID of the user requesting this information
-     * @param   bool $show_all_issues Whether to show all open issues, or just the ones assigned to the given email address
-     * @param   int $status_id The status ID to be used to restrict results
-     * @return  array The list of open issues
-     */
-    public static function getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id)
-    {
-        $projects = Project::getRemoteAssocListByUser($usr_id);
-        if (count($projects) == 0) {
-            return '';
-        }
-
-        $stmt = 'SELECT
-                    iss_id,
-                    iss_summary,
-                    sta_title
-                 FROM
-                    (
-                    {{%issue}},
-                    {{%status}}
-                    )
-                 LEFT JOIN
-                    {{%issue_user}}
-                 ON
-                    isu_iss_id=iss_id
-                 WHERE ';
-        $params = [];
-
-        if (!empty($status_id)) {
-            $stmt .= ' sta_id=? AND ';
-            $params[] = $status_id;
-        }
-
-        $stmt .= '
-                    iss_prj_id=? AND
-                    sta_id=iss_sta_id AND
-                    sta_is_closed=0';
-        $params[] = $prj_id;
-        if ($show_all_issues == false) {
-            $stmt .= ' AND
-                    isu_usr_id=?';
-            $params[] = $usr_id;
-        }
-        $stmt .= "\nGROUP BY
-                        iss_id";
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        if (count($res) > 0) {
-            self::getAssignedUsersByIssues($res);
-        }
-
-        return $res;
-    }
-
-    /**
      * Method used to build the required parameters to simulate an email reply
      * to the user who reported the issue, using the issue details like summary
      * and description as email fields.
