@@ -290,6 +290,7 @@ class RemoteApi
     public function setIssueStatus($issue_id, $new_status)
     {
         $this->checkIssuePermissions($issue_id);
+        $this->checkIssueAssignment($issue_id);
 
         $usr_id = Auth::getUserID();
 
@@ -1043,6 +1044,7 @@ class RemoteApi
      * @param   int $usr_id The user ID of the person performing this change
      * @param   int $new_status The new status ID
      * @throws RemoteApiException on errors
+     * @since 3.2.2 moved to RemoteApi class
      */
     private static function updateIssueStatus($issue_id, $usr_id, $new_status)
     {
@@ -1099,6 +1101,7 @@ class RemoteApi
      * @param   bool $show_all_issues Whether to show all open issues, or just the ones assigned to the given email address
      * @param   int $status_id The status ID to be used to restrict results
      * @return  array The list of open issues
+     * @since 3.2.2 moved to RemoteApi class
      */
     private static function getOpenIssuesList($prj_id, $usr_id, $show_all_issues, $status_id)
     {
@@ -1160,6 +1163,7 @@ class RemoteApi
      * @param   int $usr_id The user ID
      * @param   bool $only_customer_projects Whether to only include projects with customer integration or not
      * @return  array The list of projects
+     * @since 3.2.2 moved to RemoteApi class
      */
     private static function getRemoteAssocListByUser($usr_id, $only_customer_projects = false)
     {
@@ -1199,10 +1203,12 @@ class RemoteApi
     }
 
     /**
-     * @see \Command_Line::checkIssuePermissions()
      * @param int $issue_id
+     * @see \Command_Line::checkIssuePermissions()
+     * @since 3.2.2
      */
-    private function checkIssuePermissions($issue_id) {
+    private function checkIssuePermissions($issue_id)
+    {
         $projects = $this->getUserAssignedProjects(false);
         $details = $this->getIssueDetails($issue_id);
         $iss_prj_id = (int)$details['iss_prj_id'];
@@ -1217,6 +1223,25 @@ class RemoteApi
         }
         if (!$found) {
             throw new RemoteApiException("The assigned project for issue #$issue_id doesn't match any in the list of projects assigned to you");
+        }
+    }
+
+    /**
+     * Checks whether the given user email address is assigned to the given
+     * issue ID.
+     *
+     * @param   int $issue_id The issue ID
+     * @see \Command_Line::checkIssueAssignment()
+     * @since 3.2.2
+     */
+    private function checkIssueAssignment($issue_id)
+    {
+        // check if the current user is allowed to change the given issue
+        $may_change_issue = $this->mayChangeIssue($issue_id);
+
+        // if not, show confirmation message
+        if ($may_change_issue != 'yes') {
+            throw new RemoteApiException("You are not currently assigned to issue #$issue_id.");
         }
     }
 }
