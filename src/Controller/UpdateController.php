@@ -98,7 +98,7 @@ class UpdateController extends BaseController
         if (($this->role_id == User::ROLE_CUSTOMER) && (!$details || (User::getCustomerID($this->usr_id) != $details['iss_customer_id']))
             || !Issue::canAccess($this->issue_id, $this->usr_id)
             || !($this->role_id > User::ROLE_REPORTER)
-            || !Issue::canUpdate($this->issue_id, $this->usr_id)
+            || !Access::canUpdateIssue($this->issue_id, $this->usr_id)
         ) {
             $this->error(ev_gettext('Sorry, you do not have the required privileges to update this issue.'));
         }

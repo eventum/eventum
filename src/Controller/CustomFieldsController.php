@@ -13,6 +13,7 @@
 
 namespace Eventum\Controller;
 
+use Access;
 use Auth;
 use Custom_Field;
 use Issue;
@@ -54,7 +55,7 @@ class CustomFieldsController extends BaseController
 
         $this->usr_id = Auth::getUserID();
 
-        if (!Issue::canUpdate($this->issue_id, $this->usr_id)) {
+        if (!Access::canUpdateIssue($this->issue_id, $this->usr_id)) {
             return false;
         }
 

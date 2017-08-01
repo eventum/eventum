@@ -175,7 +175,7 @@ class ViewController extends BaseController
                 'max_attachment_size' => Attachment::getMaxAttachmentSize(),
                 'quarantine' => Issue::getQuarantineInfo($this->issue_id),
                 'grid' => $this->getColumnsForDisplay(),
-                'can_update' => Issue::canUpdate($this->issue_id, $this->usr_id),
+                'can_update' => Access::canUpdateIssue($this->issue_id, $this->usr_id),
                 'enabled_partners' => Partner::getPartnersByProject($this->prj_id),
                 'partners' => Partner::getPartnersByIssue($this->issue_id),
                 'issue_access' => Access::getIssueAccessArray($this->issue_id, $this->usr_id),

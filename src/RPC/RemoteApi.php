@@ -267,7 +267,7 @@ class RemoteApi
     public function recordTimeWorked($issue_id, $cat_id, $summary, $time_spent)
     {
         $usr_id = Auth::getUserID();
-        if (!Issue::canUpdate($issue_id, $usr_id)) {
+        if (!Access::canUpdateIssue($issue_id, $usr_id)) {
             throw new RemoteApiException("No access to issue #{$issue_id}");
         }
 
