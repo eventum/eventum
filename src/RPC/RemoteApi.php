@@ -25,8 +25,10 @@ use Date_Helper;
 use DateTime;
 use Draft;
 use Eventum\Monolog\Logger;
+use History;
 use InvalidArgumentException;
 use Issue;
+use Misc;
 use Note;
 use Project;
 use Report;
@@ -287,7 +289,7 @@ class RemoteApi
     {
         $usr_id = Auth::getUserID();
 
-        $res = Issue::setRemoteStatus($issue_id, $usr_id, $new_status);
+        $res = self::updateIssueStatus($issue_id, $usr_id, $new_status);
         if ($res == -1) {
             throw new RemoteApiException("Could not set the status to issue #$issue_id");
         }
@@ -361,10 +363,7 @@ class RemoteApi
             throw new RemoteApiException("Could not assign issue #$issue_id to $email");
         }
 
-        $res = Issue::setRemoteStatus($issue_id, $usr_id, 'Assigned');
-        if ($res == -1) {
-            throw new RemoteApiException("Could not set status for issue #$issue_id");
-        }
+        self::updateIssueStatus($issue_id, $usr_id, 'Assigned');
 
         return 'OK';
     }
@@ -1034,5 +1033,59 @@ class RemoteApi
         Logger::cli()->info($command, ['usr_id' => $usr_id, 'email' => $email]);
 
         return 'OK';
+    }
+
+    /**
+     * Method used to remotely set the status of a given issue.
+     *
+     * @param   int $issue_id The issue ID
+     * @param   int $usr_id The user ID of the person performing this change
+     * @param   int $new_status The new status ID
+     * @throws RemoteApiException on errors
+     */
+    private static function updateIssueStatus($issue_id, $usr_id, $new_status)
+    {
+        if (!Issue::canUpdate($issue_id, $usr_id)) {
+            throw new RemoteApiException("User has no access to update issue #$issue_id");
+        }
+
+        // check if the given status is a valid option
+        $prj_id = Issue::getProjectID($issue_id);
+        $statuses = Status::getAbbreviationAssocList($prj_id, false);
+
+        $titles = Misc::lowercase(array_values($statuses));
+        $abbreviations = Misc::lowercase(array_keys($statuses));
+        if ((!in_array(strtolower($new_status), $titles))
+            && (!in_array(strtolower($new_status), $abbreviations))) {
+            $message = "Status '$new_status' could not be matched against the list of available statuses";
+            throw new RemoteApiException($message);
+        }
+
+        // if the user is passing an abbreviation, use the real title instead
+        if (in_array(strtolower($new_status), $abbreviations)) {
+            $index = array_search(strtolower($new_status), $abbreviations);
+            $new_status = $titles[$index];
+        }
+
+        $sta_id = Status::getStatusID($new_status);
+        if ($sta_id === null) {
+            // should not really happen as status fetched from above code
+            throw new RemoteApiException("Unable to find status named '$new_status'");
+        }
+
+        $res = Issue::setStatus($issue_id, $sta_id);
+        if ($res == -2) {
+            throw new RemoteApiException("Issue status is already set to '$new_status'");
+        }
+        if ($res != 1) {
+            throw new RemoteApiException("Could not set status for issue #$issue_id");
+        }
+
+        // record history entry
+        History::add($issue_id, $usr_id, 'remote_status_change',
+            "Status remotely changed to '{status}' by {user}", [
+            'status' => $new_status,
+            'user' => User::getFullName($usr_id),
+        ]);
     }
 }
