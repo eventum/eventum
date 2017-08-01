@@ -13,6 +13,7 @@
 
 namespace Eventum\RPC;
 
+use Access;
 use APIAuthToken;
 use Attachment;
 use Auth;
@@ -1045,7 +1046,7 @@ class RemoteApi
      */
     private static function updateIssueStatus($issue_id, $usr_id, $new_status)
     {
-        if (!Issue::canUpdate($issue_id, $usr_id)) {
+        if (!Access::canChangeStatus($issue_id, $usr_id)) {
             throw new RemoteApiException("User has no access to update issue #$issue_id");
         }
 
