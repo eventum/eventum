@@ -73,6 +73,7 @@ class History
 
         DB_Helper::getInstance()->query($stmt, $params);
         $params['his_id'] = DB_Helper::get_last_insert_id();
+        $params['prj_id'] = Auth::getCurrentProject();
 
         $event = new Event\UnstructuredEvent($params);
         EventManager::dispatch(Event\SystemEvents::HISTORY_ADD, $event);
