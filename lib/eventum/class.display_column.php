@@ -61,7 +61,7 @@ class Display_Column
         }
         // remove status change date column if no customizations setup
         if (count(Status::getProjectStatusCustomization($prj_id, array_keys(Status::getAssocStatusList($prj_id)))) < 1) {
-            unset($data['sta_change_date']);
+            unset($data['status_action_date']);
         }
 
         foreach ($data as $field => $info) {
@@ -201,8 +201,8 @@ class Display_Column
                 'sta_rank' => [
                     'title' => ev_gettext('Status'),
                 ],
-                'sta_change_date' => [
-                    'title' => ev_gettext('Status Change Date'),
+                'status_action_date' => [
+                    'title' => ev_gettext('Status Action Date'),
                 ],
                 'last_action_date' => [
                     'title' => ev_gettext('Last Action Date'),
@@ -219,7 +219,7 @@ class Display_Column
                     'title' => ev_gettext('Expected Resolution Date'),
                 ],
                 'iss_status_change_date' => [
-                    'title' => ev_gettext('Last Status Change Date'),
+                    'title' => ev_gettext('Status Change Date'),
                 ],
             ],
         ];

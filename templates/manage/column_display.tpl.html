@@ -45,11 +45,11 @@
                 <select name="min_role[{$field_name}]">
                     {html_options options=$user_roles selected=$selected_role}
                 </select>
-                {if $field_name == 'sta_change_date'}
+                {if $field_name == 'status_action_date'}
                 <br />
                 <em>
-                    {* TRANSLATORS: %1: url to customize_listing.php *}
-                    {t escape=no 1="customize_listing.php?prj_id=$prj_id"}Note: You need to <a href="%1">configure this field</a> before it can be used.{/t}
+                    {* TRANSLATORS: %1: url to status_action_date.php *}
+                    {t escape=no 1="status_action_date.php?prj_id=$prj_id"}Note: You need to <a href="%1">configure this field</a> before it can be used.{/t}
                 </em>
                 {/if}
             </td>

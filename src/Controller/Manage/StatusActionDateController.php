@@ -20,10 +20,10 @@ use Project;
 use Status;
 use User;
 
-class CustomizeListingController extends ManageBaseController
+class StatusActionDateController extends ManageBaseController
 {
     /** @var string */
-    protected $tpl_name = 'manage/customize_listing.tpl.html';
+    protected $tpl_name = 'manage/status_action_date.tpl.html';
 
     /** @var int */
     protected $min_role = User::ROLE_ADMINISTRATOR;
