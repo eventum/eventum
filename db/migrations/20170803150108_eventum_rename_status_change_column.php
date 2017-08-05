@@ -2,7 +2,7 @@
 
 use Eventum\Db\AbstractMigration;
 
-class RenameStatusChangeColumn extends AbstractMigration
+class EventumRenameStatusChangeColumn extends AbstractMigration
 {
     public function up()
     {
