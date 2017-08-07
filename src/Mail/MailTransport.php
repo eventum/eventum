@@ -53,9 +53,9 @@ class MailTransport
         $envelope->setTo($recipient);
         $transport->setEnvelope($envelope);
 
-        $message = MailMessage::createFromHeaderBody($headers, $body);
-
         try {
+            $message = MailMessage::createFromHeaderBody($headers, $body);
+
             $transport->send($message->toMessage());
             $res = true;
         } catch (\Exception $e) {

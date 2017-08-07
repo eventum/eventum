@@ -56,6 +56,15 @@ $handlers = [
         'class' => 'Eventum\\Monolog\\MailHandler',
         'level' => 'ERROR',
     ],
+    'slack_reporter' => [
+        'class' => 'Monolog\\Handler\\SlackWebhookHandler',
+        'level' => 'ERROR',
+        'webhookUrl' => '',
+        'channel' => '',
+        'iconEmoji' => 'boom',
+        'useShortAttachment' => true,
+        'includeContextAndExtra' => true,
+    ],
 ];
 
 $processors = [
@@ -94,6 +103,7 @@ $loggers = [
             'app_log',
             'error_handler',
             'error_mailer',
+//            'slack_reporter',
         ],
         'processors' => $default_processors,
     ],

@@ -692,7 +692,7 @@ class Abstract_Workflow_Backend
      * @param $new_prj_id integer
      * @since 3.1.7
      */
-    public static function handleIssueMovedFromProject($prj_id, $issue_id, $new_prj_id)
+    public function handleIssueMovedFromProject($prj_id, $issue_id, $new_prj_id)
     {
     }
 
@@ -704,7 +704,7 @@ class Abstract_Workflow_Backend
      * @param $old_prj_id integer
      * @since 3.1.7
      */
-    public static function handleIssueMovedToProject($prj_id, $issue_id, $old_prj_id)
+    public function handleIssueMovedToProject($prj_id, $issue_id, $old_prj_id)
     {
     }
 
@@ -718,7 +718,7 @@ class Abstract_Workflow_Backend
      * @return array A key/value array with the keys being field names in the issue table
      * @since 3.1.7
      */
-    public static function getMovedIssueMapping($prj_id, $issue_id, $mapping, $old_prj_id)
+    public function getMovedIssueMapping($prj_id, $issue_id, $mapping, $old_prj_id)
     {
         return $mapping;
     }

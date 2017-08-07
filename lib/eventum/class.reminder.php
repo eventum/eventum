@@ -89,7 +89,7 @@ class Reminder
      *
      * @return  array The list of reminders
      */
-    private function _getRanking()
+    private static function _getRanking()
     {
         $stmt = 'SELECT
                     rem_id,

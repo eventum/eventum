@@ -13,5 +13,5 @@
 
 require_once __DIR__ . '/../../init.php';
 
-$controller = new Eventum\Controller\Manage\CustomizeListingController();
+$controller = new Eventum\Controller\Manage\StatusActionDateController();
 $controller->run();

@@ -116,8 +116,8 @@ class Help
                 'title' => ev_gettext('Edit Columns to Display'),
                 'parent' => 'main',
             ],
-            'customize_listing' => [
-                'title' => ev_gettext('Customize Issue Listing Screen'),
+            'status_action_date' => [
+                'title' => ev_gettext('Customize Status Action Dates Screen'),
                 'parent' => 'main',
             ],
             'segregate_reporter' => [

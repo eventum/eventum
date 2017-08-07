@@ -43,6 +43,9 @@ Session.vim
 /config/secret_key.php
 /config/setup.php
 /config/sphinx.conf
+/config/userscript.js
+/config/userstyle.css
+
 /config/custom_field/
 /config/templates/
 /config/workflow/

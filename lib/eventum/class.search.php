@@ -205,6 +205,7 @@ class Search
                     iss_last_public_action_type,
                     iss_last_internal_action_date,
                     iss_last_internal_action_type,
+                    iss_status_change_date,
                     ' . Issue::getLastActionFields() . ",
                     CASE WHEN iss_last_internal_action_date > iss_last_public_action_date THEN 'internal' ELSE 'public' END AS action_type,
                     usr_full_name,
@@ -366,7 +367,7 @@ class Search
                 $crm->processListIssuesResult($res);
             }
             Issue::formatLastActionDates($res);
-            Issue::getLastStatusChangeDates($prj_id, $res);
+            Issue::getLastStatusActionDates($prj_id, $res);
         } elseif ($current_row > 0) {
             // if there are no results, and the page is not the first page reset page to one and reload results
             Auth::redirect("list.php?pagerRow=0&rows=$max");
@@ -406,8 +407,6 @@ class Search
                         $col_key = 'assigned_users';break;
                     case 'sta_rank':
                         $col_key = 'sta_title';break;
-                    case 'sta_change_date':
-                        $col_key = 'status_change_date';break;
                     case 'sev_rank':
                         $col_key = 'sev_title';break;
                     case 'iss_customer_id':
