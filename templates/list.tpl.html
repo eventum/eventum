@@ -124,10 +124,12 @@
               {$list[i].sta_title|escape:"html"}
             {elseif $field_name == 'iss_created_date'}
               {$list[i].iss_created_date|timeago}
+            {elseif $field_name == 'iss_status_change_date'}
+              {$list[i].iss_status_change_date|timeago}
             {elseif $field_name == 'iss_dev_time'}
               {$list[i].iss_dev_time|escape:"html"}
-            {elseif $field_name == 'sta_change_date'}
-              {$list[i].status_change_date|escape:"html"}
+            {elseif $field_name == 'status_action_date'}
+              {$list[i].status_action_date|escape:"html"}
             {elseif $field_name == 'last_action_date'}
               {* TRANSLATORS: %1: last action data label, %2: last action date diff *}
               {t 1=$list[i].last_action_date_label 2=$list[i].last_action_date_diff}%1:

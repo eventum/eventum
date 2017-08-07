@@ -375,11 +375,12 @@ class Issue
                     iss_sta_id=?,
                     iss_updated_date=?,
                     iss_last_public_action_date=?,
-                    iss_last_public_action_type='update'
+                    iss_last_public_action_type='update',
+                    iss_status_change_date=?
                  WHERE
                     iss_id=?";
 
-        $params = [$status_id, Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $issue_id];
+        $params = [$status_id, Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), Date_Helper::getCurrentDateGMT(), $issue_id];
         try {
             DB_Helper::getInstance()->query($stmt, $params);
         } catch (DatabaseException $e) {
@@ -1435,6 +1436,10 @@ class Issue
             'iss_description' => $_POST['description'],
         ];
 
+        if (isset($_POST['status']) && $current['iss_sta_id'] != $_POST['status']) {
+            $params['iss_status_change_date'] = Date_Helper::getCurrentDateGMT();
+        }
+
         if (isset($_POST['release'])) {
             $params['iss_pre_id'] = $_POST['release'];
         }
@@ -2393,7 +2398,7 @@ class Issue
      * @param   array $result The associative array of data
      * @see     Search::getListing()
      */
-    public static function getLastStatusChangeDates($prj_id, &$result)
+    public static function getLastStatusActionDates($prj_id, &$result)
     {
         $ids = [];
         foreach ($result as $res) {
@@ -2405,13 +2410,13 @@ class Issue
         $customizations = Status::getProjectStatusCustomization($prj_id, $ids);
         foreach ($result as &$row) {
             if (empty($row['iss_sta_id'])) {
-                $row['status_change_date'] = '';
+                $row['status_action_date'] = '';
                 continue;
             }
 
             list($label, $date_field_name) = @$customizations[$row['iss_sta_id']];
             if ((empty($label)) || (empty($date_field_name))) {
-                $row['status_change_date'] = '';
+                $row['status_action_date'] = '';
                 continue;
             }
 
@@ -2419,12 +2424,12 @@ class Issue
             $desc = ev_gettext('%1$s: %2$s ago');
             $target_date = $row[$date_field_name];
             if (empty($target_date)) {
-                $row['status_change_date'] = '';
+                $row['status_action_date'] = '';
                 continue;
             }
 
             $dateDiff = Date_Helper::getFormattedDateDiff(time(), $target_date);
-            $row['status_change_date'] = sprintf($desc, $label, $dateDiff);
+            $row['status_action_date'] = sprintf($desc, $label, $dateDiff);
         }
     }
 
