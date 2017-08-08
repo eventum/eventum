@@ -13,10 +13,10 @@
 
 use Eventum\RPC\RemoteApi;
 
-$_displayed_confirmation = false;
-
 class Command_Line
 {
+    private static $_displayed_confirmation = null;
+
     /**
      * Prompts the user for a resolution option, and returns the ID of the
      * selected one.
@@ -320,7 +320,7 @@ class Command_Line
     public function checkIssueAssignment($client, $auth, $issue_id)
     {
         // check if the confirmation message was already displayed
-        if (isset($GLOBALS['_displayed_confirmation']) && !$GLOBALS['_displayed_confirmation']) {
+        if (isset(self::$_displayed_confirmation) && !self::$_displayed_confirmation) {
             // check if the current user is allowed to change the given issue
             $may_change_issue = $client->mayChangeIssue($auth[0], $auth[1], $issue_id);
 
@@ -1160,7 +1160,7 @@ Account Manager: ' . @$details['customer']['account_manager_name'];
     public static function promptConfirmation($client, $auth, $issue_id, $args)
     {
         // this is needed to prevent multiple confirmations from being shown to the user
-        $GLOBALS['_displayed_confirmation'] = true;
+        self::$_displayed_confirmation = true;
 
         // get summary, customer status and assignment of issue, then show confirmation prompt to user
         $details = $client->getSimpleIssueDetails($auth[0], $auth[1], $issue_id);
