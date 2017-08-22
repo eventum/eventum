@@ -10,9 +10,10 @@ git tag -d snapshot || :
 version=$(git describe --tags HEAD)
 branch=$(git rev-parse --abbrev-ref HEAD)
 commit=$(git rev-parse --short HEAD)
+date=$(LC_ALL=C TZ=UTC date)
 message="snapshot from $branch branch
 
-Created from $commit on $branch branch.
+Created on $date from $commit on $branch branch.
 Uploaded by Travis. Use at your own risk.
 
 If the snapshot tarball (eventum-${version#v}.tar.gz) is not appearing here,
