@@ -203,7 +203,7 @@ class SendController extends BaseController
         $new_status = $post->get('new_status');
         if ($new_status && Access::canChangeStatus($this->issue_id, $this->usr_id)) {
             $res = Issue::setStatus($this->issue_id, $new_status);
-            if ($res != -1) {
+            if ($res == 1) {
                 $status_title = Status::getStatusTitle($new_status);
                 History::add(
                     $this->issue_id, $this->usr_id, 'status_changed',

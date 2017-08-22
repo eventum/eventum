@@ -501,7 +501,7 @@ class Status
     {
         static $returns;
 
-        if (!empty($returns[$sta_title])) {
+        if (isset($returns[$sta_title])) {
             return $returns[$sta_title];
         }
 
@@ -511,11 +511,7 @@ class Status
                     {{%status}}
                  WHERE
                     sta_title=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$sta_title]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
+        $res = DB_Helper::getInstance()->getOne($stmt, [$sta_title]);
 
         $returns[$sta_title] = $res;
 

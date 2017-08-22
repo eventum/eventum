@@ -864,53 +864,6 @@ class Project
     }
 
     /**
-     * Method used to get the list of projects assigned to a given user that
-     * allow remote invocation of issues.
-     *
-     * @param   int $usr_id The user ID
-     * @param   bool $only_customer_projects Whether to only include projects with customer integration or not
-     * @return  array The list of projects
-     */
-    public static function getRemoteAssocListByUser($usr_id, $only_customer_projects = false)
-    {
-        static $returns;
-
-        if ((!$only_customer_projects) && (!empty($returns[$usr_id]))) {
-            return $returns[$usr_id];
-        }
-
-        $stmt = "SELECT
-                    prj_id,
-                    prj_title
-                 FROM
-                    {{%project}},
-                    {{%project_user}}
-                 WHERE
-                    prj_id=pru_prj_id AND
-                    pru_usr_id=? AND
-                    pru_role > ? AND
-                    prj_remote_invocation='enabled'";
-        if ($only_customer_projects) {
-            $stmt .= " AND prj_customer_backend <> '' AND prj_customer_backend IS NOT NULL ";
-        }
-        $stmt .= '
-                 ORDER BY
-                    prj_title';
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt, [$usr_id, User::ROLE_CUSTOMER]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        // don't cache the results when the optional argument is used to avoid getting bogus results
-        if (!$only_customer_projects) {
-            $returns[$usr_id] = $res;
-        }
-
-        return $res;
-    }
-
-    /**
      * Method used to get the list of users associated with a given project.
      *
      * @param   int $prj_id The project ID

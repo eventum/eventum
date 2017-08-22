@@ -352,7 +352,7 @@ class Issue
      * @param   int $issue_id The issue ID
      * @param   int $status_id The new status ID
      * @param   bool $notify if a notification should be sent about this change
-     * @return  int 1 if the update worked, -1 otherwise
+     * @return  int 1 if the update worked, -2 if no change is made, -1 on error
      */
     public static function setStatus($issue_id, $status_id, $notify = false)
     {
@@ -363,7 +363,7 @@ class Issue
 
         // check if the status is already set to the 'new' one
         if (self::getStatusID($issue_id) == $status_id) {
-            return -1;
+            return -2;
         }
 
         $old_status = self::getStatusID($issue_id);
@@ -403,30 +403,6 @@ class Issue
         }
 
         return 1;
-    }
-
-    /**
-     * Method used to remotely set the status of a given issue.
-     *
-     * @param   int $issue_id The issue ID
-     * @param   int $usr_id The user ID of the person performing this change
-     * @param   int $new_status The new status ID
-     * @return  int 1 if the update worked, -1 otherwise
-     */
-    public static function setRemoteStatus($issue_id, $usr_id, $new_status)
-    {
-        $sta_id = Status::getStatusID($new_status);
-
-        $res = self::setStatus($issue_id, $sta_id);
-        if ($res == 1) {
-            // record history entry
-            History::add($issue_id, $usr_id, 'remote_status_change', "Status remotely changed to '{status}' by {user}", [
-                'status' => $new_status,
-                'user' => User::getFullName($usr_id),
-            ]);
-        }
-
-        return $res;
     }
 
     /**
@@ -680,69 +656,6 @@ class Issue
             $res = DB_Helper::getInstance()->getOne($sql, [$issue_id]);
         } catch (DatabaseException $e) {
             return -1;
-        }
-
-        return $res;
-    }
-
-    /**
-     * Method used to get all issues associated with a status that doesn't have
-     * the 'closed' context.
-     *
-     * @param   int $prj_id The project ID to list issues from
-     * @param   int $usr_id The user ID of the user requesting this information
-     * @param   bool $show_all_issues Whether to show all open issues, or just the ones assigned to the given email address
-     * @param   int $status_id The status ID to be used to restrict results
-     * @return  array The list of open issues
-     */
-    public static function getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id)
-    {
-        $projects = Project::getRemoteAssocListByUser($usr_id);
-        if (count($projects) == 0) {
-            return '';
-        }
-
-        $stmt = 'SELECT
-                    iss_id,
-                    iss_summary,
-                    sta_title
-                 FROM
-                    (
-                    {{%issue}},
-                    {{%status}}
-                    )
-                 LEFT JOIN
-                    {{%issue_user}}
-                 ON
-                    isu_iss_id=iss_id
-                 WHERE ';
-        $params = [];
-
-        if (!empty($status_id)) {
-            $stmt .= ' sta_id=? AND ';
-            $params[] = $status_id;
-        }
-
-        $stmt .= '
-                    iss_prj_id=? AND
-                    sta_id=iss_sta_id AND
-                    sta_is_closed=0';
-        $params[] = $prj_id;
-        if ($show_all_issues == false) {
-            $stmt .= ' AND
-                    isu_usr_id=?';
-            $params[] = $usr_id;
-        }
-        $stmt .= "\nGROUP BY
-                        iss_id";
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $params);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        if (count($res) > 0) {
-            self::getAssignedUsersByIssues($res);
         }
 
         return $res;
@@ -3322,6 +3235,7 @@ class Issue
      * @param   int $issue_id the ID of the issue
      * @param   int $usr_id The ID of the user
      * @return  bool If the user can update the issue
+     * @deprecated since 3.2.2 use Access::canUpdateIssue() directly
      */
     public static function canUpdate($issue_id, $usr_id)
     {

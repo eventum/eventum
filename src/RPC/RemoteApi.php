@@ -13,6 +13,7 @@
 
 namespace Eventum\RPC;
 
+use Access;
 use APIAuthToken;
 use Attachment;
 use Auth;
@@ -23,10 +24,13 @@ use CRMException;
 use Custom_Field;
 use Date_Helper;
 use DateTime;
+use DB_Helper;
 use Draft;
 use Eventum\Monolog\Logger;
+use History;
 use InvalidArgumentException;
 use Issue;
+use Misc;
 use Note;
 use Project;
 use Report;
@@ -109,7 +113,7 @@ class RemoteApi
         $status_id = Status::getStatusID($status);
         $usr_id = Auth::getUserID();
 
-        $results = Issue::getOpenIssues($prj_id, $usr_id, $show_all_issues, $status_id);
+        $results = self::getOpenIssuesList($prj_id, $usr_id, $show_all_issues, $status_id);
 
         if (empty($results)) {
             throw new RemoteApiException('There are currently no open issues');
@@ -188,7 +192,7 @@ class RemoteApi
     {
         $usr_id = Auth::getUserID();
 
-        $res = Project::getRemoteAssocListByUser($usr_id, $only_customer_projects);
+        $res = self::getRemoteAssocListByUser($usr_id, $only_customer_projects);
         if (empty($res)) {
             throw new RemoteApiException(
                 'You are not assigned to any projects at this moment or you lack the proper role'
@@ -264,7 +268,7 @@ class RemoteApi
     public function recordTimeWorked($issue_id, $cat_id, $summary, $time_spent)
     {
         $usr_id = Auth::getUserID();
-        if (!Issue::canUpdate($issue_id, $usr_id)) {
+        if (!Access::canUpdateIssue($issue_id, $usr_id)) {
             throw new RemoteApiException("No access to issue #{$issue_id}");
         }
 
@@ -281,15 +285,16 @@ class RemoteApi
      * @param string $new_status
      * @return string
      * @access protected
+     * @since 3.2.2 checks access via Access::canChangeStatus
      */
     public function setIssueStatus($issue_id, $new_status)
     {
+        $this->checkIssuePermissions($issue_id);
+        $this->checkIssueAssignment($issue_id);
+
         $usr_id = Auth::getUserID();
 
-        $res = Issue::setRemoteStatus($issue_id, $usr_id, $new_status);
-        if ($res == -1) {
-            throw new RemoteApiException("Could not set the status to issue #$issue_id");
-        }
+        self::updateIssueStatus($issue_id, $usr_id, $new_status);
 
         return 'OK';
     }
@@ -313,7 +318,7 @@ class RemoteApi
         }
 
         // check if the assignee is even allowed to be in the given project
-        $projects = Project::getRemoteAssocListByUser($assignee);
+        $projects = self::getRemoteAssocListByUser($assignee);
         if (!in_array($project_id, array_keys($projects))) {
             throw new RemoteApiException(
                 "The selected developer is not permitted in the project associated with issue #$issue_id"
@@ -347,7 +352,7 @@ class RemoteApi
         $usr_id = Auth::getUserID();
 
         // check if the assignee is even allowed to be in the given project
-        $projects = Project::getRemoteAssocListByUser($usr_id);
+        $projects = self::getRemoteAssocListByUser($usr_id);
         if (!in_array($project_id, array_keys($projects))) {
             throw new RemoteApiException(
                 "The selected developer is not permitted in the project associated with issue #$issue_id"
@@ -360,10 +365,7 @@ class RemoteApi
             throw new RemoteApiException("Could not assign issue #$issue_id to $email");
         }
 
-        $res = Issue::setRemoteStatus($issue_id, $usr_id, 'Assigned');
-        if ($res == -1) {
-            throw new RemoteApiException("Could not set status for issue #$issue_id");
-        }
+        self::updateIssueStatus($issue_id, $usr_id, 'Assigned');
 
         return 'OK';
     }
@@ -384,7 +386,7 @@ class RemoteApi
         // if this is an actual user, not just an email address check permissions
         if (!empty($replier_usr_id)) {
             // check if the assignee is even allowed to be in the given project
-            $projects = Project::getRemoteAssocListByUser($replier_usr_id);
+            $projects = self::getRemoteAssocListByUser($replier_usr_id);
             if (!in_array($project_id, array_keys($projects))) {
                 throw new RemoteApiException(
                     "The given user is not permitted in the project associated with issue #$issue_id"
@@ -1033,5 +1035,213 @@ class RemoteApi
         Logger::cli()->info($command, ['usr_id' => $usr_id, 'email' => $email]);
 
         return 'OK';
+    }
+
+    /**
+     * Method used to remotely set the status of a given issue.
+     *
+     * @param   int $issue_id The issue ID
+     * @param   int $usr_id The user ID of the person performing this change
+     * @param   int $new_status The new status ID
+     * @throws RemoteApiException on errors
+     * @since 3.2.2 moved to RemoteApi class
+     */
+    private static function updateIssueStatus($issue_id, $usr_id, $new_status)
+    {
+        if (!Access::canChangeStatus($issue_id, $usr_id)) {
+            throw new RemoteApiException("User has no access to update issue #$issue_id");
+        }
+
+        // check if the given status is a valid option
+        $prj_id = Issue::getProjectID($issue_id);
+        $statuses = Status::getAbbreviationAssocList($prj_id, false);
+
+        $titles = Misc::lowercase(array_values($statuses));
+        $abbreviations = Misc::lowercase(array_keys($statuses));
+        if ((!in_array(strtolower($new_status), $titles))
+            && (!in_array(strtolower($new_status), $abbreviations))) {
+            $message = "Status '$new_status' could not be matched against the list of available statuses";
+            throw new RemoteApiException($message);
+        }
+
+        // if the user is passing an abbreviation, use the real title instead
+        if (in_array(strtolower($new_status), $abbreviations)) {
+            $index = array_search(strtolower($new_status), $abbreviations);
+            $new_status = $titles[$index];
+        }
+
+        $sta_id = Status::getStatusID($new_status);
+        if ($sta_id === null) {
+            // should not really happen as status fetched from above code
+            throw new RemoteApiException("Unable to find status named '$new_status'");
+        }
+
+        $res = Issue::setStatus($issue_id, $sta_id);
+        if ($res == -2) {
+            throw new RemoteApiException("Issue status is already set to '$new_status'");
+        }
+        if ($res != 1) {
+            throw new RemoteApiException("Could not set status for issue #$issue_id");
+        }
+
+        // record history entry
+        History::add($issue_id, $usr_id, 'remote_status_change',
+            "Status remotely changed to '{status}' by {user}", [
+            'status' => $new_status,
+            'user' => User::getFullName($usr_id),
+        ]);
+    }
+
+    /**
+     * Method used to get all issues associated with a status that doesn't have
+     * the 'closed' context.
+     *
+     * @param   int $prj_id The project ID to list issues from
+     * @param   int $usr_id The user ID of the user requesting this information
+     * @param   bool $show_all_issues Whether to show all open issues, or just the ones assigned to the given email address
+     * @param   int $status_id The status ID to be used to restrict results
+     * @return  array The list of open issues
+     * @since 3.2.2 moved to RemoteApi class
+     */
+    private static function getOpenIssuesList($prj_id, $usr_id, $show_all_issues, $status_id)
+    {
+        $projects = self::getRemoteAssocListByUser($usr_id);
+        if (count($projects) == 0) {
+            return [];
+        }
+
+        $stmt
+            = 'SELECT
+                    iss_id,
+                    iss_summary,
+                    sta_title
+                 FROM
+                    (
+                    {{%issue}},
+                    {{%STATUS}}
+                    )
+                 LEFT JOIN
+                    {{%issue_user}}
+                 ON
+                    isu_iss_id=iss_id
+                 WHERE ';
+        $params = [];
+
+        if (!empty($status_id)) {
+            $stmt .= ' sta_id=? AND ';
+            $params[] = $status_id;
+        }
+
+        $stmt
+            .= '
+                    iss_prj_id=? AND
+                    sta_id=iss_sta_id AND
+                    sta_is_closed=0';
+        $params[] = $prj_id;
+        if ($show_all_issues == false) {
+            $stmt
+                .= ' AND
+                    isu_usr_id=?';
+            $params[] = $usr_id;
+        }
+        $stmt
+            .= "\nGROUP BY
+                        iss_id";
+        $res = DB_Helper::getInstance()->getAll($stmt, $params);
+
+        if (count($res) > 0) {
+            Issue::getAssignedUsersByIssues($res);
+        }
+
+        return $res;
+    }
+
+    /**
+     * Method used to get the list of projects assigned to a given user that
+     * allow remote invocation of issues.
+     *
+     * @param   int $usr_id The user ID
+     * @param   bool $only_customer_projects Whether to only include projects with customer integration or not
+     * @return  array The list of projects
+     * @since 3.2.2 moved to RemoteApi class
+     */
+    private static function getRemoteAssocListByUser($usr_id, $only_customer_projects = false)
+    {
+        static $returns;
+
+        if (!$only_customer_projects && !empty($returns[$usr_id])) {
+            return $returns[$usr_id];
+        }
+
+        $stmt
+            = "SELECT
+                    prj_id,
+                    prj_title
+                 FROM
+                    {{%project}},
+                    {{%project_user}}
+                 WHERE
+                    prj_id=pru_prj_id AND
+                    pru_usr_id=? AND
+                    pru_role > ? AND
+                    prj_remote_invocation='enabled'";
+        if ($only_customer_projects) {
+            $stmt .= " AND prj_customer_backend <> '' AND prj_customer_backend IS NOT NULL ";
+        }
+        $stmt
+            .= '
+                 ORDER BY
+                    prj_title';
+        $res = DB_Helper::getInstance()->getPair($stmt, [$usr_id, User::ROLE_CUSTOMER]);
+
+        // don't cache the results when the optional argument is used to avoid getting bogus results
+        if (!$only_customer_projects) {
+            $returns[$usr_id] = $res;
+        }
+
+        return $res;
+    }
+
+    /**
+     * @param int $issue_id
+     * @see \Command_Line::checkIssuePermissions()
+     * @since 3.2.2
+     */
+    private function checkIssuePermissions($issue_id)
+    {
+        $projects = $this->getUserAssignedProjects(false);
+        $details = $this->getIssueDetails($issue_id);
+        $iss_prj_id = (int)$details['iss_prj_id'];
+
+        // check if the issue the user is trying to change is inside a project viewable to him
+        $found = 0;
+        foreach ($projects as $i => $project) {
+            if ($iss_prj_id == $project['id']) {
+                $found = 1;
+                break;
+            }
+        }
+        if (!$found) {
+            throw new RemoteApiException("The assigned project for issue #$issue_id doesn't match any in the list of projects assigned to you");
+        }
+    }
+
+    /**
+     * Checks whether the given user email address is assigned to the given
+     * issue ID.
+     *
+     * @param   int $issue_id The issue ID
+     * @see \Command_Line::checkIssueAssignment()
+     * @since 3.2.2
+     */
+    private function checkIssueAssignment($issue_id)
+    {
+        // check if the current user is allowed to change the given issue
+        $may_change_issue = $this->mayChangeIssue($issue_id);
+
+        // if not, show confirmation message
+        if ($may_change_issue != 'yes') {
+            throw new RemoteApiException("You are not currently assigned to issue #$issue_id.");
+        }
     }
 }
