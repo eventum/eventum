@@ -38,10 +38,11 @@ all:
 
 pot:
 	$(MAKE) -C localization pot
-	if test -d ../po; then \
-		test -d ../po/.bzr && (cd ../po && bzr pull); \
-		cp localization/*.pot ../po/localization; \
-		test -d ../po/.bzr && (cd ../po && bzr commit -m "update .pot" && bzr push); \
+	# push to bzr if "po" directory exists
+	if test -d po; then \
+		test -d po/.bzr && (cd po && bzr pull); \
+		cp -p localization/*.pot po/localization; \
+		test -d po/.bzr && (cd po && bzr commit -m "update .pot" && bzr push); \
 	fi
 
 install: install-eventum install-cli
