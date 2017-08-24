@@ -1,5 +1,12 @@
 # Eventum Issue Tracking System
 
+## [3.2.3] - ???
+
+Upgrading to 3.2.x versions requires that you upgrade to 3.2.0 version first.
+
+
+[3.2.3]: https://github.com/eventum/eventum/compare/v3.2.2...master
+
 ## [3.2.2] - 2017-08-24
 
 Upgrading to 3.2.x versions requires that you upgrade to 3.2.0 version first.
