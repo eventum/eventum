@@ -1,6 +1,6 @@
 # Eventum Issue Tracking System
 
-## [3.2.2] - 2017-??-??
+## [3.2.2] - 2017-08-24
 
 Upgrading to 3.2.x versions requires that you upgrade to 3.2.0 version first.
 
@@ -17,7 +17,7 @@ Upgrading to 3.2.x versions requires that you upgrade to 3.2.0 version first.
 - add real 'Status Change Date' column and rename old column to 'Status Action Date' (@balsdorf, #277)
 - rpc: setIssueStatus: validate parameters server side (@glensc, #280)
 
-[3.2.2]: https://github.com/eventum/eventum/compare/v3.2.1...master
+[3.2.2]: https://github.com/eventum/eventum/compare/v3.2.1...3.2.2
 
 ## [3.2.1] - 2017-06-09
 
