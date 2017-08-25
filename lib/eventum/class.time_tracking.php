@@ -687,36 +687,6 @@ class Time_Tracking
     }
 
     /**
-     * Method used to get the time spent for a specific issue
-     * at a specific time.
-     *
-     * @param   int $issue_id The issue ID
-     * @param   string $usr_id the ID of the user this report is for
-     * @param   int $start the timestamp of the beginning of the report
-     * @param   int $end the timestamp of the end of this report
-     * @return  int The time spent
-     * @deprecated method not used
-     */
-    public static function getTimeSpentByIssueAndTime($issue_id, $usr_id, $start, $end)
-    {
-        $stmt = 'SELECT
-                    SUM(ttr_time_spent)
-                 FROM
-                    {{%time_tracking}}
-                 WHERE
-                    ttr_usr_id = ? AND
-                    ttr_created_date BETWEEN ? AND ? AND
-                    ttr_iss_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$usr_id, $start, $end, $issue_id]);
-        } catch (DatabaseException $e) {
-            return 0;
-        }
-
-        return $res;
-    }
-
-    /**
      * Method used to add time spent on issue to a list of user issues.
      *
      * @param   array $res User issues
