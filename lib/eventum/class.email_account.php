@@ -435,31 +435,4 @@ class Email_Account
 
         return $res;
     }
-
-    /**
-     * Method used to get the email account associated with the given
-     * issue' project.
-     *
-     * @param   int $issue_id The issue ID
-     * @return  int The email account ID
-     * @deprecated method not used
-     */
-    public static function getEmailAccountByIssueID($issue_id)
-    {
-        $stmt = 'SELECT
-                    ema_id
-                 FROM
-                    {{%email_account}},
-                    {{%issue}}
-                 WHERE
-                    ema_prj_id=iss_prj_id AND
-                    iss_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        return $res;
-    }
 }
