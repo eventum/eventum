@@ -677,28 +677,4 @@ class Status
 
         return $res;
     }
-
-    /**
-     * Method used to get the list of statuses and their respective colors
-     *
-     * @return  array List of statuses
-     * @deprecated method not used
-     */
-    public static function getStatusColors()
-    {
-        $stmt = 'SELECT
-                    sta_color,
-                    sta_title
-                 FROM
-                    {{%status}}
-                 ORDER BY
-                    sta_rank ASC';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        return $res;
-    }
 }
