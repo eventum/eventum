@@ -1559,30 +1559,6 @@ class Notification
     }
 
     /**
-     * Method used to send the account details of an user.
-     *
-     * @param   int $usr_id The user ID
-     * @deprecated method not used?
-     */
-    public static function notifyAccountDetails($usr_id)
-    {
-        $info = User::getDetails($usr_id);
-        $info['projects'] = Project::getAssocList($usr_id, true, true);
-        // open text template
-        $tpl = new Template_Helper();
-        $tpl->setTemplate('notifications/account_details.tpl.text');
-        $tpl->assign([
-            'app_title' => Misc::getToolCaption(),
-            'user' => $info,
-        ]);
-
-        // TRANSLATORS: %s = APP_SHORT_NAME
-        $subject = ev_gettext('%s: Your User Account Details', APP_SHORT_NAME);
-        $text_message = $tpl->getTemplateContents();
-        self::notifyUserByMail($usr_id, $subject, $text_message);
-    }
-
-    /**
      * Method used to get the list of subscribers for a given issue.
      *
      * @param   int $issue_id The issue ID
