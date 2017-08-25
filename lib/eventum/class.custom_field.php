@@ -1676,25 +1676,6 @@ class Custom_Field
     }
 
     /**
-     * This method inserts a blank value for all custom fields that do not already have a record.
-     * It currently is not called by the main code, but is included to be called from workflow classes.
-     *
-     * @param   int $issue_id The Issue ID
-     * @deprecated method not used
-     */
-    public static function populateAllFields($issue_id)
-    {
-        $prj_id = Issue::getProjectID($issue_id);
-        $fields = self::getListByIssue($prj_id, $issue_id, APP_SYSTEM_USER_ID);
-        foreach ($fields as $field) {
-            if (empty($field['value'])) {
-                self::removeIssueAssociation($field['fld_id'], $issue_id);
-                self::associateIssue($issue_id, $field['fld_id'], '');
-            }
-        }
-    }
-
-    /**
      * Returns the name of the db field this custom field uses based on the type.
      *
      * @param   string $type
