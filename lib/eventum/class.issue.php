@@ -2434,34 +2434,6 @@ class Issue
     }
 
     /**
-     * Method used to get the full list of users (the email usernames) assigned to a
-     * specific issue.
-     *
-     * @param   int $issue_id The issue ID
-     * @return  array The list of users
-     * @deprecated method not used
-     */
-    public static function getAssignedUserEmailHandles($issue_id)
-    {
-        $stmt = "SELECT
-                    usr_id,
-                    SUBSTRING(usr_email, 1, INSTR(usr_email, '@')-1) AS handle
-                 FROM
-                    {{%issue_user}},
-                    {{%user}}
-                 WHERE
-                    isu_iss_id=? AND
-                    isu_usr_id=usr_id";
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return [];
-        }
-
-        return array_values($res);
-    }
-
-    /**
      * Method used to get the details for a specific issue.
      *
      * @param   int $issue_id The issue ID
