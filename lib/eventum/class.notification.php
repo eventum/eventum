@@ -494,43 +494,6 @@ class Notification
     }
 
     /**
-     * Method used to get the details of a given issue and its
-     * associated emails.
-     *
-     * @param   int $issue_id The issue ID
-     * @param   array $sup_ids The list of associated emails
-     * @return  array The issue / emails details
-     * @deprecated method not used
-     */
-    public static function getEmails($issue_id, $sup_ids)
-    {
-        $items = DB_Helper::buildList($sup_ids);
-        $stmt = "SELECT
-                    sup_from,
-                    sup_to,
-                    sup_date,
-                    sup_subject,
-                    sup_has_attachment
-                 FROM
-                    {{%support_email}}
-                 WHERE
-                    sup_id IN ($items)";
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $sup_ids);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        if (count($res) == 0) {
-            return '';
-        }
-        $data = Issue::getDetails($issue_id);
-        $data['emails'] = $res;
-
-        return $data;
-    }
-
-    /**
      * Method used to get the details of a given issue and attachment.
      *
      * @param   int $issue_id The issue ID
