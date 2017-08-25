@@ -122,30 +122,6 @@ class Priority
     }
 
     /**
-     * Method used to remove all priorities related to a set of
-     * specific projects.
-     *
-     * @param   array $ids The project IDs to be removed
-     * @return  bool Whether the removal worked or not
-     * @deprecated method not used
-     */
-    public static function removeByProjects($ids)
-    {
-        $items = DB_Helper::buildList($ids);
-        $stmt = "DELETE FROM
-                    {{%project_priority}}
-                 WHERE
-                    pri_prj_id IN ($items)";
-        try {
-            DB_Helper::getInstance()->query($stmt, $ids);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to remove user-selected priorities from the
      * database.
      *
