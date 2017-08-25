@@ -586,24 +586,6 @@ class User
     }
 
     /**
-     * Method used to get the role ID for a specific role title.
-     *
-     * @param   string $role_title The role title
-     * @return  int The role ID
-     * @deprecated use ROLE_ constant directly
-     */
-    public static function getRoleID($role_title)
-    {
-        foreach (self::$roles as $role_id => $role) {
-            if (strtolower($role) == strtolower($role_title)) {
-                return $role_id;
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Method used to get the role for a specific user and project.
      *
      * @param   int $usr_id The user ID
