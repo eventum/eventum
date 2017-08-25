@@ -2326,42 +2326,6 @@ class Issue
     }
 
     /**
-     * Method used to get the full list of reporters associated with a given
-     * list of issues.
-     *
-     * @param   array $result The result set
-     * @deprecated method not used
-     */
-    public static function getReportersByIssues(&$result)
-    {
-        $ids = [];
-        foreach ($result as $res) {
-            $ids[] = $res['iss_id'];
-        }
-        $ids = implode(', ', $ids);
-        $stmt = "SELECT
-                    iss_id,
-                    CONCAT(usr_full_name, ' <', usr_email, '>') AS usr_full_name
-                 FROM
-                    {{%issue}},
-                    {{%user}}
-                 WHERE
-                    iss_usr_id=usr_id AND
-                    iss_id IN ($ids)";
-
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DatabaseException $e) {
-            return;
-        }
-
-        // now populate the $result variable again
-        foreach ($result as &$row) {
-            $row['reporter'] = $res[$row['iss_id']];
-        }
-    }
-
-    /**
      * Method used to get the full list of assigned users by a list
      * of issues. This was originally created to optimize the issue
      * listing page.
