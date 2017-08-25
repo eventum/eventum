@@ -2802,38 +2802,6 @@ class Issue
     }
 
     /**
-     * Method used to get the full list of issue IDs and their respective
-     * titles.
-     *
-     * @param   string $extra_condition An extra condition in the WHERE clause
-     * @return  array The list of issues
-     * @deprecated method not used
-     */
-    public static function getAssocList($extra_condition = null)
-    {
-        $stmt = 'SELECT
-                    iss_id,
-                    iss_summary
-                 FROM
-                    {{%issue}}
-                 WHERE
-                    iss_prj_id=' . Auth::getCurrentProject();
-        if (!empty($extra_condition)) {
-            $stmt .= " AND $extra_condition ";
-        }
-        $stmt .= '
-                 ORDER BY
-                    iss_id ASC';
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        return $res;
-    }
-
-    /**
      * Method used to check whether an issue was already closed or not.
      *
      * @param   int $issue_id The issue ID
