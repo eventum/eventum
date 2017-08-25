@@ -1506,56 +1506,6 @@ class Notification
     }
 
     /**
-     * Send an email to all issue assignees
-     *
-     * @param   int $issue_id The ID of the issue
-     * @param   string $type The type of notification to send
-     * @param   array $data Any extra data to pass to the template
-     * @deprecated method not used
-     */
-    public static function notifyAssignees($issue_id, $type, $data, $title = '')
-    {
-        $prj_id = Issue::getProjectID($issue_id);
-        $assignees = Issue::getAssignedUserIDs($issue_id);
-        if (!$assignees) {
-            return;
-        }
-
-        // get issue details
-        $issue = Issue::getDetails($issue_id);
-        // open text template
-        $tpl = new Template_Helper();
-        $tpl->setTemplate('notifications/' . $type . '.tpl.text');
-        $tpl->assign([
-            'app_title' => Misc::getToolCaption(),
-            'issue' => $issue,
-            'data' => $data,
-        ]);
-
-        foreach ($assignees as $usr_id) {
-            $usr_email = User::getFromHeader($usr_id);
-            if (!Workflow::shouldEmailAddress($prj_id, Mail_Helper::getEmailAddress($usr_email))) {
-                continue;
-            }
-
-            $subject = "[#$issue_id] $title: " . $issue['iss_summary'];
-            $text_message = $tpl->getTemplateContents();
-
-            // change the current locale
-            Language::set(User::getLang($usr_id));
-
-            $from = self::getFixedFromHeader($issue_id, '', 'issue');
-
-            // send email (use PEAR's classes)
-            $mail = new Mail_Helper();
-            $mail->setTextBody($text_message);
-            $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-            $mail->send($from, $usr_email, $subject, true, $issue_id, $type);
-        }
-        Language::restore();
-    }
-
-    /**
      * Method used to send an email notification when an issue is
      * assigned to an user.
      *
