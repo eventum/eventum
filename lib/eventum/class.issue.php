@@ -2967,48 +2967,6 @@ class Issue
     }
 
     /**
-     * Sets the group of the issue.
-     *
-     * @param   int $issue_id The ID of the issue
-     * @param   int $group_id The ID of the group
-     * @return  int 1 if successful, -1 or -2 otherwise
-     * @deprecated method not used
-     */
-    public static function setGroup($issue_id, $group_id)
-    {
-        $issue_id = (int) $issue_id;
-        $group_id = (int) $group_id;
-
-        $current = self::getDetails($issue_id);
-        if ($current['iss_grp_id'] == $group_id) {
-            return -2;
-        }
-        $stmt = 'UPDATE
-                    {{%issue}}
-                 SET
-                    iss_grp_id = ?
-                 WHERE
-                    iss_id = ?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [$group_id, $issue_id]);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        $usr_id = Auth::getUserID();
-        if (!$usr_id) {
-            $usr_id = APP_SYSTEM_USER_ID;
-        }
-
-        History::add($issue_id, $usr_id, 'group_changed', 'Group changed ({changes}) by {user}', [
-            'changes' => History::formatChanges(Group::getName($current['iss_grp_id']), Group::getName($group_id)),
-            'user' => User::getFullName($usr_id),
-        ]);
-
-        return 1;
-    }
-
-    /**
      * Returns the group ID associated with the given issue ID.
      *
      * @param   int $issue_id The issue ID
