@@ -3002,19 +3002,6 @@ class Issue
     }
 
     /**
-     * Returns true if the user can update the issue
-     *
-     * @param   int $issue_id the ID of the issue
-     * @param   int $usr_id The ID of the user
-     * @return  bool If the user can update the issue
-     * @deprecated since 3.2.2 use Access::canUpdateIssue() directly
-     */
-    public static function canUpdate($issue_id, $usr_id)
-    {
-        return Access::canUpdateIssue($issue_id, $usr_id);
-    }
-
-    /**
      * Clears closed information from an issues.
      *
      * @param   int $issue_id The ID of the issue
