@@ -31,7 +31,7 @@ class MailStorageTest extends TestCase
 
     public function setUp()
     {
-        $setup = &Setup::load();
+        $setup = Setup::get();
 
         if (!isset($setup['imap_account'])) {
             $this->markTestSkipped("Define 'imap_account' array in setup.php for testing");
