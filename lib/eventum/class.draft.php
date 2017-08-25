@@ -176,29 +176,6 @@ class Draft
     }
 
     /**
-     * Method used to remove the recipients associated with the given
-     * email draft response.
-     *
-     * @param   int $emd_id The email draft ID
-     * @return  bool
-     * @deprecated method not used
-     */
-    public static function removeRecipients($emd_id)
-    {
-        $stmt = 'DELETE FROM
-                    {{%email_draft_recipient}}
-                 WHERE
-                    edr_emd_id=?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [$emd_id]);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to associate a recipient with a given email
      * draft response.
      *
