@@ -389,31 +389,4 @@ class Draft
 
         return $res;
     }
-
-    /**
-     * Returns the number of drafts by a user in a time range.
-     *
-     * @param   string $usr_id The ID of the user
-     * @param   int $start The timestamp of the start date
-     * @param   int $end The timestanp of the end date
-     * @return  int the number of note by the user
-     * @deprecated method not used
-     */
-    public static function getCountByUser($usr_id, $start, $end)
-    {
-        $stmt = 'SELECT
-                    COUNT(emd_id)
-                 FROM
-                    {{%email_draft}}
-                 WHERE
-                    emd_updated_date BETWEEN ? AND ? AND
-                    emd_usr_id = ?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$start, $end, $usr_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        return $res;
-    }
 }
