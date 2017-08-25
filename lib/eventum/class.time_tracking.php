@@ -302,30 +302,6 @@ class Time_Tracking
     }
 
     /**
-     * Method used to get the total time spent for a specific issue.
-     *
-     * @param   int $issue_id The issue ID
-     * @return  int The total time spent
-     * @deprecated method not used
-     */
-    public static function getTimeSpentByIssue($issue_id)
-    {
-        $stmt = 'SELECT
-                    SUM(ttr_time_spent)
-                 FROM
-                    {{%time_tracking}}
-                 WHERE
-                    ttr_iss_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return 0;
-        }
-
-        return $res;
-    }
-
-    /**
      * Method used to get the full listing of time entries in the system for a
      * specific issue
      *
