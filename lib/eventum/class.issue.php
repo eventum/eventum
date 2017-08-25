@@ -986,30 +986,6 @@ class Issue
     }
 
     /**
-     * Method used to get the issue ID associated with a specific summary.
-     *
-     * @param   string $summary The summary to look for
-     * @return  int The issue ID
-     * @deprecated method not used
-     */
-    public static function getIssueID($summary)
-    {
-        $stmt = 'SELECT
-                    iss_id
-                 FROM
-                    {{%issue}}
-                 WHERE
-                    iss_summary=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$summary]);
-        } catch (DatabaseException $e) {
-            return 0;
-        }
-
-        return !empty($res) ? $res : 0;
-    }
-
-    /**
      * Method used to add a new anonymous based issue in the system.
      *
      * @return  int The new issue ID
