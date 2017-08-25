@@ -905,31 +905,6 @@ class Support
     }
 
     /**
-     * Builds a list of all distinct message-ids available in the provided
-     * email account.
-     *
-     * @param   int $ema_id The support email account ID
-     * @return  array The list of message-ids
-     * @deprecated method not used
-     */
-    public static function getMessageIDs($ema_id)
-    {
-        $stmt = 'SELECT
-                    DISTINCT sup_message_id
-                 FROM
-                    {{%support_email}}
-                 WHERE
-                    sup_ema_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getColumn($stmt, [$ema_id]);
-        } catch (DatabaseException $e) {
-            return [];
-        }
-
-        return $res;
-    }
-
-    /**
      * Checks if a message already is downloaded.
      *
      * @param   string $message_id The Message-ID header
