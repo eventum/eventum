@@ -194,34 +194,6 @@ class Status
     }
 
     /**
-     * Method used to check whether the given status has a closed context or
-     * not.
-     *
-     * @return  bool
-     * @deprecated method not used
-     */
-    public static function hasClosedContext($sta_id)
-    {
-        $stmt = 'SELECT
-                    sta_is_closed
-                 FROM
-                    {{%status}}
-                 WHERE
-                    sta_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$sta_id]);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        if (empty($res)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to add a new custom status to the system.
      *
      * @return  int 1 if the insert worked properly, any other value otherwise
