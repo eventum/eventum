@@ -49,7 +49,8 @@ class MailTransport
         } catch (\Exception $e) {
             $traceFile = $this->getTraceFile();
             if ($traceFile) {
-                file_put_contents($traceFile, json_encode([$recipient, $headers, $body]));
+                // this is largely useless, as the exception likely happens in toMessage call above
+                file_put_contents($traceFile, json_encode([$recipient, $mail->getHeadersArray(), $mail->getContent()]));
             }
             Logger::app()->error($e->getMessage(), ['traceFile' => $traceFile, 'exception' => $e]);
             $res = $e;
@@ -83,7 +84,7 @@ class MailTransport
      */
     private function getTraceFile()
     {
-        $id = uniqid('zf-mail-');
+        $id = uniqid('zf-mail-', true);
         $traceFile = APP_LOG_PATH . "/$id.json";
 
         return $traceFile;
