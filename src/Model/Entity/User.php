@@ -26,117 +26,117 @@ class User
      * @Id
      * @GeneratedValue(strategy="IDENTITY")
      */
-    private $usrId;
+    private $id;
 
     /**
      * @var string
      * @Column(name="usr_customer_id", type="string", length=128, nullable=true)
      */
-    private $usrCustomerId;
+    private $customerId;
 
     /**
      * @var string
      * @Column(name="usr_customer_contact_id", type="string", length=128, nullable=true)
      */
-    private $usrCustomerContactId;
+    private $customerContactId;
 
     /**
      * @var \DateTime
      * @Column(name="usr_created_date", type="datetime", nullable=false)
      */
-    private $usrCreatedDate;
+    private $createdDate;
 
     /**
      * @var string
      * @Column(name="usr_status", type="string", length=8, nullable=false)
      */
-    private $usrStatus;
+    private $status;
 
     /**
      * @var string
      * @Column(name="usr_password", type="string", length=255, nullable=false)
      */
-    private $usrPassword;
+    private $password;
 
     /**
      * @var string
      * @Column(name="usr_full_name", type="string", length=255, nullable=false)
      */
-    private $usrFullName;
+    private $fullName;
 
     /**
      * @var string
      * @Column(name="usr_email", type="string", length=255, nullable=false)
      */
-    private $usrEmail;
+    private $email;
 
     /**
      * @var string
      * @Column(name="usr_sms_email", type="string", length=255, nullable=true)
      */
-    private $usrSmsEmail;
+    private $smsEmail;
 
     /**
      * @var bool
      * @Column(name="usr_clocked_in", type="boolean", nullable=true)
      */
-    private $usrClockedIn;
+    private $clockedIn;
 
     /**
      * @var string
      * @Column(name="usr_lang", type="string", length=5, nullable=true)
      */
-    private $usrLang;
+    private $lang;
 
     /**
      * @var string
      * @Column(name="usr_external_id", type="string", length=100, nullable=false)
      */
-    private $usrExternalId;
+    private $externalId;
 
     /**
      * @var \DateTime
      * @Column(name="usr_last_login", type="datetime", nullable=true)
      */
-    private $usrLastLogin;
+    private $lastLogin;
 
     /**
      * @var \DateTime
      * @Column(name="usr_last_failed_login", type="datetime", nullable=true)
      */
-    private $usrLastFailedLogin;
+    private $lastFailedLogin;
 
     /**
      * @var int
      * @Column(name="usr_failed_logins", type="integer", nullable=false)
      */
-    private $usrFailedLogins;
+    private $failedLogins;
 
     /**
      * @var string
      * @Column(name="usr_par_code", type="string", length=30, nullable=true)
      */
-    private $usrParCode;
+    private $parCode;
 
     /**
-     * Get usrId
+     * Get user Id
      *
      * @return int
      */
-    public function getUsrId()
+    public function getId()
     {
-        return $this->usrId;
+        return $this->id;
     }
 
     /**
-     * Set usrCustomerId
+     * Set customerId
      *
-     * @param string $usrCustomerId
+     * @param string $customerId
      * @return User
      */
-    public function setUsrCustomerId($usrCustomerId)
+    public function setCustomerId($customerId)
     {
-        $this->usrCustomerId = $usrCustomerId;
+        $this->customerId = $customerId;
 
         return $this;
     }
@@ -146,20 +146,20 @@ class User
      *
      * @return string
      */
-    public function getUsrCustomerId()
+    public function getCustomerId()
     {
-        return $this->usrCustomerId;
+        return $this->customerId;
     }
 
     /**
      * Set usrCustomerContactId
      *
-     * @param string $usrCustomerContactId
+     * @param string $customerContactId
      * @return User
      */
-    public function setUsrCustomerContactId($usrCustomerContactId)
+    public function setCustomerContactId($customerContactId)
     {
-        $this->usrCustomerContactId = $usrCustomerContactId;
+        $this->customerContactId = $customerContactId;
 
         return $this;
     }
@@ -169,20 +169,20 @@ class User
      *
      * @return string
      */
-    public function getUsrCustomerContactId()
+    public function getCustomerContactId()
     {
-        return $this->usrCustomerContactId;
+        return $this->customerContactId;
     }
 
     /**
      * Set usrCreatedDate
      *
-     * @param \DateTime $usrCreatedDate
+     * @param \DateTime $createdDate
      * @return User
      */
-    public function setUsrCreatedDate($usrCreatedDate)
+    public function setCreatedDate($createdDate)
     {
-        $this->usrCreatedDate = $usrCreatedDate;
+        $this->createdDate = $createdDate;
 
         return $this;
     }
@@ -192,20 +192,20 @@ class User
      *
      * @return \DateTime
      */
-    public function getUsrCreatedDate()
+    public function getCreatedDate()
     {
-        return $this->usrCreatedDate;
+        return $this->createdDate;
     }
 
     /**
      * Set usrStatus
      *
-     * @param string $usrStatus
+     * @param string $status
      * @return User
      */
-    public function setUsrStatus($usrStatus)
+    public function setStatus($status)
     {
-        $this->usrStatus = $usrStatus;
+        $this->status = $status;
 
         return $this;
     }
@@ -215,20 +215,20 @@ class User
      *
      * @return string
      */
-    public function getUsrStatus()
+    public function getStatus()
     {
-        return $this->usrStatus;
+        return $this->status;
     }
 
     /**
      * Set usrPassword
      *
-     * @param string $usrPassword
+     * @param string $password
      * @return User
      */
-    public function setUsrPassword($usrPassword)
+    public function setPassword($password)
     {
-        $this->usrPassword = $usrPassword;
+        $this->password = $password;
 
         return $this;
     }
@@ -238,20 +238,20 @@ class User
      *
      * @return string
      */
-    public function getUsrPassword()
+    public function getPassword()
     {
-        return $this->usrPassword;
+        return $this->password;
     }
 
     /**
      * Set usrFullName
      *
-     * @param string $usrFullName
+     * @param string $fullName
      * @return User
      */
-    public function setUsrFullName($usrFullName)
+    public function setFullName($fullName)
     {
-        $this->usrFullName = $usrFullName;
+        $this->fullName = $fullName;
 
         return $this;
     }
@@ -261,20 +261,20 @@ class User
      *
      * @return string
      */
-    public function getUsrFullName()
+    public function getFullName()
     {
-        return $this->usrFullName;
+        return $this->fullName;
     }
 
     /**
      * Set usrEmail
      *
-     * @param string $usrEmail
+     * @param string $email
      * @return User
      */
-    public function setUsrEmail($usrEmail)
+    public function setEmail($email)
     {
-        $this->usrEmail = $usrEmail;
+        $this->email = $email;
 
         return $this;
     }
@@ -284,20 +284,20 @@ class User
      *
      * @return string
      */
-    public function getUsrEmail()
+    public function getEmail()
     {
-        return $this->usrEmail;
+        return $this->email;
     }
 
     /**
      * Set usrSmsEmail
      *
-     * @param string $usrSmsEmail
+     * @param string $smsEmail
      * @return User
      */
-    public function setUsrSmsEmail($usrSmsEmail)
+    public function setSmsEmail($smsEmail)
     {
-        $this->usrSmsEmail = $usrSmsEmail;
+        $this->smsEmail = $smsEmail;
 
         return $this;
     }
@@ -307,20 +307,20 @@ class User
      *
      * @return string
      */
-    public function getUsrSmsEmail()
+    public function getSmsEmail()
     {
-        return $this->usrSmsEmail;
+        return $this->smsEmail;
     }
 
     /**
      * Set usrClockedIn
      *
-     * @param bool $usrClockedIn
+     * @param bool $clockedIn
      * @return User
      */
-    public function setUsrClockedIn($usrClockedIn)
+    public function setClockedIn($clockedIn)
     {
-        $this->usrClockedIn = $usrClockedIn;
+        $this->clockedIn = $clockedIn;
 
         return $this;
     }
@@ -330,20 +330,20 @@ class User
      *
      * @return bool
      */
-    public function getUsrClockedIn()
+    public function getClockedIn()
     {
-        return $this->usrClockedIn;
+        return $this->clockedIn;
     }
 
     /**
      * Set usrLang
      *
-     * @param string $usrLang
+     * @param string $lang
      * @return User
      */
-    public function setUsrLang($usrLang)
+    public function setLang($lang)
     {
-        $this->usrLang = $usrLang;
+        $this->lang = $lang;
 
         return $this;
     }
@@ -353,20 +353,20 @@ class User
      *
      * @return string
      */
-    public function getUsrLang()
+    public function getLang()
     {
-        return $this->usrLang;
+        return $this->lang;
     }
 
     /**
      * Set usrExternalId
      *
-     * @param string $usrExternalId
+     * @param string $externalId
      * @return User
      */
-    public function setUsrExternalId($usrExternalId)
+    public function setExternalId($externalId)
     {
-        $this->usrExternalId = $usrExternalId;
+        $this->externalId = $externalId;
 
         return $this;
     }
@@ -376,20 +376,20 @@ class User
      *
      * @return string
      */
-    public function getUsrExternalId()
+    public function getExternalId()
     {
-        return $this->usrExternalId;
+        return $this->externalId;
     }
 
     /**
      * Set usrLastLogin
      *
-     * @param \DateTime $usrLastLogin
+     * @param \DateTime $lastLogin
      * @return User
      */
-    public function setUsrLastLogin($usrLastLogin)
+    public function setLastLogin($lastLogin)
     {
-        $this->usrLastLogin = $usrLastLogin;
+        $this->lastLogin = $lastLogin;
 
         return $this;
     }
@@ -399,20 +399,20 @@ class User
      *
      * @return \DateTime
      */
-    public function getUsrLastLogin()
+    public function getLastLogin()
     {
-        return $this->usrLastLogin;
+        return $this->lastLogin;
     }
 
     /**
      * Set usrLastFailedLogin
      *
-     * @param \DateTime $usrLastFailedLogin
+     * @param \DateTime $lastFailedLogin
      * @return User
      */
-    public function setUsrLastFailedLogin($usrLastFailedLogin)
+    public function setLastFailedLogin($lastFailedLogin)
     {
-        $this->usrLastFailedLogin = $usrLastFailedLogin;
+        $this->lastFailedLogin = $lastFailedLogin;
 
         return $this;
     }
@@ -422,20 +422,20 @@ class User
      *
      * @return \DateTime
      */
-    public function getUsrLastFailedLogin()
+    public function getLastFailedLogin()
     {
-        return $this->usrLastFailedLogin;
+        return $this->lastFailedLogin;
     }
 
     /**
      * Set usrFailedLogins
      *
-     * @param int $usrFailedLogins
+     * @param int $failedLogins
      * @return User
      */
-    public function setUsrFailedLogins($usrFailedLogins)
+    public function setFailedLogins($failedLogins)
     {
-        $this->usrFailedLogins = $usrFailedLogins;
+        $this->failedLogins = $failedLogins;
 
         return $this;
     }
@@ -445,20 +445,20 @@ class User
      *
      * @return int
      */
-    public function getUsrFailedLogins()
+    public function getFailedLogins()
     {
-        return $this->usrFailedLogins;
+        return $this->failedLogins;
     }
 
     /**
      * Set usrParCode
      *
-     * @param string $usrParCode
+     * @param string $parCode
      * @return User
      */
-    public function setUsrParCode($usrParCode)
+    public function setParCode($parCode)
     {
-        $this->usrParCode = $usrParCode;
+        $this->parCode = $parCode;
 
         return $this;
     }
@@ -468,8 +468,8 @@ class User
      *
      * @return string
      */
-    public function getUsrParCode()
+    public function getParCode()
     {
-        return $this->usrParCode;
+        return $this->parCode;
     }
 }
