@@ -11,10 +11,14 @@
  * that were distributed with this source code.
  */
 
+namespace Eventum\Test\Db;
+
+use Date_Helper;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
+use Eventum\Test\TestCase;
 
-class DoctrineTest extends PHPUnit_Framework_TestCase
+class DoctrineTest extends TestCase
 {
     public function test1()
     {
@@ -22,7 +26,7 @@ class DoctrineTest extends PHPUnit_Framework_TestCase
         $products = $productRepository->findAll();
 
         /**
-         * @var Eventum\Doctrine\Product $product
+         * @var Eventum\Doctrine\Product
          */
         foreach ($products as $product) {
             echo sprintf("-%s\n", $product->getName());
@@ -36,7 +40,7 @@ class DoctrineTest extends PHPUnit_Framework_TestCase
         $items = $repo->findBy([], null, 10);
 
         /**
-         * @var \Eventum\Model\Entity\Commit $item
+         * @var \Eventum\Model\Entity\Commit
          */
         foreach ($items as $item) {
             echo sprintf("* %s %s\n", $item->getId(), trim($item->getMessage()));
@@ -63,7 +67,7 @@ class DoctrineTest extends PHPUnit_Framework_TestCase
         $repo = $em->getRepository(\Eventum\Model\Entity\Commit::class);
 
         $issue_id = 1;
-        $changeset = uniqid('z1');
+        $changeset = uniqid('z1', true);
         $ci = Entity\Commit::create()
             ->setScmName('cvs')
             ->setAuthorName('Au Thor')
