@@ -100,6 +100,14 @@ class DoctrineTest extends TestCase
         $project = $em->getRepository(Entity\Project::class);
     }
 
+    public function testUserModel()
+    {
+        $repo = $this->getEntityManager()->getRepository(Entity\User::class);
+        $items = $repo->findBy([], null, 1);
+
+        dump($items);
+    }
+
     private function getEntityManager()
     {
         return Doctrine::getEntityManager();

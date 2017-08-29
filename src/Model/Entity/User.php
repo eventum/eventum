@@ -13,127 +13,108 @@
 
 namespace Eventum\Model\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-
 /**
- * User
- *
- * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="usr_email", columns={"usr_email"})})
- * @ORM\Entity
+ * @Table(name="user", uniqueConstraints={@UniqueConstraint(name="usr_email", columns={"usr_email"})})
+ * @Entity
  */
 class User
 {
     /**
      * @var int
      *
-     * @ORM\Column(name="usr_id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Column(name="usr_id", type="integer", nullable=false)
+     * @Id
+     * @GeneratedValue(strategy="IDENTITY")
      */
     private $usrId;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="usr_customer_id", type="string", length=128, nullable=true)
+     * @Column(name="usr_customer_id", type="string", length=128, nullable=true)
      */
     private $usrCustomerId;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="usr_customer_contact_id", type="string", length=128, nullable=true)
+     * @Column(name="usr_customer_contact_id", type="string", length=128, nullable=true)
      */
     private $usrCustomerContactId;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="usr_created_date", type="datetime", nullable=false)
+     * @Column(name="usr_created_date", type="datetime", nullable=false)
      */
     private $usrCreatedDate;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="usr_status", type="string", length=8, nullable=false)
+     * @Column(name="usr_status", type="string", length=8, nullable=false)
      */
     private $usrStatus;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="usr_password", type="string", length=255, nullable=false)
+     * @Column(name="usr_password", type="string", length=255, nullable=false)
      */
     private $usrPassword;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="usr_full_name", type="string", length=255, nullable=false)
+     * @Column(name="usr_full_name", type="string", length=255, nullable=false)
      */
     private $usrFullName;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="usr_email", type="string", length=255, nullable=false)
+     * @Column(name="usr_email", type="string", length=255, nullable=false)
      */
     private $usrEmail;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="usr_sms_email", type="string", length=255, nullable=true)
+     * @Column(name="usr_sms_email", type="string", length=255, nullable=true)
      */
     private $usrSmsEmail;
 
     /**
      * @var bool
-     *
-     * @ORM\Column(name="usr_clocked_in", type="boolean", nullable=true)
+     * @Column(name="usr_clocked_in", type="boolean", nullable=true)
      */
     private $usrClockedIn;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="usr_lang", type="string", length=5, nullable=true)
+     * @Column(name="usr_lang", type="string", length=5, nullable=true)
      */
     private $usrLang;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="usr_external_id", type="string", length=100, nullable=false)
+     * @Column(name="usr_external_id", type="string", length=100, nullable=false)
      */
     private $usrExternalId;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="usr_last_login", type="datetime", nullable=true)
+     * @Column(name="usr_last_login", type="datetime", nullable=true)
      */
     private $usrLastLogin;
 
     /**
      * @var \DateTime
-     *
-     * @ORM\Column(name="usr_last_failed_login", type="datetime", nullable=true)
+     * @Column(name="usr_last_failed_login", type="datetime", nullable=true)
      */
     private $usrLastFailedLogin;
 
     /**
      * @var int
-     *
-     * @ORM\Column(name="usr_failed_logins", type="integer", nullable=false)
+     * @Column(name="usr_failed_logins", type="integer", nullable=false)
      */
     private $usrFailedLogins;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="usr_par_code", type="string", length=30, nullable=true)
+     * @Column(name="usr_par_code", type="string", length=30, nullable=true)
      */
     private $usrParCode;
 
