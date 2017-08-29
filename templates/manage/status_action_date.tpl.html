@@ -1,0 +1,158 @@
+{extends "manage/manage.tpl.html"}
+
+{block "manage_content"}
+<script type="text/javascript">
+  <!--
+  var url = '{$core.rel_url}manage/status_action_date.php';
+  var psd_id = {$smarty.get.id|intval|default:''};
+
+  function retrieveStatuses(f)
+  {
+      if (psd_id == '') {
+          url += '?prj_id=' + Eventum.getField('project').val();
+      } else {
+          url += '?cat=edit&id=' + psd_id + '&prj_id=' + Eventum.getField('project').val();
+      }
+      window.location.href = url;
+  }
+  function validateForm(f)
+  {
+      if (getSelectedOption(f, 'project') == '-1') {
+          alert('{t escape=js}Please choose the project that you wish to customize.{/t}');
+          selectField(f, 'project');
+          return false;
+      }
+      return true;
+  }
+  function checkDelete(f)
+  {
+      if (!Validation.hasOneChecked('items[]')) {
+          alert('{t escape=js}Please select at least one of the customizations.{/t}');
+          return false;
+      }
+      if (!confirm('{t escape=js}This action will remove the selected entries.{/t}')) {
+          return false;
+      } else {
+          return true;
+      }
+  }
+  $().ready(function() {
+      $('#customize_form').submit(validateForm);
+      $('.select_all').click(function() { Eventum.toggleCheckAll('items[]'); });
+
+      $('#delete_form').submit(checkDelete);
+  });
+  //-->
+  </script>
+
+
+
+<form id="customize_form" method="post">
+{if $smarty.get.cat|default:'' == 'edit'}
+<input type="hidden" name="cat" value="update">
+<input type="hidden" name="id" value="{$smarty.get.id|intval}">
+{else}
+<input type="hidden" name="cat" value="new">
+{/if}
+<table class="bordered">
+  <tr class="title">
+    <th colspan="2">
+      {t}Customize Status Action Dates{/t} {include file="help_link.tpl.html" topic="status_action_date"}
+    </th>
+  </tr>
+  <tr>
+    <th width="150">
+      {t}Project{/t}
+    </th>
+    <td width="80%">
+      <select name="project" onChange="retrieveStatuses(this.form);">
+        <option value="-1">{t}Please choose an option{/t}</option>
+      {html_options options=$project_list selected=$project_id|default:''}
+      </select>
+      {include file="error_icon.tpl.html" field="project"}
+    </td>
+  </tr>
+  <tr>
+    <th width="150">
+      {t}Status{/t}
+    </th>
+    <td>
+      <select name="status">
+        {html_options options=$status_list|default:'' selected=$info.psd_sta_id|default:''}
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <th width="150">
+      {t}Date Field{/t}
+    </th>
+    <td>
+      <select name="date_field">
+        {html_options options=$date_fields selected=$info.psd_date_field|default:''}
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <th width="150">
+      {t}Label{/t}
+    </th>
+    <td>
+      <input type="text" name="label" value="{$info.psd_label|default:''|escape:"html"}">
+    </td>
+  </tr>
+  <tr class="buttons">
+    <td colspan="2">
+      {if $smarty.get.cat|default:'' == 'edit'}
+      <input type="submit" value="{t}Update Customization{/t}">
+      {else}
+      <input type="submit" value="{t}Create Customization{/t}">
+      {/if}
+      <input type="reset" value="{t}Reset{/t}">
+    </td>
+  </tr>
+</table>
+</form>
+
+<form onSubmit="return checkDelete(this);" method="post">
+<input type="hidden" name="cat" value="delete">
+<table class="bordered grid">
+  <tr class="title">
+    <th colspan="5">
+      {t}Existing Customizations{/t}
+    </th>
+  </tr>
+    <tr>
+      <th width="4" nowrap><input type="button" value="{t}All{/t}" class="select_all"></th>
+      <th width="20%">&nbsp;{t}Project{/t}</th>
+      <th width="20%">&nbsp;{t}Status{/t}</th>
+      <th width="30%">&nbsp;{t}Label{/t}</th>
+      <th width="30%">&nbsp;{t}Date Field{/t}</th>
+    </tr>
+    {section name="i" loop=$list}
+    <tr class="{cycle values='odd,even'}">
+      <td width="4" nowrap align="center"><input type="checkbox" name="items[]" value="{$list[i].psd_id}"></td>
+      <td width="20%">{$list[i].prj_title}</td>
+      <td width="20%">
+        &nbsp;<a href="{$core.rel_url}manage/status_action_date.php?cat=edit&id={$list[i].psd_id}" title="{t}update this entry{/t}">{$list[i].sta_title|escape:"html"}</a>
+      </td>
+      <td width="30%">{$list[i].psd_label|escape:"html"}</td>
+      <td width="30%">{$list[i].date_field}</td>
+    </tr>
+    {sectionelse}
+    <tr class="no_results">
+      <td colspan="5">
+        {t}No customizations could be found.{/t}
+      </td>
+    </tr>
+    {/section}
+    <tr class="buttons">
+      <td width="4" align="center">
+        <input type="button" value="{t}All{/t}" class="select_all">
+      </td>
+      <td colspan="4">
+        <input type="submit" value="{t}Delete{/t}">
+      </td>
+    </tr>
+</table>
+</form>
+{/block}
