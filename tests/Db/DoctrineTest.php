@@ -20,37 +20,37 @@ use Eventum\Test\TestCase;
 
 class DoctrineTest extends TestCase
 {
-    public function test1()
+    public function testFindAll()
     {
-        $productRepository = $this->getEntityManager()->getRepository(Eventum\Doctrine\Product::class);
-        $products = $productRepository->findAll();
+        $repo = $this->getEntityManager()->getRepository(Entity\Project::class);
+        $projects = $repo->findAll();
 
         /**
-         * @var Eventum\Doctrine\Product
+         * @var Entity\Project $project
          */
-        foreach ($products as $product) {
-            echo sprintf("-%s\n", $product->getName());
+        foreach ($projects as $project) {
+            printf("#%d: %s\n", $project->getId(), $project->getTitle());
         }
     }
 
     public function test2()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(\Eventum\Model\Entity\Commit::class);
+        $repo = $em->getRepository(Entity\Commit::class);
         $items = $repo->findBy([], null, 10);
 
         /**
-         * @var \Eventum\Model\Entity\Commit
+         * @var Entity\Commit $item
          */
         foreach ($items as $item) {
-            echo sprintf("* %s %s\n", $item->getId(), trim($item->getMessage()));
+            printf("* %s %s\n", $item->getId(), trim($item->getMessage()));
         }
     }
 
     public function test3()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(\Eventum\Model\Entity\Commit::class);
+        $repo = $em->getRepository(Entity\Commit::class);
         $qb = $repo->createQueryBuilder('commit');
 
         $qb->setMaxResults(10);
@@ -64,7 +64,6 @@ class DoctrineTest extends TestCase
     public function test4()
     {
         $em = $this->getEntityManager();
-        $repo = $em->getRepository(\Eventum\Model\Entity\Commit::class);
 
         $issue_id = 1;
         $changeset = uniqid('z1', true);
@@ -98,7 +97,7 @@ class DoctrineTest extends TestCase
     public function test5()
     {
         $em = $this->getEntityManager();
-        $project = $em->getRepository(\Eventum\Model\Entity\Project::class);
+        $project = $em->getRepository(Entity\Project::class);
     }
 
     private function getEntityManager()
