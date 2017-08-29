@@ -23,124 +23,107 @@ class Project
 {
     /**
      * @var int
-     *
      * @Column(name="prj_id", type="integer", nullable=false)
      * @Id
      * @GeneratedValue(strategy="IDENTITY")
      */
-    private $prjId;
+    private $id;
 
     /**
      * @var \DateTime
-     *
      * @Column(name="prj_created_date", type="datetime", nullable=false)
      */
-    private $prjCreatedDate;
+    private $createdDate;
 
     /**
      * @var string
-     *
      * @Column(name="prj_title", type="string", length=64, nullable=false)
      */
-    private $prjTitle;
+    private $title;
 
     /**
      * @var string
-     *
      * @Column(name="prj_status", type="string", nullable=false)
      */
-    private $prjStatus;
+    private $status;
 
     /**
      * @var int
-     *
      * @Column(name="prj_lead_usr_id", type="integer", nullable=false)
      */
-    private $prjLeadUsrId;
+    private $leadUserId;
 
     /**
      * @var int
-     *
      * @Column(name="prj_initial_sta_id", type="integer", nullable=false)
      */
-    private $prjInitialStaId;
+    private $initialStatusId;
 
     /**
      * @var string
-     *
      * @Column(name="prj_remote_invocation", type="string", length=8, nullable=false)
      */
-    private $prjRemoteInvocation;
+    private $remoteInvocation;
 
     /**
      * @var string
-     *
      * @Column(name="prj_anonymous_post", type="string", length=8, nullable=false)
      */
-    private $prjAnonymousPost;
+    private $anonymousPost;
 
     /**
      * @var string
-     *
      * @Column(name="prj_anonymous_post_options", type="text", length=65535, nullable=true)
      */
-    private $prjAnonymousPostOptions;
+    private $anonymousPostOptions;
 
     /**
      * @var string
-     *
      * @Column(name="prj_outgoing_sender_name", type="string", length=255, nullable=false)
      */
-    private $prjOutgoingSenderName;
+    private $outgoingSenderName;
 
     /**
      * @var string
-     *
      * @Column(name="prj_outgoing_sender_email", type="string", length=255, nullable=false)
      */
-    private $prjOutgoingSenderEmail;
+    private $outgoingSenderEmail;
 
     /**
      * @var string
-     *
      * @Column(name="prj_sender_flag", type="string", length=255, nullable=true)
      */
-    private $prjSenderFlag;
+    private $senderFlag;
 
     /**
      * @var string
-     *
      * @Column(name="prj_sender_flag_location", type="string", length=6, nullable=true)
      */
-    private $prjSenderFlagLocation;
+    private $senderFlagLocation;
 
     /**
      * @var string
-     *
      * @Column(name="prj_mail_aliases", type="string", length=255, nullable=true)
      */
-    private $prjMailAliases;
+    private $mailAliases;
 
     /**
      * @var string
-     *
      * @Column(name="prj_customer_backend", type="string", length=64, nullable=true)
      */
-    private $prjCustomerBackend;
+    private $customerBackend;
 
     /**
      * @var string
-     *
      * @Column(name="prj_workflow_backend", type="string", length=64, nullable=true)
      */
-    private $prjWorkflowBackend;
+    private $workflowBackend;
 
     /**
      * @var bool
-     *
      * @Column(name="prj_segregate_reporter", type="boolean", nullable=true)
      */
-    private $prjSegregateReporter;
+    private $segregateReporter;
 
     /**
      * Get prjId
@@ -149,18 +132,18 @@ class Project
      */
     public function getId()
     {
-        return $this->prjId;
+        return $this->id;
     }
 
     /**
      * Set prjCreatedDate
      *
-     * @param \DateTime $prjCreatedDate
+     * @param \DateTime $createdDate
      * @return Project
      */
-    public function setCreatedDate($prjCreatedDate)
+    public function setCreatedDate($createdDate)
     {
-        $this->prjCreatedDate = $prjCreatedDate;
+        $this->createdDate = $createdDate;
 
         return $this;
     }
@@ -172,18 +155,18 @@ class Project
      */
     public function getCreatedDate()
     {
-        return $this->prjCreatedDate;
+        return $this->createdDate;
     }
 
     /**
      * Set prjTitle
      *
-     * @param string $prjTitle
+     * @param string $title
      * @return Project
      */
-    public function setTitle($prjTitle)
+    public function setTitle($title)
     {
-        $this->prjTitle = $prjTitle;
+        $this->title = $title;
 
         return $this;
     }
@@ -195,18 +178,18 @@ class Project
      */
     public function getTitle()
     {
-        return $this->prjTitle;
+        return $this->title;
     }
 
     /**
      * Set prjStatus
      *
-     * @param string $prjStatus
+     * @param string $status
      * @return Project
      */
-    public function setStatus($prjStatus)
+    public function setStatus($status)
     {
-        $this->prjStatus = $prjStatus;
+        $this->status = $status;
 
         return $this;
     }
@@ -218,18 +201,18 @@ class Project
      */
     public function getStatus()
     {
-        return $this->prjStatus;
+        return $this->status;
     }
 
     /**
      * Set prjLeadUsrId
      *
-     * @param int $prjLeadUsrId
+     * @param int $leadUserId
      * @return Project
      */
-    public function setLeadUserId($prjLeadUsrId)
+    public function setLeadUserId($leadUserId)
     {
-        $this->prjLeadUsrId = $prjLeadUsrId;
+        $this->leadUserId = $leadUserId;
 
         return $this;
     }
@@ -241,18 +224,18 @@ class Project
      */
     public function getLeadUserId()
     {
-        return $this->prjLeadUsrId;
+        return $this->leadUserId;
     }
 
     /**
      * Set prjInitialStaId
      *
-     * @param int $prjInitialStaId
+     * @param int $initialStatusId
      * @return Project
      */
-    public function setInitialStatusId($prjInitialStaId)
+    public function setInitialStatusId($initialStatusId)
     {
-        $this->prjInitialStaId = $prjInitialStaId;
+        $this->initialStatusId = $initialStatusId;
 
         return $this;
     }
@@ -264,18 +247,18 @@ class Project
      */
     public function getInitialStatusId()
     {
-        return $this->prjInitialStaId;
+        return $this->initialStatusId;
     }
 
     /**
      * Set prjRemoteInvocation
      *
-     * @param string $prjRemoteInvocation
+     * @param string $remoteInvocation
      * @return Project
      */
-    public function setRemoteInvocation($prjRemoteInvocation)
+    public function setRemoteInvocation($remoteInvocation)
     {
-        $this->prjRemoteInvocation = $prjRemoteInvocation;
+        $this->remoteInvocation = $remoteInvocation;
 
         return $this;
     }
@@ -287,18 +270,18 @@ class Project
      */
     public function getRemoteInvocation()
     {
-        return $this->prjRemoteInvocation;
+        return $this->remoteInvocation;
     }
 
     /**
      * Set prjAnonymousPost
      *
-     * @param string $prjAnonymousPost
+     * @param string $anonymousPost
      * @return Project
      */
-    public function setAnonymousPost($prjAnonymousPost)
+    public function setAnonymousPost($anonymousPost)
     {
-        $this->prjAnonymousPost = $prjAnonymousPost;
+        $this->anonymousPost = $anonymousPost;
 
         return $this;
     }
@@ -310,18 +293,18 @@ class Project
      */
     public function getAnonymousPost()
     {
-        return $this->prjAnonymousPost;
+        return $this->anonymousPost;
     }
 
     /**
      * Set prjAnonymousPostOptions
      *
-     * @param string $prjAnonymousPostOptions
+     * @param string $anonymousPostOptions
      * @return Project
      */
-    public function setAnonymousPostOptions($prjAnonymousPostOptions)
+    public function setAnonymousPostOptions($anonymousPostOptions)
     {
-        $this->prjAnonymousPostOptions = $prjAnonymousPostOptions;
+        $this->anonymousPostOptions = $anonymousPostOptions;
 
         return $this;
     }
@@ -333,18 +316,18 @@ class Project
      */
     public function getAnonymousPostOptions()
     {
-        return $this->prjAnonymousPostOptions;
+        return $this->anonymousPostOptions;
     }
 
     /**
      * Set prjOutgoingSenderName
      *
-     * @param string $prjOutgoingSenderName
+     * @param string $outgoingSenderName
      * @return Project
      */
-    public function setOutgoingSenderName($prjOutgoingSenderName)
+    public function setOutgoingSenderName($outgoingSenderName)
     {
-        $this->prjOutgoingSenderName = $prjOutgoingSenderName;
+        $this->outgoingSenderName = $outgoingSenderName;
 
         return $this;
     }
@@ -356,18 +339,18 @@ class Project
      */
     public function getOutgoingSenderName()
     {
-        return $this->prjOutgoingSenderName;
+        return $this->outgoingSenderName;
     }
 
     /**
      * Set prjOutgoingSenderEmail
      *
-     * @param string $prjOutgoingSenderEmail
+     * @param string $outgoingSenderEmail
      * @return Project
      */
-    public function setOutgoingSenderEmail($prjOutgoingSenderEmail)
+    public function setOutgoingSenderEmail($outgoingSenderEmail)
     {
-        $this->prjOutgoingSenderEmail = $prjOutgoingSenderEmail;
+        $this->outgoingSenderEmail = $outgoingSenderEmail;
 
         return $this;
     }
@@ -379,18 +362,18 @@ class Project
      */
     public function getOutgoingSenderEmail()
     {
-        return $this->prjOutgoingSenderEmail;
+        return $this->outgoingSenderEmail;
     }
 
     /**
      * Set prjSenderFlag
      *
-     * @param string $prjSenderFlag
+     * @param string $senderFlag
      * @return Project
      */
-    public function setSenderFlag($prjSenderFlag)
+    public function setSenderFlag($senderFlag)
     {
-        $this->prjSenderFlag = $prjSenderFlag;
+        $this->senderFlag = $senderFlag;
 
         return $this;
     }
@@ -402,18 +385,18 @@ class Project
      */
     public function getSenderFlag()
     {
-        return $this->prjSenderFlag;
+        return $this->senderFlag;
     }
 
     /**
      * Set prjSenderFlagLocation
      *
-     * @param string $prjSenderFlagLocation
+     * @param string $senderFlagLocation
      * @return Project
      */
-    public function setSenderFlagLocation($prjSenderFlagLocation)
+    public function setSenderFlagLocation($senderFlagLocation)
     {
-        $this->prjSenderFlagLocation = $prjSenderFlagLocation;
+        $this->senderFlagLocation = $senderFlagLocation;
 
         return $this;
     }
@@ -425,18 +408,18 @@ class Project
      */
     public function getSenderFlagLocation()
     {
-        return $this->prjSenderFlagLocation;
+        return $this->senderFlagLocation;
     }
 
     /**
      * Set prjMailAliases
      *
-     * @param string $prjMailAliases
+     * @param string $mailAliases
      * @return Project
      */
-    public function setMailAliases($prjMailAliases)
+    public function setMailAliases($mailAliases)
     {
-        $this->prjMailAliases = $prjMailAliases;
+        $this->mailAliases = $mailAliases;
 
         return $this;
     }
@@ -448,18 +431,18 @@ class Project
      */
     public function getMailAliases()
     {
-        return $this->prjMailAliases;
+        return $this->mailAliases;
     }
 
     /**
      * Set prjCustomerBackend
      *
-     * @param string $prjCustomerBackend
+     * @param string $customerBackend
      * @return Project
      */
-    public function setCustomerBackend($prjCustomerBackend)
+    public function setCustomerBackend($customerBackend)
     {
-        $this->prjCustomerBackend = $prjCustomerBackend;
+        $this->customerBackend = $customerBackend;
 
         return $this;
     }
@@ -471,18 +454,18 @@ class Project
      */
     public function getCustomerBackend()
     {
-        return $this->prjCustomerBackend;
+        return $this->customerBackend;
     }
 
     /**
      * Set prjWorkflowBackend
      *
-     * @param string $prjWorkflowBackend
+     * @param string $workflowBackend
      * @return Project
      */
-    public function setWorkflowBackend($prjWorkflowBackend)
+    public function setWorkflowBackend($workflowBackend)
     {
-        $this->prjWorkflowBackend = $prjWorkflowBackend;
+        $this->workflowBackend = $workflowBackend;
 
         return $this;
     }
@@ -494,18 +477,18 @@ class Project
      */
     public function getWorkflowBackend()
     {
-        return $this->prjWorkflowBackend;
+        return $this->workflowBackend;
     }
 
     /**
      * Set prjSegregateReporter
      *
-     * @param bool $prjSegregateReporter
+     * @param bool $segregateReporter
      * @return Project
      */
-    public function setSegregateReporter($prjSegregateReporter)
+    public function setSegregateReporter($segregateReporter)
     {
-        $this->prjSegregateReporter = $prjSegregateReporter;
+        $this->segregateReporter = $segregateReporter;
 
         return $this;
     }
@@ -517,6 +500,6 @@ class Project
      */
     public function getSegregateReporter()
     {
-        return $this->prjSegregateReporter;
+        return $this->segregateReporter;
     }
 }
