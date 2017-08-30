@@ -22,7 +22,9 @@ if it fails the error is something like `DB Error: already exists`
 - Test the new release directory with a quick installation
   * see if a new issue can be created correctly and etc
 - update translation keywords to launchpad
-this should be done day before release so launchpad cron would update .po files.
+  * Run `make pot`
+  * Commit eventum.pot and push
+  * this should be done day before release so launchpad cron would update .po files.
 
 Release process
 ---------------
@@ -31,7 +33,7 @@ Release process
 
 Do not forget to update changeset link to point to tag not master
 
-- Update git submodule to point to master
+- Update git submodule to point to master (use `git submodule init` if the submodules do not exist yet)
 ```
 git submodule update
 cd docs/wiki
@@ -44,6 +46,7 @@ git commit -am 'updated wiki submodule'
 - Create git tag
 ```
 $ git tag -s v3.2.0 -m 'release v3.2.0'
+$ git push origin v3.2.0
 
 ```
 - wait for Travis-CI to build release tarball, download and test it again
