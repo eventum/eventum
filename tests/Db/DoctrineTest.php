@@ -16,6 +16,7 @@ namespace Eventum\Test\Db;
 use Date_Helper;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
+use Eventum\Model\Repository\UserRepository;
 use Eventum\Test\TestCase;
 
 class DoctrineTest extends TestCase
@@ -106,6 +107,13 @@ class DoctrineTest extends TestCase
         $items = $repo->findBy([], null, 1);
 
         dump($items);
+    }
+
+    public function testUserRepository() {
+        $repo = $this->getEntityManager()->getRepository(Entity\User::class);
+
+        $user = $repo->findOneByCustomerContactId(1);
+        dump($user);
     }
 
     private function getEntityManager()
