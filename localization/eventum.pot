@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-22 15:35-0500\n"
+"POT-Creation-Date: 2017-08-29 20:42-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -512,6 +512,8 @@ msgstr ""
 #: templates/manage/reminder_actions.tpl.html:254
 #: templates/manage/reminder_conditions.tpl.html:183
 #: templates/manage/reminder_conditions.tpl.html:204
+#: templates/manage/status_action_date.tpl.html:125
+#: templates/manage/status_action_date.tpl.html:150
 #: templates/manage/statuses.tpl.html:156
 #: templates/manage/statuses.tpl.html:187 templates/manage/news.tpl.html:123
 #: templates/manage/news.tpl.html:150
@@ -1631,6 +1633,10 @@ msgstr ""
 msgid "Create Custom Field"
 msgstr ""
 
+#: templates/manage/status_action_date.tpl.html:108
+msgid "Create Customization"
+msgstr ""
+
 #: templates/email_drafts.tpl.html:86 templates/send.tpl.html:207
 msgid "Create Draft"
 msgstr ""
@@ -1855,6 +1861,7 @@ msgstr ""
 msgid "Customize Status Action Date Screen"
 msgstr ""
 
+#: templates/manage/status_action_date.tpl.html:60
 #: templates/manage/manage.tpl.html:25
 msgid "Customize Status Action Dates"
 msgstr ""
@@ -1890,6 +1897,11 @@ msgstr ""
 #: templates/reports/recent_activity.tpl.html:259
 #: templates/removed_emails.tpl.html:69 templates/attachments.tpl.html:18
 msgid "Date"
+msgstr ""
+
+#: templates/manage/status_action_date.tpl.html:87
+#: templates/manage/status_action_date.tpl.html:129
+msgid "Date Field"
 msgstr ""
 
 #: templates/reports/recent_activity.tpl.html:19
@@ -1972,6 +1984,7 @@ msgstr ""
 #: templates/manage/products.tpl.html:162
 #: templates/manage/reminder_actions.tpl.html:257
 #: templates/manage/reminder_conditions.tpl.html:207
+#: templates/manage/status_action_date.tpl.html:153
 #: templates/manage/statuses.tpl.html:190 templates/manage/news.tpl.html:153
 #: templates/manage/link_filters.tpl.html:175
 #: templates/manage/account_managers.tpl.html:152
@@ -2791,6 +2804,10 @@ msgstr ""
 
 #: templates/manage/customer_notes.tpl.html:115
 msgid "Existing Customer Quick Notes"
+msgstr ""
+
+#: templates/manage/status_action_date.tpl.html:121
+msgid "Existing Customizations"
 msgstr ""
 
 #: templates/manage/groups.tpl.html:142
@@ -3705,6 +3722,11 @@ msgstr ""
 msgid "LDAP Setup"
 msgstr ""
 
+#: templates/manage/status_action_date.tpl.html:97
+#: templates/manage/status_action_date.tpl.html:128
+msgid "Label"
+msgstr ""
+
 #: lib/eventum/class.display_column.php:208 templates/adv_search.tpl.html:169
 msgid "Last Action Date"
 msgstr ""
@@ -4320,6 +4342,10 @@ msgstr ""
 
 #: templates/adv_search.tpl.html:406
 msgid "No custom searches could be found."
+msgstr ""
+
+#: templates/manage/status_action_date.tpl.html:144
+msgid "No customizations could be found."
 msgstr ""
 
 #: templates/reports/custom_fields.tpl.html:219
@@ -4984,6 +5010,7 @@ msgstr ""
 #: templates/manage/reminder_conditions.tpl.html:109
 #: templates/manage/reminder_conditions.tpl.html:121
 #: templates/manage/reminder_conditions.tpl.html:134
+#: templates/manage/status_action_date.tpl.html:69
 #: templates/manage/account_managers.tpl.html:60
 #: templates/manage/faq.tpl.html:102
 #: templates/manage/customer_notes.tpl.html:69
@@ -5050,6 +5077,10 @@ msgstr ""
 
 #: templates/manage/faq.tpl.html:26
 msgid "Please choose the project for this FAQ entry."
+msgstr ""
+
+#: templates/manage/status_action_date.tpl.html:21
+msgid "Please choose the project that you wish to customize."
 msgstr ""
 
 #: templates/manage/email_accounts.tpl.html:10
@@ -5665,6 +5696,10 @@ msgstr ""
 msgid "Please select at least one of the custom fields."
 msgstr ""
 
+#: templates/manage/status_action_date.tpl.html:30
+msgid "Please select at least one of the customizations."
+msgstr ""
+
 #: templates/manage/email_responses.tpl.html:24
 msgid "Please select at least one of the email responses."
 msgstr ""
@@ -5868,6 +5903,8 @@ msgstr ""
 #: templates/manage/reminders.tpl.html:332
 #: templates/manage/round_robin.tpl.html:60
 #: templates/manage/round_robin.tpl.html:127
+#: templates/manage/status_action_date.tpl.html:65
+#: templates/manage/status_action_date.tpl.html:126
 #: templates/manage/account_managers.tpl.html:56
 #: templates/manage/faq.tpl.html:98 templates/manage/customer_notes.tpl.html:65
 #: templates/update_form.tpl.html:18 templates/base_full.tpl.html:22
@@ -6300,6 +6337,7 @@ msgstr ""
 #: templates/manage/products.tpl.html:107
 #: templates/manage/reminder_actions.tpl.html:199
 #: templates/manage/reminder_conditions.tpl.html:165
+#: templates/manage/status_action_date.tpl.html:110
 #: templates/manage/statuses.tpl.html:141 templates/manage/news.tpl.html:107
 #: templates/manage/users_form.tpl.html:176
 #: templates/manage/link_filters.tpl.html:120
@@ -6839,10 +6877,12 @@ msgstr ""
 #: templates/quick_filter_form.tpl.html:124
 #: templates/manage/projects.tpl.html:94 templates/manage/projects.tpl.html:267
 #: templates/manage/releases.tpl.html:73 templates/manage/releases.tpl.html:108
-#: templates/manage/users_list.tpl.html:114 templates/manage/news.tpl.html:73
-#: templates/manage/news.tpl.html:126 templates/adv_search.tpl.html:107
-#: templates/adv_search.tpl.html:172 templates/emails.tpl.html:199
-#: templates/reports/open_issues.tpl.html:34
+#: templates/manage/users_list.tpl.html:114
+#: templates/manage/status_action_date.tpl.html:77
+#: templates/manage/status_action_date.tpl.html:127
+#: templates/manage/news.tpl.html:73 templates/manage/news.tpl.html:126
+#: templates/adv_search.tpl.html:107 templates/adv_search.tpl.html:172
+#: templates/emails.tpl.html:199 templates/reports/open_issues.tpl.html:34
 #: templates/reports/stalled_issues.tpl.html:35
 #: templates/reports/stalled_issues.tpl.html:68
 #: templates/reports/recent_activity.tpl.html:256
@@ -7771,6 +7811,7 @@ msgstr ""
 #: templates/manage/reminders.tpl.html:106
 #: templates/manage/reminder_actions.tpl.html:59
 #: templates/manage/reminder_conditions.tpl.html:65
+#: templates/manage/status_action_date.tpl.html:33
 #: templates/manage/severities.tpl.html:31
 #: templates/manage/priorities.tpl.html:17
 #: templates/manage/categories.tpl.html:22
@@ -8301,6 +8342,10 @@ msgstr ""
 
 #: templates/manage/custom_fields.tpl.html:373
 msgid "Update Custom Field"
+msgstr ""
+
+#: templates/manage/status_action_date.tpl.html:106
+msgid "Update Customization"
 msgstr ""
 
 #: templates/preferences.tpl.html:48
@@ -9441,6 +9486,7 @@ msgstr ""
 #: templates/manage/products.tpl.html:134
 #: templates/manage/reminder_actions.tpl.html:233
 #: templates/manage/reminder_conditions.tpl.html:191
+#: templates/manage/status_action_date.tpl.html:136
 #: templates/manage/statuses.tpl.html:169 templates/manage/news.tpl.html:132
 #: templates/manage/link_filters.tpl.html:147
 #: templates/manage/account_managers.tpl.html:136
