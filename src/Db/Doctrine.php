@@ -30,7 +30,6 @@ class Doctrine
         $isDevMode = true;
         $proxyDir = APP_PATH . '/src/Doctrine/Proxy';
         $paths = [
-            APP_PATH . '/src/Doctrine',
             APP_PATH . '/src/Model/Entity',
         ];
 
