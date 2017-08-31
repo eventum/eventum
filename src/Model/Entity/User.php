@@ -15,7 +15,7 @@ namespace Eventum\Model\Entity;
 
 /**
  * @Table(name="user", uniqueConstraints={@UniqueConstraint(name="usr_email", columns={"usr_email"})})
- * @Entity
+ * @Entity(repositoryClass="Eventum\Model\Repository\UserRepository")
  */
 class User
 {

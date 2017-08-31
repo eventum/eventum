@@ -109,10 +109,14 @@ class DoctrineTest extends TestCase
         dump($items);
     }
 
-    public function testUserRepository() {
+    public function testUserRepository()
+    {
+        /** @var UserRepository $repo */
         $repo = $this->getEntityManager()->getRepository(Entity\User::class);
 
         $user = $repo->findOneByCustomerContactId(1);
+        dump($user);
+        $user = $repo->findByContactId(1);
         dump($user);
     }
 
