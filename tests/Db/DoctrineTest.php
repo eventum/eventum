@@ -19,6 +19,9 @@ use Eventum\Model\Entity;
 use Eventum\Model\Repository\UserRepository;
 use Eventum\Test\TestCase;
 
+/**
+ * TODO: datetime and timezone: http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/cookbook/working-with-datetime.html
+ */
 class DoctrineTest extends TestCase
 {
     public function testFindAll()
