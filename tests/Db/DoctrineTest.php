@@ -118,6 +118,21 @@ class DoctrineTest extends TestCase
         dump($user);
         $user = $repo->findByContactId(1);
         dump($user);
+
+        // find by id
+        $user = $repo->find(-1);
+        dump($user);
+
+        // query for a single product matching the given name and price
+        $user = $repo->findOneBy(
+            ['status' => 'active', 'parCode' => 0]
+        );
+
+        // query for multiple products matching the given name, ordered by price
+        $users = $repo->findBy(
+            ['status' => 'inactive'],
+            ['id' => 'ASC']
+        );
     }
 
     private function getEntityManager()
