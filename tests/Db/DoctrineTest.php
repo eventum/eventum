@@ -16,6 +16,7 @@ namespace Eventum\Test\Db;
 use Date_Helper;
 use Eventum\Db\Doctrine;
 use Eventum\Model\Entity;
+use Eventum\Model\Repository\ProjectRepository;
 use Eventum\Model\Repository\UserRepository;
 use Eventum\Test\TestCase;
 
@@ -102,6 +103,16 @@ class DoctrineTest extends TestCase
     {
         $em = $this->getEntityManager();
         $project = $em->getRepository(Entity\Project::class);
+    }
+
+    public function testProjectStatusId()
+    {
+        /** @var ProjectRepository $repo */
+        $repo = $this->getEntityManager()->getRepository(Entity\Project::class);
+        $prj_id = 1;
+        $status_id = $repo->findById($prj_id)->getInitialStatusId();
+
+        dump($status_id);
     }
 
     public function testUserModel()

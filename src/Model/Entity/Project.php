@@ -17,7 +17,7 @@ namespace Eventum\Model\Entity;
  * Project
  *
  * @Table(name="project", uniqueConstraints={@UniqueConstraint(name="prj_title", columns={"prj_title"})}, indexes={@Index(name="prj_lead_usr_id", columns={"prj_lead_usr_id"})})
- * @Entity
+ * @Entity(repositoryClass="Eventum\Model\Repository\ProjectRepository")
  */
 class Project
 {
