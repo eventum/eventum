@@ -86,7 +86,7 @@ class User
      * @var string
      * @Column(name="usr_lang", type="string", length=5, nullable=true)
      */
-    private $lang;
+    private $language;
 
     /**
      * @var string
@@ -116,7 +116,7 @@ class User
      * @var string
      * @Column(name="usr_par_code", type="string", length=30, nullable=true)
      */
-    private $parCode;
+    private $partnerCode;
 
     /**
      * Get user Id
@@ -338,12 +338,12 @@ class User
     /**
      * Set usrLang
      *
-     * @param string $lang
+     * @param string $language
      * @return User
      */
-    public function setLang($lang)
+    public function setLanguage($language)
     {
-        $this->lang = $lang;
+        $this->language = $language;
 
         return $this;
     }
@@ -353,9 +353,9 @@ class User
      *
      * @return string
      */
-    public function getLang()
+    public function getLanguage()
     {
-        return $this->lang;
+        return $this->language;
     }
 
     /**
@@ -453,12 +453,12 @@ class User
     /**
      * Set usrParCode
      *
-     * @param string $parCode
+     * @param string $partnerCode
      * @return User
      */
-    public function setParCode($parCode)
+    public function setPartnerCode($partnerCode)
     {
-        $this->parCode = $parCode;
+        $this->partnerCode = $partnerCode;
 
         return $this;
     }
@@ -468,8 +468,8 @@ class User
      *
      * @return string
      */
-    public function getParCode()
+    public function getPartnerCode()
     {
-        return $this->parCode;
+        return $this->partnerCode;
     }
 }
