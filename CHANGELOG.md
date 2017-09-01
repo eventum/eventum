@@ -1,11 +1,12 @@
 # Eventum Issue Tracking System
 
-## [3.2.3] - ???
+## [3.2.3] - 2017-08-31
 
 Upgrading to 3.2.x versions requires that you upgrade to 3.2.0 version first.
 
+- Add missing template for 'Customize Status Action Dates' page (@balsdorf, #285)
 
-[3.2.3]: https://github.com/eventum/eventum/compare/v3.2.2...master
+[3.2.3]: https://github.com/eventum/eventum/compare/v3.2.2...v3.2.3
 
 ## [3.2.2] - 2017-08-24
 
