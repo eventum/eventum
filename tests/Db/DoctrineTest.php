@@ -111,7 +111,9 @@ class DoctrineTest extends TestCase
         $repo = $this->getEntityManager()->getRepository(Entity\Project::class);
         $prj_id = 1;
         $status_id = $repo->findById($prj_id)->getInitialStatusId();
+        dump($status_id);
 
+        $status_id = Doctrine::getProjectRepository()->findById($prj_id)->getInitialStatusId();
         dump($status_id);
     }
 

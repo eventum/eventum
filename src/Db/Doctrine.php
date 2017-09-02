@@ -13,10 +13,18 @@
 
 namespace Eventum\Db;
 
+use BadMethodCallException;
 use DB_Helper;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
+use Eventum\Model\Entity;
+use Eventum\Model\Repository;
 
+/**
+ * Class Doctrine
+ *
+ * @method static Repository\ProjectRepository getProjectRepository()
+ */
 class Doctrine
 {
     public static function getEntityManager()
@@ -52,5 +60,19 @@ class Doctrine
         $entityManager = EntityManager::create($conn, $config);
 
         return $entityManager;
+    }
+
+    public static function __callStatic($method, $arguments = [])
+    {
+        static $repos;
+
+        if (preg_match('/get(\w+)Repository/', $method, $m)) {
+            $class = '\\Eventum\\Model\\Entity\\' . $m[1];
+
+            return $repos[$class]
+                ?: $repos[$class] = self::getEntityManager()
+                    ->getRepository($class);
+        }
+        throw new BadMethodCallException($method);
     }
 }
