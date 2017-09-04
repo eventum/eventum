@@ -657,28 +657,17 @@ class Workflow
      *
      * @param   int $prj_id
      * @param   string $recipient
-     * @param   MailMessage $mail The Mail object
-     * @param   int $issue_id
-     * @param   string $type the type of message this is
-     * @param   int $sender_usr_id the id of the user sending this email
-     * @param   int $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
+     * @param MailMessage $mail The Mail object
+     * @param array $options Optional options, see Mail_Queue::queue
+     * @since 3.3.0 the method signature changed
      */
-    public static function modifyMailQueue($prj_id, &$recipient, MailMessage &$mail, $issue_id, $type, $sender_usr_id, $type_id)
+    public static function modifyMailQueue($prj_id, $recipient, $mail, $options)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
-        $backend = self::_getBackend($prj_id);
 
-        $o_headers = $headers = $mail->getHeadersArray();
-        $o_body = $body = $mail->getContent();
-
-        $backend->modifyMailQueue($prj_id, $recipient, $headers, $body, $issue_id, $type, $sender_usr_id, $type_id);
-
-        // recreate mail object if headers or body was modified by workflow method
-        if ($o_headers != $headers || $o_body != $body) {
-            $mail = MailMessage::createFromHeaderBody($headers, $body);
-        }
+        self::_getBackend($prj_id)->modifyMailQueue($prj_id, $recipient, $mail, $options);
     }
 
     /**

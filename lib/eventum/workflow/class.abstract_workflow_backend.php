@@ -502,14 +502,11 @@ class Abstract_Workflow_Backend
      *
      * @param   int $prj_id
      * @param   string $recipient
-     * @param   array $headers
-     * @param   string $body
-     * @param   int $issue_id
-     * @param   string $type the type of message this is
-     * @param   int $sender_usr_id the id of the user sending this email
-     * @param   int $type_id The ID of the event that triggered this notification (issue_id, sup_id, not_id, etc)
+     * @param MailMessage $mail The Mail object
+     * @param array $options Optional options, see Mail_Queue::queue
+     * @since 3.3.0 the method signature changed
      */
-    public function modifyMailQueue($prj_id, &$recipient, &$headers, &$body, $issue_id, $type, $sender_usr_id, $type_id)
+    public function modifyMailQueue($prj_id, $recipient, $mail, $options)
     {
     }
 

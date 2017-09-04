@@ -59,7 +59,7 @@ class Mail_Queue
             $mail->setFrom($from);
         }
 
-        Workflow::modifyMailQueue($prj_id, $recipient, $mail, $issue_id, $type, $sender_usr_id, $type_id);
+        Workflow::modifyMailQueue($prj_id, $recipient, $mail, $options);
 
         // avoid sending emails out to users with inactive status
         // TODO: use EventDispatcher to handle this
