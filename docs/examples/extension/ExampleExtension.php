@@ -14,6 +14,7 @@
 namespace Eventum\Extension;
 
 use Eventum\Event\CryptoSubscriber;
+use Eventum\Event\HistorySubscriber;
 
 /**
  * Example Eventum Extension.
@@ -36,7 +37,7 @@ class ExampleExtension extends AbstractExtension
     public function registerAutoloader($loader)
     {
         $phpDir = '/usr/share/php';
-        $baseDir = '/usr/src/eventum-workflow';
+        $baseDir = dirname(dirname(dirname(__DIR__)));
 
         $classmap = [
             'example_Workflow_Backend' => $baseDir . '/src/Workflow/example_Workflow_Backend.php',
@@ -45,7 +46,7 @@ class ExampleExtension extends AbstractExtension
             'Pimple\\' => $phpDir,
         ];
         $psr4 = [
-            'Eventum\\Example\\' => [$baseDir . '/src'],
+            'Eventum\\Event\\' => [$baseDir . '/docs/examples/extension/Event'],
         ];
 
         $loader->addClassMap($classmap);
@@ -118,6 +119,7 @@ class ExampleExtension extends AbstractExtension
     {
         return [
             CryptoSubscriber::class,
+            HistorySubscriber::class,
         ];
     }
 }
