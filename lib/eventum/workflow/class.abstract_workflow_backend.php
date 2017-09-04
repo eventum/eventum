@@ -417,11 +417,12 @@ class Abstract_Workflow_Backend
      *
      * @param int $prj_id The project ID
      * @param int $issue_id The issue ID
-     * @param string $email The email address to check
-     * @param object $structure Parsed email structure
-     * @return  bool True if the note should be added, false otherwise
+     * @param string $sender_email The email address to check
+     * @param MailMessage $mail
+     * @return bool True if the note should be added, false otherwise
+     * @since 3.3.0 uses new signature
      */
-    public function canSendNote($prj_id, $issue_id, $email, $structure)
+    public function canSendNote($prj_id, $issue_id, $sender_email, $mail)
     {
         return null;
     }

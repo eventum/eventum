@@ -290,10 +290,11 @@ class Routing
         $sender_email = $mail->getSender();
         $sender_usr_id = User::getUserIDByEmail($sender_email, true);
         $usr_role_id = User::getRoleByUser($sender_usr_id, $prj_id);
+
         // XXX: move this ugly block to Access::can* method
         if ((!$sender_usr_id || $usr_role_id < User::ROLE_USER ||
                 (User::isPartner($sender_usr_id) && !Access::canViewInternalNotes($issue_id, $sender_usr_id))) &&
-                ((!Workflow::canSendNote($prj_id, $issue_id, $sender_email, $structure)))) {
+                ((!Workflow::canSendNote($prj_id, $issue_id, $sender_email, $mail)))) {
             throw RoutingException::noIssuePermission($issue_id);
         }
 
