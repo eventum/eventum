@@ -25,27 +25,19 @@ class Routing
     /**
      * Route all mail kinds: emails, notes, drafts (in that order) processing "To:" and "Cc:" headers
      *
-     * @param string &$full_message
+     * @param MailMessage $mail
      * @throws RoutingException in case of failure
      * @return array|bool
      */
-    public static function route(&$full_message)
+    public static function route(MailMessage $mail)
     {
-        self::removeMboxHeader($full_message);
-
-        if (!$full_message) {
-            throw RoutingException::noMessageBodyError();
-        }
-
-        $mail = MailMessage::createFromString($full_message);
-
         $setup = Setup::get();
 
         // create mapping for quickly checking if routing is enabled
         $routing = [
-            'email' => $setup['email_routing']['status'] == 'enabled',
-            'note' => $setup['note_routing']['status'] == 'enabled',
-            'draft' => $setup['draft_routing']['status'] == 'enabled',
+            'email' => $setup['email_routing']['status'] === 'enabled',
+            'note' => $setup['note_routing']['status'] === 'enabled',
+            'draft' => $setup['draft_routing']['status'] === 'enabled',
         ];
 
         $types = ['email', 'note', 'draft'];
@@ -101,7 +93,7 @@ class Routing
 
         // check if the email routing interface is even supposed to be enabled
         $setup = Setup::get();
-        if ($setup['email_routing']['status'] != 'enabled') {
+        if ($setup['email_routing']['status'] !== 'enabled') {
             throw RoutingException::noEmailRouting();
         }
         if (!$setup['email_routing']['address_prefix']) {
@@ -158,7 +150,7 @@ class Routing
         AuthCookie::setProjectCookie($prj_id);
 
         // remove certain CC addresses
-        if ($headers->has('Cc') && $setup['smtp']['save_outgoing_email'] == 'yes') {
+        if ($headers->has('Cc') && $setup['smtp']['save_outgoing_email'] === 'yes') {
             $mail->removeFromAddressList('Cc', $setup['smtp']['save_address']);
         }
 
@@ -262,7 +254,7 @@ class Routing
 
         // check if the email routing interface is even supposed to be enabled
         $setup = Setup::get();
-        if ($setup['note_routing']['status'] != 'enabled') {
+        if ($setup['note_routing']['status'] !== 'enabled') {
             throw RoutingException::noEmailRouting();
         }
         if (!$setup['note_routing']['address_prefix']) {
@@ -390,7 +382,7 @@ class Routing
 
         // check if the draft interface is even supposed to be enabled
         $setup = Setup::get();
-        if ($setup['draft_routing']['status'] != 'enabled') {
+        if ($setup['draft_routing']['status'] !== 'enabled') {
             throw RoutingException::noDraftRouting();
         }
         if (!$setup['draft_routing']['address_prefix']) {
@@ -492,11 +484,10 @@ class Routing
      *
      * @param string $message
      * @see https://github.com/eventum/eventum/issues/155
-     * @internal public for testing
      */
     public static function removeMboxHeader(&$message)
     {
-        if (substr($message, 0, 5) != 'From ') {
+        if (substr($message, 0, 5) !== 'From ') {
             return;
         }
 

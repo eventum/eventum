@@ -473,7 +473,7 @@ class Support
         // route emails if necessary
         if ($info['ema_use_routing'] == 1) {
             try {
-                $routed = Routing::route($mail->getRawContent());
+                $routed = Routing::route($mail);
             } catch (RoutingException $e) {
                 // "if leave copy of emails on IMAP server" is "off",
                 // then we can bounce on the message

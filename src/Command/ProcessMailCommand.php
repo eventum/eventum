@@ -14,6 +14,7 @@
 namespace Eventum\Command;
 
 use Eventum\Mail\Exception\RoutingException;
+use Eventum\Mail\MailMessage;
 use Routing;
 
 class ProcessMailCommand extends Command
@@ -33,8 +34,12 @@ class ProcessMailCommand extends Command
             $full_message = stream_get_contents(STDIN);
         }
 
+        Routing::removeMboxHeader($full_message);
+
+        $mail = MailMessage::createFromString($full_message);
+
         try {
-            $return = Routing::route($full_message);
+            $return = Routing::route($mail);
         } catch (RoutingException $e) {
             echo $e->getMessage();
             exit($e->getCode());
