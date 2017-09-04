@@ -18,7 +18,7 @@ final class SystemEvents
     /**
      * Event fired when history entry is added
      *
-     * @since 3.2.2
+     * @since 3.3.0
      */
     const HISTORY_ADD = 'history.add';
 }
