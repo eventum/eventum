@@ -46,7 +46,7 @@ class Mail_Helper
         }
         // XXX: this works in most cases,
         // probably the reply prefixes should be configurable per Eventum install
-        $re_pattern = "/(\[#\d+\] ){0,1}(([Rr][Ee][Ss]?|Ответ|Antwort|SV|[Aa][Ww]|[Rr][Ii][Ff]\.?)(\[[0-9]+\])?[ \t]*: ){2}(.*)/";
+        $re_pattern = "/(\[#\d+\] ){0,1}(([Rr][Ee][Ss]?|Ответ|Antwort|SV|[Aa][Ww]|[Rr][Ii][Ff]\.?)(\[[0-9]+\])?[ \t]*: ){2}(.*)/u";
         if (preg_match($re_pattern, $subject, $matches)) {
             // TRANSLATORS: %1 = email subject
             $re_format = '$1' . ev_gettext('Re: %1$s', '$5');
