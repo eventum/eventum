@@ -13,7 +13,9 @@
 
 require_once __DIR__ . '/../init.php';
 
+use Eventum\Command\MonitorCommand as Command;
+
 $app = new Silly\Application();
-$app->command('monitor [-q|--quiet]', [new Eventum\Command\MonitorCommand(), 'execute']);
-$app->setDefaultCommand('monitor');
+$app->command(Command::USAGE, [new Command(), 'execute']);
+$app->setDefaultCommand(Command::DEFAULT_COMMAND);
 $app->run();
