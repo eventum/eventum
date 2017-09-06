@@ -38,6 +38,9 @@ class FlysystemTest extends TestCase
         $this->assertEquals($res, $contents);
     }
 
+    /**
+     * @group db
+     */
     public function testPhlibFlysystemPdo()
     {
         /** @var PdoAdapter $db */
