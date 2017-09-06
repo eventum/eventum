@@ -14,6 +14,7 @@
 namespace Eventum\Controller\Helper;
 
 use Attachment;
+use Eventum\Attachment\AttachmentManager;
 use Symfony\Component\HttpFoundation\Request;
 
 class AttachHelper
@@ -31,7 +32,7 @@ class AttachHelper
         // if no iaf_ids passed, perhaps it's old style upload
         // TODO: verify that the uploaded file(s) owner is same as attachment owner.
         if (!$iaf_ids && isset($_FILES['attachment'])) {
-            $iaf_ids = Attachment::addFiles($_FILES['attachment']);
+            $iaf_ids = AttachmentManager::addFiles($_FILES['attachment']);
         }
 
         return $iaf_ids;

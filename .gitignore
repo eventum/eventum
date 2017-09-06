@@ -80,3 +80,5 @@ Session.vim
 !/var/lock/README
 /var/log/*
 !/var/log/README
+/var/storage/*
+!/var/storage/README

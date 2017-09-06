@@ -13,6 +13,7 @@
 
 namespace Eventum\Mail;
 
+use Eventum\Attachment\Attachment;
 use Eventum\Mail\Helper\MimePart;
 use Zend\Mail;
 use Zend\Mime;
@@ -62,15 +63,15 @@ class MailBuilder
     /**
      * Add $attachment object as attachment to message
      *
-     * @param array $attachment structure from Attachment::getAttachment
+     * @param Attachment $attachment
      * @return $this
      */
-    public function addAttachment($attachment)
+    public function addAttachment(Attachment $attachment)
     {
         $part = MimePart::createAttachmentPart(
-            $attachment['iaf_file'],
-            $attachment['iaf_filetype'],
-            $attachment['iaf_filename']
+            $attachment->getFileContents(),
+            $attachment->filetype,
+            $attachment->filename
         );
         $this->mime->addPart($part);
 

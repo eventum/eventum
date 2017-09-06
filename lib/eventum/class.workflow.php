@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Attachment\AttachmentGroup;
 use Eventum\Db\DatabaseException;
 use Eventum\Event\WorkflowEvents;
 use Eventum\EventDispatcher\EventManager;
@@ -141,16 +142,17 @@ class Workflow
      *
      * @param   int $prj_id The project ID
      * @param   int $issue_id the ID of the issue
-     * @param   int $usr_id the id of the user who locked the issue
+     * @param   int $usr_id the id of the user who attached this file
+     * @param   AttachmentGroup $attachment_group The attachment object
      */
-    public static function handleAttachment($prj_id, $issue_id, $usr_id)
+    public static function handleAttachment($prj_id, $issue_id, $usr_id, AttachmentGroup $attachment_group)
     {
         if (!self::hasWorkflowIntegration($prj_id)) {
             return;
         }
 
         $backend = self::_getBackend($prj_id);
-        $backend->handleAttachment($prj_id, $issue_id, $usr_id);
+        $backend->handleAttachment($prj_id, $issue_id, $usr_id, $attachment_group);
     }
 
     /**

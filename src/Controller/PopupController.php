@@ -13,9 +13,9 @@
 
 namespace Eventum\Controller;
 
-use Attachment;
 use Auth;
 use Authorized_Replier;
+use Eventum\Attachment\AttachmentManager;
 use Filter;
 use History;
 use Issue;
@@ -123,12 +123,12 @@ class PopupController extends BaseController
                 break;
 
             case 'delete_attachment':
-                $res = Attachment::remove($this->id);
+                $res = AttachmentManager::removeAttachmentGroup($this->id);
                 $this->tpl->assign('remove_attachment_result', $res);
                 break;
 
             case 'delete_file':
-                $res = Attachment::removeIndividualFile($this->id);
+                $res = AttachmentManager::removeAttachment($this->id);
                 $this->tpl->assign('remove_file_result', $res);
                 break;
 

@@ -291,22 +291,22 @@ class Command_Line
         $details = $client->getFile($auth[0], $auth[1], (int) $file_id);
 
         // check if the file already exists
-        if (file_exists($details['iaf_filename'])) {
-            $msg = "The requested file ('" . $details['iaf_filename'] . "') already exists in the current directory. Would you like to overwrite this file? [y/n]";
+        if (file_exists($details['name'])) {
+            $msg = "The requested file ('" . $details['name'] . "') already exists in the current directory. Would you like to overwrite this file? [y/n]";
             $ret = CLI_Misc::prompt($msg, false);
             if (strtolower($ret) == 'y') {
-                unlink($details['iaf_filename']);
-                if (file_exists($details['iaf_filename'])) {
+                unlink($details['name']);
+                if (file_exists($details['name'])) {
                     self::quit('No permission to remove the file');
                 }
             } else {
                 self::quit('Download halted');
             }
         }
-        $fp = fopen($details['iaf_filename'], 'w');
-        fwrite($fp, $details['iaf_file']);
+        $fp = fopen($details['name'], 'w');
+        fwrite($fp, base64_decode($details['contents']));
         fclose($fp);
-        echo "OK - File '" . $details['iaf_filename'] . "' successfully downloaded to the local directory\n";
+        echo "OK - File '" . $details['name'] . "' successfully downloaded to the local directory\n";
     }
 
     /**

@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
 
@@ -298,7 +299,7 @@ class Link_Filter
         // build list of files to replace, so duplicate matches will always
         // take last matching filename.
         $files = [];
-        foreach (Attachment::getList($issue_id) as $attachment) {
+        foreach (AttachmentManager::getList($issue_id) as $attachment) {
             foreach ($attachment['files'] as $file) {
                 // TRANSLATORS: %1: iaf_filename, %2: iaf_filesize
                 $title = ev_gettext('download file (%1$s - %2$s)', $file['iaf_filename'], $file['iaf_filesize']);

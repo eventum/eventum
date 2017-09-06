@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\Helper\AddressHeader;
 use Eventum\Mail\Helper\WarningMessage;
@@ -550,7 +551,7 @@ class Notification
             return '';
         }
 
-        $res['files'] = Attachment::getFileList($res['iat_id']);
+        $res['files'] = AttachmentManager::getAttachmentList($res['iat_id']);
         $data = Issue::getDetails($issue_id);
         $data['attachment'] = $res;
 
@@ -1218,7 +1219,7 @@ class Notification
         $emails = array_merge($emails, Workflow::getAdditionalEmailAddresses($prj_id, $issue_id, 'new_issue'));
 
         $data = Issue::getDetails($issue_id, true);
-        $data['attachments'] = Attachment::getList($issue_id);
+        $data['attachments'] = AttachmentManager::getList($issue_id);
 
         // notify new issue to irc channel
         $irc_notice = "New Issue #$issue_id (";

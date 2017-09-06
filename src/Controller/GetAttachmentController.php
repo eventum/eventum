@@ -13,7 +13,6 @@
 
 namespace Eventum\Controller;
 
-use Attachment;
 use Auth;
 use Eventum\Mail\MailMessage;
 use InvalidArgumentException;
@@ -65,7 +64,7 @@ class GetAttachmentController extends BaseController
 
         if ($this->raw) {
             $email = $mail->getRawContent();
-            Attachment::outputDownload($email, 'message.eml', Misc::countBytes($email), 'message/rfc822');
+            Misc::outputDownload($email, 'message.eml', Misc::countBytes($email), 'message/rfc822');
 
             return;
         }
@@ -74,7 +73,7 @@ class GetAttachmentController extends BaseController
         $filename = $get->get('filename');
         $attachment = $this->getAttachment($mail, $filename, $cid);
         $bytes = Misc::countBytes($attachment['blob']);
-        Attachment::outputDownload($attachment['blob'], $filename, $bytes, $attachment['filetype']);
+        Misc::outputDownload($attachment['blob'], $filename, $bytes, $attachment['filetype']);
     }
 
     /**

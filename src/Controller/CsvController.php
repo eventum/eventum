@@ -14,7 +14,6 @@
 namespace Eventum\Controller;
 
 use Access;
-use Attachment;
 use Auth;
 use Misc;
 
@@ -60,7 +59,7 @@ class CsvController extends BaseController
         $filename = uniqid('csv') . '.xls';
         $mimetype = 'application/vnd.ms-excel';
         $filesize = Misc::countBytes($csv);
-        Attachment::outputDownload($csv, $filename, $filesize, $mimetype);
+        Misc::outputDownload($csv, $filename, $filesize, $mimetype);
         exit;
     }
 

@@ -31,7 +31,7 @@
 		"component-baseurl": "/components",
 		"component-dir": "htdocs/components",
 		"platform": {
-			"php": "5.5.0"
+			"php": "5.6.0"
 		}
 	},
 	"scripts": {
@@ -64,6 +64,7 @@
 		"ext-spl": "*",
 		"fonts/liberation": "*",
 		"ircmaxell/random-lib": "~1.1.0",
+		"league/flysystem": "^1.0",
 		"malkusch/lock": "^0.4.0",
 		"monolog/monolog": "^1.22.0",
 		"pear-pear.php.net/math_stats": "*",
@@ -76,7 +77,8 @@
 		"pear/net_smtp": "1.6.*",
 		"pear/net_socket": "*",
 		"pear/pear-core-minimal": "^1.10",
-		"php": "^5.5.0 || ^7.0",
+		"phlib/flysystem-pdo": "^0.0.3",
+		"php": "^5.6.0 || ^7.0",
 		"php-gettext/php-gettext": "1.0.*",
 		"phplot/phplot": "~6.1.0",
 		"phpxmlrpc/phpxmlrpc": "^4.1",

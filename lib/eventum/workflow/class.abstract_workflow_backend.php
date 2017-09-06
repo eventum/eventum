@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Attachment\AttachmentGroup;
 use Eventum\Mail\ImapMessage;
 use Eventum\Mail\MailMessage;
 use Eventum\Model\Entity;
@@ -157,9 +158,10 @@ class Abstract_Workflow_Backend
      *
      * @param   int $prj_id The projectID
      * @param   int $issue_id the ID of the issue
-     * @param   int $usr_id the id of the user who locked the issue
+     * @param   int $usr_id the id of the user who attached this file
+     * @param   AttachmentGroup $attachment_group The attachment group object
      */
-    public function handleAttachment($prj_id, $issue_id, $usr_id)
+    public function handleAttachment($prj_id, $issue_id, $usr_id, AttachmentGroup $attachment_group)
     {
     }
 

@@ -11,6 +11,7 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\MailMessage;
 use Eventum\Model\Repository\IssueAssociationRepository;
@@ -1121,10 +1122,10 @@ class Issue
         // process any files being uploaded
         // TODO: handle ajax uploads
         if (isset($_FILES['file'])) {
-            $iaf_ids = Attachment::addFiles($_FILES['file']);
+            $iaf_ids = AttachmentManager::addFiles($_FILES['file']);
 
             if ($iaf_ids) {
-                Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, false, 'Files uploaded anonymously');
+                AttachmentManager::attachFiles($issue_id, $usr_id, $iaf_ids, User::ROLE_VIEWER, 'Files uploaded anonymously');
             }
         }
 
@@ -2071,10 +2072,10 @@ class Issue
         // if no iaf_ids passed, perhaps it's old style upload
         // TODO: verify that the uploaded file(s) owner is same as attachment owner.
         if (!$iaf_ids && isset($_FILES['file'])) {
-            $iaf_ids = Attachment::addFiles($_FILES['file']);
+            $iaf_ids = AttachmentManager::addFiles($_FILES['file']);
         }
         if ($iaf_ids) {
-            Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, false, 'Files uploaded at issue creation time');
+            AttachmentManager::attachFiles($issue_id, $usr_id, $iaf_ids, User::ROLE_VIEWER, 'Files uploaded at issue creation time');
         }
 
         // need to associate any emails ?

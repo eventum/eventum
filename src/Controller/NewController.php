@@ -14,7 +14,6 @@
 namespace Eventum\Controller;
 
 use Access;
-use Attachment;
 use Auth;
 use AuthCookie;
 use Category;
@@ -22,6 +21,7 @@ use CRM;
 use CRMException;
 use Custom_Field;
 use Date_Helper;
+use Eventum\Attachment\AttachmentManager;
 use Group;
 use Issue;
 use Mail_Helper;
@@ -195,8 +195,8 @@ class NewController extends BaseController
                 'users' => Project::getUserAssocList($this->prj_id, 'active', User::ROLE_CUSTOMER),
                 'releases' => Release::getAssocList($this->prj_id),
                 'custom_fields' => Custom_Field::getListByProject($this->prj_id, 'report_form', false, true),
-                'max_attachment_size' => Attachment::getMaxAttachmentSize(),
-                'max_attachment_bytes' => Attachment::getMaxAttachmentSize(true),
+                'max_attachment_size' => AttachmentManager::getMaxAttachmentSize(),
+                'max_attachment_bytes' => AttachmentManager::getMaxAttachmentSize(true),
                 'field_display_settings' => Project::getFieldDisplaySettings($this->prj_id),
                 'groups' => Group::getAssocList($this->prj_id),
                 'products' => Product::getList(false),
