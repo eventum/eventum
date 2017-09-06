@@ -975,9 +975,6 @@ class RemoteApi
         $prj_id = Issue::getProjectID($issue_id);
         AuthCookie::setProjectCookie($prj_id);
 
-        // FIXME: $customer_id unused
-        $customer_id = Issue::getCustomerID($issue_id);
-
         if (!CRM::hasCustomerIntegration($prj_id)) {
             // no customer integration
             throw new RemoteApiException("No customer integration for issue #$issue_id");
@@ -1021,8 +1018,6 @@ class RemoteApi
     {
         $prj_id = Issue::getProjectID($issue_id);
         AuthCookie::setProjectCookie($prj_id);
-        // FIXME: $customer_id unused
-        $customer_id = Issue::getCustomerID($issue_id);
 
         if (!CRM::hasCustomerIntegration($prj_id)) {
             // no customer integration
