@@ -15,7 +15,6 @@ namespace Eventum\RPC;
 
 use Access;
 use APIAuthToken;
-use Attachment;
 use Auth;
 use AuthCookie;
 use Authorized_Replier;
@@ -26,6 +25,9 @@ use Date_Helper;
 use DateTime;
 use DB_Helper;
 use Draft;
+use Eventum\Attachment\Attachment;
+use Eventum\Attachment\AttachmentManager;
+use Eventum\Attachment\Exceptions\AttachmentException;
 use Eventum\Monolog\Logger;
 use History;
 use InvalidArgumentException;
@@ -178,7 +180,7 @@ class RemoteApi
     {
         switch ($parameter) {
             case 'upload_max_filesize':
-                return Attachment::getMaxAttachmentSize(true);
+                return AttachmentManager::getMaxAttachmentSize(true);
         }
         throw new InvalidArgumentException("Invalid parameter: $parameter");
     }
@@ -416,7 +418,7 @@ class RemoteApi
     {
         AuthCookie::setProjectCookie(Issue::getProjectID($issue_id));
 
-        $res = Attachment::getList($issue_id);
+        $res = AttachmentManager::getList($issue_id);
         if (empty($res)) {
             throw new RemoteApiException('No files could be found');
         }
@@ -431,12 +433,15 @@ class RemoteApi
      */
     public function getFile($file_id)
     {
-        $res = Attachment::getDetails($file_id);
+        $res = AttachmentManager::getAttachment($file_id);
         if (empty($res)) {
             throw new RemoteApiException('The requested file could not be found');
         }
 
-        return $res;
+        $details = $res->getDetails();
+        $details['contents'] = base64_encode($details['contents']);
+
+        return $details;
     }
 
     /**
@@ -464,13 +469,20 @@ class RemoteApi
             throw new RemoteApiException('Not authenticated');
         }
 
-        $iaf_id = Attachment::addFile(0, $filename, $mimetype, $contents);
-        if (!$iaf_id) {
-            throw new RemoteApiException('File not uploaded');
+        try {
+            $iaf_id = Attachment::create($filename, $mimetype, $contents)->id;
+        } catch (AttachmentException $e) {
+            throw new RemoteApiException('File not uploaded', $e->getCode(), $e);
         }
 
         $iaf_ids = [$iaf_id];
-        Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $file_description);
+        // TODO: Implement min role properly
+        if ($internal_only) {
+            $min_role = User::ROLE_USER;
+        } else {
+            $min_role = User::ROLE_VIEWER;
+        }
+        AttachmentManager::attachFiles($issue_id, $usr_id, $iaf_ids, $min_role, $file_description);
 
         $res = [
             'usr_id' => $usr_id,

@@ -11,6 +11,9 @@
  * that were distributed with this source code.
  */
 
+use Eventum\Attachment\Attachment;
+use Eventum\Attachment\AttachmentManager;
+use Eventum\Attachment\Exceptions\AttachmentException;
 use Eventum\Db\DatabaseException;
 use Eventum\Mail\Exception\RoutingException;
 use Eventum\Mail\Helper\AddressHeader;
@@ -1338,15 +1341,21 @@ class Support
                 if (!$attach) {
                     continue;
                 }
-                $iaf_id = Attachment::addFile(0, $attachment['filename'], $attachment['filetype'], $attachment['blob']);
-                if (!$iaf_id) {
+                try {
+                    $iaf_ids[] = Attachment::create($attachment['filename'], $attachment['filetype'], $attachment['blob'])->id;
+                } catch (AttachmentException $e) {
                     continue;
                 }
-                $iaf_ids[] = $iaf_id;
             }
 
             if ($iaf_ids) {
-                Attachment::attachFiles($issue_id, $usr_id, $iaf_ids, $internal_only, $history_log, $unknown_user, $associated_note_id);
+                if ($internal_only) {
+                    $min_role = User::ROLE_USER;
+                } else {
+                    $min_role = User::ROLE_VIEWER;
+                }
+                AttachmentManager::attachFiles($issue_id, $usr_id, $iaf_ids, $min_role, $history_log,
+                    ['unknown_user' => $unknown_user, 'associated_note_id' => $associated_note_id]);
             }
 
             // mark the note as having attachments (poor man's caching system)
@@ -1847,8 +1856,8 @@ class Support
 
         if ($iaf_ids) {
             foreach ($iaf_ids as $iaf_id) {
-                $attachment = Attachment::getDetails($iaf_id);
-                $mail->addAttachment($attachment['iaf_filename'], $attachment['iaf_file'], $attachment['iaf_filetype']);
+                $attachment = AttachmentManager::getAttachment($iaf_id);
+                $mail->addAttachment($attachment->filename, $attachment->getFileContents(), $attachment->filetype);
             }
         }
 
@@ -1912,8 +1921,8 @@ class Support
             }
             if (!empty($iaf_ids) && is_array($iaf_ids)) {
                 foreach ($iaf_ids as $iaf_id) {
-                    $attachment = Attachment::getDetails($iaf_id);
-                    $mail->addAttachment($attachment['iaf_filename'], $attachment['iaf_file'], $attachment['iaf_filetype']);
+                    $attachment = AttachmentManager::getAttachment($iaf_id);
+                    $mail->addAttachment($attachment->filename, $attachment->getFileContents(), $attachment->filetype);
                 }
             }
             $mail->setTextBody($fixed_body);
@@ -1990,8 +1999,9 @@ class Support
         // from ajax upload, attachment file ids
         if ($iaf_ids) {
             // FIXME: is it correct to use sender from post data?
+            // FIXME: Should we upload attachments even if the email is blocked?
             $attach_usr_id = $sender_usr_id ?: $current_usr_id;
-            Attachment::attachFiles($issue_id, $attach_usr_id, $iaf_ids, false, 'Attachment originated from outgoing email');
+            AttachmentManager::attachFiles($issue_id, $attach_usr_id, $iaf_ids, User::ROLE_VIEWER, 'Attachment originated from outgoing email');
         }
 
         // hack needed to get the full headers of this web-based email

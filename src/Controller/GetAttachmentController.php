@@ -13,7 +13,6 @@
 
 namespace Eventum\Controller;
 
-use Attachment;
 use Auth;
 use Mime_Helper;
 use Misc;
@@ -63,7 +62,7 @@ class GetAttachmentController extends BaseController
         }
 
         if ($this->raw) {
-            Attachment::outputDownload($email, 'message.eml', Misc::countBytes($email), 'message/rfc822');
+            Misc::outputDownload($email, 'message.eml', Misc::countBytes($email), 'message/rfc822');
         }
 
         $cid = $get->get('cid');
@@ -73,7 +72,7 @@ class GetAttachmentController extends BaseController
         } else {
             list($mimetype, $data) = Mime_Helper::getAttachment($email, $filename);
         }
-        Attachment::outputDownload($data, $filename, Misc::countBytes($data), $mimetype);
+        Misc::outputDownload($data, $filename, Misc::countBytes($data), $mimetype);
     }
 
     /**
