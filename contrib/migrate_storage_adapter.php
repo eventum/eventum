@@ -24,15 +24,15 @@ use Eventum\Attachment\AttachmentManager;
 use Eventum\Attachment\StorageManager;
 
 if (!isset($argv[2])) {
-    echo sprintf("Usage: %s source_adapter target_adapter\n", $argv[0]);
-    exit;
+    printf("Usage: %s source_adapter target_adapter\n", $argv[0]);
+    exit(1);
 }
 
 if (!in_array('--yes', $argv)) {
-    echo "WARNING: Migrating data has risks. Make sure all your data is backed up before continuing. 
+    echo "WARNING: Migrating data has risks. Make sure all your data is backed up before continuing.
 
 Pass '--yes' as the last argument to skip this warning and perform the migration\n";
-    exit;
+    exit(1);
 }
 
 list($source_adapter, $target_adapter) = array_slice($argv, 1, 2);
