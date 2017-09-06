@@ -1112,7 +1112,7 @@ class Issue
             'user' => User::getFullName($usr_id),
         ]);
 
-        if ($send_notification_to == 'all') {
+        if ($send_notification_to === 'all') {
             $from = User::getFromHeader($usr_id);
             $message_id = Mail_Helper::generateMessageID();
             $full_email = Support::buildFullHeaders($issue_id, $message_id, $from,
@@ -1165,7 +1165,7 @@ class Issue
                 }
             }
             // send notifications for the issue being closed
-            Notification::notify($issue_id, 'closed', $ids, ($send_notification_to != 'all'));
+            Notification::notify($issue_id, 'closed', $ids, ($send_notification_to !== 'all'));
         }
         Workflow::handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id);
 
