@@ -213,8 +213,8 @@ class AttachmentManager
                 FROM
                     {{%issue_attachment_file}}
                 WHERE
-                    iaf_iat_id=0 AND 
-                    iaf_created_date > '0000-00-00 00:00:00' AND 
+                    iaf_iat_id=0 AND
+                    iaf_created_date > '0000-00-00 00:00:00' AND
                     iaf_created_date < ?";
         $expire_date = time() - self::ATTACHMENT_EXPIRE_TIME;
         $params = [Date_Helper::convertDateGMT($expire_date)];
@@ -263,7 +263,7 @@ class AttachmentManager
                     {{%user}}
                  WHERE
                     iat_iss_id=? AND
-                    iat_usr_id=usr_id AND 
+                    iat_usr_id=usr_id AND
                     iat_min_role <= ?';
         $stmt .= '
                  ORDER BY
