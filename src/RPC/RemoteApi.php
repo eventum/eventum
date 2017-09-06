@@ -615,11 +615,12 @@ class RemoteApi
                 $email['id'] = $i + 1;
                 unset($email['seb_body']);
             }
+            unset($email);
         }
 
         $setup = Setup::get();
 
-        if (isset($setup['description_email_0']) && $setup['description_email_0'] == 'enabled') {
+        if (isset($setup['description_email_0']) && $setup['description_email_0'] === 'enabled') {
             $issue = Issue::getDetails($issue_id);
             $email = [
                 'id' => 0,
@@ -629,7 +630,7 @@ class RemoteApi
                 'sup_cc' => '',
                 'sup_subject' => $issue['iss_summary'],
             ];
-            if ($real_emails != '') {
+            if ($real_emails !== '') {
                 $emails = array_merge([$email], $real_emails);
             } else {
                 $emails[] = $email;
