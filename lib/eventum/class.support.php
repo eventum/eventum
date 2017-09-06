@@ -872,8 +872,10 @@ class Support
                     $contact = $crm->getContactByEmail($sender_email);
                     $contact_id = $contact->getContactID();
                     $contracts = $contact->getContracts([CRM_EXCLUDE_EXPIRED]);
-                    $contract = $contracts[0];
-                    $customer_id = $contract->getCustomerID();
+                    if (count($contracts) > 0) {
+                        $contract = $contracts[0];
+                        $customer_id = $contract->getCustomerID();
+                    }
                 } catch (CRMException $e) {
                     $customer_id = null;
                     $contact_id = null;
