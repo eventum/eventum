@@ -14,7 +14,7 @@
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
-use Michelf\MarkdownExtra;
+use cebe\markdown\MarkdownExtra;
 
 /**
  * Class to handle parsing content for links.
@@ -288,10 +288,16 @@ class Link_Filter
         return self::processText(Auth::getCurrentProject(), $text);
     }
 
+    /**
+     * @param string $text
+     * @param int $issue_id
+     * @return string
+     */
     public static function textFormat($text, $issue_id)
     {
         if (Setup::get()['markdown'] === 'enable') {
-            $text = MarkdownExtra::defaultTransform($text);
+            $parser = new MarkdownExtra();
+            $text = $parser->parse($text);
         } else {
             $text = self::activateLinks($text);
         }
