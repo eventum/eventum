@@ -292,9 +292,10 @@ class Link_Filter
     {
         if (Setup::get()['markdown'] === 'enable') {
             $text = MarkdownExtra::defaultTransform($text);
+        } else {
+            $text = self::activateLinks($text);
         }
 
-        $text = self::activateLinks($text);
         $text = self::activateAttachmentLinks($text, $issue_id);
 
         return $text;
