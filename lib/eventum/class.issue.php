@@ -222,72 +222,6 @@ class Issue
     }
 
     /**
-     * Sets the contract ID for a specific issue.
-     *
-     * @param   int $issue_id The issue ID
-     * @param   int $contract_id The contract ID
-     * @return  int 1 if the update worked, -1 otherwise
-     * @deprecated method not used?
-     */
-    public static function setContractID($issue_id, $contract_id)
-    {
-        $old_contract_id = self::getContractID($issue_id);
-
-        $stmt = 'UPDATE
-                    {{%issue}}
-                SET
-                    iss_customer_contract_id = ?
-                 WHERE
-                    iss_id=?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [$contract_id, $issue_id]);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        $usr_id = Auth::getUserID();
-        History::add($issue_id, $usr_id, 'contract_changed', 'Contract changed from {old_contract_id} to {contract_id} by {user}', [
-            'old_contract_id' => $old_contract_id,
-            'contract_id' => $contract_id,
-            'user' => User::getFullName($usr_id),
-        ]);
-
-        return 1;
-    }
-
-    /**
-     * Returns the customer ID associated with the given issue ID.
-     *
-     * @param   int $issue_id The issue ID
-     * @return  int The customer ID associated with the issue
-     * @deprecated method not used?
-     */
-    public static function getContactID($issue_id)
-    {
-        static $returns;
-
-        if (!empty($returns[$issue_id])) {
-            return $returns[$issue_id];
-        }
-
-        $stmt = 'SELECT
-                    iss_customer_contact_id
-                 FROM
-                    {{%issue}}
-                 WHERE
-                    iss_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        $returns[$issue_id] = $res;
-
-        return $res;
-    }
-
-    /**
      * Method used to get the project associated to a given issue.
      *
      * @param   int $issue_id The issue ID
@@ -1050,30 +984,6 @@ class Issue
         }
 
         return $res;
-    }
-
-    /**
-     * Method used to get the issue ID associated with a specific summary.
-     *
-     * @param   string $summary The summary to look for
-     * @return  int The issue ID
-     * @deprecated method not used
-     */
-    public static function getIssueID($summary)
-    {
-        $stmt = 'SELECT
-                    iss_id
-                 FROM
-                    {{%issue}}
-                 WHERE
-                    iss_summary=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$summary]);
-        } catch (DatabaseException $e) {
-            return 0;
-        }
-
-        return !empty($res) ? $res : 0;
     }
 
     /**
@@ -2417,42 +2327,6 @@ class Issue
     }
 
     /**
-     * Method used to get the full list of reporters associated with a given
-     * list of issues.
-     *
-     * @param   array $result The result set
-     * @deprecated method not used
-     */
-    public static function getReportersByIssues(&$result)
-    {
-        $ids = [];
-        foreach ($result as $res) {
-            $ids[] = $res['iss_id'];
-        }
-        $ids = implode(', ', $ids);
-        $stmt = "SELECT
-                    iss_id,
-                    CONCAT(usr_full_name, ' <', usr_email, '>') AS usr_full_name
-                 FROM
-                    {{%issue}},
-                    {{%user}}
-                 WHERE
-                    iss_usr_id=usr_id AND
-                    iss_id IN ($ids)";
-
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DatabaseException $e) {
-            return;
-        }
-
-        // now populate the $result variable again
-        foreach ($result as &$row) {
-            $row['reporter'] = $res[$row['iss_id']];
-        }
-    }
-
-    /**
      * Method used to get the full list of assigned users by a list
      * of issues. This was originally created to optimize the issue
      * listing page.
@@ -2558,34 +2432,6 @@ class Issue
         }
 
         return $res;
-    }
-
-    /**
-     * Method used to get the full list of users (the email usernames) assigned to a
-     * specific issue.
-     *
-     * @param   int $issue_id The issue ID
-     * @return  array The list of users
-     * @deprecated method not used
-     */
-    public static function getAssignedUserEmailHandles($issue_id)
-    {
-        $stmt = "SELECT
-                    usr_id,
-                    SUBSTRING(usr_email, 1, INSTR(usr_email, '@')-1) AS handle
-                 FROM
-                    {{%issue_user}},
-                    {{%user}}
-                 WHERE
-                    isu_iss_id=? AND
-                    isu_usr_id=usr_id";
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return [];
-        }
-
-        return array_values($res);
     }
 
     /**
@@ -2957,38 +2803,6 @@ class Issue
     }
 
     /**
-     * Method used to get the full list of issue IDs and their respective
-     * titles.
-     *
-     * @param   string $extra_condition An extra condition in the WHERE clause
-     * @return  array The list of issues
-     * @deprecated method not used
-     */
-    public static function getAssocList($extra_condition = null)
-    {
-        $stmt = 'SELECT
-                    iss_id,
-                    iss_summary
-                 FROM
-                    {{%issue}}
-                 WHERE
-                    iss_prj_id=' . Auth::getCurrentProject();
-        if (!empty($extra_condition)) {
-            $stmt .= " AND $extra_condition ";
-        }
-        $stmt .= '
-                 ORDER BY
-                    iss_id ASC';
-        try {
-            $res = DB_Helper::getInstance()->getPair($stmt);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        return $res;
-    }
-
-    /**
      * Method used to check whether an issue was already closed or not.
      *
      * @param   int $issue_id The issue ID
@@ -3154,48 +2968,6 @@ class Issue
     }
 
     /**
-     * Sets the group of the issue.
-     *
-     * @param   int $issue_id The ID of the issue
-     * @param   int $group_id The ID of the group
-     * @return  int 1 if successful, -1 or -2 otherwise
-     * @deprecated method not used
-     */
-    public static function setGroup($issue_id, $group_id)
-    {
-        $issue_id = (int) $issue_id;
-        $group_id = (int) $group_id;
-
-        $current = self::getDetails($issue_id);
-        if ($current['iss_grp_id'] == $group_id) {
-            return -2;
-        }
-        $stmt = 'UPDATE
-                    {{%issue}}
-                 SET
-                    iss_grp_id = ?
-                 WHERE
-                    iss_id = ?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [$group_id, $issue_id]);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
-
-        $usr_id = Auth::getUserID();
-        if (!$usr_id) {
-            $usr_id = APP_SYSTEM_USER_ID;
-        }
-
-        History::add($issue_id, $usr_id, 'group_changed', 'Group changed ({changes}) by {user}', [
-            'changes' => History::formatChanges(Group::getName($current['iss_grp_id']), Group::getName($group_id)),
-            'user' => User::getFullName($usr_id),
-        ]);
-
-        return 1;
-    }
-
-    /**
      * Returns the group ID associated with the given issue ID.
      *
      * @param   int $issue_id The issue ID
@@ -3228,19 +3000,6 @@ class Issue
     public static function canAccess($issue_id, $usr_id)
     {
         return Access::canAccessIssue($issue_id, $usr_id);
-    }
-
-    /**
-     * Returns true if the user can update the issue
-     *
-     * @param   int $issue_id the ID of the issue
-     * @param   int $usr_id The ID of the user
-     * @return  bool If the user can update the issue
-     * @deprecated since 3.2.2 use Access::canUpdateIssue() directly
-     */
-    public static function canUpdate($issue_id, $usr_id)
-    {
-        return Access::canUpdateIssue($issue_id, $usr_id);
     }
 
     /**

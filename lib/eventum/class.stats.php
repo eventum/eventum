@@ -37,18 +37,6 @@ class Stats
     }
 
     /**
-     * Method used to check if the pie charts should be displayed in the main
-     * screen of the application.
-     *
-     * @deprecated
-     * @return  bool
-     */
-    public static function getPieChart()
-    {
-        return true;
-    }
-
-    /**
      * Method used to get an associative array of the list of categories and the
      * total number of issues associated with each of them.
      *

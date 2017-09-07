@@ -37,15 +37,6 @@ class Setup
     }
 
     /**
-     * @return Config
-     * @deprecated wrapper for Setup::get() for legacy compatibility
-     */
-    public static function load()
-    {
-        return self::get();
-    }
-
-    /**
      * Set options to system config.
      * The changes are not stored to disk.
      *

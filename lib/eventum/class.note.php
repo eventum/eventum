@@ -699,31 +699,6 @@ class Note
     }
 
     /**
-     * Returns the total number of notes associated to the given issue ID.
-     *
-     * @param   string $issue_id The issue ID
-     * @return  int The number of notes
-     * @deprecated method not used
-     */
-    public static function getTotalNotesByIssue($issue_id)
-    {
-        $stmt = 'SELECT
-                    COUNT(*)
-                 FROM
-                    {{%note}}
-                 WHERE
-                    not_iss_id=? AND
-                    not_removed = 0';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
-        } catch (DatabaseException $e) {
-            return 0;
-        }
-
-        return $res;
-    }
-
-    /**
      * Method used to get the issue ID associated with a given note
      * message-id.
      *

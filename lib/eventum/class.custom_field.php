@@ -1658,42 +1658,6 @@ class Custom_Field
     }
 
     /**
-     * Searches a specified custom field for a string and returns any issues that match
-     *
-     * @param   int $fld_id The ID of the custom field
-     * @param   string  $search The string to search for
-     * @return  array An array of issue IDs
-     * @deprecated method not used
-     */
-    public static function getIssuesByString($fld_id, $search)
-    {
-        $sql = 'SELECT
-                    icf_iss_id
-                FROM
-                    {{%issue_custom_field}}
-                WHERE
-                    icf_fld_id = ? AND
-                    (
-                        icf_value LIKE ? OR
-                        icf_value_integer LIKE ? OR
-                        icf_value_date LIKE ?
-                    )';
-        try {
-            $params = [
-                $fld_id,
-                "%$search%",
-                "%$search%",
-                "%$search%",
-            ];
-            $res = DB_Helper::getInstance()->getColumn($sql, $params);
-        } catch (DatabaseException $e) {
-            return [];
-        }
-
-        return $res;
-    }
-
-    /**
      * Formats the return value
      *
      * @param   mixed   $value The value to format
@@ -1709,25 +1673,6 @@ class Custom_Field
         }
 
         return Link_Filter::processText(Auth::getCurrentProject(), Misc::htmlentities($value));
-    }
-
-    /**
-     * This method inserts a blank value for all custom fields that do not already have a record.
-     * It currently is not called by the main code, but is included to be called from workflow classes.
-     *
-     * @param   int $issue_id The Issue ID
-     * @deprecated method not used
-     */
-    public static function populateAllFields($issue_id)
-    {
-        $prj_id = Issue::getProjectID($issue_id);
-        $fields = self::getListByIssue($prj_id, $issue_id, APP_SYSTEM_USER_ID);
-        foreach ($fields as $field) {
-            if (empty($field['value'])) {
-                self::removeIssueAssociation($field['fld_id'], $issue_id);
-                self::associateIssue($issue_id, $field['fld_id'], '');
-            }
-        }
     }
 
     /**

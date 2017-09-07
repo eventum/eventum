@@ -176,29 +176,6 @@ class Draft
     }
 
     /**
-     * Method used to remove the recipients associated with the given
-     * email draft response.
-     *
-     * @param   int $emd_id The email draft ID
-     * @return  bool
-     * @deprecated method not used
-     */
-    public static function removeRecipients($emd_id)
-    {
-        $stmt = 'DELETE FROM
-                    {{%email_draft_recipient}}
-                 WHERE
-                    edr_emd_id=?';
-        try {
-            DB_Helper::getInstance()->query($stmt, [$emd_id]);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Method used to associate a recipient with a given email
      * draft response.
      *
@@ -408,33 +385,6 @@ class Draft
         $res = Support::sendEmail($draft['emd_iss_id'], null, $from, $to, $cc, $subject, $draft['emd_body'], $options);
         if ($res == 1) {
             self::remove($draft_id);
-        }
-
-        return $res;
-    }
-
-    /**
-     * Returns the number of drafts by a user in a time range.
-     *
-     * @param   string $usr_id The ID of the user
-     * @param   int $start The timestamp of the start date
-     * @param   int $end The timestanp of the end date
-     * @return  int the number of note by the user
-     * @deprecated method not used
-     */
-    public static function getCountByUser($usr_id, $start, $end)
-    {
-        $stmt = 'SELECT
-                    COUNT(emd_id)
-                 FROM
-                    {{%email_draft}}
-                 WHERE
-                    emd_updated_date BETWEEN ? AND ? AND
-                    emd_usr_id = ?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$start, $end, $usr_id]);
-        } catch (DatabaseException $e) {
-            return '';
         }
 
         return $res;

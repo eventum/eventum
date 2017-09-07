@@ -910,31 +910,6 @@ class Support
     }
 
     /**
-     * Builds a list of all distinct message-ids available in the provided
-     * email account.
-     *
-     * @param   int $ema_id The support email account ID
-     * @return  array The list of message-ids
-     * @deprecated method not used
-     */
-    public static function getMessageIDs($ema_id)
-    {
-        $stmt = 'SELECT
-                    DISTINCT sup_message_id
-                 FROM
-                    {{%support_email}}
-                 WHERE
-                    sup_ema_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getColumn($stmt, [$ema_id]);
-        } catch (DatabaseException $e) {
-            return [];
-        }
-
-        return $res;
-    }
-
-    /**
      * Checks if a message already is downloaded.
      *
      * @param   string $message_id The Message-ID header
@@ -2027,12 +2002,6 @@ class Support
                     'subject' => $subject,
                     // we pass as reference, as that may save some memory
                     'body' => &$body,
-                    // @deprecated, pass 'message' as well for legacy workflow methods
-                    // this should be dropped at some point
-                    'message' => &$body,
-                    // @deprecated
-                    // see https://github.com/eventum/eventum/commit/6ef1eafd0226b6d642b730f3cc9449ff791b0ab8#commitcomment-11655696
-                    'title' => $subject,
                 ];
                 Workflow::handleBlockedEmail($prj_id, $issue_id, $email_details, 'web');
 

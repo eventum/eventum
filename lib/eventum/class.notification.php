@@ -495,43 +495,6 @@ class Notification
     }
 
     /**
-     * Method used to get the details of a given issue and its
-     * associated emails.
-     *
-     * @param   int $issue_id The issue ID
-     * @param   array $sup_ids The list of associated emails
-     * @return  array The issue / emails details
-     * @deprecated method not used
-     */
-    public static function getEmails($issue_id, $sup_ids)
-    {
-        $items = DB_Helper::buildList($sup_ids);
-        $stmt = "SELECT
-                    sup_from,
-                    sup_to,
-                    sup_date,
-                    sup_subject,
-                    sup_has_attachment
-                 FROM
-                    {{%support_email}}
-                 WHERE
-                    sup_id IN ($items)";
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt, $sup_ids);
-        } catch (DatabaseException $e) {
-            return '';
-        }
-
-        if (count($res) == 0) {
-            return '';
-        }
-        $data = Issue::getDetails($issue_id);
-        $data['emails'] = $res;
-
-        return $data;
-    }
-
-    /**
      * Method used to get the details of a given issue and attachment.
      *
      * @param   int $issue_id The issue ID
@@ -1544,56 +1507,6 @@ class Notification
     }
 
     /**
-     * Send an email to all issue assignees
-     *
-     * @param   int $issue_id The ID of the issue
-     * @param   string $type The type of notification to send
-     * @param   array $data Any extra data to pass to the template
-     * @deprecated method not used
-     */
-    public static function notifyAssignees($issue_id, $type, $data, $title = '')
-    {
-        $prj_id = Issue::getProjectID($issue_id);
-        $assignees = Issue::getAssignedUserIDs($issue_id);
-        if (!$assignees) {
-            return;
-        }
-
-        // get issue details
-        $issue = Issue::getDetails($issue_id);
-        // open text template
-        $tpl = new Template_Helper();
-        $tpl->setTemplate('notifications/' . $type . '.tpl.text');
-        $tpl->assign([
-            'app_title' => Misc::getToolCaption(),
-            'issue' => $issue,
-            'data' => $data,
-        ]);
-
-        foreach ($assignees as $usr_id) {
-            $usr_email = User::getFromHeader($usr_id);
-            if (!Workflow::shouldEmailAddress($prj_id, Mail_Helper::getEmailAddress($usr_email))) {
-                continue;
-            }
-
-            $subject = "[#$issue_id] $title: " . $issue['iss_summary'];
-            $text_message = $tpl->getTemplateContents();
-
-            // change the current locale
-            Language::set(User::getLang($usr_id));
-
-            $from = self::getFixedFromHeader($issue_id, '', 'issue');
-
-            // send email (use PEAR's classes)
-            $mail = new Mail_Helper();
-            $mail->setTextBody($text_message);
-            $mail->setHeaders(Mail_Helper::getBaseThreadingHeaders($issue_id));
-            $mail->send($from, $usr_email, $subject, true, $issue_id, $type);
-        }
-        Language::restore();
-    }
-
-    /**
      * Method used to send an email notification when an issue is
      * assigned to an user.
      *
@@ -1644,30 +1557,6 @@ class Notification
             $mail->send($from, $email, $subject, true, $issue_id, 'assignment');
         }
         Language::restore();
-    }
-
-    /**
-     * Method used to send the account details of an user.
-     *
-     * @param   int $usr_id The user ID
-     * @deprecated method not used?
-     */
-    public static function notifyAccountDetails($usr_id)
-    {
-        $info = User::getDetails($usr_id);
-        $info['projects'] = Project::getAssocList($usr_id, true, true);
-        // open text template
-        $tpl = new Template_Helper();
-        $tpl->setTemplate('notifications/account_details.tpl.text');
-        $tpl->assign([
-            'app_title' => Misc::getToolCaption(),
-            'user' => $info,
-        ]);
-
-        // TRANSLATORS: %s = APP_SHORT_NAME
-        $subject = ev_gettext('%s: Your User Account Details', APP_SHORT_NAME);
-        $text_message = $tpl->getTemplateContents();
-        self::notifyUserByMail($usr_id, $subject, $text_message);
     }
 
     /**

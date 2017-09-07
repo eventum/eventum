@@ -312,37 +312,6 @@ class Authorized_Replier
     }
 
     /**
-     * Returns the replier based on the given issue and email address combo.
-     *
-     * @param   int $issue_id the id of the issue
-     * @param   string $email The email address of the user
-     * @return  int The id of the replier
-     * @deprecated method not used
-     */
-    public static function getReplierIDByEmail($issue_id, $email)
-    {
-        $stmt = 'SELECT
-                    iur_id
-                 FROM
-                    {{%issue_user_replier}}
-                    LEFT JOIN
-                        {{%user}}
-                    ON
-                        iur_usr_id = usr_id
-                 WHERE
-                    iur_iss_id = ? AND
-                    (iur_email = ? OR usr_email = ?)';
-
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$issue_id, $email, $email]);
-        } catch (DatabaseException $e) {
-            return 0;
-        }
-
-        return $res;
-    }
-
-    /**
      * Method used to remotely add an authorized replier to a given issue.
      *
      * @param   int $issue_id The issue ID
