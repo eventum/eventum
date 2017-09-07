@@ -4,9 +4,10 @@
 
 Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
 
-- emit history.add events when history entry is added (@glensc, #278)
+- Emit history.add events when history entry is added (@glensc, #278)
 - Fix fatal error when downloading emails from unknown sender with CRM enabled (@balsdorf)
 - Use league/flysystem to abstract attachments (@balsdorf, @glensc, #254)
+- Drop unused/deprecated methods (@glensc, #284)
 
 [3.3.0]: https://github.com/eventum/eventum/compare/v3.2.3...master
 
