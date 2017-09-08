@@ -33,7 +33,13 @@ class CheckRemindersCommand
     public function execute(OutputInterface $output, $debug)
     {
         $this->output = $output;
-        Reminder::$debug = $debug;
+
+        // backward compatible --debug option is same as -vvv
+        if ($debug) {
+            $output->setVerbosity(OutputInterface::VERBOSITY_DEBUG);
+        }
+
+        Reminder::$debug = $output->getVerbosity() === OutputInterface::VERBOSITY_DEBUG;
 
         $lock = new ConcurrentLock($this->lock_name);
         $lock->synchronized(
@@ -62,23 +68,21 @@ class CheckRemindersCommand
         foreach ($reminders as $reminder) {
             // if this is the weekend and this reminder isn't supposed to run on weekends skip
             if ($reminder['rem_skip_weekend'] == 1 && in_array($weekday, [0, 6])) {
-                if (Reminder::isDebug()) {
-                    echo "Skipping Reminder '" . $reminder['rem_title'] . "' due to weekend exclusion\n";
-                }
+                $message = "Skipping Reminder '{$reminder['rem_title']}' due to weekend exclusion";
+                $this->debugMessage($message);
+
                 continue;
             }
 
             // for each action, get the conditions and see if it triggered any issues
-            $found = 0;
             foreach ($reminder['actions'] as $action) {
-                if (Reminder::isDebug()) {
-                    echo "Processing Reminder Action '" . $action['rma_title'] . "'\n";
-                }
+                $message = "Processing Reminder Action '{$action['rma_title']}'";
+                $this->debugMessage($message);
+
                 $conditions = Reminder_Condition::getList($action['rma_id']);
                 if (count($conditions) == 0) {
-                    if (Reminder::isDebug()) {
-                        echo "  - Skipping Reminder because there were no reminder conditions found\n";
-                    }
+                    $message = '  - Skipping Reminder because there were no reminder conditions found';
+                    $this->debugMessage($message);
                     continue;
                 }
                 $issues = Reminder::getTriggeredIssues($reminder, $conditions);
@@ -89,37 +93,40 @@ class CheckRemindersCommand
                     // add the repeated issues to the list of already triggered
                     // issues, so they get ignored for the next reminder actions
                     foreach ($repeat_issues as $issue) {
-                        if (Reminder::isDebug()) {
-                            echo "  - Adding repeated issue '" . $issue . "' to the list of already triggered issues\n";
-                        }
+                        $message = "  - Adding repeated issue '{$issue}' to the list of already triggered issues";
+                        $this->debugMessage($message);
+
                         $triggered_issues[] = $issue;
                     }
                 }
                 if (count($issues) > 0) {
                     foreach ($issues as $issue) {
-                        if (Reminder::isDebug()) {
-                            echo "  - Processing issue '" . $issue . "'\n";
-                        }
+                        $message = "  - Processing issue '{$issue}";
+                        $this->debugMessage($message);
+
                         // only perform one action per issue id
                         if (in_array($issue, $triggered_issues)) {
-                            if (Reminder::isDebug()) {
-                                echo "  - Ignoring issue '" . $issue
-                                    . "' because it was found in the list of already triggered issues\n";
-                            }
+                            $message = "  - Ignoring issue '{$issue}' because it was found in the list of already triggered issues\n";
+                            $this->debugMessage($message);
+
                             continue;
                         }
                         $triggered_issues[] = $issue;
-                        if (Reminder::isDebug()) {
-                            echo "  - Triggered Action '" . $action['rma_title'] . "' for issue #" . $issue . "\n";
-                        }
+                        $message = "  - Triggered Action '{$action['rma_title']}' for issue #{$issue}\n";
+                        $this->debugMessage($message);
+
                         Reminder_Action::perform($issue, $reminder, $action);
                     }
                 } else {
-                    if (Reminder::isDebug()) {
-                        echo "  - No triggered issues for action '" . $action['rma_title'] . "'\n";
-                    }
+                    $message = "  - No triggered issues for action '{$action['rma_title']}'";
+                    $this->debugMessage($message);
                 }
             }
         }
+    }
+
+    private function debugMessage($message)
+    {
+        $this->output->writeln($message, OutputInterface::VERBOSITY_DEBUG);
     }
 }
