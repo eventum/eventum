@@ -14,5 +14,9 @@
 
 require_once __DIR__ . '/../init.php';
 
-$app = new Eventum\Command\ProcessMailCommand();
+use Eventum\Command\ProcessMailCommand as Command;
+
+$app = new Silly\Application();
+$app->command(Command::USAGE, [new Command(), 'execute']);
+$app->setDefaultCommand(Command::DEFAULT_COMMAND);
 $app->run();
