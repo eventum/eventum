@@ -48,29 +48,33 @@ travis_help() {
 	EOF
 }
 
+# find last build id from specified branch
+# needs to be status "started"
 travis_build_id() {
-	local branch="$1" out ids
+	local branch="$1" out bid
 
-	out=$(travis history -cdb "$branch" -l 10)
-	# 2017-09-09 01:18:33 #3305 started: snapshot Elan Ruusamäe snapshot: follow travis logs if possible
-	echo "$out" | sed -rne 's/.+#([0-9]+) started:.+/\1/p' | head -n 1
+	while [ -z "$bid" ]; do
+		out=$(travis history -cdb "$branch" -l 10)
+		# 2017-09-09 01:18:33 #3305 started: snapshot Elan Ruusamäe snapshot: follow travis logs if possible
+		bid=$(echo "$out" | sed -rne 's/.+#([0-9]+) started:.+/\1/p')
+		test -n "$bid" && break
+		# sleep not to hammer, altho the travis command itself is slow
+		printf >&2 "."
+		sleep 1
+	done
+	echo "$bid" | head -n 1
 }
 
 # show build log of travis build
 travis_log() {
 	# ".6" is the "deploy" job
-	local branch="snapshot" job_id=6 sleep="20"
-	local out status build_id
+	local branch="snapshot" job_id=6 build_id
 
-	printf "travis: showing build progress, ctrl+c to abort\n"
-	printf "travis: sleeping $sleep seconds to wait for build to start\n"
-	sleep $sleep
-
-	printf "travis: figuring out build id... "
+	printf >&2 "travis: figuring out build id... "
 	build_id=$(travis_build_id "$branch")
-	printf "#$build_id\n"
+	printf >&2 "#$build_id\n"
 
-	printf "travis: showing logs for #$build_id.$job_id\n"
+	printf >&2 "travis: showing logs for #$build_id.$job_id\n"
 	travis logs $build_id.$job_id
 }
 
