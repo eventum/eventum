@@ -30,7 +30,7 @@ class StdScm extends AbstractScmAdapter
     public function can()
     {
         // must be POST
-        if ($this->request->getMethod() != Request::METHOD_POST) {
+        if ($this->request->getMethod() !== Request::METHOD_POST) {
             return false;
         }
 
@@ -54,7 +54,7 @@ class StdScm extends AbstractScmAdapter
         $repo = new Entity\CommitRepo($ci->getScmName());
 
         if (!$repo->branchAllowed($payload->getBranch())) {
-            throw new \InvalidArgumentException("Branch not allowed: {$payload->getBranch()}");
+            throw new InvalidArgumentException("Branch not allowed: {$payload->getBranch()}");
         }
 
         $ci->setChangeset($payload->getCommitId());

@@ -93,6 +93,8 @@ class StdScmPayload implements ScmPayloadInterface
 
     /**
      * Get files associated with the commit
+     *
+     * @return array
      */
     public function getFiles()
     {

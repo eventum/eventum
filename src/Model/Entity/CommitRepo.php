@@ -52,7 +52,7 @@ class CommitRepo
      * Get CommitRepo from $repo_url
      * Walk over all configured scm to find one by matching url.
      *
-     * @param array $repo_url
+     * @param string $repo_url
      * @return CommitRepo
      */
     public static function getRepoByUrl($repo_url)
