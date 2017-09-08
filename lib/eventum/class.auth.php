@@ -421,7 +421,7 @@ class Auth
     {
         $prj_id = self::getCurrentProject();
         $usr_id = self::getUserID();
-        if ((!empty($prj_id)) && (!empty($usr_id))) {
+        if ($prj_id && $usr_id) {
             return User::getRoleByUser($usr_id, $prj_id);
         }
 

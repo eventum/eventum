@@ -98,7 +98,7 @@ class UsersController extends ManageBaseController
 
         $this->user_details = User::getDetails($post->getInt('id'));
 
-        if (Auth::getCurrentRole() != User::ROLE_ADMINISTRATOR) {
+        if ($this->role_id != User::ROLE_ADMINISTRATOR) {
             // don't let managers edit any users that have a role of administrator
             foreach ($this->user_details['roles'] as $prj_id => $role) {
                 if ($role['pru_role'] == User::ROLE_ADMINISTRATOR) {
@@ -138,7 +138,7 @@ class UsersController extends ManageBaseController
 
         $this->user_details = User::getDetails($get->getInt('id'));
 
-        if (Auth::getCurrentRole() != User::ROLE_ADMINISTRATOR) {
+        if ($this->role_id !== User::ROLE_ADMINISTRATOR) {
             foreach ($this->user_details['roles'] as $prj_id => $role) {
                 if ($role['pru_role'] == User::ROLE_ADMINISTRATOR) {
                     $this->error(ev_gettext('Sorry, you are not allowed to access this page.'));
@@ -199,7 +199,7 @@ class UsersController extends ManageBaseController
         $project_roles = [];
         foreach ($project_list as $prj_id => $prj_title) {
             $excluded_roles = [User::ROLE_CUSTOMER];
-            if ($this->role_id == User::ROLE_MANAGER) {
+            if ($this->role_id === User::ROLE_MANAGER) {
                 $excluded_roles[] = User::ROLE_ADMINISTRATOR;
             }
             if (isset($user_details['roles'][$prj_id])

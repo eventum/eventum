@@ -611,15 +611,10 @@ class User
                  WHERE
                     pru_usr_id=? AND
                     pru_prj_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$usr_id, $prj_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
 
-        $returns[$usr_id][$prj_id] = $res;
+        $res = (int)DB_Helper::getInstance()->getOne($stmt, [$usr_id, $prj_id]);
 
-        return $res;
+        return $returns[$usr_id][$prj_id] = $res;
     }
 
     /**
