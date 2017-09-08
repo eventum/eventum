@@ -1123,7 +1123,7 @@ class Report
         	iss_prc_id';
         try {
             $res = DB_Helper::getInstance()->getAll($sql, [$prj_id]);
-        } catch (DbException $e) {
+        } catch (DatabaseException $e) {
             return null;
         }
 
@@ -1158,7 +1158,7 @@ class Report
                     iss_prc_id = ?';
                 try {
                     $res = DB_Helper::getInstance()->getOne($sql, [$prj_id, $sta_id, $cat_id]);
-                } catch (DbException $e) {
+                } catch (DatabaseException $e) {
                     break 2;
                 }
                 $data[$cat_id]['statuses'][$sta_id] = [
