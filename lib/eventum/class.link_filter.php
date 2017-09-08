@@ -11,10 +11,10 @@
  * that were distributed with this source code.
  */
 
+use cebe\markdown\GithubMarkdown;
 use Eventum\Attachment\AttachmentManager;
 use Eventum\Db\Adapter\AdapterInterface;
 use Eventum\Db\DatabaseException;
-use cebe\markdown\MarkdownExtra;
 
 /**
  * Class to handle parsing content for links.
@@ -295,14 +295,15 @@ class Link_Filter
      */
     public static function textFormat($text, $issue_id)
     {
-        if (Setup::get()['markdown'] === 'enable') {
-            $parser = new MarkdownExtra();
-            $text = $parser->parse($text);
-        } else {
-            $text = self::activateLinks($text);
-        }
-
+        $text = self::activateLinks($text);
         $text = self::activateAttachmentLinks($text, $issue_id);
+
+        if (Setup::get()['markdown'] === 'enable') {
+            $parser = new GithubMarkdown();
+            $parser->enableNewlines = true;
+
+            $text = $parser->parse($text);
+        }
 
         return $text;
     }
