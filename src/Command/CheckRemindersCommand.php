@@ -13,35 +13,48 @@
 
 namespace Eventum\Command;
 
+use Eventum\ConcurrentLock;
 use Reminder;
 use Reminder_Action;
 use Reminder_Condition;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class CheckRemindersCommand extends Command
+class CheckRemindersCommand
 {
-    protected function configure()
+    const DEFAULT_COMMAND = 'reminders:check';
+    const USAGE = self::DEFAULT_COMMAND . ' [--debug]';
+
+    /** @var OutputInterface */
+    private $output;
+
+    /** @var string */
+    private $lock_name = 'check_reminders';
+
+    public function execute(OutputInterface $output, $debug)
     {
-        $this->lock_name = 'check_reminders';
+        $this->output = $output;
+        Reminder::$debug = $debug;
+
+        $lock = new ConcurrentLock($this->lock_name);
+        $lock->synchronized(
+            function () {
+                $this->checkReminders();
+            }
+        );
     }
 
-    protected function execute()
+    /**
+     * 1 - Get list of reminders with all of its actions
+     * 2 - Loop through each reminder level and build the SQL query
+     * 3 - If query returns TRUE, then run the appropriate action
+     * 4 - Get the list of actions
+     * 5 - Calculate which action need to be performed, if any
+     * 6 - Avoid repeating reminder actions, so first check if the last triggered action is the same one as "now"
+     * 7 - Perform action
+     * 8 - Continue to next reminder level
+     */
+    private function checkReminders()
     {
-        global $argv;
-
-        if (in_array('--debug', $argv)) {
-            Reminder::$debug = true;
-        }
-
-        /*
-        1 - Get list of reminders with all of its actions
-        2 - Loop through each reminder level and build the SQL query
-        3 - If query returns TRUE, then run the appropriate action
-        4 - Get the list of actions
-        5 - Calculate which action need to be performed, if any
-        6 - Avoid repeating reminder actions, so first check if the last triggered action is the same one as "now"
-        7 - Perform action
-        8 - Continue to next reminder level
-        **/
         $triggered_issues = [];
 
         $reminders = Reminder::getList();
@@ -90,7 +103,8 @@ class CheckRemindersCommand extends Command
                         // only perform one action per issue id
                         if (in_array($issue, $triggered_issues)) {
                             if (Reminder::isDebug()) {
-                                echo "  - Ignoring issue '" . $issue . "' because it was found in the list of already triggered issues\n";
+                                echo "  - Ignoring issue '" . $issue
+                                    . "' because it was found in the list of already triggered issues\n";
                             }
                             continue;
                         }
