@@ -14,6 +14,7 @@
 namespace Eventum\Controller\Manage;
 
 use Eventum\Extension\ExtensionManager;
+use Eventum\Monolog\Logger;
 use Exception;
 use Group;
 use Project;
@@ -110,15 +111,14 @@ class UsersController extends ManageBaseController
 
         try {
             User::update($usr_id, $user);
+            $message = ev_gettext('Thank you, the user was updated successfully.');
+            $this->messages->addInfoMessage($message);
         } catch (Exception $e) {
+            Logger::app()->error($e);
             $message = ev_gettext('An error occurred while trying to update the user information.');
             $this->messages->addErrorMessage($message);
-
-            return;
         }
 
-        $message = ev_gettext('Thank you, the user was updated successfully.');
-        $this->messages->addInfoMessage($message);
         $this->redirect("users.php?cat=edit&id={$usr_id}");
     }
 
