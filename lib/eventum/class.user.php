@@ -1110,9 +1110,7 @@ class User
             Date_Helper::getCurrentDateGMT(),
             $user['full_name'],
             $user['email'],
-            // not nullable
-            // @see https://github.com/eventum/eventum/pull/289#issuecomment-328107404
-            isset($user['external_id']) ? $user['external_id'] : '',
+            isset($user['external_id']) ? $user['external_id'] : null,
             isset($user['par_code']) ? $user['par_code'] : null,
         ];
         $stmt = 'INSERT INTO
