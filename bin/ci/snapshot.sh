@@ -55,8 +55,9 @@ travis_build_id() {
 
 	while [ -z "$bid" ]; do
 		out=$(travis history -cdb "$branch" -l 10)
+		# not yet             #3307 created: snapshot Elan Ruusamäe travis: poll for build id
 		# 2017-09-09 01:18:33 #3305 started: snapshot Elan Ruusamäe snapshot: follow travis logs if possible
-		bid=$(echo "$out" | sed -rne 's/.+#([0-9]+) started:.+/\1/p')
+		bid=$(echo "$out" | sed -rne 's/.+#([0-9]+) (created|started):.+/\1/p')
 		test -n "$bid" && break
 		# sleep not to hammer, altho the travis command itself is slow
 		printf >&2 "."
@@ -70,9 +71,9 @@ travis_log() {
 	# ".6" is the "deploy" job
 	local branch="snapshot" job_id=6 build_id
 
-	printf >&2 "travis: figuring out build id... "
+	printf >&2 "travis: figuring out build id..."
 	build_id=$(travis_build_id "$branch")
-	printf >&2 "#$build_id\n"
+	printf >&2 " #$build_id\n"
 
 	printf >&2 "travis: showing logs for #$build_id.$job_id\n"
 	travis logs $build_id.$job_id
