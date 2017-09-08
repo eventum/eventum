@@ -13,9 +13,9 @@
 
 namespace Eventum\Controller\Manage;
 
-use Auth;
 use Eventum\Controller\Helper\MessagesHelper;
 use Eventum\Extension\ExtensionManager;
+use Exception;
 use Group;
 use Project;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -69,13 +69,19 @@ class UsersController extends ManageBaseController
         $post = $this->getRequest()->request;
         $user = $this->getUserFromPost($post);
 
-        $res = User::insert($user);
+        try {
+            $usr_id = User::insert($user);
+        } catch (Exception $e) {
+            $message = ev_gettext('An error occurred while trying to add the new user.');
+            $this->messages->addErrorMessage($message);
 
-        $map = [
-            1 => [ev_gettext('Thank you, the user was added successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to add the new user.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages($res, $map);
+            return;
+        }
+
+        $message = ev_gettext('Thank you, the user was added successfully.');
+        $this->messages->addInfoMessage($message);
+
+        $this->redirect("users.php?cat=edit&id={$usr_id}");
     }
 
     private function updateAction()
@@ -239,7 +245,8 @@ class UsersController extends ManageBaseController
         return $partners;
     }
 
-    private function getUserFromPost(ParameterBag $post) {
+    private function getUserFromPost(ParameterBag $post)
+    {
         $user = [
             'password' => $post->get('password'),
             'full_name' => $post->get('full_name'),

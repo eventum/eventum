@@ -1116,7 +1116,7 @@ class User
      * Method used to add a new user to the system.
      *
      * @param   array $user The array of user information
-     * @return  int 1 if the update worked, -1 otherwise
+     * @return  int usr_id being created
      */
     public static function insert($user)
     {
