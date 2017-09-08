@@ -18,38 +18,35 @@ use Eventum\ConcurrentLock;
 use InvalidArgumentException;
 use RuntimeException;
 use Support;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class DownloadEmailsCommand
 {
     const DEFAULT_COMMAND = 'email:download';
     const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox]';
 
-    /** @var OutputInterface */
-    private $output;
-
-    /** @var array */
-    private $config;
-
-    /** @var int */
-    private $account_id;
-
-    public function execute(OutputInterface $output, $username, $hostname, $mailbox)
+    /**
+     * @param string $username
+     * @param string $hostname
+     * @param string $mailbox
+     */
+    public function execute($username, $hostname, $mailbox)
     {
-        $this->output = $output;
-        $this->account_id = $this->getAccountId($username, $hostname, $mailbox);
+        $account_id = $this->getAccountId($username, $hostname, $mailbox);
 
-        $lock = new ConcurrentLock('download_emails_' . $this->account_id);
+        $lock = new ConcurrentLock('download_emails_' . $account_id);
         $lock->synchronized(
-            function () {
-                $this->processEmails();
+            function () use ($account_id) {
+                $this->processEmails($account_id);
             }
         );
     }
 
-    private function processEmails()
+    /**
+     * @param int $account_id
+     */
+    private function processEmails($account_id)
     {
-        $account = Email_Account::getDetails($this->account_id, true);
+        $account = Email_Account::getDetails($account_id, true);
         $mbox = $this->getConnection($account);
 
         // if we only want new emails
