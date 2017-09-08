@@ -82,10 +82,10 @@ class MonitorCommand
         $this->checkMailQueue();
         $this->checkMailAssociation();
 
-        if ($prefs['diskcheck']['status'] == 'enabled') {
+        if ($prefs['diskcheck']['status'] === 'enabled') {
             $this->checkDiskspace($prefs['diskcheck']['partition']);
         }
-        if ($prefs['paths']['status'] == 'enabled') {
+        if ($prefs['paths']['status'] === 'enabled') {
             $this->checkRequiredFiles($required_files);
             $this->checkRequiredDirs($required_directories);
         }
