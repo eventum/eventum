@@ -999,32 +999,32 @@ class User
     /**
      * Method used to update the account details for a specific user.
      *
-     * @param $usr_id
-     * @param $data
+     * @param int $usr_id
+     * @param array $user The array of user information
      * @param bool $notify
-     * @return  int 1 if the update worked, -1 otherwise
+     * @return bool
      */
-    public static function update($usr_id, $data, $notify = true)
+    public static function update($usr_id, array $user, $notify = true)
     {
         // system account should not be updateable
         if ($usr_id == APP_SYSTEM_USER_ID) {
-            return 1;
+            return false;
         }
 
         $params = [
-            'usr_email' => $data['email'],
+            'usr_email' => $user['email'],
         ];
 
-        if (isset($data['full_name'])) {
-            $params['usr_full_name'] = $data['full_name'];
+        if (isset($user['full_name'])) {
+            $params['usr_full_name'] = $user['full_name'];
         }
 
-        if (isset($data['external_id'])) {
-            $params['usr_external_id'] = $data['external_id'];
+        if (isset($user['external_id'])) {
+            $params['usr_external_id'] = $user['external_id'];
         }
 
-        if (isset($data['par_code'])) {
-            $params['usr_par_code'] = $data['par_code'];
+        if (isset($user['par_code'])) {
+            $params['usr_par_code'] = $user['par_code'];
         }
 
         $stmt = 'UPDATE
@@ -1032,35 +1032,21 @@ class User
                  SET ' . DB_Helper::buildSet($params) . ' WHERE usr_id=?';
         $params[] = $usr_id;
 
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
+        DB_Helper::getInstance()->query($stmt, $params);
+
+        if (!empty($user['password'])) {
+            self::updatePassword($usr_id, $user['password']);
         }
 
-        if (!empty($data['password'])) {
-            try {
-                self::updatePassword($usr_id, $data['password']);
-            } catch (Exception $e) {
-                Logger::app()->error($e);
-
-                return -1;
-            }
-        }
-
-        if (isset($data['role'])) {
+        if (isset($user['role'])) {
             // update the project associations now
             $stmt = 'DELETE FROM
                         {{%project_user}}
                      WHERE
                         pru_usr_id=?';
-            try {
-                DB_Helper::getInstance()->query($stmt, [$usr_id]);
-            } catch (DatabaseException $e) {
-                return -1;
-            }
+            DB_Helper::getInstance()->query($stmt, [$usr_id]);
 
-            foreach ($data['role'] as $prj_id => $role) {
+            foreach ($user['role'] as $prj_id => $role) {
                 if ($role < 1) {
                     continue;
                 }
@@ -1073,43 +1059,32 @@ class User
                          ) VALUES (
                             ?, ?, ?
                          )';
-                try {
-                    DB_Helper::getInstance()->query(
-                        $stmt, [
-                            $prj_id, $usr_id, $role,
-                        ]
-                    );
-                } catch (DatabaseException $e) {
-                    return -1;
-                }
+                $params = [$prj_id, $usr_id, $role];
+                DB_Helper::getInstance()->query($stmt, $params);
             }
         }
 
-        if (isset($data['groups'])) {
+        if (isset($user['groups'])) {
             $stmt = 'DELETE FROM
                         {{%user_group}}
                      WHERE
                         ugr_usr_id=?';
-            try {
-                DB_Helper::getInstance()->query($stmt, [$usr_id]);
-            } catch (DatabaseException $e) {
-                return -1;
-            }
+            DB_Helper::getInstance()->query($stmt, [$usr_id]);
 
-            foreach ($data['groups'] as $grp_id) {
+            foreach ($user['groups'] as $grp_id) {
                 Group::addUser($usr_id, $grp_id);
             }
         }
 
         if ($notify == true) {
-            if (!empty($data['password'])) {
-                Notification::notifyUserPassword($usr_id, $data['password']);
+            if (!empty($user['password'])) {
+                Notification::notifyUserPassword($usr_id, $user['password']);
             } else {
                 Notification::notifyUserAccount($usr_id);
             }
         }
 
-        return 1;
+        return true;
     }
 
     /**
@@ -1118,7 +1093,7 @@ class User
      * @param   array $user The array of user information
      * @return  int usr_id being created
      */
-    public static function insert($user)
+    public static function insert(array $user)
     {
         $params = [
             isset($user['customer_id']) ? $user['customer_id'] : null,

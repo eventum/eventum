@@ -13,7 +13,6 @@
 
 namespace Eventum\Controller\Manage;
 
-use Eventum\Controller\Helper\MessagesHelper;
 use Eventum\Extension\ExtensionManager;
 use Exception;
 use Group;
@@ -99,7 +98,7 @@ class UsersController extends ManageBaseController
             }
 
             // don't let manager elevate the role of any user to administrator
-            foreach ($_POST['role'] as $prj_id => $role) {
+            foreach ($post->get('role') as $prj_id => $role) {
                 if ($role >= User::ROLE_ADMINISTRATOR) {
                     $this->error(ev_gettext('Sorry, you cannot perform that action.'));
                 }
@@ -109,15 +108,17 @@ class UsersController extends ManageBaseController
         $usr_id = $post->getInt('id');
         $user = $this->getUserFromPost($post);
 
-        $res = User::update($usr_id, $user);
+        try {
+            User::update($usr_id, $user);
+        } catch (Exception $e) {
+            $message = ev_gettext('An error occurred while trying to update the user information.');
+            $this->messages->addErrorMessage($message);
 
-        $map = [
-            1 => [ev_gettext('Thank you, the user was updated successfully.'), MessagesHelper::MSG_INFO],
-            -1 => [ev_gettext('An error occurred while trying to update the user information.'), MessagesHelper::MSG_ERROR],
-        ];
-        $this->messages->mapMessages($res, $map);
+            return;
+        }
 
-        $usr_id = $post->getInt('id');
+        $message = ev_gettext('Thank you, the user was updated successfully.');
+        $this->messages->addInfoMessage($message);
         $this->redirect("users.php?cat=edit&id={$usr_id}");
     }
 
