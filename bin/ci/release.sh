@@ -110,9 +110,7 @@ po_checkout() {
 
 # setup $version and update APP_VERSION in globals.php
 update_version() {
-	version=$(awk -F"'" '/APP_VERSION/{print $4}' globals.php)
-
-	version=$(git describe --tags)
+	version=$(git describe --tags --abbrev=8 HEAD)
 	# trim 'v' prefix
 	version=${version#v}
 

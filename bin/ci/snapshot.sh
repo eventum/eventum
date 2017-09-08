@@ -7,9 +7,9 @@ set -e
 
 git tag -d snapshot || :
 
-version=$(git describe --tags HEAD)
+version=$(git describe --tags --abbrev=8 HEAD)
 branch=$(git rev-parse --abbrev-ref HEAD)
-commit=$(git rev-parse --short HEAD)
+commit=$(git rev-parse --short=8 HEAD)
 date=$(LC_ALL=C TZ=UTC date)
 message="snapshot from $branch branch
 
