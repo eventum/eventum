@@ -30,6 +30,9 @@ class CheckRemindersCommand
     /** @var string */
     private $lock_name = 'check_reminders';
 
+    /** @var int[] */
+    private $triggered_issues = [];
+
     public function execute(OutputInterface $output, $debug)
     {
         $this->output = $output;
@@ -61,63 +64,78 @@ class CheckRemindersCommand
      */
     private function checkReminders()
     {
-        $triggered_issues = [];
-
-        $reminders = Reminder::getList();
-
-        $reminders = array_filter($reminders, function ($reminder) {
+        $filter = function ($reminder) {
             return $this->filteroutWeekends($reminder);
-        });
+        };
+        $reminders = array_filter(Reminder::getList(), $filter);
 
         foreach ($reminders as $reminder) {
-            // for each action, get the conditions and see if it triggered any issues
-            foreach ($reminder['actions'] as $action) {
-                $message = "Processing Reminder Action '{$action['rma_title']}'";
+            $this->processReminder($reminder);
+        }
+    }
+
+    /**
+     * for each action, get the conditions and see if it triggered any issues
+     *
+     * @param array $reminder
+     */
+    private function processReminder($reminder)
+    {
+        foreach ($reminder['actions'] as $action) {
+            $message = "Processing Reminder Action '{$action['rma_title']}'";
+            $this->debugMessage($message);
+
+            $conditions = Reminder_Condition::getList($action['rma_id']);
+            if (count($conditions) == 0) {
+                $message = '  - Skipping Reminder because there were no reminder conditions found';
                 $this->debugMessage($message);
+                continue;
+            }
 
-                $conditions = Reminder_Condition::getList($action['rma_id']);
-                if (count($conditions) == 0) {
-                    $message = '  - Skipping Reminder because there were no reminder conditions found';
+            $issues = Reminder::getTriggeredIssues($reminder, $conditions);
+            // avoid repeating reminder actions, so get the list of issues
+            // that were last triggered with this reminder action ID
+            $repeat_issues = Reminder_Action::getRepeatActions($issues, $action['rma_id']);
+            if (count($repeat_issues) > 0) {
+                // add the repeated issues to the list of already triggered
+                // issues, so they get ignored for the next reminder actions
+                foreach ($repeat_issues as $issue_id) {
+                    $message = "  - Adding repeated issue '{$issue_id}' to the list of already triggered issues";
                     $this->debugMessage($message);
-                    continue;
-                }
-                $issues = Reminder::getTriggeredIssues($reminder, $conditions);
-                // avoid repeating reminder actions, so get the list of issues
-                // that were last triggered with this reminder action ID
-                $repeat_issues = Reminder_Action::getRepeatActions($issues, $action['rma_id']);
-                if (count($repeat_issues) > 0) {
-                    // add the repeated issues to the list of already triggered
-                    // issues, so they get ignored for the next reminder actions
-                    foreach ($repeat_issues as $issue) {
-                        $message = "  - Adding repeated issue '{$issue}' to the list of already triggered issues";
-                        $this->debugMessage($message);
 
-                        $triggered_issues[] = $issue;
-                    }
-                }
-                if (count($issues) > 0) {
-                    foreach ($issues as $issue) {
-                        $message = "  - Processing issue '{$issue}";
-                        $this->debugMessage($message);
-
-                        // only perform one action per issue id
-                        if (in_array($issue, $triggered_issues)) {
-                            $message = "  - Ignoring issue '{$issue}' because it was found in the list of already triggered issues\n";
-                            $this->debugMessage($message);
-
-                            continue;
-                        }
-                        $triggered_issues[] = $issue;
-                        $message = "  - Triggered Action '{$action['rma_title']}' for issue #{$issue}\n";
-                        $this->debugMessage($message);
-
-                        Reminder_Action::perform($issue, $reminder, $action);
-                    }
-                } else {
-                    $message = "  - No triggered issues for action '{$action['rma_title']}'";
-                    $this->debugMessage($message);
+                    $triggered_issues[] = $issue_id;
                 }
             }
+
+            if (count($issues) == 0) {
+                $message = "  - No triggered issues for action '{$action['rma_title']}'";
+                $this->debugMessage($message);
+                continue;
+            }
+
+            $this->performActions($reminder, $action, $issues);
+        }
+    }
+
+    private function performActions($reminder, $action, $issues)
+    {
+        foreach ($issues as $issue_id) {
+            $message = "  - Processing issue '{$issue_id}";
+            $this->debugMessage($message);
+
+            // only perform one action per issue id
+            if (in_array($issue_id, $this->triggered_issues)) {
+                $message = "  - Ignoring issue '{$issue_id}' because it was found in the list of already triggered issues";
+                $this->debugMessage($message);
+
+                continue;
+            }
+
+            $this->triggered_issues[] = $issue_id;
+            $message = "  - Triggered Action '{$action['rma_title']}' for issue #{$issue_id}\n";
+            $this->debugMessage($message);
+
+            Reminder_Action::perform($issue_id, $reminder, $action);
         }
     }
 
