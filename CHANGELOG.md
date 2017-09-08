@@ -8,6 +8,7 @@ Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
 - Fix fatal error when downloading emails from unknown sender with CRM enabled (@balsdorf)
 - Use league/flysystem to abstract attachments (@balsdorf, @glensc, #254)
 - Drop unused/deprecated methods (@glensc, #284)
+- Drop support for old setup.php formats (@glensc, #288)
 
 [3.3.0]: https://github.com/eventum/eventum/compare/v3.2.3...master
 
