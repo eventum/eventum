@@ -80,7 +80,7 @@ class DatabaseSetup
 
     /**
      * Init database with with upgrade tool.
-     * IMPORtANT: this method changes current dir.
+     * IMPORTANT: this method changes current dir.
      *
      * @return string output from upgrade script
      */
@@ -90,8 +90,7 @@ class DatabaseSetup
         chdir(__DIR__ . '/../..');
 
         // emulate running "migrate" command
-        global $argv;
-        $input = new ArgvInput([$argv[0], 'migrate']);
+        $input = new ArgvInput(['phinx', 'migrate']);
         $output = new BufferedOutput();
 
         $app = new PhinxApplication();
