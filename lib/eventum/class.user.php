@@ -1120,14 +1120,6 @@ class User
      */
     public static function insert($user)
     {
-        $projects = [];
-        foreach ($user['role'] as $prj_id => $role) {
-            if ($role < 1) {
-                continue;
-            }
-            $projects[] = $prj_id;
-        }
-
         $params = [
             isset($user['customer_id']) ? $user['customer_id'] : null,
             isset($user['contact_id']) ? $user['contact_id'] : null,
