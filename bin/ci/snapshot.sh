@@ -22,3 +22,4 @@ check Travis CI for errors: https://travis-ci.org/eventum/eventum
 
 git tag -am "$message" snapshot HEAD
 git push -f git@github.com:eventum/eventum.git snapshot
+git tag -d snapshot
