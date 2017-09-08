@@ -1140,32 +1140,6 @@ class User
         return 1;
     }
 
-    public static function insertFromPost()
-    {
-        $user = [
-            'password' => $_POST['password'],
-            'full_name' => $_POST['full_name'],
-            'email' => $_POST['email'],
-            'role' => $_POST['role'],
-            'external_id' => '',
-        ];
-
-        if (isset($_POST['par_code'])) {
-            $user['par_code'] = $_POST['par_code'];
-        }
-
-        if (isset($_POST['groups'])) {
-            $user['groups'] = $_POST['groups'];
-        }
-
-        $insert = self::insert($user);
-        if ($insert != -1) {
-            return 1;
-        }
-
-        return -1;
-    }
-
     /**
      * Method used to add a new user to the system.
      *
@@ -1212,7 +1186,7 @@ class User
 
         $usr_id = DB_Helper::get_last_insert_id();
 
-        if ($user['password'] != '') {
+        if ($user['password'] !== '') {
             try {
                 self::updatePassword($usr_id, $user['password']);
             } catch (Exception $e) {

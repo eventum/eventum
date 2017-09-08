@@ -50,13 +50,13 @@ class UsersController extends ManageBaseController
      */
     protected function defaultAction()
     {
-        if ($this->cat == 'new') {
+        if ($this->cat === 'new') {
             $this->newAction();
-        } elseif ($this->cat == 'update') {
+        } elseif ($this->cat === 'update') {
             $this->updateAction();
-        } elseif ($this->cat == 'change_status') {
+        } elseif ($this->cat === 'change_status') {
             $this->changeStatusAction();
-        } elseif ($this->cat == 'edit') {
+        } elseif ($this->cat === 'edit') {
             $this->editAction();
         } else {
             $this->indexAction();
@@ -65,7 +65,26 @@ class UsersController extends ManageBaseController
 
     private function newAction()
     {
-        $res = User::insertFromPost();
+        $post = $this->getRequest()->request;
+
+        $user = [
+            'password' => $post->get('password'),
+            'full_name' => $post->get('full_name'),
+            'email' => $post->get('email'),
+            'role' => $post->get('role'),
+            'external_id' => '',
+        ];
+
+        if ($post->has('par_code')) {
+            $user['par_code'] = $post->get('par_code');
+        }
+
+        if ($post->has('groups')) {
+            $user['groups'] = $post->get('groups');
+        }
+
+        $res = User::insert($user);
+
         $map = [
             1 => [ev_gettext('Thank you, the user was added successfully.'), MessagesHelper::MSG_INFO],
             -1 => [ev_gettext('An error occurred while trying to add the new user.'), MessagesHelper::MSG_ERROR],
