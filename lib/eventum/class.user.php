@@ -996,29 +996,6 @@ class User
         }
     }
 
-    public static function updateFromPost()
-    {
-        $usr_id = $_POST['id'];
-        $data = [
-            'full_name' => $_POST['full_name'],
-            'email' => $_POST['email'],
-            'password' => $_POST['password'],
-            'role' => $_POST['role'],
-        ];
-
-        if (isset($_POST['par_code'])) {
-            $data['par_code'] = $_POST['par_code'];
-        }
-
-        if (isset($_POST['groups'])) {
-            $data['groups'] = $_POST['groups'];
-        } else {
-            $data['groups'] = [];
-        }
-
-        return self::update($usr_id, $data);
-    }
-
     /**
      * Method used to update the account details for a specific user.
      *
@@ -1157,7 +1134,9 @@ class User
             Date_Helper::getCurrentDateGMT(),
             $user['full_name'],
             $user['email'],
-            $user['external_id'],
+            // not nullable
+            // @see https://github.com/eventum/eventum/pull/289#issuecomment-328107404
+            isset($user['external_id']) ? $user['external_id'] : '',
             isset($user['par_code']) ? $user['par_code'] : null,
         ];
         $stmt = 'INSERT INTO
@@ -1173,20 +1152,13 @@ class User
                  ) VALUES (
                     ?, ?, ?, ?, ?, ?, ?
                  )';
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+
+        DB_Helper::getInstance()->query($stmt, $params);
 
         $usr_id = DB_Helper::get_last_insert_id();
 
         if ($user['password'] !== '') {
-            try {
-                self::updatePassword($usr_id, $user['password']);
-            } catch (Exception $e) {
-                return -1;
-            }
+            self::updatePassword($usr_id, $user['password']);
         }
 
         // add the project associations!

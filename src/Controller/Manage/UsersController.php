@@ -18,6 +18,7 @@ use Eventum\Controller\Helper\MessagesHelper;
 use Eventum\Extension\ExtensionManager;
 use Group;
 use Project;
+use Symfony\Component\HttpFoundation\ParameterBag;
 use User;
 
 class UsersController extends ManageBaseController
@@ -66,22 +67,7 @@ class UsersController extends ManageBaseController
     private function newAction()
     {
         $post = $this->getRequest()->request;
-
-        $user = [
-            'password' => $post->get('password'),
-            'full_name' => $post->get('full_name'),
-            'email' => $post->get('email'),
-            'role' => $post->get('role'),
-            'external_id' => '',
-        ];
-
-        if ($post->has('par_code')) {
-            $user['par_code'] = $post->get('par_code');
-        }
-
-        if ($post->has('groups')) {
-            $user['groups'] = $post->get('groups');
-        }
+        $user = $this->getUserFromPost($post);
 
         $res = User::insert($user);
 
@@ -114,7 +100,11 @@ class UsersController extends ManageBaseController
             }
         }
 
-        $res = User::updateFromPost();
+        $usr_id = $post->getInt('id');
+        $user = $this->getUserFromPost($post);
+
+        $res = User::update($usr_id, $user);
+
         $map = [
             1 => [ev_gettext('Thank you, the user was updated successfully.'), MessagesHelper::MSG_INFO],
             -1 => [ev_gettext('An error occurred while trying to update the user information.'), MessagesHelper::MSG_ERROR],
@@ -247,5 +237,26 @@ class UsersController extends ManageBaseController
         }
 
         return $partners;
+    }
+
+    private function getUserFromPost(ParameterBag $post) {
+        $user = [
+            'password' => $post->get('password'),
+            'full_name' => $post->get('full_name'),
+            'email' => $post->get('email'),
+            'role' => $post->get('role'),
+        ];
+
+        if ($post->has('par_code')) {
+            $user['par_code'] = $post->get('par_code');
+        }
+
+        if ($post->has('groups')) {
+            $user['groups'] = $post->get('groups');
+        } else {
+            $user['groups'] = [];
+        }
+
+        return $user;
     }
 }
