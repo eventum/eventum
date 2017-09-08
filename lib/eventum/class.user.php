@@ -12,6 +12,8 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Event;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\Monolog\Logger;
 
 /**
@@ -1084,6 +1086,13 @@ class User
             }
         }
 
+        // add user id and do not expose password to event
+        $user['id'] = $usr_id;
+        unset($user['password']);
+
+        $event = new Event\UnstructuredEvent($user);
+        EventManager::dispatch(Event\SystemEvents::USER_UPDATE, $event);
+
         return true;
     }
 
@@ -1148,6 +1157,13 @@ class User
 
         // send email to user
         Notification::notifyNewUser($usr_id, $user['password']);
+
+        // add user id and do not expose password to event
+        $user['id'] = $usr_id;
+        unset($user['password']);
+
+        $event = new Event\UnstructuredEvent($user);
+        EventManager::dispatch(Event\SystemEvents::USER_CREATE, $event);
 
         return $usr_id;
     }
