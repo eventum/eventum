@@ -3,6 +3,7 @@
 ## [3.3.0] - ???
 
 Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
+Usage of some commandline scripts have changed, see #279 for details.
 
 - Emit history.add events when history entry is added (@glensc, #278)
 - Fix fatal error when downloading emails from unknown sender with CRM enabled (@balsdorf)
@@ -10,6 +11,7 @@ Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
 - Drop unused/deprecated methods (@glensc, #284)
 - Drop support for old setup.php formats (@glensc, #288)
 - Add script to manage extensions from CLI (@glensc, #290)
+- Use mnapoli/silly for cli applications (@glensc, #279)
 
 [3.3.0]: https://github.com/eventum/eventum/compare/v3.2.3...master
 
