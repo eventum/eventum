@@ -21,7 +21,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MonitorCommand
 {
-    const DEFAULT_COMMAND = 'monitor';
+    const DEFAULT_COMMAND = 'system:monitor';
     const USAGE = self::DEFAULT_COMMAND . ' [-q|--quiet]';
 
     // Nagios compatible exit codes

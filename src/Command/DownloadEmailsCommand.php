@@ -21,7 +21,7 @@ use Support;
 
 class DownloadEmailsCommand
 {
-    const DEFAULT_COMMAND = 'email:download';
+    const DEFAULT_COMMAND = 'mail:download';
     const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox]';
 
     /**

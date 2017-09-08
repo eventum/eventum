@@ -19,8 +19,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ProcessMailCommand
 {
-    const DEFAULT_COMMAND = 'email:route [filename]';
-    const USAGE = self::DEFAULT_COMMAND;
+    const DEFAULT_COMMAND = 'mail:route';
+    const USAGE = self::DEFAULT_COMMAND . '  [filename]';
 
     /**
      * @param OutputInterface $output

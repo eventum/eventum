@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class TruncateMailQueueCommand
 {
-    const DEFAULT_COMMAND = 'truncate';
+    const DEFAULT_COMMAND = 'mail-queue:truncate';
     const USAGE = self::DEFAULT_COMMAND . ' [-q|--quiet] [--interval=]';
 
     public function execute(OutputInterface $output, $quiet, $interval = '1 month')

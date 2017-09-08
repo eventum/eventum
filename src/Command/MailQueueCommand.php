@@ -18,7 +18,7 @@ use Mail_Queue;
 
 class MailQueueCommand
 {
-    const DEFAULT_COMMAND = 'mail:queue';
+    const DEFAULT_COMMAND = 'mail-queue:process';
     const USAGE = self::DEFAULT_COMMAND;
 
     /** @var string */
