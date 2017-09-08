@@ -14,20 +14,22 @@
 namespace Eventum\Command;
 
 use ReflectionClass;
-use RuntimeException;
 use Setup;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class ExtensionCommand extends Command
+class ExtensionCommand
 {
-    protected function execute()
+    const DEFAULT_COMMAND = 'extension:enable';
+    const USAGE = self::DEFAULT_COMMAND . ' [filename] [classname]';
+
+    /** @var OutputInterface */
+    private $output;
+
+    public function execute(OutputInterface $output, $filename, $classname)
     {
-        global $argc, $argv;
+        $this->output = $output;
 
-        if ($argc != 3) {
-            throw new RuntimeException('Usage: filename classname');
-        }
-
-        $this->setupExtension($argv[1], $argv[2]);
+        $this->setupExtension($filename, $classname);
     }
 
     /**
@@ -47,12 +49,12 @@ class ExtensionCommand extends Command
 
         if (isset($setup['extensions'][$extensionName])) {
             // already enabled?
-            echo "Extension already enabled: {$extensionName}\n";
+            $this->output->writeln("Extension already enabled: <info>{$extensionName}</info>");
 
             return;
         }
 
-        echo "Enabling extension: {$extensionName}\n";
+        $this->output->writeln("Enabling extension: <info>{$extensionName}</info>");
         $setup['extensions'][$extensionName] = $reflectionClass->getFileName();
         Setup::save();
     }
