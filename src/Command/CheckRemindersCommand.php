@@ -87,7 +87,7 @@ class CheckRemindersCommand
 
             $conditions = Reminder_Condition::getList($action['rma_id']);
             if (count($conditions) == 0) {
-                $message = ev_gettext('  - Skipping Reminder because there were no reminder conditions found');
+                $message = '  - ' . ev_gettext('Skipping Reminder because there were no reminder conditions found');
                 $this->debugMessage($message);
                 continue;
             }
@@ -100,7 +100,7 @@ class CheckRemindersCommand
                 // add the repeated issues to the list of already triggered
                 // issues, so they get ignored for the next reminder actions
                 foreach ($repeat_issues as $issue_id) {
-                    $message = ev_gettext("  - Adding repeated issue '%d' to the list of already triggered issues", $issue_id);
+                    $message = '  - ' . ev_gettext("Adding repeated issue '%d' to the list of already triggered issues", $issue_id);
                     $this->debugMessage($message);
 
                     $triggered_issues[] = $issue_id;
@@ -108,7 +108,7 @@ class CheckRemindersCommand
             }
 
             if (count($issues) == 0) {
-                $message = ev_gettext("  - No triggered issues for action '%s'", $action['rma_title']);
+                $message = '  - ' . ev_gettext("No triggered issues for action '%s'", $action['rma_title']);
                 $this->debugMessage($message);
                 continue;
             }
@@ -120,19 +120,19 @@ class CheckRemindersCommand
     private function performActions($reminder, $action, $issues)
     {
         foreach ($issues as $issue_id) {
-            $message = ev_gettext('  - Processing issue #%d', $issue_id);
+            $message = '  - ' . ev_gettext('Processing issue #%d', $issue_id);
             $this->debugMessage($message);
 
             // only perform one action per issue id
             if (in_array($issue_id, $this->triggered_issues)) {
-                $message = ev_gettext('  - Ignoring issue #%d because it was found in the list of already triggered issues', $issue_id);
+                $message = '  - ' . ev_gettext('Ignoring issue #%d because it was found in the list of already triggered issues', $issue_id);
                 $this->debugMessage($message);
 
                 continue;
             }
 
             $this->triggered_issues[] = $issue_id;
-            $message = ev_gettext("  - Triggered Action '%s' for issue #%d", $action['rma_title'], $issue_id);
+            $message = '  - ' . ev_gettext("Triggered Action '%s' for issue #%d", $action['rma_title'], $issue_id);
             $this->debugMessage($message);
 
             Reminder_Action::perform($issue_id, $reminder, $action);
