@@ -64,16 +64,12 @@ class CheckRemindersCommand
         $triggered_issues = [];
 
         $reminders = Reminder::getList();
-        $weekday = date('w');
+
+        $reminders = array_filter($reminders, function ($reminder) {
+            return $this->filteroutWeekends($reminder);
+        });
+
         foreach ($reminders as $reminder) {
-            // if this is the weekend and this reminder isn't supposed to run on weekends skip
-            if ($reminder['rem_skip_weekend'] == 1 && in_array($weekday, [0, 6])) {
-                $message = "Skipping Reminder '{$reminder['rem_title']}' due to weekend exclusion";
-                $this->debugMessage($message);
-
-                continue;
-            }
-
             // for each action, get the conditions and see if it triggered any issues
             foreach ($reminder['actions'] as $action) {
                 $message = "Processing Reminder Action '{$action['rma_title']}'";
@@ -123,6 +119,24 @@ class CheckRemindersCommand
                 }
             }
         }
+    }
+
+    /**
+     * if this is the weekend and this reminder isn't supposed to run on weekends skip
+     */
+    private function filteroutWeekends($reminder)
+    {
+        $weekday = date('w');
+
+        // if this is the weekend and this reminder isn't supposed to run on weekends skip
+        if ($reminder['rem_skip_weekend'] == 1 && in_array($weekday, [0, 6])) {
+            $message = "Skipping Reminder '{$reminder['rem_title']}' due to weekend exclusion";
+            $this->debugMessage($message);
+
+            return false;
+        }
+
+        return true;
     }
 
     private function debugMessage($message)
