@@ -98,5 +98,8 @@ fi
 # file checkout, nothing to do
 [ "$flag" = "0" ] && exit 0
 
+# TODO: need to hook when rebasing,
+# as then composer.json updates get in but vendor gets out of sync
+
 check_composer_json
 exit 0
