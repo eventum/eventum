@@ -261,10 +261,15 @@ class Link_Filter
     public static function processText($prj_id, $text, $class = 'link')
     {
         // process issue link separatly since it has to do something special
-        $text = Misc::activateLinks($text, $class);
+        if (!self::markdownEnabled()) {
+            // conflicts with markdown
+            $text = Misc::activateLinks($text, $class);
+        }
 
-        $filters = array_merge(self::getFilters(), self::getFiltersByProject($prj_id), Workflow::getLinkFilters($prj_id));
-        foreach ((array) $filters as $filter) {
+        $filters = array_merge(
+            self::getFilters(), self::getFiltersByProject($prj_id), Workflow::getLinkFilters($prj_id)
+        );
+        foreach ($filters as $filter) {
             list($pattern, $replacement) = $filter;
             // replacement may be a callback, provided by workflow
             if (is_callable($replacement)) {
@@ -298,7 +303,7 @@ class Link_Filter
         $text = self::activateLinks($text);
         $text = self::activateAttachmentLinks($text, $issue_id);
 
-        if (Setup::get()['markdown'] === 'enable') {
+        if (self::markdownEnabled()) {
             $parser = new GithubMarkdown();
             $parser->enableNewlines = true;
 
@@ -420,5 +425,21 @@ class Link_Filter
         $match = isset($matches['match']) ? $matches['match'] : "issue {$issue_id}";
 
         return "<a title=\"{$link_title}\" class=\"{$class}\" href=\"view.php?id={$matches['issue_id']}\">{$match}</a>";
+    }
+
+    /**
+     * Whether markdown renderer enabled.
+     * Can be enabled from setup as experiment.
+     *
+     * @return bool
+     */
+    public static function markdownEnabled()
+    {
+        static $markdown;
+        if ($markdown === null) {
+
+            $markdown = Setup::get()['markdown'] === 'enable';
+        }
+        return $markdown;
     }
 }
