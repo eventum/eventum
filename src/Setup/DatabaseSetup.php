@@ -59,7 +59,7 @@ class DatabaseSetup
                 $this->conn->query('CREATE TABLE eventum_test (test CHAR(1))');
             } catch (DatabaseException $e) {
                 $message = $e->getMessage();
-                if (stristr($message, 'Access denied')) {
+                if (stripos($message, 'Access denied') !== false) {
                     throw new RuntimeException(self::ERR_DB_CREATE_ACCESS_FAILURE);
                 }
 
@@ -70,7 +70,7 @@ class DatabaseSetup
             $this->conn->query('DROP TABLE eventum_test');
         } catch (DatabaseException $e) {
             $message = $e->getMessage();
-            if (stristr($message, 'Access denied')) {
+            if (stripos($message, 'Access denied') !== false) {
                 throw new RuntimeException(self::ERR_DB_DROP_ACCESS_FAILURE);
             }
 

@@ -361,7 +361,7 @@ class Support
     public static function getServerURI($info)
     {
         $server_uri = $info['ema_hostname'] . ':' . $info['ema_port'] . '/' . strtolower($info['ema_type']);
-        if (stristr($info['ema_type'], 'imap')) {
+        if (stripos($info['ema_type'], 'imap') !== false) {
             $folder = $info['ema_folder'];
         } else {
             $folder = 'INBOX';

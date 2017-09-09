@@ -492,7 +492,7 @@ class Search
 
         if (!empty($options['users'])) {
             $stmt .= " AND (\n";
-            if (stristr($options['users'], 'grp') !== false) {
+            if (stripos($options['users'], 'grp') !== false) {
                 $chunks = explode(':', $options['users']);
                 $stmt .= 'iss_grp_id = ' . Misc::escapeInteger($chunks[1]);
             } else {

@@ -908,11 +908,11 @@ class Reminder
                     $cond['rmo_sql_representation'], $sql_field);
             } else {
                 // date field values are always saved as number of hours, so let's calculate them now as seconds
-                if (stristr($cond['rmf_title'], 'date')) {
+                if (stripos($cond['rmf_title'], 'date') !== false) {
                     // support NULL as values for a date field
-                    if (strtoupper($cond['rlc_value']) == 'NULL') {
+                    if (strtoupper($cond['rlc_value']) === 'NULL') {
                         $cond['rmf_sql_representation'] = $cond['rmf_sql_field'];
-                    } elseif (strtoupper($cond['rlc_value']) == 'NOW') {
+                    } elseif (strtoupper($cond['rlc_value']) === 'NOW') {
                         $cond['rmf_sql_representation'] = 'UNIX_TIMESTAMP(' .
                             $cond['rmf_sql_field'] . ')';
                         $cond['rlc_value'] = 'UNIX_TIMESTAMP()';

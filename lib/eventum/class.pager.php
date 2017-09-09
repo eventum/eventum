@@ -29,7 +29,7 @@ class Pager
     {
         $stmt = str_replace("\n", '', $stmt);
         $stmt = str_replace("\r", '', $stmt);
-        if (stristr($stmt, 'GROUP BY')) {
+        if (stripos($stmt, 'GROUP BY') !== false) {
             // go the extra mile and try to use the grouped by column in the count() call
             preg_match("/.*\s+GROUP BY\s+(\w*)\s+.*/i", $stmt, $matches);
             if (!empty($matches[1])) {

@@ -62,14 +62,14 @@ class DownloadController extends BaseController
      */
     protected function defaultAction()
     {
-        if (stristr(APP_BASE_URL, 'https:')) {
+        if (stripos(APP_BASE_URL, 'https:') !== false) {
             // fix for IE 5.5/6 with SSL sites
             header('Pragma: cache');
         }
         // fix for IE6 (KB812935)
         header('Cache-Control: must-revalidate');
 
-        if ($this->cat == 'attachment') {
+        if ($this->cat === 'attachment') {
             $this->attachmentAction();
         }
     }

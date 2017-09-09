@@ -489,7 +489,7 @@ class Misc
         }
         clearstatcache();
         if (!is_writable($file)) {
-            if (!stristr(PHP_OS, 'win')) {
+            if (stripos(PHP_OS, 'win') === false) {
                 // let's try to change the permissions ourselves
                 @chmod($file, 0755);
                 clearstatcache();
@@ -500,7 +500,7 @@ class Misc
                 return false;
             }
         }
-        if (stristr(PHP_OS, 'win')) {
+        if (stripos(PHP_OS, 'win') !== false) {
             // need to check whether we can really create files in this directory or not
             // since is_writable() is not trustworthy on windows platforms
             if (is_dir($file)) {
@@ -728,7 +728,7 @@ class Misc
         if ($force_inline == true) {
             header('Content-Type: text/plain');
 
-            if (stristr($filetype, 'gzip')) {
+            if (stripos($filetype, 'gzip') !== false) {
                 header('Content-Encoding: gzip');
             }
             header('Content-Disposition: inline; filename="' . urlencode($filename) . '"');
