@@ -29,10 +29,10 @@ checkout_vendor() {
 	cd vendor
 	# switch branch if exists
 	if [ -n "$(git branch --list $branch)" ]; then
-		git checkout $branch
+		git checkout -f $branch
 	else
 		# otherwise create the branch
-		git checkout -b $branch
+		git checkout -b $branch || { echo >&2 Branch Create Fail; }
 		git add -A .
 		# remove composer.lock if it's new branch in vendor/.git
 		git rm -f composer.lock
