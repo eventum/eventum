@@ -737,15 +737,15 @@ class Misc
             exit;
         }
 
-        if (empty($mimetype)) {
-            $mimetype = 'application/octet-stream';
+        if (empty($filetype)) {
+            $filetype = 'application/octet-stream';
         }
         if (empty($filename)) {
             $filename = ev_gettext('Untitled');
         }
         $filename = rawurlencode($filename);
         $disposition = self::getAttachmentDisposition($filetype);
-        header('Content-Type: ' . $mimetype);
+        header('Content-Type: ' . $filetype);
         header("Content-Disposition: {$disposition}; filename=\"{$filename}\"; filename*=" . APP_CHARSET . "''{$filename}");
         header("Content-Length: {$filesize}");
         echo $data;
