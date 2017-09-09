@@ -3,7 +3,6 @@
 ## [3.3.0] - ???
 
 Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
-Usage of some commandline scripts have changed, see #279 for details.
 
 - Emit history.add events when history entry is added (@glensc, #278)
 - Fix fatal error when downloading emails from unknown sender with CRM enabled (@balsdorf)

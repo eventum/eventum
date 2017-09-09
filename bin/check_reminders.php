@@ -17,5 +17,5 @@ use Eventum\Command\CheckRemindersCommand as Command;
 
 $app = new Silly\Application();
 $app->command(Command::USAGE, [new Command(), 'execute']);
-$app->setDefaultCommand(Command::DEFAULT_COMMAND);
+$app->setDefaultCommand(Command::DEFAULT_COMMAND, true);
 $app->run();
