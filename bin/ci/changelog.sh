@@ -2,37 +2,37 @@
 # Update Release notes using Chandler
 set -e
 
-# create fake changelog file for "snapshot" tag
-create_snapshot_changelog() {
-	# obtain current tag message
-	# https://stackoverflow.com/a/26132640/2314626
-	object=$(git rev-parse snapshot)
-
-	message=$(git cat-file -p $object)
-	message=$(echo "$message" | tail -n +6)
+# update changelog entry for "snapshot" release
+upload_snapshot_changelog() {
 	date=$(LC_ALL=C TZ=UTC date)
 	version=$(git describe --tags --abbrev=8 HEAD)
 
-	# Extra Travis env variables:
+	# Info about Travis ENV variables:
 	# https://docs.travis-ci.com/user/environment-variables/#Default-Environment-Variables
+	notes=$(cat release_note.txt)
+	title=$(echo "$notes" | head -n 1)
+	notes=$(cat <<-EOF
+$(echo "$notes" | tail -n +3)
 
-	cat <<-EOF
-## $TRAVIS_TAG
-
-$message
-
-Built by #$TRAVIS_BUILD_NUMBER
-Build finished at $date
-https://travis-ci.org/eventum/eventum/builds/$TRAVIS_BUILD_ID
+Build [#$TRAVIS_BUILD_NUMBER](https://travis-ci.org/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID) finished at $date
+Release tarball built from [#$TRAVIS_JOB_NUMBER](https://travis-ci.org/$TRAVIS_REPO_SLUG/jobs/$TRAVIS_JOB_ID)
 
 	EOF
+	)
+
+	TRAVIS_REPO_SLUG=$TRAVIS_REPO_SLUG \
+	TRAVIS_TAG=$TRAVIS_TAG \
+	RELEASE_TITLE="$title" \
+	RELEASE_NOTES="$notes" \
+	bin/ci/tag-update.rb
 }
 
-if [ "$TRAVIS_TAG" = "snapshot" ]; then
-	create_snapshot_changelog > CHANGELOG.md
-fi
-
 gem install --no-ri --no-rdoc chandler
+
+if [ "$TRAVIS_TAG" = "snapshot" ]; then
+	upload_snapshot_changelog
+	exit 0
+fi
 
 # Create token in https://github.com/settings/tokens with 'public_repo' access
 # and set as env var:
