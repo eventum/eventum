@@ -121,7 +121,7 @@ abstract class Customer
      */
     abstract public function getNewIssueMessage();
 
-//
+    //
 //    /**
 //     * Method used to get the overall statistics of issues in the system for a
 //     * given customer.

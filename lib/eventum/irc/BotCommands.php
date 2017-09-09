@@ -121,6 +121,7 @@ class BotCommands extends AbstractBotCommands
                     break;
                 }
             // fall through to an error
+            // no break
             default:
                 $this->sendResponse(
                     $data->nick, 'Error: wrong parameter count for "CLOCK" command. Format is "!clock [in|out]".'

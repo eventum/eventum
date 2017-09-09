@@ -2697,8 +2697,8 @@ class Issue
                         continue;
                     }
                     $new_assignees[] = $usr_id;
-                        // add the assignment
-                        self::addUserAssociation(Auth::getUserID(), $issue_id, $usr_id, false);
+                    // add the assignment
+                    self::addUserAssociation(Auth::getUserID(), $issue_id, $usr_id, false);
                     Notification::subscribeUser(Auth::getUserID(), $issue_id, $usr_id, Notification::getAllActions());
                 }
 

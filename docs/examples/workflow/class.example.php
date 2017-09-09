@@ -163,8 +163,8 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
         echo "Workflow: Returning allowed statuses<br />\n";
         $statuses = Status::getAssocStatusList($prj_id, false);
         unset($statuses[4], $statuses[3]);
-       // you should perform any logic and remove any statuses you need to here.
-       return $statuses;
+        // you should perform any logic and remove any statuses you need to here.
+        return $statuses;
     }
 
     /**
