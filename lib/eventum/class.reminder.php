@@ -775,11 +775,7 @@ class Reminder
                     {{%reminder_level}}
                  ORDER BY
                     rem_rank ASC';
-        try {
-            $res = DB_Helper::getInstance()->getAll($stmt);
-        } catch (DatabaseException $e) {
-            return [];
-        }
+        $res = DB_Helper::getInstance()->getAll($stmt);
 
         if (empty($res)) {
             return [];

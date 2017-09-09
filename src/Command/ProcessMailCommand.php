@@ -15,20 +15,24 @@ namespace Eventum\Command;
 
 use Eventum\Mail\Exception\RoutingException;
 use Routing;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class ProcessMailCommand extends Command
+class ProcessMailCommand
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute()
-    {
-        global $argv;
+    const DEFAULT_COMMAND = 'mail:route';
+    const USAGE = self::DEFAULT_COMMAND . '  [filename]';
 
+    /**
+     * @param OutputInterface $output
+     * @param string $filename optional filename to load
+     * @return int Program exit code
+     */
+    public function execute(OutputInterface $output, $filename)
+    {
         // take input from first argument if specified
         // otherwise read from STDIN
-        if (isset($argv[1])) {
-            $full_message = file_get_contents($argv[1]);
+        if ($filename) {
+            $full_message = file_get_contents($filename);
         } else {
             $full_message = stream_get_contents(STDIN);
         }
@@ -36,14 +40,16 @@ class ProcessMailCommand extends Command
         try {
             $return = Routing::route($full_message);
         } catch (RoutingException $e) {
-            echo $e->getMessage();
-            exit($e->getCode());
+            $output->writeln(sprintf('<error>%s</error>', $e->getMessage()));
+
+            return $e->getCode();
         }
 
         if ($return === false) {
             // message was not able to be routed
-            echo 'no route';
-            exit(RoutingException::EX_NOUSER);
+            $output->writeln('No route');
+
+            return RoutingException::EX_NOUSER;
         }
 
         /*
@@ -59,6 +65,6 @@ class ProcessMailCommand extends Command
         */
 
         // this indicates the script ran successfully to postfix
-        exit(0);
+        return 0;
     }
 }

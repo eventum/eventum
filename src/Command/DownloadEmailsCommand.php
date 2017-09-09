@@ -14,76 +14,40 @@
 namespace Eventum\Command;
 
 use Email_Account;
+use Eventum\ConcurrentLock;
+use InvalidArgumentException;
+use RuntimeException;
 use Support;
 
-class DownloadEmailsCommand extends Command
+class DownloadEmailsCommand
 {
-    /** @var array */
-    private $config;
+    const DEFAULT_COMMAND = 'mail:download';
+    const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox]';
 
-    /** @var int */
-    private $account_id;
-
-    protected function configure()
+    /**
+     * @param string $username
+     * @param string $hostname
+     * @param string $mailbox
+     */
+    public function execute($username, $hostname, $mailbox)
     {
-        // we need the IMAP extension for this to work
-        if (!function_exists('imap_open')) {
-            $this->fatal(
-                'Eventum requires the IMAP extension in order to download messages saved on a IMAP/POP3 mailbox.',
-                'See Prerequisites on the Wiki https://github.com/eventum/eventum/wiki/Prerequisites',
-                'Please refer to the PHP manual for more details about how to install and enable the IMAP extension.'
-            );
-        }
+        $account_id = $this->getAccountId($username, $hostname, $mailbox);
 
-        // argv/argc needs to be enabled in CLI mode
-        if ($this->SAPI_CLI && ini_get('register_argc_argv') == 'Off') {
-            $this->fatal(
-                'Eventum requires the ini setting register_argc_argv to be enabled to run this script.',
-                'Please refer to the PHP manual for more details on how to change this ini setting.'
-            );
-        }
-
-        $config = $this->getParams();
-
-        // check for the required parameters
-        if (empty($config['username']) || empty($config['hostname'])) {
-            if ($this->SAPI_CLI) {
-                $this->fatal(
-                    'Wrong number of parameters given. Expected parameters related to the email account:',
-                    ' 1 - username',
-                    ' 2 - hostname',
-                    ' 3 - mailbox (only required if IMAP account)',
-                    'Example: php download_emails.php user example.com INBOX'
-                );
-            } else {
-                $this->fatal(
-                    'Wrong number of parameters given. Expected parameters related to email account:',
-                    'download_emails.php?username=<i>username</i>&hostname=<i>hostname</i>&mailbox=<i>mailbox</i>'
-                );
+        $lock = new ConcurrentLock('download_emails_' . $account_id);
+        $lock->synchronized(
+            function () use ($account_id) {
+                $this->processEmails($account_id);
             }
-        }
-
-        $this->config = $config;
-
-        $this->account_id = $this->getAccountId();
-
-        $this->lockname = 'download_emails_' . $this->account_id;
+        );
     }
 
-    protected function execute()
+    /**
+     * @param int $account_id
+     */
+    private function processEmails($account_id)
     {
-        $account = Email_Account::getDetails($this->account_id, true);
-        $mbox = Support::connectEmailServer($account);
-        if ($mbox == false) {
-            $uri = Support::getServerURI($account);
-            $login = $account['ema_username'];
-            $error = imap_last_error();
-            $this->fatal(
-                "$error\n",
-                "Could not connect to the email server '$uri' with login: '$login'.",
-                'Please verify your email account settings and try again.'
-            );
-        }
+        $account = Email_Account::getDetails($account_id, true);
+        $mbox = $this->getConnection($account);
 
         // if we only want new emails
         if ($account['ema_get_only_new']) {
@@ -104,21 +68,26 @@ class DownloadEmailsCommand extends Command
             }
         }
 
-        Support::closeEmailServer($mbox);
-        Support::clearErrors();
+        $this->closeConnection($mbox);
     }
 
-    private function getAccountId()
+    /**
+     * Get email account id from parameters
+     *
+     * @param string $username
+     * @param string $hostname
+     * @param string $mailbox
+     * @throws InvalidArgumentException
+     * @return int
+     */
+    private function getAccountId($username, $hostname, $mailbox)
     {
-        $config = $this->config;
-
         // get the account ID early since we need it also for unlocking.
-        $account_id = Email_Account::getAccountID(
-            $config['username'], $config['hostname'], $config['mailbox']
-        );
+        $account_id = Email_Account::getAccountID($username, $hostname, $mailbox);
+
         if (!$account_id) {
-            $this->fatal(
-                'Could not find a email account with the parameter provided.',
+            throw new InvalidArgumentException(
+                "Could not find a email account with the parameter provided.\n" .
                 'Please verify your email account settings and try again.'
             );
         }
@@ -127,41 +96,45 @@ class DownloadEmailsCommand extends Command
     }
 
     /**
-     * Get parameters needed for this script.
+     * Get IMAP connection handle
      *
-     * for CLI mode these are take from command line arguments
-     * for Web mode those are taken as named _GET parameters.
-     *
-     * @return  array   $config
+     * @param array $account
+     * @throws RuntimeException
+     * @return resource
      */
-    private function getParams()
+    private function getConnection($account)
     {
-        // some defaults,
-        $config = [
-            'username' => null,
-            'hostname' => null,
-            'mailbox' => null,
-        ];
-
-        if ($this->SAPI_CLI) {
-            global $argc, $argv;
-            if ($argc > 1) {
-                $config['username'] = $argv[1];
-            }
-            if ($argc > 2) {
-                $config['hostname'] = $argv[2];
-            }
-            if ($argc > 3) {
-                $config['mailbox'] = $argv[3];
-            }
-        } else {
-            foreach (array_keys($config) as $key) {
-                if (isset($_GET[$key])) {
-                    $config[$key] = $_GET[$key];
-                }
-            }
+        if (!function_exists('imap_open')) {
+            throw new RuntimeException(
+                "Eventum requires the IMAP extension in order to download messages saved on a IMAP/POP3 mailbox.\n" .
+                "See Prerequisites on the Wiki https://github.com/eventum/eventum/wiki/Prerequisites\n" .
+                'Please refer to the PHP manual for more details about how to install and enable the IMAP extension.'
+            );
         }
 
-        return $config;
+        $mbox = Support::connectEmailServer($account);
+        if ($mbox === false) {
+            $uri = Support::getServerURI($account);
+            $login = $account['ema_username'];
+            $error = imap_last_error();
+
+            throw new RuntimeException(
+                "$error\n" .
+                "Could not connect to the email server '$uri' with login: '$login'." .
+                'Please verify your email account settings and try again.'
+
+            );
+        }
+
+        return $mbox;
+    }
+
+    /**
+     * @param resource $mbox
+     */
+    private function closeConnection($mbox)
+    {
+        Support::closeEmailServer($mbox);
+        Support::clearErrors();
     }
 }

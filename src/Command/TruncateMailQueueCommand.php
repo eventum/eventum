@@ -14,19 +14,20 @@
 namespace Eventum\Command;
 
 use Mail_Queue;
+use Symfony\Component\Console\Output\OutputInterface;
 
-class TruncateMailQueueCommand extends Command
+class TruncateMailQueueCommand
 {
-    protected function configure()
-    {
-        $this->lock_name = 'truncate_mail_queue';
-    }
+    const DEFAULT_COMMAND = 'mail-queue:truncate';
+    const USAGE = self::DEFAULT_COMMAND . ' [-q|--quiet] [--interval=]';
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function execute()
+    public function execute(OutputInterface $output, $quiet, $interval = '1 month')
     {
-        Mail_Queue::truncate();
+        Mail_Queue::truncate($interval);
+
+        if (!$quiet) {
+            $message = ev_gettext('Mail queue truncated by %1$s.', $interval);
+            $output->writeln("<info>$message</info>");
+        }
     }
 }

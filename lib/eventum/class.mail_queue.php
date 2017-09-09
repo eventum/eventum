@@ -547,9 +547,9 @@ class Mail_Queue
     /**
      * Truncates the maq_body field of any emails older then one month.
      *
-     * @return bool
+     * @param string $interval MySQL Interval definition
      */
-    public static function truncate()
+    public static function truncate($interval)
     {
         $sql = "UPDATE
                     {{%mail_queue}}
@@ -558,13 +558,7 @@ class Mail_Queue
                   maq_status = 'truncated'
                 WHERE
                     maq_status = 'sent' AND
-                    maq_queued_date <= DATE_SUB(NOW(), INTERVAL 1 MONTH)";
-        try {
-            DB_Helper::getInstance()->query($sql);
-        } catch (DatabaseException $e) {
-            return false;
-        }
-
-        return true;
+                    maq_queued_date <= DATE_SUB(NOW(), INTERVAL $interval)";
+        DB_Helper::getInstance()->query($sql);
     }
 }
