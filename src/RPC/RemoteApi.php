@@ -738,7 +738,7 @@ class RemoteApi
      * @param DateTime $start
      * @param DateTime $end
      * @param struct $options
-     * @return string
+     * @return struct
      * @access protected
      * @since 3.0.2
      */
