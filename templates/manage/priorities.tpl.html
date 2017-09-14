@@ -109,7 +109,12 @@
               <select name="icon" id="select_menu_priority_icon">
                 <option data-class="select_icon_priority" value="0" {if isset($info.pri_icon) && $info.pri_icon == 0}selected{/if}>none</option>
                   {section name=i start=1 loop=22 step=1}
-                  <option data-class="select_icon_priority" data-style="background-image:url({$core.rel_url}images/priority/{$smarty.section.i.index}.png);" value="{$smarty.section.i.index}" {if isset($info.pri_icon) && $info.pri_icon == $smarty.section.i.index}selected{/if}>{$smarty.section.i.index}</option>
+                  <option
+                    data-class="select_icon_priority"
+                    data-style="background-image:url({$core.rel_url}images/priority/{$smarty.section.i.index}.png);"
+                    value="{$smarty.section.i.index}"
+                    {if isset($info.pri_icon) && $info.pri_icon == $smarty.section.i.index}selected{/if}
+                  >{$smarty.section.i.index}</option>
                   {/section}
               </select>
             </td>

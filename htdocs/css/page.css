@@ -477,10 +477,15 @@ div.phpdebugbar {
     padding-left: 16px;
     margin: 0 3px 0 0px;
 }
+/*
 .priority-icon-1 {background-image: url("../images/priority/1.png");}
+*/
+/*
+<i class="fa fa-circle" aria-hidden="true"></i>*/
 .priority-icon-2 {background-image: url("../images/priority/2.png");}
 .priority-icon-3 {background-image: url("../images/priority/3.png");}
-.priority-icon-4 {background-image: url("../images/priority/4.png");}
+.priority-icon-4:before {color: #7EBE00; content: "\f111"; font-family: FontAwesome; font-size: xx-small;}
+.priority-icon-5:after {color: #FFCD62; content: "\f111"; font-family: FontAwesome; font-size: xx-small;}
 .priority-icon-5 {background-image: url("../images/priority/5.png");}
 .priority-icon-6 {background-image: url("../images/priority/6.png");}
 .priority-icon-7 {background-image: url("../images/priority/7.png");}
@@ -498,6 +503,8 @@ div.phpdebugbar {
 .priority-icon-19 {background-image: url("../images/priority/19.png");}
 .priority-icon-20 {background-image: url("../images/priority/20.png");}
 .priority-icon-21 {background-image: url("../images/priority/21.png");}
+
+
 
 /* Select icon of priority – jQueryUI Selectmenu */
 #select_menu_priority_icon {
