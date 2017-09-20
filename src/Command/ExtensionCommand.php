@@ -13,7 +13,10 @@
 
 namespace Eventum\Command;
 
+use Eventum\Extension\ExtensionInterface;
+use InvalidArgumentException;
 use ReflectionClass;
+use ReflectionException;
 use Setup;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -37,13 +40,12 @@ class ExtensionCommand
      *
      * @param string $extensionFile path to filename that loads extension
      * @param string $extensionName class name of extension, must implement ExtensionInterface
+     * @throws ReflectionException
      */
     public function setupExtension($extensionFile, $extensionName)
     {
-        require_once $extensionFile;
-
-        // this will validate class name is valid
-        $reflectionClass = new ReflectionClass($extensionName);
+        $this->loadExtensionFile($extensionFile);
+        $reflectionClass = $this->getExtensionClass($extensionName);
 
         $setup = Setup::get();
 
@@ -57,5 +59,43 @@ class ExtensionCommand
         $this->output->writeln("Enabling extension: <info>{$extensionName}</info>");
         $setup['extensions'][$extensionName] = $reflectionClass->getFileName();
         Setup::save();
+    }
+
+    private function loadExtensionFile($fileName)
+    {
+        if (!$fileName) {
+            throw new InvalidArgumentException('Extension filename not specified');
+        }
+
+        if (!file_exists($fileName)) {
+            throw new InvalidArgumentException("$fileName does not exist");
+        }
+
+        /** @noinspection PhpIncludeInspection */
+        require_once $fileName;
+    }
+
+    /**
+     * Return ReflectionClass, validate that $extensionName is valid Extension.
+     *
+     * @param string $extensionName
+     * @throws ReflectionException
+     * @throws InvalidArgumentException
+     * @return ReflectionClass
+     */
+    private function getExtensionClass($extensionName)
+    {
+        if (!$extensionName) {
+            throw new InvalidArgumentException('Extension class name not specified');
+        }
+
+        $reflectionClass = new ReflectionClass($extensionName);
+
+        $implements = $reflectionClass->implementsInterface(ExtensionInterface::class);
+        if (!$implements) {
+            throw new InvalidArgumentException("Extension $extensionName does not implement ExtensionInterface");
+        }
+
+        return $reflectionClass;
     }
 }
