@@ -30,7 +30,7 @@ class Group
     public static function insert()
     {
         $stmt = 'INSERT INTO
-                    {{%group}}
+                    `group`
                  (
                     grp_name,
                     grp_description,
@@ -64,7 +64,7 @@ class Group
     public static function update()
     {
         $stmt = 'UPDATE
-                    {{%group}}
+                    `group`
                  SET
                     grp_name = ?,
                     grp_description = ?,
@@ -109,7 +109,7 @@ class Group
             $users = self::getUsers($grp_id);
 
             $stmt = 'DELETE FROM
-                        {{%group}}
+                        `group`
                      WHERE
                         grp_id = ?';
             try {
@@ -144,7 +144,7 @@ class Group
         // make new associations
         foreach ($projects as $prj_id) {
             $stmt = 'INSERT INTO
-                        {{%project_group}}
+                        `project_group`
                      (
                         pgr_prj_id,
                         pgr_grp_id
@@ -171,7 +171,7 @@ class Group
     {
         // delete all current associations
         $stmt = 'DELETE FROM
-                    {{%project_group}}
+                    `project_group`
                  WHERE
                     pgr_grp_id = ?';
         try {
@@ -202,7 +202,7 @@ class Group
                     grp_description,
                     grp_manager_usr_id
                  FROM
-                    {{%group}}
+                    `group`
                  WHERE
                     grp_id = ?';
 
@@ -257,7 +257,7 @@ class Group
                     grp_description,
                     grp_manager_usr_id
                  FROM
-                    {{%group}}
+                    `group`
                  ORDER BY
                     grp_name';
         try {
@@ -293,8 +293,8 @@ class Group
                     grp_id,
                     grp_name
                  FROM
-                    {{%group}},
-                    {{%project_group}}
+                    `group`,
+                    `project_group`
                  WHERE
                     grp_id = pgr_grp_id AND
                     pgr_prj_id = ?
@@ -323,7 +323,7 @@ class Group
                     grp_id,
                     grp_name
                  FROM
-                    {{%group}}
+                    `group`
                  ORDER BY
                     grp_name';
         try {
@@ -346,7 +346,7 @@ class Group
         $stmt = 'SELECT
                     ugr_usr_id
                  FROM
-                    {{%user_group}}
+                    `user_group`
                  WHERE
                     ugr_grp_id = ?';
         try {
@@ -370,8 +370,8 @@ class Group
                     pgr_prj_id,
                     prj_title
                  FROM
-                    {{%project_group}},
-                    {{%project}}
+                    `project_group`,
+                    `project`
                  WHERE
                     pgr_prj_id = prj_id AND
                     pgr_grp_id = ?';
@@ -395,8 +395,8 @@ class Group
         $stmt = 'SELECT
                     grp_id
                  FROM
-                    {{%group}},
-                    {{%project_group}}
+                    `group`,
+                    `project_group`
                  WHERE
                     grp_id = pgr_grp_id AND
                     grp_name = ?';
@@ -423,7 +423,7 @@ class Group
     public static function addUser($usr_id, $grp_id)
     {
         $sql = 'INSERT INTO
-                  {{%user_group}}
+                  `user_group`
                 SET
                   ugr_usr_id = ?,
                   ugr_grp_id = ?,
@@ -447,7 +447,7 @@ class Group
     public static function removeUser($usr_id, $grp_id)
     {
         $sql = 'DELETE FROM
-                  {{%user_group}}
+                  `user_group`
                 WHERE
                   ugr_usr_id = ? AND
                   ugr_grp_id = ?';

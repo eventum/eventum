@@ -30,7 +30,7 @@ class Filter
         $stmt = 'SELECT
                     COUNT(*)
                  FROM
-                    {{%custom_filter}}
+                    `custom_filter`
                  WHERE
                     cst_id=? AND
                     cst_is_global=1';
@@ -60,7 +60,7 @@ class Filter
         $stmt = 'SELECT
                     COUNT(*)
                  FROM
-                    {{%custom_filter}}
+                    `custom_filter`
                  WHERE
                     cst_id=? AND
                     cst_usr_id=?';
@@ -156,7 +156,7 @@ class Filter
 
         if ($cst_id != 0) {
             $stmt = 'UPDATE
-                        {{%custom_filter}}
+                        `custom_filter`
                      SET
                         cst_iss_pri_id=?,
                         cst_iss_sev_id=?,
@@ -241,7 +241,7 @@ class Filter
             ];
         } else {
             $stmt = 'INSERT INTO
-                        {{%custom_filter}}
+                        `custom_filter`
                      (
                         cst_usr_id,
                         cst_prj_id,
@@ -357,7 +357,7 @@ class Filter
         $stmt = 'SELECT
                     cst_id
                  FROM
-                    {{%custom_filter}}
+                    `custom_filter`
                  WHERE
                     cst_usr_id=? AND
                     cst_prj_id=? AND
@@ -385,7 +385,7 @@ class Filter
                     cst_id,
                     cst_title
                  FROM
-                    {{%custom_filter}}
+                    `custom_filter`
                  WHERE
                     cst_prj_id=? AND
                     (
@@ -417,7 +417,7 @@ class Filter
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%custom_filter}}
+                    `custom_filter`
                  WHERE
                     cst_prj_id=? AND
                     (
@@ -523,7 +523,7 @@ class Filter
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%custom_filter}}
+                    `custom_filter`
                  WHERE';
         $params = [];
         if ($check_perm) {
@@ -559,7 +559,7 @@ class Filter
     {
         foreach ($_POST['item'] as $cst_id) {
             $stmt = 'DELETE FROM
-                        {{%custom_filter}}
+                        `custom_filter`
                      WHERE';
             $params = [];
 

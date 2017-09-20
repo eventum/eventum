@@ -106,7 +106,7 @@ class Command
 
         $sql
             = 'UPDATE
-                    {{%issue_attachment_file}}
+                    `issue_attachment_file`
                 SET
                     iaf_flysystem_path = ?,
                     iaf_file = NULL
@@ -132,8 +132,8 @@ class Command
                 iat_iss_id,
                 iat_created_date
             FROM
-                {{%issue_attachment_file}},
-                {{%issue_attachment}}
+                `issue_attachment_file`,
+                `issue_attachment`
             WHERE
                 iat_id = iaf_iat_id AND
                 iaf_flysystem_path LIKE '{$this->source_adapter}://%'

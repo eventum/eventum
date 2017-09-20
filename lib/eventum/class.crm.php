@@ -313,7 +313,7 @@ abstract class CRM
         $stmt = 'SELECT
                     prj_customer_backend
                  FROM
-                    {{%project}}
+                    `project`
                  WHERE prj_id=?';
         try {
             $res = DB_Helper::getInstance()->getOne($stmt, [$prj_id]);
@@ -365,8 +365,8 @@ abstract class CRM
                     cam_type,
                     usr_full_name
                  FROM
-                    {{%customer_account_manager}},
-                    {{%user}}
+                    `customer_account_manager`,
+                    `user`
                  WHERE
                     cam_usr_id=usr_id';
         try {
@@ -397,7 +397,7 @@ abstract class CRM
     public static function insertAccountManager()
     {
         $stmt = 'INSERT INTO
-                    {{%customer_account_manager}}
+                    `customer_account_manager`
                  (
                     cam_prj_id,
                     cam_customer_id,
@@ -428,7 +428,7 @@ abstract class CRM
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%customer_account_manager}}
+                    `customer_account_manager`
                  WHERE
                     cam_id=?';
         try {
@@ -448,7 +448,7 @@ abstract class CRM
     public static function updateAccountManager()
     {
         $stmt = 'UPDATE
-                    {{%customer_account_manager}}
+                    `customer_account_manager`
                  SET
                     cam_prj_id=?,
                     cam_customer_id=?,
@@ -477,7 +477,7 @@ abstract class CRM
     {
         $items = $_POST['items'];
         $stmt = 'DELETE FROM
-                    {{%customer_account_manager}}
+                    `customer_account_manager`
                  WHERE
                     cam_id IN (' . DB_Helper::buildList($items) . ')';
         try {
@@ -504,8 +504,8 @@ abstract class CRM
                     usr_email,
                     cam_type
                  FROM
-                    {{%customer_account_manager}},
-                    {{%user}}
+                    `customer_account_manager`,
+                    `user`
                  WHERE
                     cam_usr_id=usr_id AND
                     cam_prj_id=? AND
@@ -537,7 +537,7 @@ abstract class CRM
                     cno_customer_id,
                     cno_note
                 FROM
-                    {{%customer_note}}
+                    `customer_note`
                 WHERE
                     cno_customer_id = ?';
         try {
@@ -562,7 +562,7 @@ abstract class CRM
                     cno_customer_id,
                     cno_note
                 FROM
-                    {{%customer_note}}
+                    `customer_note`
                 WHERE
                     cno_id = ?';
         try {
@@ -587,7 +587,7 @@ abstract class CRM
                     cno_customer_id,
                     cno_note
                 FROM
-                    {{%customer_note}}
+                    `customer_note`
                 ORDER BY
                     cno_customer_id ASC';
         try {
@@ -619,7 +619,7 @@ abstract class CRM
     public static function updateNote($cno_id, $prj_id, $customer_id, $note)
     {
         $stmt = 'UPDATE
-                    {{%customer_note}}
+                    `customer_note`
                  SET
                     cno_note=?,
                     cno_prj_id=?,
@@ -649,7 +649,7 @@ abstract class CRM
     public static function insertNote($prj_id, $customer_id, $note)
     {
         $stmt = 'INSERT INTO
-                    {{%customer_note}}
+                    `customer_note`
                  (
                     cno_prj_id,
                     cno_customer_id,
@@ -680,7 +680,7 @@ abstract class CRM
     public static function removeNotes($ids)
     {
         $stmt = 'DELETE FROM
-                    {{%customer_note}}
+                    `customer_note`
                  WHERE
                     cno_id IN (' . DB_Helper::buildList($ids) . ')';
         try {

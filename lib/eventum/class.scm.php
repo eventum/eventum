@@ -32,13 +32,13 @@ class SCM
         $stmt = "SELECT
                     isc_iss_id
                  FROM
-                    {{%issue_checkin}}
+                    `issue_checkin`
                  WHERE
                     isc_id IN ($itemlist)";
         $issue_id = DB_Helper::getInstance()->getOne($stmt, $items);
 
         $stmt = "DELETE FROM
-                    {{%issue_checkin}}
+                    `issue_checkin`
                  WHERE
                     isc_id IN ($itemlist)";
         try {

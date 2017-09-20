@@ -36,7 +36,7 @@ class Status
                     psd_label,
                     psd_date_field
                  FROM
-                    {{%project_status_date}}
+                    `project_status_date`
                  WHERE
                     psd_prj_id=? AND
                     psd_sta_id IN (' . DB_Helper::buildList($sta_ids) . ')';
@@ -62,7 +62,7 @@ class Status
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%project_status_date}}
+                    `project_status_date`
                  WHERE
                     psd_id=?';
         try {
@@ -83,7 +83,7 @@ class Status
     public static function removeCustomization($items)
     {
         $stmt = 'DELETE FROM
-                    {{%project_status_date}}
+                    `project_status_date`
                  WHERE
                     psd_id IN (' . DB_Helper::buildList($items) . ')';
         try {
@@ -108,7 +108,7 @@ class Status
     public static function updateCustomization($psd_id, $prj_id, $sta_id, $date_field, $label)
     {
         $stmt = 'UPDATE
-                    {{%project_status_date}}
+                    `project_status_date`
                  SET
                     psd_prj_id=?,
                     psd_sta_id=?,
@@ -137,7 +137,7 @@ class Status
     public static function insertCustomization($prj_id, $sta_id, $date_field, $label)
     {
         $stmt = 'INSERT INTO
-                    {{%project_status_date}}
+                    `project_status_date`
                  (
                     psd_prj_id,
                     psd_sta_id,
@@ -171,9 +171,9 @@ class Status
                     prj_title,
                     sta_title
                  FROM
-                    {{%project_status_date}},
-                    {{%project}},
-                    {{%status}}
+                    `project_status_date`,
+                    `project`,
+                    `status`
                  WHERE
                     prj_id=psd_prj_id AND
                     sta_id=psd_sta_id
@@ -204,7 +204,7 @@ class Status
             return -2;
         }
         $stmt = 'INSERT INTO
-                    {{%status}}
+                    `status`
                  (
                     sta_title,
                     sta_abbreviation,
@@ -248,7 +248,7 @@ class Status
         }
 
         $stmt = 'UPDATE
-                    {{%status}}
+                    `status`
                  SET
                     sta_title=?,
                     sta_abbreviation=?,
@@ -281,7 +281,7 @@ class Status
 
         if (count($removed_projects) > 0) {
             $stmt = 'UPDATE
-                        {{%issue}}
+                        `issue`
                      SET
                         iss_sta_id=0
                      WHERE
@@ -308,7 +308,7 @@ class Status
         $item_list = DB_Helper::buildList($items);
 
         $stmt = "DELETE FROM
-                    {{%status}}
+                    `status`
                  WHERE
                     sta_id IN ($item_list)";
         try {
@@ -320,7 +320,7 @@ class Status
         self::removeProjectAssociations($items);
         // also set all issues currently set to these statuses to status '0'
         $stmt = "UPDATE
-                    {{%issue}}
+                    `issue`
                  SET
                     iss_sta_id=0
                  WHERE
@@ -339,7 +339,7 @@ class Status
     public static function addProjectAssociation($sta_id, $prj_id)
     {
         $stmt = 'INSERT INTO
-                    {{%project_status}}
+                    `project_status`
                  (
                     prs_sta_id,
                     prs_prj_id
@@ -364,7 +364,7 @@ class Status
         }
 
         $stmt = 'DELETE FROM
-                    {{%project_status}}
+                    `project_status`
                  WHERE
                     prs_sta_id IN (' . DB_Helper::buildList($sta_id) . ')';
 
@@ -393,7 +393,7 @@ class Status
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%status}}
+                    `status`
                  WHERE
                     sta_id=?';
         try {
@@ -418,7 +418,7 @@ class Status
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%status}}
+                    `status`
                  ORDER BY
                     sta_rank ASC,
                     sta_title';
@@ -449,8 +449,8 @@ class Status
                     prj_id,
                     prj_title
                  FROM
-                    {{%project}},
-                    {{%project_status}}
+                    `project`,
+                    `project_status`
                  WHERE
                     prj_id=prs_prj_id AND
                     prs_sta_id=?';
@@ -480,7 +480,7 @@ class Status
         $stmt = 'SELECT
                     sta_id
                  FROM
-                    {{%status}}
+                    `status`
                  WHERE
                     sta_title=?';
         $res = DB_Helper::getInstance()->getOne($stmt, [$sta_title]);
@@ -501,7 +501,7 @@ class Status
         $stmt = 'SELECT
                     sta_title
                  FROM
-                    {{%status}}
+                    `status`
                  WHERE
                     sta_id=?';
         try {
@@ -530,8 +530,8 @@ class Status
                     UPPER(sta_abbreviation),
                     sta_title
                  FROM
-                    {{%status}},
-                    {{%project_status}}
+                    `status`,
+                    `project_status`
                  WHERE
                     prs_prj_id IN (' . DB_Helper::buildList($prj_id) . ') AND
                     prs_sta_id=sta_id AND
@@ -565,8 +565,8 @@ class Status
                     UPPER(sta_abbreviation),
                     sta_title
                  FROM
-                    {{%status}},
-                    {{%project_status}}
+                    `status`,
+                    `project_status`
                  WHERE
                     prs_prj_id IN (' . DB_Helper::buildList($prj_id) . ') AND
                     prs_sta_id=sta_id';
@@ -603,8 +603,8 @@ class Status
                     sta_id,
                     sta_title
                  FROM
-                    {{%status}},
-                    {{%project_status}}
+                    `status`,
+                    `project_status`
                  WHERE
                     prs_prj_id IN (' . DB_Helper::buildList($prj_id) . ') AND
                     prs_sta_id=sta_id';
@@ -635,7 +635,7 @@ class Status
                     sta_id,
                     sta_title
                  FROM
-                    {{%status}}
+                    `status`
                  ORDER BY
                     sta_rank ASC';
         try {
@@ -661,8 +661,8 @@ class Status
                     sta_id,
                     sta_title
                  FROM
-                    {{%status}},
-                    {{%project_status}}
+                    `status`,
+                    `project_status`
                  WHERE
                     prs_prj_id=? AND
                     prs_sta_id=sta_id AND

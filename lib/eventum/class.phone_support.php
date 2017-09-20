@@ -30,7 +30,7 @@ class Phone_Support
             return -2;
         }
         $stmt = 'INSERT INTO
-                    {{%project_phone_category}}
+                    `project_phone_category`
                  (
                     phc_prj_id,
                     phc_title
@@ -59,7 +59,7 @@ class Phone_Support
             return -2;
         }
         $stmt = 'UPDATE
-                    {{%project_phone_category}}
+                    `project_phone_category`
                  SET
                     phc_title=?
                  WHERE
@@ -86,7 +86,7 @@ class Phone_Support
         $itemlist = DB_Helper::buildList($items);
 
         $stmt = "DELETE FROM
-                    {{%project_phone_category}}
+                    `project_phone_category`
                  WHERE
                     phc_id IN ($itemlist)";
         try {
@@ -109,7 +109,7 @@ class Phone_Support
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%project_phone_category}}
+                    `project_phone_category`
                  WHERE
                     phc_id=?';
         try {
@@ -134,7 +134,7 @@ class Phone_Support
                     phc_id,
                     phc_title
                  FROM
-                    {{%project_phone_category}}
+                    `project_phone_category`
                  WHERE
                     phc_prj_id=?
                  ORDER BY
@@ -161,7 +161,7 @@ class Phone_Support
                     phc_id,
                     phc_title
                  FROM
-                    {{%project_phone_category}}
+                    `project_phone_category`
                  WHERE
                     phc_prj_id=?
                  ORDER BY
@@ -186,7 +186,7 @@ class Phone_Support
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%phone_support}}
+                    `phone_support`
                  WHERE
                     phs_id=?';
         try {
@@ -208,15 +208,15 @@ class Phone_Support
     public static function getListing($issue_id)
     {
         $stmt = 'SELECT
-                    {{%phone_support}}.*,
+                    `phone_support`.*,
                     usr_full_name,
                     phc_title,
                     iss_prj_id
                  FROM
-                    {{%phone_support}},
-                    {{%project_phone_category}},
-                    {{%user}},
-                    {{%issue}}
+                    `phone_support`,
+                    `project_phone_category`,
+                    `user`,
+                    `issue`
                  WHERE
                     phs_iss_id=iss_id AND
                     iss_prj_id=phc_prj_id AND
@@ -260,7 +260,7 @@ class Phone_Support
         // convert the date to GMT timezone
         $created_date = Date_Helper::convertDateGMT($created_date . ' ' . Date_Helper::getPreferredTimezone());
         $stmt = 'INSERT INTO
-                    {{%phone_support}}
+                    `phone_support`
                  (
                     phs_iss_id,
                     phs_usr_id,
@@ -309,7 +309,7 @@ class Phone_Support
         $stmt = 'SELECT
                     max(ttr_id)
                  FROM
-                    {{%time_tracking}}
+                    `time_tracking`
                  WHERE
                     ttr_iss_id = ? AND
                     ttr_usr_id = ?';
@@ -325,7 +325,7 @@ class Phone_Support
         // update phone record with time tracking ID.
         if (!empty($phs_id) && !empty($ttr_id)) {
             $stmt = 'UPDATE
-                        {{%phone_support}}
+                        `phone_support`
                      SET
                         phs_ttr_id = ?
                      WHERE
@@ -354,7 +354,7 @@ class Phone_Support
                     phs_ttr_id,
                     phs_usr_id
                  FROM
-                    {{%phone_support}}
+                    `phone_support`
                  WHERE
                     phs_id=?';
         $details = DB_Helper::getInstance()->getRow($stmt, [$phone_id]);
@@ -363,7 +363,7 @@ class Phone_Support
         }
 
         $stmt = 'DELETE FROM
-                    {{%phone_support}}
+                    `phone_support`
                  WHERE
                     phs_id=?';
         try {
@@ -403,8 +403,8 @@ class Phone_Support
         $stmt = 'SELECT
                     COUNT(phs_id)
                  FROM
-                    {{%phone_support}},
-                    {{%issue}}
+                    `phone_support`,
+                    `issue`
                  WHERE
                     phs_iss_id = iss_id AND
                     iss_prj_id = ? AND

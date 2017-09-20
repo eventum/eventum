@@ -129,7 +129,7 @@ class Attachment
                 $params['iaf_iat_id'] = $this->group->id;
             }
             $sql = 'UPDATE
-                        {{%issue_attachment_file}}
+                        `issue_attachment_file`
                     SET
                         ' . DB_Helper::buildSet($params) . '
                     WHERE
@@ -138,7 +138,7 @@ class Attachment
             DB_Helper::getInstance()->query($sql, $params);
         } else {
             $sql = 'INSERT INTO
-                        {{%issue_attachment_file}}
+                        `issue_attachment_file`
                     (
                         iaf_filename,
                         iaf_filesize,
@@ -258,7 +258,7 @@ class Attachment
         $group = $this->getGroup();
         try {
             $sql = 'DELETE FROM
-                        {{%issue_attachment_file}}
+                        `issue_attachment_file`
                     WHERE
                         iaf_id=?';
             DB_Helper::getInstance()->query($sql, [$this->id]);

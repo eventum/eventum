@@ -60,16 +60,16 @@ class Notification
                     CASE WHEN usr_id <> 0 THEN usr_email ELSE sub_email END AS email
                  FROM
                     (
-                    {{%subscription}}';
+                    `subscription`';
         $params = [];
         if ($type != false) {
             $stmt .= ',
-                    {{%subscription_type}}';
+                    `subscription_type`';
         }
         $stmt .= '
                     )
                  LEFT JOIN
-                    {{%user}}
+                    `user`
                  ON
                     usr_id=sub_usr_id
                  WHERE';
@@ -107,16 +107,16 @@ class Notification
                     CASE WHEN usr_id <> 0 THEN usr_email ELSE sub_email END AS email
                  FROM
                     (
-                    {{%subscription}}';
+                    `subscription`';
         $params = [];
         if ($type != false) {
             $stmt .= ',
-                    {{%subscription_type}}';
+                    `subscription_type`';
         }
         $stmt .= '
                     )
                  LEFT JOIN
-                    {{%user}}
+                    `user`
                  ON
                     usr_id=sub_usr_id
                  WHERE';
@@ -466,8 +466,8 @@ class Notification
                     not_is_blocked,
                     usr_full_name
                  FROM
-                    {{%note}},
-                    {{%user}}
+                    `note`,
+                    `user`
                  WHERE
                     not_id=? AND
                     not_usr_id=usr_id';
@@ -510,8 +510,8 @@ class Notification
                     iat_description,
                     iat_unknown_user
                  FROM
-                    {{%issue_attachment}},
-                    {{%user}}
+                    `issue_attachment`,
+                    `user`
                  WHERE
                     iat_usr_id=usr_id AND
                     iat_iss_id=? AND
@@ -544,7 +544,7 @@ class Notification
                         DISTINCT sub_usr_id,
                         sub_email
                      FROM
-                        {{%subscription}}
+                        `subscription`
                      WHERE
                         sub_iss_id=? AND
                         sub_usr_id IS NOT NULL AND
@@ -559,11 +559,11 @@ class Notification
                         pru_role
                      FROM
                         (
-                        {{%subscription}},
-                        {{%subscription_type}}
+                        `subscription`,
+                        `subscription_type`
                         )
                         LEFT JOIN
-                          {{%project_user}}
+                          `project_user`
                           ON
                             sub_usr_id = pru_usr_id AND
                             pru_prj_id = ?
@@ -849,7 +849,7 @@ class Notification
                 $stmt = 'SELECT
                             iss_customer_contact_id
                          FROM
-                            {{%issue}}
+                            `issue`
                          WHERE
                             iss_id=?';
                 $customer_contact_id = DB_Helper::getInstance()->getOne($stmt, [$issue_id]);
@@ -1086,8 +1086,8 @@ class Notification
                     usr_customer_id,
                     usr_customer_contact_id
                  FROM
-                    {{%user}},
-                    {{%project_user}}
+                    `user`,
+                    `project_user`
                  WHERE
                     pru_prj_id=? AND
                     usr_id=pru_usr_id AND
@@ -1126,8 +1126,8 @@ class Notification
                     usr_full_name,
                     usr_email
                  FROM
-                    {{%user}},
-                    {{%issue_user}}
+                    `user`,
+                    `issue_user`
                  WHERE
                     isu_iss_id=? AND
                     usr_id=isu_usr_id AND
@@ -1426,7 +1426,7 @@ class Notification
             $params['ino_target_usr_id'] = $usr_id;
         }
 
-        $stmt = 'INSERT INTO {{%irc_notice}} SET ' . DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO `irc_notice` SET ' . DB_Helper::buildSet($params);
         DB_Helper::getInstance()->query($stmt, $params);
     }
 
@@ -1582,17 +1582,17 @@ class Notification
                     pru_role
                  FROM
                     (
-                    {{%subscription}},
-                    {{%user}}';
+                    `subscription`,
+                    `user`';
 
         if ($type) {
             $stmt .= ',
-                     {{%subscription_type}}';
+                     `subscription_type`';
         }
         $stmt .= '
                     )
                     LEFT JOIN
-                        {{%project_user}}
+                        `project_user`
                     ON
                         (sub_usr_id = pru_usr_id AND pru_prj_id = ?)
                  WHERE
@@ -1632,15 +1632,15 @@ class Notification
                         pru_role
                      FROM
                         (
-                        {{%subscription}},
-                        {{%subscription_type}}
+                        `subscription`,
+                        `subscription_type`
                         )
                      LEFT JOIN
-                        {{%user}}
+                        `user`
                      ON
                         usr_email = sub_email
                      LEFT JOIN
-                        {{%project_user}}
+                        `project_user`
                      ON
                         usr_id = pru_usr_id AND
                         pru_prj_id = $prj_id
@@ -1689,7 +1689,7 @@ class Notification
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_id=?';
         try {
@@ -1719,7 +1719,7 @@ class Notification
                     sbt_type,
                     1
                  FROM
-                    {{%subscription_type}}
+                    `subscription_type`
                  WHERE
                     sbt_sub_id=?';
         try {
@@ -1745,7 +1745,7 @@ class Notification
                     sub_usr_id,
                     sub_email
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_iss_id=?';
         try {
@@ -1779,7 +1779,7 @@ class Notification
         $stmt = 'SELECT
                     COUNT(*)
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_iss_id=? AND
                     sub_usr_id=?';
@@ -1802,7 +1802,7 @@ class Notification
         $stmt = "SELECT
                     sub_iss_id
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_id IN ($itemlist)";
         $issue_id = DB_Helper::getInstance()->getOne($stmt, $items);
@@ -1813,13 +1813,13 @@ class Notification
         foreach ($items as $sub_id) {
             $subscriber = self::getSubscriber($sub_id);
             $stmt = 'DELETE FROM
-                        {{%subscription}}
+                        `subscription`
                      WHERE
                         sub_id=?';
             DB_Helper::getInstance()->query($stmt, [$sub_id]);
 
             $stmt = 'DELETE FROM
-                        {{%subscription_type}}
+                        `subscription_type`
                      WHERE
                         sbt_sub_id=?';
             DB_Helper::getInstance()->query($stmt, [$sub_id]);
@@ -1840,7 +1840,7 @@ class Notification
         $stmt = 'SELECT
                     sub_id
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_iss_id = ? AND';
         $params = [$issue_id];
@@ -1860,7 +1860,7 @@ class Notification
         }
 
         $stmt = 'DELETE FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_id=?';
         try {
@@ -1870,7 +1870,7 @@ class Notification
         }
 
         $stmt = 'DELETE FROM
-                    {{%subscription_type}}
+                    `subscription_type`
                  WHERE
                     sbt_sub_id=?';
         try {
@@ -1904,7 +1904,7 @@ class Notification
                     sub_usr_id,
                     sub_email
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_id=?';
         try {
@@ -1935,7 +1935,7 @@ class Notification
         $stmt = 'SELECT
                     sub_id
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_iss_id = ? AND';
         if ($usr_id) {
@@ -2033,7 +2033,7 @@ class Notification
         $stmt = 'SELECT
                     COUNT(sub_id)
                  FROM
-                    {{%subscription}}
+                    `subscription`
                  WHERE
                     sub_iss_id=? AND
                     sub_usr_id=?';
@@ -2042,7 +2042,7 @@ class Notification
             return -1;
         }
         $stmt = "INSERT INTO
-                    {{%subscription}}
+                    `subscription`
                  (
                     sub_iss_id,
                     sub_usr_id,
@@ -2114,7 +2114,7 @@ class Notification
             $stmt = 'SELECT
                         COUNT(sub_id)
                      FROM
-                        {{%subscription}}
+                        `subscription`
                      WHERE
                         sub_iss_id=? AND
                         sub_email=?';
@@ -2124,7 +2124,7 @@ class Notification
             }
         }
         $stmt = "INSERT INTO
-                    {{%subscription}}
+                    `subscription`
                  (
                     sub_iss_id,
                     sub_usr_id,
@@ -2170,7 +2170,7 @@ class Notification
     public static function addType($sub_id, $type)
     {
         $stmt = 'INSERT INTO
-                    {{%subscription_type}}
+                    `subscription_type`
                  (
                     sbt_sub_id,
                     sbt_type
@@ -2209,7 +2209,7 @@ class Notification
 
         // always set the type of notification to issue-level
         $stmt = "UPDATE
-                    {{%subscription}}
+                    `subscription`
                  SET
                     sub_level='issue',
                     sub_email=?,
@@ -2223,7 +2223,7 @@ class Notification
         }
 
         $stmt = 'DELETE FROM
-                    {{%subscription_type}}
+                    `subscription_type`
                  WHERE
                     sbt_sub_id=?';
         DB_Helper::getInstance()->query($stmt, [$sub_id]);

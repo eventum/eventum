@@ -135,8 +135,8 @@ class MonitorCommand
             = "SELECT
                     maq_id
                  FROM
-                    {{%mail_queue}},
-                    {{%mail_queue_log}}
+                    `mail_queue`,
+                    `mail_queue_log`
                  WHERE
                     maq_status='error' AND
                     maq_id=mql_maq_id
@@ -170,11 +170,11 @@ class MonitorCommand
                     COUNT(*)
                  FROM
                     (
-                    {{%support_email}},
-                    {{%email_account}}
+                    `support_email`,
+                    `email_account`
                     )
                     LEFT JOIN
-                        {{%issue}}
+                        `issue`
                     ON
                         sup_iss_id = iss_id
                     WHERE sup_removed=0 AND sup_ema_id=ema_id AND sup_iss_id = 0

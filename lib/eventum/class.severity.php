@@ -51,7 +51,7 @@ class Severity
             $index = array_search($new_rank, $ranks);
             $replaced_sev_id = $ids[$index];
             $sql = 'UPDATE
-                        {{%project_severity}}
+                        `project_severity`
                      SET
                         sev_rank=?
                      WHERE
@@ -64,7 +64,7 @@ class Severity
             }
         }
         $sql = 'UPDATE
-                    {{%project_severity}}
+                    `project_severity`
                  SET
                     sev_rank=?
                  WHERE
@@ -92,7 +92,7 @@ class Severity
                     sev_id,
                     sev_rank
                  FROM
-                    {{%project_severity}}
+                    `project_severity`
                  WHERE
                     sev_prj_id=?
                  ORDER BY
@@ -117,7 +117,7 @@ class Severity
         $sql = 'SELECT
                     *
                  FROM
-                    {{%project_severity}}
+                    `project_severity`
                  WHERE
                     sev_id=?';
         try {
@@ -140,7 +140,7 @@ class Severity
     {
         $items = DB_Helper::buildList($prj_ids);
         $sql = "DELETE FROM
-                    {{%project_severity}}
+                    `project_severity`
                  WHERE
                     sev_prj_id IN ($items)";
         try {
@@ -167,7 +167,7 @@ class Severity
 
         $items = DB_Helper::buildList($sev_ids);
         $sql = "DELETE FROM
-                    {{%project_severity}}
+                    `project_severity`
                  WHERE
                     sev_id IN ($items)";
         try {
@@ -190,7 +190,7 @@ class Severity
             return -2;
         }
         $sql = 'UPDATE
-                    {{%project_severity}}
+                    `project_severity`
                  SET
                     sev_title=?,
                     sev_description=?,
@@ -218,7 +218,7 @@ class Severity
             return -2;
         }
         $sql = 'INSERT INTO
-                    {{%project_severity}}
+                    `project_severity`
                  SET
                     sev_prj_id = ?,
                     sev_title=?,
@@ -248,7 +248,7 @@ class Severity
                     sev_rank,
                     sev_description
                  FROM
-                    {{%project_severity}}
+                    `project_severity`
                  WHERE
                     sev_prj_id=?
                  ORDER BY
@@ -274,7 +274,7 @@ class Severity
         $sql = 'SELECT
                     sev_title
                  FROM
-                    {{%project_severity}}
+                    `project_severity`
                  WHERE
                     sev_id=?';
         try {
@@ -305,7 +305,7 @@ class Severity
                     sev_id,
                     sev_title
                  FROM
-                    {{%project_severity}}
+                    `project_severity`
                  WHERE
                     sev_prj_id=?
                  ORDER BY
@@ -333,7 +333,7 @@ class Severity
         $sql = 'SELECT
                     sev_id
                  FROM
-                    {{%project_severity}}
+                    `project_severity`
                  WHERE
                     sev_prj_id=?
 					AND sev_title = ?';

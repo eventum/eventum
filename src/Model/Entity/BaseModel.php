@@ -150,6 +150,6 @@ abstract class BaseModel
         $tableName = preg_replace_callback('/[A-Z]/', $f, $tableName);
         $tableName = ltrim($tableName, '_');
 
-        return "{{%$tableName}}";
+        return "`$tableName`";
     }
 }

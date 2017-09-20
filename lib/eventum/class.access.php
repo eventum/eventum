@@ -560,7 +560,7 @@ class Access
         $sql = 'SELECT
                     ial_usr_id
                 FROM
-                    {{%issue_access_list}}
+                    `issue_access_list`
                 WHERE
                     ial_iss_id = ?';
         try {
@@ -576,7 +576,7 @@ class Access
     public static function addUserToIssue($issue_id, $usr_id)
     {
         $sql = 'INSERT INTO
-                    {{%issue_access_list}}
+                    `issue_access_list`
                 SET
                     ial_iss_id = ?,
                     ial_usr_id = ?,
@@ -600,7 +600,7 @@ class Access
     public static function removeUserFromIssue($issue_id, $usr_id)
     {
         $sql = 'DELETE FROM
-                    {{%issue_access_list}}
+                    `issue_access_list`
                 WHERE
                     ial_iss_id = ? AND
                     ial_usr_id = ?';
@@ -673,7 +673,7 @@ class Access
             list($item, $item_id) = self::extractInfoFromURL($_SERVER['REQUEST_URI']);
         }
         $sql = 'INSERT INTO
-                    {{%issue_access_log}}
+                    `issue_access_log`
                 SET
                     alg_iss_id = ?,
                     alg_usr_id = ?,

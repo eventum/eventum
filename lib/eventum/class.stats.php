@@ -52,8 +52,8 @@ class Stats
             $stmt = 'SELECT
                         COUNT(*) AS total_items
                      FROM
-                        {{%issue}},
-                        {{%status}}
+                        `issue`,
+                        `status`
                      WHERE
                         iss_sta_id = sta_id AND
                         iss_prj_id=? AND
@@ -89,8 +89,8 @@ class Stats
             $stmt = 'SELECT
                         COUNT(*) AS total_items
                      FROM
-                        {{%issue}},
-                        {{%status}}
+                        `issue`,
+                        `status`
                      WHERE
                         iss_sta_id = sta_id AND
                         iss_prj_id=? AND
@@ -125,8 +125,8 @@ class Stats
             $stmt = 'SELECT
                         COUNT(*) AS total_items
                      FROM
-                        {{%issue}},
-                        {{%status}}
+                        `issue`,
+                        `status`
                      WHERE
                         iss_sta_id = sta_id AND
                         iss_prj_id=? AND
@@ -160,8 +160,8 @@ class Stats
                     sta_title,
                     COUNT(*) AS total_items
                  FROM
-                    {{%issue}},
-                    {{%status}}
+                    `issue`,
+                    `status`
                  WHERE
                     iss_sta_id=sta_id AND
                     iss_prj_id=?';
@@ -199,9 +199,9 @@ class Stats
                     SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
                     SUM(CASE WHEN sta_is_closed=1 THEN 1 ELSE 0 END) AS total_closed_items
                  FROM
-                    {{%issue}},
-                    {{%project_category}},
-                    {{%status}}
+                    `issue`,
+                    `project_category`,
+                    `status`
                  WHERE
                     iss_prj_id=? AND
                     iss_prc_id=prc_id AND
@@ -240,9 +240,9 @@ class Stats
                     SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
                     SUM(CASE WHEN sta_is_closed=1 THEN 1 ELSE 0 END) AS total_closed_items
                  FROM
-                    {{%issue}},
-                    {{%project_release}},
-                    {{%status}}
+                    `issue`,
+                    `project_release`,
+                    `status`
                  WHERE
                     iss_prj_id=? AND
                     iss_pre_id=pre_id AND
@@ -281,8 +281,8 @@ class Stats
             $stmt = 'SELECT
                         COUNT(*) AS total_items
                      FROM
-                        {{%issue}},
-                        {{%status}}
+                        `issue`,
+                        `status`
                      WHERE
                         iss_sta_id = sta_id AND
                         iss_prj_id=? AND
@@ -317,9 +317,9 @@ class Stats
                     SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
                     SUM(CASE WHEN sta_is_closed=1 THEN 1 ELSE 0 END) AS total_closed_items
                  FROM
-                    {{%issue}},
-                    {{%project_priority}},
-                    {{%status}}
+                    `issue`,
+                    `project_priority`,
+                    `status`
                  WHERE
                     iss_pri_id=pri_id AND
                     iss_sta_id=sta_id AND
@@ -358,9 +358,9 @@ class Stats
             $stmt = 'SELECT
                         COUNT(*) AS total_items
                      FROM
-                        {{%issue}},
-                        {{%issue_user}},
-                        {{%status}}
+                        `issue`,
+                        `issue_user`,
+                        `status`
                      WHERE
                         iss_sta_id = sta_id AND
                         isu_iss_id=iss_id AND
@@ -397,10 +397,10 @@ class Stats
                     SUM(CASE WHEN sta_is_closed=0 THEN 1 ELSE 0 END) AS total_open_items,
                     SUM(CASE WHEN sta_is_closed=1 THEN 1 ELSE 0 END) AS total_closed_items
                  FROM
-                    {{%issue}},
-                    {{%issue_user}},
-                    {{%user}},
-                    {{%status}}
+                    `issue`,
+                    `issue_user`,
+                    `user`,
+                    `status`
                  WHERE
                     isu_usr_id=usr_id AND
                     isu_iss_id=iss_id AND
@@ -437,8 +437,8 @@ class Stats
                     CASE WHEN sup_iss_id > 0 THEN 'associated' ELSE 'unassociated' END AS type,
                     COUNT(*) AS total_items
                  FROM
-                    {{%support_email}},
-                    {{%email_account}}
+                    `support_email`,
+                    `email_account`
                  WHERE
                     sup_ema_id=ema_id AND
                     ema_prj_id=? AND
@@ -460,8 +460,8 @@ class Stats
         $stmt = 'SELECT
                     COUNT(*) AS total_items
                  FROM
-                    {{%support_email}},
-                    {{%email_account}}
+                    `support_email`,
+                    `email_account`
                  WHERE
                     sup_ema_id=ema_id AND
                     ema_prj_id=? AND

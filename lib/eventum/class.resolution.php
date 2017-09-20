@@ -30,7 +30,7 @@ class Resolution
         $stmt = 'SELECT
                     res_title
                  FROM
-                    {{%resolution}}
+                    `resolution`
                  WHERE
                     res_id=?';
         try {
@@ -53,7 +53,7 @@ class Resolution
         $stmt = 'SELECT
                     res_id
                  FROM
-                    {{%resolution}}
+                    `resolution`
                  WHERE
                     res_title=?';
         try {
@@ -77,7 +77,7 @@ class Resolution
         $itemlist = DB_Helper::buildList($items);
         // gotta fix the issues before removing the resolution
         $stmt = "UPDATE
-                    {{%issue}}
+                    `issue`
                  SET
                     iss_res_id=0
                  WHERE
@@ -89,7 +89,7 @@ class Resolution
         }
 
         $stmt = "DELETE FROM
-                    {{%resolution}}
+                    `resolution`
                  WHERE
                     res_id IN ($itemlist)";
         try {
@@ -113,7 +113,7 @@ class Resolution
             return -2;
         }
         $stmt = 'UPDATE
-                    {{%resolution}}
+                    `resolution`
                  SET
                     res_title=?,
                     res_rank=?
@@ -139,7 +139,7 @@ class Resolution
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%resolution}}
+                    `resolution`
                  WHERE
                     res_id=?';
         try {
@@ -163,7 +163,7 @@ class Resolution
                     res_rank,
                     res_title
                  FROM
-                    {{%resolution}}
+                    `resolution`
                  ORDER BY
                     res_rank ASC,
                     res_title ASC';
@@ -188,7 +188,7 @@ class Resolution
                     res_id,
                     res_title
                  FROM
-                    {{%resolution}}
+                    `resolution`
                  ORDER BY
                     res_rank ASC,
                     res_title ASC';
@@ -213,7 +213,7 @@ class Resolution
             return -2;
         }
         $stmt = 'INSERT INTO
-                    {{%resolution}}
+                    `resolution`
                  (
                     res_title,
                     res_rank,

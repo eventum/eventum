@@ -185,7 +185,7 @@ class AttachmentManager
                     iaf_flysystem_path,
                     iaf_iat_id
                 FROM
-                    {{%issue_attachment_file}}
+                    `issue_attachment_file`
                 WHERE
                     iaf_id=?';
         $res = DB_Helper::getInstance()->getRow($sql, [$iaf_id]);
@@ -211,7 +211,7 @@ class AttachmentManager
                     iaf_id,
                     iaf_flysystem_path
                 FROM
-                    {{%issue_attachment_file}}
+                    `issue_attachment_file`
                 WHERE
                     iaf_iat_id=0 AND
                     iaf_created_date > '0000-00-00 00:00:00' AND
@@ -233,7 +233,7 @@ class AttachmentManager
         }
 
         if (count($iaf_ids)) {
-            $sql = 'DELETE FROM {{%issue_attachment_file}} WHERE iaf_id IN(?)';
+            $sql = 'DELETE FROM `issue_attachment_file` WHERE iaf_id IN(?)';
             DB_Helper::getInstance()->query($sql, [DB_Helper::buildList($iaf_ids)]);
         }
     }
@@ -259,8 +259,8 @@ class AttachmentManager
                     iat_unknown_user,
                     iat_min_role
                  FROM
-                    {{%issue_attachment}},
-                    {{%user}}
+                    `issue_attachment`,
+                    `user`
                  WHERE
                     iat_iss_id=? AND
                     iat_usr_id=usr_id AND
@@ -306,7 +306,7 @@ class AttachmentManager
                     iaf_flysystem_path,
                     iaf_iat_id
                  FROM
-                    {{%issue_attachment_file}}
+                    `issue_attachment_file`
                  WHERE
                     iaf_iat_id=?';
         try {
@@ -410,7 +410,7 @@ class AttachmentManager
                     iat_not_id,
                     iat_created_date
                 FROM
-                    {{%issue_attachment}}
+                    `issue_attachment`
                 WHERE
                     iat_id=?';
         $res = DB_Helper::getInstance()->getRow($sql, [$iat_id]);

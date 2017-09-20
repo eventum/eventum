@@ -74,7 +74,7 @@ class User
         $stmt = 'SELECT
                     usr_id
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_customer_contact_id=?';
 
@@ -99,7 +99,7 @@ class User
         $stmt = 'SELECT
                     usr_email
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_customer_contact_id=?';
         try {
@@ -123,7 +123,7 @@ class User
         $stmt = 'SELECT
                     usr_sms_email
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id=?';
         try {
@@ -146,7 +146,7 @@ class User
     public static function updateSMS($usr_id, $sms_email)
     {
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_sms_email=?
                  WHERE
@@ -172,7 +172,7 @@ class User
         $stmt = 'SELECT
                     usr_customer_contact_id
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id=?';
         try {
@@ -202,7 +202,7 @@ class User
         $stmt = 'SELECT
                     usr_customer_id
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id=?';
         try {
@@ -225,7 +225,7 @@ class User
     public static function confirmVisitorAccount($email)
     {
         $stmt = "UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_status='active'
                  WHERE
@@ -253,7 +253,7 @@ class User
         $stmt = 'SELECT
                     usr_full_name
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_email=?';
         try {
@@ -289,7 +289,7 @@ class User
         }
 
         $stmt = 'INSERT INTO
-                    {{%user}}
+                    `user`
                  (
                     usr_created_date,
                     usr_full_name,
@@ -398,7 +398,7 @@ class User
         $sql = 'SELECT
                     usr_id
                 FROM
-                    {{%user}}
+                    `user`
                 WHERE
                     usr_external_id=?';
         try {
@@ -440,7 +440,7 @@ class User
         $stmt = 'SELECT
                     usr_id
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_email=?';
         $res = DB_Helper::getInstance()->getOne($stmt, [$email]);
@@ -499,12 +499,12 @@ class User
                     usr_id,
                     usr_full_name
                  FROM
-                    {{%user}}';
+                    `user`';
         $params = [];
 
         if ($prj_id) {
             $stmt .= ',
-                    {{%project_user}}';
+                    `project_user`';
         }
         $stmt .= "
                  WHERE
@@ -609,7 +609,7 @@ class User
         $stmt = 'SELECT
                     pru_role
                  FROM
-                    {{%project_user}}
+                    `project_user`
                  WHERE
                     pru_usr_id=? AND
                     pru_prj_id=?';
@@ -653,8 +653,8 @@ class User
                         usr.*,
                         GROUP_CONCAT(ual_email) ual_email
                      FROM
-                        {{%user}} usr
-                     LEFT JOIN {{%user_alias}} ual ON ual.ual_usr_id=usr.usr_id
+                        `user` usr
+                     LEFT JOIN `user_alias` ual ON ual.ual_usr_id=usr.usr_id
                      WHERE
                         usr_id IN ($itemlist)
                      GROUP BY usr_id
@@ -723,7 +723,7 @@ class User
         $stmt = "SELECT
                     usr_full_name
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id IN ($itemlist)";
         try {
@@ -775,7 +775,7 @@ class User
         $stmt = "SELECT
                     usr_email
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id IN ($itemlist)";
         try {
@@ -815,8 +815,8 @@ class User
                   ugr_grp_id,
                   grp_name
                 FROM
-                    {{%user_group}},
-                    {{%group}}
+                    `user_group`,
+                    `group`
                 WHERE
                     ugr_grp_id = grp_id AND
                     ugr_usr_id = ?';
@@ -861,7 +861,7 @@ class User
         $stmt = 'SELECT
                     usr_status
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_email=?';
         try {
@@ -893,7 +893,7 @@ class User
             $stmt = 'SELECT
                     COUNT(*)
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_status=?';
 
@@ -906,7 +906,7 @@ class User
         $usr_ids = (array) $usr_ids;
         $items = DB_Helper::buildList($usr_ids);
         $stmt = "UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_status=?
                  WHERE
@@ -931,7 +931,7 @@ class User
     {
         $full_name = trim(strip_tags($_POST['full_name']));
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_full_name=?
                  WHERE
@@ -956,7 +956,7 @@ class User
     public static function updateEmail($usr_id)
     {
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_email=?
                  WHERE
@@ -1030,7 +1030,7 @@ class User
         }
 
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET ' . DB_Helper::buildSet($params) . ' WHERE usr_id=?';
         $params[] = $usr_id;
 
@@ -1043,7 +1043,7 @@ class User
         if (isset($user['role'])) {
             // update the project associations now
             $stmt = 'DELETE FROM
-                        {{%project_user}}
+                        `project_user`
                      WHERE
                         pru_usr_id=?';
             DB_Helper::getInstance()->query($stmt, [$usr_id]);
@@ -1053,7 +1053,7 @@ class User
                     continue;
                 }
                 $stmt = 'INSERT INTO
-                            {{%project_user}}
+                            `project_user`
                          (
                             pru_prj_id,
                             pru_usr_id,
@@ -1068,7 +1068,7 @@ class User
 
         if (isset($user['groups'])) {
             $stmt = 'DELETE FROM
-                        {{%user_group}}
+                        `user_group`
                      WHERE
                         ugr_usr_id=?';
             DB_Helper::getInstance()->query($stmt, [$usr_id]);
@@ -1114,7 +1114,7 @@ class User
             isset($user['par_code']) ? $user['par_code'] : null,
         ];
         $stmt = 'INSERT INTO
-                    {{%user}}
+                    `user`
                  (
                     usr_customer_id,
                     usr_customer_contact_id,
@@ -1183,7 +1183,7 @@ class User
         $stmt = 'SELECT
                     usr_id
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id != ?';
         $params = [APP_SYSTEM_USER_ID];
@@ -1258,7 +1258,7 @@ class User
                     LOWER(usr_email),
                     usr_id
                  FROM
-                    {{%user}}';
+                    `user`';
         try {
             $res = DB_Helper::getInstance()->getPair($stmt);
         } catch (DatabaseException $e) {
@@ -1282,7 +1282,7 @@ class User
                     usr_id,
                     usr_full_name
                  FROM
-                    {{%user}}
+                    `user`
                  ORDER BY
                     usr_full_name ASC';
         try {
@@ -1313,7 +1313,7 @@ class User
                     usr_full_name,
                     usr_email
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id=?';
         $res = DB_Helper::getInstance()->getRow($stmt, [$usr_id]);
@@ -1349,7 +1349,7 @@ class User
                     usr_full_name,
                     usr_email
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_clocked_in=1';
         try {
@@ -1370,7 +1370,7 @@ class User
     public static function clockIn($usr_id)
     {
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_clocked_in = 1
                  WHERE
@@ -1393,7 +1393,7 @@ class User
     public static function clockOut($usr_id)
     {
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_clocked_in = 0
                  WHERE
@@ -1423,7 +1423,7 @@ class User
         $stmt = 'SELECT
                     usr_clocked_in
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id = ?';
         try {
@@ -1447,7 +1447,7 @@ class User
             $sql = 'SELECT
                         usr_lang
                     FROM
-                        {{%user}}
+                        `user`
                     WHERE
                         usr_id = ?';
             try {
@@ -1472,7 +1472,7 @@ class User
     public static function setLang($usr_id, $language)
     {
         $sql = 'UPDATE
-                    {{%user}}
+                    `user`
                 SET
                     usr_lang = ?
                 WHERE
@@ -1494,7 +1494,7 @@ class User
         $sql = 'SELECT
                     ual_email
                 FROM
-                    {{%user_alias}}
+                    `user_alias`
                 WHERE
                     ual_usr_id = ?';
         try {
@@ -1522,7 +1522,7 @@ class User
         }
 
         $sql = 'INSERT INTO
-                    {{%user_alias}}
+                    `user_alias`
                 SET
                     ual_usr_id = ?,
                     ual_email = ?';
@@ -1542,7 +1542,7 @@ class User
     public static function removeAlias($usr_id, $email)
     {
         $sql = 'DELETE FROM
-                    {{%user_alias}}
+                    `user_alias`
                 WHERE
                     ual_usr_id = ? AND
                     ual_email = ?';
@@ -1560,7 +1560,7 @@ class User
         $sql = 'SELECT
                     ual_usr_id
                 FROM
-                    {{%user_alias}}
+                    `user_alias`
                 WHERE
                     ual_email = ?';
         try {
@@ -1577,7 +1577,7 @@ class User
         $sql = 'SELECT
                     usr_par_code
                 FROM
-                    {{%user}}
+                    `user`
                 WHERE
                     usr_id = ?';
         try {
@@ -1597,7 +1597,7 @@ class User
         $sql = 'SELECT
                     usr_par_code
                 FROM
-                    {{%user}}
+                    `user`
                 WHERE
                     usr_id = ?';
         try {
@@ -1617,7 +1617,7 @@ class User
         $sql = 'SELECT
                     usr_external_id
                 FROM
-                    {{%user}}
+                    `user`
                 WHERE
                     usr_id = ?';
 
@@ -1627,7 +1627,7 @@ class User
     public static function unlock($usr_id)
     {
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_failed_logins = 0
                  WHERE

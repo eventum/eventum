@@ -59,7 +59,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
     public function updatePassword($usr_id, $password)
     {
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_password=?
                  WHERE
@@ -95,7 +95,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
     public function incrementFailedLogins($usr_id)
     {
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_failed_logins = usr_failed_logins + 1,
                     usr_last_failed_login = NOW()
@@ -119,7 +119,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
     public function resetFailedLogins($usr_id)
     {
         $stmt = 'UPDATE
-                    {{%user}}
+                    `user`
                  SET
                     usr_failed_logins = 0,
                     usr_last_login = NOW(),
@@ -149,7 +149,7 @@ class Mysql_Auth_Backend implements Auth_Backend_Interface
         $stmt = 'SELECT
                     IF( usr_failed_logins >= ?, NOW() < DATE_ADD(usr_last_failed_login, INTERVAL ' . APP_FAILED_LOGIN_BACKOFF_MINUTES . ' MINUTE), 0)
                  FROM
-                    {{%user}}
+                    `user`
                  WHERE
                     usr_id=?';
         $params = [APP_FAILED_LOGIN_BACKOFF_COUNT, $usr_id];

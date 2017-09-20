@@ -69,7 +69,7 @@ class History
             'his_min_role' => $min_role,
         ];
 
-        $stmt = 'INSERT INTO {{%issue_history}} SET ' . DB_Helper::buildSet($params);
+        $stmt = 'INSERT INTO `issue_history` SET ' . DB_Helper::buildSet($params);
 
         DB_Helper::getInstance()->query($stmt, $params);
         $params['his_id'] = DB_Helper::get_last_insert_id();
@@ -92,8 +92,8 @@ class History
         $stmt = "SELECT
                     *
                  FROM
-                    {{%issue_history}},
-                    {{%history_type}}
+                    `issue_history`,
+                    `history_type`
                  WHERE
                     htt_id = his_htt_id AND
                     his_is_hidden != 1 AND
@@ -137,7 +137,7 @@ class History
         $stmt = "SELECT
                     htt_id
                  FROM
-                    {{%history_type}}
+                    `history_type`
                  WHERE
                     htt_name IN('" . implode("','", $name) . "')";
         try {
@@ -171,7 +171,7 @@ class History
         $sql = 'SELECT
                     htt_role
                 FROM
-                    {{%history_type}}
+                    `history_type`
                 WHERE
                     htt_id = ?';
         try {
@@ -218,14 +218,14 @@ class History
                     pri_title,
                     sta_is_closed
                  FROM
-                    {{%issue_history}},
-                    {{%issue}}
+                    `issue_history`,
+                    `issue`
                     LEFT JOIN
-                        {{%status}}
+                        `status`
                     ON
                         iss_sta_id = sta_id
                  LEFT JOIN
-                    {{%project_priority}}
+                    `project_priority`
                  ON
                     iss_pri_id = pri_id
                  WHERE
@@ -262,9 +262,9 @@ class History
                     sta_title,
                     count(DISTINCT iss_id) as total
                  FROM
-                    {{%issue}},
-                    {{%status}},
-                    {{%issue_history}}
+                    `issue`,
+                    `status`,
+                    `issue_history`
                  WHERE
                     his_iss_id = iss_id AND
                     iss_sta_id = sta_id AND
@@ -304,7 +304,7 @@ class History
         $sql = 'SELECT
                     his_usr_id
                 FROM
-                    {{%issue_history}}
+                    `issue_history`
                 WHERE
                     his_iss_id = ? AND
                     his_htt_id = ?

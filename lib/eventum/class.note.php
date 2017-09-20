@@ -32,7 +32,7 @@ class Note
         $stmt = 'SELECT
                     not_id
                  FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_iss_id=? AND
                     not_removed = 0
@@ -67,12 +67,12 @@ class Note
     public static function getDetails($note_id)
     {
         $stmt = 'SELECT
-                    {{%note}}.*,
+                    `note`.*,
                     not_full_message,
                     usr_full_name
                  FROM
-                    {{%note}},
-                    {{%user}}
+                    `note`,
+                    `user`
                  WHERE
                     not_usr_id=usr_id AND
                     not_id=?';
@@ -123,7 +123,7 @@ class Note
                     not_id,
                     not_iss_id
                 FROM
-                    {{%note}}
+                    `note`
                 WHERE
                     not_iss_id = ? AND
                     not_removed = 0
@@ -159,7 +159,7 @@ class Note
         $stmt = 'SELECT
                     not_full_message
                  FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_id=?';
         try {
@@ -182,7 +182,7 @@ class Note
         $stmt = 'SELECT
                     not_iss_id
                  FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_id=?';
         try {
@@ -207,7 +207,7 @@ class Note
         $stmt = "SELECT
                     not_id
                 FROM
-                    {{%note}}
+                    `note`
                 WHERE
                     not_iss_id = ? AND
                     not_removed = 0
@@ -234,7 +234,7 @@ class Note
         $sql = 'SELECT
                     not_unknown_user
                 FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_id=?';
         try {
@@ -388,7 +388,7 @@ class Note
         }
 
         $stmt = 'INSERT INTO
-                    {{%note}}
+                    `note`
                  SET ' . DB_Helper::buildSet($params);
 
         try {
@@ -436,7 +436,7 @@ class Note
                     not_usr_id,
                     not_is_blocked AS has_blocked_message
                  FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_id=?';
 
@@ -446,7 +446,7 @@ class Note
         }
 
         $stmt = 'UPDATE
-                    {{%note}}
+                    `note`
                  SET
                     not_removed = 1
                  WHERE
@@ -459,7 +459,7 @@ class Note
 
         // also remove any internal-only files associated with this note
         $stmt = "DELETE FROM
-                    {{%issue_attachment}}
+                    `issue_attachment`
                  WHERE
                     iat_not_id=? AND
                     iat_status='internal'";
@@ -497,8 +497,8 @@ class Note
                     not_is_blocked AS has_blocked_message,
                     usr_full_name
                  FROM
-                    {{%note}},
-                    {{%user}}
+                    `note`,
+                    `user`
                  WHERE
                     not_usr_id=usr_id AND
                     not_iss_id=? AND
@@ -657,8 +657,8 @@ class Note
         $stmt = 'SELECT
                     COUNT(not_id)
                  FROM
-                    {{%note}},
-                    {{%issue}}
+                    `note`,
+                    `issue`
                  WHERE
                     not_iss_id = iss_id AND
                     iss_prj_id = ? AND
@@ -684,7 +684,7 @@ class Note
     public static function setAttachmentFlag($note_id)
     {
         $stmt = 'UPDATE
-                    {{%note}}
+                    `note`
                  SET
                     not_has_attachment=1
                  WHERE
@@ -713,7 +713,7 @@ class Note
         $stmt = 'SELECT
                     not_iss_id
                  FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_message_id=?';
         try {
@@ -739,8 +739,8 @@ class Note
         $sql = 'SELECT
                     parent.not_message_id
                 FROM
-                    {{%note}} child,
-                    {{%note}} parent
+                    `note` child,
+                    `note` parent
                 WHERE
                     parent.not_id = child.not_parent_id AND
                     child.not_message_id = ?';
@@ -772,7 +772,7 @@ class Note
         $stmt = 'SELECT
                     not_id
                  FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_message_id=?';
         try {
@@ -800,7 +800,7 @@ class Note
         $stmt = 'SELECT
                     not_message_id
                  FROM
-                    {{%note}}
+                    `note`
                  WHERE
                     not_id=?';
         try {
@@ -827,7 +827,7 @@ class Note
         $sql = 'SELECT
                     count(*)
                 FROM
-                    {{%note}}
+                    `note`
                 WHERE
                     not_message_id = ?';
         try {

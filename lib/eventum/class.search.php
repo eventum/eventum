@@ -216,8 +216,8 @@ class Search
                     iss_access_level
                  FROM
                     (
-                    {{%issue}},
-                    {{%user}}";
+                    `issue`,
+                    `user`";
 
         // join custom fields if we are searching by custom fields
         if ((is_array($options['custom_field'])) && (count($options['custom_field']) > 0)) {
@@ -235,10 +235,10 @@ class Search
                 if ($field['fld_type'] == 'multiple') {
                     $search_value = Misc::escapeString($search_value);
                     foreach ($search_value as $cfo_id) {
-                        $stmt .= ",\n{{%issue_custom_field}} as `cf" . $fld_id . '_' . $cfo_id . "`\n";
+                        $stmt .= ",\n`issue_custom_field` as `cf" . $fld_id . '_' . $cfo_id . "`\n";
                     }
                 } else {
-                    $stmt .= ",\n{{%issue_custom_field}} as `cf" . $fld_id . "`\n";
+                    $stmt .= ",\n`issue_custom_field` as `cf" . $fld_id . "`\n";
                 }
             }
         }
@@ -248,82 +248,82 @@ class Search
         if (strstr($options['sort_by'], 'custom_field') !== false) {
             $fld_id = str_replace('custom_field_', '', $options['sort_by']);
             $stmt .= "\n LEFT JOIN \n
-                    {{%issue_custom_field}} as cf_sort
+                    `issue_custom_field` as cf_sort
                 ON
                     (cf_sort.icf_iss_id = iss_id AND cf_sort.icf_fld_id = $fld_id) \n";
         }
 
         $stmt .= '
              LEFT JOIN
-                {{%issue_user}}
+                `issue_user`
              ON
                 isu_iss_id=iss_id';
         if (!empty($usr_details['usr_par_code'])) {
             // restrict partners
             $stmt .= '
                  LEFT JOIN
-                    {{%issue_partner}}
+                    `issue_partner`
                  ON
                     ipa_iss_id=iss_id';
         }
         if ((!empty($options['show_authorized_issues'])) || (($role_id == User::ROLE_REPORTER) && (Project::getSegregateReporters($prj_id)))) {
             $stmt .= '
                  LEFT JOIN
-                    {{%issue_user_replier}}
+                    `issue_user_replier`
                  ON
                     iur_iss_id=iss_id';
         }
         if (!empty($options['show_notification_list_issues'])) {
             $stmt .= '
                  LEFT JOIN
-                    {{%subscription}}
+                    `subscription`
                  ON
                     sub_iss_id=iss_id';
         }
         if (!empty($options['product'])) {
             $stmt .= '
                  LEFT JOIN
-                    {{%issue_product_version}}
+                    `issue_product_version`
                  ON
                     ipv_iss_id=iss_id';
         }
         $stmt .= "
                  LEFT JOIN
-                    {{%group}}
+                    `group`
                  ON
                     iss_grp_id=grp_id
                  LEFT JOIN
-                    {{%project_category}}
+                    `project_category`
                  ON
                     iss_prc_id=prc_id
                  LEFT JOIN
-                    {{%project_release}}
+                    `project_release`
                  ON
                     iss_pre_id = pre_id
                  LEFT JOIN
-                    {{%status}}
+                    `status`
                  ON
                     iss_sta_id=sta_id
                  LEFT JOIN
-                    {{%project_priority}}
+                    `project_priority`
                  ON
                     iss_pri_id=pri_id
                  LEFT JOIN
-                    {{%project_severity}}
+                    `project_severity`
                  ON
                     iss_sev_id=sev_id
                  LEFT JOIN
-                    {{%issue_quarantine}}
+                    `issue_quarantine`
                  ON
                     iss_id=iqu_iss_id AND
                     (iqu_expiration > '" . Date_Helper::getCurrentDateGMT() . "' OR iqu_expiration IS NULL)
                  LEFT JOIN
-                    {{%issue_access_list}}
+                    `issue_access_list`
                  ON
                     iss_id = ial_iss_id AND
                     ial_usr_id = " . $usr_id . '
                  LEFT JOIN
-                    {{%user_group}}
+                    `user_group`
                  ON
                     ugr_usr_id = ' . $usr_id . '
                  WHERE

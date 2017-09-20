@@ -214,7 +214,7 @@ class Example_Workflow_Backend extends Abstract_Workflow_Backend
     public function handleIssueClosed($prj_id, $issue_id, $send_notification, $resolution_id, $status_id, $reason, $usr_id)
     {
         $sql = "UPDATE
-                    {{%issue}}
+                    `issue`
                 SET
                     iss_percent_complete = '100%'
                 WHERE

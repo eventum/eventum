@@ -84,8 +84,8 @@ class IssueAssociationRepository extends BaseRepository
                     sta_title current_status,
                     sta_is_closed is_closed
                  FROM
-                    {{%issue}},
-                    {{%status}}
+                    `issue`,
+                    `status`
                  WHERE
                     iss_sta_id=sta_id AND
                     iss_id IN (' . DB_Helper::buildList($issues) . ')';

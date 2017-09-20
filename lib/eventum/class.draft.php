@@ -58,7 +58,7 @@ class Draft
             $usr_id = Auth::getUserID();
         }
         $stmt = 'INSERT INTO
-                    {{%email_draft}}
+                    `email_draft`
                  (
                     emd_updated_date,
                     emd_usr_id,
@@ -130,7 +130,7 @@ class Draft
 
         // update previous draft and insert new record
         $stmt = "UPDATE
-                    {{%email_draft}}
+                    `email_draft`
                  SET
                     emd_updated_date=?,
                     emd_status = 'edited'
@@ -161,7 +161,7 @@ class Draft
     public static function remove($emd_id)
     {
         $stmt = "UPDATE
-                    {{%email_draft}}
+                    `email_draft`
                  SET
                     emd_status = 'sent'
                  WHERE
@@ -189,7 +189,7 @@ class Draft
         $is_cc = $is_cc ? 1 : 0;
         $email = trim($email);
         $stmt = 'INSERT INTO
-                    {{%email_draft_recipient}}
+                    `email_draft_recipient`
                  (
                     edr_emd_id,
                     edr_is_cc,
@@ -222,7 +222,7 @@ class Draft
         $stmt = 'SELECT
                     *
                  FROM
-                    {{%email_draft}}
+                    `email_draft`
                  WHERE
                     emd_id=?';
 
@@ -259,7 +259,7 @@ class Draft
                     emd_unknown_user,
                     emd_status
                  FROM
-                    {{%email_draft}}
+                    `email_draft`
                  WHERE
                     emd_iss_id=?\n";
         $params = [$issue_id];
@@ -303,7 +303,7 @@ class Draft
                     edr_email,
                     edr_is_cc
                  FROM
-                    {{%email_draft_recipient}}
+                    `email_draft_recipient`
                  WHERE
                     edr_emd_id=?';
         try {
@@ -344,7 +344,7 @@ class Draft
         $stmt = "SELECT
                     emd_id
                 FROM
-                    {{%email_draft}}
+                    `email_draft`
                 WHERE
                     emd_iss_id = ? AND
                     emd_status = 'pending'
