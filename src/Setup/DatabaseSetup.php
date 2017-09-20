@@ -43,12 +43,13 @@ class DatabaseSetup
      * Check the CREATE and DROP privileges by trying to create and drop a test table.
      *
      * @param string $db_name
+     * @throws RuntimeException
      */
     private function checkDatabaseAccess($db_name)
     {
         // check if we can use the database
         try {
-            $this->conn->query("USE {{{$db_name}}}");
+            $this->conn->query("USE `{$db_name}`");
         } catch (DatabaseException $e) {
             throw new RuntimeException($e->getMessage());
         }
@@ -56,7 +57,7 @@ class DatabaseSetup
         $table_list = $this->getTableList();
         if (!in_array('eventum_test', $table_list)) {
             try {
-                $this->conn->query('CREATE TABLE eventum_test (test CHAR(1))');
+                $this->conn->query('CREATE TABLE `eventum_test` (test CHAR(1))');
             } catch (DatabaseException $e) {
                 $message = $e->getMessage();
                 if (stripos($message, 'Access denied') !== false) {
@@ -82,6 +83,7 @@ class DatabaseSetup
      * Init database with with upgrade tool.
      * IMPORTANT: this method changes current dir.
      *
+     * @throws SetupException
      * @return string output from upgrade script
      */
     private function migrateDatabase()
@@ -106,6 +108,7 @@ class DatabaseSetup
 
     /**
      * @param array $db_config
+     * @throws RuntimeException
      * @return string
      */
     public function run($db_config)
@@ -196,7 +199,7 @@ class DatabaseSetup
     private function createDatabase($db_name)
     {
         try {
-            $this->conn->query("CREATE DATABASE {{{$db_name}}}");
+            $this->conn->query("CREATE DATABASE `{$db_name}`");
         } catch (DatabaseException $e) {
             throw new RuntimeException($e->getMessage());
         }
@@ -246,7 +249,7 @@ class DatabaseSetup
 
         $permissions = 'SELECT, UPDATE, DELETE, INSERT, ALTER, DROP, CREATE, INDEX';
         $stmt
-            = "GRANT {$permissions} ON {{{$db_name}}}.* TO ?@'%' IDENTIFIED BY ?";
+            = "GRANT {$permissions} ON `{$db_name}`.* TO ?@'%' IDENTIFIED BY ?";
         try {
             $this->conn->query($stmt, [$user, $password]);
         } catch (DatabaseException $e) {
