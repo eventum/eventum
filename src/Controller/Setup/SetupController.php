@@ -357,9 +357,6 @@ class SetupController extends BaseController
             'password' => $post->get('db_password'),
             'port' => 3306,
             'socket' => $socket,
-
-            // table prefix
-            'table_prefix' => '',
         ];
 
         Setup::save($setup);
