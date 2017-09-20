@@ -29,7 +29,7 @@ Commits follow good practices for message and content
  - [eventum-users@lists.mysql.com][1] - A general mailing list for users of the Eventum issue tracking tool
  - [eventum-devel@lists.mysql.com][2] - A mailing list for developers of the Eventum issue tracking tool
 
-  [1]: http://news.gmane.org/gmane.comp.bug-tracking.eventum.user
-  [2]: http://news.gmane.org/gmane.comp.bug-tracking.eventum.devel
+  [1]: https://lists.mysql.com/eventum-users
+  [2]: https://lists.mysql.com/eventum-devel
 [good commit messages]: http://chris.beams.io/posts/git-commit/
 [atomic commits]: http://www.freshconsulting.com/atomic-commits/
