@@ -13,7 +13,7 @@
 
 namespace Eventum\Db\Adapter;
 
-use DB_Helper;
+use DebugBar\DebugBarException;
 use Eventum;
 use Eventum\Db\DatabaseException;
 use PDO;
@@ -25,11 +25,10 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
     /** @var PDO */
     private $db;
 
-    /** @var string */
-    private $tablePrefix;
-
     /**
-     * @param $config
+     * @param array $config
+     * @throws DatabaseException
+     * @throws DebugBarException
      */
     public function __construct(array $config)
     {
@@ -53,7 +52,6 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         }
 
         $this->db = $pdo;
-        $this->tablePrefix = $config['table_prefix'];
     }
 
     /**
@@ -64,22 +62,22 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         return $this->db;
     }
 
-    public function getAll($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
+    public function getAll($query, $params = [], $fetchMode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
-        $this->convertFetchMode($fetchmode);
+        $this->convertFetchMode($fetchMode);
 
-        return $this->fetchAll($query, $params, $fetchmode);
+        return $this->fetchAll($query, $params, $fetchMode);
     }
 
-    public function fetchAssoc($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_DEFAULT)
+    public function fetchAssoc($query, $params = [], $fetchMode = AdapterInterface::DB_FETCHMODE_DEFAULT)
     {
         $flags = PDO::FETCH_GROUP | PDO::FETCH_UNIQUE;
-        if ($fetchmode == AdapterInterface::DB_FETCHMODE_ASSOC) {
+        if ($fetchMode === AdapterInterface::DB_FETCHMODE_ASSOC) {
             $flags |= PDO::FETCH_ASSOC;
-        } elseif ($fetchmode == AdapterInterface::DB_FETCHMODE_DEFAULT) {
+        } elseif ($fetchMode === AdapterInterface::DB_FETCHMODE_DEFAULT) {
             $flags |= PDO::FETCH_NUM;
         } else {
-            throw new UnexpectedValueException(__FUNCTION__ . ' unsupported fetchmode: ' . $fetchmode);
+            throw new UnexpectedValueException(__FUNCTION__ . ' unsupported fetchmode: ' . $fetchMode);
         }
 
         return $this->fetchAll($query, $params, $flags);
@@ -97,7 +95,6 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
 
     public function getOne($query, $params = [])
     {
-        $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
         try {
@@ -118,7 +115,6 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
 
     public function getRow($query, $params = [], $fetchmode = AdapterInterface::DB_FETCHMODE_ASSOC)
     {
-        $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
         try {
@@ -155,7 +151,6 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
 
     public function query($query, $params = [])
     {
-        $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
         try {
@@ -182,7 +177,6 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
      */
     private function fetchAll($query, $params, $fetchmode)
     {
-        $query = $this->quoteSql($query);
         $stmt = $this->db->prepare($query);
         $this->convertParams($params);
         try {
@@ -192,11 +186,6 @@ class PdoAdapter extends PdoAdapterBase implements AdapterInterface
         }
 
         return $stmt->fetchAll($fetchmode);
-    }
-
-    private function quoteSql($sql)
-    {
-        return DB_Helper::quoteTableName($this, $this->tablePrefix, $sql);
     }
 
     /**
