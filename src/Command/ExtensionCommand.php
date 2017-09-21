@@ -67,8 +67,8 @@ class ExtensionCommand
             throw new InvalidArgumentException('Extension filename not specified');
         }
 
-        if (!file_exists($fileName)) {
-            throw new InvalidArgumentException("$fileName does not exist");
+        if (!is_file($fileName)) {
+            throw new InvalidArgumentException("$fileName is not regular file");
         }
 
         /** @noinspection PhpIncludeInspection */
@@ -93,7 +93,7 @@ class ExtensionCommand
 
         $implements = $reflectionClass->implementsInterface(ExtensionInterface::class);
         if (!$implements) {
-            throw new InvalidArgumentException("Extension $extensionName does not implement ExtensionInterface");
+            throw new InvalidArgumentException("Class $extensionName does not implement ExtensionInterface");
         }
 
         return $reflectionClass;
