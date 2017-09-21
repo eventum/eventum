@@ -40,7 +40,7 @@ class Prefs
             'auto_append_email_sig' => 'no',
             'auto_append_note_sig' => 'no',
             'close_popup_windows' => 1,
-            'relative_date' => (int) ($setup['relative_date'] == 'enabled'),
+            'relative_date' => (int) ($setup['relative_date'] === 'enabled'),
             'collapsed_emails' => 1,
         ];
 

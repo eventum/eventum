@@ -13,8 +13,7 @@
 
 namespace Eventum\Extension;
 
-use Eventum\Event\CryptoSubscriber;
-use Eventum\Event\HistorySubscriber;
+use Eventum\Event;
 
 /**
  * Example Eventum Extension.
@@ -68,7 +67,9 @@ class ExampleExtension extends AbstractExtension
     public function getAvailableWorkflows()
     {
         return [
+            /*
             'example_Workflow_Backend',
+            */
         ];
     }
 
@@ -91,8 +92,10 @@ class ExampleExtension extends AbstractExtension
     public function getAvailablePartners()
     {
         return [
+            /*
             'PartnerBackend',
             'Example\\PartnerX',
+            */
         ];
     }
 
@@ -104,7 +107,9 @@ class ExampleExtension extends AbstractExtension
     public function getAvailableCRMs()
     {
         return [
+            /*
             'Example\\CRM',
+            */
         ];
     }
 
@@ -118,8 +123,9 @@ class ExampleExtension extends AbstractExtension
     public function getSubscribers()
     {
         return [
-            CryptoSubscriber::class,
-            HistorySubscriber::class,
+            Event\CryptoSubscriber::class,
+            Event\HistorySubscriber::class,
+            Event\UserSubscriber::class,
         ];
     }
 }

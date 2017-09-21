@@ -21,4 +21,14 @@ final class SystemEvents
      * @since 3.3.0
      */
     const HISTORY_ADD = 'history.add';
+
+    /**
+     * @since 3.3.0
+     */
+    const USER_CREATE = 'user.create';
+
+    /**
+     * @since 3.3.0
+     */
+    const USER_UPDATE = 'user.update';
 }

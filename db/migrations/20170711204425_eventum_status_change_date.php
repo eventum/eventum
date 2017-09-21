@@ -18,8 +18,8 @@ class EventumStatusChangeDate extends AbstractMigration
     public function change()
     {
         $this->table('issue')
-            ->addColumn('iss_status_change_date', 'datetime', ['after' => 'iss_last_internal_action_type',
-                'null' => true, ])
+            ->addColumn('iss_status_change_date', 'datetime',
+                ['after' => 'iss_last_internal_action_type', 'null' => true])
             ->save();
 
         $this->execute('UPDATE

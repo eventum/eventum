@@ -457,7 +457,7 @@ class Filter
     {
         $url = '';
         foreach ($filter_info as $field => $filter) {
-            if ($use_params && isset($filter['param']) && isset($options[$filter['param']])) {
+            if ($use_params && isset($filter['param'], $options[$filter['param']])) {
                 $value = $options[$filter['param']];
             } elseif (isset($options[$field])) {
                 $value = $options[$field];

@@ -12,6 +12,8 @@
  */
 
 use Eventum\Db\DatabaseException;
+use Eventum\Event;
+use Eventum\EventDispatcher\EventManager;
 use Eventum\Monolog\Logger;
 
 /**
@@ -611,15 +613,10 @@ class User
                  WHERE
                     pru_usr_id=? AND
                     pru_prj_id=?';
-        try {
-            $res = DB_Helper::getInstance()->getOne($stmt, [$usr_id, $prj_id]);
-        } catch (DatabaseException $e) {
-            return '';
-        }
 
-        $returns[$usr_id][$prj_id] = $res;
+        $res = (int)DB_Helper::getInstance()->getOne($stmt, [$usr_id, $prj_id]);
 
-        return $res;
+        return $returns[$usr_id][$prj_id] = $res;
     }
 
     /**
@@ -1001,58 +998,35 @@ class User
         }
     }
 
-    public static function updateFromPost()
-    {
-        $usr_id = $_POST['id'];
-        $data = [
-            'full_name' => $_POST['full_name'],
-            'email' => $_POST['email'],
-            'password' => $_POST['password'],
-            'role' => $_POST['role'],
-        ];
-
-        if (isset($_POST['par_code'])) {
-            $data['par_code'] = $_POST['par_code'];
-        }
-
-        if (isset($_POST['groups'])) {
-            $data['groups'] = $_POST['groups'];
-        } else {
-            $data['groups'] = [];
-        }
-
-        return self::update($usr_id, $data);
-    }
-
     /**
      * Method used to update the account details for a specific user.
      *
-     * @param $usr_id
-     * @param $data
+     * @param int $usr_id
+     * @param array $user The array of user information
      * @param bool $notify
-     * @return  int 1 if the update worked, -1 otherwise
+     * @return bool
      */
-    public static function update($usr_id, $data, $notify = true)
+    public static function update($usr_id, array $user, $notify = true)
     {
         // system account should not be updateable
         if ($usr_id == APP_SYSTEM_USER_ID) {
-            return 1;
+            return false;
         }
 
         $params = [
-            'usr_email' => $data['email'],
+            'usr_email' => $user['email'],
         ];
 
-        if (isset($data['full_name'])) {
-            $params['usr_full_name'] = $data['full_name'];
+        if (isset($user['full_name'])) {
+            $params['usr_full_name'] = $user['full_name'];
         }
 
-        if (isset($data['external_id'])) {
-            $params['usr_external_id'] = $data['external_id'];
+        if (isset($user['external_id'])) {
+            $params['usr_external_id'] = $user['external_id'];
         }
 
-        if (isset($data['par_code'])) {
-            $params['usr_par_code'] = $data['par_code'];
+        if (isset($user['par_code'])) {
+            $params['usr_par_code'] = $user['par_code'];
         }
 
         $stmt = 'UPDATE
@@ -1060,35 +1034,21 @@ class User
                  SET ' . DB_Helper::buildSet($params) . ' WHERE usr_id=?';
         $params[] = $usr_id;
 
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
+        DB_Helper::getInstance()->query($stmt, $params);
+
+        if (!empty($user['password'])) {
+            self::updatePassword($usr_id, $user['password']);
         }
 
-        if (!empty($data['password'])) {
-            try {
-                self::updatePassword($usr_id, $data['password']);
-            } catch (Exception $e) {
-                Logger::app()->error($e);
-
-                return -1;
-            }
-        }
-
-        if (isset($data['role'])) {
+        if (isset($user['role'])) {
             // update the project associations now
             $stmt = 'DELETE FROM
                         {{%project_user}}
                      WHERE
                         pru_usr_id=?';
-            try {
-                DB_Helper::getInstance()->query($stmt, [$usr_id]);
-            } catch (DatabaseException $e) {
-                return -1;
-            }
+            DB_Helper::getInstance()->query($stmt, [$usr_id]);
 
-            foreach ($data['role'] as $prj_id => $role) {
+            foreach ($user['role'] as $prj_id => $role) {
                 if ($role < 1) {
                     continue;
                 }
@@ -1101,94 +1061,56 @@ class User
                          ) VALUES (
                             ?, ?, ?
                          )';
-                try {
-                    DB_Helper::getInstance()->query(
-                        $stmt, [
-                            $prj_id, $usr_id, $role,
-                        ]
-                    );
-                } catch (DatabaseException $e) {
-                    return -1;
-                }
+                $params = [$prj_id, $usr_id, $role];
+                DB_Helper::getInstance()->query($stmt, $params);
             }
         }
 
-        if (isset($data['groups'])) {
+        if (isset($user['groups'])) {
             $stmt = 'DELETE FROM
                         {{%user_group}}
                      WHERE
                         ugr_usr_id=?';
-            try {
-                DB_Helper::getInstance()->query($stmt, [$usr_id]);
-            } catch (DatabaseException $e) {
-                return -1;
-            }
+            DB_Helper::getInstance()->query($stmt, [$usr_id]);
 
-            foreach ($data['groups'] as $grp_id) {
+            foreach ($user['groups'] as $grp_id) {
                 Group::addUser($usr_id, $grp_id);
             }
         }
 
         if ($notify == true) {
-            if (!empty($data['password'])) {
-                Notification::notifyUserPassword($usr_id, $data['password']);
+            if (!empty($user['password'])) {
+                Notification::notifyUserPassword($usr_id, $user['password']);
             } else {
                 Notification::notifyUserAccount($usr_id);
             }
         }
 
-        return 1;
-    }
+        // add user id and do not expose password to event
+        $user['id'] = $usr_id;
+        unset($user['password']);
 
-    public static function insertFromPost()
-    {
-        $user = [
-            'password' => $_POST['password'],
-            'full_name' => $_POST['full_name'],
-            'email' => $_POST['email'],
-            'role' => $_POST['role'],
-            'external_id' => '',
-        ];
+        $event = new Event\UnstructuredEvent($user);
+        EventManager::dispatch(Event\SystemEvents::USER_UPDATE, $event);
 
-        if (isset($_POST['par_code'])) {
-            $user['par_code'] = $_POST['par_code'];
-        }
-
-        if (isset($_POST['groups'])) {
-            $user['groups'] = $_POST['groups'];
-        }
-
-        $insert = self::insert($user);
-        if ($insert != -1) {
-            return 1;
-        }
-
-        return -1;
+        return true;
     }
 
     /**
      * Method used to add a new user to the system.
      *
      * @param   array $user The array of user information
-     * @return  int 1 if the update worked, -1 otherwise
+     * @return  int usr_id being created
      */
-    public static function insert($user)
+    public static function insert(array $user)
     {
-        $projects = [];
-        foreach ($user['role'] as $prj_id => $role) {
-            if ($role < 1) {
-                continue;
-            }
-            $projects[] = $prj_id;
-        }
-
         $params = [
             isset($user['customer_id']) ? $user['customer_id'] : null,
             isset($user['contact_id']) ? $user['contact_id'] : null,
             Date_Helper::getCurrentDateGMT(),
             $user['full_name'],
             $user['email'],
-            $user['external_id'],
+            isset($user['external_id']) ? $user['external_id'] : null,
             isset($user['par_code']) ? $user['par_code'] : null,
         ];
         $stmt = 'INSERT INTO
@@ -1204,20 +1126,13 @@ class User
                  ) VALUES (
                     ?, ?, ?, ?, ?, ?, ?
                  )';
-        try {
-            DB_Helper::getInstance()->query($stmt, $params);
-        } catch (DatabaseException $e) {
-            return -1;
-        }
+
+        DB_Helper::getInstance()->query($stmt, $params);
 
         $usr_id = DB_Helper::get_last_insert_id();
 
-        if ($user['password'] != '') {
-            try {
-                self::updatePassword($usr_id, $user['password']);
-            } catch (Exception $e) {
-                return -1;
-            }
+        if ($user['password'] !== '') {
+            self::updatePassword($usr_id, $user['password']);
         }
 
         // add the project associations!
@@ -1240,6 +1155,13 @@ class User
 
         // send email to user
         Notification::notifyNewUser($usr_id, $user['password']);
+
+        // add user id and do not expose password to event
+        $user['id'] = $usr_id;
+        unset($user['password']);
+
+        $event = new Event\UnstructuredEvent($user);
+        EventManager::dispatch(Event\SystemEvents::USER_CREATE, $event);
 
         return $usr_id;
     }
