@@ -13,7 +13,7 @@
 
 require_once __DIR__ . '/../init.php';
 
-use Eventum\Command\TruncateMailQueueCommand as Command;
+use Eventum\Command\MailQueueTruncateCommand as Command;
 
 $app = new Silly\Application();
 $app->command(Command::USAGE, [new Command(), 'execute']);

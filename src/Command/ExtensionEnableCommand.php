@@ -20,7 +20,7 @@ use ReflectionException;
 use Setup;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ExtensionCommand
+class ExtensionEnableCommand
 {
     const DEFAULT_COMMAND = 'extension:enable';
     const USAGE = self::DEFAULT_COMMAND . ' [filename] [classname]';

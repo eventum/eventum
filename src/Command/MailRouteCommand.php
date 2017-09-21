@@ -17,7 +17,7 @@ use Eventum\Mail\Exception\RoutingException;
 use Routing;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ProcessMailCommand
+class MailRouteCommand
 {
     const DEFAULT_COMMAND = 'mail:route';
     const USAGE = self::DEFAULT_COMMAND . '  [filename]';

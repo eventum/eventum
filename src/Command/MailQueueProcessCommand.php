@@ -16,7 +16,7 @@ namespace Eventum\Command;
 use Eventum\ConcurrentLock;
 use Mail_Queue;
 
-class MailQueueCommand
+class MailQueueProcessCommand
 {
     const DEFAULT_COMMAND = 'mail-queue:process';
     const USAGE = self::DEFAULT_COMMAND;

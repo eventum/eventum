@@ -17,7 +17,7 @@ ini_set('memory_limit', '2047M');
 
 require_once __DIR__ . '/../init.php';
 
-use Eventum\Command\DownloadEmailsCommand as Command;
+use Eventum\Command\MailDownloadCommand as Command;
 
 $app = new Silly\Application();
 $app->command(Command::USAGE, [new Command(), 'execute']);

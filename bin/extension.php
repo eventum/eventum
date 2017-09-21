@@ -13,7 +13,7 @@
 
 require_once __DIR__ . '/../init.php';
 
-use Eventum\Command\ExtensionCommand as Command;
+use Eventum\Command\ExtensionEnableCommand as Command;
 
 $app = new Silly\Application();
 $app->command(Command::USAGE, [new Command(), 'execute']);

@@ -19,7 +19,7 @@ use InvalidArgumentException;
 use RuntimeException;
 use Support;
 
-class DownloadEmailsCommand
+class MailDownloadCommand
 {
     const DEFAULT_COMMAND = 'mail:download';
     const USAGE = self::DEFAULT_COMMAND . ' [username] [hostname] [mailbox]';
