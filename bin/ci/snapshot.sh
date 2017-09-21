@@ -76,7 +76,10 @@ travis_log() {
 	printf >&2 " #$build_id\n"
 
 	printf >&2 "travis: showing logs for #$build_id.$job_id\n"
-	travis logs $build_id.$job_id
+	# ignore error from `travis logs`
+	# https://github.com/travis-ci/travis.rb/issues/541
+	# https://github.com/pusher-community/pusher-websocket-ruby/issues/51
+	travis logs $build_id.$job_id || :
 }
 
 create_snapshot_tag
