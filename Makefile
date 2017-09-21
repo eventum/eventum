@@ -49,6 +49,7 @@ install: install-eventum install-cli
 
 snapshot:
 	./bin/ci/snapshot.sh
+	test -x ./dropin && ./dropin
 
 dist:
 	./bin/ci/release.sh
