@@ -11,6 +11,7 @@ Upgrading to 3.3.0 versions requires that you upgrade to 3.2.0 version first.
 - Drop support for old setup.php formats (@glensc, #288)
 - Add script to manage extensions from CLI (@glensc, #290)
 - Use mnapoli/silly for cli applications (@glensc, #279)
+- Unify lengths of header fields (@glensc, #266, #295)
 
 [3.3.0]: https://github.com/eventum/eventum/compare/v3.2.3...master
 
