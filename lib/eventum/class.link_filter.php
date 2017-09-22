@@ -285,6 +285,8 @@ class Link_Filter
             $parser->enableNewlines = true;
 
             $text = $parser->parse($text);
+            // strip paragraph, confuses single line areas
+            $text = preg_replace("{^<p>(.+)</p>\n}", '$1', $text);
         }
 
         return $text;
