@@ -279,6 +279,14 @@ class Link_Filter
             }
         }
 
+        // enable markdown
+        if (self::markdownEnabled()) {
+            $parser = new GithubMarkdown();
+            $parser->enableNewlines = true;
+
+            $text = $parser->parse($text);
+        }
+
         return $text;
     }
 
@@ -307,13 +315,6 @@ class Link_Filter
 
         $text = self::activateLinks($text);
         $text = self::activateAttachmentLinks($text, $issue_id);
-
-        if (self::markdownEnabled()) {
-            $parser = new GithubMarkdown();
-            $parser->enableNewlines = true;
-
-            $text = $parser->parse($text);
-        }
 
         return $text;
     }
@@ -442,9 +443,9 @@ class Link_Filter
     {
         static $markdown;
         if ($markdown === null) {
-
             $markdown = Setup::get()['markdown'] === 'enable';
         }
+
         return $markdown;
     }
 }
